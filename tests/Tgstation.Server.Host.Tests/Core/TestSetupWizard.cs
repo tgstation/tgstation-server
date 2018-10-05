@@ -118,6 +118,7 @@ namespace Tgstation.Server.Host.Core.Tests
 				"no",
 			};
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+				//test winauth
 				finalInputSequence.Add("yes");
 			else
 				finalInputSequence.AddRange(new List<string>

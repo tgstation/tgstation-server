@@ -59,6 +59,7 @@ namespace Tgstation.Server.Host.Core
 		/// Construct a <see cref="SetupWizard"/>
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
+		/// <param name="console">The value of <see cref="console"/></param>
 		/// <param name="hostingEnvironment">The value of <see cref="hostingEnvironment"/></param>
 		/// <param name="application">The value of <see cref="application"/></param>
 		/// <param name="dbConnectionFactory">The value of <see cref="dbConnectionFactory"/></param>
