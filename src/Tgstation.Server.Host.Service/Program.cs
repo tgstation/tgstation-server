@@ -140,7 +140,6 @@ namespace Tgstation.Server.Host.Service
 		/// <summary>
 		/// Entrypoint for the application
 		/// </summary>
-		[STAThread]
 		static Task<int> Main(string[] args) => CommandLineApplication.ExecuteAsync<Program>(args);
 	}
 }
