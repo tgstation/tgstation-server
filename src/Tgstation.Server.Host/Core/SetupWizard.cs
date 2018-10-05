@@ -471,6 +471,9 @@ namespace Tgstation.Server.Host.Core
 					return false;
 			}
 
+			//flush the logs to prevent console conflicts
+			await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false);
+
 			await RunWizard(userConfigFileName, cancellationToken).ConfigureAwait(false);
 			return true;
 		}
