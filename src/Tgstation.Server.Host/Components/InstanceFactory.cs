@@ -99,6 +99,11 @@ namespace Tgstation.Server.Host.Components
 		readonly INetworkPromptReaper networkPromptReaper;
 
 		/// <summary>
+		/// The <see cref="IGitHubClientFactory"/> for the <see cref="InstanceFactory"/>
+		/// </summary>
+		readonly IGitHubClientFactory gitHubClientFactory;
+
+		/// <summary>
 		/// Construct an <see cref="InstanceFactory"/>
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
@@ -117,7 +122,8 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="credentialsProvider">The value of <see cref="credentialsProvider"/></param>
 		/// <param name="networkPromptReaper">The value of <see cref="networkPromptReaper"/></param>
-		public InstanceFactory(IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, ILoggerFactory loggerFactory, IByondTopicSender byondTopicSender, ICryptographySuite cryptographySuite, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory, IByondInstaller byondInstaller, IChatFactory chatFactory, IProcessExecutor processExecutor, IPostWriteHandler postWriteHandler, IWatchdogFactory watchdogFactory, IJobManager jobManager, ICredentialsProvider credentialsProvider, INetworkPromptReaper networkPromptReaper)
+		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/></param>
+		public InstanceFactory(IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, ILoggerFactory loggerFactory, IByondTopicSender byondTopicSender, ICryptographySuite cryptographySuite, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory, IByondInstaller byondInstaller, IChatFactory chatFactory, IProcessExecutor processExecutor, IPostWriteHandler postWriteHandler, IWatchdogFactory watchdogFactory, IJobManager jobManager, ICredentialsProvider credentialsProvider, INetworkPromptReaper networkPromptReaper, IGitHubClientFactory gitHubClientFactory)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
@@ -135,6 +141,7 @@ namespace Tgstation.Server.Host.Components
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.credentialsProvider = credentialsProvider ?? throw new ArgumentNullException(nameof(credentialsProvider));
 			this.networkPromptReaper = networkPromptReaper ?? throw new ArgumentNullException(nameof(networkPromptReaper));
+			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 		}
 
 		/// <inheritdoc />
@@ -174,7 +181,7 @@ namespace Tgstation.Server.Host.Components
 						{
 							var dreamMaker = new DreamMaker(byond, gameIoManager, configuration, sessionControllerFactory, dmbFactory, application, eventConsumer, chat, processExecutor, watchdog, loggerFactory.CreateLogger<DreamMaker>());
 
-							return new Instance(metadata.CloneMetadata(), repoManager, byond, dreamMaker, watchdog, chat, configuration, dmbFactory, databaseContextFactory, dmbFactory, jobManager, eventConsumer, loggerFactory.CreateLogger<Instance>());
+							return new Instance(metadata.CloneMetadata(), repoManager, byond, dreamMaker, watchdog, chat, configuration, dmbFactory, databaseContextFactory, dmbFactory, jobManager, eventConsumer, gitHubClientFactory, loggerFactory.CreateLogger<Instance>());
 						}
 						catch
 						{
