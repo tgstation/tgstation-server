@@ -35,14 +35,14 @@ namespace Tgstation.Server.Host.Configuration
 		public bool Disable { get; set; }
 
 		/// <summary>
-		/// The <see cref="string"/>ified minimum <see cref="Microsoft.Extensions.Logging.LogLevel"/> to display in logs
+		/// The minimum <see cref="Microsoft.Extensions.Logging.LogLevel"/> to display in logs
 		/// </summary>
 		[JsonConverter(typeof(StringEnumConverter))]
 		public LogLevel LogLevel { get; set; } = DefaultLogLevel;
 
 
 		/// <summary>
-		/// The <see cref="string"/>ified minimum <see cref="Microsoft.Extensions.Logging.LogLevel"/> to display in logs for Microsoft library sources
+		/// The minimum <see cref="Microsoft.Extensions.Logging.LogLevel"/> to display in logs for Microsoft library sources
 		/// </summary>
 		[JsonConverter(typeof(StringEnumConverter))]
 		public LogLevel MicrosoftLogLevel { get; set; } = DefaultMicrosoftLogLevel;
