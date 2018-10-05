@@ -133,6 +133,7 @@ namespace TGS.ControlPanel
 				else
 					BackupTagsList.Items.Add("Unknown");
 
+				checkBox1.Checked = Repo.AutoUpdatePreserve(null);
 				var PRs = Repo.MergedPullRequests(out error);
 				TestMergeListLabel.Items.Clear();
 				if (PRs != null)
@@ -347,6 +348,11 @@ namespace TGS.ControlPanel
 			var res = Instance.Repository.UpdateTGS3Json();
 			if (res != null)
 				MessageBox.Show(res);
+		}
+
+		private void checkBox1_CheckedChanged(object sender, EventArgs e)
+		{
+			Instance.Repository.AutoUpdatePreserve(checkBox1.Checked);
 		}
 	}
 }

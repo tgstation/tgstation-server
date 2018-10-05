@@ -200,5 +200,13 @@ namespace TGS.Interface.Components
 		/// <param name="newValue"><see langword="true"/> if we testmerge commits should be published to the remote, <see langword="false"/> otherwise</param>
 		[OperationContract]
 		void SetPushTestmergeCommits(bool newValue);
+
+		/// <summary>
+		/// Check and set if auto updates preserve test merges
+		/// </summary>
+		/// <param name="newValue"><see langword="true"/> if auto updates should preserve test merges, <see langword="false"/> otherwise</param>
+		/// <returns>The value of the config before the call</returns>
+		[OperationContract]
+		bool AutoUpdatePreserve(bool? newValue);
 	}
 }

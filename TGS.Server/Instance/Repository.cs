@@ -1409,6 +1409,18 @@ namespace TGS.Server
 		}
 
 		/// <inheritdoc />
+		public bool AutoUpdatePreserve(bool? newValue)
+		{
+			var oldValue = Config.AutoUpdateKeepsPullRequests;
+			if (newValue.HasValue)
+			{
+				Config.AutoUpdateKeepsPullRequests = newValue.Value;
+				Config.Save();
+			}
+			return oldValue;
+		}
+
+		/// <inheritdoc />
 		public ulong AutoUpdateInterval()
 		{
 			return Config.AutoUpdateInterval;
@@ -1421,8 +1433,22 @@ namespace TGS.Server
 		/// <param name="e">The event arguments</param>
 		private void AutoUpdateTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
 		{
+			List<PullRequestInfo> prs = null;
+
+			if (Config.AutoUpdateKeepsPullRequests)
+			{
+				prs = MergedPullRequests(out string error);
+				if (error != null)
+					return;
+			}
 			if (UpdateImpl(true, false) == null)
 			{
+				if (Config.AutoUpdateKeepsPullRequests)
+				{
+					var results = MergePullRequests(prs, false);
+					if (results != null && results.Any())
+						return;
+				}
 				Compile(true);
 			}
 		}
