@@ -143,6 +143,8 @@ namespace Tgstation.Server.Host.Core.Tests
 				"-27",
 				"5000",
 				"fake token",
+				//logging config
+				"no",
 				//saved, now for second run
 				//this time use defaults amap
 				String.Empty,
@@ -158,6 +160,11 @@ namespace Tgstation.Server.Host.Core.Tests
 				String.Empty,
 				String.Empty,
 				String.Empty,
+				//logging config
+				"y",
+				"not actually verified because lol mocks /../!@#$%^&*()/..///.",
+				"Warning",
+				String.Empty,
 				//third run, we already hit all the code coverage so just get through it
 				String.Empty,
 				nameof(DatabaseType.MariaDB),
@@ -168,7 +175,14 @@ namespace Tgstation.Server.Host.Core.Tests
 				"pass",
 				String.Empty,
 				String.Empty,
-				String.Empty
+				String.Empty,
+				"y",
+				"will faile",
+				String.Empty,
+				String.Empty,
+				"fake",
+				"None",
+				"Critical"
 			});
 
 			var inputPos = 0;
@@ -196,6 +210,17 @@ namespace Tgstation.Server.Host.Core.Tests
 			//third run
 			testGeneralConfig.SetupWizardMode = SetupWizardMode.Autodetect;
 			mockIOManager.Setup(x => x.WriteAllBytes(It.IsNotNull<string>(), It.IsNotNull<byte[]>(), It.IsAny<CancellationToken>())).Throws(new Exception()).Verifiable();
+			var firstRun = true;
+			mockIOManager.Setup(x => x.CreateDirectory(It.IsNotNull<string>(), It.IsAny<CancellationToken>())).Returns(() =>
+			{
+				if (firstRun)
+				{
+					firstRun = false;
+					throw new Exception();
+				}
+				return Task.CompletedTask;
+			}).Verifiable();
+
 			await Assert.ThrowsExceptionAsync<OperationCanceledException>(() => wizard.CheckRunWizard(default)).ConfigureAwait(false);
 
 			Assert.AreEqual(finalInputSequence.Count, inputPos);

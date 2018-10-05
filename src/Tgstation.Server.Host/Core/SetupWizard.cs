@@ -376,31 +376,17 @@ namespace Tgstation.Server.Host.Core
 						fileLoggingConfiguration.Directory = null;
 						break;
 					}
-					else
+					//test a write of it
+					await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
+					await console.WriteAsync("Testing directory access...", true, cancellationToken).ConfigureAwait(false);
+					try
 					{
-						//test a write of it
-						await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
-						await console.WriteAsync("Testing directory access...", true, cancellationToken).ConfigureAwait(false);
+						await ioManager.CreateDirectory(fileLoggingConfiguration.Directory, cancellationToken).ConfigureAwait(false);
+						var testFile = ioManager.ConcatPath(fileLoggingConfiguration.Directory, String.Format(CultureInfo.InvariantCulture, "WizardAccesTest.{0}.deleteme", Guid.NewGuid()));
+						await ioManager.WriteAllBytes(testFile, Array.Empty<byte>(), cancellationToken).ConfigureAwait(false);
 						try
 						{
-							await ioManager.CreateDirectory(fileLoggingConfiguration.Directory, cancellationToken).ConfigureAwait(false);
-							var testFile = ioManager.ConcatPath(fileLoggingConfiguration.Directory, String.Format(CultureInfo.InvariantCulture, "WizardAccesTest.{0}.deleteme", Guid.NewGuid()));
-							await ioManager.WriteAllBytes(testFile, Array.Empty<byte>(), cancellationToken).ConfigureAwait(false);
-							try
-							{
-								await ioManager.DeleteFile(testFile, cancellationToken).ConfigureAwait(false);
-							}
-							catch (OperationCanceledException)
-							{
-								throw;
-							}
-							catch (Exception e)
-							{
-								await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Error deleting test log file: {0}", testFile), true, cancellationToken).ConfigureAwait(false);
-								await console.WriteAsync(e.Message, true, cancellationToken).ConfigureAwait(false);
-								await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
-							}
-							break;
+							await ioManager.DeleteFile(testFile, cancellationToken).ConfigureAwait(false);
 						}
 						catch (OperationCanceledException)
 						{
@@ -408,10 +394,21 @@ namespace Tgstation.Server.Host.Core
 						}
 						catch (Exception e)
 						{
+							await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Error deleting test log file: {0}", testFile), true, cancellationToken).ConfigureAwait(false);
 							await console.WriteAsync(e.Message, true, cancellationToken).ConfigureAwait(false);
 							await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
-							await console.WriteAsync("Please verify the path is valid and you have access to it!", true, cancellationToken).ConfigureAwait(false);
 						}
+						break;
+					}
+					catch (OperationCanceledException)
+					{
+						throw;
+					}
+					catch (Exception e)
+					{
+						await console.WriteAsync(e.Message, true, cancellationToken).ConfigureAwait(false);
+						await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
+						await console.WriteAsync("Please verify the path is valid and you have access to it!", true, cancellationToken).ConfigureAwait(false);
 					}
 				} while (true);
 
