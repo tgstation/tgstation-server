@@ -56,7 +56,7 @@ namespace Tgstation.Server.Host.Core
 				catch (InvalidOperationException) { }
 			}, default, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
-			logger.LogTrace("Created proces ID: {0}", Id);
+			logger.LogTrace("Created process ID: {0}", Id);
 		}
 
 		/// <inheritdoc />

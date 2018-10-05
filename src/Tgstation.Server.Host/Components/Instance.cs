@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Octokit;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -61,6 +63,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IEventConsumer eventConsumer;
 
 		/// <summary>
+		/// The <see cref="IGitHubClientFactory"/> for the <see cref="Instance"/>
+		/// </summary>
+		readonly IGitHubClientFactory gitHubClientFactory;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Instance"/>
 		/// </summary>
 		readonly ILogger<Instance> logger;
@@ -94,8 +101,9 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="dmbFactory">The value of <see cref="dmbFactory"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
+		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public Instance(Api.Models.Instance metadata, IRepositoryManager repositoryManager, IByondManager byondManager, IDreamMaker dreamMaker, IWatchdog watchdog, IChat chat, StaticFiles.IConfiguration configuration, ICompileJobConsumer compileJobConsumer, IDatabaseContextFactory databaseContextFactory, IDmbFactory dmbFactory, IJobManager jobManager, IEventConsumer eventConsumer, ILogger<Instance> logger)
+		public Instance(Api.Models.Instance metadata, IRepositoryManager repositoryManager, IByondManager byondManager, IDreamMaker dreamMaker, IWatchdog watchdog, IChat chat, StaticFiles.IConfiguration configuration, ICompileJobConsumer compileJobConsumer, IDatabaseContextFactory databaseContextFactory, IDmbFactory dmbFactory, IJobManager jobManager, IEventConsumer eventConsumer, IGitHubClientFactory gitHubClientFactory, ILogger<Instance> logger)
 		{
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 			RepositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
@@ -109,6 +117,7 @@ namespace Tgstation.Server.Host.Components
 			this.dmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
+			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
@@ -159,6 +168,9 @@ namespace Tgstation.Server.Host.Components
 			if (ddSettings == default)
 				throw new JobException("Missing DreamDaemonSettings in DB!");
 
+			Task<RepositorySettings> repositorySettingsTask = null;
+			string repoOwner = null;
+			string repoName = null;
 			CompileJob compileJob;
 			RevisionInformation revInfo;
 			using (var repo = await RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
@@ -166,8 +178,19 @@ namespace Tgstation.Server.Host.Components
 				if (repo == null)
 					throw new JobException("Missing Repository!");
 
+				if (repo.IsGitHubRepository)
+				{
+					repoOwner = repo.GitHubOwner;
+					repoName = repo.GitHubRepoName;
+					repositorySettingsTask = databaseContext.RepositorySettings.Where(x => x.InstanceId == metadata.Id).Select(x => new RepositorySettings
+					{
+						AccessToken = x.AccessToken,
+						ShowTestMergeCommitters = x.ShowTestMergeCommitters
+					}).FirstOrDefaultAsync(cancellationToken);
+				}
+
 				var repoSha = repo.Head;
-				revInfo = await databaseContext.RevisionInformations.Where(x => x.CommitSha == repoSha && x.Instance.Id == metadata.Id).Include(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).FirstOrDefaultAsync().ConfigureAwait(false);
+				revInfo = await databaseContext.RevisionInformations.Where(x => x.CommitSha == repoSha && x.Instance.Id == metadata.Id).Include(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).ThenInclude(x => x.MergedBy).FirstOrDefaultAsync().ConfigureAwait(false);
 
 				if (revInfo == default)
 				{
@@ -200,8 +223,87 @@ namespace Tgstation.Server.Host.Components
 			compileJob.Job = job;
 
 			databaseContext.CompileJobs.Add(compileJob);    //will be saved by job context
-
+			
 			job.PostComplete = ct => CompileJobConsumer.LoadCompileJob(compileJob, ct);
+
+			if (repositorySettingsTask != null)
+			{
+				var repositorySettings = await repositorySettingsTask.ConfigureAwait(false);
+				if (repositorySettings == default)
+					throw new JobException("Missing repository settings!");
+
+				if (repositorySettings.AccessToken != null)
+				{
+					//potential for commenting on a test merge change
+					var outgoingCompileJob = LatestCompileJob();
+					
+					if(outgoingCompileJob != null && outgoingCompileJob.RevisionInformation.CommitSha != compileJob.RevisionInformation.CommitSha)
+					{
+						var gitHubClient = gitHubClientFactory.CreateClient(repositorySettings.AccessToken);
+
+						async Task CommentOnPR(int prNumber, string comment)
+						{
+							try
+							{
+								await gitHubClient.Issue.Comment.Create(repoOwner, repoName, prNumber, comment).ConfigureAwait(false);
+							}
+							catch (ApiException e)
+							{
+								logger.LogWarning("Error posting GitHub comment! Exception: {0}", e);
+							}
+						}
+
+						var tasks = new List<Task>();
+
+						string FormatTestMerge(TestMerge testMerge, bool updated) => String.Format(CultureInfo.InvariantCulture, "#### Test Merge {4}{0}{0}##### Server Instance{0}{5}{1}{0}{0}##### Revision{0}Origin: {6}{0}Pull Request: {2}{0}Server: {7}{3}",
+							Environment.NewLine,
+							repositorySettings.ShowTestMergeCommitters.Value ? String.Format(CultureInfo.InvariantCulture, "{0}{0}##### Merged By{0}{1}", Environment.NewLine, testMerge.MergedBy.Name) : String.Empty,
+							testMerge.PullRequestRevision,
+							testMerge.Comment != null ? String.Format(CultureInfo.InvariantCulture, "{0}{0}##### Comment{0}{1}", Environment.NewLine, testMerge.Comment) : String.Empty,
+							updated ? "Updated" : "Deployed",
+							metadata.Name,
+							compileJob.RevisionInformation.OriginCommitSha,
+							compileJob.RevisionInformation.CommitSha
+							);
+
+						//added prs
+						foreach (var I in compileJob
+							.RevisionInformation
+							.ActiveTestMerges
+							.Select(x => x.TestMerge)
+							.Where(x => !outgoingCompileJob
+								.RevisionInformation
+								.ActiveTestMerges
+								.Any(y => y.TestMerge.Number == x.Number)))
+							tasks.Add(CommentOnPR(I.Number.Value, FormatTestMerge(I, false)));
+
+						//removed prs
+						foreach (var I in outgoingCompileJob
+							.RevisionInformation
+							.ActiveTestMerges
+							.Select(x => x.TestMerge)
+								.Where(x => !compileJob
+								.RevisionInformation
+								.ActiveTestMerges
+								.Any(y => y.TestMerge.Number == x.Number)))
+							tasks.Add(CommentOnPR(I.Number.Value, "#### Test Merge Removed"));
+
+						//updated prs
+						foreach(var I in compileJob
+							.RevisionInformation
+							.ActiveTestMerges
+							.Select(x => x.TestMerge)
+							.Where(x => outgoingCompileJob
+								.RevisionInformation
+								.ActiveTestMerges
+								.Any(y => y.TestMerge.Number == x.Number)))
+							tasks.Add(CommentOnPR(I.Number.Value, FormatTestMerge(I, true)));
+
+						if (tasks.Any())
+							await Task.WhenAll(tasks).ConfigureAwait(false);
+					}
+				}
+			}
 		}
 
 		/// <summary>
