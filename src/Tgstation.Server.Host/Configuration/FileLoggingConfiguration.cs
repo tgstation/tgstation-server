@@ -15,6 +15,16 @@ namespace Tgstation.Server.Host.Configuration
 		public const string Section = "FileLogging";
 
 		/// <summary>
+		/// Default value for <see cref="LogLevel"/>
+		/// </summary>
+		const LogLevel DefaultLogLevel = LogLevel.Debug;
+
+		/// <summary>
+		/// Default value for <see cref="MicrosoftLogLevel"/>
+		/// </summary>
+		const LogLevel DefaultMicrosoftLogLevel = LogLevel.Warning;
+
+		/// <summary>
 		/// Where log files are stored
 		/// </summary>
 		public string Directory { get; set; }
@@ -28,13 +38,13 @@ namespace Tgstation.Server.Host.Configuration
 		/// The <see cref="string"/>ified minimum <see cref="Microsoft.Extensions.Logging.LogLevel"/> to display in logs
 		/// </summary>
 		[JsonConverter(typeof(StringEnumConverter))]
-		public LogLevel LogLevel { get; set; }
+		public LogLevel LogLevel { get; set; } = DefaultLogLevel;
 
 
 		/// <summary>
 		/// The <see cref="string"/>ified minimum <see cref="Microsoft.Extensions.Logging.LogLevel"/> to display in logs for Microsoft library sources
 		/// </summary>
 		[JsonConverter(typeof(StringEnumConverter))]
-		public LogLevel MicrosoftLogLevel { get; set; }
+		public LogLevel MicrosoftLogLevel { get; set; } = DefaultMicrosoftLogLevel;
 	}
 }
