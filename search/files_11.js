@@ -12,6 +12,8 @@ var searchData=
   ['serviceunavailableexception_2ecs',['ServiceUnavailableException.cs',['../_service_unavailable_exception_8cs.html',1,'']]],
   ['sessioncontroller_2ecs',['SessionController.cs',['../_session_controller_8cs.html',1,'']]],
   ['sessioncontrollerfactory_2ecs',['SessionControllerFactory.cs',['../_session_controller_factory_8cs.html',1,'']]],
+  ['setupwizard_2ecs',['SetupWizard.cs',['../_setup_wizard_8cs.html',1,'']]],
+  ['setupwizardmode_2ecs',['SetupWizardMode.cs',['../_setup_wizard_mode_8cs.html',1,'']]],
   ['sqlserverdatabasecontext_2ecs',['SqlServerDatabaseContext.cs',['../_sql_server_database_context_8cs.html',1,'']]],
   ['sqlserverdatabasecontextmodelsnapshot_2ecs',['SqlServerDatabaseContextModelSnapshot.cs',['../_sql_server_database_context_model_snapshot_8cs.html',1,'']]],
   ['sqlserverdesigntimedbcontextfactory_2ecs',['SqlServerDesignTimeDbContextFactory.cs',['../_sql_server_design_time_db_context_factory_8cs.html',1,'']]],

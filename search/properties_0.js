@@ -29,5 +29,6 @@ var searchData=
   ['autostart',['AutoStart',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_settings.html#abeff5ac1db71468960ffd0e0c4a896fd',1,'Tgstation::Server::Api::Models::Internal::DreamDaemonSettings']]],
   ['autoupdateinterval',['AutoUpdateInterval',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#a940005c299f5ed5a82fc5f4fe26c190d',1,'Tgstation::Server::Api::Models::Instance']]],
   ['autoupdateskeeptestmerges',['AutoUpdatesKeepTestMerges',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#a1d16f79d0962ec9cad0ab96470f46267',1,'Tgstation::Server::Api::Models::Internal::RepositorySettings']]],
-  ['autoupdatessynchronize',['AutoUpdatesSynchronize',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#afeea53a0f4f5663057873de51ee1cfdd',1,'Tgstation::Server::Api::Models::Internal::RepositorySettings']]]
+  ['autoupdatessynchronize',['AutoUpdatesSynchronize',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#afeea53a0f4f5663057873de51ee1cfdd',1,'Tgstation::Server::Api::Models::Internal::RepositorySettings']]],
+  ['available',['Available',['../interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#ab35fa75560527910780645de7dc54ca8',1,'Tgstation::Server::Host::IO::IConsole']]]
 ];

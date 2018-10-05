@@ -113,22 +113,28 @@ Inheritance diagram for Tgstation.Server.Host.Watchdog.IWatchdog:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a0126c9c86d017671450b56658e758076"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#a0126c9c86d017671450b56658e758076">RunAsync</a> (string[] args, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a0126c9c86d017671450b56658e758076"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html" title="The watchdog for a Host ">IWatchdog</a>  <a href="#a0126c9c86d017671450b56658e758076">More...</a><br /></td></tr>
-<tr class="separator:a0126c9c86d017671450b56658e758076"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe13ec45a7d7ba7db422ea661156b697"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html#abe13ec45a7d7ba7db422ea661156b697">RunAsync</a> (bool runConfigure, string[] args, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:abe13ec45a7d7ba7db422ea661156b697"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html" title="The watchdog for a Host ">IWatchdog</a>  <a href="#abe13ec45a7d7ba7db422ea661156b697">More...</a><br /></td></tr>
+<tr class="separator:abe13ec45a7d7ba7db422ea661156b697"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The watchdog for a <a class="el" href="namespace_tgstation_1_1_server_1_1_host.html">Host</a> </p>
 
 <p>Definition at line <a class="el" href="_watchdog_2_i_watchdog_8cs_source.html#l00009">9</a> of file <a class="el" href="_watchdog_2_i_watchdog_8cs_source.html">IWatchdog.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a0126c9c86d017671450b56658e758076"></a>
+<a class="anchor" id="abe13ec45a7d7ba7db422ea661156b697"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">Task Tgstation.Server.Host.Watchdog.IWatchdog.RunAsync </td>
           <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>runConfigure</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">string[]&#160;</td>
           <td class="paramname"><em>args</em>, </td>
         </tr>
@@ -149,6 +155,7 @@ Public Member Functions</h2></td></tr>
 <p>Run the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html" title="The watchdog for a Host ">IWatchdog</a> </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">runConfigure</td><td>If the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html" title="The watchdog for a Host ">IWatchdog</a> should just run the host configuration wizard and exit</td></tr>
     <tr><td class="paramname">args</td><td>The arguments for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html" title="The watchdog for a Host ">IWatchdog</a></td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
   </table>
@@ -156,7 +163,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a5531f55e6a3d4dbfe2c543cce098876e">Tgstation.Server.Host.Watchdog.Watchdog</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#a3f2e5da2e83854873a9d8f986aff8f17">Tgstation.Server.Host.Watchdog.Watchdog</a>.</p>
 
 </div>
 </div>

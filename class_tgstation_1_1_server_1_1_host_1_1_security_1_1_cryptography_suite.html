@@ -231,6 +231,8 @@ Private Attributes</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A secure set of bytes</dd></dl>
 
 <p>Definition at line <a class="el" href="_cryptography_suite_8cs_source.html#l00015">15</a> of file <a class="el" href="_cryptography_suite_8cs_source.html">CryptographySuite.cs</a>.</p>
+
+<p>Referenced by <a class="el" href="_token_factory_8cs_source.html#l00025">Tgstation.Server.Host.Security.TokenFactory.TokenFactory()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        {</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            <span class="keyword">using</span> (var rng = <span class="keyword">new</span> RNGCryptoServiceProvider())</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            {</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                var byt = <span class="keyword">new</span> byte[amount];</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                rng.GetBytes(byt);</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                <span class="keywordflow">return</span> byt;</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            }</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>

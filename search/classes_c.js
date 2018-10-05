@@ -3,6 +3,8 @@ var searchData=
   ['message',['Message',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html',1,'Tgstation::Server::Host::Components::Chat::Providers']]],
   ['methodnotsupportedexception',['MethodNotSupportedException',['../class_tgstation_1_1_server_1_1_client_1_1_method_not_supported_exception.html',1,'Tgstation::Server::Client']]],
   ['migration',['Migration',['../class_migration.html',1,'']]],
+  ['mockapplicationlifetime',['MockApplicationLifetime',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_tests_1_1_test_application_1_1_mock_application_lifetime.html',1,'Tgstation::Server::Host::Core::Tests::TestApplication']]],
+  ['mocksetupwizard',['MockSetupWizard',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_tests_1_1_test_application_1_1_mock_setup_wizard.html',1,'Tgstation::Server::Host::Core::Tests::TestApplication']]],
   ['modelcontroller',['ModelController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_model_controller.html',1,'Tgstation::Server::Host::Controllers']]],
   ['modelcontroller_3c_20administration_20_3e',['ModelController&lt; Administration &gt;',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_model_controller.html',1,'Tgstation::Server::Host::Controllers']]],
   ['modelcontroller_3c_20api_2emodels_2ebyond_20_3e',['ModelController&lt; Api.Models.Byond &gt;',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_model_controller.html',1,'Tgstation::Server::Host::Controllers']]],

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['hardrebooting',['HardRebooting',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a358f54d77ecd35adb4be872af559eb23a6f140364f9894a2f77258f7e81a74703',1,'Tgstation::Server::Api::Models']]],
-  ['hostwrite',['HostWrite',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ab7bc96f211e450615be8669d10de2440a509b9f909831ef70e6c1ec59a3b340e9',1,'Tgstation::Server::Api::Models']]]
+  ['force',['Force',['../namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#ac25a13ffb39d53803eca454f2a329fc1a9eb6b78a99cdb6ffd3d40d18621d9f80',1,'Tgstation::Server::Host::Configuration']]]
 ];
