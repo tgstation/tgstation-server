@@ -381,6 +381,10 @@ namespace Tgstation.Server.Host.Components.Repository
 				{
 					cancellationToken.ThrowIfCancellationRequested();
 				}
+				catch(LibGit2SharpException e)
+				{
+					logger.LogWarning("Unable to push to temporary branch! Exception: {0}", e);
+				}
 			}
 			finally
 			{
@@ -580,6 +584,11 @@ namespace Tgstation.Server.Host.Components.Repository
 				{
 					cancellationToken.ThrowIfCancellationRequested();
 					throw new InvalidOperationException("Caught UserCancelledException without cancellationToken triggering", e);
+				}
+				catch (LibGit2SharpException e)
+				{
+					logger.LogWarning("Unable to make synchronization push! Exception: {0}", e);
+					return false;
 				}
 			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
 		}
