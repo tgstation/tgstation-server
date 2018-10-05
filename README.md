@@ -68,7 +68,7 @@ The first time you run TGS4 you should be prompted with a configuration wizard w
 
 ![](https://user-images.githubusercontent.com/8171642/46436355-99ee0e00-c726-11e8-82fa-6626b2503a6c.png)
 
-This wizard will run whenever the server is launched without detecting the config json. Follow the instructions below to perform this process manually.
+This wizard will, generally, run whenever the server is launched without detecting the config json. Follow the instructions below to perform this process manually.
 
 #### Manual Configuration
 
