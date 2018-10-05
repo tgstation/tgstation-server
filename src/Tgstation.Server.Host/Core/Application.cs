@@ -80,7 +80,6 @@ namespace Tgstation.Server.Host.Core
 		/// Configure dependency injected services
 		/// </summary>
 		/// <param name="services">The <see cref="IServiceCollection"/> to configure</param>
-		/// <param name="applicationLifetime">The <see cref="Microsoft.AspNetCore.Hosting.IApplicationLifetime"/> representing the lifetime of the <see cref="Application"/></param>
 		public void ConfigureServices(IServiceCollection services)
 		{
 			if (services == null)
