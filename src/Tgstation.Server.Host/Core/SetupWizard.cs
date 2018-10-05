@@ -338,6 +338,15 @@ namespace Tgstation.Server.Host.Core
 			return generalConfiguration;
 		}
 
+		/// <summary>
+		/// Saves a given <see cref="Configuration"/> set to <paramref name="userConfigFileName"/>
+		/// </summary>
+		/// <param name="userConfigFileName">The file to save the <see cref="Configuration"/> to</param>
+		/// <param name="hostingPort">The hosting port to save</param>
+		/// <param name="databaseConfiguration">The <see cref="DatabaseConfiguration"/> to save</param>
+		/// <param name="generalConfiguration">The <see cref="GeneralConfiguration"/> to save</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task SaveConfiguration(string userConfigFileName, ushort? hostingPort, DatabaseConfiguration databaseConfiguration, GeneralConfiguration generalConfiguration, CancellationToken cancellationToken)
 		{
 			await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Configuration complete! Saving to {0}", userConfigFileName), true, cancellationToken).ConfigureAwait(false);
@@ -391,7 +400,7 @@ namespace Tgstation.Server.Host.Core
 		/// </summary>
 		/// <param name="userConfigFileName">The path to the settings json to build</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns></returns>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task RunWizard(string userConfigFileName, CancellationToken cancellationToken)
 		{
 			//welcome message
