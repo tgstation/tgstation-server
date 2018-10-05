@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Principal;
 using System.ServiceProcess;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tgstation.Server.Host.Watchdog;
 
@@ -65,37 +66,41 @@ namespace Tgstation.Server.Host.Service
 		/// <summary>
 		/// Command line handler, always runs
 		/// </summary>
-		public void OnExecute()
+		public async Task OnExecuteAsync()
 		{
-			if (Environment.UserInteractive && !IsAdministrator())
+			if (Environment.UserInteractive)
 			{
-				if (!Install && !Uninstall)
+				if (!Install && !Uninstall && !Configure)
 				{
 					var result = MessageBox.Show("You are running the TGS windows service executable directly. It should only be run by the service control manager. Would you like to install and configure the service in this location?", "TGS Service", MessageBoxButtons.YesNo);
 					if (result != DialogResult.Yes)
 						return;
 					Install = true;
+					Configure = true;
 				}
 
-				//try to restart as admin
-				//its windows, first arg is .exe name guaranteed
-				var exe = Environment.GetCommandLineArgs().First();
-				var startInfo = new ProcessStartInfo
+				if (!IsAdministrator())
 				{
-					UseShellExecute = true,
-					Verb = "runas",
-					Arguments = Install ? "-i -c" : "-u",
-					FileName = exe,
-					WorkingDirectory = Environment.CurrentDirectory,
-				};
-				using (Process.Start(startInfo))
-					return;
+					//try to restart as admin
+					//its windows, first arg is .exe name guaranteed
+					var exe = Environment.GetCommandLineArgs().First();
+					var startInfo = new ProcessStartInfo
+					{
+						UseShellExecute = true,
+						Verb = "runas",
+						Arguments = String.Format(CultureInfo.InvariantCulture, "{0} {1}", Install ? "-i" : Uninstall ? "-u" : String.Empty, Configure ? "-c" : String.Empty),
+						FileName = exe,
+						WorkingDirectory = Environment.CurrentDirectory,
+					};
+					using (Process.Start(startInfo))
+						return;
+				}
 			}
 
 			using (var loggerFactory = new LoggerFactory())
 			{
 				if (Configure)
-					watchdogFactory.CreateWatchdog(loggerFactory).RunAsync(true, Array.Empty<string>(), default);
+					await watchdogFactory.CreateWatchdog(loggerFactory).RunAsync(true, Array.Empty<string>(), default).ConfigureAwait(false);
 
 				if (Install)
 				{
@@ -136,6 +141,6 @@ namespace Tgstation.Server.Host.Service
 		/// Entrypoint for the application
 		/// </summary>
 		[STAThread]
-		static int Main(string[] args) => CommandLineApplication.Execute<Program>(args);
+		static Task<int> Main(string[] args) => CommandLineApplication.ExecuteAsync<Program>(args);
 	}
 }

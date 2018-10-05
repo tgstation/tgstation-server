@@ -81,7 +81,7 @@ namespace Tgstation.Server.Host.Watchdog
 				Directory.Delete(assemblyStoragePath, true);
 				Directory.CreateDirectory(defaultAssemblyPath);
 
-				var sourcePath = "../../../../Tgstation.Server.Host/bin/Debug/netcoreapp2.1";
+				var sourcePath = "../../../Tgstation.Server.Host/bin/Debug/netcoreapp2.1";
 				foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
 					Directory.CreateDirectory(dirPath.Replace(sourcePath, defaultAssemblyPath));
 
@@ -131,7 +131,7 @@ namespace Tgstation.Server.Host.Watchdog
 							if (runConfigure)
 							{
 								logger.LogInformation("Running configuration check and wizard if necessary...");
-								arguments.Add("General:ConfigCheckOnly=true");
+								arguments.Add("General:SetupWizardMode=Only");
 							}
 
 							arguments.AddRange(args);
