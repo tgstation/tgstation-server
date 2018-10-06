@@ -50,6 +50,11 @@ namespace Tgstation.Server.Host.Components
 		readonly Dictionary<long, IInstance> instances;
 
 		/// <summary>
+		/// If the <see cref="InstanceManager"/> has been <see cref="Dispose"/>d
+		/// </summary>
+		bool disposed;
+
+		/// <summary>
 		/// Construct an <see cref="InstanceManager"/>
 		/// </summary>
 		/// <param name="instanceFactory">The value of <see cref="instanceFactory"/></param>
@@ -73,6 +78,12 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public void Dispose()
 		{
+			lock (this)
+			{
+				if (disposed)
+					return;
+				disposed = true;
+			}
 			foreach (var I in instances)
 				I.Value.Dispose();
 		}
