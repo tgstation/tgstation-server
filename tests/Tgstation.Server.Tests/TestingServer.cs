@@ -38,6 +38,9 @@ namespace Tgstation.Server.Tests
 			if (String.IsNullOrEmpty(connectionString))
 				Assert.Fail("No connection string configured in env var TGS4_TEST_CONNECTION_STRING!");
 
+			if (String.IsNullOrEmpty(gitHubAccessToken))
+				Console.WriteLine("WARNING: No GitHub access token configured, test may fail due to rate limits!");
+			
 			var args = new List<string>()
 			{
 				String.Format(CultureInfo.InvariantCulture, "Kestrel:EndPoints:Http:Url={0}", Url),
