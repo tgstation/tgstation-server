@@ -92,8 +92,8 @@
 /world/proc/TgsInitializationComplete()
 	return
 
-//Put this somewhere in /world/Topic(T, Addr, Master, Keys) that is always run before T is modified
-#define TGS_TOPIC var/tgs_topic_return = TgsTopic(T); if(tgs_topic_return) return tgs_topic_return
+//Put this at the start of /world/Topic()
+#define TGS_TOPIC var/tgs_topic_return = TgsTopic(args[1]); if(tgs_topic_return) return tgs_topic_return
 
 //Call this at the beginning of world/Reboot(reason)
 /world/proc/TgsReboot()
