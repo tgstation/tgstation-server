@@ -123,7 +123,8 @@ namespace Tgstation.Server.Host.Components.Byond
 			var setNoPromptTrustedModeTask = SetNoPromptTrusted();
 
 			//after this version lummox made DD depend of directx lol
-			if (version.Major >= 512 && version.Minor >= 1427 && !installedDirectX)
+			//but then he became amazing and not only fixed it but also gave us 30s compiles \[T]/
+			if (version.Major == 512 && version.Minor >= 1427 && version.Major < 1452 && !installedDirectX)
 				using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 					//check again because race conditions
 					if (!installedDirectX)

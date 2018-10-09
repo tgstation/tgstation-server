@@ -103,7 +103,7 @@ Note that the ratio of application installations to databases is 1:1. Do not att
 
 For the Windows service version start the `tgstation-server-4` service. If it fails to start, check the Windows event log under Windows/Application for entries from tgstation-server-4 for errors.
 
-For the console version run `dotnet Tgstation.Server.Host.Console.dll` in the installation directory. The `tgs.bat` and `tgs.sh` shell scripts are shortcuts for this. If on Windows, you must do this as admin to give the server permission to install the required DirectX dependency for BYOND as well as create symlinks.
+For the console version run `dotnet Tgstation.Server.Host.Console.dll` in the installation directory. The `tgs.bat` and `tgs.sh` shell scripts are shortcuts for this. If on Windows, you must do this as admin to give the server permission to install the required DirectX dependency for certain 512 BYOND versions as well as create symlinks.
 
 For the docker version run `docker start tgs`
 
