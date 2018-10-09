@@ -280,7 +280,7 @@ namespace TGS.Server
 				Directory.CreateDirectory(RelativePath(ByondConfigDir));
 				File.WriteAllText(RelativePath(ByondDDConfig), ByondNoPromptTrustedMode);
 
-				if (major >= 512 && minor >= 1427)
+				if (major == 512 && minor >= 1427 && minor < 1452)
 				{
 					if (Monitor.TryEnter(DirectXInstallLock))
 						try
