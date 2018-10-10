@@ -151,20 +151,21 @@ namespace Tgstation.Server.Host.Core
 
 			job.StartedAt = DateTimeOffset.Now;
 			job.Cancelled = false;
+
 			job.Instance = new Instance
 			{
 				Id = job.Instance.Id
 			};
 			databaseContext.Instances.Attach(job.Instance);
-			if (job.StartedBy != null)
+
+			job.StartedBy = new User
 			{
-				job.StartedBy = new User
-				{
-					Id = job.StartedBy.Id
-				};
-				databaseContext.Users.Attach(job.StartedBy);
-			}
+				Id = job.StartedBy.Id
+			};
+			databaseContext.Users.Attach(job.StartedBy);
+
 			databaseContext.Jobs.Add(job);
+
 			await databaseContext.Save(cancellationToken).ConfigureAwait(false);
 			logger.LogDebug("Starting job {0}: {1}...", job.Id, job.Description);
 			var jobHandler = JobHandler.Create(x => RunJob(job, (jobParam, serviceProvider, ct) =>
