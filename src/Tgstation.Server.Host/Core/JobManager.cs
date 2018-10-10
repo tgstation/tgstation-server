@@ -144,6 +144,11 @@ namespace Tgstation.Server.Host.Core
 		/// <inheritdoc />
 		public Task RegisterOperation(Job job, Func<Job, IDatabaseContext, Action<int>, CancellationToken, Task> operation, CancellationToken cancellationToken) => databaseContextFactory.UseContext(async databaseContext =>
 		{
+			if (job == null)
+				throw new ArgumentNullException(nameof(job));
+			if (operation == null)
+				throw new ArgumentNullException(nameof(operation));
+
 			job.StartedAt = DateTimeOffset.Now;
 			job.Cancelled = false;
 			job.Instance = new Instance
