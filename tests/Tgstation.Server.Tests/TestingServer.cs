@@ -55,7 +55,6 @@ namespace Tgstation.Server.Tests
 
 		public void Dispose()
 		{
-			realServer.Dispose();
 			System.IO.Directory.Delete(Directory, true);
 		}
 

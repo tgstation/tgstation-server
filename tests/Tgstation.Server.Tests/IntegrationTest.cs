@@ -20,7 +20,7 @@ namespace Tgstation.Server.Tests
 		[TestMethod]
 		public async Task FullMonty()
 		{
-			using (var server = new TestingServer())
+			var server = new TestingServer();
 			using (var serverCts = new CancellationTokenSource())
 			{
 				var cancellationToken = serverCts.Token;
