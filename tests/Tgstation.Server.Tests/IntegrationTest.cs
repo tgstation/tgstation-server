@@ -18,7 +18,7 @@ namespace Tgstation.Server.Tests
 		readonly IServerClientFactory clientFactory = new ServerClientFactory(new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
 		[TestMethod]
-		public async Task FullMonty()
+		public async Task StandardOperation()
 		{
 			var server = new TestingServer();
 			using (var serverCts = new CancellationTokenSource())
