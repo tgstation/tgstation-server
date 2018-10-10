@@ -38,32 +38,30 @@ namespace Tgstation.Server.Host
 				updatePath = null;
 			try
 			{
-				using (var server = serverFactory.CreateServer(listArgs.ToArray(), updatePath))
+				var server = serverFactory.CreateServer(listArgs.ToArray(), updatePath);
+				try
 				{
-					try
+					using (var cts = new CancellationTokenSource())
 					{
-						using (var cts = new CancellationTokenSource())
+						void AppDomainHandler(object a, EventArgs b) => cts.Cancel();
+						AppDomain.CurrentDomain.ProcessExit += AppDomainHandler;
+						try
 						{
-							void AppDomainHandler(object a, EventArgs b) => cts.Cancel();
-							AppDomain.CurrentDomain.ProcessExit += AppDomainHandler;
-							try
+							Console.CancelKeyPress += (a, b) =>
 							{
-								Console.CancelKeyPress += (a, b) =>
-								{
-									b.Cancel = true;
-									cts.Cancel();
-								};
-								await server.RunAsync(cts.Token).ConfigureAwait(false);
-							}
-							finally
-							{
-								AppDomain.CurrentDomain.ProcessExit -= AppDomainHandler;
-							}
+								b.Cancel = true;
+								cts.Cancel();
+							};
+							await server.RunAsync(cts.Token).ConfigureAwait(false);
+						}
+						finally
+						{
+							AppDomain.CurrentDomain.ProcessExit -= AppDomainHandler;
 						}
 					}
-					catch (OperationCanceledException) { }
-					return server.RestartRequested ? 1 : 0;
 				}
+				catch (OperationCanceledException) { }
+				return server.RestartRequested ? 1 : 0;
 			}
 			catch (Exception e)
 			{
