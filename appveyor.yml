@@ -22,6 +22,8 @@ artifacts:
     name: ServerService
   - path: artifacts/ServerHost
     name: ServerUpdatePackage
+  - path: src/DMAPI
+    name: DMAPI
 cache:
   - ~\.nuget\packages -> **\*.csproj
   - C:\ProgramData\chocolatey\bin -> appveyor.yml
@@ -84,7 +86,7 @@ deploy:
     description: 'The /tg/station server suite'
     auth_token:
       secure: lJNGAXwiB5HlWdthz3K4PetqpTG5IEAyRgKaiKxFMQ8HW8CcOjRtB97B05op7BsK
-    artifact: ServerConsole,ServerService,ServerUpdatePackage
+    artifact: ServerConsole,ServerService,ServerUpdatePackage,DMAPI
     draft: true
     on:
       TGSDeploy: "Do it."
