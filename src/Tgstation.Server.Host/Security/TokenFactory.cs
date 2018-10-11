@@ -50,12 +50,13 @@ namespace Tgstation.Server.Host.Security
 			if (user == null)
 				throw new ArgumentNullException(nameof(user));
 
-			var expiry = DateTimeOffset.Now.AddMinutes(TokenExpiryMinutes);
+			var now = DateTimeOffset.Now;
+			var expiry = now.AddMinutes(TokenExpiryMinutes);
 			var claims = new Claim[]
 			{
 				new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString(CultureInfo.InvariantCulture)),
-				new Claim(JwtRegisteredClaimNames.Exp, $"{expiry.ToUnixTimeSeconds()}"),
-				new Claim(JwtRegisteredClaimNames.Nbf, $"{DateTimeOffset.Now.ToUnixTimeSeconds()}"),
+				new Claim(JwtRegisteredClaimNames.Exp, expiry.ToUnixTimeSeconds().ToString(CultureInfo.InvariantCulture)),
+				new Claim(JwtRegisteredClaimNames.Nbf, now.ToUnixTimeSeconds().ToString(CultureInfo.InvariantCulture)),
 				new Claim(JwtRegisteredClaimNames.Iss, ValidationParameters.ValidIssuer),
 				new Claim(JwtRegisteredClaimNames.Aud, ValidationParameters.ValidAudience)
 			};
