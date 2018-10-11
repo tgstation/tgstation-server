@@ -12,7 +12,8 @@ namespace Tgstation.Server.Host.Security
 		/// </summary>
 		/// <param name="user">The <see cref="User"/> whos <see cref="User.PasswordHash"/> is to be set</param>
 		/// <param name="newPassword">The new password for the <see cref="User"/></param>
-		void SetUserPassword(User user, string newPassword);
+		/// <param name="newUser">If the <paramref name="user"/> is just being created</param>
+		void SetUserPassword(User user, string newPassword, bool newUser);
 
 		/// <summary>
 		/// Checks a given <paramref name="password"/> matches a given <paramref name="user"/>'s <see cref="User.PasswordHash"/>. This may result in <see cref="User.PasswordHash"/> being modified and this should be persisted

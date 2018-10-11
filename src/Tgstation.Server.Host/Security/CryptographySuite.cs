@@ -34,14 +34,15 @@ namespace Tgstation.Server.Host.Security
 		public CryptographySuite(IPasswordHasher<User> passwordHasher) => this.passwordHasher = passwordHasher ?? throw new ArgumentNullException(nameof(passwordHasher));
 
 		/// <inheritdoc />
-		public void SetUserPassword(User user, string newPassword)
+		public void SetUserPassword(User user, string newPassword, bool newUser)
 		{
 			if (user == null)
 				throw new ArgumentNullException(nameof(user));
 			if (String.IsNullOrEmpty(newPassword))
 				throw new ArgumentNullException(nameof(newPassword));
 			user.PasswordHash = passwordHasher.HashPassword(user, newPassword);
-			user.LastPasswordUpdate = DateTimeOffset.Now;
+			if (!newUser)
+				user.LastPasswordUpdate = DateTimeOffset.Now;
 		}
 
 		/// <inheritdoc />
