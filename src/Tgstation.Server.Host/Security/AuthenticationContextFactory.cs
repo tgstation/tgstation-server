@@ -42,7 +42,7 @@ namespace Tgstation.Server.Host.Security
 		}
 
 		/// <inheritdoc />
-		public async Task CreateAuthenticationContext(long userId, long? instanceId, DateTimeOffset validBefore, CancellationToken cancellationToken)
+		public async Task CreateAuthenticationContext(long userId, long? instanceId, DateTimeOffset validAfter, CancellationToken cancellationToken)
 		{
 			if (CurrentAuthenticationContext != null)
 				throw new InvalidOperationException("Authentication context has already been loaded");
@@ -72,7 +72,7 @@ namespace Tgstation.Server.Host.Security
 			}
 			else
 			{
-				if (user.LastPasswordUpdate.HasValue && user.LastPasswordUpdate > validBefore)
+				if (user.LastPasswordUpdate.HasValue && user.LastPasswordUpdate < validAfter)
 				{
 					CurrentAuthenticationContext = new AuthenticationContext();
 					return;
