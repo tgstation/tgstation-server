@@ -8,7 +8,7 @@ using Tgstation.Server.Host.Models;
 namespace Tgstation.Server.Host.Security
 {
 	/// <inheritdoc />
-	sealed class AuthenticationContextFactory : IAuthenticationContextFactory
+	sealed class AuthenticationContextFactory : IAuthenticationContextFactory, IDisposable
 	{
 		/// <inheritdoc />
 		public IAuthenticationContext CurrentAuthenticationContext { get; private set; }
@@ -40,6 +40,9 @@ namespace Tgstation.Server.Host.Security
 			this.databaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
 			this.identityCache = identityCache ?? throw new ArgumentNullException(nameof(identityCache));
 		}
+
+		/// <inheritdoc />
+		public void Dispose() => CurrentAuthenticationContext?.Dispose();
 
 		/// <inheritdoc />
 		public async Task CreateAuthenticationContext(long userId, long? instanceId, DateTimeOffset validAfter, CancellationToken cancellationToken)
@@ -76,9 +79,17 @@ namespace Tgstation.Server.Host.Security
 				systemIdentity = null;
 			}
 
-			var instanceUser = await instanceUserQuery.ConfigureAwait(false);
+			try
+			{
+				var instanceUser = await instanceUserQuery.ConfigureAwait(false);
 
-			CurrentAuthenticationContext = new AuthenticationContext(systemIdentity, user, instanceUser);
+				CurrentAuthenticationContext = new AuthenticationContext(systemIdentity, user, instanceUser);
+			}
+			catch
+			{
+				systemIdentity?.Dispose();
+				throw;
+			}
 		}
 	}
 }
