@@ -11,7 +11,7 @@ namespace Tgstation.Server.Host.Security
 	sealed class AuthenticationContext : IAuthenticationContext
 	{
 		/// <inheritdoc />
-		public User User { get; private set; }
+		public User User { get; }
 
 		/// <inheritdoc />
 		public InstanceUser InstanceUser { get; }
