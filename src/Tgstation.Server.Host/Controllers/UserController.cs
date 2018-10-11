@@ -109,7 +109,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				if (model.Password.Length < generalConfiguration.MinimumPasswordLength)
 					return BadRequest(new ErrorMessage { Message = String.Format(CultureInfo.InvariantCulture, "Password must be at least {0} characters long!", generalConfiguration.MinimumPasswordLength) });
-				cryptographySuite.SetUserPassword(dbUser, model.Password);
+				cryptographySuite.SetUserPassword(dbUser, model.Password, true);
 			}
 
 			dbUser.CanonicalName = dbUser.Name.ToUpperInvariant();
@@ -143,7 +143,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				if (originalUser.PasswordHash == null)
 					return BadRequest(new ErrorMessage { Message = "Cannot convert a system user to a password user!" });
-				cryptographySuite.SetUserPassword(originalUser, model.Password);
+				cryptographySuite.SetUserPassword(originalUser, model.Password, false);
 			}
 			else if (model.SystemIdentifier != null && model.SystemIdentifier != originalUser.SystemIdentifier)
 				return BadRequest(new ErrorMessage { Message = "Cannot change a user's system identifier!" });

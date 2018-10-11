@@ -317,7 +317,8 @@ namespace Tgstation.Server.Host.Core
 			logger.LogInformation(VersionString);
 
 			//attempt to restart the server if the configuration changes
-			ChangeToken.OnChange(configuration.GetReloadToken, () => serverControl.Restart());
+			if(serverControl.WatchdogPresent)
+				ChangeToken.OnChange(configuration.GetReloadToken, () => serverControl.Restart());
 
 			//now setup the HTTP request pipeline
 

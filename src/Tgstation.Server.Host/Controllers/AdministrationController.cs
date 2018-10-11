@@ -150,12 +150,19 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.NewVersion.Major != application.Version.Major)
 				return BadRequest(new ErrorMessage { Message = "Cannot update to a different suite version!" });
 
-			Logger.LogInformation("Updating to version {0}...", model.NewVersion);
+			if(!serverUpdater.WatchdogPresent)
+				return UnprocessableEntity(new ErrorMessage
+				{
+					Message = RestartNotSupportedException
+				});
+
+			Logger.LogDebug("Looking for GitHub releases version {0}...", model.NewVersion);
 			IEnumerable<Release> releases;
 			try
 			{
 				var gitHubClient = GetGitHubClient();
 				releases = (await gitHubClient.Repository.Release.GetAll(updatesConfiguration.GitHubRepositoryId).ConfigureAwait(false)).Where(x => x.TagName.StartsWith(updatesConfiguration.GitTagPrefix, StringComparison.InvariantCulture));
+				cancellationToken.ThrowIfCancellationRequested();
 			}
 			catch (RateLimitExceededException e)
 			{
@@ -174,24 +181,12 @@ namespace Tgstation.Server.Host.Controllers
 					var asset = release.Assets.Where(x => x.Name == updatesConfiguration.UpdatePackageAssetName).FirstOrDefault();
 					if (asset == default)
 						continue;
-
-					Logger.LogDebug("Downloading update package...");
-					var assetBytes = await ioManager.DownloadFile(new Uri(asset.BrowserDownloadUrl), cancellationToken).ConfigureAwait(false);
-					try
-					{
-						Logger.LogDebug("Extracting server update...");
-						if (!await serverUpdater.ApplyUpdate(version, assetBytes, ioManager, cancellationToken).ConfigureAwait(false))
-							return UnprocessableEntity(new ErrorMessage
-							{
-								Message = RestartNotSupportedException
-							}); //unprocessable entity
-					}
-					catch (InvalidOperationException)
-					{
-						Logger.LogDebug("Unable to find github release version!");
-						return StatusCode((int)HttpStatusCode.ServiceUnavailable);  //we were beat to the punch, really shouldn't happen but heat death of the universe and what not
-					}
-					Logger.LogInformation("Update staged! Restarting host...");
+					
+					if (!serverUpdater.ApplyUpdate(version, new Uri(asset.BrowserDownloadUrl), ioManager))
+						return Conflict(new ErrorMessage
+						{
+							Message = "An update operation is already in progress!"
+						});
 					return Accepted();  //gtfo of here before all the cancellation tokens fire
 				}
 
@@ -205,15 +200,16 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			try
 			{
-				var result = await serverUpdater.Restart().ConfigureAwait(false);
-				if (result)
-					Logger.LogInformation("Restarting host by request...");
-				else
-					Logger.LogDebug("Restart request failed due to lack of host watchdog!");
-				return result ? (IActionResult)Ok() : UnprocessableEntity(new ErrorMessage
+				if (!serverUpdater.WatchdogPresent)
 				{
-					Message = RestartNotSupportedException
-				});
+					Logger.LogDebug("Restart request failed due to lack of host watchdog!");
+					return UnprocessableEntity(new ErrorMessage
+					{
+						Message = RestartNotSupportedException
+					});
+				}
+				await serverUpdater.Restart().ConfigureAwait(false);
+				return Ok();
 			}
 			catch (InvalidOperationException)
 			{

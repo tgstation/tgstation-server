@@ -292,11 +292,11 @@ namespace Tgstation.Server.Host.IO
 				wc.DownloadDataAsync(url);
 				using (cancellationToken.Register(() =>
 				{
-					wc.CancelAsync();   //cancelasync alone doesnt do it either! who wrote this!!
-					tcs.SetCanceled();
+					wc.CancelAsync();
+					tcs.TrySetCanceled();
 				}))
 					return await tcs.Task.ConfigureAwait(false);
-			}   //ITS STILL FUCKING DOWNLOADING!!!
+			}
 		}
 
 		/// <inheritdoc />

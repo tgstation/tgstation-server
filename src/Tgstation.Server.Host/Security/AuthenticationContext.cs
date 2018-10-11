@@ -11,26 +11,13 @@ namespace Tgstation.Server.Host.Security
 	sealed class AuthenticationContext : IAuthenticationContext
 	{
 		/// <inheritdoc />
-		public User User
-		{
-			get
-			{
-				if (user == null)
-					throw new InvalidOperationException("AuthenticationContext has no user!");
-				return user;
-			}
-		}
+		public User User { get; }
 
 		/// <inheritdoc />
 		public InstanceUser InstanceUser { get; }
 
 		/// <inheritdoc />
 		public ISystemIdentity SystemIdentity { get; }
-
-		/// <summary>
-		/// Backing field for <see cref="User"/>
-		/// </summary>
-		readonly User user;
 
 		/// <summary>
 		/// Construct an empty <see cref="AuthenticationContext"/>
@@ -45,7 +32,7 @@ namespace Tgstation.Server.Host.Security
 		/// <param name="instanceUser">The value of <see cref="InstanceUser"/></param>
 		public AuthenticationContext(ISystemIdentity systemIdentity, User user, InstanceUser instanceUser)
 		{
-			this.user = user ?? throw new ArgumentNullException(nameof(user));
+			User = user ?? throw new ArgumentNullException(nameof(user));
 			if (systemIdentity == null && User.SystemIdentifier != null)
 				throw new ArgumentNullException(nameof(systemIdentity));
 			InstanceUser = instanceUser;
@@ -60,8 +47,8 @@ namespace Tgstation.Server.Host.Security
 		{
 			var isInstance = RightsHelper.IsInstanceRight(rightsType);
 
-			//forces the null user check
-			var pullThis = User;
+			if (User == null)
+				throw new InvalidOperationException("Authentication context has no user!");
 
 			if (isInstance && InstanceUser == null)
 				return 0;

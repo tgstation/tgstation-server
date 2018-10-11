@@ -153,10 +153,7 @@ The Version model fields are based on the C# one and looks like this:
 
 @code{.json}
 {
-	"major" = 4,
-	"minor" = 0,
-	"revision" = 0,
-	"build" = 0
+	"version": "<major>.<minor>.<patch>.<revision>"
 }
 @endcode
 

@@ -11,14 +11,18 @@ namespace Tgstation.Server.Host.Core
 	public interface IServerControl
 	{
 		/// <summary>
+		/// <see langword="true"/> if live updates are supported, <see langword="false"/>. <see cref="ApplyUpdate(Version, Uri, IIOManager)"/> and <see cref="Restart"/> will fail if this is <see langword="false"/>
+		/// </summary>
+		bool WatchdogPresent { get; }
+
+		/// <summary>
 		/// Run a new <see cref="Host"/> assembly and stop the current one. This will likely trigger all active <see cref="CancellationToken"/>s
 		/// </summary>
 		/// <param name="version">The <see cref="Version"/> the <see cref="IServerControl"/> is updating to</param>
-		/// <param name="updateZipData">The <see cref="byte"/>s of the .zip file that contains the new <see cref="Host"/> assembly</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <param name="updateZipUrl">The <see cref="Uri"/> that points to the .zip file that contains the new <see cref="Host"/> assembly</param>
 		/// <param name="ioManager">The <see cref="IIOManager"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if live updates are supported, <see langword="false"/> otherwise</returns>
-		Task<bool> ApplyUpdate(Version version, byte[] updateZipData, IIOManager ioManager, CancellationToken cancellationToken);
+		/// <returns><see langword="true"/> if the update started successfully, <see langword="false"/> if there was another update in progress</returns>
+		bool ApplyUpdate(Version version, Uri updateZipUrl, IIOManager ioManager);
 
 		/// <summary>
 		/// Register a given <paramref name="handler"/> to run before stopping the server for a restart
@@ -30,7 +34,7 @@ namespace Tgstation.Server.Host.Core
 		/// <summary>
 		/// Restarts the <see cref="Host"/>
 		/// </summary>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if live restarts are supported, <see langword="false"/> otherwise</returns>
-		Task<bool> Restart();
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		Task Restart();
 	}
 }

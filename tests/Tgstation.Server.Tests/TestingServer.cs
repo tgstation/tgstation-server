@@ -19,7 +19,7 @@ namespace Tgstation.Server.Tests
 
 		readonly IServer realServer;
 
-		public TestingServer()
+		public TestingServer(string updatePath)
 		{
 			Directory = Path.GetTempFileName();
 			File.Delete(Directory);
@@ -38,6 +38,9 @@ namespace Tgstation.Server.Tests
 			if (String.IsNullOrEmpty(connectionString))
 				Assert.Fail("No connection string configured in env var TGS4_TEST_CONNECTION_STRING!");
 
+			if (String.IsNullOrEmpty(gitHubAccessToken))
+				Console.WriteLine("WARNING: No GitHub access token configured, test may fail due to rate limits!");
+			
 			var args = new List<string>()
 			{
 				String.Format(CultureInfo.InvariantCulture, "Kestrel:EndPoints:Http:Url={0}", Url),
@@ -50,12 +53,11 @@ namespace Tgstation.Server.Tests
 			if (!String.IsNullOrEmpty(gitHubAccessToken))
 				args.Add(String.Format(CultureInfo.InvariantCulture, "General:GitHubAccessToken={0}", gitHubAccessToken));
 
-			realServer = new ServerFactory().CreateServer(args.ToArray(), null);
+			realServer = new ServerFactory().CreateServer(args.ToArray(), updatePath);
 		}
 
 		public void Dispose()
 		{
-			realServer.Dispose();
 			System.IO.Directory.Delete(Directory, true);
 		}
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host
@@ -7,7 +6,7 @@ namespace Tgstation.Server.Host
 	/// <summary>
 	/// Represents the host
 	/// </summary>
-	public interface IServer : IDisposable
+	public interface IServer
 	{
 		/// <summary>
 		/// If the <see cref="IServer"/> should restart
