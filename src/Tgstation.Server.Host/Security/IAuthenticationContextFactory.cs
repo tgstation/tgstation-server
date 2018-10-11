@@ -22,6 +22,6 @@ namespace Tgstation.Server.Host.Security
 		/// <param name="validAfter">The <see cref="DateTimeOffset"/> the resulting <see cref="IAuthenticationContext.User"/>'s password must be valid after</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task CreateAuthenticationContext(long userId, long? instanceId, DateTimeOffset validBefore, CancellationToken cancellationToken);
+		Task CreateAuthenticationContext(long userId, long? instanceId, DateTimeOffset validAfter, CancellationToken cancellationToken);
 	}
 }
