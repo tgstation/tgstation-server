@@ -51,10 +51,10 @@ namespace Tgstation.Server.Host.Security
 				.Include(x => x.CreatedBy)
 				.FirstOrDefaultAsync(cancellationToken);
 
-			var instanceUser = instanceId.HasValue ? (await databaseContext.InstanceUsers
+			var instanceUserQuery = instanceId.HasValue ? databaseContext.InstanceUsers
 				.Where(x => x.UserId == userId && x.InstanceId == instanceId && x.Instance.Online.Value)
 				.Include(x => x.Instance)
-				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false)) : null;
+				.FirstOrDefaultAsync(cancellationToken) : Task.FromResult<InstanceUser>(null);
 
 			var user = await userQuery.ConfigureAwait(false);
 			if (user == default)
@@ -79,6 +79,8 @@ namespace Tgstation.Server.Host.Security
 				}
 				systemIdentity = null;
 			}
+
+			var instanceUser = await instanceUserQuery.ConfigureAwait(false);
 
 			CurrentAuthenticationContext = new AuthenticationContext(systemIdentity, user, instanceUser);
 		}
