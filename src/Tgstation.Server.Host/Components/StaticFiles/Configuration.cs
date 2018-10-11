@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -99,6 +100,12 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		public void Dispose() => semaphore.Dispose();
 
 		/// <summary>
+		/// Get the proper path to <see cref="StaticIgnoreFile"/>
+		/// </summary>
+		/// <returns>The <see cref="ioManager"/> relative path to <see cref="StaticIgnoreFile"/></returns>
+		string StaticIgnorePath() => ioManager.ConcatPath(GameStaticFilesSubdirectory, StaticIgnoreFile);
+
+		/// <summary>
 		/// Ensures standard configuration directories exist
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
@@ -108,7 +115,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			async Task ValidateStaticFolder()
 			{
 				await ioManager.CreateDirectory(GameStaticFilesSubdirectory, cancellationToken).ConfigureAwait(false);
-				var staticIgnorePath = ioManager.ConcatPath(GameStaticFilesSubdirectory, StaticIgnoreFile);
+				var staticIgnorePath = StaticIgnorePath();
 				if(!await ioManager.FileExists(staticIgnorePath, cancellationToken).ConfigureAwait(false))
 					await ioManager.WriteAllBytes(staticIgnorePath, Array.Empty<byte>(), cancellationToken).ConfigureAwait(false);
 			}
@@ -270,6 +277,26 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <inheritdoc />
 		public async Task SymlinkStaticFilesTo(string destination, CancellationToken cancellationToken)
 		{
+			async Task<IReadOnlyList<string>> GetIgnoreFiles()
+			{
+				var ignoreFileBytes = await ioManager.ReadAllBytes(StaticIgnorePath(), cancellationToken).ConfigureAwait(false);
+				var ignoreFileText = Encoding.UTF8.GetString(ignoreFileBytes);
+
+				//we don't want to lose trailing whitespace on linux
+
+				var results = new List<string> { StaticIgnoreFile };
+				using (var reader = new StringReader(ignoreFileText)) {
+					cancellationToken.ThrowIfCancellationRequested();
+					var line = await reader.ReadLineAsync().ConfigureAwait(false);
+					if (!String.IsNullOrEmpty(line))
+						results.Add(line);
+				}
+
+				return results;
+			};
+
+			IReadOnlyList<string> ignoreFiles;
+
 			async Task SymlinkBase(bool files)
 			{
 				Task<IReadOnlyList<string>> task;
@@ -281,7 +308,22 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 				await Task.WhenAll(task.Result.Select(async x =>
 				{
-					var destPath = ioManager.ConcatPath(destination, ioManager.GetFileName(x));
+					var fileName = ioManager.GetFileName(x);
+
+					bool ignored;
+					if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+						//need to normalize
+						ignored = ignoreFiles.Any(y => fileName.ToUpperInvariant() == y.ToUpperInvariant());
+					else
+						ignored = ignoreFiles.Any(y => fileName == y);
+
+					if (ignored)
+					{
+						logger.LogTrace("Ignoring static file {0}...", fileName);
+						return;
+					}
+
+					var destPath = ioManager.ConcatPath(destination, fileName);
 					logger.LogTrace("Symlinking {0} to {1}...", x, destPath);
 					var fileExistsTask = ioManager.FileExists(destPath, cancellationToken);
 					if (await ioManager.DirectoryExists(destPath, cancellationToken).ConfigureAwait(false))
@@ -296,6 +338,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 			{
 				await EnsureDirectories(cancellationToken).ConfigureAwait(false);
+				ignoreFiles = await GetIgnoreFiles().ConfigureAwait(false);
 				await Task.WhenAll(SymlinkBase(true), SymlinkBase(false)).ConfigureAwait(false);
 			}
 		}
