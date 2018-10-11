@@ -42,7 +42,7 @@ namespace Tgstation.Server.Host.Security
 		}
 
 		/// <inheritdoc />
-		public async Task CreateAuthenticationContext(long userId, long? instanceId, DateTimeOffset validBefore, CancellationToken cancellationToken)
+		public async Task CreateAuthenticationContext(long userId, long? instanceId, DateTimeOffset validAfter, CancellationToken cancellationToken)
 		{
 			if (CurrentAuthenticationContext != null)
 				throw new InvalidOperationException("Authentication context has already been loaded");
@@ -51,10 +51,10 @@ namespace Tgstation.Server.Host.Security
 				.Include(x => x.CreatedBy)
 				.FirstOrDefaultAsync(cancellationToken);
 
-			var instanceUser = instanceId.HasValue ? (await databaseContext.InstanceUsers
+			var instanceUserQuery = instanceId.HasValue ? databaseContext.InstanceUsers
 				.Where(x => x.UserId == userId && x.InstanceId == instanceId && x.Instance.Online.Value)
 				.Include(x => x.Instance)
-				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false)) : null;
+				.FirstOrDefaultAsync(cancellationToken) : Task.FromResult<InstanceUser>(null);
 
 			var user = await userQuery.ConfigureAwait(false);
 			if (user == default)
@@ -65,20 +65,18 @@ namespace Tgstation.Server.Host.Security
 
 			ISystemIdentity systemIdentity;
 			if (user.SystemIdentifier != null)
-			{
 				systemIdentity = identityCache.LoadCachedIdentity(user);
-				if (systemIdentity == null)
-					throw new InvalidOperationException("Cached system identity has expired!");
-			}
 			else
 			{
-				if (user.LastPasswordUpdate.HasValue && user.LastPasswordUpdate > validBefore)
+				if (user.LastPasswordUpdate.HasValue && user.LastPasswordUpdate > validAfter)
 				{
 					CurrentAuthenticationContext = new AuthenticationContext();
 					return;
 				}
 				systemIdentity = null;
 			}
+
+			var instanceUser = await instanceUserQuery.ConfigureAwait(false);
 
 			CurrentAuthenticationContext = new AuthenticationContext(systemIdentity, user, instanceUser);
 		}

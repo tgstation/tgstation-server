@@ -19,7 +19,7 @@ namespace Tgstation.Server.Tests
 
 		readonly IServer realServer;
 
-		public TestingServer()
+		public TestingServer(string updatePath)
 		{
 			Directory = Path.GetTempFileName();
 			File.Delete(Directory);
@@ -53,12 +53,11 @@ namespace Tgstation.Server.Tests
 			if (!String.IsNullOrEmpty(gitHubAccessToken))
 				args.Add(String.Format(CultureInfo.InvariantCulture, "General:GitHubAccessToken={0}", gitHubAccessToken));
 
-			realServer = new ServerFactory().CreateServer(args.ToArray(), null);
+			realServer = new ServerFactory().CreateServer(args.ToArray(), updatePath);
 		}
 
 		public void Dispose()
 		{
-			realServer.Dispose();
 			System.IO.Directory.Delete(Directory, true);
 		}
 

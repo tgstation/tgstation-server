@@ -37,7 +37,7 @@ namespace Tgstation.Server.Host.Models
 				CanonicalName = Api.Models.User.AdminName.ToUpperInvariant(),
 				Enabled = true,
 			};
-			cryptographySuite.SetUserPassword(admin, Api.Models.User.DefaultAdminPassword);
+			cryptographySuite.SetUserPassword(admin, Api.Models.User.DefaultAdminPassword, true);
 			databaseContext.Users.Add(admin);
 		}
 
@@ -57,7 +57,7 @@ namespace Tgstation.Server.Host.Models
 			else
 			{
 				admin.Enabled = true;
-				cryptographySuite.SetUserPassword(admin, Api.Models.User.DefaultAdminPassword);
+				cryptographySuite.SetUserPassword(admin, Api.Models.User.DefaultAdminPassword, false);
 			}
 
 			await databaseContext.Save(cancellationToken).ConfigureAwait(false);

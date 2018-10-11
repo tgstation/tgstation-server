@@ -70,11 +70,9 @@ namespace Tgstation.Server.Host.Security
 			if (user == null)
 				throw new ArgumentNullException(nameof(user));
 			lock (cachedIdentities)
-			{
 				if (cachedIdentities.TryGetValue(user.Id, out var identity))
 					return identity.SystemIdentity;
-				return null;
-			}
+			throw new InvalidOperationException("Cached system identity has expired!");
 		}
 	}
 }
