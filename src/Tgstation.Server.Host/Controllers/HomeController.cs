@@ -139,7 +139,7 @@ namespace Tgstation.Server.Host.Controllers
 				if (!user.Enabled.Value)
 					return Forbid();
 
-				var token = tokenFactory.CreateToken(user);
+				var token = await tokenFactory.CreateToken(user, cancellationToken).ConfigureAwait(false);
 				if (identity != null)
 					identityCache.CacheSystemIdentity(user, identity, token.ExpiresAt.Value.AddMinutes(1));   //expire the identity slightly after the auth token in case of lag
 
