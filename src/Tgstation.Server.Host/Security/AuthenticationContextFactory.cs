@@ -65,11 +65,7 @@ namespace Tgstation.Server.Host.Security
 
 			ISystemIdentity systemIdentity;
 			if (user.SystemIdentifier != null)
-			{
 				systemIdentity = identityCache.LoadCachedIdentity(user);
-				if (systemIdentity == null)
-					throw new InvalidOperationException("Cached system identity has expired!");
-			}
 			else
 			{
 				if (user.LastPasswordUpdate.HasValue && user.LastPasswordUpdate < validAfter)
