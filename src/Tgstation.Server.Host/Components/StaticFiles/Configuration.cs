@@ -282,10 +282,11 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				var ignoreFileBytes = await ioManager.ReadAllBytes(StaticIgnorePath(), cancellationToken).ConfigureAwait(false);
 				var ignoreFileText = Encoding.UTF8.GetString(ignoreFileBytes);
 
-				//we don't want to lose trailing whitespace on linux
-
 				var results = new List<string> { StaticIgnoreFile };
-				using (var reader = new StringReader(ignoreFileText)) {
+
+				//we don't want to lose trailing whitespace on linux
+				using (var reader = new StringReader(ignoreFileText))
+				{
 					cancellationToken.ThrowIfCancellationRequested();
 					var line = await reader.ReadLineAsync().ConfigureAwait(false);
 					if (!String.IsNullOrEmpty(line))
@@ -306,7 +307,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					task = ioManager.GetDirectories(GameStaticFilesSubdirectory, cancellationToken);
 				var entries = await task.ConfigureAwait(false);
 
-				await Task.WhenAll(task.Result.Select(async x =>
+				await Task.WhenAll(entries.Select(async x =>
 				{
 					var fileName = ioManager.GetFileName(x);
 
