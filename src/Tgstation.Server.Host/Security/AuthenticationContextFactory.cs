@@ -68,7 +68,7 @@ namespace Tgstation.Server.Host.Security
 				systemIdentity = identityCache.LoadCachedIdentity(user);
 			else
 			{
-				if (user.LastPasswordUpdate.HasValue && user.LastPasswordUpdate < validAfter)
+				if (user.LastPasswordUpdate.HasValue && user.LastPasswordUpdate > validAfter)
 				{
 					CurrentAuthenticationContext = new AuthenticationContext();
 					return;
