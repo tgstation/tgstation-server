@@ -22,6 +22,11 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		const string EventScriptsSubdirectory = "EventScripts";
 		const string GameStaticFilesSubdirectory = "GameStaticFiles";
 
+		/// <summary>
+		/// Name of the ignore file in <see cref="GameStaticFilesSubdirectory"/>
+		/// </summary>
+		const string StaticIgnoreFile = ".tgsignore";
+
 		const string CodeModificationsHeadFile = "HeadInclude.dm";
 		const string CodeModificationsTailFile = "TailInclude.dm";
 
@@ -98,7 +103,18 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task EnsureDirectories(CancellationToken cancellationToken) => Task.WhenAll(ioManager.CreateDirectory(CodeModificationsSubdirectory, cancellationToken), ioManager.CreateDirectory(EventScriptsSubdirectory, cancellationToken), ioManager.CreateDirectory(GameStaticFilesSubdirectory, cancellationToken));
+		async Task EnsureDirectories(CancellationToken cancellationToken)
+		{
+			async Task ValidateStaticFolder()
+			{
+				await ioManager.CreateDirectory(GameStaticFilesSubdirectory, cancellationToken).ConfigureAwait(false);
+				var staticIgnorePath = ioManager.ConcatPath(GameStaticFilesSubdirectory, StaticIgnoreFile);
+				if(!await ioManager.FileExists(staticIgnorePath, cancellationToken).ConfigureAwait(false))
+					await ioManager.WriteAllBytes(staticIgnorePath, Array.Empty<byte>(), cancellationToken).ConfigureAwait(false);
+			}
+
+			await Task.WhenAll(ioManager.CreateDirectory(CodeModificationsSubdirectory, cancellationToken), ioManager.CreateDirectory(EventScriptsSubdirectory, cancellationToken), ValidateStaticFolder()).ConfigureAwait(false);
+		}
 
 		/// <inheritdoc />
 		public async Task<ServerSideModifications> CopyDMFilesTo(string dmeFile, string destination, CancellationToken cancellationToken)
