@@ -114,9 +114,9 @@ Inheritance diagram for Tgstation.Server.Host.Security.ITokenFactory:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:afcb72b3790ee889ea73969b1d7a54c17"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_token.html">Token</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#afcb72b3790ee889ea73969b1d7a54c17">CreateToken</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">Models.User</a> user)</td></tr>
-<tr class="memdesc:afcb72b3790ee889ea73969b1d7a54c17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a Token for a given <em>user</em>   <a href="#afcb72b3790ee889ea73969b1d7a54c17">More...</a><br /></td></tr>
-<tr class="separator:afcb72b3790ee889ea73969b1d7a54c17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57edffc2d8c63352fbf4ebd0b5991b45"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_token.html">Token</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a57edffc2d8c63352fbf4ebd0b5991b45">CreateToken</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">Models.User</a> user, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a57edffc2d8c63352fbf4ebd0b5991b45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a Token for a given <em>user</em>   <a href="#a57edffc2d8c63352fbf4ebd0b5991b45">More...</a><br /></td></tr>
+<tr class="separator:a57edffc2d8c63352fbf4ebd0b5991b45"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
@@ -127,18 +127,28 @@ Properties</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>For creating Tokens </p>
 
-<p>Definition at line <a class="el" href="_i_token_factory_8cs_source.html#l00009">9</a> of file <a class="el" href="_i_token_factory_8cs_source.html">ITokenFactory.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_token_factory_8cs_source.html#l00011">11</a> of file <a class="el" href="_i_token_factory_8cs_source.html">ITokenFactory.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="afcb72b3790ee889ea73969b1d7a54c17"></a>
+<a class="anchor" id="a57edffc2d8c63352fbf4ebd0b5991b45"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_token.html">Token</a> Tgstation.Server.Host.Security.ITokenFactory.CreateToken </td>
+          <td class="memname">Task&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_token.html">Token</a>&gt; Tgstation.Server.Host.Security.ITokenFactory.CreateToken </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">Models.User</a>&#160;</td>
-          <td class="paramname"><em>user</em></td><td>)</td>
+          <td class="paramname"><em>user</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -147,12 +157,13 @@ Properties</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">user</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">Models.User</a> to create the token for. Must have the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user.html#a2c0d8cf4d64347a18c9a6251f9a5783f" title="The ID of the User ">Api.Models.Internal.User.Id</a> field available</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A new Token</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a new Token</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a12358e16c508d13562522920da058c3d">Tgstation.Server.Host.Security.TokenFactory</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a17610f96f7e87136d957e8ba3c1f5d4a">Tgstation.Server.Host.Security.TokenFactory</a>.</p>
 
 </div>
 </div>
@@ -177,7 +188,7 @@ Properties</h2></td></tr>
 
 <p>The TokenValidationParameters for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html" title="For creating Tokens ">ITokenFactory</a> </p>
 
-<p>Definition at line <a class="el" href="_i_token_factory_8cs_source.html#l00014">14</a> of file <a class="el" href="_i_token_factory_8cs_source.html">ITokenFactory.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_token_factory_8cs_source.html#l00016">16</a> of file <a class="el" href="_i_token_factory_8cs_source.html">ITokenFactory.cs</a>.</p>
 
 <p>Referenced by <a class="el" href="_application_8cs_source.html#l00083">Tgstation.Server.Host.Core.Application.ConfigureServices()</a>.</p>
 

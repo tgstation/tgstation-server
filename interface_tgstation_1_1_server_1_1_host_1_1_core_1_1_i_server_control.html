@@ -93,6 +93,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#properties">Properties</a> &#124;
 <a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Tgstation.Server.Host.Core.IServerControl Interface Reference</div>  </div>
@@ -113,27 +114,33 @@ Inheritance diagram for Tgstation.Server.Host.Core.IServerControl:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa663820743693cf2b2b1ed5bacc85792"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#aa663820743693cf2b2b1ed5bacc85792">ApplyUpdate</a> (Version version, byte[] updateZipData, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html">IIOManager</a> ioManager, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:aa663820743693cf2b2b1ed5bacc85792"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run a new <a class="el" href="namespace_tgstation_1_1_server_1_1_host.html">Host</a> assembly and stop the current one. This will likely trigger all active CancellationTokens  <a href="#aa663820743693cf2b2b1ed5bacc85792">More...</a><br /></td></tr>
-<tr class="separator:aa663820743693cf2b2b1ed5bacc85792"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08e0b784b8a22398a183e759446bf5f3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a08e0b784b8a22398a183e759446bf5f3">ApplyUpdate</a> (Version version, Uri updateZipUrl, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html">IIOManager</a> ioManager)</td></tr>
+<tr class="memdesc:a08e0b784b8a22398a183e759446bf5f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run a new <a class="el" href="namespace_tgstation_1_1_server_1_1_host.html">Host</a> assembly and stop the current one. This will likely trigger all active CancellationTokens  <a href="#a08e0b784b8a22398a183e759446bf5f3">More...</a><br /></td></tr>
+<tr class="separator:a08e0b784b8a22398a183e759446bf5f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35728d66030addfd5551351b8c6db942"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_registration.html">IRestartRegistration</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a35728d66030addfd5551351b8c6db942">RegisterForRestart</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html">IRestartHandler</a> handler)</td></tr>
 <tr class="memdesc:a35728d66030addfd5551351b8c6db942"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a given <em>handler</em>  to run before stopping the server for a restart  <a href="#a35728d66030addfd5551351b8c6db942">More...</a><br /></td></tr>
 <tr class="separator:a35728d66030addfd5551351b8c6db942"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a434d76606c0d0cc2472456748aebc006"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a434d76606c0d0cc2472456748aebc006">Restart</a> ()</td></tr>
-<tr class="memdesc:a434d76606c0d0cc2472456748aebc006"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restarts the <a class="el" href="namespace_tgstation_1_1_server_1_1_host.html">Host</a>  <a href="#a434d76606c0d0cc2472456748aebc006">More...</a><br /></td></tr>
-<tr class="separator:a434d76606c0d0cc2472456748aebc006"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13dcbb02bca9b289a8bccd07a848b4b9"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a13dcbb02bca9b289a8bccd07a848b4b9">Restart</a> ()</td></tr>
+<tr class="memdesc:a13dcbb02bca9b289a8bccd07a848b4b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restarts the <a class="el" href="namespace_tgstation_1_1_server_1_1_host.html">Host</a>  <a href="#a13dcbb02bca9b289a8bccd07a848b4b9">More...</a><br /></td></tr>
+<tr class="separator:a13dcbb02bca9b289a8bccd07a848b4b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
+Properties</h2></td></tr>
+<tr class="memitem:a1c9a042a42da1e39316d2f1b45b28765"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a1c9a042a42da1e39316d2f1b45b28765">WatchdogPresent</a><code> [get]</code></td></tr>
+<tr class="memdesc:a1c9a042a42da1e39316d2f1b45b28765"><td class="mdescLeft">&#160;</td><td class="mdescRight">if live updates are supported, . <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a08e0b784b8a22398a183e759446bf5f3" title="Run a new Host assembly and stop the current one. This will likely trigger all active CancellationTok...">ApplyUpdate(Version, Uri, IIOManager)</a> and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a13dcbb02bca9b289a8bccd07a848b4b9" title="Restarts the Host ">Restart</a> will fail if this is   <a href="#a1c9a042a42da1e39316d2f1b45b28765">More...</a><br /></td></tr>
+<tr class="separator:a1c9a042a42da1e39316d2f1b45b28765"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a service that may take an updated <a class="el" href="namespace_tgstation_1_1_server_1_1_host.html">Host</a> assembly and run it, stopping the current assembly in the process </p>
 
 <p>Definition at line <a class="el" href="_i_server_control_8cs_source.html#l00011">11</a> of file <a class="el" href="_i_server_control_8cs_source.html">IServerControl.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="aa663820743693cf2b2b1ed5bacc85792"></a>
+<a class="anchor" id="a08e0b784b8a22398a183e759446bf5f3"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt;bool&gt; Tgstation.Server.Host.Core.IServerControl.ApplyUpdate </td>
+          <td class="memname">bool Tgstation.Server.Host.Core.IServerControl.ApplyUpdate </td>
           <td>(</td>
           <td class="paramtype">Version&#160;</td>
           <td class="paramname"><em>version</em>, </td>
@@ -141,20 +148,14 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">byte[]&#160;</td>
-          <td class="paramname"><em>updateZipData</em>, </td>
+          <td class="paramtype">Uri&#160;</td>
+          <td class="paramname"><em>updateZipUrl</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html">IIOManager</a>&#160;</td>
-          <td class="paramname"><em>ioManager</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+          <td class="paramname"><em>ioManager</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -168,15 +169,14 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">version</td><td>The Version the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html" title="Represents a service that may take an updated Host assembly and run it, stopping the current assembly...">IServerControl</a> is updating to</td></tr>
-    <tr><td class="paramname">updateZipData</td><td>The bytes of the .zip file that contains the new <a class="el" href="namespace_tgstation_1_1_server_1_1_host.html">Host</a> assembly</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
+    <tr><td class="paramname">updateZipUrl</td><td>The Uri that points to the .zip file that contains the new <a class="el" href="namespace_tgstation_1_1_server_1_1_host.html">Host</a> assembly</td></tr>
     <tr><td class="paramname">ioManager</td><td>The IIOManager for the operation</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in  if live updates are supported,  otherwise</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>if the update started successfully,  if there was another update in progress</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#af63d3555a37b40e4fb668ab60aa15ce7">Tgstation.Server.Host.Server</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a38345c5b5fc217b03e0142dc8513e0cd">Tgstation.Server.Host.Server</a>.</p>
 
 </div>
 </div>
@@ -209,12 +209,12 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a434d76606c0d0cc2472456748aebc006"></a>
+<a class="anchor" id="a13dcbb02bca9b289a8bccd07a848b4b9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt;bool&gt; Tgstation.Server.Host.Core.IServerControl.Restart </td>
+          <td class="memname">Task Tgstation.Server.Host.Core.IServerControl.Restart </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -223,9 +223,36 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Restarts the <a class="el" href="namespace_tgstation_1_1_server_1_1_host.html">Host</a> </p>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in  if live restarts are supported,  otherwise</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#ab178e843d0ed4db02a9510ddc505af0d">Tgstation.Server.Host.Server</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#ab2114beab119e090ece99d97ef0ca9c6">Tgstation.Server.Host.Server</a>.</p>
+
+<p>Referenced by <a class="el" href="_application_8cs_source.html#l00308">Tgstation.Server.Host.Core.Application.Configure()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Property Documentation</h2>
+<a class="anchor" id="a1c9a042a42da1e39316d2f1b45b28765"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Tgstation.Server.Host.Core.IServerControl.WatchdogPresent</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>if live updates are supported, . <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a08e0b784b8a22398a183e759446bf5f3" title="Run a new Host assembly and stop the current one. This will likely trigger all active CancellationTok...">ApplyUpdate(Version, Uri, IIOManager)</a> and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a13dcbb02bca9b289a8bccd07a848b4b9" title="Restarts the Host ">Restart</a> will fail if this is  </p>
+
+<p>Definition at line <a class="el" href="_i_server_control_8cs_source.html#l00016">16</a> of file <a class="el" href="_i_server_control_8cs_source.html">IServerControl.cs</a>.</p>
 
 <p>Referenced by <a class="el" href="_application_8cs_source.html#l00308">Tgstation.Server.Host.Core.Application.Configure()</a>.</p>
 
