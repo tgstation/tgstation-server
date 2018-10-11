@@ -7,5 +7,5 @@ using System.Runtime.InteropServices;
 [assembly: Guid("29927416-3b78-49a7-a560-5ccaa638b6b4")]
 [assembly: InternalsVisibleTo("Tgstation.Server.Host.Service.Tests")]
 
-[assembly: AssemblyVersion("4.0.0.6")]
-[assembly: AssemblyFileVersion("4.0.0.6")]
+[assembly: AssemblyVersion("4.0.1.0")]
+[assembly: AssemblyFileVersion("4.0.1.0")]
