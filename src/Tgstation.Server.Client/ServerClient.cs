@@ -57,7 +57,7 @@ namespace Tgstation.Server.Client
 		public ServerClient(IApiClient apiClient, Token token)
 		{
 			this.apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
-			token = token ?? throw new ArgumentNullException(nameof(token));
+			this.token = token ?? throw new ArgumentNullException(nameof(token));
 
 			if (Token.Bearer != apiClient.Headers.Token)
 				throw new ArgumentOutOfRangeException(nameof(token), token, "Provided token does not match apiClient headers!");
