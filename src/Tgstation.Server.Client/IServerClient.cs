@@ -16,9 +16,9 @@ namespace Tgstation.Server.Client
 		Uri Url { get; }
 
 		/// <summary>
-		/// The <see cref="Token"/> being used to access the server
+		/// The <see cref="Token"/> used to access the server
 		/// </summary>
-		Token Token { get; }
+		Token Token { get; set; }
 
 		/// <summary>
 		/// The connection timeout
