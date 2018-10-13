@@ -8,11 +8,11 @@
 
 [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com) [![forthebadge](http://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)](http://forthebadge.com)
 
-This is a toolset to manage production BYOND servers. It includes the ability to update the server without having to stop or shutdown the server (the update will take effect on a "reboot" of the server) the ability start the server and restart it if it crashes, as well as systems for managing code and game files, and merging GitHub Pull Requests locally.  
+This is a toolset to manage production BYOND servers. It includes the ability to update the server without having to stop or shutdown the server (the update will take effect on a "reboot" of the server) the ability start the server and restart it if it crashes, as well as systems for managing code and game files, and merging GitHub Pull Requests for test deployments.  
 
 ### Legacy Servers
 
-* Older server versions can be found in the V# branches of this repository
+Older server versions can be found in the V# branches of this repository. Note that V4 is nearly fully incompatible with existing installations. Only some static files may be copied over: https://github.com/tgstation/tgstation-server#static-files
 
 ## Setup
 
@@ -24,22 +24,25 @@ This is a toolset to manage production BYOND servers. It includes the ability to
 ### Installation
 
 1. [Download the latest V4 release .zip](https://github.com/tgstation/tgstation-server/releases/latest). The ServerService package will only work on Windows. Choose ServerConsole if that is not your target OS or you prefer not to use the Windows service.
-2. Extract the .zip file to where you want the server to run from. Note the account running the server must have write access to the `lib` subdirectory.
-3. If using the ServerService package, run `Tgstation.Server.Host.Service.exe`. It should prompt you to install the service. Click `Yes` and accept a potential UAC elevation prompt. You should now be able to control the service using the Windows service control commandlet.
+2. Extract the .zip file to where you want the server to run from. Note the account running the server must have write and delete access to the `lib` subdirectory.
 
-#### Linux
+#### Windows
 
-[We recommend using Docker for Linux installations](https://github.com/tgstation/tgstation-server#docker). The content of this parent section may be skipped if you choose to do so
+If you wish to install the TGS as a service, run `Tgstation.Server.Host.Service.exe`. It should prompt you to install it. Click `Yes` and accept a potential UAC elevation prompt and the setup wizard should run.
+
+#### Linux (Native)
+
+We recommend using Docker for Linux installations, see below. The content of this parent section may be skipped if you choose to do so.
 
 The following dependencies are required to run tgstation-server on Linux alongside the .NET Core runtime
 
 - gcc-multilib (on 64-bit systems for running BYOND)
 
-Note that tgstation-server has only ever been tested on Linux via it's [docker environment](https://github.com/tgstation/tgstation-server/blob/master/build/Dockerfile#L22). If you are having trouble with something, or figure out a required workaround, please contact project maintainers so this documentation may be better updated.
+Note that tgstation-server has only ever been tested on Linux via it's [docker environment](https://github.com/tgstation/tgstation-server/blob/master/build/Dockerfile#L22). If you are having trouble with something in a native installation, or figure out a required workaround, please contact project maintainers so this documentation may be better updated.
 
-#### Docker
+#### Docker (Linux)
 
-tgstation-server supports running in a docker container and is the recommended deployment method for Linux systems due being the only robustly tested environment. The official image repository is located at https://hub.docker.com/r/tgstation/server. It can also be built locally by running `docker build . -f build/Dockerfile` in the repository root.
+tgstation-server supports running in a docker container and is the recommended deployment method for Linux systems. The official image repository is located at https://hub.docker.com/r/tgstation/server. It can also be built locally by running `docker build . -f build/Dockerfile -t <your tag name>` in the repository root.
 
 To create a container run
 ```sh
@@ -51,11 +54,11 @@ docker run \
 	--cap-add=sys_nice \ #allows tgs to schedule DreamDaemon as a higher priority process
 	--init \ #reaps potential zombie processes
 	-p <tgs port>:80 \
-	-p 0.0.0.0:<public game port>:<internal game port> \
+	-p 0.0.0.0:<public game port>:<public game port> \
+	-v /path/to/your/configfile/directory:/config_data \ #only if you want to use manual configuration
 	-v /path/to/store/instances:/tgs4_instances \
-	-v /path/to/your/appsettings.Production.json:/config_data \ #only if you want to use manual configuration
-	-v path/to/your/log/folder:/tgs_logs \
-	tgstation/server
+	-v /path/to/your/log/folder:/tgs_logs \
+	tgstation/server #replace this with <your tag name> if you built the image locally
 ```
 with any additional options you desire (i.e. You'll have to expose more game ports in order to host more than one instance).
 
@@ -66,8 +69,6 @@ If using manual configuration, before starting your container make sure the afor
 ### Configuring
 
 The first time you run TGS4 you should be prompted with a configuration wizard which will guide you through setting up your appsettings.Production.json 
-
-![](https://user-images.githubusercontent.com/8171642/46436355-99ee0e00-c726-11e8-82fa-6626b2503a6c.png)
 
 This wizard will, generally, run whenever the server is launched without detecting the config json. Follow the instructions below to perform this process manually.
 
@@ -93,7 +94,7 @@ Create an `appsettings.Production.json` file next to `appsettings.json`. This wi
 
 ### Database Configuration
 
-If using MySQL, our provider library [recommends you set 'utf8mb4' as your default charset](https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql#1-recommended-server-charset) disregard at your own risk.
+If using a MariaDB/MySQL server, our client library [recommends you set 'utf8mb4' as your default charset](https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql#1-recommended-server-charset) disregard at your own risk.
 
 The user created for the application will need the privilege to create databases on the first run, do not create the database for it. Once the initial set of migrations is run, the create right may be revoked. The user should maintain DDL rights though for applying future migrations
 
@@ -105,7 +106,9 @@ For the Windows service version start the `tgstation-server-4` service. If it fa
 
 For the console version run `dotnet Tgstation.Server.Host.Console.dll` in the installation directory. The `tgs.bat` and `tgs.sh` shell scripts are shortcuts for this. If on Windows, you must do this as admin to give the server permission to install the required DirectX dependency for certain 512 BYOND versions as well as create symlinks.
 
-For the docker version run `docker start tgs`
+For the docker version run `docker start <your container name>`
+
+Test your server is running by visiting the local port in your browser. You should receive a 401 Unauthorized response (You may need to view the developer console). Otherwise an error page will be present.
 
 ### Stopping
 
@@ -115,24 +118,24 @@ For the Windows service version stop the `tgstation-server-4` service
 
 For the console version press `Ctrl+C` or send a SIGQUIT to the ORIGINAL dotnet process
 
-For the docker version run `docker stop tgs`
+For the docker version run `docker stop <your container name>`
 
 ## Integrating
 
-A breaking change from V3: tgstation-server 4 now REQUIRES the DMAPI to be integrated into any BYOND codebase which plans on being used by it. The integration process is a fairly simple set of code changes.
+tgstation-server 4 now REQUIRES the DMAPI to be integrated into any BYOND codebase which plans on being used by it. The integration process is a fairly simple set of code changes.
 
 1. Copy the [DMAPI](https://github.com/tgstation/tgstation-server/tree/master/src/DMAPI) files anywhere in your code base. `tgs.dm` can be seperated from the `tgs` folder, but do not modify or move the contents of the `tgs` folder
 2. Modify your `.dme`(s) to include the `tgs.dm` and `tgs/includes.dm` files (ORDER OF APPEARANCE IS MANDATORY)
 3. Follow the instructions in `tgs.dm` to integrate the API with your codebase.
 
-The DMAPI is fully backwards compatible and should function with any tgstation-server version to date. Updates can be performed in the same manner. Using the `TGS_EXTERNAL_CONFIGURATION` is recommended in order to make the process as easy as replacing `tgs.dm` and the `tgs` folder with a new version
+The DMAPI is fully backwards compatible and should function with any tgstation-server version to date. Updates can be performed in the same manner. Using the `TGS_EXTERNAL_CONFIGURATION` is recommended in order to make the process as easy as replacing `tgs.dm` and the `tgs` folder with a newer version
 
 ### Example
 
 Here is a bare minimum example project that implements the essential code changes for integrating the DMAPI
 
 Before `tgs.dm`:
-```
+```dm
 //Remember, every codebase is different, you probably have better methods for these defines than the ones given here
 #define TGS_EXTERNAL_CONFIGURATION
 #define TGS_DEFINE_AND_SET_GLOBAL(Name, Value) var/global/##Name = ##Value
@@ -319,11 +322,11 @@ Any files and folders contained in this root level of this folder will be symbol
 
 ### Updating
 
-TGS 4 can self update without stopping your DreamDaemon servers. Any V4 release made to this repository is bound by a contract that allows changes of the runtime assemblies without stopping your servers. Database migrations are automatically applied as well.
+TGS 4 can self update without stopping your DreamDaemon servers. Any V4 release made to this repository is bound by a contract that allows changes of the runtime assemblies without stopping your servers. Database migrations are automatically applied as well. Because of this REVERTING TO LOWER VERSIONS IS NOT OFFICIALLY SUPPORTED, do so at your own risk (check changes made to `/src/Tgstation.Server.Host/Models/Migrations`).
 
 ### Clients
 
-Here are some tools for interacting with the TGS 4 JSON API
+Here are tools for interacting with the TGS 4 web API
 
 - [Tgstation.Server.ControlPanel](https://github.com/tgstation/Tgstation.Server.ControlPanel): Official client. A cross platform GUI for using tgstation-server
 - [Tgstation.Server.Client](https://www.nuget.org/packages/Tgstation.Server.Client): A nuget .NET Standard 2.0 TAP based library for communicating with tgstation-server
@@ -332,9 +335,23 @@ Here are some tools for interacting with the TGS 4 JSON API
 
 Contact project maintainers to get your client added to this list
 
+## Backup/Restore
+
+Note that tgstation-server is NOT a backup solution, the onus is on the server runners.
+
+The `Repository` folder should, by the nature of git, not need to be backed up or should be done so on the remote server if necessary.
+
+The `BYOND` and `Game` folders should never be backed up due.
+
+The `Configuration` folder should and database be fully backed up
+
+To restore an installation from backups, first restore the instance `Configuration` folders in their new homes. Then restore the database, modifying the `Path` column in the `Instances` table where necessary to point to the new instances. Then start the server pointed at the new database.
+
+Should you end up with a lost database for some reason or want to reattach a detached instance you can reattach an existing folder by creating an empty file named `TGS4_ALLOW_INSTANCE_ATTACH` inside it (This is automatically created when detaching instances). Then create a new instance with that path, this will bypass the empty folder check. Note that this will not restore things such as user permissions, server config options, or deployment metadata. Those must be reconfigured manually
+
 ## Troubleshooting
 
-Feel free to ask for help at the coderbus discord: https://discord.gg/Vh8TJp9. Cyberboss#8246 can answer most questions.
+Feel free to ask for help at the coderbus discord in #tooling-questions: https://discord.gg/Vh8TJp9. Cyberboss#8246 can answer most questions.
 
 ## Contributing
 
@@ -346,4 +363,4 @@ Feel free to ask for help at the coderbus discord: https://discord.gg/Vh8TJp9. C
 * The /tg/station 13 icon is licensed under [Creative Commons 3.0 BY-SA](http://creativecommons.org/licenses/by-sa/3.0/).
 * The remainder of the project is licensed under [GNU AGPL v3](http://www.gnu.org/licenses/agpl-3.0.html)
 
-See the files in the /src/DMAPI tree for the MIT license
+See the files in the `/src/DMAPI` tree for the MIT license
