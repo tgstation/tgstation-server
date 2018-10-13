@@ -21,7 +21,11 @@ namespace Tgstation.Server.Client
 		public Uri Url { get; }
 
 		/// <inheritdoc />
-		public ApiHeaders Headers { get; }
+		public ApiHeaders Headers
+		{
+			get => headers;
+			set => headers = value ?? throw new InvalidOperationException("Cannot set null headers!");
+		}
 
 		/// <inheritdoc />
 		public TimeSpan Timeout
@@ -41,6 +45,11 @@ namespace Tgstation.Server.Client
 		readonly List<IRequestLogger> requestLoggers;
 
 		/// <summary>
+		/// Backing field for <see cref="Headers"/>
+		/// </summary>
+		ApiHeaders headers;
+
+		/// <summary>
 		/// Construct an <see cref="ApiClient"/>
 		/// </summary>
 		/// <param name="httpClient">The value of <see cref="httpClient"/></param>
@@ -50,7 +59,7 @@ namespace Tgstation.Server.Client
 		{
 			this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
 			Url = url ?? throw new ArgumentNullException(nameof(url));
-			Headers = apiHeaders ?? throw new ArgumentNullException(nameof(apiHeaders));
+			headers = apiHeaders ?? throw new ArgumentNullException(nameof(apiHeaders));
 			
 			requestLoggers = new List<IRequestLogger>();
 		}
@@ -89,7 +98,7 @@ namespace Tgstation.Server.Client
 			if (body != null)
 				message.Content = new StringContent(JsonConvert.SerializeObject(body, serializerSettings), Encoding.UTF8, ApiHeaders.ApplicationJson);
 
-			Headers.SetRequestHeaders(message.Headers, instanceId);
+			headers.SetRequestHeaders(message.Headers, instanceId);
 
 			await Task.WhenAll(requestLoggers.Select(x => x.LogRequest(message, cancellationToken))).ConfigureAwait(false);
 

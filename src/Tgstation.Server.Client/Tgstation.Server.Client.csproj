@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <DebugType>Full</DebugType>
-    <Version>4.0.1</Version>
+    <Version>4.0.2</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Cyberboss</Authors>
     <Company>/tg/station 13</Company>
@@ -16,7 +16,7 @@
     <PackageIconUrl>https://raw.githubusercontent.com/tgstation/tgstation-server/master/build/tgs.ico</PackageIconUrl>
     <PackageLicenseUrl>https://github.com/tgstation/tgstation-server/blob/master/LICENSE</PackageLicenseUrl>
     <PackageTags>json web api tgstation-server tgstation ss13 byond client</PackageTags>
-    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+    <PackageReleaseNotes>Added the ability to change the Token of IServerClient</PackageReleaseNotes>
     <Copyright>2018</Copyright>
   </PropertyGroup>
 

@@ -13,7 +13,15 @@ namespace Tgstation.Server.Client
 		public Uri Url => apiClient.Url;
 
 		/// <inheritdoc />
-		public Token Token { get; }
+		public Token Token
+		{
+			get => token;
+			set
+			{
+				token = value ?? throw new InvalidOperationException("Cannot set a null Token!");
+				apiClient.Headers = new ApiHeaders(apiClient.Headers.UserAgent, token.Bearer);
+			}
+		}
 
 		/// <inheritdoc />
 		public TimeSpan Timeout
@@ -37,6 +45,11 @@ namespace Tgstation.Server.Client
 		readonly IApiClient apiClient;
 
 		/// <summary>
+		/// Backing field for <see cref="Token"/>
+		/// </summary>
+		Token token;
+
+		/// <summary>
 		/// Construct a <see cref="ServerClient"/>
 		/// </summary>
 		/// <param name="apiClient">The value of <see cref="apiClient"/></param>
@@ -44,7 +57,7 @@ namespace Tgstation.Server.Client
 		public ServerClient(IApiClient apiClient, Token token)
 		{
 			this.apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
-			Token = token ?? throw new ArgumentNullException(nameof(token));
+			this.token = token ?? throw new ArgumentNullException(nameof(token));
 
 			if (Token.Bearer != apiClient.Headers.Token)
 				throw new ArgumentOutOfRangeException(nameof(token), token, "Provided token does not match apiClient headers!");
