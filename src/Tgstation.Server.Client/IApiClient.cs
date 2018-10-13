@@ -10,7 +10,7 @@ namespace Tgstation.Server.Client
 	/// </summary>
 	interface IApiClient : IDisposable
 	{
-		ApiHeaders Headers { get; }
+		ApiHeaders Headers { get; set; }
 
 		Uri Url { get; }
 
