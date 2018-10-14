@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using MySql.Data.MySqlClient;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using System;
 using Tgstation.Server.Host.Configuration;
@@ -26,6 +27,12 @@ namespace Tgstation.Server.Host.Models
 		protected override void OnConfiguring(DbContextOptionsBuilder options)
 		{
 			base.OnConfiguring(options);
+			var stringDeconstructor = new MySqlConnectionStringBuilder
+			{
+				ConnectionString = DatabaseConfiguration.ConnectionString
+			};
+			if (stringDeconstructor.Server == "localhost")
+				Logger.LogWarning("MariaDB/MySQL server address is set to 'localhost'! If there are connection issues, try setting it to '127.0.0.1'!");
 			if (!String.IsNullOrEmpty(DatabaseConfiguration.MySqlServerVersion))
 				options.UseMySql(DatabaseConfiguration.ConnectionString, mySqlOptions => mySqlOptions.ServerVersion(Version.Parse(DatabaseConfiguration.MySqlServerVersion), DatabaseConfiguration.DatabaseType == DatabaseType.MariaDB ? ServerType.MariaDb : ServerType.MySql));
 			else
