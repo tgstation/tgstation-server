@@ -52,6 +52,10 @@ namespace TGS.Server
 		/// </summary>
 		const string PublicKeyPath = RepoKeyDir + "public_key.txt";
 		/// <summary>
+		/// The path to the GitHub token file
+		/// </summary>
+		const string GitHubTokenPath = RepoKeyDir + "GitHubToken.txt";
+		/// <summary>
 		/// File name for monitoring which github pull requests are currently test merged
 		/// </summary>
 		const string PRJobFile = "prtestjob.json";
@@ -1001,12 +1005,14 @@ namespace TGS.Server
 					if (Result == null)
 					{
 						WriteInfo(String.Format("Merged pull request #{0}", PRNumber), EventID.RepoPRMerge);
+						var newPR = new Dictionary<string, string>();
+						newPR.Add("commit", atSHA ?? branch.Tip.Sha);
+						var PRNumberString = PRNumber.ToString();
+						IDictionary<string, IDictionary<string, string>> CurrentPRs = null;
 						try
 						{
-							var CurrentPRs = GetCurrentPRList();
-							var PRNumberString = PRNumber.ToString();
+							CurrentPRs = GetCurrentPRList();
 							CurrentPRs.Remove(PRNumberString);
-							var newPR = new Dictionary<string, string>();
 
 							//do some excellent remote fuckery here to get the api page
 							var prAPI = remoteUrl;
@@ -1019,21 +1025,34 @@ namespace TGS.Server
 							using (var wc = new WebClient())
 							{
 								wc.Headers.Add("user-agent", "TGS.Server");
+								var gitHubTokenFile = RelativePath(GitHubTokenPath);
+								if (File.Exists(gitHubTokenFile))
+									wc.Headers.Add("Authorization", "token " + File.ReadAllText(gitHubTokenFile).Trim());
 								json = wc.DownloadString(prAPI);
 							}
 
 							var dick = JsonConvert.DeserializeObject<IDictionary<string, object>>(json);
 							var user = ((JObject)dick["user"]).ToObject<IDictionary<string, object>>();
 
-							newPR.Add("commit", atSHA ?? branch.Tip.Sha);
 							newPR.Add("author", (string)user["login"]);
 							newPR.Add("title", (string)dick["title"]);
+						}
+						catch (Exception)
+						{
+							WriteError("Failed to get PR metadata for #" + PRNumberString, EventID.RepoPRListError);
+
+							newPR.Add("author", "UNKNOWN");
+							newPR.Add("title", "UNKNOWN");
+						}
+
+						try
+						{
 							CurrentPRs.Add(PRNumberString, newPR);
 							SetCurrentPRList(CurrentPRs);
 						}
 						catch (Exception e)
 						{
-							WriteError("Failed to update PR list", EventID.RepoPRListError);
+							WriteError("Failed to write PR metadata for #" + PRNumberString, EventID.RepoPRListError);
 							return "PR Merged, JSON update failed: " + e.ToString();
 						}
 
