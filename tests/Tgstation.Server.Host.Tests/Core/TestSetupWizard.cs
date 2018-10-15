@@ -22,19 +22,21 @@ namespace Tgstation.Server.Host.Core.Tests
 		[TestMethod]
 		public void TestConstructionThrows()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(null, null, null, null, null, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(null, null, null, null, null, null, null, null));
 			var mockIOManager = new Mock<IIOManager>();
-			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, null, null, null, null, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, null, null, null, null, null, null, null));
 			var mockConsole = new Mock<IConsole>();
-			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, null, null, null, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, null, null, null, null, null, null));
 			var mockHostingEnvironment = new Mock<IHostingEnvironment>();
-			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, null, null, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, null, null, null, null, null));
 			var mockApplication = new Mock<IApplication>();
-			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, mockApplication.Object, null, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, mockApplication.Object, null, null, null, null));
 			var mockDBConnectionFactory = new Mock<IDBConnectionFactory>();
-			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, mockApplication.Object, mockDBConnectionFactory.Object, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, mockApplication.Object, mockDBConnectionFactory.Object, null, null, null));
+			var mockPlatformIdentifier = new Mock<IPlatformIdentifier>();
+			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, mockApplication.Object, mockDBConnectionFactory.Object, mockPlatformIdentifier.Object, null, null));
 			var mockLogger = new Mock<ILogger<SetupWizard>>();
-			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, mockApplication.Object, mockDBConnectionFactory.Object, mockLogger.Object, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, mockApplication.Object, mockDBConnectionFactory.Object, mockPlatformIdentifier.Object, mockLogger.Object, null));
 		}
 		
 		[TestMethod]
@@ -47,6 +49,7 @@ namespace Tgstation.Server.Host.Core.Tests
 			var mockDBConnectionFactory = new Mock<IDBConnectionFactory>();
 			var mockLogger = new Mock<ILogger<SetupWizard>>();
 			var mockGeneralConfigurationOptions = new Mock<IOptions<GeneralConfiguration>>();
+			var mockPlatformIdentifier = new Mock<IPlatformIdentifier>();
 
 			var testGeneralConfig = new GeneralConfiguration
 			{
@@ -54,7 +57,9 @@ namespace Tgstation.Server.Host.Core.Tests
 			};
 			mockGeneralConfigurationOptions.SetupGet(x => x.Value).Returns(testGeneralConfig).Verifiable();
 
-			var wizard = new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, mockApplication.Object, mockDBConnectionFactory.Object, mockLogger.Object, mockGeneralConfigurationOptions.Object);
+			var wizard = new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, mockApplication.Object, mockDBConnectionFactory.Object, mockPlatformIdentifier.Object, mockLogger.Object, mockGeneralConfigurationOptions.Object);
+
+			mockPlatformIdentifier.SetupGet(x => x.IsWindows).Returns(true).Verifiable();
 
 			Assert.IsFalse(await wizard.CheckRunWizard(default).ConfigureAwait(false));
 
@@ -116,18 +121,8 @@ namespace Tgstation.Server.Host.Core.Tests
 				"this isn't validated",
 				"nor is this",
 				"no",
-			};
-			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 				//test winauth
-				finalInputSequence.Add("yes");
-			else
-				finalInputSequence.AddRange(new List<string>
-				{
-					"username",
-					"password"
-				});
-			finalInputSequence.AddRange(new List<string>
-			{
+				"yes",
 				//sql server will always fail so reconfigure with maria
 				nameof(DatabaseType.MariaDB),
 				"bleh",
@@ -183,7 +178,7 @@ namespace Tgstation.Server.Host.Core.Tests
 				"fake",
 				"None",
 				"Critical"
-			});
+			};
 
 			var inputPos = 0;
 
@@ -234,6 +229,7 @@ namespace Tgstation.Server.Host.Core.Tests
 			mockUglyDbConnection.VerifyAll();
 			mockDBConnectionFactory.VerifyAll();
 			mockApplication.VerifyAll();
+			mockPlatformIdentifier.VerifyAll();
 		}
 	}
 }

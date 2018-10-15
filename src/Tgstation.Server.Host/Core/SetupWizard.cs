@@ -46,6 +46,11 @@ namespace Tgstation.Server.Host.Core
 		readonly IDBConnectionFactory dbConnectionFactory;
 
 		/// <summary>
+		/// The <see cref="IPlatformIdentifier"/> for the <see cref="SetupWizard"/>
+		/// </summary>
+		readonly IPlatformIdentifier platformIdentifier;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="SetupWizard"/>
 		/// </summary>
 		readonly ILogger<SetupWizard> logger;
@@ -63,15 +68,17 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="hostingEnvironment">The value of <see cref="hostingEnvironment"/></param>
 		/// <param name="application">The value of <see cref="application"/></param>
 		/// <param name="dbConnectionFactory">The value of <see cref="dbConnectionFactory"/></param>
+		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/></param>
-		public SetupWizard(IIOManager ioManager, IConsole console, IHostingEnvironment hostingEnvironment, IApplication application, IDBConnectionFactory dbConnectionFactory, ILogger<SetupWizard> logger, IOptions<GeneralConfiguration> generalConfigurationOptions)
+		public SetupWizard(IIOManager ioManager, IConsole console, IHostingEnvironment hostingEnvironment, IApplication application, IDBConnectionFactory dbConnectionFactory, IPlatformIdentifier platformIdentifier, ILogger<SetupWizard> logger, IOptions<GeneralConfiguration> generalConfigurationOptions)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.console = console ?? throw new ArgumentNullException(nameof(console));
 			this.hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
 			this.application = application ?? throw new ArgumentNullException(nameof(application));
 			this.dbConnectionFactory = dbConnectionFactory ?? throw new ArgumentNullException(nameof(dbConnectionFactory));
+			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
@@ -170,7 +177,7 @@ namespace Tgstation.Server.Host.Core
 				var dbExists = await PromptYesNo("Does this database already exist? (y/n): ", cancellationToken).ConfigureAwait(false);
 
 				bool useWinAuth;
-				if (databaseConfiguration.DatabaseType == DatabaseType.SqlServer && RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+				if (databaseConfiguration.DatabaseType == DatabaseType.SqlServer && platformIdentifier.IsWindows)
 					useWinAuth = await PromptYesNo("Use Windows Authentication? (y/n): ", cancellationToken).ConfigureAwait(false);
 				else
 					useWinAuth = false;
