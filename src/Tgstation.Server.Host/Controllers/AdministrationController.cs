@@ -130,7 +130,7 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					LatestVersion = greatestVersion,
 					TrackedRepositoryUrl = repoUrl,
-					WindowsHost = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+					WindowsHost = platformIdentifier.IsWindows
 				});
 			}
 			catch (RateLimitExceededException e)
