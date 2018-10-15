@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Security
@@ -9,6 +10,11 @@ namespace Tgstation.Server.Host.Security
 	/// <inheritdoc />
 	sealed class IdentityCache : IIdentityCache, IDisposable
 	{
+		/// <summary>
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="IdentityCache"/>
+		/// </summary>
+		readonly IAsyncDelayer asyncDelayer;
+
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="IdentityCache"/>
 		/// </summary>
@@ -22,8 +28,11 @@ namespace Tgstation.Server.Host.Security
 		/// <summary>
 		/// Construct an <see cref="IdentityCache"/>
 		/// </summary>
-		public IdentityCache(ILogger<IdentityCache> logger)
+		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
+		/// <param name="logger">The value of <see cref="logger"/></param>
+		public IdentityCache(IAsyncDelayer asyncDelayer, ILogger<IdentityCache> logger)
 		{
+			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			cachedIdentities = new Dictionary<long, IdentityCacheObject>();
@@ -54,7 +63,7 @@ namespace Tgstation.Server.Host.Security
 					logger.LogTrace("Expiring previously cached identity...");
 					identCache.Dispose();   //also clears it out
 				}
-				identCache = new IdentityCacheObject(systemIdentity.Clone(), () =>
+				identCache = new IdentityCacheObject(systemIdentity.Clone(), asyncDelayer, () =>
 				{
 					logger.LogDebug("Expiring system identity cache for user {1}", uid, user.Id);
 					lock (cachedIdentities)

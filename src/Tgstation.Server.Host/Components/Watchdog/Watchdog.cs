@@ -61,11 +61,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IDmbFactory dmbFactory;
 
 		/// <summary>
-		/// The <see cref="ILogger{TCategoryName}"/> for the <see cref="Watchdog"/>
-		/// </summary>
-		readonly ILogger<Watchdog> logger;
-
-		/// <summary>
 		/// The <see cref="IReattachInfoHandler"/> for the <see cref="Watchdog"/>
 		/// </summary>
 		readonly IReattachInfoHandler reattachInfoHandler;
@@ -94,6 +89,16 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// The <see cref="IRestartRegistration"/> for the <see cref="Watchdog"/>
 		/// </summary>
 		readonly IRestartRegistration restartRegistration;
+
+		/// <summary>
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="Watchdog"/>
+		/// </summary>
+		readonly IAsyncDelayer asyncDelayer;
+
+		/// <summary>
+		/// The <see cref="ILogger{TCategoryName}"/> for the <see cref="Watchdog"/>
+		/// </summary>
+		readonly ILogger<Watchdog> logger;
 
 		/// <summary>
 		/// The <see cref="SemaphoreSlim"/> for the <see cref="Watchdog"/>
@@ -145,27 +150,29 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="chat">The value of <see cref="chat"/></param>
 		/// <param name="sessionControllerFactory">The value of <see cref="sessionControllerFactory"/></param>
 		/// <param name="dmbFactory">The value of <see cref="dmbFactory"/></param>
-		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="reattachInfoHandler">The value of <see cref="reattachInfoHandler"/></param>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="byondTopicSender">The value of <see cref="byondTopicSender"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> to populate <see cref="restartRegistration"/> with</param>
+		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
+		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="initialLaunchParameters">The initial value of <see cref="ActiveLaunchParameters"/>. May be modified</param>
 		/// <param name="instance">The value of <see cref="instance"/></param>
 		/// <param name="autoStart">The value of <see cref="autoStart"/></param>
-		public Watchdog(IChat chat, ISessionControllerFactory sessionControllerFactory, IDmbFactory dmbFactory, ILogger<Watchdog> logger, IReattachInfoHandler reattachInfoHandler, IDatabaseContextFactory databaseContextFactory, IByondTopicSender byondTopicSender, IEventConsumer eventConsumer, IJobManager jobManager, IServerControl serverControl, DreamDaemonLaunchParameters initialLaunchParameters, Api.Models.Instance instance, bool autoStart)
+		public Watchdog(IChat chat, ISessionControllerFactory sessionControllerFactory, IDmbFactory dmbFactory, IReattachInfoHandler reattachInfoHandler, IDatabaseContextFactory databaseContextFactory, IByondTopicSender byondTopicSender, IEventConsumer eventConsumer, IJobManager jobManager, IServerControl serverControl, IAsyncDelayer asyncDelayer, ILogger<Watchdog> logger, DreamDaemonLaunchParameters initialLaunchParameters, Api.Models.Instance instance, bool autoStart)
 		{
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.sessionControllerFactory = sessionControllerFactory ?? throw new ArgumentNullException(nameof(sessionControllerFactory));
 			this.dmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
-			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.reattachInfoHandler = reattachInfoHandler ?? throw new ArgumentNullException(nameof(reattachInfoHandler));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
+			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			ActiveLaunchParameters = initialLaunchParameters ?? throw new ArgumentNullException(nameof(initialLaunchParameters));
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 			this.autoStart = autoStart;
@@ -635,7 +642,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 									logger.LogWarning("Failed to automatically restart the watchdog! Attempt: {0}, Exception: {1}", retryAttempts, launchException);
 								var retryDelay = Math.Min(Math.Pow(2, retryAttempts), 3600); //max of one hour, increasing by a power of 2 each time
 								chatTask = chat.SendWatchdogMessage(String.Format(CultureInfo.InvariantCulture, "Failed to restart watchdog (Attempt: {0}), retrying in {1} seconds...", retryAttempts, retryDelay), cancellationToken);
-								await Task.WhenAll(Task.Delay((int)retryDelay, cancellationToken), chatTask).ConfigureAwait(false);
+								await Task.WhenAll(asyncDelayer.Delay(TimeSpan.FromSeconds(retryDelay), cancellationToken), chatTask).ConfigureAwait(false);
 							}
 						}
 					}
@@ -751,7 +758,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 					//definitely not if reattaching though
 					if (reattachInfo == null && delay.TotalSeconds < AlphaBravoStartupSeperationInterval)
-						await Task.Delay(startTime.AddSeconds(AlphaBravoStartupSeperationInterval) - now, cancellationToken).ConfigureAwait(false);
+						await asyncDelayer.Delay(startTime.AddSeconds(AlphaBravoStartupSeperationInterval) - now, cancellationToken).ConfigureAwait(false);
 
 					//now bring bravo up
 					if (!doesntNeedNewDmb)

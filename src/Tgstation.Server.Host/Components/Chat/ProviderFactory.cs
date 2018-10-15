@@ -12,23 +12,30 @@ namespace Tgstation.Server.Host.Components.Chat
 	sealed class ProviderFactory : IProviderFactory
 	{
 		/// <summary>
-		/// The <see cref="ILoggerFactory"/> for the <see cref="ProviderFactory"/>
-		/// </summary>
-		readonly ILoggerFactory loggerFactory;
-
-		/// <summary>
 		/// The <see cref="IApplication"/> for the <see cref="ProviderFactory"/>
 		/// </summary>
 		readonly IApplication application;
 
 		/// <summary>
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="ProviderFactory"/>
+		/// </summary>
+		readonly IAsyncDelayer asyncDelayer;
+
+		/// <summary>
+		/// The <see cref="ILoggerFactory"/> for the <see cref="ProviderFactory"/>
+		/// </summary>
+		readonly ILoggerFactory loggerFactory;
+
+		/// <summary>
 		/// Construct a <see cref="ProviderFactory"/>
 		/// </summary>
-		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
 		/// <param name="application">The value of <see cref="application"/></param>
-		public ProviderFactory(ILoggerFactory loggerFactory, IApplication application)
+		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
+		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
+		public ProviderFactory(IApplication application, IAsyncDelayer asyncDelayer, ILoggerFactory loggerFactory)
 		{
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
+			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.application = application ?? throw new ArgumentNullException(nameof(application));
 		}
 
@@ -44,7 +51,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			{
 				case ChatProvider.Irc:
 					var ircBuilder = (IrcConnectionStringBuilder)builder;
-					return new IrcProvider(loggerFactory.CreateLogger<IrcProvider>(), application, ircBuilder.Address, ircBuilder.Port.Value, ircBuilder.Nickname, ircBuilder.Password, ircBuilder.PasswordType, ircBuilder.UseSsl.Value);
+					return new IrcProvider(application, asyncDelayer, loggerFactory.CreateLogger<IrcProvider>(), ircBuilder.Address, ircBuilder.Port.Value, ircBuilder.Nickname, ircBuilder.Password, ircBuilder.PasswordType, ircBuilder.UseSsl.Value);
 				case ChatProvider.Discord:
 					var discordBuilder = (DiscordConnectionStringBuilder)builder;
 					return new DiscordProvider(loggerFactory.CreateLogger<DiscordProvider>(), discordBuilder.BotToken);

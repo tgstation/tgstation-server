@@ -37,6 +37,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IJobManager jobManager;
 
 		/// <summary>
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogFactory"/>
+		/// </summary>
+		readonly IAsyncDelayer asyncDelayer;
+
+		/// <summary>
 		/// Construct a <see cref="WatchdogFactory"/>
 		/// </summary>
 		/// <param name="serverControl">The value of <see cref="serverControl"/></param>
@@ -44,16 +49,18 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="byondTopicSender">The value of <see cref="byondTopicSender"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
-		public WatchdogFactory(IServerControl serverControl, ILoggerFactory loggerFactory, IDatabaseContextFactory databaseContextFactory, IByondTopicSender byondTopicSender, IJobManager jobManager)
+		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
+		public WatchdogFactory(IServerControl serverControl, ILoggerFactory loggerFactory, IDatabaseContextFactory databaseContextFactory, IByondTopicSender byondTopicSender, IJobManager jobManager, IAsyncDelayer asyncDelayer)
 		{
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
+			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 		}
 
 		/// <inheritdoc />
-		public IWatchdog CreateWatchdog(IChat chat, IDmbFactory dmbFactory, IReattachInfoHandler reattachInfoHandler, IEventConsumer eventConsumer, ISessionControllerFactory sessionControllerFactory, Api.Models.Instance instance, DreamDaemonSettings settings) => new Watchdog(chat, sessionControllerFactory, dmbFactory, loggerFactory.CreateLogger<Watchdog>(), reattachInfoHandler, databaseContextFactory, byondTopicSender, eventConsumer, jobManager, serverControl, settings, instance, settings.AutoStart.Value);
+		public IWatchdog CreateWatchdog(IChat chat, IDmbFactory dmbFactory, IReattachInfoHandler reattachInfoHandler, IEventConsumer eventConsumer, ISessionControllerFactory sessionControllerFactory, Api.Models.Instance instance, DreamDaemonSettings settings) => new Watchdog(chat, sessionControllerFactory, dmbFactory, reattachInfoHandler, databaseContextFactory, byondTopicSender, eventConsumer, jobManager, serverControl, asyncDelayer, loggerFactory.CreateLogger<Watchdog>(), settings, instance, settings.AutoStart.Value);
 	}
 }

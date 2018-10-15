@@ -26,6 +26,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		const int RecheckDelayMs = 250;
 
 		/// <summary>
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="WindowsNetworkPromptReaper"/>
+		/// </summary>
+		readonly IAsyncDelayer asyncDelayer;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="WindowsNetworkPromptReaper"/>
 		/// </summary>
 		readonly ILogger<WindowsNetworkPromptReaper> logger;
@@ -78,9 +83,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// Construct a <see cref="WindowsNetworkPromptReaper"/>
 		/// </summary>
+		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public WindowsNetworkPromptReaper(ILogger<WindowsNetworkPromptReaper> logger)
+		public WindowsNetworkPromptReaper(IAsyncDelayer asyncDelayer, ILogger<WindowsNetworkPromptReaper> logger)
 		{
+			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			registeredProcesses = new List<IProcess>();
@@ -97,7 +104,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			{
 				while (!cancellationToken.IsCancellationRequested)
 				{
-					await Task.Delay(TimeSpan.FromMilliseconds(RecheckDelayMs), cancellationToken).ConfigureAwait(false);
+					await asyncDelayer.Delay(TimeSpan.FromMilliseconds(RecheckDelayMs), cancellationToken).ConfigureAwait(false);
 
 					IntPtr window;
 					int processId;

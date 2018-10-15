@@ -38,8 +38,6 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			{ EventType.RepoPreSynchronize, "PreSynchronize" }
 		};
 
-		static readonly string SystemScriptFileExtension = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "bat" : "sh";
-
 		/// <summary>
 		/// The <see cref="IIOManager"/> for <see cref="Configuration"/>
 		/// </summary>
@@ -66,6 +64,11 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		readonly IPostWriteHandler postWriteHandler;
 
 		/// <summary>
+		/// The <see cref="IPlatformIdentifier"/> for <see cref="Configuration"/>
+		/// </summary>
+		readonly IPlatformIdentifier platformIdentifier;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for <see cref="Configuration"/>
 		/// </summary>
 		readonly ILogger<Configuration> logger;
@@ -83,14 +86,16 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/></param>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
 		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/></param>
+		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public Configuration(IIOManager ioManager, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory, IProcessExecutor processExecutor, IPostWriteHandler postWriteHandler, ILogger<Configuration> logger)
+		public Configuration(IIOManager ioManager, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory, IProcessExecutor processExecutor, IPostWriteHandler postWriteHandler, IPlatformIdentifier platformIdentifier, ILogger<Configuration> logger)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.synchronousIOManager = synchronousIOManager ?? throw new ArgumentNullException(nameof(synchronousIOManager));
 			this.symlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			this.postWriteHandler = postWriteHandler ?? throw new ArgumentNullException(nameof(postWriteHandler));
+			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			semaphore = new SemaphoreSlim(1);
@@ -312,7 +317,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					var fileName = ioManager.GetFileName(x);
 
 					bool ignored;
-					if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+					if (platformIdentifier.IsWindows)
 						//need to normalize
 						ignored = ignoreFiles.Any(y => fileName.ToUpperInvariant() == y.ToUpperInvariant());
 					else
@@ -438,7 +443,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			//always execute in serial
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 			{
-				var files = await ioManager.GetFilesWithExtension(EventScriptsSubdirectory, SystemScriptFileExtension, cancellationToken).ConfigureAwait(false);
+				var files = await ioManager.GetFilesWithExtension(EventScriptsSubdirectory, platformIdentifier.ScriptFileExtension, cancellationToken).ConfigureAwait(false);
 				var resolvedScriptsDir = ioManager.ResolvePath(EventScriptsSubdirectory);
 
 				foreach (var I in files.Select(x => ioManager.GetFileName(x)).Where(x => x.StartsWith(scriptName, StringComparison.Ordinal)))

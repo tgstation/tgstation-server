@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host.Security
 {
@@ -16,20 +17,37 @@ namespace Tgstation.Server.Host.Security
 		/// <summary>
 		/// Amount of minutes until generated <see cref="Token"/>s expire
 		/// </summary>
-		const int TokenExpiryMinutes = 15;
+		const uint TokenExpiryMinutes = 15;
+
+		/// <summary>
+		/// Amount of minutes to skew the clock for <see cref="Token"/> validation
+		/// </summary>
+		const uint TokenClockSkewMinutes = 1;
+
+		/// <summary>
+		/// Amount of bytes to use in the <see cref="TokenValidationParameters.IssuerSigningKey"/>
+		/// </summary>
+		const uint TokenSigningKeyByteAmount = 256;
 
 		/// <inheritdoc />
 		public TokenValidationParameters ValidationParameters { get; }
 
 		/// <summary>
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="TokenFactory"/>
+		/// </summary>
+		readonly IAsyncDelayer asyncDelayer;
+
+		/// <summary>
 		/// Construct a <see cref="TokenFactory"/>
 		/// </summary>
-		public TokenFactory()
+		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
+		/// <param name="cryptographySuite">The <see cref="ICryptographySuite"/> used for generating the <see cref="ValidationParameters"/></param>
+		public TokenFactory(IAsyncDelayer asyncDelayer, ICryptographySuite cryptographySuite)
 		{
 			ValidationParameters = new TokenValidationParameters
 			{
 				ValidateIssuerSigningKey = true,
-				IssuerSigningKey = new SymmetricSecurityKey(CryptographySuite.GetSecureBytes(256)),
+				IssuerSigningKey = new SymmetricSecurityKey(cryptographySuite.GetSecureBytes(TokenSigningKeyByteAmount)),
 
 				ValidateIssuer = true,
 				ValidIssuer = Assembly.GetExecutingAssembly().GetName().Name,
@@ -38,12 +56,14 @@ namespace Tgstation.Server.Host.Security
 				ValidateAudience = true,
 				ValidAudience = typeof(Token).Assembly.GetName().Name,
 
-				ClockSkew = TimeSpan.FromMinutes(1),
+				ClockSkew = TimeSpan.FromMinutes(TokenClockSkewMinutes),
 
 				RequireSignedTokens = true,
 
 				RequireExpirationTime = true
 			};
+
+			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 		}
 
 		/// <inheritdoc />
@@ -56,9 +76,13 @@ namespace Tgstation.Server.Host.Security
 
 			var nowUnix = now.ToUnixTimeSeconds();
 			//this prevents validation conflicts down the line
+			//tldr we can (theoretically) send a token the same second we receive it
+			//since unix time rounds down, it looks like it came from before the user changed their password
+			//this happens occasionally in unit tests
+			//just delay a second so we can force a round up
 			var lpuUnix = user.LastPasswordUpdate?.ToUnixTimeSeconds();
 			if (nowUnix == lpuUnix)
-				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false);
+				await asyncDelayer.Delay(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false);
 
 			var expiry = now.AddMinutes(TokenExpiryMinutes);
 			var claims = new Claim[]
