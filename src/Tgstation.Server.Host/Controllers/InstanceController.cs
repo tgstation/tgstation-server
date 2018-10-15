@@ -70,6 +70,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="application">The value of <see cref="application"/></param>
+		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
 		public InstanceController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager, IInstanceManager instanceManager, IIOManager ioManager, IApplication application, IPlatformIdentifier platformIdentifier, ILogger<InstanceController> logger) : base(databaseContext, authenticationContextFactory, logger, false)
 		{
