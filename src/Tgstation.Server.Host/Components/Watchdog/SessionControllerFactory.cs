@@ -64,6 +64,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly INetworkPromptReaper networkPromptReaper;
 
 		/// <summary>
+		/// The <see cref="IPlatformIdentifier"/> for the <see cref="SessionControllerFactory"/>
+		/// </summary>
+		readonly IPlatformIdentifier platformIdentifier;
+
+		/// <summary>
 		/// The <see cref="ILoggerFactory"/> for the <see cref="SessionControllerFactory"/>
 		/// </summary>
 		readonly ILoggerFactory loggerFactory;
@@ -105,8 +110,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="chat">The value of <see cref="chat"/></param>
 		/// <param name="networkPromptReaper">The value of <see cref="networkPromptReaper"/></param>
+		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
-		public SessionControllerFactory(IProcessExecutor processExecutor, IByondManager byond, IByondTopicSender byondTopicSender, ICryptographySuite cryptographySuite, IApplication application, IIOManager ioManager, IChat chat, INetworkPromptReaper networkPromptReaper, ILoggerFactory loggerFactory, Api.Models.Instance instance)
+		public SessionControllerFactory(IProcessExecutor processExecutor, IByondManager byond, IByondTopicSender byondTopicSender, ICryptographySuite cryptographySuite, IApplication application, IIOManager ioManager, IChat chat, INetworkPromptReaper networkPromptReaper, IPlatformIdentifier platformIdentifier, ILoggerFactory loggerFactory, Api.Models.Instance instance)
 		{
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
@@ -117,6 +123,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.networkPromptReaper = networkPromptReaper ?? throw new ArgumentNullException(nameof(networkPromptReaper));
+			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 		}
 
@@ -211,7 +218,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							parameters);
 
 						//See #719
-						var noShellExecute = !RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+						var noShellExecute = !platformIdentifier.IsWindows;
 						//launch dd
 						var process = processExecutor.LaunchProcess(byondLock.DreamDaemonPath, basePath, arguments, noShellExecute: noShellExecute);
 						try
