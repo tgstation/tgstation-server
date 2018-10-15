@@ -103,6 +103,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IDBConnectionFactory, DBConnectionFactory>();
 			services.AddSingleton<ISetupWizard, SetupWizard>();
 			services.AddSingleton<IPlatformIdentifier, PlatformIdentifier>();
+			services.AddSingleton<IAsyncDelayer, AsyncDelayer>();
 
 			//needed here for JWT configuration
 			//we use a manually instatiated token factory to prevent it from regenerating the signing key after we configure it
