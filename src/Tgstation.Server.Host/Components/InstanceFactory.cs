@@ -104,6 +104,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IGitHubClientFactory gitHubClientFactory;
 
 		/// <summary>
+		/// The <see cref="IPlatformIdentifier"/> for the <see cref="InstanceFactory"/>
+		/// </summary>
+		readonly IPlatformIdentifier platformIdentifier;
+
+		/// <summary>
 		/// Construct an <see cref="InstanceFactory"/>
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
@@ -123,7 +128,8 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="credentialsProvider">The value of <see cref="credentialsProvider"/></param>
 		/// <param name="networkPromptReaper">The value of <see cref="networkPromptReaper"/></param>
 		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/></param>
-		public InstanceFactory(IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, ILoggerFactory loggerFactory, IByondTopicSender byondTopicSender, ICryptographySuite cryptographySuite, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory, IByondInstaller byondInstaller, IChatFactory chatFactory, IProcessExecutor processExecutor, IPostWriteHandler postWriteHandler, IWatchdogFactory watchdogFactory, IJobManager jobManager, ICredentialsProvider credentialsProvider, INetworkPromptReaper networkPromptReaper, IGitHubClientFactory gitHubClientFactory)
+		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
+		public InstanceFactory(IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, ILoggerFactory loggerFactory, IByondTopicSender byondTopicSender, ICryptographySuite cryptographySuite, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory, IByondInstaller byondInstaller, IChatFactory chatFactory, IProcessExecutor processExecutor, IPostWriteHandler postWriteHandler, IWatchdogFactory watchdogFactory, IJobManager jobManager, ICredentialsProvider credentialsProvider, INetworkPromptReaper networkPromptReaper, IGitHubClientFactory gitHubClientFactory, IPlatformIdentifier platformIdentifier)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
@@ -142,6 +148,7 @@ namespace Tgstation.Server.Host.Components
 			this.credentialsProvider = credentialsProvider ?? throw new ArgumentNullException(nameof(credentialsProvider));
 			this.networkPromptReaper = networkPromptReaper ?? throw new ArgumentNullException(nameof(networkPromptReaper));
 			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
+			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 		}
 
 		/// <inheritdoc />
@@ -156,7 +163,7 @@ namespace Tgstation.Server.Host.Components
 			var gameIoManager = new ResolvingIOManager(instanceIoManager, "Game");
 			var configurationIoManager = new ResolvingIOManager(instanceIoManager, "Configuration");
 
-			var configuration = new StaticFiles.Configuration(configurationIoManager, synchronousIOManager, symlinkFactory, processExecutor, postWriteHandler, loggerFactory.CreateLogger<StaticFiles.Configuration>());
+			var configuration = new StaticFiles.Configuration(configurationIoManager, synchronousIOManager, symlinkFactory, processExecutor, postWriteHandler, platformIdentifier, loggerFactory.CreateLogger<StaticFiles.Configuration>());
 			var eventConsumer = new EventConsumer(configuration);
 
 			var dmbFactory = new DmbFactory(databaseContextFactory, gameIoManager, loggerFactory.CreateLogger<DmbFactory>(), metadata.CloneMetadata());
