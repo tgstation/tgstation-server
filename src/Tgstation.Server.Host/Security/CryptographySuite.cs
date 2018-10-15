@@ -9,18 +9,9 @@ namespace Tgstation.Server.Host.Security
 	sealed class CryptographySuite : ICryptographySuite
 	{
 		/// <summary>
-		/// Generates a secure set of <see cref="byte"/>s
+		/// Length in <see cref="byte"/>s of generated base64 secure string
 		/// </summary>
-		/// <returns>A secure set of <see cref="byte"/>s</returns>
-		public static byte[] GetSecureBytes(int amount)
-		{
-			using (var rng = new RNGCryptoServiceProvider())
-			{
-				var byt = new byte[amount];
-				rng.GetBytes(byt);
-				return byt;
-			}
-		}
+		const uint SecureStringLength = 30;
 
 		/// <summary>
 		/// The <see cref="IPasswordHasher{TUser}"/> for the <see cref="CryptographySuite"/>
@@ -31,14 +22,28 @@ namespace Tgstation.Server.Host.Security
 		/// Construct a <see cref="CryptographySuite"/>
 		/// </summary>
 		/// <param name="passwordHasher">The value of <see cref="passwordHasher"/></param>
-		public CryptographySuite(IPasswordHasher<User> passwordHasher) => this.passwordHasher = passwordHasher ?? throw new ArgumentNullException(nameof(passwordHasher));
+		public CryptographySuite(IPasswordHasher<User> passwordHasher)
+		{
+			this.passwordHasher = passwordHasher ?? throw new ArgumentNullException(nameof(passwordHasher));
+		}
+
+		/// <inheritdoc />
+		public byte[] GetSecureBytes(uint amount)
+		{
+			using (var rng = new RNGCryptoServiceProvider())
+			{
+				var byt = new byte[amount];
+				rng.GetBytes(byt);
+				return byt;
+			}
+		}
 
 		/// <inheritdoc />
 		public void SetUserPassword(User user, string newPassword, bool newUser)
 		{
 			if (user == null)
 				throw new ArgumentNullException(nameof(user));
-			if (String.IsNullOrEmpty(newPassword))
+			if (newPassword == null)
 				throw new ArgumentNullException(nameof(newPassword));
 			user.PasswordHash = passwordHasher.HashPassword(user, newPassword);
 			if (!newUser)
@@ -53,14 +58,13 @@ namespace Tgstation.Server.Host.Security
 				case PasswordVerificationResult.Failed:
 					return false;
 				case PasswordVerificationResult.SuccessRehashNeeded:
-					user.PasswordHash = passwordHasher.HashPassword(user, password);
-					//don't update LastPasswordUpdate since it hasn't actually changed
+					SetUserPassword(user, password, false);
 					break;
 			}
 			return true;
 		}
 
 		/// <inheritdoc />
-		public string GetSecureString() => Convert.ToBase64String(GetSecureBytes(30));
+		public string GetSecureString() => Convert.ToBase64String(GetSecureBytes(SecureStringLength));
 	}
 }

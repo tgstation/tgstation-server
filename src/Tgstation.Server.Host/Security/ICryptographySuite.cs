@@ -8,6 +8,13 @@ namespace Tgstation.Server.Host.Security
 	public interface ICryptographySuite
 	{
 		/// <summary>
+		/// Generates a secure set of <see cref="byte"/>s
+		/// </summary>
+		/// <param name="amount">The amount of <see cref="byte"/>s to generate</param>
+		/// <returns>A secure set of <see cref="byte"/>s</returns>
+		byte[] GetSecureBytes(uint amount);
+
+		/// <summary>
 		/// Sets a <see cref="User.PasswordHash"/> for a given <paramref name="user"/>
 		/// </summary>
 		/// <param name="user">The <see cref="User"/> whos <see cref="User.PasswordHash"/> is to be set</param>

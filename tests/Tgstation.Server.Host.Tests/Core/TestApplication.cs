@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -11,6 +10,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Core.Tests
 {
@@ -32,13 +32,16 @@ namespace Tgstation.Server.Host.Core.Tests
 			var app = new Application(mockConfiguration.Object, mockHostingEnvironment.Object);
 
 			Assert.ThrowsException<ArgumentNullException>(() => app.ConfigureServices(null));
-			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(null, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(null, null, null, null));
 
 			var mockAppBuilder = new Mock<IApplicationBuilder>();
-			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(mockAppBuilder.Object, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(mockAppBuilder.Object, null, null, null));
 
-			var mockLogger = new Mock<ILogger<Application>>();
-			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(mockAppBuilder.Object, mockLogger.Object, null));
+			var mockServerControl = new Mock<IServerControl>();
+			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(mockAppBuilder.Object, mockServerControl.Object, null, null));
+
+			var mockTokenFactory = new Mock<ITokenFactory>();
+			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(mockAppBuilder.Object, mockServerControl.Object, mockTokenFactory.Object, null));
 		}
 
 		class MockSetupWizard : ISetupWizard

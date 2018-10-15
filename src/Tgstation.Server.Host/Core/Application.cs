@@ -61,6 +61,11 @@ namespace Tgstation.Server.Host.Core
 		readonly TaskCompletionSource<object> startupTcs;
 
 		/// <summary>
+		/// The <see cref="ITokenFactory"/> for the <see cref="Application"/>
+		/// </summary>
+		ITokenFactory tokenFactory;
+
+		/// <summary>
 		/// Construct an <see cref="Application"/>
 		/// </summary>
 		/// <param name="configuration">The value of <see cref="configuration"/></param>
@@ -105,14 +110,9 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IPlatformIdentifier, PlatformIdentifier>();
 			services.AddSingleton<IAsyncDelayer, AsyncDelayer>();
 
-			//needed here for JWT configuration
-			//we use a manually instatiated token factory to prevent it from regenerating the signing key after we configure it
-			services.AddSingleton<ITokenFactory>(new TokenFactory());
-
 			GeneralConfiguration generalConfiguration;
 			DatabaseConfiguration databaseConfiguration;
 			FileLoggingConfiguration fileLoggingConfiguration;
-			ITokenFactory tokenFactory;
 			IIOManager ioManager;
 			IPlatformIdentifier platformIdentifier;
 
@@ -141,7 +141,6 @@ namespace Tgstation.Server.Host.Core
 				var loggingOptions = provider.GetRequiredService<IOptions<FileLoggingConfiguration>>();
 				fileLoggingConfiguration = loggingOptions.Value;
 
-				tokenFactory = provider.GetRequiredService<ITokenFactory>();
 				ioManager = provider.GetRequiredService<IIOManager>();
 				platformIdentifier = provider.GetRequiredService<IPlatformIdentifier>();
 			}
@@ -199,6 +198,8 @@ namespace Tgstation.Server.Host.Core
 			//configure bearer token validation
 			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(jwtBearerOptions =>
 			{
+				//this line isn't actually run until the first request is made
+				//at that point tokenFactory will be populated
 				jwtBearerOptions.TokenValidationParameters = tokenFactory.ValidationParameters;
 				jwtBearerOptions.Events = new JwtBearerEvents
 				{
@@ -255,6 +256,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddScoped<IClaimsInjector, ClaimsInjector>();
 			services.AddSingleton<IIdentityCache, IdentityCache>();
 			services.AddSingleton<ICryptographySuite, CryptographySuite>();
+			services.AddSingleton<ITokenFactory, TokenFactory>();
 			services.AddSingleton<IPasswordHasher<Models.User>, PasswordHasher<Models.User>>();
 
 			//configure platform specific services
@@ -307,16 +309,20 @@ namespace Tgstation.Server.Host.Core
 		/// Configure the <see cref="Application"/>
 		/// </summary>
 		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure</param>
+		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="Application"/></param>
+		/// <param name="tokenFactory">The value of <see cref="tokenFactory"/></param>
 		/// <param name="logger">The <see cref="Microsoft.Extensions.Logging.ILogger"/> for the <see cref="Application"/></param>
-		/// <param name="serverControl">The <see cref="IServerControl"/> for the application</param>
-		public void Configure(IApplicationBuilder applicationBuilder, ILogger<Application> logger, IServerControl serverControl)
+		public void Configure(IApplicationBuilder applicationBuilder, IServerControl serverControl, ITokenFactory tokenFactory, ILogger<Application> logger)
 		{
 			if (applicationBuilder == null)
 				throw new ArgumentNullException(nameof(applicationBuilder));
-			if (logger == null)
-				throw new ArgumentNullException(nameof(logger));
 			if (serverControl == null)
 				throw new ArgumentNullException(nameof(serverControl));
+
+			this.tokenFactory = tokenFactory ?? throw new ArgumentNullException(nameof(tokenFactory));
+
+			if (logger == null)
+				throw new ArgumentNullException(nameof(logger));
 
 			logger.LogInformation(VersionString);
 
