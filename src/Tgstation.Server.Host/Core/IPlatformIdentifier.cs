@@ -3,7 +3,7 @@
 	/// <summary>
 	/// For identifying the current platform
 	/// </summary>
-	interface IPlatformIdentifier
+	public interface IPlatformIdentifier
 	{
 		/// <summary>
 		/// If the current platform is a Windows platform
