@@ -10,7 +10,15 @@ namespace Tgstation.Server.Host.Core.Tests
 		public void TestCorrectPlatform()
 		{
 			var identifier = new PlatformIdentifier();
-			Assert.AreEqual(RuntimeInformation.IsOSPlatform(OSPlatform.Windows), identifier.IsWindows);
+
+			var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+			const string WindowsScriptExtension = "bat";
+			const string PosixScriptExtension = "sh";
+
+
+			Assert.AreEqual(isWindows, identifier.IsWindows);
+
+			Assert.AreEqual(isWindows ? WindowsScriptExtension : PosixScriptExtension, identifier.ScriptFileExtension);
 		}
 	}
 }
