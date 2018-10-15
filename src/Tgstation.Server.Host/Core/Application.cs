@@ -113,6 +113,7 @@ namespace Tgstation.Server.Host.Core
 			FileLoggingConfiguration fileLoggingConfiguration;
 			ITokenFactory tokenFactory;
 			IIOManager ioManager;
+			IPlatformIdentifier platformIdentifier;
 
 			//temporarily build the service provider in it's current state
 			//do it here so we can run the setup wizard if necessary
@@ -141,6 +142,7 @@ namespace Tgstation.Server.Host.Core
 
 				tokenFactory = provider.GetRequiredService<ITokenFactory>();
 				ioManager = provider.GetRequiredService<IIOManager>();
+				platformIdentifier = provider.GetRequiredService<IPlatformIdentifier>();
 			}
 
 			//setup file logging via serilog
@@ -255,7 +257,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IPasswordHasher<Models.User>, PasswordHasher<Models.User>>();
 
 			//configure platform specific services
-			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+			if (platformIdentifier.IsWindows)
 			{
 				services.AddSingleton<ISystemIdentityFactory, WindowsSystemIdentityFactory>();
 				services.AddSingleton<ISymlinkFactory, WindowsSymlinkFactory>();
