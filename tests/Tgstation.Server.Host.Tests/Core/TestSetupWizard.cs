@@ -22,21 +22,23 @@ namespace Tgstation.Server.Host.Core.Tests
 		[TestMethod]
 		public void TestConstructionThrows()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(null, null, null, null, null, null, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(null, null, null, null, null, null, null, null, null));
 			var mockIOManager = new Mock<IIOManager>();
-			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, null, null, null, null, null, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, null, null, null, null, null, null, null, null));
 			var mockConsole = new Mock<IConsole>();
-			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, null, null, null, null, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, null, null, null, null, null, null, null));
 			var mockHostingEnvironment = new Mock<IHostingEnvironment>();
-			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, null, null, null, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, null, null, null, null, null, null));
 			var mockApplication = new Mock<IApplication>();
-			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, mockApplication.Object, null, null, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, mockApplication.Object, null, null, null, null, null));
 			var mockDBConnectionFactory = new Mock<IDBConnectionFactory>();
-			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, mockApplication.Object, mockDBConnectionFactory.Object, null, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, mockApplication.Object, mockDBConnectionFactory.Object, null, null, null, null));
 			var mockPlatformIdentifier = new Mock<IPlatformIdentifier>();
-			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, mockApplication.Object, mockDBConnectionFactory.Object, mockPlatformIdentifier.Object, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, mockApplication.Object, mockDBConnectionFactory.Object, mockPlatformIdentifier.Object, null, null, null));
+			var mockAsyncDelayer = new Mock<IAsyncDelayer>();
+			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, mockApplication.Object, mockDBConnectionFactory.Object, mockPlatformIdentifier.Object, mockAsyncDelayer.Object, null, null));
 			var mockLogger = new Mock<ILogger<SetupWizard>>();
-			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, mockApplication.Object, mockDBConnectionFactory.Object, mockPlatformIdentifier.Object, mockLogger.Object, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, mockApplication.Object, mockDBConnectionFactory.Object, mockPlatformIdentifier.Object, mockAsyncDelayer.Object, mockLogger.Object, null));
 		}
 		
 		[TestMethod]
@@ -50,6 +52,7 @@ namespace Tgstation.Server.Host.Core.Tests
 			var mockLogger = new Mock<ILogger<SetupWizard>>();
 			var mockGeneralConfigurationOptions = new Mock<IOptions<GeneralConfiguration>>();
 			var mockPlatformIdentifier = new Mock<IPlatformIdentifier>();
+			var mockAsyncDelayer = new Mock<IAsyncDelayer>();
 
 			var testGeneralConfig = new GeneralConfiguration
 			{
@@ -57,9 +60,10 @@ namespace Tgstation.Server.Host.Core.Tests
 			};
 			mockGeneralConfigurationOptions.SetupGet(x => x.Value).Returns(testGeneralConfig).Verifiable();
 
-			var wizard = new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, mockApplication.Object, mockDBConnectionFactory.Object, mockPlatformIdentifier.Object, mockLogger.Object, mockGeneralConfigurationOptions.Object);
+			var wizard = new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, mockApplication.Object, mockDBConnectionFactory.Object, mockPlatformIdentifier.Object, mockAsyncDelayer.Object, mockLogger.Object, mockGeneralConfigurationOptions.Object);
 
 			mockPlatformIdentifier.SetupGet(x => x.IsWindows).Returns(true).Verifiable();
+			mockAsyncDelayer.Setup(x => x.Delay(It.IsAny<TimeSpan>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask).Verifiable();
 
 			Assert.IsFalse(await wizard.CheckRunWizard(default).ConfigureAwait(false));
 
@@ -230,6 +234,7 @@ namespace Tgstation.Server.Host.Core.Tests
 			mockDBConnectionFactory.VerifyAll();
 			mockApplication.VerifyAll();
 			mockPlatformIdentifier.VerifyAll();
+			mockAsyncDelayer.VerifyAll();
 		}
 	}
 }

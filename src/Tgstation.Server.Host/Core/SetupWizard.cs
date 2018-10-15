@@ -51,6 +51,11 @@ namespace Tgstation.Server.Host.Core
 		readonly IPlatformIdentifier platformIdentifier;
 
 		/// <summary>
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="SetupWizard"/>
+		/// </summary>
+		readonly IAsyncDelayer asyncDelayer;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="SetupWizard"/>
 		/// </summary>
 		readonly ILogger<SetupWizard> logger;
@@ -69,9 +74,10 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="application">The value of <see cref="application"/></param>
 		/// <param name="dbConnectionFactory">The value of <see cref="dbConnectionFactory"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
+		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/></param>
-		public SetupWizard(IIOManager ioManager, IConsole console, IHostingEnvironment hostingEnvironment, IApplication application, IDBConnectionFactory dbConnectionFactory, IPlatformIdentifier platformIdentifier, ILogger<SetupWizard> logger, IOptions<GeneralConfiguration> generalConfigurationOptions)
+		public SetupWizard(IIOManager ioManager, IConsole console, IHostingEnvironment hostingEnvironment, IApplication application, IDBConnectionFactory dbConnectionFactory, IPlatformIdentifier platformIdentifier, IAsyncDelayer asyncDelayer, ILogger<SetupWizard> logger, IOptions<GeneralConfiguration> generalConfigurationOptions)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.console = console ?? throw new ArgumentNullException(nameof(console));
@@ -79,6 +85,7 @@ namespace Tgstation.Server.Host.Core
 			this.application = application ?? throw new ArgumentNullException(nameof(application));
 			this.dbConnectionFactory = dbConnectionFactory ?? throw new ArgumentNullException(nameof(dbConnectionFactory));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
+			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
@@ -501,7 +508,7 @@ namespace Tgstation.Server.Host.Core
 			await console.WriteAsync("Waiting for configuration changes to reload...", true, cancellationToken).ConfigureAwait(false);
 
 			//we need to wait for the configuration's file system watcher to read and reload the changes
-			await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
+			await asyncDelayer.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <summary>
@@ -584,7 +591,7 @@ namespace Tgstation.Server.Host.Core
 			}
 
 			//flush the logs to prevent console conflicts
-			await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false);
+			await asyncDelayer.Delay(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false);
 
 			await RunWizard(userConfigFileName, cancellationToken).ConfigureAwait(false);
 			return true;
