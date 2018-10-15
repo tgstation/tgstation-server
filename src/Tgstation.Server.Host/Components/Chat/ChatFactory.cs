@@ -26,19 +26,26 @@ namespace Tgstation.Server.Host.Components.Chat
 		readonly IServerControl serverControl;
 
 		/// <summary>
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="ChatFactory"/>
+		/// </summary>
+		readonly IAsyncDelayer asyncDelayer;
+
+		/// <summary>
 		/// Construct a <see cref="ChatFactory"/>
 		/// </summary>
-		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
 		/// <param name="providerFactory">The value of <see cref="providerFactory"/></param>
 		/// <param name="serverControl">The value of <see cref="serverControl"/></param>
-		public ChatFactory(ILoggerFactory loggerFactory, IProviderFactory providerFactory, IServerControl serverControl)
+		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
+		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
+		public ChatFactory(IProviderFactory providerFactory, IServerControl serverControl, IAsyncDelayer asyncDelayer, ILoggerFactory loggerFactory)
 		{
-			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.providerFactory = providerFactory ?? throw new ArgumentNullException(nameof(providerFactory));
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
+			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
+			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 		}
 
 		/// <inheritdoc />
-		public IChat CreateChat(IIOManager ioManager, ICommandFactory commandFactory, IEnumerable<Models.ChatBot> initialChatBots) => new Chat(providerFactory, ioManager, commandFactory, serverControl, loggerFactory, loggerFactory.CreateLogger<Chat>(), initialChatBots);
+		public IChat CreateChat(IIOManager ioManager, ICommandFactory commandFactory, IEnumerable<Models.ChatBot> initialChatBots) => new Chat(providerFactory, ioManager, commandFactory, serverControl, asyncDelayer, loggerFactory, loggerFactory.CreateLogger<Chat>(), initialChatBots);
 	}
 }

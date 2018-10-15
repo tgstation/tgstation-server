@@ -40,6 +40,11 @@ namespace Tgstation.Server.Host.Components.Chat
 		readonly IRestartRegistration restartRegistration;
 
 		/// <summary>
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="Chat"/>
+		/// </summary>
+		readonly IAsyncDelayer asyncDelayer;
+
+		/// <summary>
 		/// The <see cref="ILoggerFactory"/> for the <see cref="Chat"/>
 		/// </summary>
 		readonly ILoggerFactory loggerFactory;
@@ -109,18 +114,20 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// </summary>
 		/// <param name="providerFactory">The value of <see cref="providerFactory"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
-		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
-		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="commandFactory">The value of <see cref="commandFactory"/></param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> to populate <see cref="restartRegistration"/> with</param>
+		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
+		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
+		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="initialChatBots">The <see cref="IEnumerable{T}"/> used to populate <see cref="initialChatBots"/></param>
-		public Chat(IProviderFactory providerFactory, IIOManager ioManager, ICommandFactory commandFactory, IServerControl serverControl, ILoggerFactory loggerFactory, ILogger<Chat> logger, IEnumerable<Models.ChatBot> initialChatBots)
+		public Chat(IProviderFactory providerFactory, IIOManager ioManager, ICommandFactory commandFactory, IServerControl serverControl, IAsyncDelayer asyncDelayer, ILoggerFactory loggerFactory, ILogger<Chat> logger, IEnumerable<Models.ChatBot> initialChatBots)
 		{
 			this.providerFactory = providerFactory ?? throw new ArgumentNullException(nameof(providerFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.commandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
 			if (serverControl == null)
 				throw new ArgumentNullException(nameof(serverControl));
+			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.initialChatBots = initialChatBots?.ToList() ?? throw new ArgumentNullException(nameof(initialChatBots));
@@ -344,7 +351,7 @@ namespace Tgstation.Server.Host.Components.Chat
 
 					if (messageTasks.Count == 0)
 					{
-						await Task.Delay(1000, cancellationToken).ConfigureAwait(false);
+						await asyncDelayer.Delay(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false);
 						continue;
 					}
 
