@@ -1037,7 +1037,7 @@ namespace TGS.Server
 							newPR.Add("author", (string)user["login"]);
 							newPR.Add("title", (string)dick["title"]);
 						}
-						catch (Exception e)
+						catch (Exception)
 						{
 							WriteError("Failed to get PR metadata for #" + PRNumberString, EventID.RepoPRListError);
 
