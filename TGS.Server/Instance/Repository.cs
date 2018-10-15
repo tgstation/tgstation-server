@@ -52,6 +52,10 @@ namespace TGS.Server
 		/// </summary>
 		const string PublicKeyPath = RepoKeyDir + "public_key.txt";
 		/// <summary>
+		/// The path to the GitHub token file
+		/// </summary>
+		const string GitHubTokenPath = RepoKeyDir + "GitHubToken.txt";
+		/// <summary>
 		/// File name for monitoring which github pull requests are currently test merged
 		/// </summary>
 		const string PRJobFile = "prtestjob.json";
@@ -1020,6 +1024,9 @@ namespace TGS.Server
 							using (var wc = new WebClient())
 							{
 								wc.Headers.Add("user-agent", "TGS.Server");
+								var gitHubTokenFile = RelativePath(GitHubTokenPath);
+								if (File.Exists(gitHubTokenFile))
+									wc.Headers.Add("Authorization", "token " + File.ReadAllText(gitHubTokenFile).Trim());
 								json = wc.DownloadString(prAPI);
 							}
 
