@@ -35,6 +35,10 @@ namespace Tgstation.Server.Host.Security
 		public IdentityCacheObject(ISystemIdentity systemIdentity, IAsyncDelayer asyncDelayer, Action onExpiry, DateTimeOffset expiry)
 		{
 			SystemIdentity = systemIdentity ?? throw new ArgumentNullException(nameof(systemIdentity));
+
+			if (asyncDelayer == null)
+				throw new ArgumentNullException(nameof(asyncDelayer));
+
 			if (onExpiry == null)
 				throw new ArgumentNullException(nameof(onExpiry));
 			var now = DateTimeOffset.Now;
