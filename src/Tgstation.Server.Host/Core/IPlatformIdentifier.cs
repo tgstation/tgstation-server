@@ -9,5 +9,10 @@
 		/// If the current platform is a Windows platform
 		/// </summary>
 		bool IsWindows { get; }
+
+		/// <summary>
+		/// The extension of executable script files for the system
+		/// </summary>
+		string ScriptFileExtension { get; }
 	}
 }
