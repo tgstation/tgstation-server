@@ -1008,9 +1008,10 @@ namespace TGS.Server
 						var newPR = new Dictionary<string, string>();
 						newPR.Add("commit", atSHA ?? branch.Tip.Sha);
 						var PRNumberString = PRNumber.ToString();
+						IDictionary<string, IDictionary<string, string>> CurrentPRs = null;
 						try
 						{
-							var CurrentPRs = GetCurrentPRList();
+							CurrentPRs = GetCurrentPRList();
 							CurrentPRs.Remove(PRNumberString);
 
 							//do some excellent remote fuckery here to get the api page
