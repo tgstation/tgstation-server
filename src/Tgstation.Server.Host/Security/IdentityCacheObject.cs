@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host.Security
 {
@@ -28,9 +29,10 @@ namespace Tgstation.Server.Host.Security
 		/// Construct an <see cref="IdentityCache"/>
 		/// </summary>
 		/// <param name="systemIdentity">The value of <see cref="SystemIdentity"/></param>
+		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> used to delay the expiry</param>
 		/// <param name="onExpiry">The <see cref="Action"/> to take on expiry</param>
 		/// <param name="expiry">The <see cref="DateTimeOffset"/></param>
-		public IdentityCacheObject(ISystemIdentity systemIdentity, Action onExpiry, DateTimeOffset expiry)
+		public IdentityCacheObject(ISystemIdentity systemIdentity, IAsyncDelayer asyncDelayer, Action onExpiry, DateTimeOffset expiry)
 		{
 			SystemIdentity = systemIdentity ?? throw new ArgumentNullException(nameof(systemIdentity));
 			if (onExpiry == null)
@@ -46,7 +48,7 @@ namespace Tgstation.Server.Host.Security
 				using (SystemIdentity)
 					try
 					{
-						await Task.Delay(expiry - now, cancellationToken).ConfigureAwait(false);
+						await asyncDelayer.Delay(expiry - now, cancellationToken).ConfigureAwait(false);
 					}
 					finally
 					{
