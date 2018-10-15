@@ -97,11 +97,12 @@ namespace Tgstation.Server.Host.Core
 			//enable options which give us config reloading
 			services.AddOptions();
 					
-			//setup stuff for setup wizard
+			//other stuff needed for for setup wizard and configuration
 			services.AddSingleton<IIOManager, DefaultIOManager>();
 			services.AddSingleton<IConsole, IO.Console>();
 			services.AddSingleton<IDBConnectionFactory, DBConnectionFactory>();
 			services.AddSingleton<ISetupWizard, SetupWizard>();
+			services.AddSingleton<IPlatformIdentifier, PlatformIdentifier>();
 
 			//needed here for JWT configuration
 			//we use a manually instatiated token factory to prevent it from regenerating the signing key after we configure it
