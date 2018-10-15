@@ -26,6 +26,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		public override string BotMention => client.Nickname;
 
 		/// <summary>
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="IrcProvider"/>
+		/// </summary>
+		readonly IAsyncDelayer asyncDelayer;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="IrcProvider"/>
 		/// </summary>
 		readonly ILogger<IrcProvider> logger;
@@ -84,19 +89,21 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <summary>
 		/// Construct an <see cref="IrcProvider"/>
 		/// </summary>
-		/// <param name="logger">The value of logger</param>
 		/// <param name="application">The <see cref="IApplication"/> to get the <see cref="IApplication.VersionString"/> from</param>
+		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
+		/// <param name="logger">The value of logger</param>
 		/// <param name="address">The value of <see cref="address"/></param>
 		/// <param name="port">The value of <see cref="port"/></param>
 		/// <param name="nickname">The value of <see cref="nickname"/></param>
 		/// <param name="password">The value of <see cref="password"/></param>
 		/// <param name="passwordType">The value of <see cref="passwordType"/></param>
 		/// <param name="useSsl">If <see cref="IrcConnection.UseSsl"/> should be used</param>
-		public IrcProvider(ILogger<IrcProvider> logger, IApplication application, string address, ushort port, string nickname, string password, IrcPasswordType? passwordType, bool useSsl)
+		public IrcProvider(IApplication application, IAsyncDelayer asyncDelayer, ILogger<IrcProvider> logger, string address, ushort port, string nickname, string password, IrcPasswordType? passwordType, bool useSsl)
 		{
-			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			if (application == null)
 				throw new ArgumentNullException(nameof(application));
+			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			this.address = address ?? throw new ArgumentNullException(nameof(address));
 			this.port = port;
@@ -267,13 +274,15 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						var startTime = DateTimeOffset.Now;
 						var endTime = DateTimeOffset.Now.AddSeconds(TimeoutSeconds);
 						cancellationToken.ThrowIfCancellationRequested();
-						for (; !recievedAck && DateTimeOffset.Now <= endTime; Task.Delay(10, cancellationToken).GetAwaiter().GetResult())
+
+						var listenTimeSpan = TimeSpan.FromMilliseconds(10);
+						for (; !recievedAck && DateTimeOffset.Now <= endTime; asyncDelayer.Delay(listenTimeSpan, cancellationToken).GetAwaiter().GetResult())
 							client.Listen(false);
 
 						client.WriteLine("AUTHENTICATE PLAIN", Priority.Critical);
 						cancellationToken.ThrowIfCancellationRequested();
 
-						for (; !recievedPlus && DateTimeOffset.Now <= endTime; Task.Delay(10, cancellationToken).GetAwaiter().GetResult())
+						for (; !recievedPlus && DateTimeOffset.Now <= endTime; asyncDelayer.Delay(listenTimeSpan, cancellationToken).GetAwaiter().GetResult())
 							client.Listen(false);
 
 						//Stolen! https://github.com/znc/znc/blob/1e697580155d5a38f8b5a377f3b1d94aaa979539/modules/sasl.cpp#L196
