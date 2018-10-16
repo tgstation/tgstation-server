@@ -93,7 +93,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -118,6 +117,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a57c7a5016e948842f6d52697f806614b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#a57c7a5016e948842f6d52697f806614b">CryptographySuite</a> (IPasswordHasher&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> &gt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#ad519d6aa46f39a52f9a7b50e0f181fd9">passwordHasher</a>)</td></tr>
 <tr class="memdesc:a57c7a5016e948842f6d52697f806614b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html">CryptographySuite</a>  <a href="#a57c7a5016e948842f6d52697f806614b">More...</a><br /></td></tr>
 <tr class="separator:a57c7a5016e948842f6d52697f806614b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeaa749c8ecd658514c3d913950268cfc"><td class="memItemLeft" align="right" valign="top">byte[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#aeaa749c8ecd658514c3d913950268cfc">GetSecureBytes</a> (uint amount)</td></tr>
+<tr class="memdesc:aeaa749c8ecd658514c3d913950268cfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates a secure set of bytes   <a href="#aeaa749c8ecd658514c3d913950268cfc">More...</a><br /></td></tr>
+<tr class="separator:aeaa749c8ecd658514c3d913950268cfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0936b97992a82380047925e656b4bdae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#a0936b97992a82380047925e656b4bdae">SetUserPassword</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> user, string newPassword, bool newUser)</td></tr>
 <tr class="memdesc:a0936b97992a82380047925e656b4bdae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a User.PasswordHash for a given <em>user</em>    <a href="#a0936b97992a82380047925e656b4bdae">More...</a><br /></td></tr>
 <tr class="separator:a0936b97992a82380047925e656b4bdae"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -128,14 +130,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a241b23ae24a7354312245e1cb606f882"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates a 40-length secure ascii string   <a href="#a241b23ae24a7354312245e1cb606f882">More...</a><br /></td></tr>
 <tr class="separator:a241b23ae24a7354312245e1cb606f882"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a081ddd639de9b9c80174f75b9e76aa2d"><td class="memItemLeft" align="right" valign="top">static byte[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#a081ddd639de9b9c80174f75b9e76aa2d">GetSecureBytes</a> (int amount)</td></tr>
-<tr class="memdesc:a081ddd639de9b9c80174f75b9e76aa2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates a secure set of bytes  <a href="#a081ddd639de9b9c80174f75b9e76aa2d">More...</a><br /></td></tr>
-<tr class="separator:a081ddd639de9b9c80174f75b9e76aa2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
+<tr class="memitem:a893d5725e799a79d7a3dd172f098edb8"><td class="memItemLeft" align="right" valign="top">const uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#a893d5725e799a79d7a3dd172f098edb8">SecureStringLength</a> = 30</td></tr>
+<tr class="memdesc:a893d5725e799a79d7a3dd172f098edb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Length in bytes of generated base64 secure string  <a href="#a893d5725e799a79d7a3dd172f098edb8">More...</a><br /></td></tr>
+<tr class="separator:a893d5725e799a79d7a3dd172f098edb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad519d6aa46f39a52f9a7b50e0f181fd9"><td class="memItemLeft" align="right" valign="top">readonly IPasswordHasher&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#ad519d6aa46f39a52f9a7b50e0f181fd9">passwordHasher</a></td></tr>
 <tr class="memdesc:ad519d6aa46f39a52f9a7b50e0f181fd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The IPasswordHasher&lt;TUser&gt; for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html">CryptographySuite</a>  <a href="#ad519d6aa46f39a52f9a7b50e0f181fd9">More...</a><br /></td></tr>
 <tr class="separator:ad519d6aa46f39a52f9a7b50e0f181fd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -166,6 +165,9 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
+<p>Definition at line <a class="el" href="_cryptography_suite_8cs_source.html#l00025">25</a> of file <a class="el" href="_cryptography_suite_8cs_source.html">CryptographySuite.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        {</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            this.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#ad519d6aa46f39a52f9a7b50e0f181fd9">passwordHasher</a> = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#ad519d6aa46f39a52f9a7b50e0f181fd9">passwordHasher</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#ad519d6aa46f39a52f9a7b50e0f181fd9">passwordHasher</a>));</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite_html_ad519d6aa46f39a52f9a7b50e0f181fd9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#ad519d6aa46f39a52f9a7b50e0f181fd9">Tgstation.Server.Host.Security.CryptographySuite.passwordHasher</a></div><div class="ttdeci">readonly IPasswordHasher&lt; User &gt; passwordHasher</div><div class="ttdoc">The IPasswordHasher&lt;TUser&gt; for the CryptographySuite </div><div class="ttdef"><b>Definition:</b> <a href="_cryptography_suite_8cs_source.html#l00019">CryptographySuite.cs:19</a></div></div>
+</div><!-- fragment -->
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
@@ -197,43 +199,35 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#ac23fd656dc42cf07e64a62844f8bcfbc">Tgstation.Server.Host.Security.ICryptographySuite</a>.</p>
 
-<p>Definition at line <a class="el" href="_cryptography_suite_8cs_source.html#l00049">49</a> of file <a class="el" href="_cryptography_suite_8cs_source.html">CryptographySuite.cs</a>.</p>
+<p>Definition at line <a class="el" href="_cryptography_suite_8cs_source.html#l00054">54</a> of file <a class="el" href="_cryptography_suite_8cs_source.html">CryptographySuite.cs</a>.</p>
 
 <p>References <a class="el" href="_tgstation_8_server_8_host_2_models_2_user_8cs_source.html#l00013">Tgstation.Server.Host.Models.User.PasswordHash</a>.</p>
-<div class="fragment"><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        {</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            <span class="keywordflow">switch</span> (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#ad519d6aa46f39a52f9a7b50e0f181fd9">passwordHasher</a>.VerifyHashedPassword(user, user.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#ab5648b7f95630ff37ad8b0ddd72c1f54">PasswordHash</a>, password))</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            {</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                <span class="keywordflow">case</span> PasswordVerificationResult.Failed:</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                <span class="keywordflow">case</span> PasswordVerificationResult.SuccessRehashNeeded:</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                    user.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#ab5648b7f95630ff37ad8b0ddd72c1f54">PasswordHash</a> = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#ad519d6aa46f39a52f9a7b50e0f181fd9">passwordHasher</a>.HashPassword(user, password);</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                    <span class="comment">//don&#39;t update LastPasswordUpdate since it hasn&#39;t actually changed</span></div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                    <span class="keywordflow">break</span>;</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            }</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_html_ab5648b7f95630ff37ad8b0ddd72c1f54"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#ab5648b7f95630ff37ad8b0ddd72c1f54">Tgstation.Server.Host.Models.User.PasswordHash</a></div><div class="ttdeci">string PasswordHash</div><div class="ttdoc">The hash of the user&amp;#39;s password </div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_host_2_models_2_user_8cs_source.html#l00013">User.cs:13</a></div></div>
-<div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite_html_ad519d6aa46f39a52f9a7b50e0f181fd9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#ad519d6aa46f39a52f9a7b50e0f181fd9">Tgstation.Server.Host.Security.CryptographySuite.passwordHasher</a></div><div class="ttdeci">readonly IPasswordHasher&lt; User &gt; passwordHasher</div><div class="ttdoc">The IPasswordHasher&lt;TUser&gt; for the CryptographySuite </div><div class="ttdef"><b>Definition:</b> <a href="_cryptography_suite_8cs_source.html#l00028">CryptographySuite.cs:28</a></div></div>
+<div class="fragment"><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        {</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="keywordflow">switch</span> (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#ad519d6aa46f39a52f9a7b50e0f181fd9">passwordHasher</a>.VerifyHashedPassword(user, user.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#ab5648b7f95630ff37ad8b0ddd72c1f54">PasswordHash</a>, password))</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            {</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                <span class="keywordflow">case</span> PasswordVerificationResult.Failed:</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                <span class="keywordflow">case</span> PasswordVerificationResult.SuccessRehashNeeded:</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#a0936b97992a82380047925e656b4bdae">SetUserPassword</a>(user, password, <span class="keyword">false</span>);</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                    <span class="keywordflow">break</span>;</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            }</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_html_ab5648b7f95630ff37ad8b0ddd72c1f54"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#ab5648b7f95630ff37ad8b0ddd72c1f54">Tgstation.Server.Host.Models.User.PasswordHash</a></div><div class="ttdeci">string PasswordHash</div><div class="ttdoc">The hash of the user&amp;#39;s password </div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_host_2_models_2_user_8cs_source.html#l00013">User.cs:13</a></div></div>
+<div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite_html_ad519d6aa46f39a52f9a7b50e0f181fd9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#ad519d6aa46f39a52f9a7b50e0f181fd9">Tgstation.Server.Host.Security.CryptographySuite.passwordHasher</a></div><div class="ttdeci">readonly IPasswordHasher&lt; User &gt; passwordHasher</div><div class="ttdoc">The IPasswordHasher&lt;TUser&gt; for the CryptographySuite </div><div class="ttdef"><b>Definition:</b> <a href="_cryptography_suite_8cs_source.html#l00019">CryptographySuite.cs:19</a></div></div>
+<div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite_html_a0936b97992a82380047925e656b4bdae"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#a0936b97992a82380047925e656b4bdae">Tgstation.Server.Host.Security.CryptographySuite.SetUserPassword</a></div><div class="ttdeci">void SetUserPassword(User user, string newPassword, bool newUser)</div><div class="ttdoc">Sets a User.PasswordHash for a given user   </div><div class="ttdef"><b>Definition:</b> <a href="_cryptography_suite_8cs_source.html#l00042">CryptographySuite.cs:42</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
-<a class="anchor" id="a081ddd639de9b9c80174f75b9e76aa2d"></a>
+<a class="anchor" id="aeaa749c8ecd658514c3d913950268cfc"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static byte [] Tgstation.Server.Host.Security.CryptographySuite.GetSecureBytes </td>
+          <td class="memname">byte [] Tgstation.Server.Host.Security.CryptographySuite.GetSecureBytes </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
+          <td class="paramtype">uint&#160;</td>
           <td class="paramname"><em>amount</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Generates a secure set of bytes </p>
-<dl class="section return"><dt>Returns</dt><dd>A secure set of bytes</dd></dl>
+<p>Generates a secure set of bytes  </p>
 
-<p>Definition at line <a class="el" href="_cryptography_suite_8cs_source.html#l00015">15</a> of file <a class="el" href="_cryptography_suite_8cs_source.html">CryptographySuite.cs</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#ac6fa20935fc73a1dca313376b5b79d1a">Tgstation.Server.Host.Security.ICryptographySuite</a>.</p>
 
-<p>Referenced by <a class="el" href="_token_factory_8cs_source.html#l00027">Tgstation.Server.Host.Security.TokenFactory.TokenFactory()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        {</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            <span class="keyword">using</span> (var rng = <span class="keyword">new</span> RNGCryptoServiceProvider())</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            {</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                var byt = <span class="keyword">new</span> byte[amount];</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                rng.GetBytes(byt);</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                <span class="keywordflow">return</span> byt;</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            }</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        }</div></div><!-- fragment -->
+<p>Definition at line <a class="el" href="_cryptography_suite_8cs_source.html#l00031">31</a> of file <a class="el" href="_cryptography_suite_8cs_source.html">CryptographySuite.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        {</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            <span class="keyword">using</span> (var rng = <span class="keyword">new</span> RNGCryptoServiceProvider())</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            {</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                var byt = <span class="keyword">new</span> byte[amount];</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                rng.GetBytes(byt);</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                <span class="keywordflow">return</span> byt;</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            }</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a241b23ae24a7354312245e1cb606f882"></a>
@@ -289,11 +283,11 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#aeab60aa0a0ee2cb5e2ad5dbde1983430">Tgstation.Server.Host.Security.ICryptographySuite</a>.</p>
 
-<p>Definition at line <a class="el" href="_cryptography_suite_8cs_source.html#l00037">37</a> of file <a class="el" href="_cryptography_suite_8cs_source.html">CryptographySuite.cs</a>.</p>
+<p>Definition at line <a class="el" href="_cryptography_suite_8cs_source.html#l00042">42</a> of file <a class="el" href="_cryptography_suite_8cs_source.html">CryptographySuite.cs</a>.</p>
 
 <p>References <a class="el" href="_tgstation_8_server_8_host_2_models_2_user_8cs_source.html#l00029">Tgstation.Server.Host.Models.User.LastPasswordUpdate</a>, and <a class="el" href="_tgstation_8_server_8_host_2_models_2_user_8cs_source.html#l00013">Tgstation.Server.Host.Models.User.PasswordHash</a>.</p>
-<div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        {</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            <span class="keywordflow">if</span> (user == null)</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(user));</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            <span class="keywordflow">if</span> (String.IsNullOrEmpty(newPassword))</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(newPassword));</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            user.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#ab5648b7f95630ff37ad8b0ddd72c1f54">PasswordHash</a> = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#ad519d6aa46f39a52f9a7b50e0f181fd9">passwordHasher</a>.HashPassword(user, newPassword);</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            <span class="keywordflow">if</span> (!newUser)</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                user.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a2e31754b4423b05b1cf70971c64f871d">LastPasswordUpdate</a> = DateTimeOffset.Now;</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_html_ab5648b7f95630ff37ad8b0ddd72c1f54"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#ab5648b7f95630ff37ad8b0ddd72c1f54">Tgstation.Server.Host.Models.User.PasswordHash</a></div><div class="ttdeci">string PasswordHash</div><div class="ttdoc">The hash of the user&amp;#39;s password </div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_host_2_models_2_user_8cs_source.html#l00013">User.cs:13</a></div></div>
-<div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite_html_ad519d6aa46f39a52f9a7b50e0f181fd9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#ad519d6aa46f39a52f9a7b50e0f181fd9">Tgstation.Server.Host.Security.CryptographySuite.passwordHasher</a></div><div class="ttdeci">readonly IPasswordHasher&lt; User &gt; passwordHasher</div><div class="ttdoc">The IPasswordHasher&lt;TUser&gt; for the CryptographySuite </div><div class="ttdef"><b>Definition:</b> <a href="_cryptography_suite_8cs_source.html#l00028">CryptographySuite.cs:28</a></div></div>
+<div class="fragment"><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        {</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            <span class="keywordflow">if</span> (user == null)</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(user));</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <span class="keywordflow">if</span> (newPassword == null)</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(newPassword));</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            user.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#ab5648b7f95630ff37ad8b0ddd72c1f54">PasswordHash</a> = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#ad519d6aa46f39a52f9a7b50e0f181fd9">passwordHasher</a>.HashPassword(user, newPassword);</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <span class="keywordflow">if</span> (!newUser)</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                user.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a2e31754b4423b05b1cf70971c64f871d">LastPasswordUpdate</a> = DateTimeOffset.Now;</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_html_ab5648b7f95630ff37ad8b0ddd72c1f54"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#ab5648b7f95630ff37ad8b0ddd72c1f54">Tgstation.Server.Host.Models.User.PasswordHash</a></div><div class="ttdeci">string PasswordHash</div><div class="ttdoc">The hash of the user&amp;#39;s password </div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_host_2_models_2_user_8cs_source.html#l00013">User.cs:13</a></div></div>
+<div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite_html_ad519d6aa46f39a52f9a7b50e0f181fd9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#ad519d6aa46f39a52f9a7b50e0f181fd9">Tgstation.Server.Host.Security.CryptographySuite.passwordHasher</a></div><div class="ttdeci">readonly IPasswordHasher&lt; User &gt; passwordHasher</div><div class="ttdoc">The IPasswordHasher&lt;TUser&gt; for the CryptographySuite </div><div class="ttdef"><b>Definition:</b> <a href="_cryptography_suite_8cs_source.html#l00019">CryptographySuite.cs:19</a></div></div>
 <div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_html_a2e31754b4423b05b1cf70971c64f871d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a2e31754b4423b05b1cf70971c64f871d">Tgstation.Server.Host.Models.User.LastPasswordUpdate</a></div><div class="ttdeci">DateTimeOffset LastPasswordUpdate</div><div class="ttdoc">When PasswordHash was last changed </div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_host_2_models_2_user_8cs_source.html#l00029">User.cs:29</a></div></div>
 </div><!-- fragment -->
 </div>
@@ -319,7 +313,31 @@ Private Attributes</h2></td></tr>
 
 <p>The IPasswordHasher&lt;TUser&gt; for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html">CryptographySuite</a> </p>
 
-<p>Definition at line <a class="el" href="_cryptography_suite_8cs_source.html#l00028">28</a> of file <a class="el" href="_cryptography_suite_8cs_source.html">CryptographySuite.cs</a>.</p>
+<p>Definition at line <a class="el" href="_cryptography_suite_8cs_source.html#l00019">19</a> of file <a class="el" href="_cryptography_suite_8cs_source.html">CryptographySuite.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a893d5725e799a79d7a3dd172f098edb8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint Tgstation.Server.Host.Security.CryptographySuite.SecureStringLength = 30</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Length in bytes of generated base64 secure string </p>
+
+<p>Definition at line <a class="el" href="_cryptography_suite_8cs_source.html#l00014">14</a> of file <a class="el" href="_cryptography_suite_8cs_source.html">CryptographySuite.cs</a>.</p>
 
 </div>
 </div>
