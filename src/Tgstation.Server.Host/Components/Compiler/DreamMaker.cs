@@ -103,7 +103,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		public DreamMaker(IByondManager byond, IIOManager ioManager, StaticFiles.IConfiguration configuration, ISessionControllerFactory sessionControllerFactory, ICompileJobConsumer compileJobConsumer, IApplication application, IEventConsumer eventConsumer, IChat chat, IProcessExecutor processExecutor, IWatchdog watchdog, ILogger<DreamMaker> logger)
 		{
-			this.byond = byond;
+			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 			this.sessionControllerFactory = sessionControllerFactory ?? throw new ArgumentNullException(nameof(sessionControllerFactory));
