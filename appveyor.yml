@@ -32,6 +32,7 @@ services:
   - mssql2017
 install:
   - choco install doxygen.portable codecov graphviz.portable opencover.portable
+  - nuget sources add -Name OctokitBetas -Source https://ci.appveyor.com/nuget/octokit-net
   - nuget restore tgstation-server.sln
 build:
   project: tgstation-server.sln
