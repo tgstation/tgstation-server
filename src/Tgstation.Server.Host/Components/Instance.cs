@@ -4,6 +4,7 @@ using Octokit;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -206,10 +207,10 @@ namespace Tgstation.Server.Host.Components
 					logger.LogWarning(Repository.Repository.OriginTrackingErrorTemplate, repoSha);
 					databaseContext.Instances.Attach(revInfo.Instance);
 				}
-				
+
 				TimeSpan? averageSpan = null;
 				var previousCompileJobs = await compileJobsTask.ConfigureAwait(false);
-				if(previousCompileJobs.Count != 0)
+				if (previousCompileJobs.Count != 0)
 				{
 					var totalSpan = TimeSpan.Zero;
 					foreach (var I in previousCompileJobs)
@@ -232,7 +233,12 @@ namespace Tgstation.Server.Host.Components
 						{
 							AutoMerge = false,
 							Environment = metadata.Name,
+#if DEBUG
+							ProductionEnvironment = false,
+							TransientEnvironment = true,
+#else
 							ProductionEnvironment = true,
+#endif
 							RequiredContexts = new Collection<string>(),
 							Description = "Test Merge"
 						}).ConfigureAwait(false);
@@ -290,7 +296,75 @@ namespace Tgstation.Server.Host.Components
 				}
 
 				await UpdateDeployment(DeploymentState.Success, "Deployment staged and will be applied next server start.").ConfigureAwait(false);
-				compileJob.GitHubDeploymentId = deployment?.Id;
+
+				async Task CommentOnPR(int prNumber, string comment)
+				{
+					try
+					{
+						await gitHubClient.Issue.Comment.Create(repoOwner, repoName, prNumber, comment).ConfigureAwait(false);
+					}
+					catch (ApiException e)
+					{
+						logger.LogWarning("Error posting GitHub comment! Exception: {0}", e);
+					}
+				}
+
+				if (deployment != null)
+				{
+					compileJob.GitHubDeploymentId = deployment.Id;
+
+					var outgoingCompileJob = LatestCompileJob();
+
+					var tasks = new List<Task>();
+					string FormatTestMerge(TestMerge testMerge, bool updated) => String.Format(CultureInfo.InvariantCulture, "#### Test Merge {4}{0}{0}##### Server Instance{0}{5}{1}{0}{0}##### Revision{0}Origin: {6}{0}Pull Request: {2}{0}Server: {7}{3}",
+						Environment.NewLine,
+						repositorySettings.ShowTestMergeCommitters.Value ? String.Format(CultureInfo.InvariantCulture, "{0}{0}##### Merged By{0}{1}", Environment.NewLine, testMerge.MergedBy.Name) : String.Empty,
+						testMerge.PullRequestRevision,
+						testMerge.Comment != null ? String.Format(CultureInfo.InvariantCulture, "{0}{0}##### Comment{0}{1}", Environment.NewLine, testMerge.Comment) : String.Empty,
+						updated ? "Updated" : "Deployed",
+						metadata.Name,
+						compileJob.RevisionInformation.OriginCommitSha,
+						compileJob.RevisionInformation.CommitSha
+						);
+
+					//added prs
+					foreach (var I in compileJob
+						.RevisionInformation
+						.ActiveTestMerges
+						.Select(x => x.TestMerge)
+						.Where(x => outgoingCompileJob == null || !outgoingCompileJob
+							.RevisionInformation
+							.ActiveTestMerges
+							.Any(y => y.TestMerge.Number == x.Number)))
+						tasks.Add(CommentOnPR(I.Number.Value, FormatTestMerge(I, false)));
+
+					if (outgoingCompileJob != null)
+					{
+						//removed prs
+						foreach (var I in outgoingCompileJob
+							.RevisionInformation
+							.ActiveTestMerges
+							.Select(x => x.TestMerge)
+								.Where(x => !compileJob
+								.RevisionInformation
+								.ActiveTestMerges
+								.Any(y => y.TestMerge.Number == x.Number)))
+							tasks.Add(CommentOnPR(I.Number.Value, "#### Test Merge Removed"));
+
+						//updated prs
+						foreach (var I in compileJob
+							.RevisionInformation
+							.ActiveTestMerges
+							.Select(x => x.TestMerge)
+							.Where(x => outgoingCompileJob
+								.RevisionInformation
+								.ActiveTestMerges
+								.Any(y => y.TestMerge.Number == x.Number)))
+							tasks.Add(CommentOnPR(I.Number.Value, FormatTestMerge(I, true)));
+					}
+					if (tasks.Any())
+						await Task.WhenAll(tasks).ConfigureAwait(false);
+				}
 			}
 
 			compileJob.Job = job;
