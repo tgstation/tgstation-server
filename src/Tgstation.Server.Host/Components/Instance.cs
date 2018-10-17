@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Octokit;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -217,7 +217,80 @@ namespace Tgstation.Server.Host.Components
 					averageSpan = totalSpan / previousCompileJobs.Count;
 				}
 
-				compileJob = await DreamMaker.Compile(revInfo, dreamMakerSettings, ddSettings.StartupTimeout.Value, repo, progressReporter, averageSpan, cancellationToken).ConfigureAwait(false);
+				RepositorySettings repositorySettings = null;
+				if (repo.IsGitHubRepository)
+					repositorySettings = await repositorySettingsTask.ConfigureAwait(false);
+
+				Deployment deployment = null;
+				IGitHubClient gitHubClient = null;
+				if (repositorySettings?.AccessToken != null)
+				{
+					gitHubClient = gitHubClientFactory.CreateClient(repositorySettings.AccessToken);
+					try
+					{
+						deployment = await gitHubClient.Repository.Deployment.Create(repoOwner, repoName, new NewDeployment(revInfo.CommitSha)
+						{
+							AutoMerge = false,
+							Environment = metadata.Name,
+							ProductionEnvironment = true,
+							RequiredContexts = new Collection<string>(),
+							Description = "Test Merge"
+						}).ConfigureAwait(false);
+
+						await gitHubClient.Repository.Deployment.Status.Create(repoOwner, repoName, deployment.Id, new NewDeploymentStatus(DeploymentState.InProgress)
+						{
+							Description = "Deploying game code to server...",
+							AutoInactive = false
+						}).ConfigureAwait(false);
+					}
+					catch (ApiException e)
+					{
+						logger.LogWarning("Error creating GitHub deployment! Exception: {0}", e);
+						deployment = null;
+					}
+				}
+
+				async Task UpdateDeployment(DeploymentState newState, string description)
+				{
+					if (deployment == null)
+						return;
+					try
+					{
+						await gitHubClient.Repository.Deployment.Status.Create(repoOwner, repoName, deployment.Id, new NewDeploymentStatus(newState)
+						{
+							Description = description,
+							AutoInactive = false
+						}).ConfigureAwait(false);
+					}
+					catch (ApiException e2)
+					{
+						logger.LogWarning("Error updating GitHub deployment! Exception: {0}", e2);
+					}
+				};
+
+				const string FailedDeployment = "Deployment failed!";
+				try
+				{
+					compileJob = await DreamMaker.Compile(revInfo, dreamMakerSettings, ddSettings.StartupTimeout.Value, repo, progressReporter, averageSpan, cancellationToken).ConfigureAwait(false);
+				}
+				catch (OperationCanceledException)
+				{
+					await UpdateDeployment(DeploymentState.Failure, "Deployment cancelled!").ConfigureAwait(false);
+					throw;
+				}
+				catch (JobException)
+				{
+					await UpdateDeployment(DeploymentState.Failure, FailedDeployment).ConfigureAwait(false);
+					throw;
+				}
+				catch (Exception)
+				{
+					await UpdateDeployment(DeploymentState.Error, FailedDeployment).ConfigureAwait(false);
+					throw;
+				}
+
+				await UpdateDeployment(DeploymentState.Success, "Deployment staged and will be applied next server start.").ConfigureAwait(false);
+				compileJob.GitHubDeploymentId = deployment?.Id;
 			}
 
 			compileJob.Job = job;
@@ -225,85 +298,6 @@ namespace Tgstation.Server.Host.Components
 			databaseContext.CompileJobs.Add(compileJob);    //will be saved by job context
 			
 			job.PostComplete = ct => CompileJobConsumer.LoadCompileJob(compileJob, ct);
-
-			if (repositorySettingsTask != null)
-			{
-				var repositorySettings = await repositorySettingsTask.ConfigureAwait(false);
-				if (repositorySettings == default)
-					throw new JobException("Missing repository settings!");
-
-				if (repositorySettings.AccessToken != null)
-				{
-					//potential for commenting on a test merge change
-					var outgoingCompileJob = LatestCompileJob();
-					
-					if(outgoingCompileJob != null && outgoingCompileJob.RevisionInformation.CommitSha != compileJob.RevisionInformation.CommitSha)
-					{
-						var gitHubClient = gitHubClientFactory.CreateClient(repositorySettings.AccessToken);
-
-						async Task CommentOnPR(int prNumber, string comment)
-						{
-							try
-							{
-								await gitHubClient.Issue.Comment.Create(repoOwner, repoName, prNumber, comment).ConfigureAwait(false);
-							}
-							catch (ApiException e)
-							{
-								logger.LogWarning("Error posting GitHub comment! Exception: {0}", e);
-							}
-						}
-
-						var tasks = new List<Task>();
-
-						string FormatTestMerge(TestMerge testMerge, bool updated) => String.Format(CultureInfo.InvariantCulture, "#### Test Merge {4}{0}{0}##### Server Instance{0}{5}{1}{0}{0}##### Revision{0}Origin: {6}{0}Pull Request: {2}{0}Server: {7}{3}",
-							Environment.NewLine,
-							repositorySettings.ShowTestMergeCommitters.Value ? String.Format(CultureInfo.InvariantCulture, "{0}{0}##### Merged By{0}{1}", Environment.NewLine, testMerge.MergedBy.Name) : String.Empty,
-							testMerge.PullRequestRevision,
-							testMerge.Comment != null ? String.Format(CultureInfo.InvariantCulture, "{0}{0}##### Comment{0}{1}", Environment.NewLine, testMerge.Comment) : String.Empty,
-							updated ? "Updated" : "Deployed",
-							metadata.Name,
-							compileJob.RevisionInformation.OriginCommitSha,
-							compileJob.RevisionInformation.CommitSha
-							);
-
-						//added prs
-						foreach (var I in compileJob
-							.RevisionInformation
-							.ActiveTestMerges
-							.Select(x => x.TestMerge)
-							.Where(x => !outgoingCompileJob
-								.RevisionInformation
-								.ActiveTestMerges
-								.Any(y => y.TestMerge.Number == x.Number)))
-							tasks.Add(CommentOnPR(I.Number.Value, FormatTestMerge(I, false)));
-
-						//removed prs
-						foreach (var I in outgoingCompileJob
-							.RevisionInformation
-							.ActiveTestMerges
-							.Select(x => x.TestMerge)
-								.Where(x => !compileJob
-								.RevisionInformation
-								.ActiveTestMerges
-								.Any(y => y.TestMerge.Number == x.Number)))
-							tasks.Add(CommentOnPR(I.Number.Value, "#### Test Merge Removed"));
-
-						//updated prs
-						foreach(var I in compileJob
-							.RevisionInformation
-							.ActiveTestMerges
-							.Select(x => x.TestMerge)
-							.Where(x => outgoingCompileJob
-								.RevisionInformation
-								.ActiveTestMerges
-								.Any(y => y.TestMerge.Number == x.Number)))
-							tasks.Add(CommentOnPR(I.Number.Value, FormatTestMerge(I, true)));
-
-						if (tasks.Any())
-							await Task.WhenAll(tasks).ConfigureAwait(false);
-					}
-				}
-			}
 		}
 
 		/// <summary>
