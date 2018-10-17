@@ -33,7 +33,6 @@ WORKDIR /app
 COPY --from=build /app .
 COPY --from=build /src/build/tgs.docker.sh tgs.sh
 
-RUN mkdir /config_data && touch /config_data/appsettings.Production.json
 VOLUME ["/config_data", "/tgs_logs", "/app/lib"]
 
 ENTRYPOINT ["./tgs.sh"]
