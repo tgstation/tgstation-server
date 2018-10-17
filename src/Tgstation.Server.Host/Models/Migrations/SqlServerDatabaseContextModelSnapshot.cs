@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Models.Migrations
 {
@@ -15,7 +14,7 @@ namespace Tgstation.Server.Host.Models.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -92,6 +91,8 @@ namespace Tgstation.Server.Host.Models.Migrations
 
                     b.Property<string>("ByondVersion")
                         .IsRequired();
+
+                    b.Property<int?>("DeploymentId");
 
                     b.Property<Guid?>("DirectoryName")
                         .IsRequired();
@@ -308,7 +309,7 @@ namespace Tgstation.Server.Host.Models.Migrations
                     b.Property<string>("ChatCommandsJson")
                         .IsRequired();
 
-					b.Property<long>("CompileJobId");
+                    b.Property<long>("CompileJobId");
 
                     b.Property<bool>("IsPrimary");
 

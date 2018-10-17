@@ -30,6 +30,11 @@ namespace Tgstation.Server.Host.Models
 		public string ByondVersion { get; set; }
 
 		/// <summary>
+		/// The <see cref="Octokit.Deployment.Id"/> if any
+		/// </summary>
+		public int? GitHubDeploymentId { get; set; }
+
+		/// <summary>
 		/// Convert the <see cref="CompileJob"/> to it's API form
 		/// </summary>
 		/// <returns>A new <see cref="Api.Models.CompileJob"/></returns>
