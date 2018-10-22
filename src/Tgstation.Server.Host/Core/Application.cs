@@ -246,7 +246,6 @@ namespace Tgstation.Server.Host.Core
 				default:
 					throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid {0}: {1}!", nameof(DatabaseType), dbType));
 			}
-
 			//configure other database services
 			services.AddSingleton<IDatabaseContextFactory, DatabaseContextFactory>();
 			services.AddSingleton<IDatabaseSeeder, DatabaseSeeder>();
@@ -311,8 +310,9 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure</param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="Application"/></param>
 		/// <param name="tokenFactory">The value of <see cref="tokenFactory"/></param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="GeneralConfiguration"/> to use</param>
 		/// <param name="logger">The <see cref="Microsoft.Extensions.Logging.ILogger"/> for the <see cref="Application"/></param>
-		public void Configure(IApplicationBuilder applicationBuilder, IServerControl serverControl, ITokenFactory tokenFactory, ILogger<Application> logger)
+		public void Configure(IApplicationBuilder applicationBuilder, IServerControl serverControl, ITokenFactory tokenFactory, IOptions<GeneralConfiguration> generalConfigurationOptions, ILogger<Application> logger)
 		{
 			if (applicationBuilder == null)
 				throw new ArgumentNullException(nameof(applicationBuilder));
@@ -320,6 +320,8 @@ namespace Tgstation.Server.Host.Core
 				throw new ArgumentNullException(nameof(serverControl));
 
 			this.tokenFactory = tokenFactory ?? throw new ArgumentNullException(nameof(tokenFactory));
+
+			var generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 
 			if (logger == null)
 				throw new ArgumentNullException(nameof(logger));
@@ -344,6 +346,15 @@ namespace Tgstation.Server.Host.Core
 				using (cancellationToken.Register(() => startupTcs.SetCanceled()))
 					await startupTcs.Task.ConfigureAwait(false);
 			});
+
+			//spa loading if necessary
+			if (generalConfiguration.UseWebControlPanel)
+			{
+				logger.LogWarning("Web control panel enabled. This is a highly WIP feature!");
+				applicationBuilder.UseStaticFiles();
+			}
+			else
+				logger.LogDebug("Web control panel disabled!");
 
 			//authenticate JWT tokens using our security pipeline if present, returns 401 if bad
 			applicationBuilder.UseAuthentication();

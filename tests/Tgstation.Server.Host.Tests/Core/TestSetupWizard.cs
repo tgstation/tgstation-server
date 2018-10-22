@@ -135,6 +135,7 @@ namespace Tgstation.Server.Host.Core.Tests
 				"user",
 				"pass",
 				//general config
+				"y",
 				"four",
 				"-12",
 				"16",
@@ -156,6 +157,7 @@ namespace Tgstation.Server.Host.Core.Tests
 				"user",
 				"pass",
 				//general config
+				"y",
 				String.Empty,
 				String.Empty,
 				String.Empty,
@@ -172,6 +174,8 @@ namespace Tgstation.Server.Host.Core.Tests
 				"y",
 				"user",
 				"pass",
+				//general
+				"y",
 				String.Empty,
 				String.Empty,
 				String.Empty,

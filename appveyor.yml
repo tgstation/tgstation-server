@@ -33,6 +33,8 @@ services:
 install:
   - choco install doxygen.portable codecov graphviz.portable opencover.portable
   - nuget restore tgstation-server.sln
+  - ps: Install-Product node 10
+  - ps: cd src/Tgstation.Server.Host ; npm ci ; npm run build
 build:
   project: tgstation-server.sln
   parallel: false

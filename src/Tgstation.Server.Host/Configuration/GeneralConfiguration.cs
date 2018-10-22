@@ -43,5 +43,10 @@ namespace Tgstation.Server.Host.Configuration
 		/// The timeout in milliseconds for sending and receiving topics to/from DreamDaemon. Note that a single topic exchange can take up to twice this value
 		/// </summary>
 		public int ByondTopicTimeout { get; set; } = DefaultByondTopicTimeout;
+
+		/// <summary>
+		/// If the javascript control panel is allowed
+		/// </summary>
+		public bool UseWebControlPanel { get; set; }
 	}
 }

@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Globalization;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -327,6 +326,9 @@ namespace Tgstation.Server.Host.Core
 			{
 				SetupWizardMode = SetupWizardMode.Never
 			};
+
+			newGeneralConfiguration.UseWebControlPanel = await PromptYesNo("Enable the web control panel? (y/n): ", cancellationToken).ConfigureAwait(false);
+
 			do
 			{
 				await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);

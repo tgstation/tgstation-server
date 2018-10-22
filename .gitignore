@@ -15,3 +15,6 @@ artifacts/
 /tests/DMAPI/travistester.int
 /tests/DMAPI/travistester.dmb
 /src/Tgstation.Server.Host/appsettings.Development.json
+/src/Tgstation.Server.Host/wwwroot
+/src/Tgstation.Server.Host/ClientApp/node_modules
+/src/Tgstation.Server.Host/ClientApp/build
