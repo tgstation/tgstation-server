@@ -2,7 +2,7 @@
   "private": true,
   "dependencies": {
     "react-dom": "^16.5.2",
-    "tgstation-server-control-panel": "0.1.4"
+    "tgstation-server-control-panel": "0.1.5"
   },
   "scripts": {
     "build": "rm -rf build && react-scripts-ts build && cp -r node_modules/tgstation-server-control-panel/build/public/* build/ && cp ../../../build/tgs.ico build/favicon.ico && rm -rf ../wwwroot && mv build ../wwwroot"
