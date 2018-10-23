@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['rawjson',['RawJson',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_comm_command.html#a2a36d966a4d7a2b7c045d4da6bc84ec9',1,'Tgstation::Server::Host::Components::Interop::CommCommand']]],
   ['realid',['RealId',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel.html#a4008cb7e685a82e590a10f673ed23fd3',1,'Tgstation.Server.Host.Components.Chat.Channel.RealId()'],['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_user.html#ac4a6e8d71a8d3e48057c40df6e798db4',1,'Tgstation.Server.Host.Components.Chat.User.RealId()']]],
   ['reattachinformations',['ReattachInformations',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_database_context.html#a7a1cdc4c717337334e3b4dfd51bbd1c8',1,'Tgstation.Server.Host.Models.DatabaseContext.ReattachInformations()'],['../interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_database_context.html#afee6cf458d92a060f160cbd821a8c1f4',1,'Tgstation.Server.Host.Models.IDatabaseContext.ReattachInformations()']]],
   ['rebootinginactiveserver',['RebootingInactiveServer',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_monitor_state.html#a37727fb1a18d568d3b85da43088b1ab7',1,'Tgstation::Server::Host::Components::Watchdog::MonitorState']]],
