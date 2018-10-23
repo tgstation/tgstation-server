@@ -120,6 +120,17 @@ namespace Tgstation.Server.Host.Controllers
 				return BadRequest(new ErrorMessage { Message = "path must not be empty!" });
 
 			NormalizeModelPath(model, out var rawPath);
+
+			var localPath = ioManager.ResolvePath(".");
+			NormalizeModelPath(new Api.Models.Instance
+			{
+				Path = localPath
+			}, out var normalizedLocalPath);
+
+			if (rawPath.StartsWith(normalizedLocalPath, StringComparison.Ordinal))
+				return Conflict("Instances cannot be created in the installation directory!");
+
+
 			var dirExistsTask = ioManager.DirectoryExists(model.Path, cancellationToken);
 			bool attached = false;
 			if (await ioManager.FileExists(model.Path, cancellationToken).ConfigureAwait(false) || await dirExistsTask.ConfigureAwait(false))
