@@ -220,6 +220,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return result;
 			};
 			LaunchResult = GetLaunchResult();
+
+			logger.LogDebug("Created session controller. Primary: {0}, CommsKey: {1}, Port: {2}", IsPrimary, reattachInformation.AccessIdentifier, Port);
 		}
 
 		/// <summary>
