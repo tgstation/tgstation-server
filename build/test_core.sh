@@ -21,7 +21,7 @@ source ~/.nvm/nvm.sh && nvm install 10
 npm ci
 npm run build
 
-cd ../../tests/Tgstation.Server.Host.Tests
+cd ../../../tests/Tgstation.Server.Host.Tests
 
 dotnet build -c $CONFIG /p:CopyLocalLockFileAssemblies=true
 $HOME/.dotnet/tools/coverlet bin/$CONFIG/netcoreapp2.1/Tgstation.Server.Host.Tests.dll --target "dotnet" --targetargs "test -c $CONFIG --no-build" --format opencover --output "../../TestResults/host.xml" --include "[Tgstation.Server*]*" --exclude "[Tgstation.Server.Host.Tests*]*" --exclude "[Tgstation.Server.Host]Tgstation.Server.Host.Models.Migrations.*"
