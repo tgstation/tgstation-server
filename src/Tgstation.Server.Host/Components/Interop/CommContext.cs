@@ -113,7 +113,7 @@ namespace Tgstation.Server.Host.Components.Interop
 						RawJson = file
 					};
 				}
-				catch (JsonSerializationException ex)
+				catch (JsonException ex)
 				{
 					//file not fully written yet
 					logger.LogDebug("Suppressing json convert exception for command file write: {0}", ex);
