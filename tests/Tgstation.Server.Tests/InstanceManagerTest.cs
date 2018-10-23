@@ -51,6 +51,13 @@ namespace Tgstation.Server.Tests
 			}, cancellationToken)).ConfigureAwait(false);
 			await Assert.ThrowsExceptionAsync<ConflictException>(() => instanceManagerClient.CreateOrAttach(firstTest, cancellationToken)).ConfigureAwait(false);
 
+			//can't create instances in installation directory
+			await Assert.ThrowsExceptionAsync<ConflictException>(() => instanceManagerClient.CreateOrAttach(new Api.Models.Instance
+			{
+				Path = "./A/Local/Path",
+				Name = "NoInstallDirTest"
+			}, cancellationToken)).ConfigureAwait(false);
+
 			//can't move to existent directories
 			await Assert.ThrowsExceptionAsync<ConflictException>(() => instanceManagerClient.Update(new Api.Models.Instance
 			{
