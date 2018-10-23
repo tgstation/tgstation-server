@@ -1,6 +1,7 @@
 ﻿using Byond.TopicSender;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -286,6 +287,25 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				content = new object();
 				switch (method)
 				{
+					case Constants.DMCommandChat:
+						try
+						{
+							var message = JsonConvert.DeserializeObject<Response>(command.RawJson, new JsonSerializerSettings
+							{
+								ContractResolver = new CamelCasePropertyNamesContractResolver()
+							});
+							if (message.ChannelIds == null)
+								throw new InvalidOperationException("Missing ChannelIds field!");
+							if (message.Message == null)
+								throw new InvalidOperationException("Missing Message field!");
+							await chat.SendMessage(message.Message, message.ChannelIds, cancellationToken).ConfigureAwait(false);
+						}
+						catch (Exception e)
+						{
+							logger.LogDebug("Exception while decoding chat message! Exception: {0}", e);
+							goto default;
+						}
+						break;
 					case Constants.DMCommandServerPrimed:
 						//currently unused, maybe in the future
 						break;
