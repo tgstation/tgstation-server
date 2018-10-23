@@ -280,7 +280,7 @@
 	for(var/I in ChatChannelInfo())
 		var/datum/tgs_chat_channel/channel = I
 		if (!channel.is_private_channel && ((channel.is_admin_channel && admin_only) || (!channel.is_admin_channel && !admin_only)))
-			channels += I.id
+			channels += channel.id
 	message = list("message" = message, "channelIds" = channels)
 	if(intercepted_message_queue)
 		intercepted_message_queue += list(message)
