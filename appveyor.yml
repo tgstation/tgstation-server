@@ -24,7 +24,7 @@ artifacts:
     name: ServerUpdatePackage
   - path: src/DMAPI
     name: DMAPI
-  - path: C:\tgsdox
+  - path: ../../tgsdox
     name: DocumentationHtml
 cache:
   - ~\.nuget\packages -> **\*.csproj
