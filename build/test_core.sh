@@ -17,7 +17,7 @@ $HOME/.dotnet/tools/coverlet bin/$CONFIG/netcoreapp2.1/Tgstation.Server.Client.T
 
 
 cd ../../src/Tgstation.Server.Host/ClientApp
-source ~/.nvm/nvm.sh
+source ~/.nvm/nvm.sh && nvm install 10
 npm ci
 npm run build
 
