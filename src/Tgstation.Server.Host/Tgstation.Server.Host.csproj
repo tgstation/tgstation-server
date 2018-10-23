@@ -21,6 +21,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="ClientApp\package-lock.json" />
+    <Content Remove="ClientApp\package.json" />
+    <Content Remove="ClientApp\public\manifest.json" />
+    <Content Remove="ClientApp\tsconfig.json" />
+    <Content Remove="ClientApp\tsconfig.prod.json" />
+    <Content Remove="ClientApp\tsconfig.test.json" />
+    <Content Remove="ClientApp\tslint.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BetterWin32Errors" Version="0.2.0" />
     <PackageReference Include="Byond.TopicSender" Version="1.1.4" />
     <PackageReference Include="Cyberboss.AspNetCore.AsyncInitializer" Version="1.2.0" />
@@ -68,6 +78,16 @@
   <ItemGroup>
     <Folder Include="Properties\" />
     <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="ClientApp\package-lock.json" />
+    <None Include="ClientApp\package.json" />
+    <None Include="ClientApp\public\manifest.json" />
+    <None Include="ClientApp\tsconfig.json" />
+    <None Include="ClientApp\tsconfig.prod.json" />
+    <None Include="ClientApp\tsconfig.test.json" />
+    <None Include="ClientApp\tslint.json" />
   </ItemGroup>
 
   <ItemGroup>
