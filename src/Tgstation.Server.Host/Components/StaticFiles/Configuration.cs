@@ -366,7 +366,8 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 						var success = synchronousIOManager.WriteFileChecked(path, data, ref fileHash, cancellationToken);
 						if (!success)
 							return;
-						postWriteHandler.HandleWrite(path);						
+						if (data != null)
+							postWriteHandler.HandleWrite(path);						
 						result = new ConfigurationFile
 						{
 							Content = data,
