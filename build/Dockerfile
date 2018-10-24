@@ -9,7 +9,7 @@ COPY src/Tgstation.Server.Host.Watchdog/Tgstation.Server.Host.Watchdog.csproj sr
 COPY src/Tgstation.Server.Host/Tgstation.Server.Host.csproj src/Tgstation.Server.Host/
 COPY src/Tgstation.Server.Api/Tgstation.Server.Api.csproj src/Tgstation.Server.Api/
 
-RUN dotnet restore -nowarn:MSB3202,nu1503 -p:RestoreUseSkipNonexistentTargets=false
+RUN dotnet restore -s https://api.nuget.org/v3/index.json -s https://ci.appveyor.com/nuget/octokit-net -nowarn:MSB3202,nu1503 -p:RestoreUseSkipNonexistentTargets=false
 
 COPY . .
 

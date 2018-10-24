@@ -47,7 +47,7 @@ matrix:
 
 install:
   - if [ $DMAPI = true ]; then build/install_byond.sh; fi
-  - if [ $DMAPI = false ]; then dotnet restore tgstation-server.sln; fi
+  - if [ $DMAPI = false ]; then dotnet restore -s https://api.nuget.org/v3/index.json -s https://ci.appveyor.com/nuget/octokit-net tgstation-server.sln; fi
 
 script:
   - if [ $DMAPI = true ]; then tests/DMAPI/build_byond.sh || travis_terminate 1; fi
