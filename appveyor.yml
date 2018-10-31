@@ -60,7 +60,7 @@ deploy:
       TGSDeploy: "Do it."
   - provider: NuGet
     api_key:
-      secure: bedsYuLMqGREzkVkJqRx+BTMgOvDO76tgaNc8sW5E3Ao6iw8oGHdJ/BZov8y0iKa
+      secure: QUuuTviU4NOcQzHqCoRTh2DwEUmhBIVKMtBIYRbVD5kG+zEZOlWZW4kolURbUgWq
     skip_symbols: true
     artifact: /.*\.nupkg/
     on:
