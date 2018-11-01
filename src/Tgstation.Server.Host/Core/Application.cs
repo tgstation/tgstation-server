@@ -94,11 +94,11 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IApplication>(this);
 
 			//configure configuration
-			services.Configure<UpdatesConfiguration>(configuration.GetSection(UpdatesConfiguration.Section));
-			services.Configure<DatabaseConfiguration>(configuration.GetSection(DatabaseConfiguration.Section));
-			services.Configure<GeneralConfiguration>(configuration.GetSection(GeneralConfiguration.Section));
-			services.Configure<FileLoggingConfiguration>(configuration.GetSection(FileLoggingConfiguration.Section));
-			services.Configure<ControlPanelConfiguration>(configuration.GetSection(ControlPanelConfiguration.Section));
+			services.UseStandardConfig<UpdatesConfiguration>(configuration);
+			services.UseStandardConfig<DatabaseConfiguration>(configuration);
+			services.UseStandardConfig<GeneralConfiguration>(configuration);
+			services.UseStandardConfig<FileLoggingConfiguration>(configuration);
+			services.UseStandardConfig<ControlPanelConfiguration>(configuration);
 
 			//enable options which give us config reloading
 			services.AddOptions();
