@@ -135,7 +135,6 @@ namespace Tgstation.Server.Host.Core.Tests
 				"user",
 				"pass",
 				//general config
-				"y",
 				"four",
 				"-12",
 				"16",
@@ -145,6 +144,9 @@ namespace Tgstation.Server.Host.Core.Tests
 				"fake token",
 				//logging config
 				"no",
+				//cp config
+				"y",
+				"y",
 				//saved, now for second run
 				//this time use defaults amap
 				String.Empty,
@@ -166,6 +168,10 @@ namespace Tgstation.Server.Host.Core.Tests
 				"not actually verified because lol mocks /../!@#$%^&*()/..///.",
 				"Warning",
 				String.Empty,
+				//cp config
+				"y",
+				"n",
+				String.Empty,
 				//third run, we already hit all the code coverage so just get through it
 				String.Empty,
 				nameof(DatabaseType.MariaDB),
@@ -185,7 +191,11 @@ namespace Tgstation.Server.Host.Core.Tests
 				String.Empty,
 				"fake",
 				"None",
-				"Critical"
+				"Critical",
+				//cp config
+				"y",
+				"n",
+				"http://fake.com, https://example.org",
 			};
 
 			var inputPos = 0;

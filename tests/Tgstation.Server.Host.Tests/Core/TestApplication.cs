@@ -43,10 +43,10 @@ namespace Tgstation.Server.Host.Core.Tests
 			var mockTokenFactory = new Mock<ITokenFactory>();
 			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(mockAppBuilder.Object, mockServerControl.Object, mockTokenFactory.Object, null, null));
 
-			var mockGeneralOptions = new Mock<IOptions<GeneralConfiguration>>();
-			mockGeneralOptions.SetupGet(x => x.Value).Returns(new GeneralConfiguration()).Verifiable();
-			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(mockAppBuilder.Object, mockServerControl.Object, mockTokenFactory.Object, mockGeneralOptions.Object, null));
-			mockGeneralOptions.VerifyAll();
+			var mockControlPanelOptions = new Mock<IOptions<ControlPanelConfiguration>>();
+			mockControlPanelOptions.SetupGet(x => x.Value).Returns(new ControlPanelConfiguration()).Verifiable();
+			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(mockAppBuilder.Object, mockServerControl.Object, mockTokenFactory.Object, mockControlPanelOptions.Object, null));
+			mockControlPanelOptions.VerifyAll();
 		}
 
 		class MockSetupWizard : ISetupWizard
