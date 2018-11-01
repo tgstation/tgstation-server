@@ -344,6 +344,7 @@ namespace Tgstation.Server.Host.Core
 			//suppress OperationCancelledExceptions, they are just aborted HTTP requests
 			applicationBuilder.UseCancelledRequestSuppression();
 
+			//Set up CORS based on configuration if necessary
 			Action<CorsPolicyBuilder> corsBuilder = null;
 
 			void AllowAnyOrginCors(CorsPolicyBuilder builder) => builder.AllowAnyOrigin();
