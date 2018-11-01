@@ -114,6 +114,7 @@ namespace Tgstation.Server.Host.Core
 			GeneralConfiguration generalConfiguration;
 			DatabaseConfiguration databaseConfiguration;
 			FileLoggingConfiguration fileLoggingConfiguration;
+			ControlPanelConfiguration controlPanelConfiguration;
 			IIOManager ioManager;
 			IPlatformIdentifier platformIdentifier;
 
@@ -141,6 +142,9 @@ namespace Tgstation.Server.Host.Core
 
 				var loggingOptions = provider.GetRequiredService<IOptions<FileLoggingConfiguration>>();
 				fileLoggingConfiguration = loggingOptions.Value;
+
+				var controlPanelOptions = provider.GetRequiredService<IOptions<ControlPanelConfiguration>>();
+				controlPanelConfiguration = controlPanelOptions.Value;
 
 				ioManager = provider.GetRequiredService<IIOManager>();
 				platformIdentifier = provider.GetRequiredService<IPlatformIdentifier>();
@@ -223,8 +227,9 @@ namespace Tgstation.Server.Host.Core
 				options.SerializerSettings.Converters = new[] { new VersionConverter() };
 			});
 
-			//enable CORS
-			services.AddCors();
+			//enable CORS if necessary
+			if (controlPanelConfiguration.AllowAnyOrigin || controlPanelConfiguration.AllowedOrigins?.Count > 0)
+				services.AddCors();
 
 			void AddTypedContext<TContext>() where TContext : DatabaseContext<TContext>
 			{
@@ -346,23 +351,21 @@ namespace Tgstation.Server.Host.Core
 
 			//Set up CORS based on configuration if necessary
 			Action<CorsPolicyBuilder> corsBuilder = null;
-
-			void AllowAnyOrginCors(CorsPolicyBuilder builder) => builder.AllowAnyOrigin();
-			void AllowConfiguredOriginsCors(CorsPolicyBuilder builder) => builder.WithOrigins();
-
 			if (controlPanelConfiguration.AllowAnyOrigin)
-				corsBuilder = AllowAnyOrginCors;
+			{
+				logger.LogTrace("Access-Control-Allow-Origin: *");
+				corsBuilder = builder => builder.AllowAnyOrigin();
+			}
 			else if (controlPanelConfiguration.AllowedOrigins?.Count > 0)
-				corsBuilder = AllowConfiguredOriginsCors;
+			{
+				logger.LogTrace("Access-Control-Allow-Origin: ", String.Join(',', controlPanelConfiguration.AllowedOrigins));
+				corsBuilder = builder => builder.WithOrigins(controlPanelConfiguration.AllowedOrigins.ToArray());
+			}
 
 			if (corsBuilder != null)
 			{
 				var originalBuilder = corsBuilder;
-				corsBuilder = builder =>
-				{
-					originalBuilder(builder);
-					builder.AllowAnyHeader().AllowAnyMethod();
-				};
+				corsBuilder = builder => originalBuilder(builder.AllowAnyHeader().AllowAnyMethod());
 				applicationBuilder.UseCors(corsBuilder);
 			}
 
