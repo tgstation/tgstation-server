@@ -2,6 +2,7 @@
 using Cyberboss.AspNetCore.AsyncInitializer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -222,6 +223,9 @@ namespace Tgstation.Server.Host.Core
 				options.SerializerSettings.Converters = new[] { new VersionConverter() };
 			});
 
+			//enable CORS
+			services.AddCors();
+
 			void AddTypedContext<TContext>() where TContext : DatabaseContext<TContext>
 			{
 				services.AddDbContext<TContext>(builder =>
@@ -339,6 +343,27 @@ namespace Tgstation.Server.Host.Core
 			
 			//suppress OperationCancelledExceptions, they are just aborted HTTP requests
 			applicationBuilder.UseCancelledRequestSuppression();
+
+			Action<CorsPolicyBuilder> corsBuilder = null;
+
+			void AllowAnyOrginCors(CorsPolicyBuilder builder) => builder.AllowAnyOrigin();
+			void AllowConfiguredOriginsCors(CorsPolicyBuilder builder) => builder.WithOrigins();
+
+			if (controlPanelConfiguration.AllowAnyOrigin)
+				corsBuilder = AllowAnyOrginCors;
+			else if (controlPanelConfiguration.AllowedOrigins?.Count > 0)
+				corsBuilder = AllowConfiguredOriginsCors;
+
+			if (corsBuilder != null)
+			{
+				var originalBuilder = corsBuilder;
+				corsBuilder = builder =>
+				{
+					originalBuilder(builder);
+					builder.AllowAnyHeader().AllowAnyMethod();
+				};
+				applicationBuilder.UseCors(corsBuilder);
+			}
 
 			//Do not service requests until Ready is called, this will return 503 until that point
 			applicationBuilder.UseAsyncInitialization(async cancellationToken =>
