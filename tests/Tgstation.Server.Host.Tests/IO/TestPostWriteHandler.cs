@@ -78,7 +78,7 @@ namespace Tgstation.Server.Host.IO.Tests
 			}
 			finally
 			{
-				File.Delete(tmpFile);
+				Directory.Delete(tmpFile);
 			}
 		}
 	}
