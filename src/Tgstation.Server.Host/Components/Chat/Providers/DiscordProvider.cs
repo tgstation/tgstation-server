@@ -146,6 +146,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			return true;
 		}
 
+		/// <inheritdoc />
 		public override async Task Disconnect(CancellationToken cancellationToken)
 		{
 			if (!Connected)
