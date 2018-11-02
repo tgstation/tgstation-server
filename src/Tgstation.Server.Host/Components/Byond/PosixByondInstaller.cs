@@ -82,6 +82,9 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <inheritdoc />
 		public async Task<byte[]> DownloadVersion(Version version, CancellationToken cancellationToken)
 		{
+			if (version == null)
+				throw new ArgumentNullException(nameof(version));
+
 			var url = String.Format(CultureInfo.InvariantCulture, ByondRevisionsURL, version.Major, version.Minor);
 
 			return await ioManager.DownloadFile(new Uri(url), cancellationToken).ConfigureAwait(false);
@@ -90,6 +93,11 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <inheritdoc />
 		public Task InstallByond(string path, Version version, CancellationToken cancellationToken)
 		{
+			if (path == null)
+				throw new ArgumentNullException(nameof(path));
+			if (version == null)
+				throw new ArgumentNullException(nameof(version));
+
 			//write the scripts for running the ting
 			//need to add $ORIGIN to LD_LIBRARY_PATH
 			const string StandardScript = "#!/bin/sh\nexport LD_LIBRARY_PATH=\"\\$ORIGIN:$LD_LIBRARY_PATH\"\nBASEDIR=$(dirname \"$0\")\nexec \"$BASEDIR/{0}\" \"$@\"\n";
