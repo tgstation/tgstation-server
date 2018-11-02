@@ -1,4 +1,6 @@
-﻿namespace Tgstation.Server.Host.IO
+﻿using System;
+
+namespace Tgstation.Server.Host.IO
 {
 	/// <summary>
 	/// <see cref="IPostWriteHandler"/> for Windows systems
@@ -6,6 +8,10 @@
 	sealed class WindowsPostWriteHandler : IPostWriteHandler
 	{
 		/// <inheritdoc />
-		public void HandleWrite(string filePath) { }
+		public void HandleWrite(string filePath)
+		{
+			if (filePath == null)
+				throw new ArgumentNullException(nameof(filePath));
+		}
 	}
 }
