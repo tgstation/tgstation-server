@@ -168,7 +168,7 @@ namespace Tgstation.Server.Host.Core
 
 			await databaseContext.Save(cancellationToken).ConfigureAwait(false);
 			logger.LogDebug("Starting job {0}: {1}...", job.Id, job.Description);
-			var jobHandler = JobHandler.Create(x => RunJob(job, (jobParam, serviceProvider, ct) =>
+			var jobHandler = new JobHandler(x => RunJob(job, (jobParam, serviceProvider, ct) =>
 			operation(jobParam, serviceProvider, y =>
 			{
 				lock (this)

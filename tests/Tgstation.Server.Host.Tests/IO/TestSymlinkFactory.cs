@@ -34,7 +34,7 @@ namespace Tgstation.Server.Host.IO.Tests
 		public async Task TestFileWorks()
 		{
 			if (!HasPermissionToMakeSymlinks())
-				Assert.Inconclusive();
+				Assert.Inconclusive("Current user does not have permission to create symlinks!");
 			const string Text = "Hello world";
 			string f2 = null;
 			var f1 = Path.GetTempFileName();
@@ -63,7 +63,7 @@ namespace Tgstation.Server.Host.IO.Tests
 		public async Task TestDirectoryWorks()
 		{
 			if (!HasPermissionToMakeSymlinks())
-				Assert.Inconclusive();
+				Assert.Inconclusive("Current user does not have permission to create symlinks!");
 			const string FileName = "TestFile.txt";
 			const string Text = "Hello world";
 			string f2 = null;
