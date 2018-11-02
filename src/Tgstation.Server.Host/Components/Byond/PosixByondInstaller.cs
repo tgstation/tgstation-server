@@ -82,26 +82,9 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <inheritdoc />
 		public async Task<byte[]> DownloadVersion(Version version, CancellationToken cancellationToken)
 		{
-			var ourVersion = version;
-			//lummox is annoying and doesn't like to post linux versions if nothing changed in DreamDaemon/DM
-			//if this for's exit condition ever triggers, i get to say I told you so
-			Exception lastException = null;
-			for (var I = 0; I < 5 && ourVersion.Minor >= 1; ++I, ourVersion = new Version(ourVersion.Major, ourVersion.Minor))
-			{
-				try
-				{
-					var url = String.Format(CultureInfo.InvariantCulture, ByondRevisionsURL, ourVersion.Major, ourVersion.Minor);
+			var url = String.Format(CultureInfo.InvariantCulture, ByondRevisionsURL, version.Major, version.Minor);
 
-					return await ioManager.DownloadFile(new Uri(url), cancellationToken).ConfigureAwait(false);
-				}
-				catch (WebException e)
-				{
-					if (!(e.Status == WebExceptionStatus.ProtocolError && e.Response is HttpWebResponse response && response.StatusCode == HttpStatusCode.NotFound))
-						throw;
-					lastException = e;
-				}
-			}
-			throw lastException;
+			return await ioManager.DownloadFile(new Uri(url), cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
