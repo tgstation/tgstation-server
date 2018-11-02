@@ -70,16 +70,6 @@ namespace Tgstation.Server.Host.IO.Tests
 			var tmpFile = Path.GetTempFileName();
 			File.Delete(tmpFile);
 			Assert.ThrowsException<UnixIOException>(() => postWriteHandler.HandleWrite(tmpFile));
-			Directory.CreateDirectory(tmpFile);
-			try
-			{
-				//can't +x a directory ;) (taps head)
-				Assert.ThrowsException<UnixIOException>(() => postWriteHandler.HandleWrite(tmpFile));
-			}
-			finally
-			{
-				Directory.Delete(tmpFile);
-			}
 		}
 	}
 }
