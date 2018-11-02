@@ -2,6 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Threading;
@@ -17,8 +18,9 @@ namespace Tgstation.Server.Tests
 	public sealed class IntegrationTest
 	{
 		readonly IServerClientFactory clientFactory = new ServerClientFactory(new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
-
+		
 		[TestMethod]
+		[TestCategory("SkipWhenLiveUnitTesting")]
 		public async Task TestUpdate()
 		{
 			var updatePathRoot = Path.GetTempFileName();
@@ -93,6 +95,7 @@ namespace Tgstation.Server.Tests
 		}
 
 		[TestMethod]
+		[TestCategory("SkipWhenLiveUnitTesting")]
 		public async Task TestStandardOperation()
 		{
 			var server = new TestingServer(null);

@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Security.Principal;
 using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host.IO.Tests
@@ -20,9 +21,20 @@ namespace Tgstation.Server.Host.IO.Tests
 				symlinkFactory = new PosixSymlinkFactory();
 		}
 
+		public static bool HasPermissionToMakeSymlinks()
+		{
+			if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+				return true;
+			var identity = WindowsIdentity.GetCurrent();
+			var principal = new WindowsPrincipal(identity);
+			return principal.IsInRole(WindowsBuiltInRole.Administrator);
+		}
+
 		[TestMethod]
 		public async Task TestFileWorks()
 		{
+			if (!HasPermissionToMakeSymlinks())
+				Assert.Inconclusive();
 			const string Text = "Hello world";
 			string f2 = null;
 			var f1 = Path.GetTempFileName();
@@ -50,6 +62,8 @@ namespace Tgstation.Server.Host.IO.Tests
 		[TestMethod]
 		public async Task TestDirectoryWorks()
 		{
+			if (!HasPermissionToMakeSymlinks())
+				Assert.Inconclusive();
 			const string FileName = "TestFile.txt";
 			const string Text = "Hello world";
 			string f2 = null;
@@ -86,17 +100,14 @@ namespace Tgstation.Server.Host.IO.Tests
 		[TestMethod]
 		public async Task TestFailsProperly()
 		{
-			const string BadPath = "/../../?>O(UF+}P{{??>/////";
+			const string BadPath = "/../../?>!@#$%^&*()O(UF+}P{{??>/////";
 
 			try
 			{
 				await symlinkFactory.CreateSymbolicLink(BadPath, BadPath, default).ConfigureAwait(false);
+				Assert.Fail("No exception thrown!");
 			}
-			catch
-			{
-				return;
-			}
-			Assert.Fail("No exception thrown!");
+			catch { }
 		}
 	}
 }
