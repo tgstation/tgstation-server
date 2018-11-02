@@ -3,6 +3,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Client;
 
 namespace Tgstation.Server.Tests
@@ -23,10 +24,20 @@ namespace Tgstation.Server.Tests
 
 		async Task TestRead(CancellationToken cancellationToken)
 		{
-			var model = await client.Read(cancellationToken).ConfigureAwait(false);
+			Administration model;
+			try
+			{
+				model = await client.Read(cancellationToken).ConfigureAwait(false);
+			}
+			catch (RateLimitException)
+			{
+				Assert.Inconclusive("GitHub rate limit hit while testing administration endpoint. Set environment variable TGS4_TEST_GITHUB_TOKEN to fix this!");
+				return;	//c# needs the equivalent of [noreturn]
+			}
 			Assert.AreEqual(RuntimeInformation.IsOSPlatform(OSPlatform.Windows), model.WindowsHost);
 
-			//uhh not much else to do
+			//we've released a few 4.x versions now, check the release checker is at least somewhat functional
+			Assert.AreEqual(4, model.LatestVersion.Major);
 		}
 	}
 }
