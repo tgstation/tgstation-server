@@ -19,6 +19,19 @@
     <LangVersion>latest</LangVersion>
     <NoWarn>1701;1702;1705;CA2227</NoWarn>
   </PropertyGroup>
+  
+  <PropertyGroup>
+    <NodeModulesFolder>ClientApp/node_modules</NodeModulesFolder>
+    <!-- File with mtime of last successful npm install -->
+    <NpmInstallStampFile>ClientApp/node_modules/.install-stamp</NpmInstallStampFile>
+  </PropertyGroup>
+  
+  <Target Name="NpmInstall"
+    Inputs="ClientApp/package-lock.json;ClientApp/package.json"
+    Outputs="$(NpmInstallStampFile)">
+    <Exec WorkingDirectory="ClientApp" Command="npm ci" />
+    <Touch Files="$(NpmInstallStampFile)" AlwaysCreate="true" />
+  </Target>
 
   <ItemGroup>
     <Content Remove="ClientApp\package-lock.json" />
@@ -28,7 +41,16 @@
     <Content Remove="ClientApp\tsconfig.prod.json" />
     <Content Remove="ClientApp\tsconfig.test.json" />
     <Content Remove="ClientApp\tslint.json" />
+    <ClientApp Include="ClientApp\**\*" />
   </ItemGroup>
+  
+  <Target Name="NpmBuild"
+    BeforeTargets="BeforeBuild"
+    DependsOnTargets="NpmInstall"
+    Inputs="@(ClientApp)"
+    Outputs="wwwroot\index.html">
+    <Exec WorkingDirectory="ClientApp" Command="npm run build" />
+  </Target>
 
   <ItemGroup>
     <PackageReference Include="BetterWin32Errors" Version="0.2.0" />

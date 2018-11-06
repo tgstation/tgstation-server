@@ -34,7 +34,7 @@ You can of course, as always, ask for help at [#coderbus](irc://irc.rizon.net/co
 
 ### Development Environment
 
-You need the Dotnet 2.1 SDK to compile the main server and command line programs. In order to build the service version you also need a .NET 4.7.1 build chain
+You need the Dotnet 2.1 SDK and npm>=v5.7 (in your PATH) to compile the server. In order to build the service version you also need a .NET 4.7.1 build chain
 
 The recommended IDE is Visual Studio 2017 which has installation options for both of these.
 
