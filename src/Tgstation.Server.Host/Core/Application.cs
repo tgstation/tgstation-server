@@ -227,6 +227,9 @@ namespace Tgstation.Server.Host.Core
 				options.SerializerSettings.Converters = new[] { new VersionConverter() };
 			});
 
+			//enable browser detection
+			services.AddDetectionCore().AddBrowser();
+
 			//enable CORS if necessary
 			if (controlPanelConfiguration.AllowAnyOrigin || controlPanelConfiguration.AllowedOrigins?.Count > 0)
 				services.AddCors();

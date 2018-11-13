@@ -26,9 +26,7 @@
     <NpmInstallStampFile>ClientApp/node_modules/.install-stamp</NpmInstallStampFile>
   </PropertyGroup>
   
-  <Target Name="NpmInstall"
-    Inputs="ClientApp/package-lock.json;ClientApp/package.json"
-    Outputs="$(NpmInstallStampFile)">
+  <Target Name="NpmInstall" Inputs="ClientApp/package-lock.json" Outputs="$(NpmInstallStampFile)">
     <Exec WorkingDirectory="ClientApp" Command="npm ci" />
     <Touch Files="$(NpmInstallStampFile)" AlwaysCreate="true" />
   </Target>
@@ -38,17 +36,11 @@
     <Content Remove="ClientApp\package.json" />
     <Content Remove="ClientApp\public\manifest.json" />
     <Content Remove="ClientApp\tsconfig.json" />
-    <Content Remove="ClientApp\tsconfig.prod.json" />
-    <Content Remove="ClientApp\tsconfig.test.json" />
     <Content Remove="ClientApp\tslint.json" />
-    <ClientApp Include="ClientApp\**\*" />
+    <ClientApp Include="ClientApp\src;ClientApp\public;ClientApp\tsconfig.json;ClientApp\tslint.json;ClientApp\package-lock.json" />
   </ItemGroup>
   
-  <Target Name="NpmBuild"
-    BeforeTargets="BeforeBuild"
-    DependsOnTargets="NpmInstall"
-    Inputs="@(ClientApp)"
-    Outputs="wwwroot\index.html">
+  <Target Name="NpmBuild" BeforeTargets="BeforeBuild" DependsOnTargets="NpmInstall" Inputs="@(ClientApp)" Outputs="wwwroot\index.html">
     <Exec WorkingDirectory="ClientApp" Command="npm run build" />
   </Target>
 
@@ -81,6 +73,7 @@
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="4.5.0" />
     <PackageReference Include="System.DirectoryServices.AccountManagement" Version="4.5.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.2.4" />
+    <PackageReference Include="Wangkanai.Detection.Browser" Version="2.0.0-beta9" />
     <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="1.8.10" />
   </ItemGroup>
 
@@ -107,8 +100,6 @@
     <None Include="ClientApp\package.json" />
     <None Include="ClientApp\public\manifest.json" />
     <None Include="ClientApp\tsconfig.json" />
-    <None Include="ClientApp\tsconfig.prod.json" />
-    <None Include="ClientApp\tsconfig.test.json" />
     <None Include="ClientApp\tslint.json" />
   </ItemGroup>
 

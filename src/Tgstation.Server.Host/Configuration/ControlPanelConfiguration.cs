@@ -5,7 +5,7 @@ namespace Tgstation.Server.Host.Configuration
 	/// <summary>
 	/// Configuration options for the web control panel
 	/// </summary>
-	sealed class ControlPanelConfiguration
+	public sealed class ControlPanelConfiguration
 	{
 		/// <summary>
 		/// The key for the <see cref="Microsoft.Extensions.Configuration.IConfigurationSection"/> the <see cref="ControlPanelConfiguration"/> resides in

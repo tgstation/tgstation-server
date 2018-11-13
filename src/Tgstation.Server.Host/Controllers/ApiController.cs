@@ -52,13 +52,19 @@ namespace Tgstation.Server.Host.Controllers
 		readonly bool requireInstance;
 
 		/// <summary>
+		/// If <see cref="ApiHeaders"/> are required
+		/// </summary>
+		readonly bool requireHeaders;
+
+		/// <summary>
 		/// Construct an <see cref="ApiController"/>
 		/// </summary>
 		/// <param name="databaseContext">The value of <see cref="DatabaseContext"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="logger">The value of <see cref="Logger"/></param>
 		/// <param name="requireInstance">The value of <see cref="requireInstance"/></param>
-		public ApiController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ILogger logger, bool requireInstance)
+		/// <param name="requireHeaders">The value of <see cref="requireHeaders"/></param>
+		public ApiController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ILogger logger, bool requireInstance, bool requireHeaders)
 		{
 			DatabaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
 			if (authenticationContextFactory == null)
@@ -67,6 +73,7 @@ namespace Tgstation.Server.Host.Controllers
 			AuthenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
 			Instance = AuthenticationContext?.InstanceUser?.Instance;
 			this.requireInstance = requireInstance;
+			this.requireHeaders = requireHeaders;
 		}
 
 		/// <inheritdoc />
@@ -113,8 +120,11 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch (InvalidOperationException e)
 			{
-				await BadRequest(new ErrorMessage { Message = e.Message }).ExecuteResultAsync(context).ConfigureAwait(false);
-				return;
+				if (requireHeaders)
+				{
+					await BadRequest(new ErrorMessage { Message = e.Message }).ExecuteResultAsync(context).ConfigureAwait(false);
+					return;
+				}
 			}
 
 			if (ModelState?.IsValid == false)
@@ -138,7 +148,8 @@ namespace Tgstation.Server.Host.Controllers
 				}
 			}
 
-			Logger.LogDebug("Request made by User ID {0}. Api version: {1}. User-Agent: {2}. Type: {3}. Route {4}{5} to Instance {6}", AuthenticationContext?.User.Id.ToString(CultureInfo.InvariantCulture), ApiHeaders.ApiVersion, ApiHeaders.UserAgent, Request.Method, Request.Path, Request.QueryString, ApiHeaders.InstanceId);
+			if (ApiHeaders != null)
+				Logger.LogDebug("Request made by User ID {0}. Api version: {1}. User-Agent: {2}. Type: {3}. Route {4}{5} to Instance {6}", AuthenticationContext?.User.Id.ToString(CultureInfo.InvariantCulture), ApiHeaders.ApiVersion, ApiHeaders.UserAgent, Request.Method, Request.Path, Request.QueryString, ApiHeaders.InstanceId);
 
 			try
 			{
