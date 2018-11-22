@@ -341,7 +341,8 @@ namespace Tgstation.Server.Host.Controllers
 				|| CheckModified(x => x.CommitterName, RepositoryRights.ChangeCommitter)
 				|| CheckModified(x => x.PushTestMergeCommits, RepositoryRights.ChangeTestMergeCommits)
 				|| CheckModified(x => x.ShowTestMergeCommitters, RepositoryRights.ChangeTestMergeCommits)
-				|| (model.UpdateFromOrigin == true && !userRights.HasFlag(RepositoryRights.UpdateBranch)))
+                || CheckModified(x => x.PostTestMergeComment, RepositoryRights.ChangeTestMergeCommits)
+                || (model.UpdateFromOrigin == true && !userRights.HasFlag(RepositoryRights.UpdateBranch)))
 				return Forbid();
 
 			if (currentModel.AccessToken?.Length == 0 && currentModel.AccessUser?.Length == 0)

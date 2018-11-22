@@ -253,54 +253,58 @@ namespace Tgstation.Server.Host.Components
 							}
 						}
 
-						var tasks = new List<Task>();
+                        if (repositorySettings.PostTestMergeComment ?? false)
+                        {
 
-						string FormatTestMerge(TestMerge testMerge, bool updated) => String.Format(CultureInfo.InvariantCulture, "#### Test Merge {4}{0}{0}##### Server Instance{0}{5}{1}{0}{0}##### Revision{0}Origin: {6}{0}Pull Request: {2}{0}Server: {7}{3}",
-							Environment.NewLine,
-							repositorySettings.ShowTestMergeCommitters.Value ? String.Format(CultureInfo.InvariantCulture, "{0}{0}##### Merged By{0}{1}", Environment.NewLine, testMerge.MergedBy.Name) : String.Empty,
-							testMerge.PullRequestRevision,
-							testMerge.Comment != null ? String.Format(CultureInfo.InvariantCulture, "{0}{0}##### Comment{0}{1}", Environment.NewLine, testMerge.Comment) : String.Empty,
-							updated ? "Updated" : "Deployed",
-							metadata.Name,
-							compileJob.RevisionInformation.OriginCommitSha,
-							compileJob.RevisionInformation.CommitSha
-							);
+                            var tasks = new List<Task>();
 
-						//added prs
-						foreach (var I in compileJob
-							.RevisionInformation
-							.ActiveTestMerges
-							.Select(x => x.TestMerge)
-							.Where(x => !outgoingCompileJob
-								.RevisionInformation
-								.ActiveTestMerges
-								.Any(y => y.TestMerge.Number == x.Number)))
-							tasks.Add(CommentOnPR(I.Number.Value, FormatTestMerge(I, false)));
+                            string FormatTestMerge(TestMerge testMerge, bool updated) => String.Format(CultureInfo.InvariantCulture, "#### Test Merge {4}{0}{0}##### Server Instance{0}{5}{1}{0}{0}##### Revision{0}Origin: {6}{0}Pull Request: {2}{0}Server: {7}{3}",
+                                Environment.NewLine,
+                                repositorySettings.ShowTestMergeCommitters.Value ? String.Format(CultureInfo.InvariantCulture, "{0}{0}##### Merged By{0}{1}", Environment.NewLine, testMerge.MergedBy.Name) : String.Empty,
+                                testMerge.PullRequestRevision,
+                                testMerge.Comment != null ? String.Format(CultureInfo.InvariantCulture, "{0}{0}##### Comment{0}{1}", Environment.NewLine, testMerge.Comment) : String.Empty,
+                                updated ? "Updated" : "Deployed",
+                                metadata.Name,
+                                compileJob.RevisionInformation.OriginCommitSha,
+                                compileJob.RevisionInformation.CommitSha
+                                );
 
-						//removed prs
-						foreach (var I in outgoingCompileJob
-							.RevisionInformation
-							.ActiveTestMerges
-							.Select(x => x.TestMerge)
-								.Where(x => !compileJob
-								.RevisionInformation
-								.ActiveTestMerges
-								.Any(y => y.TestMerge.Number == x.Number)))
-							tasks.Add(CommentOnPR(I.Number.Value, "#### Test Merge Removed"));
+                            //added prs
+                            foreach (var I in compileJob
+                                .RevisionInformation
+                                .ActiveTestMerges
+                                .Select(x => x.TestMerge)
+                                .Where(x => !outgoingCompileJob
+                                    .RevisionInformation
+                                    .ActiveTestMerges
+                                    .Any(y => y.TestMerge.Number == x.Number)))
+                                tasks.Add(CommentOnPR(I.Number.Value, FormatTestMerge(I, false)));
 
-						//updated prs
-						foreach(var I in compileJob
-							.RevisionInformation
-							.ActiveTestMerges
-							.Select(x => x.TestMerge)
-							.Where(x => outgoingCompileJob
-								.RevisionInformation
-								.ActiveTestMerges
-								.Any(y => y.TestMerge.Number == x.Number)))
-							tasks.Add(CommentOnPR(I.Number.Value, FormatTestMerge(I, true)));
+                            //removed prs
+                            foreach (var I in outgoingCompileJob
+                                .RevisionInformation
+                                .ActiveTestMerges
+                                .Select(x => x.TestMerge)
+                                    .Where(x => !compileJob
+                                    .RevisionInformation
+                                    .ActiveTestMerges
+                                    .Any(y => y.TestMerge.Number == x.Number)))
+                                tasks.Add(CommentOnPR(I.Number.Value, "#### Test Merge Removed"));
 
-						if (tasks.Any())
-							await Task.WhenAll(tasks).ConfigureAwait(false);
+                            //updated prs
+                            foreach (var I in compileJob
+                                .RevisionInformation
+                                .ActiveTestMerges
+                                .Select(x => x.TestMerge)
+                                .Where(x => outgoingCompileJob
+                                    .RevisionInformation
+                                    .ActiveTestMerges
+                                    .Any(y => y.TestMerge.Number == x.Number)))
+                                tasks.Add(CommentOnPR(I.Number.Value, FormatTestMerge(I, true)));
+
+                            if (tasks.Any())
+                                await Task.WhenAll(tasks).ConfigureAwait(false);
+                        }
 					}
 				}
 			}

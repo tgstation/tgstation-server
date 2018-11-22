@@ -36,10 +36,10 @@ namespace Tgstation.Server.Api.Rights
 		/// User may change <see cref="Models.Internal.RepositorySettings.CommitterName"/> and <see cref="Models.Internal.RepositorySettings.CommitterEmail"/>
 		/// </summary>
 		ChangeCommitter = 32,
-		/// <summary>
-		/// User may change <see cref="Models.Internal.RepositorySettings.PushTestMergeCommits"/>
-		/// </summary>
-		ChangeTestMergeCommits = 64,
+        /// <summary>
+        /// User may change <see cref="Models.Internal.RepositorySettings.PushTestMergeCommits"/> and <see cref="Models.Internal.RepositorySettings.PostTestMergeComment"/>
+        /// </summary>
+        ChangeTestMergeCommits = 64,
 		/// <summary>
 		/// User may read and change <see cref="Models.Internal.RepositorySettings.AccessUser"/> and <see cref="Models.Internal.RepositorySettings.AccessToken"/>
 		/// </summary>

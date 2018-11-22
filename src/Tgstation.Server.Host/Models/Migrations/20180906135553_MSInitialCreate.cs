@@ -290,7 +290,8 @@ namespace Tgstation.Server.Host.Models.Migrations
 					AccessToken = table.Column<string>(nullable: true),
 					PushTestMergeCommits = table.Column<bool>(nullable: false),
 					ShowTestMergeCommitters = table.Column<bool>(nullable: false),
-					AutoUpdatesKeepTestMerges = table.Column<bool>(nullable: false),
+                    PostTestMergeComment = table.Column<bool>(nullable: false),
+                    AutoUpdatesKeepTestMerges = table.Column<bool>(nullable: false),
 					AutoUpdatesSynchronize = table.Column<bool>(nullable: false),
 					Id = table.Column<long>(nullable: false)
 						.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),

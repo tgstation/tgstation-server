@@ -339,6 +339,9 @@ namespace Tgstation.Server.Host.Models.Migrations
                     b.Property<bool?>("ShowTestMergeCommitters")
                         .IsRequired();
 
+                    b.Property<bool?>("PostTestMergeComment")
+                        .IsRequired();
+
                     b.HasKey("Id");
 
                     b.HasIndex("InstanceId")

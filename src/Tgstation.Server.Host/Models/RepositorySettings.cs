@@ -36,8 +36,9 @@ namespace Tgstation.Server.Host.Models
 			CommitterEmail = CommitterEmail,
 			CommitterName = CommitterName,
 			PushTestMergeCommits = PushTestMergeCommits,
-			ShowTestMergeCommitters = ShowTestMergeCommitters
-			//revision information and the rest retrieved by controller
-		};
+			ShowTestMergeCommitters = ShowTestMergeCommitters,
+            PostTestMergeComment = PostTestMergeComment
+            //revision information and the rest retrieved by controller
+        };
 	}
 }
