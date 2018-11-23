@@ -11,7 +11,7 @@ namespace Tgstation.Server.Host.Migrations.SqlServerDatabase
 {
     [DbContext(typeof(SqlServerDatabaseContext))]
     [Migration("20181123194022_MS_ToggleTestmergeComments")]
-    partial class MS_ToggleTestmergeComments
+    partial class MSToggleTestmergeComments
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

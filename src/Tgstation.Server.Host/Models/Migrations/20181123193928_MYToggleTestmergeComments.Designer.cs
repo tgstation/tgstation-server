@@ -10,7 +10,7 @@ namespace Tgstation.Server.Host.Migrations.MySqlDatabase
 {
     [DbContext(typeof(MySqlDatabaseContext))]
     [Migration("20181123193928_MY_ToggleTestmergeComments")]
-    partial class MY_ToggleTestmergeComments
+    partial class MYToggleTestmergeComments
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
