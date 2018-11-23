@@ -292,8 +292,7 @@ namespace Tgstation.Server.Host.Models.Migrations
 					ShowTestMergeCommitters = table.Column<bool>(nullable: false),
 					AutoUpdatesKeepTestMerges = table.Column<bool>(nullable: false),
 					AutoUpdatesSynchronize = table.Column<bool>(nullable: false),
-                    PostTestMergeComment = table.Column<bool>(nullable: false),
-                    Id = table.Column<long>(nullable: false)
+					Id = table.Column<long>(nullable: false)
 						.Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
 					InstanceId = table.Column<long>(nullable: false)
 				},

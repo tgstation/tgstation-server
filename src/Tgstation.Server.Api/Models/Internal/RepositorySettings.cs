@@ -53,10 +53,10 @@ namespace Tgstation.Server.Api.Models.Internal
 		[Required]
 		public bool? AutoUpdatesSynchronize { get; set; }
 
-        /// <summary>
-        /// If test merging should create a comment
-        /// </summary>
-        [Required]
-        public bool? PostTestMergeComment { get; set; }
-    }
+		/// <summary>
+		/// If test merging should create a comment
+		/// </summary>
+		[Required]
+		public bool? PostTestMergeComment { get; set; }
+	}
 }
