@@ -170,8 +170,8 @@ namespace Tgstation.Server.Host.Controllers
 					ShowTestMergeCommitters = false,
 					AutoUpdatesKeepTestMerges = false,
 					AutoUpdatesSynchronize = false,
-                    PostTestMergeComment = false
-                },
+					PostTestMergeComment = false
+				},
 				//give this user full privileges on the instance
 				InstanceUsers = new List<Models.InstanceUser>
 				{
