@@ -481,6 +481,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					return false;
 				}
 
+				reattachInformation.Port = port;
 				return true;
 			}
 
