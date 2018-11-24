@@ -13,8 +13,6 @@
     <RepositoryType>Git</RepositoryType>
     <RepositoryUrl>https://github.com/tgstation/tgstation-server</RepositoryUrl>
     <Copyright>2018</Copyright>
-    <AssemblyVersion>4.0.0.1</AssemblyVersion>
-    <FileVersion>4.0.0.1</FileVersion>
     <PackageTags>json web api tgstation-server tgstation ss13 byond</PackageTags>
     <PackageReleaseNotes>Initial release</PackageReleaseNotes>
     <Version>4.0.0.1</Version>
