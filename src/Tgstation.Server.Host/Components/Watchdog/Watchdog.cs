@@ -453,20 +453,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 					//servers now swapped
 
-					//enable this now
-					monitorState.ActiveServer.ClosePortOnReboot = true;
+					//enable this now if inactive server is not still valid
+					monitorState.ActiveServer.ClosePortOnReboot = restartOnceSwapped;
 
 					if (!restartOnceSwapped)
-					{
-						//inactive server still valid
-
-						//disable this
-						monitorState.InactiveServer.ClosePortOnReboot = false;
-
 						//now try to reopen it on the private port
 						//failing that, just reboot it
 						restartOnceSwapped = !await monitorState.InactiveServer.SetPort(ActiveLaunchParameters.SecondaryPort.Value, cancellationToken).ConfigureAwait(false);
-					}
 
 					//break either way because any issues past this point would be solved by the reboot
 					if (restartOnceSwapped) 
