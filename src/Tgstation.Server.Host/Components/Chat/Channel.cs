@@ -38,12 +38,12 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// If this is considered a channel for admin commands
 		/// </summary>
-		public bool IsAdmin { get; set; }
+		public bool IsAdminChannel { get; set; }
 
 		/// <summary>
 		/// If this is a 1-to-1 chat channel
 		/// </summary>
-		public bool IsPrivate { get; set; }
+		public bool IsPrivateChannel { get; set; }
 
 		/// <summary>
 		/// For user use

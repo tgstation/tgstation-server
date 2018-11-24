@@ -109,7 +109,7 @@ namespace Tgstation.Server.Host.Components.Interop
 				{
 					command = new CommCommand
 					{
-						Parameters = JsonConvert.DeserializeObject<IReadOnlyDictionary<string, string>>(file),
+						Parameters = JsonConvert.DeserializeObject<IReadOnlyDictionary<string, object>>(file),
 						RawJson = file
 					};
 				}

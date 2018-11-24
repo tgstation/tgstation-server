@@ -10,7 +10,7 @@ namespace Tgstation.Server.Host.Components.Interop
 		/// <summary>
 		/// The dictionary of the <see cref="CommCommand"/>
 		/// </summary>
-		public IReadOnlyDictionary<string, string> Parameters { get; set; }
+		public IReadOnlyDictionary<string, object> Parameters { get; set; }
 
 		/// <summary>
 		/// The raw JSON of the <see cref="CommCommand"/>

@@ -318,7 +318,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					case Constants.DMCommandNewPort:
 						lock (this)
 						{
-							if (!query.TryGetValue(Constants.DMParameterData, out var stringPort) || !UInt16.TryParse(stringPort, out var currentPort))
+							if (!query.TryGetValue(Constants.DMParameterData, out var stringPortObject) || !UInt16.TryParse(stringPortObject as string, out var currentPort))
 							{
 								/////UHHHH
 								logger.LogWarning("DreamDaemon sent new port command without providing it's own!");
@@ -356,7 +356,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							content = new ErrorMessage { Message = "Invalid API validation request!" };
 							break;
 						}
-						if (!query.TryGetValue(Constants.DMParameterData, out var stringMinimumSecurityLevel) || !Enum.TryParse<DreamDaemonSecurity>(stringMinimumSecurityLevel, out var minimumSecurityLevel))
+						if (!query.TryGetValue(Constants.DMParameterData, out var stringMinimumSecurityLevelObject) || !Enum.TryParse<DreamDaemonSecurity>(stringMinimumSecurityLevelObject as string, out var minimumSecurityLevel))
 							apiValidationStatus = ApiValidationStatus.BadValidationRequest;
 						else
 							switch (minimumSecurityLevel)
