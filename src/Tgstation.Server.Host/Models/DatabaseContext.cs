@@ -1,7 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -169,5 +173,51 @@ namespace Tgstation.Server.Host.Models
 
 		/// <inheritdoc />
 		public Task Save(CancellationToken cancellationToken) => SaveChangesAsync(cancellationToken);
+
+		/// <summary>
+		/// If the MY_ class of migrations should be used instead of the MS_ class
+		/// </summary>
+		/// <returns><see langword="true"/> if the MY_ class of migrations should be used instead of the MS_ class, <see langword="false"/> otherwise</returns>
+		protected abstract bool UseMySQLMigrations();
+
+		/// <inheritdoc />
+		public async Task SchemaDowngradeForServerVersion(Version version, CancellationToken cancellationToken)
+		{
+			if (version == null)
+				throw new ArgumentNullException(nameof(version));
+			if (version < new Version(4, 0))
+				throw new ArgumentOutOfRangeException(nameof(version), version, "Not a valid V4 version!");
+
+			string targetMigration = null;
+
+			//Update this with new migrations as they are made
+			//Always use the MS class
+
+			//TODO: Uncomment once #816 is merged
+			/*
+			if (version < new Version(4, 0, 2))
+				targetMigration = nameof(MSReattachCompileJobRequired);
+			*/
+
+			if (targetMigration == null)
+				return;
+
+			if (UseMySQLMigrations())
+				targetMigration = String.Format(CultureInfo.InvariantCulture, "MY" + targetMigration.Substring(2));
+
+			//even though it clearly implements it in the DatabaseFacade definition this won't work without casting (╯ಠ益ಠ)╯︵ ┻━┻
+			var dbServiceProvider = ((IInfrastructure<IServiceProvider>)Database).Instance;
+			var migrator = dbServiceProvider.GetRequiredService<IMigrator>();
+
+			Logger.LogInformation("Migrating down to version {0}. Target: {1}", version, targetMigration);
+			try
+			{
+				await migrator.MigrateAsync(targetMigration, cancellationToken).ConfigureAwait(false);
+			}
+			catch (Exception e)
+			{
+				Logger.LogCritical("Failed to migrate! Exception: {0}", e);
+			}
+		}
 	}
 }
