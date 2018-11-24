@@ -1059,7 +1059,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var commandObject = new ChatCommand
 				{
 					Command = commandName,
-					Parameters = arguments,
+					Params = arguments,
 					User = sender
 				};
 
