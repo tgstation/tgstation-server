@@ -195,7 +195,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			{
 				var providerId = providers.Where(x => x.Value == provider).Select(x => x.Key).First();
 				var enumerable = mappedChannels.Where(x => x.Value.ProviderId == providerId && x.Value.ProviderChannelId == message.User.Channel.RealId);
-				if (message.User.Channel.IsPrivate)
+				if (message.User.Channel.IsPrivateChannel)
 					lock (mappedChannels)
 					{
 						if (!provider.Connected)
@@ -223,7 +223,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					var mapping = enumerable.First().Value;
 					message.User.Channel.Id = mapping.Channel.Id;
 					message.User.Channel.Tag = mapping.Channel.Tag;
-					message.User.Channel.IsAdmin = mapping.Channel.IsAdmin;
+					message.User.Channel.IsAdminChannel = mapping.Channel.IsAdminChannel;
 				}
 			}
 
@@ -236,7 +236,7 @@ namespace Tgstation.Server.Host.Components.Chat
 
 			var addressed = address == CommonMention.ToUpperInvariant() || address == provider.BotMention.ToUpperInvariant();
 
-			if (!addressed && !message.User.Channel.IsPrivate)
+			if (!addressed && !message.User.Channel.IsPrivateChannel)
 				//no mention
 				return;
 
@@ -302,7 +302,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					return;
 				}
 
-				if (commandHandler.AdminOnly && !message.User.Channel.IsAdmin)
+				if (commandHandler.AdminOnly && !message.User.Channel.IsAdminChannel)
 				{
 					await SendMessage("Use this command in an admin channel!", new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
 					return;
