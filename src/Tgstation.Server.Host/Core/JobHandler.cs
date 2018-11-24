@@ -10,23 +10,24 @@ namespace Tgstation.Server.Host.Core
 	sealed class JobHandler : IDisposable
 	{
 		/// <summary>
-		/// The <see cref="Task"/> being run
-		/// </summary>
-		readonly Task task;
-		/// <summary>
 		/// The <see cref="CancellationTokenSource"/> for <see cref="task"/>
 		/// </summary>
 		readonly CancellationTokenSource cancellationTokenSource;
+		/// <summary>
+		/// The <see cref="Task"/> being run
+		/// </summary>
+		readonly Task task;
 
 		/// <summary>
 		/// Construct a <see cref="JobHandler"/>
 		/// </summary>
-		/// <param name="task">The value of <see cref="Task"/></param>
-		/// <param name="cancellationTokenSource">The value of <see cref="cancellationTokenSource"/></param>
-		JobHandler(Task task, CancellationTokenSource cancellationTokenSource)
+		/// <param name="job">A <see cref="Func{T, TResult}"/> taking a <see cref="CancellationToken"/> and returning a <see cref="Task"/> that the <see cref="JobHandler"/> will wrap</param>
+		public JobHandler(Func<CancellationToken, Task> job)
 		{
-			this.task = task;
-			this.cancellationTokenSource = cancellationTokenSource;
+			if (job == null)
+				throw new ArgumentNullException(nameof(job));
+			cancellationTokenSource = new CancellationTokenSource();
+			task = job(cancellationTokenSource.Token);
 		}
 
 		/// <inehritdoc />
@@ -54,16 +55,5 @@ namespace Tgstation.Server.Host.Core
 		/// Cancels <see cref="task"/>
 		/// </summary>
 		public void Cancel() => cancellationTokenSource.Cancel();
-
-		/// <summary>
-		/// Create a <see cref="JobHandler"/>
-		/// </summary>
-		/// <param name="job">A <see cref="Func{T, TResult}"/> taking a <see cref="CancellationToken"/> and returning a <see cref="Task"/> that the <see cref="JobHandler"/> will wrap</param>
-		/// <returns>A new <see cref="JobHandler"/></returns>
-		public static JobHandler Create(Func<CancellationToken, Task> job)
-		{
-			var cts = new CancellationTokenSource();
-			return new JobHandler(job(cts.Token), cts);
-		}
 	}
 }

@@ -33,10 +33,10 @@ namespace Tgstation.Server.Tests
 			var gitHubAccessToken = Environment.GetEnvironmentVariable("TGS4_TEST_GITHUB_TOKEN");
 
 			if (String.IsNullOrEmpty(databaseType))
-				Assert.Fail("No database type configured in env var TGS4_TEST_DATABASE_TYPE!");
+				Assert.Inconclusive("No database type configured in env var TGS4_TEST_DATABASE_TYPE!");
 
 			if (String.IsNullOrEmpty(connectionString))
-				Assert.Fail("No connection string configured in env var TGS4_TEST_CONNECTION_STRING!");
+				Assert.Inconclusive("No connection string configured in env var TGS4_TEST_CONNECTION_STRING!");
 
 			if (String.IsNullOrEmpty(gitHubAccessToken))
 				Console.WriteLine("WARNING: No GitHub access token configured, test may fail due to rate limits!");

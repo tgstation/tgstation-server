@@ -8,8 +8,13 @@ namespace Tgstation.Server.Host.Components.Interop
 	sealed class CommCommand
 	{
 		/// <summary>
-		/// The raw JSON decond of the <see cref="CommCommand"/>
+		/// The dictionary of the <see cref="CommCommand"/>
 		/// </summary>
 		public IReadOnlyDictionary<string, string> Parameters { get; set; }
+
+		/// <summary>
+		/// The raw JSON of the <see cref="CommCommand"/>
+		/// </summary>
+		public string RawJson { get; set; }
 	}
 }
