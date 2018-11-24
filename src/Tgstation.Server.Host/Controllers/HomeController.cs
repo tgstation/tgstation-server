@@ -85,7 +85,7 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize]
 		[AllowAnonymous]
 		[HttpGet]
-		public IActionResult Home(CancellationToken cancellationToken)
+		public IActionResult Home()
 		{
 			if (AuthenticationContext != null)
 				return Json(new Api.Models.ServerInformation
