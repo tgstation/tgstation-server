@@ -38,5 +38,8 @@ namespace Tgstation.Server.Host.Models
 			else
 				options.UseMySql(DatabaseConfiguration.ConnectionString);
 		}
+
+		/// <inheritdoc />
+		protected override bool UseMySQLMigrations() => true;
 	}
 }
