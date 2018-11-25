@@ -15,7 +15,7 @@
     <Copyright>2018</Copyright>
     <PackageTags>json web api tgstation-server tgstation ss13 byond</PackageTags>
     <PackageReleaseNotes>Initial release</PackageReleaseNotes>
-    <Version>4.0.0.1</Version>
+    <Version>4.0.1.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
