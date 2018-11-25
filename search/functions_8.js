@@ -12,7 +12,7 @@ var searchData=
   ['instanceclient',['InstanceClient',['../class_tgstation_1_1_server_1_1_client_1_1_components_1_1_instance_client.html#af44767648e0b31f744ea09f0864c70ca',1,'Tgstation::Server::Client::Components::InstanceClient']]],
   ['instancecontroller',['InstanceController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a62eb74d4e58236abc641302411f0a74f',1,'Tgstation::Server::Host::Controllers::InstanceController']]],
   ['instancefactory',['InstanceFactory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a652d14bc0bcf431eaa69845e4541a624',1,'Tgstation::Server::Host::Components::InstanceFactory']]],
-  ['instancemanager',['InstanceManager',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ab516b86153bf676b7fdb67991966140e',1,'Tgstation::Server::Host::Components::InstanceManager']]],
+  ['instancemanager',['InstanceManager',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a67ee123ed66a93f55cec584e9dc3f102',1,'Tgstation::Server::Host::Components::InstanceManager']]],
   ['instancemanagerclient',['InstanceManagerClient',['../class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a2d6043c1548bc86551fe56f12a78d4cb',1,'Tgstation::Server::Client::InstanceManagerClient']]],
   ['instancemanagertest',['InstanceManagerTest',['../class_tgstation_1_1_server_1_1_tests_1_1_instance_manager_test.html#a73adf4e69e5b73873008b16ad115eece',1,'Tgstation::Server::Tests::InstanceManagerTest']]],
   ['instancetest',['InstanceTest',['../class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_instance_test.html#a7178a60f55d85261a8a0b73e3afc3209',1,'Tgstation::Server::Tests::Instance::InstanceTest']]],

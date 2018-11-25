@@ -125,11 +125,16 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aac1c768a59e2efecac4dac179533ca4c inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_models_1_1_database_context"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1af2fcef1f485fbb45858c4b216d38c2 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_models_1_1_database_context"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_database_context.html#a1af2fcef1f485fbb45858c4b216d38c2">Save</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="separator:a1af2fcef1f485fbb45858c4b216d38c2 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_models_1_1_database_context"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae838bb2dc7f95d7a52682695bf3635b6 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_models_1_1_database_context"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_database_context.html#ae838bb2dc7f95d7a52682695bf3635b6">SchemaDowngradeForServerVersion</a> (Version version, CancellationToken cancellationToken)</td></tr>
+<tr class="separator:ae838bb2dc7f95d7a52682695bf3635b6 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_models_1_1_database_context"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:ab675eb66a3bd5177c3b40eafaf041e9a"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_sql_server_database_context.html#ab675eb66a3bd5177c3b40eafaf041e9a">OnConfiguring</a> (DbContextOptionsBuilder options)</td></tr>
 <tr class="separator:ab675eb66a3bd5177c3b40eafaf041e9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01267b79be35689bff79854ebcbfcdee"><td class="memItemLeft" align="right" valign="top">override bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_sql_server_database_context.html#a01267b79be35689bff79854ebcbfcdee">UseMySQLMigrations</a> ()</td></tr>
+<tr class="memdesc:a01267b79be35689bff79854ebcbfcdee"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the MY_ class of migrations should be used instead of the MS_ class   <a href="#a01267b79be35689bff79854ebcbfcdee">More...</a><br /></td></tr>
+<tr class="separator:a01267b79be35689bff79854ebcbfcdee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_class_tgstation_1_1_server_1_1_host_1_1_models_1_1_database_context"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_tgstation_1_1_server_1_1_host_1_1_models_1_1_database_context')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_database_context.html">Tgstation.Server.Host.Models.DatabaseContext&lt; SqlServerDatabaseContext &gt;</a></td></tr>
 <tr class="memitem:abe2f492adf2ca108188e6f14a3c8c512 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_models_1_1_database_context"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_database_context.html#abe2f492adf2ca108188e6f14a3c8c512">OnModelCreating</a> (ModelBuilder modelBuilder)</td></tr>
 <tr class="separator:abe2f492adf2ca108188e6f14a3c8c512 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_models_1_1_database_context"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -229,7 +234,7 @@ Additional Inherited Members</h2></td></tr>
 </dl>
 
 <p>Definition at line <a class="el" href="_sql_server_database_context_8cs_source.html#l00020">20</a> of file <a class="el" href="_sql_server_database_context_8cs_source.html">SqlServerDatabaseContext.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                                                                                                                                                                                                                                      : base(dbContextOptions, databaseConfiguration, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_database_context.html#a190f9903acbbbd1fb7da29291639b874">databaseSeeder</a>, logger)</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        { }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_database_context_html_a190f9903acbbbd1fb7da29291639b874"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_database_context.html#a190f9903acbbbd1fb7da29291639b874">Tgstation.Server.Host.Models.DatabaseContext&lt; SqlServerDatabaseContext &gt;::databaseSeeder</a></div><div class="ttdeci">readonly IDatabaseSeeder databaseSeeder</div><div class="ttdoc">The IDatabaseSeeder for the DatabaseContext&lt;TParentContext&gt; </div><div class="ttdef"><b>Definition:</b> <a href="_database_context_8cs_source.html#l00077">DatabaseContext.cs:77</a></div></div>
+<div class="fragment"><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                                                                                                                                                                                                                                      : base(dbContextOptions, databaseConfiguration, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_database_context.html#a190f9903acbbbd1fb7da29291639b874">databaseSeeder</a>, logger)</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        { }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_database_context_html_a190f9903acbbbd1fb7da29291639b874"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_database_context.html#a190f9903acbbbd1fb7da29291639b874">Tgstation.Server.Host.Models.DatabaseContext&lt; SqlServerDatabaseContext &gt;::databaseSeeder</a></div><div class="ttdeci">readonly IDatabaseSeeder databaseSeeder</div><div class="ttdoc">The IDatabaseSeeder for the DatabaseContext&lt;TParentContext&gt; </div><div class="ttdef"><b>Definition:</b> <a href="_database_context_8cs_source.html#l00081">DatabaseContext.cs:81</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -264,6 +269,33 @@ Additional Inherited Members</h2></td></tr>
 <div class="fragment"><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        {</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            base.OnConfiguring(options);</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            options.UseSqlServer(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html">DatabaseConfiguration</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a53a14b4a89de73b8ea223804c4aea365">ConnectionString</a>);</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration_html_a53a14b4a89de73b8ea223804c4aea365"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a53a14b4a89de73b8ea223804c4aea365">Tgstation.Server.Host.Configuration.DatabaseConfiguration.ConnectionString</a></div><div class="ttdeci">string ConnectionString</div><div class="ttdoc">The connection string for the database </div><div class="ttdef"><b>Definition:</b> <a href="_database_configuration_8cs_source.html#l00030">DatabaseConfiguration.cs:30</a></div></div>
 <div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html">Tgstation.Server.Host.Configuration.DatabaseConfiguration</a></div><div class="ttdoc">Configuration options for the Models.DatabaseContext&lt;TParentContext&gt; </div><div class="ttdef"><b>Definition:</b> <a href="_database_configuration_8cs_source.html#l00009">DatabaseConfiguration.cs:9</a></div></div>
 </div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="a01267b79be35689bff79854ebcbfcdee"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">override bool Tgstation.Server.Host.Models.SqlServerDatabaseContext.UseMySQLMigrations </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>If the MY_ class of migrations should be used instead of the MS_ class  </p>
+
+<p>Implements <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_database_context.html#a1ee865fd988335db6c17c69af5fdfae2">Tgstation.Server.Host.Models.DatabaseContext&lt; SqlServerDatabaseContext &gt;</a>.</p>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
