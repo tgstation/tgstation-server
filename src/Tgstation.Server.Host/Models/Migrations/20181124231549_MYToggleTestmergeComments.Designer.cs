@@ -6,13 +6,17 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tgstation.Server.Host.Models;
 
-namespace Tgstation.Server.Host.Migrations.MySqlDatabase
+namespace Tgstation.Server.Host.Models.Migrations
 {
     [DbContext(typeof(MySqlDatabaseContext))]
     [Migration("20181124231549_MYToggleTestmergeComments")]
     partial class MYToggleTestmergeComments
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+		/// <summary>
+		/// Builds the target model
+		/// </summary>
+		/// <param name="modelBuilder">The <see cref="ModelBuilder"/> to use</param>
+		protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
