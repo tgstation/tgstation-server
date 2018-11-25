@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -87,5 +88,13 @@ namespace Tgstation.Server.Host.Models
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task Initialize(CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Attempt to downgrade the schema to the migration used for a given server <paramref name="version"/>
+		/// </summary>
+		/// <param name="version">The tgstation-server <see cref="Version"/> that the schema should downgrade for</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		Task SchemaDowngradeForServerVersion(Version version, CancellationToken cancellationToken);
 	}
 }

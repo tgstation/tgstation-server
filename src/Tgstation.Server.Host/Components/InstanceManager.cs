@@ -12,7 +12,7 @@ using Tgstation.Server.Host.IO;
 namespace Tgstation.Server.Host.Components
 {
 	/// <inheritdoc />
-	sealed class InstanceManager : IInstanceManager, IHostedService, IDisposable
+	sealed class InstanceManager : IInstanceManager, IRestartHandler, IHostedService, IDisposable
 	{
 		/// <summary>
 		/// The <see cref="IInstanceFactory"/> for the <see cref="InstanceManager"/>
@@ -50,6 +50,11 @@ namespace Tgstation.Server.Host.Components
 		readonly Dictionary<long, IInstance> instances;
 
 		/// <summary>
+		/// Used in <see cref="StopAsync(CancellationToken)"/> to determine if database downgrades must be made
+		/// </summary>
+		Version downgradeVersion;
+
+		/// <summary>
 		/// If the <see cref="InstanceManager"/> has been <see cref="Dispose"/>d
 		/// </summary>
 		bool disposed;
@@ -62,15 +67,20 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="databaseContextFactory">The value of <paramref name="databaseContextFactory"/></param>
 		/// <param name="application">The value of <see cref="application"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
+		/// <param name="serverControl">The <see cref="IServerControl"/> used to register the <see cref="InstanceManager"/> as a <see cref="IRestartHandler"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public InstanceManager(IInstanceFactory instanceFactory, IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, IJobManager jobManager, ILogger<InstanceManager> logger)
+		public InstanceManager(IInstanceFactory instanceFactory, IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, IJobManager jobManager, IServerControl serverControl, ILogger<InstanceManager> logger)
 		{
 			this.instanceFactory = instanceFactory ?? throw new ArgumentNullException(nameof(instanceFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.application = application ?? throw new ArgumentNullException(nameof(application));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
+			if (serverControl == null)
+				throw new ArgumentNullException(nameof(serverControl));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+			serverControl.RegisterForRestart(this);
 
 			instances = new Dictionary<long, IInstance>();
 		}
@@ -225,6 +235,17 @@ namespace Tgstation.Server.Host.Components
 			await jobManager.StopAsync(cancellationToken).ConfigureAwait(false);
 			await Task.WhenAll(instances.Select(x => x.Value.StopAsync(cancellationToken))).ConfigureAwait(false);
 			await instanceFactory.StopAsync(cancellationToken).ConfigureAwait(false);
+
+			//downgrade the db if necessary
+			if (downgradeVersion != null)
+				await databaseContextFactory.UseContext(db => db.SchemaDowngradeForServerVersion(downgradeVersion, cancellationToken)).ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		public Task HandleRestart(Version updateVersion, CancellationToken cancellationToken)
+		{
+			downgradeVersion = updateVersion != null && updateVersion < application.Version ? updateVersion : null;
+			return Task.CompletedTask;
 		}
 	}
 }

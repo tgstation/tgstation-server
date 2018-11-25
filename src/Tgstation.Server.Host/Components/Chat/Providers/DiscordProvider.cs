@@ -97,7 +97,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					Channel = new Channel
 					{
 						RealId = e.Channel.Id,
-						IsPrivate = pm,
+						IsPrivateChannel = pm,
 						ConnectionName = pm ? e.Author.Username : (e.Channel as ITextChannel)?.Guild.Name ?? "UNKNOWN",
 						FriendlyName = e.Channel.Name
 						//isAdmin and Tag populated by manager
@@ -188,10 +188,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				return new Channel
 				{
 					RealId = discordChannel.Id,
-					IsAdmin = channel.IsAdminChannel == true,
+					IsAdminChannel = channel.IsAdminChannel == true,
 					ConnectionName = discordChannel.Guild.Name,
 					FriendlyName = discordChannel.Name,
-					IsPrivate = false,
+					IsPrivateChannel = false,
 					Tag = channel.Tag
 				};
 			};
