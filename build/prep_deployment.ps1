@@ -8,7 +8,7 @@ if (($env:CONFIGURATION -match "Release") -And ($env:APPVEYOR_REPO_BRANCH -match
     }
 }
 
-dotnet run -p "$env:APPVEYOR_BUILD_FOLDER/tools/ReleaseNotes" $env:TGSVersion --no-close
+dotnet run -p "$env:APPVEYOR_BUILD_FOLDER/tools/ReleaseNotes" 4.0.2.0 --no-close
 $env:TGSGoodNotes = $?
 $releaseNotesPath = "$env:APPVEYOR_BUILD_FOLDER/tools/ReleaseNotes/release_notes.md"
 if (Test-Path $releaseNotesPath -PathType Leaf) {
