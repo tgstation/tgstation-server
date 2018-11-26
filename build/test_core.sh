@@ -17,7 +17,7 @@ cd ../Tgstation.Server.Client.Tests
 dotnet build -c $CONFIG /p:CopyLocalLockFileAssemblies=true
 $HOME/.dotnet/tools/coverlet bin/$CONFIG/netcoreapp2.1/Tgstation.Server.Client.Tests.dll --target "dotnet" --targetargs "test -c $CONFIG --no-build" --format opencover --output "../../TestResults/client.xml" --include "[Tgstation.Server*]*" --exclude "[Tgstation.Server.Client.Tests*]*"
 
-cd ../tests/Tgstation.Server.Host.Tests
+cd ../Tgstation.Server.Host.Tests
 
 dotnet build -c $CONFIG /p:CopyLocalLockFileAssemblies=true
 $HOME/.dotnet/tools/coverlet bin/$CONFIG/netcoreapp2.1/Tgstation.Server.Host.Tests.dll --target "dotnet" --targetargs "test -c $CONFIG --no-build" --format opencover --output "../../TestResults/host.xml" --include "[Tgstation.Server*]*" --exclude "[Tgstation.Server.Host.Tests*]*" --exclude "[Tgstation.Server.Host]Tgstation.Server.Host.Models.Migrations.*"
