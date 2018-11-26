@@ -18,7 +18,7 @@ namespace Tgstation.Server.Host.Configuration
 		public bool Enable { get; set; }
 
 		/// <summary>
-		/// If any origin is allowed for CORS requests. This overrides <see cref="AllowedOrigin"/>
+		/// If any origin is allowed for CORS requests. This overrides <see cref="AllowedOrigins"/>
 		/// </summary>
 		public bool AllowAnyOrigin { get; set; }
 
