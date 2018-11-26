@@ -75,7 +75,7 @@ namespace ReleaseNotes
 				async Task GetReleaseNotesFromPR(Issue pullRequest)
 				{
 					//need to check it was merged
-					var fullPr = await client.Repository.PullRequest.Get(RepoOwner, RepoName, pullRequest.Number).ConfigureAwait(false);
+					var fullPR = await client.Repository.PullRequest.Get(RepoOwner, RepoName, pullRequest.Number).ConfigureAwait(false);
 
 					async Task<Milestone> GetMilestone()
 					{
@@ -151,16 +151,16 @@ namespace ReleaseNotes
 						lock (releaseDictionary)
 						{
 							foreach (var I in notes)
-								Console.WriteLine("#" + pullRequest.Number + " - " + I + " (@" + user.Login + ")");
-							if (releaseDictionary.TryGetValue(pullRequest.Number, out var currentValues))
+								Console.WriteLine("#" + fullPR.Number + " - " + I + " (@" + user.Login + ")");
+							if (releaseDictionary.TryGetValue(fullPR.Number, out var currentValues))
 								currentValues.AddRange(notes);
 							else
-								releaseDictionary.Add(pullRequest.Number, notes);
+								releaseDictionary.Add(fullPR.Number, notes);
 						}
 					}
 
-					var comments = await client.Issue.Comment.GetAllForIssue(RepoOwner, RepoName, pullRequest.Number).ConfigureAwait(false);
-					await Task.WhenAll(BuildNotesFromComment(pullRequest.Body, pullRequest.User), Task.WhenAll(comments.Select(x => BuildNotesFromComment(x.Body, x.User)))).ConfigureAwait(false);
+					var comments = await client.Issue.Comment.GetAllForIssue(RepoOwner, RepoName, fullPR.Number).ConfigureAwait(false);
+					await Task.WhenAll(BuildNotesFromComment(fullPR.Body, fullPR.User), Task.WhenAll(comments.Select(x => BuildNotesFromComment(x.Body, x.User)))).ConfigureAwait(false);
 				}
 
 				var tasks = new List<Task>();
