@@ -87,6 +87,7 @@ namespace ReleaseNotes
                     if (pullRequest.State.Value == ItemState.Closed)
                     {
                         //need to check it was merged
+                        await GetFullPR().ConfigureAwait(false);
                         lock (milestoneTaskLock)
                             if (milestoneTask == null)
                                 milestoneTask = GetMilestone();
