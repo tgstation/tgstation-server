@@ -1,5 +1,16 @@
 FROM microsoft/dotnet:2.1-sdk AS build
 
+ARG NODE_VERSION=11.1.0
+
+# install node and npm
+# replace shell with bash so we can source files
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | bash
+
+RUN source /root/.nvm/nvm.sh \
+    && nvm install $NODE_VERSION \
+	&& nvm use $NODE_VERSION
+
 WORKDIR /src
 
 COPY tgstation-server.sln ./

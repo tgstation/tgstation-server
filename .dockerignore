@@ -7,3 +7,6 @@ packages
 */bin
 */obj
 tests
+tools
+src/Tgstation.Server.Host/ClientApp/node_modules
+src/Tgstation.Server.Host/wwwroot
