@@ -6,6 +6,8 @@ environment:
   TGS4_TEST_CONNECTION_STRING: Server=(local)\SQL2017;Initial Catalog=TGS_Test;User ID=sa;Password=Password12!
   TGS4_TEST_GITHUB_TOKEN:
     secure: lJNGAXwiB5HlWdthz3K4PetqpTG5IEAyRgKaiKxFMQ8HW8CcOjRtB97B05op7BsK
+  TGS_RELEASE_NOTES_TOKEN:
+    secure: lJNGAXwiB5HlWdthz3K4PetqpTG5IEAyRgKaiKxFMQ8HW8CcOjRtB97B05op7BsK
 branches:
   only:
     - master
@@ -80,14 +82,19 @@ after_test:
   - ps: $env:TGSVersion = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$env:APPVEYOR_BUILD_FOLDER/artifacts/ServerHost/Tgstation.Server.Host.dll").FileVersion
   - ps: if($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[TGSDeploy\]"){ if($env:APPVEYOR_REPO_BRANCH -match "master"){ if($env:CONFIGURATION -match "Release"){ $env:TGSDeploy = "Do it." }}}
   - ps: if($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[NugetDeploy\]"){ if($env:APPVEYOR_REPO_BRANCH -match "master"){ if($env:CONFIGURATION -match "Release"){ $env:NugetDeploy = "Do it." }}}
+  - ps: $env:TGSGoodNotes = (Start-Process -FilePath 'dotnet' -ArgumentList "run -p tools/ReleaseNotes 4.0.2.0 --no-close" -PassThru -Wait).ExitCode 
+  - ps: $env:TGSReleaseNotes = [IO.File]::ReadAllText("tools/ReleaseNotes/release_notes.md")
+  - ps: Write-Host $env:TGSReleaseNotes
+  - ps: Write-Host $env:TGSGoodNotes
 deploy:
   - provider: GitHub
     release: "tgstation-server-v$(TGSVersion)"
-    description: 'The /tg/station server suite'
+    description: "$(TGSReleaseNotes)"
     auth_token:
       secure: lJNGAXwiB5HlWdthz3K4PetqpTG5IEAyRgKaiKxFMQ8HW8CcOjRtB97B05op7BsK
     artifact: ServerConsole,ServerService,ServerUpdatePackage,DMAPI
-    draft: true
+    draft: $(TGSGoodNotes)
+    prerelease: true
     on:
       TGSDeploy: "Do it."
   - provider: NuGet
