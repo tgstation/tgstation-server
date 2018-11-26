@@ -149,7 +149,32 @@ There is no strict process when it comes to merging pull requests. Pull requests
 
 * Commits MUST be properly titled and commented as we only use merge commits for the pull request process
 
+## Deployment process
+
+Every issue/pull request in a release should share a common milestone named with the release version i.e. `4.5.3.5`
+
+When every issue and PR in the milestone is closed. Create a version bump PR that changes the version numbers. At the time of this writing they exist in the following files
+
+- `/src/Tgstation.Server.Host/Tgstation.Server.Host.csproj`
+- `/src/Tgstation.Server.Host.Console/Tgstation.Server.Host.Console.csproj`
+- 2 in `/src/Tgstation.Server.Host.Service/Properties/AssemblyInfo.cs`
+- `/src/Tgstation.Server.Host.Watchdog/Tgstation.Server.Host.Watchdog.csproj`
+
+Merge the pull request with `[TGSDeploy]` somewhere in the commit title. The scripts will handle amalgamating release notes, building, closing the milestone, and publishing the release. This will also trigger update notifications on existing TGS deployments.
+
+### API/Client Deployment
+
+The Api/Client project versions must be updated on nuget when changed. The numbers exist in the following files:
+
+- `/src/Tgstation.Server.Api/Tgstation.Server.Api.csproj`
+- `/src/Tgstation.Server.Client/Tgstation.Server.Client.csproj`
+
+These should not be the same numbers as the main suite. When bumping the API version the client should only receive a minor (3rd number) version bump unless major changes to CLIENT code were made.
+
+Merge these alongside regular deployments with `[NugetDeploy]` in the commit title (Won't work without an accompanying `[TGSDeploy]`). This will handle the nuget publishing.
+
 ## Banned content
+
 Do not add any of the following in a Pull Request or risk getting the PR closed:
 * National Socialist Party of Germany content, National Socialist Party of Germany related content, or National Socialist Party of Germany references
 
