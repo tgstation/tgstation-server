@@ -204,7 +204,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						ConnectionName = address,
 						FriendlyName = isPrivate ? String.Format(CultureInfo.InvariantCulture, "PM: {0}", channelName) : channelName,
 						RealId = channelId,
-						IsPrivate = isPrivate
+						IsPrivateChannel = isPrivate
 						//isAdmin and Tag populated by manager
 					},
 					FriendlyName = username,
@@ -393,10 +393,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					return new Channel
 					{
 						RealId = id.Value,
-						IsAdmin = x.IsAdminChannel == true,
+						IsAdminChannel = x.IsAdminChannel == true,
 						ConnectionName = address,
 						FriendlyName = channelIdMap[id.Value],
-						IsPrivate = false,
+						IsPrivateChannel = false,
 						Tag = x.Tag
 					};
 				}).ToList();

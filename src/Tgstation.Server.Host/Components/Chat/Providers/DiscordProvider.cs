@@ -49,6 +49,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// </summary>
 		readonly List<ulong> mappedChannels;
 
+		/// <summary>
+		/// Normalize a discord mention string
+		/// </summary>
+		/// <param name="fromDiscord">The mention <see cref="string"/> provided by the Discord library</param>
+		/// <returns>The normalized mention <see cref="string"/></returns>
 		static string NormalizeMention(string fromDiscord) => fromDiscord.Replace("!", "", StringComparison.Ordinal);
 
 		/// <summary>
@@ -92,7 +97,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					Channel = new Channel
 					{
 						RealId = e.Channel.Id,
-						IsPrivate = pm,
+						IsPrivateChannel = pm,
 						ConnectionName = pm ? e.Author.Username : (e.Channel as ITextChannel)?.Guild.Name ?? "UNKNOWN",
 						FriendlyName = e.Channel.Name
 						//isAdmin and Tag populated by manager
@@ -141,6 +146,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			return true;
 		}
 
+		/// <inheritdoc />
 		public override async Task Disconnect(CancellationToken cancellationToken)
 		{
 			if (!Connected)
@@ -182,10 +188,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				return new Channel
 				{
 					RealId = discordChannel.Id,
-					IsAdmin = channel.IsAdminChannel == true,
+					IsAdminChannel = channel.IsAdminChannel == true,
 					ConnectionName = discordChannel.Guild.Name,
 					FriendlyName = discordChannel.Name,
-					IsPrivate = false,
+					IsPrivateChannel = false,
 					Tag = channel.Tag
 				};
 			};

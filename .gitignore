@@ -18,3 +18,4 @@ artifacts/
 /src/Tgstation.Server.Host/wwwroot
 /src/Tgstation.Server.Host/ClientApp/node_modules
 /src/Tgstation.Server.Host/ClientApp/build
+/tools/ReleaseNotes/release_notes.md

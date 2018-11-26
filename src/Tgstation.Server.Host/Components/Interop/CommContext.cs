@@ -109,10 +109,11 @@ namespace Tgstation.Server.Host.Components.Interop
 				{
 					command = new CommCommand
 					{
-						Parameters = JsonConvert.DeserializeObject<IReadOnlyDictionary<string, string>>(file)
+						Parameters = JsonConvert.DeserializeObject<IReadOnlyDictionary<string, object>>(file),
+						RawJson = file
 					};
 				}
-				catch (JsonSerializationException ex)
+				catch (JsonException ex)
 				{
 					//file not fully written yet
 					logger.LogDebug("Suppressing json convert exception for command file write: {0}", ex);

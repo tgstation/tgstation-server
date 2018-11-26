@@ -1,5 +1,6 @@
 ﻿using Mono.Unix;
 using Mono.Unix.Native;
+using System;
 
 namespace Tgstation.Server.Host.IO
 {
@@ -11,6 +12,9 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public void HandleWrite(string filePath)
 		{
+			if (filePath == null)
+				throw new ArgumentNullException(nameof(filePath));
+
 			//set executable bit every time, don't want people calling me when their uploaded "sl" binary doesn't work
 			if (Syscall.stat(filePath, out var stat) != 0)
 				throw new UnixIOException(Stdlib.GetLastError());
