@@ -5,6 +5,8 @@ dotnet tool install --global coverlet.console
 
 mkdir TestResults
 
+source ~/.nvm/nvm.sh && nvm install 10
+
 cd tests/Tgstation.Server.Api.Tests
 
 dotnet build -c $CONFIG /p:CopyLocalLockFileAssemblies=true
@@ -14,8 +16,6 @@ cd ../Tgstation.Server.Client.Tests
 
 dotnet build -c $CONFIG /p:CopyLocalLockFileAssemblies=true
 $HOME/.dotnet/tools/coverlet bin/$CONFIG/netcoreapp2.1/Tgstation.Server.Client.Tests.dll --target "dotnet" --targetargs "test -c $CONFIG --no-build" --format opencover --output "../../TestResults/client.xml" --include "[Tgstation.Server*]*" --exclude "[Tgstation.Server.Client.Tests*]*"
-
-source ~/.nvm/nvm.sh && nvm install 10
 
 cd ../tests/Tgstation.Server.Host.Tests
 
