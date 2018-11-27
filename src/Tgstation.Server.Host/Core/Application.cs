@@ -339,6 +339,8 @@ namespace Tgstation.Server.Host.Core
 				throw new ArgumentNullException(nameof(logger));
 
 			logger.LogInformation(VersionString);
+			logger.LogDebug("Content Root: {0}", hostingEnvironment.ContentRootPath);
+			logger.LogTrace("Web Root: {0}", hostingEnvironment.WebRootPath);
 
 			//attempt to restart the server if the configuration changes
 			if(serverControl.WatchdogPresent)
