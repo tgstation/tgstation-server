@@ -1,15 +1,18 @@
 FROM microsoft/dotnet:2.1-sdk AS build
 
-ARG NODE_VERSION=11.1.0
-
 # install node and npm
 # replace shell with bash so we can source files
-RUN rm /bin/sh && ln -s /bin/bash /bin/sh
-RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | bash
+RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | sh
 
-RUN source /root/.nvm/nvm.sh \
+ENV NODE_VERSION=10.13.0
+ENV NVM_DIR /root/.nvm
+
+RUN . $NVM_DIR/nvm.sh \
     && nvm install $NODE_VERSION \
 	&& nvm use $NODE_VERSION
+
+ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
+ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
 WORKDIR /src
 
