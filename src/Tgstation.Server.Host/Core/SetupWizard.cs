@@ -598,7 +598,7 @@ namespace Tgstation.Server.Host.Core
 			{
 				var bytes = await ioManager.ReadAllBytes(userConfigFileName, cancellationToken).ConfigureAwait(false);
 				var contents = Encoding.UTF8.GetString(bytes);
-				var existingConfigIsEmpty = String.IsNullOrWhiteSpace(contents);
+				var existingConfigIsEmpty = String.IsNullOrWhiteSpace(contents) || contents.Trim() == "{}";
 				logger.LogTrace("Configuration json detected. Empty: {0}", existingConfigIsEmpty);
 				shouldRunBasedOnAutodetect = existingConfigIsEmpty;
 			}
