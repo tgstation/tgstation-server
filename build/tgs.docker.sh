@@ -6,4 +6,4 @@ if [ ! -f $PROD_CONFIG ]; then
 fi
 ln -s $PROD_CONFIG /app/appsettings.Production.json
 
-exec dotnet Tgstation.Server.Host.Console.dll "$@"
+exec dotnet Tgstation.Server.Host.Console.dll
