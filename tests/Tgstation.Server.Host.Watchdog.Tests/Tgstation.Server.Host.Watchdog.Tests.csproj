@@ -11,10 +11,12 @@
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <WarningsAsErrors />
     <DocumentationFile></DocumentationFile>
+    <CodeAnalysisRuleSet />
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <LangVersion>latest</LangVersion>
+    <CodeAnalysisRuleSet />
   </PropertyGroup>
 
   <ItemGroup>

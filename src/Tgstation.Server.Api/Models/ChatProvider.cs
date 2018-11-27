@@ -9,6 +9,7 @@
 		/// Internet relay chat
 		/// </summary>
 		Irc,
+
 		/// <summary>
 		/// Superior chat service
 		/// </summary>

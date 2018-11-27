@@ -20,6 +20,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Conso
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{6FF654E6-3E2C-46D4-872D-D528F77D6973}"
 	ProjectSection(SolutionItems) = preProject
+		build\analyzers.ruleset = build\analyzers.ruleset
 		build\BuildDox.ps1 = build\BuildDox.ps1
 		build\Dockerfile = build\Dockerfile
 		build\install_byond.sh = build\install_byond.sh

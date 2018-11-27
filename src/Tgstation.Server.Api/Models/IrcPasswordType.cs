@@ -9,10 +9,12 @@
 		/// Use server authentication
 		/// </summary>
 		Server,
+
 		/// <summary>
 		/// Use PLAIN sasl authentication
 		/// </summary>
 		Sasl,
+
 		/// <summary>
 		/// Use NickServ authentication
 		/// </summary>

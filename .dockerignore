@@ -1,4 +1,5 @@
 .dockerignore
+!build/analyzers.ruleset
 .git
 .gitignore
 .vs

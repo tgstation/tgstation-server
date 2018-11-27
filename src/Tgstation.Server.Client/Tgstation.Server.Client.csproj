@@ -18,18 +18,18 @@
     <PackageTags>json web api tgstation-server tgstation ss13 byond client</PackageTags>
     <PackageReleaseNotes>Added the ability to change the Token of IServerClient</PackageReleaseNotes>
     <Copyright>2018</Copyright>
+    <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <LangVersion>latest</LangVersion>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
     <DocumentationFile>bin\Release\netstandard2.0\Tgstation.Server.Client.xml</DocumentationFile>
-    <WarningLevel>0</WarningLevel>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <LangVersion>latest</LangVersion>
+    <NoWarn>1701;1702;SA1652</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -38,6 +38,10 @@
       <IncludeAssets>compile; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

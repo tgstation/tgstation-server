@@ -12,18 +12,22 @@ namespace Tgstation.Server.Api.Rights
 		/// User has no rights
 		/// </summary>
 		None = 0,
+
 		/// <summary>
 		/// User may read files
 		/// </summary>
 		Read = 1,
+
 		/// <summary>
 		/// User may write files
 		/// </summary>
 		Write = 2,
+
 		/// <summary>
 		/// User may list files
 		/// </summary>
 		List = 4,
+
 		/// <summary>
 		/// User may delete empty folders
 		/// </summary>
