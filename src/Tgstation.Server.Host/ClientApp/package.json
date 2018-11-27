@@ -5,12 +5,13 @@
     "tgstation-server-control-panel": "^0.1.5"
   },
   "scripts": {
-    "build": "rimraf build && react-scripts-ts build && cp-cli node_modules/tgstation-server-control-panel/build/public/ build/ && cp-cli ../../../build/tgs.ico build/favicon.ico && rimraf ../wwwroot && move-cli build ../wwwroot"
+    "build": "rimraf build && react-scripts-ts build && cp-cli node_modules/tgstation-server-control-panel/build/public/ build/ && cp-cli ../../../build/tgs.ico build/favicon.ico && minify-json build && rimraf ../wwwroot && move-cli build ../wwwroot"
   },
   "devDependencies": {
     "@types/node": "^10.12.0",
     "@types/react-dom": "^16.0.9",
     "cp-cli": "^1.1.2",
+    "minify-json": "^1.0.0",
     "move-cli": "^1.2.0",
     "react-scripts-ts": "^3.1.0",
     "rimraf": "^2.6.2",
