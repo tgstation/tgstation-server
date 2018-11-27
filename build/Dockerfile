@@ -9,7 +9,11 @@ ENV NVM_DIR /root/.nvm
 
 RUN . $NVM_DIR/nvm.sh \
     && nvm install $NODE_VERSION \
-	&& nvm use $NODE_VERSION
+	&& nvm use $NODE_VERSION \
+	&& apt-get update \
+	&& apt-get install -y \
+	dos2unix \
+	&& rm -rf /var/lib/apt/lists/*
 
 ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
@@ -26,6 +30,9 @@ COPY src/Tgstation.Server.Api/Tgstation.Server.Api.csproj src/Tgstation.Server.A
 RUN dotnet restore -nowarn:MSB3202,nu1503 -p:RestoreUseSkipNonexistentTargets=false
 
 COPY . .
+
+#run dos2unix on tgs.docker.sh so we can build without issue on windows
+RUN dos2unix build/tgs.docker.sh
 
 WORKDIR /src/src/Tgstation.Server.Host.Console
 RUN dotnet publish -c Release -o /app
