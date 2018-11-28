@@ -88,11 +88,12 @@ namespace Tgstation.Server.Host.Service
 					EventLog.WriteEntry(String.Format(CultureInfo.InvariantCulture, "Error stopping service! Exception: {0}", e));
 				}
 			}
+
 			StopServiceAsync();
 		}
 
 		/// <inheritdoc />
-		[SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "cancellationTokenSource")]
+		[SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "cancellationTokenSource", Justification = "IT'S DISPOSED RIGHT THERE YOU FUCCBOI!")]
 		protected override void Dispose(bool disposing)
 		{
 			cancellationTokenSource?.Dispose();

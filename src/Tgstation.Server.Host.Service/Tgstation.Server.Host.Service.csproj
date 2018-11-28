@@ -40,7 +40,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet />
-    <NoWarn>SA1652</NoWarn>
+    <NoWarn>SA1101;SA1121;SA1200;SA1202;SA1208;SA1400;SA1413;SA1501;SA1503;SA1519;SA1520;SA1623;SA1629;SA1633;SA1642</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -51,6 +51,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>bin\Release\Tgstation.Server.Host.Service.xml</DocumentationFile>
     <CodeAnalysisRuleSet />
+    <NoWarn>SA1101;SA1121;SA1200;SA1202;SA1208;SA1400;SA1413;SA1501;SA1503;SA1519;SA1520;SA1623;SA1629;SA1633;SA1642</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>Tgstation.Server.Host.Service.Program</StartupObject>

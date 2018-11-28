@@ -37,6 +37,7 @@ namespace Tgstation.Server.Host.Console
 					loggerFactory.CreateLogger(nameof(Program)).LogCritical("Please specify only 1 of --trace-host-watchdog or --debug-host-watchdog!");
 					return;
 				}
+
 				using (var cts = new CancellationTokenSource())
 				{
 					void AppDomainHandler(object a, EventArgs b) => cts.Cancel();
