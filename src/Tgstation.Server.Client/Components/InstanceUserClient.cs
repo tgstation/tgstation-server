@@ -14,6 +14,7 @@ namespace Tgstation.Server.Client.Components
 		/// The <see cref="IApiClient"/> for the <see cref="InstanceUserClient"/>
 		/// </summary>
 		readonly IApiClient apiClient;
+
 		/// <summary>
 		/// The <see cref="Instance"/> for the <see cref="InstanceUserClient"/>
 		/// </summary>
@@ -33,6 +34,7 @@ namespace Tgstation.Server.Client.Components
 		/// <inheritdoc />
 		public Task<InstanceUser> Create(InstanceUser instanceUser, CancellationToken cancellationToken) => apiClient.Create<InstanceUser, InstanceUser>(Routes.InstanceUser, instanceUser ?? throw new ArgumentNullException(nameof(instanceUser)), instance.Id, cancellationToken);
 
+		/// <inheritdoc />
 		public Task Delete(InstanceUser instanceUser, CancellationToken cancellationToken) => apiClient.Delete(Routes.SetID(Routes.InstanceUser, instanceUser.UserId.Value), instance.Id, cancellationToken);
 
 		/// <inheritdoc />
