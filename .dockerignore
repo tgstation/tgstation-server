@@ -1,5 +1,4 @@
 .dockerignore
-!build/analyzers.ruleset
 .git
 .gitignore
 .vs
@@ -8,3 +7,5 @@ packages
 */bin
 */obj
 tests
+!build/analyzers.ruleset
+!build/stylecop.json
