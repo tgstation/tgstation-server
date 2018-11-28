@@ -31,7 +31,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <NoWarn>1701;1702;CA1028</NoWarn>
-    <DocumentationFile>D:\tgstation-server\src\Tgstation.Server.Api\Tgstation.Server.Api.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netstandard2.0\Tgstation.Server.Api.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

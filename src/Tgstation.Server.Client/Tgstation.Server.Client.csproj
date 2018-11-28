@@ -25,13 +25,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
-    <DocumentationFile>D:\tgstation-server\src\Tgstation.Server.Client\Tgstation.Server.Client.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netstandard2.0\Tgstation.Server.Client.xml</DocumentationFile>
     <NoWarn>1701;1702</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <NoWarn>1701;1702</NoWarn>
-    <DocumentationFile>D:\tgstation-server\src\Tgstation.Server.Client\Tgstation.Server.Client.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netstandard2.0\Tgstation.Server.Client.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
