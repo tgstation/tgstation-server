@@ -25,11 +25,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
-    <DocumentationFile>bin\Release\netstandard2.0\Tgstation.Server.Client.xml</DocumentationFile>
+    <DocumentationFile></DocumentationFile>
+    <NoWarn>1701;1702</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <NoWarn>1701;1702;SA1652</NoWarn>
+    <NoWarn>1701;1702</NoWarn>
+    <DocumentationFile>D:\tgstation-server\src\Tgstation.Server.Client\Tgstation.Server.Client.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -38,7 +40,7 @@
       <IncludeAssets>compile; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.1-beta.61">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
@@ -48,4 +50,7 @@
     <ProjectReference Include="..\Tgstation.Server.Api\Tgstation.Server.Api.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <AdditionalFiles Include="../../build/stylecop.json" />
+  </ItemGroup>
 </Project>

@@ -1,0 +1,1733 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Tgstation.Server.Client</name>
+    </assembly>
+    <members>
+        <member name="T:Tgstation.Server.Client.AdministrationClient">
+            <inheritdoc />
+        </member>
+        <member name="F:Tgstation.Server.Client.AdministrationClient.apiClient">
+            <summary>
+            The <see cref="F:Tgstation.Server.Client.AdministrationClient.apiClient"/> for the <see cref="T:Tgstation.Server.Client.AdministrationClient"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.AdministrationClient.#ctor(Tgstation.Server.Client.IApiClient)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.AdministrationClient"/>
+            </summary>
+            <param name="apiClient">The value of <see cref="F:Tgstation.Server.Client.AdministrationClient.apiClient"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.AdministrationClient.Read(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.AdministrationClient.Update(Tgstation.Server.Api.Models.Administration,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.AdministrationClient.Restart(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Tgstation.Server.Client.ApiClient">
+            <inheritdoc />
+        </member>
+        <member name="P:Tgstation.Server.Client.ApiClient.Url">
+            <inheritdoc />
+        </member>
+        <member name="P:Tgstation.Server.Client.ApiClient.Headers">
+            <inheritdoc />
+        </member>
+        <member name="P:Tgstation.Server.Client.ApiClient.Timeout">
+            <inheritdoc />
+        </member>
+        <member name="F:Tgstation.Server.Client.ApiClient.httpClient">
+            <summary>
+            The <see cref="T:Tgstation.Server.Client.HttpClient"/> for the <see cref="T:Tgstation.Server.Client.ApiClient"/>
+            </summary>
+        </member>
+        <member name="F:Tgstation.Server.Client.ApiClient.requestLoggers">
+            <summary>
+            The <see cref="T:Tgstation.Server.Client.IRequestLogger"/>s used by the <see cref="T:Tgstation.Server.Client.ApiClient"/>
+            </summary>
+        </member>
+        <member name="F:Tgstation.Server.Client.ApiClient.headers">
+            <summary>
+            Backing field for <see cref="P:Tgstation.Server.Client.ApiClient.Headers"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.ApiClient.#ctor(Tgstation.Server.Client.IHttpClient,System.Uri,Tgstation.Server.Api.ApiHeaders)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.ApiClient"/>
+            </summary>
+            <param name="httpClient">The value of <see cref="F:Tgstation.Server.Client.ApiClient.httpClient"/></param>
+            <param name="url">The value of <see cref="P:Tgstation.Server.Client.ApiClient.Url"/></param>
+            <param name="apiHeaders">The value of <see cref="T:Tgstation.Server.Api.ApiHeaders"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.ApiClient.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.ApiClient.RunRequest``1(System.String,System.Object,System.Net.Http.HttpMethod,System.Nullable{System.Int64},System.Threading.CancellationToken)">
+            <summary>
+            Main request method
+            </summary>
+            <typeparam name="TResult">The resulting POCO type</typeparam>
+            <param name="route">The route to run</param>
+            <param name="body">The body of the request</param>
+            <param name="method">The method of the request</param>
+            <param name="instanceId">The optional <see cref="P:Tgstation.Server.Api.Models.Instance.Id"/> for the request</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the response on success</returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.ApiClient.Create``1(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.ApiClient.Read``1(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.ApiClient.Update``1(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.ApiClient.Update``2(System.String,``0,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.ApiClient.Update``1(System.String,``0,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.ApiClient.Create``2(System.String,``0,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.ApiClient.Delete(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.ApiClient.Create``2(System.String,``0,System.Int64,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.ApiClient.Read``1(System.String,System.Int64,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.ApiClient.Update``2(System.String,``0,System.Int64,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.ApiClient.Delete(System.String,System.Int64,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.ApiClient.Delete``1(System.String,``0,System.Int64,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.ApiClient.Delete``1(System.String,System.Int64,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.ApiClient.Create``1(System.String,System.Int64,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.ApiClient.Patch``1(System.String,System.Int64,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.ApiClient.AddRequestLogger(Tgstation.Server.Client.IRequestLogger)">
+            <inheritdoc />
+        </member>
+        <member name="T:Tgstation.Server.Client.ApiClientFactory">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.ApiClientFactory.CreateApiClient(System.Uri,Tgstation.Server.Api.ApiHeaders)">
+            <inheritdoc />
+        </member>
+        <member name="T:Tgstation.Server.Client.ApiConflictException">
+            <summary>
+            Occurs when the server returns an unknown response
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.ApiConflictException.#ctor(Tgstation.Server.Api.Models.ErrorMessage,System.Net.HttpStatusCode)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.ApiConflictException"/> using an <paramref name="errorMessage"/>
+            </summary>
+            <param name="errorMessage">The <see cref="T:Tgstation.Server.Api.Models.ErrorMessage"/> for the <see cref="T:Tgstation.Server.Client.ClientException"/></param>
+            <param name="statusCode">The <see cref="T:System.Net.HttpStatusCode"/> for the <see cref="T:Tgstation.Server.Client.ClientException"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.ApiConflictException.#ctor">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.ApiConflictException"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.ApiConflictException.#ctor(System.String)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.ApiConflictException"/> with a <paramref name="message"/>
+            </summary>
+            <param name="message">The message for the <see cref="T:System.Exception"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.ApiConflictException.#ctor(System.String,System.Exception)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.ApiConflictException"/> with a <paramref name="message"/> and <paramref name="innerException"/>
+            </summary>
+            <param name="message">The message for the <see cref="T:System.Exception"/></param>
+            <param name="innerException">The inner <see cref="T:System.Exception"/> for the base <see cref="T:System.Exception"/></param>
+        </member>
+        <member name="T:Tgstation.Server.Client.ApiMismatchException">
+            <summary>
+            Occurs when the API version of the client is not compatible with the server's
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.ApiMismatchException.#ctor(Tgstation.Server.Api.Models.ErrorMessage)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.ApiMismatchException"/> using an <paramref name="errorMessage"/>
+            </summary>
+            <param name="errorMessage">The <see cref="T:Tgstation.Server.Api.Models.ErrorMessage"/> for the <see cref="T:Tgstation.Server.Client.ClientException"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.ApiMismatchException.#ctor">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.ApiMismatchException"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.ApiMismatchException.#ctor(System.String)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.ApiMismatchException"/> with a <paramref name="message"/>
+            </summary>
+            <param name="message">The message for the <see cref="T:System.Exception"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.ApiMismatchException.#ctor(System.String,System.Exception)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.ApiMismatchException"/> with a <paramref name="message"/> and <paramref name="innerException"/>
+            </summary>
+            <param name="message">The message for the <see cref="T:System.Exception"/></param>
+            <param name="innerException">The inner <see cref="T:System.Exception"/> for the base <see cref="T:System.Exception"/></param>
+        </member>
+        <member name="T:Tgstation.Server.Client.ClientException">
+            <summary>
+            Exceptions thrown by <see cref="T:Tgstation.Server.Client.IServerClient"/>s
+            </summary>
+        </member>
+        <member name="P:Tgstation.Server.Client.ClientException.StatusCode">
+            <summary>
+            The <see cref="T:System.Net.HttpStatusCode"/> of the <see cref="T:Tgstation.Server.Client.ClientException"/>
+            </summary>
+        </member>
+        <member name="P:Tgstation.Server.Client.ClientException.ServerApiVersion">
+            <summary>
+            The <see cref="T:System.Version"/> of the server's API
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.ClientException.#ctor(Tgstation.Server.Api.Models.ErrorMessage,System.Net.HttpStatusCode)">
+            <summary>
+            Construct a <see cref="T:Tgstation.Server.Client.ClientException"/> using an <paramref name="errorMessage"/> and <paramref name="statusCode"/>
+            </summary>
+            <param name="errorMessage">The <see cref="T:Tgstation.Server.Api.Models.ErrorMessage"/> associated with the <see cref="T:Tgstation.Server.Client.ClientException"/></param>
+            <param name="statusCode">The <see cref="T:System.Net.HttpStatusCode"/> of the <see cref="T:Tgstation.Server.Client.ClientException"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.ClientException.#ctor">
+            <summary>
+            Construct a <see cref="T:Tgstation.Server.Client.ClientException"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.ClientException.#ctor(System.String)">
+            <summary>
+            Construct a <see cref="T:Tgstation.Server.Client.ClientException"/> with a <paramref name="message"/>
+            </summary>
+            <param name="message">The message for the <see cref="T:System.Exception"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.ClientException.#ctor(System.String,System.Exception)">
+            <summary>
+            Construct a <see cref="T:Tgstation.Server.Client.ClientException"/> with a <paramref name="message"/> and <paramref name="innerException"/>
+            </summary>
+            <param name="message">The message for the <see cref="T:System.Exception"/></param>
+            <param name="innerException">The inner <see cref="T:System.Exception"/> for the base <see cref="T:System.Exception"/></param>
+        </member>
+        <member name="T:Tgstation.Server.Client.Components.ByondClient">
+            <inheritdoc />
+        </member>
+        <member name="F:Tgstation.Server.Client.Components.ByondClient.apiClient">
+            <summary>
+            The <see cref="T:Tgstation.Server.Client.IApiClient"/> for the <see cref="T:Tgstation.Server.Client.Components.ByondClient"/>
+            </summary>
+        </member>
+        <member name="F:Tgstation.Server.Client.Components.ByondClient.instance">
+            <summary>
+            The <see cref="T:Tgstation.Server.Api.Models.Instance"/> for the <see cref="T:Tgstation.Server.Client.Components.ByondClient"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.ByondClient.#ctor(Tgstation.Server.Client.IApiClient,Tgstation.Server.Api.Models.Instance)">
+            <summary>
+            Construct a <see cref="T:Tgstation.Server.Client.Components.ByondClient"/>
+            </summary>
+            <param name="apiClient">The value of <see cref="F:Tgstation.Server.Client.Components.ByondClient.apiClient"/></param>
+            <param name="instance">The value of <see cref="T:Tgstation.Server.Api.Models.Instance"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.ByondClient.ActiveVersion(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.ByondClient.InstalledVersions(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.ByondClient.SetActiveVersion(Tgstation.Server.Api.Models.Byond,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Tgstation.Server.Client.Components.ChatBotsClient">
+            <inheritdoc />
+        </member>
+        <member name="F:Tgstation.Server.Client.Components.ChatBotsClient.apiClient">
+            <summary>
+            The <see cref="T:Tgstation.Server.Client.IApiClient"/> for the <see cref="T:Tgstation.Server.Client.Components.ChatBotsClient"/>
+            </summary>
+        </member>
+        <member name="F:Tgstation.Server.Client.Components.ChatBotsClient.instance">
+            <summary>
+            The <see cref="T:Tgstation.Server.Api.Models.Instance"/> for the <see cref="T:Tgstation.Server.Client.Components.ChatBotsClient"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.ChatBotsClient.#ctor(Tgstation.Server.Client.IApiClient,Tgstation.Server.Api.Models.Instance)">
+            <summary>
+            Construct a <see cref="T:Tgstation.Server.Client.Components.ChatBotsClient"/>
+            </summary>
+            <param name="apiClient">The value of <see cref="F:Tgstation.Server.Client.Components.ChatBotsClient.apiClient"/></param>
+            <param name="instance">The value of <see cref="F:Tgstation.Server.Client.Components.ChatBotsClient.instance"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.ChatBotsClient.Create(Tgstation.Server.Api.Models.ChatBot,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.ChatBotsClient.Delete(Tgstation.Server.Api.Models.ChatBot,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.ChatBotsClient.List(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.ChatBotsClient.Update(Tgstation.Server.Api.Models.ChatBot,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.ChatBotsClient.GetId(Tgstation.Server.Api.Models.ChatBot,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Tgstation.Server.Client.Components.ConfigurationClient">
+            <inheritdoc />
+        </member>
+        <member name="F:Tgstation.Server.Client.Components.ConfigurationClient.apiClient">
+            <summary>
+            The <see cref="T:Tgstation.Server.Client.IApiClient"/> for the <see cref="T:Tgstation.Server.Client.Components.ConfigurationClient"/>
+            </summary>
+        </member>
+        <member name="F:Tgstation.Server.Client.Components.ConfigurationClient.instance">
+            <summary>
+            The <see cref="T:Tgstation.Server.Api.Models.Instance"/> for the <see cref="T:Tgstation.Server.Client.Components.ConfigurationClient"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.ConfigurationClient.SanitizeGetPath(System.String)">
+            <summary>
+            Sanitize a <see cref="T:Tgstation.Server.Api.Models.ConfigurationFile"/> path for use in a GET <see cref="T:System.Uri"/>
+            </summary>
+            <param name="path">The path to sanitize</param>
+            <returns>The sanitized path</returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.ConfigurationClient.#ctor(Tgstation.Server.Client.IApiClient,Tgstation.Server.Api.Models.Instance)">
+            <summary>
+            Construct a <see cref="T:Tgstation.Server.Client.Components.ConfigurationClient"/>
+            </summary>
+            <param name="apiClient">The value of <see cref="F:Tgstation.Server.Client.Components.ConfigurationClient.apiClient"/></param>
+            <param name="instance">The value of <see cref="F:Tgstation.Server.Client.Components.ConfigurationClient.instance"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.ConfigurationClient.DeleteEmptyDirectory(Tgstation.Server.Api.Models.ConfigurationFile,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.ConfigurationClient.CreateDirectory(Tgstation.Server.Api.Models.ConfigurationFile,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.ConfigurationClient.List(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.ConfigurationClient.Read(Tgstation.Server.Api.Models.ConfigurationFile,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.ConfigurationClient.Write(Tgstation.Server.Api.Models.ConfigurationFile,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Tgstation.Server.Client.Components.DreamDaemonClient">
+            <inheritdoc />
+        </member>
+        <member name="F:Tgstation.Server.Client.Components.DreamDaemonClient.apiClient">
+            <summary>
+            The <see cref="T:Tgstation.Server.Client.IApiClient"/> for the <see cref="T:Tgstation.Server.Client.Components.DreamDaemonClient"/>
+            </summary>
+        </member>
+        <member name="F:Tgstation.Server.Client.Components.DreamDaemonClient.instance">
+            <summary>
+            The <see cref="T:Tgstation.Server.Api.Models.Instance"/> for the <see cref="T:Tgstation.Server.Client.Components.DreamDaemonClient"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.DreamDaemonClient.#ctor(Tgstation.Server.Client.IApiClient,Tgstation.Server.Api.Models.Instance)">
+            <summary>
+            Construct a <see cref="T:Tgstation.Server.Client.Components.DreamDaemonClient"/>
+            </summary>
+            <param name="apiClient">The value of <see cref="F:Tgstation.Server.Client.Components.DreamDaemonClient.apiClient"/></param>
+            <param name="instance">The value of <see cref="F:Tgstation.Server.Client.Components.DreamDaemonClient.instance"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.DreamDaemonClient.Shutdown(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.DreamDaemonClient.Start(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.DreamDaemonClient.Restart(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.DreamDaemonClient.Read(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.DreamDaemonClient.Update(Tgstation.Server.Api.Models.DreamDaemon,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Tgstation.Server.Client.Components.DreamMakerClient">
+            <inheritdoc />
+        </member>
+        <member name="F:Tgstation.Server.Client.Components.DreamMakerClient.apiClient">
+            <summary>
+            The <see cref="T:Tgstation.Server.Client.IApiClient"/> for the <see cref="T:Tgstation.Server.Client.Components.DreamMakerClient"/>
+            </summary>
+        </member>
+        <member name="F:Tgstation.Server.Client.Components.DreamMakerClient.instance">
+            <summary>
+            The <see cref="T:Tgstation.Server.Api.Models.Instance"/> for the <see cref="T:Tgstation.Server.Client.Components.DreamMakerClient"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.DreamMakerClient.#ctor(Tgstation.Server.Client.IApiClient,Tgstation.Server.Api.Models.Instance)">
+            <summary>
+            Construct a <see cref="T:Tgstation.Server.Client.Components.DreamMakerClient"/>
+            </summary>
+            <param name="apiClient">The value of <see cref="F:Tgstation.Server.Client.Components.DreamMakerClient.apiClient"/></param>
+            <param name="instance">The value of <see cref="T:Tgstation.Server.Api.Models.Instance"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.DreamMakerClient.Compile(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.DreamMakerClient.GetCompileJob(Tgstation.Server.Api.Models.CompileJob,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.DreamMakerClient.GetJobIds(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.DreamMakerClient.Read(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.DreamMakerClient.Update(Tgstation.Server.Api.Models.DreamMaker,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Tgstation.Server.Client.Components.IByondClient">
+            <summary>
+            For managing the <see cref="T:Tgstation.Server.Api.Models.Byond"/> installation
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IByondClient.ActiveVersion(System.Threading.CancellationToken)">
+            <summary>
+            Get the <see cref="T:Tgstation.Server.Api.Models.Byond"/> active <see cref="T:System.Version"/> information
+            </summary>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the <see cref="T:Tgstation.Server.Api.Models.Byond"/> active <see cref="T:System.Version"/> information</returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IByondClient.InstalledVersions(System.Threading.CancellationToken)">
+            <summary>
+            Get all installed <see cref="T:Tgstation.Server.Api.Models.Byond"/> <see cref="T:System.Version"/>s
+            </summary>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in an <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> of installed <see cref="T:Tgstation.Server.Api.Models.Byond"/> <see cref="T:System.Version"/>s</returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IByondClient.SetActiveVersion(Tgstation.Server.Api.Models.Byond,System.Threading.CancellationToken)">
+            <summary>
+            Updates the <see cref="T:Tgstation.Server.Api.Models.Byond"/> information
+            </summary>
+            <param name="byond">The <see cref="T:Tgstation.Server.Api.Models.Byond"/> information to update</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the updated <see cref="T:Tgstation.Server.Api.Models.Byond"/> information</returns>
+        </member>
+        <member name="T:Tgstation.Server.Client.Components.IChatBotsClient">
+            <summary>
+            For managing the chat bots
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IChatBotsClient.List(System.Threading.CancellationToken)">
+            <summary>
+            List the <see cref="T:Tgstation.Server.Api.Models.ChatBot"/>s
+            </summary>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in a <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> of the <see cref="T:Tgstation.Server.Api.Models.ChatBot"/> of the server</returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IChatBotsClient.Create(Tgstation.Server.Api.Models.ChatBot,System.Threading.CancellationToken)">
+            <summary>
+            Create a <see cref="T:Tgstation.Server.Api.Models.ChatBot"/>
+            </summary>
+            <param name="settings">The <see cref="T:Tgstation.Server.Api.Models.ChatBot"/> to create</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the new <see cref="T:Tgstation.Server.Api.Models.ChatBot"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IChatBotsClient.Update(Tgstation.Server.Api.Models.ChatBot,System.Threading.CancellationToken)">
+            <summary>
+            Updates a <see cref="T:Tgstation.Server.Api.Models.ChatBot"/>'s setttings
+            </summary>
+            <param name="settings">The <see cref="T:Tgstation.Server.Api.Models.ChatBot"/> to update</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the updated <see cref="T:Tgstation.Server.Api.Models.ChatBot"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IChatBotsClient.GetId(Tgstation.Server.Api.Models.ChatBot,System.Threading.CancellationToken)">
+            <summary>
+            Get a <see cref="T:Tgstation.Server.Api.Models.ChatBot"/>'s setttings
+            </summary>
+            <param name="settings">The <see cref="T:Tgstation.Server.Api.Models.ChatBot"/> to get</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the <see cref="T:Tgstation.Server.Api.Models.ChatBot"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IChatBotsClient.Delete(Tgstation.Server.Api.Models.ChatBot,System.Threading.CancellationToken)">
+            <summary>
+            Delete a <see cref="T:Tgstation.Server.Api.Models.ChatBot"/>
+            </summary>
+            <param name="settings">The <see cref="T:Tgstation.Server.Api.Models.ChatBot"/> to delete</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the running operation</returns>
+        </member>
+        <member name="T:Tgstation.Server.Client.Components.IConfigurationClient">
+            <summary>
+            For managing <see cref="T:Tgstation.Server.Api.Models.ConfigurationFile"/> files
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IConfigurationClient.List(System.String,System.Threading.CancellationToken)">
+            <summary>
+            List configuration files
+            </summary>
+            <param name="directory">The path to the directory to list files in</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> of <see cref="T:Tgstation.Server.Api.Models.ConfigurationFile"/>s in the <paramref name="directory"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IConfigurationClient.Read(Tgstation.Server.Api.Models.ConfigurationFile,System.Threading.CancellationToken)">
+            <summary>
+            Read a <see cref="T:Tgstation.Server.Api.Models.ConfigurationFile"/> file
+            </summary>
+            <param name="file">The <see cref="T:Tgstation.Server.Api.Models.ConfigurationFile"/> file to read</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the running operation</returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IConfigurationClient.Write(Tgstation.Server.Api.Models.ConfigurationFile,System.Threading.CancellationToken)">
+            <summary>
+            Overwrite a <see cref="T:Tgstation.Server.Api.Models.ConfigurationFile"/> file
+            </summary>
+            <param name="file">The <see cref="T:Tgstation.Server.Api.Models.ConfigurationFile"/> file to write</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the new <see cref="T:Tgstation.Server.Api.Models.ConfigurationFile"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IConfigurationClient.DeleteEmptyDirectory(Tgstation.Server.Api.Models.ConfigurationFile,System.Threading.CancellationToken)">
+            <summary>
+            Delete an empty <paramref name="directory"/>
+            </summary>
+            <param name="directory">The <see cref="T:Tgstation.Server.Api.Models.ConfigurationFile"/> representing the directory to delete</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the running operation</returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IConfigurationClient.CreateDirectory(Tgstation.Server.Api.Models.ConfigurationFile,System.Threading.CancellationToken)">
+            <summary>
+            Creates an empty <paramref name="directory"/>
+            </summary>
+            <param name="directory">The <see cref="T:Tgstation.Server.Api.Models.ConfigurationFile"/> representing the directory to create</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the new <see cref="T:Tgstation.Server.Api.Models.ConfigurationFile"/></returns>
+        </member>
+        <member name="T:Tgstation.Server.Client.Components.IDreamDaemonClient">
+            <summary>
+            For managing <see cref="T:Tgstation.Server.Api.Models.DreamDaemon"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IDreamDaemonClient.Read(System.Threading.CancellationToken)">
+            <summary>
+            Get the <see cref="T:Tgstation.Server.Api.Models.DreamDaemon"/> represented by the <see cref="T:Tgstation.Server.Client.Components.IDreamDaemonClient"/>
+            </summary>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the <see cref="T:Tgstation.Server.Api.Models.DreamDaemon"/> information</returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IDreamDaemonClient.Start(System.Threading.CancellationToken)">
+            <summary>
+            Start <see cref="T:Tgstation.Server.Api.Models.DreamDaemon"/>
+            </summary>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the <see cref="T:Tgstation.Server.Api.Models.Job"/> of the running operation</returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IDreamDaemonClient.Restart(System.Threading.CancellationToken)">
+            <summary>
+            Restart <see cref="T:Tgstation.Server.Api.Models.DreamDaemon"/>
+            </summary>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the <see cref="T:Tgstation.Server.Api.Models.Job"/> of the running operation</returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IDreamDaemonClient.Shutdown(System.Threading.CancellationToken)">
+            <summary>
+            Shutdown <see cref="T:Tgstation.Server.Api.Models.DreamDaemon"/>
+            </summary>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the <see cref="T:Tgstation.Server.Api.Models.DreamDaemon"/> information</returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IDreamDaemonClient.Update(Tgstation.Server.Api.Models.DreamDaemon,System.Threading.CancellationToken)">
+            <summary>
+            Update <see cref="T:Tgstation.Server.Api.Models.DreamDaemon"/>. This may trigger <see cref="P:Tgstation.Server.Api.Models.Internal.DreamDaemonSettings.SoftRestart"/>
+            </summary>
+            <param name="dreamDaemon">The <see cref="T:Tgstation.Server.Api.Models.DreamDaemon"/> to update</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the <see cref="T:Tgstation.Server.Api.Models.DreamDaemon"/> information</returns>
+        </member>
+        <member name="T:Tgstation.Server.Client.Components.IDreamMakerClient">
+            <summary>
+            For managing the compiler
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IDreamMakerClient.Read(System.Threading.CancellationToken)">
+            <summary>
+            Get the <see cref="T:Tgstation.Server.Api.Models.DreamMaker"/> information
+            </summary>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the <see cref="T:Tgstation.Server.Api.Models.DreamMaker"/> information</returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IDreamMakerClient.Update(Tgstation.Server.Api.Models.DreamMaker,System.Threading.CancellationToken)">
+            <summary>
+            Updates the <see cref="T:Tgstation.Server.Api.Models.DreamMaker"/> setttings
+            </summary>
+            <param name="dreamMaker">The <see cref="T:Tgstation.Server.Api.Models.DreamMaker"/> to update</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the running operation</returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IDreamMakerClient.Compile(System.Threading.CancellationToken)">
+            <summary>
+            Compile the current repository revision
+            </summary>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the <see cref="T:Tgstation.Server.Api.Models.Job"/> for the compile</returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IDreamMakerClient.GetJobIds(System.Threading.CancellationToken)">
+            <summary>
+            Gets the <see cref="P:Tgstation.Server.Api.Models.Internal.CompileJob.Id"/>s of all <see cref="T:Tgstation.Server.Api.Models.CompileJob"/>s for the instance
+            </summary>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in a <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> of <see cref="T:Tgstation.Server.Api.Models.CompileJob"/>s with only the <see cref="P:Tgstation.Server.Api.Models.Internal.CompileJob.Id"/> field populated</returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IDreamMakerClient.GetCompileJob(Tgstation.Server.Api.Models.CompileJob,System.Threading.CancellationToken)">
+            <summary>
+            Get a <paramref name="compileJob"/>
+            </summary>
+            <param name="compileJob">The <see cref="T:Tgstation.Server.Api.Models.CompileJob"/> to get</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the <see cref="T:Tgstation.Server.Api.Models.CompileJob"/></returns>
+        </member>
+        <member name="T:Tgstation.Server.Client.Components.IInstanceClient">
+            <summary>
+            For managing a single <see cref="T:Tgstation.Server.Api.Models.Instance"/>
+            </summary>
+        </member>
+        <member name="P:Tgstation.Server.Client.Components.IInstanceClient.Metadata">
+            <summary>
+            The <see cref="T:Tgstation.Server.Api.Models.Instance"/> used to create the <see cref="T:Tgstation.Server.Client.Components.IInstanceClient"/>
+            </summary>
+        </member>
+        <member name="P:Tgstation.Server.Client.Components.IInstanceClient.Byond">
+            <summary>
+            Access the <see cref="T:Tgstation.Server.Client.Components.IByondClient"/>
+            </summary>
+        </member>
+        <member name="P:Tgstation.Server.Client.Components.IInstanceClient.Repository">
+            <summary>
+            Access the <see cref="T:Tgstation.Server.Client.Components.IRepositoryClient"/>
+            </summary>
+        </member>
+        <member name="P:Tgstation.Server.Client.Components.IInstanceClient.DreamDaemon">
+            <summary>
+            Access the <see cref="T:Tgstation.Server.Client.Components.IDreamDaemonClient"/>
+            </summary>
+        </member>
+        <member name="P:Tgstation.Server.Client.Components.IInstanceClient.Configuration">
+            <summary>
+            Access the <see cref="T:Tgstation.Server.Client.Components.IConfigurationClient"/>
+            </summary>
+        </member>
+        <member name="P:Tgstation.Server.Client.Components.IInstanceClient.Users">
+            <summary>
+            Access the <see cref="T:Tgstation.Server.Client.Components.IInstanceUserClient"/>
+            </summary>
+        </member>
+        <member name="P:Tgstation.Server.Client.Components.IInstanceClient.ChatBots">
+            <summary>
+            Access the <see cref="T:Tgstation.Server.Client.Components.IChatBotsClient"/>
+            </summary>
+        </member>
+        <member name="P:Tgstation.Server.Client.Components.IInstanceClient.DreamMaker">
+            <summary>
+            Access the <see cref="T:Tgstation.Server.Client.Components.IDreamMakerClient"/>
+            </summary>
+        </member>
+        <member name="P:Tgstation.Server.Client.Components.IInstanceClient.Jobs">
+            <summary>
+            Access the <see cref="T:Tgstation.Server.Client.Components.IJobsClient"/>
+            </summary>
+        </member>
+        <member name="T:Tgstation.Server.Client.Components.IInstanceUserClient">
+            <summary>
+            For managing <see cref="T:Tgstation.Server.Api.Models.InstanceUser"/>s
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IInstanceUserClient.Read(System.Threading.CancellationToken)">
+            <summary>
+            Get the <see cref="T:Tgstation.Server.Api.Models.InstanceUser"/> associated with the logged on user
+            </summary>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the <see cref="T:Tgstation.Server.Api.Models.InstanceUser"/> associated with the logged on user</returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IInstanceUserClient.GetId(Tgstation.Server.Api.Models.InstanceUser,System.Threading.CancellationToken)">
+            <summary>
+            Get a specific <paramref name="instanceUser"/>
+            </summary>
+            <param name="instanceUser">The <see cref="T:Tgstation.Server.Api.Models.InstanceUser"/> to get</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the requested <paramref name="instanceUser"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IInstanceUserClient.List(System.Threading.CancellationToken)">
+            <summary>
+            Get the <see cref="T:Tgstation.Server.Api.Models.InstanceUser"/>s in the <see cref="T:Tgstation.Server.Api.Models.Instance"/>
+            </summary>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in a <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> of <see cref="T:Tgstation.Server.Api.Models.InstanceUser"/>s in the instance</returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IInstanceUserClient.Update(Tgstation.Server.Api.Models.InstanceUser,System.Threading.CancellationToken)">
+            <summary>
+            Update a <paramref name="instanceUser"/>
+            </summary>
+            <param name="instanceUser">The <see cref="T:Tgstation.Server.Api.Models.InstanceUser"/> to update</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the running operation</returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IInstanceUserClient.Create(Tgstation.Server.Api.Models.InstanceUser,System.Threading.CancellationToken)">
+            <summary>
+            Create a <paramref name="instanceUser"/>
+            </summary>
+            <param name="instanceUser">The <see cref="T:Tgstation.Server.Api.Models.InstanceUser"/> to create</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> reulting in the new <see cref="T:Tgstation.Server.Api.Models.InstanceUser"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IInstanceUserClient.Delete(Tgstation.Server.Api.Models.InstanceUser,System.Threading.CancellationToken)">
+            <summary>
+            Delete a <paramref name="instanceUser"/>
+            </summary>
+            <param name="instanceUser">The <see cref="T:Tgstation.Server.Api.Models.InstanceUser"/> to delete</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the running operation</returns>
+        </member>
+        <member name="T:Tgstation.Server.Client.Components.IJobsClient">
+            <summary>
+            Access to running jobs
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IJobsClient.List(System.Threading.CancellationToken)">
+            <summary>
+            List the <see cref="P:Tgstation.Server.Api.Models.Internal.Job.Id"/>s in the <see cref="T:Tgstation.Server.Api.Models.Instance"/>
+            </summary>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in a <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> of the <see cref="P:Tgstation.Server.Api.Models.Internal.Job.Id"/>s in the <see cref="T:Tgstation.Server.Api.Models.Instance"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IJobsClient.ListActive(System.Threading.CancellationToken)">
+            <summary>
+            List the active <see cref="T:Tgstation.Server.Api.Models.Job"/>s in the <see cref="T:Tgstation.Server.Api.Models.Instance"/>
+            </summary>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in a <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> of the active <see cref="T:Tgstation.Server.Api.Models.Job"/>s in the <see cref="T:Tgstation.Server.Api.Models.Instance"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IJobsClient.GetId(Tgstation.Server.Api.Models.Job,System.Threading.CancellationToken)">
+            <summary>
+            Get a <paramref name="job"/>
+            </summary>
+            <param name="job">The <see cref="T:Tgstation.Server.Api.Models.Job"/> to get</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the <see cref="T:Tgstation.Server.Api.Models.Job"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IJobsClient.Cancel(Tgstation.Server.Api.Models.Job,System.Threading.CancellationToken)">
+            <summary>
+            Cancels a <paramref name="job"/>
+            </summary>
+            <param name="job">The <see cref="T:Tgstation.Server.Api.Models.Job"/> to cancel</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the running operation</returns>
+        </member>
+        <member name="T:Tgstation.Server.Client.Components.InstanceClient">
+            <inheritdoc />
+        </member>
+        <member name="P:Tgstation.Server.Client.Components.InstanceClient.Metadata">
+            <inheritdoc />
+        </member>
+        <member name="P:Tgstation.Server.Client.Components.InstanceClient.Byond">
+            <inheritdoc />
+        </member>
+        <member name="P:Tgstation.Server.Client.Components.InstanceClient.Repository">
+            <inheritdoc />
+        </member>
+        <member name="P:Tgstation.Server.Client.Components.InstanceClient.DreamDaemon">
+            <inheritdoc />
+        </member>
+        <member name="P:Tgstation.Server.Client.Components.InstanceClient.Configuration">
+            <inheritdoc />
+        </member>
+        <member name="P:Tgstation.Server.Client.Components.InstanceClient.Users">
+            <inheritdoc />
+        </member>
+        <member name="P:Tgstation.Server.Client.Components.InstanceClient.ChatBots">
+            <inheritdoc />
+        </member>
+        <member name="P:Tgstation.Server.Client.Components.InstanceClient.DreamMaker">
+            <inheritdoc />
+        </member>
+        <member name="P:Tgstation.Server.Client.Components.InstanceClient.Jobs">
+            <inheritdoc />
+        </member>
+        <member name="F:Tgstation.Server.Client.Components.InstanceClient.apiClient">
+            <summary>
+            The <see cref="T:Tgstation.Server.Client.IApiClient"/> for the <see cref="T:Tgstation.Server.Client.Components.InstanceClient"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.InstanceClient.#ctor(Tgstation.Server.Client.IApiClient,Tgstation.Server.Api.Models.Instance)">
+            <summary>
+            Construct a <see cref="T:Tgstation.Server.Client.Components.InstanceClient"/>
+            </summary>
+            <param name="apiClient">The value of <see cref="F:Tgstation.Server.Client.Components.InstanceClient.apiClient"/></param>
+            <param name="instance">The value of <see cref="P:Tgstation.Server.Client.Components.InstanceClient.Metadata"/></param>
+        </member>
+        <member name="T:Tgstation.Server.Client.Components.InstanceUserClient">
+            <inheritdoc />
+        </member>
+        <member name="F:Tgstation.Server.Client.Components.InstanceUserClient.apiClient">
+            <summary>
+            The <see cref="T:Tgstation.Server.Client.IApiClient"/> for the <see cref="T:Tgstation.Server.Client.Components.InstanceUserClient"/>
+            </summary>
+        </member>
+        <member name="F:Tgstation.Server.Client.Components.InstanceUserClient.instance">
+            <summary>
+            The <see cref="T:Tgstation.Server.Api.Models.Instance"/> for the <see cref="T:Tgstation.Server.Client.Components.InstanceUserClient"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.InstanceUserClient.#ctor(Tgstation.Server.Client.IApiClient,Tgstation.Server.Api.Models.Instance)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.Components.InstanceUserClient"/>
+            </summary>
+            <param name="apiClient">The value of <see cref="F:Tgstation.Server.Client.Components.InstanceUserClient.apiClient"/></param>
+            <param name="instance">The value of <see cref="F:Tgstation.Server.Client.Components.InstanceUserClient.instance"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.InstanceUserClient.Create(Tgstation.Server.Api.Models.InstanceUser,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.InstanceUserClient.Delete(Tgstation.Server.Api.Models.InstanceUser,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.InstanceUserClient.Read(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.InstanceUserClient.Update(Tgstation.Server.Api.Models.InstanceUser,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.InstanceUserClient.List(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.InstanceUserClient.GetId(Tgstation.Server.Api.Models.InstanceUser,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Tgstation.Server.Client.Components.IRepositoryClient">
+            <summary>
+            For managing the <see cref="T:Tgstation.Server.Api.Models.Repository"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IRepositoryClient.Read(System.Threading.CancellationToken)">
+            <summary>
+            Get the <see cref="T:Tgstation.Server.Api.Models.Repository"/> represented by the <see cref="T:Tgstation.Server.Client.Components.IRepositoryClient"/>
+            </summary>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the <see cref="T:Tgstation.Server.Api.Models.Repository"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IRepositoryClient.Update(Tgstation.Server.Api.Models.Repository,System.Threading.CancellationToken)">
+            <summary>
+            Update the <see cref="T:Tgstation.Server.Api.Models.Repository"/>
+            </summary>
+            <param name="repository">The <see cref="T:Tgstation.Server.Api.Models.Repository"/> to update</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the updated <see cref="T:Tgstation.Server.Api.Models.Repository"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IRepositoryClient.Clone(Tgstation.Server.Api.Models.Repository,System.Threading.CancellationToken)">
+            <summary>
+            Clones a <paramref name="repository"/>
+            </summary>
+            <param name="repository">The <see cref="T:Tgstation.Server.Api.Models.Repository"/> to clone</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the updated <see cref="T:Tgstation.Server.Api.Models.Repository"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.IRepositoryClient.Delete(System.Threading.CancellationToken)">
+            <summary>
+            Deletes the <see cref="T:Tgstation.Server.Api.Models.Repository"/>
+            </summary>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the updated <see cref="T:Tgstation.Server.Api.Models.Repository"/></returns>
+        </member>
+        <member name="T:Tgstation.Server.Client.Components.JobsClient">
+            <inheritdoc />
+        </member>
+        <member name="F:Tgstation.Server.Client.Components.JobsClient.apiClient">
+            <summary>
+            The <see cref="T:Tgstation.Server.Client.IApiClient"/> for the <see cref="T:Tgstation.Server.Client.Components.JobsClient"/>
+            </summary>
+        </member>
+        <member name="F:Tgstation.Server.Client.Components.JobsClient.instance">
+            <summary>
+            The <see cref="T:Tgstation.Server.Api.Models.Instance"/> for the <see cref="T:Tgstation.Server.Client.Components.JobsClient"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.JobsClient.#ctor(Tgstation.Server.Client.IApiClient,Tgstation.Server.Api.Models.Instance)">
+            <summary>
+            Construct a <see cref="T:Tgstation.Server.Client.Components.JobsClient"/>
+            </summary>
+            <param name="apiClient">The value of <see cref="F:Tgstation.Server.Client.Components.JobsClient.apiClient"/></param>
+            <param name="instance">The value of <see cref="T:Tgstation.Server.Api.Models.Instance"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.JobsClient.Cancel(Tgstation.Server.Api.Models.Job,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.JobsClient.List(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.JobsClient.ListActive(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.JobsClient.GetId(Tgstation.Server.Api.Models.Job,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Tgstation.Server.Client.Components.RepositoryClient">
+            <inheritdoc />
+        </member>
+        <member name="F:Tgstation.Server.Client.Components.RepositoryClient.apiClient">
+            <summary>
+            The <see cref="T:Tgstation.Server.Client.IApiClient"/> for the <see cref="T:Tgstation.Server.Client.Components.RepositoryClient"/>
+            </summary>
+        </member>
+        <member name="F:Tgstation.Server.Client.Components.RepositoryClient.instance">
+            <summary>
+            The <see cref="T:Tgstation.Server.Api.Models.Instance"/> for the <see cref="T:Tgstation.Server.Client.Components.RepositoryClient"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.RepositoryClient.#ctor(Tgstation.Server.Client.IApiClient,Tgstation.Server.Api.Models.Instance)">
+            <summary>
+            Construct a <see cref="T:Tgstation.Server.Client.Components.RepositoryClient"/>
+            </summary>
+            <param name="apiClient">The value of <see cref="F:Tgstation.Server.Client.Components.RepositoryClient.apiClient"/></param>
+            <param name="instance">The value of <see cref="F:Tgstation.Server.Client.Components.RepositoryClient.instance"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.RepositoryClient.Clone(Tgstation.Server.Api.Models.Repository,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.RepositoryClient.Delete(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.RepositoryClient.Read(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.Components.RepositoryClient.Update(Tgstation.Server.Api.Models.Repository,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Tgstation.Server.Client.ConflictException">
+            <summary>
+            Occurs when the client performs an action that would result in data conflict
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.ConflictException.#ctor(Tgstation.Server.Api.Models.ErrorMessage,System.Net.HttpStatusCode)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.ConflictException"/> with a <paramref name="errorMessage"/> and <paramref name="statusCode"/>
+            </summary>
+            <param name="errorMessage">The <see cref="T:Tgstation.Server.Api.Models.ErrorMessage"/> for the <see cref="T:Tgstation.Server.Client.ClientException"/></param>
+            <param name="statusCode">The <see cref="T:System.Net.HttpStatusCode"/> for the <see cref="T:Tgstation.Server.Client.ClientException"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.ConflictException.#ctor">
+            <summary>
+            Construct a <see cref="T:Tgstation.Server.Client.ConflictException"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.ConflictException.#ctor(System.String)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.ConflictException"/> with a <paramref name="message"/>
+            </summary>
+            <param name="message">The message for the <see cref="T:System.Exception"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.ConflictException.#ctor(System.String,System.Exception)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.ConflictException"/> with a <paramref name="message"/> and <paramref name="innerException"/>
+            </summary>
+            <param name="message">The message for the <see cref="T:System.Exception"/></param>
+            <param name="innerException">The inner <see cref="T:System.Exception"/> for the base <see cref="T:System.Exception"/></param>
+        </member>
+        <member name="T:Tgstation.Server.Client.HttpClient">
+            <inheritdoc />
+        </member>
+        <member name="P:Tgstation.Server.Client.HttpClient.Timeout">
+            <inheritdoc />
+        </member>
+        <member name="F:Tgstation.Server.Client.HttpClient.httpClient">
+            <summary>
+            The real <see cref="T:System.Net.Http.HttpClient"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.HttpClient.#ctor">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.HttpClient"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.HttpClient.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.HttpClient.SendAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Tgstation.Server.Client.IAdministrationClient">
+            <summary>
+            For managing server administration
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.IAdministrationClient.Read(System.Threading.CancellationToken)">
+            <summary>
+            Get the <see cref="T:Tgstation.Server.Api.Models.Administration"/> represented by the <see cref="T:Tgstation.Server.Client.IAdministrationClient"/>
+            </summary>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the <see cref="T:Tgstation.Server.Api.Models.Administration"/> represented by the <see cref="T:Tgstation.Server.Client.IAdministrationClient"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.IAdministrationClient.Update(Tgstation.Server.Api.Models.Administration,System.Threading.CancellationToken)">
+            <summary>
+            Updates the <see cref="T:Tgstation.Server.Api.Models.Administration"/> setttings
+            </summary>
+            <param name="administration">The <see cref="T:Tgstation.Server.Api.Models.Administration"/> to update</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the running operation</returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.IAdministrationClient.Restart(System.Threading.CancellationToken)">
+            <summary>
+            Restarts the TGS server
+            </summary>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the running operation</returns>
+        </member>
+        <member name="T:Tgstation.Server.Client.IApiClient">
+            <summary>
+            Web interface for the API
+            </summary>
+        </member>
+        <member name="P:Tgstation.Server.Client.IApiClient.Headers">
+            <summary>
+            The <see cref="T:Tgstation.Server.Api.ApiHeaders"/> the <see cref="T:Tgstation.Server.Client.IApiClient"/> uses
+            </summary>
+        </member>
+        <member name="P:Tgstation.Server.Client.IApiClient.Url">
+            <summary>
+            The <see cref="T:System.Uri"/> pointing the tgstation-server
+            </summary>
+        </member>
+        <member name="P:Tgstation.Server.Client.IApiClient.Timeout">
+            <summary>
+            The request timeout
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.IApiClient.AddRequestLogger(Tgstation.Server.Client.IRequestLogger)">
+            <summary>
+            Adds a <paramref name="requestLogger"/> to the request pipeline
+            </summary>
+            <param name="requestLogger">The <see cref="T:Tgstation.Server.Client.IRequestLogger"/> to add</param>
+        </member>
+        <member name="M:Tgstation.Server.Client.IApiClient.Create``2(System.String,``0,System.Threading.CancellationToken)">
+            <summary>
+            Run an HTTP PUT request
+            </summary>
+            <typeparam name="TBody">The type to of the request body</typeparam>
+            <typeparam name="TResult">The type of the response body</typeparam>
+            <param name="route">The server route to make the request to</param>
+            <param name="body">The request body</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the response body as a <typeparamref name="TResult"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.IApiClient.Create``1(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Run an HTTP PUT request
+            </summary>
+            <typeparam name="TResult">The type of the response body</typeparam>
+            <param name="route">The server route to make the request to</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the response body as a <typeparamref name="TResult"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.IApiClient.Read``1(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Run an HTTP GET request
+            </summary>
+            <typeparam name="TResult">The type of the response body</typeparam>
+            <param name="route">The server route to make the request to</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the response body as a <typeparamref name="TResult"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.IApiClient.Update``2(System.String,``0,System.Threading.CancellationToken)">
+            <summary>
+            Run an HTTP POST request
+            </summary>
+            <typeparam name="TBody">The type to of the request body</typeparam>
+            <typeparam name="TResult">The type of the response body</typeparam>
+            <param name="route">The server route to make the request to</param>
+            <param name="body">The request body</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the response body as a <typeparamref name="TResult"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.IApiClient.Update``1(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Run an HTTP POST request
+            </summary>
+            <typeparam name="TResult">The type of the response body</typeparam>
+            <param name="route">The server route to make the request to</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the response body as a <typeparamref name="TResult"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.IApiClient.Update``1(System.String,``0,System.Threading.CancellationToken)">
+            <summary>
+            Run an HTTP POST request
+            </summary>
+            <typeparam name="TBody">The type to of the request body</typeparam>
+            <param name="route">The server route to make the request to</param>
+            <param name="body">The request body</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the running operation</returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.IApiClient.Delete(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Run an HTTP DELETE request
+            </summary>
+            <param name="route">The server route to make the request to</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the running operation</returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.IApiClient.Create``2(System.String,``0,System.Int64,System.Threading.CancellationToken)">
+            <summary>
+            Run an HTTP PUT request
+            </summary>
+            <typeparam name="TBody">The type to of the request body</typeparam>
+            <typeparam name="TResult">The type of the response body</typeparam>
+            <param name="route">The server route to make the request to</param>
+            <param name="body">The request body</param>
+            <param name="instanceId">The <see cref="P:Tgstation.Server.Api.Models.Instance.Id"/> to make the request to</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the response body as a <typeparamref name="TResult"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.IApiClient.Create``1(System.String,System.Int64,System.Threading.CancellationToken)">
+            <summary>
+            Run an HTTP PUT request
+            </summary>
+            <typeparam name="TResult">The type of the response body</typeparam>
+            <param name="route">The server route to make the request to</param>
+            <param name="instanceId">The <see cref="P:Tgstation.Server.Api.Models.Instance.Id"/> to make the request to</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the response body as a <typeparamref name="TResult"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.IApiClient.Patch``1(System.String,System.Int64,System.Threading.CancellationToken)">
+            <summary>
+            Run an HTTP PATCH request
+            </summary>
+            <typeparam name="TResult">The type of the response body</typeparam>
+            <param name="route">The server route to make the request to</param>
+            <param name="instanceId">The <see cref="P:Tgstation.Server.Api.Models.Instance.Id"/> to make the request to</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the response body as a <typeparamref name="TResult"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.IApiClient.Read``1(System.String,System.Int64,System.Threading.CancellationToken)">
+            <summary>
+            Run an HTTP GET request
+            </summary>
+            <typeparam name="TResult">The type of the response body</typeparam>
+            <param name="route">The server route to make the request to</param>
+            <param name="instanceId">The <see cref="P:Tgstation.Server.Api.Models.Instance.Id"/> to make the request to</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the response body as a <typeparamref name="TResult"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.IApiClient.Update``2(System.String,``0,System.Int64,System.Threading.CancellationToken)">
+            <summary>
+            Run an HTTP POST request
+            </summary>
+            <typeparam name="TBody">The type to of the request body</typeparam>
+            <typeparam name="TResult">The type of the response body</typeparam>
+            <param name="route">The server route to make the request to</param>
+            <param name="body">The request body</param>
+            <param name="instanceId">The <see cref="P:Tgstation.Server.Api.Models.Instance.Id"/> to make the request to</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the response body as a <typeparamref name="TResult"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.IApiClient.Delete(System.String,System.Int64,System.Threading.CancellationToken)">
+            <summary>
+            Run an HTTP DELETE request
+            </summary>
+            <param name="route">The server route to make the request to</param>
+            <param name="instanceId">The <see cref="P:Tgstation.Server.Api.Models.Instance.Id"/> to make the request to</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the running operation</returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.IApiClient.Delete``1(System.String,``0,System.Int64,System.Threading.CancellationToken)">
+            <summary>
+            Run an HTTP DELETE request
+            </summary>
+            <typeparam name="TBody">The type to of the request body</typeparam>
+            <param name="route">The server route to make the request to</param>
+            <param name="body">The request body</param>
+            <param name="instanceId">The <see cref="P:Tgstation.Server.Api.Models.Instance.Id"/> to make the request to</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the running operation</returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.IApiClient.Delete``1(System.String,System.Int64,System.Threading.CancellationToken)">
+            <summary>
+            Run an HTTP DELETE request
+            </summary>
+            <typeparam name="TResult">The type of the response body</typeparam>
+            <param name="route">The server route to make the request to</param>
+            <param name="instanceId">The <see cref="P:Tgstation.Server.Api.Models.Instance.Id"/> to make the request to</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the response body as a <typeparamref name="TResult"/></returns>
+        </member>
+        <member name="T:Tgstation.Server.Client.IApiClientFactory">
+            <summary>
+            For creating <see cref="T:Tgstation.Server.Client.IApiClient"/>s
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.IApiClientFactory.CreateApiClient(System.Uri,Tgstation.Server.Api.ApiHeaders)">
+            <summary>
+            Create an <see cref="T:Tgstation.Server.Client.IApiClient"/>
+            </summary>
+            <param name="url">The base <see cref="T:System.Uri"/></param>
+            <param name="apiHeaders">The <see cref="T:Tgstation.Server.Api.ApiHeaders"/> for the <see cref="T:Tgstation.Server.Client.IApiClient"/></param>
+            <returns>A new <see cref="T:Tgstation.Server.Client.IApiClient"/></returns>
+        </member>
+        <member name="T:Tgstation.Server.Client.IHttpClient">
+            <summary>
+            For sending HTTP requests
+            </summary>
+        </member>
+        <member name="P:Tgstation.Server.Client.IHttpClient.Timeout">
+            <summary>
+            The request timeout
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.IHttpClient.SendAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
+            <summary>
+            Send an HTTP request
+            </summary>
+            <param name="request">The <see cref="T:System.Net.Http.HttpRequestMessage"/></param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the <see cref="T:System.Net.Http.HttpResponseMessage"/> of the request</returns>
+        </member>
+        <member name="T:Tgstation.Server.Client.IInstanceManagerClient">
+            <summary>
+            For managing <see cref="T:Tgstation.Server.Api.Models.Instance"/>s
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.IInstanceManagerClient.List(System.Threading.CancellationToken)">
+            <summary>
+            Get all <see cref="T:Tgstation.Server.Client.Components.IInstanceClient"/>s for <see cref="T:Tgstation.Server.Api.Models.Instance"/>s the user can view
+            </summary>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in a <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> of all <see cref="T:Tgstation.Server.Api.Models.Instance"/>s the user can view</returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.IInstanceManagerClient.CreateOrAttach(Tgstation.Server.Api.Models.Instance,System.Threading.CancellationToken)">
+            <summary>
+            Create or attach an <paramref name="instance"/>
+            </summary>
+            <param name="instance">The <see cref="T:Tgstation.Server.Api.Models.Instance"/> to create. <see cref="P:Tgstation.Server.Api.Models.Instance.Id"/> will be ignored</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the created or attached <see cref="T:Tgstation.Server.Api.Models.Instance"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.IInstanceManagerClient.Update(Tgstation.Server.Api.Models.Instance,System.Threading.CancellationToken)">
+            <summary>
+            Relocates, renamed, and/or on/offlines an <paramref name="instance"/>
+            </summary>
+            <param name="instance">The <see cref="T:Tgstation.Server.Api.Models.Instance"/> to update</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the updated <see cref="T:Tgstation.Server.Api.Models.Instance"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.IInstanceManagerClient.GetId(Tgstation.Server.Api.Models.Instance,System.Threading.CancellationToken)">
+            <summary>
+            Get a specific <paramref name="instance"/>
+            </summary>
+            <param name="instance">The <see cref="T:Tgstation.Server.Api.Models.Instance"/> to get</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the <see cref="T:Tgstation.Server.Api.Models.Instance"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.IInstanceManagerClient.Detach(Tgstation.Server.Api.Models.Instance,System.Threading.CancellationToken)">
+            <summary>
+            Deletes an <paramref name="instance"/>
+            </summary>
+            <param name="instance">The <see cref="T:Tgstation.Server.Api.Models.Instance"/> to delete</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the running operation</returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.IInstanceManagerClient.CreateClient(Tgstation.Server.Api.Models.Instance)">
+            <summary>
+            Create an <see cref="T:Tgstation.Server.Client.Components.IInstanceClient"/> for a given <see cref="T:Tgstation.Server.Api.Models.Instance"/>
+            </summary>
+            <param name="instance">The <see cref="T:Tgstation.Server.Api.Models.Instance"/> to create an <see cref="T:Tgstation.Server.Client.Components.IInstanceClient"/> for</param>
+            <returns>A new <see cref="T:Tgstation.Server.Client.Components.IInstanceClient"/></returns>
+        </member>
+        <member name="T:Tgstation.Server.Client.InstanceManagerClient">
+            <inheritdoc />
+        </member>
+        <member name="F:Tgstation.Server.Client.InstanceManagerClient.apiClient">
+            <summary>
+            The <see cref="T:Tgstation.Server.Client.IApiClient"/> for the <see cref="T:Tgstation.Server.Client.InstanceManagerClient"/>
+            </summary>
+        </member>
+        <member name="F:Tgstation.Server.Client.InstanceManagerClient.cachedClients">
+            <summary>
+            Map of already created <see cref="T:Tgstation.Server.Client.Components.IInstanceClient"/>s
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.InstanceManagerClient.#ctor(Tgstation.Server.Client.IApiClient)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.InstanceManagerClient"/>
+            </summary>
+            <param name="apiClient">The value of <see cref="F:Tgstation.Server.Client.InstanceManagerClient.apiClient"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.InstanceManagerClient.CreateOrAttach(Tgstation.Server.Api.Models.Instance,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.InstanceManagerClient.Detach(Tgstation.Server.Api.Models.Instance,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.InstanceManagerClient.List(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.InstanceManagerClient.Update(Tgstation.Server.Api.Models.Instance,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.InstanceManagerClient.GetId(Tgstation.Server.Api.Models.Instance,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.InstanceManagerClient.CreateClient(Tgstation.Server.Api.Models.Instance)">
+            <inheritdoc />
+        </member>
+        <member name="T:Tgstation.Server.Client.InsufficientPermissionsException">
+            <summary>
+            Occurs when the client attempts to perform an action they do not have the rights for
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.InsufficientPermissionsException.#ctor">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.InsufficientPermissionsException"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.InsufficientPermissionsException.#ctor(System.String)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.InsufficientPermissionsException"/> with a <paramref name="message"/>
+            </summary>
+            <param name="message">The message for the <see cref="T:System.Exception"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.InsufficientPermissionsException.#ctor(System.String,System.Exception)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.InsufficientPermissionsException"/> with a <paramref name="message"/> and <paramref name="innerException"/>
+            </summary>
+            <param name="message">The message for the <see cref="T:System.Exception"/></param>
+            <param name="innerException">The inner <see cref="T:System.Exception"/> for the base <see cref="T:System.Exception"/></param>
+        </member>
+        <member name="T:Tgstation.Server.Client.IRequestLogger">
+            <summary>
+            For logging HTTP requests and responses
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.IRequestLogger.LogRequest(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)">
+            <summary>
+            Log a request
+            </summary>
+            <param name="requestMessage">The <see cref="T:System.Net.Http.HttpRequestMessage"/> representing the request</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the running operation</returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.IRequestLogger.LogResponse(System.Net.Http.HttpResponseMessage,System.Threading.CancellationToken)">
+            <summary>
+            Log a response
+            </summary>
+            <param name="responseMessage">The <see cref="T:System.Net.Http.HttpResponseMessage"/> representing the request</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the running operation</returns>
+        </member>
+        <member name="T:Tgstation.Server.Client.IServerClient">
+            <summary>
+            Main client for communicating with a server
+            </summary>
+        </member>
+        <member name="P:Tgstation.Server.Client.IServerClient.Url">
+            <summary>
+            The connected server <see cref="T:System.Uri"/>
+            </summary>
+        </member>
+        <member name="P:Tgstation.Server.Client.IServerClient.Token">
+            <summary>
+            The <see cref="P:Tgstation.Server.Client.IServerClient.Token"/> used to access the server
+            </summary>
+        </member>
+        <member name="P:Tgstation.Server.Client.IServerClient.Timeout">
+            <summary>
+            The connection timeout
+            </summary>
+        </member>
+        <member name="P:Tgstation.Server.Client.IServerClient.Instances">
+            <summary>
+            Access the <see cref="T:Tgstation.Server.Client.IInstanceManagerClient"/>
+            </summary>
+        </member>
+        <member name="P:Tgstation.Server.Client.IServerClient.Administration">
+            <summary>
+            Access the <see cref="T:Tgstation.Server.Client.IAdministrationClient"/>
+            </summary>
+        </member>
+        <member name="P:Tgstation.Server.Client.IServerClient.Users">
+            <summary>
+            Access the <see cref="T:Tgstation.Server.Client.IUsersClient"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.IServerClient.Version(System.Threading.CancellationToken)">
+            <summary>
+            The <see cref="T:Tgstation.Server.Api.Models.ServerInformation"/> of the <see cref="T:Tgstation.Server.Client.IServerClient"/>
+            </summary>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the <see cref="T:Tgstation.Server.Api.Models.ServerInformation"/> of the target server</returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.IServerClient.AddRequestLogger(Tgstation.Server.Client.IRequestLogger)">
+            <summary>
+            Adds a <paramref name="requestLogger"/> to the request pipeline
+            </summary>
+            <param name="requestLogger">The <see cref="T:Tgstation.Server.Client.IRequestLogger"/> to add</param>
+        </member>
+        <member name="T:Tgstation.Server.Client.IServerClientFactory">
+            <summary>
+            Factory for creating <see cref="T:Tgstation.Server.Client.IServerClient"/>s
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.IServerClientFactory.CreateServerClient(System.Uri,System.String,System.String,System.TimeSpan,System.Threading.CancellationToken)">
+            <summary>
+            Create a <see cref="T:Tgstation.Server.Client.IServerClient"/>
+            </summary>
+            <param name="host">The URL to access TGS</param>
+            <param name="username">The username to for the <see cref="T:Tgstation.Server.Client.IServerClient"/></param>
+            <param name="password">The password for the <see cref="T:Tgstation.Server.Client.IServerClient"/></param>
+            <param name="timeout">The <see cref="T:System.TimeSpan"/> representing timeout for the connection</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in a new <see cref="T:Tgstation.Server.Client.IServerClient"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.IServerClientFactory.CreateServerClient(System.Uri,Tgstation.Server.Api.Models.Token,System.TimeSpan)">
+            <summary>
+            Create a <see cref="T:Tgstation.Server.Client.IServerClient"/>
+            </summary>
+            <param name="host">The URL to access TGS</param>
+            <param name="token">The <see cref="T:Tgstation.Server.Api.Models.Token"/> to access the API with</param>
+            <param name="timeout">The <see cref="T:System.TimeSpan"/> representing timeout for the connection</param>
+            <returns>A new <see cref="T:Tgstation.Server.Client.IServerClient"/></returns>
+        </member>
+        <member name="T:Tgstation.Server.Client.IUsersClient">
+            <summary>
+            For managing <see cref="T:Tgstation.Server.Api.Models.User"/>s
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.IUsersClient.Read(System.Threading.CancellationToken)">
+            <summary>
+            Read the current user's information and general rights
+            </summary>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the current <see cref="T:Tgstation.Server.Api.Models.User"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.IUsersClient.GetId(Tgstation.Server.Api.Models.User,System.Threading.CancellationToken)">
+            <summary>
+            Get a specific <paramref name="user"/>
+            </summary>
+            <param name="user">The <see cref="T:Tgstation.Server.Api.Models.User"/> to get</param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in the requested <paramref name="user"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.IUsersClient.List(System.Threading.CancellationToken)">
+            <summary>
+            List all <see cref="T:Tgstation.Server.Api.Models.User"/>s
+            </summary>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> resulting in a <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> of all <see cref="T:Tgstation.Server.Api.Models.User"/>s</returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.IUsersClient.Create(Tgstation.Server.Api.Models.UserUpdate,System.Threading.CancellationToken)">
+            <summary>
+            Create a new <paramref name="user"/>
+            </summary>
+            <param name="user">The <see cref="T:Tgstation.Server.Api.Models.UserUpdate"/> used to create the new <see cref="T:Tgstation.Server.Api.Models.User"/></param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>The new <see cref="T:Tgstation.Server.Api.Models.User"/></returns>
+        </member>
+        <member name="M:Tgstation.Server.Client.IUsersClient.Update(Tgstation.Server.Api.Models.UserUpdate,System.Threading.CancellationToken)">
+            <summary>
+            Update a <paramref name="user"/>
+            </summary>
+            <param name="user">The <see cref="T:Tgstation.Server.Api.Models.UserUpdate"/> used to update the <see cref="T:Tgstation.Server.Api.Models.User"/></param>
+            <param name="cancellationToken">The <see cref="T:System.Threading.CancellationToken"/> for the operation</param>
+            <returns>The updated <see cref="T:Tgstation.Server.Api.Models.User"/></returns>
+        </member>
+        <member name="T:Tgstation.Server.Client.MethodNotSupportedException">
+            <summary>
+            Occurs when the client tries to use a currently unsupported API
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.MethodNotSupportedException.#ctor">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.MethodNotSupportedException"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.MethodNotSupportedException.#ctor(System.String)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.MethodNotSupportedException"/> with a <paramref name="message"/>
+            </summary>
+            <param name="message">The message for the <see cref="T:System.Exception"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.MethodNotSupportedException.#ctor(System.String,System.Exception)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.MethodNotSupportedException"/> with a <paramref name="message"/> and <paramref name="innerException"/>
+            </summary>
+            <param name="message">The message for the <see cref="T:System.Exception"/></param>
+            <param name="innerException">The inner <see cref="T:System.Exception"/> for the base <see cref="T:System.Exception"/></param>
+        </member>
+        <member name="T:Tgstation.Server.Client.RateLimitException">
+            <summary>
+            Occurs when a GitHub rate limit occurs
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.RateLimitException.#ctor">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.RateLimitException"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.RateLimitException.#ctor(System.String)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.RateLimitException"/> with a <paramref name="secondsString"/>
+            </summary>
+            <param name="secondsString">The message for the <see cref="T:System.Exception"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.RateLimitException.#ctor(System.String,System.Exception)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.RateLimitException"/> with a <paramref name="message"/> and <paramref name="innerException"/>
+            </summary>
+            <param name="message">The message for the <see cref="T:System.Exception"/></param>
+            <param name="innerException">The inner <see cref="T:System.Exception"/> for the base <see cref="T:System.Exception"/></param>
+        </member>
+        <member name="T:Tgstation.Server.Client.RequestTimeoutException">
+            <summary>
+            Occurs when the client provides invalid credentials
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.RequestTimeoutException.#ctor">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.RequestTimeoutException"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.RequestTimeoutException.#ctor(System.String)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.RequestTimeoutException"/> with a <paramref name="message"/>
+            </summary>
+            <param name="message">The message for the <see cref="T:System.Exception"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.RequestTimeoutException.#ctor(System.String,System.Exception)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.RequestTimeoutException"/> with a <paramref name="message"/> and <paramref name="innerException"/>
+            </summary>
+            <param name="message">The message for the <see cref="T:System.Exception"/></param>
+            <param name="innerException">The inner <see cref="T:System.Exception"/> for the base <see cref="T:System.Exception"/></param>
+        </member>
+        <member name="T:Tgstation.Server.Client.ServerClient">
+            <inheritdoc />
+        </member>
+        <member name="P:Tgstation.Server.Client.ServerClient.Url">
+            <inheritdoc />
+        </member>
+        <member name="P:Tgstation.Server.Client.ServerClient.Token">
+            <inheritdoc />
+        </member>
+        <member name="P:Tgstation.Server.Client.ServerClient.Timeout">
+            <inheritdoc />
+        </member>
+        <member name="P:Tgstation.Server.Client.ServerClient.Instances">
+            <inheritdoc />
+        </member>
+        <member name="P:Tgstation.Server.Client.ServerClient.Administration">
+            <inheritdoc />
+        </member>
+        <member name="P:Tgstation.Server.Client.ServerClient.Users">
+            <inheritdoc />
+        </member>
+        <member name="F:Tgstation.Server.Client.ServerClient.apiClient">
+            <summary>
+            The <see cref="T:Tgstation.Server.Client.IApiClient"/> for the <see cref="T:Tgstation.Server.Client.ServerClient"/>
+            </summary>
+        </member>
+        <member name="F:Tgstation.Server.Client.ServerClient.token">
+            <summary>
+            Backing field for <see cref="P:Tgstation.Server.Client.ServerClient.Token"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.ServerClient.#ctor(Tgstation.Server.Client.IApiClient,Tgstation.Server.Api.Models.Token)">
+            <summary>
+            Construct a <see cref="T:Tgstation.Server.Client.ServerClient"/>
+            </summary>
+            <param name="apiClient">The value of <see cref="F:Tgstation.Server.Client.ServerClient.apiClient"/></param>
+            <param name="token">The value of <see cref="P:Tgstation.Server.Client.ServerClient.Token"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.ServerClient.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.ServerClient.Version(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.ServerClient.AddRequestLogger(Tgstation.Server.Client.IRequestLogger)">
+            <inheritdoc />
+        </member>
+        <member name="T:Tgstation.Server.Client.ServerClientFactory">
+            <inheritdoc />
+        </member>
+        <member name="F:Tgstation.Server.Client.ServerClientFactory.ApiClientFactory">
+            <summary>
+            The <see cref="T:Tgstation.Server.Client.IApiClientFactory"/> for the <see cref="T:Tgstation.Server.Client.ServerClientFactory"/>
+            </summary>
+        </member>
+        <member name="F:Tgstation.Server.Client.ServerClientFactory.productHeaderValue">
+            <summary>
+            The <see cref="T:System.Net.Http.Headers.ProductHeaderValue"/> for the <see cref="T:Tgstation.Server.Client.ServerClientFactory"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.ServerClientFactory.#ctor(System.Net.Http.Headers.ProductHeaderValue)">
+            <summary>
+            Construct a <see cref="T:Tgstation.Server.Client.ServerClientFactory"/>
+            </summary>
+            <param name="productHeaderValue">The value of <see cref="F:Tgstation.Server.Client.ServerClientFactory.productHeaderValue"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.ServerClientFactory.CreateServerClient(System.Uri,System.String,System.String,System.TimeSpan,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.ServerClientFactory.CreateServerClient(System.Uri,Tgstation.Server.Api.Models.Token,System.TimeSpan)">
+            <inheritdoc />
+        </member>
+        <member name="T:Tgstation.Server.Client.ServerErrorException">
+            <summary>
+            Occurs when an error occurs in the server
+            </summary>
+        </member>
+        <member name="P:Tgstation.Server.Client.ServerErrorException.Html">
+            <summary>
+            The raw HTML of the error
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.ServerErrorException.#ctor">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.ServerErrorException"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.ServerErrorException.#ctor(System.String)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.ServerErrorException"/> with <paramref name="html"/>
+            </summary>
+            <param name="html">The raw HTML response of the <see cref="T:Tgstation.Server.Client.ServerErrorException"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.ServerErrorException.#ctor(System.String,System.Exception)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.ServerErrorException"/> with a <paramref name="message"/> and <paramref name="innerException"/>
+            </summary>
+            <param name="message">The message for the <see cref="T:System.Exception"/></param>
+            <param name="innerException">The inner <see cref="T:System.Exception"/> for the base <see cref="T:System.Exception"/></param>
+        </member>
+        <member name="T:Tgstation.Server.Client.ServiceUnavailableException">
+            <summary>
+            Occurs when the client makes a request while the server is starting or stopping
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.ServiceUnavailableException.#ctor">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.ServiceUnavailableException"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.ServiceUnavailableException.#ctor(System.String)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.ServiceUnavailableException"/> with a <paramref name="message"/>
+            </summary>
+            <param name="message">The message for the <see cref="T:System.Exception"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.ServiceUnavailableException.#ctor(System.String,System.Exception)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.ServiceUnavailableException"/> with a <paramref name="message"/> and <paramref name="innerException"/>
+            </summary>
+            <param name="message">The message for the <see cref="T:System.Exception"/></param>
+            <param name="innerException">The inner <see cref="T:System.Exception"/> for the base <see cref="T:System.Exception"/></param>
+        </member>
+        <member name="T:Tgstation.Server.Client.UnauthorizedException">
+            <summary>
+            Occurs when the client provides invalid credentials
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.UnauthorizedException.#ctor">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.UnauthorizedException"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.UnauthorizedException.#ctor(System.String)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.UnauthorizedException"/> with a <paramref name="message"/>
+            </summary>
+            <param name="message">The message for the <see cref="T:System.Exception"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.UnauthorizedException.#ctor(System.String,System.Exception)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.UnauthorizedException"/> with a <paramref name="message"/> and <paramref name="innerException"/>
+            </summary>
+            <param name="message">The message for the <see cref="T:System.Exception"/></param>
+            <param name="innerException">The inner <see cref="T:System.Exception"/> for the base <see cref="T:System.Exception"/></param>
+        </member>
+        <member name="T:Tgstation.Server.Client.UnrecognizedResponseException">
+            <summary>
+            Occurs when a response is received that did not deserialize to one of the expected <see cref="N:Tgstation.Server.Api.Models"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.UnrecognizedResponseException.#ctor(System.String,System.Net.HttpStatusCode)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.UnrecognizedResponseException"/> with the <paramref name="data"/> of a response body and the <paramref name="statusCode"/>
+            </summary>
+            <param name="data">The body of the response</param>
+            <param name="statusCode">The <see cref="T:System.Net.HttpStatusCode"/> for the <see cref="T:Tgstation.Server.Client.ClientException"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.UnrecognizedResponseException.#ctor">
+            <summary>
+            Construct a <see cref="T:Tgstation.Server.Client.UnrecognizedResponseException"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.UnrecognizedResponseException.#ctor(System.String)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.UnrecognizedResponseException"/> with a <paramref name="message"/>
+            </summary>
+            <param name="message">The message for the <see cref="T:System.Exception"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.UnrecognizedResponseException.#ctor(System.String,System.Exception)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.UnrecognizedResponseException"/> with a <paramref name="message"/> and <paramref name="innerException"/>
+            </summary>
+            <param name="message">The message for the <see cref="T:System.Exception"/></param>
+            <param name="innerException">The inner <see cref="T:System.Exception"/> for the base <see cref="T:System.Exception"/></param>
+        </member>
+        <member name="T:Tgstation.Server.Client.UsersClient">
+            <inheritdoc />
+        </member>
+        <member name="F:Tgstation.Server.Client.UsersClient.apiClient">
+            <summary>
+            The <see cref="F:Tgstation.Server.Client.UsersClient.apiClient"/> for the <see cref="T:Tgstation.Server.Client.UsersClient"/>
+            </summary>
+        </member>
+        <member name="M:Tgstation.Server.Client.UsersClient.#ctor(Tgstation.Server.Client.IApiClient)">
+            <summary>
+            Construct an <see cref="T:Tgstation.Server.Client.UsersClient"/>
+            </summary>
+            <param name="apiClient">The value of <see cref="F:Tgstation.Server.Client.UsersClient.apiClient"/></param>
+        </member>
+        <member name="M:Tgstation.Server.Client.UsersClient.Create(Tgstation.Server.Api.Models.UserUpdate,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.UsersClient.GetId(Tgstation.Server.Api.Models.User,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.UsersClient.List(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.UsersClient.Read(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Tgstation.Server.Client.UsersClient.Update(Tgstation.Server.Api.Models.UserUpdate,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>
