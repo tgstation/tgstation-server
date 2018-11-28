@@ -47,11 +47,6 @@ As mentioned before, you are expected to follow these specifications in order to
 ### Object Oriented Code
 As C# is an object-oriented language, code must be object-oriented when possible in order to be more flexible when adding content to it. If you don't know what "object-oriented" means, we highly recommend you do some light research to grasp the basics.
 
-### Tabs, not spaces
-You must use tabs to indent your code, NOT SPACES.
-
-(You may use spaces to align something, but you should tab to the block level first, then add the remaining spaces)
-
 ### No hacky code
 Hacky code, such as adding specific checks, is highly discouraged and only allowed when there is ***no*** other option. (Protip: 'I couldn't immediately think of a proper way so thus there must be no other option' is not gonna cut it here! If you can't think of anything else, say that outright and admit that you need help with it. Maintainers exist for exactly that reason.)
 
@@ -97,7 +92,7 @@ The version format we use is 4.\<major\>.\<minor\>.\<patch\>. The first number n
 
 ### Formatting
 
-The formatting style is the same one Visual studio uses by default. Quick formatting of code blocks can be achieved by deleting and retyping the trailing `}`
+Stylecop will throw warnings if your code does not match style guidelines. Do NOT suppress these
 
 ### Use early return
 Do not enclose a function in an if-block when returning on a condition is more feasible
