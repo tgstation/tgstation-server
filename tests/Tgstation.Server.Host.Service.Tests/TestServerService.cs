@@ -41,6 +41,7 @@ namespace Tgstation.Server.Host.Service.Tests
 				cancellationToken = originalToken;
 			}
 			var cancelled = false;
+			
 			mockWatchdog.Setup(x => x.RunAsync(false, args, It.IsAny<CancellationToken>())).Callback((bool x, string[] _, CancellationToken token) => token.Register(() => cancelled = true)).Returns(Task.CompletedTask).Verifiable();
 			var mockWatchdogFactory = new Mock<IWatchdogFactory>();
 			var mockLoggerFactory = new LoggerFactory();
@@ -48,11 +49,11 @@ namespace Tgstation.Server.Host.Service.Tests
 
 			using (var service = new ServerService(mockWatchdogFactory.Object, mockLoggerFactory, default))
 			{
+				Assert.IsFalse(cancelled);
 				onStart.Invoke(service, new object[] { args });
 				mockWatchdog.VerifyAll();
 
 				Assert.AreNotSame(cancellationToken, originalToken);
-				Assert.IsFalse(cancelled);
 
 				onStop.Invoke(service, Array.Empty<object>());
 				Assert.IsTrue(cancelled);
