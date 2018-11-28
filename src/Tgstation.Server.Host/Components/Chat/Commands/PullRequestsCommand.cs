@@ -73,6 +73,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 						return "Repository unavailable!";
 					head = repo.Head;
 				}
+
 				await databaseContextFactory.UseContext(async db => results = await db.RevisionInformations.Where(x => x.Instance.Id == instance.Id && x.CommitSha == head)
 				.SelectMany(x => x.ActiveTestMerges)
 				.Select(x => x.TestMerge)
@@ -89,10 +90,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 				results = watchdog.ActiveCompileJob?.RevisionInformation.ActiveTestMerges.Select(x => x.TestMerge).ToList() ?? new List<Models.TestMerge>();
 			}
 
-			if (!results.Any())
-				return "None!";
-
-			return String.Join(", ", results.Select(x => String.Format(CultureInfo.InvariantCulture, "#{0} at {1}", x.Number, x.PullRequestRevision.Substring(0, 7))));
+			return !results.Any() ? "None!" : String.Join(", ", results.Select(x => String.Format(CultureInfo.InvariantCulture, "#{0} at {1}", x.Number, x.PullRequestRevision.Substring(0, 7))));
 		}
 	}
 }

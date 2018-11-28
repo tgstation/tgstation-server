@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Models
@@ -26,10 +25,10 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// Convert the <see cref="Repository"/> to it's API form
 		/// </summary>
-		/// <returns>A new <see cref="Api.Models.Repository"/></returns>
+		/// <returns>A new <see cref="Repository"/></returns>
 		public Repository ToApi() => new Repository
 		{
-			//AccessToken = AccessToken,	//never show this
+			// AccessToken = AccessToken,	//never show this
 			AccessUser = AccessUser,
 			AutoUpdatesKeepTestMerges = AutoUpdatesKeepTestMerges,
 			AutoUpdatesSynchronize = AutoUpdatesSynchronize,
@@ -37,7 +36,8 @@ namespace Tgstation.Server.Host.Models
 			CommitterName = CommitterName,
 			PushTestMergeCommits = PushTestMergeCommits,
 			ShowTestMergeCommitters = ShowTestMergeCommitters
-			//revision information and the rest retrieved by controller
+
+			// revision information and the rest retrieved by controller
 		};
 	}
 }

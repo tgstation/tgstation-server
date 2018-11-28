@@ -17,19 +17,23 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <summary>
 		/// The URL format string for getting BYOND windows version {0}.{1} zipfile
 		/// </summary>
-		const string ByondRevisionsURL = "https://secure.byond.com/download/build/{0}/{0}.{1}_byond.zip";
+		const string ByondRevisionsURLTemplate = "https://secure.byond.com/download/build/{0}/{0}.{1}_byond.zip";
+
 		/// <summary>
 		/// Directory to byond installation configuration
 		/// </summary>
 		const string ByondConfigDir = "byond/cfg";
+
 		/// <summary>
 		/// BYOND's DreamDaemon config file
 		/// </summary>
 		const string ByondDDConfig = "daemon.txt";
+
 		/// <summary>
 		/// Setting to add to <see cref="ByondDDConfig"/> to suppress an invisible user prompt for running a trusted mode .dmb
 		/// </summary>
 		const string ByondNoPromptTrustedMode = "trusted-check 0";
+
 		/// <summary>
 		/// The directory that contains the BYOND directx redistributable
 		/// </summary>
@@ -105,7 +109,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <inheritdoc />
 		public Task<byte[]> DownloadVersion(Version version, CancellationToken cancellationToken)
 		{
-			var url = String.Format(CultureInfo.InvariantCulture, ByondRevisionsURL, version.Major, version.Minor);
+			var url = String.Format(CultureInfo.InvariantCulture, ByondRevisionsURLTemplate, version.Major, version.Minor);
 
 			return ioManager.DownloadFile(new Uri(url), cancellationToken);
 		}
@@ -118,20 +122,21 @@ namespace Tgstation.Server.Host.Components.Byond
 				var configPath = ioManager.ConcatPath(path, ByondConfigDir);
 				await ioManager.CreateDirectory(configPath, cancellationToken).ConfigureAwait(false);
 				await ioManager.WriteAllBytes(ioManager.ConcatPath(configPath, ByondDDConfig), Encoding.UTF8.GetBytes(ByondNoPromptTrustedMode), cancellationToken).ConfigureAwait(false);
-			};
+			}
 
 			var setNoPromptTrustedModeTask = SetNoPromptTrusted();
 
-			//after this version lummox made DD depend of directx lol
-			//but then he became amazing and not only fixed it but also gave us 30s compiles \[T]/
+			// after this version lummox made DD depend of directx lol
+			// but then he became amazing and not only fixed it but also gave us 30s compiles \[T]/
 			if (version.Major == 512 && version.Minor >= 1427 && version.Minor < 1452 && !installedDirectX)
 				using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
-					//check again because race conditions
 					if (!installedDirectX)
 					{
-						//always install it, it's pretty fast and will do better redundancy checking than us
+						// ^check again because race conditions
+						// always install it, it's pretty fast and will do better redundancy checking than us
 						var rbdx = ioManager.ConcatPath(path, ByondDXDir);
-						//noShellExecute because we aren't doing runas shennanigans
+
+						// noShellExecute because we aren't doing runas shennanigans
 						IProcess directXInstaller;
 						try
 						{
@@ -141,6 +146,7 @@ namespace Tgstation.Server.Host.Components.Byond
 						{
 							throw new JobException("Unable to start DirectX installer process! Is the server running with admin privileges?", e);
 						}
+
 						using (directXInstaller)
 						{
 							int exitCode;

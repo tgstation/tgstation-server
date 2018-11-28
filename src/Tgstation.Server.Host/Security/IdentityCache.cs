@@ -61,8 +61,9 @@ namespace Tgstation.Server.Host.Security
 				if (cachedIdentities.TryGetValue(user.Id, out var identCache))
 				{
 					logger.LogTrace("Expiring previously cached identity...");
-					identCache.Dispose();   //also clears it out
+					identCache.Dispose(); // also clears it out
 				}
+
 				identCache = new IdentityCacheObject(systemIdentity.Clone(), asyncDelayer, () =>
 				{
 					logger.LogDebug("Expiring system identity cache for user {1}", uid, user.Id);

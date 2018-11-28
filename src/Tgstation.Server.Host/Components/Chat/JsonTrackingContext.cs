@@ -90,6 +90,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			{
 				logger.LogWarning("Error retrieving custom commands! Exception: {0}", e);
 			}
+
 			return new List<CustomCommand>();
 		}
 

@@ -73,13 +73,13 @@ namespace Tgstation.Server.Host.Security
 				throw new ArgumentNullException(nameof(user));
 
 			var now = DateTimeOffset.Now;
-
 			var nowUnix = now.ToUnixTimeSeconds();
-			//this prevents validation conflicts down the line
-			//tldr we can (theoretically) send a token the same second we receive it
-			//since unix time rounds down, it looks like it came from before the user changed their password
-			//this happens occasionally in unit tests
-			//just delay a second so we can force a round up
+
+			// this prevents validation conflicts down the line
+			// tldr we can (theoretically) send a token the same second we receive it
+			// since unix time rounds down, it looks like it came from before the user changed their password
+			// this happens occasionally in unit tests
+			// just delay a second so we can force a round up
 			var lpuUnix = user.LastPasswordUpdate?.ToUnixTimeSeconds();
 			if (nowUnix == lpuUnix)
 				await asyncDelayer.Delay(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false);

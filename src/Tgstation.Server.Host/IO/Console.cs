@@ -27,7 +27,7 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public Task<string> ReadLineAsync(bool usePasswordChar, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
-			//TODO Make this better: https://stackoverflow.com/questions/9479573/how-to-interrupt-console-readline
+			// TODO: Make this better: https://stackoverflow.com/questions/9479573/how-to-interrupt-console-readline
 			CheckAvailable();
 			if (!usePasswordChar)
 				return System.Console.ReadLine();
@@ -46,13 +46,15 @@ namespace Tgstation.Server.Host.IO
 						System.Console.Write("\b \b");
 					}
 				}
-				else if (keyDescription.KeyChar != '\u0000') // KeyChar == '\u0000' if the key pressed does not correspond to a printable character, e.g. F1, Pause-Break, etc
+				else if (keyDescription.KeyChar != '\u0000')
 				{
+					// KeyChar == '\u0000' if the key pressed does not correspond to a printable character, e.g. F1, Pause-Break, etc
 					passwordBuilder.Append(keyDescription.KeyChar);
 					System.Console.Write('*');
 				}
 			}
 			while (!cancellationToken.IsCancellationRequested);
+
 			cancellationToken.ThrowIfCancellationRequested();
 			System.Console.WriteLine();
 			return passwordBuilder.ToString();

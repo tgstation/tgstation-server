@@ -44,18 +44,22 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// Address of the server to connect to
 		/// </summary>
 		readonly string address;
+
 		/// <summary>
 		/// Port of the server to connect to
 		/// </summary>
 		readonly ushort port;
+
 		/// <summary>
 		/// IRC nickname
 		/// </summary>
 		readonly string nickname;
+
 		/// <summary>
 		/// Password which will used for authentication
 		/// </summary>
 		readonly string password;
+
 		/// <summary>
 		/// The <see cref="IrcPasswordType"/> of <see cref="password"/>
 		/// </summary>
@@ -134,7 +138,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				UseSsl = useSsl
 			};
 			if (useSsl)
-				client.ValidateServerCertificate = true;    //dunno if it defaults to that or what
+				client.ValidateServerCertificate = true; // dunno if it defaults to that or what
 
 			client.OnChannelMessage += Client_OnChannelMessage;
 			client.OnQueryMessage += Client_OnQueryMessage;
@@ -151,7 +155,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			if (Connected)
 			{
 				disconnecting = true;
-				client.Disconnect();    //just closes the socket
+				client.Disconnect(); // just closes the socket
 			}
 		}
 
@@ -184,8 +188,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					if (dicToCheck == queryChannelIdMap)
 						channelIdMap.Add(resultId.Value, null);
 				}
+
 				return resultId.Value;
-			};
+			}
 
 			ulong userId, channelId;
 			lock (this)
@@ -205,7 +210,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						FriendlyName = isPrivate ? String.Format(CultureInfo.InvariantCulture, "PM: {0}", channelName) : channelName,
 						RealId = channelId,
 						IsPrivateChannel = isPrivate
-						//isAdmin and Tag populated by manager
+
+						// isAdmin and Tag populated by manager
 					},
 					FriendlyName = username,
 					RealId = userId,
@@ -247,7 +253,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					{
 						if (passwordType == IrcPasswordType.Sasl)
 						{
-							client.WriteLine("CAP REQ :sasl", Priority.Critical);  //needs to be put in the buffer before anything else
+							client.WriteLine("CAP REQ :sasl", Priority.Critical); // needs to be put in the buffer before anything else
 							cancellationToken.ThrowIfCancellationRequested();
 						}
 						client.Login(nickname, nickname, 0, nickname);
@@ -260,7 +266,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					}
 					else if (passwordType == IrcPasswordType.Sasl)
 					{
-						//wait for the sasl ack or timeout
+						// wait for the sasl ack or timeout
 						var recievedAck = false;
 						var recievedPlus = false;
 						client.OnReadLine += (sender, e) =>
@@ -285,7 +291,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						for (; !recievedPlus && DateTimeOffset.Now <= endTime; asyncDelayer.Delay(listenTimeSpan, cancellationToken).GetAwaiter().GetResult())
 							client.Listen(false);
 
-						//Stolen! https://github.com/znc/znc/blob/1e697580155d5a38f8b5a377f3b1d94aaa979539/modules/sasl.cpp#L196
+						// Stolen! https://github.com/znc/znc/blob/1e697580155d5a38f8b5a377f3b1d94aaa979539/modules/sasl.cpp#L196
 						var authString = String.Format(CultureInfo.InvariantCulture, "{0}{1}{0}{1}{2}", nickname, '\0', password);
 						var b64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(authString));
 						var authLine = String.Format(CultureInfo.InvariantCulture, "AUTHENTICATE {0}", b64);
@@ -306,7 +312,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 							if (disconnecting || !client.IsConnected)
 								break;
 							client.Listen(false);
-							//ensure we have the correct nick
+
+							// ensure we have the correct nick
 							if (client.GetIrcUser(nickname) == null)
 								client.RfcNick(nickname);
 						}
@@ -336,7 +343,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				{
 					try
 					{
-						client.RfcQuit("Mr. Stark, I don't feel so good...", Priority.Critical);   //priocritical otherwise it wont go through
+						client.RfcQuit("Mr. Stark, I don't feel so good...", Priority.Critical); // priocritical otherwise it wont go through
 					}
 					catch (Exception e)
 					{
@@ -363,7 +370,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				throw new InvalidOperationException("ChatChannel missing IrcChannel!");
 			lock (this)
 			{
-				var hs = new HashSet<string>(); //for unique inserts
+				var hs = new HashSet<string>(); // for unique inserts
 				foreach (var I in channels)
 					hs.Add(I.IrcChannel);
 				var toPart = new List<string>();

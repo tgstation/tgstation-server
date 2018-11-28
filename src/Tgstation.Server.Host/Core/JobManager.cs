@@ -69,14 +69,14 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task RunJob(Job job, Func<Job, IDatabaseContext, CancellationToken, Task> operation, CancellationToken cancellationToken)
-		{			
+		{
 			try
 			{
 				await databaseContextFactory.UseContext(async databaseContext =>
 				{
 					async Task HandleExceptions(Task task)
 					{
-						void LogRegularException() => logger.LogDebug("Job {0} exited with error! Exception: {1}", job.Id, job.ExceptionDetails); 
+						void LogRegularException() => logger.LogDebug("Job {0} exited with error! Exception: {1}", job.Id, job.ExceptionDetails);
 						try
 						{
 							await task.ConfigureAwait(false);
@@ -113,7 +113,7 @@ namespace Tgstation.Server.Host.Core
 						await operation(job, databaseContext, cancellationToken).ConfigureAwait(false);
 
 						logger.LogDebug("Job {0} completed!", job.Id);
-					};
+					}
 
 					await HandleExceptions(RunJobInternal()).ConfigureAwait(false);
 
@@ -121,7 +121,7 @@ namespace Tgstation.Server.Host.Core
 
 					bool JobErroredOrCancelled() => job.ExceptionDetails != null || job.Cancelled == true;
 
-					//ok so, now it's time for the post commit step if it exists
+					// ok so, now it's time for the post commit step if it exists
 					if (!JobErroredOrCancelled() && job.PostComplete != null)
 					{
 						await HandleExceptions(job.PostComplete(cancellationToken)).ConfigureAwait(false);
@@ -186,7 +186,7 @@ namespace Tgstation.Server.Host.Core
 			logger.LogTrace("Starting job manager...");
 			await databaseContextFactory.UseContext(async databaseContext =>
 			{
-				//mark all jobs as cancelled
+				// mark all jobs as cancelled
 				var badJobs = await databaseContext.Jobs.Where(y => !y.StoppedAt.HasValue).Select(y => y.Id).ToListAsync(cancellationToken).ConfigureAwait(false);
 				if (badJobs.Count > 0)
 				{
@@ -229,10 +229,11 @@ namespace Tgstation.Server.Host.Core
 			}
 			catch (InvalidOperationException)
 			{
-				//this is fine
+				// this is fine
 				return false;
 			}
-			handler.Cancel();  //this will ensure the db update is only done once
+
+			handler.Cancel(); // this will ensure the db update is only done once
 			await databaseContextFactory.UseContext(async databaseContext =>
 			{
 				job = new Job { Id = job.Id };
@@ -240,7 +241,8 @@ namespace Tgstation.Server.Host.Core
 				user = new User { Id = user.Id };
 				databaseContext.Users.Attach(user);
 				job.CancelledBy = user;
-				//let either startup or cancellation set job.cancelled
+
+				// let either startup or cancellation set job.cancelled
 				await databaseContext.Save(cancellationToken).ConfigureAwait(false);
 			}).ConfigureAwait(false);
 			if (blocking)
@@ -274,6 +276,7 @@ namespace Tgstation.Server.Host.Core
 				if (!jobs.TryGetValue(job.Id, out handler))
 					return;
 			}
+
 			Task cancelTask = null;
 			using (jobCancellationToken.Register(() => cancelTask = CancelJob(job, canceller, true, cancellationToken)))
 				await handler.Wait(cancellationToken).ConfigureAwait(false);

@@ -190,10 +190,10 @@ namespace Tgstation.Server.Host.Models
 
 			string targetMigration = null;
 
-			//Update this with new migrations as they are made
-			//Always use the MS class
+			// Update this with new migrations as they are made
+			// Always use the MS class
 
-			//TODO: Uncomment once #816 is merged
+			// TODO: Uncomment once #816 is merged
 			/*
 			if (version < new Version(4, 0, 2))
 				targetMigration = nameof(MSReattachCompileJobRequired);
@@ -205,7 +205,7 @@ namespace Tgstation.Server.Host.Models
 			if (UseMySQLMigrations())
 				targetMigration = String.Format(CultureInfo.InvariantCulture, "MY" + targetMigration.Substring(2));
 
-			//even though it clearly implements it in the DatabaseFacade definition this won't work without casting (╯ಠ益ಠ)╯︵ ┻━┻
+			// even though it clearly implements it in the DatabaseFacade definition this won't work without casting (╯ಠ益ಠ)╯︵ ┻━┻
 			var dbServiceProvider = ((IInfrastructure<IServiceProvider>)Database).Instance;
 			var migrator = dbServiceProvider.GetRequiredService<IMigrator>();
 

@@ -62,7 +62,7 @@ namespace Tgstation.Server.Host.Models
 		};
 
 		/// <summary>
-		/// Convert the <see cref="User"/> to it's API form 
+		/// Convert the <see cref="User"/> to it's API form
 		/// </summary>
 		/// <param name="showDetails">If rights and system identifier should be shown</param>
 		/// <returns>A new <see cref="Api.Models.User"/></returns>

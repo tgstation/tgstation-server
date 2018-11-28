@@ -43,7 +43,7 @@ namespace Tgstation.Server.Host.Security
 			if (tokenValidatedContext == null)
 				throw new ArgumentNullException(nameof(tokenValidatedContext));
 
-			//Find the user id in the token
+			// Find the user id in the token
 			var userIdClaim = tokenValidatedContext.Principal.FindFirst(JwtRegisteredClaimNames.Sub);
 			if (userIdClaim == default)
 				throw new InvalidOperationException("Missing required claim!");
@@ -65,11 +65,11 @@ namespace Tgstation.Server.Host.Security
 			}
 			catch (InvalidOperationException)
 			{
-				//we are not responsible for handling header validation issues
+				// we are not responsible for handling header validation issues
 				return;
 			}
 
-			//This populates the CurrentAuthenticationContext field for use by us and subsequent controllers
+			// This populates the CurrentAuthenticationContext field for use by us and subsequent controllers
 			await authenticationContextFactory.CreateAuthenticationContext(userId, apiHeaders.InstanceId, tokenValidatedContext.SecurityToken.ValidFrom, cancellationToken).ConfigureAwait(false);
 
 			var authenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
@@ -78,9 +78,9 @@ namespace Tgstation.Server.Host.Security
 			var claims = new List<Claim>();
 			foreach (RightsType I in enumerator)
 			{
-				//if there's no instance user, do a weird thing and add all the instance roles
-				//we need it so we can get to OnActionExecutionAsync where we can properly decide between BadRequest and Forbid
-				//if user is null that means they got the token with an expired password
+				// if there's no instance user, do a weird thing and add all the instance roles
+				// we need it so we can get to OnActionExecutionAsync where we can properly decide between BadRequest and Forbid
+				// if user is null that means they got the token with an expired password
 				var rightInt = authenticationContext.User == null || (RightsHelper.IsInstanceRight(I) && authenticationContext.InstanceUser == null) ? ~0U : authenticationContext.GetRight(I);
 				var rightEnum = RightsHelper.RightToType(I);
 				var right = (Enum)Enum.ToObject(rightEnum, rightInt);

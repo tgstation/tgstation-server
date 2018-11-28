@@ -53,6 +53,7 @@ namespace Tgstation.Server.Host.Security
 			if (isInstance && InstanceUser == null)
 				return 0;
 			var rightsEnum = RightsHelper.RightToType(rightsType);
+
 			// use the api versions because they're the ones that contain the actual properties
 			var typeToCheck = isInstance ? typeof(InstanceUser) : typeof(User);
 

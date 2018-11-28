@@ -78,12 +78,13 @@ namespace Tgstation.Server.Host.Security
 					}
 				}
 				return principal != null;
-			};
-			
+			}
+
 			if (!TryGetPrincipalFromContextType(ContextType.Machine) && !TryGetPrincipalFromContextType(ContextType.Domain))
 				return null;
 			return (ISystemIdentity)new WindowsSystemIdentity(principal);
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		},
+			cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public Task<ISystemIdentity> CreateSystemIdentity(string username, string password, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
@@ -105,8 +106,8 @@ namespace Tgstation.Server.Host.Security
 
 			logger.LogTrace("Successfully logged in username {0}!", originalUsername);
 
-			using (var handle = new SafeAccessTokenHandle(token))   //checked internally, windows identity always duplicates the handle when constructed with a userToken
-				return (ISystemIdentity)new WindowsSystemIdentity(new WindowsIdentity(handle.DangerousGetHandle()));   //https://github.com/dotnet/corefx/blob/6ed61acebe3214fcf79b4274f2bb9b55c0604a4d/src/System.Security.Principal.Windows/src/System/Security/Principal/WindowsIdentity.cs#L271
+			using (var handle = new SafeAccessTokenHandle(token)) // checked internally, windows identity always duplicates the handle when constructed with a userToken
+				return (ISystemIdentity)new WindowsSystemIdentity(new WindowsIdentity(handle.DangerousGetHandle()));   // https://github.com/dotnet/corefx/blob/6ed61acebe3214fcf79b4274f2bb9b55c0604a4d/src/System.Security.Principal.Windows/src/System/Security/Principal/WindowsIdentity.cs#L271
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 	}
 }

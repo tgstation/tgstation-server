@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Globalization;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -158,6 +157,7 @@ namespace Tgstation.Server.Host.Core
 						databaseConfiguration.DatabaseType = databaseType;
 						break;
 					}
+
 					await console.WriteAsync("Invalid database type!", true, cancellationToken).ConfigureAwait(false);
 				}
 				while (true);
@@ -171,7 +171,6 @@ namespace Tgstation.Server.Host.Core
 				await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 				await console.WriteAsync("Enter the database name (Can be from previous installation. Otherwise, should not exist): ", false, cancellationToken).ConfigureAwait(false);
 				string databaseName;
-				
 				do
 				{
 					databaseName = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
@@ -206,6 +205,7 @@ namespace Tgstation.Server.Host.Core
 					await console.WriteAsync("The account it uses in MSSQL is usually \"NT AUTHORITY\\SYSTEM\" and the role it needs is usually \"dbcreator\".", true, cancellationToken).ConfigureAwait(false);
 					await console.WriteAsync("We'll run a sanity test here, but it won't be indicative of the service's permissions if that is the case", true, cancellationToken).ConfigureAwait(false);
 				}
+
 				await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 
 				DbConnection testConnection;
@@ -261,7 +261,7 @@ namespace Tgstation.Server.Host.Core
 							using (var command = testConnection.CreateCommand())
 							{
 								command.CommandText = "SELECT VERSION()";
-								var fullVersion = (string)(await command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false));
+								var fullVersion = (string)await command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false);
 								await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Found {0}", fullVersion), true, cancellationToken).ConfigureAwait(false);
 								var splits = fullVersion.Split('-');
 								databaseConfiguration.MySqlServerVersion = splits[0];
@@ -276,6 +276,7 @@ namespace Tgstation.Server.Host.Core
 								command.CommandText = String.Format(CultureInfo.InvariantCulture, "CREATE DATABASE {0}", databaseName);
 								await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
 							}
+
 							await console.WriteAsync("Success!", true, cancellationToken).ConfigureAwait(false);
 							await console.WriteAsync("Dropping test database...", true, cancellationToken).ConfigureAwait(false);
 							using (var command = testConnection.CreateCommand())
@@ -313,7 +314,8 @@ namespace Tgstation.Server.Host.Core
 					await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 					await console.WriteAsync("Retrying database configuration...", true, cancellationToken).ConfigureAwait(false);
 				}
-			} while (true);
+			}
+			while (true);
 		}
 
 		/// <summary>
@@ -339,6 +341,7 @@ namespace Tgstation.Server.Host.Core
 					newGeneralConfiguration.MinimumPasswordLength = passwordLength;
 					break;
 				}
+
 				await console.WriteAsync("Please enter a positive integer!", true, cancellationToken).ConfigureAwait(false);
 			}
 			while (true);
@@ -355,6 +358,7 @@ namespace Tgstation.Server.Host.Core
 					newGeneralConfiguration.ByondTopicTimeout = topicTimeout;
 					break;
 				}
+
 				await console.WriteAsync("Please enter a positive integer!", true, cancellationToken).ConfigureAwait(false);
 			}
 			while (true);
@@ -390,7 +394,8 @@ namespace Tgstation.Server.Host.Core
 						fileLoggingConfiguration.Directory = null;
 						break;
 					}
-					//test a write of it
+
+					// test a write of it
 					await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 					await console.WriteAsync("Testing directory access...", true, cancellationToken).ConfigureAwait(false);
 					try
@@ -412,6 +417,7 @@ namespace Tgstation.Server.Host.Core
 							await console.WriteAsync(e.Message, true, cancellationToken).ConfigureAwait(false);
 							await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 						}
+
 						break;
 					}
 					catch (OperationCanceledException)
@@ -424,7 +430,8 @@ namespace Tgstation.Server.Host.Core
 						await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 						await console.WriteAsync("Please verify the path is valid and you have access to it!", true, cancellationToken).ConfigureAwait(false);
 					}
-				} while (true);
+				}
+				while (true);
 
 				async Task<LogLevel?> PromptLogLevel(string question)
 				{
@@ -432,19 +439,21 @@ namespace Tgstation.Server.Host.Core
 					{
 						await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 						await console.WriteAsync(question, true, cancellationToken).ConfigureAwait(false);
-						await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Enter one of {0}/{1}/{2}/{3}/{4}/{5} (leave blank for default): ",nameof(LogLevel.Trace), nameof(LogLevel.Debug), nameof(LogLevel.Information), nameof(LogLevel.Warning), nameof(LogLevel.Error), nameof(LogLevel.Critical)), false, cancellationToken).ConfigureAwait(false);
+						await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Enter one of {0}/{1}/{2}/{3}/{4}/{5} (leave blank for default): ", nameof(LogLevel.Trace), nameof(LogLevel.Debug), nameof(LogLevel.Information), nameof(LogLevel.Warning), nameof(LogLevel.Error), nameof(LogLevel.Critical)), false, cancellationToken).ConfigureAwait(false);
 						var responseString = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
 						if (String.IsNullOrWhiteSpace(responseString))
 							return null;
 						if (Enum.TryParse<LogLevel>(responseString, out var logLevel) && logLevel != LogLevel.None)
 							return logLevel;
 						await console.WriteAsync("Invalid log level!", true, cancellationToken).ConfigureAwait(false);
-					} while (true);
+					}
+					while (true);
 				}
 
 				fileLoggingConfiguration.LogLevel = await PromptLogLevel(String.Format(CultureInfo.InvariantCulture, "Enter the level limit for normal logs (default {0}).", fileLoggingConfiguration.LogLevel)).ConfigureAwait(false) ?? fileLoggingConfiguration.LogLevel;
 				fileLoggingConfiguration.MicrosoftLogLevel = await PromptLogLevel(String.Format(CultureInfo.InvariantCulture, "Enter the level limit for Microsoft logs (VERY verbose, default {0}).", fileLoggingConfiguration.MicrosoftLogLevel)).ConfigureAwait(false) ?? fileLoggingConfiguration.MicrosoftLogLevel;
 			}
+
 			return fileLoggingConfiguration;
 		}
 
@@ -507,7 +516,7 @@ namespace Tgstation.Server.Host.Core
 
 			await console.WriteAsync("Waiting for configuration changes to reload...", true, cancellationToken).ConfigureAwait(false);
 
-			//we need to wait for the configuration's file system watcher to read and reload the changes
+			// we need to wait for the configuration's file system watcher to read and reload the changes
 			await asyncDelayer.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
 		}
 
@@ -519,7 +528,7 @@ namespace Tgstation.Server.Host.Core
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task RunWizard(string userConfigFileName, CancellationToken cancellationToken)
 		{
-			//welcome message
+			// welcome message
 			await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 			await console.WriteAsync("Welcome to tgstation-server 4!", true, cancellationToken).ConfigureAwait(false);
 			await console.WriteAsync("This wizard will help you configure your server.", true, cancellationToken).ConfigureAwait(false);
@@ -576,7 +585,6 @@ namespace Tgstation.Server.Host.Core
 				logger.LogTrace("No configuration json detected");
 			}
 
-
 			if (!shouldRunBasedOnAutodetect)
 			{
 				if (forceRun)
@@ -586,11 +594,12 @@ namespace Tgstation.Server.Host.Core
 
 					forceRun = await PromptYesNo("Continue running setup wizard? (y/n): ", cancellationToken).ConfigureAwait(false);
 				}
-				if (!forceRun) 
+
+				if (!forceRun)
 					return false;
 			}
 
-			//flush the logs to prevent console conflicts
+			// flush the logs to prevent console conflicts
 			await asyncDelayer.Delay(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false);
 
 			await RunWizard(userConfigFileName, cancellationToken).ConfigureAwait(false);
