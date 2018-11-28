@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
-using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -23,18 +22,22 @@ namespace Tgstation.Server.Host.Controllers
 		/// The <see cref="ITokenFactory"/> for the <see cref="HomeController"/>
 		/// </summary>
 		readonly ITokenFactory tokenFactory;
+
 		/// <summary>
 		/// The <see cref="ISystemIdentityFactory"/> for the <see cref="HomeController"/>
 		/// </summary>
 		readonly ISystemIdentityFactory systemIdentityFactory;
+
 		/// <summary>
 		/// The <see cref="ICryptographySuite"/> for the <see cref="HomeController"/>
 		/// </summary>
 		readonly ICryptographySuite cryptographySuite;
+
 		/// <summary>
 		/// The <see cref="IApplication"/> for the <see cref="HomeController"/>
 		/// </summary>
 		readonly IApplication application;
+
 		/// <summary>
 		/// The <see cref="IIdentityCache"/> for the <see cref="HomeController"/>
 		/// </summary>
@@ -86,13 +89,14 @@ namespace Tgstation.Server.Host.Controllers
 			ISystemIdentity identity;
 			try
 			{
-				//trust the system over the database because a user's name can change while still having the same SID
+				// trust the system over the database because a user's name can change while still having the same SID
 				identity = await systemIdentityFactory.CreateSystemIdentity(ApiHeaders.Username, ApiHeaders.Password, cancellationToken).ConfigureAwait(false);
 			}
 			catch (NotImplementedException)
 			{
 				identity = null;
 			}
+
 			using (identity)
 			{
 				IQueryable<User> query;
@@ -127,7 +131,8 @@ namespace Tgstation.Server.Host.Controllers
 						await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 					}
 				}
-				//check if the name changed and updoot accordingly
+
+				// check if the name changed and updoot accordingly
 				else if (identity.Username != user.Name)
 				{
 					DatabaseContext.Users.Attach(user);
@@ -142,7 +147,7 @@ namespace Tgstation.Server.Host.Controllers
 				var token = await tokenFactory.CreateToken(user, cancellationToken).ConfigureAwait(false);
 				if (identity != null)
 				{
-					//expire the identity slightly after the auth token in case of lag
+					// expire the identity slightly after the auth token in case of lag
 					var identExpiry = token.ExpiresAt.Value;
 					identExpiry += tokenFactory.ValidationParameters.ClockSkew;
 					identExpiry += TimeSpan.FromSeconds(15);

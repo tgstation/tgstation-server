@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.Configuration
 		/// Where log files are stored
 		/// </summary>
 		public string Directory { get; set; }
-		
+
 		/// <summary>
 		/// If file logging is disabled
 		/// </summary>
@@ -39,7 +39,6 @@ namespace Tgstation.Server.Host.Configuration
 		/// </summary>
 		[JsonConverter(typeof(StringEnumConverter))]
 		public LogLevel LogLevel { get; set; } = DefaultLogLevel;
-
 
 		/// <summary>
 		/// The minimum <see cref="Microsoft.Extensions.Logging.LogLevel"/> to display in logs for Microsoft library sources

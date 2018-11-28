@@ -47,7 +47,7 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(ByondRights.ReadActive)]
-		public override Task<IActionResult> Read(CancellationToken cancellationToken) => Task.FromResult((IActionResult)
+		public override Task<IActionResult> Read(CancellationToken cancellationToken) => Task.FromResult<IActionResult>(
 			Json(new Api.Models.Byond
 			{
 				Version = instanceManager.GetInstance(Instance).ByondManager.ActiveVersion
@@ -55,7 +55,7 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(ByondRights.ListInstalled)]
-		public override Task<IActionResult> List(CancellationToken cancellationToken) => Task.FromResult((IActionResult)
+		public override Task<IActionResult> List(CancellationToken cancellationToken) => Task.FromResult<IActionResult>(
 			Json(instanceManager.GetInstance(Instance).ByondManager.InstalledVersions.Select(x => new Api.Models.Byond
 			{
 				Version = x
@@ -73,7 +73,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var byondManager = instanceManager.GetInstance(Instance).ByondManager;
 
-			//remove cruff fields
+			// remove cruff fields
 			var installingVersion = new Version(model.Version.Major, model.Version.Minor);
 
 			var result = new Api.Models.Byond();
@@ -86,7 +86,8 @@ namespace Tgstation.Server.Host.Controllers
 			else
 			{
 				Logger.LogInformation("User ID {0} installing BYOND version to {2} on instance ID {1}", AuthenticationContext.User.Id, Instance.Id, installingVersion);
-				//run the install through the job manager
+
+				// run the install through the job manager
 				var job = new Models.Job
 				{
 					Description = String.Format(CultureInfo.InvariantCulture, "Install BYOND version {0}", installingVersion),
@@ -98,6 +99,7 @@ namespace Tgstation.Server.Host.Controllers
 				await jobManager.RegisterOperation(job, (paramJob, databaseContext, progressHandler, ct) => byondManager.ChangeVersion(installingVersion, ct), cancellationToken).ConfigureAwait(false);
 				result.InstallJob = job.ToApi();
 			}
+
 			if ((AuthenticationContext.GetRight(RightsType.Byond) & (ulong)ByondRights.ReadActive) != 0)
 				result.Version = byondManager.ActiveVersion;
 			return result.InstallJob != null ? (IActionResult)Accepted(result) : Json(result);

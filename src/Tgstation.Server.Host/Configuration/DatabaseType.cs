@@ -9,10 +9,12 @@
 		/// Use Microsoft SQL Server
 		/// </summary>
 		SqlServer,
+
 		/// <summary>
 		/// Use MySQL
 		/// </summary>
 		MySql,
+
 		/// <summary>
 		/// Use MariaDB
 		/// </summary>

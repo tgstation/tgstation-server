@@ -33,6 +33,7 @@ using Tgstation.Server.Host.Security;
 namespace Tgstation.Server.Host.Core
 {
 	/// <inheritdoc />
+	#pragma warning disable CA1506
 	sealed class Application : IApplication
 	{
 		/// <inheritdoc />

@@ -95,7 +95,7 @@ namespace Tgstation.Server.Host.Components.Interop
 		/// </summary>
 		/// <param name="sender">The sender of the event</param>
 		/// <param name="e">The <see cref="FileSystemEventArgs"/></param>
-		async void HandleWrite(object sender, FileSystemEventArgs e)    //this is what async void was made for
+		async void HandleWrite(object sender, FileSystemEventArgs e) // this is what async void was made for
 		{
 			try
 			{
@@ -115,7 +115,7 @@ namespace Tgstation.Server.Host.Components.Interop
 				}
 				catch (JsonException ex)
 				{
-					//file not fully written yet
+					// file not fully written yet
 					logger.LogDebug("Suppressing json convert exception for command file write: {0}", ex);
 					return;
 				}

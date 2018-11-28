@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.Models
 		/// <returns>A new <see cref="Repository"/></returns>
 		public Repository ToApi() => new Repository
 		{
-			// AccessToken = AccessToken,	//never show this
+			// AccessToken = AccessToken, // never show this
 			AccessUser = AccessUser,
 			AutoUpdatesKeepTestMerges = AutoUpdatesKeepTestMerges,
 			AutoUpdatesSynchronize = AutoUpdatesSynchronize,

@@ -38,6 +38,15 @@ namespace Tgstation.Server.Host.Components.Chat
 
 		bool active;
 
+		/// <summary>
+		/// Construct a <see cref="JsonTrackingContext"/>
+		/// </summary>
+		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
+		/// <param name="customCommandHandler">The value of <see cref="customCommandHandler"/></param>
+		/// <param name="logger">The value of <see cref="logger"/></param>
+		/// <param name="onDispose">The value of <see cref="onDispose"/></param>
+		/// <param name="commandsPath">The value of <see cref="commandsPath"/></param>
+		/// <param name="channelsPath">The value of <see cref="channelsPath"/></param>
 		public JsonTrackingContext(IIOManager ioManager, ICustomCommandHandler customCommandHandler, ILogger<JsonTrackingContext> logger, Action onDispose, string commandsPath, string channelsPath)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));

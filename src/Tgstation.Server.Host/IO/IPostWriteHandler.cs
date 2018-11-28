@@ -1,5 +1,8 @@
 ﻿namespace Tgstation.Server.Host.IO
 {
+	/// <summary>
+	/// Handles changing file modes/permissions after writing
+	/// </summary>
 	interface IPostWriteHandler
 	{
 		/// <summary>

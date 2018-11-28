@@ -180,6 +180,7 @@ namespace Tgstation.Server.Host.IO
 				cancellationToken.ThrowIfCancellationRequested();
 				results.Add(I);
 			}
+
 			return results;
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
@@ -238,6 +239,7 @@ namespace Tgstation.Server.Host.IO
 				results.Add(I);
 				cancellationToken.ThrowIfCancellationRequested();
 			}
+
 			return (IReadOnlyList<string>)results;
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
@@ -252,6 +254,7 @@ namespace Tgstation.Server.Host.IO
 				results.Add(I);
 				cancellationToken.ThrowIfCancellationRequested();
 			}
+
 			return (IReadOnlyList<string>)results;
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 

@@ -87,6 +87,7 @@ namespace Tgstation.Server.Host.Controllers
 				absolutePath = null;
 				return;
 			}
+
 			absolutePath = ioManager.ResolvePath(model.Path);
 			if (platformIdentifier.IsWindows)
 				model.Path = absolutePath.ToUpperInvariant();
@@ -130,7 +131,6 @@ namespace Tgstation.Server.Host.Controllers
 			if (rawPath.StartsWith(normalizedLocalPath, StringComparison.Ordinal))
 				return Conflict("Instances cannot be created in the installation directory!");
 
-
 			var dirExistsTask = ioManager.DirectoryExists(model.Path, cancellationToken);
 			bool attached = false;
 			if (await ioManager.FileExists(model.Path, cancellationToken).ConfigureAwait(false) || await dirExistsTask.ConfigureAwait(false))
@@ -171,8 +171,7 @@ namespace Tgstation.Server.Host.Controllers
 					AutoUpdatesKeepTestMerges = false,
 					AutoUpdatesSynchronize = false
 				},
-				//give this user full privileges on the instance
-				InstanceUsers = new List<Models.InstanceUser>
+				InstanceUsers = new List<Models.InstanceUser> // give this user full privileges on the instance
 				{
 					InstanceAdminUser()
 				}
@@ -185,13 +184,13 @@ namespace Tgstation.Server.Host.Controllers
 
 				try
 				{
-					//actually reserve it now
+					// actually reserve it now
 					await ioManager.CreateDirectory(rawPath, cancellationToken).ConfigureAwait(false);
 					await ioManager.DeleteFile(ioManager.ConcatPath(rawPath, InstanceAttachFileName), cancellationToken).ConfigureAwait(false);
 				}
 				catch
 				{
-					//oh shit delete the model
+					// oh shit delete the model
 					DatabaseContext.Instances.Remove(newInstance);
 
 					await DatabaseContext.Save(default).ConfigureAwait(false);
@@ -243,7 +242,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var attachFileName = ioManager.ConcatPath(originalModel.Path, InstanceAttachFileName);
 			await ioManager.WriteAllBytes(attachFileName, Array.Empty<byte>(), default).ConfigureAwait(false);
-			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);   //cascades everything
+			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false); // cascades everything
 			return Ok();
 		}
 
@@ -264,8 +263,7 @@ namespace Tgstation.Server.Host.Controllers
 				}).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
 			if (moveJob != default)
-				//cancel it now
-				await jobManager.CancelJob(moveJob, AuthenticationContext.User, true, cancellationToken).ConfigureAwait(false);
+				await jobManager.CancelJob(moveJob, AuthenticationContext.User, true, cancellationToken).ConfigureAwait(false); // cancel it now
 
 			var usersInstanceUserTask = instanceQuery.SelectMany(x => x.InstanceUsers).Where(x => x.UserId == AuthenticationContext.User.Id).FirstOrDefaultAsync(cancellationToken);
 
@@ -273,7 +271,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Include(x => x.RepositorySettings)
 				.Include(x => x.ChatSettings)
 				.ThenInclude(x => x.Channels)
-				.Include(x => x.DreamDaemonSettings)    //need these for onlining
+				.Include(x => x.DreamDaemonSettings) // need these for onlining
 				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (originalModel == default(Models.Instance))
 				return StatusCode((int)HttpStatusCode.Gone);
@@ -292,7 +290,7 @@ namespace Tgstation.Server.Host.Controllers
 
 				property.SetValue(originalModel, newVal);
 				return false;
-			};
+			}
 
 			string originalModelPath = null;
 			string rawPath = null;
@@ -326,7 +324,7 @@ namespace Tgstation.Server.Host.Controllers
 				|| CheckModified(x => x.Online, InstanceManagerRights.SetOnline))
 				return Forbid();
 
-			//ensure the current user has write privilege on the instance
+			// ensure the current user has write privilege on the instance
 			var usersInstanceUser = await usersInstanceUserTask.ConfigureAwait(false);
 			if (usersInstanceUser == default)
 			{
@@ -349,8 +347,8 @@ namespace Tgstation.Server.Host.Controllers
 					await instanceManager.OfflineInstance(originalModel, AuthenticationContext.User, cancellationToken).ConfigureAwait(false);
 				else if (!originalOnline && model.Online == true)
 				{
-					//force autostart false here because we don't want any long running jobs right now
-					//remember to document this
+					// force autostart false here because we don't want any long running jobs right now
+					// remember to document this
 					originalModel.DreamDaemonSettings.AutoStart = false;
 					await instanceManager.OnlineInstance(originalModel, cancellationToken).ConfigureAwait(false);
 				}
@@ -412,7 +410,7 @@ namespace Tgstation.Server.Host.Controllers
 			var apis = instances.Select(x => x.ToApi());
 			var moveJobs = await moveJobTasks.ConfigureAwait(false);
 			foreach(var I in moveJobs)
-				apis.Where(x => x.Id == I.Instance.Id).First().MoveJob = I.ToApi();	//if this .First() fails i will personally murder kevinz000 because I just know he is somehow responsible
+				apis.Where(x => x.Id == I.Instance.Id).First().MoveJob = I.ToApi(); // if this .First() fails i will personally murder kevinz000 because I just know he is somehow responsible
 			return Json(apis);
 		}
 
@@ -440,7 +438,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (cantList && !instance.InstanceUsers.Any(x => x.UserId == AuthenticationContext.User.Id && x.AnyRights))
 				return Forbid();
-			
+
 			var api = instance.ToApi();
 			api.MoveJob = (await moveJobTask.ConfigureAwait(false))?.ToApi();
 			return Json(api);

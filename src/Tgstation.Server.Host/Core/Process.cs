@@ -28,6 +28,16 @@ namespace Tgstation.Server.Host.Core
 		/// </summary>
 		readonly ILogger<Process> logger;
 
+		/// <summary>
+		/// Construct a <see cref="Process"/>
+		/// </summary>
+		/// <param name="handle">The value of <see cref="handle"/></param>
+		/// <param name="lifetime">The value of <see cref="Lifetime"/></param>
+		/// <param name="outputStringBuilder">The value of <see cref="outputStringBuilder"/></param>
+		/// <param name="errorStringBuilder">The value of <see cref="errorStringBuilder"/></param>
+		/// <param name="combinedStringBuilder">The value of <see cref="combinedStringBuilder"/></param>
+		/// <param name="logger">The value of <see cref="logger"/></param>
+		/// <param name="preExisting">If <paramref name="handle"/> was NOT just created</param>
 		public Process(System.Diagnostics.Process handle, Task<int> lifetime, StringBuilder outputStringBuilder, StringBuilder errorStringBuilder, StringBuilder combinedStringBuilder, ILogger<Process> logger, bool preExisting)
 		{
 			this.handle = handle ?? throw new ArgumentNullException(nameof(handle));
@@ -103,6 +113,7 @@ namespace Tgstation.Server.Host.Core
 			}
 		}
 
+		/// <inheritdoc />
 		public void SetHighPriority()
 		{
 			try

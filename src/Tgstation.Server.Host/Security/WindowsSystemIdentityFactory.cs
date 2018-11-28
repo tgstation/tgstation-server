@@ -77,6 +77,7 @@ namespace Tgstation.Server.Host.Security
 						cancellationToken.ThrowIfCancellationRequested();
 					}
 				}
+
 				return principal != null;
 			}
 

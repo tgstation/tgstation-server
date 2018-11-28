@@ -7,6 +7,7 @@ namespace Tgstation.Server.Host.Models.Migrations
 	/// <summary>
 	/// The initial database migration for MySQL/MariaDB
 	/// </summary>
+	#pragma warning disable CA1506
 	public partial class MYInitialCreate : Migration
 	{
 		/// <summary>

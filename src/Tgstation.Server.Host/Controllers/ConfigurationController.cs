@@ -58,6 +58,7 @@ namespace Tgstation.Server.Host.Controllers
 				systemIdentityToUse = null;
 				return true;
 			}
+
 			systemIdentityToUse = Instance.ConfigurationType == ConfigurationType.SystemIdentityWrite ? AuthenticationContext.SystemIdentity : null;
 			return false;
 		}

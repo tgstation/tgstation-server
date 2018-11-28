@@ -105,7 +105,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 				var deleteJob = ioManager.DeleteDirectory(job.DirectoryName.ToString(), cleanupCts.Token);
 				Task otherTask;
 
-				// lock (this)	//already locked below
+				// lock (this) //already locked below
 				otherTask = cleanupTask;
 				await Task.WhenAll(otherTask, deleteJob).ConfigureAwait(false);
 			}

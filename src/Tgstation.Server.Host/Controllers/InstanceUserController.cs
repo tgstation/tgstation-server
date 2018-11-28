@@ -27,7 +27,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		public InstanceUserController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ILogger<InstanceUserController> logger) : base(databaseContext, authenticationContextFactory, logger, true)    //false instance requirement, we handle this ourself
+		public InstanceUserController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ILogger<InstanceUserController> logger) : base(databaseContext, authenticationContextFactory, logger, true) // false instance requirement, we handle this ourself
 		{ }
 
 		/// <summary>
@@ -116,7 +116,7 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(InstanceUserRights.ReadUsers)]
 		public override async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
-			//this functions as userId
+			// this functions as userId
 			var user = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).SelectMany(x => x.InstanceUsers).Where(x => x.UserId == id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (user == default)
 				return StatusCode((int)HttpStatusCode.Gone);

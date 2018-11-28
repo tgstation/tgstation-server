@@ -7,6 +7,10 @@ namespace Tgstation.Server.Host
 	/// <summary>
 	/// Native methods used by the code
 	/// </summary>
+	#pragma warning disable SA1600
+	#pragma warning disable SA1602
+	#pragma warning disable SA1611
+	#pragma warning disable SA1615
 	static class NativeMethods
 	{
 		/// <summary>

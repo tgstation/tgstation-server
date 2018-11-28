@@ -70,8 +70,8 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="committerEmail">The e-mail of the merge committer</param>
 		/// <param name="username">The username to fetch from the origin repository</param>
 		/// <param name="password">The password to fetch from the origin repository</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <param name="progressReporter"><see cref="Action{T1}"/> to report 0-100 <see cref="int"/> progress of the operation</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="Nullable{T}"/> <see cref="bool"/> representing the merge result that is <see langword="true"/> after a fast forward or up to date, <see langword="false"/> on a non-fast-forward, <see langword="null"/> on a conflict</returns>
 		Task<bool?> AddTestMerge(TestMergeParameters testMergeParameters, string committerName, string committerEmail, string username, string password, Action<int> progressReporter, CancellationToken cancellationToken);
 
@@ -119,8 +119,8 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="password">The password to fetch from the origin repository</param>
 		/// <param name="committerName">The name of the potential committer</param>
 		/// <param name="committerEmail">The e-mail of the potential committer</param>
-		/// <param name="synchronizeTrackedBranch">If the synchronizations should be made to the tracked reference as opposed to a temporary branch</param>
 		/// <param name="progressReporter"><see cref="Action{T1}"/> to report 0-100 <see cref="int"/> progress of the operation</param>
+		/// <param name="synchronizeTrackedBranch">If the synchronizations should be made to the tracked reference as opposed to a temporary branch</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if commits were pushed to the tracked origin reference, <see langword="false"/> otherwise</returns>
 		Task<bool> Sychronize(string username, string password, string committerName, string committerEmail, Action<int> progressReporter, bool synchronizeTrackedBranch, CancellationToken cancellationToken);

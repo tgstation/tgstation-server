@@ -84,27 +84,12 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// </summary>
 		readonly Action onDispose;
 
-		void GetRepositoryOwnerName(string remote, out string owner, out string name)
-		{
-			//Assume standard gh format: [(git)|(https)]://github.com/owner/repo(.git)[0-1]
-			//Yes use .git twice in case it was weird
-			var toRemove = new string[] { ".git", "/", ".git" };
-			foreach (string item in toRemove)
-				if (remote.EndsWith(item, StringComparison.OrdinalIgnoreCase))
-					remote = remote.Substring(0, remote.LastIndexOf(item, StringComparison.OrdinalIgnoreCase));
-			var splits = remote.Split('/');
-			name = splits[splits.Length - 1];
-			owner = splits[splits.Length - 2].Split('.')[0];
-
-			logger.LogTrace("GetRepositoryOwnerName({0}) => {1} / {2}", remote, owner, name);
-		}
-
 		/// <summary>
 		/// Converts a given <paramref name="progressReporter"/> to a <see cref="LibGit2Sharp.Handlers.CheckoutProgressHandler"/>
 		/// </summary>
 		/// <param name="progressReporter"><see cref="Action{T1}"/> to report 0-100 <see cref="int"/> progress of the operation</param>
 		/// <returns>A <see cref="LibGit2Sharp.Handlers.CheckoutProgressHandler"/> based on <paramref name="progressReporter"/></returns>
-		static CheckoutProgressHandler CheckoutProgressHandler(Action<int> progressReporter) => (a, completedSteps, totalSteps) => progressReporter((int)((((float)completedSteps) / totalSteps) * 100));
+		static CheckoutProgressHandler CheckoutProgressHandler(Action<int> progressReporter) => (a, completedSteps, totalSteps) => progressReporter((int)(((float)completedSteps) / totalSteps * 100));
 
 		/// <summary>
 		/// Construct a <see cref="Repository"/>
@@ -138,6 +123,21 @@ namespace Tgstation.Server.Host.Components.Repository
 			logger.LogTrace("Disposing...");
 			repository.Dispose();
 			onDispose.Invoke();
+		}
+
+		void GetRepositoryOwnerName(string remote, out string owner, out string name)
+		{
+			// Assume standard gh format: [(git)|(https)]://github.com/owner/repo(.git)[0-1]
+			// Yes use .git twice in case it was weird
+			var toRemove = new string[] { ".git", "/", ".git" };
+			foreach (string item in toRemove)
+				if (remote.EndsWith(item, StringComparison.OrdinalIgnoreCase))
+					remote = remote.Substring(0, remote.LastIndexOf(item, StringComparison.OrdinalIgnoreCase));
+			var splits = remote.Split('/');
+			name = splits[splits.Length - 1];
+			owner = splits[splits.Length - 2].Split('.')[0];
+
+			logger.LogTrace("GetRepositoryOwnerName({0}) => {1} / {2}", remote, owner, name);
 		}
 
 		/// <summary>
@@ -264,7 +264,7 @@ namespace Tgstation.Server.Host.Components.Repository
 						FailOnConflict = true,
 						FastForwardStrategy = FastForwardStrategy.NoFastForward,
 						SkipReuc = true,
-						OnCheckoutProgress = (a, completedSteps, totalSteps) => progressReporter(50 + ((int)((((float)completedSteps) / totalSteps) * 50)))
+						OnCheckoutProgress = (a, completedSteps, totalSteps) => progressReporter(50 + ((int)(((float)completedSteps) / totalSteps * 50)))
 					});
 				}
 				finally
@@ -373,7 +373,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				try
 				{
 					var forcePushString = String.Format(CultureInfo.InvariantCulture, "+{0}:{0}", branch.CanonicalName);
-					repository.Network.Push(remote,forcePushString, GeneratePushOptions(progress => progressReporter((int)(0.9f * progress)), username, password, cancellationToken));
+					repository.Network.Push(remote, forcePushString, GeneratePushOptions(progress => progressReporter((int)(0.9f * progress)), username, password, cancellationToken));
 					var removalString = String.Format(CultureInfo.InvariantCulture, ":{0}", branch.CanonicalName);
 					repository.Network.Push(remote, removalString, GeneratePushOptions(progress => progressReporter(90 + (int)(0.1f * progress)), username, password, cancellationToken));
 				}
@@ -510,6 +510,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				logger.LogTrace("Not synchronizing due to lack of credentials!");
 				return false;
 			}
+
 			logger.LogTrace("Begin Synchronize...");
 
 			if (username == null)
@@ -596,16 +597,18 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <inheritdoc />
 		public Task<bool> IsSha(string committish, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
-			//check if it's a tag
+			// check if it's a tag
 			var gitObject = repository.Lookup(committish, ObjectType.Tag);
 			if (gitObject != null)
 				return false;
 			cancellationToken.ThrowIfCancellationRequested();
-			//check if it's a branch
+
+			// check if it's a branch
 			if (repository.Branches[committish] != null)
 				return false;
 			cancellationToken.ThrowIfCancellationRequested();
-			//err on the side of references, if we can't look it up, assume its a reference
+
+			// err on the side of references, if we can't look it up, assume its a reference
 			if (repository.Lookup<Commit>(committish) != null)
 				return true;
 			return false;

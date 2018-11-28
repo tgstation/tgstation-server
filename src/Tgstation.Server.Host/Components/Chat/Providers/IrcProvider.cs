@@ -256,6 +256,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 							client.WriteLine("CAP REQ :sasl", Priority.Critical); // needs to be put in the buffer before anything else
 							cancellationToken.ThrowIfCancellationRequested();
 						}
+
 						client.Login(nickname, nickname, 0, nickname);
 					}
 
@@ -317,6 +318,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 							if (client.GetIrcUser(nickname) == null)
 								client.RfcNick(nickname);
 						}
+
 						client.Listen();
 					}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 				}
@@ -329,6 +331,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					logger.LogWarning("Unable to connect to IRC: {0}", e);
 					return false;
 				}
+
 			return true;
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
@@ -397,6 +400,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						id = channelIdCounter++;
 						channelIdMap.Add(id.Value, x.IrcChannel);
 					}
+
 					return new Channel
 					{
 						RealId = id.Value,

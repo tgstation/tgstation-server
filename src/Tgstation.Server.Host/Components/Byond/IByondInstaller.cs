@@ -33,7 +33,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <param name="path">The path to the BYOND installation</param>
 		/// <param name="version">The <see cref="Version"/> of BYOND being installed</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns></returns>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task InstallByond(string path, Version version, CancellationToken cancellationToken);
 
 		/// <summary>

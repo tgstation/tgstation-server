@@ -12,8 +12,10 @@ namespace Tgstation.Server.Host.Core
 	public interface IJobManager : IHostedService
 	{
 		/// <summary>
-		/// Get the <see cref="Api.Models.Job.Progress"/> for a job
+		/// Get the <see cref="Api.Models.Job.Progress"/> for a <paramref name="job"/>
 		/// </summary>
+		/// <param name="job">The <see cref="Job"/> to get <see cref="Api.Models.Job.Progress"/> for</param>
+		/// <returns>The <see cref="Api.Models.Job.Progress"/> of <paramref name="job"/></returns>
 		int? JobProgress(Job job);
 
 		/// <summary>

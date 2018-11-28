@@ -20,12 +20,13 @@ namespace Tgstation.Server.Host.Controllers
 	/// Controller for managing the compiler
 	/// </summary>
 	[Route(Routes.DreamMaker)]
-	public sealed class DreamMakerController : ModelController<Api.Models.DreamMaker>
+	public sealed class DreamMakerController : ModelController<DreamMaker>
 	{
 		/// <summary>
 		/// The <see cref="IJobManager"/> for the <see cref="DreamMakerController"/>
 		/// </summary>
 		readonly IJobManager jobManager;
+
 		/// <summary>
 		/// The <see cref="IInstanceManager"/> for the <see cref="DreamMakerController"/>
 		/// </summary>

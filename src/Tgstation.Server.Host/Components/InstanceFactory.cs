@@ -154,10 +154,10 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public IInstance CreateInstance(Models.Instance metadata)
 		{
-			//Create the ioManager for the instance
+			// Create the ioManager for the instance
 			var instanceIoManager = new ResolvingIOManager(ioManager, metadata.Path);
 
-			//various other ioManagers
+			// various other ioManagers
 			var repoIoManager = new ResolvingIOManager(instanceIoManager, "Repository");
 			var byondIOManager = new ResolvingIOManager(instanceIoManager, "Byond");
 			var gameIoManager = new ResolvingIOManager(instanceIoManager, "Game");

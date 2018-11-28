@@ -16,9 +16,6 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// <inheritdoc />
 		public string SecondaryDirectory => ioManager.ResolvePath(ioManager.ConcatPath(CompileJob.DirectoryName.ToString(), DreamMaker.BDirectoryName));
 
-		/// <inheritdoc />
-		public RevisionInformation RevisionInformation => CompileJob.RevisionInformation;
-
 		/// <summary>
 		/// The <see cref="CompileJob"/> for the <see cref="DmbProvider"/>
 		/// </summary>

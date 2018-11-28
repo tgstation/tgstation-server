@@ -11,8 +11,8 @@ namespace Tgstation.Server.Host.Core
 		/// <summary>
 		/// Run the setup wizard if necessary
 		/// </summary>
-		/// <param name="cancellationToken"></param>
-		/// <returns></returns>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the wizard ran, <see langword="false"/> otherwise</returns>
 		Task<bool> CheckRunWizard(CancellationToken cancellationToken);
 	}
 }

@@ -198,6 +198,7 @@ namespace Tgstation.Server.Host.Core
 						job.Cancelled = true;
 						job.StoppedAt = DateTimeOffset.Now;
 					}
+
 					await databaseContext.Save(cancellationToken).ConfigureAwait(false);
 				}
 			}).ConfigureAwait(false);

@@ -9,8 +9,8 @@
 		/// Launch a <see cref="IProcess"/>
 		/// </summary>
 		/// <param name="fileName">The full path to the executable file</param>
-		/// <param name="arguments">The arguments for the <see cref="IProcess"/></param>
 		/// <param name="workingDirectory">The working directory for the <see cref="IProcess"/></param>
+		/// <param name="arguments">The arguments for the <see cref="IProcess"/></param>
 		/// <param name="readOutput">If standard output should be read</param>
 		/// <param name="readError">If standard error should be read</param>
 		/// <param name="noShellExecute">If shell execute should not be used. Ignored if <paramref name="readError"/> or <paramref name="readOutput"/> are set</param>

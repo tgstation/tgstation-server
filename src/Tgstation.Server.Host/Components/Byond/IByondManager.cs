@@ -26,6 +26,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// </summary>
 		/// <param name="version">The new <see cref="Version"/></param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task ChangeVersion(Version version, CancellationToken cancellationToken);
 
 		/// <summary>
