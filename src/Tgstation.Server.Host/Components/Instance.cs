@@ -19,6 +19,7 @@ using Tgstation.Server.Host.Models;
 namespace Tgstation.Server.Host.Components
 {
 	/// <inheritdoc />
+	#pragma warning disable CA1506 // TODO: Decomplexify
 	sealed class Instance : IInstance
 	{
 		/// <inheritdoc />
@@ -315,6 +316,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="minutes">How many minutes the operation should repeat. Does not include running time</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		#pragma warning disable CA1502 // TODO: Decomplexify
 		async Task TimerLoop(uint minutes, CancellationToken cancellationToken)
 		{
 			while (true)
@@ -532,6 +534,7 @@ namespace Tgstation.Server.Host.Components
 
 			logger.LogTrace("Leaving auto update loop...");
 		}
+		#pragma warning restore CA1502
 
 		/// <inheritdoc />
 		public void Rename(string newName)

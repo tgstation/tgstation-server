@@ -201,6 +201,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
+		#pragma warning disable CA1506 // TODO: Decomplexify
 		public Task StartAsync(CancellationToken cancellationToken) => databaseContextFactory.UseContext(async databaseContext =>
 		{
 			try
@@ -231,6 +232,7 @@ namespace Tgstation.Server.Host.Components
 				application.Ready(e);
 			}
 		});
+		#pragma warning restore CA1506 // TODO: Decomplexify
 
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken)

@@ -20,6 +20,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// Controller for managing the compiler
 	/// </summary>
 	[Route(Routes.DreamMaker)]
+	#pragma warning disable CA1506 // TODO: Decomplexify
 	public sealed class DreamMakerController : ModelController<DreamMaker>
 	{
 		/// <summary>

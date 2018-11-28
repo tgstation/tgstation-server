@@ -280,6 +280,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
+		#pragma warning disable CA1502 // TODO: Decomplexify
 		public async Task HandleInterop(CommCommand command, CancellationToken cancellationToken)
 		{
 			if (command == null)
@@ -411,6 +412,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			postRespond?.Invoke();
 		}
+		#pragma warning restore CA1502
 
 		/// <summary>
 		/// Throws an <see cref="ObjectDisposedException"/> if <see cref="Dispose(bool)"/> has been called

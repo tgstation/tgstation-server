@@ -14,6 +14,7 @@ using Tgstation.Server.Host.Configuration;
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
+	#pragma warning disable CA1506 // TODO: Decomplexify
 	abstract class DatabaseContext<TParentContext> : DbContext, IDatabaseContext where TParentContext : DbContext
 	{
 		/// <inheritdoc />

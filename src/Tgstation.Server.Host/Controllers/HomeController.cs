@@ -81,6 +81,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
 		[HttpPost]
+		#pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<IActionResult> CreateToken(CancellationToken cancellationToken)
 		{
 			if (ApiHeaders.IsTokenAuthentication)
@@ -159,5 +160,6 @@ namespace Tgstation.Server.Host.Controllers
 				return Json(token);
 			}
 		}
+		#pragma warning restore CA1506
 	}
 }

@@ -26,6 +26,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// Controller for managing <see cref="Components.Instance"/>s
 	/// </summary>
 	[Route(Routes.InstanceManager)]
+	#pragma warning disable CA1506 // TODO: Decomplexify
 	public sealed class InstanceController : ModelController<Api.Models.Instance>
 	{
 		/// <summary>
@@ -248,6 +249,7 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(InstanceManagerRights.Relocate | InstanceManagerRights.Rename | InstanceManagerRights.SetAutoUpdate | InstanceManagerRights.SetConfiguration | InstanceManagerRights.SetOnline)]
+		#pragma warning disable CA1502 // TODO: Decomplexify
 		public override async Task<IActionResult> Update([FromBody] Api.Models.Instance model, CancellationToken cancellationToken)
 		{
 			var instanceQuery = DatabaseContext.Instances.Where(x => x.Id == model.Id);
@@ -389,6 +391,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			return Json(api);
 		}
+		#pragma warning restore CA1502
 
 		/// <inheritdoc />
 		[TgsAuthorize(InstanceManagerRights.List | InstanceManagerRights.Read)]

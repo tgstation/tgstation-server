@@ -179,6 +179,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 		}
 
 		/// <inheritdoc />
+		#pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<IDmbProvider> FromCompileJob(CompileJob compileJob, CancellationToken cancellationToken)
 		{
 			if (compileJob == null)
@@ -232,8 +233,10 @@ namespace Tgstation.Server.Host.Components.Compiler
 					newProvider.Dispose();
 			}
 		}
+		#pragma warning restore CA1506
 
 		/// <inheritdoc />
+		#pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task CleanUnusedCompileJobs(CompileJob exceptThisOne, CancellationToken cancellationToken)
 		{
 			List<long> jobIdsToSkip;
@@ -283,5 +286,6 @@ namespace Tgstation.Server.Host.Components.Compiler
 				await Task.WhenAll().ConfigureAwait(false);
 			}
 		}
+		#pragma warning restore CA1506
 	}
 }

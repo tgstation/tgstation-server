@@ -152,6 +152,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
+		#pragma warning disable CA1506 // TODO: Decomplexify
 		public IInstance CreateInstance(Models.Instance metadata)
 		{
 			// Create the ioManager for the instance
@@ -214,6 +215,7 @@ namespace Tgstation.Server.Host.Components
 				throw;
 			}
 		}
+		#pragma warning restore CA1506
 
 		/// <inheritdoc />
 		public Task StartAsync(CancellationToken cancellationToken) => byondInstaller.CleanCache(cancellationToken);

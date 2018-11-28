@@ -190,6 +190,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
+		#pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<bool?> AddTestMerge(TestMergeParameters testMergeParameters, string committerName, string committerEmail, string username, string password, Action<int> progressReporter, CancellationToken cancellationToken)
 		{
 			if (testMergeParameters == null)
@@ -304,6 +305,7 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			return result.Status != MergeStatus.NonFastForward;
 		}
+		#pragma warning restore CA1506
 
 		/// <inheritdoc />
 		public async Task CheckoutObject(string committish, Action<int> progressReporter, CancellationToken cancellationToken)

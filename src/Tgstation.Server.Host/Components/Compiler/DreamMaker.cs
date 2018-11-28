@@ -280,6 +280,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 		}
 
 		/// <inheritdoc />
+		#pragma warning disable CA1506 //TODO: Decomplexify
 		public async Task<Models.CompileJob> Compile(Models.RevisionInformation revisionInformation, Api.Models.DreamMaker dreamMakerSettings, uint apiValidateTimeout, IRepository repository, Action<int> progressReporter, TimeSpan? estimatedDuration, CancellationToken cancellationToken)
 		{
 			if (revisionInformation == null)
@@ -475,5 +476,6 @@ namespace Tgstation.Server.Host.Components.Compiler
 				}
 			}
 		}
+		#pragma warning restore CA1506
 	}
 }

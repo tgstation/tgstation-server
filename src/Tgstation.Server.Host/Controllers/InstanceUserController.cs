@@ -75,6 +75,7 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(InstanceUserRights.WriteUsers)]
+		#pragma warning disable CA1506 // TODO: Decomplexify
 		public override async Task<IActionResult> Update([FromBody] Api.Models.InstanceUser model, CancellationToken cancellationToken)
 		{
 			var test = StandardModelChecks(model);
@@ -99,6 +100,7 @@ namespace Tgstation.Server.Host.Controllers
 				UserId = originalUser.UserId
 			});
 		}
+		#pragma warning restore CA1506
 
 		/// <inheritdoc />
 		[TgsAuthorize]

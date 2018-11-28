@@ -142,6 +142,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
+		#pragma warning disable CA1506 // TODO: Decomplexify
 		[TgsAuthorize(DreamDaemonRights.SetAutoStart | DreamDaemonRights.SetPorts | DreamDaemonRights.SetSecurity | DreamDaemonRights.SetWebClient | DreamDaemonRights.SoftRestart | DreamDaemonRights.SoftShutdown | DreamDaemonRights.Start | DreamDaemonRights.SetStartupTimeout)]
 		public override async Task<IActionResult> Update([FromBody] DreamDaemon model, CancellationToken cancellationToken)
 		{
@@ -209,6 +210,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			return await ReadImpl(current, cancellationToken).ConfigureAwait(false);
 		}
+		#pragma warning restore CA1506
 
 		/// <summary>
 		/// Handle a HTTP PATCH to the <see cref="DreamDaemonController"/>

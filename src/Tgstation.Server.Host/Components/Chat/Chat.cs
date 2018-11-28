@@ -15,6 +15,8 @@ using Tgstation.Server.Host.IO;
 namespace Tgstation.Server.Host.Components.Chat
 {
 	/// <inheritdoc />
+	// TODO: Decomplexify
+	#pragma warning disable CA1506
 	sealed class Chat : IChat, IRestartHandler
 	{
 		const string CommonMention = "!tgs";

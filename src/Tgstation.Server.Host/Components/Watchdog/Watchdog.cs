@@ -21,6 +21,7 @@ using Tgstation.Server.Host.Core;
 namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <inheritdoc />
+	#pragma warning disable CA1506 // TODO: Decomplexify
 	sealed class Watchdog : IWatchdog, ICustomCommandHandler, IRestartHandler
 	{
 		/// <summary>
@@ -255,6 +256,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="monitorState">The current <see cref="MonitorState"/>. Will be modified upon retrn</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		#pragma warning disable CA1502 // TODO: Decomplexify
 		async Task HandlerMonitorWakeup(MonitorActivationReason activationReason, MonitorState monitorState, CancellationToken cancellationToken)
 		{
 			logger.LogDebug("Monitor activation. Reason: {0}", activationReason);
@@ -497,12 +499,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					break;
 			}
 		}
+		#pragma warning restore CA1502
 
 		/// <summary>
 		/// The loop that watches the watchdog
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+#pragma warning disable CA1502 // TODO: Decomplexify
 		async Task MonitorLifetimes(CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Entered MonitorLifetimes");
@@ -661,6 +665,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			logger.LogTrace("Monitor exiting...");
 		}
+		#pragma warning restore CA1502
 
 		/// <summary>
 		/// Stops <see cref="MonitorLifetimes(CancellationToken)"/>. Doesn't kill the servers
@@ -699,6 +704,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="reattachInfo"><see cref="WatchdogReattachInformation"/> to use, if any</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		#pragma warning disable CA1502 // TODO: Decomplexify
 		async Task LaunchImplNoLock(bool startMonitor, bool announce, WatchdogReattachInformation reattachInfo, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Begin LaunchNoLock");
@@ -895,6 +901,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				catch (OperationCanceledException) { }
 			}
 		}
+		#pragma warning restore CA1502
 
 		/// <inheritdoc />
 		public async Task Launch(CancellationToken cancellationToken)

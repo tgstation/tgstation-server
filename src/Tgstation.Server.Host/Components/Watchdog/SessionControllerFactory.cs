@@ -127,6 +127,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
+		#pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<ISessionController> LaunchNew(DreamDaemonLaunchParameters launchParameters, IDmbProvider dmbProvider, IByondExecutableLock currentByondLock, bool primaryPort, bool primaryDirectory, bool apiValidate, CancellationToken cancellationToken)
 		{
 			var portToUse = primaryPort ? launchParameters.PrimaryPort : launchParameters.SecondaryPort;
@@ -268,6 +269,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				throw;
 			}
 		}
+		#pragma warning restore CA1506
 
 		/// <inheritdoc />
 		public async Task<ISessionController> Reattach(ReattachInformation reattachInformation, CancellationToken cancellationToken)

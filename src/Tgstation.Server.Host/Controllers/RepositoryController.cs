@@ -26,6 +26,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// Controller for managing the <see cref="Repository"/>s
 	/// </summary>
 	[Route(Routes.Repository)]
+	#pragma warning disable CA1506 // TODO: Decomplexify
 	public sealed class RepositoryController : ModelController<Repository>
 	{
 		/// <summary>
@@ -283,6 +284,8 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(RepositoryRights.ChangeAutoUpdateSettings | RepositoryRights.ChangeCommitter | RepositoryRights.ChangeCredentials | RepositoryRights.ChangeTestMergeCommits | RepositoryRights.MergePullRequest | RepositoryRights.SetReference | RepositoryRights.SetSha | RepositoryRights.UpdateBranch)]
+		#pragma warning disable CA1502 // TODO: Decomplexify
+		#pragma warning disable CA1505
 		public override async Task<IActionResult> Update([FromBody]Repository model, CancellationToken cancellationToken)
 		{
 			if (model == null)
@@ -755,5 +758,7 @@ namespace Tgstation.Server.Host.Controllers
 			api.ActiveJob = job.ToApi();
 			return Accepted(api);
 		}
+		#pragma warning restore CA1502
+		#pragma warning restore CA1505
 	}
 }

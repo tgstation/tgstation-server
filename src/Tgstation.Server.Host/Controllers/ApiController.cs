@@ -70,6 +70,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
+		#pragma warning disable CA1506 // TODO: Decomplexify
 		public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
 		{
 			// ALL valid token and login requests that match a route go through this function
@@ -152,5 +153,6 @@ namespace Tgstation.Server.Host.Controllers
 				throw;
 			}
 		}
+		#pragma warning restore CA1506
 	}
 }
