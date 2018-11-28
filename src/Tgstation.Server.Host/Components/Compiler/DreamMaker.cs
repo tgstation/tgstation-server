@@ -24,14 +24,17 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// Name of the primary directory used for compilation
 		/// </summary>
 		public const string ADirectoryName = "A";
+
 		/// <summary>
 		/// Name of the secondary directory used for compilation
 		/// </summary>
 		public const string BDirectoryName = "B";
+
 		/// <summary>
 		/// Extension for .dmbs
 		/// </summary>
 		public const string DmbExtension = ".dmb";
+
 		/// <summary>
 		/// Extension for .dmes
 		/// </summary>
@@ -41,42 +44,52 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// The <see cref="IByondManager"/> for <see cref="DreamMaker"/>
 		/// </summary>
 		readonly IByondManager byond;
+
 		/// <summary>
 		/// The <see cref="IIOManager"/> for <see cref="DreamMaker"/>
 		/// </summary>
 		readonly IIOManager ioManager;
+
 		/// <summary>
 		/// The <see cref="StaticFiles.IConfiguration"/> for <see cref="DreamMaker"/>
 		/// </summary>
 		readonly StaticFiles.IConfiguration configuration;
+
 		/// <summary>
 		/// The <see cref="ISessionControllerFactory"/> for <see cref="DreamMaker"/>
 		/// </summary>
 		readonly ISessionControllerFactory sessionControllerFactory;
+
 		/// <summary>
 		/// The <see cref="ICompileJobConsumer"/> for <see cref="DreamMaker"/>
 		/// </summary>
 		readonly ICompileJobConsumer compileJobConsumer;
+
 		/// <summary>
 		/// The <see cref="IApplication"/> for <see cref="DreamMaker"/>
 		/// </summary>
 		readonly IApplication application;
+
 		/// <summary>
 		/// The <see cref="IEventConsumer"/> for <see cref="DreamMaker"/>
 		/// </summary>
 		readonly IEventConsumer eventConsumer;
+
 		/// <summary>
 		/// The <see cref="IChat"/> for <see cref="DreamMaker"/>
 		/// </summary>
 		readonly IChat chat;
+
 		/// <summary>
 		/// The <see cref="IProcessExecutor"/> for <see cref="DreamMaker"/>
 		/// </summary>
 		readonly IProcessExecutor processExecutor;
+
 		/// <summary>
 		/// The <see cref="IWatchdog"/> for <see cref="DreamMaker"/>
 		/// </summary>
 		readonly IWatchdog watchdog;
+
 		/// <summary>
 		/// The <see cref="ILogger"/> for <see cref="DreamMaker"/>
 		/// </summary>
@@ -133,13 +146,13 @@ namespace Tgstation.Server.Host.Components.Compiler
 			{
 				AllowWebClient = false,
 				PrimaryPort = portToUse,
-				SecurityLevel = securityLevel,    //all it needs to read the file and exit
+				SecurityLevel = securityLevel,
 				StartupTimeout = timeout
 			};
 
 			var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
 
-			job.MinimumSecurityLevel = securityLevel;	//needed for the TempDmbProvider
+			job.MinimumSecurityLevel = securityLevel; // needed for the TempDmbProvider
 			var provider = new TemporaryDmbProvider(ioManager.ResolvePath(dirA), String.Concat(job.DmeName, DmbExtension), job);
 
 			var timeoutAt = DateTimeOffset.Now.AddSeconds(timeout);
@@ -184,13 +197,13 @@ namespace Tgstation.Server.Host.Components.Compiler
 							throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Session controller returned unexpected ApiValidationStatus: {0}", validationStatus));
 					}
 				}
-				
+
 				throw new JobException("DMAPI validation timed out!");
 			}
 		}
 
 		/// <summary>
-		///	Compiles a .dme with DreamMaker
+		/// Compiles a .dme with DreamMaker
 		/// </summary>
 		/// <param name="dreamMakerPath">The path to the DreamMaker executable</param>
 		/// <param name="job">The <see cref="Models.CompileJob"/> for the operation</param>
@@ -327,8 +340,6 @@ namespace Tgstation.Server.Host.Components.Compiler
 				var progressTask = ProgressTask();
 				try
 				{
-
-
 					var commitInsert = revisionInformation.CommitSha.Substring(0, 7);
 					string remoteCommitInsert;
 					if (revisionInformation.CommitSha == revisionInformation.OriginCommitSha)
@@ -366,7 +377,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 							}
 
 							await chatTask.ConfigureAwait(false);
-						};
+						}
 
 						try
 						{
@@ -375,18 +386,18 @@ namespace Tgstation.Server.Host.Components.Compiler
 							var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
 							var dirB = ioManager.ConcatPath(job.DirectoryName.ToString(), BDirectoryName);
 
+							// copy the repository
 							logger.LogTrace("Copying repository to game directory...");
-							//copy the repository
 							var fullDirA = ioManager.ResolvePath(dirA);
 							var repoOrigin = repository.Origin;
 							using (repository)
 								await repository.CopyTo(fullDirA, cancellationToken).ConfigureAwait(false);
 
-							//run precompile scripts
+							// run precompile scripts
 							var resolvedGameDirectory = ioManager.ResolvePath(ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName));
 							await eventConsumer.HandleEvent(EventType.CompileStart, new List<string> { resolvedGameDirectory, repoOrigin }, cancellationToken).ConfigureAwait(false);
 
-							//determine the dme
+							// determine the dme
 							if (job.DmeName == null)
 							{
 								logger.LogTrace("Searching for available .dmes...");
@@ -403,11 +414,12 @@ namespace Tgstation.Server.Host.Components.Compiler
 
 							await ModifyDme(job, cancellationToken).ConfigureAwait(false);
 
-							//run compiler, verify api
+							// run compiler
 							job.ByondVersion = byondLock.Version.ToString();
 
 							var exitCode = await RunDreamMaker(byondLock.DreamMakerPath, job, cancellationToken).ConfigureAwait(false);
 
+							// verify api
 							try
 							{
 								if (exitCode != 0)
@@ -417,7 +429,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 							}
 							catch (JobException)
 							{
-								//server never validated or compile failed
+								// DD never validated or compile failed
 								await eventConsumer.HandleEvent(EventType.CompileFailure, new List<string> { resolvedGameDirectory, exitCode == 0 ? "1" : "0" }, cancellationToken).ConfigureAwait(false);
 								throw;
 							}
@@ -427,12 +439,12 @@ namespace Tgstation.Server.Host.Components.Compiler
 
 							logger.LogTrace("Duplicating compiled game...");
 
-							//duplicate the dmb et al
+							// duplicate the dmb et al
 							await ioManager.CopyDirectory(dirA, dirB, null, cancellationToken).ConfigureAwait(false);
 
 							logger.LogTrace("Applying static game file symlinks...");
 
-							//symlink in the static data
+							// symlink in the static data
 							var symATask = configuration.SymlinkStaticFilesTo(fullDirA, cancellationToken);
 							var symBTask = configuration.SymlinkStaticFilesTo(ioManager.ResolvePath(dirB), cancellationToken);
 

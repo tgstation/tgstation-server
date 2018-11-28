@@ -28,6 +28,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// The <see cref="IIOManager"/> for the <see cref="DmbProvider"/>
 		/// </summary>
 		readonly IIOManager ioManager;
+
 		/// <summary>
 		/// The <see cref="Action"/> to run when <see cref="Dispose"/> is called
 		/// </summary>
