@@ -50,7 +50,10 @@ namespace Tgstation.Server.Api.Models
 		[NotMapped]
 		public Job MoveJob { get; set; }
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Create a clone of the essential <see cref="Instance"/> metadata
+		/// </summary>
+		/// <returns>A clone of the essential <see cref="Instance"/> metadata</returns>
 		public Instance CloneMetadata() => new Instance
 		{
 			Id = Id,

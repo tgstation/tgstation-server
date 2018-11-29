@@ -25,7 +25,7 @@ namespace Tgstation.Server.Host.Components
 		/// The <see cref="IByondManager"/> for the <see cref="IInstance"/>
 		/// </summary>
 		IByondManager ByondManager { get; }
-		
+
 		/// <summary>
 		/// The <see cref="IWatchdog"/> for the <see cref="IInstance"/>
 		/// </summary>
@@ -37,7 +37,7 @@ namespace Tgstation.Server.Host.Components
 		IChat Chat { get; }
 
 		/// <summary>
-		/// The <see cref="StaticFiles.IConfiguration"/> for the <see cref="IInstance"/>
+		/// The <see cref="IConfiguration"/> for the <see cref="IInstance"/>
 		/// </summary>
 		IConfiguration Configuration { get; }
 

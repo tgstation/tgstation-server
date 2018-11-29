@@ -5,7 +5,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -34,18 +33,21 @@ namespace Tgstation.Server.Host.IO
 			foreach (var subDir in dir.EnumerateDirectories())
 			{
 				cancellationToken.ThrowIfCancellationRequested();
+
+				// if below succeeds this is probably a symlink
 				if (!subDir.Attributes.HasFlag(FileAttributes.Directory) || subDir.Attributes.HasFlag(FileAttributes.ReparsePoint))
-					//this is probably a symlink
 					subDir.Delete();
 				else
 					tasks.Add(NormalizeAndDelete(subDir, cancellationToken));
 			}
+
 			foreach (var file in dir.EnumerateFiles())
 			{
 				cancellationToken.ThrowIfCancellationRequested();
 				file.Attributes = FileAttributes.Normal;
 				file.Delete();
 			}
+
 			await Task.WhenAll(tasks).ConfigureAwait(false);
 			cancellationToken.ThrowIfCancellationRequested();
 			dir.Delete(true);
@@ -84,19 +86,19 @@ namespace Tgstation.Server.Host.IO
 			async Task CopyThisDirectory()
 			{
 				if (!atLeastOneSubDir)
-					await CreateDirectory(dest, cancellationToken).ConfigureAwait(false);   //save on createdir calls
+					await CreateDirectory(dest, cancellationToken).ConfigureAwait(false); // save on createdir calls
 
 				var tasks = new List<Task>();
 
-				await dir.EnumerateFiles().ToAsyncEnumerable().ForEachAsync(I =>
+				await dir.EnumerateFiles().ToAsyncEnumerable().ForEachAsync(fileInfo =>
 				{
-					if (ignore != null && ignore.Contains(I.Name))
+					if (ignore != null && ignore.Contains(fileInfo.Name))
 						return;
-					tasks.Add(CopyFile(I.FullName, Path.Combine(dest, I.Name), cancellationToken));
+					tasks.Add(CopyFile(fileInfo.FullName, Path.Combine(dest, fileInfo.Name), cancellationToken));
 				}).ConfigureAwait(false);
 
 				await Task.WhenAll(tasks).ConfigureAwait(false);
-			};
+			}
 
 			yield return CopyThisDirectory();
 		}
@@ -113,18 +115,6 @@ namespace Tgstation.Server.Host.IO
 			dest = ResolvePath(dest);
 			foreach (var directoryCopy in CopyDirectoryImpl(src, dest, ignore, cancellationToken))
 				await directoryCopy.ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		public async Task AppendAllText(string path, string additional_contents, CancellationToken cancellationToken)
-		{
-			if (additional_contents == null)
-				throw new ArgumentNullException(nameof(additional_contents));
-			using (var destStream = new FileStream(ResolvePath(path), FileMode.Append, FileAccess.Write, FileShare.ReadWrite | FileShare.Delete, DefaultBufferSize, true))
-			{
-				var buf = Encoding.UTF8.GetBytes(additional_contents);
-				await destStream.WriteAsync(buf, 0, buf.Length, cancellationToken).ConfigureAwait(false);
-			}
 		}
 
 		/// <inheritdoc />
@@ -190,6 +180,7 @@ namespace Tgstation.Server.Host.IO
 				cancellationToken.ThrowIfCancellationRequested();
 				results.Add(I);
 			}
+
 			return results;
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
@@ -248,6 +239,7 @@ namespace Tgstation.Server.Host.IO
 				results.Add(I);
 				cancellationToken.ThrowIfCancellationRequested();
 			}
+
 			return (IReadOnlyList<string>)results;
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
@@ -262,21 +254,14 @@ namespace Tgstation.Server.Host.IO
 				results.Add(I);
 				cancellationToken.ThrowIfCancellationRequested();
 			}
+
 			return (IReadOnlyList<string>)results;
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
-
-		/// <inheritdoc />
-		public Task CreateSymlink(string target, string link, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
-		{
-			target = ResolvePath(target);
-			link = ResolvePath(link);
-
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public async Task<byte[]> DownloadFile(Uri url, CancellationToken cancellationToken)
 		{
-			//DownloadDataTaskAsync can't be cancelled and is shittily written, don't use it
+			// DownloadDataTaskAsync can't be cancelled and is shittily written, don't use it
 			using (var wc = new WebClient())
 			{
 				var tcs = new TaskCompletionSource<byte[]>();

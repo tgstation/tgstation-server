@@ -42,7 +42,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// Construct a <see cref="TestMergeBase"/> from a <paramref name="copy"/>
 		/// </summary>
-		/// <param name="copy"></param>
+		/// <param name="copy">The <see cref="TestMergeBase"/> to copy data from</param>
 		protected TestMergeBase(TestMergeBase copy)
 		{
 			if (copy == null)

@@ -38,6 +38,7 @@ namespace Tgstation.Server.Host.Core
 				{
 					return;
 				}
+
 				tcs.SetResult(exitCode);
 			};
 			return tcs.Task;
@@ -68,6 +69,7 @@ namespace Tgstation.Server.Host.Core
 				logger.LogDebug("Unable to get process {0}! Exception: {1}", id, e);
 				return null;
 			}
+
 			try
 			{
 				return new Process(handle, AttachExitHandler(handle), null, null, null, loggerFactory.CreateLogger<Process>(), true);
@@ -108,6 +110,7 @@ namespace Tgstation.Server.Host.Core
 							outputStringBuilder.Append(e.Data);
 						};
 					}
+
 					if (readError)
 					{
 						errorStringBuilder = new StringBuilder();

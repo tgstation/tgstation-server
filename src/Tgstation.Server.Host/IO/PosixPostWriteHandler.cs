@@ -15,7 +15,7 @@ namespace Tgstation.Server.Host.IO
 			if (filePath == null)
 				throw new ArgumentNullException(nameof(filePath));
 
-			//set executable bit every time, don't want people calling me when their uploaded "sl" binary doesn't work
+			// set executable bit every time, don't want people calling me when their uploaded "sl" binary doesn't work
 			if (Syscall.stat(filePath, out var stat) != 0)
 				throw new UnixIOException(Stdlib.GetLastError());
 

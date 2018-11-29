@@ -34,7 +34,7 @@ You can of course, as always, ask for help at [#coderbus](irc://irc.rizon.net/co
 
 ### Development Environment
 
-You need the Dotnet 2.1 SDK to compile the main server and command line programs. In order to build the service version you also need a .NET 4.7.1 build chain
+You need the Dotnet 2.1 SDK and npm>=v5.7 (in your PATH) to compile the server. In order to build the service version you also need a .NET 4.7.1 build chain
 
 The recommended IDE is Visual Studio 2017 which has installation options for both of these.
 
@@ -46,11 +46,6 @@ As mentioned before, you are expected to follow these specifications in order to
 
 ### Object Oriented Code
 As C# is an object-oriented language, code must be object-oriented when possible in order to be more flexible when adding content to it. If you don't know what "object-oriented" means, we highly recommend you do some light research to grasp the basics.
-
-### Tabs, not spaces
-You must use tabs to indent your code, NOT SPACES.
-
-(You may use spaces to align something, but you should tab to the block level first, then add the remaining spaces)
 
 ### No hacky code
 Hacky code, such as adding specific checks, is highly discouraged and only allowed when there is ***no*** other option. (Protip: 'I couldn't immediately think of a proper way so thus there must be no other option' is not gonna cut it here! If you can't think of anything else, say that outright and admit that you need help with it. Maintainers exist for exactly that reason.)
@@ -97,7 +92,7 @@ The version format we use is 4.\<major\>.\<minor\>.\<patch\>. The first number n
 
 ### Formatting
 
-The formatting style is the same one Visual studio uses by default. Quick formatting of code blocks can be achieved by deleting and retyping the trailing `}`
+Stylecop will throw warnings if your code does not match style guidelines. Do NOT suppress these
 
 ### Use early return
 Do not enclose a function in an if-block when returning on a condition is more feasible
@@ -149,7 +144,32 @@ There is no strict process when it comes to merging pull requests. Pull requests
 
 * Commits MUST be properly titled and commented as we only use merge commits for the pull request process
 
+## Deployment process
+
+Every issue/pull request in a release should share a common milestone named with the release version i.e. `4.5.3.5`
+
+When every issue and PR in the milestone is closed. Create a version bump PR that changes the version numbers. At the time of this writing they exist in the following files
+
+- `/src/Tgstation.Server.Host/Tgstation.Server.Host.csproj`
+- `/src/Tgstation.Server.Host.Console/Tgstation.Server.Host.Console.csproj`
+- 2 in `/src/Tgstation.Server.Host.Service/Properties/AssemblyInfo.cs`
+- `/src/Tgstation.Server.Host.Watchdog/Tgstation.Server.Host.Watchdog.csproj`
+
+Merge the pull request with `[TGSDeploy]` somewhere in the commit title. The scripts will handle amalgamating release notes, building, closing the milestone, and publishing the release. This will also trigger update notifications on existing TGS deployments.
+
+### API/Client Deployment
+
+The Api/Client project versions must be updated on nuget when changed. The numbers exist in the following files:
+
+- `/src/Tgstation.Server.Api/Tgstation.Server.Api.csproj`
+- `/src/Tgstation.Server.Client/Tgstation.Server.Client.csproj`
+
+These should not be the same numbers as the main suite. When bumping the API version the client should only receive a minor (3rd number) version bump unless major changes to CLIENT code were made.
+
+Merge these alongside regular deployments with `[NugetDeploy]` in the commit title (Won't work without an accompanying `[TGSDeploy]`). This will handle the nuget publishing.
+
 ## Banned content
+
 Do not add any of the following in a Pull Request or risk getting the PR closed:
 * National Socialist Party of Germany content, National Socialist Party of Germany related content, or National Socialist Party of Germany references
 

@@ -32,4 +32,6 @@ if($publish_dox){
 	git commit -m "Deploy code docs to GitHub Pages for Appveyor build $Env:APPVEYOR_BUILD_NUMBER" -m "Commit: $Env:APPVEYOR_REPO_COMMIT"
 	git push -f "https://$Env:TGS4_TEST_GITHUB_TOKEN@$github_url" 2>&1 | out-null
 	cd "$bf"
+	rm -r "$doxdir/.git"
 }
+mv C:/tgsdox "$bf/tgsdox"

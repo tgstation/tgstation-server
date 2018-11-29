@@ -12,11 +12,10 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// Map of <see cref="RightsType"/>s to their respective flag <see cref="Enum"/>s
 		/// </summary>
-		static readonly IReadOnlyDictionary<RightsType, Type> typeMap = new Dictionary<RightsType, Type>
+		static readonly IReadOnlyDictionary<RightsType, Type> TypeMap = new Dictionary<RightsType, Type>
 		{
 			{ RightsType.Administration, typeof(AdministrationRights) },
 			{ RightsType.InstanceManager, typeof(InstanceManagerRights) },
-
 			{ RightsType.Repository, typeof(RepositoryRights) },
 			{ RightsType.Byond, typeof(ByondRights) },
 			{ RightsType.DreamMaker, typeof(DreamMakerRights) },
@@ -31,7 +30,7 @@ namespace Tgstation.Server.Api.Rights
 		/// </summary>
 		/// <param name="rightsType">The <see cref="RightsType"/> to lookup</param>
 		/// <returns>The <see cref="Enum"/> <see cref="Type"/> of the given <paramref name="rightsType"/></returns>
-		public static Type RightToType(RightsType rightsType) => typeMap[rightsType];
+		public static Type RightToType(RightsType rightsType) => TypeMap[rightsType];
 
 		/// <summary>
 		/// Gets the role claim name used for a given <paramref name="right"/>
@@ -47,7 +46,8 @@ namespace Tgstation.Server.Api.Rights
 				foreach (Enum J in Enum.GetValues(right.GetType()))
 					if (Convert.ToInt32(J, CultureInfo.InvariantCulture) != 0 && right.HasFlag(J))
 						yield return String.Concat(typeof(TRight).Name, '.', J.ToString());
-			};
+			}
+
 			var names = GetRoleNames();
 			return String.Join(",", names);
 		}
@@ -60,7 +60,7 @@ namespace Tgstation.Server.Api.Rights
 		/// <returns>A <see cref="string"/> representing the claim role name</returns>
 		public static string RoleName(RightsType rightsType, Enum right)
 		{
-			var enumType = typeMap[rightsType];
+			var enumType = TypeMap[rightsType];
 			return String.Concat(enumType.Name, '.', Enum.GetName(enumType, right));
 		}
 

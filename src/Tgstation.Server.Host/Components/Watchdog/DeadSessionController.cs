@@ -72,6 +72,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					return;
 				disposed = true;
 			}
+
 			Dmb.Dispose();
 		}
 

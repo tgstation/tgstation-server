@@ -27,7 +27,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		/// <summary>
 		/// Construct a <see cref="VersionCommand"/>
 		/// </summary>
-		/// <param name="application"></param>
+		/// <param name="application">The value of <see cref="application"/></param>
 		public VersionCommand(IApplication application)
 		{
 			this.application = application ?? throw new ArgumentNullException(nameof(application));

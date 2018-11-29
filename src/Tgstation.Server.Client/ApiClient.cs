@@ -49,6 +49,79 @@ namespace Tgstation.Server.Client
 		/// </summary>
 		ApiHeaders headers;
 
+		static JsonSerializerSettings GetSerializerSettings() => new JsonSerializerSettings
+		{
+			ContractResolver = new CamelCasePropertyNamesContractResolver(),
+			Converters = new[] { new VersionConverter() }
+		};
+
+		static void HandleBadResponse(HttpResponseMessage response, string json)
+		{
+			ErrorMessage errorMessage = null;
+			try
+			{
+				// check if json serializes to an error message
+				errorMessage = JsonConvert.DeserializeObject<ErrorMessage>(json, GetSerializerSettings());
+			}
+			catch (JsonException) { }
+
+			const string BadSpecExtension = " This is not part of TGS4 communication specification and should be reported if it was returned from a TGS4 server!";
+
+#pragma warning disable IDE0010 // Add missing cases
+			switch (response.StatusCode)
+#pragma warning restore IDE0010 // Add missing cases
+			{
+				case HttpStatusCode.UpgradeRequired:
+					throw new ApiMismatchException(errorMessage ?? new ErrorMessage
+					{
+						Message = "API Mismatch but no current API version provided!" + BadSpecExtension,
+						SeverApiVersion = null
+					});
+				case HttpStatusCode.Unauthorized:
+					throw new UnauthorizedException();
+				case HttpStatusCode.RequestTimeout:
+					throw new RequestTimeoutException();
+				case HttpStatusCode.Forbidden:
+					throw new InsufficientPermissionsException();
+				case HttpStatusCode.ServiceUnavailable:
+					throw new ServiceUnavailableException();
+				case HttpStatusCode.Gone:
+					errorMessage = errorMessage ?? new ErrorMessage
+					{
+						Message = "The requested resource could not be found!",
+						SeverApiVersion = null
+					};
+					goto case HttpStatusCode.Conflict;
+				case HttpStatusCode.NotFound:
+					// our fault somehow
+					errorMessage = errorMessage ?? new ErrorMessage
+					{
+						Message = "This is not a valid route!" + BadSpecExtension,
+						SeverApiVersion = null
+					};
+					goto case HttpStatusCode.Conflict;
+				case HttpStatusCode.Conflict:
+					throw new ConflictException(errorMessage ?? new ErrorMessage
+					{
+						Message = "An undescribed conflict occurred!" + BadSpecExtension,
+						SeverApiVersion = null
+					}, response.StatusCode);
+				case HttpStatusCode.NotImplemented:
+				// unprocessable entity
+				case (HttpStatusCode)422:
+					throw new MethodNotSupportedException();
+				case HttpStatusCode.InternalServerError:
+					// response json is html
+					throw new ServerErrorException(json);
+				case (HttpStatusCode)429:
+					// rate limited
+					response.Headers.TryGetValues("Retry-After", out var values);
+					throw new RateLimitException(values?.FirstOrDefault());
+				default:
+					throw new ApiConflictException(errorMessage, response.StatusCode);
+			}
+		}
+
 		/// <summary>
 		/// Construct an <see cref="ApiClient"/>
 		/// </summary>
@@ -60,7 +133,7 @@ namespace Tgstation.Server.Client
 			this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
 			Url = url ?? throw new ArgumentNullException(nameof(url));
 			headers = apiHeaders ?? throw new ArgumentNullException(nameof(apiHeaders));
-			
+
 			requestLoggers = new List<IRequestLogger>();
 		}
 
@@ -70,10 +143,11 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// Main request method
 		/// </summary>
+		/// <typeparam name="TResult">The resulting POCO type</typeparam>
 		/// <param name="route">The route to run</param>
 		/// <param name="body">The body of the request</param>
 		/// <param name="method">The method of the request</param>
-		/// <param name="instanceId">The optional <see cref="Api.Models.Instance.Id"/> for the request</param>
+		/// <param name="instanceId">The optional <see cref="Instance.Id"/> for the request</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the response on success</returns>
 		async Task<TResult> RunRequest<TResult>(string route, object body, HttpMethod method, long? instanceId, CancellationToken cancellationToken)
@@ -85,101 +159,41 @@ namespace Tgstation.Server.Client
 			if (body == null && (method == HttpMethod.Post || method == HttpMethod.Put))
 				throw new InvalidOperationException("Body cannot be null for POST or PUT!");
 
+			HttpResponseMessage response;
 			var fullUri = new Uri(Url, route);
-
-			var message = new HttpRequestMessage(method, fullUri);
-
-			var serializerSettings = new JsonSerializerSettings
+			var serializerSettings = GetSerializerSettings();
+			using (var request = new HttpRequestMessage(method, fullUri))
 			{
-				ContractResolver = new CamelCasePropertyNamesContractResolver(),
-				Converters = new[] { new VersionConverter() }
-			};
+				if (body != null)
+					request.Content = new StringContent(JsonConvert.SerializeObject(body, serializerSettings), Encoding.UTF8, ApiHeaders.ApplicationJson);
 
-			if (body != null)
-				message.Content = new StringContent(JsonConvert.SerializeObject(body, serializerSettings), Encoding.UTF8, ApiHeaders.ApplicationJson);
+				headers.SetRequestHeaders(request.Headers, instanceId);
 
-			headers.SetRequestHeaders(message.Headers, instanceId);
+				await Task.WhenAll(requestLoggers.Select(x => x.LogRequest(request, cancellationToken))).ConfigureAwait(false);
 
-			await Task.WhenAll(requestLoggers.Select(x => x.LogRequest(message, cancellationToken))).ConfigureAwait(false);
+				response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+			}
 
-			var response = await httpClient.SendAsync(message, cancellationToken).ConfigureAwait(false);
-
-			await Task.WhenAll(requestLoggers.Select(x => x.LogResponse(response, cancellationToken))).ConfigureAwait(false);
-
-			var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-			if (!response.IsSuccessStatusCode)
+			using (response)
 			{
-				ErrorMessage errorMessage = null;
+				await Task.WhenAll(requestLoggers.Select(x => x.LogResponse(response, cancellationToken))).ConfigureAwait(false);
+
+				var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+				if (!response.IsSuccessStatusCode)
+					HandleBadResponse(response, json);
+
+				if (String.IsNullOrWhiteSpace(json))
+					json = JsonConvert.SerializeObject(new object());
+
 				try
 				{
-					//check if json serializes to an error message
-					errorMessage = JsonConvert.DeserializeObject<ErrorMessage>(json, serializerSettings);
+					return JsonConvert.DeserializeObject<TResult>(json, serializerSettings);
 				}
-				catch (JsonException) { }
-
-				const string BadSpecExtension = " This is not part of TGS4 communication specification and should be reported if it was returned from a TGS4 server!";
-
-				switch (response.StatusCode)
+				catch (JsonException)
 				{
-					case HttpStatusCode.UpgradeRequired:
-						throw new ApiMismatchException(errorMessage ?? new ErrorMessage
-						{
-							Message = "API Mismatch but no current API version provided!" + BadSpecExtension,
-							SeverApiVersion = null
-						});
-					case HttpStatusCode.Unauthorized:
-						throw new UnauthorizedException();
-					case HttpStatusCode.RequestTimeout:
-						throw new RequestTimeoutException();
-					case HttpStatusCode.Forbidden:
-						throw new InsufficientPermissionsException();
-					case HttpStatusCode.ServiceUnavailable:
-						throw new ServiceUnavailableException();
-					case HttpStatusCode.Gone:
-						errorMessage = errorMessage ?? new ErrorMessage
-						{
-							Message = "The requested resource could not be found!",
-							SeverApiVersion = null
-						};
-						goto case HttpStatusCode.Conflict;
-					case HttpStatusCode.NotFound:	//our fault somehow
-						errorMessage = errorMessage ?? new ErrorMessage
-						{
-							Message = "This is not a valid route!" + BadSpecExtension,
-							SeverApiVersion = null
-						};
-						goto case HttpStatusCode.Conflict;
-					case HttpStatusCode.Conflict:
-						throw new ConflictException(errorMessage ?? new ErrorMessage
-						{
-							Message = "An undescribed conflict occurred!" + BadSpecExtension,
-							SeverApiVersion = null
-						}, response.StatusCode);
-					case HttpStatusCode.NotImplemented:
-					case (HttpStatusCode)422:   //unprocessable entity
-						throw new MethodNotSupportedException();
-					case HttpStatusCode.InternalServerError:
-						//response
-						throw new ServerErrorException(json);   //json is html
-					case (HttpStatusCode)429:   //rate limited
-						response.Headers.TryGetValues("Retry-After", out var values);
-						throw new RateLimitException(values?.FirstOrDefault());
-					default:
-						throw new ApiConflictException(errorMessage, response.StatusCode);
+					throw new UnrecognizedResponseException(json, response.StatusCode);
 				}
-			}
-
-			if (String.IsNullOrWhiteSpace(json))
-				json = JsonConvert.SerializeObject(new object());
-
-			try
-			{
-				return JsonConvert.DeserializeObject<TResult>(json, serializerSettings);
-			}
-			catch (JsonException)
-			{
-				throw new UnrecognizedResponseException(json, response.StatusCode);
 			}
 		}
 

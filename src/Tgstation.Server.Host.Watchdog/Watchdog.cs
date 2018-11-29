@@ -15,7 +15,6 @@ namespace Tgstation.Server.Host.Watchdog
 	/// <inheritdoc />
 	sealed class Watchdog : IWatchdog
 	{
-
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Watchdog"/>
 		/// </summary>
@@ -31,6 +30,7 @@ namespace Tgstation.Server.Host.Watchdog
 		}
 
 		/// <inheritdoc />
+		#pragma warning disable CA1502 // TODO: Decomplexify
 		public async Task RunAsync(bool runConfigure, string[] args, CancellationToken cancellationToken)
 		{
 			logger.LogInformation("Host watchdog starting...");
@@ -67,17 +67,18 @@ namespace Tgstation.Server.Host.Watchdog
 					logger.LogCritical("Unable to locate dotnet executable in PATH! Please ensure the .NET Core runtime is installed and is in your PATH!");
 					return;
 				}
+
 				logger.LogInformation("Detected dotnet executable at {0}", dotnetPath);
 
 				var rootLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-				var assemblyStoragePath = Path.Combine(rootLocation, "lib");    //always always next to watchdog
+				var assemblyStoragePath = Path.Combine(rootLocation, "lib"); // always always next to watchdog
 #if DEBUG
 				Directory.CreateDirectory(assemblyStoragePath);
 #endif
 				var defaultAssemblyPath = Path.GetFullPath(Path.Combine(assemblyStoragePath, "Default"));
 #if DEBUG
-				//just copy the shit where it belongs
+				// just copy the shit where it belongs
 				Directory.Delete(assemblyStoragePath, true);
 				Directory.CreateDirectory(defaultAssemblyPath);
 
@@ -117,7 +118,7 @@ namespace Tgstation.Server.Host.Watchdog
 						using (var process = new Process())
 						{
 							process.StartInfo.FileName = dotnetPath;
-							process.StartInfo.WorkingDirectory = rootLocation;  //for appsettings
+							process.StartInfo.WorkingDirectory = rootLocation;  // for appsettings
 
 							var arguments = new List<string>
 							{
@@ -138,7 +139,7 @@ namespace Tgstation.Server.Host.Watchdog
 
 							process.StartInfo.Arguments = String.Join(" ", arguments);
 
-							process.StartInfo.UseShellExecute = false;  //runs in the same console
+							process.StartInfo.UseShellExecute = false; // runs in the same console
 
 							var tcs = new TaskCompletionSource<object>();
 							process.Exited += (a, b) =>
@@ -172,7 +173,7 @@ namespace Tgstation.Server.Host.Watchdog
 									{
 										processCts.CancelAfter(TimeSpan.FromSeconds(10));
 									}
-									catch (ObjectDisposedException) { } //race conditions
+									catch (ObjectDisposedException) { } // race conditions
 								}))
 									await tcs.Task.ConfigureAwait(false);
 							}
@@ -204,13 +205,12 @@ namespace Tgstation.Server.Host.Watchdog
 									return;
 								case 1:
 									if (!cancellationToken.IsCancellationRequested)
-										//just a restart
-										logger.LogInformation("Watchdog will restart host...");
+										logger.LogInformation("Watchdog will restart host..."); // just a restart
 									else
 										logger.LogWarning("Host requested restart but watchdog shutdown is in progress!");
 									break;
 								case 2:
-									//update path is now an exception document
+									// update path is now an exception document
 									logger.LogCritical("Host crashed, propagating exception dump...");
 									var data = File.ReadAllText(updateDirectory);
 									try
@@ -221,29 +221,36 @@ namespace Tgstation.Server.Host.Watchdog
 									{
 										logger.LogWarning("Unable to delete exception dump file at {0}! Exception: {1}", updateDirectory, e);
 									}
+
+#pragma warning disable CA2201 // Do not raise reserved exception types
 									throw new Exception(String.Format(CultureInfo.InvariantCulture, "Host propagated exception: {0}", data));
+#pragma warning restore CA2201 // Do not raise reserved exception types
 								default:
 									if (killedHostProcess)
 									{
 										logger.LogWarning("Watchdog forced to kill host process!");
 										cancellationToken.ThrowIfCancellationRequested();
 									}
+
+#pragma warning disable CA2201 // Do not raise reserved exception types
 									throw new Exception(String.Format(CultureInfo.InvariantCulture, "Host crashed with exit code {0}!", process.ExitCode));
+#pragma warning restore CA2201 // Do not raise reserved exception types
 							}
 						}
 
-						//HEY YOU
-						//BE WARNED THAT IF YOU DEBUGGED THE HOST PROCESS THAT JUST LAUNCHED THE DEBUGGER WILL HOLD A LOCK ON THE DIRECTORY
-						//THIS MEANS THE FIRST DIRECTORY.MOVE WILL THROW
+						// HEY YOU
+						// BE WARNED THAT IF YOU DEBUGGED THE HOST PROCESS THAT JUST LAUNCHED THE DEBUGGER WILL HOLD A LOCK ON THE DIRECTORY
+						// THIS MEANS THE FIRST DIRECTORY.MOVE WILL THROW
 						if (Directory.Exists(updateDirectory))
 						{
 							logger.LogInformation("Applying server update...");
 							if (isWindows)
 							{
-								//windows dick sucking resource unlocking
+								// windows dick sucking resource unlocking
 								GC.Collect(Int32.MaxValue, GCCollectionMode.Default, true);
 								await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
 							}
+
 							var tempPath = Path.Combine(assemblyStoragePath, Guid.NewGuid().ToString());
 							try
 							{
@@ -293,5 +300,6 @@ namespace Tgstation.Server.Host.Watchdog
 				logger.LogInformation("Host watchdog exiting...");
 			}
 		}
+		#pragma warning restore CA1502
 	}
 }

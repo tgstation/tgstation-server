@@ -40,6 +40,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IJobManager jobManager;
 
 		/// <summary>
+		/// The <see cref="IServerControl"/> for the <see cref="InstanceManager"/>
+		/// </summary>
+		readonly IServerControl serverControl;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="InstanceManager"/>
 		/// </summary>
 		readonly ILogger<InstanceManager> logger;
@@ -67,7 +72,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="databaseContextFactory">The value of <paramref name="databaseContextFactory"/></param>
 		/// <param name="application">The value of <see cref="application"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
-		/// <param name="serverControl">The <see cref="IServerControl"/> used to register the <see cref="InstanceManager"/> as a <see cref="IRestartHandler"/></param>
+		/// <param name="serverControl">The value of <see cref="serverControl"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		public InstanceManager(IInstanceFactory instanceFactory, IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, IJobManager jobManager, IServerControl serverControl, ILogger<InstanceManager> logger)
 		{
@@ -76,8 +81,7 @@ namespace Tgstation.Server.Host.Components
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.application = application ?? throw new ArgumentNullException(nameof(application));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
-			if (serverControl == null)
-				throw new ArgumentNullException(nameof(serverControl));
+			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			serverControl.RegisterForRestart(this);
@@ -94,6 +98,7 @@ namespace Tgstation.Server.Host.Components
 					return;
 				disposed = true;
 			}
+
 			foreach (var I in instances)
 				I.Value.Dispose();
 		}
@@ -146,9 +151,10 @@ namespace Tgstation.Server.Host.Components
 					throw new InvalidOperationException("Instance not online!");
 				instances.Remove(metadata.Id);
 			}
+
 			try
 			{
-				//we are the one responsible for cancelling his jobs
+				// we are the one responsible for cancelling his jobs
 				var tasks = new List<Task>();
 				await databaseContextFactory.UseContext(async db =>
 				{
@@ -194,10 +200,12 @@ namespace Tgstation.Server.Host.Components
 				instance.Dispose();
 				throw;
 			}
+
 			await instance.StartAsync(cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
+		#pragma warning disable CA1506 // TODO: Decomplexify
 		public Task StartAsync(CancellationToken cancellationToken) => databaseContextFactory.UseContext(async databaseContext =>
 		{
 			try
@@ -215,7 +223,7 @@ namespace Tgstation.Server.Host.Components
 				await factoryStartup.ConfigureAwait(false);
 				await dbInstances.ForEachAsync(metadata => tasks.Add(metadata.Online.Value ? OnlineInstance(metadata, cancellationToken) : Task.CompletedTask), cancellationToken).ConfigureAwait(false);
 				await Task.WhenAll(tasks).ConfigureAwait(false);
-				logger.LogInformation("Instance manager ready!");
+				logger.LogInformation("Server ready!");
 				application.Ready(null);
 			}
 			catch (OperationCanceledException)
@@ -226,8 +234,17 @@ namespace Tgstation.Server.Host.Components
 			{
 				logger.LogCritical("Instance manager startup error! Exception: {0}", e);
 				application.Ready(e);
+				try
+				{
+					await serverControl.Die(e).ConfigureAwait(false);
+				}
+				catch (Exception e2)
+				{
+					logger.LogCritical("Failed to kill server! Exception: {0}", e2);
+				}
 			}
 		});
+		#pragma warning restore CA1506 // TODO: Decomplexify
 
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken)
@@ -236,7 +253,7 @@ namespace Tgstation.Server.Host.Components
 			await Task.WhenAll(instances.Select(x => x.Value.StopAsync(cancellationToken))).ConfigureAwait(false);
 			await instanceFactory.StopAsync(cancellationToken).ConfigureAwait(false);
 
-			//downgrade the db if necessary
+			// downgrade the db if necessary
 			if (downgradeVersion != null)
 				await databaseContextFactory.UseContext(db => db.SchemaDowngradeForServerVersion(downgradeVersion, cancellationToken)).ConfigureAwait(false);
 		}

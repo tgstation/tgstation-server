@@ -13,7 +13,7 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// The <see cref="IApiClientFactory"/> for the <see cref="ServerClientFactory"/>
 		/// </summary>
-		static readonly IApiClientFactory apiClientFactory = new ApiClientFactory();
+		static readonly IApiClientFactory ApiClientFactory = new ApiClientFactory();
 
 		/// <summary>
 		/// The <see cref="ProductHeaderValue"/> for the <see cref="ServerClientFactory"/>
@@ -40,12 +40,13 @@ namespace Tgstation.Server.Client
 				throw new ArgumentNullException(nameof(password));
 
 			Token token;
-			using (var api = apiClientFactory.CreateApiClient(host, new ApiHeaders(productHeaderValue, username, password)))
+			using (var api = ApiClientFactory.CreateApiClient(host, new ApiHeaders(productHeaderValue, username, password)))
 			{
 				if (timeout != default)
 					api.Timeout = timeout;
 				token = await api.Update<Token>(Routes.Root, cancellationToken).ConfigureAwait(false);
 			}
+
 			return CreateServerClient(host, token, timeout);
 		}
 
@@ -56,7 +57,7 @@ namespace Tgstation.Server.Client
 				throw new ArgumentNullException(nameof(host));
 			if (token == null)
 				throw new ArgumentNullException(nameof(token));
-			var result = new ServerClient(apiClientFactory.CreateApiClient(host, new ApiHeaders(productHeaderValue, token.Bearer)), token);
+			var result = new ServerClient(ApiClientFactory.CreateApiClient(host, new ApiHeaders(productHeaderValue, token.Bearer)), token);
 			if (timeout != default)
 				result.Timeout = timeout;
 			return result;

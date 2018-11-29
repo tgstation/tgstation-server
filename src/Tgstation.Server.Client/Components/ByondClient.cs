@@ -14,6 +14,7 @@ namespace Tgstation.Server.Client.Components
 		/// The <see cref="IApiClient"/> for the <see cref="ByondClient"/>
 		/// </summary>
 		readonly IApiClient apiClient;
+
 		/// <summary>
 		/// The <see cref="Instance"/> for the <see cref="ByondClient"/>
 		/// </summary>

@@ -33,10 +33,12 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="DmbFactory"/>
 		/// </summary>
 		readonly IDatabaseContextFactory databaseContextFactory;
+
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="DmbFactory"/>
 		/// </summary>
 		readonly IIOManager ioManager;
+
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="DmbFactory"/>
 		/// </summary>
@@ -46,6 +48,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// The <see cref="Api.Models.Instance"/> for the <see cref="DmbFactory"/>
 		/// </summary>
 		readonly Api.Models.Instance instance;
+
 		/// <summary>
 		/// The <see cref="CancellationTokenSource"/> for <see cref="cleanupTask"/>
 		/// </summary>
@@ -55,10 +58,12 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// <see cref="Task"/> representing calls to <see cref="CleanJob(CompileJob)"/>
 		/// </summary>
 		Task cleanupTask;
+
 		/// <summary>
 		/// <see cref="TaskCompletionSource{TResult}"/> resulting in the latest <see cref="DmbProvider"/> yet to exist
 		/// </summary>
 		TaskCompletionSource<object> newerDmbTcs;
+
 		/// <summary>
 		/// The latest <see cref="DmbProvider"/>
 		/// </summary>
@@ -87,7 +92,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 		}
 
 		/// <inheritdoc />
-		public void Dispose() => cleanupCts.Dispose();  //we don't dispose nextDmbProvider here, since it might be the only thing we have
+		public void Dispose() => cleanupCts.Dispose(); // we don't dispose nextDmbProvider here, since it might be the only thing we have
 
 		/// <summary>
 		/// Delete the <see cref="Api.Models.Internal.CompileJob.DirectoryName"/> of <paramref name="job"/>
@@ -99,12 +104,13 @@ namespace Tgstation.Server.Host.Components.Compiler
 			{
 				var deleteJob = ioManager.DeleteDirectory(job.DirectoryName.ToString(), cleanupCts.Token);
 				Task otherTask;
-				//lock (this)	//already locked below
+
+				// lock (this) //already locked below
 				otherTask = cleanupTask;
 				await Task.WhenAll(otherTask, deleteJob).ConfigureAwait(false);
 			}
+
 			lock (this)
-			{
 				if (!jobLockCounts.TryGetValue(job.Id, out var currentVal) || currentVal == 1)
 				{
 					jobLockCounts.Remove(job.Id);
@@ -116,7 +122,6 @@ namespace Tgstation.Server.Host.Components.Compiler
 					var decremented = --jobLockCounts[job.Id];
 					logger.LogTrace("Compile job {0} lock count now: {1}", job.Id, decremented);
 				}
-			}
 		}
 
 		/// <inheritdoc />
@@ -156,13 +161,14 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// <inheritdoc />
 		public Task StartAsync(CancellationToken cancellationToken) => databaseContextFactory.UseContext(async (db) =>
 		{
-			//where complete clause not necessary, only successful COMPILEjobs get in the db
+			// where complete clause not necessary, only successful COMPILEjobs get in the db
 			var cj = await db.CompileJobs.Where(x => x.Job.Instance.Id == instance.Id)
 				.OrderByDescending(x => x.Job.StoppedAt).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (cj == default(CompileJob))
 				return;
 			await LoadCompileJob(cj, cancellationToken).ConfigureAwait(false);
-			//we dont do CleanUnusedCompileJobs here because the watchdog may have plans for them yet
+
+			// we dont do CleanUnusedCompileJobs here because the watchdog may have plans for them yet
 		});
 
 		/// <inheritdoc />
@@ -173,17 +179,18 @@ namespace Tgstation.Server.Host.Components.Compiler
 		}
 
 		/// <inheritdoc />
+		#pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<IDmbProvider> FromCompileJob(CompileJob compileJob, CancellationToken cancellationToken)
 		{
 			if (compileJob == null)
 				throw new ArgumentNullException(nameof(compileJob));
 
-			//ensure we have the entire compile job tree
+			// ensure we have the entire compile job tree
 			await databaseContextFactory.UseContext(async db => compileJob = await db.CompileJobs.Where(x => x.Id == compileJob.Id)
 				.Include(x => x.Job).ThenInclude(x => x.StartedBy)
 				.Include(x => x.RevisionInformation).ThenInclude(x => x.PrimaryTestMerge).ThenInclude(x => x.MergedBy)
 				.Include(x => x.RevisionInformation).ThenInclude(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).ThenInclude(x => x.MergedBy)
-				.FirstAsync(cancellationToken).ConfigureAwait(false)).ConfigureAwait(false);   //can't wait to see that query
+				.FirstAsync(cancellationToken).ConfigureAwait(false)).ConfigureAwait(false); // can't wait to see that query
 
 			logger.LogTrace("Loading compile job {0}...", compileJob.Id);
 			var providerSubmitted = false;
@@ -201,7 +208,7 @@ namespace Tgstation.Server.Host.Components.Compiler
 				if (!(await primaryCheckTask.ConfigureAwait(false) && await secondaryCheckTask.ConfigureAwait(false)))
 				{
 					logger.LogWarning("Error loading compile job, .dmb missing!");
-					return null;    //omae wa mou shinderu
+					return null; // omae wa mou shinderu
 				}
 
 				lock (this)
@@ -226,28 +233,31 @@ namespace Tgstation.Server.Host.Components.Compiler
 					newProvider.Dispose();
 			}
 		}
+		#pragma warning restore CA1506
 
 		/// <inheritdoc />
+		#pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task CleanUnusedCompileJobs(CompileJob exceptThisOne, CancellationToken cancellationToken)
 		{
 			List<long> jobIdsToSkip;
-			//don't clean locked directories
+
+			// don't clean locked directories
 			lock (this)
 				jobIdsToSkip = jobLockCounts.Select(x => x.Key).ToList();
 
 			List<string> jobUidsToNotErase = null;
 
-			//find the uids of locked directories
+			// find the uids of locked directories
 			await databaseContextFactory.UseContext(async db =>
 			{
 				jobUidsToNotErase = await db.CompileJobs.Where(x => x.Job.Instance.Id == instance.Id && jobIdsToSkip.Contains(x.Id)).Select(x => x.DirectoryName.Value.ToString().ToUpperInvariant()).ToListAsync(cancellationToken).ConfigureAwait(false);
 			}).ConfigureAwait(false);
 
-			//add the other exemption
+			// add the other exemption
 			if (exceptThisOne != null)
 				jobUidsToNotErase.Add(exceptThisOne.DirectoryName.Value.ToString().ToUpperInvariant());
 
-			//cleanup
+			// cleanup
 			await ioManager.CreateDirectory(".", cancellationToken).ConfigureAwait(false);
 			var directories = await ioManager.GetDirectories(".", cancellationToken).ConfigureAwait(false);
 			int deleting = 0;
@@ -276,5 +286,6 @@ namespace Tgstation.Server.Host.Components.Compiler
 				await Task.WhenAll().ConfigureAwait(false);
 			}
 		}
+		#pragma warning restore CA1506
 	}
 }

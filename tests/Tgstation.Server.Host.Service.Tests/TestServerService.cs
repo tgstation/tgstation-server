@@ -34,23 +34,30 @@ namespace Tgstation.Server.Host.Service.Tests
 
 			var mockWatchdog = new Mock<IWatchdog>();
 			var args = Array.Empty<string>();
-			CancellationToken cancellationToken;
-			mockWatchdog.Setup(x => x.RunAsync(false, args, It.IsAny<CancellationToken>())).Callback((bool x, string[] _, CancellationToken token) => cancellationToken = token).Returns(Task.CompletedTask).Verifiable();
+			CancellationToken cancellationToken, originalToken;
+			using(var cts = new CancellationTokenSource())
+			{
+				originalToken = cts.Token;
+				cancellationToken = originalToken;
+			}
+			var cancelled = false;
+			
+			mockWatchdog.Setup(x => x.RunAsync(false, args, It.IsAny<CancellationToken>())).Callback((bool x, string[] _, CancellationToken token) => token.Register(() => cancelled = true)).Returns(Task.CompletedTask).Verifiable();
 			var mockWatchdogFactory = new Mock<IWatchdogFactory>();
 			var mockLoggerFactory = new LoggerFactory();
 			mockWatchdogFactory.Setup(x => x.CreateWatchdog(mockLoggerFactory)).Returns(mockWatchdog.Object).Verifiable();
 
 			using (var service = new ServerService(mockWatchdogFactory.Object, mockLoggerFactory, default))
 			{
+				Assert.IsFalse(cancelled);
 				onStart.Invoke(service, new object[] { args });
+				mockWatchdog.VerifyAll();
 
-				Assert.IsFalse(cancellationToken.IsCancellationRequested);
+				Assert.AreNotSame(cancellationToken, originalToken);
 
 				onStop.Invoke(service, Array.Empty<object>());
-				Assert.IsTrue(cancellationToken.IsCancellationRequested);
-				mockWatchdog.VerifyAll();
+				Assert.IsTrue(cancelled);
 			}
-
 			mockWatchdogFactory.VerifyAll();
 		}
 	}

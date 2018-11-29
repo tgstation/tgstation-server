@@ -36,5 +36,12 @@ namespace Tgstation.Server.Host.Core
 		/// </summary>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task Restart();
+
+		/// <summary>
+		/// Kill the server with a fatal exception
+		/// </summary>
+		/// <param name="exception">The <see cref="Exception"/> to propagate to the watchdog if any</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		Task Die(Exception exception);
 	}
 }

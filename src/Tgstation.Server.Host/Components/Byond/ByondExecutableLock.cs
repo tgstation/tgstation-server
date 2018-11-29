@@ -27,8 +27,8 @@ namespace Tgstation.Server.Host.Components.Byond
 			DreamMakerPath = dreamMakerPath ?? throw new ArgumentNullException(nameof(dreamMakerPath));
 		}
 
-		//at one point in design, byond versions were to delete themselves if they werent the active version
-		//That changed at some point so these functions are intentioanlly left blank
+		// at one point in design, byond versions were to delete themselves if they weren't the active version
+		// That changed at some point so these functions are intentioanlly left blank
 
 		/// <inheritdoc />
 		public void Dispose() { }

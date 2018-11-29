@@ -52,13 +52,19 @@ namespace Tgstation.Server.Host.Controllers
 		readonly bool requireInstance;
 
 		/// <summary>
+		/// If <see cref="ApiHeaders"/> are required
+		/// </summary>
+		readonly bool requireHeaders;
+
+		/// <summary>
 		/// Construct an <see cref="ApiController"/>
 		/// </summary>
 		/// <param name="databaseContext">The value of <see cref="DatabaseContext"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="logger">The value of <see cref="Logger"/></param>
 		/// <param name="requireInstance">The value of <see cref="requireInstance"/></param>
-		public ApiController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ILogger logger, bool requireInstance)
+		/// <param name="requireHeaders">The value of <see cref="requireHeaders"/></param>
+		public ApiController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ILogger logger, bool requireInstance, bool requireHeaders)
 		{
 			DatabaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
 			if (authenticationContextFactory == null)
@@ -67,22 +73,23 @@ namespace Tgstation.Server.Host.Controllers
 			AuthenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
 			Instance = AuthenticationContext?.InstanceUser?.Instance;
 			this.requireInstance = requireInstance;
+			this.requireHeaders = requireHeaders;
 		}
 
 		/// <inheritdoc />
+		#pragma warning disable CA1506 // TODO: Decomplexify
 		public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
 		{
-			//ALL valid token and login requests that match a route go through this function
-			//404 is returned before
-
+			// ALL valid token and login requests that match a route go through this function
+			// 404 is returned before
 			if (AuthenticationContext != null && AuthenticationContext.User == null)
 			{
-				//valid token, expired password
+				// valid token, expired password
 				await Unauthorized().ExecuteResultAsync(context).ConfigureAwait(false);
 				return;
 			}
 
-			//validate the headers
+			// validate the headers
 			try
 			{
 				ApiHeaders = new ApiHeaders(Request.GetTypedHeaders());
@@ -103,9 +110,10 @@ namespace Tgstation.Server.Host.Controllers
 						await BadRequest(new ErrorMessage { Message = "Missing Instance header!" }).ExecuteResultAsync(context).ConfigureAwait(false);
 						return;
 					}
+
 					if (AuthenticationContext.InstanceUser == null)
 					{
-						//accessing an instance they don't have access to or one that's disabled
+						// accessing an instance they don't have access to or one that's disabled
 						await Forbid().ExecuteResultAsync(context).ConfigureAwait(false);
 						return;
 					}
@@ -113,15 +121,19 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch (InvalidOperationException e)
 			{
-				await BadRequest(new ErrorMessage { Message = e.Message }).ExecuteResultAsync(context).ConfigureAwait(false);
-				return;
+				if (requireHeaders)
+				{
+					await BadRequest(new ErrorMessage { Message = e.Message }).ExecuteResultAsync(context).ConfigureAwait(false);
+					return;
+				}
 			}
 
 			if (ModelState?.IsValid == false)
 			{
 				var errorMessages = ModelState.SelectMany(x => x.Value.Errors).Select(x => x.ErrorMessage).ToList();
-				//HACK
-				//do some fuckery to remove RequiredAttribute errors
+
+				// HACK
+				// do some fuckery to remove RequiredAttribute errors
 				for (var I = 0; I < errorMessages.Count; ++I)
 				{
 					var message = errorMessages[I];
@@ -131,6 +143,7 @@ namespace Tgstation.Server.Host.Controllers
 						--I;
 					}
 				}
+
 				if (errorMessages.Count > 0)
 				{
 					await BadRequest(new ErrorMessage { Message = String.Join(Environment.NewLine, errorMessages) }).ExecuteResultAsync(context).ConfigureAwait(false);
@@ -138,7 +151,8 @@ namespace Tgstation.Server.Host.Controllers
 				}
 			}
 
-			Logger.LogDebug("Request made by User ID {0}. Api version: {1}. User-Agent: {2}. Type: {3}. Route {4}{5} to Instance {6}", AuthenticationContext?.User.Id.ToString(CultureInfo.InvariantCulture), ApiHeaders.ApiVersion, ApiHeaders.UserAgent, Request.Method, Request.Path, Request.QueryString, ApiHeaders.InstanceId);
+			if (ApiHeaders != null)
+				Logger.LogDebug("Request made by User ID {0}. Api version: {1}. User-Agent: {2}. Type: {3}. Route {4}{5} to Instance {6}", AuthenticationContext?.User.Id.ToString(CultureInfo.InvariantCulture), ApiHeaders.ApiVersion, ApiHeaders.UserAgent, Request.Method, Request.Path, Request.QueryString, ApiHeaders.InstanceId);
 
 			try
 			{
@@ -150,5 +164,6 @@ namespace Tgstation.Server.Host.Controllers
 				throw;
 			}
 		}
+		#pragma warning restore CA1506
 	}
 }

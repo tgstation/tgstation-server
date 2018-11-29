@@ -38,10 +38,13 @@ namespace Tgstation.Server.Host.Core
 		/// Construct a <see cref="SemaphoreSlimContext"/>
 		/// </summary>
 		/// <param name="lockedSemaphore">The value of <see cref="lockedSemaphore"/></param>
-		SemaphoreSlimContext(SemaphoreSlim lockedSemaphore) => this.lockedSemaphore = lockedSemaphore;
+		SemaphoreSlimContext(SemaphoreSlim lockedSemaphore)
+		{
+			this.lockedSemaphore = lockedSemaphore;
+		}
 
 		/// <summary>
-		/// Finalize the <see cref="SemaphoreSlimContext"/>
+		/// Finalizes an instance of the <see cref="SemaphoreSlimContext"/> class.
 		/// </summary>
 #pragma warning disable CA1821 // Remove empty Finalizers //TODO remove this when https://github.com/dotnet/roslyn-analyzers/issues/1241 is fixed
 		~SemaphoreSlimContext() => Dispose();
@@ -58,6 +61,7 @@ namespace Tgstation.Server.Host.Core
 					return;
 				disposed = true;
 			}
+
 			GC.SuppressFinalize(this);
 			lockedSemaphore.Release();
 		}
