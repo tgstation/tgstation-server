@@ -134,8 +134,6 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a2a2e015f0196f86632485bd3dd94bd4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22d8b0640fe39cb55e644b9a97cbca63"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_provider.html#a22d8b0640fe39cb55e644b9a97cbca63">SecondaryDirectory</a> =&gt; ioManager.ResolvePath(ioManager.ConcatPath(CompileJob.DirectoryName.ToString(), <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dream_maker.html#ac3719e69f1a57c2fa46f439678b17745">DreamMaker.BDirectoryName</a>))</td></tr>
 <tr class="separator:a22d8b0640fe39cb55e644b9a97cbca63"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab440b461bd435f52e1303ee74cb6115b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">RevisionInformation</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_provider.html#ab440b461bd435f52e1303ee74cb6115b">RevisionInformation</a> =&gt; CompileJob.RevisionInformation</td></tr>
-<tr class="separator:ab440b461bd435f52e1303ee74cb6115b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
@@ -209,8 +207,8 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_dmb_provider_8cs_source.html#l00042">42</a> of file <a class="el" href="_dmb_provider_8cs_source.html">DmbProvider.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        {</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">CompileJob</a> = compileJob ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(compileJob));</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            this.ioManager = ioManager ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(ioManager));</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            this.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_provider.html#a5335130518633dacf3bc1c9da0608bb9">onDispose</a> = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_provider.html#a5335130518633dacf3bc1c9da0608bb9">onDispose</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_provider.html#a5335130518633dacf3bc1c9da0608bb9">onDispose</a>));</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_provider_html_a5335130518633dacf3bc1c9da0608bb9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_provider.html#a5335130518633dacf3bc1c9da0608bb9">Tgstation.Server.Host.Components.Compiler.DmbProvider.onDispose</a></div><div class="ttdeci">Action onDispose</div><div class="ttdoc">The Action to run when Dispose is called </div><div class="ttdef"><b>Definition:</b> <a href="_dmb_provider_8cs_source.html#l00034">DmbProvider.cs:34</a></div></div>
+<p>Definition at line <a class="el" href="_dmb_provider_8cs_source.html#l00040">40</a> of file <a class="el" href="_dmb_provider_8cs_source.html">DmbProvider.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        {</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">CompileJob</a> = compileJob ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(compileJob));</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            this.ioManager = ioManager ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(ioManager));</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            this.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_provider.html#a5335130518633dacf3bc1c9da0608bb9">onDispose</a> = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_provider.html#a5335130518633dacf3bc1c9da0608bb9">onDispose</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_provider.html#a5335130518633dacf3bc1c9da0608bb9">onDispose</a>));</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_provider_html_a5335130518633dacf3bc1c9da0608bb9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_provider.html#a5335130518633dacf3bc1c9da0608bb9">Tgstation.Server.Host.Components.Compiler.DmbProvider.onDispose</a></div><div class="ttdeci">Action onDispose</div><div class="ttdoc">The Action to run when Dispose is called </div><div class="ttdef"><b>Definition:</b> <a href="_dmb_provider_8cs_source.html#l00032">DmbProvider.cs:32</a></div></div>
 <div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">Tgstation.Server.Host.Models.CompileJob</a></div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_host_2_models_2_compile_job_8cs_source.html#l00007">CompileJob.cs:7</a></div></div>
 </div><!-- fragment -->
 </div>
@@ -231,7 +229,7 @@ Private Attributes</h2></td></tr>
 
 <p></p>
 
-<p>Referenced by <a class="el" href="_dmb_factory_8cs_source.html#l00176">Tgstation.Server.Host.Components.Compiler.DmbFactory.FromCompileJob()</a>.</p>
+<p>Referenced by <a class="el" href="_dmb_factory_8cs_source.html#l00183">Tgstation.Server.Host.Components.Compiler.DmbFactory.FromCompileJob()</a>.</p>
 
 </div>
 </div>
@@ -291,7 +289,7 @@ Private Attributes</h2></td></tr>
 
 <p>The IIOManager for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_provider.html">DmbProvider</a> </p>
 
-<p>Definition at line <a class="el" href="_dmb_provider_8cs_source.html#l00030">30</a> of file <a class="el" href="_dmb_provider_8cs_source.html">DmbProvider.cs</a>.</p>
+<p>Definition at line <a class="el" href="_dmb_provider_8cs_source.html#l00027">27</a> of file <a class="el" href="_dmb_provider_8cs_source.html">DmbProvider.cs</a>.</p>
 
 </div>
 </div>
@@ -315,7 +313,7 @@ Private Attributes</h2></td></tr>
 
 <p>The Action to run when <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_provider.html#af2b79136fa590da24e65b64bf90e119e">Dispose</a> is called </p>
 
-<p>Definition at line <a class="el" href="_dmb_provider_8cs_source.html#l00034">34</a> of file <a class="el" href="_dmb_provider_8cs_source.html">DmbProvider.cs</a>.</p>
+<p>Definition at line <a class="el" href="_dmb_provider_8cs_source.html#l00032">32</a> of file <a class="el" href="_dmb_provider_8cs_source.html">DmbProvider.cs</a>.</p>
 
 </div>
 </div>
@@ -332,22 +330,6 @@ Private Attributes</h2></td></tr>
 <p></p>
 
 <p>Definition at line <a class="el" href="_dmb_provider_8cs_source.html#l00014">14</a> of file <a class="el" href="_dmb_provider_8cs_source.html">DmbProvider.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ab440b461bd435f52e1303ee74cb6115b"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">RevisionInformation</a> Tgstation.Server.Host.Components.Compiler.DmbProvider.RevisionInformation =&gt; CompileJob.RevisionInformation</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p></p>
-
-<p>Definition at line <a class="el" href="_dmb_provider_8cs_source.html#l00020">20</a> of file <a class="el" href="_dmb_provider_8cs_source.html">DmbProvider.cs</a>.</p>
 
 </div>
 </div>
@@ -388,7 +370,7 @@ Private Attributes</h2></td></tr>
 
 <p>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_provider.html#ac823618905c23e4f88627b5f7a31e64d" title="The CompileJob for the DmbProvider ">CompileJob</a> for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_provider.html">DmbProvider</a> </p>
 
-<p>Definition at line <a class="el" href="_dmb_provider_8cs_source.html#l00025">25</a> of file <a class="el" href="_dmb_provider_8cs_source.html">DmbProvider.cs</a>.</p>
+<p>Definition at line <a class="el" href="_dmb_provider_8cs_source.html#l00022">22</a> of file <a class="el" href="_dmb_provider_8cs_source.html">DmbProvider.cs</a>.</p>
 
 </div>
 </div>

@@ -14,5 +14,5 @@ var searchData=
   ['tokensigningkeybyteamount',['TokenSigningKeyByteAmount',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a1daafa97f229b3c342725fba60505b0f',1,'Tgstation::Server::Host::Security::TokenFactory']]],
   ['tracking',['Tracking',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a4a27a5627052f0463fd42c7d3fd569a6',1,'Tgstation::Server::Host::Components::Repository::Repository']]],
   ['trackingcontexts',['trackingContexts',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat.html#a2b6985d081d60f264709544cd6055ccf',1,'Tgstation::Server::Host::Components::Chat::Chat']]],
-  ['typemap',['typeMap',['../class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a20c17012e5284a3b787315725fcd0a8f',1,'Tgstation::Server::Api::Rights::RightsHelper']]]
+  ['typemap',['TypeMap',['../class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a0639f64451959386f79762cb8586b4f0',1,'Tgstation::Server::Api::Rights::RightsHelper']]]
 ];

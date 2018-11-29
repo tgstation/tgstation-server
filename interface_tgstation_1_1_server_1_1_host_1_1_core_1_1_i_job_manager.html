@@ -115,7 +115,7 @@ Inheritance diagram for Tgstation.Server.Host.Core.IJobManager:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a4ad9e9f0e2c8b563ced74e92016fca15"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_job_manager.html#a4ad9e9f0e2c8b563ced74e92016fca15">JobProgress</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job)</td></tr>
-<tr class="memdesc:a4ad9e9f0e2c8b563ced74e92016fca15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html#ae2ec2fb03329836c26cdaa3cb6b451c6" title="Optional progress between 0 and 100 inclusive ">Api.Models.Job.Progress</a> for a job  <a href="#a4ad9e9f0e2c8b563ced74e92016fca15">More...</a><br /></td></tr>
+<tr class="memdesc:a4ad9e9f0e2c8b563ced74e92016fca15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html#ae2ec2fb03329836c26cdaa3cb6b451c6" title="Optional progress between 0 and 100 inclusive ">Api.Models.Job.Progress</a> for a <em>job</em>   <a href="#a4ad9e9f0e2c8b563ced74e92016fca15">More...</a><br /></td></tr>
 <tr class="separator:a4ad9e9f0e2c8b563ced74e92016fca15"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9148664a7a0e80dc4c354e5135329ded"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_job_manager.html#a9148664a7a0e80dc4c354e5135329ded">RegisterOperation</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, Func&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_database_context.html">IDatabaseContext</a>, Action&lt; int &gt;, CancellationToken, Task &gt; operation, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a9148664a7a0e80dc4c354e5135329ded"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a given Job and begins running it  <a href="#a9148664a7a0e80dc4c354e5135329ded">More...</a><br /></td></tr>
@@ -198,7 +198,14 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html#ae2ec2fb03329836c26cdaa3cb6b451c6" title="Optional progress between 0 and 100 inclusive ">Api.Models.Job.Progress</a> for a job </p>
+<p>Get the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html#ae2ec2fb03329836c26cdaa3cb6b451c6" title="Optional progress between 0 and 100 inclusive ">Api.Models.Job.Progress</a> for a <em>job</em>  </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">job</td><td>The Job to get <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html#ae2ec2fb03329836c26cdaa3cb6b451c6" title="Optional progress between 0 and 100 inclusive ">Api.Models.Job.Progress</a> for</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html#ae2ec2fb03329836c26cdaa3cb6b451c6" title="Optional progress between 0 and 100 inclusive ">Api.Models.Job.Progress</a> of <em>job</em> </dd></dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_job_manager.html#a2d57c5575e0567728756688920dbab40">Tgstation.Server.Host.Core.JobManager</a>.</p>
 
