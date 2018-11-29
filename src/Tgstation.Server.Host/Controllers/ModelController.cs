@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
 		/// <param name="requireInstance">If the <see cref="ModelController{TModel}"/> requires an <see cref="IAuthenticationContext.InstanceUser"/></param>
-		public ModelController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ILogger logger, bool requireInstance) : base(databaseContext, authenticationContextFactory, logger, requireInstance) { }
+		public ModelController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ILogger logger, bool requireInstance) : base(databaseContext, authenticationContextFactory, logger, requireInstance, true) { }
 
 		/// <summary>
 		/// Attempt to create a <paramref name="model"/>

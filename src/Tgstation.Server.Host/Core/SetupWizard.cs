@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Globalization;
-using System.Runtime.InteropServices;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -327,6 +327,7 @@ namespace Tgstation.Server.Host.Core
 			{
 				SetupWizardMode = SetupWizardMode.Never
 			};
+
 			do
 			{
 				await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
@@ -432,7 +433,7 @@ namespace Tgstation.Server.Host.Core
 					{
 						await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 						await console.WriteAsync(question, true, cancellationToken).ConfigureAwait(false);
-						await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Enter one of {0}/{1}/{2}/{3}/{4}/{5} (leave blank for default): ",nameof(LogLevel.Trace), nameof(LogLevel.Debug), nameof(LogLevel.Information), nameof(LogLevel.Warning), nameof(LogLevel.Error), nameof(LogLevel.Critical)), false, cancellationToken).ConfigureAwait(false);
+						await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Enter one of {0}/{1}/{2}/{3}/{4}/{5} (leave blank for default): ", nameof(LogLevel.Trace), nameof(LogLevel.Debug), nameof(LogLevel.Information), nameof(LogLevel.Warning), nameof(LogLevel.Error), nameof(LogLevel.Critical)), false, cancellationToken).ConfigureAwait(false);
 						var responseString = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
 						if (String.IsNullOrWhiteSpace(responseString))
 							return null;
@@ -449,6 +450,33 @@ namespace Tgstation.Server.Host.Core
 		}
 
 		/// <summary>
+		/// Prompts the user to create a <see cref="ControlPanelConfiguration"/>
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="ControlPanelConfiguration"/></returns>
+		async Task<ControlPanelConfiguration> ConfigureControlPanel(CancellationToken cancellationToken)
+		{
+			var config = new ControlPanelConfiguration
+			{
+				Enable = await PromptYesNo("Enable the web control panel? (y/n): ", cancellationToken).ConfigureAwait(false),
+				AllowAnyOrigin = await PromptYesNo("Allow web control panels hosted elsewhere to access the server? (Access-Control-Allow-Origin: *) (y/n): ", cancellationToken).ConfigureAwait(false)
+			};
+
+			if (!config.AllowAnyOrigin)
+			{
+				await console.WriteAsync("Enter a comma seperated list of CORS allowed origins (optional): ", false, cancellationToken).ConfigureAwait(false);
+				var commaSeperatedOrigins = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
+				if (!String.IsNullOrWhiteSpace(commaSeperatedOrigins))
+				{
+					var splits = commaSeperatedOrigins.Split(',');
+					config.AllowedOrigins = new List<string>(splits.Select(x => x.Trim()));
+				}
+			}
+
+			return config;
+		}
+
+		/// <summary>
 		/// Saves a given <see cref="Configuration"/> set to <paramref name="userConfigFileName"/>
 		/// </summary>
 		/// <param name="userConfigFileName">The file to save the <see cref="Configuration"/> to</param>
@@ -456,9 +484,10 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="databaseConfiguration">The <see cref="DatabaseConfiguration"/> to save</param>
 		/// <param name="newGeneralConfiguration">The <see cref="GeneralConfiguration"/> to save</param>
 		/// <param name="fileLoggingConfiguration">The <see cref="FileLoggingConfiguration"/> to save</param>
+		/// <param name="controlPanelConfiguration">The <see cref="ControlPanelConfiguration"/> to save</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		async Task SaveConfiguration(string userConfigFileName, ushort? hostingPort, DatabaseConfiguration databaseConfiguration, GeneralConfiguration newGeneralConfiguration, FileLoggingConfiguration fileLoggingConfiguration, CancellationToken cancellationToken)
+		async Task SaveConfiguration(string userConfigFileName, ushort? hostingPort, DatabaseConfiguration databaseConfiguration, GeneralConfiguration newGeneralConfiguration, FileLoggingConfiguration fileLoggingConfiguration, ControlPanelConfiguration controlPanelConfiguration, CancellationToken cancellationToken)
 		{
 			await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Configuration complete! Saving to {0}", userConfigFileName), true, cancellationToken).ConfigureAwait(false);
 
@@ -466,7 +495,8 @@ namespace Tgstation.Server.Host.Core
 			{
 				{ DatabaseConfiguration.Section, databaseConfiguration },
 				{ GeneralConfiguration.Section, newGeneralConfiguration },
-				{ FileLoggingConfiguration.Section, fileLoggingConfiguration }
+				{ FileLoggingConfiguration.Section, fileLoggingConfiguration },
+				{ ControlPanelConfiguration.Section, controlPanelConfiguration }
 			};
 
 			if (hostingPort.HasValue)
@@ -532,9 +562,11 @@ namespace Tgstation.Server.Host.Core
 
 			var fileLoggingConfiguration = await ConfigureLogging(cancellationToken).ConfigureAwait(false);
 
+			var controlPanelConfiguration = await ConfigureControlPanel(cancellationToken).ConfigureAwait(false);
+
 			await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 
-			await SaveConfiguration(userConfigFileName, hostingPort, databaseConfiguration, newGeneralConfiguration, fileLoggingConfiguration, cancellationToken).ConfigureAwait(false);
+			await SaveConfiguration(userConfigFileName, hostingPort, databaseConfiguration, newGeneralConfiguration, fileLoggingConfiguration, controlPanelConfiguration, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -566,7 +598,7 @@ namespace Tgstation.Server.Host.Core
 			{
 				var bytes = await ioManager.ReadAllBytes(userConfigFileName, cancellationToken).ConfigureAwait(false);
 				var contents = Encoding.UTF8.GetString(bytes);
-				var existingConfigIsEmpty = String.IsNullOrWhiteSpace(contents);
+				var existingConfigIsEmpty = String.IsNullOrWhiteSpace(contents) || contents.Trim() == "{}";
 				logger.LogTrace("Configuration json detected. Empty: {0}", existingConfigIsEmpty);
 				shouldRunBasedOnAutodetect = existingConfigIsEmpty;
 			}

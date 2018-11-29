@@ -32,16 +32,21 @@ namespace Tgstation.Server.Host.Core.Tests
 			var app = new Application(mockConfiguration.Object, mockHostingEnvironment.Object);
 
 			Assert.ThrowsException<ArgumentNullException>(() => app.ConfigureServices(null));
-			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(null, null, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(null, null, null, null, null));
 
 			var mockAppBuilder = new Mock<IApplicationBuilder>();
-			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(mockAppBuilder.Object, null, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(mockAppBuilder.Object, null, null, null, null));
 
 			var mockServerControl = new Mock<IServerControl>();
-			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(mockAppBuilder.Object, mockServerControl.Object, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(mockAppBuilder.Object, mockServerControl.Object, null, null, null));
 
 			var mockTokenFactory = new Mock<ITokenFactory>();
-			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(mockAppBuilder.Object, mockServerControl.Object, mockTokenFactory.Object, null));
+			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(mockAppBuilder.Object, mockServerControl.Object, mockTokenFactory.Object, null, null));
+
+			var mockControlPanelOptions = new Mock<IOptions<ControlPanelConfiguration>>();
+			mockControlPanelOptions.SetupGet(x => x.Value).Returns(new ControlPanelConfiguration()).Verifiable();
+			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(mockAppBuilder.Object, mockServerControl.Object, mockTokenFactory.Object, mockControlPanelOptions.Object, null));
+			mockControlPanelOptions.VerifyAll();
 		}
 
 		class MockSetupWizard : ISetupWizard
