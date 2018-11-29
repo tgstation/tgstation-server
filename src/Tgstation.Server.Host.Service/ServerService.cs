@@ -74,7 +74,7 @@ namespace Tgstation.Server.Host.Service
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task RunWatchdog(string[] args, CancellationToken cancellationToken)
 		{
-			await watchdog.RunAsync(false, args, cancellationTokenSource.Token).ConfigureAwait(false);
+			await watchdog.RunAsync(false, args, cancellationToken).ConfigureAwait(false);
 
 			void StopServiceAsync()
 			{

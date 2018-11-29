@@ -5,6 +5,8 @@ dotnet tool install --global coverlet.console
 
 mkdir TestResults
 
+source ~/.nvm/nvm.sh && nvm install 10
+
 cd tests/Tgstation.Server.Api.Tests
 
 dotnet build -c $CONFIG /p:CopyLocalLockFileAssemblies=true

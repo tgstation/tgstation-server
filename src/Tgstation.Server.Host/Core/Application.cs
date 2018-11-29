@@ -2,6 +2,7 @@
 using Cyberboss.AspNetCore.AsyncInitializer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -94,10 +95,11 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IApplication>(this);
 
 			// configure configuration
-			services.Configure<UpdatesConfiguration>(configuration.GetSection(UpdatesConfiguration.Section));
-			services.Configure<DatabaseConfiguration>(configuration.GetSection(DatabaseConfiguration.Section));
-			services.Configure<GeneralConfiguration>(configuration.GetSection(GeneralConfiguration.Section));
-			services.Configure<FileLoggingConfiguration>(configuration.GetSection(FileLoggingConfiguration.Section));
+			services.UseStandardConfig<UpdatesConfiguration>(configuration);
+			services.UseStandardConfig<DatabaseConfiguration>(configuration);
+			services.UseStandardConfig<GeneralConfiguration>(configuration);
+			services.UseStandardConfig<FileLoggingConfiguration>(configuration);
+			services.UseStandardConfig<ControlPanelConfiguration>(configuration);
 
 			// enable options which give us config reloading
 			services.AddOptions();
@@ -113,6 +115,7 @@ namespace Tgstation.Server.Host.Core
 			GeneralConfiguration generalConfiguration;
 			DatabaseConfiguration databaseConfiguration;
 			FileLoggingConfiguration fileLoggingConfiguration;
+			ControlPanelConfiguration controlPanelConfiguration;
 			IIOManager ioManager;
 			IPlatformIdentifier platformIdentifier;
 
@@ -139,6 +142,9 @@ namespace Tgstation.Server.Host.Core
 
 				var loggingOptions = provider.GetRequiredService<IOptions<FileLoggingConfiguration>>();
 				fileLoggingConfiguration = loggingOptions.Value;
+
+				var controlPanelOptions = provider.GetRequiredService<IOptions<ControlPanelConfiguration>>();
+				controlPanelConfiguration = controlPanelOptions.Value;
 
 				ioManager = provider.GetRequiredService<IIOManager>();
 				platformIdentifier = provider.GetRequiredService<IPlatformIdentifier>();
@@ -221,6 +227,13 @@ namespace Tgstation.Server.Host.Core
 				options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 				options.SerializerSettings.Converters = new[] { new VersionConverter() };
 			});
+
+			// enable browser detection
+			services.AddDetectionCore().AddBrowser();
+
+			// enable CORS if necessary
+			if (controlPanelConfiguration.AllowAnyOrigin || controlPanelConfiguration.AllowedOrigins?.Count > 0)
+				services.AddCors();
 
 			void AddTypedContext<TContext>() where TContext : DatabaseContext<TContext>
 			{
@@ -311,8 +324,9 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure</param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="Application"/></param>
 		/// <param name="tokenFactory">The value of <see cref="tokenFactory"/></param>
+		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="ControlPanelConfiguration"/> to use</param>
 		/// <param name="logger">The <see cref="Microsoft.Extensions.Logging.ILogger"/> for the <see cref="Application"/></param>
-		public void Configure(IApplicationBuilder applicationBuilder, IServerControl serverControl, ITokenFactory tokenFactory, ILogger<Application> logger)
+		public void Configure(IApplicationBuilder applicationBuilder, IServerControl serverControl, ITokenFactory tokenFactory, IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions, ILogger<Application> logger)
 		{
 			if (applicationBuilder == null)
 				throw new ArgumentNullException(nameof(applicationBuilder));
@@ -321,10 +335,14 @@ namespace Tgstation.Server.Host.Core
 
 			this.tokenFactory = tokenFactory ?? throw new ArgumentNullException(nameof(tokenFactory));
 
+			var controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions));
+
 			if (logger == null)
 				throw new ArgumentNullException(nameof(logger));
 
 			logger.LogInformation(VersionString);
+			logger.LogDebug("Content Root: {0}", hostingEnvironment.ContentRootPath);
+			logger.LogTrace("Web Root: {0}", hostingEnvironment.WebRootPath);
 
 			// attempt to restart the server if the configuration changes
 			if(serverControl.WatchdogPresent)
@@ -338,12 +356,41 @@ namespace Tgstation.Server.Host.Core
 			// suppress OperationCancelledExceptions, they are just aborted HTTP requests
 			applicationBuilder.UseCancelledRequestSuppression();
 
+			// Set up CORS based on configuration if necessary
+			Action<CorsPolicyBuilder> corsBuilder = null;
+			if (controlPanelConfiguration.AllowAnyOrigin)
+			{
+				logger.LogTrace("Access-Control-Allow-Origin: *");
+				corsBuilder = builder => builder.AllowAnyOrigin();
+			}
+			else if (controlPanelConfiguration.AllowedOrigins?.Count > 0)
+			{
+				logger.LogTrace("Access-Control-Allow-Origin: ", String.Join(',', controlPanelConfiguration.AllowedOrigins));
+				corsBuilder = builder => builder.WithOrigins(controlPanelConfiguration.AllowedOrigins.ToArray());
+			}
+
+			if (corsBuilder != null)
+			{
+				var originalBuilder = corsBuilder;
+				corsBuilder = builder => originalBuilder(builder.AllowAnyHeader().AllowAnyMethod());
+				applicationBuilder.UseCors(corsBuilder);
+			}
+
 			// Do not service requests until Ready is called, this will return 503 until that point
 			applicationBuilder.UseAsyncInitialization(async cancellationToken =>
 			{
 				using (cancellationToken.Register(() => startupTcs.SetCanceled()))
 					await startupTcs.Task.ConfigureAwait(false);
 			});
+
+			// spa loading if necessary
+			if (controlPanelConfiguration.Enable)
+			{
+				logger.LogWarning("Web control panel enabled. This is a highly WIP feature!");
+				applicationBuilder.UseStaticFiles();
+			}
+			else
+				logger.LogDebug("Web control panel disabled!");
 
 			// authenticate JWT tokens using our security pipeline if present, returns 401 if bad
 			applicationBuilder.UseAuthentication();
