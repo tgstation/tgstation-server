@@ -105,6 +105,6 @@ var searchData=
   ['iusersclient',['IUsersClient',['../interface_tgstation_1_1_server_1_1_client_1_1_i_users_client.html',1,'Tgstation::Server::Client']]],
   ['iwatchdog',['IWatchdog',['../interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html',1,'Tgstation::Server::Host::Watchdog']]],
   ['iwatchdog',['IWatchdog',['../interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html',1,'Tgstation::Server::Host::Components::Watchdog']]],
-  ['iwatchdogfactory',['IWatchdogFactory',['../interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory.html',1,'Tgstation::Server::Host::Watchdog']]],
-  ['iwatchdogfactory',['IWatchdogFactory',['../interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html',1,'Tgstation::Server::Host::Components::Watchdog']]]
+  ['iwatchdogfactory',['IWatchdogFactory',['../interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html',1,'Tgstation::Server::Host::Components::Watchdog']]],
+  ['iwatchdogfactory',['IWatchdogFactory',['../interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory.html',1,'Tgstation::Server::Host::Watchdog']]]
 ];

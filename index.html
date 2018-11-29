@@ -129,6 +129,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li><code>Database:DatabaseType</code>: Can be one of <code>SqlServer</code>, <code>MariaDB</code>, or <code>MySql</code></li>
 <li><code>Database:MySqlServerVersion</code>: The version of MySql/MariaDB the database resides on, can be left as null for attempted auto detection. Used by the MySQL/MariaDB provider for selection of <a href="https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql/blob/2.1.1/src/EFCore.MySql/Storage/Internal/ServerVersion.cs">certain features</a> ignore at your own risk. A string in the form <code>&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;</code></li>
 <li><code>Database:ConnectionString</code>: Connection string for your database. Click <a href="https://www.developerfusion.com/tools/sql-connection-string/">here</a> for an SQL Server generator or see <a href="https://www.connectionstrings.com/mysql/">here</a> for a MySQL guide (<a href="https://stackoverflow.com/questions/19712307/mysql-localhost-127-0-0-1">You should probably use '127.0.0.1' instead of 'localhost'</a>).</li>
+<li><code>ControlPanel:Enable</code>: Enable the javascript based control panel to be served from the server via /index.html</li>
+<li><code>ControlPanel:AllowAnyOrigin</code>: Set the Access-Control-Allow-Origin header to * for all responses (also enables all headers and methods)</li>
+<li><code>ControlPanel:AllowedOrigins</code>: Set the Access-Control-Allow-Origin headers to this list of origins for all responses (also enables all headers and methods). This is overridden by <code>ControlPanel:AllowAnyOrigin</code></li>
 </ul>
 <h3>Database Configuration</h3>
 <p>If using a MariaDB/MySQL server, our client library <a href="https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql#1-recommended-server-charset">recommends you set 'utf8mb4' as your default charset</a> disregard at your own risk.</p>

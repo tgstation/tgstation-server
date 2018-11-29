@@ -30,6 +30,7 @@ var searchData=
   ['console',['Console',['../class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html',1,'Tgstation::Server::Host::IO']]],
   ['constants',['Constants',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_constants.html',1,'Tgstation::Server::Host::Components::Interop']]],
   ['controller',['Controller',['../class_controller.html',1,'']]],
+  ['controlpanelconfiguration',['ControlPanelConfiguration',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html',1,'Tgstation::Server::Host::Configuration']]],
   ['credentialsprovider',['CredentialsProvider',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_credentials_provider.html',1,'Tgstation::Server::Host::Components::Repository']]],
   ['cryptographysuite',['CryptographySuite',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html',1,'Tgstation::Server::Host::Security']]],
   ['customcommand',['CustomCommand',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html',1,'Tgstation::Server::Host::Components::Chat::Commands']]]

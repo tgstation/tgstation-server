@@ -9,6 +9,7 @@ var searchData=
   ['serverinformation_2ecs',['ServerInformation.cs',['../_server_information_8cs.html',1,'']]],
   ['serverservice_2ecs',['ServerService.cs',['../_server_service_8cs.html',1,'']]],
   ['serversidemodifications_2ecs',['ServerSideModifications.cs',['../_server_side_modifications_8cs.html',1,'']]],
+  ['servicecollectionextensions_2ecs',['ServiceCollectionExtensions.cs',['../_service_collection_extensions_8cs.html',1,'']]],
   ['serviceunavailableexception_2ecs',['ServiceUnavailableException.cs',['../_service_unavailable_exception_8cs.html',1,'']]],
   ['sessioncontroller_2ecs',['SessionController.cs',['../_session_controller_8cs.html',1,'']]],
   ['sessioncontrollerfactory_2ecs',['SessionControllerFactory.cs',['../_session_controller_factory_8cs.html',1,'']]],

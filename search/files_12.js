@@ -30,6 +30,7 @@ var searchData=
   ['testserverclientfactory_2ecs',['TestServerClientFactory.cs',['../_test_server_client_factory_8cs.html',1,'']]],
   ['testserverfactory_2ecs',['TestServerFactory.cs',['../_test_server_factory_8cs.html',1,'']]],
   ['testserverservice_2ecs',['TestServerService.cs',['../_test_server_service_8cs.html',1,'']]],
+  ['testservicecollectionextensions_2ecs',['TestServiceCollectionExtensions.cs',['../_test_service_collection_extensions_8cs.html',1,'']]],
   ['testsetupwizard_2ecs',['TestSetupWizard.cs',['../_test_setup_wizard_8cs.html',1,'']]],
   ['testsymlinkfactory_2ecs',['TestSymlinkFactory.cs',['../_test_symlink_factory_8cs.html',1,'']]],
   ['testwatchdog_2ecs',['TestWatchdog.cs',['../_tgstation_8_server_8_host_8_tests_2_components_2_watchdog_2_test_watchdog_8cs.html',1,'']]],
