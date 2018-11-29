@@ -13,6 +13,7 @@ namespace Tgstation.Server.Host.Core
 		/// The <see cref="CancellationTokenSource"/> for <see cref="task"/>
 		/// </summary>
 		readonly CancellationTokenSource cancellationTokenSource;
+
 		/// <summary>
 		/// The <see cref="Task"/> being run
 		/// </summary>
@@ -30,7 +31,7 @@ namespace Tgstation.Server.Host.Core
 			task = job(cancellationTokenSource.Token);
 		}
 
-		/// <inehritdoc />
+		/// <inheritdoc />
 		public void Dispose() => cancellationTokenSource.Dispose();
 
 		/// <summary>

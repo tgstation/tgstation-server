@@ -12,8 +12,8 @@ namespace Tgstation.Server.Host
 	public sealed class ServerFactory : IServerFactory
 	{
 		/// <inheritdoc />
-		public IServer CreateServer(string[] args, string updatePath) {
-
+		public IServer CreateServer(string[] args, string updatePath)
+		{
 			var webHost = WebHost.CreateDefaultBuilder(args ?? throw new ArgumentNullException(nameof(args)))
 				.ConfigureAppConfiguration((context, configurationBuilder) => configurationBuilder.SetBasePath(Directory.GetCurrentDirectory()))
 				.UseStartup<Application>()

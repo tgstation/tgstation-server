@@ -20,6 +20,13 @@ namespace Tgstation.Server.Host.Service
 	/// </summary>
 	sealed class Program
 	{
+#pragma warning disable SA1401 // Fields should be private
+		/// <summary>
+		/// The <see cref="IWatchdogFactory"/> for the <see cref="Program"/>
+		/// </summary>
+		internal static IWatchdogFactory WatchdogFactory = new WatchdogFactory();
+#pragma warning restore SA1401 // Fields should be private
+
 		/// <summary>
 		/// The --uninstall or -u option
 		/// </summary>
@@ -50,8 +57,6 @@ namespace Tgstation.Server.Host.Service
 		[Option(ShortName = "d")]
 		public bool Debug { get; set; }
 
-		static readonly IWatchdogFactory watchdogFactory = new WatchdogFactory();
-
 		/// <summary>
 		/// Check if the running user is a system administrator
 		/// </summary>
@@ -64,8 +69,14 @@ namespace Tgstation.Server.Host.Service
 		}
 
 		/// <summary>
+		/// Entrypoint for the application
+		/// </summary>
+		static Task<int> Main(string[] args) => CommandLineApplication.ExecuteAsync<Program>(args);
+
+		/// <summary>
 		/// Command line handler, always runs
 		/// </summary>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		public async Task OnExecuteAsync()
 		{
 			if (Environment.UserInteractive)
@@ -81,8 +92,8 @@ namespace Tgstation.Server.Host.Service
 
 				if (!IsAdministrator())
 				{
-					//try to restart as admin
-					//its windows, first arg is .exe name guaranteed
+					// try to restart as admin
+					// its windows, first arg is .exe name guaranteed
 					var exe = Environment.GetCommandLineArgs().First();
 					var startInfo = new ProcessStartInfo
 					{
@@ -100,13 +111,12 @@ namespace Tgstation.Server.Host.Service
 			using (var loggerFactory = new LoggerFactory())
 			{
 				if (Configure)
-					await watchdogFactory.CreateWatchdog(loggerFactory).RunAsync(true, Array.Empty<string>(), default).ConfigureAwait(false);
+					await WatchdogFactory.CreateWatchdog(loggerFactory).RunAsync(true, Array.Empty<string>(), default).ConfigureAwait(false);
 
 				if (Install)
 				{
 					if (Uninstall)
-						//oh no, it's retarded...
-						return;
+						return; // oh no, it's retarded...
 					using (var processInstaller = new ServiceProcessInstaller())
 					using (var installer = new ServiceInstaller())
 					{
@@ -132,14 +142,9 @@ namespace Tgstation.Server.Host.Service
 						installer.ServiceName = ServerService.Name;
 						installer.Uninstall(null);
 					}
-				else if(!Configure)
-					ServiceBase.Run(new ServerService(watchdogFactory, loggerFactory, Trace ? LogLevel.Trace : Debug ? LogLevel.Debug : LogLevel.Information));
+				else if (!Configure)
+					ServiceBase.Run(new ServerService(WatchdogFactory, loggerFactory, Trace ? LogLevel.Trace : Debug ? LogLevel.Debug : LogLevel.Information));
 			}
 		}
-
-		/// <summary>
-		/// Entrypoint for the application
-		/// </summary>
-		static Task<int> Main(string[] args) => CommandLineApplication.ExecuteAsync<Program>(args);
 	}
 }

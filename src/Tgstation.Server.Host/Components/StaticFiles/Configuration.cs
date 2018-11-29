@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -131,12 +130,11 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <inheritdoc />
 		public async Task<ServerSideModifications> CopyDMFilesTo(string dmeFile, string destination, CancellationToken cancellationToken)
 		{
-
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 			{
 				await EnsureDirectories(cancellationToken).ConfigureAwait(false);
 
-				//just assume no other fs race conditions here
+				// just assume no other fs race conditions here
 				var dmeExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, dmeFile), cancellationToken);
 				var headFileExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, CodeModificationsHeadFile), cancellationToken);
 				var tailFileExistsTask = ioManager.FileExists(ioManager.ConcatPath(CodeModificationsSubdirectory, CodeModificationsTailFile), cancellationToken);
@@ -154,7 +152,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					return null;
 
 				string IncludeLine(string filePath) => String.Format(CultureInfo.InvariantCulture, "#include \"{0}\"", filePath);
-			
+
 				return new ServerSideModifications(headFileExistsTask.Result ? IncludeLine(CodeModificationsHeadFile) : null, tailFileExistsTask.Result ? IncludeLine(CodeModificationsTailFile) : null, false);
 			}
 		}
@@ -168,7 +166,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				configurationRelativePath = '.' + configurationRelativePath;
 			var resolved = ioManager.ResolvePath(configurationRelativePath);
 			var local = !nullOrEmptyCheck ? ioManager.ResolvePath(".") : null;
-			if (!nullOrEmptyCheck && resolved.Length < local.Length) //.. fuccbois
+			if (!nullOrEmptyCheck && resolved.Length < local.Length) // .. fuccbois
 				throw new InvalidOperationException("Attempted to access file outside of configuration manager!");
 			return resolved;
 		}
@@ -201,6 +199,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					result = null;
 					return;
 				}
+
 				enumerator = synchronousIOManager.GetFiles(path, cancellationToken);
 				result.AddRange(enumerator.Select(x => new ConfigurationFile
 				{
@@ -236,7 +235,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 #pragma warning disable CA5350 // Do not use insecure cryptographic algorithm SHA1.
 						using (var sha1 = new SHA1Managed())
 #pragma warning restore CA5350 // Do not use insecure cryptographic algorithm SHA1.
-							sha1String = String.Join("", sha1.ComputeHash(content).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
+							sha1String = String.Join(String.Empty, sha1.ComputeHash(content).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
 						result = new ConfigurationFile
 						{
 							Content = content,
@@ -248,7 +247,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					}
 					catch (UnauthorizedAccessException)
 					{
-						//this happens on windows, dunno about linux
+						// this happens on windows, dunno about linux
 						bool isDirectory;
 						try
 						{
@@ -289,7 +288,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 				var results = new List<string> { StaticIgnoreFile };
 
-				//we don't want to lose trailing whitespace on linux
+				// we don't want to lose trailing whitespace on linux
 				using (var reader = new StringReader(ignoreFileText))
 				{
 					cancellationToken.ThrowIfCancellationRequested();
@@ -299,7 +298,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				}
 
 				return results;
-			};
+			}
 
 			IReadOnlyList<string> ignoreFiles;
 
@@ -316,9 +315,9 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				{
 					var fileName = ioManager.GetFileName(x);
 
+					// need to normalize
 					bool ignored;
 					if (platformIdentifier.IsWindows)
-						//need to normalize
 						ignored = ignoreFiles.Any(y => fileName.ToUpperInvariant() == y.ToUpperInvariant());
 					else
 						ignored = ignoreFiles.Any(y => fileName == y);
@@ -367,7 +366,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 						if (!success)
 							return;
 						if (data != null)
-							postWriteHandler.HandleWrite(path);						
+							postWriteHandler.HandleWrite(path);
 						result = new ConfigurationFile
 						{
 							Content = data,
@@ -379,7 +378,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					}
 					catch (UnauthorizedAccessException)
 					{
-						//this happens on windows, dunno about linux
+						// this happens on windows, dunno about linux
 						bool isDirectory;
 						try
 						{
@@ -442,7 +441,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			if (!EventTypeScriptFileNameMap.TryGetValue(eventType, out var scriptName))
 				return true;
 
-			//always execute in serial
+			// always execute in serial
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 			{
 				var files = await ioManager.GetFilesWithExtension(EventScriptsSubdirectory, platformIdentifier.ScriptFileExtension, cancellationToken).ConfigureAwait(false);
@@ -458,6 +457,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 							return false;
 					}
 			}
+
 			return true;
 		}
 
@@ -466,7 +466,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		{
 			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
-			
+
 			var result = false;
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 			{
@@ -477,6 +477,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				else
 					CheckDeleteImpl();
 			}
+
 			return result;
 		}
 	}

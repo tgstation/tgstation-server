@@ -95,6 +95,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					throw new InvalidOperationException("The repository is already being cloned!");
 				CloneInProgress = true;
 			}
+
 			try
 			{
 				using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
@@ -139,6 +140,7 @@ namespace Tgstation.Server.Host.Components.Repository
 							{
 								logger.LogDebug("Error deleting partially cloned repository! Exception: {0}", e);
 							}
+
 							throw;
 						}
 					else
@@ -147,12 +149,14 @@ namespace Tgstation.Server.Host.Components.Repository
 						return null;
 					}
 				}
+
 				logger.LogInformation("Clone complete!");
 			}
 			finally
 			{
 				CloneInProgress = false;
 			}
+
 			return await LoadRepository(cancellationToken).ConfigureAwait(false);
 		}
 
@@ -188,6 +192,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				semaphore.Release();
 				return null;
 			}
+
 			return new Repository(repo, ioManager, eventConsumer, credentialsProvider, repositoryLogger, () =>
 			{
 				logger.LogTrace("Releasing semaphore due to Repository disposal...");

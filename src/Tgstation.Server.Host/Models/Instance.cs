@@ -7,7 +7,6 @@ namespace Tgstation.Server.Host.Models
 	/// </summary>
 	public sealed class Instance : Api.Models.Instance
 	{
-
 		/// <summary>
 		/// The <see cref="Models.DreamMakerSettings"/> for the <see cref="Instance"/>
 		/// </summary>
@@ -34,7 +33,7 @@ namespace Tgstation.Server.Host.Models
 		public List<InstanceUser> InstanceUsers { get; set; }
 
 		/// <summary>
-		/// The <see cref="Models.ChatBot"/>s for the <see cref="Instance"/>
+		/// The <see cref="ChatBot"/>s for the <see cref="Instance"/>
 		/// </summary>
 		public List<ChatBot> ChatSettings { get; set; }
 

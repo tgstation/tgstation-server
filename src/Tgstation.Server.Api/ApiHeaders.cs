@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http.Headers;
+using Microsoft.Extensions.Primitives;
+using Microsoft.Net.Http.Headers;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Reflection;
-using Microsoft.AspNetCore.Http.Headers;
-using Microsoft.Net.Http.Headers;
-using Microsoft.Extensions.Primitives;
 
 namespace Tgstation.Server.Api
 {
@@ -28,32 +28,32 @@ namespace Tgstation.Server.Api
 		/// <summary>
 		/// The <see cref="Username"/> header key
 		/// </summary>
-		const string usernameHeader = "Username";
+		const string UsernameHeader = "Username";
 
 		/// <summary>
 		/// The <see cref="InstanceId"/> header key
 		/// </summary>
-		const string instanceIdHeader = "Instance";
+		const string InstanceIdHeader = "Instance";
 
 		/// <summary>
 		/// The JWT authentication header scheme
 		/// </summary>
-		const string jwtAuthenticationScheme = "Bearer";
+		const string JwtAuthenticationScheme = "Bearer";
 
 		/// <summary>
 		/// The password authentication header scheme
 		/// </summary>
-		const string passwordAuthenticationScheme = "Password";
+		const string PasswordAuthenticationScheme = "Password";
 
 		/// <summary>
-		/// The current <see cref="AssemblyName"/>
+		/// The current <see cref="System.Reflection.AssemblyName"/>
 		/// </summary>
-		static readonly AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();
+		static readonly AssemblyName AssemblyName = Assembly.GetExecutingAssembly().GetName();
 
 		/// <summary>
 		/// Get the version of the <see cref="Api"/> the caller is using
 		/// </summary>
-		public static Version Version => assemblyName.Version;
+		public static Version Version => AssemblyName.Version;
 
 		/// <summary>
 		/// The <see cref="Models.Instance.Id"/> being accessed
@@ -139,12 +139,12 @@ namespace Tgstation.Server.Api
 			if (!requestHeaders.Headers.TryGetValue(HeaderNames.UserAgent, out var userAgentValues) || !ProductInfoHeaderValue.TryParse(userAgentValues.FirstOrDefault(), out var clientUserAgent))
 				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Missing {0} headers!", HeaderNames.UserAgent));
 
-			//assure the client user agent has a name and version
+			// assure the client user agent has a name and version
 			if (String.IsNullOrWhiteSpace(clientUserAgent.Product.Name) || !Version.TryParse(clientUserAgent.Product.Version, out var clientVersion))
 				throw new InvalidOperationException("Malformed client user agent!");
 
-			//make sure the api header matches ours
-			if (!requestHeaders.Headers.TryGetValue(ApiVersionHeader, out var apiUserAgentHeaderValues) || !ProductInfoHeaderValue.TryParse(apiUserAgentHeaderValues.FirstOrDefault(), out var apiUserAgent) || apiUserAgent.Product.Name != assemblyName.Name)
+			// make sure the api header matches ours
+			if (!requestHeaders.Headers.TryGetValue(ApiVersionHeader, out var apiUserAgentHeaderValues) || !ProductInfoHeaderValue.TryParse(apiUserAgentHeaderValues.FirstOrDefault(), out var apiUserAgent) || apiUserAgent.Product.Name != AssemblyName.Name)
 				throw new InvalidOperationException("Missing API version!");
 
 			if (!Version.TryParse(apiUserAgent.Product.Version, out var apiVersion))
@@ -166,7 +166,7 @@ namespace Tgstation.Server.Api
 			if (String.IsNullOrEmpty(parameter))
 				throw new InvalidOperationException("Missing authentication parameter!");
 
-			if (requestHeaders.Headers.TryGetValue(instanceIdHeader, out var instanceIdValues))
+			if (requestHeaders.Headers.TryGetValue(InstanceIdHeader, out var instanceIdValues))
 			{
 				var instanceIdString = instanceIdValues.FirstOrDefault();
 				if (instanceIdString != default && Int64.TryParse(instanceIdString, out var instanceId))
@@ -175,17 +175,18 @@ namespace Tgstation.Server.Api
 
 			switch (scheme)
 			{
-				case jwtAuthenticationScheme:
+				case JwtAuthenticationScheme:
 					Token = parameter;
 					break;
-				case passwordAuthenticationScheme:
+				case PasswordAuthenticationScheme:
 					Password = parameter;
-					var fail = !requestHeaders.Headers.TryGetValue(usernameHeader, out var values);
+					var fail = !requestHeaders.Headers.TryGetValue(UsernameHeader, out var values);
 					if (!fail)
 					{
 						Username = values.FirstOrDefault();
 						fail = String.IsNullOrWhiteSpace(Username);
 					}
+
 					if (fail)
 						throw new InvalidOperationException("Missing Username header!");
 					break;
@@ -231,17 +232,18 @@ namespace Tgstation.Server.Api
 			headers.Clear();
 			headers.Accept.Add(new MediaTypeWithQualityHeaderValue(ApplicationJson));
 			if (IsTokenAuthentication)
-				headers.Authorization = new AuthenticationHeaderValue(jwtAuthenticationScheme, Token);
+				headers.Authorization = new AuthenticationHeaderValue(JwtAuthenticationScheme, Token);
 			else
 			{
-				headers.Authorization = new AuthenticationHeaderValue(passwordAuthenticationScheme, Password);
-				headers.Add(usernameHeader, Username);
+				headers.Authorization = new AuthenticationHeaderValue(PasswordAuthenticationScheme, Password);
+				headers.Add(UsernameHeader, Username);
 			}
+
 			headers.UserAgent.Add(new ProductInfoHeaderValue(UserAgent));
-			headers.Add(ApiVersionHeader, new ProductHeaderValue(assemblyName.Name, ApiVersion.ToString()).ToString());
+			headers.Add(ApiVersionHeader, new ProductHeaderValue(AssemblyName.Name, ApiVersion.ToString()).ToString());
 			instanceId = instanceId ?? InstanceId;
 			if (instanceId.HasValue)
-				headers.Add(instanceIdHeader, instanceId.ToString());
+				headers.Add(InstanceIdHeader, instanceId.ToString());
 		}
 	}
 }

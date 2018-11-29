@@ -19,6 +19,7 @@ using Tgstation.Server.Host.Models;
 namespace Tgstation.Server.Host.Components
 {
 	/// <inheritdoc />
+	#pragma warning disable CA1506 // TODO: Decomplexify
 	sealed class Instance : IInstance
 	{
 		/// <inheritdoc />
@@ -26,9 +27,6 @@ namespace Tgstation.Server.Host.Components
 
 		/// <inheritdoc />
 		public IByondManager ByondManager { get; }
-
-		/// <inheritdoc />
-		public IDreamMaker DreamMaker { get; }
 
 		/// <inheritdoc />
 		public IWatchdog Watchdog { get; }
@@ -39,8 +37,15 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public StaticFiles.IConfiguration Configuration { get; }
 
-		/// <inheritdoc />
-		public ICompileJobConsumer CompileJobConsumer { get; }
+		/// <summary>
+		/// The <see cref="IDreamMaker"/> for the <see cref="Instance"/>
+		/// </summary>
+		readonly IDreamMaker dreamMaker;
+
+		/// <summary>
+		/// The <see cref="ICompileJobConsumer"/> for the <see cref="Instance"/>
+		/// </summary>
+		readonly ICompileJobConsumer compileJobConsumer;
 
 		/// <summary>
 		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="Instance"/>
@@ -81,6 +86,7 @@ namespace Tgstation.Server.Host.Components
 		/// The auto update <see cref="Task"/>
 		/// </summary>
 		Task timerTask;
+
 		/// <summary>
 		/// <see cref="CancellationTokenSource"/> for <see cref="timerTask"/>
 		/// </summary>
@@ -92,11 +98,11 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="metadata">The value of <see cref="metadata"/></param>
 		/// <param name="repositoryManager">The value of <see cref="RepositoryManager"/></param>
 		/// <param name="byondManager">The value of <see cref="ByondManager"/></param>
-		/// <param name="dreamMaker">The value of <see cref="DreamMaker"/></param>
+		/// <param name="dreamMaker">The value of <see cref="dreamMaker"/></param>
 		/// <param name="watchdog">The value of <see cref="Watchdog"/></param>
 		/// <param name="chat">The value of <see cref="Chat"/></param>
 		/// <param name="configuration">The value of <see cref="Configuration"/></param>
-		/// <param name="compileJobConsumer">The value of <see cref="CompileJobConsumer"/></param>
+		/// <param name="compileJobConsumer">The value of <see cref="compileJobConsumer"/></param>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="dmbFactory">The value of <see cref="dmbFactory"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
@@ -108,11 +114,11 @@ namespace Tgstation.Server.Host.Components
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 			RepositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
 			ByondManager = byondManager ?? throw new ArgumentNullException(nameof(byondManager));
-			DreamMaker = dreamMaker ?? throw new ArgumentNullException(nameof(dreamMaker));
+			this.dreamMaker = dreamMaker ?? throw new ArgumentNullException(nameof(dreamMaker));
 			Watchdog = watchdog ?? throw new ArgumentNullException(nameof(watchdog));
 			Chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-			CompileJobConsumer = compileJobConsumer ?? throw new ArgumentNullException(nameof(compileJobConsumer));
+			this.compileJobConsumer = compileJobConsumer ?? throw new ArgumentNullException(nameof(compileJobConsumer));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.dmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
@@ -125,7 +131,7 @@ namespace Tgstation.Server.Host.Components
 		public void Dispose()
 		{
 			timerCts?.Dispose();
-			CompileJobConsumer.Dispose();
+			compileJobConsumer.Dispose();
 			Configuration.Dispose();
 			Chat.Dispose();
 			Watchdog.Dispose();
@@ -135,9 +141,10 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task CompileProcess(Job job, IDatabaseContext databaseContext, Action<int> progressReporter, CancellationToken cancellationToken)
 		{
-			//DO NOT FOLLOW THE SUGGESTION FOR A THROW EXPRESSION HERE
+#pragma warning disable IDE0016 // Use 'throw' expression
 			if (job == null)
 				throw new ArgumentNullException(nameof(job));
+#pragma warning restore IDE0016 // Use 'throw' expression
 			if (databaseContext == null)
 				throw new ArgumentNullException(nameof(databaseContext));
 			if (progressReporter == null)
@@ -151,8 +158,6 @@ namespace Tgstation.Server.Host.Components
 			var compileJobsTask = databaseContext.CompileJobs
 				.Where(x => x.Job.Instance.Id == metadata.Id)
 				.OrderByDescending(x => x.Job.StoppedAt)
-				//TODO: Replace with this select when the issues linked in https://github.com/tgstation/tgstation-server/issues/737 are fixed
-				//.Select(x => x.Job.StoppedAt.Value - x.Job.StartedAt.Value)
 				.Select(x => new Job
 				{
 					StoppedAt = x.Job.StoppedAt,
@@ -206,7 +211,7 @@ namespace Tgstation.Server.Host.Components
 					logger.LogWarning(Repository.Repository.OriginTrackingErrorTemplate, repoSha);
 					databaseContext.Instances.Attach(revInfo.Instance);
 				}
-				
+
 				TimeSpan? averageSpan = null;
 				var previousCompileJobs = await compileJobsTask.ConfigureAwait(false);
 				if(previousCompileJobs.Count != 0)
@@ -217,14 +222,14 @@ namespace Tgstation.Server.Host.Components
 					averageSpan = totalSpan / previousCompileJobs.Count;
 				}
 
-				compileJob = await DreamMaker.Compile(revInfo, dreamMakerSettings, ddSettings.StartupTimeout.Value, repo, progressReporter, averageSpan, cancellationToken).ConfigureAwait(false);
+				compileJob = await dreamMaker.Compile(revInfo, dreamMakerSettings, ddSettings.StartupTimeout.Value, repo, progressReporter, averageSpan, cancellationToken).ConfigureAwait(false);
 			}
 
 			compileJob.Job = job;
 
-			databaseContext.CompileJobs.Add(compileJob);    //will be saved by job context
-			
-			job.PostComplete = ct => CompileJobConsumer.LoadCompileJob(compileJob, ct);
+			databaseContext.CompileJobs.Add(compileJob); // will be saved by job context
+
+			job.PostComplete = ct => compileJobConsumer.LoadCompileJob(compileJob, ct);
 
 			if (repositorySettingsTask != null)
 			{
@@ -234,9 +239,9 @@ namespace Tgstation.Server.Host.Components
 
 				if (repositorySettings.AccessToken != null)
 				{
-					//potential for commenting on a test merge change
+					// potential for commenting on a test merge change
 					var outgoingCompileJob = LatestCompileJob();
-					
+
 					if(outgoingCompileJob != null && outgoingCompileJob.RevisionInformation.CommitSha != compileJob.RevisionInformation.CommitSha)
 					{
 						var gitHubClient = gitHubClientFactory.CreateClient(repositorySettings.AccessToken);
@@ -263,10 +268,9 @@ namespace Tgstation.Server.Host.Components
 							updated ? "Updated" : "Deployed",
 							metadata.Name,
 							compileJob.RevisionInformation.OriginCommitSha,
-							compileJob.RevisionInformation.CommitSha
-							);
+							compileJob.RevisionInformation.CommitSha);
 
-						//added prs
+						// added prs
 						foreach (var I in compileJob
 							.RevisionInformation
 							.ActiveTestMerges
@@ -277,7 +281,7 @@ namespace Tgstation.Server.Host.Components
 								.Any(y => y.TestMerge.Number == x.Number)))
 							tasks.Add(CommentOnPR(I.Number.Value, FormatTestMerge(I, false)));
 
-						//removed prs
+						// removed prs
 						foreach (var I in outgoingCompileJob
 							.RevisionInformation
 							.ActiveTestMerges
@@ -288,7 +292,7 @@ namespace Tgstation.Server.Host.Components
 								.Any(y => y.TestMerge.Number == x.Number)))
 							tasks.Add(CommentOnPR(I.Number.Value, "#### Test Merge Removed"));
 
-						//updated prs
+						// updated prs
 						foreach(var I in compileJob
 							.RevisionInformation
 							.ActiveTestMerges
@@ -312,6 +316,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="minutes">How many minutes the operation should repeat. Does not include running time</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		#pragma warning disable CA1502 // TODO: Decomplexify
 		async Task TimerLoop(uint minutes, CancellationToken cancellationToken)
 		{
 			while (true)
@@ -341,10 +346,9 @@ namespace Tgstation.Server.Host.Components
 						{
 							var repositorySettingsTask = databaseContext.RepositorySettings.Where(x => x.InstanceId == metadata.Id).FirstAsync(jobCancellationToken);
 
-							//assume 5 steps with synchronize
+							// assume 5 steps with synchronize
 							const int ProgressSections = 7;
 							const int ProgressStep = 100 / ProgressSections;
-
 
 							const int NumSteps = 3;
 							var doneSteps = 0;
@@ -353,8 +357,8 @@ namespace Tgstation.Server.Host.Components
 							{
 								var tmpDoneSteps = doneSteps;
 								++doneSteps;
-								return progress => progressReporter((progress + 100 * tmpDoneSteps) / NumSteps);
-							};
+								return progress => progressReporter((progress + (100 * tmpDoneSteps)) / NumSteps);
+							}
 
 							using (var repo = await RepositoryManager.LoadRepository(jobCancellationToken).ConfigureAwait(false))
 							{
@@ -374,7 +378,7 @@ namespace Tgstation.Server.Host.Components
 
 								var repositorySettings = await repositorySettingsTask.ConfigureAwait(false);
 
-								//the main point of auto update is to pull the remote
+								// the main point of auto update is to pull the remote
 								await repo.FetchOrigin(repositorySettings.AccessUser, repositorySettings.AccessToken, NextProgressReporter(), jobCancellationToken).ConfigureAwait(false);
 
 								RevisionInformation currentRevInfo = null;
@@ -415,7 +419,7 @@ namespace Tgstation.Server.Host.Components
 									hasDbChanges = true;
 								}
 
-								//take appropriate auto update actions
+								// take appropriate auto update actions
 								bool shouldSyncTracked;
 								if (repositorySettings.AutoUpdatesKeepTestMerges.Value)
 								{
@@ -459,7 +463,7 @@ namespace Tgstation.Server.Host.Components
 									shouldSyncTracked = true;
 								}
 
-								//synch if necessary
+								// synch if necessary
 								if (repositorySettings.AutoUpdatesSynchronize.Value && startSha != repo.Head)
 								{
 									var pushedOrigin = await repo.Sychronize(repositorySettings.AccessUser, repositorySettings.AccessToken, repositorySettings.CommitterName, repositorySettings.CommitterEmail, NextProgressReporter(), shouldSyncTracked, jobCancellationToken).ConfigureAwait(false);
@@ -498,7 +502,7 @@ namespace Tgstation.Server.Host.Components
 							continue;
 						}
 
-						//finally set up the job
+						// finally set up the job
 						var compileProcessJob = new Job
 						{
 							StartedBy = user,
@@ -527,9 +531,11 @@ namespace Tgstation.Server.Host.Components
 				{
 					break;
 				}
+
 			logger.LogTrace("Leaving auto update loop...");
 		}
-		
+		#pragma warning restore CA1502
+
 		/// <inheritdoc />
 		public void Rename(string newName)
 		{
@@ -541,9 +547,9 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task StartAsync(CancellationToken cancellationToken)
 		{
-			await Task.WhenAll(SetAutoUpdateInterval(metadata.AutoUpdateInterval.Value), Configuration.StartAsync(cancellationToken), ByondManager.StartAsync(cancellationToken), Chat.StartAsync(cancellationToken), CompileJobConsumer.StartAsync(cancellationToken)).ConfigureAwait(false);
+			await Task.WhenAll(SetAutoUpdateInterval(metadata.AutoUpdateInterval.Value), Configuration.StartAsync(cancellationToken), ByondManager.StartAsync(cancellationToken), Chat.StartAsync(cancellationToken), compileJobConsumer.StartAsync(cancellationToken)).ConfigureAwait(false);
 
-			//dependent on so many things, its just safer this way
+			// dependent on so many things, its just safer this way
 			await Watchdog.StartAsync(cancellationToken).ConfigureAwait(false);
 
 			CompileJob latestCompileJob = null;
@@ -555,7 +561,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public Task StopAsync(CancellationToken cancellationToken) => Task.WhenAll(SetAutoUpdateInterval(0), Configuration.StopAsync(cancellationToken), ByondManager.StopAsync(cancellationToken), Watchdog.StopAsync(cancellationToken), Chat.StopAsync(cancellationToken), CompileJobConsumer.StopAsync(cancellationToken));
+		public Task StopAsync(CancellationToken cancellationToken) => Task.WhenAll(SetAutoUpdateInterval(0), Configuration.StopAsync(cancellationToken), ByondManager.StopAsync(cancellationToken), Watchdog.StopAsync(cancellationToken), Chat.StopAsync(cancellationToken), compileJobConsumer.StopAsync(cancellationToken));
 
 		/// <inheritdoc />
 		public async Task SetAutoUpdateInterval(uint newInterval)
@@ -571,12 +577,13 @@ namespace Tgstation.Server.Host.Components
 				else
 					toWait = Task.CompletedTask;
 			}
+
 			await toWait.ConfigureAwait(false);
 			if (newInterval == 0)
 				return;
 			lock (this)
 			{
-				//race condition, just quit
+				// race condition, just quit
 				if (timerTask != null)
 					return;
 				timerCts?.Dispose();

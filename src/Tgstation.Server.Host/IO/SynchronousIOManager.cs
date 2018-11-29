@@ -86,8 +86,8 @@ namespace Tgstation.Server.Host.IO
 			{
 				cancellationToken.ThrowIfCancellationRequested();
 
-				//as nice as it would be to not have to arrayify the memory stream, we have to
-				//because, oddly enough sha1(memorystream) != sha1(memorystream.ToArray())
+				// as nice as it would be to not have to arrayify the memory stream, we have to
+				// because, oddly enough sha1(memorystream) != sha1(memorystream.ToArray())
 				// vOv
 				byte[] originalBytes;
 				using (var readMs = new MemoryStream())
@@ -95,24 +95,27 @@ namespace Tgstation.Server.Host.IO
 					file.CopyTo(readMs);
 					originalBytes = readMs.ToArray();
 				}
+
+				// no sha1? no write
 				if (originalBytes.Length != 0 && sha1InOut == null)
-					//no sha1? no write
 					return false;
 
-				//suppressed due to only using for consistency checks
+				// suppressed due to only using for consistency checks
 #pragma warning disable CA5350 // Do not use insecure cryptographic algorithm SHA1.
 				using (var sha1 = new SHA1Managed())
 #pragma warning restore CA5350 // Do not use insecure cryptographic algorithm SHA1.
 				{
-					string GetSha1(byte[] dataToHash) => dataToHash != null && dataToHash.Length != 0 ? String.Join("", sha1.ComputeHash(dataToHash).Select(b => b.ToString("x2", CultureInfo.InvariantCulture))) : null;
+					string GetSha1(byte[] dataToHash) => dataToHash != null && dataToHash.Length != 0 ? String.Join(String.Empty, sha1.ComputeHash(dataToHash).Select(b => b.ToString("x2", CultureInfo.InvariantCulture))) : null;
 					var originalSha1 = GetSha1(originalBytes);
 					if (originalSha1 != sha1InOut)
 					{
 						sha1InOut = originalSha1;
 						return false;
 					}
+
 					sha1InOut = GetSha1(data);
 				}
+
 				cancellationToken.ThrowIfCancellationRequested();
 
 				if (data != null)
@@ -124,6 +127,7 @@ namespace Tgstation.Server.Host.IO
 					file.Write(data, 0, data.Length);
 				}
 			}
+
 			if (data == null)
 				File.Delete(path);
 			return true;

@@ -5,7 +5,6 @@ using Newtonsoft.Json.Serialization;
 using System;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -128,6 +127,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
+		#pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<ISessionController> LaunchNew(DreamDaemonLaunchParameters launchParameters, IDmbProvider dmbProvider, IByondExecutableLock currentByondLock, bool primaryPort, bool primaryDirectory, bool apiValidate, CancellationToken cancellationToken)
 		{
 			var portToUse = primaryPort ? launchParameters.PrimaryPort : launchParameters.SecondaryPort;
@@ -138,12 +138,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			const string JsonPostfix = "tgs.json";
 
 			var basePath = primaryDirectory ? dmbProvider.PrimaryDirectory : dmbProvider.SecondaryDirectory;
-			//delete all previous tgs json files
-			var files = await ioManager.GetFilesWithExtension(basePath, JsonPostfix, cancellationToken).ConfigureAwait(false);
 
+			// delete all previous tgs json files
+			var files = await ioManager.GetFilesWithExtension(basePath, JsonPostfix, cancellationToken).ConfigureAwait(false);
 			await Task.WhenAll(files.Select(x => ioManager.DeleteFile(x, cancellationToken))).ConfigureAwait(false);
 
-			//i changed this back from guids, hopefully i don't regret that
+			// i changed this back from guids, hopefully i don't regret that
 			string JsonFile(string name) => String.Format(CultureInfo.InvariantCulture, "{0}.{1}", name, JsonPostfix);
 
 			var securityLevelToUse = launchParameters.SecurityLevel.Value;
@@ -162,7 +162,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid DreamDaemonSecurity value: {0}", dmbProvider.CompileJob.MinimumSecurityLevel));
 			}
 
-			//setup interop files
+			// setup interop files
 			var interopInfo = new JsonFile
 			{
 				AccessIdentifier = accessIdentifier,
@@ -197,19 +197,19 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			var chatJsonTrackingContext = await chatJsonTrackingTask.ConfigureAwait(false);
 			try
 			{
-				//get the byond lock
+				// get the byond lock
 				var byondLock = currentByondLock ?? await byond.UseExecutables(Version.Parse(dmbProvider.CompileJob.ByondVersion), cancellationToken).ConfigureAwait(false);
 				try
 				{
-					//create interop context
+					// create interop context
 					var context = new CommContext(ioManager, loggerFactory.CreateLogger<CommContext>(), basePath, interopInfo.ServerCommandsJson);
 					try
 					{
-						//set command line options
-						//more sanitization here cause it uses the same scheme
+						// set command line options
+						// more sanitization here cause it uses the same scheme
 						var parameters = String.Format(CultureInfo.InvariantCulture, "{2}={0}&{3}={1}", byondTopicSender.SanitizeString(application.Version.ToString()), byondTopicSender.SanitizeString(interopJsonFile), byondTopicSender.SanitizeString(Constants.DMParamHostVersion), byondTopicSender.SanitizeString(Constants.DMParamInfoJson));
 
-						//important to run on all ports to allow port changing
+						// important to run on all ports to allow port changing
 						var arguments = String.Format(CultureInfo.InvariantCulture, "{0} -port {1} -ports 1-65535 {2}-close -{3} -verbose -public -params \"{4}\"",
 							dmbProvider.DmbName,
 							primaryPort ? launchParameters.PrimaryPort : launchParameters.SecondaryPort,
@@ -217,15 +217,16 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							SecurityWord(securityLevelToUse),
 							parameters);
 
-						//See #719
+						// See https://github.com/tgstation/tgstation-server/issues/719
 						var noShellExecute = !platformIdentifier.IsWindows;
-						//launch dd
+
+						// launch dd
 						var process = processExecutor.LaunchProcess(byondLock.DreamDaemonPath, basePath, arguments, noShellExecute: noShellExecute);
 						try
 						{
 							networkPromptReaper.RegisterProcess(process);
 
-							//return the session controller for it
+							// return the session controller for it
 							var result = new SessionController(new ReattachInformation
 							{
 								AccessIdentifier = accessIdentifier,
@@ -238,7 +239,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								ServerCommandsJson = interopInfo.ServerCommandsJson,
 							}, process, byondLock, byondTopicSender, chatJsonTrackingContext, context, chat, loggerFactory.CreateLogger<SessionController>(), launchParameters.SecurityLevel, launchParameters.StartupTimeout);
 
-							//writeback launch parameter's fixed security level
+							// writeback launch parameter's fixed security level
 							launchParameters.SecurityLevel = securityLevelToUse;
 
 							return result;
@@ -268,6 +269,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				throw;
 			}
 		}
+		#pragma warning restore CA1506
 
 		/// <inheritdoc />
 		public async Task<ISessionController> Reattach(ReattachInformation reattachInformation, CancellationToken cancellationToken)
@@ -317,6 +319,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				if (result == null)
 					chatJsonTrackingContext.Dispose();
 			}
+
 			return result;
 		}
 

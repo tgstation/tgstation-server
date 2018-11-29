@@ -16,7 +16,7 @@ namespace Tgstation.Server.Host.Components
 		readonly IConfiguration configuration;
 
 		/// <summary>
-		/// The <see cref="IWatchdog"/> for the 
+		/// The <see cref="IWatchdog"/> for the <see cref="EventConsumer"/>
 		/// </summary>
 		IWatchdog watchdog;
 
@@ -46,8 +46,10 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="watchdog">The value of <see cref="watchdog"/></param>
 		public void SetWatchdog(IWatchdog watchdog)
 		{
+#pragma warning disable IDE0016 // Use 'throw' expression
 			if (watchdog == null)
 				throw new ArgumentNullException(nameof(watchdog));
+#pragma warning restore IDE0016 // Use 'throw' expression
 			if (this.watchdog != null)
 				throw new InvalidOperationException("watchdog already set!");
 			this.watchdog = watchdog;

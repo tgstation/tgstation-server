@@ -98,6 +98,7 @@ namespace Tgstation.Server.Host.Components
 					return;
 				disposed = true;
 			}
+
 			foreach (var I in instances)
 				I.Value.Dispose();
 		}
@@ -150,9 +151,10 @@ namespace Tgstation.Server.Host.Components
 					throw new InvalidOperationException("Instance not online!");
 				instances.Remove(metadata.Id);
 			}
+
 			try
 			{
-				//we are the one responsible for cancelling his jobs
+				// we are the one responsible for cancelling his jobs
 				var tasks = new List<Task>();
 				await databaseContextFactory.UseContext(async db =>
 				{
@@ -198,10 +200,12 @@ namespace Tgstation.Server.Host.Components
 				instance.Dispose();
 				throw;
 			}
+
 			await instance.StartAsync(cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
+		#pragma warning disable CA1506 // TODO: Decomplexify
 		public Task StartAsync(CancellationToken cancellationToken) => databaseContextFactory.UseContext(async databaseContext =>
 		{
 			try
@@ -240,6 +244,7 @@ namespace Tgstation.Server.Host.Components
 				}
 			}
 		});
+		#pragma warning restore CA1506 // TODO: Decomplexify
 
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken)
@@ -248,7 +253,7 @@ namespace Tgstation.Server.Host.Components
 			await Task.WhenAll(instances.Select(x => x.Value.StopAsync(cancellationToken))).ConfigureAwait(false);
 			await instanceFactory.StopAsync(cancellationToken).ConfigureAwait(false);
 
-			//downgrade the db if necessary
+			// downgrade the db if necessary
 			if (downgradeVersion != null)
 				await databaseContextFactory.UseContext(db => db.SchemaDowngradeForServerVersion(downgradeVersion, cancellationToken)).ConfigureAwait(false);
 		}

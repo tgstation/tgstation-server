@@ -9,18 +9,22 @@
 		/// The monitor should continue as normal
 		/// </summary>
 		Continue,
+
 		/// <summary>
-		/// Skips the next call to HandleMonitorWakeup action 
+		/// Skips the next call to HandleMonitorWakeup action
 		/// </summary>
 		Skip,
+
 		/// <summary>
 		/// The monitor should kill and restart both servers
 		/// </summary>
 		Restart,
+
 		/// <summary>
 		/// The monitor should stop checking actions for this iteration and continue its loop
 		/// </summary>
 		Break,
+
 		/// <summary>
 		/// The monitor should exit. Does not kill servers
 		/// </summary>

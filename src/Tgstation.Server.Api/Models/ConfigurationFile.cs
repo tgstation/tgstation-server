@@ -28,6 +28,8 @@
 		/// <summary>
 		/// The content of the <see cref="ConfigurationFile"/>. Will be <see langword="null"/> if <see cref="AccessDenied"/> is <see langword="true"/> or during listing and write operations
 		/// </summary>
+#pragma warning disable CA1819 // Properties should not return arrays
 		public byte[] Content { get; set; }
+#pragma warning restore CA1819 // Properties should not return arrays
 	}
 }

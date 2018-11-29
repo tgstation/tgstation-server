@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -126,6 +125,7 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					Logger.LogWarning("Not found exception while retrieving upstream repository info: {0}", e);
 				}
+
 				return Json(new Administration
 				{
 					LatestVersion = greatestVersion,
@@ -188,19 +188,22 @@ namespace Tgstation.Server.Host.Controllers
 					var asset = release.Assets.Where(x => x.Name == updatesConfiguration.UpdatePackageAssetName).FirstOrDefault();
 					if (asset == default)
 						continue;
-					
+
 					if (!serverUpdater.ApplyUpdate(version, new Uri(asset.BrowserDownloadUrl), ioManager))
 						return Conflict(new ErrorMessage
 						{
 							Message = "An update operation is already in progress!"
 						});
-					return Accepted();  //gtfo of here before all the cancellation tokens fire
+					return Accepted(); // gtfo of here before all the cancellation tokens fire
 				}
 
 			return StatusCode((int)HttpStatusCode.Gone);
 		}
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Attempts to restart the server
+		/// </summary>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request</returns>
 		[HttpDelete]
 		[TgsAuthorize(AdministrationRights.RestartHost)]
 		public async Task<IActionResult> Delete()
@@ -215,6 +218,7 @@ namespace Tgstation.Server.Host.Controllers
 						Message = RestartNotSupportedException
 					});
 				}
+
 				await serverUpdater.Restart().ConfigureAwait(false);
 				return Ok();
 			}

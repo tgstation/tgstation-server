@@ -29,6 +29,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// The <see cref="IJobManager"/> for the <see cref="DreamMakerController"/>
 		/// </summary>
 		readonly IJobManager jobManager;
+
 		/// <summary>
 		/// The <see cref="IInstanceManager"/> for the <see cref="DreamMakerController"/>
 		/// </summary>
@@ -52,7 +53,7 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(DreamDaemonRights.Start)]
 		public override async Task<IActionResult> Create([FromBody] DreamDaemon model, CancellationToken cancellationToken)
 		{
-			//alias for launching DD
+			// alias for launching DD
 			var instance = instanceManager.GetInstance(Instance);
 
 			if (instance.Watchdog.Running)
@@ -94,7 +95,7 @@ namespace Tgstation.Server.Host.Controllers
 				if (settings == default)
 					return StatusCode((int)HttpStatusCode.Gone);
 			}
-			
+
 			var result = new DreamDaemon();
 			if (metadata)
 			{
@@ -113,7 +114,7 @@ namespace Tgstation.Server.Host.Controllers
 				result.SoftRestart = rstate == RebootState.Restart;
 				result.SoftShutdown = rstate == RebootState.Shutdown;
 				result.StartupTimeout = settings.StartupTimeout;
-			};
+			}
 
 			if (revision)
 			{
@@ -126,18 +127,22 @@ namespace Tgstation.Server.Host.Controllers
 			return Json(result);
 		}
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Stops DreamDaemon if it's running
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
 		[HttpDelete]
 		[TgsAuthorize(DreamDaemonRights.Shutdown)]
 		public async Task<IActionResult> Delete(CancellationToken cancellationToken)
 		{
-			//alias for stopping DD
 			var instance = instanceManager.GetInstance(Instance);
 			await instance.Watchdog.Terminate(false, cancellationToken).ConfigureAwait(false);
 			return Ok();
 		}
 
 		/// <inheritdoc />
+		#pragma warning disable CA1506 // TODO: Decomplexify
 		[TgsAuthorize(DreamDaemonRights.SetAutoStart | DreamDaemonRights.SetPorts | DreamDaemonRights.SetSecurity | DreamDaemonRights.SetWebClient | DreamDaemonRights.SoftRestart | DreamDaemonRights.SoftShutdown | DreamDaemonRights.Start | DreamDaemonRights.SetStartupTimeout)]
 		public override async Task<IActionResult> Update([FromBody] DreamDaemon model, CancellationToken cancellationToken)
 		{
@@ -150,7 +155,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.SecurityLevel == DreamDaemonSecurity.Ultrasafe)
 				return BadRequest(new ErrorMessage { Message = "This version of TGS does not support the ultrasafe DreamDaemon configuration!" });
 
-			//alias for changing DD settings
+			// alias for changing DD settings
 			var current = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).Select(x => x.DreamDaemonSettings).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
 			if (current == default)
@@ -171,7 +176,7 @@ namespace Tgstation.Server.Host.Controllers
 
 				property.SetValue(current, newVal);
 				return false;
-			};
+			}
 
 			var oldSoftRestart = current.SoftRestart;
 			var oldSoftShutdown = current.SoftShutdown;
@@ -190,9 +195,10 @@ namespace Tgstation.Server.Host.Controllers
 				return BadRequest(new ErrorMessage { Message = "Primary port and secondary port cannot be the same!" });
 
 			var wd = instanceManager.GetInstance(Instance).Watchdog;
-			
+
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
-			//run this second because current may be modified by it
+
+			// run this second because current may be modified by it
 			await wd.ChangeSettings(current, cancellationToken).ConfigureAwait(false);
 
 			if (!oldSoftRestart.Value && current.SoftRestart.Value)
@@ -204,6 +210,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			return await ReadImpl(current, cancellationToken).ConfigureAwait(false);
 		}
+		#pragma warning restore CA1506
 
 		/// <summary>
 		/// Handle a HTTP PATCH to the <see cref="DreamDaemonController"/>

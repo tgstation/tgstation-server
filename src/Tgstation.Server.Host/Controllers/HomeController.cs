@@ -27,18 +27,22 @@ namespace Tgstation.Server.Host.Controllers
 		/// The <see cref="ITokenFactory"/> for the <see cref="HomeController"/>
 		/// </summary>
 		readonly ITokenFactory tokenFactory;
+
 		/// <summary>
 		/// The <see cref="ISystemIdentityFactory"/> for the <see cref="HomeController"/>
 		/// </summary>
 		readonly ISystemIdentityFactory systemIdentityFactory;
+
 		/// <summary>
 		/// The <see cref="ICryptographySuite"/> for the <see cref="HomeController"/>
 		/// </summary>
 		readonly ICryptographySuite cryptographySuite;
+
 		/// <summary>
 		/// The <see cref="IApplication"/> for the <see cref="HomeController"/>
 		/// </summary>
 		readonly IApplication application;
+
 		/// <summary>
 		/// The <see cref="IIdentityCache"/> for the <see cref="HomeController"/>
 		/// </summary>
@@ -94,7 +98,7 @@ namespace Tgstation.Server.Host.Controllers
 					ApiVersion = ApiHeaders.Version
 				});
 
-			//if we are using a browser and the control panel, soft redirect to the app page
+			// if we are using a browser and the control panel, soft redirect to the app page
 			if (controlPanelConfiguration.Enable && browserResolver.Browser.Type != BrowserType.Generic)
 			{
 				Logger.LogDebug("Unauthorized browser request (User-Agent: \"{0}\"), loading control panel...", browserResolver.UserAgent);
@@ -110,6 +114,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
 		[HttpPost]
+		#pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<IActionResult> CreateToken(CancellationToken cancellationToken)
 		{
 			if (ApiHeaders == null)
@@ -121,13 +126,14 @@ namespace Tgstation.Server.Host.Controllers
 			ISystemIdentity identity;
 			try
 			{
-				//trust the system over the database because a user's name can change while still having the same SID
+				// trust the system over the database because a user's name can change while still having the same SID
 				identity = await systemIdentityFactory.CreateSystemIdentity(ApiHeaders.Username, ApiHeaders.Password, cancellationToken).ConfigureAwait(false);
 			}
 			catch (NotImplementedException)
 			{
 				identity = null;
 			}
+
 			using (identity)
 			{
 				IQueryable<User> query;
@@ -162,7 +168,8 @@ namespace Tgstation.Server.Host.Controllers
 						await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 					}
 				}
-				//check if the name changed and updoot accordingly
+
+				// check if the name changed and updoot accordingly
 				else if (identity.Username != user.Name)
 				{
 					DatabaseContext.Users.Attach(user);
@@ -177,7 +184,7 @@ namespace Tgstation.Server.Host.Controllers
 				var token = await tokenFactory.CreateToken(user, cancellationToken).ConfigureAwait(false);
 				if (identity != null)
 				{
-					//expire the identity slightly after the auth token in case of lag
+					// expire the identity slightly after the auth token in case of lag
 					var identExpiry = token.ExpiresAt.Value;
 					identExpiry += tokenFactory.ValidationParameters.ClockSkew;
 					identExpiry += TimeSpan.FromSeconds(15);
@@ -189,5 +196,6 @@ namespace Tgstation.Server.Host.Controllers
 				return Json(token);
 			}
 		}
+		#pragma warning restore CA1506
 	}
 }

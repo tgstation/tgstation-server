@@ -5,17 +5,19 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <DebugType>Full</DebugType>
     <Version>4.0.1.4</Version>
+    <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <LangVersion>latest</LangVersion>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
     <DocumentationFile>bin\Release\netcoreapp2.1\Tgstation.Server.Host.Console.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <LangVersion>latest</LangVersion>
+    <NoWarn>1701;1702;SA1652</NoWarn>
+    <DocumentationFile>bin\Debug\netcoreapp2.1\Tgstation.Server.Host.Console.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,6 +26,10 @@
       <IncludeAssets>compile; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.1.1" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.1-beta.61">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -39,4 +45,7 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <AdditionalFiles Include="../../build/stylecop.json" />
+  </ItemGroup>
 </Project>

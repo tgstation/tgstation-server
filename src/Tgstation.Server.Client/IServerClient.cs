@@ -43,6 +43,8 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// The <see cref="ServerInformation"/> of the <see cref="IServerClient"/>
 		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ServerInformation"/> of the target server</returns>
 		Task<ServerInformation> Version(CancellationToken cancellationToken);
 
 		/// <summary>

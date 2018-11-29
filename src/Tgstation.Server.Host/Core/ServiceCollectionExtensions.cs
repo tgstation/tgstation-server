@@ -18,7 +18,7 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="serviceCollection">The <see cref="IServiceCollection"/> to configure</param>
 		/// <param name="configuration">The <see cref="IConfiguration"/> containing the <typeparamref name="TConfig"/></param>
 		/// <returns><paramref name="serviceCollection"/></returns>
-		public static IServiceCollection UseStandardConfig<TConfig>(this IServiceCollection serviceCollection, IConfiguration configuration) where TConfig: class
+		public static IServiceCollection UseStandardConfig<TConfig>(this IServiceCollection serviceCollection, IConfiguration configuration) where TConfig : class
 		{
 			if (serviceCollection == null)
 				throw new ArgumentNullException(nameof(serviceCollection));

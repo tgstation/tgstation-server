@@ -9,10 +9,12 @@
 		/// Configuration editing is not allowed
 		/// </summary>
 		Disallowed,
+
 		/// <summary>
 		/// Configuration editing is allowed by all users on all files
 		/// </summary>
 		HostWrite,
+
 		/// <summary>
 		/// Co
 		/// </summary>

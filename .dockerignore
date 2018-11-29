@@ -10,8 +10,10 @@ appveyor.yml
 LICENSE
 README
 build/**
+!build/analyzers.ruleset
 !build/tgs.docker.sh
 !build/tgs.ico
+!build/stylecop.json
 */bin
 */obj
 tests

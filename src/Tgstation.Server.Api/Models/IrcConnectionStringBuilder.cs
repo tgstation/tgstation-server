@@ -87,6 +87,8 @@ namespace Tgstation.Server.Api.Models
 					case IrcPasswordType.Server:
 						PasswordType = passwordType;
 						break;
+					default:
+						break;
 				}
 
 			if (splits.Length < 6)
@@ -116,6 +118,7 @@ namespace Tgstation.Server.Api.Models
 				sb.Append(';');
 				sb.Append(Password);
 			}
+
 			return sb.ToString();
 		}
 	}

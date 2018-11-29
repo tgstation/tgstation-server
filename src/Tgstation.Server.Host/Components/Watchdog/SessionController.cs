@@ -136,6 +136,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// The <see cref="TaskCompletionSource{TResult}"/> <see cref="SetPort(ushort, CancellationToken)"/> waits on when DreamDaemon currently has it's ports closed
 		/// </summary>
 		TaskCompletionSource<bool> portAssignmentTcs;
+
 		/// <summary>
 		/// The port to assign DreamDaemon when it queries for it
 		/// </summary>
@@ -181,7 +182,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="startupTimeout">The optional time to wait before failing the <see cref="LaunchResult"/></param>
 		public SessionController(ReattachInformation reattachInformation, IProcess process, IByondExecutableLock byondLock, IByondTopicSender byondTopicSender, IJsonTrackingContext chatJsonTrackingContext, ICommContext interopContext, IChat chat, ILogger<SessionController> logger, DreamDaemonSecurity? launchSecurityLevel, uint? startupTimeout)
 		{
-			this.chatJsonTrackingContext = chatJsonTrackingContext; //null valid
+			this.chatJsonTrackingContext = chatJsonTrackingContext; // null valid
 			this.reattachInformation = reattachInformation ?? throw new ArgumentNullException(nameof(reattachInformation));
 			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
 			this.process = process ?? throw new ArgumentNullException(nameof(process));
@@ -219,17 +220,18 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					StartupTime = process.Startup.IsCompleted ? (TimeSpan?)(DateTimeOffset.Now - startTime) : null
 				};
 				return result;
-			};
+			}
+
 			LaunchResult = GetLaunchResult();
 
 			logger.LogDebug("Created session controller. Primary: {0}, CommsKey: {1}, Port: {2}", IsPrimary, reattachInformation.AccessIdentifier, Port);
 		}
 
 		/// <summary>
-		/// Finalize the <see cref="SessionController"/>
+		/// Finalizes an instance of the <see cref="SessionController"/> class.
 		/// </summary>
 		/// <remarks>The finalizer dispose pattern is necessary so we don't accidentally leak the executable</remarks>
-#pragma warning disable CA1821 // Remove empty Finalizers //TODO remove this when https://github.com/dotnet/roslyn-analyzers/issues/1241 is fixed
+#pragma warning disable CA1821 // Remove empty Finalizers TODO: remove this when https://github.com/dotnet/roslyn-analyzers/issues/1241 is fixed
 		~SessionController() => Dispose(false);
 #pragma warning restore CA1821 // Remove empty Finalizers
 
@@ -240,7 +242,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			GC.SuppressFinalize(this);
 		}
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Implements the <see cref="IDisposable"/> pattern
+		/// </summary>
+		/// <param name="disposing">If this function was NOT called by the finalizer</param>
 		void Dispose(bool disposing)
 		{
 			lock (this)
@@ -254,9 +259,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						process.Terminate();
 						byondLock.Dispose();
 					}
+
 					process.Dispose();
 					interopContext.Dispose();
-					Dmb?.Dispose(); //will be null when released
+					Dmb?.Dispose(); // will be null when released
 					chatJsonTrackingContext.Dispose();
 					disposed = true;
 				}
@@ -274,6 +280,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
+		#pragma warning disable CA1502 // TODO: Decomplexify
 		public async Task HandleInterop(CommCommand command, CancellationToken cancellationToken)
 		{
 			if (command == null)
@@ -307,9 +314,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							logger.LogDebug("Exception while decoding chat message! Exception: {0}", e);
 							goto default;
 						}
+
 						break;
 					case Constants.DMCommandServerPrimed:
-						//currently unused, maybe in the future
+						// currently unused, maybe in the future
 						break;
 					case Constants.DMCommandEndProcess:
 						TerminationWasRequested = true;
@@ -327,18 +335,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							}
 
 							if (!nextPort.HasValue)
-								//not ready yet, so what we'll do is accept the random port DD opened on for now and change it later when we decide to
-								reattachInformation.Port = currentPort;
+								reattachInformation.Port = currentPort; // not ready yet, so what we'll do is accept the random port DD opened on for now and change it later when we decide to
 							else
 							{
-								//nextPort is ready, tell DD to switch to that
-								//if it fails it'll kill itself
+								// nextPort is ready, tell DD to switch to that
+								// if it fails it'll kill itself
 								content = new Dictionary<string, ushort> { { Constants.DMParameterData, nextPort.Value } };
 								reattachInformation.Port = nextPort.Value;
 								overrideResponsePort = currentPort;
 								nextPort = null;
 
-								//we'll also get here from SetPort so complete that task
+								// we'll also get here from SetPort so complete that task
 								var tmpTcs = portAssignmentTcs;
 								portAssignmentTcs = null;
 								if (tmpTcs != null)
@@ -347,6 +354,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 							portClosedForReboot = false;
 						}
+
 						break;
 					case Constants.DMCommandApiValidate:
 						if (!launchSecurityLevel.HasValue)
@@ -356,6 +364,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							content = new ErrorMessage { Message = "Invalid API validation request!" };
 							break;
 						}
+
 						if (!query.TryGetValue(Constants.DMParameterData, out var stringMinimumSecurityLevelObject) || !Enum.TryParse<DreamDaemonSecurity>(stringMinimumSecurityLevelObject as string, out var minimumSecurityLevel))
 							apiValidationStatus = ApiValidationStatus.BadValidationRequest;
 						else
@@ -373,6 +382,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								default:
 									throw new InvalidOperationException("Enum.TryParse failed to validate the DreamDaemonSecurity range!");
 							}
+
 						break;
 					case Constants.DMCommandWorldReboot:
 						if (ClosePortOnReboot)
@@ -381,6 +391,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							content = new Dictionary<string, int> { { Constants.DMParameterData, 0 } };
 							portClosedForReboot = true;
 						}
+
 						var oldTcs = rebootTcs;
 						rebootTcs = new TaskCompletionSource<object>();
 						postRespond = () => oldTcs.SetResult(null);
@@ -401,6 +412,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			postRespond?.Invoke();
 		}
+		#pragma warning restore CA1502
 
 		/// <summary>
 		/// Throws an <see cref="ObjectDisposedException"/> if <see cref="Dispose(bool)"/> has been called
@@ -418,7 +430,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public ReattachInformation Release()
 		{
 			CheckDisposed();
-			//we still don't want to dispose the dmb yet, even though we're keeping it alive
+
+			// we still don't want to dispose the dmb yet, even though we're keeping it alive
 			var tmpProvider = reattachInformation.Dmb;
 			reattachInformation.Dmb = null;
 			released = true;
@@ -441,8 +454,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					byondTopicSender.SanitizeString(Constants.DMInteropAccessIdentifier),
 					byondTopicSender.SanitizeString(reattachInformation.AccessIdentifier),
 					byondTopicSender.SanitizeString(Constants.DMParameterCommand),
-					//intentionally don't sanitize command, that's up to the caller
-					command);
+					command); // intentionally don't sanitize command, that's up to the caller
 
 				var targetPort = overridePort ?? reattachInformation.Port;
 				logger.LogTrace("Export to :{0}. Query: {1}", targetPort, commandString);

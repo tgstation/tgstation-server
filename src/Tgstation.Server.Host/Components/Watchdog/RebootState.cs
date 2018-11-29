@@ -9,10 +9,12 @@
 		/// Run DreamDaemon's normal reboot process
 		/// </summary>
 		Normal = 0,
+
 		/// <summary>
 		/// Shutdown DreamDaemon
 		/// </summary>
 		Shutdown = 1,
+
 		/// <summary>
 		/// Restart the DreamDaemon process
 		/// </summary>

@@ -13,7 +13,7 @@
 		/// <summary>
 		/// Gets the <see cref="ChatBot.ConnectionString"/> associated with the <see cref="ChatConnectionStringBuilder"/>
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>The <see cref="ChatBot.ConnectionString"/> associated with the <see cref="ChatConnectionStringBuilder"/></returns>
 		public abstract override string ToString();
 	}
 }

@@ -110,7 +110,7 @@ namespace Tgstation.Server.Host
 					};
 					fsWatcher.EnableRaisingEvents = true;
 				}
-				
+
 				using (var webHost = webHostBuilder.Build())
 					try
 					{
@@ -123,6 +123,7 @@ namespace Tgstation.Server.Host
 						throw;
 					}
 			}
+
 			CheckExceptionPropagation();
 		}
 
@@ -147,6 +148,7 @@ namespace Tgstation.Server.Host
 					logger.LogTrace("Aborted due to concurrency conflict!");
 					return false;
 				}
+
 				updating = true;
 			}
 
@@ -173,13 +175,14 @@ namespace Tgstation.Server.Host
 						updating = false;
 						try
 						{
-							//important to not leave this directory around if possible
+							// important to not leave this directory around if possible
 							await ioManager.DeleteDirectory(updatePath, default).ConfigureAwait(false);
 						}
 						catch (Exception e2)
 						{
 							throw new AggregateException(e, e2);
 						}
+
 						throw;
 					}
 
@@ -223,6 +226,7 @@ namespace Tgstation.Server.Host
 								restartHandlers.Remove(handler);
 					});
 				}
+
 			return new RestartRegistration(() => { });
 		}
 
@@ -234,7 +238,7 @@ namespace Tgstation.Server.Host
 		/// </summary>
 		/// <param name="newVersion">The <see cref="Version"/> of any potential updates being applied</param>
 		/// <param name="exception">The potential value of <see cref="propagatedException"/></param>
-		/// <returns></returns>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task Restart(Version newVersion, Exception exception)
 		{
 			CheckSanity(true);
@@ -248,6 +252,7 @@ namespace Tgstation.Server.Host
 					logger.LogTrace("Aborted due to concurrency conflict!");
 					return;
 				}
+
 				RestartRequested = true;
 				propagatedException = exception;
 			}
@@ -258,7 +263,8 @@ namespace Tgstation.Server.Host
 					logger.LogInformation("Restarting server...");
 					var cancellationToken = cts.Token;
 					var eventsTask = Task.WhenAll(restartHandlers.Select(x => x.HandleRestart(newVersion, cancellationToken)).ToList());
-					//YA GOT 10 SECONDS
+
+					// YA GOT 10 SECONDS
 					var expiryTask = Task.Delay(TimeSpan.FromSeconds(10));
 					await Task.WhenAny(eventsTask, expiryTask).ConfigureAwait(false);
 					logger.LogTrace("Joining restart handlers...");
