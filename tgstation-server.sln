@@ -64,6 +64,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{DCCBA9DA-4
 		src\DMAPI\tgs\core\_definitions.dm = src\DMAPI\tgs\core\_definitions.dm
 		src\DMAPI\tgs\core\core.dm = src\DMAPI\tgs\core\core.dm
 		src\DMAPI\tgs\core\datum.dm = src\DMAPI\tgs\core\datum.dm
+		src\DMAPI\tgs\core\tgs_version.dm = src\DMAPI\tgs\core\tgs_version.dm
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v3210", "v3210", "{1B228ACB-60C3-4DF9-B716-9F0BD31F6766}"
