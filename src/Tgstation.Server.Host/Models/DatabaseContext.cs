@@ -193,12 +193,8 @@ namespace Tgstation.Server.Host.Models
 
 			// Update this with new migrations as they are made
 			// Always use the MS class
-
-			// TODO: Uncomment once #816 is merged
-			/*
 			if (version < new Version(4, 0, 2))
 				targetMigration = nameof(MSReattachCompileJobRequired);
-			*/
 
 			if (targetMigration == null)
 				return;
