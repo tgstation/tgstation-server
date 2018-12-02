@@ -15,12 +15,16 @@ namespace Tgstation.Server.Host.Models.Migrations
 		/// Path to the json file to use for migrations configuration
 		/// </summary>
 		const string RootJson = "appsettings.json";
+
 		/// <summary>
 		/// Path to the development json file to use for migrations configuration
 		/// </summary>
 		const string DevJson = "appsettings.Development.json";
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Get the <see cref="IOptions{TOptions}"/> for the <see cref="DatabaseConfiguration"/>
+		/// </summary>
+		/// <returns>The <see cref="IOptions{TOptions}"/> for the <see cref="DatabaseConfiguration"/></returns>
 		public static IOptions<DatabaseConfiguration> GetDbContextOptions()
 		{
 			var builder = new ConfigurationBuilder();

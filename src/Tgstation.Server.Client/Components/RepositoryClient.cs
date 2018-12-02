@@ -13,6 +13,7 @@ namespace Tgstation.Server.Client.Components
 		/// The <see cref="IApiClient"/> for the <see cref="RepositoryClient"/>
 		/// </summary>
 		readonly IApiClient apiClient;
+
 		/// <summary>
 		/// The <see cref="Instance"/> for the <see cref="RepositoryClient"/>
 		/// </summary>
@@ -22,7 +23,7 @@ namespace Tgstation.Server.Client.Components
 		/// Construct a <see cref="RepositoryClient"/>
 		/// </summary>
 		/// <param name="apiClient">The value of <see cref="apiClient"/></param>
-		/// <param name="instance"></param>
+		/// <param name="instance">The value of <see cref="instance"/></param>
 		public RepositoryClient(IApiClient apiClient, Instance instance)
 		{
 			this.apiClient = apiClient;

@@ -76,6 +76,7 @@ namespace Tgstation.Server.Host.Security
 					CurrentAuthenticationContext = new AuthenticationContext();
 					return;
 				}
+
 				systemIdentity = null;
 			}
 

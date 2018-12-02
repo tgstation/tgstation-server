@@ -87,13 +87,13 @@ namespace Tgstation.Server.Host.Controllers
 
 			model.Enabled = model.Enabled ?? false;
 
-			//try to update das db first
+			// try to update das db first
 			var dbModel = new Models.ChatBot
 			{
 				Name = model.Name,
 				ConnectionString = model.ConnectionString,
 				Enabled = model.Enabled,
-				Channels = model.Channels?.Select(x => ConvertApiChatChannel(x)).ToList() ?? new List<Models.ChatChannel>(),    //important that this isn't null
+				Channels = model.Channels?.Select(x => ConvertApiChatChannel(x)).ToList() ?? new List<Models.ChatChannel>(), // important that this isn't null
 				InstanceId = Instance.Id,
 				Provider = model.Provider,
 			};
@@ -106,7 +106,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				try
 				{
-					//try to create it
+					// try to create it
 					var instance = instanceManager.GetInstance(Instance);
 					await instance.Chat.ChangeSettings(dbModel, cancellationToken).ConfigureAwait(false);
 
@@ -115,7 +115,7 @@ namespace Tgstation.Server.Host.Controllers
 				}
 				catch
 				{
-					//undo the add
+					// undo the add
 					DatabaseContext.ChatBots.Remove(dbModel);
 					await DatabaseContext.Save(default).ConfigureAwait(false);
 					throw;
@@ -125,6 +125,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				return BadRequest(new ErrorMessage { Message = e.Message });
 			}
+
 			return StatusCode((int)HttpStatusCode.Created, dbModel.ToApi());
 		}
 
@@ -174,6 +175,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <inheritdoc />
+		#pragma warning disable CA1506 // TODO: Decomplexify
 		[TgsAuthorize(ChatBotRights.WriteChannels | ChatBotRights.WriteConnectionString | ChatBotRights.WriteEnabled | ChatBotRights.WriteName | ChatBotRights.WriteProvider)]
 		public override async Task<IActionResult> Update([FromBody] Api.Models.ChatBot model, CancellationToken cancellationToken)
 		{
@@ -208,7 +210,7 @@ namespace Tgstation.Server.Host.Controllers
 				property.SetValue(current, newVal);
 				anySettingsModified = true;
 				return false;
-			};
+			}
 
 			var oldProvider = current.Provider;
 
@@ -238,8 +240,7 @@ namespace Tgstation.Server.Host.Controllers
 			var chat = instanceManager.GetInstance(Instance).Chat;
 
 			if (anySettingsModified)
-				//have to rebuild the thing first
-				await chat.ChangeSettings(current, cancellationToken).ConfigureAwait(false);
+				await chat.ChangeSettings(current, cancellationToken).ConfigureAwait(false); // have to rebuild the thing first
 
 			if (model.Channels != null || anySettingsModified)
 				await chat.ChangeChannels(current.Id, current.Channels, cancellationToken).ConfigureAwait(false);
@@ -250,7 +251,9 @@ namespace Tgstation.Server.Host.Controllers
 					current.ConnectionString = null;
 				return Json(current.ToApi());
 			}
+
 			return Ok();
 		}
+		#pragma warning restore CA1506
 	}
 }

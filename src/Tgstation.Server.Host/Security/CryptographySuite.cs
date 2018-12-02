@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
+using System.Globalization;
 using System.Security.Cryptography;
 using Tgstation.Server.Host.Models;
 
@@ -53,14 +54,20 @@ namespace Tgstation.Server.Host.Security
 		/// <inheritdoc />
 		public bool CheckUserPassword(User user, string password)
 		{
-			switch (passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password))
+			var result = passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
+			switch (result)
 			{
 				case PasswordVerificationResult.Failed:
 					return false;
 				case PasswordVerificationResult.SuccessRehashNeeded:
 					SetUserPassword(user, password, false);
 					break;
+				case PasswordVerificationResult.Success:
+					break;
+				default:
+					throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Password hasher return unknown PasswordVerificationResult: {0}", result));
 			}
+
 			return true;
 		}
 

@@ -19,7 +19,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// Number of times to send the button click message. Should be at least 2 or it may fail to focus the window
 		/// </summary>
 		const int SendMessageCount = 5;
-		
+
 		/// <summary>
 		/// Check for prompts each time this amount of milliseconds pass
 		/// </summary>
@@ -41,7 +41,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly CancellationTokenSource cancellationTokenSource;
 
 		/// <summary>
-		/// The list of <see cref="IProcess"/>s registered 
+		/// The list of <see cref="IProcess"/>s registered
 		/// </summary>
 		readonly List<IProcess> registeredProcesses;
 
@@ -77,6 +77,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			{
 				gcChildhandlesList.Free();
 			}
+
 			return childHandles;
 		}
 
@@ -117,12 +118,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						if (window == IntPtr.Zero)
 							continue;
 
-						//found a bitch
+						// found a bitch
 						var threadId = NativeMethods.GetWindowThreadProcessId(window, out processId);
 						if (!registeredProcesses.Any(x => x.Id == processId))
-							//not our bitch
-							continue;
+							continue; // not our bitch
 					}
+
 					logger.LogTrace("Identified \"Network Accessibility\" window in owned process {0}", processId);
 
 					var found = false;
@@ -140,13 +141,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						var windowText = stringBuilder.ToString();
 						if (windowText == "Yes")
 						{
-							//smash_button_meme.jpg
+							// smash_button_meme.jpg
 							logger.LogTrace("Sending \"Yes\" button clicks...");
 							for (var J = 0; J < SendMessageCount; ++J)
 							{
 								const int BM_CLICK = 0x00F5;
 								var result = NativeMethods.SendMessage(I, BM_CLICK, IntPtr.Zero, IntPtr.Zero);
 							}
+
 							found = true;
 							break;
 						}

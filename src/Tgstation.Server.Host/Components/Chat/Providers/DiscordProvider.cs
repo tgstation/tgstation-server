@@ -54,7 +54,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// </summary>
 		/// <param name="fromDiscord">The mention <see cref="string"/> provided by the Discord library</param>
 		/// <returns>The normalized mention <see cref="string"/></returns>
-		static string NormalizeMention(string fromDiscord) => fromDiscord.Replace("!", "", StringComparison.Ordinal);
+		static string NormalizeMention(string fromDiscord) => fromDiscord.Replace("!", String.Empty, StringComparison.Ordinal);
 
 		/// <summary>
 		/// Construct a <see cref="DiscordProvider"/>
@@ -97,10 +97,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					Channel = new Channel
 					{
 						RealId = e.Channel.Id,
-						IsPrivate = pm,
+						IsPrivateChannel = pm,
 						ConnectionName = pm ? e.Author.Username : (e.Channel as ITextChannel)?.Guild.Name ?? "UNKNOWN",
 						FriendlyName = e.Channel.Name
-						//isAdmin and Tag populated by manager
+
+						// isAdmin and Tag populated by manager
 					},
 					FriendlyName = e.Author.Username,
 					Mention = NormalizeMention(e.Author.Mention)
@@ -182,19 +183,19 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				if (!channel.DiscordChannelId.HasValue)
 					throw new InvalidOperationException("ChatChannel missing DiscordChannelId!");
 
-				if (!(client.GetChannel(channel.DiscordChannelId.Value) is ITextChannel discordChannel))
-					return null;
+				if (client.GetChannel(channel.DiscordChannelId.Value) is ITextChannel discordChannel)
+					return new Channel
+					{
+						RealId = discordChannel.Id,
+						IsAdminChannel = channel.IsAdminChannel == true,
+						ConnectionName = discordChannel.Guild.Name,
+						FriendlyName = discordChannel.Name,
+						IsPrivateChannel = false,
+						Tag = channel.Tag
+					};
 
-				return new Channel
-				{
-					RealId = discordChannel.Id,
-					IsAdmin = channel.IsAdminChannel == true,
-					ConnectionName = discordChannel.Guild.Name,
-					FriendlyName = discordChannel.Name,
-					IsPrivate = false,
-					Tag = channel.Tag
-				};
-			};
+				return null;
+			}
 
 			var enumerator = channels.Select(x => GetChannelForChatChannel(x)).Where(x => x != null).ToList();
 

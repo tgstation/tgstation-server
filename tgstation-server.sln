@@ -20,9 +20,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Conso
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{6FF654E6-3E2C-46D4-872D-D528F77D6973}"
 	ProjectSection(SolutionItems) = preProject
+		build\analyzers.ruleset = build\analyzers.ruleset
 		build\BuildDox.ps1 = build\BuildDox.ps1
 		build\Dockerfile = build\Dockerfile
 		build\install_byond.sh = build\install_byond.sh
+		build\prep_deployment.ps1 = build\prep_deployment.ps1
+		build\stylecop.json = build\stylecop.json
 		build\test_core.sh = build\test_core.sh
 		build\tgs.docker.sh = build\tgs.docker.sh
 		build\tgs.ico = build\tgs.ico
@@ -64,6 +67,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{DCCBA9DA-4
 		src\DMAPI\tgs\core\_definitions.dm = src\DMAPI\tgs\core\_definitions.dm
 		src\DMAPI\tgs\core\core.dm = src\DMAPI\tgs\core\core.dm
 		src\DMAPI\tgs\core\datum.dm = src\DMAPI\tgs\core\datum.dm
+		src\DMAPI\tgs\core\tgs_version.dm = src\DMAPI\tgs\core\tgs_version.dm
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v3210", "v3210", "{1B228ACB-60C3-4DF9-B716-9F0BD31F6766}"
@@ -113,6 +117,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{E821
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Tests", "tests\Tgstation.Server.Tests\Tgstation.Server.Tests.csproj", "{09056964-1C74-445A-96EC-33F6DFC07916}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReleaseNotes", "tools\ReleaseNotes\ReleaseNotes.csproj", "{5CB51532-55F0-4255-B6E5-69ED5CCD14CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -172,6 +178,10 @@ Global
 		{09056964-1C74-445A-96EC-33F6DFC07916}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09056964-1C74-445A-96EC-33F6DFC07916}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09056964-1C74-445A-96EC-33F6DFC07916}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CB51532-55F0-4255-B6E5-69ED5CCD14CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CB51532-55F0-4255-B6E5-69ED5CCD14CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CB51532-55F0-4255-B6E5-69ED5CCD14CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CB51532-55F0-4255-B6E5-69ED5CCD14CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -183,6 +193,7 @@ Global
 		{3BB10856-AA01-43D1-AAB0-A013085426D6} = {7E4E7CF6-A48D-410E-8191-C49C6B5AB9CC}
 		{82066812-6C73-4360-943B-B23F2F491261} = {7E4E7CF6-A48D-410E-8191-C49C6B5AB9CC}
 		{057FAC33-CC31-4948-91C6-B0977C335890} = {F7765A4B-021C-454E-ABB1-2AB1B85F91B4}
+		{5CB51532-55F0-4255-B6E5-69ED5CCD14CD} = {A55C1117-5808-4AB2-BEA6-4D4A3E66A2F2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DFD36C95-3E49-41C7-ACDB-86BAF5B18A79}

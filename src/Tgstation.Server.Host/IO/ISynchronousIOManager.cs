@@ -47,7 +47,7 @@ namespace Tgstation.Server.Host.IO
 		bool DeleteDirectory(string path);
 
 		/// <summary>
-		/// Write <paramref name="data"/> to a file at a given <paramref name="path"/>. 
+		/// Write <paramref name="data"/> to a file at a given <paramref name="path"/>
 		/// </summary>
 		/// <param name="path">The path to the file to write</param>
 		/// <param name="data">The new contents of the file</param>

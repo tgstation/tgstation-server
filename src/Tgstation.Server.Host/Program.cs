@@ -15,7 +15,9 @@ namespace Tgstation.Server.Host
 		/// <summary>
 		/// The <see cref="IServerFactory"/> to use
 		/// </summary>
-		internal static IServerFactory serverFactory = new ServerFactory();
+#pragma warning disable SA1401 // Fields must be private
+		internal static IServerFactory ServerFactory = new ServerFactory();
+#pragma warning restore SA1401 // Fields must be private
 
 		/// <summary>
 		/// Entrypoint for the <see cref="Program"/>
@@ -25,7 +27,8 @@ namespace Tgstation.Server.Host
 		public static async Task<int> Main(string[] args)
 		{
 			var listArgs = new List<string>(args);
-			//first arg is 100% always the update path, starting it otherwise is solely for debugging purposes
+
+			// first arg is 100% always the update path, starting it otherwise is solely for debugging purposes
 			string updatePath;
 			if (listArgs.Count > 0)
 			{
@@ -38,7 +41,7 @@ namespace Tgstation.Server.Host
 				updatePath = null;
 			try
 			{
-				var server = serverFactory.CreateServer(listArgs.ToArray(), updatePath);
+				var server = ServerFactory.CreateServer(listArgs.ToArray(), updatePath);
 				try
 				{
 					using (var cts = new CancellationTokenSource())
@@ -70,6 +73,7 @@ namespace Tgstation.Server.Host
 					File.WriteAllText(updatePath, e.ToString());
 					return 2;
 				}
+
 				throw;
 			}
 		}

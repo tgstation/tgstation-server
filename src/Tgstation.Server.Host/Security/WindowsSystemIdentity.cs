@@ -63,13 +63,13 @@ namespace Tgstation.Server.Host.Security
 		{
 			if (identity != null)
 			{
-				//var newIdentity = (WindowsIdentity)identity.Clone();	//doesn't work because of https://github.com/dotnet/corefx/issues/31841
-
-				var newIdentity = new WindowsIdentity(identity.Token);	//the handle is cloned internally
+				// var newIdentity = (WindowsIdentity)identity.Clone(); //doesn't work because of https://github.com/dotnet/corefx/issues/31841
+				var newIdentity = new WindowsIdentity(identity.Token); // the handle is cloned internally
 
 				return new WindowsSystemIdentity(newIdentity);
 			}
-			//can't clone a UP, shouldn't be trying to anyway, cloning is for impersonation
+
+			// can't clone a UP, shouldn't be trying to anyway, cloning is for impersonation
 			throw new InvalidOperationException("Cannot clone a UserPrincipal based WindowsSystemIdentity!");
 		}
 

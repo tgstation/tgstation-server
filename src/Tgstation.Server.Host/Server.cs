@@ -49,6 +49,11 @@ namespace Tgstation.Server.Host
 		CancellationTokenSource cancellationTokenSource;
 
 		/// <summary>
+		/// The <see cref="Exception"/> to propagate when the server terminates
+		/// </summary>
+		Exception propagatedException;
+
+		/// <summary>
 		/// If a server update has been or is being applied
 		/// </summary>
 		bool updating;
@@ -63,6 +68,8 @@ namespace Tgstation.Server.Host
 			this.webHostBuilder = webHostBuilder ?? throw new ArgumentNullException(nameof(webHostBuilder));
 			this.updatePath = updatePath;
 
+			webHostBuilder.ConfigureServices(serviceCollection => serviceCollection.AddSingleton<IServerControl>(this));
+
 			restartHandlers = new List<IRestartHandler>();
 		}
 
@@ -72,11 +79,20 @@ namespace Tgstation.Server.Host
 		/// <param name="checkWatchdog">If <see cref="WatchdogPresent"/> should be checked</param>
 		void CheckSanity(bool checkWatchdog)
 		{
-			if (checkWatchdog && !WatchdogPresent)
+			if (checkWatchdog && !WatchdogPresent && propagatedException == null)
 				throw new InvalidOperationException("Server restarts are not supported");
 
 			if (cancellationTokenSource == null || logger == null)
 				throw new InvalidOperationException("Tried to control a non-running Server!");
+		}
+
+		/// <summary>
+		/// Re-throw <see cref="propagatedException"/> if it exists
+		/// </summary>
+		void CheckExceptionPropagation()
+		{
+			if (propagatedException != null)
+				throw propagatedException;
 		}
 
 		/// <inheritdoc />
@@ -94,16 +110,21 @@ namespace Tgstation.Server.Host
 					};
 					fsWatcher.EnableRaisingEvents = true;
 				}
-				using (var webHost = webHostBuilder
-					.UseStartup<Application>()
-					.ConfigureServices(serviceCollection => serviceCollection.AddSingleton<IServerControl>(this))
-					.Build()
-				)
-				{
-					logger = webHost.Services.GetRequiredService<ILogger<Server>>();
-					await webHost.RunAsync(cancellationTokenSource.Token).ConfigureAwait(false);
-				}
+
+				using (var webHost = webHostBuilder.Build())
+					try
+					{
+						logger = webHost.Services.GetRequiredService<ILogger<Server>>();
+						await webHost.RunAsync(cancellationTokenSource.Token).ConfigureAwait(false);
+					}
+					catch (OperationCanceledException)
+					{
+						CheckExceptionPropagation();
+						throw;
+					}
 			}
+
+			CheckExceptionPropagation();
 		}
 
 		/// <inheritdoc />
@@ -127,6 +148,7 @@ namespace Tgstation.Server.Host
 					logger.LogTrace("Aborted due to concurrency conflict!");
 					return false;
 				}
+
 				updating = true;
 			}
 
@@ -153,17 +175,18 @@ namespace Tgstation.Server.Host
 						updating = false;
 						try
 						{
-							//important to not leave this directory around if possible
+							// important to not leave this directory around if possible
 							await ioManager.DeleteDirectory(updatePath, default).ConfigureAwait(false);
 						}
 						catch (Exception e2)
 						{
 							throw new AggregateException(e, e2);
 						}
+
 						throw;
 					}
 
-					await Restart(version).ConfigureAwait(false);
+					await Restart(version, null).ConfigureAwait(false);
 				}
 				catch (OperationCanceledException)
 				{
@@ -203,18 +226,20 @@ namespace Tgstation.Server.Host
 								restartHandlers.Remove(handler);
 					});
 				}
+
 			return new RestartRegistration(() => { });
 		}
 
 		/// <inheritdoc />
-		public Task Restart() => Restart(null);
+		public Task Restart() => Restart(null, null);
 
 		/// <summary>
 		/// Implements <see cref="Restart()"/>
 		/// </summary>
 		/// <param name="newVersion">The <see cref="Version"/> of any potential updates being applied</param>
-		/// <returns></returns>
-		async Task Restart(Version newVersion)
+		/// <param name="exception">The potential value of <see cref="propagatedException"/></param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		async Task Restart(Version newVersion, Exception exception)
 		{
 			CheckSanity(true);
 
@@ -227,34 +252,39 @@ namespace Tgstation.Server.Host
 					logger.LogTrace("Aborted due to concurrency conflict!");
 					return;
 				}
+
 				RestartRequested = true;
+				propagatedException = exception;
 			}
 
-			logger.LogInformation("Restarting server...");
+			if (exception == null)
+				using (var cts = new CancellationTokenSource())
+				{
+					logger.LogInformation("Restarting server...");
+					var cancellationToken = cts.Token;
+					var eventsTask = Task.WhenAll(restartHandlers.Select(x => x.HandleRestart(newVersion, cancellationToken)).ToList());
 
-			using (var cts = new CancellationTokenSource())
-			{
-				logger.LogTrace("Running restart handlers...");
-				var cancellationToken = cts.Token;
-				var eventsTask = Task.WhenAll(restartHandlers.Select(x => x.HandleRestart(newVersion, cancellationToken)).ToList());
-				//YA GOT 10 SECONDS
-				var expiryTask = Task.Delay(TimeSpan.FromSeconds(10));
-				await Task.WhenAny(eventsTask, expiryTask).ConfigureAwait(false);
-				logger.LogTrace("Joining restart handlers...");
-				cts.Cancel();
-				try
-				{
-					await eventsTask.ConfigureAwait(false);
+					// YA GOT 10 SECONDS
+					var expiryTask = Task.Delay(TimeSpan.FromSeconds(10));
+					await Task.WhenAny(eventsTask, expiryTask).ConfigureAwait(false);
+					logger.LogTrace("Joining restart handlers...");
+					cts.Cancel();
+					try
+					{
+						await eventsTask.ConfigureAwait(false);
+					}
+					catch (OperationCanceledException) { }
+					catch (Exception e)
+					{
+						logger.LogError("Restart handlers error! Exception: {0}", e);
+					}
 				}
-				catch (OperationCanceledException) { }
-				catch (Exception e)
-				{
-					logger.LogError("Restart handlers error! Exception: {0}", e);
-				}
-			}
 
 			logger.LogTrace("Stopping host...");
 			cancellationTokenSource.Cancel();
 		}
+
+		/// <inheritdoc />
+		public Task Die(Exception exception) => Restart(null, exception);
 	}
 }

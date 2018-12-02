@@ -48,7 +48,7 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize]
 		public override async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
-			//you KNOW this will need pagination eventually right?
+			// you KNOW this will need pagination eventually right?
 			var jobs = await DatabaseContext.Jobs.Where(x => x.Instance.Id == Instance.Id).OrderByDescending(x => x.StartedAt).Select(x => new Api.Models.Job
 			{
 				Id = x.Id
@@ -60,7 +60,7 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize]
 		public override async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
-			//don't care if an instance post or not at this point
+			// don't care if an instance post or not at this point
 			var job = await DatabaseContext.Jobs.Where(x => x.Id == id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (job == default(Job))
 				return NotFound();

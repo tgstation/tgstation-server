@@ -1,11 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Globalization;
-using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Components.Byond
@@ -18,7 +16,8 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <summary>
 		/// The URL format string for getting BYOND linux version {0}.{1} zipfile
 		/// </summary>
-		const string ByondRevisionsURL = "https://secure.byond.com/download/build/{0}/{0}.{1}_byond_linux.zip";
+		const string ByondRevisionsURLTemplate = "https://secure.byond.com/download/build/{0}/{0}.{1}_byond_linux.zip";
+
 		/// <summary>
 		/// Path to the BYOND cache
 		/// </summary>
@@ -85,7 +84,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			if (version == null)
 				throw new ArgumentNullException(nameof(version));
 
-			var url = String.Format(CultureInfo.InvariantCulture, ByondRevisionsURL, version.Major, version.Minor);
+			var url = String.Format(CultureInfo.InvariantCulture, ByondRevisionsURLTemplate, version.Major, version.Minor);
 
 			return await ioManager.DownloadFile(new Uri(url), cancellationToken).ConfigureAwait(false);
 		}
@@ -98,8 +97,8 @@ namespace Tgstation.Server.Host.Components.Byond
 			if (version == null)
 				throw new ArgumentNullException(nameof(version));
 
-			//write the scripts for running the ting
-			//need to add $ORIGIN to LD_LIBRARY_PATH
+			// write the scripts for running the ting
+			// need to add $ORIGIN to LD_LIBRARY_PATH
 			const string StandardScript = "#!/bin/sh\nexport LD_LIBRARY_PATH=\"\\$ORIGIN:$LD_LIBRARY_PATH\"\nBASEDIR=$(dirname \"$0\")\nexec \"$BASEDIR/{0}\" \"$@\"\n";
 
 			var dreamDaemonScript = String.Format(CultureInfo.InvariantCulture, StandardScript, DreamDaemonExecutableName);

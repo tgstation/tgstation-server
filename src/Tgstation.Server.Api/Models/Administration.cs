@@ -2,7 +2,9 @@
 
 namespace Tgstation.Server.Api.Models
 {
-	/// <inheritdoc />
+	/// <summary>
+	/// Represents administrative server information
+	/// </summary>
 	public sealed class Administration
 	{
 		/// <summary>

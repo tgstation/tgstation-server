@@ -26,6 +26,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// Controller for managing the <see cref="Repository"/>s
 	/// </summary>
 	[Route(Routes.Repository)]
+	#pragma warning disable CA1506 // TODO: Decomplexify
 	public sealed class RepositoryController : ModelController<Repository>
 	{
 		/// <summary>
@@ -83,24 +84,26 @@ namespace Tgstation.Server.Host.Controllers
 			var needsDbUpdate = revisionInfo == default;
 			if (needsDbUpdate)
 			{
-				//needs insertion
+				// needs insertion
 				revisionInfo = new Models.RevisionInformation
 				{
 					Instance = instance,
 					CommitSha = repoSha,
 					CompileJobs = new List<Models.CompileJob>(),
-					ActiveTestMerges = new List<RevInfoTestMerge>()  //non null vals for api returns
+					ActiveTestMerges = new List<RevInfoTestMerge>() // non null vals for api returns
 				};
 
-				lock (databaseContext)  //cleaner this way
+				lock (databaseContext) // cleaner this way
 					databaseContext.RevisionInformations.Add(revisionInfo);
 			}
+
 			revisionInfo.OriginCommitSha = revisionInfo.OriginCommitSha ?? lastOriginCommitSha;
 			if (revisionInfo.OriginCommitSha == null)
 			{
 				revisionInfo.OriginCommitSha = repoSha;
 				Logger.LogWarning(Components.Repository.Repository.OriginTrackingErrorTemplate, repoSha);
 			}
+
 			revInfoSink?.Invoke(revisionInfo);
 			return needsDbUpdate;
 		}
@@ -112,10 +115,11 @@ namespace Tgstation.Server.Host.Controllers
 				model.GitHubOwner = repository.GitHubOwner;
 				model.GitHubName = repository.GitHubRepoName;
 			}
+
 			model.Origin = repository.Origin;
 			model.Reference = repository.Reference;
 
-			//rev info stuff
+			// rev info stuff
 			Models.RevisionInformation revisionInfo = null;
 			var needsDbUpdate = await LoadRevisionInformation(repository, databaseContext, instance, null, x => revisionInfo = x, cancellationToken).ConfigureAwait(false);
 			model.RevisionInformation = revisionInfo.ToApi();
@@ -140,7 +144,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (currentModel == default)
 				return StatusCode((int)HttpStatusCode.Gone);
 
-			//normalize github urls
+			// normalize github urls
 			const string BadGitHubUrl = "://www.github.com/";
 			var uiOrigin = model.Origin.ToUpperInvariant();
 			var uiBad = BadGitHubUrl.ToUpperInvariant();
@@ -149,7 +153,7 @@ namespace Tgstation.Server.Host.Controllers
 				model.Origin = uiOrigin.Replace(uiBad, uiGitHub, StringComparison.Ordinal);
 
 			currentModel.AccessToken = model.AccessToken;
-			currentModel.AccessUser = model.AccessUser; //intentionally only these fields, user not allowed to change anything else atm
+			currentModel.AccessUser = model.AccessUser; // intentionally only these fields, user not allowed to change anything else atm
 			var cloneBranch = model.Reference;
 			var origin = model.Origin;
 
@@ -169,8 +173,8 @@ namespace Tgstation.Server.Host.Controllers
 
 			using (var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 			{
+				// clone conflict
 				if (repo != null)
-					//clone conflict
 					return Conflict(new ErrorMessage
 					{
 						Message = "The repository already exists!"
@@ -269,16 +273,19 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				if (repo != null && await PopulateApi(api, repo, DatabaseContext, Instance, cancellationToken).ConfigureAwait(false))
 				{
-					//user may have fucked with the repo without telling us, do what we can
+					// user may have fucked with the repo without telling us, do what we can
 					await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 					return StatusCode((int)HttpStatusCode.Created, api);
 				}
+
 				return Json(api);
 			}
 		}
 
 		/// <inheritdoc />
 		[TgsAuthorize(RepositoryRights.ChangeAutoUpdateSettings | RepositoryRights.ChangeCommitter | RepositoryRights.ChangeCredentials | RepositoryRights.ChangeTestMergeCommits | RepositoryRights.MergePullRequest | RepositoryRights.SetReference | RepositoryRights.SetSha | RepositoryRights.UpdateBranch)]
+		#pragma warning disable CA1502 // TODO: Decomplexify
+		#pragma warning disable CA1505
 		public override async Task<IActionResult> Update([FromBody]Repository model, CancellationToken cancellationToken)
 		{
 			if (model == null)
@@ -331,7 +338,7 @@ namespace Tgstation.Server.Host.Controllers
 
 				property.SetValue(currentModel, newVal);
 				return false;
-			};
+			}
 
 			if (CheckModified(x => x.AccessToken, RepositoryRights.ChangeCredentials)
 				|| CheckModified(x => x.AccessUser, RepositoryRights.ChangeCredentials)
@@ -347,7 +354,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (currentModel.AccessToken?.Length == 0 && currentModel.AccessUser?.Length == 0)
 			{
-				//setting an empty string clears everything
+				// setting an empty string clears everything
 				currentModel.AccessUser = null;
 				currentModel.AccessToken = null;
 			}
@@ -381,11 +388,11 @@ namespace Tgstation.Server.Host.Controllers
 					await PopulateApi(api, repo, DatabaseContext, Instance, cancellationToken).ConfigureAwait(false);
 				}
 			}
-						
-			//this is just db stuf so stow it away
+
+			// this is just db stuf so stow it away
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
-			//format the job description
+			// format the job description
 			string description = null;
 			if (model.UpdateFromOrigin == true)
 				if (model.Reference != null)
@@ -398,16 +405,15 @@ namespace Tgstation.Server.Host.Controllers
 				description = String.Format(CultureInfo.InvariantCulture, "Checkout repository {0} {1}", model.Reference != null ? "reference" : "SHA", model.Reference ?? model.CheckoutSha);
 
 			if (newTestMerges)
-				description = String.Format(CultureInfo.InvariantCulture, "{0}est merge pull request(s) {1}{2}", 
+				description = String.Format(CultureInfo.InvariantCulture, "{0}est merge pull request(s) {1}{2}",
 					description != null ? String.Format(CultureInfo.InvariantCulture, "{0} and t", description) : "T",
-					String.Join(", ", model.NewTestMerges.Select(x => 
-					String.Format(CultureInfo.InvariantCulture, "#{0}{1}", x.Number, 
+					String.Join(", ", model.NewTestMerges.Select(x =>
+					String.Format(CultureInfo.InvariantCulture, "#{0}{1}", x.Number,
 					x.PullRequestRevision != null ? String.Format(CultureInfo.InvariantCulture, " at {0}", x.PullRequestRevision.Substring(0, 7)) : String.Empty))),
 					description != null ? String.Empty : " in repository");
 
 			if (description == null)
-				//no git changes
-				return Json(api);
+				return Json(api); // no git changes
 
 			var job = new Models.Job
 			{
@@ -445,14 +451,14 @@ namespace Tgstation.Server.Host.Controllers
 					{
 						var tmpDoneSteps = doneSteps;
 						++doneSteps;
-						return progress => progressReporter((progress + 100 * tmpDoneSteps) / numSteps);
-					};
+						return progress => progressReporter((progress + (100 * tmpDoneSteps)) / numSteps);
+					}
 
 					progressReporter(0);
 
-					//get a base line for where we are
+					// get a base line for where we are
 					Models.RevisionInformation lastRevisionInfo = null;
-					
+
 					var attachedInstance = new Models.Instance
 					{
 						Id = Instance.Id
@@ -461,17 +467,17 @@ namespace Tgstation.Server.Host.Controllers
 
 					await LoadRevisionInformation(repo, databaseContext, attachedInstance, null, x => lastRevisionInfo = x, ct).ConfigureAwait(false);
 
-					//apply new rev info, tracking applied test merges
+					// apply new rev info, tracking applied test merges
 					async Task UpdateRevInfo()
 					{
 						var last = lastRevisionInfo;
 						await LoadRevisionInformation(repo, databaseContext, attachedInstance, last.OriginCommitSha, x => lastRevisionInfo = x, ct).ConfigureAwait(false);
 						lastRevisionInfo.ActiveTestMerges.AddRange(last.ActiveTestMerges);
-					};
+					}
 
 					try
 					{
-						//fetch/pull
+						// fetch/pull
 						if (model.UpdateFromOrigin == true)
 						{
 							if (!repo.Tracking)
@@ -495,7 +501,7 @@ namespace Tgstation.Server.Host.Controllers
 							}
 						}
 
-						//checkout/hard reset
+						// checkout/hard reset
 						if (modelHasShaOrReference)
 						{
 							if ((model.CheckoutSha != null && repo.Head.ToUpperInvariant().StartsWith(model.CheckoutSha.ToUpperInvariant(), StringComparison.Ordinal))
@@ -508,7 +514,7 @@ namespace Tgstation.Server.Host.Controllers
 									throw new JobException("Attempted to checkout a SHA or reference that was actually the opposite!");
 
 								await repo.CheckoutObject(committish, NextProgressReporter(), ct).ConfigureAwait(false);
-								await LoadRevisionInformation(repo, databaseContext, attachedInstance, null, x => lastRevisionInfo = x, ct).ConfigureAwait(false);  //we've either seen origin before or what we're checking out is on origin
+								await LoadRevisionInformation(repo, databaseContext, attachedInstance, null, x => lastRevisionInfo = x, ct).ConfigureAwait(false); // we've either seen origin before or what we're checking out is on origin
 							}
 							else
 								NextProgressReporter()(100);
@@ -520,35 +526,36 @@ namespace Tgstation.Server.Host.Controllers
 								await repo.ResetToOrigin(NextProgressReporter(), ct).ConfigureAwait(false);
 								await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, currentModel.CommitterName, currentModel.CommitterEmail, NextProgressReporter(), true, ct).ConfigureAwait(false);
 								await LoadRevisionInformation(repo, databaseContext, attachedInstance, null, x => lastRevisionInfo = x, ct).ConfigureAwait(false);
-								//repo head is on origin so force this
-								//will update the db if necessary
+
+								// repo head is on origin so force this
+								// will update the db if necessary
 								lastRevisionInfo.OriginCommitSha = repo.Head;
 							}
 						}
 
+						// test merging
 						Dictionary<int, Octokit.PullRequest> prMap = null;
-						//test merging
 						if (newTestMerges)
 						{
-							//bit of sanitization
+							// bit of sanitization
 							foreach (var I in model.NewTestMerges.Where(x => String.IsNullOrWhiteSpace(x.PullRequestRevision)))
 								I.PullRequestRevision = null;
 
-							var gitHubClient = currentModel.AccessToken != null 
-							? gitHubClientFactory.CreateClient(currentModel.AccessToken) 
+							var gitHubClient = currentModel.AccessToken != null
+							? gitHubClientFactory.CreateClient(currentModel.AccessToken)
 							: (String.IsNullOrEmpty(generalConfiguration.GitHubAccessToken)
-							? gitHubClientFactory.CreateClient() 
+							? gitHubClientFactory.CreateClient()
 							: gitHubClientFactory.CreateClient(generalConfiguration.GitHubAccessToken));
 
 							var repoOwner = repo.GitHubOwner;
 							var repoName = repo.GitHubRepoName;
 
+							// optimization: if we've already merged these exact same commits in this fashion before, just find the rev info for it and check it out
 							Models.RevisionInformation revInfoWereLookingFor = null;
 							bool needToApplyRemainingPrs = true;
-							//optimization: if we've already merged these exact same commits in this fashion before, just find the rev info for it and check it out
 							if (lastRevisionInfo.OriginCommitSha == lastRevisionInfo.CommitSha)
 							{
-								//In order for this to work though we need the shas of all the commits
+								// In order for this to work though we need the shas of all the commits
 								if (model.NewTestMerges.Any(x => x.PullRequestRevision == null))
 									prMap = new Dictionary<int, Octokit.PullRequest>();
 
@@ -556,14 +563,13 @@ namespace Tgstation.Server.Host.Controllers
 								foreach (var I in model.NewTestMerges)
 								{
 									if (I.PullRequestRevision != null)
-										//normalize the shas to lowercase ala libgit2
 #pragma warning disable CA1308 // Normalize strings to uppercase
-										I.PullRequestRevision = I.PullRequestRevision?.ToLowerInvariant();
+										I.PullRequestRevision = I.PullRequestRevision?.ToLowerInvariant(); // ala libgit2
 #pragma warning restore CA1308 // Normalize strings to uppercase
 									else
-										//retrieve the latest sha
 										try
 										{
+											// retrieve the latest sha
 											var pr = await gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number.Value).ConfigureAwait(false);
 											prMap.Add(I.Number.Value, pr);
 											I.PullRequestRevision = pr.Head.Sha;
@@ -586,7 +592,7 @@ namespace Tgstation.Server.Host.Controllers
 										.ThenInclude(x => x.TestMerge)
 										.ToListAsync(cancellationToken).ConfigureAwait(false);
 
-									//split here cause this bit has to be done locally
+									// split here cause this bit has to be done locally
 									revInfoWereLookingFor = dbPull
 										.Where(x => x.ActiveTestMerges.Count == model.NewTestMerges.Count
 										&& x.ActiveTestMerges.Select(y => y.TestMerge)
@@ -598,7 +604,7 @@ namespace Tgstation.Server.Host.Controllers
 
 									if (revInfoWereLookingFor == null && model.NewTestMerges.Count > 1)
 									{
-										//okay try to add at least SOME prs we've seen before 
+										// okay try to add at least SOME prs we've seen before
 										var search = model.NewTestMerges.ToList();
 
 										var appliedTestMergeIds = new List<long>();
@@ -624,7 +630,8 @@ namespace Tgstation.Server.Host.Controllers
 													break;
 												}
 											}
-										} while (revInfoWereLookingFor != null && search.Count > 0);
+										}
+										while (revInfoWereLookingFor != null && search.Count > 0);
 
 										revInfoWereLookingFor = lastGoodRevInfo;
 										needToApplyRemainingPrs = search.Count != 0;
@@ -638,14 +645,14 @@ namespace Tgstation.Server.Host.Controllers
 
 							if (revInfoWereLookingFor != null)
 							{
-								//goteem
+								// goteem
 								await repo.ResetToSha(revInfoWereLookingFor.CommitSha, NextProgressReporter(), cancellationToken).ConfigureAwait(false);
 								lastRevisionInfo = revInfoWereLookingFor;
 							}
 
 							if (needToApplyRemainingPrs)
 							{
-								//an invocation of LoadRevisionInformation could have already loaded this user
+								// an invocation of LoadRevisionInformation could have already loaded this user
 								var contextUser = databaseContext.Users.Local.Where(x => x.Id == AuthenticationContext.User.Id).FirstOrDefault();
 								if (contextUser == default)
 								{
@@ -668,13 +675,13 @@ namespace Tgstation.Server.Host.Controllers
 
 									try
 									{
-										//load from cache if possible
+										// load from cache if possible
 										if (prMap == null || !prMap.TryGetValue(I.Number.Value, out pr))
 											pr = await gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number.Value).ConfigureAwait(false);
 									}
 									catch (Octokit.RateLimitExceededException)
 									{
-										//you look at your anonymous access and sigh
+										// you look at your anonymous access and sigh
 										errorMessage = "P.R.E. RATE LIMITED";
 									}
 									catch (Octokit.AuthorizationException)
@@ -683,11 +690,11 @@ namespace Tgstation.Server.Host.Controllers
 									}
 									catch (Octokit.NotFoundException)
 									{
-										//you look at your shithub and sigh
+										// you look at your shithub and sigh
 										errorMessage = "P.R.E. NOT FOUND";
 									}
 
-									//we want to take the earliest truth possible to prevent RCEs, if this fails AddTestMerge will set it
+									// we want to take the earliest truth possible to prevent RCEs, if this fails AddTestMerge will set it
 									if (I.PullRequestRevision == null && pr != null)
 										I.PullRequestRevision = pr.Head.Sha;
 
@@ -730,13 +737,15 @@ namespace Tgstation.Server.Host.Controllers
 							await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, currentModel.CommitterName, currentModel.CommitterEmail, NextProgressReporter(), false, ct).ConfigureAwait(false);
 							await UpdateRevInfo().ConfigureAwait(false);
 						}
+
 						await databaseContext.Save(ct).ConfigureAwait(false);
 					}
 					catch
 					{
 						doneSteps = 0;
 						numSteps = 2;
-						//the stuff didn't make it into the db, forget what we've done and abort
+
+						// the stuff didn't make it into the db, forget what we've done and abort
 						await repo.CheckoutObject(startReference ?? startSha, NextProgressReporter(), default).ConfigureAwait(false);
 						if (startReference != null && repo.Head != startSha)
 							await repo.ResetToSha(startSha, NextProgressReporter(), default).ConfigureAwait(false);
@@ -750,5 +759,7 @@ namespace Tgstation.Server.Host.Controllers
 			api.ActiveJob = job.ToApi();
 			return Accepted(api);
 		}
+		#pragma warning restore CA1502
+		#pragma warning restore CA1505
 	}
 }

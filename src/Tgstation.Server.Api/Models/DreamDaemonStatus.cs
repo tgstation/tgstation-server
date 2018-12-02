@@ -11,10 +11,12 @@
 		/// Server is not running
 		/// </summary>
 		Offline,
+
 		/// <summary>
 		/// Server is being rebooted
 		/// </summary>
 		HardRebooting,
+
 		/// <summary>
 		/// Server is running
 		/// </summary>

@@ -15,6 +15,8 @@ using Tgstation.Server.Host.IO;
 namespace Tgstation.Server.Host.Components.Chat
 {
 	/// <inheritdoc />
+	// TODO: Decomplexify
+	#pragma warning disable CA1506
 	sealed class Chat : IChat, IRestartHandler
 	{
 		const string CommonMention = "!tgs";
@@ -177,6 +179,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				else
 					task = Task.CompletedTask;
 			}
+
 			await task.ConfigureAwait(false);
 			return provider;
 		}
@@ -190,12 +193,12 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task ProcessMessage(IProvider provider, Message message, CancellationToken cancellationToken)
 		{
-			//map the channel if it's private and we haven't seen it
+			// map the channel if it's private and we haven't seen it
 			lock (providers)
 			{
 				var providerId = providers.Where(x => x.Value == provider).Select(x => x.Key).First();
 				var enumerable = mappedChannels.Where(x => x.Value.ProviderId == providerId && x.Value.ProviderChannelId == message.User.Channel.RealId);
-				if (message.User.Channel.IsPrivate)
+				if (message.User.Channel.IsPrivateChannel)
 					lock (mappedChannels)
 					{
 						if (!provider.Connected)
@@ -219,11 +222,11 @@ namespace Tgstation.Server.Host.Components.Chat
 					}
 				else
 				{
-					//need to add tag and isAdminChannel
+					// need to add tag and isAdminChannel
 					var mapping = enumerable.First().Value;
 					message.User.Channel.Id = mapping.Channel.Id;
 					message.User.Channel.Tag = mapping.Channel.Tag;
-					message.User.Channel.IsAdmin = mapping.Channel.IsAdmin;
+					message.User.Channel.IsAdminChannel = mapping.Channel.IsAdminChannel;
 				}
 			}
 
@@ -236,8 +239,8 @@ namespace Tgstation.Server.Host.Components.Chat
 
 			var addressed = address == CommonMention.ToUpperInvariant() || address == provider.BotMention.ToUpperInvariant();
 
-			if (!addressed && !message.User.Channel.IsPrivate)
-				//no mention
+			// no mention
+			if (!addressed && !message.User.Channel.IsPrivateChannel)
 				return;
 
 			logger.LogTrace("Chat command: {0}. User (True provider Id): {1}", message.Content, JsonConvert.SerializeObject(message.User));
@@ -247,7 +250,7 @@ namespace Tgstation.Server.Host.Components.Chat
 
 			if (splits.Count == 0)
 			{
-				//just a mention
+				// just a mention
 				await SendMessage("Hi!", new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
 				return;
 			}
@@ -266,8 +269,9 @@ namespace Tgstation.Server.Host.Components.Chat
 						await Task.WhenAll(tasks).ConfigureAwait(false);
 						handler = tasks.SelectMany(x => x.Result).Where(x => x.Name.ToUpperInvariant() == commandName).FirstOrDefault();
 					}
+
 					return handler;
-				};
+				}
 
 				const string UnknownCommandMessage = "Unknown command! Type '?' or 'help' for available commands.";
 
@@ -290,6 +294,7 @@ namespace Tgstation.Server.Host.Components.Chat
 						else
 							helpText = UnknownCommandMessage;
 					}
+
 					await SendMessage(helpText, new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
 					return;
 				}
@@ -302,7 +307,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					return;
 				}
 
-				if (commandHandler.AdminOnly && !message.User.Channel.IsAdmin)
+				if (commandHandler.AdminOnly && !message.User.Channel.IsAdminChannel)
 				{
 					await SendMessage("Use this command in an admin channel!", new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
 					return;
@@ -318,7 +323,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			}
 			catch (Exception e)
 			{
-				//error bc custom commands should reply about why it failed
+				// error bc custom commands should reply about why it failed
 				logger.LogError("Error processing chat command: {0}", e);
 				await SendMessage("Internal error processing command!", new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
 			}
@@ -336,11 +341,11 @@ namespace Tgstation.Server.Host.Components.Chat
 			{
 				while (!cancellationToken.IsCancellationRequested)
 				{
-					//prune disconnected providers
+					// prune disconnected providers
 					foreach (var I in messageTasks.Where(x => !x.Key.Connected).ToList())
 						messageTasks.Remove(I.Key);
 
-					//add new ones
+					// add new ones
 					Task updatedTask;
 					lock (this)
 						updatedTask = connectionsUpdated.Task;
@@ -355,10 +360,10 @@ namespace Tgstation.Server.Host.Components.Chat
 						continue;
 					}
 
-					//wait for a message
+					// wait for a message
 					await Task.WhenAny(updatedTask, Task.WhenAny(messageTasks.Select(x => x.Value))).ConfigureAwait(false);
 
-					//process completed ones
+					// process completed ones
 					foreach (var I in messageTasks.Where(x => x.Value.IsCompleted).ToList())
 					{
 						var message = await I.Value.ConfigureAwait(false);
@@ -385,7 +390,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			if (provider == null)
 				return;
 			var results = await provider.MapChannels(newChannels, cancellationToken).ConfigureAwait(false);
-			if (results == null)    //aborted
+			if (results == null) // aborted
 				return;
 			var mappings = Enumerable.Zip(newChannels, results, (x, y) => new ChannelMapping
 			{
@@ -407,7 +412,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			lock (mappedChannels)
 			{
 				lock (providers)
-					if (!providers.TryGetValue(connectionId, out IProvider verify) || verify != provider)   //aborted again
+					if (!providers.TryGetValue(connectionId, out IProvider verify) || verify != provider) // aborted again
 						return;
 				foreach (var I in mappings)
 				{
@@ -419,6 +424,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				lock (trackingContexts)
 					task = Task.WhenAll(trackingContexts.Select(x => x.SetChannels(mappedChannels.Select(y => y.Value.Channel), cancellationToken)));
 			}
+
 			await task.ConfigureAwait(false);
 		}
 
@@ -444,7 +450,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			Task disconnectTask;
 			lock (providers)
 			{
-				//raw settings changes forces a rebuild of the provider
+				// raw settings changes forces a rebuild of the provider
 				if (providers.TryGetValue(newSettings.Id, out provider))
 				{
 					providers.Remove(newSettings.Id);
@@ -471,7 +477,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					await provider.Connect(cancellationToken).ConfigureAwait(false);
 				lock (this)
 				{
-					//same thread shennanigans
+					// same thread shennanigans
 					var oldOne = connectionsUpdated;
 					connectionsUpdated = new TaskCompletionSource<object>();
 					oldOne.SetResult(null);
@@ -506,7 +512,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		{
 			List<ulong> wdChannels;
 			message = String.Format(CultureInfo.InvariantCulture, "WD: {0}", message);
-			lock (mappedChannels)   //so it doesn't change while we're using it
+			lock (mappedChannels) // so it doesn't change while we're using it
 				wdChannels = mappedChannels.Where(x => x.Value.IsWatchdogChannel).Select(x => x.Key).ToList();
 			return SendMessage(message, wdChannels, cancellationToken);
 		}
@@ -516,7 +522,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		{
 			List<ulong> wdChannels;
 			message = String.Format(CultureInfo.InvariantCulture, "DM: {0}", message);
-			lock (mappedChannels)   //so it doesn't change while we're using it
+			lock (mappedChannels) // so it doesn't change while we're using it
 				wdChannels = mappedChannels.Where(x => x.Value.IsUpdatesChannel).Select(x => x.Key).ToList();
 			return SendMessage(message, wdChannels, cancellationToken);
 		}
@@ -547,11 +553,17 @@ namespace Tgstation.Server.Host.Components.Chat
 			if (customCommandHandler == null)
 				throw new InvalidOperationException("RegisterCommandHandler() hasn't been called!");
 			JsonTrackingContext context = null;
-			context = new JsonTrackingContext(ioManager, customCommandHandler, loggerFactory.CreateLogger<JsonTrackingContext>(), () =>
-			{
-				lock (trackingContexts)
-					trackingContexts.Remove(context);
-			}, ioManager.ConcatPath(basePath, commandsJsonName), ioManager.ConcatPath(basePath, channelsJsonName));
+			context = new JsonTrackingContext(
+				ioManager,
+				customCommandHandler,
+				loggerFactory.CreateLogger<JsonTrackingContext>(),
+				() =>
+				{
+					lock (trackingContexts)
+						trackingContexts.Remove(context);
+				},
+				ioManager.ConcatPath(basePath, commandsJsonName),
+				ioManager.ConcatPath(basePath, channelsJsonName));
 			Task task;
 			lock (trackingContexts)
 			{
@@ -559,6 +571,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				lock (mappedChannels)
 					task = context.SetChannels(mappedChannels.Select(y => y.Value.Channel), cancellationToken);
 			}
+
 			await task.ConfigureAwait(false);
 			return context;
 		}
@@ -598,7 +611,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		{
 			var message = updateVersion == null ? "TGS: Restart requested..." : String.Format(CultureInfo.InvariantCulture, "TGS: Updating to version {0}...", updateVersion);
 			List<ulong> wdChannels;
-			lock (mappedChannels)   //so it doesn't change while we're using it
+			lock (mappedChannels) // so it doesn't change while we're using it
 				wdChannels = mappedChannels.Select(x => x.Key).ToList();
 			return SendMessage(message, wdChannels, cancellationToken);
 		}

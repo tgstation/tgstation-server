@@ -24,7 +24,7 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// Construct an <see cref="InstanceManagerClient"/>
 		/// </summary>
-		/// <param name="apiClient"></param>
+		/// <param name="apiClient">The value of <see cref="apiClient"/></param>
 		public InstanceManagerClient(IApiClient apiClient)
 		{
 			this.apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
@@ -55,6 +55,7 @@ namespace Tgstation.Server.Client
 				client = new InstanceClient(apiClient, instance);
 				cachedClients.Add(instance.Id, client);
 			}
+
 			return client;
 		}
 	}
