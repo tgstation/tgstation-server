@@ -31,6 +31,8 @@
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -38,9 +40,7 @@
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
     <DocumentationFile>bin\Debug\Tgstation.Server.Host.Service.xml</DocumentationFile>
-    <CodeAnalysisRuleSet />
     <NoWarn>SA1101;SA1121;SA1200;SA1202;SA1208;SA1400;SA1413;SA1501;SA1503;SA1519;SA1520;SA1623;SA1629;SA1633;SA1642</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -48,10 +48,8 @@
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>bin\Release\Tgstation.Server.Host.Service.xml</DocumentationFile>
-    <CodeAnalysisRuleSet />
     <NoWarn>SA1101;SA1121;SA1200;SA1202;SA1208;SA1400;SA1413;SA1501;SA1503;SA1519;SA1520;SA1623;SA1629;SA1633;SA1642</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
