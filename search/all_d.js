@@ -60,6 +60,7 @@ var searchData=
   ['msinitialcreate',['MSInitialCreate',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_m_s_initial_create.html',1,'Tgstation::Server::Host::Models::Migrations']]],
   ['msnullableandforeignkeycleanup',['MSNullableAndForeignKeyCleanup',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_m_s_nullable_and_foreign_key_cleanup.html',1,'Tgstation::Server::Host::Models::Migrations']]],
   ['msreattachcompilejobrequired',['MSReattachCompileJobRequired',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_m_s_reattach_compile_job_required.html',1,'Tgstation::Server::Host::Models::Migrations']]],
+  ['mstoggletestmergecomments',['MSToggleTestmergeComments',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_m_s_toggle_testmerge_comments.html',1,'Tgstation::Server::Host::Models::Migrations']]],
   ['myaddminimumsecurity',['MYAddMinimumSecurity',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_m_y_add_minimum_security.html',1,'Tgstation::Server::Host::Models::Migrations']]],
   ['myinitialcreate',['MYInitialCreate',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_m_y_initial_create.html',1,'Tgstation::Server::Host::Models::Migrations']]],
   ['mynullableandforeignkeycleanup',['MYNullableAndForeignKeyCleanup',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_m_y_nullable_and_foreign_key_cleanup.html',1,'Tgstation::Server::Host::Models::Migrations']]],
@@ -72,5 +73,6 @@ var searchData=
   ['mysqldatabasecontextmodelsnapshot_2ecs',['MySqlDatabaseContextModelSnapshot.cs',['../_my_sql_database_context_model_snapshot_8cs.html',1,'']]],
   ['mysqldesigntimedbcontextfactory',['MySqlDesignTimeDbContextFactory',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_my_sql_design_time_db_context_factory.html',1,'Tgstation::Server::Host::Models::Migrations']]],
   ['mysqldesigntimedbcontextfactory_2ecs',['MySqlDesignTimeDbContextFactory.cs',['../_my_sql_design_time_db_context_factory_8cs.html',1,'']]],
-  ['mysqlserverversion',['MySqlServerVersion',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#abb0513764b16289df15f08e8127d0582',1,'Tgstation::Server::Host::Configuration::DatabaseConfiguration']]]
+  ['mysqlserverversion',['MySqlServerVersion',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#abb0513764b16289df15f08e8127d0582',1,'Tgstation::Server::Host::Configuration::DatabaseConfiguration']]],
+  ['mytoggletestmergecomments',['MYToggleTestmergeComments',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_m_y_toggle_testmerge_comments.html',1,'Tgstation::Server::Host::Models::Migrations']]]
 ];

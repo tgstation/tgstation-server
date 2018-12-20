@@ -15,5 +15,9 @@ var searchData=
   ['20180926033145_5fmsreattachcompilejobrequired_2ecs',['20180926033145_MSReattachCompileJobRequired.cs',['../20180926033145___m_s_reattach_compile_job_required_8cs.html',1,'']]],
   ['20180926033145_5fmsreattachcompilejobrequired_2edesigner_2ecs',['20180926033145_MSReattachCompileJobRequired.Designer.cs',['../20180926033145___m_s_reattach_compile_job_required_8_designer_8cs.html',1,'']]],
   ['20180926034014_5fmyreattachcompilejobrequired_2ecs',['20180926034014_MYReattachCompileJobRequired.cs',['../20180926034014___m_y_reattach_compile_job_required_8cs.html',1,'']]],
-  ['20180926034014_5fmyreattachcompilejobrequired_2edesigner_2ecs',['20180926034014_MYReattachCompileJobRequired.Designer.cs',['../20180926034014___m_y_reattach_compile_job_required_8_designer_8cs.html',1,'']]]
+  ['20180926034014_5fmyreattachcompilejobrequired_2edesigner_2ecs',['20180926034014_MYReattachCompileJobRequired.Designer.cs',['../20180926034014___m_y_reattach_compile_job_required_8_designer_8cs.html',1,'']]],
+  ['20181124231534_5fmstoggletestmergecomments_2ecs',['20181124231534_MSToggleTestmergeComments.cs',['../20181124231534___m_s_toggle_testmerge_comments_8cs.html',1,'']]],
+  ['20181124231534_5fmstoggletestmergecomments_2edesigner_2ecs',['20181124231534_MSToggleTestmergeComments.Designer.cs',['../20181124231534___m_s_toggle_testmerge_comments_8_designer_8cs.html',1,'']]],
+  ['20181124231549_5fmytoggletestmergecomments_2ecs',['20181124231549_MYToggleTestmergeComments.cs',['../20181124231549___m_y_toggle_testmerge_comments_8cs.html',1,'']]],
+  ['20181124231549_5fmytoggletestmergecomments_2edesigner_2ecs',['20181124231549_MYToggleTestmergeComments.Designer.cs',['../20181124231549___m_y_toggle_testmerge_comments_8_designer_8cs.html',1,'']]]
 ];
