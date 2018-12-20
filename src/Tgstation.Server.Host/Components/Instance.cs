@@ -242,7 +242,7 @@ namespace Tgstation.Server.Host.Components
 					// potential for commenting on a test merge change
 					var outgoingCompileJob = LatestCompileJob();
 
-					if(outgoingCompileJob != null && outgoingCompileJob.RevisionInformation.CommitSha != compileJob.RevisionInformation.CommitSha)
+					if(outgoingCompileJob != null && outgoingCompileJob.RevisionInformation.CommitSha != compileJob.RevisionInformation.CommitSha && repositorySettings.PostTestMergeComment.Value)
 					{
 						var gitHubClient = gitHubClientFactory.CreateClient(repositorySettings.AccessToken);
 
