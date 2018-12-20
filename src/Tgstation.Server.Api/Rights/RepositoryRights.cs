@@ -44,7 +44,7 @@ namespace Tgstation.Server.Api.Rights
 		ChangeCommitter = 32,
 
 		/// <summary>
-		/// User may change <see cref="Models.Internal.RepositorySettings.PushTestMergeCommits"/>
+		/// User may change <see cref="Models.Internal.RepositorySettings.PushTestMergeCommits"/> and <see cref="Models.Internal.RepositorySettings.PostTestMergeComment"/>
 		/// </summary>
 		ChangeTestMergeCommits = 64,
 
