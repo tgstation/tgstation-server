@@ -996,20 +996,28 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken)
 		{
-			if (releaseServers && Running)
+			try
 			{
-				await StopMonitor().ConfigureAwait(false);
-
-				var reattachInformation = new WatchdogReattachInformation
+				if (releaseServers && Running)
 				{
-					AlphaIsActive = AlphaIsActive
-				};
-				reattachInformation.Alpha = alphaServer?.Release();
-				reattachInformation.Bravo = bravoServer?.Release();
-				await reattachInfoHandler.Save(reattachInformation, cancellationToken).ConfigureAwait(false);
-			}
+					await StopMonitor().ConfigureAwait(false);
 
-			await Terminate(false, cancellationToken).ConfigureAwait(false);
+					var reattachInformation = new WatchdogReattachInformation
+					{
+						AlphaIsActive = AlphaIsActive
+					};
+					reattachInformation.Alpha = alphaServer?.Release();
+					reattachInformation.Bravo = bravoServer?.Release();
+					await reattachInfoHandler.Save(reattachInformation, cancellationToken).ConfigureAwait(false);
+				}
+
+				await Terminate(false, cancellationToken).ConfigureAwait(false);
+			}
+			catch
+			{
+				releaseServers = false;
+				throw;
+			}
 		}
 
 		/// <inheritdoc />
