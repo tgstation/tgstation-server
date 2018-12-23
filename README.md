@@ -244,6 +244,22 @@ ProxyPassReverse / http://127.0.0.1:8080
 
 See https://httpd.apache.org/docs/2.4/howto/reverse_proxy.html
 
+Example VirtualHost Entry
+```
+<IfModule mod_ssl.c>
+<VirtualHost *:443>
+	ServerName tgs_subdomain.example.com
+
+	SSLEngine on
+	SSLCertificateFile /etc/letsencrypt/live/example.com/fullchain.pem
+	SSLCertificateKeyFile /etc/letsencrypt/live/example.com/privkey.pem
+
+	ProxyPass / http://127.0.0.1:8080/
+	ProxyPassReverse / http://127.0.0.1:8080/
+</VirtualHost>
+</IfModule>
+```
+
 ## Usage
 
 tgstation-server v4 is controlled via a RESTful HTTP json API. Documentation on this API can be found [here](https://tgstation.github.io/tgstation-server/api.html). This section serves to document the concepts of the server.
