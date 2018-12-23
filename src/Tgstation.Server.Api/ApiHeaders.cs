@@ -95,7 +95,7 @@ namespace Tgstation.Server.Api
 		/// </summary>
 		/// <param name="otherVersion">The <see cref="Version"/> to test</param>
 		/// <returns><see langword="true"/> if the given version is compatible with the API. <see langword="false"/> otherwise</returns>
-		public static bool CheckCompatibility(Version otherVersion) => !(Version.Major != otherVersion.Major || Version.Minor != otherVersion.Minor || Version.Build > otherVersion.Build);
+		public static bool CheckCompatibility(Version otherVersion) => !(Version.Major != otherVersion.Major || Version.Minor > otherVersion.Minor);
 
 		/// <summary>
 		/// Construct <see cref="ApiHeaders"/> for JWT authentication
