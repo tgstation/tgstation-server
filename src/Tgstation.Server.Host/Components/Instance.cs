@@ -190,7 +190,8 @@ namespace Tgstation.Server.Host.Components
 					repositorySettingsTask = databaseContext.RepositorySettings.Where(x => x.InstanceId == metadata.Id).Select(x => new RepositorySettings
 					{
 						AccessToken = x.AccessToken,
-						ShowTestMergeCommitters = x.ShowTestMergeCommitters
+						ShowTestMergeCommitters = x.ShowTestMergeCommitters,
+						PushTestMergeCommits = x.PushTestMergeCommits
 					}).FirstOrDefaultAsync(cancellationToken);
 				}
 
