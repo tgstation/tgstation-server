@@ -188,7 +188,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				ContractResolver = new CamelCasePropertyNamesContractResolver(),
 				ReferenceLoopHandling = ReferenceLoopHandling.Ignore
 			});
-			
+
 			var chatJsonTrackingTask = chat.TrackJsons(basePath, interopInfo.ChatChannelsJson, interopInfo.ChatCommandsJson, cancellationToken);
 
 			await ioManager.WriteAllBytes(ioManager.ConcatPath(basePath, interopJsonFile), Encoding.UTF8.GetBytes(interopJson), cancellationToken).ConfigureAwait(false);
