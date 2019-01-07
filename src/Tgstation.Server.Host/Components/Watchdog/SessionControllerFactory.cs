@@ -189,11 +189,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				ReferenceLoopHandling = ReferenceLoopHandling.Ignore
 			});
 
-			var localIoManager = new ResolvingIOManager(ioManager, basePath);
-
 			var chatJsonTrackingTask = chat.TrackJsons(basePath, interopInfo.ChatChannelsJson, interopInfo.ChatCommandsJson, cancellationToken);
 
-			await localIoManager.WriteAllBytes(interopJsonFile, Encoding.UTF8.GetBytes(interopJson), cancellationToken).ConfigureAwait(false);
+			await ioManager.WriteAllBytes(ioManager.ConcatPath(basePath, interopJsonFile), Encoding.UTF8.GetBytes(interopJson), cancellationToken).ConfigureAwait(false);
 			var chatJsonTrackingContext = await chatJsonTrackingTask.ConfigureAwait(false);
 			try
 			{
