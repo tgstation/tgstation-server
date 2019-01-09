@@ -186,6 +186,7 @@
 /world/proc/TgsVersion()
 	return
 
+//Gets the name of the TGS instance running the game
 /world/proc/TgsInstanceName()
 	return
 
