@@ -17,7 +17,6 @@
 //Required interfaces (fill in with your codebase equivalent):
 
 //create a global variable named `Name` and set it to `Value`
-//These globals must not be modifiable from anywhere outside of the server tools
 #define TGS_DEFINE_AND_SET_GLOBAL(Name, Value)
 
 //Read the value in the global variable `Name`
@@ -26,10 +25,10 @@
 //Set the value in the global variable `Name` to `Value`
 #define TGS_WRITE_GLOBAL(Name, Value)
 
-//Disallow ANYONE from reflecting a given `path`, security measure to prevent in-game priveledge escalation
+//Disallow ANYONE from reflecting a given `path`, security measure to prevent in-game use of DD -> TGS capabilities
 #define TGS_PROTECT_DATUM(Path)
 
-//display an announcement `message` from the server to all players
+//Display an announcement `message` from the server to all players
 #define TGS_WORLD_ANNOUNCE(message)
 
 //Notify current in-game administrators of a string `event`
