@@ -152,7 +152,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 
 			if (ApiHeaders != null)
-				Logger.LogDebug("Request made by User ID {0}. Api version: {1}. User-Agent: {2}. Type: {3}. Route {4}{5} to Instance {6}", AuthenticationContext?.User.Id.ToString(CultureInfo.InvariantCulture), ApiHeaders.ApiVersion, ApiHeaders.UserAgent, Request.Method, Request.Path, Request.QueryString, ApiHeaders.InstanceId);
+				Logger.LogDebug("Request made by User ID {0}. Api version: {1}. User-Agent: {2}. Type: {3}. Route {4}{5} to Instance {6}", AuthenticationContext?.User.Id.ToString(CultureInfo.InvariantCulture), ApiHeaders.ApiVersion, ApiHeaders.RawUserAgent, Request.Method, Request.Path, Request.QueryString, ApiHeaders.InstanceId);
 
 			try
 			{
