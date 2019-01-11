@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Headers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Net.Http.Headers;
 
@@ -18,6 +20,32 @@ namespace Tgstation.Server.Api.Tests
 			Assert.ThrowsException<ArgumentNullException>(() => new ApiHeaders(null, null));
 			Assert.ThrowsException<ArgumentNullException>(() => new ApiHeaders(productHeaderValue, null));
 			var headers = new ApiHeaders(productHeaderValue, String.Empty);
+		}
+
+		[TestMethod]
+		public void TestUserAgentsAreValid()
+		{
+			const string BrowserHeader = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36.";
+			const string ConformantHeader = "TGSClient/3.2.1.4";
+
+			ApiHeaders TestHeader(string userAgent)
+			{
+				var headers = new HeaderDictionary();
+				headers.Add("Accept", ApiHeaders.ApplicationJson);
+				headers.Add("Api", "Tgstation.Server.Api/4.0.0.0");
+				headers.Add("Authorization", "Bearer asdfasdf");
+				headers.Add("User-Agent", userAgent);
+
+				return new ApiHeaders(new RequestHeaders(headers));
+			};
+
+			var header = TestHeader(BrowserHeader);
+			Assert.AreEqual(BrowserHeader, header.RawUserAgent);
+			Assert.IsNull(header.UserAgent);
+
+			header = TestHeader(ConformantHeader);
+			Assert.AreEqual(ConformantHeader, header.RawUserAgent);
+			Assert.IsNotNull(header.UserAgent);
 		}
 	}
 }
