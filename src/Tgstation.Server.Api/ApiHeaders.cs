@@ -205,7 +205,7 @@ namespace Tgstation.Server.Api
 		/// <param name="password">The value of <see cref="Password"/></param>
 		ApiHeaders(ProductHeaderValue userAgent, string token, string username, string password)
 		{
-			RawUserAgent = userAgent.ToString();
+			RawUserAgent = userAgent?.ToString();
 			Token = token;
 			Username = username;
 			Password = password;
