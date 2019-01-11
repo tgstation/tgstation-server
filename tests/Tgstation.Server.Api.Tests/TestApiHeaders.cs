@@ -30,11 +30,13 @@ namespace Tgstation.Server.Api.Tests
 
 			ApiHeaders TestHeader(string userAgent)
 			{
-				var headers = new HeaderDictionary();
-				headers.Add("Accept", ApiHeaders.ApplicationJson);
-				headers.Add("Api", "Tgstation.Server.Api/4.0.0.0");
-				headers.Add("Authorization", "Bearer asdfasdf");
-				headers.Add("User-Agent", userAgent);
+				var headers = new HeaderDictionary
+				{
+					{ "Accept", ApiHeaders.ApplicationJson },
+					{ "Api", "Tgstation.Server.Api/4.0.0.0" },
+					{ "Authorization", "Bearer asdfasdf" },
+					{ "User-Agent", userAgent }
+				};
 
 				return new ApiHeaders(new RequestHeaders(headers));
 			};
@@ -46,6 +48,8 @@ namespace Tgstation.Server.Api.Tests
 			header = TestHeader(ConformantHeader);
 			Assert.AreEqual(ConformantHeader, header.RawUserAgent);
 			Assert.IsNotNull(header.UserAgent);
+
+			Assert.ThrowsException<InvalidOperationException>(() => TestHeader(String.Empty));
 		}
 	}
 }

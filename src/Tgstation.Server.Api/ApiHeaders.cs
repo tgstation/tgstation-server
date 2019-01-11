@@ -144,6 +144,10 @@ namespace Tgstation.Server.Api
 			if (!requestHeaders.Headers.TryGetValue(HeaderNames.UserAgent, out var userAgentValues) || userAgentValues.Count == 0)
 				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Missing {0} headers!", HeaderNames.UserAgent));
 
+			RawUserAgent = userAgentValues.First();
+			if (String.IsNullOrWhiteSpace(RawUserAgent))
+				throw new InvalidOperationException("Malformed client User-Agent!");
+
 			// make sure the api header matches ours
 			if (!requestHeaders.Headers.TryGetValue(ApiVersionHeader, out var apiUserAgentHeaderValues) || !ProductInfoHeaderValue.TryParse(apiUserAgentHeaderValues.FirstOrDefault(), out var apiUserAgent) || apiUserAgent.Product.Name != AssemblyName.Name)
 				throw new InvalidOperationException("Missing API version!");
@@ -152,7 +156,6 @@ namespace Tgstation.Server.Api
 				throw new InvalidOperationException("Malformed API version!");
 
 			ApiVersion = apiVersion;
-			RawUserAgent = userAgentValues.First();
 
 			if (!requestHeaders.Headers.TryGetValue(HeaderNames.Authorization, out StringValues authorization))
 				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Missing {0} header!", HeaderNames.Authorization));
