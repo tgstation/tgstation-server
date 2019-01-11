@@ -32,7 +32,7 @@ This document will reference the canonical C# models in the @ref Tgstation.Serve
 
 TGS4 expects this set of headers. Failure to provide them may result in 400 error responses
 
-- User-Agent: The user agent product header value of the calling program. Should be in the form Agent/Version (i.e. SomeTgsClient/1.2.4)
+- User-Agent: The user agent product header value of the calling program
 - Accept: application/json
 - Api: Another product header value representing the version of the API to use. Currently this must be: Tgstation.Server.Api/4.0.0.0
 

@@ -61,9 +61,14 @@ namespace Tgstation.Server.Api
 		public long? InstanceId { get; set; }
 
 		/// <summary>
-		/// The client's user agent
+		/// The client's user agent as a <see cref="ProductHeaderValue"/> if valid
 		/// </summary>
-		public ProductHeaderValue UserAgent { get; }
+		public ProductHeaderValue UserAgent => ProductInfoHeaderValue.TryParse(RawUserAgent, out var userAgent) ? userAgent.Product : null;
+
+		/// <summary>
+		/// The client's raw user agent
+		/// </summary>
+		public string RawUserAgent { get; }
 
 		/// <summary>
 		/// The client's API version
@@ -136,12 +141,12 @@ namespace Tgstation.Server.Api
 			if (!requestHeaders.Accept.Any(x => x.MediaType == jsonAccept.MediaType))
 				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Client does not accept {0}!", ApplicationJson));
 
-			if (!requestHeaders.Headers.TryGetValue(HeaderNames.UserAgent, out var userAgentValues) || !ProductInfoHeaderValue.TryParse(userAgentValues.FirstOrDefault(), out var clientUserAgent))
+			if (!requestHeaders.Headers.TryGetValue(HeaderNames.UserAgent, out var userAgentValues) || userAgentValues.Count == 0)
 				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Missing {0} headers!", HeaderNames.UserAgent));
 
-			// assure the client user agent has a name and version
-			if (String.IsNullOrWhiteSpace(clientUserAgent.Product.Name) || !Version.TryParse(clientUserAgent.Product.Version, out var clientVersion))
-				throw new InvalidOperationException("Malformed client user agent!");
+			RawUserAgent = userAgentValues.First();
+			if (String.IsNullOrWhiteSpace(RawUserAgent))
+				throw new InvalidOperationException("Malformed client User-Agent!");
 
 			// make sure the api header matches ours
 			if (!requestHeaders.Headers.TryGetValue(ApiVersionHeader, out var apiUserAgentHeaderValues) || !ProductInfoHeaderValue.TryParse(apiUserAgentHeaderValues.FirstOrDefault(), out var apiUserAgent) || apiUserAgent.Product.Name != AssemblyName.Name)
@@ -151,7 +156,6 @@ namespace Tgstation.Server.Api
 				throw new InvalidOperationException("Malformed API version!");
 
 			ApiVersion = apiVersion;
-			UserAgent = clientUserAgent.Product;
 
 			if (!requestHeaders.Headers.TryGetValue(HeaderNames.Authorization, out StringValues authorization))
 				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Missing {0} header!", HeaderNames.Authorization));
@@ -204,7 +208,7 @@ namespace Tgstation.Server.Api
 		/// <param name="password">The value of <see cref="Password"/></param>
 		ApiHeaders(ProductHeaderValue userAgent, string token, string username, string password)
 		{
-			UserAgent = userAgent;
+			RawUserAgent = userAgent?.ToString();
 			Token = token;
 			Username = username;
 			Password = password;
