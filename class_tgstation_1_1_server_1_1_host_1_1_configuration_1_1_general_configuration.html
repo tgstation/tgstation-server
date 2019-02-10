@@ -124,6 +124,9 @@ Properties</h2></td></tr>
 <tr class="memitem:aa870a193d3830dcf7b7674f8989ba0b0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#aa870a193d3830dcf7b7674f8989ba0b0">ByondTopicTimeout</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:aa870a193d3830dcf7b7674f8989ba0b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">The timeout in milliseconds for sending and receiving topics to/from DreamDaemon. Note that a single topic exchange can take up to twice this value  <a href="#aa870a193d3830dcf7b7674f8989ba0b0">More...</a><br /></td></tr>
 <tr class="separator:aa870a193d3830dcf7b7674f8989ba0b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addf96ec4a3f16bc7d3d2cd94347dd1d3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#addf96ec4a3f16bc7d3d2cd94347dd1d3">RestartTimeout</a> = <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a51c2f2b2e7faf729aad307050a6d8a6c">DefaultByondTopicTimeout</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:addf96ec4a3f16bc7d3d2cd94347dd1d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The timeout milliseconds for restarting the server  <a href="#addf96ec4a3f16bc7d3d2cd94347dd1d3">More...</a><br /></td></tr>
+<tr class="separator:addf96ec4a3f16bc7d3d2cd94347dd1d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -133,6 +136,9 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a51c2f2b2e7faf729aad307050a6d8a6c"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a51c2f2b2e7faf729aad307050a6d8a6c">DefaultByondTopicTimeout</a> = 5000</td></tr>
 <tr class="memdesc:a51c2f2b2e7faf729aad307050a6d8a6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The default value for <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#aa870a193d3830dcf7b7674f8989ba0b0" title="The timeout in milliseconds for sending and receiving topics to/from DreamDaemon. Note that a single ...">ByondTopicTimeout</a>  <a href="#a51c2f2b2e7faf729aad307050a6d8a6c">More...</a><br /></td></tr>
 <tr class="separator:a51c2f2b2e7faf729aad307050a6d8a6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae39a7785775edb052a36047300b8ec6b"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#ae39a7785775edb052a36047300b8ec6b">DefaultRestartTimeout</a> = 10000</td></tr>
+<tr class="memdesc:ae39a7785775edb052a36047300b8ec6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The default value for <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#addf96ec4a3f16bc7d3d2cd94347dd1d3" title="The timeout milliseconds for restarting the server ">RestartTimeout</a>  <a href="#ae39a7785775edb052a36047300b8ec6b">More...</a><br /></td></tr>
+<tr class="separator:ae39a7785775edb052a36047300b8ec6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>General configuration options </p>
@@ -187,6 +193,30 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ae39a7785775edb052a36047300b8ec6b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int Tgstation.Server.Host.Configuration.GeneralConfiguration.DefaultRestartTimeout = 10000</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The default value for <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#addf96ec4a3f16bc7d3d2cd94347dd1d3" title="The timeout milliseconds for restarting the server ">RestartTimeout</a> </p>
+
+<p>Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00029">29</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a04dc43bd8ff33f4a8a791f750f7eb1d9"></a>
 <div class="memitem">
 <div class="memproto">
@@ -226,7 +256,7 @@ Private Attributes</h2></td></tr>
 
 <p>The timeout in milliseconds for sending and receiving topics to/from DreamDaemon. Note that a single topic exchange can take up to twice this value </p>
 
-<p>Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00045">45</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<p>Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00050">50</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
 
 </div>
 </div>
@@ -250,7 +280,7 @@ Private Attributes</h2></td></tr>
 
 <p>A GitHub personal access token to use for bypassing rate limits on requests. Requires no scopes </p>
 
-<p>Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00034">34</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<p>Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00039">39</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
 
 </div>
 </div>
@@ -274,9 +304,35 @@ Private Attributes</h2></td></tr>
 
 <p>Minimum length of database user passwords </p>
 
-<p>Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00029">29</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<p>Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00034">34</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
 
 <p>Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l00327">Tgstation.Server.Host.Core.SetupWizard.ConfigureGeneral()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="addf96ec4a3f16bc7d3d2cd94347dd1d3"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Tgstation.Server.Host.Configuration.GeneralConfiguration.RestartTimeout = <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a51c2f2b2e7faf729aad307050a6d8a6c">DefaultByondTopicTimeout</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The timeout milliseconds for restarting the server </p>
+
+<p>Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00055">55</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+
+<p>Referenced by <a class="el" href="_server_8cs_source.html#l00251">Tgstation.Server.Host.Server.Restart()</a>.</p>
 
 </div>
 </div>
@@ -300,7 +356,7 @@ Private Attributes</h2></td></tr>
 
 <p>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#ace6cef6156eebad4a760e3d9f58dcb7e" title="The SetupWizardMode ">SetupWizardMode</a> </p>
 
-<p>Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00040">40</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<p>Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00045">45</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
 
 </div>
 </div>
