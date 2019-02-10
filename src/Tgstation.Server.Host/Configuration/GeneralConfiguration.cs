@@ -24,6 +24,11 @@ namespace Tgstation.Server.Host.Configuration
 		const int DefaultByondTopicTimeout = 5000;
 
 		/// <summary>
+		/// The default value for <see cref="RestartTimeout"/>
+		/// </summary>
+		const int DefaultRestartTimeout = 10000;
+
+		/// <summary>
 		/// Minimum length of database user passwords
 		/// </summary>
 		public uint MinimumPasswordLength { get; set; } = DefaultMinimumPasswordLength;
@@ -43,5 +48,10 @@ namespace Tgstation.Server.Host.Configuration
 		/// The timeout in milliseconds for sending and receiving topics to/from DreamDaemon. Note that a single topic exchange can take up to twice this value
 		/// </summary>
 		public int ByondTopicTimeout { get; set; } = DefaultByondTopicTimeout;
+
+		/// <summary>
+		/// The timeout milliseconds for restarting the server
+		/// </summary>
+		public int RestartTimeout { get; set; } = DefaultRestartTimeout;
 	}
 }
