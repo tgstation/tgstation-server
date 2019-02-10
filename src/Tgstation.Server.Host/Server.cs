@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 
@@ -42,6 +44,11 @@ namespace Tgstation.Server.Host
 		/// The <see cref="ILogger"/> for the <see cref="Server"/>
 		/// </summary>
 		ILogger<Server> logger;
+
+		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="Server"/>
+		/// </summary>
+		GeneralConfiguration generalConfiguration;
 
 		/// <summary>
 		/// The <see cref="cancellationTokenSource"/> for the <see cref="Server"/>
@@ -115,6 +122,8 @@ namespace Tgstation.Server.Host
 					try
 					{
 						logger = webHost.Services.GetRequiredService<ILogger<Server>>();
+						var generalConfigurationOptions = webHost.Services.GetRequiredService<IOptions<GeneralConfiguration>>();
+						generalConfiguration = generalConfigurationOptions.Value;
 						await webHost.RunAsync(cancellationTokenSource.Token).ConfigureAwait(false);
 					}
 					catch (OperationCanceledException)
@@ -264,8 +273,7 @@ namespace Tgstation.Server.Host
 					var cancellationToken = cts.Token;
 					var eventsTask = Task.WhenAll(restartHandlers.Select(x => x.HandleRestart(newVersion, cancellationToken)).ToList());
 
-					// YA GOT 10 SECONDS
-					var expiryTask = Task.Delay(TimeSpan.FromSeconds(10));
+					var expiryTask = Task.Delay(TimeSpan.FromMilliseconds(generalConfiguration.RestartTimeout));
 					await Task.WhenAny(eventsTask, expiryTask).ConfigureAwait(false);
 					logger.LogTrace("Joining restart handlers...");
 					cts.Cancel();
