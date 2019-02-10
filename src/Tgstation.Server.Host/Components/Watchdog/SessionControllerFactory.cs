@@ -207,13 +207,16 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						// more sanitization here cause it uses the same scheme
 						var parameters = String.Format(CultureInfo.InvariantCulture, "{2}={0}&{3}={1}", byondTopicSender.SanitizeString(application.Version.ToString()), byondTopicSender.SanitizeString(interopJsonFile), byondTopicSender.SanitizeString(Constants.DMParamHostVersion), byondTopicSender.SanitizeString(Constants.DMParamInfoJson));
 
+						var visibility = apiValidate ? "invisible" : "public";
+
 						// important to run on all ports to allow port changing
-						var arguments = String.Format(CultureInfo.InvariantCulture, "{0} -port {1} -ports 1-65535 {2}-close -{3} -verbose -public -params \"{4}\"",
+						var arguments = String.Format(CultureInfo.InvariantCulture, "{0} -port {1} -ports 1-65535 {2}-close -{3} -{5} -public -params \"{4}\"",
 							dmbProvider.DmbName,
 							primaryPort ? launchParameters.PrimaryPort : launchParameters.SecondaryPort,
 							launchParameters.AllowWebClient.Value ? "-webclient " : String.Empty,
 							SecurityWord(securityLevelToUse),
-							parameters);
+							parameters,
+							visibility);
 
 						// See https://github.com/tgstation/tgstation-server/issues/719
 						var noShellExecute = !platformIdentifier.IsWindows;
