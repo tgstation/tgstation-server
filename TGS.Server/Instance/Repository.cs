@@ -588,9 +588,14 @@ namespace TGS.Server
 			switch (Result.Status)
 			{
 				case MergeStatus.Conflicts:
+					var status = Repo.RetrieveStatus();
 					ResetNoLock(null);
+					var conflictedPaths = new List<string>();
+					foreach (var file in status)
+						if (file.State == FileStatus.Conflicted)
+							conflictedPaths.Add(file.FilePath);
 					SendMessage(String.Format("REPO: Merge of {0} conflicted, aborted.", committish), MessageType.DeveloperInfo);
-					return "Merge conflict occurred.";
+					return "Merge conflict occurred. Conflicting files:\n -" + String.Join("\n -", conflictedPaths);
 				case MergeStatus.UpToDate:
 					return RepoErrorUpToDate;
 			}
