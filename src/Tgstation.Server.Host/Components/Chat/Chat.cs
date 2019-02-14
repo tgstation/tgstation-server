@@ -374,10 +374,13 @@ namespace Tgstation.Server.Host.Components.Chat
 					}
 				}
 			}
-			catch (OperationCanceledException) { }
+			catch (OperationCanceledException)
+			{
+				logger.LogTrace("Message processing loop cancelled!");
+			}
 			catch (Exception e)
 			{
-				logger.LogError("Message monitor crashed!: Exception: {0}", e);
+				logger.LogError("Message monitor crashed! Exception: {0}", e);
 			}
 		}
 
