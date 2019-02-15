@@ -68,25 +68,39 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			client = new DiscordSocketClient();
 			client.MessageReceived += Client_MessageReceived;
 			mappedChannels = new List<ulong>();
+			logger.LogTrace("Created.");
 		}
 
 		/// <inheritdoc />
-		public override void Dispose() => client.Dispose();
+		public override void Dispose()
+		{
+			logger.LogTrace("Disposed.");
+			client.Dispose();
+		}
 
 		/// <summary>
 		/// Handle a message recieved from Discord
 		/// </summary>
 		/// <param name="e">The <see cref="SocketMessage"/></param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task Client_MessageReceived(SocketMessage e)
+		async Task Client_MessageReceived(SocketMessage e)
 		{
 			if (e.Author.Id == client.CurrentUser.Id)
-				return Task.CompletedTask;
+				return;
 
 			var pm = e.Channel is IPrivateChannel;
 
 			if (!pm && !mappedChannels.Contains(e.Channel.Id))
-				return e.MentionedUsers.Any(x => x.Id == client.CurrentUser.Id) ? SendMessage(e.Channel.Id, "I do not respond to this channel!", default) : Task.CompletedTask;
+			{
+				var mentionedUs = e.MentionedUsers.Any(x => x.Id == client.CurrentUser.Id);
+				if (mentionedUs)
+				{
+					logger.LogTrace("Ignoring mention from {0} ({1}) by {2} ({3}). Channel not mapped!", e.Channel.Id, e.Channel.Name, e.Author.Id, e.Author.Username);
+					await SendMessage(e.Channel.Id, "I do not respond to this channel!", default).ConfigureAwait(false);
+				}
+
+				return;
+			}
 
 			var result = new Message
 			{
@@ -108,22 +122,28 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				}
 			};
 			EnqueueMessage(result);
-			return Task.CompletedTask;
 		}
 
 		/// <inheritdoc />
 		public override async Task<bool> Connect(CancellationToken cancellationToken)
 		{
+			logger.LogTrace("Connecting...");
 			if (Connected)
+			{
+				logger.LogTrace("Already connected not doing connection attempt!");
 				return true;
+			}
 
 			try
 			{
 				await client.LoginAsync(TokenType.Bot, botToken, true).ConfigureAwait(false);
 
+				logger.LogTrace("Logged in.");
 				cancellationToken.ThrowIfCancellationRequested();
 
 				await client.StartAsync().ConfigureAwait(false);
+
+				logger.LogTrace("Started.");
 
 				var channelsAvailable = new TaskCompletionSource<object>();
 				client.Ready += () =>
@@ -133,6 +153,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				};
 				using (cancellationToken.Register(() => channelsAvailable.SetCanceled()))
 					await channelsAvailable.Task.ConfigureAwait(false);
+				logger.LogDebug("Connection established!");
 			}
 			catch (OperationCanceledException)
 			{
@@ -150,14 +171,20 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public override async Task Disconnect(CancellationToken cancellationToken)
 		{
+			logger.LogTrace("Disconnecting...");
 			if (!Connected)
+			{
+				logger.LogTrace("Already disconnected not doing disconnection attempt!");
 				return;
+			}
 
 			try
 			{
 				await client.StopAsync().ConfigureAwait(false);
+				logger.LogTrace("Stopped.");
 				cancellationToken.ThrowIfCancellationRequested();
 				await client.LogoutAsync().ConfigureAwait(false);
+				logger.LogDebug("Disconnected!");
 			}
 			catch (OperationCanceledException)
 			{
@@ -178,26 +205,33 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			if (!Connected)
 				throw new InvalidOperationException("Provider not connected!");
 
-			Channel GetChannelForChatChannel(ChatChannel channel)
+			Channel GetModelChannelFromDBChannel(ChatChannel channelFromDB)
 			{
-				if (!channel.DiscordChannelId.HasValue)
+				if (!channelFromDB.DiscordChannelId.HasValue)
 					throw new InvalidOperationException("ChatChannel missing DiscordChannelId!");
 
-				if (client.GetChannel(channel.DiscordChannelId.Value) is ITextChannel discordChannel)
-					return new Channel
+				var channelId = channelFromDB.DiscordChannelId.Value;
+				var discordChannel = client.GetChannel(channelId);
+				if (discordChannel is ITextChannel textChannel)
+				{
+					var channelModel = new Channel
 					{
 						RealId = discordChannel.Id,
-						IsAdminChannel = channel.IsAdminChannel == true,
-						ConnectionName = discordChannel.Guild.Name,
-						FriendlyName = discordChannel.Name,
+						IsAdminChannel = channelFromDB.IsAdminChannel == true,
+						ConnectionName = textChannel.Guild.Name,
+						FriendlyName = textChannel.Name,
 						IsPrivateChannel = false,
-						Tag = channel.Tag
+						Tag = channelFromDB.Tag
 					};
+					logger.LogTrace("Mapped channel {0}: {1}", channelModel.RealId, channelModel.FriendlyName);
+					return channelModel;
+				}
 
+				logger.LogWarning("Cound not map channel {0}! Incorrect type: {1}", channelId, discordChannel.GetType());
 				return null;
 			}
 
-			var enumerator = channels.Select(x => GetChannelForChatChannel(x)).Where(x => x != null).ToList();
+			var enumerator = channels.Select(x => GetModelChannelFromDBChannel(x)).Where(x => x != null).ToList();
 
 			lock (this)
 			{
