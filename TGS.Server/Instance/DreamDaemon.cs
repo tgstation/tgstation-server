@@ -379,7 +379,7 @@ namespace TGS.Server
 						}
 					}
 					if (Proc.ExitCode == 0)  //intentional shutdown.
-						return
+						return;
 					WriteCurrentDDLog("Crash detected! Exit code: " + Proc.ExitCode);
 					var runtimeS = (DateTime.Now - starttime).TotalSeconds;
 					WriteWarning("DD crashed: Exit Code: " + Proc.ExitCode + " Seconds running: " + runtimeS, EventID.DDServerCrash);
