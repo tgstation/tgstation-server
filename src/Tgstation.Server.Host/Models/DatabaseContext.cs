@@ -114,7 +114,7 @@ namespace Tgstation.Server.Host.Models
 			revInfo.HasMany(x => x.CompileJobs).WithOne(x => x.RevisionInformation).OnDelete(DeleteBehavior.Cascade);
 			revInfo.HasMany(x => x.ActiveTestMerges).WithOne(x => x.RevisionInformation).OnDelete(DeleteBehavior.Cascade);
 			revInfo.HasOne(x => x.PrimaryTestMerge).WithOne(x => x.PrimaryRevisionInformation).OnDelete(DeleteBehavior.Restrict);
-			revInfo.HasIndex(x => x.CommitSha).IsUnique();
+			revInfo.HasIndex(x => new { x.InstanceId, x.CommitSha }).IsUnique();
 
 			modelBuilder.Entity<CompileJob>().HasIndex(x => x.DirectoryName);
 
