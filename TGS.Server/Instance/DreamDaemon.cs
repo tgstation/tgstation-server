@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -378,7 +378,7 @@ namespace TGS.Server
 							pcpu?.Dispose();
 						}
 					}
-					if (!Proc.ExitCode)  //intentional shutdown.
+					if (Proc.ExitCode == 0)  //intentional shutdown.
 						return
 					WriteCurrentDDLog("Crash detected! Exit code: " + Proc.ExitCode);
 					var runtimeS = (DateTime.Now - starttime).TotalSeconds;
