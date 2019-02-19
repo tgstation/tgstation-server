@@ -201,7 +201,7 @@ namespace Tgstation.Server.Host.Models
 				return;
 
 			if (UseMySQLMigrations())
-				targetMigration = String.Format(CultureInfo.InvariantCulture, "MY" + targetMigration.Substring(2));
+				targetMigration = String.Format(CultureInfo.InvariantCulture, "MY{0}", targetMigration.Substring(2));
 
 			// even though it clearly implements it in the DatabaseFacade definition this won't work without casting (╯ಠ益ಠ)╯︵ ┻━┻
 			var dbServiceProvider = ((IInfrastructure<IServiceProvider>)Database).Instance;
