@@ -19,5 +19,9 @@ var searchData=
   ['20181124231534_5fmstoggletestmergecomments_2ecs',['20181124231534_MSToggleTestmergeComments.cs',['../20181124231534___m_s_toggle_testmerge_comments_8cs.html',1,'']]],
   ['20181124231534_5fmstoggletestmergecomments_2edesigner_2ecs',['20181124231534_MSToggleTestmergeComments.Designer.cs',['../20181124231534___m_s_toggle_testmerge_comments_8_designer_8cs.html',1,'']]],
   ['20181124231549_5fmytoggletestmergecomments_2ecs',['20181124231549_MYToggleTestmergeComments.cs',['../20181124231549___m_y_toggle_testmerge_comments_8cs.html',1,'']]],
-  ['20181124231549_5fmytoggletestmergecomments_2edesigner_2ecs',['20181124231549_MYToggleTestmergeComments.Designer.cs',['../20181124231549___m_y_toggle_testmerge_comments_8_designer_8cs.html',1,'']]]
+  ['20181124231549_5fmytoggletestmergecomments_2edesigner_2ecs',['20181124231549_MYToggleTestmergeComments.Designer.cs',['../20181124231549___m_y_toggle_testmerge_comments_8_designer_8cs.html',1,'']]],
+  ['20190219041825_5fmsfixrevinfoindex_2ecs',['20190219041825_MSFixRevInfoIndex.cs',['../20190219041825___m_s_fix_rev_info_index_8cs.html',1,'']]],
+  ['20190219041825_5fmsfixrevinfoindex_2edesigner_2ecs',['20190219041825_MSFixRevInfoIndex.Designer.cs',['../20190219041825___m_s_fix_rev_info_index_8_designer_8cs.html',1,'']]],
+  ['20190219042440_5fmyfixrevinfoindex_2ecs',['20190219042440_MYFixRevInfoIndex.cs',['../20190219042440___m_y_fix_rev_info_index_8cs.html',1,'']]],
+  ['20190219042440_5fmyfixrevinfoindex_2edesigner_2ecs',['20190219042440_MYFixRevInfoIndex.Designer.cs',['../20190219042440___m_y_fix_rev_info_index_8_designer_8cs.html',1,'']]]
 ];
