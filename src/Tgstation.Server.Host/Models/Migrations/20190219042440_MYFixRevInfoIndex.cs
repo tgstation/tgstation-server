@@ -13,6 +13,10 @@ namespace Tgstation.Server.Host.Models.Migrations
 		/// <param name="migrationBuilder">The <see cref="MigrationBuilder"/> to use</param>
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{
+			migrationBuilder.DropForeignKey(
+				name: "FK_RevisionInformations_Instances_InstanceId",
+				table: "RevisionInformations");
+
 			migrationBuilder.DropIndex(
 				name: "IX_RevisionInformations_CommitSha",
 				table: "RevisionInformations");
@@ -26,6 +30,14 @@ namespace Tgstation.Server.Host.Models.Migrations
 				table: "RevisionInformations",
 				columns: new[] { "InstanceId", "CommitSha" },
 				unique: true);
+
+			migrationBuilder.AddForeignKey(
+				name: "FK_RevisionInformations_Instances_InstanceId",
+				table: "RevisionInformations",
+				column: "InstanceId",
+				principalTable: "Instances",
+				principalColumn: "Id",
+				onDelete: ReferentialAction.Cascade);
 		}
 
 		/// <summary>
@@ -34,6 +46,10 @@ namespace Tgstation.Server.Host.Models.Migrations
 		/// <param name="migrationBuilder">The <see cref="MigrationBuilder"/> to use</param>
 		protected override void Down(MigrationBuilder migrationBuilder)
 		{
+			migrationBuilder.DropForeignKey(
+				name: "FK_RevisionInformations_Instances_InstanceId",
+				table: "RevisionInformations");
+
 			migrationBuilder.DropIndex(
 				name: "IX_RevisionInformations_InstanceId_CommitSha",
 				table: "RevisionInformations");
@@ -48,6 +64,14 @@ namespace Tgstation.Server.Host.Models.Migrations
 				name: "IX_RevisionInformations_InstanceId",
 				table: "RevisionInformations",
 				column: "InstanceId");
+
+			migrationBuilder.AddForeignKey(
+				name: "FK_RevisionInformations_Instances_InstanceId",
+				table: "RevisionInformations",
+				column: "InstanceId",
+				principalTable: "Instances",
+				principalColumn: "Id",
+				onDelete: ReferentialAction.Cascade);
 		}
 	}
 }
