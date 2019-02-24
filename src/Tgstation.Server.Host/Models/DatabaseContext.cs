@@ -114,7 +114,7 @@ namespace Tgstation.Server.Host.Models
 			revInfo.HasMany(x => x.CompileJobs).WithOne(x => x.RevisionInformation).OnDelete(DeleteBehavior.Cascade);
 			revInfo.HasMany(x => x.ActiveTestMerges).WithOne(x => x.RevisionInformation).OnDelete(DeleteBehavior.Cascade);
 			revInfo.HasOne(x => x.PrimaryTestMerge).WithOne(x => x.PrimaryRevisionInformation).OnDelete(DeleteBehavior.Restrict);
-			revInfo.HasIndex(x => x.CommitSha).IsUnique();
+			revInfo.HasIndex(x => new { x.InstanceId, x.CommitSha }).IsUnique();
 
 			modelBuilder.Entity<CompileJob>().HasIndex(x => x.DirectoryName);
 
@@ -201,7 +201,7 @@ namespace Tgstation.Server.Host.Models
 				return;
 
 			if (UseMySQLMigrations())
-				targetMigration = String.Format(CultureInfo.InvariantCulture, "MY" + targetMigration.Substring(2));
+				targetMigration = String.Format(CultureInfo.InvariantCulture, "MY{0}", targetMigration.Substring(2));
 
 			// even though it clearly implements it in the DatabaseFacade definition this won't work without casting (╯ಠ益ಠ)╯︵ ┻━┻
 			var dbServiceProvider = ((IInfrastructure<IServiceProvider>)Database).Instance;
