@@ -13,6 +13,11 @@ namespace Tgstation.Server.Host.Models
 		public long Id { get; set; }
 
 		/// <summary>
+		/// The <see cref="Api.Models.Instance.Id"/>
+		/// </summary>
+		public long InstanceId { get; set; }
+
+		/// <summary>
 		/// The <see cref="Models.Instance"/> the <see cref="RevisionInformation"/> belongs to
 		/// </summary>
 		[Required]

@@ -2,13 +2,19 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Tgstation.Server.Host.Models.Migrations
 {
 	[DbContext(typeof(MySqlDatabaseContext))]
-	partial class MySqlDatabaseContextModelSnapshot : ModelSnapshot
+	[Migration("20190219042440_MYFixRevInfoIndex")]
+	partial class MYFixRevInfoIndex
 	{
-		protected override void BuildModel(ModelBuilder modelBuilder)
+		/// <summary>
+		/// Builds the target model
+		/// </summary>
+		/// <param name="modelBuilder">The <see cref="ModelBuilder"/> to use</param>
+		protected override void BuildTargetModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
 			modelBuilder
