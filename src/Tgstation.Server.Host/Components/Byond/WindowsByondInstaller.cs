@@ -128,7 +128,8 @@ namespace Tgstation.Server.Host.Components.Byond
 
 			// after this version lummox made DD depend of directx lol
 			// but then he became amazing and not only fixed it but also gave us 30s compiles \[T]/
-			if (version.Major == 512 && version.Minor >= 1427 && version.Minor < 1452 && !installedDirectX)
+			// then he readded it again so -_-
+			if (!installedDirectX)
 				using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 					if (!installedDirectX)
 					{
