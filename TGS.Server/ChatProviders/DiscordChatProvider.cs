@@ -143,14 +143,16 @@ namespace TGS.Server.ChatProviders
 			{
 				if (Connected() || !DiscordConfig.Enabled)
 					return null;
-				if (!Disconnected())
+				if (!Disconnected()) //not connected OR disconnected. Pending operation, so lets just reinit the connection client
 				{
-					Disconnect();
-					if (Connected())  //another thread connected while we were waiting
-						return null;
+                    lock (DiscordLock)
+                    {
+                        DisconnectAndDispose();
+                        Init(DiscordConfig);
+                    }
 				}
 				if (ConnectionOperationPending())
-					return "Can not connect. A connection or disconnection operation is pending and attempting to Disconnect it failed to stop the pending operation";
+					return "Can not connect. A connection or disconnection operation is pending and attempting to delete the socket client failed to stop the pending operation";
 				lock (DiscordLock)
 				{
 					SeenPrivateChannels.Clear();
@@ -163,8 +165,17 @@ namespace TGS.Server.ChatProviders
 						Thread.Sleep(1000);
 					}
 				}
-				
-				return !Connected() ? "Connection failed!" : null;
+                if (!Connected())
+                {
+                    lock (DiscordLock)
+                        if (client.ConnectionState != ConnectionState.Connecting)
+                        {
+                            DisconnectAndDispose();
+                            Init(DiscordConfig);
+                        }
+                    return "Connection failed!";
+                }
+                return null;
 			}
 			catch (Exception e)
 			{
@@ -282,7 +293,13 @@ namespace TGS.Server.ChatProviders
 			try
 			{
 				client.StopAsync().Wait();
-				client.LogoutAsync().Wait();
+                for (var i = 0; i >= ConnectionOperationTimeoutSeconds; i++)
+                {
+                    if (client.ConnectionState != ConnectionState.Disconnecting)
+                        break;
+                    Thread.Sleep(1000);
+                }
+                client.LogoutAsync().Wait();
 			}
 			catch { }
 			client.Dispose();
