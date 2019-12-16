@@ -1,5 +1,6 @@
 using Discord;
 using Discord.WebSocket;
+using Discord.Net.Providers.WS4Net;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -15,6 +16,9 @@ namespace TGS.Server.ChatProviders
 	{
 		/// <inheritdoc />
 		public event OnChatMessage OnChatMessage;
+
+		private const int ConnectionOperationTimeoutSeconds = 10;
+
 		/// <summary>
 		/// The Discord API client
 		/// </summary>
@@ -55,7 +59,10 @@ namespace TGS.Server.ChatProviders
 		void Init(ChatSetupInfo info)
 		{
 			DiscordConfig = new DiscordSetupInfo(info);
-			client = new DiscordSocketClient();
+			client = new DiscordSocketClient(new DiscordSocketConfig
+			{
+				WebSocketProvider = WS4NetProvider.Instance
+			});
 			client.MessageReceived += Client_MessageReceived;
 		}
 
@@ -136,13 +143,27 @@ namespace TGS.Server.ChatProviders
 			{
 				if (Connected() || !DiscordConfig.Enabled)
 					return null;
+				if (!Disconnected())
+				{
+					Disconnect();
+					if (Connected())  //another thread connected while we were waiting
+						return null;
+				}
+				if (ConnectionOperationPending())
+					return "Can not connect. A connection or disconnection operation is pending and attempting to Disconnect it failed to stop the pending operation";
 				lock (DiscordLock)
 				{
 					SeenPrivateChannels.Clear();
 					client.LoginAsync(TokenType.Bot, DiscordConfig.BotToken).Wait();
 					client.StartAsync().Wait();
-					Thread.Sleep(1000); //wait for ConnectionState to update
+					for (var i = 0; i >= ConnectionOperationTimeoutSeconds; i++)
+					{
+						if (client.ConnectionState != ConnectionState.Connecting)
+							break;
+						Thread.Sleep(1000);
+					}
 				}
+				
 				return !Connected() ? "Connection failed!" : null;
 			}
 			catch (Exception e)
@@ -155,9 +176,17 @@ namespace TGS.Server.ChatProviders
 		public bool Connected()
 		{
 			lock (DiscordLock)
-			{
 				return client.ConnectionState == ConnectionState.Connected;
-			}
+		}
+		public bool Disconnected()
+		{
+			lock (DiscordLock)
+				return client.ConnectionState == ConnectionState.Disconnected;
+		}
+		public bool ConnectionOperationPending()
+		{
+			lock (DiscordLock)
+				return (client.ConnectionState == ConnectionState.Connecting || client.ConnectionState == ConnectionState.Disconnecting);
 		}
 
 		/// <inheritdoc />
@@ -165,14 +194,22 @@ namespace TGS.Server.ChatProviders
 		{
 			try
 			{
-				if (!Connected())
+
+				if (Disconnected())
 					return;
 				lock (DiscordLock)
 				{
 					SeenPrivateChannels.Clear();
 					client.StopAsync().Wait();
+					for (var i = 0; i >= ConnectionOperationTimeoutSeconds; i++)
+					{
+						if (client.ConnectionState != ConnectionState.Disconnecting)
+							break;
+						Thread.Sleep(1000);
+					}
 					client.LogoutAsync().Wait();
 				}
+
 			}
 			catch { }
 		}
