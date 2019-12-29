@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Configuration;
@@ -166,8 +167,18 @@ namespace Tgstation.Server.Host.Core
 				await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 				await console.WriteAsync("Enter the server's address and port (blank for local): ", false, cancellationToken).ConfigureAwait(false);
 				var serverAddress = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
+				var serverPort = 3306U;
 				if (String.IsNullOrWhiteSpace(serverAddress))
 					serverAddress = null;
+				else
+				{
+					var m = Regex.Match(serverAddress, @"^(?<server>.+):(?<port>[0-9]+)$");
+					if (m.Success)
+					{
+						serverAddress = m.Groups["server"].Value;
+						serverPort = uint.Parse(m.Groups["port"].Value, CultureInfo.InvariantCulture);
+					}
+				}
 
 				await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 				await console.WriteAsync("Enter the database name (Can be from previous installation. Otherwise, should not exist): ", false, cancellationToken).ConfigureAwait(false);
@@ -239,6 +250,7 @@ namespace Tgstation.Server.Host.Core
 					var csb = new MySqlConnectionStringBuilder
 					{
 						Server = serverAddress ?? "127.0.0.1",
+						Port = serverPort,
 						UserID = username,
 						Password = password
 					};
