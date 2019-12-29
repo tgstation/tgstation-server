@@ -1,21 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <DebugType>Full</DebugType>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>Cyberboss</Authors>
-    <Company>/tg/station</Company>
-    <Description>API definitions for tgstation-server</Description>
-    <PackageLicenseUrl>https://github.com/tgstation/tgstation-server/blob/master/LICENSE.md</PackageLicenseUrl>
-    <PackageProjectUrl>https://tgstation.github.io/tgstation-server</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/tgstation/tgstation-server/master/build/tgs.ico</PackageIconUrl>
-    <RepositoryType>Git</RepositoryType>
-    <RepositoryUrl>https://github.com/tgstation/tgstation-server</RepositoryUrl>
-    <Copyright>2018</Copyright>
-    <PackageTags>json web api tgstation-server tgstation ss13 byond</PackageTags>
-    <PackageReleaseNotes>Added ApiHeaders.RawUserAgent</PackageReleaseNotes>
-    <Version>4.0.2.0</Version>
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>

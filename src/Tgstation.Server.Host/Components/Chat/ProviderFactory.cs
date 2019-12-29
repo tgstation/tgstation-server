@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Chat.Providers;
@@ -44,7 +43,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		{
 			if (settings == null)
 				throw new ArgumentNullException(nameof(settings));
-			var builder = settings.ConnectionStringBuilder;
+			var builder = settings.CreateConnectionStringBuilder();
 			if (builder == null || !builder.Valid)
 				throw new InvalidOperationException("Invalid ChatConnectionStringBuilder!");
 			switch (settings.Provider)

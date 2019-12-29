@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
@@ -37,31 +36,31 @@ namespace Tgstation.Server.Api.Models.Internal
 		public string ConnectionString { get; set; }
 
 		/// <summary>
-		/// The <see cref="ChatConnectionStringBuilder"/> which maps to the <see cref="ConnectionString"/>
+		/// Get the <see cref="ChatConnectionStringBuilder"/> which maps to the <see cref="ConnectionString"/>.
 		/// </summary>
-		[NotMapped]
-		public ChatConnectionStringBuilder ConnectionStringBuilder
+		/// <returns>A <see cref="ChatConnectionStringBuilder"/> for the <see cref="ChatBot"/>.</returns>
+		public ChatConnectionStringBuilder CreateConnectionStringBuilder()
 		{
-			get
+			if (ConnectionString == null)
+				return null;
+			switch (Provider)
 			{
-				if (ConnectionString == null)
-					return null;
-				switch (Provider)
-				{
-					case ChatProvider.Discord:
-						return new DiscordConnectionStringBuilder(ConnectionString);
-					case ChatProvider.Irc:
-						return new IrcConnectionStringBuilder(ConnectionString);
-					default:
-						throw new InvalidOperationException("Invalid Provider!");
-				}
+				case ChatProvider.Discord:
+					return new DiscordConnectionStringBuilder(ConnectionString);
+				case ChatProvider.Irc:
+					return new IrcConnectionStringBuilder(ConnectionString);
+				default:
+					throw new InvalidOperationException("Invalid Provider!");
 			}
-			set
-			{
-				if (value?.Valid == false)
-					throw new InvalidOperationException("Cannot set invalid ChatConnectionStringBuilder!");
-				ConnectionString = value?.ToString();
-			}
+		}
+
+		/// <summary>
+		/// Set the <see cref="ChatConnectionStringBuilder"/> for the <see cref="ChatBot"/>. Also updates the <see cref="ConnectionString"/>.
+		/// </summary>
+		/// <param name="stringBuilder">The optional <see cref="ChatConnectionStringBuilder"/>.</param>
+		public void SetConnectionStringBuilder(ChatConnectionStringBuilder stringBuilder)
+		{
+			ConnectionString = stringBuilder?.ToString();
 		}
 	}
 }
