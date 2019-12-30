@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-dotnet tool install --global coverlet.console --version 1.5.3
+dotnet tool install --global coverlet.console
 
 mkdir TestResults
 
