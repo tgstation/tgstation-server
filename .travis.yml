@@ -26,7 +26,7 @@ matrix:
       name: "Test Server Debug"
       language: csharp
       mono: none
-      dotnet: 2.1.300
+      dotnet: 2.2.207
       services:
         - mysql
       cache:
@@ -38,7 +38,7 @@ matrix:
       name: "Test Server Release"
       language: csharp
       mono: none
-      dotnet: 2.1.300
+      dotnet: 2.2.207
       services:
         - mysql
       cache:
