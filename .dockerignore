@@ -14,6 +14,7 @@ build/**
 !build/tgs.docker.sh
 !build/tgs.ico
 !build/stylecop.json
+!build/Version.props
 */bin
 */obj
 tests
