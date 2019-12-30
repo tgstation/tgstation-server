@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.EventLog;
-using Microsoft.Extensions.Logging.EventLog.Internal;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -15,7 +14,7 @@ namespace Tgstation.Server.Host.Service
 	/// <summary>
 	/// Represents a <see cref="IWatchdog"/> as a <see cref="ServiceBase"/>
 	/// </summary>
-	sealed class ServerService : ServiceBase, IEventLog
+	sealed class ServerService : ServiceBase
 	{
 		/// <summary>
 		/// The canonical windows service name
@@ -23,12 +22,17 @@ namespace Tgstation.Server.Host.Service
 		public const string Name = "tgstation-server-4";
 
 		/// <summary>
-		/// The <see cref="IWatchdog"/> for the <see cref="ServerService"/>
+		/// The <see cref="IWatchdogFactory"/> for the <see cref="ServerService"/>
 		/// </summary>
-		readonly IWatchdog watchdog;
+		readonly IWatchdogFactory watchdogFactory;
 
 		/// <summary>
-		/// The <see cref="Task"/> recieved from <see cref="IWatchdog.RunAsync(bool, string[], CancellationToken)"/> of <see cref="watchdog"/>
+		/// The <see cref="Func{TResult}"/> used to retrieve a configured <see cref="ILoggerFactory"/>.
+		/// </summary>
+		readonly Func<ILoggerFactory> getLoggerFactory;
+
+		/// <summary>
+		/// The <see cref="Task"/> recieved from <see cref="IWatchdog.RunAsync(bool, string[], CancellationToken)"/>.
 		/// </summary>
 		Task watchdogTask;
 
@@ -40,40 +44,38 @@ namespace Tgstation.Server.Host.Service
 		/// <summary>
 		/// Construct a <see cref="ServerService"/>
 		/// </summary>
-		/// <param name="watchdogFactory">The <see cref="IWatchdogFactory"/> to create <see cref="watchdog"/> with</param>
-		/// <param name="loggerFactory">The <see cref="ILoggerFactory"/> for <paramref name="watchdogFactory"/></param>
+		/// <param name="watchdogFactory">The value of <see cref="watchdogFactory"/>.</param>
+		/// <param name="loggingBuilder">The <see cref="ILoggingBuilder"/> to configure.</param>
+		/// <param name="getLoggerFactory">The <see cref="Func{TResult}"/> used to retrieve a <see cref="ILoggerFactory"/> based on the <paramref name="loggingBuilder"/> configuration.</param>
 		/// <param name="minumumLogLevel">The minimum <see cref="Microsoft.Extensions.Logging.LogLevel"/> to record in the event log</param>
-		public ServerService(IWatchdogFactory watchdogFactory, ILoggerFactory loggerFactory, LogLevel minumumLogLevel)
+		public ServerService(IWatchdogFactory watchdogFactory, ILoggingBuilder loggingBuilder, Func<ILoggerFactory> getLoggerFactory, LogLevel minumumLogLevel)
 		{
-			if (watchdogFactory == null)
-				throw new ArgumentNullException(nameof(watchdogFactory));
-			if (loggerFactory == null)
-				throw new ArgumentNullException(nameof(loggerFactory));
-
-			loggerFactory.AddEventLog(new EventLogSettings
-			{
-				EventLog = this,
-				Filter = (message, logLevel) => logLevel >= minumumLogLevel
-			});
+			this.watchdogFactory = watchdogFactory ?? throw new ArgumentNullException(nameof(watchdogFactory));
+			if (loggingBuilder == null)
+				throw new ArgumentNullException(nameof(loggingBuilder));
+			this.getLoggerFactory = getLoggerFactory ?? throw new ArgumentNullException(nameof(getLoggerFactory));
 
 			ServiceName = Name;
-			watchdog = watchdogFactory.CreateWatchdog(loggerFactory);
+
+			loggingBuilder.AddEventLog(new EventLogSettings
+			{
+				LogName = EventLog.Log,
+				MachineName = Environment.MachineName,
+				SourceName = EventLog.Source,
+				Filter = (message, logLevel) => logLevel >= minumumLogLevel
+			});
 		}
 
-		/// <inheritdoc />
-		public int MaxMessageSize => (int)EventLog.MaximumKilobytes * 1024;
-
-		/// <inheritdoc />
-		public void WriteEntry(string message, EventLogEntryType type, int eventID, short category) => EventLog.WriteEntry(message, type, eventID, category);
-
 		/// <summary>
-		/// Executes the <see cref="watchdog"/>, stopping the service if it exits
+		/// Creates and executes the watchdog stopping the service if it exits
 		/// </summary>
-		/// <param name="args">The arguments for the <see cref="watchdog"/></param>
+		/// <param name="args">The arguments for the watchdog.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task RunWatchdog(string[] args, CancellationToken cancellationToken)
 		{
+			var watchdog = watchdogFactory.CreateWatchdog(getLoggerFactory());
+
 			await watchdog.RunAsync(false, args, cancellationToken).ConfigureAwait(false);
 
 			void StopServiceAsync()
@@ -83,7 +85,9 @@ namespace Tgstation.Server.Host.Service
 					Task.Run(Stop, cancellationToken);
 				}
 				catch (OperationCanceledException) { }
+#pragma warning disable CA1031 // Do not catch general exception types
 				catch (Exception e)
+#pragma warning restore CA1031 // Do not catch general exception types
 				{
 					EventLog.WriteEntry(String.Format(CultureInfo.InvariantCulture, "Error stopping service! Exception: {0}", e));
 				}

@@ -24,17 +24,18 @@ namespace Tgstation.Server.Host.Console
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		internal static async Task Main(string[] args)
 		{
-			using (var loggerFactory = new LoggerFactory())
+			using (var loggerFactory = LoggerFactory.Create(
+				builder => builder.AddConsole()))
 			{
 				var arguments = new List<string>(args);
 				var trace = arguments.Remove("--trace-host-watchdog");
 				var debug = arguments.Remove("--debug-host-watchdog");
 
-				loggerFactory.AddConsole(trace ? LogLevel.Trace : debug ? LogLevel.Debug : LogLevel.Information, true);
-
 				if (trace && debug)
 				{
+#pragma warning disable CA1303 // Do not pass literals as localized parameters
 					loggerFactory.CreateLogger(nameof(Program)).LogCritical("Please specify only 1 of --trace-host-watchdog or --debug-host-watchdog!");
+#pragma warning restore CA1303 // Do not pass literals as localized parameters
 					return;
 				}
 

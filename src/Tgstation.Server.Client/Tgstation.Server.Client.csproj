@@ -36,11 +36,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>compile; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -53,7 +49,7 @@
 
   <ItemGroup>
     <AdditionalFiles Include="../../build/stylecop.json" />
-    <None Include="../../LICENSE" Pack="true" PackagePath=""/>
-    <None Include="../../build/tgs.ico" Pack="true" PackagePath=""/>
+    <None Include="../../LICENSE" Pack="true" PackagePath="" />
+    <None Include="../../build/tgs.ico" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>

@@ -83,7 +83,9 @@ namespace Tgstation.Server.Host.Service
 			{
 				if (!Install && !Uninstall && !Configure)
 				{
+#pragma warning disable CA1303 // Do not pass literals as localized parameters: OH GOD I DONT CARE
 					var result = MessageBox.Show("You are running the TGS windows service executable directly. It should only be run by the service control manager. Would you like to install and configure the service in this location?", "TGS Service", MessageBoxButtons.YesNo);
+#pragma warning restore CA1303 // Do not pass literals as localized parameters
 					if (result != DialogResult.Yes)
 						return;
 					Install = true;
@@ -108,7 +110,18 @@ namespace Tgstation.Server.Host.Service
 				}
 			}
 
-			using (var loggerFactory = new LoggerFactory())
+			bool serviceWillRun = !Configure && !Install && !Uninstall;
+			ServerService service = null;
+			ILoggerFactory loggerFactory = null;
+			using (loggerFactory = LoggerFactory.Create(builder =>
+			{
+				if (serviceWillRun)
+				{
+					LogLevel logLevel = Trace ? LogLevel.Trace : Debug ? LogLevel.Debug : LogLevel.Information;
+					service = new ServerService(WatchdogFactory, builder, () => loggerFactory, logLevel);
+				}
+			}))
+			using(service)
 			{
 				if (Configure)
 					await WatchdogFactory.CreateWatchdog(loggerFactory).RunAsync(true, Array.Empty<string>(), default).ConfigureAwait(false);
@@ -142,8 +155,8 @@ namespace Tgstation.Server.Host.Service
 						installer.ServiceName = ServerService.Name;
 						installer.Uninstall(null);
 					}
-				else if (!Configure)
-					ServiceBase.Run(new ServerService(WatchdogFactory, loggerFactory, Trace ? LogLevel.Trace : Debug ? LogLevel.Debug : LogLevel.Information));
+				else if (serviceWillRun)
+						ServiceBase.Run(service);
 			}
 		}
 	}
