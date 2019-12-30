@@ -83,9 +83,7 @@ namespace Tgstation.Server.Host.Service
 			{
 				if (!Install && !Uninstall && !Configure)
 				{
-#pragma warning disable CA1303 // Do not pass literals as localized parameters: OH GOD I DONT CARE
 					var result = MessageBox.Show("You are running the TGS windows service executable directly. It should only be run by the service control manager. Would you like to install and configure the service in this location?", "TGS Service", MessageBoxButtons.YesNo);
-#pragma warning restore CA1303 // Do not pass literals as localized parameters
 					if (result != DialogResult.Yes)
 						return;
 					Install = true;

@@ -33,9 +33,7 @@ namespace Tgstation.Server.Host.Console
 
 				if (trace && debug)
 				{
-#pragma warning disable CA1303 // Do not pass literals as localized parameters
 					loggerFactory.CreateLogger(nameof(Program)).LogCritical("Please specify only 1 of --trace-host-watchdog or --debug-host-watchdog!");
-#pragma warning restore CA1303 // Do not pass literals as localized parameters
 					return;
 				}
 

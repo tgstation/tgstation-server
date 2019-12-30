@@ -60,7 +60,7 @@ namespace Tgstation.Server.Host.Service
 			loggingBuilder.AddEventLog(new EventLogSettings
 			{
 				LogName = EventLog.Log,
-				MachineName = Environment.MachineName,
+				MachineName = EventLog.MachineName,
 				SourceName = EventLog.Source,
 				Filter = (message, logLevel) => logLevel >= minumumLogLevel
 			});
