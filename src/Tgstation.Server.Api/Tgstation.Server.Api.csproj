@@ -1,8 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../build/Version.props" />
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <DebugType>Full</DebugType>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Cyberboss</Authors>
+    <Company>/tg/station</Company>
+    <Description>API definitions for tgstation-server</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageIcon>tgs.ico</PackageIcon>
+    <PackageProjectUrl>https://tgstation.github.io/tgstation-server</PackageProjectUrl>
+    <RepositoryType>Git</RepositoryType>
+    <RepositoryUrl>https://github.com/tgstation/tgstation-server</RepositoryUrl>
+    <Copyright>2018</Copyright>
+    <PackageTags>json web api tgstation-server tgstation ss13 byond</PackageTags>
+    <PackageReleaseNotes>Added ApiHeaders.RawUserAgent</PackageReleaseNotes>
+    <Version>$(TgsApiVersion)</Version>
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
@@ -21,18 +35,16 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.1.1" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>compile; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.1-beta.61">
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <AdditionalFiles Include="../../build/stylecop.json" />
+    <None Include="$(SolutionDir)/LICENSE" Pack="true" PackagePath=""/>
+    <None Include="$(SolutionDir)/build/tgs.ico" Pack="true" PackagePath=""/>
   </ItemGroup>
 </Project>

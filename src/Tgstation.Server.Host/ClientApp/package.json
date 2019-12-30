@@ -5,7 +5,7 @@
     "tgstation-server-control-panel": "0.1.6"
   },
   "scripts": {
-    "build": "npm run clean && tslint -p tsconfig.json && react-scripts build && cp-cli node_modules/tgstation-server-control-panel/build/public/ build/ && cp-cli ../../../build/tgs.ico build/favicon.ico && minify-json build && rimraf ../wwwroot && move-cli build ../wwwroot",
+    "msbuild": "npm run clean && tslint -p tsconfig.json && react-scripts build && cp-cli node_modules/tgstation-server-control-panel/build/public/ build/ && cp-cli ../../../build/tgs.ico build/favicon.ico && minify-json build && rimraf ../wwwroot && move-cli build ../wwwroot",
     "clean": "rimraf build"
   },
   "devDependencies": {

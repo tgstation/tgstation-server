@@ -98,6 +98,58 @@ namespace Tgstation.Server.Host.Controllers
 			return StatusCode(429);
 		}
 
+		/// <summary>
+		/// Try to download and apply an update with a given <paramref name="newVersion"/>.
+		/// </summary>
+		/// <param name="newVersion">The version of the server to update to.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		async Task<IActionResult> CheckReleasesAndApplyUpdate(Version newVersion, CancellationToken cancellationToken)
+		{
+			Logger.LogDebug("Looking for GitHub releases version {0}...", newVersion);
+			IEnumerable<Release> releases;
+			try
+			{
+				var gitHubClient = GetGitHubClient();
+				releases = await gitHubClient
+					.Repository
+					.Release
+					.GetAll(updatesConfiguration.GitHubRepositoryId)
+					.WithToken(cancellationToken)
+					.ConfigureAwait(false);
+			}
+			catch (RateLimitExceededException e)
+			{
+				return RateLimit(e);
+			}
+			catch (ApiException e)
+			{
+				Logger.LogWarning(OctokitException, e);
+				return StatusCode((int)HttpStatusCode.FailedDependency);
+			}
+
+			releases = releases.Where(x => x.TagName.StartsWith(updatesConfiguration.GitTagPrefix, StringComparison.InvariantCulture));
+
+			Logger.LogTrace("Release query complete!");
+
+			foreach (var release in releases)
+				if (Version.TryParse(release.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal), out var version) && version == newVersion)
+				{
+					var asset = release.Assets.Where(x => x.Name.Equals(updatesConfiguration.UpdatePackageAssetName, StringComparison.Ordinal)).FirstOrDefault();
+					if (asset == default)
+						continue;
+
+					if (!serverUpdater.ApplyUpdate(version, new Uri(asset.BrowserDownloadUrl), ioManager))
+						return Conflict(new ErrorMessage
+						{
+							Message = "An update operation is already in progress!"
+						});
+					return Accepted(); // gtfo of here before all the cancellation tokens fire
+				}
+
+			return StatusCode((int)HttpStatusCode.Gone);
+		}
+
 		IGitHubClient GetGitHubClient() => String.IsNullOrEmpty(generalConfiguration.GitHubAccessToken) ? gitHubClientFactory.CreateClient() : gitHubClientFactory.CreateClient(generalConfiguration.GitHubAccessToken);
 
 		/// <inheritdoc />
@@ -163,41 +215,7 @@ namespace Tgstation.Server.Host.Controllers
 					Message = RestartNotSupportedException
 				});
 
-			Logger.LogDebug("Looking for GitHub releases version {0}...", model.NewVersion);
-			IEnumerable<Release> releases;
-			try
-			{
-				var gitHubClient = GetGitHubClient();
-				releases = (await gitHubClient.Repository.Release.GetAll(updatesConfiguration.GitHubRepositoryId).ConfigureAwait(false)).Where(x => x.TagName.StartsWith(updatesConfiguration.GitTagPrefix, StringComparison.InvariantCulture));
-				cancellationToken.ThrowIfCancellationRequested();
-			}
-			catch (RateLimitExceededException e)
-			{
-				return RateLimit(e);
-			}
-			catch (ApiException e)
-			{
-				Logger.LogWarning(OctokitException, e);
-				return StatusCode((int)HttpStatusCode.FailedDependency);
-			}
-
-			Logger.LogTrace("Release query complete!");
-			foreach (var release in releases)
-				if (Version.TryParse(release.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal), out var version) && version == model.NewVersion)
-				{
-					var asset = release.Assets.Where(x => x.Name == updatesConfiguration.UpdatePackageAssetName).FirstOrDefault();
-					if (asset == default)
-						continue;
-
-					if (!serverUpdater.ApplyUpdate(version, new Uri(asset.BrowserDownloadUrl), ioManager))
-						return Conflict(new ErrorMessage
-						{
-							Message = "An update operation is already in progress!"
-						});
-					return Accepted(); // gtfo of here before all the cancellation tokens fire
-				}
-
-			return StatusCode((int)HttpStatusCode.Gone);
+			return await CheckReleasesAndApplyUpdate(model.NewVersion, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <summary>

@@ -1,10 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
+  <Import Project="../../build/Version.props" />
+  
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <DebugType>Full</DebugType>
-    <Version>4.0.1.4</Version>
+    <Version>$(TgsCoreVersion)</Version>
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
