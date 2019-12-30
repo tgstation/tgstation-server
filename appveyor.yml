@@ -38,6 +38,7 @@ services:
 install:
   - choco install doxygen.install codecov graphviz.portable opencover.portable
   - nuget restore tgstation-server.sln
+  - ps: build/InstallCodeCoverage.ps1
   - ps: Install-Product node 10
 build:
   project: tgstation-server.sln
