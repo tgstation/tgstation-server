@@ -7,7 +7,6 @@
 .travis.yml
 .codecov.yml
 appveyor.yml
-LICENSE
 README
 build/**
 !build/analyzers.ruleset
