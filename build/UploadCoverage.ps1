@@ -1,13 +1,14 @@
+mkdir Temp
+cd Temp
+nuget install Microsoft.CodeCoverage --version 16.4.0
+cd ..
+
 $coverageFilePaths = Get-ChildItem -Path TestResults -Filter *.coverage -Recurse -ErrorAction SilentlyContinue -Force | %{ $_.fullname }
 
 $coverageFilePathList = [string]$coverageFilePaths
 
-Write-Host "Running CodeCoverage.exe..."
-mkdir Temp
-cd Temp
-nuget install Microsoft.CodeCoverage
-cd ..
-&"Temp\Microsoft.CodeCoverage.16.4.0\build\netstandard1.0\CodeCoverage\CodeCoverage.exe" analyze /output:service.coveragexml "$coverageFilePathList"
+Write-Host "Running CodeCoverage.exe on: $coverageFilePathList"
+&"Temp\Microsoft.CodeCoverage.16.4.0\build\netstandard1.0\CodeCoverage\CodeCoverage.exe" analyze /output:service.coveragexml /verbose "$coverageFilePathList"
 
 rm -r TestResults
 
