@@ -53,7 +53,7 @@
 
   <ItemGroup>
     <AdditionalFiles Include="../../build/stylecop.json" />
-    <None Include="$(SolutionDir)/LICENSE" Pack="true" PackagePath=""/>
-    <None Include="$(SolutionDir)/build/tgs.ico" Pack="true" PackagePath=""/>
+    <None Include="../../LICENSE" Pack="true" PackagePath=""/>
+    <None Include="../../build/tgs.ico" Pack="true" PackagePath=""/>
   </ItemGroup>
 </Project>
