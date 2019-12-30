@@ -176,9 +176,9 @@ namespace Tgstation.Server.Host.Components.Compiler
 			var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
 
 			job.MinimumSecurityLevel = securityLevel; // needed for the TempDmbProvider
-			var provider = new TemporaryDmbProvider(ioManager.ResolvePath(dirA), String.Concat(job.DmeName, DmbExtension), job);
-
 			var timeoutAt = DateTimeOffset.Now.AddSeconds(timeout);
+
+			using (var provider = new TemporaryDmbProvider(ioManager.ResolvePath(dirA), String.Concat(job.DmeName, DmbExtension), job))
 			using (var controller = await sessionControllerFactory.LaunchNew(launchParameters, provider, byondLock, true, true, true, cancellationToken).ConfigureAwait(false))
 			{
 				var launchResult = await controller.LaunchResult.ConfigureAwait(false);

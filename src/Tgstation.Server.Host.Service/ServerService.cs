@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging.EventLog;
 using System;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.ServiceProcess;
 using System.Threading;
@@ -85,9 +84,7 @@ namespace Tgstation.Server.Host.Service
 					Task.Run(Stop, cancellationToken);
 				}
 				catch (OperationCanceledException) { }
-#pragma warning disable CA1031 // Do not catch general exception types
 				catch (Exception e)
-#pragma warning restore CA1031 // Do not catch general exception types
 				{
 					EventLog.WriteEntry(String.Format(CultureInfo.InvariantCulture, "Error stopping service! Exception: {0}", e));
 				}
@@ -97,7 +94,6 @@ namespace Tgstation.Server.Host.Service
 		}
 
 		/// <inheritdoc />
-		[SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "cancellationTokenSource", Justification = "IT'S DISPOSED RIGHT THERE YOU FUCCBOI!")]
 		protected override void Dispose(bool disposing)
 		{
 			cancellationTokenSource?.Dispose();

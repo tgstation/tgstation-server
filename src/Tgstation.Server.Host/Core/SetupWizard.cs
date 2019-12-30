@@ -274,7 +274,8 @@ namespace Tgstation.Server.Host.Core
 							await console.WriteAsync("Testing create DB permission...", true, cancellationToken).ConfigureAwait(false);
 							using (var command = testConnection.CreateCommand())
 							{
-								command.CommandText = String.Format(CultureInfo.InvariantCulture, "CREATE DATABASE {0}", databaseName);
+								command.CommandText = "CREATE DATABASE ?";
+								command.Parameters.Add(databaseName);
 								await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
 							}
 
@@ -282,7 +283,8 @@ namespace Tgstation.Server.Host.Core
 							await console.WriteAsync("Dropping test database...", true, cancellationToken).ConfigureAwait(false);
 							using (var command = testConnection.CreateCommand())
 							{
-								command.CommandText = String.Format(CultureInfo.InvariantCulture, "DROP DATABASE {0}", databaseName);
+								command.CommandText = "DROP DATABASE ?";
+								command.Parameters.Add(databaseName);
 								try
 								{
 									await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);

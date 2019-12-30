@@ -39,9 +39,13 @@
     <Content Remove="ClientApp\tslint.json" />
     <ClientApp Include="ClientApp\src\**\*;ClientApp\public\**\*;ClientApp\tsconfig.json;ClientApp\tslint.json;ClientApp\package.json;ClientApp\package-lock.json" />
   </ItemGroup>
-  
+
   <Target Name="NpmBuild" BeforeTargets="BeforeBuild" DependsOnTargets="NpmInstall" Inputs="@(ClientApp)" Outputs="wwwroot\index.html">
     <Exec WorkingDirectory="ClientApp" Command="npm run msbuild" />
+  </Target>
+  
+  <Target Name="NpmClean" AfterTargets="Clean">
+    <RemoveDir Directories="wwwroot" />
   </Target>
 
   <ItemGroup>

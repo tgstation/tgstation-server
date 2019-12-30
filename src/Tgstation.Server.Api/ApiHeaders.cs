@@ -137,6 +137,9 @@ namespace Tgstation.Server.Api
 		/// <param name="requestHeaders">The <see cref="RequestHeaders"/> containing the <see cref="ApiHeaders"/></param>
 		public ApiHeaders(RequestHeaders requestHeaders)
 		{
+			if (requestHeaders == null)
+				throw new ArgumentNullException(nameof(requestHeaders));
+
 			var jsonAccept = new Microsoft.Net.Http.Headers.MediaTypeHeaderValue(ApplicationJson);
 			if (!requestHeaders.Accept.Any(x => x.MediaType == jsonAccept.MediaType))
 				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Client does not accept {0}!", ApplicationJson));
