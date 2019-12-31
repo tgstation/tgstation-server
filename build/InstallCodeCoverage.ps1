@@ -1,6 +1,6 @@
 mkdir Temp
 cd Temp
-nuget install Microsoft.CodeCoverage --version 16.4.0
+nuget install Microsoft.CodeCoverage -Version 16.4.0
 cd ..
 
 New-Item -Type Directory -Force -Path "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Team Tools"
