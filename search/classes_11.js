@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['taskextensions',['TaskExtensions',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_task_extensions.html',1,'Tgstation::Server::Host::Core']]],
   ['temporarydmbprovider',['TemporaryDmbProvider',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_temporary_dmb_provider.html',1,'Tgstation::Server::Host::Components::Compiler']]],
   ['testapiclient',['TestApiClient',['../class_tgstation_1_1_server_1_1_client_1_1_tests_1_1_test_api_client.html',1,'Tgstation::Server::Client::Tests']]],
   ['testapiheaders',['TestApiHeaders',['../class_tgstation_1_1_server_1_1_api_1_1_tests_1_1_test_api_headers.html',1,'Tgstation::Server::Api::Tests']]],
@@ -16,10 +17,7 @@ var searchData=
   ['testircconnectionstringbuilder',['TestIrcConnectionStringBuilder',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_tests_1_1_test_irc_connection_string_builder.html',1,'Tgstation::Server::Api::Models::Tests']]],
   ['testjobexception',['TestJobException',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_tests_1_1_test_job_exception.html',1,'Tgstation::Server::Host::Core::Tests']]],
   ['testjobhandler',['TestJobHandler',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_tests_1_1_test_job_handler.html',1,'Tgstation::Server::Host::Core::Tests']]],
-  ['testmerge',['TestMerge',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html',1,'Tgstation::Server::Host::Models']]],
-  ['testmerge',['TestMerge',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_test_merge.html',1,'Tgstation::Server::Host::Components::Interop']]],
-  ['testmerge',['TestMerge',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge.html',1,'Tgstation::Server::Api::Models']]],
-  ['testmerge',['TestMerge',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_test_merge.html',1,'Tgstation::Server::Api::Models::Internal']]],
+  ['testmerge',['TestMerge',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html',1,'Tgstation.Server.Host.Models.TestMerge'],['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_test_merge.html',1,'Tgstation.Server.Host.Components.Interop.TestMerge'],['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_test_merge.html',1,'Tgstation.Server.Api.Models.Internal.TestMerge'],['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge.html',1,'Tgstation.Server.Api.Models.TestMerge']]],
   ['testmergebase',['TestMergeBase',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_test_merge_base.html',1,'Tgstation::Server::Api::Models::Internal']]],
   ['testmergeparameters',['TestMergeParameters',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html',1,'Tgstation::Server::Api::Models']]],
   ['testplatformidentifier',['TestPlatformIdentifier',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_tests_1_1_test_platform_identifier.html',1,'Tgstation::Server::Host::Core::Tests']]],
@@ -33,8 +31,7 @@ var searchData=
   ['testservicecollectionextensions',['TestServiceCollectionExtensions',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_tests_1_1_test_service_collection_extensions.html',1,'Tgstation::Server::Host::Core::Tests']]],
   ['testsetupwizard',['TestSetupWizard',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_tests_1_1_test_setup_wizard.html',1,'Tgstation::Server::Host::Core::Tests']]],
   ['testsymlinkfactory',['TestSymlinkFactory',['../class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_tests_1_1_test_symlink_factory.html',1,'Tgstation::Server::Host::IO::Tests']]],
-  ['testwatchdog',['TestWatchdog',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_tests_1_1_test_watchdog.html',1,'Tgstation::Server::Host::Components::Watchdog::Tests']]],
-  ['testwatchdog',['TestWatchdog',['../class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_tests_1_1_test_watchdog.html',1,'Tgstation::Server::Host::Watchdog::Tests']]],
+  ['testwatchdog',['TestWatchdog',['../class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_tests_1_1_test_watchdog.html',1,'Tgstation.Server.Host.Watchdog.Tests.TestWatchdog'],['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_tests_1_1_test_watchdog.html',1,'Tgstation.Server.Host.Components.Watchdog.Tests.TestWatchdog']]],
   ['testwatchdogfactory',['TestWatchdogFactory',['../class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_tests_1_1_test_watchdog_factory.html',1,'Tgstation::Server::Host::Watchdog::Tests']]],
   ['tgsauthorizeattribute',['TgsAuthorizeAttribute',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_tgs_authorize_attribute.html',1,'Tgstation::Server::Host::Controllers']]],
   ['token',['Token',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_token.html',1,'Tgstation::Server::Api::Models']]],

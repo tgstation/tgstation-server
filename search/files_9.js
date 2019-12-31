@@ -52,9 +52,7 @@ var searchData=
   ['ijobsclient_2ecs',['IJobsClient.cs',['../_i_jobs_client_8cs.html',1,'']]],
   ['ijsontrackingcontext_2ecs',['IJsonTrackingContext.cs',['../_i_json_tracking_context_8cs.html',1,'']]],
   ['inetworkpromptreaper_2ecs',['INetworkPromptReaper.cs',['../_i_network_prompt_reaper_8cs.html',1,'']]],
-  ['instance_2ecs',['Instance.cs',['../_tgstation_8_server_8_api_2_models_2_instance_8cs.html',1,'']]],
-  ['instance_2ecs',['Instance.cs',['../_tgstation_8_server_8_host_2_components_2_instance_8cs.html',1,'']]],
-  ['instance_2ecs',['Instance.cs',['../_tgstation_8_server_8_host_2_models_2_instance_8cs.html',1,'']]],
+  ['instance_2ecs',['Instance.cs',['../_tgstation_8_server_8_api_2_models_2_instance_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_components_2_instance_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_models_2_instance_8cs.html',1,'(Global Namespace)']]],
   ['instanceclient_2ecs',['InstanceClient.cs',['../_instance_client_8cs.html',1,'']]],
   ['instancecontroller_2ecs',['InstanceController.cs',['../_instance_controller_8cs.html',1,'']]],
   ['instancefactory_2ecs',['InstanceFactory.cs',['../_instance_factory_8cs.html',1,'']]],
@@ -63,8 +61,7 @@ var searchData=
   ['instancemanagerrights_2ecs',['InstanceManagerRights.cs',['../_instance_manager_rights_8cs.html',1,'']]],
   ['instancemanagertest_2ecs',['InstanceManagerTest.cs',['../_instance_manager_test_8cs.html',1,'']]],
   ['instancetest_2ecs',['InstanceTest.cs',['../_instance_test_8cs.html',1,'']]],
-  ['instanceuser_2ecs',['InstanceUser.cs',['../_tgstation_8_server_8_api_2_models_2_instance_user_8cs.html',1,'']]],
-  ['instanceuser_2ecs',['InstanceUser.cs',['../_tgstation_8_server_8_host_2_models_2_instance_user_8cs.html',1,'']]],
+  ['instanceuser_2ecs',['InstanceUser.cs',['../_tgstation_8_server_8_api_2_models_2_instance_user_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_models_2_instance_user_8cs.html',1,'(Global Namespace)']]],
   ['instanceuserclient_2ecs',['InstanceUserClient.cs',['../_instance_user_client_8cs.html',1,'']]],
   ['instanceusercontroller_2ecs',['InstanceUserController.cs',['../_instance_user_controller_8cs.html',1,'']]],
   ['instanceuserrights_2ecs',['InstanceUserRights.cs',['../_instance_user_rights_8cs.html',1,'']]],
@@ -101,8 +98,6 @@ var searchData=
   ['isystemidentityfactory_2ecs',['ISystemIdentityFactory.cs',['../_i_system_identity_factory_8cs.html',1,'']]],
   ['itokenfactory_2ecs',['ITokenFactory.cs',['../_i_token_factory_8cs.html',1,'']]],
   ['iusersclient_2ecs',['IUsersClient.cs',['../_i_users_client_8cs.html',1,'']]],
-  ['iwatchdog_2ecs',['IWatchdog.cs',['../_components_2_watchdog_2_i_watchdog_8cs.html',1,'']]],
-  ['iwatchdog_2ecs',['IWatchdog.cs',['../_watchdog_2_i_watchdog_8cs.html',1,'']]],
-  ['iwatchdogfactory_2ecs',['IWatchdogFactory.cs',['../_components_2_watchdog_2_i_watchdog_factory_8cs.html',1,'']]],
-  ['iwatchdogfactory_2ecs',['IWatchdogFactory.cs',['../_watchdog_2_i_watchdog_factory_8cs.html',1,'']]]
+  ['iwatchdog_2ecs',['IWatchdog.cs',['../_components_2_watchdog_2_i_watchdog_8cs.html',1,'(Global Namespace)'],['../_watchdog_2_i_watchdog_8cs.html',1,'(Global Namespace)']]],
+  ['iwatchdogfactory_2ecs',['IWatchdogFactory.cs',['../_components_2_watchdog_2_i_watchdog_factory_8cs.html',1,'(Global Namespace)'],['../_watchdog_2_i_watchdog_factory_8cs.html',1,'(Global Namespace)']]]
 ];
