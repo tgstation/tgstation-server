@@ -108,18 +108,7 @@ namespace Tgstation.Server.Host.Service
 				}
 			}
 
-			bool serviceWillRun = !Configure && !Install && !Uninstall;
-			ServerService service = null;
-			ILoggerFactory loggerFactory = null;
-			using (loggerFactory = LoggerFactory.Create(builder =>
-			{
-				if (serviceWillRun)
-				{
-					LogLevel logLevel = Trace ? LogLevel.Trace : Debug ? LogLevel.Debug : LogLevel.Information;
-					service = new ServerService(WatchdogFactory, builder, () => loggerFactory, logLevel);
-				}
-			}))
-			using(service)
+			using (var loggerFactory = new LoggerFactory())
 			{
 				if (Configure)
 					await WatchdogFactory.CreateWatchdog(loggerFactory).RunAsync(true, Array.Empty<string>(), default).ConfigureAwait(false);
@@ -153,7 +142,8 @@ namespace Tgstation.Server.Host.Service
 						installer.ServiceName = ServerService.Name;
 						installer.Uninstall(null);
 					}
-				else if (serviceWillRun)
+				else if (!Configure)
+					using (var service = new ServerService(WatchdogFactory, loggerFactory, Trace ? LogLevel.Trace : Debug ? LogLevel.Debug : LogLevel.Information))
 						ServiceBase.Run(service);
 			}
 		}

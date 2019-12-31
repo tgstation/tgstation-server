@@ -12,7 +12,7 @@ namespace Tgstation.Server.Host.Models.Migrations
 		/// <inheritdoc />
 		public SqlServerDatabaseContext CreateDbContext(string[] args)
 		{
-			using (var loggerFactory = LoggerFactory.Create(builder => { }))
+			using (var loggerFactory = new LoggerFactory())
 			{
 				return new SqlServerDatabaseContext(new DbContextOptions<SqlServerDatabaseContext>(), DesignTimeDbContextFactoryHelpers.GetDbContextOptions(), new DatabaseSeeder(new CryptographySuite(new PasswordHasher<User>())), loggerFactory.CreateLogger<SqlServerDatabaseContext>());
 			}

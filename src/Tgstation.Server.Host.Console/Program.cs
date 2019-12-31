@@ -24,12 +24,15 @@ namespace Tgstation.Server.Host.Console
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		internal static async Task Main(string[] args)
 		{
-			using (var loggerFactory = LoggerFactory.Create(
-				builder => builder.AddConsole()))
+			using (var loggerFactory = new LoggerFactory())
 			{
 				var arguments = new List<string>(args);
 				var trace = arguments.Remove("--trace-host-watchdog");
 				var debug = arguments.Remove("--debug-host-watchdog");
+
+#pragma warning disable CS0618 // Type or member is obsolete
+				loggerFactory.AddConsole(trace ? LogLevel.Trace : debug ? LogLevel.Debug : LogLevel.Information, true);
+#pragma warning restore CS0618 // Type or member is obsolete
 
 				if (trace && debug)
 				{

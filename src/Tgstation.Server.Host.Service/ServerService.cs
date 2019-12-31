@@ -21,17 +21,12 @@ namespace Tgstation.Server.Host.Service
 		public const string Name = "tgstation-server-4";
 
 		/// <summary>
-		/// The <see cref="IWatchdogFactory"/> for the <see cref="ServerService"/>
+		/// The <see cref="IWatchdog"/> for the <see cref="ServerService"/>
 		/// </summary>
-		readonly IWatchdogFactory watchdogFactory;
+		readonly IWatchdog watchdog;
 
 		/// <summary>
-		/// The <see cref="Func{TResult}"/> used to retrieve a configured <see cref="ILoggerFactory"/>.
-		/// </summary>
-		readonly Func<ILoggerFactory> getLoggerFactory;
-
-		/// <summary>
-		/// The <see cref="Task"/> recieved from <see cref="IWatchdog.RunAsync(bool, string[], CancellationToken)"/>.
+		/// The <see cref="Task"/> recieved from <see cref="IWatchdog.RunAsync(bool, string[], CancellationToken)"/> of <see cref="watchdog"/>
 		/// </summary>
 		Task watchdogTask;
 
@@ -43,39 +38,39 @@ namespace Tgstation.Server.Host.Service
 		/// <summary>
 		/// Construct a <see cref="ServerService"/>
 		/// </summary>
-		/// <param name="watchdogFactory">The value of <see cref="watchdogFactory"/>.</param>
-		/// <param name="loggingBuilder">The <see cref="ILoggingBuilder"/> to configure.</param>
-		/// <param name="getLoggerFactory">The <see cref="Func{TResult}"/> used to retrieve a <see cref="ILoggerFactory"/> based on the <paramref name="loggingBuilder"/> configuration.</param>
+		/// <param name="watchdogFactory">The <see cref="IWatchdogFactory"/> to create <see cref="watchdog"/> with</param>
+		/// <param name="loggerFactory">The <see cref="ILoggerFactory"/> for <paramref name="watchdogFactory"/></param>
 		/// <param name="minumumLogLevel">The minimum <see cref="Microsoft.Extensions.Logging.LogLevel"/> to record in the event log</param>
-		public ServerService(IWatchdogFactory watchdogFactory, ILoggingBuilder loggingBuilder, Func<ILoggerFactory> getLoggerFactory, LogLevel minumumLogLevel)
+		public ServerService(IWatchdogFactory watchdogFactory, ILoggerFactory loggerFactory, LogLevel minumumLogLevel)
 		{
-			this.watchdogFactory = watchdogFactory ?? throw new ArgumentNullException(nameof(watchdogFactory));
-			if (loggingBuilder == null)
-				throw new ArgumentNullException(nameof(loggingBuilder));
-			this.getLoggerFactory = getLoggerFactory ?? throw new ArgumentNullException(nameof(getLoggerFactory));
+			if (watchdogFactory == null)
+				throw new ArgumentNullException(nameof(watchdogFactory));
+			if (loggerFactory == null)
+				throw new ArgumentNullException(nameof(loggerFactory));
 
-			ServiceName = Name;
-
-			loggingBuilder.AddEventLog(new EventLogSettings
+#pragma warning disable CS0618 // Type or member is obsolete
+			loggerFactory.AddEventLog(new EventLogSettings
 			{
 				LogName = EventLog.Log,
 				MachineName = EventLog.MachineName,
 				SourceName = EventLog.Source,
 				Filter = (message, logLevel) => logLevel >= minumumLogLevel
 			});
+#pragma warning restore CS0618 // Type or member is obsolete
+
+			ServiceName = Name;
+			watchdog = watchdogFactory.CreateWatchdog(loggerFactory);
 		}
 
 		/// <summary>
-		/// Creates and executes the watchdog stopping the service if it exits
+		/// Executes the <see cref="watchdog"/>, stopping the service if it exits
 		/// </summary>
-		/// <param name="args">The arguments for the watchdog.</param>
+		/// <param name="args">The arguments for the <see cref="watchdog"/></param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task RunWatchdog(string[] args, CancellationToken cancellationToken)
 		{
-			var watchdog = watchdogFactory.CreateWatchdog(getLoggerFactory());
-
-			await watchdog.RunAsync(false, args, cancellationToken).ConfigureAwait(false);
+			await watchdog.RunAsync(false, args, cancellationTokenSource.Token).ConfigureAwait(false);
 
 			void StopServiceAsync()
 			{

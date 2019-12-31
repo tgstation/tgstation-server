@@ -117,7 +117,7 @@ namespace Tgstation.Server.Tests
 						}
 						catch (ServiceUnavailableException)
 						{
-							//migrating, to be expected
+							// migrating, to be expected
 							if (DateTimeOffset.Now > giveUpAt)
 								throw;
 							await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);

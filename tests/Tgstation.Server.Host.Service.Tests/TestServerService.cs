@@ -18,11 +18,11 @@ namespace Tgstation.Server.Host.Service.Tests
 		[TestMethod]
 		public void TestConstructionAndDisposal()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new ServerService(null, null, null, default));
+			Assert.ThrowsException<ArgumentNullException>(() => new ServerService(null, null, default));
 			var mockWatchdogFactory = new Mock<IWatchdogFactory>();
-			Assert.ThrowsException<ArgumentNullException>(() => new ServerService(mockWatchdogFactory.Object, null, null, default));
-			LoggerFactory.Create(builder => Assert.ThrowsException<ArgumentNullException>(() => new ServerService(mockWatchdogFactory.Object, builder, null, default)));
-			LoggerFactory.Create(builder => { new ServerService(mockWatchdogFactory.Object, builder, () => null, default).Dispose(); });
+			Assert.ThrowsException<ArgumentNullException>(() => new ServerService(mockWatchdogFactory.Object, null, default));
+			var mockLoggerFactory = new LoggerFactory();
+			new ServerService(mockWatchdogFactory.Object, mockLoggerFactory, default).Dispose();
 		}
 
 		[TestMethod]
@@ -34,32 +34,23 @@ namespace Tgstation.Server.Host.Service.Tests
 
 			var mockWatchdog = new Mock<IWatchdog>();
 			var args = Array.Empty<string>();
-			CancellationToken cancellationToken, originalToken;
-			using(var cts = new CancellationTokenSource())
-			{
-				originalToken = cts.Token;
-				cancellationToken = originalToken;
-			}
-			var cancelled = false;
-			
-			mockWatchdog.Setup(x => x.RunAsync(false, args, It.IsAny<CancellationToken>())).Callback((bool x, string[] _, CancellationToken token) => token.Register(() => cancelled = true)).Returns(Task.CompletedTask).Verifiable();
+			CancellationToken cancellationToken;
+			mockWatchdog.Setup(x => x.RunAsync(false, args, It.IsAny<CancellationToken>())).Callback((bool x, string[] _, CancellationToken token) => cancellationToken = token).Returns(Task.CompletedTask).Verifiable();
 			var mockWatchdogFactory = new Mock<IWatchdogFactory>();
+			var mockLoggerFactory = new LoggerFactory();
+			mockWatchdogFactory.Setup(x => x.CreateWatchdog(mockLoggerFactory)).Returns(mockWatchdog.Object).Verifiable();
 
-			ServerService service = null;
-			ILoggerFactory loggerFactory = null;
-			using (loggerFactory = LoggerFactory.Create(builder => service = new ServerService(mockWatchdogFactory.Object, builder, () => loggerFactory, default)))
-			using (service)
+			using (var service = new ServerService(mockWatchdogFactory.Object, mockLoggerFactory, default))
 			{
-				mockWatchdogFactory.Setup(x => x.CreateWatchdog(loggerFactory)).Returns(mockWatchdog.Object).Verifiable();
-				Assert.IsFalse(cancelled);
 				onStart.Invoke(service, new object[] { args });
-				mockWatchdog.VerifyAll();
 
-				Assert.AreNotSame(cancellationToken, originalToken);
+				Assert.IsFalse(cancellationToken.IsCancellationRequested);
 
 				onStop.Invoke(service, Array.Empty<object>());
-				Assert.IsTrue(cancelled);
+				Assert.IsTrue(cancellationToken.IsCancellationRequested);
+				mockWatchdog.VerifyAll();
 			}
+
 			mockWatchdogFactory.VerifyAll();
 		}
 	}
