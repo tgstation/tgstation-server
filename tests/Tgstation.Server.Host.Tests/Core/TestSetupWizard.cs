@@ -202,15 +202,25 @@ namespace Tgstation.Server.Host.Core.Tests
 
 			mockApplication.SetupGet(x => x.VersionPrefix).Returns("sumfuk").Verifiable();
 
+
+			// This list is here for ease of debugging.
+			var consolePlayback = new List<string>();
+
 			mockConsole.Setup(x => x.PressAnyKeyAsync(It.IsAny<CancellationToken>())).Returns(Task.CompletedTask).Verifiable();
 			mockConsole.Setup(x => x.ReadLineAsync(It.IsAny<bool>(), It.IsAny<CancellationToken>())).Returns(() =>
 			{
 				if (inputPos == finalInputSequence.Count)
 					Assert.Fail("Exhausted input sequence!");
 				var res = finalInputSequence[inputPos++];
+				consolePlayback.Add($"Input: {res}");
 				return Task.FromResult(res);
 			}).Verifiable();
-			mockConsole.Setup(x => x.WriteAsync(It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask).Verifiable();
+
+			mockConsole
+				.Setup(x => x.WriteAsync(It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
+				.Callback<string, bool, CancellationToken>((message, error, token) => consolePlayback.Add($"Output: {message}"))
+				.Returns(Task.CompletedTask)
+				.Verifiable();
 
 			Assert.IsFalse(await wizard.CheckRunWizard(default).ConfigureAwait(false));
 			//first real run

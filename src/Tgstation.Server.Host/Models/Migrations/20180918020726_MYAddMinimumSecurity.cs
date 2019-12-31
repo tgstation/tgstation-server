@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Models.Migrations
@@ -14,6 +15,9 @@ namespace Tgstation.Server.Host.Models.Migrations
 		/// <param name="migrationBuilder">The <see cref="MigrationBuilder"/> to use</param>
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{
+			if (migrationBuilder == null)
+				throw new ArgumentNullException(nameof(migrationBuilder));
+
 			migrationBuilder.AddColumn<int>(
 				name: "ApiValidationSecurityLevel",
 				table: "DreamMakerSettings",
@@ -33,6 +37,9 @@ namespace Tgstation.Server.Host.Models.Migrations
 		/// <param name="migrationBuilder">The <see cref="MigrationBuilder"/> to use</param>
 		protected override void Down(MigrationBuilder migrationBuilder)
 		{
+			if (migrationBuilder == null)
+				throw new ArgumentNullException(nameof(migrationBuilder));
+
 			migrationBuilder.DropColumn(
 				name: "ApiValidationSecurityLevel",
 				table: "DreamMakerSettings");

@@ -14,6 +14,9 @@ namespace Tgstation.Server.Host.Models.Migrations
 		/// <param name="migrationBuilder">The <see cref="MigrationBuilder"/> to use</param>
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{
+			if (migrationBuilder == null)
+				throw new ArgumentNullException(nameof(migrationBuilder));
+
 			migrationBuilder.DropForeignKey(
 				name: "FK_Instances_WatchdogReattachInformations_WatchdogReattachInformationId",
 				table: "Instances");
@@ -120,6 +123,9 @@ namespace Tgstation.Server.Host.Models.Migrations
 		/// <param name="migrationBuilder">The <see cref="MigrationBuilder"/> to use</param>
 		protected override void Down(MigrationBuilder migrationBuilder)
 		{
+			if (migrationBuilder == null)
+				throw new ArgumentNullException(nameof(migrationBuilder));
+
 			migrationBuilder.DropForeignKey(
 				name: "FK_TestMerges_RevisionInformations_PrimaryRevisionInformationId",
 				table: "TestMerges");

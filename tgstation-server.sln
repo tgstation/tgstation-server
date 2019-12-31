@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2036
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DA32568D-1D8D-4A4C-9943-BFD3CE796B3F}"
 	ProjectSection(SolutionItems) = preProject
@@ -25,19 +25,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{6FF654E6
 		build\BuildDox.ps1 = build\BuildDox.ps1
 		build\Dockerfile = build\Dockerfile
 		build\install_byond.sh = build\install_byond.sh
+		build\InstallCodeCoverage.ps1 = build\InstallCodeCoverage.ps1
 		build\prep_deployment.ps1 = build\prep_deployment.ps1
 		build\stylecop.json = build\stylecop.json
 		build\test_core.sh = build\test_core.sh
 		build\tgs.docker.sh = build\tgs.docker.sh
 		build\tgs.ico = build\tgs.ico
 		build\UploadCoverage.ps1 = build\UploadCoverage.ps1
+		build\Version.props = build\Version.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host", "src\Tgstation.Server.Host\Tgstation.Server.Host.csproj", "{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Api", "src\Tgstation.Server.Api\Tgstation.Server.Api.csproj", "{8B4A208D-A48A-4A5D-8B94-E2661138865D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgstation.Server.Host.Service", "src\Tgstation.Server.Host.Service\Tgstation.Server.Host.Service.csproj", "{29927416-3B78-49A7-A560-5CCAA638B6B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Service", "src\Tgstation.Server.Host.Service\Tgstation.Server.Host.Service.csproj", "{29927416-3B78-49A7-A560-5CCAA638B6B4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Client", "src\Tgstation.Server.Client\Tgstation.Server.Client.csproj", "{E0AC911F-7675-4A91-9499-D8A2E2390AAD}"
 EndProject
@@ -54,7 +56,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Watch
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Watchdog.Tests", "tests\Tgstation.Server.Host.Watchdog.Tests\Tgstation.Server.Host.Watchdog.Tests.csproj", "{7500F776-4384-4B5F-A8D8-22461CAD108B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgstation.Server.Host.Service.Tests", "tests\Tgstation.Server.Host.Service.Tests\Tgstation.Server.Host.Service.Tests.csproj", "{AA80A190-52E2-4BE3-BFEB-1F148D9E9007}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Service.Tests", "tests\Tgstation.Server.Host.Service.Tests\Tgstation.Server.Host.Service.Tests.csproj", "{AA80A190-52E2-4BE3-BFEB-1F148D9E9007}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DMAPI", "DMAPI", "{7E4E7CF6-A48D-410E-8191-C49C6B5AB9CC}"
 EndProject

@@ -274,7 +274,10 @@ namespace Tgstation.Server.Host.Core
 							await console.WriteAsync("Testing create DB permission...", true, cancellationToken).ConfigureAwait(false);
 							using (var command = testConnection.CreateCommand())
 							{
-								command.CommandText = String.Format(CultureInfo.InvariantCulture, "CREATE DATABASE {0}", databaseName);
+								// I really don't care about user sanitization here, they want to fuck their own DB? so be it
+#pragma warning disable CA2100 // Review SQL queries for security vulnerabilities
+								command.CommandText = $"CREATE DATABASE {databaseName}";
+#pragma warning restore CA2100 // Review SQL queries for security vulnerabilities
 								await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
 							}
 
@@ -282,7 +285,9 @@ namespace Tgstation.Server.Host.Core
 							await console.WriteAsync("Dropping test database...", true, cancellationToken).ConfigureAwait(false);
 							using (var command = testConnection.CreateCommand())
 							{
-								command.CommandText = String.Format(CultureInfo.InvariantCulture, "DROP DATABASE {0}", databaseName);
+#pragma warning disable CA2100 // Review SQL queries for security vulnerabilities
+								command.CommandText = $"DROP DATABASE {databaseName}";
+#pragma warning restore CA2100 // Review SQL queries for security vulnerabilities
 								try
 								{
 									await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);

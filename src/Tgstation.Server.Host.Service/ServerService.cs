@@ -1,9 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.EventLog;
-using Microsoft.Extensions.Logging.EventLog.Internal;
 using System;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.ServiceProcess;
 using System.Threading;
@@ -15,7 +13,7 @@ namespace Tgstation.Server.Host.Service
 	/// <summary>
 	/// Represents a <see cref="IWatchdog"/> as a <see cref="ServiceBase"/>
 	/// </summary>
-	sealed class ServerService : ServiceBase, IEventLog
+	sealed class ServerService : ServiceBase
 	{
 		/// <summary>
 		/// The canonical windows service name
@@ -50,21 +48,19 @@ namespace Tgstation.Server.Host.Service
 			if (loggerFactory == null)
 				throw new ArgumentNullException(nameof(loggerFactory));
 
+#pragma warning disable CS0618 // Type or member is obsolete
 			loggerFactory.AddEventLog(new EventLogSettings
 			{
-				EventLog = this,
+				LogName = EventLog.Log,
+				MachineName = EventLog.MachineName,
+				SourceName = EventLog.Source,
 				Filter = (message, logLevel) => logLevel >= minumumLogLevel
 			});
+#pragma warning restore CS0618 // Type or member is obsolete
 
 			ServiceName = Name;
 			watchdog = watchdogFactory.CreateWatchdog(loggerFactory);
 		}
-
-		/// <inheritdoc />
-		public int MaxMessageSize => (int)EventLog.MaximumKilobytes * 1024;
-
-		/// <inheritdoc />
-		public void WriteEntry(string message, EventLogEntryType type, int eventID, short category) => EventLog.WriteEntry(message, type, eventID, category);
 
 		/// <summary>
 		/// Executes the <see cref="watchdog"/>, stopping the service if it exits
@@ -74,7 +70,7 @@ namespace Tgstation.Server.Host.Service
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task RunWatchdog(string[] args, CancellationToken cancellationToken)
 		{
-			await watchdog.RunAsync(false, args, cancellationToken).ConfigureAwait(false);
+			await watchdog.RunAsync(false, args, cancellationTokenSource.Token).ConfigureAwait(false);
 
 			void StopServiceAsync()
 			{
@@ -93,7 +89,6 @@ namespace Tgstation.Server.Host.Service
 		}
 
 		/// <inheritdoc />
-		[SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "cancellationTokenSource", Justification = "IT'S DISPOSED RIGHT THERE YOU FUCCBOI!")]
 		protected override void Dispose(bool disposing)
 		{
 			cancellationTokenSource?.Dispose();

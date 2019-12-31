@@ -29,6 +29,32 @@ namespace Tgstation.Server.Host.Watchdog
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
+		string GetDotnetPath(bool isWindows)
+		{
+			var enviromentPath = Environment.GetEnvironmentVariable("PATH");
+			var paths = enviromentPath.Split(';');
+
+			var exeName = "dotnet";
+			IEnumerable<string> enumerator;
+			if (isWindows)
+			{
+				exeName += ".exe";
+				enumerator = paths;
+			}
+			else
+				enumerator = paths.Select(x => x.Split(':')).SelectMany(x => x);
+
+			enumerator = enumerator.Select(x => Path.Combine(x, exeName));
+
+			return enumerator
+				.Where(x =>
+				{
+					logger.LogTrace("Checking for dotnet at {0}", x);
+					return File.Exists(x);
+				})
+				.FirstOrDefault();
+		}
+
 		/// <inheritdoc />
 		#pragma warning disable CA1502 // TODO: Decomplexify
 		public async Task RunAsync(bool runConfigure, string[] args, CancellationToken cancellationToken)
@@ -38,30 +64,8 @@ namespace Tgstation.Server.Host.Watchdog
 			string updateDirectory = null;
 			try
 			{
-				var enviromentPath = Environment.GetEnvironmentVariable("PATH");
-				var paths = enviromentPath.Split(';');
 				var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-
-				var exeName = "dotnet";
-				IEnumerable<string> enumerator;
-				if (isWindows)
-				{
-					exeName += ".exe";
-					enumerator = paths;
-				}
-				else
-					enumerator = paths.Select(x => x.Split(':')).SelectMany(x => x);
-
-				enumerator = enumerator.Select(x => Path.Combine(x, exeName));
-
-				var dotnetPath = enumerator
-								   .Where(x =>
-								   {
-									   logger.LogTrace("Checking for dotnet at {0}", x);
-									   return File.Exists(x);
-								   })
-								   .FirstOrDefault();
-
+				var dotnetPath = GetDotnetPath(isWindows);
 				if (dotnetPath == default)
 				{
 					logger.LogCritical("Unable to locate dotnet executable in PATH! Please ensure the .NET Core runtime is installed and is in your PATH!");
@@ -126,7 +130,7 @@ namespace Tgstation.Server.Host.Watchdog
 								'"' + updateDirectory + '"'
 							};
 
-							if (Environment.GetCommandLineArgs().Any(x => x == "--attach-host-debugger"))
+							if (Environment.GetCommandLineArgs().Any(x => x.Equals("--attach-host-debugger", StringComparison.OrdinalIgnoreCase)))
 								arguments.Add("--attach-debugger");
 
 							if (runConfigure)

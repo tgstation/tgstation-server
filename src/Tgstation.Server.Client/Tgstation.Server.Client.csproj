@@ -1,9 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../build/Version.props" />
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <DebugType>Full</DebugType>
-    <Version>4.0.3.0</Version>
+    <Version>$(TgsClientVersion)</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Cyberboss</Authors>
     <Company>/tg/station 13</Company>
@@ -13,8 +14,8 @@
     <RepositoryUrl>https://github.com/tgstation/tgstation-server</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <NeutralLanguage>en-CA</NeutralLanguage>
-    <PackageIconUrl>https://raw.githubusercontent.com/tgstation/tgstation-server/master/build/tgs.ico</PackageIconUrl>
-    <PackageLicenseUrl>https://github.com/tgstation/tgstation-server/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageIcon>tgs.ico</PackageIcon>
     <PackageTags>json web api tgstation-server tgstation ss13 byond client</PackageTags>
     <PackageReleaseNotes>Added the ability to change the Token of IServerClient</PackageReleaseNotes>
     <Copyright>2018</Copyright>
@@ -35,12 +36,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>compile; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.1-beta.61">
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
@@ -52,5 +49,7 @@
 
   <ItemGroup>
     <AdditionalFiles Include="../../build/stylecop.json" />
+    <None Include="../../LICENSE" Pack="true" PackagePath="" />
+    <None Include="../../build/tgs.ico" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>

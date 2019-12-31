@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
@@ -43,7 +44,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <param name="otherParameters">The <see cref="DreamDaemonLaunchParameters"/> to compare against</param>
 		/// <returns><see langword="true"/> if they match, <see langword="false"/> otherwise</returns>
 		public bool Match(DreamDaemonLaunchParameters otherParameters) =>
-			AllowWebClient == otherParameters.AllowWebClient
+			AllowWebClient == (otherParameters?.AllowWebClient ?? throw new ArgumentNullException(nameof(otherParameters)))
 				&& SecurityLevel == otherParameters.SecurityLevel
 				&& PrimaryPort == otherParameters.PrimaryPort
 				&& SecondaryPort == otherParameters.SecondaryPort

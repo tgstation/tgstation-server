@@ -10,6 +10,12 @@ namespace Tgstation.Server.Host.Models.Migrations
 	sealed class SqlServerDesignTimeDbContextFactory : IDesignTimeDbContextFactory<SqlServerDatabaseContext>
 	{
 		/// <inheritdoc />
-		public SqlServerDatabaseContext CreateDbContext(string[] args) => new SqlServerDatabaseContext(new DbContextOptions<SqlServerDatabaseContext>(), DesignTimeDbContextFactoryHelpers.GetDbContextOptions(), new DatabaseSeeder(new CryptographySuite(new PasswordHasher<User>())), new LoggerFactory().CreateLogger<SqlServerDatabaseContext>());
+		public SqlServerDatabaseContext CreateDbContext(string[] args)
+		{
+			using (var loggerFactory = new LoggerFactory())
+			{
+				return new SqlServerDatabaseContext(new DbContextOptions<SqlServerDatabaseContext>(), DesignTimeDbContextFactoryHelpers.GetDbContextOptions(), new DatabaseSeeder(new CryptographySuite(new PasswordHasher<User>())), loggerFactory.CreateLogger<SqlServerDatabaseContext>());
+			}
+		}
 	}
 }

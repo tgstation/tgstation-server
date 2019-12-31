@@ -208,6 +208,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			DisposeAndNullControllers();
 			semaphore.Dispose();
 			restartRegistration.Dispose();
+
+			// mostly here to please fxcop, but it definitely should be disposed already
+			Debug.Assert(monitorCts == null, "We reached Disposes() an monitorCts is not null!");
+			monitorCts?.Dispose();
 		}
 
 		/// <summary>
@@ -679,6 +683,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			monitorCts.Cancel();
 			await monitorTask.ConfigureAwait(false);
 			monitorCts.Dispose();
+			monitorCts = null;
 			monitorTask = null;
 			return true;
 		}

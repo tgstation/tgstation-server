@@ -104,6 +104,9 @@ namespace Tgstation.Server.Host.Core
 			// enable options which give us config reloading
 			services.AddOptions();
 
+			// this is needful for the setup wizard
+			services.AddLogging();
+
 			// other stuff needed for for setup wizard and configuration
 			services.AddSingleton<IIOManager, DefaultIOManager>();
 			services.AddSingleton<IConsole, IO.Console>();
@@ -231,9 +234,8 @@ namespace Tgstation.Server.Host.Core
 			// enable browser detection
 			services.AddDetectionCore().AddBrowser();
 
-			// enable CORS if necessary
-			if (controlPanelConfiguration.AllowAnyOrigin || controlPanelConfiguration.AllowedOrigins?.Count > 0)
-				services.AddCors();
+			// CORS conditionally enabled later
+			services.AddCors();
 
 			void AddTypedContext<TContext>() where TContext : DatabaseContext<TContext>
 			{
@@ -369,12 +371,13 @@ namespace Tgstation.Server.Host.Core
 				corsBuilder = builder => builder.WithOrigins(controlPanelConfiguration.AllowedOrigins.ToArray());
 			}
 
-			if (corsBuilder != null)
+			var originalBuilder = corsBuilder;
+			corsBuilder = builder =>
 			{
-				var originalBuilder = corsBuilder;
-				corsBuilder = builder => originalBuilder(builder.AllowAnyHeader().AllowAnyMethod());
-				applicationBuilder.UseCors(corsBuilder);
-			}
+				builder.AllowAnyHeader().AllowAnyMethod();
+				originalBuilder?.Invoke(builder);
+			};
+			applicationBuilder.UseCors(corsBuilder);
 
 			// Do not service requests until Ready is called, this will return 503 until that point
 			applicationBuilder.UseAsyncInitialization(async cancellationToken =>
