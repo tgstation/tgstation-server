@@ -41,10 +41,12 @@
   </ItemGroup>
 
   <Target Name="NpmBuild" BeforeTargets="BeforeBuild" DependsOnTargets="NpmInstall" Inputs="@(ClientApp)" Outputs="wwwroot\index.html">
+    <Message Text="Building web control panel..." Importance="high" />
     <Exec WorkingDirectory="ClientApp" Command="npm run msbuild" />
   </Target>
   
   <Target Name="NpmClean" AfterTargets="Clean">
+    <Message Text="Cleaning web control panel..." Importance="high" />
     <RemoveDir Directories="wwwroot" />
   </Target>
 
