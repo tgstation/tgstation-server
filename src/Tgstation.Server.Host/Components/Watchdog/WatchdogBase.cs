@@ -333,6 +333,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			await monitorTask.ConfigureAwait(false);
 			monitorCts.Dispose();
 			monitorTask = null;
+			monitorCts = null;
 			return true;
 		}
 
