@@ -324,7 +324,7 @@ namespace Tgstation.Server.Host.Components
 				try
 				{
 					await Task.Delay(TimeSpan.FromMinutes(minutes > Int32.MaxValue ? Int32.MaxValue : (int)minutes), cancellationToken).ConfigureAwait(false);
-					logger.LogDebug("Beginning auto update...");
+					logger.LogInformation("Beginning auto update...");
 					await eventConsumer.HandleEvent(EventType.InstanceAutoUpdateStart, new List<string>(), cancellationToken).ConfigureAwait(false);
 					try
 					{
