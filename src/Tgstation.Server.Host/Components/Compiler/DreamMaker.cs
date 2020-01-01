@@ -61,16 +61,6 @@ namespace Tgstation.Server.Host.Components.Compiler
 		readonly ISessionControllerFactory sessionControllerFactory;
 
 		/// <summary>
-		/// The <see cref="ICompileJobConsumer"/> for <see cref="DreamMaker"/>
-		/// </summary>
-		readonly ICompileJobConsumer compileJobConsumer;
-
-		/// <summary>
-		/// The <see cref="IApplication"/> for <see cref="DreamMaker"/>
-		/// </summary>
-		readonly IApplication application;
-
-		/// <summary>
 		/// The <see cref="IEventConsumer"/> for <see cref="DreamMaker"/>
 		/// </summary>
 		readonly IEventConsumer eventConsumer;
@@ -130,21 +120,17 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="configuration">The value of <see cref="configuration"/></param>
 		/// <param name="sessionControllerFactory">The value of <see cref="sessionControllerFactory"/></param>
-		/// <param name="compileJobConsumer">The value of <see cref="compileJobConsumer"/></param>
-		/// <param name="application">The value of <see cref="application"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
 		/// <param name="chat">The value of <see cref="chat"/></param>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
 		/// <param name="watchdog">The value of <see cref="watchdog"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public DreamMaker(IByondManager byond, IIOManager ioManager, StaticFiles.IConfiguration configuration, ISessionControllerFactory sessionControllerFactory, ICompileJobConsumer compileJobConsumer, IApplication application, IEventConsumer eventConsumer, IChat chat, IProcessExecutor processExecutor, IWatchdog watchdog, ILogger<DreamMaker> logger)
+		public DreamMaker(IByondManager byond, IIOManager ioManager, StaticFiles.IConfiguration configuration, ISessionControllerFactory sessionControllerFactory, IEventConsumer eventConsumer, IChat chat, IProcessExecutor processExecutor, IWatchdog watchdog, ILogger<DreamMaker> logger)
 		{
 			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 			this.sessionControllerFactory = sessionControllerFactory ?? throw new ArgumentNullException(nameof(sessionControllerFactory));
-			this.compileJobConsumer = compileJobConsumer ?? throw new ArgumentNullException(nameof(compileJobConsumer));
-			this.application = application ?? throw new ArgumentNullException(nameof(application));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));

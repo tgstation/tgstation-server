@@ -152,7 +152,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		#pragma warning disable CA1506 // TODO: Decomplexify
+#pragma warning disable CA1506 // TODO: Decomplexify
 		public IInstance CreateInstance(Models.Instance metadata)
 		{
 			// Create the ioManager for the instance
@@ -166,28 +166,28 @@ namespace Tgstation.Server.Host.Components
 
 			var configuration = new StaticFiles.Configuration(configurationIoManager, synchronousIOManager, symlinkFactory, processExecutor, postWriteHandler, platformIdentifier, loggerFactory.CreateLogger<StaticFiles.Configuration>());
 			var eventConsumer = new EventConsumer(configuration);
-
-			var dmbFactory = new DmbFactory(databaseContextFactory, gameIoManager, loggerFactory.CreateLogger<DmbFactory>(), metadata.CloneMetadata());
+			var repoManager = new RepositoryManager(metadata.RepositorySettings, repoIoManager, eventConsumer, credentialsProvider, loggerFactory.CreateLogger<Repository.Repository>(), loggerFactory.CreateLogger<RepositoryManager>());
 			try
 			{
-				var repoManager = new RepositoryManager(metadata.RepositorySettings, repoIoManager, eventConsumer, credentialsProvider, loggerFactory.CreateLogger<Repository.Repository>(), loggerFactory.CreateLogger<RepositoryManager>());
+				var byond = new ByondManager(byondIOManager, byondInstaller, eventConsumer, loggerFactory.CreateLogger<ByondManager>());
+
+				var commandFactory = new CommandFactory(application, byond, repoManager, databaseContextFactory, metadata);
+
+				var chat = chatFactory.CreateChat(instanceIoManager, commandFactory, metadata.ChatSettings);
 				try
 				{
-					var byond = new ByondManager(byondIOManager, byondInstaller, eventConsumer, loggerFactory.CreateLogger<ByondManager>());
+					var sessionControllerFactory = new SessionControllerFactory(processExecutor, byond, byondTopicSender, cryptographySuite, application, gameIoManager, chat, networkPromptReaper, platformIdentifier, loggerFactory, metadata.CloneMetadata());
 
-					var commandFactory = new CommandFactory(application, byond, repoManager, databaseContextFactory, metadata);
-
-					var chat = chatFactory.CreateChat(instanceIoManager, commandFactory, metadata.ChatSettings);
+					var dmbFactory = new DmbFactory(databaseContextFactory, gameIoManager, loggerFactory.CreateLogger<DmbFactory>(), metadata.CloneMetadata());
 					try
 					{
-						var sessionControllerFactory = new SessionControllerFactory(processExecutor, byond, byondTopicSender, cryptographySuite, application, gameIoManager, chat, networkPromptReaper, platformIdentifier, loggerFactory, metadata.CloneMetadata());
 						var reattachInfoHandler = new ReattachInfoHandler(databaseContextFactory, dmbFactory, loggerFactory.CreateLogger<ReattachInfoHandler>(), metadata.CloneMetadata());
 						var watchdog = watchdogFactory.CreateWatchdog(chat, dmbFactory, reattachInfoHandler, configuration, sessionControllerFactory, metadata.CloneMetadata(), metadata.DreamDaemonSettings);
 						eventConsumer.SetWatchdog(watchdog);
 						commandFactory.SetWatchdog(watchdog);
 						try
 						{
-							var dreamMaker = new DreamMaker(byond, gameIoManager, configuration, sessionControllerFactory, dmbFactory, application, eventConsumer, chat, processExecutor, watchdog, loggerFactory.CreateLogger<DreamMaker>());
+							var dreamMaker = new DreamMaker(byond, gameIoManager, configuration, sessionControllerFactory, eventConsumer, chat, processExecutor, watchdog, loggerFactory.CreateLogger<DreamMaker>());
 
 							return new Instance(metadata.CloneMetadata(), repoManager, byond, dreamMaker, watchdog, chat, configuration, dmbFactory, databaseContextFactory, dmbFactory, jobManager, eventConsumer, gitHubClientFactory, loggerFactory.CreateLogger<Instance>());
 						}
@@ -199,19 +199,19 @@ namespace Tgstation.Server.Host.Components
 					}
 					catch
 					{
-						chat.Dispose();
+						dmbFactory.Dispose();
 						throw;
 					}
 				}
 				catch
 				{
-					repoManager.Dispose();
+					chat.Dispose();
 					throw;
 				}
 			}
 			catch
 			{
-				dmbFactory.Dispose();
+				repoManager.Dispose();
 				throw;
 			}
 		}
