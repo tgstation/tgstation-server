@@ -53,5 +53,10 @@ namespace Tgstation.Server.Host.Configuration
 		/// The timeout milliseconds for restarting the server
 		/// </summary>
 		public int RestartTimeout { get; set; } = DefaultRestartTimeout;
+
+		/// <summary>
+		/// If the <see cref="Components.Watchdog.ExperimentalWatchdog"/> should be used.
+		/// </summary>
+		public bool UseExperimentalWatchdog { get; set; }
 	}
 }
