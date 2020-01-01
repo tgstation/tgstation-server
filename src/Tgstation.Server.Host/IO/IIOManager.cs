@@ -139,7 +139,7 @@ namespace Tgstation.Server.Host.IO
 		Task CreateDirectory(string path, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Recursively delete a directory
+		/// Recursively delete a directory, removes and does not enter any symlinks encounterd.
 		/// </summary>
 		/// <param name="path">The path to the directory to delete</param>
 		/// <param name="cancellationToken">A <see cref="CancellationToken"/> for the operation</param>
