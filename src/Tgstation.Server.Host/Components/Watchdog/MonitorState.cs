@@ -3,7 +3,7 @@
 namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <summary>
-	/// The (absolute) state of the <see cref="Watchdog"/>
+	/// The (absolute) state of the <see cref="ExperimentalWatchdog"/>
 	/// </summary>
 	sealed class MonitorState
 	{
@@ -18,7 +18,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public bool InactiveServerCritFail { get; set; }
 
 		/// <summary>
-		/// The next <see cref="MonitorAction"/> to take in <see cref="Watchdog.MonitorLifetimes(System.Threading.CancellationToken)"/>
+		/// The next <see cref="MonitorAction"/> to take in <see cref="ExperimentalWatchdog.MonitorLifetimes(System.Threading.CancellationToken)"/>
 		/// </summary>
 		public MonitorAction NextAction { get; set; }
 
