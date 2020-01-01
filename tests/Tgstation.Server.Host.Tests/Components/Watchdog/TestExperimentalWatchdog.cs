@@ -14,7 +14,7 @@ using Tgstation.Server.Host.Core;
 namespace Tgstation.Server.Host.Components.Watchdog.Tests
 {
 	[TestClass]
-	public sealed class TestWatchdog
+	public sealed class TestExperimentalWatchdog
 	{
 		[TestMethod]
 		public void TestConstruction()
