@@ -528,5 +528,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 		/// <inheritdoc />
 		public void SetHighPriority() => process.SetHighPriority();
+
+		/// <inheritdoc />
+		public void ReplaceDmbProvider(IDmbProvider dmbProvider)
+		{
+			if (dmbProvider == null)
+#pragma warning disable IDE0016 // Use 'throw' expression
+				throw new ArgumentNullException(nameof(dmbProvider));
+#pragma warning restore IDE0016 // Use 'throw' expression
+
+			reattachInformation.Dmb.Dispose();
+			reattachInformation.Dmb = dmbProvider;
+		}
 	}
 }

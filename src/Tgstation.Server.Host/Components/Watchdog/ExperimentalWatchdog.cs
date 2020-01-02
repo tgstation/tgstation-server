@@ -513,10 +513,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		#pragma warning disable CA1502 // TODO: Decomplexify
 		protected override async Task InitControllers(Action callBeforeRecurse, Task chatTask, WatchdogReattachInformation reattachInfo, CancellationToken cancellationToken)
 		{
-			// good ole sanity, should never fucking trigger but i don't trust myself even though I should
-			// TODO: Unit test this instead?
-			if (alphaServer != null || bravoServer != null)
-				throw new InvalidOperationException("Entered LaunchNoLock with one or more of the servers not being null!");
+			Debug.Assert(alphaServer == null && bravoServer == null, "Entered LaunchNoLock with one or more of the servers not being null!");
 
 			// don't need a new dmb if reattaching
 			var doesntNeedNewDmb = reattachInfo?.Alpha != null && reattachInfo?.Bravo != null;

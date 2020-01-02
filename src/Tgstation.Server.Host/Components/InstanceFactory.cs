@@ -182,7 +182,15 @@ namespace Tgstation.Server.Host.Components
 					try
 					{
 						var reattachInfoHandler = new ReattachInfoHandler(databaseContextFactory, dmbFactory, loggerFactory.CreateLogger<ReattachInfoHandler>(), metadata.CloneMetadata());
-						var watchdog = watchdogFactory.CreateWatchdog(chat, dmbFactory, reattachInfoHandler, configuration, sessionControllerFactory, metadata.CloneMetadata(), metadata.DreamDaemonSettings);
+						var watchdog = watchdogFactory.CreateWatchdog(
+							chat,
+							dmbFactory,
+							reattachInfoHandler,
+							configuration,
+							sessionControllerFactory,
+							gameIoManager,
+							metadata.CloneMetadata(),
+							metadata.DreamDaemonSettings);
 						eventConsumer.SetWatchdog(watchdog);
 						commandFactory.SetWatchdog(watchdog);
 						try

@@ -142,6 +142,7 @@ namespace Tgstation.Server.Host.Core.Tests
 				"-27",
 				"5000",
 				"fake token",
+				"y",
 				//logging config
 				"no",
 				//cp config
@@ -163,6 +164,8 @@ namespace Tgstation.Server.Host.Core.Tests
 				String.Empty,
 				String.Empty,
 				String.Empty,
+				"n",
+				"y",
 				//logging config
 				"y",
 				"not actually verified because lol mocks /../!@#$%^&*()/..///.",
@@ -185,6 +188,7 @@ namespace Tgstation.Server.Host.Core.Tests
 				String.Empty,
 				String.Empty,
 				String.Empty,
+				"y",
 				"y",
 				"will faile",
 				String.Empty,
