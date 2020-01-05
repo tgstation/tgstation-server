@@ -56,7 +56,7 @@
     <PackageReference Include="Cyberboss.AspNetCore.AsyncInitializer" Version="1.2.0" />
     <PackageReference Include="Cyberboss.SmartIrc4net.Standard" Version="0.4.6" />
     <PackageReference Include="Discord.Net.WebSocket" Version="2.1.1" />
-    <PackageReference Include="LibGit2Sharp" Version="0.26.2" />
+    <PackageReference Include="LibGit2Sharp" Version="0.27.0-preview-0034" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
