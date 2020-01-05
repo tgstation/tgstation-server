@@ -91,29 +91,6 @@ namespace Tgstation.Server.Host.Components.Compiler
 		bool compiling;
 
 		/// <summary>
-		/// Gradually triggers a given <paramref name="progressReporter"/> over a given <paramref name="estimatedDuration"/>
-		/// </summary>
-		/// <param name="progressReporter">The <see cref="Action{T1}"/> to report progress</param>
-		/// <param name="estimatedDuration">A <see cref="TimeSpan"/> representing the duration to give progress over</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		static async Task ProgressTask(Action<int> progressReporter, TimeSpan estimatedDuration, CancellationToken cancellationToken)
-		{
-			progressReporter(0);
-			var sleepInterval = estimatedDuration / 100;
-
-			try
-			{
-				for (var I = 0; I < 99; ++I)
-				{
-					await Task.Delay(sleepInterval, cancellationToken).ConfigureAwait(false);
-					progressReporter(I + 1);
-				}
-			}
-			catch (OperationCanceledException) { }
-		}
-
-		/// <summary>
 		/// Construct <see cref="DreamMaker"/>
 		/// </summary>
 		/// <param name="byond">The value of <see cref="byond"/></param>
@@ -136,6 +113,30 @@ namespace Tgstation.Server.Host.Components.Compiler
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			this.watchdog = watchdog ?? throw new ArgumentNullException(nameof(watchdog));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+		}
+
+		/// <summary>
+		/// Gradually triggers a given <paramref name="progressReporter"/> over a given <paramref name="estimatedDuration"/>
+		/// </summary>
+		/// <param name="progressReporter">The <see cref="Action{T1}"/> to report progress</param>
+		/// <param name="estimatedDuration">A <see cref="TimeSpan"/> representing the duration to give progress over</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		async Task ProgressTask(Action<int> progressReporter, TimeSpan estimatedDuration, CancellationToken cancellationToken)
+		{
+			progressReporter(0);
+			var sleepInterval = estimatedDuration / 100;
+
+			logger.LogDebug("Compile is expected to take: {0}", estimatedDuration);
+			try
+			{
+				for (var I = 0; I < 99; ++I)
+				{
+					await Task.Delay(sleepInterval, cancellationToken).ConfigureAwait(false);
+					progressReporter(I + 1);
+				}
+			}
+			catch (OperationCanceledException) { }
 		}
 
 		/// <summary>
