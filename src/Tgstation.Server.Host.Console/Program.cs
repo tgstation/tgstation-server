@@ -30,7 +30,9 @@ namespace Tgstation.Server.Host.Console
 				var trace = arguments.Remove("--trace-host-watchdog");
 				var debug = arguments.Remove("--debug-host-watchdog");
 
+#pragma warning disable CS0618 // Type or member is obsolete
 				loggerFactory.AddConsole(trace ? LogLevel.Trace : debug ? LogLevel.Debug : LogLevel.Information, true);
+#pragma warning restore CS0618 // Type or member is obsolete
 
 				if (trace && debug)
 				{

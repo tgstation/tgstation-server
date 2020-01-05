@@ -66,6 +66,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		public void Dispose()
 		{
 			logger.LogTrace("Disposing...");
+			channelsSemaphore.Dispose();
 			onDispose();
 		}
 

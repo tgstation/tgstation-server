@@ -123,24 +123,24 @@ namespace Tgstation.Server.Host.Controllers
 			if (ApiHeaders.IsTokenAuthentication)
 				return BadRequest(new Api.Models.ErrorMessage { Message = "Cannot create a token using another token!" });
 
-			ISystemIdentity identity;
+			ISystemIdentity systemIdentity;
 			try
 			{
 				// trust the system over the database because a user's name can change while still having the same SID
-				identity = await systemIdentityFactory.CreateSystemIdentity(ApiHeaders.Username, ApiHeaders.Password, cancellationToken).ConfigureAwait(false);
+				systemIdentity = await systemIdentityFactory.CreateSystemIdentity(ApiHeaders.Username, ApiHeaders.Password, cancellationToken).ConfigureAwait(false);
 			}
 			catch (NotImplementedException)
 			{
-				identity = null;
+				systemIdentity = null;
 			}
 
-			using (identity)
+			using (systemIdentity)
 			{
 				IQueryable<User> query;
-				if (identity == null)
+				if (systemIdentity == null)
 					query = DatabaseContext.Users.Where(x => x.CanonicalName == ApiHeaders.Username.ToUpperInvariant());
 				else
-					query = DatabaseContext.Users.Where(x => x.SystemIdentifier == identity.Uid);
+					query = DatabaseContext.Users.Where(x => x.SystemIdentifier == systemIdentity.Uid);
 				var user = await query.Select(x => new User
 				{
 					Id = x.Id,
@@ -152,13 +152,14 @@ namespace Tgstation.Server.Host.Controllers
 				if (user == null)
 					return Unauthorized();
 
-				if (identity == null)
+				if (systemIdentity == null)
 				{
 					var originalHash = user.PasswordHash;
 					if (!cryptographySuite.CheckUserPassword(user, ApiHeaders.Password))
 						return Unauthorized();
 					if (user.PasswordHash != originalHash)
 					{
+						Logger.LogDebug("User ID {0}'s password hash needs a refresh, updating database.", user.Id);
 						var updatedUser = new User
 						{
 							Id = user.Id
@@ -170,25 +171,27 @@ namespace Tgstation.Server.Host.Controllers
 				}
 
 				// check if the name changed and updoot accordingly
-				else if (identity.Username != user.Name)
+				else if (systemIdentity.Username != user.Name)
 				{
+					Logger.LogDebug("User ID {0}'s system identity needs a refresh, updating database.", user.Id);
 					DatabaseContext.Users.Attach(user);
-					user.Name = identity.Username;
+					user.Name = systemIdentity.Username;
 					user.CanonicalName = user.Name.ToUpperInvariant();
 					await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 				}
 
+				// Now that the bookeeping is done, tell them to fuck off if necessary
 				if (!user.Enabled.Value)
 					return Forbid();
 
 				var token = await tokenFactory.CreateToken(user, cancellationToken).ConfigureAwait(false);
-				if (identity != null)
+				if (systemIdentity != null)
 				{
 					// expire the identity slightly after the auth token in case of lag
 					var identExpiry = token.ExpiresAt.Value;
 					identExpiry += tokenFactory.ValidationParameters.ClockSkew;
 					identExpiry += TimeSpan.FromSeconds(15);
-					identityCache.CacheSystemIdentity(user, identity, identExpiry);
+					identityCache.CacheSystemIdentity(user, systemIdentity, identExpiry);
 				}
 
 				Logger.LogDebug("Successfully logged in user {0}!", user.Id);

@@ -100,7 +100,7 @@ namespace Tgstation.Server.Api
 		/// </summary>
 		/// <param name="otherVersion">The <see cref="Version"/> to test</param>
 		/// <returns><see langword="true"/> if the given version is compatible with the API. <see langword="false"/> otherwise</returns>
-		public static bool CheckCompatibility(Version otherVersion) => !(Version.Major != otherVersion.Major || Version.Minor > otherVersion.Minor);
+		public static bool CheckCompatibility(Version otherVersion) => !(Version.Major != (otherVersion?.Major ?? throw new ArgumentNullException(nameof(otherVersion))) || Version.Minor > otherVersion.Minor);
 
 		/// <summary>
 		/// Construct <see cref="ApiHeaders"/> for JWT authentication
@@ -137,6 +137,9 @@ namespace Tgstation.Server.Api
 		/// <param name="requestHeaders">The <see cref="RequestHeaders"/> containing the <see cref="ApiHeaders"/></param>
 		public ApiHeaders(RequestHeaders requestHeaders)
 		{
+			if (requestHeaders == null)
+				throw new ArgumentNullException(nameof(requestHeaders));
+
 			var jsonAccept = new Microsoft.Net.Http.Headers.MediaTypeHeaderValue(ApplicationJson);
 			if (!requestHeaders.Accept.Any(x => x.MediaType == jsonAccept.MediaType))
 				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Client does not accept {0}!", ApplicationJson));

@@ -296,29 +296,30 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							{
 								networkPromptReaper.RegisterProcess(process);
 								result = new SessionController(reattachInformation, process, byondLock, byondTopicSender, chatJsonTrackingContext, context, chat, loggerFactory.CreateLogger<SessionController>(), null, null);
+
+								process = null;
+								context = null;
+								byondLock = null;
+								chatJsonTrackingContext = null;
 							}
 							finally
 							{
-								if (result == null)
-									process.Dispose();
+								process?.Dispose();
 							}
 					}
 					finally
 					{
-						if (result == null)
-							context.Dispose();
+						context?.Dispose();
 					}
 				}
 				finally
 				{
-					if (result == null)
-						byondLock.Dispose();
+					byondLock?.Dispose();
 				}
 			}
 			finally
 			{
-				if (result == null)
-					chatJsonTrackingContext.Dispose();
+				chatJsonTrackingContext?.Dispose();
 			}
 
 			return result;

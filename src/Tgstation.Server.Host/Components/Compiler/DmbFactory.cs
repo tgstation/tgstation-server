@@ -55,6 +55,11 @@ namespace Tgstation.Server.Host.Components.Compiler
 		readonly CancellationTokenSource cleanupCts;
 
 		/// <summary>
+		/// Map of <see cref="CompileJob.JobId"/>s to locks on them.
+		/// </summary>
+		readonly IDictionary<long, int> jobLockCounts;
+
+		/// <summary>
 		/// <see cref="Task"/> representing calls to <see cref="CleanJob(CompileJob)"/>
 		/// </summary>
 		Task cleanupTask;
@@ -68,8 +73,6 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// The latest <see cref="DmbProvider"/>
 		/// </summary>
 		IDmbProvider nextDmbProvider;
-
-		Dictionary<long, int> jobLockCounts;
 
 		/// <summary>
 		/// Construct a <see cref="DmbFactory"/>

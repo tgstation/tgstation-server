@@ -372,7 +372,7 @@ namespace Tgstation.Server.Host.Components
 								var startSha = repo.Head;
 								if (!repo.Tracking)
 								{
-									logger.LogTrace("Aborting repo update, not tracking origin!");
+									logger.LogTrace("Aborting repo update, active ref not tracking any remote branch!");
 									deploySha = startSha;
 									return;
 								}

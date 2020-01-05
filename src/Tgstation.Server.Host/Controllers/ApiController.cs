@@ -18,7 +18,6 @@ namespace Tgstation.Server.Host.Controllers
 	/// A <see cref="Controller"/> for API functions
 	/// </summary>
 	[Produces(ApiHeaders.ApplicationJson)]
-	[Consumes(ApiHeaders.ApplicationJson)]
 	public abstract class ApiController : Controller
 	{
 		/// <summary>

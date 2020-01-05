@@ -143,7 +143,8 @@ namespace Tgstation.Server.Host.Service
 						installer.Uninstall(null);
 					}
 				else if (!Configure)
-					ServiceBase.Run(new ServerService(WatchdogFactory, loggerFactory, Trace ? LogLevel.Trace : Debug ? LogLevel.Debug : LogLevel.Information));
+					using (var service = new ServerService(WatchdogFactory, loggerFactory, Trace ? LogLevel.Trace : Debug ? LogLevel.Debug : LogLevel.Information))
+						ServiceBase.Run(service);
 			}
 		}
 	}

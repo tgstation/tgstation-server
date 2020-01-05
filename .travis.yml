@@ -5,6 +5,7 @@ git:
 matrix:
   include:
     - env:
+      - DockerBuild=false
       - DMAPI=true
       - BYOND_MAJOR="511"
       - BYOND_MINOR="1385"
@@ -21,34 +22,42 @@ matrix:
             - libc6-i386
             - libstdc++6:i386
     - env:
+      - DockerBuild=false
       - DMAPI=false
       - CONFIG=Debug
       name: "Test Server Debug"
       language: csharp
       mono: none
-      dotnet: 2.1.300
+      dotnet: 2.2.207
       services:
         - mysql
       cache:
         directories:
           - $HOME/.nuget/packages:
     - env:
+      - DockerBuild=false
       - DMAPI=false
       - CONFIG=Release
       name: "Test Server Release"
       language: csharp
       mono: none
-      dotnet: 2.1.300
+      dotnet: 2.2.207
       services:
         - mysql
       cache:
         directories:
           - $HOME/.nuget/packages:
+    - env:
+      - DockerBuild=true
+      name: "Docker Build"
+      services:
+        - docker
 
 install:
-  - if [ $DMAPI = true ]; then build/install_byond.sh; fi
-  - if [ $DMAPI = false ]; then dotnet restore tgstation-server.sln; fi
+  - if [ $DockerBuild = false ] && [ $DMAPI = true ]; then build/install_byond.sh; fi
+  - if [ $DockerBuild = false ] && [ $DMAPI = false ]; then dotnet restore tgstation-server.sln; fi
 
 script:
-  - if [ $DMAPI = true ]; then tests/DMAPI/build_byond.sh || travis_terminate 1; fi
-  - if [ $DMAPI = false ]; then build/test_core.sh; fi
+  - if [ $DockerBuild = false ] && [ $DMAPI = true ]; then tests/DMAPI/build_byond.sh || travis_terminate 1; fi
+  - if [ $DockerBuild = false ] && [ $DMAPI = false ]; then build/test_core.sh; fi
+  - if [ $DockerBuild = true ]; then docker build . -f build/Dockerfile; fi

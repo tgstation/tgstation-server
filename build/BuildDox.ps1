@@ -16,7 +16,7 @@ if($publish_dox){
 	Add-Content "$bf\docs\Doxyfile" "`nPROJECT_NUMBER = $version`nINPUT = $bf`nOUTPUT_DIRECTORY = $doxdir`nPROJECT_LOGO = $bf/build/tgs.ico`nHAVE_DOT=YES"
 }
 
-doxygen.exe "$bf\docs\Doxyfile"
+&"C:\Program Files\doxygen\bin\doxygen.exe" "$bf\docs\Doxyfile"
 
 if($publish_dox){
 	cd $doxdir
