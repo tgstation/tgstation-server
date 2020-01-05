@@ -447,6 +447,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 		async Task<string> SendCommand(string command, ushort? overridePort, CancellationToken cancellationToken)
 		{
+			if (Lifetime.IsCompleted)
+			{
+				logger.LogWarning(
+					"Attempted to send a command to an inactive SessionController{1}: {0}",
+					command,
+					overridePort.HasValue ? $" (Override port: {overridePort.Value})" : String.Empty);
+				return null;
+			}
+
 			try
 			{
 				var commandString = String.Format(CultureInfo.InvariantCulture,
