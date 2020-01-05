@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Configuration;
@@ -163,11 +164,39 @@ namespace Tgstation.Server.Host.Core
 				}
 				while (true);
 
-				await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
-				await console.WriteAsync("Enter the server's address and port (blank for local): ", false, cancellationToken).ConfigureAwait(false);
-				var serverAddress = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
-				if (String.IsNullOrWhiteSpace(serverAddress))
-					serverAddress = null;
+				string serverAddress;
+				uint? mySQLServerPort = null;
+				do
+				{
+					await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
+					await console.WriteAsync("Enter the server's address and port [<server>:<port> or <server>] (blank for local): ", false, cancellationToken).ConfigureAwait(false);
+					serverAddress = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
+					if (String.IsNullOrWhiteSpace(serverAddress))
+					{
+						serverAddress = null;
+						break;
+					}
+					else if (databaseConfiguration.DatabaseType != DatabaseType.SqlServer)
+					{
+						var m = Regex.Match(serverAddress, @"^(?<server>.+):(?<port>.+)$");
+						if (m.Success)
+						{
+							serverAddress = m.Groups["server"].Value;
+							if (uint.TryParse(m.Groups["port"].Value, out uint port))
+							{
+								mySQLServerPort = port;
+								break;
+							}
+							else
+							{
+								await console.WriteAsync($@"Failed to parse port ""{m.Groups["port"].Value}"", please try again.", true, cancellationToken).ConfigureAwait(false);
+							}
+						}
+						else break;
+					}
+					else break;
+				}
+				while (true);
 
 				await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 				await console.WriteAsync("Enter the database name (Can be from previous installation. Otherwise, should not exist): ", false, cancellationToken).ConfigureAwait(false);
@@ -242,6 +271,9 @@ namespace Tgstation.Server.Host.Core
 						UserID = username,
 						Password = password
 					};
+
+					if (mySQLServerPort.HasValue)
+						csb.Port = mySQLServerPort.Value;
 
 					CreateTestConnection(csb.ConnectionString);
 					csb.Database = databaseName;
