@@ -255,6 +255,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (Running)
 				throw new JobException("Watchdog already running!");
 
+			if (!DmbFactory.DmbAvailable)
+				throw new JobException("Corrupted compilation, please redeploy!");
+
 			// this is necessary, the monitor could be in it's sleep loop trying to restart, if so cancel THAT monitor and start our own with blackjack and hookers
 			Task chatTask;
 			if (startMonitor && await StopMonitor().ConfigureAwait(false))
