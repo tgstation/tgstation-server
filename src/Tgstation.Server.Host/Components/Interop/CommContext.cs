@@ -125,7 +125,7 @@ namespace Tgstation.Server.Host.Components.Interop
 			catch (OperationCanceledException) { }
 			catch (Exception ex)
 			{
-				logger.LogDebug("Exception while trying to handle command json write: {0}", ex);
+				logger.LogError("Exception while trying to handle command json write: {0}", ex);
 			}
 		}
 
