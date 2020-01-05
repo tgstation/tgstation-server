@@ -41,13 +41,14 @@ namespace Tgstation.Server.Host.Core
 		public Process(System.Diagnostics.Process handle, Task<int> lifetime, StringBuilder outputStringBuilder, StringBuilder errorStringBuilder, StringBuilder combinedStringBuilder, ILogger<Process> logger, bool preExisting)
 		{
 			this.handle = handle ?? throw new ArgumentNullException(nameof(handle));
-			Lifetime = lifetime ?? throw new ArgumentNullException(nameof(lifetime));
 
 			this.outputStringBuilder = outputStringBuilder;
 			this.errorStringBuilder = errorStringBuilder;
 			this.combinedStringBuilder = combinedStringBuilder;
 
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+			Lifetime = WrapLifetimeTask(lifetime ?? throw new ArgumentNullException(nameof(lifetime)));
 
 			Id = handle.Id;
 
@@ -71,6 +72,13 @@ namespace Tgstation.Server.Host.Core
 
 		/// <inheritdoc />
 		public void Dispose() => handle.Dispose();
+
+		async Task<int> WrapLifetimeTask(Task<int> lifetimeTask)
+		{
+			var result = await lifetimeTask.ConfigureAwait(false);
+			logger.LogTrace("Process {0} ended with code {1}", Id, result);
+			return result;
+		}
 
 		/// <inheritdoc />
 		public string GetCombinedOutput()
