@@ -438,7 +438,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								|| CheckActivationReason(ref inactiveServerStartup, MonitorActivationReason.InactiveServerStartupComplete)
 								|| CheckActivationReason(ref newDmbAvailable, MonitorActivationReason.NewDmbAvailable)
 								|| CheckActivationReason(ref activeLaunchParametersChanged, MonitorActivationReason.ActiveLaunchParametersUpdated))
+							{
+								Logger.LogTrace("Monitor activation: {0}", activationReason);
 								await HandlerMonitorWakeup(activationReason, monitorState, cancellationToken).ConfigureAwait(false);
+							}
 							else
 								moreActivationsToProcess = false;
 						}
