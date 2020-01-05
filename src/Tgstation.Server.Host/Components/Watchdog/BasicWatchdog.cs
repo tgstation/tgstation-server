@@ -1,6 +1,7 @@
 ﻿using Byond.TopicSender;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,24 +15,24 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	/// <summary>
 	/// A <see cref="IWatchdog"/> that manages one server.
 	/// </summary>
-	sealed class BasicWatchdog : WatchdogBase
+	class BasicWatchdog : WatchdogBase
 	{
 		/// <inheritdoc />
-		public override bool AlphaIsActive => true;
+		public sealed override bool AlphaIsActive => true;
 
 		/// <inheritdoc />
-		public override Models.CompileJob ActiveCompileJob => server?.Dmb.CompileJob;
+		public sealed override Models.CompileJob ActiveCompileJob => Server?.Dmb.CompileJob;
 
 		/// <inheritdoc />
-		public override RebootState? RebootState => server?.RebootState;
+		public sealed override RebootState? RebootState => Server?.RebootState;
 
 		/// <summary>
 		/// The single <see cref="ISessionController"/>.
 		/// </summary>
-		ISessionController server;
+		protected ISessionController Server { get; private set; }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ExperimentalWatchdog"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="BasicWatchdog"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="chat">The <see cref="IChat"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="sessionControllerFactory">The <see cref="ISessionControllerFactory"/> for the <see cref="WatchdogBase"/>.</param>
@@ -84,8 +85,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			switch (reason)
 			{
 				case MonitorActivationReason.ActiveServerCrashed:
-					string exitWord = server.TerminationWasRequested ? "exited" : "crashed";
-					if (server.RebootState == Watchdog.RebootState.Shutdown)
+					string exitWord = Server.TerminationWasRequested ? "exited" : "crashed";
+					if (Server.RebootState == Watchdog.RebootState.Shutdown)
 					{
 						// the time for graceful shutdown is now
 						await Chat.SendWatchdogMessage(String.Format(CultureInfo.InvariantCulture, "Server {0}! Exiting due to graceful termination request...", exitWord), cancellationToken).ConfigureAwait(false);
@@ -96,14 +97,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					await Chat.SendWatchdogMessage(String.Format(CultureInfo.InvariantCulture, "Server {0}! Rebooting...", exitWord), cancellationToken).ConfigureAwait(false);
 					return MonitorAction.Restart;
 				case MonitorActivationReason.ActiveServerRebooted:
-					var rebootState = server.RebootState;
-					server.ResetRebootState();
+					var rebootState = Server.RebootState;
+					Server.ResetRebootState();
 
 					switch (rebootState)
 					{
 						case Watchdog.RebootState.Normal:
-							bool dmbUpdatePending = ActiveLaunchParameters != LastLaunchParameters;
-							return dmbUpdatePending ? MonitorAction.Restart : MonitorAction.Continue;
+							return HandleNormalReboot();
 						case Watchdog.RebootState.Restart:
 							return MonitorAction.Restart;
 						case Watchdog.RebootState.Shutdown:
@@ -116,8 +116,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					}
 
 				case MonitorActivationReason.ActiveLaunchParametersUpdated:
+					await Server.SetRebootState(Watchdog.RebootState.Restart, cancellationToken).ConfigureAwait(false);
+					return MonitorAction.Continue;
 				case MonitorActivationReason.NewDmbAvailable:
-					await server.SetRebootState(Watchdog.RebootState.Restart, cancellationToken).ConfigureAwait(false);
+					await HandleNewDmbAvailable(cancellationToken).ConfigureAwait(false);
 					return MonitorAction.Continue;
 				case MonitorActivationReason.InactiveServerCrashed:
 				case MonitorActivationReason.InactiveServerRebooted:
@@ -129,31 +131,28 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		protected override WatchdogReattachInformation CreateReattachInformation()
+		protected sealed override WatchdogReattachInformation CreateReattachInformation()
 			=> new WatchdogReattachInformation
 			{
 				AlphaIsActive = true,
-				Alpha = server?.Release()
+				Alpha = Server?.Release()
 			};
 
 		/// <inheritdoc />
 		protected override void DisposeAndNullControllers()
 		{
-			server?.Dispose();
-			server = null;
+			Server?.Dispose();
+			Server = null;
 			Running = false;
 		}
 
 		/// <inheritdoc />
-		protected override ISessionController GetActiveController() => server;
+		protected sealed override ISessionController GetActiveController() => Server;
 
 		/// <inheritdoc />
-		protected override async Task InitControllers(Action callBeforeRecurse, Task chatTask, WatchdogReattachInformation reattachInfo, CancellationToken cancellationToken)
+		protected sealed override async Task InitControllers(Action callBeforeRecurse, Task chatTask, WatchdogReattachInformation reattachInfo, CancellationToken cancellationToken)
 		{
-			// good ole sanity, should never fucking trigger but i don't trust myself even though I should
-			// TODO: Unit test this instead?
-			if (server != null)
-				throw new InvalidOperationException("Entered LaunchNoLock with server not being null!");
+			Debug.Assert(Server == null, "Entered LaunchNoLock with server not being null!");
 
 			// don't need a new dmb if reattaching
 			var doesntNeedNewDmb = reattachInfo?.Alpha != null && reattachInfo?.Bravo != null;
@@ -179,7 +178,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				// The tasks pertaining to server startup times are in the ISessionControllers
 				Task<ISessionController> serverLaunchTask, inactiveReattachTask;
 				if (!doesntNeedNewDmb)
+				{
+					dmbToUse = await PrepServerForLaunch(dmbToUse, cancellationToken).ConfigureAwait(false);
 					serverLaunchTask = SessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbToUse, null, true, true, false, cancellationToken);
+				}
 				else
 					serverLaunchTask = SessionControllerFactory.Reattach(serverToReattach, cancellationToken);
 
@@ -190,31 +192,31 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					inactiveReattachTask = Task.FromResult<ISessionController>(null);
 
 				// retrieve the session controller
-				server = await serverLaunchTask.ConfigureAwait(false);
+				Server = await serverLaunchTask.ConfigureAwait(false);
 
 				// failed reattaches will return null
-				server?.SetHighPriority();
+				Server?.SetHighPriority();
 
 				var inactiveServerController = await inactiveReattachTask.ConfigureAwait(false);
 				inactiveServerController?.Dispose();
 				inactiveServerWasKilled = inactiveServerController != null;
 
 				// possiblity of null servers due to failed reattaches
-				if (server == null)
+				if (Server == null)
 				{
 					callBeforeRecurse();
 					await NotifyOfFailedReattach(thereIsAnInactiveServerToKill && !inactiveServerWasKilled, cancellationToken).ConfigureAwait(false);
 					return;
 				}
 
-				await CheckLaunchResult(server, "Server", cancellationToken).ConfigureAwait(false);
+				await CheckLaunchResult(Server, "Server", cancellationToken).ConfigureAwait(false);
 
-				server.EnableCustomChatCommands();
+				Server.EnableCustomChatCommands();
 			}
 			catch
 			{
 				// kill the controllers
-				bool serverWasActive = server != null;
+				bool serverWasActive = Server != null;
 				DisposeAndNullControllers();
 
 				// server didn't get control of this dmb
@@ -228,7 +230,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		protected override async Task MonitorLifetimes(CancellationToken cancellationToken)
+		protected sealed override async Task MonitorLifetimes(CancellationToken cancellationToken)
 		{
 			Logger.LogTrace("Entered MonitorLifetimes");
 
@@ -243,11 +245,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				Logger.LogDebug("Iteration {0} of monitor loop", iteration);
 				try
 				{
-					Logger.LogDebug("Server Compile Job ID: {0}", server.Dmb.CompileJob.Id);
+					Logger.LogDebug("Server Compile Job ID: {0}", Server.Dmb.CompileJob.Id);
 
 					// load the activation tasks into local variables
-					Task activeServerLifetime = server.Lifetime;
-					var activeServerReboot = server.OnReboot;
+					Task activeServerLifetime = Server.Lifetime;
+					var activeServerReboot = Server.OnReboot;
 					Task activeLaunchParametersChanged = ActiveParametersUpdated.Task;
 					var newDmbAvailable = DmbFactory.OnNewerDmb;
 
@@ -355,5 +357,30 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			Logger.LogTrace("Monitor exiting...");
 		}
+
+		/// <summary>
+		/// Handler for <see cref="MonitorActivationReason.ActiveServerRebooted"/> when the <see cref="RebootState"/> is <see cref="RebootState.Normal"/>.
+		/// </summary>
+		/// <returns>The <see cref="MonitorAction"/> to take.</returns>
+		protected virtual MonitorAction HandleNormalReboot()
+		{
+			bool dmbUpdatePending = ActiveLaunchParameters != LastLaunchParameters;
+			return dmbUpdatePending ? MonitorAction.Restart : MonitorAction.Continue;
+		}
+
+		/// <summary>
+		/// Handler for <see cref="MonitorActivationReason.NewDmbAvailable"/>.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		protected virtual Task HandleNewDmbAvailable(CancellationToken cancellationToken) => Server.SetRebootState(Watchdog.RebootState.Restart, cancellationToken);
+
+		/// <summary>
+		/// Prepare the server to launch a new instance with the <see cref="WatchdogBase.ActiveLaunchParameters"/> and a given <paramref name="dmbToUse"/>.
+		/// </summary>
+		/// <param name="dmbToUse">The <see cref="IDmbProvider"/> to be launched. Will not be disposed by this function.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the modified <see cref="IDmbProvider"/> to be used.</returns>
+		protected virtual Task<IDmbProvider> PrepServerForLaunch(IDmbProvider dmbToUse, CancellationToken cancellationToken) => Task.FromResult(dmbToUse);
 	}
 }

@@ -96,5 +96,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 		/// <inheritdoc />
 		public Task<bool> SetRebootState(RebootState newRebootState, CancellationToken cancellationToken) => throw new NotSupportedException();
+
+		/// <inheritdoc />
+		public void ReplaceDmbProvider(IDmbProvider newProvider) => throw new NotSupportedException();
 	}
 }

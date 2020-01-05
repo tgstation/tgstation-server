@@ -30,15 +30,17 @@ namespace Tgstation.Server.Host.IO
 		{
 			var tasks = new List<Task>();
 
+			// check if we are a symbolic link
+			if (!dir.Attributes.HasFlag(FileAttributes.Directory) || dir.Attributes.HasFlag(FileAttributes.ReparsePoint))
+			{
+				dir.Delete();
+				return;
+			}
+
 			foreach (var subDir in dir.EnumerateDirectories())
 			{
 				cancellationToken.ThrowIfCancellationRequested();
-
-				// if below succeeds this is probably a symlink
-				if (!subDir.Attributes.HasFlag(FileAttributes.Directory) || subDir.Attributes.HasFlag(FileAttributes.ReparsePoint))
-					subDir.Delete();
-				else
-					tasks.Add(NormalizeAndDelete(subDir, cancellationToken));
+				tasks.Add(NormalizeAndDelete(subDir, cancellationToken));
 			}
 
 			foreach (var file in dir.EnumerateFiles())

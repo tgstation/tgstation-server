@@ -25,7 +25,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		bool TerminationWasRequested { get; }
 
 		/// <summary>
-		/// The DMAPI <see cref="Components.Watchdog.ApiValidationStatus"/>
+		/// The DMAPI <see cref="Watchdog.ApiValidationStatus"/>
 		/// </summary>
 		ApiValidationStatus ApiValidationStatus { get; }
 
@@ -85,7 +85,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		Task<bool> SetRebootState(RebootState newRebootState, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Changes <see cref="RebootState"/> to <see cref="Components.Watchdog.RebootState.Normal"/> without telling the DMAPI
+		/// Changes <see cref="RebootState"/> to <see cref="Watchdog.RebootState.Normal"/> without telling the DMAPI
 		/// </summary>
 		void ResetRebootState();
 
@@ -93,5 +93,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// Enables the reading of custom chat commands from the <see cref="ISessionController"/>
 		/// </summary>
 		void EnableCustomChatCommands();
+
+		/// <summary>
+		/// Replace <see cref="Dmb"/> with a given <paramref name="newProvider"/>, disposing the old one.
+		/// </summary>
+		/// <param name="newProvider">The new <see cref="IDmbProvider"/>.</param>
+		void ReplaceDmbProvider(IDmbProvider newProvider);
 	}
 }

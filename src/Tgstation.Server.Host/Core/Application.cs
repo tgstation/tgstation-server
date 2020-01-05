@@ -277,6 +277,11 @@ namespace Tgstation.Server.Host.Core
 			// configure platform specific services
 			if (platformIdentifier.IsWindows)
 			{
+				if (generalConfiguration.UseBasicWatchdogOnWindows)
+					services.AddSingleton<IWatchdogFactory, WatchdogFactory>();
+				else
+					services.AddSingleton<IWatchdogFactory, WindowsWatchdogFactory>();
+
 				services.AddSingleton<ISystemIdentityFactory, WindowsSystemIdentityFactory>();
 				services.AddSingleton<ISymlinkFactory, WindowsSymlinkFactory>();
 				services.AddSingleton<IByondInstaller, WindowsByondInstaller>();
@@ -288,6 +293,7 @@ namespace Tgstation.Server.Host.Core
 			}
 			else
 			{
+				services.AddSingleton<IWatchdogFactory, WatchdogFactory>();
 				services.AddSingleton<ISystemIdentityFactory, PosixSystemIdentityFactory>();
 				services.AddSingleton<ISymlinkFactory, PosixSymlinkFactory>();
 				services.AddSingleton<IByondInstaller, PosixByondInstaller>();
@@ -309,7 +315,6 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<ICredentialsProvider, CredentialsProvider>();
 			services.AddSingleton<IProviderFactory, ProviderFactory>();
 			services.AddSingleton<IChatFactory, ChatFactory>();
-			services.AddSingleton<IWatchdogFactory, WatchdogFactory>();
 			services.AddSingleton<IInstanceFactory, InstanceFactory>();
 
 			// configure root services
