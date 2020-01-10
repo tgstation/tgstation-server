@@ -19,6 +19,7 @@ using Serilog.Formatting.Display;
 using System;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Components;
@@ -221,15 +222,21 @@ namespace Tgstation.Server.Host.Core
 			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
 			// add mvc, configure the json serializer settings
-			services.AddMvc().AddJsonOptions(options =>
-			{
-				options.AllowInputFormatterExceptionMessages = true;
-				options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-				options.SerializerSettings.CheckAdditionalContent = true;
-				options.SerializerSettings.MissingMemberHandling = MissingMemberHandling.Error;
-				options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-				options.SerializerSettings.Converters = new[] { new VersionConverter() };
-			});
+			services
+				.AddMvc(options =>
+				{
+					var dataAnnotationValidator = options.ModelValidatorProviders.Single(validator => validator.GetType().Name == "DataAnnotationsModelValidatorProvider");
+					options.ModelValidatorProviders.Remove(dataAnnotationValidator);
+				})
+				.AddJsonOptions(options =>
+				{
+					options.AllowInputFormatterExceptionMessages = true;
+					options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+					options.SerializerSettings.CheckAdditionalContent = true;
+					options.SerializerSettings.MissingMemberHandling = MissingMemberHandling.Error;
+					options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+					options.SerializerSettings.Converters = new[] { new VersionConverter() };
+				});
 
 			// enable browser detection
 			services.AddDetectionCore().AddBrowser();
