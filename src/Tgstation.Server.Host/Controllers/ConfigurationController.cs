@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading;
@@ -65,6 +66,9 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(ConfigurationRights.Write)]
+		[ProducesResponseType(typeof(ConfigurationFile), 200)]
+		[ProducesResponseType(typeof(ConfigurationFile), 201)]
+		[ProducesResponseType(501)]
 		public override async Task<IActionResult> Update([FromBody] ConfigurationFile model, CancellationToken cancellationToken)
 		{
 			if (model == null)
@@ -108,6 +112,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation</returns>
 		[HttpGet(Routes.File + "/{*filePath}")]
 		[TgsAuthorize(ConfigurationRights.Read)]
+		[ProducesResponseType(typeof(ConfigurationFile), 200)]
+		[ProducesResponseType(410)]
+		[ProducesResponseType(501)]
 		public async Task<IActionResult> File(string filePath, CancellationToken cancellationToken)
 		{
 			if (ForbidDueToModeConflicts(filePath, out var systemIdentity))
@@ -143,6 +150,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation</returns>
 		[HttpGet("List/{*directoryPath}")]
 		[TgsAuthorize(ConfigurationRights.List)]
+		[ProducesResponseType(typeof(IReadOnlyList<ConfigurationFile>), 200)]
+		[ProducesResponseType(410)]
+		[ProducesResponseType(501)]
 		public async Task<IActionResult> Directory(string directoryPath, CancellationToken cancellationToken)
 		{
 			if (ForbidDueToModeConflicts(directoryPath, out var systemIdentity))
@@ -168,10 +178,17 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(ConfigurationRights.List)]
+		[ProducesResponseType(typeof(IReadOnlyList<ConfigurationFile>), 200)]
+		[ProducesResponseType(410)]
+		[ProducesResponseType(501)]
 		public override Task<IActionResult> List(CancellationToken cancellationToken) => Directory(null, cancellationToken);
 
 		/// <inheritdoc />
 		[TgsAuthorize(ConfigurationRights.Write)]
+		[ProducesResponseType(typeof(ConfigurationFile), 200)]
+		[ProducesResponseType(typeof(ConfigurationFile), 201)]
+		[ProducesResponseType(410)]
+		[ProducesResponseType(501)]
 		public override async Task<IActionResult> Create([FromBody] ConfigurationFile model, CancellationToken cancellationToken)
 		{
 			if (model == null)
@@ -184,6 +201,14 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				model.IsDirectory = true;
 				return await instanceManager.GetInstance(Instance).Configuration.CreateDirectory(model.Path, systemIdentity, cancellationToken).ConfigureAwait(false) ? (IActionResult)Json(model) : StatusCode((int)HttpStatusCode.Created, model);
+			}
+			catch (IOException e)
+			{
+				Logger.LogInformation("IOException while creating directory {0}: {1}", model.Path, e);
+				return Conflict(new ErrorMessage
+				{
+					Message = e.Message
+				});
 			}
 			catch (NotImplementedException)
 			{
@@ -203,6 +228,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
 		[HttpDelete]
 		[TgsAuthorize(ConfigurationRights.Delete)]
+		[ProducesResponseType(200)]
+		[ProducesResponseType(501)]
 		public async Task<IActionResult> Delete([FromBody] ConfigurationFile directory, CancellationToken cancellationToken)
 		{
 			if (directory == null)

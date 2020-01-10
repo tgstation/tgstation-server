@@ -110,6 +110,8 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(InstanceManagerRights.Create)]
+		[ProducesResponseType(typeof(Api.Models.Instance), 200)]
+		[ProducesResponseType(typeof(Api.Models.Instance), 201)]
 		public override async Task<IActionResult> Create([FromBody] Api.Models.Instance model, CancellationToken cancellationToken)
 		{
 			if (model == null)
@@ -130,7 +132,7 @@ namespace Tgstation.Server.Host.Controllers
 			}, out var normalizedLocalPath);
 
 			if (rawPath.StartsWith(normalizedLocalPath, StringComparison.Ordinal))
-				return Conflict("Instances cannot be created in the installation directory!");
+				return Conflict(new ErrorMessage { Message = "Instances cannot be created in the installation directory!" });
 
 			var dirExistsTask = ioManager.DirectoryExists(model.Path, cancellationToken);
 			bool attached = false;
@@ -216,6 +218,8 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(InstanceManagerRights.Delete)]
+		[ProducesResponseType(200)]
+		[ProducesResponseType(410)]
 		public override async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
 			var originalModel = await DatabaseContext.Instances.Where(x => x.Id == id)
@@ -250,7 +254,9 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(InstanceManagerRights.Relocate | InstanceManagerRights.Rename | InstanceManagerRights.SetAutoUpdate | InstanceManagerRights.SetConfiguration | InstanceManagerRights.SetOnline)]
-		#pragma warning disable CA1502 // TODO: Decomplexify
+		[ProducesResponseType(typeof(Api.Models.Instance), 200)]
+		[ProducesResponseType(410)]
+#pragma warning disable CA1502 // TODO: Decomplexify
 		public override async Task<IActionResult> Update([FromBody] Api.Models.Instance model, CancellationToken cancellationToken)
 		{
 			var instanceQuery = DatabaseContext.Instances.Where(x => x.Id == model.Id);
@@ -396,6 +402,7 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(InstanceManagerRights.List | InstanceManagerRights.Read)]
+		[ProducesResponseType(typeof(IEnumerable<Api.Models.Instance>), 200)]
 		public override async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
 			IQueryable<Models.Instance> query = DatabaseContext.Instances;
@@ -420,6 +427,8 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(InstanceManagerRights.List | InstanceManagerRights.Read)]
+		[ProducesResponseType(typeof(Api.Models.Instance), 200)]
+		[ProducesResponseType(410)]
 		public override async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			var query = DatabaseContext.Instances.Where(x => x.Id == id);

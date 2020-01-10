@@ -154,6 +154,9 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize]
+		[ProducesResponseType(typeof(Administration), 200)]
+		[ProducesResponseType(424)]
+		[ProducesResponseType(429)]
 		public override async Task<IActionResult> Read(CancellationToken cancellationToken)
 		{
 			try
@@ -198,6 +201,7 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(AdministrationRights.ChangeVersion)]
+		[ProducesResponseType(typeof(ErrorMessage), 422)]
 		public override async Task<IActionResult> Update([FromBody] Administration model, CancellationToken cancellationToken)
 		{
 			if (model == null)
@@ -224,6 +228,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request</returns>
 		[HttpDelete]
 		[TgsAuthorize(AdministrationRights.RestartHost)]
+		[ProducesResponseType(200)]
+		[ProducesResponseType(typeof(ErrorMessage), 422)]
 		public async Task<IActionResult> Delete()
 		{
 			try

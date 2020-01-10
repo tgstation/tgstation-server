@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -49,6 +50,7 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(DreamMakerRights.Read)]
+		[ProducesResponseType(typeof(DreamMaker), 200)]
 		public override async Task<IActionResult> Read(CancellationToken cancellationToken)
 		{
 			var instance = instanceManager.GetInstance(Instance);
@@ -58,6 +60,8 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(DreamMakerRights.CompileJobs)]
+		[ProducesResponseType(typeof(Api.Models.CompileJob), 200)]
+		[ProducesResponseType(404)]
 		public override async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			var compileJob = await DatabaseContext.CompileJobs
@@ -73,6 +77,7 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(DreamMakerRights.CompileJobs)]
+		[ProducesResponseType(typeof(List<Api.Models.CompileJob>), 200)]
 		public override async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
 			var compileJobs = await DatabaseContext.CompileJobs.Where(x => x.Job.Instance.Id == Instance.Id).OrderByDescending(x => x.Job.StoppedAt).Select(x => new Api.Models.CompileJob
@@ -84,6 +89,7 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(DreamMakerRights.Compile)]
+		[ProducesResponseType(typeof(Api.Models.Job), 202)]
 		public override async Task<IActionResult> Create([FromBody] DreamMaker model, CancellationToken cancellationToken)
 		{
 			var job = new Models.Job
@@ -100,6 +106,9 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(DreamMakerRights.SetDme | DreamMakerRights.SetApiValidationPort | DreamMakerRights.SetApiValidationPort)]
+		[ProducesResponseType(typeof(DreamMaker), 200)]
+		[ProducesResponseType(200)]
+		[ProducesResponseType(410)]
 		public override async Task<IActionResult> Update([FromBody] DreamMaker model, CancellationToken cancellationToken)
 		{
 			if (model.ApiValidationPort == 0)

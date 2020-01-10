@@ -75,6 +75,9 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(AdministrationRights.WriteUsers)]
+		[ProducesResponseType(typeof(Api.Models.User), 201)]
+		[ProducesResponseType(410)]
+		[ProducesResponseType(501)]
 		public override async Task<IActionResult> Create([FromBody] UserUpdate model, CancellationToken cancellationToken)
 		{
 			if (model == null)
@@ -139,6 +142,8 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(AdministrationRights.WriteUsers | AdministrationRights.EditOwnPassword)]
+		[ProducesResponseType(typeof(Api.Models.User), 200)]
+		[ProducesResponseType(404)]
 		public override async Task<IActionResult> Update([FromBody] UserUpdate model, CancellationToken cancellationToken)
 		{
 			if (model == null)
@@ -187,10 +192,12 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize]
+		[ProducesResponseType(typeof(Api.Models.User), 200)]
 		public override Task<IActionResult> Read(CancellationToken cancellationToken) => Task.FromResult<IActionResult>(Json(AuthenticationContext.User.ToApi(true)));
 
 		/// <inheritdoc />
 		[TgsAuthorize(AdministrationRights.ReadUsers)]
+		[ProducesResponseType(typeof(IEnumerable<Api.Models.User>), 200)]
 		public override async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
 			var users = await DatabaseContext.Users
@@ -201,6 +208,8 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize]
+		[ProducesResponseType(typeof(Api.Models.User), 200)]
+		[ProducesResponseType(404)]
 		public override async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			if (id == AuthenticationContext.User.Id)

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -38,6 +39,7 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize]
+		[ProducesResponseType(typeof(IEnumerable<Api.Models.Job>), 200)]
 		public override async Task<IActionResult> Read(CancellationToken cancellationToken)
 		{
 			var result = await DatabaseContext.Jobs.Where(x => x.Instance.Id == Instance.Id && !x.StoppedAt.HasValue).OrderByDescending(x => x.StartedAt).ToListAsync(cancellationToken).ConfigureAwait(false);
@@ -46,6 +48,7 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize]
+		[ProducesResponseType(typeof(List<Api.Models.Job>), 200)]
 		public override async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
 			// you KNOW this will need pagination eventually right?
@@ -58,6 +61,9 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize]
+		[ProducesResponseType(202)]
+		[ProducesResponseType(404)]
+		[ProducesResponseType(410)]
 		public override async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
 			// don't care if an instance post or not at this point
@@ -77,6 +83,8 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize]
+		[ProducesResponseType(404)]
+		[ProducesResponseType(typeof(Api.Models.Job), 200)]
 		public override async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			var job = await DatabaseContext.Jobs.Where(x => x.Id == id).Include(x => x.StartedBy).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);

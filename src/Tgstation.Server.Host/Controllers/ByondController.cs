@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -47,6 +48,7 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(ByondRights.ReadActive)]
+		[ProducesResponseType(typeof(Api.Models.Byond), 200)]
 		public override Task<IActionResult> Read(CancellationToken cancellationToken) => Task.FromResult<IActionResult>(
 			Json(new Api.Models.Byond
 			{
@@ -55,6 +57,7 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(ByondRights.ListInstalled)]
+		[ProducesResponseType(typeof(IEnumerable<Api.Models.Byond>), 200)]
 		public override Task<IActionResult> List(CancellationToken cancellationToken) => Task.FromResult<IActionResult>(
 			Json(instanceManager.GetInstance(Instance).ByondManager.InstalledVersions.Select(x => new Api.Models.Byond
 			{
@@ -63,6 +66,8 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(ByondRights.ChangeVersion)]
+		[ProducesResponseType(typeof(Api.Models.Byond), 200)]
+		[ProducesResponseType(typeof(Api.Models.Byond), 202)]
 		public override async Task<IActionResult> Update([FromBody] Api.Models.Byond model, CancellationToken cancellationToken)
 		{
 			if (model == null)

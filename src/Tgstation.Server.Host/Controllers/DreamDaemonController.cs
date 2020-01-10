@@ -51,6 +51,8 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(DreamDaemonRights.Start)]
+		[ProducesResponseType(typeof(Api.Models.Job), 202)]
+		[ProducesResponseType(410)]
 		public override async Task<IActionResult> Create([FromBody] DreamDaemon model, CancellationToken cancellationToken)
 		{
 			// alias for launching DD
@@ -73,6 +75,8 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(DreamDaemonRights.ReadMetadata | DreamDaemonRights.ReadRevision)]
+		[ProducesResponseType(typeof(DreamDaemon), 200)]
+		[ProducesResponseType(410)]
 		public override Task<IActionResult> Read(CancellationToken cancellationToken) => ReadImpl(null, cancellationToken);
 
 		/// <summary>
@@ -134,6 +138,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
 		[HttpDelete]
 		[TgsAuthorize(DreamDaemonRights.Shutdown)]
+		[ProducesResponseType(200)]
 		public async Task<IActionResult> Delete(CancellationToken cancellationToken)
 		{
 			var instance = instanceManager.GetInstance(Instance);
@@ -144,6 +149,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <inheritdoc />
 		#pragma warning disable CA1506 // TODO: Decomplexify
 		[TgsAuthorize(DreamDaemonRights.SetAutoStart | DreamDaemonRights.SetPorts | DreamDaemonRights.SetSecurity | DreamDaemonRights.SetWebClient | DreamDaemonRights.SoftRestart | DreamDaemonRights.SoftShutdown | DreamDaemonRights.Start | DreamDaemonRights.SetStartupTimeout)]
+		[ProducesResponseType(typeof(DreamDaemon), 200)]
+		[ProducesResponseType(410)]
 		public override async Task<IActionResult> Update([FromBody] DreamDaemon model, CancellationToken cancellationToken)
 		{
 			if (model == null)
@@ -219,6 +226,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request</returns>
 		[HttpPatch]
 		[TgsAuthorize(DreamDaemonRights.Restart)]
+		[ProducesResponseType(typeof(Api.Models.Job), 202)]
 		public async Task<IActionResult> Restart(CancellationToken cancellationToken)
 		{
 			var job = new Models.Job

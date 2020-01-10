@@ -92,6 +92,7 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize]
 		[AllowAnonymous]
 		[HttpGet]
+		[ProducesResponseType(typeof(Api.Models.ServerInformation), 200)]
 		public IActionResult Home()
 		{
 			if (AuthenticationContext != null)
@@ -117,6 +118,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
 		[HttpPost]
+		[ProducesResponseType(typeof(Api.Models.Token), 200)]
+		[ProducesResponseType(401)]
+		[ProducesResponseType(403)]
 		#pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<IActionResult> CreateToken(CancellationToken cancellationToken)
 		{

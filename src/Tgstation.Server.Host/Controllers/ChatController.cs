@@ -59,6 +59,7 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(ChatBotRights.Create)]
+		[ProducesResponseType(typeof(Api.Models.ChatBot), 201)]
 		public override async Task<IActionResult> Create([FromBody] Api.Models.ChatBot model, CancellationToken cancellationToken)
 		{
 			if (model == null)
@@ -131,6 +132,7 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(ChatBotRights.Delete)]
+		[ProducesResponseType(200)]
 		public override async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
 			var instance = instanceManager.GetInstance(Instance);
@@ -141,6 +143,7 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(ChatBotRights.Read)]
+		[ProducesResponseType(typeof(IEnumerable<Api.Models.ChatBot>), 200)]
 		public override async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
 			var query = DatabaseContext.ChatBots.Where(x => x.InstanceId == Instance.Id).Include(x => x.Channels);
@@ -158,6 +161,8 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(ChatBotRights.Read)]
+		[ProducesResponseType(typeof(Api.Models.ChatBot), 200)]
+		[ProducesResponseType(410)]
 		public override async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			var query = DatabaseContext.ChatBots.Where(x => x.Id == id).Include(x => x.Channels);
@@ -177,6 +182,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <inheritdoc />
 		#pragma warning disable CA1506 // TODO: Decomplexify
 		[TgsAuthorize(ChatBotRights.WriteChannels | ChatBotRights.WriteConnectionString | ChatBotRights.WriteEnabled | ChatBotRights.WriteName | ChatBotRights.WriteProvider)]
+		[ProducesResponseType(200)]
+		[ProducesResponseType(typeof(Api.Models.ChatBot), 200)]
 		public override async Task<IActionResult> Update([FromBody] Api.Models.ChatBot model, CancellationToken cancellationToken)
 		{
 			if (model == null)

@@ -128,6 +128,8 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(RepositoryRights.SetOrigin)]
+		[ProducesResponseType(typeof(Repository), 201)]
+		[ProducesResponseType(410)]
 		public override async Task<IActionResult> Create([FromBody] Repository model, CancellationToken cancellationToken)
 		{
 			if (model == null)
@@ -219,6 +221,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
 		[TgsAuthorize(RepositoryRights.Delete)]
+		[ProducesResponseType(typeof(Repository), 202)]
+		[ProducesResponseType(410)]
 		public async Task<IActionResult> Delete(CancellationToken cancellationToken)
 		{
 			var currentModel = await DatabaseContext.RepositorySettings.Where(x => x.InstanceId == Instance.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
@@ -247,6 +251,9 @@ namespace Tgstation.Server.Host.Controllers
 
 		/// <inheritdoc />
 		[TgsAuthorize(RepositoryRights.Read)]
+		[ProducesResponseType(typeof(Repository), 200)]
+		[ProducesResponseType(typeof(Repository), 201)]
+		[ProducesResponseType(410)]
 		public override async Task<IActionResult> Read(CancellationToken cancellationToken)
 		{
 			var currentModel = await DatabaseContext.RepositorySettings.Where(x => x.InstanceId == Instance.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
@@ -273,7 +280,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				if (repo != null && await PopulateApi(api, repo, DatabaseContext, Instance, cancellationToken).ConfigureAwait(false))
 				{
-					// user may have fucked with the repo without telling us, do what we can
+					// user may have fucked with the repo manually, do what we can
 					await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 					return StatusCode((int)HttpStatusCode.Created, api);
 				}
