@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
+using Microsoft.Net.Http.Headers;
 using System;
 using System.Linq;
 using System.Net.Mime;
@@ -118,7 +121,22 @@ namespace Tgstation.Server.Host.Controllers
 		public async Task<IActionResult> CreateToken(CancellationToken cancellationToken)
 		{
 			if (ApiHeaders == null)
-				return BadRequest(new Api.Models.ErrorMessage { Message = "Missing API headers!" });
+			{
+				// Get the exact error
+				var errorMessage = "Missing API headers!";
+				try
+				{
+					var _ = new ApiHeaders(Request.GetTypedHeaders());
+				}
+				catch (InvalidOperationException ex)
+				{
+					errorMessage = ex.Message;
+				}
+
+				Response.Headers.Add(HeaderNames.WWWAuthenticate, new StringValues("basic realm=\"Create TGS4 bearer token\""));
+
+				return BadRequest(new Api.Models.ErrorMessage { Message = errorMessage });
+			}
 
 			if (ApiHeaders.IsTokenAuthentication)
 				return BadRequest(new Api.Models.ErrorMessage { Message = "Cannot create a token using another token!" });

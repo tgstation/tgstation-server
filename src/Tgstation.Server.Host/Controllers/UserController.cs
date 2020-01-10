@@ -61,6 +61,18 @@ namespace Tgstation.Server.Host.Controllers
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
+		/// <summary>
+		/// Check if a given <paramref name="model"/> has a valid <see cref="Api.Models.Internal.User.Name"/> specified.
+		/// </summary>
+		/// <param name="model">The <see cref="UserUpdate"/> to check.</param>
+		/// <returns><see langword="null"/> if <paramref name="model"/> is valid, a <see cref="BadRequestObjectResult"/> otherwise.</returns>
+		BadRequestObjectResult CheckValidName(UserUpdate model)
+		{
+			if (model.Name != null && model.Name.Contains(':', StringComparison.InvariantCulture))
+				return BadRequest(new ErrorMessage { Message = "Username must not contain colons!" });
+			return null;
+		}
+
 		/// <inheritdoc />
 		[TgsAuthorize(AdministrationRights.WriteUsers)]
 		public override async Task<IActionResult> Create([FromBody] UserUpdate model, CancellationToken cancellationToken)
@@ -77,6 +89,10 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (!(model.Name == null ^ model.SystemIdentifier == null))
 				return BadRequest(new ErrorMessage { Message = "User must have a name if and only if user has no system identifier!" });
+
+			var fail = CheckValidName(model);
+			if (fail != null)
+				return fail;
 
 			var dbUser = new Models.User
 			{
@@ -154,6 +170,11 @@ namespace Tgstation.Server.Host.Controllers
 			originalUser.InstanceManagerRights = model.InstanceManagerRights ?? originalUser.InstanceManagerRights;
 			originalUser.AdministrationRights = model.AdministrationRights ?? originalUser.AdministrationRights;
 			originalUser.Enabled = model.Enabled ?? originalUser.Enabled;
+
+			var fail = CheckValidName(model);
+			if (fail != null)
+				return fail;
+
 			originalUser.Name = model.Name ?? originalUser.Name;
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
