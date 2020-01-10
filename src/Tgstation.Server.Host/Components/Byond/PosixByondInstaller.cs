@@ -11,13 +11,8 @@ namespace Tgstation.Server.Host.Components.Byond
 	/// <summary>
 	/// <see cref="IByondInstaller"/> for Posix systems
 	/// </summary>
-	sealed class PosixByondInstaller : IByondInstaller
+	sealed class PosixByondInstaller : ByondInstallerBase
 	{
-		/// <summary>
-		/// The URL format string for getting BYOND linux version {0}.{1} zipfile
-		/// </summary>
-		const string ByondRevisionsURLTemplate = "https://secure.byond.com/download/build/{0}/{0}.{1}_byond_linux.zip";
-
 		/// <summary>
 		/// Path to the BYOND cache
 		/// </summary>
@@ -28,15 +23,13 @@ namespace Tgstation.Server.Host.Components.Byond
 		const string ShellScriptExtension = ".sh";
 
 		/// <inheritdoc />
-		public string DreamDaemonName => DreamDaemonExecutableName + ShellScriptExtension;
+		public override string DreamDaemonName => DreamDaemonExecutableName + ShellScriptExtension;
 
 		/// <inheritdoc />
-		public string DreamMakerName => DreamMakerExecutableName + ShellScriptExtension;
+		public override string DreamMakerName => DreamMakerExecutableName + ShellScriptExtension;
 
-		/// <summary>
-		/// The <see cref="IIOManager"/> for the <see cref="PosixByondInstaller"/>
-		/// </summary>
-		readonly IIOManager ioManager;
+		/// <inheritdoc />
+		protected override string ByondRevisionsURLTemplate => "https://secure.byond.com/download/build/{0}/{0}.{1}_byond_linux.zip";
 
 		/// <summary>
 		/// The <see cref="IPostWriteHandler"/> for the <see cref="PosixByondInstaller"/>
@@ -44,29 +37,23 @@ namespace Tgstation.Server.Host.Components.Byond
 		readonly IPostWriteHandler postWriteHandler;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="PosixByondInstaller"/>
-		/// </summary>
-		readonly ILogger<PosixByondInstaller> logger;
-
-		/// <summary>
 		/// Construct a <see cref="WindowsByondInstaller"/>
 		/// </summary>
-		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/></param>
-		/// <param name="logger">The value of <see cref="logger"/></param>
-		public PosixByondInstaller(IIOManager ioManager, IPostWriteHandler postWriteHandler, ILogger<PosixByondInstaller> logger)
+		/// <param name="ioManager">The <see cref="IIOManager"/> for the <see cref="ByondInstallerBase"/>.</param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ByondInstallerBase"/>.</param>
+		public PosixByondInstaller(IPostWriteHandler postWriteHandler, IIOManager ioManager, ILogger<PosixByondInstaller> logger)
+			: base(ioManager, logger)
 		{
-			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.postWriteHandler = postWriteHandler ?? throw new ArgumentNullException(nameof(postWriteHandler));
-			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
 		/// <inheritdoc />
-		public async Task CleanCache(CancellationToken cancellationToken)
+		public override async Task CleanCache(CancellationToken cancellationToken)
 		{
 			try
 			{
-				await ioManager.DeleteDirectory(ByondCachePath, cancellationToken).ConfigureAwait(false);
+				await IOManager.DeleteDirectory(ByondCachePath, cancellationToken).ConfigureAwait(false);
 			}
 			catch (OperationCanceledException)
 			{
@@ -74,23 +61,12 @@ namespace Tgstation.Server.Host.Components.Byond
 			}
 			catch (Exception e)
 			{
-				logger.LogWarning("Error deleting BYOND cache! Exception: {0}", e);
+				Logger.LogWarning("Error deleting BYOND cache! Exception: {0}", e);
 			}
 		}
 
 		/// <inheritdoc />
-		public async Task<byte[]> DownloadVersion(Version version, CancellationToken cancellationToken)
-		{
-			if (version == null)
-				throw new ArgumentNullException(nameof(version));
-
-			var url = String.Format(CultureInfo.InvariantCulture, ByondRevisionsURLTemplate, version.Major, version.Minor);
-
-			return await ioManager.DownloadFile(new Uri(url), cancellationToken).ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		public Task InstallByond(string path, Version version, CancellationToken cancellationToken)
+		public override Task InstallByond(string path, Version version, CancellationToken cancellationToken)
 		{
 			if (path == null)
 				throw new ArgumentNullException(nameof(path));
@@ -106,16 +82,16 @@ namespace Tgstation.Server.Host.Components.Byond
 
 			async Task WriteAndMakeExecutable(string fullPath, string script)
 			{
-				await ioManager.WriteAllBytes(fullPath, Encoding.ASCII.GetBytes(script), cancellationToken).ConfigureAwait(false);
+				await IOManager.WriteAllBytes(fullPath, Encoding.ASCII.GetBytes(script), cancellationToken).ConfigureAwait(false);
 				postWriteHandler.HandleWrite(fullPath);
 			}
 
-			var basePath = ioManager.ConcatPath(path, ByondManager.BinPath);
+			var basePath = IOManager.ConcatPath(path, ByondManager.BinPath);
 
-			var task = Task.WhenAll(WriteAndMakeExecutable(ioManager.ConcatPath(basePath, DreamDaemonName), dreamDaemonScript), WriteAndMakeExecutable(ioManager.ConcatPath(basePath, DreamMakerName), dreamMakerScript));
+			var task = Task.WhenAll(WriteAndMakeExecutable(IOManager.ConcatPath(basePath, DreamDaemonName), dreamDaemonScript), WriteAndMakeExecutable(IOManager.ConcatPath(basePath, DreamMakerName), dreamMakerScript));
 
-			postWriteHandler.HandleWrite(ioManager.ConcatPath(basePath, DreamDaemonExecutableName));
-			postWriteHandler.HandleWrite(ioManager.ConcatPath(basePath, DreamMakerExecutableName));
+			postWriteHandler.HandleWrite(IOManager.ConcatPath(basePath, DreamDaemonExecutableName));
+			postWriteHandler.HandleWrite(IOManager.ConcatPath(basePath, DreamMakerExecutableName));
 
 			return task;
 		}
