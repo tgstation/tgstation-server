@@ -12,13 +12,8 @@ namespace Tgstation.Server.Host.Components.Byond
 	/// <summary>
 	/// <see cref="IByondInstaller"/> for windows systems
 	/// </summary>
-	sealed class WindowsByondInstaller : IByondInstaller, IDisposable
+	sealed class WindowsByondInstaller : ByondInstallerBase, IDisposable
 	{
-		/// <summary>
-		/// The URL format string for getting BYOND windows version {0}.{1} zipfile
-		/// </summary>
-		const string ByondRevisionsURLTemplate = "https://secure.byond.com/download/build/{0}/{0}.{1}_byond.zip";
-
 		/// <summary>
 		/// Directory to byond installation configuration
 		/// </summary>
@@ -40,25 +35,18 @@ namespace Tgstation.Server.Host.Components.Byond
 		const string ByondDXDir = "byond/directx";
 
 		/// <inheritdoc />
-		public string DreamDaemonName => "dreamdaemon.exe";
+		public override string DreamDaemonName => "dreamdaemon.exe";
 
 		/// <inheritdoc />
-		public string DreamMakerName => "dm.exe";
+		public override string DreamMakerName => "dm.exe";
 
-		/// <summary>
-		/// The <see cref="IIOManager"/> for the <see cref="WindowsByondInstaller"/>
-		/// </summary>
-		readonly IIOManager ioManager;
+		/// <inheritdoc />
+		protected override string ByondRevisionsURLTemplate => "https://secure.byond.com/download/build/{0}/{0}.{1}_byond.zip";
 
 		/// <summary>
 		/// The <see cref="IProcessExecutor"/> for the <see cref="WindowsByondInstaller"/>
 		/// </summary>
 		readonly IProcessExecutor processExecutor;
-
-		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="WindowsByondInstaller"/>
-		/// </summary>
-		readonly ILogger<WindowsByondInstaller> logger;
 
 		/// <summary>
 		/// The <see cref="SemaphoreSlim"/> for the <see cref="WindowsByondInstaller"/>
@@ -73,14 +61,13 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <summary>
 		/// Construct a <see cref="WindowsByondInstaller"/>
 		/// </summary>
-		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
-		/// <param name="logger">The value of <see cref="logger"/></param>
-		public WindowsByondInstaller(IIOManager ioManager, IProcessExecutor processExecutor, ILogger<WindowsByondInstaller> logger)
+		/// <param name="ioManager">The <see cref="IIOManager"/> for the <see cref="ByondInstallerBase"/>.</param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ByondInstallerBase"/>.</param>
+		public WindowsByondInstaller(IProcessExecutor processExecutor, IIOManager ioManager, ILogger<WindowsByondInstaller> logger)
+			: base(ioManager, logger)
 		{
-			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
-			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			semaphore = new SemaphoreSlim(1);
 			installedDirectX = false;
@@ -90,11 +77,11 @@ namespace Tgstation.Server.Host.Components.Byond
 		public void Dispose() => semaphore.Dispose();
 
 		/// <inheritdoc />
-		public async Task CleanCache(CancellationToken cancellationToken)
+		public override async Task CleanCache(CancellationToken cancellationToken)
 		{
 			try
 			{
-				await ioManager.DeleteDirectory(ioManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "byond/cache"), cancellationToken).ConfigureAwait(false);
+				await IOManager.DeleteDirectory(IOManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "byond/cache"), cancellationToken).ConfigureAwait(false);
 			}
 			catch(OperationCanceledException)
 			{
@@ -102,26 +89,18 @@ namespace Tgstation.Server.Host.Components.Byond
 			}
 			catch (Exception e)
 			{
-				logger.LogWarning("Error deleting BYOND cache! Exception: {0}", e);
+				Logger.LogWarning("Error deleting BYOND cache! Exception: {0}", e);
 			}
 		}
 
 		/// <inheritdoc />
-		public Task<byte[]> DownloadVersion(Version version, CancellationToken cancellationToken)
-		{
-			var url = String.Format(CultureInfo.InvariantCulture, ByondRevisionsURLTemplate, version.Major, version.Minor);
-
-			return ioManager.DownloadFile(new Uri(url), cancellationToken);
-		}
-
-		/// <inheritdoc />
-		public async Task InstallByond(string path, Version version, CancellationToken cancellationToken)
+		public override async Task InstallByond(string path, Version version, CancellationToken cancellationToken)
 		{
 			async Task SetNoPromptTrusted()
 			{
-				var configPath = ioManager.ConcatPath(path, ByondConfigDir);
-				await ioManager.CreateDirectory(configPath, cancellationToken).ConfigureAwait(false);
-				await ioManager.WriteAllBytes(ioManager.ConcatPath(configPath, ByondDDConfig), Encoding.UTF8.GetBytes(ByondNoPromptTrustedMode), cancellationToken).ConfigureAwait(false);
+				var configPath = IOManager.ConcatPath(path, ByondConfigDir);
+				await IOManager.CreateDirectory(configPath, cancellationToken).ConfigureAwait(false);
+				await IOManager.WriteAllBytes(IOManager.ConcatPath(configPath, ByondDDConfig), Encoding.UTF8.GetBytes(ByondNoPromptTrustedMode), cancellationToken).ConfigureAwait(false);
 			}
 
 			var setNoPromptTrustedModeTask = SetNoPromptTrusted();
@@ -135,13 +114,13 @@ namespace Tgstation.Server.Host.Components.Byond
 					{
 						// ^check again because race conditions
 						// always install it, it's pretty fast and will do better redundancy checking than us
-						var rbdx = ioManager.ConcatPath(path, ByondDXDir);
+						var rbdx = IOManager.ConcatPath(path, ByondDXDir);
 
 						// noShellExecute because we aren't doing runas shennanigans
 						IProcess directXInstaller;
 						try
 						{
-							directXInstaller = processExecutor.LaunchProcess(ioManager.ConcatPath(rbdx, "DXSETUP.exe"), rbdx, "/silent", noShellExecute: true);
+							directXInstaller = processExecutor.LaunchProcess(IOManager.ConcatPath(rbdx, "DXSETUP.exe"), rbdx, "/silent", noShellExecute: true);
 						}
 						catch (Exception e)
 						{
