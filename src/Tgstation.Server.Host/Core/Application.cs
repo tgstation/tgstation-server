@@ -12,6 +12,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
+using Microsoft.Net.Http.Headers;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Serilog;
@@ -23,12 +25,14 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Tgstation.Server.Api;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -36,7 +40,7 @@ using Tgstation.Server.Host.Security;
 namespace Tgstation.Server.Host.Core
 {
 	/// <inheritdoc />
-	#pragma warning disable CA1506
+#pragma warning disable CA1506
 	sealed class Application : IApplication
 	{
 		/// <inheritdoc />
@@ -240,6 +244,38 @@ namespace Tgstation.Server.Host.Core
 					options.SerializerSettings.Converters = new[] { new VersionConverter() };
 				});
 
+			if (hostingEnvironment.IsDevelopment())
+				services.AddSwaggerGen(
+				c =>
+				{
+					c.SwaggerDoc(
+						"v1",
+						new OpenApiInfo
+						{
+							Title = "TGS API",
+							Version = "v4"
+						});
+
+					c.OperationFilter<TgsOperationFilter>();
+
+					c.AddSecurityDefinition(TgsOperationFilter.PasswordSecuritySchemeId, new OpenApiSecurityScheme
+					{
+						In = ParameterLocation.Header,
+						Type = SecuritySchemeType.Http,
+						Name = HeaderNames.Authorization,
+						Scheme = ApiHeaders.BasicAuthenticationScheme
+					});
+
+					c.AddSecurityDefinition(TgsOperationFilter.TokenSecuritySchemeId, new OpenApiSecurityScheme
+					{
+						BearerFormat = "JWT",
+						In = ParameterLocation.Header,
+						Type = SecuritySchemeType.Http,
+						Name = HeaderNames.Authorization,
+						Scheme = ApiHeaders.JwtAuthenticationScheme
+					});
+				});
+
 			// enable browser detection
 			services.AddDetectionCore().AddBrowser();
 
@@ -356,7 +392,7 @@ namespace Tgstation.Server.Host.Core
 			logger.LogTrace("Web Root: {0}", hostingEnvironment.WebRootPath);
 
 			// attempt to restart the server if the configuration changes
-			if(serverControl.WatchdogPresent)
+			if (serverControl.WatchdogPresent)
 				ChangeToken.OnChange(configuration.GetReloadToken, () => serverControl.Restart());
 
 			// setup the HTTP request pipeline
@@ -364,11 +400,17 @@ namespace Tgstation.Server.Host.Core
 			applicationBuilder.UseServerErrorHandling();
 
 			// should anything after this throw an exception, catch it and display a detailed html page
-			if(hostingEnvironment.IsDevelopment())
+			if (hostingEnvironment.IsDevelopment())
 				applicationBuilder.UseDeveloperExceptionPage(); // it is not worth it to limit this, you should only ever get it if you're an authorized user
 
 			// suppress OperationCancelledExceptions, they are just aborted HTTP requests
 			applicationBuilder.UseCancelledRequestSuppression();
+
+			if (hostingEnvironment.IsDevelopment())
+			{
+				applicationBuilder.UseSwagger();
+				applicationBuilder.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TGS API V4"));
+			}
 
 			// Set up CORS based on configuration if necessary
 			Action<CorsPolicyBuilder> corsBuilder = null;
