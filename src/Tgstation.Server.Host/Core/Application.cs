@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -228,6 +229,7 @@ namespace Tgstation.Server.Host.Core
 					var dataAnnotationValidator = options.ModelValidatorProviders.Single(validator => validator.GetType().Name == "DataAnnotationsModelValidatorProvider");
 					options.ModelValidatorProviders.Remove(dataAnnotationValidator);
 				})
+				.SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
 				.AddJsonOptions(options =>
 				{
 					options.AllowInputFormatterExceptionMessages = true;
