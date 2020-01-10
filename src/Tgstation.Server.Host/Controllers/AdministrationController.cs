@@ -152,12 +152,19 @@ namespace Tgstation.Server.Host.Controllers
 
 		IGitHubClient GetGitHubClient() => String.IsNullOrEmpty(generalConfiguration.GitHubAccessToken) ? gitHubClientFactory.CreateClient() : gitHubClientFactory.CreateClient(generalConfiguration.GitHubAccessToken);
 
+		/// <summary>
+		/// Get <see cref="Administration"/> server information.
+		/// </summary>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <response code="200">Retrieved <see cref="Administration"/> data successfully.</response>
+		/// <response code="424">The GitHub API rate limit was hit. See response header Retry-After.</response>
+		/// <response code="429">A GitHub API error occurred. See error message for details.</response>
 		[HttpGet]
 		[TgsAuthorize]
 		[ProducesResponseType(typeof(Administration), 200)]
 		[ProducesResponseType(424)]
-		[ProducesResponseType(429)]
-		public async Task<IActionResult> Read(CancellationToken cancellationToken)
+		[ProducesResponseType(typeof(ErrorMessage), 429)]
+		public async Task<IActionResult> Read()
 		{
 			try
 			{
@@ -195,10 +202,20 @@ namespace Tgstation.Server.Host.Controllers
 			catch (ApiException e)
 			{
 				Logger.LogWarning(OctokitException, e);
-				return StatusCode((int)HttpStatusCode.FailedDependency);
+				return StatusCode((int)HttpStatusCode.FailedDependency, new ErrorMessage
+				{
+					Message = e.Message
+				});
 			}
 		}
 
+		/// <summary>
+		/// Attempt to perform a server upgrade.
+		/// </summary>
+		/// <param name="model">The model containing the <see cref="Administration.NewVersion"/> to update to.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <response code="422">Upgrade operations are unavailable due to the launch configuration of TGS.</response>
 		[HttpPost]
 		[TgsAuthorize(AdministrationRights.ChangeVersion)]
 		[ProducesResponseType(typeof(ErrorMessage), 422)]
@@ -226,7 +243,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// Attempts to restart the server
 		/// </summary>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request</returns>
-		[HttpDelete]
+		/// <response code="200">Restart begun successfully.</response>
+		/// <response code="422">Restart operations are unavailable due to the launch configuration of TGS.</response>
+		[HttpDelete("{id}")]
 		[TgsAuthorize(AdministrationRights.RestartHost)]
 		[ProducesResponseType(200)]
 		[ProducesResponseType(typeof(ErrorMessage), 422)]

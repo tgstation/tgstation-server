@@ -46,24 +46,42 @@ namespace Tgstation.Server.Host.Controllers
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 		}
 
+		/// <summary>
+		/// Gets the active <see cref="Api.Models.Byond"/> version.
+		/// </summary>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <response code="200">Retrieved version information successfully.</response>
 		[HttpGet]
 		[TgsAuthorize(ByondRights.ReadActive)]
 		[ProducesResponseType(typeof(Api.Models.Byond), 200)]
-		public Task<IActionResult> Read(CancellationToken cancellationToken) => Task.FromResult<IActionResult>(
+		public Task<IActionResult> Read() => Task.FromResult<IActionResult>(
 			Json(new Api.Models.Byond
 			{
 				Version = instanceManager.GetInstance(Instance).ByondManager.ActiveVersion
 			}));
 
+		/// <summary>
+		/// Lists installed <see cref="Api.Models.Byond"/> versions.
+		/// </summary>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <response code="200">Retrieved version information successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(ByondRights.ListInstalled)]
 		[ProducesResponseType(typeof(IEnumerable<Api.Models.Byond>), 200)]
-		public Task<IActionResult> List(CancellationToken cancellationToken) => Task.FromResult<IActionResult>(
+		public Task<IActionResult> List() => Task.FromResult<IActionResult>(
 			Json(instanceManager.GetInstance(Instance).ByondManager.InstalledVersions.Select(x => new Api.Models.Byond
 			{
 				Version = x
 			})));
 
+		/// <summary>
+		/// Changes the active BYOND version to the one specified in a given <paramref name="model"/>.
+		/// </summary>
+		/// <param name="model">The <see cref="Api.Models.Byond.Version"/> to switch to.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <response code="200">Switched active version successfully.</response>
+		/// <response code="202">Created <see cref="Api.Models.Job"/> to install and switch active version successfully.</response>
 		[HttpPost]
 		[TgsAuthorize(ByondRights.ChangeVersion)]
 		[ProducesResponseType(typeof(Api.Models.Byond), 200)]

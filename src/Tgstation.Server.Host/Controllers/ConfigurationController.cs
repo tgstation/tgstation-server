@@ -64,6 +64,15 @@ namespace Tgstation.Server.Host.Controllers
 			return false;
 		}
 
+		/// <summary>
+		/// Write to a configuration file.
+		/// </summary>
+		/// <param name="model">The <see cref="ConfigurationFile"/> representing the file.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <response code="200">File updated successfully.</response>
+		/// <response code="200">File created successfully.</response>
+		/// <response code="501">POSIX system impersonation requested but not implemented.</response>
 		[HttpPost]
 		[TgsAuthorize(ConfigurationRights.Write)]
 		[ProducesResponseType(typeof(ConfigurationFile), 200)]
@@ -180,6 +189,13 @@ namespace Tgstation.Server.Host.Controllers
 			}
 		}
 
+		/// <summary>
+		/// Get the contents of the root configuration directory.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <response code="410">Directory not found on disk.</response>
+		/// <response code="501">POSIX system impersonation requested but not implemented.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(ConfigurationRights.List)]
 		[ProducesResponseType(typeof(IReadOnlyList<ConfigurationFile>), 200)]
@@ -187,11 +203,19 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(501)]
 		public Task<IActionResult> List(CancellationToken cancellationToken) => Directory(null, cancellationToken);
 
+		/// <summary>
+		/// Create a configuration directory.
+		/// </summary>
+		/// <param name="model">The <see cref="ConfigurationFile"/> representing the directory.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <response code="200">Directory already exists.</response>
+		/// <response code="201">Directory created successfully.</response>
+		/// <response code="501">POSIX system impersonation requested but not implemented.</response>
 		[HttpPut]
 		[TgsAuthorize(ConfigurationRights.Write)]
 		[ProducesResponseType(typeof(ConfigurationFile), 200)]
 		[ProducesResponseType(typeof(ConfigurationFile), 201)]
-		[ProducesResponseType(410)]
 		[ProducesResponseType(501)]
 		public async Task<IActionResult> Create([FromBody] ConfigurationFile model, CancellationToken cancellationToken)
 		{
@@ -232,7 +256,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
 		/// <response code="200">Empty directory deleted successfully.</response>
 		/// <response code="501">POSIX system impersonation requested but not implemented.</response>
-		[HttpDelete]
+		[HttpDelete("{id}")]
 		[TgsAuthorize(ConfigurationRights.Delete)]
 		[ProducesResponseType(200)]
 		[ProducesResponseType(501)]

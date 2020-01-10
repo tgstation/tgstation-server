@@ -73,6 +73,15 @@ namespace Tgstation.Server.Host.Controllers
 			return null;
 		}
 
+		/// <summary>
+		/// Create a <see cref="Api.Models.User"/>.
+		/// </summary>
+		/// <param name="model">The <see cref="Api.Models.User"/> to create.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <response code="201"><see cref="Api.Models.User"/> created successfully.</response>
+		/// <response code="410">The <see cref="Api.Models.Internal.User.SystemIdentifier"/> requested could not be loaded.</response>
+		/// <response code="501">A system user was requested but this is not implemented on POSIX.</response>
 		[HttpPut]
 		[TgsAuthorize(AdministrationRights.WriteUsers)]
 		[ProducesResponseType(typeof(Api.Models.User), 201)]
@@ -140,6 +149,14 @@ namespace Tgstation.Server.Host.Controllers
 			return StatusCode((int)HttpStatusCode.Created, dbUser.ToApi(true));
 		}
 
+		/// <summary>
+		/// Update a <see cref="Api.Models.User"/>.
+		/// </summary>
+		/// <param name="model">The <see cref="Api.Models.User"/> to update.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <response code="200"><see cref="Api.Models.User"/> updated successfully.</response>
+		/// <response code="404">Requested <see cref="Api.Models.Internal.User.Id"/> does not exist.</response>
 		[HttpPost]
 		[TgsAuthorize(AdministrationRights.WriteUsers | AdministrationRights.EditOwnPassword)]
 		[ProducesResponseType(typeof(Api.Models.User), 200)]
@@ -190,11 +207,22 @@ namespace Tgstation.Server.Host.Controllers
 			});
 		}
 
+		/// <summary>
+		/// Get information about the current <see cref="Api.Models.User"/>.
+		/// </summary>
+		/// <returns>The <see cref="IActionResult"/> of the operation.</returns>
+		/// <response code="200">The <see cref="Api.Models.User"/> was retrieved successfully.</response>
 		[HttpGet]
 		[TgsAuthorize]
 		[ProducesResponseType(typeof(Api.Models.User), 200)]
-		public Task<IActionResult> Read(CancellationToken cancellationToken) => Task.FromResult<IActionResult>(Json(AuthenticationContext.User.ToApi(true)));
+		public IActionResult Read() => Json(AuthenticationContext.User.ToApi(true));
 
+		/// <summary>
+		/// List all <see cref="Api.Models.User"/>s in the server.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <response code="200">Retrieved <see cref="Api.Models.User"/>s successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(AdministrationRights.ReadUsers)]
 		[ProducesResponseType(typeof(IEnumerable<Api.Models.User>), 200)]
@@ -206,6 +234,14 @@ namespace Tgstation.Server.Host.Controllers
 			return Json(users.Select(x => x.ToApi(true)));
 		}
 
+		/// <summary>
+		/// Get a specific <see cref="Api.Models.User"/>.
+		/// </summary>
+		/// <param name="id">The <see cref="Api.Models.Internal.User.Id"/> to retrieve.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <response code="200">The <see cref="Api.Models.User"/> was retrieved successfully.</response>
+		/// <response code="404">The <see cref="Api.Models.User"/> does not exist.</response>
 		[HttpGet("{id}")]
 		[TgsAuthorize]
 		[ProducesResponseType(typeof(Api.Models.User), 200)]
@@ -213,7 +249,7 @@ namespace Tgstation.Server.Host.Controllers
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			if (id == AuthenticationContext.User.Id)
-				return await Read(cancellationToken).ConfigureAwait(false);
+				return Read();
 
 			if (!((AdministrationRights)AuthenticationContext.GetRight(RightsType.Administration)).HasFlag(AdministrationRights.ReadUsers))
 				return Forbid();

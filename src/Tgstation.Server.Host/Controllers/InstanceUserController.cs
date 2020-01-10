@@ -47,6 +47,13 @@ namespace Tgstation.Server.Host.Controllers
 			return null;
 		}
 
+		/// <summary>
+		/// Create am <see cref="Api.Models.InstanceUser"/>.
+		/// </summary>
+		/// <param name="model">The <see cref="Api.Models.InstanceUser"/> to create.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="201"><see cref="Api.Models.InstanceUser"/> created successfully.</response>
 		[HttpPut]
 		[TgsAuthorize(InstanceUserRights.CreateUsers)]
 		[ProducesResponseType(typeof(Api.Models.InstanceUser), 201)]
@@ -75,6 +82,14 @@ namespace Tgstation.Server.Host.Controllers
 			return StatusCode((int)HttpStatusCode.Created, dbUser.ToApi());
 		}
 
+		/// <summary>
+		/// Update the permissions for an <see cref="Api.Models.InstanceUser"/>.
+		/// </summary>
+		/// <param name="model">The updated <see cref="Api.Models.InstanceUser"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="200"><see cref="Api.Models.InstanceUser"/> updated successfully.</response>
+		/// <response code="410">Instance user unavailable.</response>
 		[HttpPost]
 		[TgsAuthorize(InstanceUserRights.WriteUsers)]
 		[ProducesResponseType(typeof(Api.Models.InstanceUser), 200)]
@@ -104,14 +119,23 @@ namespace Tgstation.Server.Host.Controllers
 				UserId = originalUser.UserId
 			});
 		}
-		#pragma warning restore CA1506
-
+#pragma warning restore CA1506
+		/// <summary>
+		/// Read the active <see cref="Api.Models.InstanceUser"/>.
+		/// </summary>
+		/// <returns>The <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="200"><see cref="Api.Models.InstanceUser"/> retrieved successfully.</response>
 		[HttpGet]
 		[TgsAuthorize]
 		[ProducesResponseType(typeof(Api.Models.InstanceUser), 200)]
-		[ProducesResponseType(404)]
-		public Task<IActionResult> Read(CancellationToken cancellationToken) => Task.FromResult(AuthenticationContext.InstanceUser != null ? (IActionResult)Json(AuthenticationContext.InstanceUser.ToApi()) : NotFound());
+		public IActionResult Read() => Json(AuthenticationContext.InstanceUser.ToApi());
 
+		/// <summary>
+		/// Lists <see cref="Api.Models.InstanceUser"/>s for the instance.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="200">Retrieved <see cref="Api.Models.InstanceUser"/>s successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(InstanceUserRights.ReadUsers)]
 		[ProducesResponseType(typeof(IEnumerable<Api.Models.InstanceUser>), 200)]
@@ -121,6 +145,14 @@ namespace Tgstation.Server.Host.Controllers
 			return Json(users.Select(x => x.ToApi()));
 		}
 
+		/// <summary>
+		/// Gets a specific <see cref="Api.Models.InstanceUser"/>.
+		/// </summary>
+		/// <param name="id">The <see cref="Api.Models.InstanceUser.UserId"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="200">Retrieve <see cref="Api.Models.InstanceUser"/> successfully.</response>
+		/// <response code="410">Instance user unavailable.</response>
 		[HttpGet("{id}")]
 		[TgsAuthorize(InstanceUserRights.ReadUsers)]
 		[ProducesResponseType(typeof(Api.Models.InstanceUser), 200)]
@@ -134,7 +166,14 @@ namespace Tgstation.Server.Host.Controllers
 			return Json(user.ToApi());
 		}
 
-		[HttpDelete]
+		/// <summary>
+		/// Delete an <see cref="Api.Models.InstanceUser"/>.
+		/// </summary>
+		/// <param name="id">The <see cref="Api.Models.InstanceUser.UserId"/> to delete.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="200"><see cref="Api.Models.InstanceUser"/> deleted or no longer exists.</response>
+		[HttpDelete("{id}")]
 		[TgsAuthorize(InstanceUserRights.WriteUsers)]
 		[ProducesResponseType(200)]
 		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)

@@ -48,6 +48,12 @@ namespace Tgstation.Server.Host.Controllers
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 		}
 
+		/// <summary>
+		/// Read current <see cref="DreamMaker"/> status.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="200">Read <see cref="DreamMaker"/> status successfully.</response>
 		[HttpGet]
 		[TgsAuthorize(DreamMakerRights.Read)]
 		[ProducesResponseType(typeof(DreamMaker), 200)]
@@ -58,6 +64,14 @@ namespace Tgstation.Server.Host.Controllers
 			return Json(dreamMakerSettings.ToApi());
 		}
 
+		/// <summary>
+		/// Get a <see cref="Api.Models.CompileJob"/> specified by a given <paramref name="id"/>.
+		/// </summary>
+		/// <param name="id">The <see cref="Api.Models.Internal.CompileJob.Id"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="200"><see cref="Api.Models.CompileJob"/> retrieved successfully.</response>
+		/// <response code="404">Specified compile job does not exist in this instance.</response>
 		[HttpGet("{id}")]
 		[TgsAuthorize(DreamMakerRights.CompileJobs)]
 		[ProducesResponseType(typeof(Api.Models.CompileJob), 200)]
@@ -75,22 +89,34 @@ namespace Tgstation.Server.Host.Controllers
 			return Json(compileJob.ToApi());
 		}
 
+		/// <summary>
+		/// List all <see cref="Api.Models.CompileJob"/> <see cref="EntityId"/>s for the instance.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="200">Retrieved <see cref="EntityId"/>s successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(DreamMakerRights.CompileJobs)]
-		[ProducesResponseType(typeof(List<Api.Models.CompileJob>), 200)]
+		[ProducesResponseType(typeof(List<EntityId>), 200)]
 		public async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
-			var compileJobs = await DatabaseContext.CompileJobs.Where(x => x.Job.Instance.Id == Instance.Id).OrderByDescending(x => x.Job.StoppedAt).Select(x => new Api.Models.CompileJob
+			var compileJobs = await DatabaseContext.CompileJobs.Where(x => x.Job.Instance.Id == Instance.Id).OrderByDescending(x => x.Job.StoppedAt).Select(x => new EntityId
 			{
 				Id = x.Id
 			}).ToListAsync(cancellationToken).ConfigureAwait(false);
 			return Json(compileJobs);
 		}
 
+		/// <summary>
+		/// Begin deploying repository code.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="202">Created deployment <see cref="Api.Models.Job"/> successfully.</response>
 		[HttpPut]
 		[TgsAuthorize(DreamMakerRights.Compile)]
 		[ProducesResponseType(typeof(Api.Models.Job), 202)]
-		public async Task<IActionResult> Create([FromBody] DreamMaker model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Create(CancellationToken cancellationToken)
 		{
 			var job = new Models.Job
 			{
@@ -104,6 +130,14 @@ namespace Tgstation.Server.Host.Controllers
 			return Accepted(job.ToApi());
 		}
 
+		/// <summary>
+		/// Update deployment settings.
+		/// </summary>
+		/// <param name="model">The updated <see cref="DreamMaker"/> settings.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="200">Changes applied successfully. The updated <see cref="DreamMaker"/> settings will be returned based on user permissions.</response>
+		/// <response code="410">Instance no longer available.</response>
 		[HttpPost]
 		[TgsAuthorize(DreamMakerRights.SetDme | DreamMakerRights.SetApiValidationPort | DreamMakerRights.SetApiValidationPort)]
 		[ProducesResponseType(typeof(DreamMaker), 200)]

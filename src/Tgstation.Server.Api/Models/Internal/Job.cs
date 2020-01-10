@@ -7,13 +7,8 @@ namespace Tgstation.Server.Api.Models.Internal
 	/// <summary>
 	/// Represents a long running job
 	/// </summary>
-	public class Job
+	public class Job : EntityId
 	{
-		/// <summary>
-		/// The <see cref="Job"/> ID
-		/// </summary>
-		public long Id { get; set; }
-
 		/// <summary>
 		/// English description of the <see cref="Job"/>
 		/// </summary>

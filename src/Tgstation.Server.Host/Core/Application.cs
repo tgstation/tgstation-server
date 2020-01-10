@@ -274,6 +274,9 @@ namespace Tgstation.Server.Host.Core
 						Name = HeaderNames.Authorization,
 						Scheme = ApiHeaders.JwtAuthenticationScheme
 					});
+
+					var filePath = ioManager.ConcatPath(ioManager.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Tgstation.Server.Host.xml");
+					c.IncludeXmlComments(filePath);
 				});
 
 			// enable browser detection

@@ -57,6 +57,13 @@ namespace Tgstation.Server.Host.Controllers
 			Tag = api.Tag
 		};
 
+		/// <summary>
+		/// Create a new chat bot <paramref name="model"/>.
+		/// </summary>
+		/// <param name="model">The <see cref="Api.Models.ChatBot"/> to create.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <response code="201">Created chat bot successfully.</response>
 		[HttpPut]
 		[TgsAuthorize(ChatBotRights.Create)]
 		[ProducesResponseType(typeof(Api.Models.ChatBot), 201)]
@@ -86,7 +93,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (!model.ValidateProviderChannelTypes())
 				return BadRequest(new ErrorMessage { Message = "One or more of channels aren't formatted correctly for the given provider!" });
 
-			model.Enabled = model.Enabled ?? false;
+			model.Enabled ??= false;
 
 			// try to update das db first
 			var dbModel = new Models.ChatBot
@@ -130,7 +137,14 @@ namespace Tgstation.Server.Host.Controllers
 			return StatusCode((int)HttpStatusCode.Created, dbModel.ToApi());
 		}
 
-		[HttpDelete]
+		/// <summary>
+		/// Delete a <see cref="Api.Models.ChatBot"/>.
+		/// </summary>
+		/// <param name="id">The <see cref="Api.Models.Internal.ChatBot.Id"/> to delete.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <response code="200">Chat bot deleted or does not exist.</response>
+		[HttpDelete("{id}")]
 		[TgsAuthorize(ChatBotRights.Delete)]
 		[ProducesResponseType(200)]
 		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
@@ -141,6 +155,12 @@ namespace Tgstation.Server.Host.Controllers
 			return Ok();
 		}
 
+		/// <summary>
+		/// List <see cref="Api.Models.ChatBot"/>s.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <response code="200">Listed chat bots successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(ChatBotRights.Read)]
 		[ProducesResponseType(typeof(IEnumerable<Api.Models.ChatBot>), 200)]
@@ -159,6 +179,14 @@ namespace Tgstation.Server.Host.Controllers
 			return Json(results.Select(x => x.ToApi()));
 		}
 
+		/// <summary>
+		/// Get a specific <see cref="Api.Models.ChatBot"/>.
+		/// </summary>
+		/// <param name="id">The <see cref="Api.Models.Internal.ChatBot.Id"/> to retrieve.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <response code="200">Retrieved <see cref="Api.Models.ChatBot"/> successfully.</response>
+		/// <response code="410">Chat bot does not exist.</response>
 		[HttpGet("{id}")]
 		[TgsAuthorize(ChatBotRights.Read)]
 		[ProducesResponseType(typeof(Api.Models.ChatBot), 200)]
@@ -179,7 +207,14 @@ namespace Tgstation.Server.Host.Controllers
 			return Json(results.ToApi());
 		}
 
-		[HttpGet]
+		/// <summary>
+		/// Updates a chat bot <paramref name="model"/>.
+		/// </summary>
+		/// <param name="model">The <see cref="Api.Models.ChatBot"/> update to apply.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <response code="200">Update applied successfully. <see cref="Api.Models.ChatBot"/> may or may not be returned based on user permissions.</response>
+		[HttpPost]
 		[TgsAuthorize(ChatBotRights.WriteChannels | ChatBotRights.WriteConnectionString | ChatBotRights.WriteEnabled | ChatBotRights.WriteName | ChatBotRights.WriteProvider)]
 		[ProducesResponseType(200)]
 		[ProducesResponseType(typeof(Api.Models.ChatBot), 200)]

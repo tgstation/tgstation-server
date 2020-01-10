@@ -126,6 +126,14 @@ namespace Tgstation.Server.Host.Controllers
 			return needsDbUpdate;
 		}
 
+		/// <summary>
+		/// Begin cloning the repository if it doesn't exist.
+		/// </summary>
+		/// <param name="model">Initial <see cref="Repository"/> settings.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="201">The <see cref="Repository"/> was created successfully and the <see cref="Api.Models.Job"/> to clone it has begun.</response>
+		/// <response code="410">Instance no longer available.</response>
 		[HttpPut]
 		[TgsAuthorize(RepositoryRights.SetOrigin)]
 		[ProducesResponseType(typeof(Repository), 201)]
@@ -221,8 +229,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
 		/// <response code="202">Job to delete the repository created successfully.</response>
-		/// <response code="410">The repository is not present.</response>
-		[HttpDelete]
+		/// <response code="410">Instance no longer available.</response>
+		[HttpDelete("{id}")]
 		[TgsAuthorize(RepositoryRights.Delete)]
 		[ProducesResponseType(typeof(Repository), 202)]
 		[ProducesResponseType(410)]
@@ -252,6 +260,14 @@ namespace Tgstation.Server.Host.Controllers
 			return Accepted(api);
 		}
 
+		/// <summary>
+		/// Get <see cref="Repository"/> status.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <response code="200">Retrieved the <see cref="Repository"/> settings successfully.</response>
+		/// <response code="201">Retrieved the <see cref="Repository"/> settings successfully, though they did not previously exist.</response>
+		/// <response code="410">Instance no longer available.</response>
 		[HttpGet]
 		[TgsAuthorize(RepositoryRights.Read)]
 		[ProducesResponseType(typeof(Repository), 200)]
@@ -292,6 +308,15 @@ namespace Tgstation.Server.Host.Controllers
 			}
 		}
 
+		/// <summary>
+		/// Perform updats to the <see cref="Repository"/>.
+		/// </summary>
+		/// <param name="model">The updated <see cref="Repository"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <response code="200">Updated the <see cref="Repository"/> settings successfully.</response>
+		/// <response code="201">Updated the <see cref="Repository"/> settings successfully and a <see cref="Api.Models.Job"/> was created to make the requested git changes.</response>
+		/// <response code="410">Instance no longer available.</response>
 		[HttpPost]
 		[TgsAuthorize(RepositoryRights.ChangeAutoUpdateSettings | RepositoryRights.ChangeCommitter | RepositoryRights.ChangeCredentials | RepositoryRights.ChangeTestMergeCommits | RepositoryRights.MergePullRequest | RepositoryRights.SetReference | RepositoryRights.SetSha | RepositoryRights.UpdateBranch)]
 		[ProducesResponseType(typeof(Repository), 200)]

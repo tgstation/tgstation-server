@@ -49,11 +49,18 @@ namespace Tgstation.Server.Host.Controllers
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 		}
 
+		/// <summary>
+		/// Launches the watchdog.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <response code="202"><see cref="Api.Models.Job"/> to launch the watchdog started successfully.</response>
+		/// <response code="410">Watchdog already running.</response>
 		[HttpPut]
 		[TgsAuthorize(DreamDaemonRights.Start)]
 		[ProducesResponseType(typeof(Api.Models.Job), 202)]
 		[ProducesResponseType(410)]
-		public async Task<IActionResult> Create([FromBody] DreamDaemon model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Create(CancellationToken cancellationToken)
 		{
 			// alias for launching DD
 			var instance = instanceManager.GetInstance(Instance);
@@ -73,6 +80,12 @@ namespace Tgstation.Server.Host.Controllers
 			return Accepted(job.ToApi());
 		}
 
+		/// <summary>
+		/// Get the watchdog status.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <response code="202">Read <see cref="DreamDaemon"/> information successfully.</response>
 		[HttpGet]
 		[TgsAuthorize(DreamDaemonRights.ReadMetadata | DreamDaemonRights.ReadRevision)]
 		[ProducesResponseType(typeof(DreamDaemon), 200)]
@@ -132,12 +145,12 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Stops the Watchdog if it's running
+		/// Stops the Watchdog if it's running.
 		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200">Watchdog terminated.</response>
-		[HttpDelete]
+		[HttpDelete("{id}")]
 		[TgsAuthorize(DreamDaemonRights.Shutdown)]
 		[ProducesResponseType(200)]
 		public async Task<IActionResult> Delete(CancellationToken cancellationToken)
@@ -147,6 +160,14 @@ namespace Tgstation.Server.Host.Controllers
 			return Ok();
 		}
 
+		/// <summary>
+		/// Update watchdog settings to be applied at next server reboot.
+		/// </summary>
+		/// <param name="model">The updated <see cref="DreamDaemon"/> settings.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <response code="200">Settings applied successfully.</response>
+		/// <response code="410">Instance no longer available.</response>
 		[HttpPost]
 		[TgsAuthorize(DreamDaemonRights.SetAutoStart | DreamDaemonRights.SetPorts | DreamDaemonRights.SetSecurity | DreamDaemonRights.SetWebClient | DreamDaemonRights.SoftRestart | DreamDaemonRights.SoftShutdown | DreamDaemonRights.Start | DreamDaemonRights.SetStartupTimeout)]
 		[ProducesResponseType(typeof(DreamDaemon), 200)]
@@ -225,7 +246,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request</returns>
-		/// <response code="202">Job started successfully.</response>
+		/// <response code="202">Restart <see cref="Api.Models.Job"/> started successfully.</response>
 		[HttpPatch]
 		[TgsAuthorize(DreamDaemonRights.Restart)]
 		[ProducesResponseType(typeof(Api.Models.Job), 202)]

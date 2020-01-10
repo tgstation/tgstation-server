@@ -108,6 +108,14 @@ namespace Tgstation.Server.Host.Controllers
 			UserId = AuthenticationContext.User.Id
 		};
 
+		/// <summary>
+		/// Create or attach an <see cref="Api.Models.Instance"/>.
+		/// </summary>
+		/// <param name="model">The <see cref="Api.Models.Instance"/> settings.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="200">Instance attached successfully.</response>
+		/// <response code="201">Instance created successfully.</response>
 		[HttpPut]
 		[TgsAuthorize(InstanceManagerRights.Create)]
 		[ProducesResponseType(typeof(Api.Models.Instance), 200)]
@@ -216,7 +224,15 @@ namespace Tgstation.Server.Host.Controllers
 			return attached ? (IActionResult)Json(api) : StatusCode((int)HttpStatusCode.Created, api);
 		}
 
-		[HttpDelete]
+		/// <summary>
+		/// Detach an <see cref="Api.Models.Instance"/> with the given <paramref name="id"/>.
+		/// </summary>
+		/// <param name="id">The <see cref="Api.Models.Instance.Id"/> to detach.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="200">Instance detatched successfully.</response>
+		/// <response code="410">Instance not available.</response>
+		[HttpDelete("{id}")]
 		[TgsAuthorize(InstanceManagerRights.Delete)]
 		[ProducesResponseType(200)]
 		[ProducesResponseType(410)]
@@ -252,6 +268,14 @@ namespace Tgstation.Server.Host.Controllers
 			return Ok();
 		}
 
+		/// <summary>
+		/// Modify an <see cref="Api.Models.Instance"/>'s settings.
+		/// </summary>
+		/// <param name="model">The updated <see cref="Api.Models.Instance"/> settings.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="200">Instance updated successfully.</response>
+		/// <response code="202">Instance updated successfully and relocation job created.</response>
 		[HttpPost]
 		[TgsAuthorize(InstanceManagerRights.Relocate | InstanceManagerRights.Rename | InstanceManagerRights.SetAutoUpdate | InstanceManagerRights.SetConfiguration | InstanceManagerRights.SetOnline)]
 		[ProducesResponseType(typeof(Api.Models.Instance), 200)]
@@ -259,6 +283,9 @@ namespace Tgstation.Server.Host.Controllers
 #pragma warning disable CA1502 // TODO: Decomplexify
 		public async Task<IActionResult> Update([FromBody] Api.Models.Instance model, CancellationToken cancellationToken)
 		{
+			if (model == null)
+				throw new ArgumentNullException(nameof(model));
+
 			var instanceQuery = DatabaseContext.Instances.Where(x => x.Id == model.Id);
 
 			var moveJob = await instanceQuery
@@ -378,7 +405,9 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				Id = originalModel.Id
 			};
-			if (originalModelPath != null)
+
+			var moving = originalModelPath != null;
+			if (moving)
 			{
 				var job = new Models.Job
 				{
@@ -396,10 +425,16 @@ namespace Tgstation.Server.Host.Controllers
 			if (originalModel.Online.Value && model.AutoUpdateInterval.HasValue && oldAutoUpdateInterval != model.AutoUpdateInterval)
 				await instanceManager.GetInstance(originalModel).SetAutoUpdateInterval(model.AutoUpdateInterval.Value).ConfigureAwait(false);
 
-			return Json(api);
+			return moving ? (IActionResult)Accepted(api) : Json(api);
 		}
-		#pragma warning restore CA1502
+#pragma warning restore CA1502
 
+		/// <summary>
+		/// List <see cref="Api.Models.Instance"/>s.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="200">Retrieved <see cref="Api.Models.Instance"/>s successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(InstanceManagerRights.List | InstanceManagerRights.Read)]
 		[ProducesResponseType(typeof(IEnumerable<Api.Models.Instance>), 200)]
@@ -425,6 +460,14 @@ namespace Tgstation.Server.Host.Controllers
 			return Json(apis);
 		}
 
+		/// <summary>
+		/// Get a specific <see cref="Api.Models.Instance"/>.
+		/// </summary>
+		/// <param name="id">The <see cref="Api.Models.Instance.Id"/> to retrieve.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="200">Retrieved <see cref="Api.Models.Instance"/> successfully.</response>
+		/// <response code="410">Instance not available.</response>
 		[HttpGet("{id}")]
 		[TgsAuthorize(InstanceManagerRights.List | InstanceManagerRights.Read)]
 		[ProducesResponseType(typeof(Api.Models.Instance), 200)]

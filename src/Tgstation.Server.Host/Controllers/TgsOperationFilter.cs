@@ -90,8 +90,6 @@ namespace Tgstation.Server.Host.Controllers
 						}
 					}
 				};
-
-				operation.Tags = new List<OpenApiTag> { new OpenApiTag { Name = "_Login" } };
 			}
 
 			operation.Parameters.Add(new OpenApiParameter
