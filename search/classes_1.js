@@ -10,6 +10,7 @@ var searchData=
   ['byondcommand',['ByondCommand',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_byond_command.html',1,'Tgstation::Server::Host::Components::Chat::Commands']]],
   ['byondcontroller',['ByondController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_byond_controller.html',1,'Tgstation::Server::Host::Controllers']]],
   ['byondexecutablelock',['ByondExecutableLock',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_executable_lock.html',1,'Tgstation::Server::Host::Components::Byond']]],
+  ['byondinstallerbase',['ByondInstallerBase',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html',1,'Tgstation::Server::Host::Components::Byond']]],
   ['byondmanager',['ByondManager',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html',1,'Tgstation::Server::Host::Components::Byond']]],
   ['byondtest',['ByondTest',['../class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_byond_test.html',1,'Tgstation::Server::Tests::Instance']]]
 ];
