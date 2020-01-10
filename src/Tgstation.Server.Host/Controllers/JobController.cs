@@ -15,10 +15,10 @@ using Tgstation.Server.Host.Security;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// <see cref="ModelController{TModel}"/> for <see cref="Api.Models.Job"/>s
+	/// <see cref="ApiController"/> for <see cref="Api.Models.Job"/>s
 	/// </summary>
 	[Route(Routes.Jobs)]
-	public sealed class JobController : ModelController<Api.Models.Job>
+	public sealed class JobController : ApiController
 	{
 		/// <summary>
 		/// The <see cref="IJobManager"/> for the <see cref="JobController"/>
@@ -32,24 +32,24 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		public JobController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager, ILogger<JobController> logger) : base(databaseContext, authenticationContextFactory, logger, true)
+		public JobController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager, ILogger<JobController> logger) : base(databaseContext, authenticationContextFactory, logger, true, true)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 		}
 
-		/// <inheritdoc />
+		[HttpGet]
 		[TgsAuthorize]
 		[ProducesResponseType(typeof(IEnumerable<Api.Models.Job>), 200)]
-		public override async Task<IActionResult> Read(CancellationToken cancellationToken)
+		public async Task<IActionResult> Read(CancellationToken cancellationToken)
 		{
 			var result = await DatabaseContext.Jobs.Where(x => x.Instance.Id == Instance.Id && !x.StoppedAt.HasValue).OrderByDescending(x => x.StartedAt).ToListAsync(cancellationToken).ConfigureAwait(false);
 			return Json(result.Select(x => x.ToApi()));
 		}
 
-		/// <inheritdoc />
+		[HttpGet(Routes.List)]
 		[TgsAuthorize]
 		[ProducesResponseType(typeof(List<Api.Models.Job>), 200)]
-		public override async Task<IActionResult> List(CancellationToken cancellationToken)
+		public async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
 			// you KNOW this will need pagination eventually right?
 			var jobs = await DatabaseContext.Jobs.Where(x => x.Instance.Id == Instance.Id).OrderByDescending(x => x.StartedAt).Select(x => new Api.Models.Job
@@ -59,12 +59,12 @@ namespace Tgstation.Server.Host.Controllers
 			return Json(jobs);
 		}
 
-		/// <inheritdoc />
+		[HttpDelete]
 		[TgsAuthorize]
 		[ProducesResponseType(202)]
 		[ProducesResponseType(404)]
 		[ProducesResponseType(410)]
-		public override async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
+		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
 			// don't care if an instance post or not at this point
 			var job = await DatabaseContext.Jobs.Where(x => x.Id == id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
@@ -81,11 +81,11 @@ namespace Tgstation.Server.Host.Controllers
 			return cancelled ? (IActionResult)Accepted() : StatusCode((int)HttpStatusCode.Gone);
 		}
 
-		/// <inheritdoc />
+		[HttpGet("{id}")]
 		[TgsAuthorize]
 		[ProducesResponseType(404)]
 		[ProducesResponseType(typeof(Api.Models.Job), 200)]
-		public override async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
+		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			var job = await DatabaseContext.Jobs.Where(x => x.Id == id).Include(x => x.StartedBy).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (job == default(Job))

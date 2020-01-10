@@ -52,7 +52,7 @@ namespace Tgstation.Server.Client.Components
 		public Task<ConfigurationFile> CreateDirectory(ConfigurationFile directory, CancellationToken cancellationToken) => apiClient.Create<ConfigurationFile, ConfigurationFile>(Routes.Configuration, directory, instance.Id, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<ConfigurationFile>> List(string directory, CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<ConfigurationFile>>(Routes.List(Routes.Configuration) + SanitizeGetPath(directory), instance.Id, cancellationToken);
+		public Task<IReadOnlyList<ConfigurationFile>> List(string directory, CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<ConfigurationFile>>(Routes.ListRoute(Routes.Configuration) + SanitizeGetPath(directory), instance.Id, cancellationToken);
 
 		/// <inheritdoc />
 		public Task<ConfigurationFile> Read(ConfigurationFile file, CancellationToken cancellationToken)

@@ -17,10 +17,10 @@ using Tgstation.Server.Host.Security;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// The <see cref="ModelController{TModel}"/> for <see cref="ConfigurationFile"/>s
+	/// The <see cref="ApiController"/> for <see cref="ConfigurationFile"/>s
 	/// </summary>
 	[Route(Routes.Configuration)]
-	public sealed class ConfigurationController : ModelController<ConfigurationFile>
+	public sealed class ConfigurationController : ApiController
 	{
 		/// <summary>
 		/// The <see cref="IInstanceManager"/> for the <see cref="ConfigurationController"/>
@@ -40,7 +40,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		public ConfigurationController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, IIOManager ioManager, ILogger<ConfigurationController> logger) : base(databaseContext, authenticationContextFactory, logger, true)
+		public ConfigurationController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, IIOManager ioManager, ILogger<ConfigurationController> logger) : base(databaseContext, authenticationContextFactory, logger, true, true)
 		{
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
@@ -64,12 +64,12 @@ namespace Tgstation.Server.Host.Controllers
 			return false;
 		}
 
-		/// <inheritdoc />
+		[HttpPost]
 		[TgsAuthorize(ConfigurationRights.Write)]
 		[ProducesResponseType(typeof(ConfigurationFile), 200)]
 		[ProducesResponseType(typeof(ConfigurationFile), 201)]
 		[ProducesResponseType(501)]
-		public override async Task<IActionResult> Update([FromBody] ConfigurationFile model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Update([FromBody] ConfigurationFile model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
@@ -110,6 +110,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="filePath">The path of the file to get</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation</returns>
+		/// <response code="410">File not found on disk.</response>
+		/// <response code="501">POSIX system impersonation requested but not implemented.</response>
 		[HttpGet(Routes.File + "/{*filePath}")]
 		[TgsAuthorize(ConfigurationRights.Read)]
 		[ProducesResponseType(typeof(ConfigurationFile), 200)]
@@ -148,7 +150,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="directoryPath">The path of the directory to get</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation</returns>
-		[HttpGet("List/{*directoryPath}")]
+		/// <response code="410">Directory not found on disk.</response>
+		/// <response code="501">POSIX system impersonation requested but not implemented.</response>
+		[HttpGet(Routes.List + "/{*directoryPath}")]
 		[TgsAuthorize(ConfigurationRights.List)]
 		[ProducesResponseType(typeof(IReadOnlyList<ConfigurationFile>), 200)]
 		[ProducesResponseType(410)]
@@ -176,20 +180,20 @@ namespace Tgstation.Server.Host.Controllers
 			}
 		}
 
-		/// <inheritdoc />
+		[HttpGet(Routes.List)]
 		[TgsAuthorize(ConfigurationRights.List)]
 		[ProducesResponseType(typeof(IReadOnlyList<ConfigurationFile>), 200)]
 		[ProducesResponseType(410)]
 		[ProducesResponseType(501)]
-		public override Task<IActionResult> List(CancellationToken cancellationToken) => Directory(null, cancellationToken);
+		public Task<IActionResult> List(CancellationToken cancellationToken) => Directory(null, cancellationToken);
 
-		/// <inheritdoc />
+		[HttpPut]
 		[TgsAuthorize(ConfigurationRights.Write)]
 		[ProducesResponseType(typeof(ConfigurationFile), 200)]
 		[ProducesResponseType(typeof(ConfigurationFile), 201)]
 		[ProducesResponseType(410)]
 		[ProducesResponseType(501)]
-		public override async Task<IActionResult> Create([FromBody] ConfigurationFile model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Create([FromBody] ConfigurationFile model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
@@ -226,6 +230,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="directory">A <see cref="ConfigurationFile"/> representing the path to the directory to delete</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
+		/// <response code="200">Empty directory deleted successfully.</response>
+		/// <response code="501">POSIX system impersonation requested but not implemented.</response>
 		[HttpDelete]
 		[TgsAuthorize(ConfigurationRights.Delete)]
 		[ProducesResponseType(200)]

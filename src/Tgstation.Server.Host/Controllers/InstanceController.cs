@@ -23,11 +23,11 @@ using Tgstation.Server.Host.Security;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// Controller for managing <see cref="Components.Instance"/>s
+	/// <see cref="ApiController"/> for managing <see cref="Components.Instance"/>s
 	/// </summary>
 	[Route(Routes.InstanceManager)]
 	#pragma warning disable CA1506 // TODO: Decomplexify
-	public sealed class InstanceController : ModelController<Api.Models.Instance>
+	public sealed class InstanceController : ApiController
 	{
 		/// <summary>
 		/// File name to allow attaching instances
@@ -72,7 +72,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="application">The value of <see cref="application"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		public InstanceController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager, IInstanceManager instanceManager, IIOManager ioManager, IApplication application, IPlatformIdentifier platformIdentifier, ILogger<InstanceController> logger) : base(databaseContext, authenticationContextFactory, logger, false)
+		public InstanceController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager, IInstanceManager instanceManager, IIOManager ioManager, IApplication application, IPlatformIdentifier platformIdentifier, ILogger<InstanceController> logger) : base(databaseContext, authenticationContextFactory, logger, false, true)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
@@ -108,11 +108,11 @@ namespace Tgstation.Server.Host.Controllers
 			UserId = AuthenticationContext.User.Id
 		};
 
-		/// <inheritdoc />
+		[HttpPut]
 		[TgsAuthorize(InstanceManagerRights.Create)]
 		[ProducesResponseType(typeof(Api.Models.Instance), 200)]
 		[ProducesResponseType(typeof(Api.Models.Instance), 201)]
-		public override async Task<IActionResult> Create([FromBody] Api.Models.Instance model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Create([FromBody] Api.Models.Instance model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
@@ -216,11 +216,11 @@ namespace Tgstation.Server.Host.Controllers
 			return attached ? (IActionResult)Json(api) : StatusCode((int)HttpStatusCode.Created, api);
 		}
 
-		/// <inheritdoc />
+		[HttpDelete]
 		[TgsAuthorize(InstanceManagerRights.Delete)]
 		[ProducesResponseType(200)]
 		[ProducesResponseType(410)]
-		public override async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
+		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
 			var originalModel = await DatabaseContext.Instances.Where(x => x.Id == id)
 				.Include(x => x.WatchdogReattachInformation)
@@ -252,12 +252,12 @@ namespace Tgstation.Server.Host.Controllers
 			return Ok();
 		}
 
-		/// <inheritdoc />
+		[HttpPost]
 		[TgsAuthorize(InstanceManagerRights.Relocate | InstanceManagerRights.Rename | InstanceManagerRights.SetAutoUpdate | InstanceManagerRights.SetConfiguration | InstanceManagerRights.SetOnline)]
 		[ProducesResponseType(typeof(Api.Models.Instance), 200)]
 		[ProducesResponseType(410)]
 #pragma warning disable CA1502 // TODO: Decomplexify
-		public override async Task<IActionResult> Update([FromBody] Api.Models.Instance model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Update([FromBody] Api.Models.Instance model, CancellationToken cancellationToken)
 		{
 			var instanceQuery = DatabaseContext.Instances.Where(x => x.Id == model.Id);
 
@@ -400,10 +400,10 @@ namespace Tgstation.Server.Host.Controllers
 		}
 		#pragma warning restore CA1502
 
-		/// <inheritdoc />
+		[HttpGet(Routes.List)]
 		[TgsAuthorize(InstanceManagerRights.List | InstanceManagerRights.Read)]
 		[ProducesResponseType(typeof(IEnumerable<Api.Models.Instance>), 200)]
-		public override async Task<IActionResult> List(CancellationToken cancellationToken)
+		public async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
 			IQueryable<Models.Instance> query = DatabaseContext.Instances;
 			if (!AuthenticationContext.User.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List))
@@ -425,11 +425,11 @@ namespace Tgstation.Server.Host.Controllers
 			return Json(apis);
 		}
 
-		/// <inheritdoc />
+		[HttpGet("{id}")]
 		[TgsAuthorize(InstanceManagerRights.List | InstanceManagerRights.Read)]
 		[ProducesResponseType(typeof(Api.Models.Instance), 200)]
 		[ProducesResponseType(410)]
-		public override async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
+		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			var query = DatabaseContext.Instances.Where(x => x.Id == id);
 			var cantList = !AuthenticationContext.User.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List);

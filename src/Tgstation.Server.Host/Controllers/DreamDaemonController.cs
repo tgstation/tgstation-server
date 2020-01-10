@@ -20,10 +20,10 @@ using Tgstation.Server.Host.Security;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// <see cref="ModelController{TModel}"/> for managing the <see cref="DreamDaemon"/>
+	/// <see cref="ApiController"/> for managing the <see cref="DreamDaemon"/>
 	/// </summary>
 	[Route(Routes.DreamDaemon)]
-	public sealed class DreamDaemonController : ModelController<DreamDaemon>
+	public sealed class DreamDaemonController : ApiController
 	{
 		/// <summary>
 		/// The <see cref="IJobManager"/> for the <see cref="DreamMakerController"/>
@@ -43,17 +43,17 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		public DreamDaemonController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager, IInstanceManager instanceManager, ILogger<DreamDaemonController> logger) : base(databaseContext, authenticationContextFactory, logger, true)
+		public DreamDaemonController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager, IInstanceManager instanceManager, ILogger<DreamDaemonController> logger) : base(databaseContext, authenticationContextFactory, logger, true, true)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 		}
 
-		/// <inheritdoc />
+		[HttpPut]
 		[TgsAuthorize(DreamDaemonRights.Start)]
 		[ProducesResponseType(typeof(Api.Models.Job), 202)]
 		[ProducesResponseType(410)]
-		public override async Task<IActionResult> Create([FromBody] DreamDaemon model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Create([FromBody] DreamDaemon model, CancellationToken cancellationToken)
 		{
 			// alias for launching DD
 			var instance = instanceManager.GetInstance(Instance);
@@ -73,11 +73,11 @@ namespace Tgstation.Server.Host.Controllers
 			return Accepted(job.ToApi());
 		}
 
-		/// <inheritdoc />
+		[HttpGet]
 		[TgsAuthorize(DreamDaemonRights.ReadMetadata | DreamDaemonRights.ReadRevision)]
 		[ProducesResponseType(typeof(DreamDaemon), 200)]
 		[ProducesResponseType(410)]
-		public override Task<IActionResult> Read(CancellationToken cancellationToken) => ReadImpl(null, cancellationToken);
+		public Task<IActionResult> Read(CancellationToken cancellationToken) => ReadImpl(null, cancellationToken);
 
 		/// <summary>
 		/// Implementation of <see cref="Read(CancellationToken)"/>
@@ -132,10 +132,11 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Stops DreamDaemon if it's running
+		/// Stops the Watchdog if it's running
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
+		/// <response code="200">Watchdog terminated.</response>
 		[HttpDelete]
 		[TgsAuthorize(DreamDaemonRights.Shutdown)]
 		[ProducesResponseType(200)]
@@ -146,12 +147,12 @@ namespace Tgstation.Server.Host.Controllers
 			return Ok();
 		}
 
-		/// <inheritdoc />
-		#pragma warning disable CA1506 // TODO: Decomplexify
+		[HttpPost]
 		[TgsAuthorize(DreamDaemonRights.SetAutoStart | DreamDaemonRights.SetPorts | DreamDaemonRights.SetSecurity | DreamDaemonRights.SetWebClient | DreamDaemonRights.SoftRestart | DreamDaemonRights.SoftShutdown | DreamDaemonRights.Start | DreamDaemonRights.SetStartupTimeout)]
 		[ProducesResponseType(typeof(DreamDaemon), 200)]
 		[ProducesResponseType(410)]
-		public override async Task<IActionResult> Update([FromBody] DreamDaemon model, CancellationToken cancellationToken)
+		#pragma warning disable CA1506 // TODO: Decomplexify
+		public async Task<IActionResult> Update([FromBody] DreamDaemon model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
@@ -220,10 +221,11 @@ namespace Tgstation.Server.Host.Controllers
 		#pragma warning restore CA1506
 
 		/// <summary>
-		/// Handle a HTTP PATCH to the <see cref="DreamDaemonController"/>
+		/// Creates a <see cref="Api.Models.Job"/> to restart the Watchdog. It will start if it wasn't already running.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request</returns>
+		/// <response code="202">Job started successfully.</response>
 		[HttpPatch]
 		[TgsAuthorize(DreamDaemonRights.Restart)]
 		[ProducesResponseType(typeof(Api.Models.Job), 202)]

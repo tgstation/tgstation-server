@@ -31,7 +31,7 @@ namespace Tgstation.Server.Client
 		public Task<User> GetId(User user, CancellationToken cancellationToken) => apiClient.Read<User>(Routes.SetID(Routes.User, user?.Id ?? throw new ArgumentNullException(nameof(user))), cancellationToken);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<User>> List(CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<User>>(Routes.List(Routes.User), cancellationToken);
+		public Task<IReadOnlyList<User>> List(CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<User>>(Routes.ListRoute(Routes.User), cancellationToken);
 
 		/// <inheritdoc />
 		public Task<User> Read(CancellationToken cancellationToken) => apiClient.Read<User>(Routes.User, cancellationToken);

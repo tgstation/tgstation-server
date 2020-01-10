@@ -22,10 +22,10 @@ using Tgstation.Server.Host.Security;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// <see cref="ModelController{TModel}"/> for <see cref="Administration"/>
+	/// <see cref="ApiController"/> for <see cref="Administration"/> purposes
 	/// </summary>
 	[Route(Routes.Administration)]
-	public sealed class AdministrationController : ModelController<Administration>
+	public sealed class AdministrationController : ApiController
 	{
 		const string RestartNotSupportedException = "This deployment of tgstation-server is lacking the Tgstation.Server.Host.Watchdog component. Restarts and version changes cannot be completed!";
 
@@ -79,7 +79,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
 		/// <param name="updatesConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="updatesConfiguration"/></param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="generalConfiguration"/></param>
-		public AdministrationController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IGitHubClientFactory gitHubClientFactory, IServerControl serverUpdater, IApplication application, IIOManager ioManager, IPlatformIdentifier platformIdentifier, ILogger<AdministrationController> logger, IOptions<UpdatesConfiguration> updatesConfigurationOptions, IOptions<GeneralConfiguration> generalConfigurationOptions) : base(databaseContext, authenticationContextFactory, logger, false)
+		public AdministrationController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IGitHubClientFactory gitHubClientFactory, IServerControl serverUpdater, IApplication application, IIOManager ioManager, IPlatformIdentifier platformIdentifier, ILogger<AdministrationController> logger, IOptions<UpdatesConfiguration> updatesConfigurationOptions, IOptions<GeneralConfiguration> generalConfigurationOptions) : base(databaseContext, authenticationContextFactory, logger, false, true)
 		{
 			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 			this.serverUpdater = serverUpdater ?? throw new ArgumentNullException(nameof(serverUpdater));
@@ -152,12 +152,12 @@ namespace Tgstation.Server.Host.Controllers
 
 		IGitHubClient GetGitHubClient() => String.IsNullOrEmpty(generalConfiguration.GitHubAccessToken) ? gitHubClientFactory.CreateClient() : gitHubClientFactory.CreateClient(generalConfiguration.GitHubAccessToken);
 
-		/// <inheritdoc />
+		[HttpGet]
 		[TgsAuthorize]
 		[ProducesResponseType(typeof(Administration), 200)]
 		[ProducesResponseType(424)]
 		[ProducesResponseType(429)]
-		public override async Task<IActionResult> Read(CancellationToken cancellationToken)
+		public async Task<IActionResult> Read(CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -199,10 +199,10 @@ namespace Tgstation.Server.Host.Controllers
 			}
 		}
 
-		/// <inheritdoc />
+		[HttpPost]
 		[TgsAuthorize(AdministrationRights.ChangeVersion)]
 		[ProducesResponseType(typeof(ErrorMessage), 422)]
-		public override async Task<IActionResult> Update([FromBody] Administration model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Update([FromBody] Administration model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));

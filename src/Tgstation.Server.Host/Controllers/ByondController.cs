@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// Controller for managing <see cref="Api.Models.Byond.Version"/>s
 	/// </summary>
 	[Route(Routes.Byond)]
-	public sealed class ByondController : ModelController<Api.Models.Byond>
+	public sealed class ByondController : ApiController
 	{
 		/// <summary>
 		/// The <see cref="IInstanceManager"/> for the <see cref="ByondController"/>
@@ -40,35 +40,35 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		public ByondController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, IJobManager jobManager, ILogger<ByondController> logger) : base(databaseContext, authenticationContextFactory, logger, true)
+		public ByondController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, IJobManager jobManager, ILogger<ByondController> logger) : base(databaseContext, authenticationContextFactory, logger, true, true)
 		{
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 		}
 
-		/// <inheritdoc />
+		[HttpGet]
 		[TgsAuthorize(ByondRights.ReadActive)]
 		[ProducesResponseType(typeof(Api.Models.Byond), 200)]
-		public override Task<IActionResult> Read(CancellationToken cancellationToken) => Task.FromResult<IActionResult>(
+		public Task<IActionResult> Read(CancellationToken cancellationToken) => Task.FromResult<IActionResult>(
 			Json(new Api.Models.Byond
 			{
 				Version = instanceManager.GetInstance(Instance).ByondManager.ActiveVersion
 			}));
 
-		/// <inheritdoc />
+		[HttpGet(Routes.List)]
 		[TgsAuthorize(ByondRights.ListInstalled)]
 		[ProducesResponseType(typeof(IEnumerable<Api.Models.Byond>), 200)]
-		public override Task<IActionResult> List(CancellationToken cancellationToken) => Task.FromResult<IActionResult>(
+		public Task<IActionResult> List(CancellationToken cancellationToken) => Task.FromResult<IActionResult>(
 			Json(instanceManager.GetInstance(Instance).ByondManager.InstalledVersions.Select(x => new Api.Models.Byond
 			{
 				Version = x
 			})));
 
-		/// <inheritdoc />
+		[HttpPost]
 		[TgsAuthorize(ByondRights.ChangeVersion)]
 		[ProducesResponseType(typeof(Api.Models.Byond), 200)]
 		[ProducesResponseType(typeof(Api.Models.Byond), 202)]
-		public override async Task<IActionResult> Update([FromBody] Api.Models.Byond model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Update([FromBody] Api.Models.Byond model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));

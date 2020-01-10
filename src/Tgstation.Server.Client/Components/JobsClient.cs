@@ -35,7 +35,7 @@ namespace Tgstation.Server.Client.Components
 		public Task Cancel(Job job, CancellationToken cancellationToken) => apiClient.Delete(Routes.SetID(Routes.Jobs, job?.Id ?? throw new ArgumentNullException(nameof(job))), instance.Id, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<Job>> List(CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<Job>>(Routes.List(Routes.Jobs), instance.Id, cancellationToken);
+		public Task<IReadOnlyList<Job>> List(CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<Job>>(Routes.ListRoute(Routes.Jobs), instance.Id, cancellationToken);
 
 		/// <inheritdoc />
 		public Task<IReadOnlyList<Job>> ListActive(CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<Job>>(Routes.Jobs, instance.Id, cancellationToken);

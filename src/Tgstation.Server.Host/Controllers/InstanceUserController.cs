@@ -17,10 +17,10 @@ using Z.EntityFramework.Plus;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// For managing <see cref="User"/>s
+	/// <see cref="ApiController"/> for managing <see cref="InstanceUser"/>s.
 	/// </summary>
 	[Route(Routes.InstanceUser)]
-	public sealed class InstanceUserController : ModelController<Api.Models.InstanceUser>
+	public sealed class InstanceUserController : ApiController
 	{
 		/// <summary>
 		/// Construct a <see cref="UserController"/>
@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		public InstanceUserController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ILogger<InstanceUserController> logger) : base(databaseContext, authenticationContextFactory, logger, true) // false instance requirement, we handle this ourself
+		public InstanceUserController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ILogger<InstanceUserController> logger) : base(databaseContext, authenticationContextFactory, logger, true, true)
 		{ }
 
 		/// <summary>
@@ -47,10 +47,10 @@ namespace Tgstation.Server.Host.Controllers
 			return null;
 		}
 
-		/// <inheritdoc />
+		[HttpPut]
 		[TgsAuthorize(InstanceUserRights.CreateUsers)]
 		[ProducesResponseType(typeof(Api.Models.InstanceUser), 201)]
-		public override async Task<IActionResult> Create([FromBody] Api.Models.InstanceUser model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Create([FromBody] Api.Models.InstanceUser model, CancellationToken cancellationToken)
 		{
 			var test = StandardModelChecks(model);
 			if (test != null)
@@ -75,12 +75,12 @@ namespace Tgstation.Server.Host.Controllers
 			return StatusCode((int)HttpStatusCode.Created, dbUser.ToApi());
 		}
 
-		/// <inheritdoc />
+		[HttpPost]
 		[TgsAuthorize(InstanceUserRights.WriteUsers)]
 		[ProducesResponseType(typeof(Api.Models.InstanceUser), 200)]
 		[ProducesResponseType(410)]
 		#pragma warning disable CA1506 // TODO: Decomplexify
-		public override async Task<IActionResult> Update([FromBody] Api.Models.InstanceUser model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Update([FromBody] Api.Models.InstanceUser model, CancellationToken cancellationToken)
 		{
 			var test = StandardModelChecks(model);
 			if (test != null)
@@ -106,26 +106,26 @@ namespace Tgstation.Server.Host.Controllers
 		}
 		#pragma warning restore CA1506
 
-		/// <inheritdoc />
+		[HttpGet]
 		[TgsAuthorize]
 		[ProducesResponseType(typeof(Api.Models.InstanceUser), 200)]
 		[ProducesResponseType(404)]
-		public override Task<IActionResult> Read(CancellationToken cancellationToken) => Task.FromResult(AuthenticationContext.InstanceUser != null ? (IActionResult)Json(AuthenticationContext.InstanceUser.ToApi()) : NotFound());
+		public Task<IActionResult> Read(CancellationToken cancellationToken) => Task.FromResult(AuthenticationContext.InstanceUser != null ? (IActionResult)Json(AuthenticationContext.InstanceUser.ToApi()) : NotFound());
 
-		/// <inheritdoc />
+		[HttpGet(Routes.List)]
 		[TgsAuthorize(InstanceUserRights.ReadUsers)]
 		[ProducesResponseType(typeof(IEnumerable<Api.Models.InstanceUser>), 200)]
-		public override async Task<IActionResult> List(CancellationToken cancellationToken)
+		public async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
 			var users = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).SelectMany(x => x.InstanceUsers).ToListAsync(cancellationToken).ConfigureAwait(false);
 			return Json(users.Select(x => x.ToApi()));
 		}
 
-		/// <inheritdoc />
+		[HttpGet("{id}")]
 		[TgsAuthorize(InstanceUserRights.ReadUsers)]
 		[ProducesResponseType(typeof(Api.Models.InstanceUser), 200)]
 		[ProducesResponseType(410)]
-		public override async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
+		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			// this functions as userId
 			var user = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).SelectMany(x => x.InstanceUsers).Where(x => x.UserId == id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
@@ -134,10 +134,10 @@ namespace Tgstation.Server.Host.Controllers
 			return Json(user.ToApi());
 		}
 
-		/// <inheritdoc />
+		[HttpDelete]
 		[TgsAuthorize(InstanceUserRights.WriteUsers)]
 		[ProducesResponseType(200)]
-		public override async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
+		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
 			await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).SelectMany(x => x.InstanceUsers).Where(x => x.UserId == id).DeleteAsync(cancellationToken).ConfigureAwait(false);
 			return Ok();

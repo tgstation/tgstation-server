@@ -19,10 +19,10 @@ using Tgstation.Server.Host.Security;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// For managing <see cref="User"/>s
+	/// <see cref="ApiController"/> for managing <see cref="User"/>s.
 	/// </summary>
 	[Route(Routes.User)]
-	public sealed class UserController : ModelController<UserUpdate>
+	public sealed class UserController : ApiController
 	{
 		/// <summary>
 		/// The <see cref="ISystemIdentityFactory"/> for the <see cref="UserController"/>
@@ -53,7 +53,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/></param>
-		public UserController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ISystemIdentityFactory systemIdentityFactory, ICryptographySuite cryptographySuite, ILogger<UserController> logger, IOptions<GeneralConfiguration> generalConfigurationOptions) : base(databaseContext, authenticationContextFactory, logger, false)
+		public UserController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ISystemIdentityFactory systemIdentityFactory, ICryptographySuite cryptographySuite, ILogger<UserController> logger, IOptions<GeneralConfiguration> generalConfigurationOptions) : base(databaseContext, authenticationContextFactory, logger, false, true)
 		{
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
@@ -73,12 +73,12 @@ namespace Tgstation.Server.Host.Controllers
 			return null;
 		}
 
-		/// <inheritdoc />
+		[HttpPut]
 		[TgsAuthorize(AdministrationRights.WriteUsers)]
 		[ProducesResponseType(typeof(Api.Models.User), 201)]
 		[ProducesResponseType(410)]
 		[ProducesResponseType(501)]
-		public override async Task<IActionResult> Create([FromBody] UserUpdate model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Create([FromBody] UserUpdate model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
@@ -140,11 +140,11 @@ namespace Tgstation.Server.Host.Controllers
 			return StatusCode((int)HttpStatusCode.Created, dbUser.ToApi(true));
 		}
 
-		/// <inheritdoc />
+		[HttpPost]
 		[TgsAuthorize(AdministrationRights.WriteUsers | AdministrationRights.EditOwnPassword)]
 		[ProducesResponseType(typeof(Api.Models.User), 200)]
 		[ProducesResponseType(404)]
-		public override async Task<IActionResult> Update([FromBody] UserUpdate model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Update([FromBody] UserUpdate model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
@@ -190,15 +190,15 @@ namespace Tgstation.Server.Host.Controllers
 			});
 		}
 
-		/// <inheritdoc />
+		[HttpGet]
 		[TgsAuthorize]
 		[ProducesResponseType(typeof(Api.Models.User), 200)]
-		public override Task<IActionResult> Read(CancellationToken cancellationToken) => Task.FromResult<IActionResult>(Json(AuthenticationContext.User.ToApi(true)));
+		public Task<IActionResult> Read(CancellationToken cancellationToken) => Task.FromResult<IActionResult>(Json(AuthenticationContext.User.ToApi(true)));
 
-		/// <inheritdoc />
+		[HttpGet(Routes.List)]
 		[TgsAuthorize(AdministrationRights.ReadUsers)]
 		[ProducesResponseType(typeof(IEnumerable<Api.Models.User>), 200)]
-		public override async Task<IActionResult> List(CancellationToken cancellationToken)
+		public async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
 			var users = await DatabaseContext.Users
 				.Include(x => x.CreatedBy)
@@ -206,11 +206,11 @@ namespace Tgstation.Server.Host.Controllers
 			return Json(users.Select(x => x.ToApi(true)));
 		}
 
-		/// <inheritdoc />
+		[HttpGet("{id}")]
 		[TgsAuthorize]
 		[ProducesResponseType(typeof(Api.Models.User), 200)]
 		[ProducesResponseType(404)]
-		public override async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
+		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			if (id == AuthenticationContext.User.Id)
 				return await Read(cancellationToken).ConfigureAwait(false);

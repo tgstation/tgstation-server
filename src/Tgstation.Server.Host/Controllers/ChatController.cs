@@ -20,10 +20,10 @@ using Z.EntityFramework.Plus;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// <see cref="ModelController{TModel}"/> for managing <see cref="Api.Models.ChatBot"/>s
+	/// <see cref="ApiController"/> for managing <see cref="Api.Models.ChatBot"/>s
 	/// </summary>
 	[Route(Routes.Chat)]
-	public sealed class ChatController : ModelController<Api.Models.ChatBot>
+	public sealed class ChatController : ApiController
 	{
 		/// <summary>
 		/// The <see cref="IInstanceManager"/> for the <see cref="ChatController"/>
@@ -37,7 +37,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		public ChatController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, ILogger<ChatController> logger) : base(databaseContext, authenticationContextFactory, logger, true)
+		public ChatController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, ILogger<ChatController> logger) : base(databaseContext, authenticationContextFactory, logger, true, true)
 		{
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 		}
@@ -57,10 +57,10 @@ namespace Tgstation.Server.Host.Controllers
 			Tag = api.Tag
 		};
 
-		/// <inheritdoc />
+		[HttpPut]
 		[TgsAuthorize(ChatBotRights.Create)]
 		[ProducesResponseType(typeof(Api.Models.ChatBot), 201)]
-		public override async Task<IActionResult> Create([FromBody] Api.Models.ChatBot model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Create([FromBody] Api.Models.ChatBot model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
@@ -130,10 +130,10 @@ namespace Tgstation.Server.Host.Controllers
 			return StatusCode((int)HttpStatusCode.Created, dbModel.ToApi());
 		}
 
-		/// <inheritdoc />
+		[HttpDelete]
 		[TgsAuthorize(ChatBotRights.Delete)]
 		[ProducesResponseType(200)]
-		public override async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
+		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
 			var instance = instanceManager.GetInstance(Instance);
 			await Task.WhenAll(instance.Chat.DeleteConnection(id, cancellationToken), DatabaseContext.ChatBots.Where(x => x.Id == id).DeleteAsync(cancellationToken)).ConfigureAwait(false);
@@ -141,10 +141,10 @@ namespace Tgstation.Server.Host.Controllers
 			return Ok();
 		}
 
-		/// <inheritdoc />
+		[HttpGet(Routes.List)]
 		[TgsAuthorize(ChatBotRights.Read)]
 		[ProducesResponseType(typeof(IEnumerable<Api.Models.ChatBot>), 200)]
-		public override async Task<IActionResult> List(CancellationToken cancellationToken)
+		public async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
 			var query = DatabaseContext.ChatBots.Where(x => x.InstanceId == Instance.Id).Include(x => x.Channels);
 
@@ -159,11 +159,11 @@ namespace Tgstation.Server.Host.Controllers
 			return Json(results.Select(x => x.ToApi()));
 		}
 
-		/// <inheritdoc />
+		[HttpGet("{id}")]
 		[TgsAuthorize(ChatBotRights.Read)]
 		[ProducesResponseType(typeof(Api.Models.ChatBot), 200)]
 		[ProducesResponseType(410)]
-		public override async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
+		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			var query = DatabaseContext.ChatBots.Where(x => x.Id == id).Include(x => x.Channels);
 
@@ -179,12 +179,12 @@ namespace Tgstation.Server.Host.Controllers
 			return Json(results.ToApi());
 		}
 
-		/// <inheritdoc />
-		#pragma warning disable CA1506 // TODO: Decomplexify
+		[HttpGet]
 		[TgsAuthorize(ChatBotRights.WriteChannels | ChatBotRights.WriteConnectionString | ChatBotRights.WriteEnabled | ChatBotRights.WriteName | ChatBotRights.WriteProvider)]
 		[ProducesResponseType(200)]
 		[ProducesResponseType(typeof(Api.Models.ChatBot), 200)]
-		public override async Task<IActionResult> Update([FromBody] Api.Models.ChatBot model, CancellationToken cancellationToken)
+		#pragma warning disable CA1506 // TODO: Decomplexify
+		public async Task<IActionResult> Update([FromBody] Api.Models.ChatBot model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
