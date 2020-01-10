@@ -351,9 +351,12 @@ namespace Tgstation.Server.Host.Core
 				ChangeToken.OnChange(configuration.GetReloadToken, () => serverControl.Restart());
 
 			// setup the HTTP request pipeline
+			// Final point where we wrap exceptions in a 500 (ErrorMessage) response
+			applicationBuilder.UseServerErrorHandling();
 
 			// should anything after this throw an exception, catch it and display a detailed html page
-			applicationBuilder.UseDeveloperExceptionPage(); // it is not worth it to limit this, you should only ever get it if you're an authorized user
+			if(hostingEnvironment.IsDevelopment())
+				applicationBuilder.UseDeveloperExceptionPage(); // it is not worth it to limit this, you should only ever get it if you're an authorized user
 
 			// suppress OperationCancelledExceptions, they are just aborted HTTP requests
 			applicationBuilder.UseCancelledRequestSuppression();
