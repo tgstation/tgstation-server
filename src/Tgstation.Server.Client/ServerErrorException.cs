@@ -10,26 +10,17 @@ namespace Tgstation.Server.Client
 	public sealed class ServerErrorException : ClientException
 	{
 		/// <summary>
-		/// The raw HTML of the error
-		/// </summary>
-		public string Html { get; }
-
-		/// <summary>
 		/// Construct an <see cref="ServerErrorException"/>
 		/// </summary>
 		public ServerErrorException() { }
 
 		/// <summary>
-		/// Construct an <see cref="ServerErrorException"/> with <paramref name="html"/>
+		/// Construct an <see cref="ServerErrorException"/> with a given <paramref name="errorMessage"/>
 		/// </summary>
-		/// <param name="html">The raw HTML response of the <see cref="ServerErrorException"/></param>
-		public ServerErrorException(string html) : base(new ErrorMessage
+		/// <param name="errorMessage">The <see cref="ErrorMessage"/> for the <see cref="ClientException"/></param>
+		/// <param name="statusCode">The <see cref="HttpStatusCode"/> for the <see cref="ClientException"/></param>
+		public ServerErrorException(ErrorMessage errorMessage, HttpStatusCode statusCode) : base(errorMessage, statusCode)
 		{
-			Message = "An internal server error occurred!",
-			SeverApiVersion = null
-		}, HttpStatusCode.InternalServerError)
-		{
-			Html = html;
 		}
 
 		/// <summary>

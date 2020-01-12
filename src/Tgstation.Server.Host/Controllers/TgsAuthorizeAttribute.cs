@@ -12,6 +12,11 @@ namespace Tgstation.Server.Host.Controllers
 	sealed class TgsAuthorizeAttribute : AuthorizeAttribute
 	{
 		/// <summary>
+		/// Gets the <see cref="Api.Rights.RightsType"/> associated with the <see cref="TgsAuthorizeAttribute"/> if any.
+		/// </summary>
+		public RightsType? RightsType { get; }
+
+		/// <summary>
 		/// Construct a <see cref="TgsAuthorizeAttribute"/>
 		/// </summary>
 		public TgsAuthorizeAttribute() { }
@@ -23,6 +28,7 @@ namespace Tgstation.Server.Host.Controllers
 		public TgsAuthorizeAttribute(AdministrationRights requiredRights)
 		{
 			Roles = RightsHelper.RoleNames(requiredRights);
+			RightsType = Api.Rights.RightsType.Administration;
 		}
 
 		/// <summary>
@@ -32,6 +38,7 @@ namespace Tgstation.Server.Host.Controllers
 		public TgsAuthorizeAttribute(InstanceManagerRights requiredRights)
 		{
 			Roles = RightsHelper.RoleNames(requiredRights);
+			RightsType = Api.Rights.RightsType.InstanceManager;
 		}
 
 		/// <summary>
@@ -41,6 +48,7 @@ namespace Tgstation.Server.Host.Controllers
 		public TgsAuthorizeAttribute(RepositoryRights requiredRights)
 		{
 			Roles = RightsHelper.RoleNames(requiredRights);
+			RightsType = Api.Rights.RightsType.Repository;
 		}
 
 		/// <summary>
@@ -50,6 +58,7 @@ namespace Tgstation.Server.Host.Controllers
 		public TgsAuthorizeAttribute(ByondRights requiredRights)
 		{
 			Roles = RightsHelper.RoleNames(requiredRights);
+			RightsType = Api.Rights.RightsType.Byond;
 		}
 
 		/// <summary>
@@ -59,6 +68,7 @@ namespace Tgstation.Server.Host.Controllers
 		public TgsAuthorizeAttribute(DreamMakerRights requiredRights)
 		{
 			Roles = RightsHelper.RoleNames(requiredRights);
+			RightsType = Api.Rights.RightsType.DreamMaker;
 		}
 
 		/// <summary>
@@ -68,6 +78,7 @@ namespace Tgstation.Server.Host.Controllers
 		public TgsAuthorizeAttribute(DreamDaemonRights requiredRights)
 		{
 			Roles = RightsHelper.RoleNames(requiredRights);
+			RightsType = Api.Rights.RightsType.DreamDaemon;
 		}
 
 		/// <summary>
@@ -77,6 +88,7 @@ namespace Tgstation.Server.Host.Controllers
 		public TgsAuthorizeAttribute(ChatBotRights requiredRights)
 		{
 			Roles = RightsHelper.RoleNames(requiredRights);
+			RightsType = Api.Rights.RightsType.ChatBots;
 		}
 
 		/// <summary>
@@ -86,6 +98,7 @@ namespace Tgstation.Server.Host.Controllers
 		public TgsAuthorizeAttribute(ConfigurationRights requiredRights)
 		{
 			Roles = RightsHelper.RoleNames(requiredRights);
+			RightsType = Api.Rights.RightsType.Configuration;
 		}
 
 		/// <summary>
@@ -95,6 +108,7 @@ namespace Tgstation.Server.Host.Controllers
 		public TgsAuthorizeAttribute(InstanceUserRights requiredRights)
 		{
 			Roles = RightsHelper.RoleNames(requiredRights);
+			RightsType = Api.Rights.RightsType.InstanceUser;
 		}
 	}
 }

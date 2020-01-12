@@ -39,7 +39,7 @@ namespace Tgstation.Server.Client
 		public Task Detach(Instance instance, CancellationToken cancellationToken) => apiClient.Delete(Routes.SetID(Routes.InstanceManager, instance?.Id ?? throw new ArgumentNullException(nameof(instance))), cancellationToken);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<Instance>> List(CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<Instance>>(Routes.List(Routes.InstanceManager), cancellationToken);
+		public Task<IReadOnlyList<Instance>> List(CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<Instance>>(Routes.ListRoute(Routes.InstanceManager), cancellationToken);
 
 		/// <inheritdoc />
 		public Task<Instance> Update(Instance instance, CancellationToken cancellationToken) => apiClient.Update<Instance, Instance>(Routes.InstanceManager, instance ?? throw new ArgumentNullException(nameof(instance)), cancellationToken);

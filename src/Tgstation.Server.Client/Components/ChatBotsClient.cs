@@ -38,7 +38,7 @@ namespace Tgstation.Server.Client.Components
 		public Task Delete(ChatBot settings, CancellationToken cancellationToken) => apiClient.Delete(Routes.SetID(Routes.Chat, settings?.Id ?? throw new ArgumentNullException(nameof(settings))), instance.Id, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<ChatBot>> List(CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<ChatBot>>(Routes.List(Routes.Chat), instance.Id, cancellationToken);
+		public Task<IReadOnlyList<ChatBot>> List(CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<ChatBot>>(Routes.ListRoute(Routes.Chat), instance.Id, cancellationToken);
 
 		/// <inheritdoc />
 		public Task<ChatBot> Update(ChatBot settings, CancellationToken cancellationToken) => apiClient.Update<ChatBot, ChatBot>(Routes.Chat, settings ?? throw new ArgumentNullException(nameof(settings)), instance.Id, cancellationToken);

@@ -79,6 +79,11 @@ namespace Tgstation.Server.Api
 		public const string Jobs = Root + nameof(Models.Job);
 
 		/// <summary>
+		/// The postfix for list operations
+		/// </summary>
+		public const string List = "List";
+
+		/// <summary>
 		/// Apply an <paramref name="id"/> postfix to a <paramref name="route"/>
 		/// </summary>
 		/// <param name="route">The route</param>
@@ -91,6 +96,6 @@ namespace Tgstation.Server.Api
 		/// </summary>
 		/// <param name="route">The route</param>
 		/// <returns>The <paramref name="route"/> with /List appended</returns>
-		public static string List(string route) => String.Format(CultureInfo.InvariantCulture, "{0}/List", route);
+		public static string ListRoute(string route) => String.Format(CultureInfo.InvariantCulture, "{0}/{1}", route, List);
 	}
 }

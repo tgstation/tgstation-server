@@ -23,11 +23,11 @@ using Tgstation.Server.Host.Security;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// Controller for managing the <see cref="Repository"/>s
+	/// <see cref="ApiController"/> for managing the <see cref="Repository"/>s
 	/// </summary>
 	[Route(Routes.Repository)]
 	#pragma warning disable CA1506 // TODO: Decomplexify
-	public sealed class RepositoryController : ModelController<Repository>
+	public sealed class RepositoryController : ApiController
 	{
 		/// <summary>
 		/// The <see cref="IInstanceManager"/> for the <see cref="RepositoryController"/>
@@ -59,7 +59,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="generalConfiguration"/></param>
-		public RepositoryController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, IGitHubClientFactory gitHubClientFactory, IJobManager jobManager, ILogger<RepositoryController> logger, IOptions<GeneralConfiguration> generalConfigurationOptions) : base(databaseContext, authenticationContextFactory, logger, true)
+		public RepositoryController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, IGitHubClientFactory gitHubClientFactory, IJobManager jobManager, ILogger<RepositoryController> logger, IOptions<GeneralConfiguration> generalConfigurationOptions) : base(databaseContext, authenticationContextFactory, logger, true, true)
 		{
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
@@ -126,9 +126,19 @@ namespace Tgstation.Server.Host.Controllers
 			return needsDbUpdate;
 		}
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Begin cloning the repository if it doesn't exist.
+		/// </summary>
+		/// <param name="model">Initial <see cref="Repository"/> settings.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="201">The <see cref="Repository"/> was created successfully and the <see cref="Api.Models.Job"/> to clone it has begun.</response>
+		/// <response code="410">Instance no longer available.</response>
+		[HttpPut]
 		[TgsAuthorize(RepositoryRights.SetOrigin)]
-		public override async Task<IActionResult> Create([FromBody] Repository model, CancellationToken cancellationToken)
+		[ProducesResponseType(typeof(Repository), 201)]
+		[ProducesResponseType(410)]
+		public async Task<IActionResult> Create([FromBody] Repository model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
@@ -214,11 +224,16 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Delete the <see cref="Repository"/>
+		/// Delete the <see cref="Repository"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
+		/// <response code="202">Job to delete the repository created successfully.</response>
+		/// <response code="410">Instance no longer available.</response>
+		[HttpDelete("{id}")]
 		[TgsAuthorize(RepositoryRights.Delete)]
+		[ProducesResponseType(typeof(Repository), 202)]
+		[ProducesResponseType(410)]
 		public async Task<IActionResult> Delete(CancellationToken cancellationToken)
 		{
 			var currentModel = await DatabaseContext.RepositorySettings.Where(x => x.InstanceId == Instance.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
@@ -245,9 +260,20 @@ namespace Tgstation.Server.Host.Controllers
 			return Accepted(api);
 		}
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Get <see cref="Repository"/> status.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <response code="200">Retrieved the <see cref="Repository"/> settings successfully.</response>
+		/// <response code="201">Retrieved the <see cref="Repository"/> settings successfully, though they did not previously exist.</response>
+		/// <response code="410">Instance no longer available.</response>
+		[HttpGet]
 		[TgsAuthorize(RepositoryRights.Read)]
-		public override async Task<IActionResult> Read(CancellationToken cancellationToken)
+		[ProducesResponseType(typeof(Repository), 200)]
+		[ProducesResponseType(typeof(Repository), 201)]
+		[ProducesResponseType(410)]
+		public async Task<IActionResult> Read(CancellationToken cancellationToken)
 		{
 			var currentModel = await DatabaseContext.RepositorySettings.Where(x => x.InstanceId == Instance.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
@@ -273,7 +299,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				if (repo != null && await PopulateApi(api, repo, DatabaseContext, Instance, cancellationToken).ConfigureAwait(false))
 				{
-					// user may have fucked with the repo without telling us, do what we can
+					// user may have fucked with the repo manually, do what we can
 					await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 					return StatusCode((int)HttpStatusCode.Created, api);
 				}
@@ -282,11 +308,23 @@ namespace Tgstation.Server.Host.Controllers
 			}
 		}
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Perform updats to the <see cref="Repository"/>.
+		/// </summary>
+		/// <param name="model">The updated <see cref="Repository"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
+		/// <response code="200">Updated the <see cref="Repository"/> settings successfully.</response>
+		/// <response code="201">Updated the <see cref="Repository"/> settings successfully and a <see cref="Api.Models.Job"/> was created to make the requested git changes.</response>
+		/// <response code="410">Instance no longer available.</response>
+		[HttpPost]
 		[TgsAuthorize(RepositoryRights.ChangeAutoUpdateSettings | RepositoryRights.ChangeCommitter | RepositoryRights.ChangeCredentials | RepositoryRights.ChangeTestMergeCommits | RepositoryRights.MergePullRequest | RepositoryRights.SetReference | RepositoryRights.SetSha | RepositoryRights.UpdateBranch)]
+		[ProducesResponseType(typeof(Repository), 200)]
+		[ProducesResponseType(typeof(Repository), 202)]
+		[ProducesResponseType(410)]
 		#pragma warning disable CA1502 // TODO: Decomplexify
 		#pragma warning disable CA1505
-		public override async Task<IActionResult> Update([FromBody]Repository model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Update([FromBody]Repository model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));

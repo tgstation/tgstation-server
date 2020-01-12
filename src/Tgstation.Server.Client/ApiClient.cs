@@ -112,7 +112,11 @@ namespace Tgstation.Server.Client
 					throw new MethodNotSupportedException();
 				case HttpStatusCode.InternalServerError:
 					// response json is html
-					throw new ServerErrorException(json);
+					throw new ServerErrorException(errorMessage ?? new ErrorMessage
+					{
+						Message = "An internal server error occurred!",
+						SeverApiVersion = null
+					}, response.StatusCode);
 				case (HttpStatusCode)429:
 					// rate limited
 					response.Headers.TryGetValues("Retry-After", out var values);

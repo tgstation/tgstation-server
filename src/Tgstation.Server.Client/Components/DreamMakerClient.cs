@@ -35,10 +35,10 @@ namespace Tgstation.Server.Client.Components
 		public Task<Job> Compile(CancellationToken cancellationToken) => apiClient.Create<Job>(Routes.DreamMaker, instance.Id, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<CompileJob> GetCompileJob(CompileJob compileJob, CancellationToken cancellationToken) => apiClient.Read<CompileJob>(Routes.SetID(Routes.DreamMaker, compileJob?.Id ?? throw new ArgumentNullException(nameof(compileJob))), instance.Id, cancellationToken);
+		public Task<CompileJob> GetCompileJob(EntityId compileJob, CancellationToken cancellationToken) => apiClient.Read<CompileJob>(Routes.SetID(Routes.DreamMaker, compileJob?.Id ?? throw new ArgumentNullException(nameof(compileJob))), instance.Id, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<CompileJob>> GetJobIds(CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<CompileJob>>(Routes.List(Routes.DreamMaker), instance.Id, cancellationToken);
+		public Task<IReadOnlyList<EntityId>> GetJobIds(CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<EntityId>>(Routes.ListRoute(Routes.DreamMaker), instance.Id, cancellationToken);
 
 		/// <inheritdoc />
 		public Task<DreamMaker> Read(CancellationToken cancellationToken) => apiClient.Read<DreamMaker>(Routes.DreamMaker, instance.Id, cancellationToken);

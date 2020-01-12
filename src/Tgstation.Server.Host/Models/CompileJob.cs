@@ -13,7 +13,7 @@ namespace Tgstation.Server.Host.Models
 		public Job Job { get; set; }
 
 		/// <summary>
-		/// The <see cref="Api.Models.Internal.Job.Id"/> of <see cref="Job"/>
+		/// The <see cref="Api.Models.EntityId.Id"/> of <see cref="Job"/>
 		/// </summary>
 		public long JobId { get; set; }
 

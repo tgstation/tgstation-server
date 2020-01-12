@@ -31,6 +31,11 @@ namespace Tgstation.Server.Host
 		readonly IWebHostBuilder webHostBuilder;
 
 		/// <summary>
+		/// The <see cref="IIOManager"/> for the <see cref="Server"/>.
+		/// </summary>
+		readonly IIOManager ioManager;
+
+		/// <summary>
 		/// The <see cref="IRestartHandler"/>s to run when the <see cref="Server"/> restarts
 		/// </summary>
 		readonly List<IRestartHandler> restartHandlers;
@@ -69,10 +74,12 @@ namespace Tgstation.Server.Host
 		/// Construct a <see cref="Server"/>
 		/// </summary>
 		/// <param name="webHostBuilder">The value of <see cref="webHostBuilder"/></param>
+		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="updatePath">The value of <see cref="updatePath"/></param>
-		public Server(IWebHostBuilder webHostBuilder, string updatePath)
+		public Server(IWebHostBuilder webHostBuilder, IIOManager ioManager, string updatePath)
 		{
 			this.webHostBuilder = webHostBuilder ?? throw new ArgumentNullException(nameof(webHostBuilder));
+			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.updatePath = updatePath;
 
 			webHostBuilder.ConfigureServices(serviceCollection => serviceCollection.AddSingleton<IServerControl>(this));

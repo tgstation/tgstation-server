@@ -22,10 +22,10 @@ using Tgstation.Server.Host.Security;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// <see cref="ModelController{TModel}"/> for <see cref="Administration"/>
+	/// <see cref="ApiController"/> for <see cref="Administration"/> purposes
 	/// </summary>
 	[Route(Routes.Administration)]
-	public sealed class AdministrationController : ModelController<Administration>
+	public sealed class AdministrationController : ApiController
 	{
 		const string RestartNotSupportedException = "This deployment of tgstation-server is lacking the Tgstation.Server.Host.Watchdog component. Restarts and version changes cannot be completed!";
 
@@ -79,7 +79,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
 		/// <param name="updatesConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="updatesConfiguration"/></param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="generalConfiguration"/></param>
-		public AdministrationController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IGitHubClientFactory gitHubClientFactory, IServerControl serverUpdater, IApplication application, IIOManager ioManager, IPlatformIdentifier platformIdentifier, ILogger<AdministrationController> logger, IOptions<UpdatesConfiguration> updatesConfigurationOptions, IOptions<GeneralConfiguration> generalConfigurationOptions) : base(databaseContext, authenticationContextFactory, logger, false)
+		public AdministrationController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IGitHubClientFactory gitHubClientFactory, IServerControl serverUpdater, IApplication application, IIOManager ioManager, IPlatformIdentifier platformIdentifier, ILogger<AdministrationController> logger, IOptions<UpdatesConfiguration> updatesConfigurationOptions, IOptions<GeneralConfiguration> generalConfigurationOptions) : base(databaseContext, authenticationContextFactory, logger, false, true)
 		{
 			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 			this.serverUpdater = serverUpdater ?? throw new ArgumentNullException(nameof(serverUpdater));
@@ -152,9 +152,19 @@ namespace Tgstation.Server.Host.Controllers
 
 		IGitHubClient GetGitHubClient() => String.IsNullOrEmpty(generalConfiguration.GitHubAccessToken) ? gitHubClientFactory.CreateClient() : gitHubClientFactory.CreateClient(generalConfiguration.GitHubAccessToken);
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Get <see cref="Administration"/> server information.
+		/// </summary>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <response code="200">Retrieved <see cref="Administration"/> data successfully.</response>
+		/// <response code="424">The GitHub API rate limit was hit. See response header Retry-After.</response>
+		/// <response code="429">A GitHub API error occurred. See error message for details.</response>
+		[HttpGet]
 		[TgsAuthorize]
-		public override async Task<IActionResult> Read(CancellationToken cancellationToken)
+		[ProducesResponseType(typeof(Administration), 200)]
+		[ProducesResponseType(424)]
+		[ProducesResponseType(typeof(ErrorMessage), 429)]
+		public async Task<IActionResult> Read()
 		{
 			try
 			{
@@ -192,13 +202,24 @@ namespace Tgstation.Server.Host.Controllers
 			catch (ApiException e)
 			{
 				Logger.LogWarning(OctokitException, e);
-				return StatusCode((int)HttpStatusCode.FailedDependency);
+				return StatusCode((int)HttpStatusCode.FailedDependency, new ErrorMessage
+				{
+					Message = e.Message
+				});
 			}
 		}
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Attempt to perform a server upgrade.
+		/// </summary>
+		/// <param name="model">The model containing the <see cref="Administration.NewVersion"/> to update to.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <response code="422">Upgrade operations are unavailable due to the launch configuration of TGS.</response>
+		[HttpPost]
 		[TgsAuthorize(AdministrationRights.ChangeVersion)]
-		public override async Task<IActionResult> Update([FromBody] Administration model, CancellationToken cancellationToken)
+		[ProducesResponseType(typeof(ErrorMessage), 422)]
+		public async Task<IActionResult> Update([FromBody] Administration model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
@@ -222,8 +243,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// Attempts to restart the server
 		/// </summary>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request</returns>
-		[HttpDelete]
+		/// <response code="200">Restart begun successfully.</response>
+		/// <response code="422">Restart operations are unavailable due to the launch configuration of TGS.</response>
+		[HttpDelete("{id}")]
 		[TgsAuthorize(AdministrationRights.RestartHost)]
+		[ProducesResponseType(200)]
+		[ProducesResponseType(typeof(ErrorMessage), 422)]
 		public async Task<IActionResult> Delete()
 		{
 			try

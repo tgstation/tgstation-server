@@ -16,7 +16,7 @@ namespace Tgstation.Server.Host
 		/// The <see cref="IServerFactory"/> to use
 		/// </summary>
 #pragma warning disable SA1401 // Fields must be private
-		internal static IServerFactory ServerFactory = new ServerFactory();
+		internal static IServerFactory ServerFactory = Host.ServerFactory.CreateDefault();
 #pragma warning restore SA1401 // Fields must be private
 
 		/// <summary>

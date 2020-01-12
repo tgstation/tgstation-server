@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using System.IO;
-using System.Reflection;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Models.Migrations
 {
@@ -28,7 +28,9 @@ namespace Tgstation.Server.Host.Models.Migrations
 		public static IOptions<DatabaseConfiguration> GetDbContextOptions()
 		{
 			var builder = new ConfigurationBuilder();
-			builder.SetBasePath(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+			var assemblyInfoProvider = new AssemblyInformationProvider();
+			var ioManager = new DefaultIOManager();
+			builder.SetBasePath(ioManager.GetDirectoryName(assemblyInfoProvider.Path));
 			builder.AddJsonFile(RootJson);
 			builder.AddJsonFile(DevJson);
 			var configuration = builder.Build();
