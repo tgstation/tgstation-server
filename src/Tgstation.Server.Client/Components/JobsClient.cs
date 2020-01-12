@@ -41,6 +41,6 @@ namespace Tgstation.Server.Client.Components
 		public Task<IReadOnlyList<Job>> ListActive(CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<Job>>(Routes.Jobs, instance.Id, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<Job> GetId(Job job, CancellationToken cancellationToken) => apiClient.Read<Job>(Routes.SetID(Routes.Jobs, job?.Id ?? throw new ArgumentNullException(nameof(job))), instance.Id, cancellationToken);
+		public Task<Job> GetId(EntityId job, CancellationToken cancellationToken) => apiClient.Read<Job>(Routes.SetID(Routes.Jobs, job?.Id ?? throw new ArgumentNullException(nameof(job))), instance.Id, cancellationToken);
 	}
 }

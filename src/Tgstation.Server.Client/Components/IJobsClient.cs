@@ -27,10 +27,10 @@ namespace Tgstation.Server.Client.Components
 		/// <summary>
 		/// Get a <paramref name="job"/>
 		/// </summary>
-		/// <param name="job">The <see cref="Job"/> to get</param>
+		/// <param name="job">The <see cref="Job"/>'s <see cref="EntityId"/> to get</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="Job"/></returns>
-		Task<Job> GetId(Job job, CancellationToken cancellationToken);
+		Task<Job> GetId(EntityId job, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Cancels a <paramref name="job"/>
