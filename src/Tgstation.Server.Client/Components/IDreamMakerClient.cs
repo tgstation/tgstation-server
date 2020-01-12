@@ -33,11 +33,11 @@ namespace Tgstation.Server.Client.Components
 		Task<Job> Compile(CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Gets the <see cref="Api.Models.Internal.CompileJob.Id"/>s of all <see cref="CompileJob"/>s for the instance
+		/// Gets the <see cref="EntityId"/>s of all <see cref="CompileJob"/>s for the instance
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="IReadOnlyList{T}"/> of <see cref="CompileJob"/>s with only the <see cref="Api.Models.Internal.CompileJob.Id"/> field populated</returns>
-		Task<IReadOnlyList<CompileJob>> GetJobIds(CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="IReadOnlyList{T}"/> of <see cref="CompileJob"/> <see cref="EntityId"/>s.</returns>
+		Task<IReadOnlyList<EntityId>> GetJobIds(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Get a <paramref name="compileJob"/>
