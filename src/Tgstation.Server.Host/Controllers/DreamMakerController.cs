@@ -67,7 +67,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Get a <see cref="Api.Models.CompileJob"/> specified by a given <paramref name="id"/>.
 		/// </summary>
-		/// <param name="id">The <see cref="Api.Models.Internal.CompileJob.Id"/>.</param>
+		/// <param name="id">The <see cref="EntityId.Id"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200"><see cref="Api.Models.CompileJob"/> retrieved successfully.</response>
@@ -145,6 +145,9 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(410)]
 		public async Task<IActionResult> Update([FromBody] DreamMaker model, CancellationToken cancellationToken)
 		{
+			if (model == null)
+				throw new ArgumentNullException(nameof(model));
+
 			if (model.ApiValidationPort == 0)
 				return BadRequest(new ErrorMessage { Message = "API Validation port cannot be 0!" });
 
