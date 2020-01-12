@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['basicauthenticationscheme',['BasicAuthenticationScheme',['../class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6bbe0fc133b7dde5ef8a6f1c8f0feb18',1,'Tgstation::Server::Api::ApiHeaders']]],
   ['bdirectoryname',['BDirectoryName',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dream_maker.html#ac3719e69f1a57c2fa46f439678b17745',1,'Tgstation::Server::Host::Components::Compiler::DreamMaker']]],
   ['binpath',['BinPath',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#aa929f025399e35d5455574c2db72cd76',1,'Tgstation::Server::Host::Components::Byond::ByondManager']]],
   ['botmention',['BotMention',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a2724c59c69f5edcb6ccd6549a6ce71d6',1,'Tgstation::Server::Host::Components::Chat::Providers::IrcProvider']]],

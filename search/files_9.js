@@ -4,6 +4,7 @@ var searchData=
   ['iapiclient_2ecs',['IApiClient.cs',['../_i_api_client_8cs.html',1,'']]],
   ['iapiclientfactory_2ecs',['IApiClientFactory.cs',['../_i_api_client_factory_8cs.html',1,'']]],
   ['iapplication_2ecs',['IApplication.cs',['../_i_application_8cs.html',1,'']]],
+  ['iassemblyinformationprovider_2ecs',['IAssemblyInformationProvider.cs',['../_i_assembly_information_provider_8cs.html',1,'']]],
   ['iasyncdelayer_2ecs',['IAsyncDelayer.cs',['../_i_async_delayer_8cs.html',1,'']]],
   ['iauthenticationcontext_2ecs',['IAuthenticationContext.cs',['../_i_authentication_context_8cs.html',1,'']]],
   ['iauthenticationcontextfactory_2ecs',['IAuthenticationContextFactory.cs',['../_i_authentication_context_factory_8cs.html',1,'']]],

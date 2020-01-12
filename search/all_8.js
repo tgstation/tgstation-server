@@ -23,7 +23,6 @@ var searchData=
   ['homecontroller_2ecs',['HomeController.cs',['../_home_controller_8cs.html',1,'']]],
   ['hostingenvironment',['hostingEnvironment',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a74ea7b1dceba49fc08fa7793e35c6d2e',1,'Tgstation.Server.Host.Core.Application.hostingEnvironment()'],['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_setup_wizard.html#af5f22b3e5970434ac04c8ae5024fd0cd',1,'Tgstation.Server.Host.Core.SetupWizard.hostingEnvironment()']]],
   ['hostwrite',['HostWrite',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ab7bc96f211e450615be8669d10de2440a509b9f909831ef70e6c1ec59a3b340e9',1,'Tgstation::Server::Api::Models']]],
-  ['html',['Html',['../class_tgstation_1_1_server_1_1_client_1_1_server_error_exception.html#a8a826616016136ab87369a1a55e52bca',1,'Tgstation::Server::Client::ServerErrorException']]],
   ['httpclient',['HttpClient',['../class_tgstation_1_1_server_1_1_client_1_1_http_client.html',1,'Tgstation.Server.Client.HttpClient'],['../class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a22bc1751fcba63704d2d07a83fa5a857',1,'Tgstation.Server.Client.ApiClient.httpClient()'],['../class_tgstation_1_1_server_1_1_client_1_1_http_client.html#aba5a7cd3aaf62acbe8078cdb7d7da8e9',1,'Tgstation.Server.Client.HttpClient.httpClient()'],['../class_tgstation_1_1_server_1_1_client_1_1_http_client.html#ae30abd8d943980aeb8c192df877b7df8',1,'Tgstation.Server.Client.HttpClient.HttpClient()']]],
   ['httpclient_2ecs',['HttpClient.cs',['../_http_client_8cs.html',1,'']]]
 ];

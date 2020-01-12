@@ -68,7 +68,8 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#api_intro">Introduction</a></li>
+<ul><li class="level1"><a href="#api_swag">OpenAPI Spec</a></li>
+<li class="level1"><a href="#api_intro">Introduction</a></li>
 <li class="level1"><a href="#api_lib">Official Libraries</a><ul><li class="level2"><a href="#api_interp">Interpreting C# Models</a></li>
 </ul>
 </li>
@@ -96,7 +97,12 @@ $(function() {
 </li>
 </ul>
 </div>
-<div class="textblock"><h1><a class="anchor" id="api_intro"></a>
+<div class="textblock"><h1><a class="anchor" id="api_swag"></a>
+OpenAPI Spec</h1>
+<p>TGS4 has a, from code, generated OpenAPI 3.0 specification. It is much more authorative than these documents.</p>
+<p>The most up to date version should be found here: <a href="https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/swagger.json">https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/swagger.json</a></p>
+<p>You can use the API explorer SwaggerUI to interact with it: <a href="https://petstore.swagger.io">https://petstore.swagger.io</a></p>
+<h1><a class="anchor" id="api_intro"></a>
 Introduction</h1>
 <p>The TGS4 API is designed to be a fully realized RESTful service. Once hosted, follow the specified protocol for developing new clients or one off requests that provide full control over the server</p>
 <p>Routes and their usages are defined as follows</p>
@@ -235,7 +241,7 @@ Jobs</h2>
 <p>Note that the job representing instance move operations must be queried and cancelled differently than others. See the documentation of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#af06c3e84c2a288ca0bd6cddd172a568d">Tgstation.Server.Api.Models.Instance.MoveJob</a> for details</p>
 <p>To list all jobs in an Instance use the following request</p>
 <p>I GET "/Job/List" =&gt; Array of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Tgstation.Server.Api.Models.Job</a></p>
-<p>Note that the response for this request will only have the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#a2acfbcb2d53d94d45c49c1cc2bef75d6">Tgstation.Server.Api.Models.Job.Id</a> field populated</p>
+<p>Note that the response for this request will only have the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#a9546a5e0ce3494cf2c6300b80843c309">Tgstation.Server.Api.Models.Job.Id</a> field populated</p>
 <p>To get full details of <em>active</em> jobs use the following request:</p>
 <p>I GET "/Job" =&gt; Array of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Tgstation.Server.Api.Models.Job</a></p>
 <p>To get full details of a specific job use the following request:</p>

@@ -80,6 +80,8 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a3d3e0e75337caae55d0c102157f41b92"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_tests_1_1_test_server_factory.html#a3d3e0e75337caae55d0c102157f41b92">TestContructor</a> ()</td></tr>
+<tr class="separator:a3d3e0e75337caae55d0c102157f41b92"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1293756289f85e4d3c2dd36dfe67fe77"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_tests_1_1_test_server_factory.html#a1293756289f85e4d3c2dd36dfe67fe77">TestWorksWithoutUpdatePath</a> ()</td></tr>
 <tr class="separator:a1293756289f85e4d3c2dd36dfe67fe77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a85be5368f83fa74e0c0438955f93ad27"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_tests_1_1_test_server_factory.html#a85be5368f83fa74e0c0438955f93ad27">TestWorksWithUpdatePath</a> ()</td></tr>
@@ -88,8 +90,29 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_tests.html">Tests</a> for <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html">ServerFactory</a> </p>
 
-<p class="definition">Definition at line <a class="el" href="_test_server_factory_8cs_source.html#l00010">10</a> of file <a class="el" href="_test_server_factory_8cs_source.html">TestServerFactory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_test_server_factory_8cs_source.html#l00013">13</a> of file <a class="el" href="_test_server_factory_8cs_source.html">TestServerFactory.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a3d3e0e75337caae55d0c102157f41b92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d3e0e75337caae55d0c102157f41b92">&#9670;&nbsp;</a></span>TestContructor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Tgstation.Server.Host.Tests.TestServerFactory.TestContructor </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_test_server_factory_8cs_source.html#l00016">16</a> of file <a class="el" href="_test_server_factory_8cs_source.html">TestServerFactory.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        {</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            Assert.ThrowsException&lt;ArgumentNullException&gt;(() =&gt; <span class="keyword">new</span> ServerFactory(<span class="keyword">null</span>, <span class="keyword">null</span>));</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            <a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_assembly_information_provider.html">IAssemblyInformationProvider</a> assemblyInformationProvider = Mock.Of&lt;<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_assembly_information_provider.html">IAssemblyInformationProvider</a>&gt;();</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            Assert.ThrowsException&lt;ArgumentNullException&gt;(() =&gt; <span class="keyword">new</span> ServerFactory(assemblyInformationProvider, <span class="keyword">null</span>));</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            <a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html">IIOManager</a> ioManager = Mock.Of&lt;<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html">IIOManager</a>&gt;();</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            <span class="keyword">new</span> ServerFactory(assemblyInformationProvider, ioManager);</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        }</div><div class="ttc" id="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_assembly_information_provider_html"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_assembly_information_provider.html">Tgstation.Server.Host.Core.IAssemblyInformationProvider</a></div><div class="ttdoc">For retrieving the Assembly's location.</div><div class="ttdef"><b>Definition:</b> <a href="_i_assembly_information_provider_8cs_source.html#l00008">IAssemblyInformationProvider.cs:8</a></div></div>
+<div class="ttc" id="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html">Tgstation.Server.Host.IO.IIOManager</a></div><div class="ttdoc">Interface for using filesystems</div><div class="ttdef"><b>Definition:</b> <a href="_i_i_o_manager_8cs_source.html#l00011">IIOManager.cs:11</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
 <a id="a1293756289f85e4d3c2dd36dfe67fe77"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1293756289f85e4d3c2dd36dfe67fe77">&#9670;&nbsp;</a></span>TestWorksWithoutUpdatePath()</h2>
 
@@ -105,8 +128,10 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_test_server_factory_8cs_source.html#l00013">13</a> of file <a class="el" href="_test_server_factory_8cs_source.html">TestServerFactory.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        {</div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;            var factory = <span class="keyword">new</span> ServerFactory();</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            Assert.ThrowsException&lt;ArgumentNullException&gt;(() =&gt; factory.CreateServer(<span class="keyword">null</span>, <span class="keyword">null</span>));</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            factory.CreateServer(Array.Empty&lt;<span class="keywordtype">string</span>&gt;(), <span class="keyword">null</span>);</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="_test_server_factory_8cs_source.html#l00026">26</a> of file <a class="el" href="_test_server_factory_8cs_source.html">TestServerFactory.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        {</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            var factory = ServerFactory.CreateDefault();</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            Assert.ThrowsException&lt;ArgumentNullException&gt;(() =&gt; factory.CreateServer(<span class="keyword">null</span>, <span class="keyword">null</span>));</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            factory.CreateServer(Array.Empty&lt;<span class="keywordtype">string</span>&gt;(), <span class="keyword">null</span>);</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        }</div></div><!-- fragment -->
+<p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a17699df6d98a18e194a6496bdf106388">Tgstation.Server.Host.ServerFactory.CreateDefault()</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server_factory.html#a378688ff3642bb0b72b9224dacb24704">Tgstation.Server.Host.IServerFactory.CreateServer()</a>.</p>
+
 </div>
 </div>
 <a id="a85be5368f83fa74e0c0438955f93ad27"></a>
@@ -124,8 +149,10 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_test_server_factory_8cs_source.html#l00022">22</a> of file <a class="el" href="_test_server_factory_8cs_source.html">TestServerFactory.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        {</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            var factory = <span class="keyword">new</span> ServerFactory();</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            <span class="keyword">const</span> <span class="keywordtype">string</span> Path = <span class="stringliteral">&quot;/test&quot;</span>;</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            Assert.ThrowsException&lt;ArgumentNullException&gt;(() =&gt; factory.CreateServer(<span class="keyword">null</span>, <span class="keyword">null</span>));</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            Assert.ThrowsException&lt;ArgumentNullException&gt;(() =&gt; factory.CreateServer(<span class="keyword">null</span>, Path));</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            factory.CreateServer(Array.Empty&lt;<span class="keywordtype">string</span>&gt;(), Path);</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="_test_server_factory_8cs_source.html#l00035">35</a> of file <a class="el" href="_test_server_factory_8cs_source.html">TestServerFactory.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        {</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            var factory = ServerFactory.CreateDefault();</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            <span class="keyword">const</span> <span class="keywordtype">string</span> Path = <span class="stringliteral">&quot;/test&quot;</span>;</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            Assert.ThrowsException&lt;ArgumentNullException&gt;(() =&gt; factory.CreateServer(<span class="keyword">null</span>, <span class="keyword">null</span>));</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            Assert.ThrowsException&lt;ArgumentNullException&gt;(() =&gt; factory.CreateServer(<span class="keyword">null</span>, Path));</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            factory.CreateServer(Array.Empty&lt;<span class="keywordtype">string</span>&gt;(), Path);</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        }</div></div><!-- fragment -->
+<p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a17699df6d98a18e194a6496bdf106388">Tgstation.Server.Host.ServerFactory.CreateDefault()</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server_factory.html#a378688ff3642bb0b72b9224dacb24704">Tgstation.Server.Host.IServerFactory.CreateServer()</a>.</p>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>

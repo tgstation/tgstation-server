@@ -35,6 +35,7 @@ var searchData=
   ['testwatchdog_2ecs',['TestWatchdog.cs',['../_test_watchdog_8cs.html',1,'']]],
   ['testwatchdogfactory_2ecs',['TestWatchdogFactory.cs',['../_test_watchdog_factory_8cs.html',1,'']]],
   ['tgsauthorizeattribute_2ecs',['TgsAuthorizeAttribute.cs',['../_tgs_authorize_attribute_8cs.html',1,'']]],
+  ['tgsopenapifilters_2ecs',['TgsOpenApiFilters.cs',['../_tgs_open_api_filters_8cs.html',1,'']]],
   ['tgstation_2eserver_2eapi_2eassemblyinfo_2ecs',['Tgstation.Server.Api.AssemblyInfo.cs',['../_tgstation_8_server_8_api_8_assembly_info_8cs.html',1,'']]],
   ['tgstation_2eserver_2eapi_2etests_2eassemblyinfo_2ecs',['Tgstation.Server.Api.Tests.AssemblyInfo.cs',['../_tgstation_8_server_8_api_8_tests_8_assembly_info_8cs.html',1,'']]],
   ['tgstation_2eserver_2eapi_2etests_2eprogram_2ecs',['Tgstation.Server.Api.Tests.Program.cs',['../_tgstation_8_server_8_api_8_tests_8_program_8cs.html',1,'']]],

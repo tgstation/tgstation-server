@@ -17,6 +17,7 @@ var searchData=
   ['applicationbuilderextensions_2ecs',['ApplicationBuilderExtensions.cs',['../_application_builder_extensions_8cs.html',1,'']]],
   ['architecture_2edox',['Architecture.dox',['../_architecture_8dox.html',1,'']]],
   ['assemblyinfo_2ecs',['AssemblyInfo.cs',['../_tgstation_8_server_8_client_2_assembly_info_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_2_assembly_info_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_8_console_2_assembly_info_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_8_service_2_properties_2_assembly_info_8cs.html',1,'(Global Namespace)'],['../_tgstation_8_server_8_host_8_watchdog_2_assembly_info_8cs.html',1,'(Global Namespace)']]],
+  ['assemblyinformationprovider_2ecs',['AssemblyInformationProvider.cs',['../_assembly_information_provider_8cs.html',1,'']]],
   ['asyncdelayer_2ecs',['AsyncDelayer.cs',['../_async_delayer_8cs.html',1,'']]],
   ['authenticationcontext_2ecs',['AuthenticationContext.cs',['../_authentication_context_8cs.html',1,'']]],
   ['authenticationcontextfactory_2ecs',['AuthenticationContextFactory.cs',['../_authentication_context_factory_8cs.html',1,'']]]

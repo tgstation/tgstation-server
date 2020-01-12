@@ -6,6 +6,8 @@ var searchData=
   ['enabled',['Enabled',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot.html#a4d973efbcdc9eee5597989f2667c42b3',1,'Tgstation.Server.Api.Models.Internal.ChatBot.Enabled()'],['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user.html#a4a0a4bb6e68f049511123dbb5f1dc094',1,'Tgstation.Server.Api.Models.Internal.User.Enabled()']]],
   ['enqueuemessage',['EnqueueMessage',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac45c189505744c6f1012461193fca877',1,'Tgstation::Server::Host::Components::Chat::Providers::Provider']]],
   ['ensuredirectories',['EnsureDirectories',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a5a067086b7757d904b99cabe914a925c',1,'Tgstation::Server::Host::Components::StaticFiles::Configuration']]],
+  ['entityid',['EntityId',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html',1,'Tgstation::Server::Api::Models']]],
+  ['entityid_2ecs',['EntityId.cs',['../_entity_id_8cs.html',1,'']]],
   ['enumchildwindows',['EnumChildWindows',['../class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a6b4b37ca121784ecd63c477cc022415d',1,'Tgstation::Server::Host::NativeMethods']]],
   ['enumwindow',['EnumWindow',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_network_prompt_reaper.html#a8700ec33883a4fa21de33d9b980ddf31',1,'Tgstation::Server::Host::Components::Watchdog::WindowsNetworkPromptReaper']]],
   ['enumwindowproc',['EnumWindowProc',['../class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a865bfe43e7d4085326ccf40500eb4222',1,'Tgstation::Server::Host::NativeMethods']]],

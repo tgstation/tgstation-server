@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['cancelkeypress',['CancelKeyPress',['../interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#a850a82073bea75fd1c0011f92aa91191',1,'Tgstation::Server::Host::IO::IConsole']]],
   ['cancelled',['Cancelled',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#ab68caae8a7e5bd3bfd7764cab7b8773d',1,'Tgstation::Server::Api::Models::Internal::Job']]],
   ['cancelledby',['CancelledBy',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html#a377a43a2240e0da18868c1b67803a376',1,'Tgstation.Server.Api.Models.Job.CancelledBy()'],['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#a11070d5a55b77aa91f23403d17c4d224',1,'Tgstation.Server.Host.Models.Job.CancelledBy()']]],
   ['cancelright',['CancelRight',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#af210e7bef88bdc5ca203c8f0931c520a',1,'Tgstation::Server::Api::Models::Internal::Job']]],

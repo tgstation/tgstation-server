@@ -18,7 +18,7 @@ var searchData=
   ['testircconnectionstringbuilder',['TestIrcConnectionStringBuilder',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_tests_1_1_test_irc_connection_string_builder.html',1,'Tgstation::Server::Api::Models::Tests']]],
   ['testjobexception',['TestJobException',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_tests_1_1_test_job_exception.html',1,'Tgstation::Server::Host::Core::Tests']]],
   ['testjobhandler',['TestJobHandler',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_tests_1_1_test_job_handler.html',1,'Tgstation::Server::Host::Core::Tests']]],
-  ['testmerge',['TestMerge',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html',1,'Tgstation.Server.Host.Models.TestMerge'],['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_test_merge.html',1,'Tgstation.Server.Api.Models.Internal.TestMerge'],['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_test_merge.html',1,'Tgstation.Server.Host.Components.Interop.TestMerge'],['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge.html',1,'Tgstation.Server.Api.Models.TestMerge']]],
+  ['testmerge',['TestMerge',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_test_merge.html',1,'Tgstation.Server.Api.Models.Internal.TestMerge'],['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html',1,'Tgstation.Server.Host.Models.TestMerge'],['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge.html',1,'Tgstation.Server.Api.Models.TestMerge'],['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_test_merge.html',1,'Tgstation.Server.Host.Components.Interop.TestMerge']]],
   ['testmergebase',['TestMergeBase',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_test_merge_base.html',1,'Tgstation::Server::Api::Models::Internal']]],
   ['testmergeparameters',['TestMergeParameters',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html',1,'Tgstation::Server::Api::Models']]],
   ['testplatformidentifier',['TestPlatformIdentifier',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_tests_1_1_test_platform_identifier.html',1,'Tgstation::Server::Host::Core::Tests']]],
@@ -35,6 +35,7 @@ var searchData=
   ['testwatchdog',['TestWatchdog',['../class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_tests_1_1_test_watchdog.html',1,'Tgstation::Server::Host::Watchdog::Tests']]],
   ['testwatchdogfactory',['TestWatchdogFactory',['../class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_tests_1_1_test_watchdog_factory.html',1,'Tgstation::Server::Host::Watchdog::Tests']]],
   ['tgsauthorizeattribute',['TgsAuthorizeAttribute',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_tgs_authorize_attribute.html',1,'Tgstation::Server::Host::Controllers']]],
+  ['tgsopenapifilters',['TgsOpenApiFilters',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_tgs_open_api_filters.html',1,'Tgstation::Server::Host::Controllers']]],
   ['token',['Token',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_token.html',1,'Tgstation::Server::Api::Models']]],
   ['tokenfactory',['TokenFactory',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html',1,'Tgstation::Server::Host::Security']]]
 ];
