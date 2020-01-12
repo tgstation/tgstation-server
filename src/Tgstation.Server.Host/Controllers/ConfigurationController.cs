@@ -256,7 +256,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
 		/// <response code="200">Empty directory deleted successfully.</response>
 		/// <response code="501">POSIX system impersonation requested but not implemented.</response>
-		[HttpDelete("{id}")]
+		[HttpDelete]
 		[TgsAuthorize(ConfigurationRights.Delete)]
 		[ProducesResponseType(200)]
 		[ProducesResponseType(501)]
