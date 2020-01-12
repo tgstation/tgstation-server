@@ -6,10 +6,49 @@ using System.Threading.Tasks;
 namespace Tgstation.Server.Host.IO
 {
 	/// <inheritdoc />
-	sealed class Console : IConsole
+	sealed class Console : IConsole, IDisposable
 	{
 		/// <inheritdoc />
 		public bool Available => Environment.UserInteractive;
+
+		/// <inheritdoc />
+		public CancellationToken CancelKeyPress => cancelKeyCts.Token;
+
+		/// <summary>
+		/// The <see cref="CancellationTokenSource"/> for <see cref="CancelKeyPress"/>.
+		/// </summary>
+		readonly CancellationTokenSource cancelKeyCts;
+
+		/// <summary>
+		/// If the <see cref="Console"/> was disposed;
+		/// </summary>
+		bool disposed;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Console"/> <see langword="class"/>.
+		/// </summary>
+		public Console()
+		{
+			cancelKeyCts = new CancellationTokenSource();
+			System.Console.CancelKeyPress += (sender, e) =>
+			{
+				lock (cancelKeyCts)
+				{
+					if (!disposed)
+						cancelKeyCts.Cancel();
+				}
+			};
+		}
+
+		/// <inheritdoc />
+		public void Dispose()
+		{
+			lock (cancelKeyCts)
+			{
+				cancelKeyCts.Dispose();
+				disposed = true;
+			}
+		}
 
 		void CheckAvailable()
 		{
