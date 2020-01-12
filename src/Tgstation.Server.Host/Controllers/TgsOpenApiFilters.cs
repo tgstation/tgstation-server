@@ -27,20 +27,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		public const string TokenSecuritySchemeId = "Token_Authorization_Scheme";
 
-		const string InstanceIdParameterId = "Instance_ID_Parameter";
-		const string ApiVersionParameterId = "Api_Version_Parameter";
-		const string UserAgentParameterId = "User_Agent_Parameter";
-
-		readonly ICollection<OpenApiOperation> operationsToAddInstanceIdReferenceTo;
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="TgsOpenApiFilters"/> <see langword="class"/>.
-		/// </summary>
-		public TgsOpenApiFilters()
-		{
-			operationsToAddInstanceIdReferenceTo = new List<OpenApiOperation>();
-		}
-
 		/// <inheritdoc />
 		public void Apply(OpenApiOperation operation, OperationFilterContext context)
 		{
@@ -125,8 +111,6 @@ namespace Tgstation.Server.Host.Controllers
 				Required = true,
 				Style = ParameterStyle.Simple
 			});
-
-			operationsToAddInstanceIdReferenceTo.Clear();
 
 			swaggerDoc.Components.Headers.Add(ApiHeaders.ApiVersionHeader, new OpenApiHeader
 			{
