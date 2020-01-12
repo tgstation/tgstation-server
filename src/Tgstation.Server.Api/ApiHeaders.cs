@@ -274,7 +274,7 @@ namespace Tgstation.Server.Api
 
 			headers.UserAgent.Add(new ProductInfoHeaderValue(UserAgent));
 			headers.Add(ApiVersionHeader, new ProductHeaderValue(AssemblyName.Name, ApiVersion.ToString()).ToString());
-			instanceId ??= InstanceId;
+			instanceId = instanceId ?? InstanceId;
 			if (instanceId.HasValue)
 				headers.Add(InstanceIdHeader, instanceId.ToString());
 		}
