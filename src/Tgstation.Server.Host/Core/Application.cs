@@ -256,9 +256,16 @@ namespace Tgstation.Server.Host.Core
 							Version = "v4"
 						});
 
-					c.OperationFilter<TgsOperationFilter>();
+					// Important to do this before applying our own filters
+					// Otherwise we'll get NullReferenceExceptions on parameters to be setup in our document filter
+					var assemblyLocation = Assembly.GetExecutingAssembly().Location;
+					var filePath = ioManager.ConcatPath(ioManager.GetDirectoryName(assemblyLocation), String.Concat(ioManager.GetFileNameWithoutExtension(assemblyLocation), ".xml"));
+					c.IncludeXmlComments(filePath);
 
-					c.AddSecurityDefinition(TgsOperationFilter.PasswordSecuritySchemeId, new OpenApiSecurityScheme
+					c.OperationFilter<TgsOpenApiFilters>();
+					c.DocumentFilter<TgsOpenApiFilters>();
+
+					c.AddSecurityDefinition(TgsOpenApiFilters.PasswordSecuritySchemeId, new OpenApiSecurityScheme
 					{
 						In = ParameterLocation.Header,
 						Type = SecuritySchemeType.Http,
@@ -266,7 +273,7 @@ namespace Tgstation.Server.Host.Core
 						Scheme = ApiHeaders.BasicAuthenticationScheme
 					});
 
-					c.AddSecurityDefinition(TgsOperationFilter.TokenSecuritySchemeId, new OpenApiSecurityScheme
+					c.AddSecurityDefinition(TgsOpenApiFilters.TokenSecuritySchemeId, new OpenApiSecurityScheme
 					{
 						BearerFormat = "JWT",
 						In = ParameterLocation.Header,
@@ -274,9 +281,6 @@ namespace Tgstation.Server.Host.Core
 						Name = HeaderNames.Authorization,
 						Scheme = ApiHeaders.JwtAuthenticationScheme
 					});
-
-					var filePath = ioManager.ConcatPath(ioManager.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Tgstation.Server.Host.xml");
-					c.IncludeXmlComments(filePath);
 				});
 
 			// enable browser detection
