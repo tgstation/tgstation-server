@@ -73,6 +73,20 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
+		/// Attempt to change the password of a given <paramref name="dbUser"/>.
+		/// </summary>
+		/// <param name="dbUser">The <see cref="Models.User"/> to update.</param>
+		/// <param name="newPassword">The new password.</param>
+		/// <returns><see langword="null"/> on success, <see cref="BadRequestObjectResult"/> if <paramref name="newPassword"/> is too short.</returns>
+		BadRequestObjectResult TrySetPassword(Models.User dbUser, string newPassword)
+		{
+			if (newPassword.Length < generalConfiguration.MinimumPasswordLength)
+				return BadRequest(new ErrorMessage { Message = $"Password must be at least {generalConfiguration.MinimumPasswordLength} characters long!" });
+			cryptographySuite.SetUserPassword(dbUser, newPassword, true);
+			return null;
+		}
+
+		/// <summary>
 		/// Create a <see cref="Api.Models.User"/>.
 		/// </summary>
 		/// <param name="model">The <see cref="Api.Models.User"/> to create.</param>
@@ -134,9 +148,9 @@ namespace Tgstation.Server.Host.Controllers
 				}
 			else
 			{
-				if (model.Password.Length < generalConfiguration.MinimumPasswordLength)
-					return BadRequest(new ErrorMessage { Message = $"Password must be at least {generalConfiguration.MinimumPasswordLength} characters long!" });
-				cryptographySuite.SetUserPassword(dbUser, model.Password, true);
+				var result = TrySetPassword(dbUser, model.Password);
+				if (result != null)
+					return result;
 			}
 
 			dbUser.CanonicalName = dbUser.Name.ToUpperInvariant();
@@ -168,23 +182,28 @@ namespace Tgstation.Server.Host.Controllers
 			var callerAdministrationRights = (AdministrationRights)AuthenticationContext.GetRight(RightsType.Administration);
 			var passwordEditOnly = !callerAdministrationRights.HasFlag(AdministrationRights.WriteUsers);
 
-			var originalUser = passwordEditOnly ? AuthenticationContext.User : await DatabaseContext.Users.Where(x => x.Id == model.Id)
-				.Include(x => x.CreatedBy)
-				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var originalUser = passwordEditOnly
+				? AuthenticationContext.User
+				: await DatabaseContext.Users.Where(x => x.Id == model.Id)
+					.Include(x => x.CreatedBy)
+					.FirstOrDefaultAsync(cancellationToken)
+					.ConfigureAwait(false);
 			if (originalUser == default)
 				return NotFound();
 
-			if (passwordEditOnly && (model.Id != originalUser.Id || model.InstanceManagerRights.HasValue || model.AdministrationRights.HasValue || model.Enabled.HasValue || model.SystemIdentifier != null || model.Name != null))
+			// Ensure they are only trying to edit password (system identity change will trigger a bad request)
+			if (passwordEditOnly && (model.Id != originalUser.Id || model.InstanceManagerRights.HasValue || model.AdministrationRights.HasValue || model.Enabled.HasValue || model.Name != null))
 				return Forbid();
+
+			if (model.SystemIdentifier != null && model.SystemIdentifier != originalUser.SystemIdentifier)
+				return BadRequest(new ErrorMessage { Message = "Cannot change a user's system identifier!" });
 
 			if (model.Password != null)
 			{
-				if (originalUser.PasswordHash == null)
-					return BadRequest(new ErrorMessage { Message = "Cannot convert a system user to a password user!" });
-				cryptographySuite.SetUserPassword(originalUser, model.Password, false);
+				var result = TrySetPassword(originalUser, model.Password);
+				if (result != null)
+					return result;
 			}
-			else if (model.SystemIdentifier != null && model.SystemIdentifier != originalUser.SystemIdentifier)
-				return BadRequest(new ErrorMessage { Message = "Cannot change a user's system identifier!" });
 
 			if (model.Name != null && model.Name.ToUpperInvariant() != originalUser.CanonicalName)
 				return BadRequest(new ErrorMessage { Message = "Can only change capitalization of a user's name!" });
@@ -201,6 +220,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
+			// return id only if not a self update or and cannot read users
 			return Json(
 				model.Id == originalUser.Id
 				|| callerAdministrationRights.HasFlag(AdministrationRights.ReadUsers)
