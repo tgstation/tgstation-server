@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -113,7 +112,7 @@ namespace Tgstation.Server.Host.Controllers
 				// run the install through the job manager
 				var job = new Models.Job
 				{
-					Description = String.Format(CultureInfo.InvariantCulture, "Install BYOND version {0}", installingVersion),
+					Description = $"Install BYOND version {installingVersion}",
 					StartedBy = AuthenticationContext.User,
 					CancelRightsType = RightsType.Byond,
 					CancelRight = (ulong)ByondRights.CancelInstall,
