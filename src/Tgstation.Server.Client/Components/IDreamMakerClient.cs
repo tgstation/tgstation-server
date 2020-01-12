@@ -42,9 +42,9 @@ namespace Tgstation.Server.Client.Components
 		/// <summary>
 		/// Get a <paramref name="compileJob"/>
 		/// </summary>
-		/// <param name="compileJob">The <see cref="CompileJob"/> to get</param>
+		/// <param name="compileJob">The <see cref="CompileJob"/> <see cref="EntityId"/> to get</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="CompileJob"/></returns>
-		Task<CompileJob> GetCompileJob(CompileJob compileJob, CancellationToken cancellationToken);
+		Task<CompileJob> GetCompileJob(EntityId compileJob, CancellationToken cancellationToken);
 	}
 }
