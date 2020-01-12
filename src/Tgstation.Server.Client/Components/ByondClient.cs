@@ -35,7 +35,7 @@ namespace Tgstation.Server.Client.Components
 		public Task<Byond> ActiveVersion(CancellationToken cancellationToken) => apiClient.Read<Byond>(Routes.Byond, instance.Id, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<Byond>> InstalledVersions(CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<Byond>>(Routes.List(Routes.Byond), instance.Id, cancellationToken);
+		public Task<IReadOnlyList<Byond>> InstalledVersions(CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<Byond>>(Routes.ListRoute(Routes.Byond), instance.Id, cancellationToken);
 
 		/// <inheritdoc />
 		public Task<Byond> SetActiveVersion(Byond byond, CancellationToken cancellationToken) => apiClient.Update<Byond, Byond>(Routes.Byond, byond ?? throw new ArgumentNullException(nameof(byond)), instance.Id, cancellationToken);

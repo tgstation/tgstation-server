@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -16,10 +17,10 @@ using Z.EntityFramework.Plus;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// For managing <see cref="User"/>s
+	/// <see cref="ApiController"/> for managing <see cref="InstanceUser"/>s.
 	/// </summary>
 	[Route(Routes.InstanceUser)]
-	public sealed class InstanceUserController : ModelController<Api.Models.InstanceUser>
+	public sealed class InstanceUserController : ApiController
 	{
 		/// <summary>
 		/// Construct a <see cref="UserController"/>
@@ -27,7 +28,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		public InstanceUserController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ILogger<InstanceUserController> logger) : base(databaseContext, authenticationContextFactory, logger, true) // false instance requirement, we handle this ourself
+		public InstanceUserController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ILogger<InstanceUserController> logger) : base(databaseContext, authenticationContextFactory, logger, true, true)
 		{ }
 
 		/// <summary>
@@ -46,9 +47,17 @@ namespace Tgstation.Server.Host.Controllers
 			return null;
 		}
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Create am <see cref="Api.Models.InstanceUser"/>.
+		/// </summary>
+		/// <param name="model">The <see cref="Api.Models.InstanceUser"/> to create.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="201"><see cref="Api.Models.InstanceUser"/> created successfully.</response>
+		[HttpPut]
 		[TgsAuthorize(InstanceUserRights.CreateUsers)]
-		public override async Task<IActionResult> Create([FromBody] Api.Models.InstanceUser model, CancellationToken cancellationToken)
+		[ProducesResponseType(typeof(Api.Models.InstanceUser), 201)]
+		public async Task<IActionResult> Create([FromBody] Api.Models.InstanceUser model, CancellationToken cancellationToken)
 		{
 			var test = StandardModelChecks(model);
 			if (test != null)
@@ -73,10 +82,20 @@ namespace Tgstation.Server.Host.Controllers
 			return StatusCode((int)HttpStatusCode.Created, dbUser.ToApi());
 		}
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Update the permissions for an <see cref="Api.Models.InstanceUser"/>.
+		/// </summary>
+		/// <param name="model">The updated <see cref="Api.Models.InstanceUser"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="200"><see cref="Api.Models.InstanceUser"/> updated successfully.</response>
+		/// <response code="410">Instance user unavailable.</response>
+		[HttpPost]
 		[TgsAuthorize(InstanceUserRights.WriteUsers)]
+		[ProducesResponseType(typeof(Api.Models.InstanceUser), 200)]
+		[ProducesResponseType(410)]
 		#pragma warning disable CA1506 // TODO: Decomplexify
-		public override async Task<IActionResult> Update([FromBody] Api.Models.InstanceUser model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Update([FromBody] Api.Models.InstanceUser model, CancellationToken cancellationToken)
 		{
 			var test = StandardModelChecks(model);
 			if (test != null)
@@ -100,23 +119,45 @@ namespace Tgstation.Server.Host.Controllers
 				UserId = originalUser.UserId
 			});
 		}
-		#pragma warning restore CA1506
-
-		/// <inheritdoc />
+#pragma warning restore CA1506
+		/// <summary>
+		/// Read the active <see cref="Api.Models.InstanceUser"/>.
+		/// </summary>
+		/// <returns>The <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="200"><see cref="Api.Models.InstanceUser"/> retrieved successfully.</response>
+		[HttpGet]
 		[TgsAuthorize]
-		public override Task<IActionResult> Read(CancellationToken cancellationToken) => Task.FromResult(AuthenticationContext.InstanceUser != null ? (IActionResult)Json(AuthenticationContext.InstanceUser.ToApi()) : NotFound());
+		[ProducesResponseType(typeof(Api.Models.InstanceUser), 200)]
+		public IActionResult Read() => Json(AuthenticationContext.InstanceUser.ToApi());
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Lists <see cref="Api.Models.InstanceUser"/>s for the instance.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="200">Retrieved <see cref="Api.Models.InstanceUser"/>s successfully.</response>
+		[HttpGet(Routes.List)]
 		[TgsAuthorize(InstanceUserRights.ReadUsers)]
-		public override async Task<IActionResult> List(CancellationToken cancellationToken)
+		[ProducesResponseType(typeof(IEnumerable<Api.Models.InstanceUser>), 200)]
+		public async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
 			var users = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).SelectMany(x => x.InstanceUsers).ToListAsync(cancellationToken).ConfigureAwait(false);
 			return Json(users.Select(x => x.ToApi()));
 		}
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Gets a specific <see cref="Api.Models.InstanceUser"/>.
+		/// </summary>
+		/// <param name="id">The <see cref="Api.Models.InstanceUser.UserId"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="200">Retrieve <see cref="Api.Models.InstanceUser"/> successfully.</response>
+		/// <response code="410">Instance user unavailable.</response>
+		[HttpGet("{id}")]
 		[TgsAuthorize(InstanceUserRights.ReadUsers)]
-		public override async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
+		[ProducesResponseType(typeof(Api.Models.InstanceUser), 200)]
+		[ProducesResponseType(410)]
+		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			// this functions as userId
 			var user = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).SelectMany(x => x.InstanceUsers).Where(x => x.UserId == id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
@@ -125,9 +166,17 @@ namespace Tgstation.Server.Host.Controllers
 			return Json(user.ToApi());
 		}
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Delete an <see cref="Api.Models.InstanceUser"/>.
+		/// </summary>
+		/// <param name="id">The <see cref="Api.Models.InstanceUser.UserId"/> to delete.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="200"><see cref="Api.Models.InstanceUser"/> deleted or no longer exists.</response>
+		[HttpDelete("{id}")]
 		[TgsAuthorize(InstanceUserRights.WriteUsers)]
-		public override async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
+		[ProducesResponseType(200)]
+		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
 			await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).SelectMany(x => x.InstanceUsers).Where(x => x.UserId == id).DeleteAsync(cancellationToken).ConfigureAwait(false);
 			return Ok();

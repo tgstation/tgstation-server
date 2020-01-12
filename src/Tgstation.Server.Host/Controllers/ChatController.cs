@@ -20,10 +20,10 @@ using Z.EntityFramework.Plus;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// <see cref="ModelController{TModel}"/> for managing <see cref="Api.Models.ChatBot"/>s
+	/// <see cref="ApiController"/> for managing <see cref="Api.Models.ChatBot"/>s
 	/// </summary>
 	[Route(Routes.Chat)]
-	public sealed class ChatController : ModelController<Api.Models.ChatBot>
+	public sealed class ChatController : ApiController
 	{
 		/// <summary>
 		/// The <see cref="IInstanceManager"/> for the <see cref="ChatController"/>
@@ -37,7 +37,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		public ChatController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, ILogger<ChatController> logger) : base(databaseContext, authenticationContextFactory, logger, true)
+		public ChatController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, ILogger<ChatController> logger) : base(databaseContext, authenticationContextFactory, logger, true, true)
 		{
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 		}
@@ -57,9 +57,17 @@ namespace Tgstation.Server.Host.Controllers
 			Tag = api.Tag
 		};
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Create a new chat bot <paramref name="model"/>.
+		/// </summary>
+		/// <param name="model">The <see cref="Api.Models.ChatBot"/> to create.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <response code="201">Created chat bot successfully.</response>
+		[HttpPut]
 		[TgsAuthorize(ChatBotRights.Create)]
-		public override async Task<IActionResult> Create([FromBody] Api.Models.ChatBot model, CancellationToken cancellationToken)
+		[ProducesResponseType(typeof(Api.Models.ChatBot), 201)]
+		public async Task<IActionResult> Create([FromBody] Api.Models.ChatBot model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
@@ -129,9 +137,17 @@ namespace Tgstation.Server.Host.Controllers
 			return StatusCode((int)HttpStatusCode.Created, dbModel.ToApi());
 		}
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Delete a <see cref="Api.Models.ChatBot"/>.
+		/// </summary>
+		/// <param name="id">The <see cref="Api.Models.Internal.ChatBot.Id"/> to delete.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <response code="200">Chat bot deleted or does not exist.</response>
+		[HttpDelete("{id}")]
 		[TgsAuthorize(ChatBotRights.Delete)]
-		public override async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
+		[ProducesResponseType(200)]
+		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
 			var instance = instanceManager.GetInstance(Instance);
 			await Task.WhenAll(instance.Chat.DeleteConnection(id, cancellationToken), DatabaseContext.ChatBots.Where(x => x.Id == id).DeleteAsync(cancellationToken)).ConfigureAwait(false);
@@ -139,9 +155,16 @@ namespace Tgstation.Server.Host.Controllers
 			return Ok();
 		}
 
-		/// <inheritdoc />
+		/// <summary>
+		/// List <see cref="Api.Models.ChatBot"/>s.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <response code="200">Listed chat bots successfully.</response>
+		[HttpGet(Routes.List)]
 		[TgsAuthorize(ChatBotRights.Read)]
-		public override async Task<IActionResult> List(CancellationToken cancellationToken)
+		[ProducesResponseType(typeof(IEnumerable<Api.Models.ChatBot>), 200)]
+		public async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
 			var query = DatabaseContext.ChatBots.Where(x => x.InstanceId == Instance.Id).Include(x => x.Channels);
 
@@ -156,9 +179,19 @@ namespace Tgstation.Server.Host.Controllers
 			return Json(results.Select(x => x.ToApi()));
 		}
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Get a specific <see cref="Api.Models.ChatBot"/>.
+		/// </summary>
+		/// <param name="id">The <see cref="Api.Models.Internal.ChatBot.Id"/> to retrieve.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <response code="200">Retrieved <see cref="Api.Models.ChatBot"/> successfully.</response>
+		/// <response code="410">Chat bot does not exist.</response>
+		[HttpGet("{id}")]
 		[TgsAuthorize(ChatBotRights.Read)]
-		public override async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
+		[ProducesResponseType(typeof(Api.Models.ChatBot), 200)]
+		[ProducesResponseType(410)]
+		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			var query = DatabaseContext.ChatBots.Where(x => x.Id == id).Include(x => x.Channels);
 
@@ -174,10 +207,19 @@ namespace Tgstation.Server.Host.Controllers
 			return Json(results.ToApi());
 		}
 
-		/// <inheritdoc />
-		#pragma warning disable CA1506 // TODO: Decomplexify
+		/// <summary>
+		/// Updates a chat bot <paramref name="model"/>.
+		/// </summary>
+		/// <param name="model">The <see cref="Api.Models.ChatBot"/> update to apply.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <response code="200">Update applied successfully. <see cref="Api.Models.ChatBot"/> may or may not be returned based on user permissions.</response>
+		[HttpPost]
 		[TgsAuthorize(ChatBotRights.WriteChannels | ChatBotRights.WriteConnectionString | ChatBotRights.WriteEnabled | ChatBotRights.WriteName | ChatBotRights.WriteProvider)]
-		public override async Task<IActionResult> Update([FromBody] Api.Models.ChatBot model, CancellationToken cancellationToken)
+		[ProducesResponseType(200)]
+		[ProducesResponseType(typeof(Api.Models.ChatBot), 200)]
+		#pragma warning disable CA1506 // TODO: Decomplexify
+		public async Task<IActionResult> Update([FromBody] Api.Models.ChatBot model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));

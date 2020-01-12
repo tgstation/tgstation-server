@@ -14,6 +14,11 @@ namespace Tgstation.Server.Host.IO
 		bool Available { get; }
 
 		/// <summary>
+		/// Gets a <see cref="CancellationToken"/> that triggers if Crtl+C or an equivalent is pressed.
+		/// </summary>
+		CancellationToken CancelKeyPress { get; }
+
+		/// <summary>
 		/// Write some <paramref name="text"/> to the <see cref="IConsole"/>
 		/// </summary>
 		/// <param name="text">The <see cref="string"/> to write</param>

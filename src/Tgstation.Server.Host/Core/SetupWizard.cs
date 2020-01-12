@@ -638,41 +638,60 @@ namespace Tgstation.Server.Host.Core
 			}
 
 			var userConfigFileName = String.Format(CultureInfo.InvariantCulture, "appsettings.{0}.json", hostingEnvironment.EnvironmentName);
-			var exists = await ioManager.FileExists(userConfigFileName, cancellationToken).ConfigureAwait(false);
 
-			bool shouldRunBasedOnAutodetect;
-			if (exists)
+			async Task HandleSetupCancel()
 			{
-				var bytes = await ioManager.ReadAllBytes(userConfigFileName, cancellationToken).ConfigureAwait(false);
-				var contents = Encoding.UTF8.GetString(bytes);
-				var existingConfigIsEmpty = String.IsNullOrWhiteSpace(contents) || contents.Trim() == "{}";
-				logger.LogTrace("Configuration json detected. Empty: {0}", existingConfigIsEmpty);
-				shouldRunBasedOnAutodetect = existingConfigIsEmpty;
-			}
-			else
-			{
-				shouldRunBasedOnAutodetect = true;
-				logger.LogTrace("No configuration json detected");
+				await console.WriteAsync(String.Empty, true, default).ConfigureAwait(false);
+				await console.WriteAsync("Aborting setup!", true, default).ConfigureAwait(false);
 			}
 
-			if (!shouldRunBasedOnAutodetect)
-			{
-				if (forceRun)
+			// Link passed cancellationToken with cancel key press
+			Task finalTask = Task.CompletedTask;
+			using (var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, console.CancelKeyPress))
+			using ((cancellationToken = cts.Token).Register(() => finalTask = HandleSetupCancel()))
+				try
 				{
-					logger.LogTrace("Asking user to bypass due to force run request...");
-					await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "The configuration settings are requesting the setup wizard be run, but you already appear to have a configuration file ({0})!", userConfigFileName), true, cancellationToken).ConfigureAwait(false);
+					var exists = await ioManager.FileExists(userConfigFileName, cancellationToken).ConfigureAwait(false);
 
-					forceRun = await PromptYesNo("Continue running setup wizard? (y/n): ", cancellationToken).ConfigureAwait(false);
+					bool shouldRunBasedOnAutodetect;
+					if (exists)
+					{
+						var bytes = await ioManager.ReadAllBytes(userConfigFileName, cancellationToken).ConfigureAwait(false);
+						var contents = Encoding.UTF8.GetString(bytes);
+						var existingConfigIsEmpty = String.IsNullOrWhiteSpace(contents) || contents.Trim() == "{}";
+						logger.LogTrace("Configuration json detected. Empty: {0}", existingConfigIsEmpty);
+						shouldRunBasedOnAutodetect = existingConfigIsEmpty;
+					}
+					else
+					{
+						shouldRunBasedOnAutodetect = true;
+						logger.LogTrace("No configuration json detected");
+					}
+
+					if (!shouldRunBasedOnAutodetect)
+					{
+						if (forceRun)
+						{
+							logger.LogTrace("Asking user to bypass due to force run request...");
+							await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "The configuration settings are requesting the setup wizard be run, but you already appear to have a configuration file ({0})!", userConfigFileName), true, cancellationToken).ConfigureAwait(false);
+
+							forceRun = await PromptYesNo("Continue running setup wizard? (y/n): ", cancellationToken).ConfigureAwait(false);
+						}
+
+						if (!forceRun)
+							return false;
+					}
+
+					// flush the logs to prevent console conflicts
+					await asyncDelayer.Delay(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false);
+
+					await RunWizard(userConfigFileName, cancellationToken).ConfigureAwait(false);
+				}
+				finally
+				{
+					await finalTask.ConfigureAwait(false);
 				}
 
-				if (!forceRun)
-					return false;
-			}
-
-			// flush the logs to prevent console conflicts
-			await asyncDelayer.Delay(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false);
-
-			await RunWizard(userConfigFileName, cancellationToken).ConfigureAwait(false);
 			return true;
 		}
 	}

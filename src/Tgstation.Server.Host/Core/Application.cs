@@ -5,12 +5,15 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
+using Microsoft.Net.Http.Headers;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Serilog;
@@ -19,14 +22,16 @@ using Serilog.Formatting.Display;
 using System;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
-using System.Reflection;
+using System.Linq;
 using System.Threading.Tasks;
+using Tgstation.Server.Api;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -34,7 +39,7 @@ using Tgstation.Server.Host.Security;
 namespace Tgstation.Server.Host.Core
 {
 	/// <inheritdoc />
-	#pragma warning disable CA1506
+#pragma warning disable CA1506
 	sealed class Application : IApplication
 	{
 		/// <inheritdoc />
@@ -50,6 +55,11 @@ namespace Tgstation.Server.Host.Core
 		/// The <see cref="IConfiguration"/> for the <see cref="Application"/>
 		/// </summary>
 		readonly IConfiguration configuration;
+
+		/// <summary>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="Application"/>.
+		/// </summary>
+		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
 		/// The <see cref="Microsoft.AspNetCore.Hosting.IHostingEnvironment"/> for the <see cref="Application"/>
@@ -70,15 +80,20 @@ namespace Tgstation.Server.Host.Core
 		/// Construct an <see cref="Application"/>
 		/// </summary>
 		/// <param name="configuration">The value of <see cref="configuration"/></param>
+		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> for the <see cref="Application"/>.</param>
 		/// <param name="hostingEnvironment">The value of <see cref="hostingEnvironment"/></param>
-		public Application(IConfiguration configuration, Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment)
+		public Application(
+			IConfiguration configuration,
+			IAssemblyInformationProvider assemblyInformationProvider,
+			Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment)
 		{
 			this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
 
 			startupTcs = new TaskCompletionSource<object>();
 
-			Version = Assembly.GetExecutingAssembly().GetName().Version;
+			Version = assemblyInformationProvider.Name.Version;
 			VersionString = String.Format(CultureInfo.InvariantCulture, "{0} v{1}", VersionPrefix, Version);
 		}
 
@@ -221,15 +236,61 @@ namespace Tgstation.Server.Host.Core
 			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
 			// add mvc, configure the json serializer settings
-			services.AddMvc().AddJsonOptions(options =>
-			{
-				options.AllowInputFormatterExceptionMessages = true;
-				options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-				options.SerializerSettings.CheckAdditionalContent = true;
-				options.SerializerSettings.MissingMemberHandling = MissingMemberHandling.Error;
-				options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-				options.SerializerSettings.Converters = new[] { new VersionConverter() };
-			});
+			services
+				.AddMvc(options =>
+				{
+					var dataAnnotationValidator = options.ModelValidatorProviders.Single(validator => validator.GetType().Name == "DataAnnotationsModelValidatorProvider");
+					options.ModelValidatorProviders.Remove(dataAnnotationValidator);
+				})
+				.SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+				.AddJsonOptions(options =>
+				{
+					options.AllowInputFormatterExceptionMessages = true;
+					options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+					options.SerializerSettings.CheckAdditionalContent = true;
+					options.SerializerSettings.MissingMemberHandling = MissingMemberHandling.Error;
+					options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+					options.SerializerSettings.Converters = new[] { new VersionConverter() };
+				});
+
+			if (hostingEnvironment.IsDevelopment())
+				services.AddSwaggerGen(
+				c =>
+				{
+					c.SwaggerDoc(
+						"v1",
+						new OpenApiInfo
+						{
+							Title = "TGS API",
+							Version = "v4"
+						});
+
+					// Important to do this before applying our own filters
+					// Otherwise we'll get NullReferenceExceptions on parameters to be setup in our document filter
+					var assemblyLocation = assemblyInformationProvider.Path;
+					var filePath = ioManager.ConcatPath(ioManager.GetDirectoryName(assemblyLocation), String.Concat(ioManager.GetFileNameWithoutExtension(assemblyLocation), ".xml"));
+					c.IncludeXmlComments(filePath);
+
+					c.OperationFilter<TgsOpenApiFilters>();
+					c.DocumentFilter<TgsOpenApiFilters>();
+
+					c.AddSecurityDefinition(TgsOpenApiFilters.PasswordSecuritySchemeId, new OpenApiSecurityScheme
+					{
+						In = ParameterLocation.Header,
+						Type = SecuritySchemeType.Http,
+						Name = HeaderNames.Authorization,
+						Scheme = ApiHeaders.BasicAuthenticationScheme
+					});
+
+					c.AddSecurityDefinition(TgsOpenApiFilters.TokenSecuritySchemeId, new OpenApiSecurityScheme
+					{
+						BearerFormat = "JWT",
+						In = ParameterLocation.Header,
+						Type = SecuritySchemeType.Http,
+						Name = HeaderNames.Authorization,
+						Scheme = ApiHeaders.JwtAuthenticationScheme
+					});
+				});
 
 			// enable browser detection
 			services.AddDetectionCore().AddBrowser();
@@ -347,16 +408,25 @@ namespace Tgstation.Server.Host.Core
 			logger.LogTrace("Web Root: {0}", hostingEnvironment.WebRootPath);
 
 			// attempt to restart the server if the configuration changes
-			if(serverControl.WatchdogPresent)
+			if (serverControl.WatchdogPresent)
 				ChangeToken.OnChange(configuration.GetReloadToken, () => serverControl.Restart());
 
 			// setup the HTTP request pipeline
+			// Final point where we wrap exceptions in a 500 (ErrorMessage) response
+			applicationBuilder.UseServerErrorHandling();
 
 			// should anything after this throw an exception, catch it and display a detailed html page
-			applicationBuilder.UseDeveloperExceptionPage(); // it is not worth it to limit this, you should only ever get it if you're an authorized user
+			if (hostingEnvironment.IsDevelopment())
+				applicationBuilder.UseDeveloperExceptionPage(); // it is not worth it to limit this, you should only ever get it if you're an authorized user
 
 			// suppress OperationCancelledExceptions, they are just aborted HTTP requests
 			applicationBuilder.UseCancelledRequestSuppression();
+
+			if (hostingEnvironment.IsDevelopment())
+			{
+				applicationBuilder.UseSwagger();
+				applicationBuilder.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TGS API V4"));
+			}
 
 			// Set up CORS based on configuration if necessary
 			Action<CorsPolicyBuilder> corsBuilder = null;

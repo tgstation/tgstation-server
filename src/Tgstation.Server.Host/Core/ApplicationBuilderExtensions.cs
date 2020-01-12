@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Globalization;
+using System.Net;
 using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Core
@@ -66,6 +67,40 @@ namespace Tgstation.Server.Host.Core
 				catch (OperationCanceledException)
 				{
 					logger.LogDebug("Request cancelled!");
+				}
+			});
+		}
+
+		/// <summary>
+		/// Suppress all in flight exceptions with error 500.
+		/// </summary>
+		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure</param>
+		public static void UseServerErrorHandling(this IApplicationBuilder applicationBuilder)
+		{
+			if (applicationBuilder == null)
+				throw new ArgumentNullException(nameof(applicationBuilder));
+			applicationBuilder.Use(async (context, next) =>
+			{
+				var logger = GetLogger(context);
+				try
+				{
+					await next().ConfigureAwait(false);
+				}
+				catch (Exception e)
+				{
+					logger.LogError("Failed request: {0}", e);
+					await new ObjectResult(
+						new ErrorMessage
+						{
+							Message = $"A unhandled exception has occurred: {e}"
+						})
+					{
+						StatusCode = (int)HttpStatusCode.InternalServerError
+					}
+					.ExecuteResultAsync(new ActionContext
+					{
+						HttpContext = context
+					}).ConfigureAwait(false);
 				}
 			});
 		}
