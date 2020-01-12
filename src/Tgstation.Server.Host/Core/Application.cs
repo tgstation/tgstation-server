@@ -23,7 +23,6 @@ using System;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Host.Components;
@@ -58,6 +57,11 @@ namespace Tgstation.Server.Host.Core
 		readonly IConfiguration configuration;
 
 		/// <summary>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="Application"/>.
+		/// </summary>
+		readonly IAssemblyInformationProvider assemblyInformationProvider;
+
+		/// <summary>
 		/// The <see cref="Microsoft.AspNetCore.Hosting.IHostingEnvironment"/> for the <see cref="Application"/>
 		/// </summary>
 		readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment;
@@ -76,15 +80,20 @@ namespace Tgstation.Server.Host.Core
 		/// Construct an <see cref="Application"/>
 		/// </summary>
 		/// <param name="configuration">The value of <see cref="configuration"/></param>
+		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> for the <see cref="Application"/>.</param>
 		/// <param name="hostingEnvironment">The value of <see cref="hostingEnvironment"/></param>
-		public Application(IConfiguration configuration, Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment)
+		public Application(
+			IConfiguration configuration,
+			IAssemblyInformationProvider assemblyInformationProvider,
+			Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment)
 		{
 			this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
 
 			startupTcs = new TaskCompletionSource<object>();
 
-			Version = Assembly.GetExecutingAssembly().GetName().Version;
+			Version = assemblyInformationProvider.Name.Version;
 			VersionString = String.Format(CultureInfo.InvariantCulture, "{0} v{1}", VersionPrefix, Version);
 		}
 
@@ -258,7 +267,7 @@ namespace Tgstation.Server.Host.Core
 
 					// Important to do this before applying our own filters
 					// Otherwise we'll get NullReferenceExceptions on parameters to be setup in our document filter
-					var assemblyLocation = Assembly.GetExecutingAssembly().Location;
+					var assemblyLocation = assemblyInformationProvider.Path;
 					var filePath = ioManager.ConcatPath(ioManager.GetDirectoryName(assemblyLocation), String.Concat(ioManager.GetFileNameWithoutExtension(assemblyLocation), ".xml"));
 					c.IncludeXmlComments(filePath);
 

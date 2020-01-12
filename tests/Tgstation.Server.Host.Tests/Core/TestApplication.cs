@@ -23,13 +23,18 @@ namespace Tgstation.Server.Host.Core.Tests
 		[TestMethod]
 		public void TestMethodThrows()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new Application(null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new Application(null, null, null));
 			var mockConfiguration = new Mock<IConfiguration>();
-			Assert.ThrowsException<ArgumentNullException>(() => new Application(mockConfiguration.Object, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new Application(mockConfiguration.Object, null, null));
+
+			var mockAssemblyInfo = new Mock<IAssemblyInformationProvider>();
+			mockAssemblyInfo.SetupGet(x => x.Name).Returns(typeof(Application).Assembly.GetName());
+
+			Assert.ThrowsException<ArgumentNullException>(() => new Application(mockConfiguration.Object, mockAssemblyInfo.Object, null));
 
 			var mockHostingEnvironment = new Mock<IHostingEnvironment>();
 
-			var app = new Application(mockConfiguration.Object, mockHostingEnvironment.Object);
+			var app = new Application(mockConfiguration.Object, mockAssemblyInfo.Object, mockHostingEnvironment.Object);
 
 			Assert.ThrowsException<ArgumentNullException>(() => app.ConfigureServices(null));
 			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(null, null, null, null, null));
@@ -69,11 +74,11 @@ namespace Tgstation.Server.Host.Core.Tests
 		public void TestConfigureServicesThrowsWhenSetupWizardConfigurationDemands()
 		{
 			var mockConfiguration = new Mock<IConfiguration>();
-			Assert.ThrowsException<ArgumentNullException>(() => new Application(mockConfiguration.Object, null));
-
+			var mockAssemblyInfo = new Mock<IAssemblyInformationProvider>();
+			mockAssemblyInfo.SetupGet(x => x.Name).Returns(typeof(Application).Assembly.GetName());
 			var mockHostingEnvironment = new Mock<IHostingEnvironment>();
 
-			var app = new Application(mockConfiguration.Object, mockHostingEnvironment.Object);
+			var app = new Application(mockConfiguration.Object, mockAssemblyInfo.Object, mockHostingEnvironment.Object);
 
 			var mockOptions = new Mock<IOptions<GeneralConfiguration>>();
 			mockOptions.SetupGet(x => x.Value).Returns(new GeneralConfiguration

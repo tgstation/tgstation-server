@@ -68,7 +68,7 @@ namespace Tgstation.Server.Tests
 			if (dumpOpenAPISpecpath)
 				Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
 
-			realServer = new ServerFactory().CreateServer(args.ToArray(), updatePath);
+			realServer = ServerFactory.CreateDefault().CreateServer(args.ToArray(), updatePath);
 		}
 
 		public void Dispose()
