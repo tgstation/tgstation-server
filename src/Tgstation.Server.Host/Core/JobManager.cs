@@ -23,7 +23,7 @@ namespace Tgstation.Server.Host.Core
 		readonly ILogger<JobManager> logger;
 
 		/// <summary>
-		/// <see cref="Dictionary{TKey, TValue}"/> of <see cref="Api.Models.Internal.Job.Id"/> to running <see cref="JobHandler"/>s
+		/// <see cref="Dictionary{TKey, TValue}"/> of <see cref="Job"/> <see cref="Api.Models.EntityId.Id"/>s to running <see cref="JobHandler"/>s
 		/// </summary>
 		readonly Dictionary<long, JobHandler> jobs;
 

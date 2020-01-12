@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -136,7 +135,7 @@ namespace Tgstation.Server.Host.Controllers
 			else
 			{
 				if (model.Password.Length < generalConfiguration.MinimumPasswordLength)
-					return BadRequest(new ErrorMessage { Message = String.Format(CultureInfo.InvariantCulture, "Password must be at least {0} characters long!", generalConfiguration.MinimumPasswordLength) });
+					return BadRequest(new ErrorMessage { Message = $"Password must be at least {generalConfiguration.MinimumPasswordLength} characters long!" });
 				cryptographySuite.SetUserPassword(dbUser, model.Password, true);
 			}
 

@@ -93,7 +93,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (!model.ValidateProviderChannelTypes())
 				return BadRequest(new ErrorMessage { Message = "One or more of channels aren't formatted correctly for the given provider!" });
 
-			model.Enabled ??= false;
+			model.Enabled = model.Enabled ?? false;
 
 			// try to update das db first
 			var dbModel = new Models.ChatBot
