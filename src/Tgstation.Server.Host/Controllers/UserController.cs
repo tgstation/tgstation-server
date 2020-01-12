@@ -165,7 +165,8 @@ namespace Tgstation.Server.Host.Controllers
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
-			var passwordEditOnly = !AuthenticationContext.User.AdministrationRights.Value.HasFlag(AdministrationRights.WriteUsers);
+			var callerAdministrationRights = (AdministrationRights)AuthenticationContext.GetRight(RightsType.Administration);
+			var passwordEditOnly = !callerAdministrationRights.HasFlag(AdministrationRights.WriteUsers);
 
 			var originalUser = passwordEditOnly ? AuthenticationContext.User : await DatabaseContext.Users.Where(x => x.Id == model.Id)
 				.Include(x => x.CreatedBy)
@@ -200,10 +201,14 @@ namespace Tgstation.Server.Host.Controllers
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
-			return Json(model.Id == originalUser.Id || (AuthenticationContext.GetRight(RightsType.Administration) & (ulong)AdministrationRights.ReadUsers) != 0 ? originalUser.ToApi(true) : new Api.Models.User
-			{
-				Id = originalUser.Id
-			});
+			return Json(
+				model.Id == originalUser.Id
+				|| callerAdministrationRights.HasFlag(AdministrationRights.ReadUsers)
+				? originalUser.ToApi(true)
+				: new Api.Models.User
+				{
+					Id = originalUser.Id
+				});
 		}
 
 		/// <summary>
