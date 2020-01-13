@@ -23,11 +23,11 @@ using Tgstation.Server.Host.Security;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// Controller for managing <see cref="Components.Instance"/>s
+	/// <see cref="ApiController"/> for managing <see cref="Components.Instance"/>s
 	/// </summary>
 	[Route(Routes.InstanceManager)]
 	#pragma warning disable CA1506 // TODO: Decomplexify
-	public sealed class InstanceController : ModelController<Api.Models.Instance>
+	public sealed class InstanceController : ApiController
 	{
 		/// <summary>
 		/// File name to allow attaching instances
@@ -72,7 +72,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="application">The value of <see cref="application"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		public InstanceController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager, IInstanceManager instanceManager, IIOManager ioManager, IApplication application, IPlatformIdentifier platformIdentifier, ILogger<InstanceController> logger) : base(databaseContext, authenticationContextFactory, logger, false)
+		public InstanceController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager, IInstanceManager instanceManager, IIOManager ioManager, IApplication application, IPlatformIdentifier platformIdentifier, ILogger<InstanceController> logger) : base(databaseContext, authenticationContextFactory, logger, false, true)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
@@ -108,9 +108,19 @@ namespace Tgstation.Server.Host.Controllers
 			UserId = AuthenticationContext.User.Id
 		};
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Create or attach an <see cref="Api.Models.Instance"/>.
+		/// </summary>
+		/// <param name="model">The <see cref="Api.Models.Instance"/> settings.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="200">Instance attached successfully.</response>
+		/// <response code="201">Instance created successfully.</response>
+		[HttpPut]
 		[TgsAuthorize(InstanceManagerRights.Create)]
-		public override async Task<IActionResult> Create([FromBody] Api.Models.Instance model, CancellationToken cancellationToken)
+		[ProducesResponseType(typeof(Api.Models.Instance), 200)]
+		[ProducesResponseType(typeof(Api.Models.Instance), 201)]
+		public async Task<IActionResult> Create([FromBody] Api.Models.Instance model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
@@ -130,7 +140,14 @@ namespace Tgstation.Server.Host.Controllers
 			}, out var normalizedLocalPath);
 
 			if (rawPath.StartsWith(normalizedLocalPath, StringComparison.Ordinal))
-				return Conflict("Instances cannot be created in the installation directory!");
+			{
+				bool sameLength = rawPath.Length == normalizedLocalPath.Length;
+				char dirSeparatorChar = rawPath.ToCharArray()[normalizedLocalPath.Length];
+				if(sameLength
+					|| dirSeparatorChar == Path.DirectorySeparatorChar
+					|| dirSeparatorChar == Path.AltDirectorySeparatorChar)
+					return Conflict(new ErrorMessage { Message = "Instances cannot be created in the installation directory!" });
+			}
 
 			var dirExistsTask = ioManager.DirectoryExists(model.Path, cancellationToken);
 			bool attached = false;
@@ -214,9 +231,19 @@ namespace Tgstation.Server.Host.Controllers
 			return attached ? (IActionResult)Json(api) : StatusCode((int)HttpStatusCode.Created, api);
 		}
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Detach an <see cref="Api.Models.Instance"/> with the given <paramref name="id"/>.
+		/// </summary>
+		/// <param name="id">The <see cref="Api.Models.Instance.Id"/> to detach.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="200">Instance detatched successfully.</response>
+		/// <response code="410">Instance not available.</response>
+		[HttpDelete("{id}")]
 		[TgsAuthorize(InstanceManagerRights.Delete)]
-		public override async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
+		[ProducesResponseType(200)]
+		[ProducesResponseType(410)]
+		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
 			var originalModel = await DatabaseContext.Instances.Where(x => x.Id == id)
 				.Include(x => x.WatchdogReattachInformation)
@@ -248,11 +275,24 @@ namespace Tgstation.Server.Host.Controllers
 			return Ok();
 		}
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Modify an <see cref="Api.Models.Instance"/>'s settings.
+		/// </summary>
+		/// <param name="model">The updated <see cref="Api.Models.Instance"/> settings.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="200">Instance updated successfully.</response>
+		/// <response code="202">Instance updated successfully and relocation job created.</response>
+		[HttpPost]
 		[TgsAuthorize(InstanceManagerRights.Relocate | InstanceManagerRights.Rename | InstanceManagerRights.SetAutoUpdate | InstanceManagerRights.SetConfiguration | InstanceManagerRights.SetOnline)]
-		#pragma warning disable CA1502 // TODO: Decomplexify
-		public override async Task<IActionResult> Update([FromBody] Api.Models.Instance model, CancellationToken cancellationToken)
+		[ProducesResponseType(typeof(Api.Models.Instance), 200)]
+		[ProducesResponseType(410)]
+#pragma warning disable CA1502 // TODO: Decomplexify
+		public async Task<IActionResult> Update([FromBody] Api.Models.Instance model, CancellationToken cancellationToken)
 		{
+			if (model == null)
+				throw new ArgumentNullException(nameof(model));
+
 			var instanceQuery = DatabaseContext.Instances.Where(x => x.Id == model.Id);
 
 			var moveJob = await instanceQuery
@@ -372,7 +412,9 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				Id = originalModel.Id
 			};
-			if (originalModelPath != null)
+
+			var moving = originalModelPath != null;
+			if (moving)
 			{
 				var job = new Models.Job
 				{
@@ -390,13 +432,20 @@ namespace Tgstation.Server.Host.Controllers
 			if (originalModel.Online.Value && model.AutoUpdateInterval.HasValue && oldAutoUpdateInterval != model.AutoUpdateInterval)
 				await instanceManager.GetInstance(originalModel).SetAutoUpdateInterval(model.AutoUpdateInterval.Value).ConfigureAwait(false);
 
-			return Json(api);
+			return moving ? (IActionResult)Accepted(api) : Json(api);
 		}
-		#pragma warning restore CA1502
+#pragma warning restore CA1502
 
-		/// <inheritdoc />
+		/// <summary>
+		/// List <see cref="Api.Models.Instance"/>s.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="200">Retrieved <see cref="Api.Models.Instance"/>s successfully.</response>
+		[HttpGet(Routes.List)]
 		[TgsAuthorize(InstanceManagerRights.List | InstanceManagerRights.Read)]
-		public override async Task<IActionResult> List(CancellationToken cancellationToken)
+		[ProducesResponseType(typeof(IEnumerable<Api.Models.Instance>), 200)]
+		public async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
 			IQueryable<Models.Instance> query = DatabaseContext.Instances;
 			if (!AuthenticationContext.User.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List))
@@ -418,9 +467,19 @@ namespace Tgstation.Server.Host.Controllers
 			return Json(apis);
 		}
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Get a specific <see cref="Api.Models.Instance"/>.
+		/// </summary>
+		/// <param name="id">The <see cref="Api.Models.Instance.Id"/> to retrieve.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="200">Retrieved <see cref="Api.Models.Instance"/> successfully.</response>
+		/// <response code="410">Instance not available.</response>
+		[HttpGet("{id}")]
 		[TgsAuthorize(InstanceManagerRights.List | InstanceManagerRights.Read)]
-		public override async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
+		[ProducesResponseType(typeof(Api.Models.Instance), 200)]
+		[ProducesResponseType(410)]
+		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			var query = DatabaseContext.Instances.Where(x => x.Id == id);
 			var cantList = !AuthenticationContext.User.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List);

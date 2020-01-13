@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
+using Microsoft.Net.Http.Headers;
 using System;
 using System.Linq;
 using System.Net.Mime;
@@ -85,10 +88,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Main page of the <see cref="Application"/>
 		/// </summary>
-		/// <returns>The <see cref="Api.Models.ServerInformation"/> of the <see cref="Application"/> if a properly authenticated API request, the web control panel if on a browser and enabled, <see cref="UnauthorizedResult"/> otherwise</returns>
+		/// <returns>
+		/// The <see cref="Api.Models.ServerInformation"/> of the <see cref="Application"/> if a properly authenticated API request, the web control panel if on a browser and enabled, <see cref="UnauthorizedResult"/> otherwise.
+		/// </returns>
+		/// <response code="200"><see cref="Api.Models.ServerInformation"/> retrieved successfully.</response>
+		[HttpGet]
 		[TgsAuthorize]
 		[AllowAnonymous]
-		[HttpGet]
+		[ProducesResponseType(typeof(Api.Models.ServerInformation), 200)]
 		public IActionResult Home()
 		{
 			if (AuthenticationContext != null)
@@ -113,12 +120,33 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
+		/// <response code="200">User logged in and <see cref="Api.Models.Token"/> generated successfully.</response>
+		/// <response code="401">User authentication failed.</response>
+		/// <response code="403">User authenticated but is disabled by an administrator.</response>
 		[HttpPost]
+		[ProducesResponseType(typeof(Api.Models.Token), 200)]
+		[ProducesResponseType(401)]
+		[ProducesResponseType(403)]
 		#pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<IActionResult> CreateToken(CancellationToken cancellationToken)
 		{
 			if (ApiHeaders == null)
-				return BadRequest(new Api.Models.ErrorMessage { Message = "Missing API headers!" });
+			{
+				// Get the exact error
+				var errorMessage = "Missing API headers!";
+				try
+				{
+					var _ = new ApiHeaders(Request.GetTypedHeaders());
+				}
+				catch (InvalidOperationException ex)
+				{
+					errorMessage = ex.Message;
+				}
+
+				Response.Headers.Add(HeaderNames.WWWAuthenticate, new StringValues("basic realm=\"Create TGS4 bearer token\""));
+
+				return BadRequest(new Api.Models.ErrorMessage { Message = errorMessage });
+			}
 
 			if (ApiHeaders.IsTokenAuthentication)
 				return BadRequest(new Api.Models.ErrorMessage { Message = "Cannot create a token using another token!" });
@@ -197,7 +225,10 @@ namespace Tgstation.Server.Host.Controllers
 
 				// Now that the bookeeping is done, tell them to fuck off if necessary
 				if (!user.Enabled.Value)
+				{
+					Logger.LogTrace("Not logging in disabled user {0}.", user.Id);
 					return Forbid();
+				}
 
 				var token = await tokenFactory.CreateToken(user, cancellationToken).ConfigureAwait(false);
 				if (usingSystemIdentity)

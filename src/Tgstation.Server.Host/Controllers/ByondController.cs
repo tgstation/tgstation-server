@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Globalization;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,7 +19,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// Controller for managing <see cref="Api.Models.Byond.Version"/>s
 	/// </summary>
 	[Route(Routes.Byond)]
-	public sealed class ByondController : ModelController<Api.Models.Byond>
+	public sealed class ByondController : ApiController
 	{
 		/// <summary>
 		/// The <see cref="IInstanceManager"/> for the <see cref="ByondController"/>
@@ -39,31 +39,53 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		public ByondController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, IJobManager jobManager, ILogger<ByondController> logger) : base(databaseContext, authenticationContextFactory, logger, true)
+		public ByondController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, IJobManager jobManager, ILogger<ByondController> logger) : base(databaseContext, authenticationContextFactory, logger, true, true)
 		{
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 		}
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Gets the active <see cref="Api.Models.Byond"/> version.
+		/// </summary>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <response code="200">Retrieved version information successfully.</response>
+		[HttpGet]
 		[TgsAuthorize(ByondRights.ReadActive)]
-		public override Task<IActionResult> Read(CancellationToken cancellationToken) => Task.FromResult<IActionResult>(
+		[ProducesResponseType(typeof(Api.Models.Byond), 200)]
+		public Task<IActionResult> Read() => Task.FromResult<IActionResult>(
 			Json(new Api.Models.Byond
 			{
 				Version = instanceManager.GetInstance(Instance).ByondManager.ActiveVersion
 			}));
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Lists installed <see cref="Api.Models.Byond"/> versions.
+		/// </summary>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <response code="200">Retrieved version information successfully.</response>
+		[HttpGet(Routes.List)]
 		[TgsAuthorize(ByondRights.ListInstalled)]
-		public override Task<IActionResult> List(CancellationToken cancellationToken) => Task.FromResult<IActionResult>(
+		[ProducesResponseType(typeof(IEnumerable<Api.Models.Byond>), 200)]
+		public Task<IActionResult> List() => Task.FromResult<IActionResult>(
 			Json(instanceManager.GetInstance(Instance).ByondManager.InstalledVersions.Select(x => new Api.Models.Byond
 			{
 				Version = x
 			})));
 
-		/// <inheritdoc />
+		/// <summary>
+		/// Changes the active BYOND version to the one specified in a given <paramref name="model"/>.
+		/// </summary>
+		/// <param name="model">The <see cref="Api.Models.Byond.Version"/> to switch to.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <response code="200">Switched active version successfully.</response>
+		/// <response code="202">Created <see cref="Api.Models.Job"/> to install and switch active version successfully.</response>
+		[HttpPost]
 		[TgsAuthorize(ByondRights.ChangeVersion)]
-		public override async Task<IActionResult> Update([FromBody] Api.Models.Byond model, CancellationToken cancellationToken)
+		[ProducesResponseType(typeof(Api.Models.Byond), 200)]
+		[ProducesResponseType(typeof(Api.Models.Byond), 202)]
+		public async Task<IActionResult> Update([FromBody] Api.Models.Byond model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
@@ -90,7 +112,7 @@ namespace Tgstation.Server.Host.Controllers
 				// run the install through the job manager
 				var job = new Models.Job
 				{
-					Description = String.Format(CultureInfo.InvariantCulture, "Install BYOND version {0}", installingVersion),
+					Description = $"Install BYOND version {installingVersion}",
 					StartedBy = AuthenticationContext.User,
 					CancelRightsType = RightsType.Byond,
 					CancelRight = (ulong)ByondRights.CancelInstall,

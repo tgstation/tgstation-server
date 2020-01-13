@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Reflection;
+using System.Text;
 
 namespace Tgstation.Server.Api
 {
@@ -23,27 +24,32 @@ namespace Tgstation.Server.Api
 		/// <summary>
 		/// The <see cref="ApiVersion"/> header key
 		/// </summary>
-		const string ApiVersionHeader = "Api";
-
-		/// <summary>
-		/// The <see cref="Username"/> header key
-		/// </summary>
-		const string UsernameHeader = "Username";
+		public const string ApiVersionHeader = "api";
 
 		/// <summary>
 		/// The <see cref="InstanceId"/> header key
 		/// </summary>
-		const string InstanceIdHeader = "Instance";
+		public const string InstanceIdHeader = "instance";
 
 		/// <summary>
 		/// The JWT authentication header scheme
 		/// </summary>
-		const string JwtAuthenticationScheme = "Bearer";
+		public const string JwtAuthenticationScheme = "bearer";
 
 		/// <summary>
-		/// The password authentication header scheme
+		/// The JWT authentication header scheme
 		/// </summary>
-		const string PasswordAuthenticationScheme = "Password";
+		public const string BasicAuthenticationScheme = "basic";
+
+		/// <summary>
+		/// The <see cref="Username"/> header key
+		/// </summary>
+		const string UsernameHeader = "username";
+
+		/// <summary>
+		/// The basic authentication header scheme
+		/// </summary>
+		const string PasswordAuthenticationScheme = "password";
 
 		/// <summary>
 		/// The current <see cref="System.Reflection.AssemblyName"/>
@@ -180,7 +186,9 @@ namespace Tgstation.Server.Api
 					InstanceId = instanceId;
 			}
 
-			switch (scheme)
+#pragma warning disable CA1308 // Normalize strings to uppercase
+			switch (scheme.ToLowerInvariant())
+#pragma warning restore CA1308 // Normalize strings to uppercase
 			{
 				case JwtAuthenticationScheme:
 					Token = parameter;
@@ -196,6 +204,25 @@ namespace Tgstation.Server.Api
 
 					if (fail)
 						throw new InvalidOperationException("Missing Username header!");
+					break;
+				case BasicAuthenticationScheme:
+					string joinedString;
+					try
+					{
+						var base64Bytes = Convert.FromBase64String(parameter);
+						joinedString = Encoding.UTF8.GetString(base64Bytes);
+					}
+					catch
+					{
+						throw new InvalidOperationException("Invalid basic Authorization header!");
+					}
+
+					var basicAuthSplits = joinedString.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+					if (basicAuthSplits.Length < 2)
+						throw new InvalidOperationException("Invalid basic Authorization header!");
+
+					Username = basicAuthSplits.First();
+					Password = String.Concat(basicAuthSplits.Skip(1));
 					break;
 				default:
 					throw new InvalidOperationException("Invalid authentication scheme!");
@@ -241,10 +268,9 @@ namespace Tgstation.Server.Api
 			if (IsTokenAuthentication)
 				headers.Authorization = new AuthenticationHeaderValue(JwtAuthenticationScheme, Token);
 			else
-			{
-				headers.Authorization = new AuthenticationHeaderValue(PasswordAuthenticationScheme, Password);
-				headers.Add(UsernameHeader, Username);
-			}
+				headers.Authorization = new AuthenticationHeaderValue(
+					BasicAuthenticationScheme,
+					Convert.ToBase64String(Encoding.UTF8.GetBytes($"{Username}:{Password}")));
 
 			headers.UserAgent.Add(new ProductInfoHeaderValue(UserAgent));
 			headers.Add(ApiVersionHeader, new ProductHeaderValue(AssemblyName.Name, ApiVersion.ToString()).ToString());

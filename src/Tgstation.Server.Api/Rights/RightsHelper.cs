@@ -60,7 +60,7 @@ namespace Tgstation.Server.Api.Rights
 		/// <returns>A <see cref="string"/> representing the claim role name</returns>
 		public static string RoleName(RightsType rightsType, Enum right)
 		{
-			var enumType = TypeMap[rightsType];
+			var enumType = RightToType(rightsType);
 			return String.Concat(enumType.Name, '.', Enum.GetName(enumType, right));
 		}
 

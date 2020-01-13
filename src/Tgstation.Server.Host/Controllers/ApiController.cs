@@ -18,6 +18,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// A <see cref="Controller"/> for API functions
 	/// </summary>
 	[Produces(ApiHeaders.ApplicationJson)]
+	[ApiController]
 	public abstract class ApiController : Controller
 	{
 		/// <summary>
@@ -129,25 +130,9 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (ModelState?.IsValid == false)
 			{
-				var errorMessages = ModelState.SelectMany(x => x.Value.Errors).Select(x => x.ErrorMessage).ToList();
-
-				// HACK
-				// do some fuckery to remove RequiredAttribute errors
-				for (var I = 0; I < errorMessages.Count; ++I)
-				{
-					var message = errorMessages[I];
-					if (message.StartsWith("The ", StringComparison.Ordinal) && message.EndsWith(" field is required.", StringComparison.Ordinal))
-					{
-						errorMessages.RemoveAt(I);
-						--I;
-					}
-				}
-
-				if (errorMessages.Count > 0)
-				{
-					await BadRequest(new ErrorMessage { Message = String.Join(Environment.NewLine, errorMessages) }).ExecuteResultAsync(context).ConfigureAwait(false);
-					return;
-				}
+				var errorMessages = ModelState.SelectMany(x => x.Value.Errors).Select(x => x.ErrorMessage);
+				await BadRequest(new ErrorMessage { Message = String.Join(Environment.NewLine, errorMessages) }).ExecuteResultAsync(context).ConfigureAwait(false);
+				return;
 			}
 
 			if (ApiHeaders != null)

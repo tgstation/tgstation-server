@@ -3,6 +3,14 @@
 
 @tableofcontents
 
+@section api_swag OpenAPI Spec
+
+TGS4 has a, from code, generated OpenAPI 3.0 specification. It is much more authorative than these documents.
+
+The most up to date version should be found here: https://raw.githubusercontent.com/tgstation/tgstation-server/gh-pages/swagger.json
+
+You can use the API explorer SwaggerUI to interact with it: https://petstore.swagger.io
+
 @section api_intro Introduction
 
 The TGS4 API is designed to be a fully realized RESTful service. Once hosted, follow the specified protocol for developing new clients or one off requests that provide full control over the server

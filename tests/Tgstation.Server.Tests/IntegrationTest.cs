@@ -29,7 +29,7 @@ namespace Tgstation.Server.Tests
 			try
 			{
 				var updatePath = Path.Combine(updatePathRoot, Guid.NewGuid().ToString());
-				var server = new TestingServer(updatePath);
+				var server = new TestingServer(clientFactory, updatePath);
 				using (var serverCts = new CancellationTokenSource())
 				{
 					var cancellationToken = serverCts.Token;
@@ -98,7 +98,7 @@ namespace Tgstation.Server.Tests
 		[TestCategory("SkipWhenLiveUnitTesting")]
 		public async Task TestStandardOperation()
 		{
-			var server = new TestingServer(null);
+			var server = new TestingServer(clientFactory, null);
 			using (var serverCts = new CancellationTokenSource())
 			{
 				var cancellationToken = serverCts.Token;

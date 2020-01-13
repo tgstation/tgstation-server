@@ -2,7 +2,6 @@
 using System;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
-using System.Reflection;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
@@ -42,7 +41,11 @@ namespace Tgstation.Server.Host.Security
 		/// </summary>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
 		/// <param name="cryptographySuite">The <see cref="ICryptographySuite"/> used for generating the <see cref="ValidationParameters"/></param>
-		public TokenFactory(IAsyncDelayer asyncDelayer, ICryptographySuite cryptographySuite)
+		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> used to generate the issuer name.</param>
+		public TokenFactory(
+			IAsyncDelayer asyncDelayer,
+			ICryptographySuite cryptographySuite,
+			IAssemblyInformationProvider assemblyInformationProvider)
 		{
 			ValidationParameters = new TokenValidationParameters
 			{
@@ -50,7 +53,7 @@ namespace Tgstation.Server.Host.Security
 				IssuerSigningKey = new SymmetricSecurityKey(cryptographySuite.GetSecureBytes(TokenSigningKeyByteAmount)),
 
 				ValidateIssuer = true,
-				ValidIssuer = Assembly.GetExecutingAssembly().GetName().Name,
+				ValidIssuer = assemblyInformationProvider.Name.Name,
 
 				ValidateLifetime = true,
 				ValidateAudience = true,
