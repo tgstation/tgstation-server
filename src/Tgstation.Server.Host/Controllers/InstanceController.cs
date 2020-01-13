@@ -140,7 +140,14 @@ namespace Tgstation.Server.Host.Controllers
 			}, out var normalizedLocalPath);
 
 			if (rawPath.StartsWith(normalizedLocalPath, StringComparison.Ordinal))
-				return Conflict(new ErrorMessage { Message = "Instances cannot be created in the installation directory!" });
+			{
+				bool sameLength = rawPath.Length == normalizedLocalPath.Length;
+				char dirSeparatorChar = rawPath.ToCharArray()[normalizedLocalPath.Length];
+				if(sameLength
+					|| dirSeparatorChar == Path.DirectorySeparatorChar
+					|| dirSeparatorChar == Path.AltDirectorySeparatorChar)
+					return Conflict(new ErrorMessage { Message = "Instances cannot be created in the installation directory!" });
+			}
 
 			var dirExistsTask = ioManager.DirectoryExists(model.Path, cancellationToken);
 			bool attached = false;
