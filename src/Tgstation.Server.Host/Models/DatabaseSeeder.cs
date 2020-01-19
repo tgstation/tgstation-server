@@ -17,10 +17,20 @@ namespace Tgstation.Server.Host.Models
 		readonly ICryptographySuite cryptographySuite;
 
 		/// <summary>
+		/// The <see cref="IDefaultLogin"/> for the <see cref="DatabaseSeeder"/>
+		/// </summary>
+		readonly IDefaultLogin defaultLogin;
+
+		/// <summary>
 		/// Construct a <see cref="DatabaseSeeder"/>
 		/// </summary>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
-		public DatabaseSeeder(ICryptographySuite cryptographySuite) => this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
+		/// <param name="defaultLogin">The value of <see cref="defaultLogin"/>.</param>
+		public DatabaseSeeder(ICryptographySuite cryptographySuite, IDefaultLogin defaultLogin)
+		{
+			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
+			this.defaultLogin = defaultLogin ?? throw new ArgumentNullException(nameof(defaultLogin));
+		}
 
 		/// <summary>
 		/// Add a default admin <see cref="User"/> to a given <paramref name="databaseContext"/>
@@ -33,11 +43,11 @@ namespace Tgstation.Server.Host.Models
 				AdministrationRights = (AdministrationRights)~0U,
 				CreatedAt = DateTimeOffset.Now,
 				InstanceManagerRights = (InstanceManagerRights)~0U,
-				Name = Api.Models.User.AdminName,
-				CanonicalName = Api.Models.User.AdminName.ToUpperInvariant(),
+				Name = defaultLogin.UserName,
+				CanonicalName = defaultLogin.UserName.ToUpperInvariant(),
 				Enabled = true,
 			};
-			cryptographySuite.SetUserPassword(admin, Api.Models.User.DefaultAdminPassword, true);
+			cryptographySuite.SetUserPassword(admin, defaultLogin.Password, true);
 			databaseContext.Users.Add(admin);
 		}
 
@@ -51,13 +61,13 @@ namespace Tgstation.Server.Host.Models
 		/// <inheritdoc />
 		public async Task ResetAdminPassword(IDatabaseContext databaseContext, CancellationToken cancellationToken)
 		{
-			var admin = await databaseContext.Users.Where(x => x.CanonicalName == Api.Models.User.AdminName.ToUpperInvariant()).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var admin = await databaseContext.Users.Where(x => x.CanonicalName == defaultLogin.UserName.ToUpperInvariant()).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (admin == default)
 				SeedAdminUser(databaseContext);
 			else
 			{
 				admin.Enabled = true;
-				cryptographySuite.SetUserPassword(admin, Api.Models.User.DefaultAdminPassword, false);
+				cryptographySuite.SetUserPassword(admin, defaultLogin.Password, false);
 			}
 
 			await databaseContext.Save(cancellationToken).ConfigureAwait(false);

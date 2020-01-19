@@ -14,6 +14,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Core
@@ -62,7 +63,12 @@ namespace Tgstation.Server.Host.Core
 		readonly ILogger<SetupWizard> logger;
 
 		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="SetupWizard"/>
+		/// The <see cref="IDefaultLogin"/> for the <see cref="SetupWizard"/>.
+		/// </summary>
+		readonly IDefaultLogin defaultLogin;
+
+		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="SetupWizard"/>.
 		/// </summary>
 		readonly GeneralConfiguration generalConfiguration;
 
@@ -76,9 +82,10 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="dbConnectionFactory">The value of <see cref="dbConnectionFactory"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
+		/// <param name="defaultLogin">The value of <see cref="defaultLogin"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/></param>
-		public SetupWizard(IIOManager ioManager, IConsole console, IHostingEnvironment hostingEnvironment, IApplication application, IDBConnectionFactory dbConnectionFactory, IPlatformIdentifier platformIdentifier, IAsyncDelayer asyncDelayer, ILogger<SetupWizard> logger, IOptions<GeneralConfiguration> generalConfigurationOptions)
+		public SetupWizard(IIOManager ioManager, IConsole console, IHostingEnvironment hostingEnvironment, IApplication application, IDBConnectionFactory dbConnectionFactory, IPlatformIdentifier platformIdentifier, IAsyncDelayer asyncDelayer, IDefaultLogin defaultLogin, ILogger<SetupWizard> logger, IOptions<GeneralConfiguration> generalConfigurationOptions)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.console = console ?? throw new ArgumentNullException(nameof(console));
@@ -87,6 +94,7 @@ namespace Tgstation.Server.Host.Core
 			this.dbConnectionFactory = dbConnectionFactory ?? throw new ArgumentNullException(nameof(dbConnectionFactory));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
+			this.defaultLogin = defaultLogin ?? throw new ArgumentNullException(nameof(defaultLogin));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
@@ -140,9 +148,10 @@ namespace Tgstation.Server.Host.Core
 		/// <summary>
 		/// Prompts the user to create a <see cref="DatabaseConfiguration"/>
 		/// </summary>
+		/// <param name="noPromptDefaultUserPassword">Whether or not the default username and password should be prompted for.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="DatabaseConfiguration"/></returns>
-		async Task<DatabaseConfiguration> ConfigureDatabase(CancellationToken cancellationToken)
+		async Task<DatabaseConfiguration> ConfigureDatabase(bool noPromptDefaultUserPassword, CancellationToken cancellationToken)
 		{
 			do
 			{
@@ -336,6 +345,14 @@ namespace Tgstation.Server.Host.Core
 									await console.WriteAsync("Press any key to continue...", true, cancellationToken).ConfigureAwait(false);
 									await console.PressAnyKeyAsync(cancellationToken).ConfigureAwait(false);
 								}
+							}
+
+							if (!noPromptDefaultUserPassword)
+							{
+								await console.WriteAsync($"Enter initial admin password (optional, default \"{defaultLogin.Password}\"): ", false, cancellationToken).ConfigureAwait(false);
+								var defaultPassword = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
+								if (!String.IsNullOrEmpty(defaultPassword))
+									defaultLogin.Password = defaultPassword;
 							}
 						}
 					}
@@ -592,9 +609,10 @@ namespace Tgstation.Server.Host.Core
 		/// Runs the <see cref="SetupWizard"/>
 		/// </summary>
 		/// <param name="userConfigFileName">The path to the settings json to build</param>
+		/// <param name="noPromptDefaultUserPassword">Whether or not the default username and password should be prompted for.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		async Task RunWizard(string userConfigFileName, CancellationToken cancellationToken)
+		async Task RunWizard(string userConfigFileName, bool noPromptDefaultUserPassword, CancellationToken cancellationToken)
 		{
 			// welcome message
 			await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
@@ -603,7 +621,7 @@ namespace Tgstation.Server.Host.Core
 
 			var hostingPort = await PromptForHostingPort(cancellationToken).ConfigureAwait(false);
 
-			var databaseConfiguration = await ConfigureDatabase(cancellationToken).ConfigureAwait(false);
+			var databaseConfiguration = await ConfigureDatabase(noPromptDefaultUserPassword, cancellationToken).ConfigureAwait(false);
 
 			var newGeneralConfiguration = await ConfigureGeneral(cancellationToken).ConfigureAwait(false);
 
@@ -628,7 +646,8 @@ namespace Tgstation.Server.Host.Core
 				return false;
 			}
 
-			var forceRun = setupWizardMode == SetupWizardMode.Force || setupWizardMode == SetupWizardMode.Only;
+			var noPromptDefaultUserPassword = setupWizardMode == SetupWizardMode.Only;
+			var forceRun = setupWizardMode == SetupWizardMode.Force || noPromptDefaultUserPassword;
 			if (!console.Available)
 			{
 				if (forceRun)
@@ -685,7 +704,7 @@ namespace Tgstation.Server.Host.Core
 					// flush the logs to prevent console conflicts
 					await asyncDelayer.Delay(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false);
 
-					await RunWizard(userConfigFileName, cancellationToken).ConfigureAwait(false);
+					await RunWizard(userConfigFileName, noPromptDefaultUserPassword, cancellationToken).ConfigureAwait(false);
 				}
 				finally
 				{
