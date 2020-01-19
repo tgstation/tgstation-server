@@ -4,7 +4,7 @@ using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
 
-namespace Tgstation.Server.Host.Models.Migrations
+namespace Tgstation.Server.Host.Database.Design
 {
 	/// <summary>
 	/// Contains helpers for creating design time <see cref="DatabaseContext{TParentContext}"/>s

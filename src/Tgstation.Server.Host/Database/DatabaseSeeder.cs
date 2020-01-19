@@ -4,9 +4,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Rights;
+using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
-namespace Tgstation.Server.Host.Models
+namespace Tgstation.Server.Host.Database
 {
 	/// <inheritdoc />
 	sealed class DatabaseSeeder : IDatabaseSeeder
@@ -20,7 +21,10 @@ namespace Tgstation.Server.Host.Models
 		/// Construct a <see cref="DatabaseSeeder"/>
 		/// </summary>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
-		public DatabaseSeeder(ICryptographySuite cryptographySuite) => this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
+		public DatabaseSeeder(ICryptographySuite cryptographySuite)
+		{
+			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
+		}
 
 		/// <summary>
 		/// Add a default admin <see cref="User"/> to a given <paramref name="databaseContext"/>
@@ -30,9 +34,9 @@ namespace Tgstation.Server.Host.Models
 		{
 			var admin = new User
 			{
-				AdministrationRights = (AdministrationRights)~0U,
+				AdministrationRights = ~AdministrationRights.None,
 				CreatedAt = DateTimeOffset.Now,
-				InstanceManagerRights = (InstanceManagerRights)~0U,
+				InstanceManagerRights = ~InstanceManagerRights.None,
 				Name = Api.Models.User.AdminName,
 				CanonicalName = Api.Models.User.AdminName.ToUpperInvariant(),
 				Enabled = true,

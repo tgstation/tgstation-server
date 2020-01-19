@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
 

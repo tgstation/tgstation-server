@@ -14,6 +14,7 @@ using Tgstation.Server.Host.Components.Compiler;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components
@@ -109,7 +110,22 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
 		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public Instance(Api.Models.Instance metadata, IRepositoryManager repositoryManager, IByondManager byondManager, IDreamMaker dreamMaker, IWatchdog watchdog, IChat chat, StaticFiles.IConfiguration configuration, ICompileJobConsumer compileJobConsumer, IDatabaseContextFactory databaseContextFactory, IDmbFactory dmbFactory, IJobManager jobManager, IEventConsumer eventConsumer, IGitHubClientFactory gitHubClientFactory, ILogger<Instance> logger)
+		public Instance(
+			Api.Models.Instance metadata,
+			IRepositoryManager repositoryManager,
+			IByondManager byondManager,
+			IDreamMaker dreamMaker,
+			IWatchdog watchdog,
+			IChat chat,
+			StaticFiles.IConfiguration
+			configuration,
+			ICompileJobConsumer compileJobConsumer,
+			IDatabaseContextFactory databaseContextFactory,
+			IDmbFactory dmbFactory,
+			IJobManager jobManager,
+			IEventConsumer eventConsumer,
+			IGitHubClientFactory gitHubClientFactory,
+			ILogger<Instance> logger)
 		{
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 			RepositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));

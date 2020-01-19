@@ -1,9 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
-using Tgstation.Server.Host.Models;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.Database
 {
 	/// <inheritdoc />
 	sealed class DatabaseContextFactory : IDatabaseContextFactory

@@ -4,7 +4,7 @@ using System;
 using System.Data.SqlClient;
 using Tgstation.Server.Host.Configuration;
 
-namespace Tgstation.Server.Host.Core.Tests
+namespace Tgstation.Server.Host.Database.Tests
 {
 	[TestClass]
 	public sealed class TestDatabaseConnectionFactory

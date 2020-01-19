@@ -1,10 +1,10 @@
 ﻿using System.Data.Common;
 using Tgstation.Server.Host.Configuration;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.Database
 {
 	/// <summary>
-	/// For creating <see cref="DbConnection"/>
+	/// For creating raw <see cref="DbConnection"/>s.
 	/// </summary>
 	interface IDatabaseConnectionFactory
 	{

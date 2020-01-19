@@ -2,9 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Logging;
+using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
-namespace Tgstation.Server.Host.Models.Migrations
+namespace Tgstation.Server.Host.Database.Design
 {
 	/// <inheritdoc />
 	sealed class SqlServerDesignTimeDbContextFactory : IDesignTimeDbContextFactory<SqlServerDatabaseContext>

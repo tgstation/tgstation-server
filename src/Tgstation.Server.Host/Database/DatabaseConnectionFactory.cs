@@ -4,7 +4,7 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using Tgstation.Server.Host.Configuration;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.Database
 {
 	/// <inheritdoc />
 	sealed class DatabaseConnectionFactory : IDatabaseConnectionFactory

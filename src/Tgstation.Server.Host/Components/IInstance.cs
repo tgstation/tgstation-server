@@ -7,6 +7,7 @@ using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.StaticFiles;
 using Tgstation.Server.Host.Components.Watchdog;
+using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components

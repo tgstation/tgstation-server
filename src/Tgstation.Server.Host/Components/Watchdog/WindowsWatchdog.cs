@@ -8,6 +8,7 @@ using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Compiler;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Components.Watchdog
@@ -73,20 +74,20 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			DreamDaemonLaunchParameters initialLaunchParameters,
 			Api.Models.Instance instance, bool autoStart)
 			: base(
-				  chat,
-				  sessionControllerFactory,
-				  dmbFactory,
-				  reattachInfoHandler,
-				  databaseContextFactory,
-				  byondTopicSender,
-				  eventConsumer,
-				  jobManager,
-				  serverControl,
-				  asyncDelayer,
-				  logger,
-				  initialLaunchParameters,
-				  instance,
-				  autoStart)
+				chat,
+				sessionControllerFactory,
+				dmbFactory,
+				reattachInfoHandler,
+				databaseContextFactory,
+				byondTopicSender,
+				eventConsumer,
+				jobManager,
+				serverControl,
+				asyncDelayer,
+				logger,
+				initialLaunchParameters,
+				instance,
+				autoStart)
 		{
 			try
 			{

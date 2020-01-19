@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Components.Compiler;
 using Tgstation.Server.Host.Components.Watchdog;
-using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Database;
 using Z.EntityFramework.Plus;
 
 namespace Tgstation.Server.Host.Components

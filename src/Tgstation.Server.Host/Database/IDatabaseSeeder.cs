@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace Tgstation.Server.Host.Models
+namespace Tgstation.Server.Host.Database
 {
 	/// <summary>
 	/// For initially seeding a database

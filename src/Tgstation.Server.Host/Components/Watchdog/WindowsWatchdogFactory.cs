@@ -7,6 +7,7 @@ using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Compiler;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Components.Watchdog
@@ -41,13 +42,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IAsyncDelayer asyncDelayer,
 			ISymlinkFactory symlinkFactory,
 			IOptions<GeneralConfiguration> generalConfigurationOptions)
-			: base(serverControl,
-				  loggerFactory,
-				  databaseContextFactory,
-				  byondTopicSender,
-				  jobManager,
-				  asyncDelayer,
-				  generalConfigurationOptions)
+			: base(
+				serverControl,
+				loggerFactory,
+				databaseContextFactory,
+				byondTopicSender,
+				jobManager,
+				asyncDelayer,
+				generalConfigurationOptions)
 		{
 			this.symlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
 		}

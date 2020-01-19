@@ -2,8 +2,9 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Models;
 
-namespace Tgstation.Server.Host.Models
+namespace Tgstation.Server.Host.Database
 {
 	/// <summary>
 	/// Represents the database
@@ -51,7 +52,7 @@ namespace Tgstation.Server.Host.Models
 		DbSet<DreamDaemonSettings> DreamDaemonSettings { get; set; }
 
 		/// <summary>
-		/// The <see cref="Models.ChatBot"/> in the <see cref="IDatabaseContext"/>
+		/// The <see cref="ChatBot"/>s in the <see cref="IDatabaseContext"/>
 		/// </summary>
 		DbSet<ChatBot> ChatBots { get; set; }
 
@@ -66,12 +67,12 @@ namespace Tgstation.Server.Host.Models
 		DbSet<RepositorySettings> RepositorySettings { get; set; }
 
 		/// <summary>
-		/// The <see cref="DbSet{TEntity}"/> for <see cref="Models.ReattachInformation"/>s
+		/// The <see cref="DbSet{TEntity}"/> for <see cref="ReattachInformation"/>s
 		/// </summary>
 		DbSet<ReattachInformation> ReattachInformations { get; set; }
 
 		/// <summary>
-		/// The <see cref="DbSet{TEntity}"/> for <see cref="Models.WatchdogReattachInformation"/>s
+		/// The <see cref="DbSet{TEntity}"/> for <see cref="WatchdogReattachInformation"/>s
 		/// </summary>
 		DbSet<WatchdogReattachInformation> WatchdogReattachInformations { get; set; }
 

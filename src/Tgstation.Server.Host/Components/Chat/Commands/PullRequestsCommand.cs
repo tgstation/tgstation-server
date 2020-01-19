@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
-using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Database;
 
 namespace Tgstation.Server.Host.Components.Chat.Commands
 {

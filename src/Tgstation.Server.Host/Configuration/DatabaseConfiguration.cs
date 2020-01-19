@@ -4,7 +4,7 @@ using Newtonsoft.Json.Converters;
 namespace Tgstation.Server.Host.Configuration
 {
 	/// <summary>
-	/// Configuration options for the <see cref="Models.DatabaseContext{TParentContext}"/>
+	/// Configuration options for the <see cref="Database.DatabaseContext{TParentContext}"/>
 	/// </summary>
 	sealed class DatabaseConfiguration
 	{

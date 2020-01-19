@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Tgstation.Server.Host.Configuration;
 
-namespace Tgstation.Server.Host.Models
+namespace Tgstation.Server.Host.Database
 {
 	/// <summary>
 	/// <see cref="DatabaseContext{TParentContext}"/> for Sqlserver

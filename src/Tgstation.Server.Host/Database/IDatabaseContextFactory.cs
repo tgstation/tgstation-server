@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Tgstation.Server.Host.Models;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.Database
 {
 	/// <summary>
 	/// Factory for scoping usage of <see cref="IDatabaseContext"/>s. Meant for use by <see cref="Components"/>

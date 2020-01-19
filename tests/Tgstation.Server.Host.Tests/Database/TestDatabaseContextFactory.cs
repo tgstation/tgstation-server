@@ -5,7 +5,7 @@ using System;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Models;
 
-namespace Tgstation.Server.Host.Core.Tests
+namespace Tgstation.Server.Host.Database.Tests
 {
 	[TestClass]
 	public sealed class TestDatabaseContextFactory

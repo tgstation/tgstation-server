@@ -10,6 +10,7 @@ using Tgstation.Server.Host.Components.Compiler;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.System;

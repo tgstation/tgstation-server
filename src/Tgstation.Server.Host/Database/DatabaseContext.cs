@@ -10,9 +10,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Models.Migrations;
 
-namespace Tgstation.Server.Host.Models
+namespace Tgstation.Server.Host.Database
 {
 	/// <inheritdoc />
 	#pragma warning disable CA1506 // TODO: Decomplexify

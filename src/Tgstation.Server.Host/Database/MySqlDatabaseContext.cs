@@ -6,7 +6,7 @@ using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using System;
 using Tgstation.Server.Host.Configuration;
 
-namespace Tgstation.Server.Host.Models
+namespace Tgstation.Server.Host.Database
 {
 	/// <summary>
 	/// <see cref="DatabaseContext{TParentContext}"/> for MySQL

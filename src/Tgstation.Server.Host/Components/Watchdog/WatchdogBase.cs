@@ -17,6 +17,7 @@ using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Compiler;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 
 namespace Tgstation.Server.Host.Components.Watchdog
