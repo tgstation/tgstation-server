@@ -12,6 +12,7 @@ using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components
 {
@@ -129,7 +130,25 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="networkPromptReaper">The value of <see cref="networkPromptReaper"/></param>
 		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
-		public InstanceFactory(IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, ILoggerFactory loggerFactory, IByondTopicSender byondTopicSender, ICryptographySuite cryptographySuite, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory, IByondInstaller byondInstaller, IChatFactory chatFactory, IProcessExecutor processExecutor, IPostWriteHandler postWriteHandler, IWatchdogFactory watchdogFactory, IJobManager jobManager, ICredentialsProvider credentialsProvider, INetworkPromptReaper networkPromptReaper, IGitHubClientFactory gitHubClientFactory, IPlatformIdentifier platformIdentifier)
+		public InstanceFactory(
+			IIOManager ioManager,
+			IDatabaseContextFactory databaseContextFactory,
+			IApplication application,
+			ILoggerFactory loggerFactory,
+			IByondTopicSender byondTopicSender,
+			ICryptographySuite cryptographySuite,
+			ISynchronousIOManager synchronousIOManager,
+			ISymlinkFactory symlinkFactory,
+			IByondInstaller byondInstaller,
+			IChatFactory chatFactory,
+			IProcessExecutor processExecutor,
+			IPostWriteHandler postWriteHandler,
+			IWatchdogFactory watchdogFactory,
+			IJobManager jobManager,
+			ICredentialsProvider credentialsProvider,
+			INetworkPromptReaper networkPromptReaper,
+			IGitHubClientFactory gitHubClientFactory,
+			IPlatformIdentifier platformIdentifier)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));

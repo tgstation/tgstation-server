@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.System
 {
 	/// <summary>
 	/// For retrieving the <see cref="Assembly"/>'s location.

@@ -19,6 +19,7 @@ using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Controllers
 {
@@ -80,7 +81,23 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
 		/// <param name="updatesConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="updatesConfiguration"/></param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="generalConfiguration"/></param>
-		public AdministrationController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IGitHubClientFactory gitHubClientFactory, IServerControl serverUpdater, IApplication application, IIOManager ioManager, IPlatformIdentifier platformIdentifier, ILogger<AdministrationController> logger, IOptions<UpdatesConfiguration> updatesConfigurationOptions, IOptions<GeneralConfiguration> generalConfigurationOptions) : base(databaseContext, authenticationContextFactory, logger, false, true)
+		public AdministrationController(
+			IDatabaseContext databaseContext,
+			IAuthenticationContextFactory authenticationContextFactory,
+			IGitHubClientFactory gitHubClientFactory,
+			IServerControl serverUpdater,
+			IApplication application,
+			IIOManager ioManager,
+			IPlatformIdentifier platformIdentifier,
+			ILogger<AdministrationController> logger,
+			IOptions<UpdatesConfiguration> updatesConfigurationOptions,
+			IOptions<GeneralConfiguration> generalConfigurationOptions)
+			: base(
+				databaseContext,
+				authenticationContextFactory,
+				logger,
+				false,
+				true)
 		{
 			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 			this.serverUpdater = serverUpdater ?? throw new ArgumentNullException(nameof(serverUpdater));

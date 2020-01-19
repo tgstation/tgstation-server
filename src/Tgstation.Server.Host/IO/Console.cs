@@ -30,7 +30,7 @@ namespace Tgstation.Server.Host.IO
 		public Console()
 		{
 			cancelKeyCts = new CancellationTokenSource();
-			System.Console.CancelKeyPress += (sender, e) =>
+			global::System.Console.CancelKeyPress += (sender, e) =>
 			{
 				lock (cancelKeyCts)
 				{
@@ -60,7 +60,7 @@ namespace Tgstation.Server.Host.IO
 		public Task PressAnyKeyAsync(CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
 			CheckAvailable();
-			System.Console.Read();
+			global::System.Console.Read();
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
 		/// <inheritdoc />
@@ -69,12 +69,12 @@ namespace Tgstation.Server.Host.IO
 			// TODO: Make this better: https://stackoverflow.com/questions/9479573/how-to-interrupt-console-readline
 			CheckAvailable();
 			if (!usePasswordChar)
-				return System.Console.ReadLine();
+				return global::System.Console.ReadLine();
 
 			var passwordBuilder = new StringBuilder();
 			do
 			{
-				var keyDescription = System.Console.ReadKey(true);
+				var keyDescription = global::System.Console.ReadKey(true);
 				if (keyDescription.Key == ConsoleKey.Enter)
 					break;
 				else if (keyDescription.Key == ConsoleKey.Backspace)
@@ -82,20 +82,20 @@ namespace Tgstation.Server.Host.IO
 					if (passwordBuilder.Length > 0)
 					{
 						--passwordBuilder.Length;
-						System.Console.Write("\b \b");
+						global::System.Console.Write("\b \b");
 					}
 				}
 				else if (keyDescription.KeyChar != '\u0000')
 				{
 					// KeyChar == '\u0000' if the key pressed does not correspond to a printable character, e.g. F1, Pause-Break, etc
 					passwordBuilder.Append(keyDescription.KeyChar);
-					System.Console.Write('*');
+					global::System.Console.Write('*');
 				}
 			}
 			while (!cancellationToken.IsCancellationRequested);
 
 			cancellationToken.ThrowIfCancellationRequested();
-			System.Console.WriteLine();
+			global::System.Console.WriteLine();
 			return passwordBuilder.ToString();
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
@@ -107,12 +107,12 @@ namespace Tgstation.Server.Host.IO
 			{
 				if (!newLine)
 					throw new InvalidOperationException("Cannot write null text without a new line!");
-				System.Console.WriteLine();
+				global::System.Console.WriteLine();
 			}
 			else if (newLine)
-				System.Console.WriteLine(text);
+				global::System.Console.WriteLine(text);
 			else
-				System.Console.Write(text);
+				global::System.Console.Write(text);
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 	}
 }

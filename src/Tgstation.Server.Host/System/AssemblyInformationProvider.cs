@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.System
 {
 	/// <inheritdoc />
 	sealed class AssemblyInformationProvider : IAssemblyInformationProvider

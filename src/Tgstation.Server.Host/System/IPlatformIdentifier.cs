@@ -1,4 +1,4 @@
-﻿namespace Tgstation.Server.Host.Core
+﻿namespace Tgstation.Server.Host.System
 {
 	/// <summary>
 	/// For identifying the current platform

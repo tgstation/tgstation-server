@@ -3,7 +3,7 @@ using System;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.System
 {
 	/// <inheritdoc />
 	sealed class Process : IProcess
@@ -17,7 +17,7 @@ namespace Tgstation.Server.Host.Core
 		/// <inheritdoc />
 		public Task<int> Lifetime { get; }
 
-		readonly System.Diagnostics.Process handle;
+		readonly global::System.Diagnostics.Process handle;
 
 		readonly StringBuilder outputStringBuilder;
 		readonly StringBuilder errorStringBuilder;
@@ -38,7 +38,14 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="combinedStringBuilder">The value of <see cref="combinedStringBuilder"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="preExisting">If <paramref name="handle"/> was NOT just created</param>
-		public Process(System.Diagnostics.Process handle, Task<int> lifetime, StringBuilder outputStringBuilder, StringBuilder errorStringBuilder, StringBuilder combinedStringBuilder, ILogger<Process> logger, bool preExisting)
+		public Process(
+			global::System.Diagnostics.Process handle,
+			Task<int> lifetime,
+			StringBuilder outputStringBuilder,
+			StringBuilder errorStringBuilder,
+			StringBuilder combinedStringBuilder,
+			ILogger<Process> logger,
+			bool preExisting)
 		{
 			this.handle = handle ?? throw new ArgumentNullException(nameof(handle));
 
@@ -126,7 +133,7 @@ namespace Tgstation.Server.Host.Core
 		{
 			try
 			{
-				handle.PriorityClass = System.Diagnostics.ProcessPriorityClass.AboveNormal;
+				handle.PriorityClass = global::System.Diagnostics.ProcessPriorityClass.AboveNormal;
 				logger.LogTrace("Set to above normal priority", handle.Id);
 			}
 			catch (Exception e)

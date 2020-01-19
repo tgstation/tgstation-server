@@ -14,6 +14,7 @@ using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Compiler
 {
@@ -102,7 +103,16 @@ namespace Tgstation.Server.Host.Components.Compiler
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
 		/// <param name="watchdog">The value of <see cref="watchdog"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public DreamMaker(IByondManager byond, IIOManager ioManager, StaticFiles.IConfiguration configuration, ISessionControllerFactory sessionControllerFactory, IEventConsumer eventConsumer, IChat chat, IProcessExecutor processExecutor, IWatchdog watchdog, ILogger<DreamMaker> logger)
+		public DreamMaker(
+			IByondManager byond,
+			IIOManager ioManager,
+			StaticFiles.IConfiguration configuration,
+			ISessionControllerFactory sessionControllerFactory,
+			IEventConsumer eventConsumer,
+			IChat chat,
+			IProcessExecutor processExecutor,
+			IWatchdog watchdog,
+			ILogger<DreamMaker> logger)
 		{
 			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));

@@ -13,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Core.Tests
 {

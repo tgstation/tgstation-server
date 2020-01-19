@@ -181,7 +181,7 @@ namespace Tgstation.Server.Host.Controllers
 
 				// Pick the DB user first
 				var user = users
-					.OrderByDescending(user => user.PasswordHash != null)
+					.OrderByDescending(dbUser => dbUser.PasswordHash != null)
 					.FirstOrDefault();
 
 				// No user? You're not allowed

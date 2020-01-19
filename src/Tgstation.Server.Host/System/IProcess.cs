@@ -1,10 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.System
 {
 	/// <summary>
-	/// Abstraction over a <see cref="System.Diagnostics.Process"/>
+	/// Abstraction over a <see cref="global::System.Diagnostics.Process"/>
 	/// </summary>
 	interface IProcess : IProcessBase
 	{

@@ -15,6 +15,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Core
 {
@@ -78,7 +79,16 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/></param>
-		public SetupWizard(IIOManager ioManager, IConsole console, IHostingEnvironment hostingEnvironment, IApplication application, IDatabaseConnectionFactory dbConnectionFactory, IPlatformIdentifier platformIdentifier, IAsyncDelayer asyncDelayer, ILogger<SetupWizard> logger, IOptions<GeneralConfiguration> generalConfigurationOptions)
+		public SetupWizard(
+			IIOManager ioManager,
+			IConsole console,
+			IHostingEnvironment hostingEnvironment,
+			IApplication application,
+			IDatabaseConnectionFactory dbConnectionFactory,
+			IPlatformIdentifier platformIdentifier,
+			IAsyncDelayer asyncDelayer,
+			ILogger<SetupWizard> logger,
+			IOptions<GeneralConfiguration> generalConfigurationOptions)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.console = console ?? throw new ArgumentNullException(nameof(console));

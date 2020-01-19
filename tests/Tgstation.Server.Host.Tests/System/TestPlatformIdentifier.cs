@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Runtime.InteropServices;
 
-namespace Tgstation.Server.Host.Core.Tests
+namespace Tgstation.Server.Host.System.Tests
 {
 	[TestClass]
 	public sealed class TestPlatformIdentifier

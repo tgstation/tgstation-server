@@ -16,6 +16,7 @@ using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
@@ -111,7 +112,18 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="networkPromptReaper">The value of <see cref="networkPromptReaper"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
-		public SessionControllerFactory(IProcessExecutor processExecutor, IByondManager byond, IByondTopicSender byondTopicSender, ICryptographySuite cryptographySuite, IApplication application, IIOManager ioManager, IChat chat, INetworkPromptReaper networkPromptReaper, IPlatformIdentifier platformIdentifier, ILoggerFactory loggerFactory, Api.Models.Instance instance)
+		public SessionControllerFactory(
+			IProcessExecutor processExecutor,
+			IByondManager byond,
+			IByondTopicSender byondTopicSender,
+			ICryptographySuite cryptographySuite,
+			IApplication application,
+			IIOManager ioManager,
+			IChat chat,
+			INetworkPromptReaper networkPromptReaper,
+			IPlatformIdentifier platformIdentifier,
+			ILoggerFactory loggerFactory,
+			Api.Models.Instance instance)
 		{
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));

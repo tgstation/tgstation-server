@@ -3,7 +3,7 @@ using System;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.System
 {
 	/// <inheritdoc />
 	sealed class ProcessExecutor : IProcessExecutor
@@ -21,9 +21,9 @@ namespace Tgstation.Server.Host.Core
 		/// <summary>
 		/// Create a <see cref="Task{TResult}"/> resulting in the exit code of a given <paramref name="handle"/>
 		/// </summary>
-		/// <param name="handle">The <see cref="System.Diagnostics.Process"/> to attach the <see cref="Task{TResult}"/> for</param>
+		/// <param name="handle">The <see cref="global::System.Diagnostics.Process"/> to attach the <see cref="Task{TResult}"/> for</param>
 		/// <returns>A new <see cref="Task{TResult}"/> resulting in the exit code of <paramref name="handle"/></returns>
-		static Task<int> AttachExitHandler(System.Diagnostics.Process handle)
+		static Task<int> AttachExitHandler(global::System.Diagnostics.Process handle)
 		{
 			handle.EnableRaisingEvents = true;
 			var tcs = new TaskCompletionSource<int>();
@@ -59,10 +59,10 @@ namespace Tgstation.Server.Host.Core
 		public IProcess GetProcess(int id)
 		{
 			logger.LogDebug("Attaching to process {0}...", id);
-			System.Diagnostics.Process handle;
+			global::System.Diagnostics.Process handle;
 			try
 			{
-				handle = System.Diagnostics.Process.GetProcessById(id);
+				handle = global::System.Diagnostics.Process.GetProcessById(id);
 			}
 			catch(Exception e)
 			{
@@ -85,7 +85,7 @@ namespace Tgstation.Server.Host.Core
 		public IProcess LaunchProcess(string fileName, string workingDirectory, string arguments, bool readOutput, bool readError, bool noShellExecute)
 		{
 			logger.LogDebug("Launching process in {0}: {1} {2}", workingDirectory, fileName, arguments);
-			var handle = new System.Diagnostics.Process();
+			var handle = new global::System.Diagnostics.Process();
 			try
 			{
 				handle.StartInfo.FileName = fileName;

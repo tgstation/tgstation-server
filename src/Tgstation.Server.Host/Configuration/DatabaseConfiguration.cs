@@ -35,7 +35,7 @@ namespace Tgstation.Server.Host.Configuration
 		public bool DropDatabase { get; set; }
 
 		/// <summary>
-		/// The <see cref="string"/> form of the <see cref="System.Version"/> of a target MySQL/MariaDB server
+		/// The <see cref="string"/> form of the <see cref="global::System.Version"/> of a target MySQL/MariaDB server
 		/// </summary>
 		public string MySqlServerVersion { get; set; }
 	}

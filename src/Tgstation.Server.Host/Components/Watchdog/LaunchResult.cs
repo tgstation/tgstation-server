@@ -9,12 +9,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	public sealed class LaunchResult
 	{
 		/// <summary>
-		/// The time it took for <see cref="System.Diagnostics.Process.WaitForInputIdle()"/> to return. If <see langword="null"/> the startup timed out
+		/// The time it took for <see cref="global::System.Diagnostics.Process.WaitForInputIdle()"/> to return. If <see langword="null"/> the startup timed out
 		/// </summary>
 		public TimeSpan? StartupTime { get; set; }
 
 		/// <summary>
-		/// The <see cref="System.Diagnostics.Process.ExitCode"/> if it exited
+		/// The <see cref="global::System.Diagnostics.Process.ExitCode"/> if it exited
 		/// </summary>
 		public int? ExitCode { get; set; }
 

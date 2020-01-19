@@ -7,7 +7,7 @@ using Tgstation.Server.Host.Configuration;
 namespace Tgstation.Server.Host.Core.Tests
 {
 	[TestClass]
-	public sealed class TestDBConnectionFactory
+	public sealed class TestDatabaseConnectionFactory
 	{
 		[TestMethod]
 		public void TestBadParameters()

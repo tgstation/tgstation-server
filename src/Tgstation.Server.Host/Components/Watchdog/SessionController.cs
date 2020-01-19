@@ -12,7 +12,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Interop;
-using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
@@ -180,7 +180,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="launchSecurityLevel">The value of <see cref="launchSecurityLevel"/></param>
 		/// <param name="startupTimeout">The optional time to wait before failing the <see cref="LaunchResult"/></param>
-		public SessionController(ReattachInformation reattachInformation, IProcess process, IByondExecutableLock byondLock, IByondTopicSender byondTopicSender, IJsonTrackingContext chatJsonTrackingContext, ICommContext interopContext, IChat chat, ILogger<SessionController> logger, DreamDaemonSecurity? launchSecurityLevel, uint? startupTimeout)
+		public SessionController(
+			ReattachInformation reattachInformation,
+			IProcess process,
+			IByondExecutableLock byondLock,
+			IByondTopicSender byondTopicSender,
+			IJsonTrackingContext chatJsonTrackingContext,
+			ICommContext interopContext,
+			IChat chat,
+			ILogger<SessionController> logger,
+			DreamDaemonSecurity? launchSecurityLevel,
+			uint? startupTimeout)
 		{
 			this.chatJsonTrackingContext = chatJsonTrackingContext; // null valid
 			this.reattachInformation = reattachInformation ?? throw new ArgumentNullException(nameof(reattachInformation));
@@ -541,8 +551,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public void ReplaceDmbProvider(IDmbProvider dmbProvider)
 		{
-			if (dmbProvider == null)
 #pragma warning disable IDE0016 // Use 'throw' expression
+			if (dmbProvider == null)
 				throw new ArgumentNullException(nameof(dmbProvider));
 #pragma warning restore IDE0016 // Use 'throw' expression
 
