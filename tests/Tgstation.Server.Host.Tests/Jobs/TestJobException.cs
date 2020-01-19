@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace Tgstation.Server.Host.Core.Tests
+namespace Tgstation.Server.Host.Jobs.Tests
 {
 	[TestClass]
 	public sealed class TestJobException

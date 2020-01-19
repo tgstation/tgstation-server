@@ -3,7 +3,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Tgstation.Server.Host.Core.Tests
+namespace Tgstation.Server.Host.Jobs.Tests
 {
 	[TestClass]
 	public sealed class TestJobHandler

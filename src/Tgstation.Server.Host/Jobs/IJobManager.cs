@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Models;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.Jobs
 {
 	/// <summary>
 	/// Manages the runtime of <see cref="Job"/>s

@@ -62,7 +62,7 @@ namespace Tgstation.Server.Host.Components
 		Task SetAutoUpdateInterval(uint newInterval);
 
 		/// <summary>
-		/// Run the compile job and insert it into the database. Meant to be called by a <see cref="Core.IJobManager"/>
+		/// Run the compile job and insert it into the database. Meant to be called by a <see cref="Jobs.IJobManager"/>
 		/// </summary>
 		/// <param name="job">The running <see cref="Job"/></param>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the operation</param>

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.Jobs
 {
 	/// <summary>
 	/// Operation exceptions thrown from the context of a <see cref="Models.Job"/>

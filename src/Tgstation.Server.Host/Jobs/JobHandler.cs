@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.Jobs
 {
 	/// <summary>
 	/// Class for pairing <see cref="Task"/>s with <see cref="CancellationTokenSource"/>s

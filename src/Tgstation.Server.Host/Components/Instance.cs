@@ -15,6 +15,7 @@ using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components
