@@ -12,8 +12,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
-using Microsoft.Net.Http.Headers;
-using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Serilog;
@@ -261,43 +259,12 @@ namespace Tgstation.Server.Host.Core
 				});
 
 			if (hostingEnvironment.IsDevelopment())
-				services.AddSwaggerGen(
-				c =>
-				{
-					c.SwaggerDoc(
-						"v1",
-						new OpenApiInfo
-						{
-							Title = "TGS API",
-							Version = "v4"
-						});
-
-					// Important to do this before applying our own filters
-					// Otherwise we'll get NullReferenceExceptions on parameters to be setup in our document filter
-					var assemblyLocation = assemblyInformationProvider.Path;
-					var filePath = ioManager.ConcatPath(ioManager.GetDirectoryName(assemblyLocation), String.Concat(ioManager.GetFileNameWithoutExtension(assemblyLocation), ".xml"));
-					c.IncludeXmlComments(filePath);
-
-					c.OperationFilter<SwaggerConfiguration>();
-					c.DocumentFilter<SwaggerConfiguration>();
-
-					c.AddSecurityDefinition(SwaggerConfiguration.PasswordSecuritySchemeId, new OpenApiSecurityScheme
-					{
-						In = ParameterLocation.Header,
-						Type = SecuritySchemeType.Http,
-						Name = HeaderNames.Authorization,
-						Scheme = ApiHeaders.BasicAuthenticationScheme
-					});
-
-					c.AddSecurityDefinition(SwaggerConfiguration.TokenSecuritySchemeId, new OpenApiSecurityScheme
-					{
-						BearerFormat = "JWT",
-						In = ParameterLocation.Header,
-						Type = SecuritySchemeType.Http,
-						Name = HeaderNames.Authorization,
-						Scheme = ApiHeaders.JwtAuthenticationScheme
-					});
-				});
+			{
+				string GetDocumentationFilePath(string assemblyLocation) => ioManager.ConcatPath(ioManager.GetDirectoryName(assemblyLocation), String.Concat(ioManager.GetFileNameWithoutExtension(assemblyLocation), ".xml"));
+				var assemblyDocumentationPath = GetDocumentationFilePath(assemblyInformationProvider.Path);
+				var apiDocumentationPath = GetDocumentationFilePath(typeof(ApiHeaders).Assembly.Location);
+				services.AddSwaggerGen(genOptions => SwaggerConfiguration.Configure(genOptions, assemblyDocumentationPath, apiDocumentationPath));
+			}
 
 			// enable browser detection
 			services.AddDetectionCore().AddBrowser();

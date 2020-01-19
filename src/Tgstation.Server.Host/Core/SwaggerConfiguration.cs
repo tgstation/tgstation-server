@@ -1,4 +1,5 @@
-﻿using Microsoft.Net.Http.Headers;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -21,87 +22,12 @@ namespace Tgstation.Server.Host.Core
 		/// <summary>
 		/// The <see cref="OpenApiSecurityScheme"/> name for password authentication.
 		/// </summary>
-		public const string PasswordSecuritySchemeId = "Password_Login_Scheme";
+		const string PasswordSecuritySchemeId = "Password_Login_Scheme";
 
 		/// <summary>
 		/// The <see cref="OpenApiSecurityScheme"/> name for token authentication.
 		/// </summary>
-		public const string TokenSecuritySchemeId = "Token_Authorization_Scheme";
-
-		/// <inheritdoc />
-		public void Apply(OpenApiOperation operation, OperationFilterContext context)
-		{
-			if (operation == null)
-				throw new ArgumentNullException(nameof(operation));
-			if (context == null)
-				throw new ArgumentNullException(nameof(context));
-
-			var authAttributes = context
-				.MethodInfo
-				.DeclaringType
-				.GetCustomAttributes(true)
-				.Union(
-					context
-					.MethodInfo
-					.GetCustomAttributes(true))
-					.OfType<TgsAuthorizeAttribute>();
-
-			if (authAttributes.Any())
-			{
-				var tokenScheme = new OpenApiSecurityScheme
-				{
-					Reference = new OpenApiReference
-					{
-						Type = ReferenceType.SecurityScheme,
-						Id = TokenSecuritySchemeId
-					}
-				};
-
-				operation.Security = new List<OpenApiSecurityRequirement>
-				{
-					new OpenApiSecurityRequirement
-					{
-						{
-							tokenScheme,
-							new List<string>()
-						}
-					}
-				};
-
-				if (authAttributes.Any(attr => attr.RightsType.HasValue && RightsHelper.IsInstanceRight(attr.RightsType.Value)))
-					operation.Parameters.Add(new OpenApiParameter
-					{
-						Reference = new OpenApiReference
-						{
-							Type = ReferenceType.Parameter,
-							Id = ApiHeaders.InstanceIdHeader
-						}
-					});
-			}
-			else
-			{
-				// HomeController.CreateToken
-				var passwordScheme = new OpenApiSecurityScheme
-				{
-					Reference = new OpenApiReference
-					{
-						Type = ReferenceType.SecurityScheme,
-						Id = PasswordSecuritySchemeId
-					}
-				};
-
-				operation.Security = new List<OpenApiSecurityRequirement>
-				{
-					new OpenApiSecurityRequirement
-					{
-						{
-							passwordScheme,
-							new List<string>()
-						}
-					}
-				};
-			}
-		}
+		const string TokenSecuritySchemeId = "Token_Authorization_Scheme";
 
 		static void AddDefaultResponses(OpenApiDocument document)
 		{
@@ -176,6 +102,126 @@ namespace Tgstation.Server.Host.Core
 			});
 		}
 
+		/// <summary>
+		/// Configure the swagger settings.
+		/// </summary>
+		/// <param name="swaggerGenOptions">The <see cref="SwaggerGenOptions"/> to use.</param>
+		/// <param name="assemblyDocumentationPath">The path to the XML documentation file for the <see cref="Host"/> assembly.</param>
+		/// <param name="apiDocumentationPath">The path to the XML documentation file for the <see cref="Api"/> assembly.</param>
+		public static void Configure(SwaggerGenOptions swaggerGenOptions, string assemblyDocumentationPath, string apiDocumentationPath)
+		{
+			swaggerGenOptions.SwaggerDoc(
+				"v1",
+				new OpenApiInfo
+				{
+					Title = "TGS API",
+					Version = "v4"
+				});
+
+			// Important to do this before applying our own filters
+			// Otherwise we'll get NullReferenceExceptions on parameters to be setup in our document filter
+			swaggerGenOptions.IncludeXmlComments(assemblyDocumentationPath);
+			swaggerGenOptions.IncludeXmlComments(apiDocumentationPath);
+
+			swaggerGenOptions.OperationFilter<SwaggerConfiguration>();
+			swaggerGenOptions.DocumentFilter<SwaggerConfiguration>();
+			swaggerGenOptions.SchemaFilter<SwaggerConfiguration>();
+
+			swaggerGenOptions.AddSecurityDefinition(PasswordSecuritySchemeId, new OpenApiSecurityScheme
+			{
+				In = ParameterLocation.Header,
+				Type = SecuritySchemeType.Http,
+				Name = HeaderNames.Authorization,
+				Scheme = ApiHeaders.BasicAuthenticationScheme
+			});
+
+			swaggerGenOptions.AddSecurityDefinition(TokenSecuritySchemeId, new OpenApiSecurityScheme
+			{
+				BearerFormat = "JWT",
+				In = ParameterLocation.Header,
+				Type = SecuritySchemeType.Http,
+				Name = HeaderNames.Authorization,
+				Scheme = ApiHeaders.JwtAuthenticationScheme
+			});
+		}
+
+		/// <inheritdoc />
+		public void Apply(OpenApiOperation operation, OperationFilterContext context)
+		{
+			if (operation == null)
+				throw new ArgumentNullException(nameof(operation));
+			if (context == null)
+				throw new ArgumentNullException(nameof(context));
+
+			operation.OperationId = $"{context.MethodInfo.DeclaringType.Name}.{context.MethodInfo.Name}";
+
+			var authAttributes = context
+				.MethodInfo
+				.DeclaringType
+				.GetCustomAttributes(true)
+				.Union(
+					context
+					.MethodInfo
+					.GetCustomAttributes(true))
+					.OfType<TgsAuthorizeAttribute>();
+
+			if (authAttributes.Any())
+			{
+				var tokenScheme = new OpenApiSecurityScheme
+				{
+					Reference = new OpenApiReference
+					{
+						Type = ReferenceType.SecurityScheme,
+						Id = TokenSecuritySchemeId
+					}
+				};
+
+				operation.Security = new List<OpenApiSecurityRequirement>
+				{
+					new OpenApiSecurityRequirement
+					{
+						{
+							tokenScheme,
+							new List<string>()
+						}
+					}
+				};
+
+				if (authAttributes.Any(attr => attr.RightsType.HasValue && RightsHelper.IsInstanceRight(attr.RightsType.Value)))
+					operation.Parameters.Add(new OpenApiParameter
+					{
+						Reference = new OpenApiReference
+						{
+							Type = ReferenceType.Parameter,
+							Id = ApiHeaders.InstanceIdHeader
+						}
+					});
+			}
+			else
+			{
+				// HomeController.CreateToken
+				var passwordScheme = new OpenApiSecurityScheme
+				{
+					Reference = new OpenApiReference
+					{
+						Type = ReferenceType.SecurityScheme,
+						Id = PasswordSecuritySchemeId
+					}
+				};
+
+				operation.Security = new List<OpenApiSecurityRequirement>
+				{
+					new OpenApiSecurityRequirement
+					{
+						{
+							passwordScheme,
+							new List<string>()
+						}
+					}
+				};
+			}
+		}
+
 		/// <inheritdoc />
 		public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
 		{
@@ -190,8 +236,18 @@ namespace Tgstation.Server.Host.Core
 				Name = ApiHeaders.InstanceIdHeader,
 				Description = "The instance ID being accessed",
 				Required = true,
-				Style = ParameterStyle.Simple
+				Style = ParameterStyle.Simple,
+				Schema = new OpenApiSchema
+				{
+					Type = "integer"
+				}
 			});
+
+			var productHeaderSchema = new OpenApiSchema
+			{
+				Type = "string",
+				Format = "productheader"
+			};
 
 			swaggerDoc.Components.Parameters.Add(ApiHeaders.ApiVersionHeader, new OpenApiParameter
 			{
@@ -200,7 +256,8 @@ namespace Tgstation.Server.Host.Core
 				Description = "The API version being used in the form \"Tgstation.Server.Api/[API version]\"",
 				Required = true,
 				Style = ParameterStyle.Simple,
-				Example = new OpenApiString($"Tgstation.Server.Api/{ApiHeaders.Version}")
+				Example = new OpenApiString($"Tgstation.Server.Api/{ApiHeaders.Version}"),
+				Schema = productHeaderSchema
 			});
 
 			swaggerDoc.Components.Parameters.Add(HeaderNames.UserAgent, new OpenApiParameter
@@ -210,7 +267,8 @@ namespace Tgstation.Server.Host.Core
 				Description = "The user agent of the calling client.",
 				Required = true,
 				Style = ParameterStyle.Simple,
-				Example = new OpenApiString("Your-user-agent/1.0.0.0")
+				Example = new OpenApiString("Your-user-agent/1.0.0.0"),
+				Schema = productHeaderSchema
 			});
 
 			foreach (var operation in swaggerDoc
@@ -247,6 +305,16 @@ namespace Tgstation.Server.Host.Core
 				throw new ArgumentNullException(nameof(schema));
 			if (context == null)
 				throw new ArgumentNullException(nameof(context));
+
+			if (!schema.Enum?.Any() ?? false)
+				return;
+
+			// Could be nullable type, make sure to get the right one
+			Type enumType = context.Type.IsConstructedGenericType
+				? context.Type.GenericTypeArguments.First()
+				: context.Type;
+
+			OpenApiEnumVarNamesExtension.Apply(schema, enumType);
 		}
 	}
 }
