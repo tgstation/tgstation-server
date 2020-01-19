@@ -42,9 +42,9 @@ namespace Tgstation.Server.Host.Core
 		readonly IApplication application;
 
 		/// <summary>
-		/// The <see cref="IDBConnectionFactory"/> for the <see cref="SetupWizard"/>
+		/// The <see cref="IDatabaseConnectionFactory"/> for the <see cref="SetupWizard"/>
 		/// </summary>
-		readonly IDBConnectionFactory dbConnectionFactory;
+		readonly IDatabaseConnectionFactory dbConnectionFactory;
 
 		/// <summary>
 		/// The <see cref="IPlatformIdentifier"/> for the <see cref="SetupWizard"/>
@@ -78,7 +78,7 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/></param>
-		public SetupWizard(IIOManager ioManager, IConsole console, IHostingEnvironment hostingEnvironment, IApplication application, IDBConnectionFactory dbConnectionFactory, IPlatformIdentifier platformIdentifier, IAsyncDelayer asyncDelayer, ILogger<SetupWizard> logger, IOptions<GeneralConfiguration> generalConfigurationOptions)
+		public SetupWizard(IIOManager ioManager, IConsole console, IHostingEnvironment hostingEnvironment, IApplication application, IDatabaseConnectionFactory dbConnectionFactory, IPlatformIdentifier platformIdentifier, IAsyncDelayer asyncDelayer, ILogger<SetupWizard> logger, IOptions<GeneralConfiguration> generalConfigurationOptions)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.console = console ?? throw new ArgumentNullException(nameof(console));

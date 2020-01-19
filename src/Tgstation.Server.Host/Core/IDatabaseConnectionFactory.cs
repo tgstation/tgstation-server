@@ -6,7 +6,7 @@ namespace Tgstation.Server.Host.Core
 	/// <summary>
 	/// For creating <see cref="DbConnection"/>
 	/// </summary>
-	interface IDBConnectionFactory
+	interface IDatabaseConnectionFactory
 	{
 		/// <summary>
 		/// Create a <see cref="DbConnection"/>

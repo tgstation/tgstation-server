@@ -133,7 +133,7 @@ namespace Tgstation.Server.Host.Core
 
 			// other stuff needed for for setup wizard and configuration
 			services.AddSingleton<IConsole, IO.Console>();
-			services.AddSingleton<IDBConnectionFactory, DBConnectionFactory>();
+			services.AddSingleton<IDatabaseConnectionFactory, DatabaseConnectionFactory>();
 			services.AddSingleton<ISetupWizard, SetupWizard>();
 			services.AddSingleton<IPlatformIdentifier, PlatformIdentifier>();
 			services.AddSingleton<IAsyncDelayer, AsyncDelayer>();

@@ -2,13 +2,12 @@
 using System;
 using System.Data.Common;
 using System.Data.SqlClient;
-using System.Globalization;
 using Tgstation.Server.Host.Configuration;
 
 namespace Tgstation.Server.Host.Core
 {
 	/// <inheritdoc />
-	sealed class DBConnectionFactory : IDBConnectionFactory
+	sealed class DatabaseConnectionFactory : IDatabaseConnectionFactory
 	{
 		/// <inheritdoc />
 		public DbConnection CreateConnection(string connectionString, DatabaseType databaseType)

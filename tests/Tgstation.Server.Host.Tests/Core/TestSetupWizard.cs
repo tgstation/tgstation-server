@@ -31,7 +31,7 @@ namespace Tgstation.Server.Host.Core.Tests
 			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, null, null, null, null, null, null));
 			var mockApplication = new Mock<IApplication>();
 			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, mockApplication.Object, null, null, null, null, null));
-			var mockDBConnectionFactory = new Mock<IDBConnectionFactory>();
+			var mockDBConnectionFactory = new Mock<IDatabaseConnectionFactory>();
 			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, mockApplication.Object, mockDBConnectionFactory.Object, null, null, null, null));
 			var mockPlatformIdentifier = new Mock<IPlatformIdentifier>();
 			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, mockApplication.Object, mockDBConnectionFactory.Object, mockPlatformIdentifier.Object, null, null, null));
@@ -48,7 +48,7 @@ namespace Tgstation.Server.Host.Core.Tests
 			var mockConsole = new Mock<IConsole>();
 			var mockHostingEnvironment = new Mock<IHostingEnvironment>();
 			var mockApplication = new Mock<IApplication>();
-			var mockDBConnectionFactory = new Mock<IDBConnectionFactory>();
+			var mockDBConnectionFactory = new Mock<IDatabaseConnectionFactory>();
 			var mockLogger = new Mock<ILogger<SetupWizard>>();
 			var mockGeneralConfigurationOptions = new Mock<IOptions<GeneralConfiguration>>();
 			var mockPlatformIdentifier = new Mock<IPlatformIdentifier>();

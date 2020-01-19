@@ -12,7 +12,7 @@ namespace Tgstation.Server.Host.Core.Tests
 		[TestMethod]
 		public void TestBadParameters()
 		{
-			var factory = new DBConnectionFactory();
+			var factory = new DatabaseConnectionFactory();
 			Assert.ThrowsException<ArgumentNullException>(() => factory.CreateConnection(null, default));
 			Assert.ThrowsException<ArgumentOutOfRangeException>(() => factory.CreateConnection(String.Empty, (DatabaseType)42));
 		}
@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.Core.Tests
 		[TestMethod]
 		public void TestWorks()
 		{
-			var factory = new DBConnectionFactory();
+			var factory = new DatabaseConnectionFactory();
 			Assert.IsInstanceOfType(factory.CreateConnection(String.Empty, DatabaseType.MariaDB), typeof(MySqlConnection));
 			Assert.IsInstanceOfType(factory.CreateConnection(String.Empty, DatabaseType.MySql), typeof(MySqlConnection));
 			Assert.IsInstanceOfType(factory.CreateConnection(String.Empty, DatabaseType.SqlServer), typeof(SqlConnection));
