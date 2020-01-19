@@ -9,7 +9,7 @@ using System.Globalization;
 using System.Net;
 using Tgstation.Server.Api.Models;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.Extensions
 {
 	/// <summary>
 	/// Extensions for <see cref="IApplicationBuilder"/>
@@ -21,7 +21,7 @@ namespace Tgstation.Server.Host.Core
 		/// </summary>
 		/// <param name="httpContext">The <see cref="HttpContext"/> to get the <see cref="ILogger"/> from</param>
 		/// <returns>A new <see cref="ILogger"/></returns>
-		static ILogger GetLogger(HttpContext httpContext) => httpContext.RequestServices.GetRequiredService<ILogger<Application>>();
+		static ILogger GetLogger(HttpContext httpContext) => httpContext.RequestServices.GetRequiredService<ILoggerFactory>().CreateLogger(typeof(ApplicationBuilderExtensions));
 
 		/// <summary>
 		/// Return a <see cref="ConflictObjectResult"/> for <see cref="DbUpdateException"/>s

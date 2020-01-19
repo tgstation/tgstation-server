@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+using Tgstation.Server.Host.Extensions;
 
 namespace Tgstation.Server.Host.Core.Tests
 {

@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.Extensions
 {
 	/// <summary>
 	/// Extensions for the <see cref="Task"/> <see langword="class"/>.

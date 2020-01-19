@@ -4,7 +4,7 @@ using System;
 using System.Globalization;
 using Tgstation.Server.Host.Configuration;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.Extensions
 {
 	/// <summary>
 	/// Extensions for <see cref="IServiceCollection"/>
