@@ -17,5 +17,15 @@ namespace Tgstation.Server.Host.System
 		/// Set's the owned <see cref="global::System.Diagnostics.Process.PriorityClass"/> to <see cref="global::System.Diagnostics.ProcessPriorityClass.AboveNormal"/>
 		/// </summary>
 		void SetHighPriority();
+
+		/// <summary>
+		/// Suspends the process.
+		/// </summary>
+		void Suspend();
+
+		/// <summary>
+		/// Resumes the process.
+		/// </summary>
+		void Resume();
 	}
 }

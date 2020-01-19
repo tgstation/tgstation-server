@@ -550,6 +550,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public void SetHighPriority() => process.SetHighPriority();
 
 		/// <inheritdoc />
+		public void Suspend() => process.Suspend();
+
+		/// <inheritdoc />
+		public void Resume() => process.Resume();
+
+		/// <inheritdoc />
 		public void ReplaceDmbProvider(IDmbProvider dmbProvider)
 		{
 #pragma warning disable IDE0016 // Use 'throw' expression

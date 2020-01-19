@@ -120,7 +120,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (pendingSwappable != null)
 			{
 				Logger.LogTrace("Replacing activeSwappable with pendingSwappable");
-
 				Server.ReplaceDmbProvider(pendingSwappable);
 				activeSwappable = pendingSwappable;
 				pendingSwappable = null;
@@ -139,7 +138,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				windowsProvider = new WindowsSwappableDmbProvider(compileJobProvider, ioManager, symlinkFactory);
 
 				Logger.LogDebug("Swapping to compile job {0}...", windowsProvider.CompileJob.Id);
+				Server.Suspend();
 				await windowsProvider.MakeActive(cancellationToken).ConfigureAwait(false);
+				Server.Resume();
 			}
 			catch
 			{

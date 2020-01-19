@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using BetterWin32Errors;
+using Microsoft.Extensions.Logging;
 using System;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -133,12 +135,64 @@ namespace Tgstation.Server.Host.System
 		{
 			try
 			{
-				handle.PriorityClass = global::System.Diagnostics.ProcessPriorityClass.AboveNormal;
-				logger.LogTrace("Set to above normal priority", handle.Id);
+				handle.PriorityClass = ProcessPriorityClass.AboveNormal;
+				logger.LogTrace("Set PID {0} to above normal priority", Id);
 			}
 			catch (Exception e)
 			{
 				logger.LogWarning("Unable to raise process priority! Exception: {0}", e);
+			}
+		}
+
+		/// <inheritdoc />
+		public void Suspend()
+		{
+			try
+			{
+				foreach (ProcessThread thread in handle.Threads)
+				{
+					var pOpenThread = NativeMethods.OpenThread(NativeMethods.ThreadAccess.SuspendResume, false, (uint)thread.Id);
+					if (pOpenThread == IntPtr.Zero)
+						continue;
+
+					if (NativeMethods.SuspendThread(pOpenThread) == UInt32.MaxValue)
+						throw new Win32Exception();
+
+					NativeMethods.CloseHandle(pOpenThread);
+				}
+
+				logger.LogTrace("Suspended PID {0}", Id);
+			}
+			catch (Exception e)
+			{
+				logger.LogError(e, "Failed to suspend PID {0}!", Id);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
+		public void Resume()
+		{
+			try
+			{
+				foreach (ProcessThread thread in handle.Threads)
+				{
+					var pOpenThread = NativeMethods.OpenThread(NativeMethods.ThreadAccess.SuspendResume, false, (uint)thread.Id);
+					if (pOpenThread == IntPtr.Zero)
+						continue;
+
+					if (NativeMethods.ResumeThread(pOpenThread) == UInt32.MaxValue)
+						throw new Win32Exception();
+
+					NativeMethods.CloseHandle(pOpenThread);
+				}
+
+				logger.LogTrace("Resumed PID {0}", Id);
+			}
+			catch (Exception e)
+			{
+				logger.LogError(e, "Failed to resume PID {0}!", Id);
+				throw;
 			}
 		}
 	}

@@ -130,11 +130,12 @@ namespace Tgstation.Server.Host.Components.Repository
 				if (disposed)
 					return;
 
-				logger.LogTrace("Disposing...");
 				disposed = true;
-				repository.Dispose();
-				onDispose();
 			}
+
+			logger.LogTrace("Disposing...");
+			repository.Dispose();
+			onDispose();
 		}
 
 		void GetRepositoryOwnerName(string remote, out string owner, out string name)
