@@ -9,8 +9,9 @@ using System.Net;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
+using Tgstation.Server.Host.Controllers;
 
-namespace Tgstation.Server.Host.Controllers
+namespace Tgstation.Server.Host.Core
 {
 	/// <summary>
 	/// Implements various filters for <see cref="Swashbuckle"/>.
@@ -102,6 +103,79 @@ namespace Tgstation.Server.Host.Controllers
 			}
 		}
 
+		static void AddDefaultResponses(OpenApiDocument document)
+		{
+			var errorMessageContent = new Dictionary<string, OpenApiMediaType>
+			{
+				{
+					ApiHeaders.ApplicationJson,
+					new OpenApiMediaType
+					{
+						Schema = new OpenApiSchema
+						{
+							Reference = new OpenApiReference
+							{
+								Id = nameof(ErrorMessage),
+								Type = ReferenceType.Schema
+							}
+						}
+					}
+				}
+			};
+
+			void AddDefaultResponse(HttpStatusCode code, OpenApiResponse concrete)
+			{
+				string responseKey = $"{(int)code}";
+
+				document.Components.Responses.Add(responseKey, concrete);
+
+				var referenceResponse = new OpenApiResponse
+				{
+					Reference = new OpenApiReference
+					{
+						Type = ReferenceType.Response,
+						Id = responseKey
+					}
+				};
+
+				foreach (var operation in document.Paths.SelectMany(path => path.Value.Operations))
+					operation.Value.Responses.TryAdd(responseKey, referenceResponse);
+			}
+
+			AddDefaultResponse(HttpStatusCode.BadRequest, new OpenApiResponse
+			{
+				Description = "A badly formatted request was made. See error message for details.",
+				Content = errorMessageContent,
+			});
+
+			AddDefaultResponse(HttpStatusCode.Unauthorized, new OpenApiResponse
+			{
+				Description = "No/invalid token provided."
+			});
+
+			AddDefaultResponse(HttpStatusCode.Forbidden, new OpenApiResponse
+			{
+				Description = "User lacks sufficient permissions for the operation."
+			});
+
+			AddDefaultResponse(HttpStatusCode.Conflict, new OpenApiResponse
+			{
+				Description = "A data integrity check failed while performing the operation. See error message for details.",
+				Content = errorMessageContent
+			});
+
+			AddDefaultResponse(HttpStatusCode.InternalServerError, new OpenApiResponse
+			{
+				Description = "The server encountered an unhandled error. See error message for details.",
+				Content = errorMessageContent
+			});
+
+			AddDefaultResponse(HttpStatusCode.ServiceUnavailable, new OpenApiResponse
+			{
+				Description = "The server may be starting up or shutting down."
+			});
+		}
+
 		/// <inheritdoc />
 		public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
 		{
@@ -163,76 +237,7 @@ namespace Tgstation.Server.Host.Controllers
 				});
 			}
 
-			var errorMessageContent = new Dictionary<string, OpenApiMediaType>
-			{
-				{
-					ApiHeaders.ApplicationJson,
-					new OpenApiMediaType
-					{
-						Schema = new OpenApiSchema
-						{
-							Reference = new OpenApiReference
-							{
-								Id = nameof(ErrorMessage),
-								Type = ReferenceType.Schema
-							}
-						}
-					}
-				}
-			};
-
-			void AddDefaultResponse(HttpStatusCode code, OpenApiResponse concrete)
-			{
-				string responseKey = $"{(int)code}";
-
-				swaggerDoc.Components.Responses.Add(responseKey, concrete);
-
-				var referenceResponse = new OpenApiResponse
-				{
-					Reference = new OpenApiReference
-					{
-						Type = ReferenceType.Response,
-						Id = responseKey
-					}
-				};
-
-				foreach (var path in swaggerDoc.Paths)
-					foreach (var operation in path.Value.Operations)
-						operation.Value.Responses.TryAdd(responseKey, referenceResponse);
-			}
-
-			AddDefaultResponse(HttpStatusCode.BadRequest, new OpenApiResponse
-			{
-				Description = "A badly formatted request was made. See error message for details.",
-				Content = errorMessageContent,
-			});
-
-			AddDefaultResponse(HttpStatusCode.Unauthorized, new OpenApiResponse
-			{
-				Description = "No/invalid token provided."
-			});
-
-			AddDefaultResponse(HttpStatusCode.Forbidden, new OpenApiResponse
-			{
-				Description = "User lacks sufficient permissions for the operation."
-			});
-
-			AddDefaultResponse(HttpStatusCode.Conflict, new OpenApiResponse
-			{
-				Description = "A data integrity check failed while performing the operation. See error message for details.",
-				Content = errorMessageContent
-			});
-
-			AddDefaultResponse(HttpStatusCode.InternalServerError, new OpenApiResponse
-			{
-				Description = "The server encountered an unhandled error. See error message for details.",
-				Content = errorMessageContent
-			});
-
-			AddDefaultResponse(HttpStatusCode.ServiceUnavailable, new OpenApiResponse
-			{
-				Description = "The server may be starting up or shutting down."
-			});
+			AddDefaultResponses(swaggerDoc);
 		}
 
 		/// <inheritdoc />
