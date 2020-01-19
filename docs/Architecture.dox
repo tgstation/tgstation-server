@@ -23,7 +23,7 @@ This is a second process spawned by the Host Watchdog which facilitates the vast
 
 The server's entrypoint is in the @ref Tgstation.Server.Host.Program class. This class mainly determines if the Host watchdog is present and creates and runs the @ref Tgstation.Server.Host.Server class. That class then builds an ASP.NET Core web host using the @ref Tgstation.Server.Host.Core.Application class.
 
-The @ref Tgstation.Server.Host.Core.Application class has two methods called by the framework. First the @ref Tgstation.Server.Host.Core.Application.ConfigureServices method sets up dependency injection of interfaces for Controllers, the @ref Tgstation.Server.Host.Models.DatabaseContext, and the component factories of the server. The framework handles constructing these things once the application starts. Configuration is loaded from the appropriate appSettings.json into the @ref Tgstation.Server.Host.Configuration classes for injection as well. Then @ref Tgstation.Server.Host.Core.Application.Configure method is run which sets up the web request pipeline which currently has the following stack of handlers:
+The @ref Tgstation.Server.Host.Core.Application class has two methods called by the framework. First the @ref Tgstation.Server.Host.Core.Application.ConfigureServices method sets up dependency injection of interfaces for Controllers, the @ref Tgstation.Server.Host.Database.DatabaseContext, and the component factories of the server. The framework handles constructing these things once the application starts. Configuration is loaded from the appropriate appSettings.json into the @ref Tgstation.Server.Host.Configuration classes for injection as well. Then @ref Tgstation.Server.Host.Core.Application.Configure method is run which sets up the web request pipeline which currently has the following stack of handlers:
 
 - Catch any exceptions and respond with 500 and detailed HTML error page
 - Respond with 503 if the application is still starting or shutting down
@@ -38,11 +38,11 @@ The @ref Tgstation.Server.Host.Core.Application class has two methods called by 
 
 Once the web host starts, the @ref Tgstation.Server.Host.Components.InstanceManager.StartAsync function is called (due to being registered as a IHostedService in @ref Tgstation.Server.Host.Core.Application) this is the only StartAsync implementation that should be called by the framework, others should be called from this to maintain a cohesive initialization order.
 
-The first thing this function does is call @ref Tgstation.Server.Host.Models.DatabaseContext.Initialize which ensures the database is migrated, seeded, and ready to go. Then the @ref Tgstation.Server.Host.Core.JobManager is started, which cleans up any jobs that are considered "still running" in the database. Finally all instances configured to be online are created in parallel (See @ref arch_instance for onlining process) and the @ref Tgstation.Server.Host.Core.Application is signalled to stop blocking requests with 503 responses before they are processed.
+The first thing this function does is call @ref Tgstation.Server.Host.Database.DatabaseContext.Initialize which ensures the database is migrated, seeded, and ready to go. Then the @ref Tgstation.Server.Host.Core.JobManager is started, which cleans up any jobs that are considered "still running" in the database. Finally all instances configured to be online are created in parallel (See @ref arch_instance for onlining process) and the @ref Tgstation.Server.Host.Core.Application is signalled to stop blocking requests with 503 responses before they are processed.
 
 @section arch_db Database and Context
 
-The database is exposed as a series of DbSet<T> objects through @ref Tgstation.Server.Host.Models.IDatabaseContext . Queries are performed via async LINQ expressions. Inserts, updates, and deletes are done via modifiying the DbSet<T>s and then calling @ref Tgstation.Server.Host.Models.IDatabaseContext.Save . Do some reading on Entity Framework Core for a deeper understanding.
+The database is exposed as a series of DbSet<T> objects through @ref Tgstation.Server.Host.Database.IDatabaseContext . Queries are performed via async LINQ expressions. Inserts, updates, and deletes are done via modifiying the DbSet<T>s and then calling @ref Tgstation.Server.Host.Database.IDatabaseContext.Save . Do some reading on Entity Framework Core for a deeper understanding.
 
 @section arch_controllers Controllers
 
@@ -98,9 +98,9 @@ The compilation process is a distinct series of steps:
 14. Symlink all `GameStaticFiles` to both the A and B directories
 15. Commit the @ref Tgstation.Server.Host.Models.CompileJob to the database
 
-If any of the above steps fail, the target directory is deleted and the deployment is considered a bust. If all went well, after the @ref Tgstation.Server.Host.Models.Job completes the new CompileJob is loaded into the instance's @ref Tgstation.Server.Host.Components.Compiler.IDmbFactory . 
+If any of the above steps fail, the target directory is deleted and the deployment is considered a bust. If all went well, after the @ref Tgstation.Server.Host.Models.Job completes the new CompileJob is loaded into the instance's @ref Tgstation.Server.Host.Components.Deployment.IDmbFactory . 
 
-The DmbFactory is where the @ref arch_watchdog gets the @ref Tgstation.Server.Host.Components.Compiler.IDmbProvider instances to run. Each CompileJob loaded into it is given a lock count. The latest CompileJob holds 1 lock and every DreamDaemon instance running that CompileJob holds another. Loading a new CompileJob releases the initial lock, and when all other locks are released the CompileJob's directory is deleted. Any directories in the `Game` folder not in use are also deleted when the Instance starts. 
+The DmbFactory is where the @ref arch_watchdog gets the @ref Tgstation.Server.Host.Components.Deployment.IDmbProvider instances to run. Each CompileJob loaded into it is given a lock count. The latest CompileJob holds 1 lock and every DreamDaemon instance running that CompileJob holds another. Loading a new CompileJob releases the initial lock, and when all other locks are released the CompileJob's directory is deleted. Any directories in the `Game` folder not in use are also deleted when the Instance starts. 
 
 @section arch_chat Chat Bot System
 
@@ -128,7 +128,7 @@ That's a high level view of things, now let's get to the nitty gritty.
 
 @subsection arch_wd_launch Launch
 
-First the most recent @ref Tgstation.Server.Host.Components.Compiler.IDmbProvider is retrieved from the @ref Tgstation.Server.Host.Components.Compiler.IDmbFactory twice, adding 2 locks. 
+First the most recent @ref Tgstation.Server.Host.Components.Deployment.IDmbProvider is retrieved from the @ref Tgstation.Server.Host.Components.Deployment.IDmbFactory twice, adding 2 locks. 
 
 This is used to launch a @ref Tgstation.Server.Host.Components.Watchdog.ISessionController via the watchdog's @ref Tgstation.Server.Host.Components.Watchdog.ISessionControllerFactory in the `A` directory of dmb providers @ref Tgstation.Server.Host.Models.CompileJob . This will be designated the `Alpha` server. 
 

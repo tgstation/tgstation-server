@@ -1,7 +1,7 @@
 ﻿using System;
 using Tgstation.Server.Host.Models;
 
-namespace Tgstation.Server.Host.Components
+namespace Tgstation.Server.Host.Components.Deployment
 {
 	/// <summary>
 	/// Provides absolute paths to the latest compiled .dmbs

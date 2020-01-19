@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Components.Repository;
 
-namespace Tgstation.Server.Host.Components.Compiler
+namespace Tgstation.Server.Host.Components.Deployment
 {
 	/// <summary>
 	/// For managing the compiler

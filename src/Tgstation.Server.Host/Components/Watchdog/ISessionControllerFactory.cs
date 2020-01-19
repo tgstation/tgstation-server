@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Byond;
+using Tgstation.Server.Host.Components.Deployment;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {

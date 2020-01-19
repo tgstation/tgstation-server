@@ -2,7 +2,7 @@
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
 
-namespace Tgstation.Server.Host.Components.Compiler
+namespace Tgstation.Server.Host.Components.Deployment
 {
 	/// <inheritdoc />
 	sealed class DmbProvider : IDmbProvider

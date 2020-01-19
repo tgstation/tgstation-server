@@ -1,7 +1,7 @@
 ﻿using System;
 using Tgstation.Server.Host.Models;
 
-namespace Tgstation.Server.Host.Components.Compiler
+namespace Tgstation.Server.Host.Components.Deployment
 {
 	/// <summary>
 	/// Temporary <see cref="IDmbProvider"/>

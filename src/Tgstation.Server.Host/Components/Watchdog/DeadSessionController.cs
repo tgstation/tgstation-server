@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Components.Deployment;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {

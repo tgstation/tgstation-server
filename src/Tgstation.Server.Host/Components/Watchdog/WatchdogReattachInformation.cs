@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components.Watchdog

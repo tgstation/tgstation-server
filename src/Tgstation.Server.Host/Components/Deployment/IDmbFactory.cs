@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Models;
 
-namespace Tgstation.Server.Host.Components.Compiler
+namespace Tgstation.Server.Host.Components.Deployment
 {
 	/// <summary>
 	/// Factory for <see cref="IDmbProvider"/>s

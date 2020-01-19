@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
 
-namespace Tgstation.Server.Host.Components.Compiler
+namespace Tgstation.Server.Host.Components.Deployment
 {
 	/// <summary>
 	/// A windows <see cref="IDmbProvider"/> that uses symlinks.

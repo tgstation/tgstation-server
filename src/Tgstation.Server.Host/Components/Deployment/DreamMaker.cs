@@ -16,7 +16,7 @@ using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
 
-namespace Tgstation.Server.Host.Components.Compiler
+namespace Tgstation.Server.Host.Components.Deployment
 {
 	/// <inheritdoc />
 	sealed class DreamMaker : IDreamMaker
