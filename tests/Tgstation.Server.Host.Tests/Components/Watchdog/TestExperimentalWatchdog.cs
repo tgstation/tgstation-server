@@ -101,6 +101,7 @@ namespace Tgstation.Server.Host.Components.Watchdog.Tests
 				var infiniteTask = new TaskCompletionSource<int>().Task;
 
 				mockDmbFactory.SetupGet(x => x.OnNewerDmb).Returns(infiniteTask);
+				mockDmbFactory.SetupGet(x => x.DmbAvailable).Returns(true).Verifiable();
 				mockDmbFactory.Setup(x => x.LockNextDmb(2)).Returns(mDmbP).Verifiable();
 
 				var sessionsToVerify = new List<Mock<ISessionController>>();
