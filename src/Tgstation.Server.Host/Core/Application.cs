@@ -63,6 +63,11 @@ namespace Tgstation.Server.Host.Core
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
+		/// The <see cref="IIOManager"/> for the <see cref="Application"/>.
+		/// </summary>
+		readonly IIOManager ioManager;
+
+		/// <summary>
 		/// The <see cref="Microsoft.AspNetCore.Hosting.IHostingEnvironment"/> for the <see cref="Application"/>
 		/// </summary>
 		readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment;
@@ -83,14 +88,17 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="configuration">The value of <see cref="configuration"/></param>
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> for the <see cref="Application"/>.</param>
 		/// <param name="hostingEnvironment">The value of <see cref="hostingEnvironment"/></param>
+		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		public Application(
 			IConfiguration configuration,
 			IAssemblyInformationProvider assemblyInformationProvider,
-			Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment)
+			Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment,
+			IIOManager ioManager)
 		{
 			this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
+			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 
 			startupTcs = new TaskCompletionSource<object>();
 
@@ -124,7 +132,6 @@ namespace Tgstation.Server.Host.Core
 			services.AddLogging();
 
 			// other stuff needed for for setup wizard and configuration
-			services.AddSingleton<IIOManager, DefaultIOManager>();
 			services.AddSingleton<IConsole, IO.Console>();
 			services.AddSingleton<IDBConnectionFactory, DBConnectionFactory>();
 			services.AddSingleton<ISetupWizard, SetupWizard>();
@@ -135,7 +142,6 @@ namespace Tgstation.Server.Host.Core
 			DatabaseConfiguration databaseConfiguration;
 			FileLoggingConfiguration fileLoggingConfiguration;
 			ControlPanelConfiguration controlPanelConfiguration;
-			IIOManager ioManager;
 			IPlatformIdentifier platformIdentifier;
 
 			// temporarily build the service provider in it's current state
@@ -165,7 +171,6 @@ namespace Tgstation.Server.Host.Core
 				var controlPanelOptions = provider.GetRequiredService<IOptions<ControlPanelConfiguration>>();
 				controlPanelConfiguration = controlPanelOptions.Value;
 
-				ioManager = provider.GetRequiredService<IIOManager>();
 				platformIdentifier = provider.GetRequiredService<IPlatformIdentifier>();
 			}
 

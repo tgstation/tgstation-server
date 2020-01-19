@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Core.Tests
@@ -23,18 +24,19 @@ namespace Tgstation.Server.Host.Core.Tests
 		[TestMethod]
 		public void TestMethodThrows()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new Application(null, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new Application(null, null, null, null));
 			var mockConfiguration = new Mock<IConfiguration>();
-			Assert.ThrowsException<ArgumentNullException>(() => new Application(mockConfiguration.Object, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new Application(mockConfiguration.Object, null, null, null));
 
 			var mockAssemblyInfo = new Mock<IAssemblyInformationProvider>();
 			mockAssemblyInfo.SetupGet(x => x.Name).Returns(typeof(Application).Assembly.GetName());
 
-			Assert.ThrowsException<ArgumentNullException>(() => new Application(mockConfiguration.Object, mockAssemblyInfo.Object, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new Application(mockConfiguration.Object, mockAssemblyInfo.Object, null, null));
 
 			var mockHostingEnvironment = new Mock<IHostingEnvironment>();
+			Assert.ThrowsException<ArgumentNullException>(() => new Application(mockConfiguration.Object, mockAssemblyInfo.Object, mockHostingEnvironment.Object, null));
 
-			var app = new Application(mockConfiguration.Object, mockAssemblyInfo.Object, mockHostingEnvironment.Object);
+			var app = new Application(mockConfiguration.Object, mockAssemblyInfo.Object, mockHostingEnvironment.Object, Mock.Of<IIOManager>());
 
 			Assert.ThrowsException<ArgumentNullException>(() => app.ConfigureServices(null));
 			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(null, null, null, null, null));
@@ -78,7 +80,7 @@ namespace Tgstation.Server.Host.Core.Tests
 			mockAssemblyInfo.SetupGet(x => x.Name).Returns(typeof(Application).Assembly.GetName());
 			var mockHostingEnvironment = new Mock<IHostingEnvironment>();
 
-			var app = new Application(mockConfiguration.Object, mockAssemblyInfo.Object, mockHostingEnvironment.Object);
+			var app = new Application(mockConfiguration.Object, mockAssemblyInfo.Object, mockHostingEnvironment.Object, Mock.Of<IIOManager>());
 
 			var mockOptions = new Mock<IOptions<GeneralConfiguration>>();
 			mockOptions.SetupGet(x => x.Value).Returns(new GeneralConfiguration
