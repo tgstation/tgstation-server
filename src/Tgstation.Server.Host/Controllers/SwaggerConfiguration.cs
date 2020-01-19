@@ -13,9 +13,9 @@ using Tgstation.Server.Api.Rights;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// <see cref="IOperationFilter"/> and <see cref="IDocumentFilter"/> for the server.
+	/// Implements various filters for <see cref="Swashbuckle"/>.
 	/// </summary>
-	sealed class TgsOpenApiFilters : IOperationFilter, IDocumentFilter
+	sealed class SwaggerConfiguration : IOperationFilter, IDocumentFilter, ISchemaFilter
 	{
 		/// <summary>
 		/// The <see cref="OpenApiSecurityScheme"/> name for password authentication.
@@ -72,7 +72,7 @@ namespace Tgstation.Server.Host.Controllers
 					{
 						Reference = new OpenApiReference
 						{
-							Type = ReferenceType.Header,
+							Type = ReferenceType.Parameter,
 							Id = ApiHeaders.InstanceIdHeader
 						}
 					});
@@ -105,23 +105,34 @@ namespace Tgstation.Server.Host.Controllers
 		/// <inheritdoc />
 		public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
 		{
-			swaggerDoc.Components.Headers.Add(ApiHeaders.InstanceIdHeader, new OpenApiHeader
+			if (swaggerDoc == null)
+				throw new ArgumentNullException(nameof(swaggerDoc));
+			if (context == null)
+				throw new ArgumentNullException(nameof(context));
+
+			swaggerDoc.Components.Parameters.Add(ApiHeaders.InstanceIdHeader, new OpenApiParameter
 			{
+				In = ParameterLocation.Header,
+				Name = ApiHeaders.InstanceIdHeader,
 				Description = "The instance ID being accessed",
 				Required = true,
 				Style = ParameterStyle.Simple
 			});
 
-			swaggerDoc.Components.Headers.Add(ApiHeaders.ApiVersionHeader, new OpenApiHeader
+			swaggerDoc.Components.Parameters.Add(ApiHeaders.ApiVersionHeader, new OpenApiParameter
 			{
+				In = ParameterLocation.Header,
+				Name = ApiHeaders.ApiVersionHeader,
 				Description = "The API version being used in the form \"Tgstation.Server.Api/[API version]\"",
 				Required = true,
 				Style = ParameterStyle.Simple,
 				Example = new OpenApiString($"Tgstation.Server.Api/{ApiHeaders.Version}")
 			});
 
-			swaggerDoc.Components.Headers.Add(HeaderNames.UserAgent, new OpenApiHeader
+			swaggerDoc.Components.Parameters.Add(HeaderNames.UserAgent, new OpenApiParameter
 			{
+				In = ParameterLocation.Header,
+				Name = HeaderNames.UserAgent,
 				Description = "The user agent of the calling client.",
 				Required = true,
 				Style = ParameterStyle.Simple,
@@ -137,16 +148,16 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					Reference = new OpenApiReference
 					{
-						Type = ReferenceType.Header,
+						Type = ReferenceType.Parameter,
 						Id = ApiHeaders.ApiVersionHeader
-					}
+					},
 				});
 
 				operation.Parameters.Add(new OpenApiParameter
 				{
 					Reference = new OpenApiReference
 					{
-						Type = ReferenceType.Header,
+						Type = ReferenceType.Parameter,
 						Id = HeaderNames.UserAgent
 					}
 				});
@@ -222,6 +233,15 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				Description = "The server may be starting up or shutting down."
 			});
+		}
+
+		/// <inheritdoc />
+		public void Apply(OpenApiSchema schema, SchemaFilterContext context)
+		{
+			if (schema == null)
+				throw new ArgumentNullException(nameof(schema));
+			if (context == null)
+				throw new ArgumentNullException(nameof(context));
 		}
 	}
 }

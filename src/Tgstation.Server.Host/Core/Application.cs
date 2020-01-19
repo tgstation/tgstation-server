@@ -271,10 +271,10 @@ namespace Tgstation.Server.Host.Core
 					var filePath = ioManager.ConcatPath(ioManager.GetDirectoryName(assemblyLocation), String.Concat(ioManager.GetFileNameWithoutExtension(assemblyLocation), ".xml"));
 					c.IncludeXmlComments(filePath);
 
-					c.OperationFilter<TgsOpenApiFilters>();
-					c.DocumentFilter<TgsOpenApiFilters>();
+					c.OperationFilter<SwaggerConfiguration>();
+					c.DocumentFilter<SwaggerConfiguration>();
 
-					c.AddSecurityDefinition(TgsOpenApiFilters.PasswordSecuritySchemeId, new OpenApiSecurityScheme
+					c.AddSecurityDefinition(SwaggerConfiguration.PasswordSecuritySchemeId, new OpenApiSecurityScheme
 					{
 						In = ParameterLocation.Header,
 						Type = SecuritySchemeType.Http,
@@ -282,7 +282,7 @@ namespace Tgstation.Server.Host.Core
 						Scheme = ApiHeaders.BasicAuthenticationScheme
 					});
 
-					c.AddSecurityDefinition(TgsOpenApiFilters.TokenSecuritySchemeId, new OpenApiSecurityScheme
+					c.AddSecurityDefinition(SwaggerConfiguration.TokenSecuritySchemeId, new OpenApiSecurityScheme
 					{
 						BearerFormat = "JWT",
 						In = ParameterLocation.Header,
