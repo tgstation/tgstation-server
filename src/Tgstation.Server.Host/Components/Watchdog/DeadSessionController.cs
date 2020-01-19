@@ -100,5 +100,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 		/// <inheritdoc />
 		public void ReplaceDmbProvider(IDmbProvider newProvider) => throw new NotSupportedException();
+
+		/// <inheritdoc />
+		public void Suspend() => throw new NotSupportedException();
+
+		/// <inheritdoc />
+		public void Resume() => throw new NotSupportedException();
 	}
 }
