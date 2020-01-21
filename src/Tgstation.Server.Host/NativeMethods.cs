@@ -25,6 +25,14 @@ namespace Tgstation.Server.Host
 		}
 
 		/// <summary>
+		/// See https://msdn.microsoft.com/en-us/library/windows/desktop/ms686769(v=vs.85).aspx
+		/// </summary>
+		public enum ThreadAccess : int
+		{
+			SuspendResume = 0x0002,
+		}
+
+		/// <summary>
 		/// See https://docs.microsoft.com/en-us/windows/desktop/api/winuser/nf-winuser-getwindowthreadprocessid
 		/// </summary>
 		[DllImport("user32.dll")]
@@ -70,5 +78,29 @@ namespace Tgstation.Server.Host
 		/// </summary>
 		[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
 		public static extern bool CreateSymbolicLink(string lpSymlinkFileName, string lpTargetFileName, CreateSymbolicLinkFlags dwFlags);
+
+		/// <summary>
+		/// See https://msdn.microsoft.com/en-us/library/windows/desktop/ms684335(v=vs.85).aspx
+		/// </summary>
+		[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+		public static extern IntPtr OpenThread(ThreadAccess dwDesiredAccess, bool bInheritHandle, uint dwThreadId);
+
+		/// <summary>
+		/// See https://msdn.microsoft.com/en-us/library/windows/desktop/ms724211(v=vs.85).aspx
+		/// </summary>
+		[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+		public static extern bool CloseHandle(IntPtr hObject);
+
+		/// <summary>
+		/// See https://msdn.microsoft.com/en-us/library/windows/desktop/ms686345(v=vs.85).aspx
+		/// </summary>
+		[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+		public static extern uint SuspendThread(IntPtr hThread);
+
+		/// <summary>
+		/// See https://msdn.microsoft.com/en-us/library/windows/desktop/ms685086(v=vs.85).aspx
+		/// </summary>
+		[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+		public static extern uint ResumeThread(IntPtr hThread);
 	}
 }

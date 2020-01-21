@@ -14,9 +14,12 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components.Chat;
-using Tgstation.Server.Host.Components.Compiler;
+using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.Jobs;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
@@ -255,6 +258,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (Running)
 				throw new JobException("Watchdog already running!");
 
+			if (!DmbFactory.DmbAvailable)
+				throw new JobException("Corrupted compilation, please redeploy!");
+
 			// this is necessary, the monitor could be in it's sleep loop trying to restart, if so cancel THAT monitor and start our own with blackjack and hookers
 			Task chatTask;
 			if (startMonitor && await StopMonitor().ConfigureAwait(false))
@@ -423,6 +429,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public async Task<bool> HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
 		{
+			if (!Running)
+				return true;
+
 			string results;
 			using (await SemaphoreSlimContext.Lock(Semaphore, cancellationToken).ConfigureAwait(false))
 			{

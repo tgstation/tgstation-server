@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace Tgstation.Server.Host.IO
 {
 	/// <summary>
-	/// Abstraction for <see cref="System.Console"/>
+	/// Abstraction for <see cref="global::System.Console"/>
 	/// </summary>
 	interface IConsole
 	{

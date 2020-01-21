@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
@@ -25,7 +26,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		bool TerminationWasRequested { get; }
 
 		/// <summary>
-		/// The DMAPI <see cref="Components.Watchdog.ApiValidationStatus"/>
+		/// The DMAPI <see cref="Watchdog.ApiValidationStatus"/>
 		/// </summary>
 		ApiValidationStatus ApiValidationStatus { get; }
 
@@ -55,7 +56,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		Task OnReboot { get; }
 
 		/// <summary>
-		/// Releases the <see cref="IProcess"/> without terminating it. Also calls <see cref="System.IDisposable.Dispose"/>
+		/// Releases the <see cref="IProcess"/> without terminating it. Also calls <see cref="global::System.IDisposable.Dispose"/>
 		/// </summary>
 		/// <returns><see cref="ReattachInformation"/> which can be used to create a new <see cref="ISessionController"/> similar to this one</returns>
 		ReattachInformation Release();
@@ -85,7 +86,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		Task<bool> SetRebootState(RebootState newRebootState, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Changes <see cref="RebootState"/> to <see cref="Components.Watchdog.RebootState.Normal"/> without telling the DMAPI
+		/// Changes <see cref="RebootState"/> to <see cref="Watchdog.RebootState.Normal"/> without telling the DMAPI
 		/// </summary>
 		void ResetRebootState();
 
@@ -93,5 +94,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// Enables the reading of custom chat commands from the <see cref="ISessionController"/>
 		/// </summary>
 		void EnableCustomChatCommands();
+
+		/// <summary>
+		/// Replace <see cref="Dmb"/> with a given <paramref name="newProvider"/>, disposing the old one.
+		/// </summary>
+		/// <param name="newProvider">The new <see cref="IDmbProvider"/>.</param>
+		void ReplaceDmbProvider(IDmbProvider newProvider);
 	}
 }

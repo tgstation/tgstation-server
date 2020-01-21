@@ -11,8 +11,9 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
+using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Interop;
-using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
@@ -180,7 +181,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="launchSecurityLevel">The value of <see cref="launchSecurityLevel"/></param>
 		/// <param name="startupTimeout">The optional time to wait before failing the <see cref="LaunchResult"/></param>
-		public SessionController(ReattachInformation reattachInformation, IProcess process, IByondExecutableLock byondLock, IByondTopicSender byondTopicSender, IJsonTrackingContext chatJsonTrackingContext, ICommContext interopContext, IChat chat, ILogger<SessionController> logger, DreamDaemonSecurity? launchSecurityLevel, uint? startupTimeout)
+		public SessionController(
+			ReattachInformation reattachInformation,
+			IProcess process,
+			IByondExecutableLock byondLock,
+			IByondTopicSender byondTopicSender,
+			IJsonTrackingContext chatJsonTrackingContext,
+			ICommContext interopContext,
+			IChat chat,
+			ILogger<SessionController> logger,
+			DreamDaemonSecurity? launchSecurityLevel,
+			uint? startupTimeout)
 		{
 			this.chatJsonTrackingContext = chatJsonTrackingContext; // null valid
 			this.reattachInformation = reattachInformation ?? throw new ArgumentNullException(nameof(reattachInformation));
@@ -447,6 +458,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 		async Task<string> SendCommand(string command, ushort? overridePort, CancellationToken cancellationToken)
 		{
+			if (Lifetime.IsCompleted)
+			{
+				logger.LogWarning(
+					"Attempted to send a command to an inactive SessionController{1}: {0}",
+					command,
+					overridePort.HasValue ? $" (Override port: {overridePort.Value})" : String.Empty);
+				return null;
+			}
+
 			try
 			{
 				var commandString = String.Format(CultureInfo.InvariantCulture,
@@ -528,5 +548,23 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 		/// <inheritdoc />
 		public void SetHighPriority() => process.SetHighPriority();
+
+		/// <inheritdoc />
+		public void Suspend() => process.Suspend();
+
+		/// <inheritdoc />
+		public void Resume() => process.Resume();
+
+		/// <inheritdoc />
+		public void ReplaceDmbProvider(IDmbProvider dmbProvider)
+		{
+#pragma warning disable IDE0016 // Use 'throw' expression
+			if (dmbProvider == null)
+				throw new ArgumentNullException(nameof(dmbProvider));
+#pragma warning restore IDE0016 // Use 'throw' expression
+
+			reattachInformation.Dmb.Dispose();
+			reattachInformation.Dmb = dmbProvider;
+		}
 	}
 }

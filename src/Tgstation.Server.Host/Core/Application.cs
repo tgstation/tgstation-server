@@ -12,8 +12,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
-using Microsoft.Net.Http.Headers;
-using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Serilog;
@@ -31,10 +29,12 @@ using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.Controllers;
+using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
-using Tgstation.Server.Host.Models;
+using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Core
 {
@@ -62,6 +62,11 @@ namespace Tgstation.Server.Host.Core
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
+		/// The <see cref="IIOManager"/> for the <see cref="Application"/>.
+		/// </summary>
+		readonly IIOManager ioManager;
+
+		/// <summary>
 		/// The <see cref="Microsoft.AspNetCore.Hosting.IHostingEnvironment"/> for the <see cref="Application"/>
 		/// </summary>
 		readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment;
@@ -82,14 +87,17 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="configuration">The value of <see cref="configuration"/></param>
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> for the <see cref="Application"/>.</param>
 		/// <param name="hostingEnvironment">The value of <see cref="hostingEnvironment"/></param>
+		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		public Application(
 			IConfiguration configuration,
 			IAssemblyInformationProvider assemblyInformationProvider,
-			Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment)
+			Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment,
+			IIOManager ioManager)
 		{
 			this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
+			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 
 			startupTcs = new TaskCompletionSource<object>();
 
@@ -123,9 +131,8 @@ namespace Tgstation.Server.Host.Core
 			services.AddLogging();
 
 			// other stuff needed for for setup wizard and configuration
-			services.AddSingleton<IIOManager, DefaultIOManager>();
 			services.AddSingleton<IConsole, IO.Console>();
-			services.AddSingleton<IDBConnectionFactory, DBConnectionFactory>();
+			services.AddSingleton<IDatabaseConnectionFactory, DatabaseConnectionFactory>();
 			services.AddSingleton<ISetupWizard, SetupWizard>();
 			services.AddSingleton<IPlatformIdentifier, PlatformIdentifier>();
 			services.AddSingleton<IAsyncDelayer, AsyncDelayer>();
@@ -134,7 +141,6 @@ namespace Tgstation.Server.Host.Core
 			DatabaseConfiguration databaseConfiguration;
 			FileLoggingConfiguration fileLoggingConfiguration;
 			ControlPanelConfiguration controlPanelConfiguration;
-			IIOManager ioManager;
 			IPlatformIdentifier platformIdentifier;
 
 			// temporarily build the service provider in it's current state
@@ -164,7 +170,6 @@ namespace Tgstation.Server.Host.Core
 				var controlPanelOptions = provider.GetRequiredService<IOptions<ControlPanelConfiguration>>();
 				controlPanelConfiguration = controlPanelOptions.Value;
 
-				ioManager = provider.GetRequiredService<IIOManager>();
 				platformIdentifier = provider.GetRequiredService<IPlatformIdentifier>();
 			}
 
@@ -254,43 +259,12 @@ namespace Tgstation.Server.Host.Core
 				});
 
 			if (hostingEnvironment.IsDevelopment())
-				services.AddSwaggerGen(
-				c =>
-				{
-					c.SwaggerDoc(
-						"v1",
-						new OpenApiInfo
-						{
-							Title = "TGS API",
-							Version = "v4"
-						});
-
-					// Important to do this before applying our own filters
-					// Otherwise we'll get NullReferenceExceptions on parameters to be setup in our document filter
-					var assemblyLocation = assemblyInformationProvider.Path;
-					var filePath = ioManager.ConcatPath(ioManager.GetDirectoryName(assemblyLocation), String.Concat(ioManager.GetFileNameWithoutExtension(assemblyLocation), ".xml"));
-					c.IncludeXmlComments(filePath);
-
-					c.OperationFilter<TgsOpenApiFilters>();
-					c.DocumentFilter<TgsOpenApiFilters>();
-
-					c.AddSecurityDefinition(TgsOpenApiFilters.PasswordSecuritySchemeId, new OpenApiSecurityScheme
-					{
-						In = ParameterLocation.Header,
-						Type = SecuritySchemeType.Http,
-						Name = HeaderNames.Authorization,
-						Scheme = ApiHeaders.BasicAuthenticationScheme
-					});
-
-					c.AddSecurityDefinition(TgsOpenApiFilters.TokenSecuritySchemeId, new OpenApiSecurityScheme
-					{
-						BearerFormat = "JWT",
-						In = ParameterLocation.Header,
-						Type = SecuritySchemeType.Http,
-						Name = HeaderNames.Authorization,
-						Scheme = ApiHeaders.JwtAuthenticationScheme
-					});
-				});
+			{
+				string GetDocumentationFilePath(string assemblyLocation) => ioManager.ConcatPath(ioManager.GetDirectoryName(assemblyLocation), String.Concat(ioManager.GetFileNameWithoutExtension(assemblyLocation), ".xml"));
+				var assemblyDocumentationPath = GetDocumentationFilePath(assemblyInformationProvider.Path);
+				var apiDocumentationPath = GetDocumentationFilePath(typeof(ApiHeaders).Assembly.Location);
+				services.AddSwaggerGen(genOptions => SwaggerConfiguration.Configure(genOptions, assemblyDocumentationPath, apiDocumentationPath));
+			}
 
 			// enable browser detection
 			services.AddDetectionCore().AddBrowser();
@@ -338,6 +312,11 @@ namespace Tgstation.Server.Host.Core
 			// configure platform specific services
 			if (platformIdentifier.IsWindows)
 			{
+				if (generalConfiguration.UseBasicWatchdogOnWindows)
+					services.AddSingleton<IWatchdogFactory, WatchdogFactory>();
+				else
+					services.AddSingleton<IWatchdogFactory, WindowsWatchdogFactory>();
+
 				services.AddSingleton<ISystemIdentityFactory, WindowsSystemIdentityFactory>();
 				services.AddSingleton<ISymlinkFactory, WindowsSymlinkFactory>();
 				services.AddSingleton<IByondInstaller, WindowsByondInstaller>();
@@ -349,6 +328,7 @@ namespace Tgstation.Server.Host.Core
 			}
 			else
 			{
+				services.AddSingleton<IWatchdogFactory, WatchdogFactory>();
 				services.AddSingleton<ISystemIdentityFactory, PosixSystemIdentityFactory>();
 				services.AddSingleton<ISymlinkFactory, PosixSymlinkFactory>();
 				services.AddSingleton<IByondInstaller, PosixByondInstaller>();
@@ -370,7 +350,6 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<ICredentialsProvider, CredentialsProvider>();
 			services.AddSingleton<IProviderFactory, ProviderFactory>();
 			services.AddSingleton<IChatFactory, ChatFactory>();
-			services.AddSingleton<IWatchdogFactory, WatchdogFactory>();
 			services.AddSingleton<IInstanceFactory, InstanceFactory>();
 
 			// configure root services

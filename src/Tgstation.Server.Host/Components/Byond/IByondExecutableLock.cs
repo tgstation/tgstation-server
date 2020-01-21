@@ -8,7 +8,7 @@ namespace Tgstation.Server.Host.Components.Byond
 	public interface IByondExecutableLock : IDisposable
 	{
 		/// <summary>
-		/// The <see cref="System.Version"/> of the locked executables
+		/// The <see cref="global::System.Version"/> of the locked executables
 		/// </summary>
 		Version Version { get; }
 

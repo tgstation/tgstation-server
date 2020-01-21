@@ -21,7 +21,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			get => active;
 			set
 			{
-				active = true;
+				active = value;
 				logger.LogDebug("Tracking {0}activated", !active ? "de" : String.Empty);
 			}
 		}

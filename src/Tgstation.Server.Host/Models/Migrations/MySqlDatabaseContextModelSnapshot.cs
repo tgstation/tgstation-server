@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Tgstation.Server.Host.Database;
 
 namespace Tgstation.Server.Host.Models.Migrations
 {

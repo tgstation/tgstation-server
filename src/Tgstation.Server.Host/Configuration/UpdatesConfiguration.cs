@@ -31,7 +31,7 @@
 		public long GitHubRepositoryId { get; set; } = DefaultGitHubRepositoryId;
 
 		/// <summary>
-		/// Prefix before the <see cref="System.Version"/> of TGS published in git tags
+		/// Prefix before the <see cref="global::System.Version"/> of TGS published in git tags
 		/// </summary>
 		public string GitTagPrefix { get; set; } = DefaultGitTagPrefix;
 

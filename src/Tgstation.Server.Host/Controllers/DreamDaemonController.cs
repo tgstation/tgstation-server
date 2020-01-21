@@ -13,7 +13,8 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Watchdog;
-using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
@@ -150,7 +151,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200">Watchdog terminated.</response>
-		[HttpDelete("{id}")]
+		[HttpDelete]
 		[TgsAuthorize(DreamDaemonRights.Shutdown)]
 		[ProducesResponseType(200)]
 		public async Task<IActionResult> Delete(CancellationToken cancellationToken)

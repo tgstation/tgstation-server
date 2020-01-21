@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Security
 {

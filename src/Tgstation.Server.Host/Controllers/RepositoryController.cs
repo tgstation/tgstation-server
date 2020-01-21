@@ -17,6 +17,8 @@ using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
@@ -230,7 +232,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
 		/// <response code="202">Job to delete the repository created successfully.</response>
 		/// <response code="410">Instance no longer available.</response>
-		[HttpDelete("{id}")]
+		[HttpDelete]
 		[TgsAuthorize(RepositoryRights.Delete)]
 		[ProducesResponseType(typeof(Repository), 202)]
 		[ProducesResponseType(410)]

@@ -2,7 +2,7 @@
 using LibGit2Sharp.Handlers;
 using Microsoft.Extensions.Logging;
 using System;
-using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Jobs;
 
 namespace Tgstation.Server.Host.Components.Repository
 {

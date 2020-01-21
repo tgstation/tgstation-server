@@ -14,7 +14,9 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Core
 {
@@ -42,9 +44,9 @@ namespace Tgstation.Server.Host.Core
 		readonly IApplication application;
 
 		/// <summary>
-		/// The <see cref="IDBConnectionFactory"/> for the <see cref="SetupWizard"/>
+		/// The <see cref="IDatabaseConnectionFactory"/> for the <see cref="SetupWizard"/>
 		/// </summary>
-		readonly IDBConnectionFactory dbConnectionFactory;
+		readonly IDatabaseConnectionFactory dbConnectionFactory;
 
 		/// <summary>
 		/// The <see cref="IPlatformIdentifier"/> for the <see cref="SetupWizard"/>
@@ -78,7 +80,16 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/></param>
-		public SetupWizard(IIOManager ioManager, IConsole console, IHostingEnvironment hostingEnvironment, IApplication application, IDBConnectionFactory dbConnectionFactory, IPlatformIdentifier platformIdentifier, IAsyncDelayer asyncDelayer, ILogger<SetupWizard> logger, IOptions<GeneralConfiguration> generalConfigurationOptions)
+		public SetupWizard(
+			IIOManager ioManager,
+			IConsole console,
+			IHostingEnvironment hostingEnvironment,
+			IApplication application,
+			IDatabaseConnectionFactory dbConnectionFactory,
+			IPlatformIdentifier platformIdentifier,
+			IAsyncDelayer asyncDelayer,
+			ILogger<SetupWizard> logger,
+			IOptions<GeneralConfiguration> generalConfigurationOptions)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.console = console ?? throw new ArgumentNullException(nameof(console));
@@ -408,6 +419,11 @@ namespace Tgstation.Server.Host.Core
 			newGeneralConfiguration.GitHubAccessToken = await console.ReadLineAsync(true, cancellationToken).ConfigureAwait(false);
 			if (String.IsNullOrWhiteSpace(newGeneralConfiguration.GitHubAccessToken))
 				newGeneralConfiguration.GitHubAccessToken = null;
+
+			newGeneralConfiguration.UseExperimentalWatchdog = await PromptYesNo("Use the experimental watchdog (NOT RECOMMENDED)? (y/n): ", cancellationToken).ConfigureAwait(false);
+			if (!newGeneralConfiguration.UseExperimentalWatchdog && platformIdentifier.IsWindows)
+				newGeneralConfiguration.UseBasicWatchdogOnWindows = !await PromptYesNo("Use the TGS3 style Windows watchdog (RECOMMENDED)? (y/n): ", cancellationToken).ConfigureAwait(false);
+
 			return newGeneralConfiguration;
 		}
 

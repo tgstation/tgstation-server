@@ -139,7 +139,7 @@ namespace Tgstation.Server.Host.IO
 		Task CreateDirectory(string path, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Recursively delete a directory
+		/// Recursively delete a directory, removes and does not enter any symlinks encounterd.
 		/// </summary>
 		/// <param name="path">The path to the directory to delete</param>
 		/// <param name="cancellationToken">A <see cref="CancellationToken"/> for the operation</param>
@@ -183,7 +183,7 @@ namespace Tgstation.Server.Host.IO
 		/// Extract a set of <paramref name="zipFileBytes"/> to a given <paramref name="path"/>
 		/// </summary>
 		/// <param name="path">The path to unzip to</param>
-		/// <param name="zipFileBytes">The <see cref="byte"/>s of the <see cref="System.IO.Compression.ZipArchive"/></param>
+		/// <param name="zipFileBytes">The <see cref="byte"/>s of the <see cref="global::System.IO.Compression.ZipArchive"/></param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task ZipToDirectory(string path, byte[] zipFileBytes, CancellationToken cancellationToken);

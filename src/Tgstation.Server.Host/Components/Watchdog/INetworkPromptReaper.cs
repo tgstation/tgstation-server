@@ -1,4 +1,4 @@
-﻿using Tgstation.Server.Host.Core;
+﻿using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {

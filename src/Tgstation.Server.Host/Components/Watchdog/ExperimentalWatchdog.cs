@@ -8,8 +8,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
-using Tgstation.Server.Host.Components.Compiler;
+using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Jobs;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
@@ -438,7 +440,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								|| CheckActivationReason(ref inactiveServerStartup, MonitorActivationReason.InactiveServerStartupComplete)
 								|| CheckActivationReason(ref newDmbAvailable, MonitorActivationReason.NewDmbAvailable)
 								|| CheckActivationReason(ref activeLaunchParametersChanged, MonitorActivationReason.ActiveLaunchParametersUpdated))
+							{
+								Logger.LogTrace("Monitor activation: {0}", activationReason);
 								await HandlerMonitorWakeup(activationReason, monitorState, cancellationToken).ConfigureAwait(false);
+							}
 							else
 								moreActivationsToProcess = false;
 						}
@@ -513,10 +518,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		#pragma warning disable CA1502 // TODO: Decomplexify
 		protected override async Task InitControllers(Action callBeforeRecurse, Task chatTask, WatchdogReattachInformation reattachInfo, CancellationToken cancellationToken)
 		{
-			// good ole sanity, should never fucking trigger but i don't trust myself even though I should
-			// TODO: Unit test this instead?
-			if (alphaServer != null || bravoServer != null)
-				throw new InvalidOperationException("Entered LaunchNoLock with one or more of the servers not being null!");
+			Debug.Assert(alphaServer == null && bravoServer == null, "Entered LaunchNoLock with one or more of the servers not being null!");
 
 			// don't need a new dmb if reattaching
 			var doesntNeedNewDmb = reattachInfo?.Alpha != null && reattachInfo?.Bravo != null;

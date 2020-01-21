@@ -8,8 +8,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
-using Tgstation.Server.Host.Components.Compiler;
+using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Jobs;
 
 namespace Tgstation.Server.Host.Components.Watchdog.Tests
 {
@@ -101,6 +103,7 @@ namespace Tgstation.Server.Host.Components.Watchdog.Tests
 				var infiniteTask = new TaskCompletionSource<int>().Task;
 
 				mockDmbFactory.SetupGet(x => x.OnNewerDmb).Returns(infiniteTask);
+				mockDmbFactory.SetupGet(x => x.DmbAvailable).Returns(true).Verifiable();
 				mockDmbFactory.Setup(x => x.LockNextDmb(2)).Returns(mDmbP).Verifiable();
 
 				var sessionsToVerify = new List<Mock<ISessionController>>();

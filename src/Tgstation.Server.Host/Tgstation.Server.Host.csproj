@@ -22,7 +22,6 @@
   
   <PropertyGroup>
     <NodeModulesFolder>ClientApp/node_modules</NodeModulesFolder>
-    <!-- File with mtime of last successful npm install -->
     <NpmInstallStampFile>ClientApp/node_modules/.install-stamp</NpmInstallStampFile>
   </PropertyGroup>
   
@@ -30,15 +29,6 @@
     <Exec WorkingDirectory="ClientApp" Command="npm ci" />
     <Touch Files="$(NpmInstallStampFile)" AlwaysCreate="true" />
   </Target>
-
-  <ItemGroup>
-    <Content Remove="ClientApp\package-lock.json" />
-    <Content Remove="ClientApp\package.json" />
-    <Content Remove="ClientApp\public\manifest.json" />
-    <Content Remove="ClientApp\tsconfig.json" />
-    <Content Remove="ClientApp\tslint.json" />
-    <ClientApp Include="ClientApp\src\**\*;ClientApp\public\**\*;ClientApp\tsconfig.json;ClientApp\tslint.json;ClientApp\package.json;ClientApp\package-lock.json" />
-  </ItemGroup>
 
   <Target Name="NpmBuild" BeforeTargets="BeforeBuild" DependsOnTargets="NpmInstall" Inputs="@(ClientApp)" Outputs="wwwroot\index.html">
     <Message Text="Building web control panel..." Importance="high" />
@@ -56,7 +46,7 @@
     <PackageReference Include="Cyberboss.AspNetCore.AsyncInitializer" Version="1.2.0" />
     <PackageReference Include="Cyberboss.SmartIrc4net.Standard" Version="0.4.6" />
     <PackageReference Include="Discord.Net.WebSocket" Version="2.1.1" />
-    <PackageReference Include="LibGit2Sharp" Version="0.26.2" />
+    <PackageReference Include="LibGit2Sharp" Version="0.27.0-preview-0034" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
@@ -95,6 +85,26 @@
     <ProjectReference Include="..\Tgstation.Server.Api\Tgstation.Server.Api.csproj" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Compile Remove="Database\Design\**\*" />
+    <None Include="Database\Design\**\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="ClientApp\package-lock.json" />
+    <Content Remove="ClientApp\package.json" />
+    <Content Remove="ClientApp\public\manifest.json" />
+    <Content Remove="ClientApp\tsconfig.json" />
+    <Content Remove="ClientApp\tslint.json" />
+    <None Include="ClientApp\package-lock.json" />
+    <None Include="ClientApp\package.json" />
+    <None Include="ClientApp\public\manifest.json" />
+    <None Include="ClientApp\tsconfig.json" />
+    <None Include="ClientApp\tslint.json" />
+    <ClientApp Include="ClientApp\src\**\*;ClientApp\public\**\*;ClientApp\tsconfig.json;ClientApp\tslint.json;ClientApp\package.json;ClientApp\package-lock.json" />
+    <AdditionalFiles Include="../../build/stylecop.json" />
+  </ItemGroup>
+
   <ItemGroup>
     <None Update="appsettings.Development.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -105,24 +115,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="ClientApp\package-lock.json" />
-    <None Include="ClientApp\package.json" />
-    <None Include="ClientApp\public\manifest.json" />
-    <None Include="ClientApp\tsconfig.json" />
-    <None Include="ClientApp\tslint.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="../../build/stylecop.json" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 </Project>
