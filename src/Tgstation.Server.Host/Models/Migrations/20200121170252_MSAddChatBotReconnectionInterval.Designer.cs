@@ -3,15 +3,21 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tgstation.Server.Host.Database;
 
 namespace Tgstation.Server.Host.Models.Migrations
 {
     [DbContext(typeof(SqlServerDatabaseContext))]
-    partial class SqlServerDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20200121170252_MSAddChatBotReconnectionInterval")]
+    partial class MSAddChatBotReconnectionInterval
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <summary>
+        /// Builds the target model
+        /// </summary>
+        /// <param name="modelBuilder">The <see cref="ModelBuilder"/> to use.</param>
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -4,7 +4,7 @@ using System;
 namespace Tgstation.Server.Host.Models.Migrations
 {
 	/// <summary>
-	/// Make commit shas non-unique per Instance for MSSQL
+	/// Make commit shas non-unique per Instance for MySQL/MariaDB.
 	/// </summary>
 	public partial class MYFixRevInfoIndex : Migration
 	{
