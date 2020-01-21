@@ -144,7 +144,23 @@ There is no strict process when it comes to merging pull requests. Pull requests
 
 * Commits MUST be properly titled and commented as we only use merge commits for the pull request process
 
-## Deployment process
+## Making Model Changes
+
+Whenever you make a change to a model schema that must be reflected in the database, you'll have to generate and write a migration for it on all supported database types.
+
+1. Ensure you have the EntityFrameworkCore migration tools installed with `dotnet tool install --global dotnet-ef`.
+1. Make the code changes for your model.
+1. Open a command prompt in the `/src/Tgstation.Server.Host` directory.
+1. Configure your appsettings.Development.json to connect to a valid SQL Server database.
+1. Run `dotnet ef migrations add MS<NameOfYourMigration> --context SqlServerDatabaseContext`
+1. Configure your appsettings.Development.json to connect to a valid MySQL/MariaDB database.
+1. Run `dotnet ef migrations add MY<NameOfYourMigration> --context MySqlDatabaseContext`
+1. Fix compiler warnings in the generated files. Ensure all classes are in the Tgstation.Server.Host.Models.Migrations namespace.
+1. Run the server in both configurations to ensure the migrations work.
+
+You should now have MY/MS migration files generated in `/src/Tgstation.Server.Host/Models/Migrations
+
+## Deployment Process
 
 Every issue/pull request in a release should share a common milestone named with the release version i.e. `4.5.3.5`
 
