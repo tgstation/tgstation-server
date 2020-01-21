@@ -101,8 +101,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a579c48046b16d1e8af0670c89c35d016"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html#a579c48046b16d1e8af0670c89c35d016">SetAutoUpdateInterval</a> (uint newInterval)</td></tr>
 <tr class="memdesc:a579c48046b16d1e8af0670c89c35d016"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#aebe907c68112eae3f1ac2dfdf384ec5b" title="The time interval in minutes the repository is automatically pulled and compiles. 0 disables">Api.Models.Instance.AutoUpdateInterval</a> for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="For interacting with the instance services">IInstance</a>  <a href="#a579c48046b16d1e8af0670c89c35d016">More...</a><br /></td></tr>
 <tr class="separator:a579c48046b16d1e8af0670c89c35d016"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf2c616c3ac6205bdfea350d2bbea222"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html#abf2c616c3ac6205bdfea350d2bbea222">CompileProcess</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_database_context.html">IDatabaseContext</a> databaseContext, Action&lt; int &gt; progressReporter, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:abf2c616c3ac6205bdfea350d2bbea222"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the compile job and insert it into the database. Meant to be called by a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_job_manager.html" title="Manages the runtime of Jobs">Core.IJobManager</a>  <a href="#abf2c616c3ac6205bdfea350d2bbea222">More...</a><br /></td></tr>
+<tr class="memitem:abf2c616c3ac6205bdfea350d2bbea222"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html#abf2c616c3ac6205bdfea350d2bbea222">CompileProcess</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Job</a> job, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html">IDatabaseContext</a> databaseContext, Action&lt; int &gt; progressReporter, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:abf2c616c3ac6205bdfea350d2bbea222"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the compile job and insert it into the database. Meant to be called by a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs">Jobs.IJobManager</a>  <a href="#abf2c616c3ac6205bdfea350d2bbea222">More...</a><br /></td></tr>
 <tr class="separator:abf2c616c3ac6205bdfea350d2bbea222"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
@@ -126,7 +126,7 @@ Properties</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>For interacting with the instance services </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_instance_8cs_source.html#l00017">17</a> of file <a class="el" href="_i_instance_8cs_source.html">IInstance.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_instance_8cs_source.html#l00018">18</a> of file <a class="el" href="_i_instance_8cs_source.html">IInstance.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="abf2c616c3ac6205bdfea350d2bbea222"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abf2c616c3ac6205bdfea350d2bbea222">&#9670;&nbsp;</a></span>CompileProcess()</h2>
@@ -143,7 +143,7 @@ Properties</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_database_context.html">IDatabaseContext</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html">IDatabaseContext</a>&#160;</td>
           <td class="paramname"><em>databaseContext</em>, </td>
         </tr>
         <tr>
@@ -166,7 +166,7 @@ Properties</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Run the compile job and insert it into the database. Meant to be called by a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_job_manager.html" title="Manages the runtime of Jobs">Core.IJobManager</a> </p>
+<p>Run the compile job and insert it into the database. Meant to be called by a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs">Jobs.IJobManager</a> </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">job</td><td>The running Job</td></tr>
@@ -180,7 +180,7 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#abbd348ec39811a75b5b29d59f7b0c837">Tgstation.Server.Host.Components.Instance</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_dream_maker_controller_8cs_source.html#l00119">Tgstation.Server.Host.Controllers.DreamMakerController.Create()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_dream_maker_controller_8cs_source.html#l00120">Tgstation.Server.Host.Controllers.DreamMakerController.Create()</a>.</p>
 
 </div>
 </div>
@@ -286,9 +286,9 @@ Properties</h2></td></tr>
 
 <p>The IByondManager for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="For interacting with the instance services">IInstance</a> </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_instance_8cs_source.html#l00027">27</a> of file <a class="el" href="_i_instance_8cs_source.html">IInstance.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;{ <span class="keyword">get</span>; }</div></div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_byond_controller_8cs_source.html#l00088">Tgstation.Server.Host.Controllers.ByondController.Update()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_instance_8cs_source.html#l00028">28</a> of file <a class="el" href="_i_instance_8cs_source.html">IInstance.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{ <span class="keyword">get</span>; }</div></div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_byond_controller_8cs_source.html#l00089">Tgstation.Server.Host.Controllers.ByondController.Update()</a>.</p>
 
 </div>
 </div>
@@ -314,9 +314,9 @@ Properties</h2></td></tr>
 
 <p>The IChat for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="For interacting with the instance services">IInstance</a> </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_instance_8cs_source.html#l00037">37</a> of file <a class="el" href="_i_instance_8cs_source.html">IInstance.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{ <span class="keyword">get</span>; }</div></div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_chat_controller_8cs_source.html#l00070">Tgstation.Server.Host.Controllers.ChatController.Create()</a>, and <a class="el" href="_chat_controller_8cs_source.html#l00222">Tgstation.Server.Host.Controllers.ChatController.Update()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_instance_8cs_source.html#l00038">38</a> of file <a class="el" href="_i_instance_8cs_source.html">IInstance.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{ <span class="keyword">get</span>; }</div></div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_chat_controller_8cs_source.html#l00071">Tgstation.Server.Host.Controllers.ChatController.Create()</a>, and <a class="el" href="_chat_controller_8cs_source.html#l00223">Tgstation.Server.Host.Controllers.ChatController.Update()</a>.</p>
 
 </div>
 </div>
@@ -342,9 +342,9 @@ Properties</h2></td></tr>
 
 <p>The IConfiguration for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="For interacting with the instance services">IInstance</a> </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_instance_8cs_source.html#l00042">42</a> of file <a class="el" href="_i_instance_8cs_source.html">IInstance.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{ <span class="keyword">get</span>; }</div></div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_configuration_controller_8cs_source.html#l00220">Tgstation.Server.Host.Controllers.ConfigurationController.Create()</a>, <a class="el" href="_configuration_controller_8cs_source.html#l00263">Tgstation.Server.Host.Controllers.ConfigurationController.Delete()</a>, <a class="el" href="_configuration_controller_8cs_source.html#l00169">Tgstation.Server.Host.Controllers.ConfigurationController.Directory()</a>, <a class="el" href="_configuration_controller_8cs_source.html#l00129">Tgstation.Server.Host.Controllers.ConfigurationController.File()</a>, and <a class="el" href="_configuration_controller_8cs_source.html#l00081">Tgstation.Server.Host.Controllers.ConfigurationController.Update()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_instance_8cs_source.html#l00043">43</a> of file <a class="el" href="_i_instance_8cs_source.html">IInstance.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;{ <span class="keyword">get</span>; }</div></div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_configuration_controller_8cs_source.html#l00221">Tgstation.Server.Host.Controllers.ConfigurationController.Create()</a>, <a class="el" href="_configuration_controller_8cs_source.html#l00264">Tgstation.Server.Host.Controllers.ConfigurationController.Delete()</a>, <a class="el" href="_configuration_controller_8cs_source.html#l00170">Tgstation.Server.Host.Controllers.ConfigurationController.Directory()</a>, <a class="el" href="_configuration_controller_8cs_source.html#l00130">Tgstation.Server.Host.Controllers.ConfigurationController.File()</a>, and <a class="el" href="_configuration_controller_8cs_source.html#l00082">Tgstation.Server.Host.Controllers.ConfigurationController.Update()</a>.</p>
 
 </div>
 </div>
@@ -370,9 +370,9 @@ Properties</h2></td></tr>
 
 <p>The IRepositoryManager for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="For interacting with the instance services">IInstance</a> </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_instance_8cs_source.html#l00022">22</a> of file <a class="el" href="_i_instance_8cs_source.html">IInstance.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;{ <span class="keyword">get</span>; }</div></div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_repository_controller_8cs_source.html#l00141">Tgstation.Server.Host.Controllers.RepositoryController.Create()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00237">Tgstation.Server.Host.Controllers.RepositoryController.Delete()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00276">Tgstation.Server.Host.Controllers.RepositoryController.Read()</a>, and <a class="el" href="_repository_controller_8cs_source.html#l00327">Tgstation.Server.Host.Controllers.RepositoryController.Update()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_instance_8cs_source.html#l00023">23</a> of file <a class="el" href="_i_instance_8cs_source.html">IInstance.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;{ <span class="keyword">get</span>; }</div></div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_repository_controller_8cs_source.html#l00143">Tgstation.Server.Host.Controllers.RepositoryController.Create()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00239">Tgstation.Server.Host.Controllers.RepositoryController.Delete()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00278">Tgstation.Server.Host.Controllers.RepositoryController.Read()</a>, and <a class="el" href="_repository_controller_8cs_source.html#l00329">Tgstation.Server.Host.Controllers.RepositoryController.Update()</a>.</p>
 
 </div>
 </div>
@@ -398,9 +398,9 @@ Properties</h2></td></tr>
 
 <p>The IWatchdog for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="For interacting with the instance services">IInstance</a> </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_instance_8cs_source.html#l00032">32</a> of file <a class="el" href="_i_instance_8cs_source.html">IInstance.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{ <span class="keyword">get</span>; }</div></div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_dream_daemon_controller_8cs_source.html#l00156">Tgstation.Server.Host.Controllers.DreamDaemonController.Delete()</a>, <a class="el" href="_dream_daemon_controller_8cs_source.html#l00101">Tgstation.Server.Host.Controllers.DreamDaemonController.ReadImpl()</a>, <a class="el" href="_dream_daemon_controller_8cs_source.html#l00253">Tgstation.Server.Host.Controllers.DreamDaemonController.Restart()</a>, and <a class="el" href="_dream_daemon_controller_8cs_source.html#l00176">Tgstation.Server.Host.Controllers.DreamDaemonController.Update()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_instance_8cs_source.html#l00033">33</a> of file <a class="el" href="_i_instance_8cs_source.html">IInstance.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{ <span class="keyword">get</span>; }</div></div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_dream_daemon_controller_8cs_source.html#l00157">Tgstation.Server.Host.Controllers.DreamDaemonController.Delete()</a>, <a class="el" href="_dream_daemon_controller_8cs_source.html#l00102">Tgstation.Server.Host.Controllers.DreamDaemonController.ReadImpl()</a>, <a class="el" href="_dream_daemon_controller_8cs_source.html#l00254">Tgstation.Server.Host.Controllers.DreamDaemonController.Restart()</a>, and <a class="el" href="_dream_daemon_controller_8cs_source.html#l00177">Tgstation.Server.Host.Controllers.DreamDaemonController.Update()</a>.</p>
 
 </div>
 </div>

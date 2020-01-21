@@ -106,6 +106,9 @@ Properties</h2></td></tr>
 <tr class="memitem:aba344f151bae43f8f48c4c8ca2f483f7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#aba344f151bae43f8f48c4c8ca2f483f7">UseExperimentalWatchdog</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:aba344f151bae43f8f48c4c8ca2f483f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html" title="A IWatchdog that tries to manage 2 servers at once for maximum uptime.">Components.Watchdog.ExperimentalWatchdog</a> should be used.  <a href="#aba344f151bae43f8f48c4c8ca2f483f7">More...</a><br /></td></tr>
 <tr class="separator:aba344f151bae43f8f48c4c8ca2f483f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3ab481c2504d9d455953d54c8feeec1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#ae3ab481c2504d9d455953d54c8feeec1">UseBasicWatchdogOnWindows</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:ae3ab481c2504d9d455953d54c8feeec1"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html" title="A version of the BasicWatchdog that, instead of killing servers for updates, uses the wonders of syml...">Components.Watchdog.WindowsWatchdog</a> should not be used if it is available.  <a href="#ae3ab481c2504d9d455953d54c8feeec1">More...</a><br /></td></tr>
+<tr class="separator:ae3ab481c2504d9d455953d54c8feeec1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -218,7 +221,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00014">14</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l00537">Tgstation.Server.Host.Core.SetupWizard.SaveConfiguration()</a>, and <a class="el" href="_service_collection_extensions_8cs_source.html#l00021">Tgstation.Server.Host.Core.ServiceCollectionExtensions.UseStandardConfig&lt; TConfig &gt;()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l00553">Tgstation.Server.Host.Core.SetupWizard.SaveConfiguration()</a>, and <a class="el" href="_service_collection_extensions_8cs_source.html#l00021">Tgstation.Server.Host.Extensions.ServiceCollectionExtensions.UseStandardConfig&lt; TConfig &gt;()</a>.</p>
 
 </div>
 </div>
@@ -274,7 +277,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00039">39</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div></div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_repository_controller_8cs_source.html#l00327">Tgstation.Server.Host.Controllers.RepositoryController.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_repository_controller_8cs_source.html#l00329">Tgstation.Server.Host.Controllers.RepositoryController.Update()</a>.</p>
 
 </div>
 </div>
@@ -303,7 +306,7 @@ Private Attributes</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00034">34</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; } = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a2f4d695a6363f6d92a8adb8f7860e809">DefaultMinimumPasswordLength</a>;</div><div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_a2f4d695a6363f6d92a8adb8f7860e809"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a2f4d695a6363f6d92a8adb8f7860e809">Tgstation.Server.Host.Configuration.GeneralConfiguration.DefaultMinimumPasswordLength</a></div><div class="ttdeci">const uint DefaultMinimumPasswordLength</div><div class="ttdoc">The default value for MinimumPasswordLength</div><div class="ttdef"><b>Definition:</b> <a href="_general_configuration_8cs_source.html#l00019">GeneralConfiguration.cs:19</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_user_controller_8cs_source.html#l00081">Tgstation.Server.Host.Controllers.UserController.TrySetPassword()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_user_controller_8cs_source.html#l00082">Tgstation.Server.Host.Controllers.UserController.TrySetPassword()</a>.</p>
 
 </div>
 </div>
@@ -360,8 +363,34 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00045">45</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div></div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l00620">Tgstation.Server.Host.Core.SetupWizard.CheckRunWizard()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_setup_wizard_8cs_source.html#l00636">Tgstation.Server.Host.Core.SetupWizard.CheckRunWizard()</a>.</p>
 
+</div>
+</div>
+<a id="ae3ab481c2504d9d455953d54c8feeec1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3ab481c2504d9d455953d54c8feeec1">&#9670;&nbsp;</a></span>UseBasicWatchdogOnWindows</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Tgstation.Server.Host.Configuration.GeneralConfiguration.UseBasicWatchdogOnWindows</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>If the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html" title="A version of the BasicWatchdog that, instead of killing servers for updates, uses the wonders of syml...">Components.Watchdog.WindowsWatchdog</a> should not be used if it is available. </p>
+
+<p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00065">65</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="aba344f151bae43f8f48c4c8ca2f483f7"></a>
@@ -388,7 +417,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_general_configuration_8cs_source.html#l00060">60</a> of file <a class="el" href="_general_configuration_8cs_source.html">GeneralConfiguration.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div></div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html#l00073">Tgstation.Server.Host.Components.Watchdog.WatchdogFactory.CreateWatchdog()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html#l00076">Tgstation.Server.Host.Components.Watchdog.WatchdogFactory.CreateWatchdog()</a>.</p>
 
 </div>
 </div>

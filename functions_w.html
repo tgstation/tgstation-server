@@ -67,18 +67,18 @@ $(function() {
 
 <h3><a id="index_w"></a>- w -</h3><ul>
 <li>Wait()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_job_handler.html#a8139e340599a1bb5d3c0862c20072835">Tgstation.Server.Host.Core.JobHandler</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#aa3f314a623eb4800fbf6cd88685b54d7">Tgstation.Server.Host.Jobs.JobHandler</a>
 </li>
 <li>WaitForJobCompletion()
-: <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_job_manager.html#aa07b23b3ce401447337f4b026c34a77d">Tgstation.Server.Host.Core.IJobManager</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_job_manager.html#a63a8e2fe5a07e8e8c040e555a5d13d4d">Tgstation.Server.Host.Core.JobManager</a>
+: <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a04ad7543ef9c8863c1d8d0b46d17f522">Tgstation.Server.Host.Jobs.IJobManager</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#a91cb1783409dd1e5cd4ec7670851f05f">Tgstation.Server.Host.Jobs.JobManager</a>
 </li>
 <li>watchdog
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_byond_command.html#a90292e2c1149c3d0e92a79d98968be44">Tgstation.Server.Host.Components.Chat.Commands.ByondCommand</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_command_factory.html#aec51431b45d46994bbe24550640833d0">Tgstation.Server.Host.Components.Chat.Commands.CommandFactory</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_pull_requests_command.html#a75363c8266024cf66cb86d1c44545bdc">Tgstation.Server.Host.Components.Chat.Commands.PullRequestsCommand</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_revision_command.html#aeabbea7c18623b8fb74c64a3b90aa453">Tgstation.Server.Host.Components.Chat.Commands.RevisionCommand</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dream_maker.html#a50dc15cecba1cb334d01e08a9433c2dd">Tgstation.Server.Host.Components.Compiler.DreamMaker</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a083573076952efb423f149312d58ea60">Tgstation.Server.Host.Components.Deployment.DreamMaker</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_event_consumer.html#ac460374f4a77377ed95d0474e93dac22">Tgstation.Server.Host.Components.EventConsumer</a>
 </li>
 <li>Watchdog
@@ -114,8 +114,8 @@ $(function() {
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_watchdog_reattach_information_base.html#a2cf4943c9af899af0fbf1cde28512830">Tgstation.Server.Host.Models.WatchdogReattachInformationBase</a>
 </li>
 <li>WatchdogReattachInformations
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_database_context.html#ade1c71fa296103bf51c5b6b0b1c478d5">Tgstation.Server.Host.Models.DatabaseContext&lt; TParentContext &gt;</a>
-, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_database_context.html#acf20fa94a000078534bfc9337efca289">Tgstation.Server.Host.Models.IDatabaseContext</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a81476e2ae81bafc74ac28dad1bfafb32">Tgstation.Server.Host.Database.DatabaseContext&lt; TParentContext &gt;</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a2f8085fe5dfb52958dc971930538dd5e">Tgstation.Server.Host.Database.IDatabaseContext</a>
 </li>
 <li>watchdogTask
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a89678cb55592e83aa074a24dc86dcd6f">Tgstation.Server.Host.Service.ServerService</a>
@@ -132,23 +132,36 @@ $(function() {
 <li>WindowsNetworkPromptReaper()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_network_prompt_reaper.html#aa56ce0bc468ca1bb1c97b1abc62da72d">Tgstation.Server.Host.Components.Watchdog.WindowsNetworkPromptReaper</a>
 </li>
+<li>WindowsSwappableDmbProvider()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_windows_swappable_dmb_provider.html#a1e7ef0b94f871749f890292e742b0faf">Tgstation.Server.Host.Components.Deployment.WindowsSwappableDmbProvider</a>
+</li>
 <li>WindowsSystemIdentity()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html#a6b20afd81a3b07e0ef1f89fc134652ad">Tgstation.Server.Host.Security.WindowsSystemIdentity</a>
 </li>
 <li>WindowsSystemIdentityFactory()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity_factory.html#a46f081a94982769acd01d0fdee271b40">Tgstation.Server.Host.Security.WindowsSystemIdentityFactory</a>
 </li>
+<li>WindowsWatchdog()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a59385fc7928ef26b8f2b2613f504b2ec">Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog</a>
+</li>
+<li>WindowsWatchdogFactory()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html#a637adbc69b5e1c44857e5bf0fad14203">Tgstation.Server.Host.Components.Watchdog.WindowsWatchdogFactory</a>
+</li>
 <li>WithToken()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_task_extensions.html#ac1bcd0420999580b9e6ef655b0fa094b">Tgstation.Server.Host.Core.TaskExtensions</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_task_extensions.html#af361129d3382024befd82cd448fa6ed3">Tgstation.Server.Host.Extensions.TaskExtensions</a>
 </li>
 <li>WithToken&lt; T &gt;()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_task_extensions.html#aa285d2d01082dbf1388134564c4a2252">Tgstation.Server.Host.Core.TaskExtensions</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_task_extensions.html#a3950e2e535f0222c5fe4ca029dd130cc">Tgstation.Server.Host.Extensions.TaskExtensions</a>
+</li>
+<li>WrapLifetimeTask()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#ac29e58ebc2a30e17a50d9a445be22acc">Tgstation.Server.Host.System.Process</a>
 </li>
 <li>Write()
 : <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a7623081b4c09cf5f7679989cf73c7003">Tgstation.Server.Client.Components.ConfigurationClient</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#ae72948a1a0f52e1a84b0e430c1984e4b">Tgstation.Server.Client.Components.IConfigurationClient</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ac6f986527806a782c0bea1ab51d7f0ad">Tgstation.Server.Host.Components.StaticFiles.Configuration</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_i_configuration.html#aa5244c05dd19f32a6f3603b5ca4fd638">Tgstation.Server.Host.Components.StaticFiles.IConfiguration</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_open_api_enum_var_names_extension.html#aa5c825a8266ddf651f978ed539323b49">Tgstation.Server.Host.Core.OpenApiEnumVarNamesExtension</a>
 </li>
 <li>WriteAllBytes()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#adfa411bbedf8ffc430cb9fcf0a6e6fe4">Tgstation.Server.Host.IO.DefaultIOManager</a>

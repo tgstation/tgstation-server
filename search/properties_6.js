@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['generalconfiguration',['GeneralConfiguration',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#aa163ef7f1b2ec0e29736e7cfcfd20f03',1,'Tgstation::Server::Host::Components::Watchdog::WatchdogFactory']]],
   ['githubaccesstoken',['GitHubAccessToken',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a97eae217a6ba8e75256e745f98f926b8',1,'Tgstation::Server::Host::Configuration::GeneralConfiguration']]],
   ['githubname',['GitHubName',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html#aaa11306778504a3bb95ee6575aa69021',1,'Tgstation::Server::Api::Models::Repository']]],
   ['githubowner',['GitHubOwner',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html#a04abf893b8ca947b828372b92534f34a',1,'Tgstation.Server.Api.Models.Repository.GitHubOwner()'],['../interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a213c2be1ecbafbd6a801f685c63d04db',1,'Tgstation.Server.Host.Components.Repository.IRepository.GitHubOwner()'],['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#abdb2e4318fb14b8459e3bbc37dad98ba',1,'Tgstation.Server.Host.Components.Repository.Repository.GitHubOwner()']]],

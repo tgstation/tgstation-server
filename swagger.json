@@ -1,0 +1,4789 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "TGS API",
+    "version": "v4"
+  },
+  "paths": {
+    "/Administration": {
+      "get": {
+        "tags": [
+          "Administration"
+        ],
+        "summary": "Get Tgstation.Server.Api.Models.Administration server information.",
+        "operationId": "AdministrationController.Read",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved Tgstation.Server.Api.Models.Administration data successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Administration"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "The GitHub API rate limit was hit. See response header Retry-After."
+          },
+          "429": {
+            "description": "A GitHub API error occurred. See error message for details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Administration"
+        ],
+        "summary": "Attempt to perform a server upgrade.",
+        "operationId": "AdministrationController.Update",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "requestBody": {
+          "description": "The model containing the Tgstation.Server.Api.Models.Administration.NewVersion to update to.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Administration"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Administration"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Administration"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Administration"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Update has been started successfully."
+          },
+          "410": {
+            "description": "The requested version could not be found."
+          },
+          "422": {
+            "description": "Upgrade operations are unavailable due to the launch configuration of TGS.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "A GitHub rate limit was encountered."
+          },
+          "429": {
+            "description": "A GitHub API error occurred.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Administration"
+        ],
+        "summary": "Attempts to restart the server.",
+        "operationId": "AdministrationController.Delete",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Restart begun successfully."
+          },
+          "422": {
+            "description": "Restart operations are unavailable due to the launch configuration of TGS.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      }
+    },
+    "/Byond": {
+      "get": {
+        "tags": [
+          "Byond"
+        ],
+        "summary": "Gets the active Tgstation.Server.Api.Models.Byond version.",
+        "operationId": "ByondController.Read",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved version information successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Byond"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Byond"
+        ],
+        "summary": "Changes the active BYOND version to the one specified in a given model.",
+        "operationId": "ByondController.Update",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "requestBody": {
+          "description": "The Tgstation.Server.Api.Models.Byond.Version to switch to.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Byond"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Byond"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Byond"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Byond"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Switched active version successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Byond"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Created Tgstation.Server.Api.Models.Job to install and switch active version successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Byond"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      }
+    },
+    "/Byond/List": {
+      "get": {
+        "tags": [
+          "Byond"
+        ],
+        "summary": "Lists installed Tgstation.Server.Api.Models.Byond versions.",
+        "operationId": "ByondController.List",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved version information successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Byond"
+                  },
+                  "nullable": true
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      }
+    },
+    "/Chat": {
+      "put": {
+        "tags": [
+          "Chat"
+        ],
+        "summary": "Create a new chat bot model.",
+        "operationId": "ChatController.Create",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "requestBody": {
+          "description": "The Tgstation.Server.Api.Models.ChatBot to create.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatBot"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatBot"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatBot"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatBot"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created chat bot successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatBot"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Chat"
+        ],
+        "summary": "Updates a chat bot model.",
+        "operationId": "ChatController.Update",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "requestBody": {
+          "description": "The Tgstation.Server.Api.Models.ChatBot update to apply.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatBot"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatBot"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatBot"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatBot"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Update applied successfully. Tgstation.Server.Api.Models.ChatBot may or may not be returned based on user permissions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatBot"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      }
+    },
+    "/Chat/{id}": {
+      "delete": {
+        "tags": [
+          "Chat"
+        ],
+        "summary": "Delete a Tgstation.Server.Api.Models.ChatBot.",
+        "operationId": "ChatController.Delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The Tgstation.Server.Api.Models.Internal.ChatBot.Id to delete.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Chat bot deleted or does not exist."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Chat"
+        ],
+        "summary": "Get a specific Tgstation.Server.Api.Models.ChatBot.",
+        "operationId": "ChatController.GetId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The Tgstation.Server.Api.Models.Internal.ChatBot.Id to retrieve.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved Tgstation.Server.Api.Models.ChatBot successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatBot"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Chat bot does not exist."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      }
+    },
+    "/Chat/List": {
+      "get": {
+        "tags": [
+          "Chat"
+        ],
+        "summary": "List Tgstation.Server.Api.Models.ChatBots.",
+        "operationId": "ChatController.List",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Listed chat bots successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ChatBot"
+                  },
+                  "nullable": true
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      }
+    },
+    "/Config": {
+      "post": {
+        "tags": [
+          "Configuration"
+        ],
+        "summary": "Write to a configuration file.",
+        "operationId": "ConfigurationController.Update",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "requestBody": {
+          "description": "The Tgstation.Server.Api.Models.ConfigurationFile representing the file.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfigurationFile"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfigurationFile"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfigurationFile"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfigurationFile"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "File created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfigurationFile"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfigurationFile"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "POSIX system impersonation requested but not implemented."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Configuration"
+        ],
+        "summary": "Create a configuration directory.",
+        "operationId": "ConfigurationController.Create",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "requestBody": {
+          "description": "The Tgstation.Server.Api.Models.ConfigurationFile representing the directory.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfigurationFile"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfigurationFile"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfigurationFile"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfigurationFile"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Directory already exists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfigurationFile"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Directory created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfigurationFile"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "POSIX system impersonation requested but not implemented."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Configuration"
+        ],
+        "summary": "Deletes an empty directory",
+        "operationId": "ConfigurationController.Delete",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "requestBody": {
+          "description": "A Tgstation.Server.Api.Models.ConfigurationFile representing the path to the directory to delete",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfigurationFile"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfigurationFile"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfigurationFile"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfigurationFile"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Empty directory deleted successfully."
+          },
+          "501": {
+            "description": "POSIX system impersonation requested but not implemented."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      }
+    },
+    "/Config/File/{filePath}": {
+      "get": {
+        "tags": [
+          "Configuration"
+        ],
+        "summary": "Get the contents of a file at a filePath",
+        "operationId": "ConfigurationController.File",
+        "parameters": [
+          {
+            "name": "filePath",
+            "in": "path",
+            "description": "The path of the file to get",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfigurationFile"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "File not found on disk."
+          },
+          "501": {
+            "description": "POSIX system impersonation requested but not implemented."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      }
+    },
+    "/Config/List/{directoryPath}": {
+      "get": {
+        "tags": [
+          "Configuration"
+        ],
+        "summary": "Get the contents of a directory at a directoryPath",
+        "operationId": "ConfigurationController.Directory",
+        "parameters": [
+          {
+            "name": "directoryPath",
+            "in": "path",
+            "description": "The path of the directory to get",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ConfigurationFile"
+                  },
+                  "nullable": true
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Directory not found on disk."
+          },
+          "501": {
+            "description": "POSIX system impersonation requested but not implemented."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      }
+    },
+    "/Config/List": {
+      "get": {
+        "tags": [
+          "Configuration"
+        ],
+        "summary": "Get the contents of the root configuration directory.",
+        "operationId": "ConfigurationController.List",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ConfigurationFile"
+                  },
+                  "nullable": true
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Directory not found on disk."
+          },
+          "501": {
+            "description": "POSIX system impersonation requested but not implemented."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      }
+    },
+    "/DreamDaemon": {
+      "put": {
+        "tags": [
+          "DreamDaemon"
+        ],
+        "summary": "Launches the watchdog.",
+        "operationId": "DreamDaemonController.Create",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Tgstation.Server.Api.Models.Job to launch the watchdog started successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Watchdog already running."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "DreamDaemon"
+        ],
+        "summary": "Get the watchdog status.",
+        "operationId": "DreamDaemonController.Read",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DreamDaemon"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Client Error"
+          },
+          "202": {
+            "description": "Read Tgstation.Server.Api.Models.DreamDaemon information successfully."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "DreamDaemon"
+        ],
+        "summary": "Stops the Watchdog if it's running.",
+        "operationId": "DreamDaemonController.Delete",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Watchdog terminated."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "DreamDaemon"
+        ],
+        "summary": "Update watchdog settings to be applied at next server reboot.",
+        "operationId": "DreamDaemonController.Update",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "requestBody": {
+          "description": "The updated Tgstation.Server.Api.Models.DreamDaemon settings.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DreamDaemon"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DreamDaemon"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DreamDaemon"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DreamDaemon"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Settings applied successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DreamDaemon"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Instance no longer available."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "DreamDaemon"
+        ],
+        "summary": "Creates a Tgstation.Server.Api.Models.Job to restart the Watchdog. It will start if it wasn't already running.",
+        "operationId": "DreamDaemonController.Restart",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Restart Tgstation.Server.Api.Models.Job started successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      }
+    },
+    "/DreamMaker": {
+      "get": {
+        "tags": [
+          "DreamMaker"
+        ],
+        "summary": "Read current Tgstation.Server.Api.Models.DreamMaker status.",
+        "operationId": "DreamMakerController.Read",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Read Tgstation.Server.Api.Models.DreamMaker status successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DreamMaker"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "DreamMaker"
+        ],
+        "summary": "Begin deploying repository code.",
+        "operationId": "DreamMakerController.Create",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Created deployment Tgstation.Server.Api.Models.Job successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "DreamMaker"
+        ],
+        "summary": "Update deployment settings.",
+        "operationId": "DreamMakerController.Update",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "requestBody": {
+          "description": "The updated Tgstation.Server.Api.Models.DreamMaker settings.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DreamMaker"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DreamMaker"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DreamMaker"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DreamMaker"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Changes applied successfully. The updated Tgstation.Server.Api.Models.DreamMaker settings will be returned based on user permissions."
+          },
+          "410": {
+            "description": "Instance no longer available."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      }
+    },
+    "/DreamMaker/{id}": {
+      "get": {
+        "tags": [
+          "DreamMaker"
+        ],
+        "summary": "Get a Tgstation.Server.Api.Models.CompileJob specified by a given id.",
+        "operationId": "DreamMakerController.GetId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The Tgstation.Server.Api.Models.EntityId.Id.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tgstation.Server.Api.Models.CompileJob retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompileJob"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Specified compile job does not exist in this instance."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      }
+    },
+    "/DreamMaker/List": {
+      "get": {
+        "tags": [
+          "DreamMaker"
+        ],
+        "summary": "List all Tgstation.Server.Api.Models.CompileJobTgstation.Server.Api.Models.EntityIds for the instance.",
+        "operationId": "DreamMakerController.List",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved Tgstation.Server.Api.Models.EntityIds successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EntityId"
+                  },
+                  "nullable": true
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      }
+    },
+    "/": {
+      "get": {
+        "tags": [
+          "Home"
+        ],
+        "summary": "Main page of the Tgstation.Server.Host.Core.Application",
+        "operationId": "HomeController.Home",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tgstation.Server.Api.Models.ServerInformation retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerInformation"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Home"
+        ],
+        "summary": "Attempt to authenticate a Tgstation.Server.Host.Models.User using Tgstation.Server.Host.Controllers.ApiController.ApiHeaders",
+        "operationId": "HomeController.CreateToken",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User logged in and Tgstation.Server.Api.Models.Token generated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Token"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User authentication failed."
+          },
+          "403": {
+            "description": "User authenticated but is disabled by an administrator."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Password_Login_Scheme": [ ]
+          }
+        ]
+      }
+    },
+    "/Instance": {
+      "put": {
+        "tags": [
+          "Instance"
+        ],
+        "summary": "Create or attach an Tgstation.Server.Api.Models.Instance.",
+        "operationId": "InstanceController.Create",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "requestBody": {
+          "description": "The Tgstation.Server.Api.Models.Instance settings.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Instance"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Instance"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Instance"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Instance"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Instance attached successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Instance"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Instance created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Instance"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Instance"
+        ],
+        "summary": "Modify an Tgstation.Server.Api.Models.Instance's settings.",
+        "operationId": "InstanceController.Update",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "requestBody": {
+          "description": "The updated Tgstation.Server.Api.Models.Instance settings.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Instance"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Instance"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Instance"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Instance"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Instance updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Instance"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Client Error"
+          },
+          "202": {
+            "description": "Instance updated successfully and relocation job created."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      }
+    },
+    "/Instance/{id}": {
+      "delete": {
+        "tags": [
+          "Instance"
+        ],
+        "summary": "Detach an Tgstation.Server.Api.Models.Instance with the given id.",
+        "operationId": "InstanceController.Delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The Tgstation.Server.Api.Models.Instance.Id to detach.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Instance detatched successfully."
+          },
+          "410": {
+            "description": "Instance not available."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Instance"
+        ],
+        "summary": "Get a specific Tgstation.Server.Api.Models.Instance.",
+        "operationId": "InstanceController.GetId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The Tgstation.Server.Api.Models.Instance.Id to retrieve.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved Tgstation.Server.Api.Models.Instance successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Instance"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Instance not available."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      }
+    },
+    "/Instance/List": {
+      "get": {
+        "tags": [
+          "Instance"
+        ],
+        "summary": "List Tgstation.Server.Api.Models.Instances.",
+        "operationId": "InstanceController.List",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved Tgstation.Server.Api.Models.Instances successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Instance"
+                  },
+                  "nullable": true
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      }
+    },
+    "/InstanceUser": {
+      "put": {
+        "tags": [
+          "InstanceUser"
+        ],
+        "summary": "Create am Tgstation.Server.Api.Models.InstanceUser.",
+        "operationId": "InstanceUserController.Create",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "requestBody": {
+          "description": "The Tgstation.Server.Api.Models.InstanceUser to create.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/InstanceUser"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InstanceUser"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InstanceUser"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/InstanceUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Tgstation.Server.Api.Models.InstanceUser created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstanceUser"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "InstanceUser"
+        ],
+        "summary": "Update the permissions for an Tgstation.Server.Api.Models.InstanceUser.",
+        "operationId": "InstanceUserController.Update",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "requestBody": {
+          "description": "The updated Tgstation.Server.Api.Models.InstanceUser.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/InstanceUser"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InstanceUser"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InstanceUser"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/InstanceUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tgstation.Server.Api.Models.InstanceUser updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstanceUser"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Instance user unavailable."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "InstanceUser"
+        ],
+        "summary": "Read the active Tgstation.Server.Api.Models.InstanceUser.",
+        "operationId": "InstanceUserController.Read",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tgstation.Server.Api.Models.InstanceUser retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstanceUser"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      }
+    },
+    "/InstanceUser/List": {
+      "get": {
+        "tags": [
+          "InstanceUser"
+        ],
+        "summary": "Lists Tgstation.Server.Api.Models.InstanceUsers for the instance.",
+        "operationId": "InstanceUserController.List",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved Tgstation.Server.Api.Models.InstanceUsers successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InstanceUser"
+                  },
+                  "nullable": true
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      }
+    },
+    "/InstanceUser/{id}": {
+      "get": {
+        "tags": [
+          "InstanceUser"
+        ],
+        "summary": "Gets a specific Tgstation.Server.Api.Models.InstanceUser.",
+        "operationId": "InstanceUserController.GetId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The Tgstation.Server.Api.Models.InstanceUser.UserId.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieve Tgstation.Server.Api.Models.InstanceUser successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstanceUser"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Instance user unavailable."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "InstanceUser"
+        ],
+        "summary": "Delete an Tgstation.Server.Api.Models.InstanceUser.",
+        "operationId": "InstanceUserController.Delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The Tgstation.Server.Api.Models.InstanceUser.UserId to delete.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tgstation.Server.Api.Models.InstanceUser deleted or no longer exists."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      }
+    },
+    "/Job": {
+      "get": {
+        "tags": [
+          "Job"
+        ],
+        "summary": "Get active Tgstation.Server.Api.Models.Jobs for the instance.",
+        "operationId": "JobController.Read",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved active Tgstation.Server.Api.Models.Jobs successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Job"
+                  },
+                  "nullable": true
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      }
+    },
+    "/Job/List": {
+      "get": {
+        "tags": [
+          "Job"
+        ],
+        "summary": "List all Tgstation.Server.Api.Models.JobTgstation.Server.Api.Models.EntityIds for the instance in reverse creation order.",
+        "operationId": "JobController.List",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved Tgstation.Server.Api.Models.JobTgstation.Server.Api.Models.EntityIds successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EntityId"
+                  },
+                  "nullable": true
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      }
+    },
+    "/Job/{id}": {
+      "delete": {
+        "tags": [
+          "Job"
+        ],
+        "summary": "Cancel a running Tgstation.Server.Api.Models.Job.",
+        "operationId": "JobController.Delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The Tgstation.Server.Api.Models.EntityId.Id of the Tgstation.Server.Api.Models.Job to cancel.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Tgstation.Server.Api.Models.Job cancellation requested successfully."
+          },
+          "404": {
+            "description": "Tgstation.Server.Api.Models.Job does not exist in this instance."
+          },
+          "410": {
+            "description": "Tgstation.Server.Api.Models.Job already cancelled or completed."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Job"
+        ],
+        "summary": "Get a specific Tgstation.Server.Api.Models.Job.",
+        "operationId": "JobController.GetId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The Tgstation.Server.Api.Models.EntityId.Id of the Tgstation.Server.Api.Models.Job to retrieve.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved Tgstation.Server.Api.Models.Job successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Tgstation.Server.Api.Models.Job does not exist in this instance."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      }
+    },
+    "/Repository": {
+      "put": {
+        "tags": [
+          "Repository"
+        ],
+        "summary": "Begin cloning the repository if it doesn't exist.",
+        "operationId": "RepositoryController.Create",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "requestBody": {
+          "description": "Initial Tgstation.Server.Api.Models.Repository settings.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Repository"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Repository"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Repository"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Repository"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The Tgstation.Server.Api.Models.Repository was created successfully and the Tgstation.Server.Api.Models.Job to clone it has begun.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Repository"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Instance no longer available."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Repository"
+        ],
+        "summary": "Delete the Tgstation.Server.Api.Models.Repository.",
+        "operationId": "RepositoryController.Delete",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Job to delete the repository created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Repository"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Instance no longer available."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Repository"
+        ],
+        "summary": "Get Tgstation.Server.Api.Models.Repository status.",
+        "operationId": "RepositoryController.Read",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved the Tgstation.Server.Api.Models.Repository settings successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Repository"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Retrieved the Tgstation.Server.Api.Models.Repository settings successfully, though they did not previously exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Repository"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Instance no longer available."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Repository"
+        ],
+        "summary": "Perform updats to the Tgstation.Server.Api.Models.Repository.",
+        "operationId": "RepositoryController.Update",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/instance"
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "requestBody": {
+          "description": "The updated Tgstation.Server.Api.Models.Repository.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Repository"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Repository"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Repository"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Repository"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated the Tgstation.Server.Api.Models.Repository settings successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Repository"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Repository"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Instance no longer available."
+          },
+          "201": {
+            "description": "Updated the Tgstation.Server.Api.Models.Repository settings successfully and a Tgstation.Server.Api.Models.Job was created to make the requested git changes."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      }
+    },
+    "/User": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Create a Tgstation.Server.Api.Models.User.",
+        "operationId": "UserController.Create",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "requestBody": {
+          "description": "The Tgstation.Server.Api.Models.User to create.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdate"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdate"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdate"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Tgstation.Server.Api.Models.User created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "The Tgstation.Server.Api.Models.Internal.User.SystemIdentifier requested could not be loaded."
+          },
+          "501": {
+            "description": "A system user was requested but this is not implemented on POSIX."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update a Tgstation.Server.Api.Models.User.",
+        "operationId": "UserController.Update",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "requestBody": {
+          "description": "The Tgstation.Server.Api.Models.User to update.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdate"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdate"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdate"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tgstation.Server.Api.Models.User updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Requested Tgstation.Server.Api.Models.Internal.User.Id does not exist."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get information about the current Tgstation.Server.Api.Models.User.",
+        "operationId": "UserController.Read",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Tgstation.Server.Api.Models.User was retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      }
+    },
+    "/User/List": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "List all Tgstation.Server.Api.Models.Users in the server.",
+        "operationId": "UserController.List",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved Tgstation.Server.Api.Models.Users successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  },
+                  "nullable": true
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      }
+    },
+    "/User/{id}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get a specific Tgstation.Server.Api.Models.User.",
+        "operationId": "UserController.GetId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The Tgstation.Server.Api.Models.Internal.User.Id to retrieve.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/api"
+          },
+          {
+            "$ref": "#/components/parameters/User-Agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Tgstation.Server.Api.Models.User was retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The Tgstation.Server.Api.Models.User does not exist."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "security": [
+          {
+            "Token_Authorization_Scheme": [ ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Version": {
+        "type": "object",
+        "properties": {
+          "Major": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "Minor": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "Build": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "Revision": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "MajorRevision": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "MinorRevision": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          }
+        },
+        "nullable": true
+      },
+      "Administration": {
+        "type": "object",
+        "properties": {
+          "WindowsHost": {
+            "type": "boolean",
+            "description": "If the server is running on a windows operating system"
+          },
+          "TrackedRepositoryUrl": {
+            "type": "string",
+            "description": "The GitHub repository the server is built to recieve updates from",
+            "format": "uri",
+            "nullable": true
+          },
+          "LatestVersion": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "NewVersion": {
+            "$ref": "#/components/schemas/Version"
+          }
+        },
+        "description": "Represents administrative server information",
+        "nullable": true
+      },
+      "ErrorMessage": {
+        "type": "object",
+        "properties": {
+          "Message": {
+            "type": "string",
+            "description": "A human readable description of the error",
+            "nullable": true
+          },
+          "SeverApiVersion": {
+            "$ref": "#/components/schemas/Version"
+          }
+        },
+        "description": "Represents an error message returned by the server",
+        "nullable": true
+      },
+      "AdministrationRightsNullable": {
+        "enum": [
+          0,
+          1,
+          2,
+          4,
+          8,
+          16
+        ],
+        "type": "integer",
+        "format": "int64",
+        "nullable": true,
+        "x-enum-varnames": [
+          "None",
+          "WriteUsers",
+          "RestartHost",
+          "ChangeVersion",
+          "EditOwnPassword",
+          "ReadUsers"
+        ]
+      },
+      "InstanceManagerRightsNullable": {
+        "enum": [
+          0,
+          1,
+          2,
+          4,
+          8,
+          16,
+          32,
+          64,
+          128,
+          256
+        ],
+        "type": "integer",
+        "format": "int64",
+        "nullable": true,
+        "x-enum-varnames": [
+          "None",
+          "Read",
+          "Create",
+          "Rename",
+          "Relocate",
+          "SetOnline",
+          "Delete",
+          "List",
+          "SetConfiguration",
+          "SetAutoUpdate"
+        ]
+      },
+      "User": {
+        "required": [
+          "AdministrationRights",
+          "CreatedAt",
+          "Enabled",
+          "InstanceManagerRights",
+          "Name"
+        ],
+        "type": "object",
+        "properties": {
+          "CreatedBy": {
+            "$ref": "#/components/schemas/User"
+          },
+          "Id": {
+            "type": "integer",
+            "description": "The ID of the Tgstation.Server.Api.Models.Internal.User",
+            "format": "int64"
+          },
+          "Enabled": {
+            "type": "boolean",
+            "description": "If the Tgstation.Server.Api.Models.Internal.User is enabled since users cannot be deleted. System users cannot be disabled"
+          },
+          "CreatedAt": {
+            "type": "string",
+            "description": "When the Tgstation.Server.Api.Models.Internal.User was created",
+            "format": "date-time"
+          },
+          "SystemIdentifier": {
+            "type": "string",
+            "description": "The SID/UID of the Tgstation.Server.Api.Models.Internal.User on Windows/POSIX respectively",
+            "nullable": true
+          },
+          "Name": {
+            "type": "string",
+            "description": "The name of the Tgstation.Server.Api.Models.Internal.User"
+          },
+          "AdministrationRights": {
+            "$ref": "#/components/schemas/AdministrationRightsNullable"
+          },
+          "InstanceManagerRights": {
+            "$ref": "#/components/schemas/InstanceManagerRightsNullable"
+          }
+        },
+        "nullable": true
+      },
+      "RightsTypeNullable": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "type": "integer",
+        "format": "int64",
+        "nullable": true,
+        "x-enum-varnames": [
+          "Administration",
+          "InstanceManager",
+          "Repository",
+          "Byond",
+          "DreamMaker",
+          "DreamDaemon",
+          "ChatBots",
+          "Configuration",
+          "InstanceUser"
+        ]
+      },
+      "Job": {
+        "required": [
+          "Cancelled",
+          "Description",
+          "StartedAt"
+        ],
+        "type": "object",
+        "properties": {
+          "StartedBy": {
+            "$ref": "#/components/schemas/User"
+          },
+          "CancelledBy": {
+            "$ref": "#/components/schemas/User"
+          },
+          "Progress": {
+            "type": "integer",
+            "description": "Optional progress between 0 and 100 inclusive",
+            "format": "int32",
+            "nullable": true
+          },
+          "Description": {
+            "type": "string",
+            "description": "English description of the Tgstation.Server.Api.Models.Internal.Job"
+          },
+          "ExceptionDetails": {
+            "type": "string",
+            "description": "Details of any exceptions caught during the Tgstation.Server.Api.Models.Internal.Job",
+            "nullable": true
+          },
+          "StartedAt": {
+            "type": "string",
+            "description": "When the Tgstation.Server.Api.Models.Internal.Job was started",
+            "format": "date-time"
+          },
+          "StoppedAt": {
+            "type": "string",
+            "description": "When the Tgstation.Server.Api.Models.Internal.Job stopped",
+            "format": "date-time",
+            "nullable": true
+          },
+          "Cancelled": {
+            "type": "boolean",
+            "description": "If the Tgstation.Server.Api.Models.Internal.Job was cancelled"
+          },
+          "CancelRightsType": {
+            "$ref": "#/components/schemas/RightsTypeNullable"
+          },
+          "CancelRight": {
+            "type": "integer",
+            "description": "The N:Tgstation.Server.Api.Rights required to cancel the Tgstation.Server.Api.Models.Internal.Job",
+            "format": "int64",
+            "nullable": true
+          },
+          "Id": {
+            "type": "integer",
+            "description": "The ID of the entity.",
+            "format": "int64"
+          }
+        },
+        "description": "Represents a long running job on the server. Model is read-only, updates attempt to cancel the job",
+        "nullable": true
+      },
+      "Byond": {
+        "type": "object",
+        "properties": {
+          "Version": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "InstallJob": {
+            "$ref": "#/components/schemas/Job"
+          }
+        },
+        "description": "Represents a BYOND installation",
+        "nullable": true
+      },
+      "ChatChannel": {
+        "required": [
+          "IsAdminChannel",
+          "IsUpdatesChannel",
+          "IsWatchdogChannel"
+        ],
+        "type": "object",
+        "properties": {
+          "IrcChannel": {
+            "type": "string",
+            "description": "The IRC channel name",
+            "nullable": true
+          },
+          "DiscordChannelId": {
+            "type": "integer",
+            "description": "The Discord channel ID",
+            "format": "int64",
+            "nullable": true
+          },
+          "IsAdminChannel": {
+            "type": "boolean",
+            "description": "If the Tgstation.Server.Api.Models.ChatChannel is an admin channel"
+          },
+          "IsWatchdogChannel": {
+            "type": "boolean",
+            "description": "If the Tgstation.Server.Api.Models.ChatChannel is a watchdog channel"
+          },
+          "IsUpdatesChannel": {
+            "type": "boolean",
+            "description": "If the Tgstation.Server.Api.Models.ChatChannel is an updates channel"
+          },
+          "Tag": {
+            "type": "string",
+            "description": "A custom tag users can define to group channels together",
+            "nullable": true
+          }
+        },
+        "description": "Indicates a chat channel",
+        "nullable": true
+      },
+      "ChatProviderNullable": {
+        "enum": [
+          0,
+          1
+        ],
+        "type": "integer",
+        "format": "int32",
+        "nullable": true,
+        "x-enum-varnames": [
+          "Irc",
+          "Discord"
+        ]
+      },
+      "ChatBot": {
+        "required": [
+          "ConnectionString",
+          "Name"
+        ],
+        "type": "object",
+        "properties": {
+          "Channels": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChatChannel"
+            },
+            "description": "Channels the Discord bot should listen/announce in",
+            "nullable": true
+          },
+          "Id": {
+            "type": "integer",
+            "description": "The settings id",
+            "format": "int64"
+          },
+          "Name": {
+            "type": "string",
+            "description": "The name of the connection"
+          },
+          "Enabled": {
+            "type": "boolean",
+            "description": "If the connection is enabled",
+            "nullable": true
+          },
+          "Provider": {
+            "$ref": "#/components/schemas/ChatProviderNullable"
+          },
+          "ConnectionString": {
+            "type": "string",
+            "description": "The information used to connect to the Tgstation.Server.Api.Models.Internal.ChatBot.Provider"
+          }
+        },
+        "nullable": true
+      },
+      "ConfigurationFile": {
+        "type": "object",
+        "properties": {
+          "Path": {
+            "type": "string",
+            "description": "The path to the Tgstation.Server.Api.Models.ConfigurationFile file",
+            "nullable": true
+          },
+          "AccessDenied": {
+            "type": "boolean",
+            "description": "If access to the Tgstation.Server.Api.Models.ConfigurationFile file was denied for the operation",
+            "nullable": true
+          },
+          "IsDirectory": {
+            "type": "boolean",
+            "description": "If Tgstation.Server.Api.Models.ConfigurationFile.Path represents a directory",
+            "nullable": true
+          },
+          "LastReadHash": {
+            "type": "string",
+            "description": "The MD5 hash of the file when last read by the user. If this doesn't match during update actions, the write will be denied with System.Net.HttpStatusCode.Conflict",
+            "nullable": true
+          },
+          "Content": {
+            "type": "string",
+            "description": "The content of the Tgstation.Server.Api.Models.ConfigurationFile. Will be <see langword=\"null\" /> if Tgstation.Server.Api.Models.ConfigurationFile.AccessDenied is <see langword=\"true\" /> or during listing and write operations",
+            "format": "byte",
+            "nullable": true
+          }
+        },
+        "description": "Represents a game configuration file. Create and delete actions uncerimonuously overwrite/delete files",
+        "nullable": true
+      },
+      "TestMerge": {
+        "required": [
+          "Author",
+          "BodyAtMerge",
+          "MergedAt",
+          "Number",
+          "PullRequestRevision",
+          "TitleAtMerge",
+          "Url"
+        ],
+        "type": "object",
+        "properties": {
+          "MergedBy": {
+            "$ref": "#/components/schemas/User"
+          },
+          "Id": {
+            "type": "integer",
+            "description": "The ID of the Tgstation.Server.Api.Models.Internal.TestMerge",
+            "format": "int64"
+          },
+          "MergedAt": {
+            "type": "string",
+            "description": "When the Tgstation.Server.Api.Models.Internal.TestMerge was created",
+            "format": "date-time"
+          },
+          "TitleAtMerge": {
+            "type": "string",
+            "description": "The title of the pull request"
+          },
+          "BodyAtMerge": {
+            "type": "string",
+            "description": "The body of the pull request"
+          },
+          "Url": {
+            "type": "string",
+            "description": "The URL of the pull request"
+          },
+          "Author": {
+            "type": "string",
+            "description": "The author of the pull request"
+          },
+          "Number": {
+            "type": "integer",
+            "description": "The number of the pull request",
+            "format": "int32"
+          },
+          "PullRequestRevision": {
+            "type": "string",
+            "description": "The sha of the pull request revision to merge. If not specified, the latest commit shall be used (semi-unsafe)"
+          },
+          "Comment": {
+            "type": "string",
+            "description": "Optional comment about the test",
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "RevisionInformation": {
+        "required": [
+          "CommitSha",
+          "OriginCommitSha"
+        ],
+        "type": "object",
+        "properties": {
+          "PrimaryTestMerge": {
+            "$ref": "#/components/schemas/TestMerge"
+          },
+          "ActiveTestMerges": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TestMerge"
+            },
+            "description": "The Tgstation.Server.Api.Models.TestMerges active in the Tgstation.Server.Api.Models.RevisionInformation",
+            "nullable": true
+          },
+          "CompileJobs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CompileJob"
+            },
+            "description": "The Tgstation.Server.Api.Models.CompileJobs made from the Tgstation.Server.Api.Models.RevisionInformation",
+            "nullable": true
+          },
+          "CommitSha": {
+            "maxLength": 40,
+            "minLength": 0,
+            "type": "string",
+            "description": "The revision sha"
+          },
+          "OriginCommitSha": {
+            "maxLength": 40,
+            "minLength": 0,
+            "type": "string",
+            "description": "The sha of the most recent remote commit"
+          }
+        },
+        "nullable": true
+      },
+      "DreamDaemonSecurityNullable": {
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32",
+        "nullable": true,
+        "x-enum-varnames": [
+          "Trusted",
+          "Safe",
+          "Ultrasafe"
+        ]
+      },
+      "CompileJob": {
+        "required": [
+          "DirectoryName",
+          "DmeName",
+          "MinimumSecurityLevel",
+          "Output"
+        ],
+        "type": "object",
+        "properties": {
+          "Job": {
+            "$ref": "#/components/schemas/Job"
+          },
+          "RevisionInformation": {
+            "$ref": "#/components/schemas/RevisionInformation"
+          },
+          "ByondVersion": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "DmeName": {
+            "type": "string",
+            "description": "The .dme file used for compilation"
+          },
+          "Output": {
+            "type": "string",
+            "description": "Textual output of DM"
+          },
+          "DirectoryName": {
+            "type": "string",
+            "description": "The Game folder the results were compiled into",
+            "format": "uuid"
+          },
+          "MinimumSecurityLevel": {
+            "$ref": "#/components/schemas/DreamDaemonSecurityNullable"
+          },
+          "Id": {
+            "type": "integer",
+            "description": "The ID of the entity.",
+            "format": "int64"
+          }
+        },
+        "nullable": true
+      },
+      "DreamDaemon": {
+        "required": [
+          "AllowWebClient",
+          "AutoStart",
+          "PrimaryPort",
+          "SecondaryPort",
+          "SecurityLevel",
+          "SoftRestart",
+          "SoftShutdown",
+          "StartupTimeout"
+        ],
+        "type": "object",
+        "properties": {
+          "ActiveCompileJob": {
+            "$ref": "#/components/schemas/CompileJob"
+          },
+          "StagedCompileJob": {
+            "$ref": "#/components/schemas/CompileJob"
+          },
+          "Running": {
+            "type": "boolean",
+            "description": "The current status of Tgstation.Server.Api.Models.DreamDaemon",
+            "nullable": true
+          },
+          "CurrentSecurity": {
+            "$ref": "#/components/schemas/DreamDaemonSecurityNullable"
+          },
+          "CurrentPort": {
+            "type": "integer",
+            "description": "The port the running Tgstation.Server.Api.Models.DreamDaemon instance is set to",
+            "format": "int32",
+            "nullable": true
+          },
+          "CurrentAllowWebclient": {
+            "type": "boolean",
+            "description": "The webclient status the running Tgstation.Server.Api.Models.DreamDaemon instance is set to",
+            "nullable": true
+          },
+          "AutoStart": {
+            "type": "boolean",
+            "description": "If Tgstation.Server.Api.Models.DreamDaemon starts when it's Tgstation.Server.Api.Models.Instance starts"
+          },
+          "SoftRestart": {
+            "type": "boolean",
+            "description": "If the server is undergoing a soft reset. This may be automatically set by changes to other fields"
+          },
+          "SoftShutdown": {
+            "type": "boolean",
+            "description": "If the server is undergoing a soft shutdown"
+          },
+          "AllowWebClient": {
+            "type": "boolean",
+            "description": "If the BYOND web client can be used to connect to the game server"
+          },
+          "SecurityLevel": {
+            "$ref": "#/components/schemas/DreamDaemonSecurityNullable"
+          },
+          "PrimaryPort": {
+            "type": "integer",
+            "description": "The first port Tgstation.Server.Api.Models.DreamDaemon uses. This should be the publically advertised port",
+            "format": "int32"
+          },
+          "SecondaryPort": {
+            "type": "integer",
+            "description": "The second port Tgstation.Server.Api.Models.DreamDaemon uses",
+            "format": "int32"
+          },
+          "StartupTimeout": {
+            "type": "integer",
+            "description": "The DreamDaemon startup timeout in seconds",
+            "format": "int32"
+          }
+        },
+        "description": "Represents an instance of BYOND's DreamDaemon game server. Create action starts the server. Delete action shuts down the server",
+        "nullable": true
+      },
+      "DreamMaker": {
+        "required": [
+          "ApiValidationPort",
+          "ApiValidationSecurityLevel"
+        ],
+        "type": "object",
+        "properties": {
+          "ProjectName": {
+            "type": "string",
+            "description": "The .dme file Tgstation.Server.Api.Models.DreamMaker tries to compile with without the extension",
+            "nullable": true
+          },
+          "ApiValidationPort": {
+            "type": "integer",
+            "description": "The port used during compilation to validate the DMAPI",
+            "format": "int32"
+          },
+          "ApiValidationSecurityLevel": {
+            "$ref": "#/components/schemas/DreamDaemonSecurityNullable"
+          }
+        },
+        "description": "Represents the state of the DreamMaker compiler. Create action starts a new compile. Delete action cancels the current compile",
+        "nullable": true
+      },
+      "EntityId": {
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "integer",
+            "description": "The ID of the entity.",
+            "format": "int64"
+          }
+        },
+        "description": "Base of Tgstation.Server.Api.Models.CompileJobs.",
+        "nullable": true
+      },
+      "ServerInformation": {
+        "type": "object",
+        "properties": {
+          "Version": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "ApiVersion": {
+            "$ref": "#/components/schemas/Version"
+          }
+        },
+        "description": "Represents basic server information",
+        "nullable": true
+      },
+      "Token": {
+        "type": "object",
+        "properties": {
+          "Bearer": {
+            "type": "string",
+            "description": "The value of the JWT",
+            "nullable": true
+          },
+          "ExpiresAt": {
+            "type": "string",
+            "description": "When the Tgstation.Server.Api.Models.Token expires",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "description": "Represents a JWT returned by the API",
+        "nullable": true
+      },
+      "ConfigurationTypeNullable": {
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32",
+        "nullable": true,
+        "x-enum-varnames": [
+          "Disallowed",
+          "HostWrite",
+          "SystemIdentityWrite"
+        ]
+      },
+      "Instance": {
+        "required": [
+          "AutoUpdateInterval",
+          "ConfigurationType",
+          "Name",
+          "Online",
+          "Path"
+        ],
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "integer",
+            "description": "The id of the Tgstation.Server.Api.Models.Instance. Not modifiable",
+            "format": "int64"
+          },
+          "Name": {
+            "type": "string",
+            "description": "The name of the Tgstation.Server.Api.Models.Instance"
+          },
+          "Path": {
+            "type": "string",
+            "description": "The path to where the Tgstation.Server.Api.Models.Instance is located. Can only be changed while the Tgstation.Server.Api.Models.Instance is offline. Must not exist when the instance is created"
+          },
+          "Online": {
+            "type": "boolean",
+            "description": "If the Tgstation.Server.Api.Models.Instance is online"
+          },
+          "ConfigurationType": {
+            "$ref": "#/components/schemas/ConfigurationTypeNullable"
+          },
+          "AutoUpdateInterval": {
+            "type": "integer",
+            "description": "The time interval in minutes the repository is automatically pulled and compiles. 0 disables",
+            "format": "int32"
+          },
+          "MoveJob": {
+            "$ref": "#/components/schemas/Job"
+          }
+        },
+        "description": "Metadata about a server instance",
+        "nullable": true
+      },
+      "InstanceUserRightsNullable": {
+        "enum": [
+          0,
+          1,
+          2,
+          4
+        ],
+        "type": "integer",
+        "format": "int64",
+        "nullable": true,
+        "x-enum-varnames": [
+          "None",
+          "ReadUsers",
+          "WriteUsers",
+          "CreateUsers"
+        ]
+      },
+      "ByondRightsNullable": {
+        "enum": [
+          0,
+          1,
+          2,
+          4,
+          8
+        ],
+        "type": "integer",
+        "format": "int64",
+        "nullable": true,
+        "x-enum-varnames": [
+          "None",
+          "ReadActive",
+          "ListInstalled",
+          "ChangeVersion",
+          "CancelInstall"
+        ]
+      },
+      "DreamDaemonRightsNullable": {
+        "enum": [
+          0,
+          1,
+          2,
+          4,
+          8,
+          16,
+          32,
+          64,
+          128,
+          256,
+          512,
+          1024,
+          2048
+        ],
+        "type": "integer",
+        "format": "int64",
+        "nullable": true,
+        "x-enum-varnames": [
+          "None",
+          "ReadRevision",
+          "SetPorts",
+          "SetAutoStart",
+          "SetSecurity",
+          "ReadMetadata",
+          "SetWebClient",
+          "SoftRestart",
+          "SoftShutdown",
+          "Restart",
+          "Shutdown",
+          "Start",
+          "SetStartupTimeout"
+        ]
+      },
+      "DreamMakerRightsNullable": {
+        "enum": [
+          0,
+          1,
+          2,
+          4,
+          8,
+          16,
+          32,
+          64
+        ],
+        "type": "integer",
+        "format": "int64",
+        "nullable": true,
+        "x-enum-varnames": [
+          "None",
+          "Read",
+          "Compile",
+          "CancelCompile",
+          "SetDme",
+          "SetApiValidationPort",
+          "CompileJobs",
+          "SetSecurityLevel"
+        ]
+      },
+      "RepositoryRightsNullable": {
+        "enum": [
+          0,
+          1,
+          2,
+          4,
+          8,
+          16,
+          32,
+          64,
+          128,
+          256,
+          512,
+          1024,
+          2048,
+          4096
+        ],
+        "type": "integer",
+        "format": "int64",
+        "nullable": true,
+        "x-enum-varnames": [
+          "None",
+          "CancelPendingChanges",
+          "SetOrigin",
+          "SetSha",
+          "MergePullRequest",
+          "UpdateBranch",
+          "ChangeCommitter",
+          "ChangeTestMergeCommits",
+          "ChangeCredentials",
+          "SetReference",
+          "Read",
+          "ChangeAutoUpdateSettings",
+          "Delete",
+          "CancelClone"
+        ]
+      },
+      "ChatBotRightsNullable": {
+        "enum": [
+          0,
+          1,
+          2,
+          4,
+          8,
+          16,
+          32,
+          64,
+          128,
+          256
+        ],
+        "type": "integer",
+        "format": "int64",
+        "nullable": true,
+        "x-enum-varnames": [
+          "None",
+          "WriteEnabled",
+          "WriteProvider",
+          "WriteChannels",
+          "WriteConnectionString",
+          "ReadConnectionString",
+          "Read",
+          "Create",
+          "Delete",
+          "WriteName"
+        ]
+      },
+      "ConfigurationRightsNullable": {
+        "enum": [
+          0,
+          1,
+          2,
+          4,
+          8
+        ],
+        "type": "integer",
+        "format": "int64",
+        "nullable": true,
+        "x-enum-varnames": [
+          "None",
+          "Read",
+          "Write",
+          "List",
+          "Delete"
+        ]
+      },
+      "InstanceUser": {
+        "required": [
+          "ByondRights",
+          "ChatBotRights",
+          "ConfigurationRights",
+          "DreamDaemonRights",
+          "DreamMakerRights",
+          "InstanceUserRights",
+          "RepositoryRights",
+          "UserId"
+        ],
+        "type": "object",
+        "properties": {
+          "UserId": {
+            "type": "integer",
+            "description": "The Tgstation.Server.Api.Models.Internal.User.Id of the Tgstation.Server.Api.Models.User the Tgstation.Server.Api.Models.InstanceUser belongs to",
+            "format": "int64"
+          },
+          "InstanceUserRights": {
+            "$ref": "#/components/schemas/InstanceUserRightsNullable"
+          },
+          "ByondRights": {
+            "$ref": "#/components/schemas/ByondRightsNullable"
+          },
+          "DreamDaemonRights": {
+            "$ref": "#/components/schemas/DreamDaemonRightsNullable"
+          },
+          "DreamMakerRights": {
+            "$ref": "#/components/schemas/DreamMakerRightsNullable"
+          },
+          "RepositoryRights": {
+            "$ref": "#/components/schemas/RepositoryRightsNullable"
+          },
+          "ChatBotRights": {
+            "$ref": "#/components/schemas/ChatBotRightsNullable"
+          },
+          "ConfigurationRights": {
+            "$ref": "#/components/schemas/ConfigurationRightsNullable"
+          }
+        },
+        "description": "Represents a Tgstation.Server.Api.Models.Users permissions in an Tgstation.Server.Api.Models.Instance",
+        "nullable": true
+      },
+      "TestMergeParameters": {
+        "required": [
+          "Number",
+          "PullRequestRevision"
+        ],
+        "type": "object",
+        "properties": {
+          "Number": {
+            "type": "integer",
+            "description": "The number of the pull request",
+            "format": "int32"
+          },
+          "PullRequestRevision": {
+            "type": "string",
+            "description": "The sha of the pull request revision to merge. If not specified, the latest commit shall be used (semi-unsafe)"
+          },
+          "Comment": {
+            "type": "string",
+            "description": "Optional comment about the test",
+            "nullable": true
+          }
+        },
+        "description": "Parameters for creating a Tgstation.Server.Api.Models.TestMerge",
+        "nullable": true
+      },
+      "Repository": {
+        "required": [
+          "AutoUpdatesKeepTestMerges",
+          "AutoUpdatesSynchronize",
+          "CommitterEmail",
+          "CommitterName",
+          "PostTestMergeComment",
+          "PushTestMergeCommits",
+          "ShowTestMergeCommitters"
+        ],
+        "type": "object",
+        "properties": {
+          "Origin": {
+            "type": "string",
+            "description": "The origin URL. If <see langword=\"null\" />, the Tgstation.Server.Api.Models.Repository does not exist",
+            "nullable": true
+          },
+          "CheckoutSha": {
+            "type": "string",
+            "description": "The commit HEAD should point to. Not populated in responses, use Tgstation.Server.Api.Models.Repository.RevisionInformation instead for retrieval",
+            "nullable": true
+          },
+          "RevisionInformation": {
+            "$ref": "#/components/schemas/RevisionInformation"
+          },
+          "GitHubOwner": {
+            "type": "string",
+            "description": "If the repository was cloned from GitHub.com this will be set with the owner of the repository",
+            "nullable": true
+          },
+          "GitHubName": {
+            "type": "string",
+            "description": "If the repository was cloned from GitHub.com this will be set with the name of the repository",
+            "nullable": true
+          },
+          "ActiveJob": {
+            "$ref": "#/components/schemas/Job"
+          },
+          "UpdateFromOrigin": {
+            "type": "boolean",
+            "description": "Do the equivalent of a git pull. Will attempt to merge unless Tgstation.Server.Api.Models.Repository.Reference is also specified in which case a hard reset will be performed after checking out",
+            "nullable": true
+          },
+          "Reference": {
+            "type": "string",
+            "description": "The branch or tag HEAD points to",
+            "nullable": true
+          },
+          "NewTestMerges": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TestMergeParameters"
+            },
+            "description": "Tgstation.Server.Api.Models.TestMergeParameters for new Tgstation.Server.Api.Models.TestMerges. Note that merges that conflict will not be performed",
+            "nullable": true
+          },
+          "CommitterName": {
+            "type": "string",
+            "description": "The name of the committer"
+          },
+          "CommitterEmail": {
+            "type": "string",
+            "description": "The e-mail of the committer"
+          },
+          "AccessUser": {
+            "type": "string",
+            "description": "The username to access the git repository with",
+            "nullable": true
+          },
+          "AccessToken": {
+            "type": "string",
+            "description": "The token/password to access the git repository with",
+            "nullable": true
+          },
+          "PushTestMergeCommits": {
+            "type": "boolean",
+            "description": "If commits created from testmerges are pushed to the remote"
+          },
+          "ShowTestMergeCommitters": {
+            "type": "boolean",
+            "description": "If test merge commits are signed with the username of the person who merged it. Note this only affects future commits"
+          },
+          "AutoUpdatesKeepTestMerges": {
+            "type": "boolean",
+            "description": "If test merge commits should be kept when auto updating. May cause merge conflicts which will block the update"
+          },
+          "AutoUpdatesSynchronize": {
+            "type": "boolean",
+            "description": "If synchronization should occur when auto updating"
+          },
+          "PostTestMergeComment": {
+            "type": "boolean",
+            "description": "If test merging should create a comment"
+          }
+        },
+        "description": "Represents a git repository",
+        "nullable": true
+      },
+      "UserUpdate": {
+        "required": [
+          "AdministrationRights",
+          "CreatedAt",
+          "Enabled",
+          "InstanceManagerRights",
+          "Name"
+        ],
+        "type": "object",
+        "properties": {
+          "Password": {
+            "type": "string",
+            "description": "Cleartext password of the Tgstation.Server.Api.Models.User",
+            "nullable": true
+          },
+          "CreatedBy": {
+            "$ref": "#/components/schemas/User"
+          },
+          "Id": {
+            "type": "integer",
+            "description": "The ID of the Tgstation.Server.Api.Models.Internal.User",
+            "format": "int64"
+          },
+          "Enabled": {
+            "type": "boolean",
+            "description": "If the Tgstation.Server.Api.Models.Internal.User is enabled since users cannot be deleted. System users cannot be disabled"
+          },
+          "CreatedAt": {
+            "type": "string",
+            "description": "When the Tgstation.Server.Api.Models.Internal.User was created",
+            "format": "date-time"
+          },
+          "SystemIdentifier": {
+            "type": "string",
+            "description": "The SID/UID of the Tgstation.Server.Api.Models.Internal.User on Windows/POSIX respectively",
+            "nullable": true
+          },
+          "Name": {
+            "type": "string",
+            "description": "The name of the Tgstation.Server.Api.Models.Internal.User"
+          },
+          "AdministrationRights": {
+            "$ref": "#/components/schemas/AdministrationRightsNullable"
+          },
+          "InstanceManagerRights": {
+            "$ref": "#/components/schemas/InstanceManagerRightsNullable"
+          }
+        },
+        "description": "For editing a given Tgstation.Server.Api.Models.User. Will never be returned by the API",
+        "nullable": true
+      }
+    },
+    "responses": {
+      "400": {
+        "description": "A badly formatted request was made. See error message for details.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorMessage"
+            }
+          }
+        }
+      },
+      "401": {
+        "description": "No/invalid token provided."
+      },
+      "403": {
+        "description": "User lacks sufficient permissions for the operation."
+      },
+      "409": {
+        "description": "A data integrity check failed while performing the operation. See error message for details.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorMessage"
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "The server encountered an unhandled error. See error message for details.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorMessage"
+            }
+          }
+        }
+      },
+      "503": {
+        "description": "The server may be starting up or shutting down."
+      }
+    },
+    "parameters": {
+      "instance": {
+        "name": "instance",
+        "in": "header",
+        "description": "The instance ID being accessed",
+        "required": true,
+        "style": "simple",
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "api": {
+        "name": "api",
+        "in": "header",
+        "description": "The API version being used in the form \"Tgstation.Server.Api/[API version]\"",
+        "required": true,
+        "style": "simple",
+        "schema": {
+          "type": "string",
+          "format": "productheader"
+        },
+        "example": "Tgstation.Server.Api/4.0.2.0"
+      },
+      "User-Agent": {
+        "name": "User-Agent",
+        "in": "header",
+        "description": "The user agent of the calling client.",
+        "required": true,
+        "style": "simple",
+        "schema": {
+          "type": "string",
+          "format": "productheader"
+        },
+        "example": "Your-user-agent/1.0.0.0"
+      }
+    },
+    "securitySchemes": {
+      "Password_Login_Scheme": {
+        "type": "http",
+        "scheme": "basic"
+      },
+      "Token_Authorization_Scheme": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

@@ -84,7 +84,7 @@ Inheritance diagram for Tgstation.Server.Host.Components.Watchdog.ISessionContro
  <div class="center">
   <img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.png" usemap="#Tgstation.Server.Host.Components.Watchdog.ISessionController_map" alt=""/>
   <map id="Tgstation.Server.Host.Components.Watchdog.ISessionController_map" name="Tgstation.Server.Host.Components.Watchdog.ISessionController_map">
-<area href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_process_base.html" title="Represents process lifetime" alt="Tgstation.Server.Host.Core.IProcessBase" shape="rect" coords="205,56,606,80"/>
+<area href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html" title="Represents process lifetime" alt="Tgstation.Server.Host.System.IProcessBase" shape="rect" coords="205,56,606,80"/>
 <area href="class_i_disposable.html" alt="IDisposable" shape="rect" coords="205,0,606,24"/>
 <area href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_dead_session_controller.html" title="Implements a fake &quot;dead&quot; ISessionController" alt="Tgstation.Server.Host.Components.Watchdog.DeadSessionController" shape="rect" coords="0,168,401,192"/>
 <area href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html" alt="Tgstation.Server.Host.Components.Watchdog.SessionController" shape="rect" coords="411,168,812,192"/>
@@ -94,7 +94,7 @@ Inheritance diagram for Tgstation.Server.Host.Components.Watchdog.ISessionContro
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a2f2c370c1bbc4e6378dbfe98f18353d3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_reattach_information.html">ReattachInformation</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#a2f2c370c1bbc4e6378dbfe98f18353d3">Release</a> ()</td></tr>
-<tr class="memdesc:a2f2c370c1bbc4e6378dbfe98f18353d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Releases the IProcess without terminating it. Also calls System.IDisposable.Dispose  <a href="#a2f2c370c1bbc4e6378dbfe98f18353d3">More...</a><br /></td></tr>
+<tr class="memdesc:a2f2c370c1bbc4e6378dbfe98f18353d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Releases the IProcess without terminating it. Also calls global::System.IDisposable.Dispose  <a href="#a2f2c370c1bbc4e6378dbfe98f18353d3">More...</a><br /></td></tr>
 <tr class="separator:a2f2c370c1bbc4e6378dbfe98f18353d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acecb23152cbf86fc4c7e6f0e0a716aca"><td class="memItemLeft" align="right" valign="top">Task&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#acecb23152cbf86fc4c7e6f0e0a716aca">SendCommand</a> (string command, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:acecb23152cbf86fc4c7e6f0e0a716aca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends a command to DreamDaemon through /world/Topic()  <a href="#acecb23152cbf86fc4c7e6f0e0a716aca">More...</a><br /></td></tr>
@@ -106,15 +106,24 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ac0db66caea3d150af0eb64cb9596ee22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempts to change the current <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#af12460cd54ebce65ecf71fb8dad516c4" title="The current RebootState">RebootState</a> to <em>newRebootState</em>   <a href="#ac0db66caea3d150af0eb64cb9596ee22">More...</a><br /></td></tr>
 <tr class="separator:ac0db66caea3d150af0eb64cb9596ee22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf354aa2b35f8150bcd12a6338c59956"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#adf354aa2b35f8150bcd12a6338c59956">ResetRebootState</a> ()</td></tr>
-<tr class="memdesc:adf354aa2b35f8150bcd12a6338c59956"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#af12460cd54ebce65ecf71fb8dad516c4" title="The current RebootState">RebootState</a> to <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#a3b33ca95a6257e0c719adc7b54444ab8a960b44c579bc2f6818d2daaf9e4c16f0" title="Run DreamDaemon&#39;s normal reboot process">Components.Watchdog.RebootState.Normal</a> without telling the DMAPI  <a href="#adf354aa2b35f8150bcd12a6338c59956">More...</a><br /></td></tr>
+<tr class="memdesc:adf354aa2b35f8150bcd12a6338c59956"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#af12460cd54ebce65ecf71fb8dad516c4" title="The current RebootState">RebootState</a> to <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#a3b33ca95a6257e0c719adc7b54444ab8a960b44c579bc2f6818d2daaf9e4c16f0" title="Run DreamDaemon&#39;s normal reboot process">Watchdog.RebootState.Normal</a> without telling the DMAPI  <a href="#adf354aa2b35f8150bcd12a6338c59956">More...</a><br /></td></tr>
 <tr class="separator:adf354aa2b35f8150bcd12a6338c59956"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7a1f5cde45d316a03c6e040122639ae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#ae7a1f5cde45d316a03c6e040122639ae">EnableCustomChatCommands</a> ()</td></tr>
 <tr class="memdesc:ae7a1f5cde45d316a03c6e040122639ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables the reading of custom chat commands from the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess">ISessionController</a>  <a href="#ae7a1f5cde45d316a03c6e040122639ae">More...</a><br /></td></tr>
 <tr class="separator:ae7a1f5cde45d316a03c6e040122639ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_process_base"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_process_base')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_process_base.html">Tgstation.Server.Host.Core.IProcessBase</a></td></tr>
-<tr class="memitem:a8b3c3113a6f911d992ec8eaf0f4bc185 inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_process_base"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_process_base.html#a8b3c3113a6f911d992ec8eaf0f4bc185">SetHighPriority</a> ()</td></tr>
-<tr class="memdesc:a8b3c3113a6f911d992ec8eaf0f4bc185 inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_process_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set's the owned System.Diagnostics.Process.PriorityClass to System.Diagnostics.ProcessPriorityClass.AboveNormal  <a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_process_base.html#a8b3c3113a6f911d992ec8eaf0f4bc185">More...</a><br /></td></tr>
-<tr class="separator:a8b3c3113a6f911d992ec8eaf0f4bc185 inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_process_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7895d7fdeb708189a39b8f0cf2a52a69"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#a7895d7fdeb708189a39b8f0cf2a52a69">ReplaceDmbProvider</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html">IDmbProvider</a> newProvider)</td></tr>
+<tr class="memdesc:a7895d7fdeb708189a39b8f0cf2a52a69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replace <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#ab8c54c9d9b013c7456401a3b3173238d" title="The IDmbProvider being used">Dmb</a> with a given <em>newProvider</em> , disposing the old one.  <a href="#a7895d7fdeb708189a39b8f0cf2a52a69">More...</a><br /></td></tr>
+<tr class="separator:a7895d7fdeb708189a39b8f0cf2a52a69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html">Tgstation.Server.Host.System.IProcessBase</a></td></tr>
+<tr class="memitem:a4c32c6fcf031cd1c996b505e6c58e510 inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a4c32c6fcf031cd1c996b505e6c58e510">SetHighPriority</a> ()</td></tr>
+<tr class="memdesc:a4c32c6fcf031cd1c996b505e6c58e510 inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set's the owned global::System.Diagnostics.Process.PriorityClass to global::System.Diagnostics.ProcessPriorityClass.AboveNormal  <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a4c32c6fcf031cd1c996b505e6c58e510">More...</a><br /></td></tr>
+<tr class="separator:a4c32c6fcf031cd1c996b505e6c58e510 inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50cf121e04a59decc0262d2eaef0845f inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a50cf121e04a59decc0262d2eaef0845f">Suspend</a> ()</td></tr>
+<tr class="memdesc:a50cf121e04a59decc0262d2eaef0845f inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Suspends the process.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a50cf121e04a59decc0262d2eaef0845f">More...</a><br /></td></tr>
+<tr class="separator:a50cf121e04a59decc0262d2eaef0845f inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a676e4a90946a0ccfbd06bfd231215a87 inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a676e4a90946a0ccfbd06bfd231215a87">Resume</a> ()</td></tr>
+<tr class="memdesc:a676e4a90946a0ccfbd06bfd231215a87 inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resumes the process.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a676e4a90946a0ccfbd06bfd231215a87">More...</a><br /></td></tr>
+<tr class="separator:a676e4a90946a0ccfbd06bfd231215a87 inherit pub_methods_interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
@@ -122,16 +131,16 @@ Properties</h2></td></tr>
 <tr class="memdesc:adaa02ab9bccaaf1ad18f199e319724bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">A Task that completes when DreamDaemon starts pumping the windows message queue after loading a .dmb or when it crashes  <a href="#adaa02ab9bccaaf1ad18f199e319724bc">More...</a><br /></td></tr>
 <tr class="separator:adaa02ab9bccaaf1ad18f199e319724bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae1efcc624f78a7c1ce978b000d09d382"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#ae1efcc624f78a7c1ce978b000d09d382">IsPrimary</a><code> [get]</code></td></tr>
-<tr class="memdesc:ae1efcc624f78a7c1ce978b000d09d382"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html#aa3e399fe1533b15a2e0814b3634037bc" title="The primary game directory with a trailing directory separator">IDmbProvider.PrimaryDirectory</a> of <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#ab8c54c9d9b013c7456401a3b3173238d" title="The IDmbProvider being used">Dmb</a> is being used  <a href="#ae1efcc624f78a7c1ce978b000d09d382">More...</a><br /></td></tr>
+<tr class="memdesc:ae1efcc624f78a7c1ce978b000d09d382"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the IDmbProvider.PrimaryDirectory of <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#ab8c54c9d9b013c7456401a3b3173238d" title="The IDmbProvider being used">Dmb</a> is being used  <a href="#ae1efcc624f78a7c1ce978b000d09d382">More...</a><br /></td></tr>
 <tr class="separator:ae1efcc624f78a7c1ce978b000d09d382"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af1deb0ef8ce6a9f45326caa2e7aa78ea"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#af1deb0ef8ce6a9f45326caa2e7aa78ea">TerminationWasRequested</a><code> [get]</code></td></tr>
 <tr class="memdesc:af1deb0ef8ce6a9f45326caa2e7aa78ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the DreamDaemon instance sent a  <a href="#af1deb0ef8ce6a9f45326caa2e7aa78ea">More...</a><br /></td></tr>
 <tr class="separator:af1deb0ef8ce6a9f45326caa2e7aa78ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a420a602d40898c12599cba77b1df12af"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#af7163ca98f9f5e5c731043ecdace3745">ApiValidationStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#a420a602d40898c12599cba77b1df12af">ApiValidationStatus</a><code> [get]</code></td></tr>
-<tr class="memdesc:a420a602d40898c12599cba77b1df12af"><td class="mdescLeft">&#160;</td><td class="mdescRight">The DMAPI <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#af7163ca98f9f5e5c731043ecdace3745" title="Status of DMAPI validation">Components.Watchdog.ApiValidationStatus</a>  <a href="#a420a602d40898c12599cba77b1df12af">More...</a><br /></td></tr>
+<tr class="memdesc:a420a602d40898c12599cba77b1df12af"><td class="mdescLeft">&#160;</td><td class="mdescRight">The DMAPI <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#af7163ca98f9f5e5c731043ecdace3745" title="Status of DMAPI validation">Watchdog.ApiValidationStatus</a>  <a href="#a420a602d40898c12599cba77b1df12af">More...</a><br /></td></tr>
 <tr class="separator:a420a602d40898c12599cba77b1df12af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8c54c9d9b013c7456401a3b3173238d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html">IDmbProvider</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#ab8c54c9d9b013c7456401a3b3173238d">Dmb</a><code> [get]</code></td></tr>
-<tr class="memdesc:ab8c54c9d9b013c7456401a3b3173238d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs">IDmbProvider</a> being used  <a href="#ab8c54c9d9b013c7456401a3b3173238d">More...</a><br /></td></tr>
+<tr class="memitem:ab8c54c9d9b013c7456401a3b3173238d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html">IDmbProvider</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#ab8c54c9d9b013c7456401a3b3173238d">Dmb</a><code> [get]</code></td></tr>
+<tr class="memdesc:ab8c54c9d9b013c7456401a3b3173238d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The IDmbProvider being used  <a href="#ab8c54c9d9b013c7456401a3b3173238d">More...</a><br /></td></tr>
 <tr class="separator:ab8c54c9d9b013c7456401a3b3173238d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab21dfb05ca356124194ae5c22b4a778b"><td class="memItemLeft" align="right" valign="top">ushort?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#ab21dfb05ca356124194ae5c22b4a778b">Port</a><code> [get]</code></td></tr>
 <tr class="memdesc:ab21dfb05ca356124194ae5c22b4a778b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The current port DreamDaemon is listening on  <a href="#ab21dfb05ca356124194ae5c22b4a778b">More...</a><br /></td></tr>
@@ -145,15 +154,15 @@ Properties</h2></td></tr>
 <tr class="memitem:aa22611bb1515c92112cb88c1fd2a346b"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#aa22611bb1515c92112cb88c1fd2a346b">OnReboot</a><code> [get]</code></td></tr>
 <tr class="memdesc:aa22611bb1515c92112cb88c1fd2a346b"><td class="mdescLeft">&#160;</td><td class="mdescRight">A Task that completes when the server calls /world/Reboot()  <a href="#aa22611bb1515c92112cb88c1fd2a346b">More...</a><br /></td></tr>
 <tr class="separator:aa22611bb1515c92112cb88c1fd2a346b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header properties_interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_process_base"><td colspan="2" onclick="javascript:toggleInherit('properties_interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_process_base')"><img src="closed.png" alt="-"/>&#160;Properties inherited from <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_process_base.html">Tgstation.Server.Host.Core.IProcessBase</a></td></tr>
-<tr class="memitem:ab0a9955d3c111c6d847a64c7359e96f6 inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_process_base"><td class="memItemLeft" align="right" valign="top">Task&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_process_base.html#ab0a9955d3c111c6d847a64c7359e96f6">Lifetime</a><code> [get]</code></td></tr>
-<tr class="memdesc:ab0a9955d3c111c6d847a64c7359e96f6 inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_process_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Task&lt;TResult&gt; resulting in the exit code of the process  <a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_process_base.html#ab0a9955d3c111c6d847a64c7359e96f6">More...</a><br /></td></tr>
-<tr class="separator:ab0a9955d3c111c6d847a64c7359e96f6 inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_process_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header properties_interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base"><td colspan="2" onclick="javascript:toggleInherit('properties_interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base')"><img src="closed.png" alt="-"/>&#160;Properties inherited from <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html">Tgstation.Server.Host.System.IProcessBase</a></td></tr>
+<tr class="memitem:a1d57ffc6a03199bba632d2c33dc139d3 inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base"><td class="memItemLeft" align="right" valign="top">Task&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a1d57ffc6a03199bba632d2c33dc139d3">Lifetime</a><code> [get]</code></td></tr>
+<tr class="memdesc:a1d57ffc6a03199bba632d2c33dc139d3 inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Task&lt;TResult&gt; resulting in the exit code of the process  <a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a1d57ffc6a03199bba632d2c33dc139d3">More...</a><br /></td></tr>
+<tr class="separator:a1d57ffc6a03199bba632d2c33dc139d3 inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Handles communication with a DreamDaemon IProcess </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00010">10</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00011">11</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="ae7a1f5cde45d316a03c6e040122639ae"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae7a1f5cde45d316a03c6e040122639ae">&#9670;&nbsp;</a></span>EnableCustomChatCommands()</h2>
@@ -174,7 +183,7 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a403bf639776b8c18994b3588df150acd">Tgstation.Server.Host.Components.Watchdog.SessionController</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_dead_session_controller.html#aaa719b3d931db6811b3056569a6aa2dc">Tgstation.Server.Host.Components.Watchdog.DeadSessionController</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_experimental_watchdog_8cs_source.html#l00095">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog.HandlerMonitorWakeup()</a>, <a class="el" href="_basic_watchdog_8cs_source.html#l00151">Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.InitControllers()</a>, and <a class="el" href="_experimental_watchdog_8cs_source.html#l00514">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog.InitControllers()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_experimental_watchdog_8cs_source.html#l00097">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog.HandlerMonitorWakeup()</a>, and <a class="el" href="_experimental_watchdog_8cs_source.html#l00519">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog.InitControllers()</a>.</p>
 
 </div>
 </div>
@@ -193,10 +202,38 @@ Properties</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Releases the IProcess without terminating it. Also calls System.IDisposable.Dispose </p>
+<p>Releases the IProcess without terminating it. Also calls global::System.IDisposable.Dispose </p>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_reattach_information.html" title="Parameters necessary for duplicating a ISessionController session">ReattachInformation</a> which can be used to create a new <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess">ISessionController</a> similar to this one</dd></dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a275f0854e7df3126d0d3a3fe390b1a13">Tgstation.Server.Host.Components.Watchdog.SessionController</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_dead_session_controller.html#a1c7d96b5137c4bcf94803b4807e2c062">Tgstation.Server.Host.Components.Watchdog.DeadSessionController</a>.</p>
+
+</div>
+</div>
+<a id="a7895d7fdeb708189a39b8f0cf2a52a69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7895d7fdeb708189a39b8f0cf2a52a69">&#9670;&nbsp;</a></span>ReplaceDmbProvider()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Tgstation.Server.Host.Components.Watchdog.ISessionController.ReplaceDmbProvider </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html">IDmbProvider</a>&#160;</td>
+          <td class="paramname"><em>newProvider</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Replace <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#ab8c54c9d9b013c7456401a3b3173238d" title="The IDmbProvider being used">Dmb</a> with a given <em>newProvider</em> , disposing the old one. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newProvider</td><td>The new IDmbProvider.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#ae4b4bcef9b6ba647c610a541954284da">Tgstation.Server.Host.Components.Watchdog.SessionController</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_dead_session_controller.html#a69763f41d70c4cb1fb7295e92aee34c7">Tgstation.Server.Host.Components.Watchdog.DeadSessionController</a>.</p>
 
 </div>
 </div>
@@ -215,11 +252,11 @@ Properties</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Changes <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#af12460cd54ebce65ecf71fb8dad516c4" title="The current RebootState">RebootState</a> to <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#a3b33ca95a6257e0c719adc7b54444ab8a960b44c579bc2f6818d2daaf9e4c16f0" title="Run DreamDaemon&#39;s normal reboot process">Components.Watchdog.RebootState.Normal</a> without telling the DMAPI </p>
+<p>Changes <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#af12460cd54ebce65ecf71fb8dad516c4" title="The current RebootState">RebootState</a> to <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#a3b33ca95a6257e0c719adc7b54444ab8a960b44c579bc2f6818d2daaf9e4c16f0" title="Run DreamDaemon&#39;s normal reboot process">Watchdog.RebootState.Normal</a> without telling the DMAPI </p>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a10030d2d9fd76e199bc1ea38627c7422">Tgstation.Server.Host.Components.Watchdog.SessionController</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_dead_session_controller.html#a8644c6835b2bff2ec93f7f7609b9fecd">Tgstation.Server.Host.Components.Watchdog.DeadSessionController</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_basic_watchdog_8cs_source.html#l00082">Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.HandleMonitorWakeup()</a>, and <a class="el" href="_experimental_watchdog_8cs_source.html#l00095">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog.HandlerMonitorWakeup()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_experimental_watchdog_8cs_source.html#l00097">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog.HandlerMonitorWakeup()</a>.</p>
 
 </div>
 </div>
@@ -301,7 +338,7 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a25f0b56359996842163f348a227734b9">Tgstation.Server.Host.Components.Watchdog.SessionController</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_dead_session_controller.html#a96e0eb1ff216d40c57e2c2ceb4690c54">Tgstation.Server.Host.Components.Watchdog.DeadSessionController</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_experimental_watchdog_8cs_source.html#l00095">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog.HandlerMonitorWakeup()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_experimental_watchdog_8cs_source.html#l00097">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog.HandlerMonitorWakeup()</a>.</p>
 
 </div>
 </div>
@@ -343,8 +380,6 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a1076b12f9e7bfa7b7bf89f97d20c6c4e">Tgstation.Server.Host.Components.Watchdog.SessionController</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_dead_session_controller.html#af1b9377a045c1a882e04a513c053e6a4">Tgstation.Server.Host.Components.Watchdog.DeadSessionController</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_basic_watchdog_8cs_source.html#l00082">Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.HandleMonitorWakeup()</a>.</p>
-
 </div>
 </div>
 <h2 class="groupheader">Property Documentation</h2>
@@ -368,10 +403,10 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>The DMAPI <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#af7163ca98f9f5e5c731043ecdace3745" title="Status of DMAPI validation">Components.Watchdog.ApiValidationStatus</a> </p>
+<p>The DMAPI <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#af7163ca98f9f5e5c731043ecdace3745" title="Status of DMAPI validation">Watchdog.ApiValidationStatus</a> </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00030">30</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{ <span class="keyword">get</span>; }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00031">31</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{ <span class="keyword">get</span>; }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a4aff175710c5f3e1acffe941131a4ffa"></a>
@@ -396,9 +431,9 @@ Properties</h2></td></tr>
 
 <p>If the port should be rotated off when the world reboots </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00045">45</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div></div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_experimental_watchdog_8cs_source.html#l00095">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog.HandlerMonitorWakeup()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00046">46</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div></div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_experimental_watchdog_8cs_source.html#l00097">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog.HandlerMonitorWakeup()</a>.</p>
 
 </div>
 </div>
@@ -412,7 +447,7 @@ Properties</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html">IDmbProvider</a> Tgstation.Server.Host.Components.Watchdog.ISessionController.Dmb</td>
+          <td class="memname"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html">IDmbProvider</a> Tgstation.Server.Host.Components.Watchdog.ISessionController.Dmb</td>
         </tr>
       </table>
   </td>
@@ -422,11 +457,11 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs">IDmbProvider</a> being used </p>
+<p>The IDmbProvider being used </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00035">35</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{ <span class="keyword">get</span>; }</div></div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_experimental_watchdog_8cs_source.html#l00095">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog.HandlerMonitorWakeup()</a>, and <a class="el" href="_basic_watchdog_8cs_source.html#l00231">Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.MonitorLifetimes()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00036">36</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{ <span class="keyword">get</span>; }</div></div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_experimental_watchdog_8cs_source.html#l00097">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog.HandlerMonitorWakeup()</a>.</p>
 
 </div>
 </div>
@@ -450,11 +485,11 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>If the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_dmb_provider.html#aa3e399fe1533b15a2e0814b3634037bc" title="The primary game directory with a trailing directory separator">IDmbProvider.PrimaryDirectory</a> of <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#ab8c54c9d9b013c7456401a3b3173238d" title="The IDmbProvider being used">Dmb</a> is being used </p>
+<p>If the IDmbProvider.PrimaryDirectory of <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#ab8c54c9d9b013c7456401a3b3173238d" title="The IDmbProvider being used">Dmb</a> is being used </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00020">20</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;{ <span class="keyword">get</span>; }</div></div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_experimental_watchdog_8cs_source.html#l00095">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog.HandlerMonitorWakeup()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00021">21</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;{ <span class="keyword">get</span>; }</div></div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_experimental_watchdog_8cs_source.html#l00097">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog.HandlerMonitorWakeup()</a>.</p>
 
 </div>
 </div>
@@ -480,9 +515,9 @@ Properties</h2></td></tr>
 
 <p>A Task that completes when DreamDaemon starts pumping the windows message queue after loading a .dmb or when it crashes </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00015">15</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;{ <span class="keyword">get</span>; }</div></div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_watchdog_base_8cs_source.html#l00365">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.CheckLaunchResult()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00016">16</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;{ <span class="keyword">get</span>; }</div></div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_watchdog_base_8cs_source.html#l00371">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.CheckLaunchResult()</a>.</p>
 
 </div>
 </div>
@@ -508,10 +543,8 @@ Properties</h2></td></tr>
 
 <p>A Task that completes when the server calls /world/Reboot() </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00055">55</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;{ <span class="keyword">get</span>; }</div></div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_basic_watchdog_8cs_source.html#l00231">Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.MonitorLifetimes()</a>.</p>
-
+<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00056">56</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;{ <span class="keyword">get</span>; }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="ab21dfb05ca356124194ae5c22b4a778b"></a>
@@ -536,8 +569,8 @@ Properties</h2></td></tr>
 
 <p>The current port DreamDaemon is listening on </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00040">40</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{ <span class="keyword">get</span>; }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00041">41</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{ <span class="keyword">get</span>; }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="af12460cd54ebce65ecf71fb8dad516c4"></a>
@@ -562,9 +595,9 @@ Properties</h2></td></tr>
 
 <p>The current <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#af12460cd54ebce65ecf71fb8dad516c4" title="The current RebootState">RebootState</a> </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00050">50</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;{ <span class="keyword">get</span>; }</div></div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_basic_watchdog_8cs_source.html#l00082">Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.HandleMonitorWakeup()</a>, and <a class="el" href="_experimental_watchdog_8cs_source.html#l00095">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog.HandlerMonitorWakeup()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00051">51</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;{ <span class="keyword">get</span>; }</div></div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_experimental_watchdog_8cs_source.html#l00097">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog.HandlerMonitorWakeup()</a>.</p>
 
 </div>
 </div>
@@ -590,9 +623,9 @@ Properties</h2></td></tr>
 
 <p>If the DreamDaemon instance sent a </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00025">25</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;{ <span class="keyword">get</span>; }</div></div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_basic_watchdog_8cs_source.html#l00082">Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.HandleMonitorWakeup()</a>, and <a class="el" href="_experimental_watchdog_8cs_source.html#l00095">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog.HandlerMonitorWakeup()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00026">26</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;{ <span class="keyword">get</span>; }</div></div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_experimental_watchdog_8cs_source.html#l00097">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog.HandlerMonitorWakeup()</a>.</p>
 
 </div>
 </div>

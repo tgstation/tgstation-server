@@ -67,13 +67,13 @@ $(function() {
 
 <h3><a id="index_d"></a>- d -</h3><ul>
 <li>DatabaseContext()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_database_context.html#a3ea918ebd28eef6067c1ec62daa31283">Tgstation.Server.Host.Models.DatabaseContext&lt; TParentContext &gt;</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a26850a10bee0dff0dc3c25047c315a12">Tgstation.Server.Host.Database.DatabaseContext&lt; TParentContext &gt;</a>
 </li>
 <li>DatabaseContextFactory()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_database_context_factory.html#ac86f5235ead630a89c2f021c61226996">Tgstation.Server.Host.Core.DatabaseContextFactory</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory.html#ac543a4e3bf61cec7ef0cee9abab7d0e4">Tgstation.Server.Host.Database.DatabaseContextFactory</a>
 </li>
 <li>DatabaseSeeder()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_database_seeder.html#ac35912f3685af59a6a0347e8c96c1868">Tgstation.Server.Host.Models.DatabaseSeeder</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a88892a0fb94d34f975e8d1cf3c0ae940">Tgstation.Server.Host.Database.DatabaseSeeder</a>
 </li>
 <li>DeadSessionController()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_dead_session_controller.html#ae6d762429f47307b1391b01c8148df73">Tgstation.Server.Host.Components.Watchdog.DeadSessionController</a>
@@ -171,9 +171,10 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#af246d1ba4609e088232968f6bcfb32f9">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a42a3640c402f3907704c03f78a19fd8f">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#af65e78f38c21aa4b6b080695ec16cf60">Tgstation.Server.Host.Components.Chat.Providers.Provider</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_factory.html#a07b0bea40ec947926abb767ee66fe5bf">Tgstation.Server.Host.Components.Compiler.DmbFactory</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_provider.html#af2b79136fa590da24e65b64bf90e119e">Tgstation.Server.Host.Components.Compiler.DmbProvider</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_temporary_dmb_provider.html#a5d9370e4b3d5328babf18ae7cd88ef7c">Tgstation.Server.Host.Components.Compiler.TemporaryDmbProvider</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a5f4170ba6cb22e8497e1774cfa61fed2">Tgstation.Server.Host.Components.Deployment.DmbFactory</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_provider.html#a3dffaa0728d657493bc0e2f637db142c">Tgstation.Server.Host.Components.Deployment.DmbProvider</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_temporary_dmb_provider.html#a606fe532cfc8b19526857ffc63517637">Tgstation.Server.Host.Components.Deployment.TemporaryDmbProvider</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_windows_swappable_dmb_provider.html#a899ed564ee9ba8dee124d358a4582a99">Tgstation.Server.Host.Components.Deployment.WindowsSwappableDmbProvider</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#aeb054aea1394bc477846bb850f7016a0">Tgstation.Server.Host.Components.Instance</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a435d2fb1ad9eeafe2629263a8d78b050">Tgstation.Server.Host.Components.InstanceManager</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_comm_context.html#a72b538a5a7ce3b22a1c73a443d4a3925">Tgstation.Server.Host.Components.Interop.CommContext</a>
@@ -184,30 +185,31 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a8d954bc88514cf9103a552bf2b7bcd6a">Tgstation.Server.Host.Components.Watchdog.SessionController</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a674ad9d3fd9d5716186fdb65b99d40ab">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_network_prompt_reaper.html#a76bec34132621ff6fa122665b3a128d1">Tgstation.Server.Host.Components.Watchdog.WindowsNetworkPromptReaper</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_job_handler.html#a6958c4ad79c009aa019cc008fc84ff14">Tgstation.Server.Host.Core.JobHandler</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_job_manager.html#a0fbc7a6125fa4033bb93b9de7f0e5ce4">Tgstation.Server.Host.Core.JobManager</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_process.html#a872943801535a9784fe6521eff33ce13">Tgstation.Server.Host.Core.Process</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_restart_registration.html#a1a4d9a4d259d03ff3f69b2b061c2e5df">Tgstation.Server.Host.Core.RestartRegistration</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a7a90d285258c8e67e5a351c6b8854537">Tgstation.Server.Host.Core.SemaphoreSlimContext</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#a4094b920d3ba4aa6f3620b1fff15672c">Tgstation.Server.Host.IO.Console</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a6ae06f68e5a74aefeb5ac12f832efcfe">Tgstation.Server.Host.Jobs.JobHandler</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#a16e8a7081a33c07a98ac25749e8de832">Tgstation.Server.Host.Jobs.JobManager</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a4a5a80952341c5a9e0f3a84e27734f8a">Tgstation.Server.Host.Security.AuthenticationContext</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#accc9334a642e563e47c5308df2d5149a">Tgstation.Server.Host.Security.AuthenticationContextFactory</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html#a8a7ab89f157f77d9424c642587fd0460">Tgstation.Server.Host.Security.IdentityCache</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#abf1fccfffa19349bb551ffe64c364387">Tgstation.Server.Host.Security.IdentityCacheObject</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html#a69861e38af0e65778b2e6e5692fd87a4">Tgstation.Server.Host.Security.WindowsSystemIdentity</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a75ee7501b3cb59e3e34c05f382380292">Tgstation.Server.Host.Service.ServerService</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a110b26835967f72e89837e6f47f4b1a1">Tgstation.Server.Host.System.Process</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#a961376f9557fb389f26cafb5fb93ab96">Tgstation.Server.Tests.TestingServer</a>
 </li>
 <li>DisposeAndNullControllers()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#ab4158781aa5500e7fa039bc969c51ef1">Tgstation.Server.Host.Components.Watchdog.BasicWatchdog</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html#a38336dfb2d02f0b73e0613a6aea17d5d">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ad03dbc1b36b5c42f944d93f13f6260af">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a1aff310066e632e5a05edcfa5a1aeae9">Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog</a>
 </li>
 <li>DmbFactory()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_factory.html#a52e9bb5f3fdb7e52468afa0ba740e535">Tgstation.Server.Host.Components.Compiler.DmbFactory</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a6792aff6d8b22ed0ac3f895676abbeab">Tgstation.Server.Host.Components.Deployment.DmbFactory</a>
 </li>
 <li>DmbProvider()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dmb_provider.html#a1537e8b8f8b55841d8d1b51104acb521">Tgstation.Server.Host.Components.Compiler.DmbProvider</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_provider.html#aa3d708788cce51829de07e8546884805">Tgstation.Server.Host.Components.Deployment.DmbProvider</a>
 </li>
 <li>DoNotDeleteThisSession()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_executable_lock.html#ae54582fd5e1f354554c9a0402eb72a2b">Tgstation.Server.Host.Components.Byond.ByondExecutableLock</a>
@@ -246,7 +248,7 @@ $(function() {
 </li>
 <li>DreamMaker()
 : <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_dream_maker_client.html#a62edd66a221c9b7044bd068dcf7324d9">Tgstation.Server.Client.Components.DreamMakerClient</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dream_maker.html#a40482c625ab675928223bcafa234a43c">Tgstation.Server.Host.Components.Compiler.DreamMaker</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a860cd03d62ac0b20062b631a94c40149">Tgstation.Server.Host.Components.Deployment.DreamMaker</a>
 </li>
 <li>DreamMakerClient()
 : <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_dream_maker_client.html#a04dd94462a3bb8aad7469c84d53f78a9">Tgstation.Server.Client.Components.DreamMakerClient</a>

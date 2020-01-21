@@ -23,5 +23,6 @@ var searchData=
   ['softshutdown',['SoftShutdown',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49ae814f60fe597531f5630e0aef1adea94',1,'Tgstation::Server::Api::Rights']]],
   ['sqlserver',['SqlServer',['../namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617cae86e829e4d4c68b30a4fd26aa2bfca72',1,'Tgstation::Server::Host::Configuration']]],
   ['start',['Start',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49aa6122a65eaa676f700ae68d393054a37',1,'Tgstation::Server::Api::Rights']]],
+  ['suspendresume',['SuspendResume',['../class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a14e5ef215cf77a3126bf7107d43bc52aa225c7a85340534236811e3cae22e885e',1,'Tgstation::Server::Host::NativeMethods']]],
   ['systemidentitywrite',['SystemIdentityWrite',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ab7bc96f211e450615be8669d10de2440ab027b6d7abbf6c6fa50c64fc51437bce',1,'Tgstation::Server::Api::Models']]]
 ];

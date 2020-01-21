@@ -153,8 +153,8 @@ $(function() {
 , <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_i_comm_context.html#a7f947ca9fe0193e1e6e66eaa31c81a93">Tgstation.Server.Host.Components.Interop.ICommContext</a>
 </li>
 <li>RegisterOperation()
-: <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_job_manager.html#a9148664a7a0e80dc4c354e5135329ded">Tgstation.Server.Host.Core.IJobManager</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_job_manager.html#a921f3dc614772f50917a0171fcfd657f">Tgstation.Server.Host.Core.JobManager</a>
+: <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#ad13e45f48187be1d93f98f7dc60597d2">Tgstation.Server.Host.Jobs.IJobManager</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#a0d00877e073a7b772e03f23053066f30">Tgstation.Server.Host.Jobs.JobManager</a>
 </li>
 <li>RegisterProcess()
 : <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_network_prompt_reaper.html#a921378833260f01b071581f60c202286">Tgstation.Server.Host.Components.Watchdog.INetworkPromptReaper</a>
@@ -173,6 +173,11 @@ $(function() {
 : <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html#abb631d02974c1e646993ca97d4a2aec4">Tgstation.Server.Host.Components.IInstance</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a7e74907bfa7882ef479670e2f7102a3f">Tgstation.Server.Host.Components.Instance</a>
 </li>
+<li>ReplaceDmbProvider()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_dead_session_controller.html#a69763f41d70c4cb1fb7295e92aee34c7">Tgstation.Server.Host.Components.Watchdog.DeadSessionController</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html#a7895d7fdeb708189a39b8f0cf2a52a69">Tgstation.Server.Host.Components.Watchdog.ISessionController</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#ae4b4bcef9b6ba647c610a541954284da">Tgstation.Server.Host.Components.Watchdog.SessionController</a>
+</li>
 <li>Repository()
 : <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_repository_client.html#a1c314570d2e4f3c0a6dfb7e8aa6c68a0">Tgstation.Server.Client.Components.RepositoryClient</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#ad21b7cd54ab824159e7828aea9598fe3">Tgstation.Server.Host.Components.Repository.Repository</a>
@@ -190,8 +195,8 @@ $(function() {
 : <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_request_timeout_exception.html#a0dd3ecf1238e3cb9c8d76dd749929ead">Tgstation.Server.Client.RequestTimeoutException</a>
 </li>
 <li>ResetAdminPassword()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_database_seeder.html#aa448dafe5d62a4314040526037449ddd">Tgstation.Server.Host.Models.DatabaseSeeder</a>
-, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_database_seeder.html#a753aeccc2026cd9c7c00f11dcf4b9110">Tgstation.Server.Host.Models.IDatabaseSeeder</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#af844d41153f8a43c071bb6ec67445a1b">Tgstation.Server.Host.Database.DatabaseSeeder</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html#aa97dbc8284be5920728ad3bcf4c20353">Tgstation.Server.Host.Database.IDatabaseSeeder</a>
 </li>
 <li>ResetRebootState()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_dead_session_controller.html#a8644c6835b2bff2ec93f7f7609b9fecd">Tgstation.Server.Host.Components.Watchdog.DeadSessionController</a>
@@ -230,6 +235,15 @@ $(function() {
 <li>RestartRegistration()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_restart_registration.html#a4391d21de43d098a833168620dc24dc4">Tgstation.Server.Host.Core.RestartRegistration</a>
 </li>
+<li>Resume()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_dead_session_controller.html#a7c5bee988ea44c083a8c6a549ca0cf39">Tgstation.Server.Host.Components.Watchdog.DeadSessionController</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#aeaf649e956ae2207fe4effe9b2907f2e">Tgstation.Server.Host.Components.Watchdog.SessionController</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a676e4a90946a0ccfbd06bfd231215a87">Tgstation.Server.Host.System.IProcessBase</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#ac71f30aab7fc20ad92dc9b1ce8971b55">Tgstation.Server.Host.System.Process</a>
+</li>
+<li>ResumeThread()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a318c159e4464a5d63dd81260b45d95bc">Tgstation.Server.Host.NativeMethods</a>
+</li>
 <li>RevisionCommand()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_revision_command.html#a7958e83719218e0c15fae6210c1227b7">Tgstation.Server.Host.Components.Chat.Commands.RevisionCommand</a>
 </li>
@@ -257,17 +271,17 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#a0c2cde9571527844a13d1fc2aa33c659">Tgstation.Server.Tests.TestingServer</a>
 </li>
 <li>RunCompileJob()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dream_maker.html#a171140f263892237911eae056aa309c5">Tgstation.Server.Host.Components.Compiler.DreamMaker</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a90c81ec6a44a188164e5ae50e6430a7d">Tgstation.Server.Host.Components.Deployment.DreamMaker</a>
 </li>
 <li>RunDreamMaker()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_compiler_1_1_dream_maker.html#ad17613397de38dcdca68b3adb1c533a7">Tgstation.Server.Host.Components.Compiler.DreamMaker</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a2c7d7d0048942b67b6c275cd4a643296">Tgstation.Server.Host.Components.Deployment.DreamMaker</a>
 </li>
 <li>RunImpersonated()
 : <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html#a9b525a56c704424ce14e78edcb7d003e">Tgstation.Server.Host.Security.ISystemIdentity</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html#aaa070f717bb19b6d85f0253d7820bc75">Tgstation.Server.Host.Security.WindowsSystemIdentity</a>
 </li>
 <li>RunJob()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_job_manager.html#a8a5878703c7cc9d4686850960f305cb1">Tgstation.Server.Host.Core.JobManager</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#a3892ae3d0e77561207e4db4817151497">Tgstation.Server.Host.Jobs.JobManager</a>
 </li>
 <li>RunRequest&lt; TResult &gt;()
 : <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#afe7cf5895d2cbd54c50c27073ffd08af">Tgstation.Server.Client.ApiClient</a>

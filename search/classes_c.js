@@ -18,8 +18,8 @@ var searchData=
   ['myinitialcreate',['MYInitialCreate',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_m_y_initial_create.html',1,'Tgstation::Server::Host::Models::Migrations']]],
   ['mynullableandforeignkeycleanup',['MYNullableAndForeignKeyCleanup',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_m_y_nullable_and_foreign_key_cleanup.html',1,'Tgstation::Server::Host::Models::Migrations']]],
   ['myreattachcompilejobrequired',['MYReattachCompileJobRequired',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_m_y_reattach_compile_job_required.html',1,'Tgstation::Server::Host::Models::Migrations']]],
-  ['mysqldatabasecontext',['MySqlDatabaseContext',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_my_sql_database_context.html',1,'Tgstation::Server::Host::Models']]],
+  ['mysqldatabasecontext',['MySqlDatabaseContext',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_my_sql_database_context.html',1,'Tgstation::Server::Host::Database']]],
   ['mysqldatabasecontextmodelsnapshot',['MySqlDatabaseContextModelSnapshot',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_my_sql_database_context_model_snapshot.html',1,'Tgstation::Server::Host::Models::Migrations']]],
-  ['mysqldesigntimedbcontextfactory',['MySqlDesignTimeDbContextFactory',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_my_sql_design_time_db_context_factory.html',1,'Tgstation::Server::Host::Models::Migrations']]],
+  ['mysqldesigntimedbcontextfactory',['MySqlDesignTimeDbContextFactory',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_my_sql_design_time_db_context_factory.html',1,'Tgstation::Server::Host::Database::Design']]],
   ['mytoggletestmergecomments',['MYToggleTestmergeComments',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_m_y_toggle_testmerge_comments.html',1,'Tgstation::Server::Host::Models::Migrations']]]
 ];
