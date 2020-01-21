@@ -191,7 +191,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					{
 						IsDirectory = true,
 						Path = ioManager.ConcatPath(configurationRelativePath, x),
-					}));
+					}).OrderBy(file => file.Path));
 				}
 				catch (IOException e)
 				{
@@ -205,7 +205,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				{
 					IsDirectory = false,
 					Path = ioManager.ConcatPath(configurationRelativePath, x),
-				}));
+				}).OrderBy(file => file.Path));
 			}
 
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
