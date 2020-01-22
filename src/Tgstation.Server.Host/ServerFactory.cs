@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host
 {

@@ -23,7 +23,7 @@ namespace Tgstation.Server.Host.Models
 		public int ProcessId { get; set; }
 
 		/// <summary>
-		/// If the <see cref="Components.IDmbProvider.PrimaryDirectory"/> of the associated dmb is being used
+		/// If the <see cref="Components.Deployment.IDmbProvider.PrimaryDirectory"/> of the associated dmb is being used
 		/// </summary>
 		public bool IsPrimary { get; set; }
 

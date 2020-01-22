@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Chat.Commands;
-using Tgstation.Server.Host.Components.Compiler;
+using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components
 {
@@ -129,7 +132,25 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="networkPromptReaper">The value of <see cref="networkPromptReaper"/></param>
 		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
-		public InstanceFactory(IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, ILoggerFactory loggerFactory, IByondTopicSender byondTopicSender, ICryptographySuite cryptographySuite, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory, IByondInstaller byondInstaller, IChatFactory chatFactory, IProcessExecutor processExecutor, IPostWriteHandler postWriteHandler, IWatchdogFactory watchdogFactory, IJobManager jobManager, ICredentialsProvider credentialsProvider, INetworkPromptReaper networkPromptReaper, IGitHubClientFactory gitHubClientFactory, IPlatformIdentifier platformIdentifier)
+		public InstanceFactory(
+			IIOManager ioManager,
+			IDatabaseContextFactory databaseContextFactory,
+			IApplication application,
+			ILoggerFactory loggerFactory,
+			IByondTopicSender byondTopicSender,
+			ICryptographySuite cryptographySuite,
+			ISynchronousIOManager synchronousIOManager,
+			ISymlinkFactory symlinkFactory,
+			IByondInstaller byondInstaller,
+			IChatFactory chatFactory,
+			IProcessExecutor processExecutor,
+			IPostWriteHandler postWriteHandler,
+			IWatchdogFactory watchdogFactory,
+			IJobManager jobManager,
+			ICredentialsProvider credentialsProvider,
+			INetworkPromptReaper networkPromptReaper,
+			IGitHubClientFactory gitHubClientFactory,
+			IPlatformIdentifier platformIdentifier)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
@@ -152,7 +173,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		#pragma warning disable CA1506 // TODO: Decomplexify
+#pragma warning disable CA1506 // TODO: Decomplexify
 		public IInstance CreateInstance(Models.Instance metadata)
 		{
 			// Create the ioManager for the instance
@@ -166,28 +187,36 @@ namespace Tgstation.Server.Host.Components
 
 			var configuration = new StaticFiles.Configuration(configurationIoManager, synchronousIOManager, symlinkFactory, processExecutor, postWriteHandler, platformIdentifier, loggerFactory.CreateLogger<StaticFiles.Configuration>());
 			var eventConsumer = new EventConsumer(configuration);
-
-			var dmbFactory = new DmbFactory(databaseContextFactory, gameIoManager, loggerFactory.CreateLogger<DmbFactory>(), metadata.CloneMetadata());
+			var repoManager = new RepositoryManager(metadata.RepositorySettings, repoIoManager, eventConsumer, credentialsProvider, loggerFactory.CreateLogger<Repository.Repository>(), loggerFactory.CreateLogger<RepositoryManager>());
 			try
 			{
-				var repoManager = new RepositoryManager(metadata.RepositorySettings, repoIoManager, eventConsumer, credentialsProvider, loggerFactory.CreateLogger<Repository.Repository>(), loggerFactory.CreateLogger<RepositoryManager>());
+				var byond = new ByondManager(byondIOManager, byondInstaller, eventConsumer, loggerFactory.CreateLogger<ByondManager>());
+
+				var commandFactory = new CommandFactory(application, byond, repoManager, databaseContextFactory, metadata);
+
+				var chat = chatFactory.CreateChat(instanceIoManager, commandFactory, metadata.ChatSettings);
 				try
 				{
-					var byond = new ByondManager(byondIOManager, byondInstaller, eventConsumer, loggerFactory.CreateLogger<ByondManager>());
+					var sessionControllerFactory = new SessionControllerFactory(processExecutor, byond, byondTopicSender, cryptographySuite, application, gameIoManager, chat, networkPromptReaper, platformIdentifier, loggerFactory, metadata.CloneMetadata());
 
-					var commandFactory = new CommandFactory(application, byond, repoManager, databaseContextFactory, metadata);
-
-					var chat = chatFactory.CreateChat(instanceIoManager, commandFactory, metadata.ChatSettings);
+					var dmbFactory = new DmbFactory(databaseContextFactory, gameIoManager, loggerFactory.CreateLogger<DmbFactory>(), metadata.CloneMetadata());
 					try
 					{
-						var sessionControllerFactory = new SessionControllerFactory(processExecutor, byond, byondTopicSender, cryptographySuite, application, gameIoManager, chat, networkPromptReaper, platformIdentifier, loggerFactory, metadata.CloneMetadata());
 						var reattachInfoHandler = new ReattachInfoHandler(databaseContextFactory, dmbFactory, loggerFactory.CreateLogger<ReattachInfoHandler>(), metadata.CloneMetadata());
-						var watchdog = watchdogFactory.CreateWatchdog(chat, dmbFactory, reattachInfoHandler, configuration, sessionControllerFactory, metadata.CloneMetadata(), metadata.DreamDaemonSettings);
+						var watchdog = watchdogFactory.CreateWatchdog(
+							chat,
+							dmbFactory,
+							reattachInfoHandler,
+							configuration,
+							sessionControllerFactory,
+							gameIoManager,
+							metadata.CloneMetadata(),
+							metadata.DreamDaemonSettings);
 						eventConsumer.SetWatchdog(watchdog);
 						commandFactory.SetWatchdog(watchdog);
 						try
 						{
-							var dreamMaker = new DreamMaker(byond, gameIoManager, configuration, sessionControllerFactory, dmbFactory, application, eventConsumer, chat, processExecutor, watchdog, loggerFactory.CreateLogger<DreamMaker>());
+							var dreamMaker = new DreamMaker(byond, gameIoManager, configuration, sessionControllerFactory, eventConsumer, chat, processExecutor, watchdog, loggerFactory.CreateLogger<DreamMaker>());
 
 							return new Instance(metadata.CloneMetadata(), repoManager, byond, dreamMaker, watchdog, chat, configuration, dmbFactory, databaseContextFactory, dmbFactory, jobManager, eventConsumer, gitHubClientFactory, loggerFactory.CreateLogger<Instance>());
 						}
@@ -199,19 +228,19 @@ namespace Tgstation.Server.Host.Components
 					}
 					catch
 					{
-						chat.Dispose();
+						dmbFactory.Dispose();
 						throw;
 					}
 				}
 				catch
 				{
-					repoManager.Dispose();
+					chat.Dispose();
 					throw;
 				}
 			}
 			catch
 			{
-				dmbFactory.Dispose();
+				repoManager.Dispose();
 				throw;
 			}
 		}

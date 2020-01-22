@@ -12,7 +12,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Core.Tests
 {
@@ -31,7 +33,7 @@ namespace Tgstation.Server.Host.Core.Tests
 			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, null, null, null, null, null, null));
 			var mockApplication = new Mock<IApplication>();
 			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, mockApplication.Object, null, null, null, null, null));
-			var mockDBConnectionFactory = new Mock<IDBConnectionFactory>();
+			var mockDBConnectionFactory = new Mock<IDatabaseConnectionFactory>();
 			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, mockApplication.Object, mockDBConnectionFactory.Object, null, null, null, null));
 			var mockPlatformIdentifier = new Mock<IPlatformIdentifier>();
 			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, mockApplication.Object, mockDBConnectionFactory.Object, mockPlatformIdentifier.Object, null, null, null));
@@ -48,7 +50,7 @@ namespace Tgstation.Server.Host.Core.Tests
 			var mockConsole = new Mock<IConsole>();
 			var mockHostingEnvironment = new Mock<IHostingEnvironment>();
 			var mockApplication = new Mock<IApplication>();
-			var mockDBConnectionFactory = new Mock<IDBConnectionFactory>();
+			var mockDBConnectionFactory = new Mock<IDatabaseConnectionFactory>();
 			var mockLogger = new Mock<ILogger<SetupWizard>>();
 			var mockGeneralConfigurationOptions = new Mock<IOptions<GeneralConfiguration>>();
 			var mockPlatformIdentifier = new Mock<IPlatformIdentifier>();
@@ -142,6 +144,7 @@ namespace Tgstation.Server.Host.Core.Tests
 				"-27",
 				"5000",
 				"fake token",
+				"y",
 				//logging config
 				"no",
 				//cp config
@@ -163,6 +166,8 @@ namespace Tgstation.Server.Host.Core.Tests
 				String.Empty,
 				String.Empty,
 				String.Empty,
+				"n",
+				"y",
 				//logging config
 				"y",
 				"not actually verified because lol mocks /../!@#$%^&*()/..///.",
@@ -185,6 +190,7 @@ namespace Tgstation.Server.Host.Core.Tests
 				String.Empty,
 				String.Empty,
 				String.Empty,
+				"y",
 				"y",
 				"will faile",
 				String.Empty,

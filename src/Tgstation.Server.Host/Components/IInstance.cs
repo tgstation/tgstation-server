@@ -7,6 +7,7 @@ using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.StaticFiles;
 using Tgstation.Server.Host.Components.Watchdog;
+using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components
@@ -61,7 +62,7 @@ namespace Tgstation.Server.Host.Components
 		Task SetAutoUpdateInterval(uint newInterval);
 
 		/// <summary>
-		/// Run the compile job and insert it into the database. Meant to be called by a <see cref="Core.IJobManager"/>
+		/// Run the compile job and insert it into the database. Meant to be called by a <see cref="Jobs.IJobManager"/>
 		/// </summary>
 		/// <param name="job">The running <see cref="Job"/></param>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the operation</param>

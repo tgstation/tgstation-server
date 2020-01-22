@@ -12,6 +12,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.StaticFiles
 {
@@ -87,7 +88,14 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public Configuration(IIOManager ioManager, ISynchronousIOManager synchronousIOManager, ISymlinkFactory symlinkFactory, IProcessExecutor processExecutor, IPostWriteHandler postWriteHandler, IPlatformIdentifier platformIdentifier, ILogger<Configuration> logger)
+		public Configuration(
+			IIOManager ioManager,
+			ISynchronousIOManager synchronousIOManager,
+			ISymlinkFactory symlinkFactory,
+			IProcessExecutor processExecutor,
+			IPostWriteHandler postWriteHandler,
+			IPlatformIdentifier platformIdentifier,
+			ILogger<Configuration> logger)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.synchronousIOManager = synchronousIOManager ?? throw new ArgumentNullException(nameof(synchronousIOManager));

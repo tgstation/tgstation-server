@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Rights;
-using Tgstation.Server.Host.Models;
+using Tgstation.Server.Host.Database;
 
 namespace Tgstation.Server.Host.Security
 {

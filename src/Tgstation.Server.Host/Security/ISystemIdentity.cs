@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host.Security
 {
 	/// <summary>
-	/// Represents a user on the current <see cref="System.Runtime.InteropServices.OSPlatform"/>
+	/// Represents a user on the current <see cref="global::System.Runtime.InteropServices.OSPlatform"/>
 	/// </summary>
 	public interface ISystemIdentity : IDisposable
 	{

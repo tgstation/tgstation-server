@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 using Wangkanai.Detection;
@@ -164,25 +165,41 @@ namespace Tgstation.Server.Host.Controllers
 
 			using (systemIdentity)
 			{
+				// Get the user from the database
 				IQueryable<User> query;
+				string canonicalName = ApiHeaders.Username.ToUpperInvariant();
 				if (systemIdentity == null)
-					query = DatabaseContext.Users.Where(x => x.CanonicalName == ApiHeaders.Username.ToUpperInvariant());
+					query = DatabaseContext.Users.Where(x => x.CanonicalName == canonicalName);
 				else
-					query = DatabaseContext.Users.Where(x => x.SystemIdentifier == systemIdentity.Uid);
-				var user = await query.Select(x => new User
+					query = DatabaseContext.Users.Where(x => x.CanonicalName == canonicalName || x.SystemIdentifier == systemIdentity.Uid);
+				var users = await query.Select(x => new User
 				{
 					Id = x.Id,
 					PasswordHash = x.PasswordHash,
 					Enabled = x.Enabled,
 					Name = x.Name
-				}).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+				}).ToListAsync(cancellationToken).ConfigureAwait(false);
 
+				// Pick the DB user first
+				var user = users
+					.OrderByDescending(dbUser => dbUser.PasswordHash != null)
+					.FirstOrDefault();
+
+				// No user? You're not allowed
 				if (user == null)
 					return Unauthorized();
 
-				if (systemIdentity == null)
+				// A system user may have had their name AND password changed to one in our DB...
+				// Or a DB user was created that had the same user/pass as a system user
+				// Dumb admins...
+				// FALLBACK TO THE DB USER HERE, DO NOT REVEAL A SYSTEM LOGIN!!!
+				// This of course, allows system users to discover TGS users in this (HIGHLY IMPROBABLE) case but that is not our fault
+				var originalHash = user.PasswordHash;
+				var isDbUser = originalHash != null;
+				bool usingSystemIdentity = systemIdentity != null && !isDbUser;
+				if (!usingSystemIdentity)
 				{
-					var originalHash = user.PasswordHash;
+					// DB User password check and update
 					if (!cryptographySuite.CheckUserPassword(user, ApiHeaders.Password))
 						return Unauthorized();
 					if (user.PasswordHash != originalHash)
@@ -197,10 +214,9 @@ namespace Tgstation.Server.Host.Controllers
 						await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 					}
 				}
-
-				// check if the name changed and updoot accordingly
 				else if (systemIdentity.Username != user.Name)
 				{
+					// System identity username change update
 					Logger.LogDebug("User ID {0}'s system identity needs a refresh, updating database.", user.Id);
 					DatabaseContext.Users.Attach(user);
 					user.Name = systemIdentity.Username;
@@ -216,7 +232,7 @@ namespace Tgstation.Server.Host.Controllers
 				}
 
 				var token = await tokenFactory.CreateToken(user, cancellationToken).ConfigureAwait(false);
-				if (systemIdentity != null)
+				if (usingSystemIdentity)
 				{
 					// expire the identity slightly after the auth token in case of lag
 					var identExpiry = token.ExpiresAt.Value;

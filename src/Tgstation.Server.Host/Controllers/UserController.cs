@@ -12,6 +12,7 @@ using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
@@ -75,7 +76,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Attempt to change the password of a given <paramref name="dbUser"/>.
 		/// </summary>
-		/// <param name="dbUser">The <see cref="Models.User"/> to update.</param>
+		/// <param name="dbUser">The user to update.</param>
 		/// <param name="newPassword">The new password.</param>
 		/// <returns><see langword="null"/> on success, <see cref="BadRequestObjectResult"/> if <paramref name="newPassword"/> is too short.</returns>
 		BadRequestObjectResult TrySetPassword(Models.User dbUser, string newPassword)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Components.Deployment;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
@@ -96,5 +97,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 		/// <inheritdoc />
 		public Task<bool> SetRebootState(RebootState newRebootState, CancellationToken cancellationToken) => throw new NotSupportedException();
+
+		/// <inheritdoc />
+		public void ReplaceDmbProvider(IDmbProvider newProvider) => throw new NotSupportedException();
+
+		/// <inheritdoc />
+		public void Suspend() => throw new NotSupportedException();
+
+		/// <inheritdoc />
+		public void Resume() => throw new NotSupportedException();
 	}
 }

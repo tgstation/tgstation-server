@@ -8,8 +8,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.Jobs;
 
 namespace Tgstation.Server.Host.Components.Repository
 {
@@ -85,6 +85,11 @@ namespace Tgstation.Server.Host.Components.Repository
 		readonly Action onDispose;
 
 		/// <summary>
+		/// If the <see cref="Repository"/> was disposed.
+		/// </summary>
+		bool disposed;
+
+		/// <summary>
 		/// Converts a given <paramref name="progressReporter"/> to a <see cref="LibGit2Sharp.Handlers.CheckoutProgressHandler"/>
 		/// </summary>
 		/// <param name="progressReporter"><see cref="Action{T1}"/> to report 0-100 <see cref="int"/> progress of the operation</param>
@@ -120,9 +125,17 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <inheritdoc />
 		public void Dispose()
 		{
+			lock (onDispose)
+			{
+				if (disposed)
+					return;
+
+				disposed = true;
+			}
+
 			logger.LogTrace("Disposing...");
 			repository.Dispose();
-			onDispose.Invoke();
+			onDispose();
 		}
 
 		void GetRepositoryOwnerName(string remote, out string owner, out string name)

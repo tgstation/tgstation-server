@@ -15,9 +15,11 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
-using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Controllers
 {
@@ -79,7 +81,23 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
 		/// <param name="updatesConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="updatesConfiguration"/></param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="generalConfiguration"/></param>
-		public AdministrationController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IGitHubClientFactory gitHubClientFactory, IServerControl serverUpdater, IApplication application, IIOManager ioManager, IPlatformIdentifier platformIdentifier, ILogger<AdministrationController> logger, IOptions<UpdatesConfiguration> updatesConfigurationOptions, IOptions<GeneralConfiguration> generalConfigurationOptions) : base(databaseContext, authenticationContextFactory, logger, false, true)
+		public AdministrationController(
+			IDatabaseContext databaseContext,
+			IAuthenticationContextFactory authenticationContextFactory,
+			IGitHubClientFactory gitHubClientFactory,
+			IServerControl serverUpdater,
+			IApplication application,
+			IIOManager ioManager,
+			IPlatformIdentifier platformIdentifier,
+			ILogger<AdministrationController> logger,
+			IOptions<UpdatesConfiguration> updatesConfigurationOptions,
+			IOptions<GeneralConfiguration> generalConfigurationOptions)
+			: base(
+				databaseContext,
+				authenticationContextFactory,
+				logger,
+				false,
+				true)
 		{
 			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 			this.serverUpdater = serverUpdater ?? throw new ArgumentNullException(nameof(serverUpdater));
@@ -215,10 +233,18 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="model">The model containing the <see cref="Administration.NewVersion"/> to update to.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		/// <response code="202">Update has been started successfully.</response>
+		/// <response code="410">The requested version could not be found.</response>
 		/// <response code="422">Upgrade operations are unavailable due to the launch configuration of TGS.</response>
+		/// <response code="424">A GitHub rate limit was encountered.</response>
+		/// <response code="429">A GitHub API error occurred.</response>
 		[HttpPost]
 		[TgsAuthorize(AdministrationRights.ChangeVersion)]
+		[ProducesResponseType(202)]
+		[ProducesResponseType(410)]
 		[ProducesResponseType(typeof(ErrorMessage), 422)]
+		[ProducesResponseType(424)]
+		[ProducesResponseType(typeof(ErrorMessage), 429)]
 		public async Task<IActionResult> Update([FromBody] Administration model, CancellationToken cancellationToken)
 		{
 			if (model == null)
@@ -240,12 +266,12 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Attempts to restart the server
+		/// Attempts to restart the server.
 		/// </summary>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request</returns>
 		/// <response code="200">Restart begun successfully.</response>
 		/// <response code="422">Restart operations are unavailable due to the launch configuration of TGS.</response>
-		[HttpDelete("{id}")]
+		[HttpDelete]
 		[TgsAuthorize(AdministrationRights.RestartHost)]
 		[ProducesResponseType(200)]
 		[ProducesResponseType(typeof(ErrorMessage), 422)]
