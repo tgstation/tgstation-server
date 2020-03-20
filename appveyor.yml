@@ -21,7 +21,7 @@ cache:
   - C:\ProgramData\chocolatey\bin -> appveyor.yml
   - C:\ProgramData\chocolatey\lib -> appveyor.yml
 install:
-  - choco install doxygen.portable codecov
+  - choco install doxygen.install codecov
 before_build:
   - nuget restore tgstation-server.sln
 build:
