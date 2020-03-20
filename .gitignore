@@ -15,3 +15,8 @@ packages/*
 *.int
 /TestResults
 /UpgradeLog.htm
+
+#For V4 switching
+/src
+/tests
+/tools/ReleaseNotes
