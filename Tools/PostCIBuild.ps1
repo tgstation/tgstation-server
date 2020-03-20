@@ -25,8 +25,6 @@ Move-Item -Path "$src\TG Station Server Installer.exe" -Destination "$destinatio
 
 Add-Type -assembly "system.io.compression.filesystem"
 
-$destination_md5sha = "$bf\MD5-SHA1-Server-v$version.txt"
-
 $src2 = "$bf\ClientApps"
 [system.io.directory]::CreateDirectory($src2)
 Copy-Item "$bf\TGS.CommandLine\bin\Release\TGCommandLine.exe" "$src2\TGCommandLine.exe"
@@ -67,11 +65,4 @@ Copy-Item "$bf\TGS.Server.Console\bin\Release\TGS.Server.Console.exe" "$src3\TGS
 
 $dest3 = "$bf\TGS3-ServerConsole-v$version.zip"
 
-[io.compression.zipfile]::CreateFromDirectory($src3, $dest3) 
-
-$destination_md5sha2 = "$bf\MD5-SHA1-Client-v$version.txt"
-$destination_md5sha3 = "$bf\MD5-SHA1-ServerConsole-v$version.txt"
-
-& fciv -both $destination > $destination_md5sha
-& fciv -both $dest2 > $destination_md5sha2
-& fciv -both $dest3 > $destination_md5sha3
+[io.compression.zipfile]::CreateFromDirectory($src3, $dest3)
