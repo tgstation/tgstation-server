@@ -29,9 +29,9 @@ cache:
 install:
   - choco install fciv doxygen.portable codecov
 before_build:
-  - nuget restore TGStationServer3.sln
+  - nuget restore tgstation-server.sln
 build:
-  project: TGStationServer3.sln
+  project: tgstation-server.sln
   parallel: false
   verbosity: minimal
   publish_nuget: true
