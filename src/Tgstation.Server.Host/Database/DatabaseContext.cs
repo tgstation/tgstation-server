@@ -195,7 +195,25 @@ namespace Tgstation.Server.Host.Database
 			// Update this with new migrations as they are made
 			// Always use the MS class
 			if (version < new Version(4, 0, 2))
+			{
+				// Special handling because this is where SQLite was introduced
+				if (DatabaseType == DatabaseType.Sqlite)
+					throw new NotSupportedException("Cannot migrate below version 4.0.2.0 while using Sqlite!");
+
 				targetMigration = nameof(MSReattachCompileJobRequired);
+			}
+
+			// Uncomment once next migration/version step happens
+			/*
+			else if (version < new Version(V_NEXT_MIGRATION))
+			{
+				// Special handling because this is where SQLite was introduced
+				if (DatabaseType == DatabaseType.Sqlite)
+					targetMigration = nameof(SLAddSqlite);
+
+				targetMigration = nameof(V_NEXT_LAST_MIGRATION);
+			}
+			*/
 
 			if (targetMigration == null)
 			{
@@ -213,6 +231,9 @@ namespace Tgstation.Server.Host.Database
 				case DatabaseType.MySql:
 				case DatabaseType.MariaDB:
 					migrationSubstitution = "MY{0}";
+					break;
+				case DatabaseType.Sqlite:
+					migrationSubstitution = "SL{0}";
 					break;
 				default:
 					throw new InvalidOperationException($"Invalid DatabaseType: {DatabaseType}");
