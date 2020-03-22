@@ -99,8 +99,6 @@
   <ItemGroup>
     <PackageReference Include="Costura.Fody">
       <Version>3.3.2</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="WiX">
       <Version>3.11.2</Version>
