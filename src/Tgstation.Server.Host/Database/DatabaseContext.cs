@@ -81,7 +81,7 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Gets a value indicationg whether the MY_ class of migrations should be used instead of the MS_ class
 		/// </summary>
-		protected abstract bool UseMySQLMigrations { get; }
+		protected abstract DatabaseType DatabaseType { get; }
 
 		/// <summary>
 		/// The <see cref="IDatabaseSeeder"/> for the <see cref="DatabaseContext{TParentContext}"/>
@@ -198,10 +198,28 @@ namespace Tgstation.Server.Host.Database
 				targetMigration = nameof(MSReattachCompileJobRequired);
 
 			if (targetMigration == null)
+			{
+				Logger.LogDebug("No down migration required.");
 				return;
+			}
 
-			if (UseMySQLMigrations)
-				targetMigration = String.Format(CultureInfo.InvariantCulture, "MY{0}", targetMigration.Substring(2));
+			string migrationSubstitution;
+			switch (DatabaseType)
+			{
+				case DatabaseType.SqlServer:
+					// already setup
+					migrationSubstitution = null;
+					break;
+				case DatabaseType.MySql:
+				case DatabaseType.MariaDB:
+					migrationSubstitution = "MY{0}";
+					break;
+				default:
+					throw new InvalidOperationException($"Invalid DatabaseType: {DatabaseType}");
+			}
+
+			if (migrationSubstitution != null)
+				targetMigration = String.Format(CultureInfo.InvariantCulture, migrationSubstitution, targetMigration.Substring(2));
 
 			// even though it clearly implements it in the DatabaseFacade definition this won't work without casting (╯ಠ益ಠ)╯︵ ┻━┻
 			var dbServiceProvider = ((IInfrastructure<IServiceProvider>)Database).Instance;

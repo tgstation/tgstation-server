@@ -11,7 +11,7 @@ namespace Tgstation.Server.Host.Database
 	sealed class SqlServerDatabaseContext : DatabaseContext<SqlServerDatabaseContext>
 	{
 		/// <inheritdoc />
-		protected override bool UseMySQLMigrations => false;
+		protected override DatabaseType DatabaseType => DatabaseType.SqlServer;
 
 		/// <summary>
 		/// Construct a <see cref="SqlServerDatabaseContext"/>
