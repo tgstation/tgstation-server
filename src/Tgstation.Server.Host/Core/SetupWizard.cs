@@ -274,6 +274,35 @@ namespace Tgstation.Server.Host.Core
 		}
 
 		/// <summary>
+		/// Prompt the user for the <see cref="DatabaseType"/>.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the input <see cref="DatabaseType"/>.</returns>
+		async Task<DatabaseType> PromptDatabaseType(CancellationToken cancellationToken)
+		{
+			do
+			{
+				await console.WriteAsync(
+					String.Format(
+						CultureInfo.InvariantCulture,
+						"Please enter one of {0}, {1}, {2}, or {3}: ",
+						DatabaseType.Sqlite,
+						DatabaseType.MariaDB,
+						DatabaseType.MySql,
+						DatabaseType.SqlServer),
+					false,
+					cancellationToken)
+					.ConfigureAwait(false);
+				var databaseTypeString = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
+				if (Enum.TryParse<DatabaseType>(databaseTypeString, out var databaseType))
+					return databaseType;
+
+				await console.WriteAsync("Invalid database type!", true, cancellationToken).ConfigureAwait(false);
+			}
+			while (true);
+		}
+
+		/// <summary>
 		/// Prompts the user to create a <see cref="DatabaseConfiguration"/>
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
@@ -285,67 +314,39 @@ namespace Tgstation.Server.Host.Core
 				await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 				await console.WriteAsync("What SQL database type will you be using?", true, cancellationToken).ConfigureAwait(false);
 
-				var databaseConfiguration = new DatabaseConfiguration();
-				do
+				var databaseConfiguration = new DatabaseConfiguration
 				{
-					await console.WriteAsync(
-						String.Format(
-							CultureInfo.InvariantCulture,
-							"Please enter one of {0}, {1}, {2}, or {3}: ",
-							DatabaseType.Sqlite,
-							DatabaseType.MariaDB,
-							DatabaseType.MySql,
-							DatabaseType.SqlServer),
-						false,
-						cancellationToken)
-						.ConfigureAwait(false);
-					var databaseTypeString = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
-					if (Enum.TryParse<DatabaseType>(databaseTypeString, out var databaseType))
-					{
-						databaseConfiguration.DatabaseType = databaseType;
-						break;
-					}
+					DatabaseType = await PromptDatabaseType(cancellationToken).ConfigureAwait(false)
+				};
 
-					await console.WriteAsync("Invalid database type!", true, cancellationToken).ConfigureAwait(false);
-				}
-				while (true);
-
-				string serverAddress;
+				string serverAddress = null;
 				uint? mySQLServerPort = null;
 
 				bool isSqliteDB = databaseConfiguration.DatabaseType == DatabaseType.Sqlite;
-				if (isSqliteDB)
-					serverAddress = null;
-				else
+				if (!isSqliteDB)
 					do
 					{
 						await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 						await console.WriteAsync("Enter the server's address and port [<server>:<port> or <server>] (blank for local): ", false, cancellationToken).ConfigureAwait(false);
 						serverAddress = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
-						if (String.IsNullOrWhiteSpace(serverAddress))
+						if (!String.IsNullOrWhiteSpace(serverAddress) && databaseConfiguration.DatabaseType == DatabaseType.SqlServer)
 						{
-							serverAddress = null;
-							break;
-						}
-						else if (databaseConfiguration.DatabaseType == DatabaseType.SqlServer)
-						{
-							var m = Regex.Match(serverAddress, @"^(?<server>.+):(?<port>.+)$");
-							if (m.Success)
+							var match = Regex.Match(serverAddress, @"^(?<server>.+):(?<port>.+)$");
+							if (match.Success)
 							{
-								serverAddress = m.Groups["server"].Value;
-								if (uint.TryParse(m.Groups["port"].Value, out uint port))
-								{
+								serverAddress = match.Groups["server"].Value;
+								var portString = match.Groups["port"].Value;
+								if (uint.TryParse(portString, out uint port))
 									mySQLServerPort = port;
-									break;
-								}
 								else
 								{
-									await console.WriteAsync($@"Failed to parse port ""{m.Groups["port"].Value}"", please try again.", true, cancellationToken).ConfigureAwait(false);
+									await console.WriteAsync($"Failed to parse port \"{portString}\", please try again.", true, cancellationToken).ConfigureAwait(false);
+									continue;
 								}
 							}
-							else break;
 						}
-						else break;
+
+						break;
 					}
 					while (true);
 
@@ -359,12 +360,14 @@ namespace Tgstation.Server.Host.Core
 					databaseName = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
 					if (!String.IsNullOrWhiteSpace(databaseName))
 					{
-						dbExists = isSqliteDB
-							? await ioManager.FileExists(databaseName, cancellationToken).ConfigureAwait(false)
-							: await PromptYesNo("Does this database already exist? (y/n): ", cancellationToken).ConfigureAwait(false);
-
-						if (!dbExists && isSqliteDB)
-							databaseName = await ValidateNonExistantSqliteDBName(databaseName, cancellationToken).ConfigureAwait(false);
+						if (isSqliteDB)
+						{
+							dbExists = await ioManager.FileExists(databaseName, cancellationToken).ConfigureAwait(false);
+							if (!dbExists)
+								databaseName = await ValidateNonExistantSqliteDBName(databaseName, cancellationToken).ConfigureAwait(false);
+						}
+						else
+							await PromptYesNo("Does this database already exist? (y/n): ", cancellationToken).ConfigureAwait(false);
 					}
 
 					if (String.IsNullOrWhiteSpace(databaseName))
