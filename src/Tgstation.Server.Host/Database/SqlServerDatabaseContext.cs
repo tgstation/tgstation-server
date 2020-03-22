@@ -10,6 +10,9 @@ namespace Tgstation.Server.Host.Database
 	/// </summary>
 	sealed class SqlServerDatabaseContext : DatabaseContext<SqlServerDatabaseContext>
 	{
+		/// <inheritdoc />
+		protected override bool UseMySQLMigrations => false;
+
 		/// <summary>
 		/// Construct a <see cref="SqlServerDatabaseContext"/>
 		/// </summary>
@@ -26,8 +29,5 @@ namespace Tgstation.Server.Host.Database
 			base.OnConfiguring(options);
 			options.UseSqlServer(DatabaseConfiguration.ConnectionString);
 		}
-
-		/// <inheritdoc />
-		protected override bool UseMySQLMigrations() => false;
 	}
 }

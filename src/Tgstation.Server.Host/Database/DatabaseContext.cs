@@ -79,6 +79,11 @@ namespace Tgstation.Server.Host.Database
 		protected DatabaseConfiguration DatabaseConfiguration { get; }
 
 		/// <summary>
+		/// Gets a value indicationg whether the MY_ class of migrations should be used instead of the MS_ class
+		/// </summary>
+		protected abstract bool UseMySQLMigrations { get; }
+
+		/// <summary>
 		/// The <see cref="IDatabaseSeeder"/> for the <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
 		readonly IDatabaseSeeder databaseSeeder;
@@ -177,12 +182,6 @@ namespace Tgstation.Server.Host.Database
 		/// <inheritdoc />
 		public Task Save(CancellationToken cancellationToken) => SaveChangesAsync(cancellationToken);
 
-		/// <summary>
-		/// If the MY_ class of migrations should be used instead of the MS_ class
-		/// </summary>
-		/// <returns><see langword="true"/> if the MY_ class of migrations should be used instead of the MS_ class, <see langword="false"/> otherwise</returns>
-		protected abstract bool UseMySQLMigrations();
-
 		/// <inheritdoc />
 		public async Task SchemaDowngradeForServerVersion(Version version, CancellationToken cancellationToken)
 		{
@@ -201,7 +200,7 @@ namespace Tgstation.Server.Host.Database
 			if (targetMigration == null)
 				return;
 
-			if (UseMySQLMigrations())
+			if (UseMySQLMigrations)
 				targetMigration = String.Format(CultureInfo.InvariantCulture, "MY{0}", targetMigration.Substring(2));
 
 			// even though it clearly implements it in the DatabaseFacade definition this won't work without casting (╯ಠ益ಠ)╯︵ ┻━┻
