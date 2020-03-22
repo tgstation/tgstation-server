@@ -4,7 +4,7 @@ using System;
 namespace Tgstation.Server.Host.Database.Migrations
 {
 	/// <summary>
-	/// Marks the <see cref="CompileJob"/>s of <see cref="ReattachInformation"/>s as non-nullable for MSSQL
+	/// Marks the <see cref="Models.CompileJob"/>s of <see cref="Models.ReattachInformation"/>s as non-nullable for MSSQL
 	/// </summary>
 	public partial class MSReattachCompileJobRequired : Migration
 	{
