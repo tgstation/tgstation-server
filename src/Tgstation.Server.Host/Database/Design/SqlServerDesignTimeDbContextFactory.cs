@@ -15,7 +15,13 @@ namespace Tgstation.Server.Host.Database.Design
 		{
 			using (var loggerFactory = new LoggerFactory())
 			{
-				return new SqlServerDatabaseContext(new DbContextOptions<SqlServerDatabaseContext>(), DesignTimeDbContextFactoryHelpers.GetDbContextOptions(), new DatabaseSeeder(new CryptographySuite(new PasswordHasher<User>())), loggerFactory.CreateLogger<SqlServerDatabaseContext>());
+				return new SqlServerDatabaseContext(
+					new DbContextOptions<SqlServerDatabaseContext>(),
+					DesignTimeDbContextFactoryHelpers.GetDbContextOptions(),
+					new DatabaseSeeder(
+						new CryptographySuite(
+							new PasswordHasher<User>())),
+					loggerFactory.CreateLogger<SqlServerDatabaseContext>());
 			}
 		}
 	}
