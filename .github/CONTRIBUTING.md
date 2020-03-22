@@ -20,11 +20,11 @@ You can of course, as always, ask for help at [#coderbus](irc://irc.rizon.net/co
 
 ### Development Environment
 
-We reccommend any Visual Studio version that can support the .NET framework v4.5.2. However, the project should be buildable with any C# compiler than can read .sln files. Once installed, simply double-click TGStationServer3.sln to open it.
+We reccommend any Visual Studio version that can support the .NET framework v4.5.2. However, the project should be buildable with any C# compiler than can read .sln files. Once installed, simply double-click tgstation-server.sln to open it.
 
 #### Installing Dependencies
 
-Visual Studio comes with the nuget package manager. To install the dependencies, right-click the solution and select `Restore NuGet Packages`. If you are using some other development environment, you can download nuget [here](https://dist.nuget.org/win-x86-commandline/latest/nuget.exe) as a single CLI executable. Then simply run `nuget restore TGStationServer3.sln` from the root of the project directory. 
+Visual Studio comes with the nuget package manager. To install the dependencies, right-click the solution and select `Restore NuGet Packages`. If you are using some other development environment, you can download nuget [here](https://dist.nuget.org/win-x86-commandline/latest/nuget.exe) as a single CLI executable. Then simply run `nuget restore tgstation-server.sln` from the root of the project directory. 
 
 ##### (Optional) Installing WiX Toolset Visual Studio Extension
 

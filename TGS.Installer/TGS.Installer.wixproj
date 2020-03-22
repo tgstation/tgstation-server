@@ -88,10 +88,10 @@
     <Exec Command="$(PreBuildEventCommand)" />
   </Target>
   <PropertyGroup>
-    <PreBuildEventCommand>powershell -Command "&amp; \"$(SolutionDir)Tools/SignBasics.ps1\""</PreBuildEventCommand>
+    <PreBuildEventCommand>powershell -NoProfile -ExecutionPolicy ByPass -File "$(SolutionDir)Tools/SignBasics.ps1"</PreBuildEventCommand>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>powershell -Command "&amp; \"$(SolutionDir)Tools/SignMSI.ps1\""</PostBuildEvent>
+    <PostBuildEvent>powershell -NoProfile -ExecutionPolicy ByPass -File "$(SolutionDir)Tools/SignMSI.ps1"</PostBuildEvent>
   </PropertyGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
