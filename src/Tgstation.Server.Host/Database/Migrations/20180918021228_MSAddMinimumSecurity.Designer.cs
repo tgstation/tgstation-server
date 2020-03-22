@@ -5,13 +5,12 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Tgstation.Server.Host.Database;
 
-namespace Tgstation.Server.Host.Models.Migrations
+namespace Tgstation.Server.Host.Database.Migrations
 {
 	[DbContext(typeof(SqlServerDatabaseContext))]
-	[Migration("20180906135553_MSInitialCreate")]
-	partial class MSInitialCreate
+	[Migration("20180918021228_MSAddMinimumSecurity")]
+	partial class MSAddMinimumSecurity
 	{
 		/// <summary>
 		/// Builds the target model
@@ -21,7 +20,7 @@ namespace Tgstation.Server.Host.Models.Migrations
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "2.1.2-rtm-30932")
+				.HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
 				.HasAnnotation("Relational:MaxIdentifierLength", 128)
 				.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -105,6 +104,8 @@ namespace Tgstation.Server.Host.Models.Migrations
 
 					b.Property<long?>("JobId");
 
+					b.Property<int>("MinimumSecurityLevel");
+
 					b.Property<string>("Output");
 
 					b.Property<long>("RevisionInformationId");
@@ -167,6 +168,8 @@ namespace Tgstation.Server.Host.Models.Migrations
 						.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
 					b.Property<int>("ApiValidationPort");
+
+					b.Property<int>("ApiValidationSecurityLevel");
 
 					b.Property<long>("InstanceId");
 

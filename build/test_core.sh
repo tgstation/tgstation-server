@@ -20,7 +20,7 @@ $HOME/.dotnet/tools/coverlet bin/$CONFIG/netcoreapp2.1/Tgstation.Server.Client.T
 cd ../Tgstation.Server.Host.Tests
 
 dotnet build -c $CONFIG /p:CopyLocalLockFileAssemblies=true
-$HOME/.dotnet/tools/coverlet bin/$CONFIG/netcoreapp2.1/Tgstation.Server.Host.Tests.dll --target "dotnet" --targetargs "test -c $CONFIG --no-build" --format opencover --output "../../TestResults/host.xml" --include "[Tgstation.Server*]*" --exclude "[Tgstation.Server.Host.Tests*]*" --exclude "[Tgstation.Server.Host]Tgstation.Server.Host.Models.Migrations.*"
+$HOME/.dotnet/tools/coverlet bin/$CONFIG/netcoreapp2.1/Tgstation.Server.Host.Tests.dll --target "dotnet" --targetargs "test -c $CONFIG --no-build" --format opencover --output "../../TestResults/host.xml" --include "[Tgstation.Server*]*" --exclude "[Tgstation.Server.Host.Tests*]*" --exclude "[Tgstation.Server.Host]Tgstation.Server.Host.Database.Migrations.*"
 
 cd ../Tgstation.Server.Host.Watchdog.Tests
 
@@ -37,7 +37,7 @@ export TGS4_TEST_DATABASE_TYPE=MySql
 export TGS4_TEST_CONNECTION_STRING="server=127.0.0.1;uid=root;pwd=;database=tgs_test"
 #token set in CI settings
 dotnet build -c $CONFIG /p:CopyLocalLockFileAssemblies=true
-$HOME/.dotnet/tools/coverlet bin/$CONFIG/netcoreapp2.1/Tgstation.Server.Tests.dll --target "dotnet" --targetargs "test -c $CONFIG --no-build" --format opencover --output "../../TestResults/server.xml" --include "[Tgstation.Server*]*" --exclude "[Tgstation.Server.Tests*]*" --exclude "[Tgstation.Server.Host]Tgstation.Server.Host.Models.Migrations.*"
+$HOME/.dotnet/tools/coverlet bin/$CONFIG/netcoreapp2.1/Tgstation.Server.Tests.dll --target "dotnet" --targetargs "test -c $CONFIG --no-build" --format opencover --output "../../TestResults/server.xml" --include "[Tgstation.Server*]*" --exclude "[Tgstation.Server.Tests*]*" --exclude "[Tgstation.Server.Host]Tgstation.Server.Host.Database.Migrations.*"
 
 cd ../../TestResults
 
