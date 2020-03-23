@@ -2,7 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Threading;
@@ -45,6 +45,13 @@ namespace Tgstation.Server.Tests
 							{
 								adminClient = await clientFactory.CreateServerClient(server.Url, User.AdminName, User.DefaultAdminPassword).ConfigureAwait(false);
 								break;
+							}
+							catch (HttpRequestException)
+							{
+								//migrating, to be expected
+								if (DateTimeOffset.Now > giveUpAt)
+									throw;
+								await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
 							}
 							catch (ServiceUnavailableException)
 							{
@@ -114,6 +121,13 @@ namespace Tgstation.Server.Tests
 						{
 							adminClient = await clientFactory.CreateServerClient(server.Url, User.AdminName, User.DefaultAdminPassword).ConfigureAwait(false);
 							break;
+						}
+						catch (HttpRequestException)
+						{
+							//migrating, to be expected
+							if (DateTimeOffset.Now > giveUpAt)
+								throw;
+							await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
 						}
 						catch (ServiceUnavailableException)
 						{
