@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
@@ -28,6 +29,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// The time interval in minutes the chat bot attempts to reconnect if <see cref="Enabled"/> and disconnected.
 		/// </summary>
 		[Required]
+		[NotMapped]
 		public uint? ReconnectionInterval { get; set; }
 
 		/// <summary>

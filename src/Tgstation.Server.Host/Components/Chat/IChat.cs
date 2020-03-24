@@ -13,13 +13,6 @@ namespace Tgstation.Server.Host.Components.Chat
 	public interface IChat : IHostedService, IDisposable
 	{
 		/// <summary>
-		/// If a given set of <see cref="ChatBot"/> is connected
-		/// </summary>
-		/// <param name="connectionId">The <see cref="ChatBot.Id"/> of the connection</param>
-		/// <returns><see langword="true"/> if it is connected, <see langword="false"/> otherwise</returns>
-		bool Connected(long connectionId);
-
-		/// <summary>
 		/// Registers a <paramref name="customCommandHandler"/> to use
 		/// </summary>
 		/// <param name="customCommandHandler">A <see cref="ICustomCommandHandler"/></param>
@@ -54,7 +47,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// Send a chat <paramref name="message"/> to a given set of <paramref name="channelIds"/>
 		/// </summary>
 		/// <param name="message">The message being sent</param>
-		/// <param name="channelIds">The <see cref="Models.ChatChannel.Id"/>s of the <see cref="Host.Models.ChatChannel"/>s to send to</param>
+		/// <param name="channelIds">The <see cref="Models.ChatChannel.Id"/>s of the <see cref="Models.ChatChannel"/>s to send to</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task SendMessage(string message, IEnumerable<ulong> channelIds, CancellationToken cancellationToken);

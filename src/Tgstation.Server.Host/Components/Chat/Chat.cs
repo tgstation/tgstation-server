@@ -82,9 +82,14 @@ namespace Tgstation.Server.Host.Components.Chat
 		readonly CancellationTokenSource handlerCts;
 
 		/// <summary>
-		/// The initial <see cref="Models.ChatBot"/> for the <see cref="Chat"/>
+		/// The active <see cref="Models.ChatBot"/> for the <see cref="Chat"/>
 		/// </summary>
-		readonly List<Models.ChatBot> initialChatBots;
+		readonly List<Models.ChatBot> activeChatBots;
+
+		/// <summary>
+		/// Used for various lock statements throughout this <see langword="class"/>.
+		/// </summary>
+		readonly object synchronizationLock;
 
 		/// <summary>
 		/// The <see cref="ICustomCommandHandler"/> for the <see cref="ChangeChannels(long, IEnumerable{Api.Models.ChatChannel}, CancellationToken)"/>
@@ -121,7 +126,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		/// <param name="initialChatBots">The <see cref="IEnumerable{T}"/> used to populate <see cref="initialChatBots"/></param>
+		/// <param name="initialChatBots">The <see cref="IEnumerable{T}"/> used to populate <see cref="activeChatBots"/></param>
 		public Chat(IProviderFactory providerFactory, IIOManager ioManager, ICommandFactory commandFactory, IServerControl serverControl, IAsyncDelayer asyncDelayer, ILoggerFactory loggerFactory, ILogger<Chat> logger, IEnumerable<Models.ChatBot> initialChatBots)
 		{
 			this.providerFactory = providerFactory ?? throw new ArgumentNullException(nameof(providerFactory));
@@ -132,9 +137,11 @@ namespace Tgstation.Server.Host.Components.Chat
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			this.initialChatBots = initialChatBots?.ToList() ?? throw new ArgumentNullException(nameof(initialChatBots));
+			activeChatBots = initialChatBots?.ToList() ?? throw new ArgumentNullException(nameof(initialChatBots));
 
 			restartRegistration = serverControl.RegisterForRestart(this);
+
+			synchronizationLock = new object();
 
 			builtinCommands = new Dictionary<string, ICommand>();
 			providers = new Dictionary<long, IProvider>();
@@ -160,7 +167,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <param name="connectionId">The <see cref="ChatBot.Id"/> of the <see cref="IProvider"/> to delete</param>
 		/// <param name="updateTrackings">If <see cref="trackingContexts"/> should be update</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IProvider"/> being removed if it exists, <see langword="false"/> otherwise</returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IProvider"/> being removed if it exists, <see langword="null"/> otherwise</returns>
 		async Task<IProvider> RemoveProvider(long connectionId, bool updateTrackings, CancellationToken cancellationToken)
 		{
 			IProvider provider;
@@ -188,11 +195,31 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// Processes a <paramref name="message"/>
 		/// </summary>
 		/// <param name="provider">The <see cref="IProvider"/> who recevied <paramref name="message"/></param>
-		/// <param name="message">The <see cref="Message"/> to process</param>
+		/// <param name="message">The <see cref="Message"/> to process. If <see langword="null"/>, this indicates the provider reconnected.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		#pragma warning disable CA1502
 		async Task ProcessMessage(IProvider provider, Message message, CancellationToken cancellationToken)
+		#pragma warning restore CA1502
 		{
+			// provider reconnected, remap channels.
+			if (message == null)
+			{
+				IEnumerable<Api.Models.ChatChannel> channelsToMap;
+				lock (activeChatBots)
+					channelsToMap = activeChatBots.FirstOrDefault()?.Channels;
+
+				if (channelsToMap?.Any() ?? false)
+				{
+					long providerId;
+					lock (providers)
+						providerId = providers.Where(x => x.Value == provider).Select(x => x.Key).First();
+					await ChangeChannels(providerId, channelsToMap, cancellationToken).ConfigureAwait(false);
+				}
+
+				return;
+			}
+
 			// map the channel if it's private and we haven't seen it
 			lock (providers)
 			{
@@ -347,7 +374,7 @@ namespace Tgstation.Server.Host.Components.Chat
 
 					// add new ones
 					Task updatedTask;
-					lock (this)
+					lock (synchronizationLock)
 						updatedTask = connectionsUpdated.Task;
 					lock (providers)
 						foreach (var I in providers)
@@ -367,9 +394,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					foreach (var I in messageTasks.Where(x => x.Value.IsCompleted).ToList())
 					{
 						var message = await I.Value.ConfigureAwait(false);
-
 						await ProcessMessage(I.Key, message, cancellationToken).ConfigureAwait(false);
-
 						messageTasks.Remove(I.Key);
 					}
 				}
@@ -393,8 +418,23 @@ namespace Tgstation.Server.Host.Components.Chat
 			if (provider == null)
 				return;
 			var results = await provider.MapChannels(newChannels, cancellationToken).ConfigureAwait(false);
-			if (results == null) // aborted
-				return;
+			lock (activeChatBots)
+			{
+				var botToUpdate = activeChatBots.FirstOrDefault(bot => bot.Id == connectionId);
+				if (botToUpdate != null)
+					botToUpdate.Channels = newChannels
+						.Select(apiModel => new Models.ChatChannel
+						{
+							DiscordChannelId = apiModel.DiscordChannelId,
+							IrcChannel = apiModel.IrcChannel,
+							IsAdminChannel = apiModel.IsAdminChannel,
+							IsUpdatesChannel = apiModel.IsUpdatesChannel,
+							IsWatchdogChannel = apiModel.IsWatchdogChannel,
+							Tag = apiModel.Tag
+						})
+						.ToList();
+			}
+
 			var mappings = Enumerable.Zip(newChannels, results, (x, y) => new ChannelMapping
 			{
 				IsWatchdogChannel = x.IsWatchdogChannel == true,
@@ -405,13 +445,13 @@ namespace Tgstation.Server.Host.Components.Chat
 			});
 
 			ulong baseId;
-			lock (this)
+			lock (synchronizationLock)
 			{
 				baseId = channelIdCounter;
 				channelIdCounter += (ulong)results.Count;
 			}
 
-			Task task;
+			Task trackingContextUpdateTask;
 			lock (mappedChannels)
 			{
 				lock (providers)
@@ -425,10 +465,10 @@ namespace Tgstation.Server.Host.Components.Chat
 				}
 
 				lock (trackingContexts)
-					task = Task.WhenAll(trackingContexts.Select(x => x.SetChannels(mappedChannels.Select(y => y.Value.Channel), cancellationToken)));
+					trackingContextUpdateTask = Task.WhenAll(trackingContexts.Select(x => x.SetChannels(mappedChannels.Select(y => y.Value.Channel), cancellationToken)));
 			}
 
-			await task.ConfigureAwait(false);
+			await trackingContextUpdateTask.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -478,7 +518,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			{
 				if (newSettings.Enabled.Value)
 					await provider.Connect(cancellationToken).ConfigureAwait(false);
-				lock (this)
+				lock (synchronizationLock)
 				{
 					// same thread shennanigans
 					var oldOne = connectionsUpdated;
@@ -486,6 +526,31 @@ namespace Tgstation.Server.Host.Components.Chat
 					oldOne.SetResult(null);
 				}
 			}
+
+			Task reconnectionUpdateTask = Task.CompletedTask;
+			lock (activeChatBots)
+			{
+				var originalChatBot = activeChatBots.FirstOrDefault(bot => bot.Id == newSettings.Id);
+				if (originalChatBot != null)
+				{
+					if (originalChatBot.ReconnectionInterval != newSettings.ReconnectionInterval)
+						reconnectionUpdateTask = provider.SetReconnectInterval(newSettings.ReconnectionInterval.Value);
+
+					activeChatBots.Remove(originalChatBot);
+				}
+
+				activeChatBots.Add(new Models.ChatBot
+				{
+					Id = newSettings.Id,
+					ConnectionString = newSettings.ConnectionString,
+					Enabled = newSettings.Enabled,
+					Name = newSettings.Name,
+					ReconnectionInterval = newSettings.ReconnectionInterval,
+					Provider = newSettings.Provider
+				});
+			}
+
+			await reconnectionUpdateTask.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -535,9 +600,9 @@ namespace Tgstation.Server.Host.Components.Chat
 		{
 			foreach (var I in commandFactory.GenerateCommands())
 				builtinCommands.Add(I.Name.ToUpperInvariant(), I);
-			await Task.WhenAll(initialChatBots.Select(x => ChangeSettings(x, cancellationToken))).ConfigureAwait(false);
+			await Task.WhenAll(activeChatBots.Select(x => ChangeSettings(x, cancellationToken))).ConfigureAwait(false);
 			await Task.WhenAll(providers.Select(x => x.Value).Select(x => x.Connect(cancellationToken))).ConfigureAwait(false);
-			await Task.WhenAll(initialChatBots.Select(x => ChangeChannels(x.Id, x.Channels, cancellationToken))).ConfigureAwait(false);
+			await Task.WhenAll(activeChatBots.Select(x => ChangeChannels(x.Id, x.Channels, cancellationToken))).ConfigureAwait(false);
 			chatHandler = MonitorMessages(handlerCts.Token);
 			started = true;
 		}
@@ -577,13 +642,6 @@ namespace Tgstation.Server.Host.Components.Chat
 
 			await task.ConfigureAwait(false);
 			return context;
-		}
-
-		/// <inheritdoc />
-		public bool Connected(long connectionId)
-		{
-			lock (providers)
-				return providers.TryGetValue(connectionId, out var provider) && provider.Connected;
 		}
 
 		/// <inheritdoc />

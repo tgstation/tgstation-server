@@ -30,11 +30,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="DiscordProvider"/>
-		/// </summary>
-		readonly ILogger<DiscordProvider> logger;
-
-		/// <summary>
 		/// The <see cref="DiscordSocketClient"/> for the <see cref="DiscordProvider"/>
 		/// </summary>
 		readonly DiscordSocketClient client;
@@ -59,23 +54,24 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <summary>
 		/// Construct a <see cref="DiscordProvider"/>
 		/// </summary>
-		/// <param name="logger">The value of <see cref="logger"/></param>
+		/// <param name="logger">The value of <see cref="Logger"/></param>
 		/// <param name="botToken">The value of <see cref="botToken"/></param>
-		public DiscordProvider(ILogger<DiscordProvider> logger, string botToken)
+		/// <param name="reconnectInterval">The initial reconnect interval in minutes.</param>
+		public DiscordProvider(ILogger<DiscordProvider> logger, string botToken, uint reconnectInterval)
+			: base(logger, reconnectInterval)
 		{
-			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.botToken = botToken ?? throw new ArgumentNullException(nameof(botToken));
 			client = new DiscordSocketClient();
 			client.MessageReceived += Client_MessageReceived;
 			mappedChannels = new List<ulong>();
-			logger.LogTrace("Created.");
 		}
 
 		/// <inheritdoc />
 		public override void Dispose()
 		{
-			logger.LogTrace("Disposed.");
 			client.Dispose();
+
+			base.Dispose();
 		}
 
 		/// <summary>
@@ -95,7 +91,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				var mentionedUs = e.MentionedUsers.Any(x => x.Id == client.CurrentUser.Id);
 				if (mentionedUs)
 				{
-					logger.LogTrace("Ignoring mention from {0} ({1}) by {2} ({3}). Channel not mapped!", e.Channel.Id, e.Channel.Name, e.Author.Id, e.Author.Username);
+					Logger.LogTrace("Ignoring mention from {0} ({1}) by {2} ({3}). Channel not mapped!", e.Channel.Id, e.Channel.Name, e.Author.Id, e.Author.Username);
 					await SendMessage(e.Channel.Id, "I do not respond to this channel!", default).ConfigureAwait(false);
 				}
 
@@ -127,10 +123,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public override async Task<bool> Connect(CancellationToken cancellationToken)
 		{
-			logger.LogTrace("Connecting...");
+			Logger.LogTrace("Connecting...");
 			if (Connected)
 			{
-				logger.LogTrace("Already connected not doing connection attempt!");
+				Logger.LogTrace("Already connected not doing connection attempt!");
 				return true;
 			}
 
@@ -138,12 +134,12 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			{
 				await client.LoginAsync(TokenType.Bot, botToken, true).ConfigureAwait(false);
 
-				logger.LogTrace("Logged in.");
+				Logger.LogTrace("Logged in.");
 				cancellationToken.ThrowIfCancellationRequested();
 
 				await client.StartAsync().ConfigureAwait(false);
 
-				logger.LogTrace("Started.");
+				Logger.LogTrace("Started.");
 
 				var channelsAvailable = new TaskCompletionSource<object>();
 				client.Ready += () =>
@@ -153,7 +149,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				};
 				using (cancellationToken.Register(() => channelsAvailable.SetCanceled()))
 					await channelsAvailable.Task.ConfigureAwait(false);
-				logger.LogDebug("Connection established!");
+				Logger.LogDebug("Connection established!");
 			}
 			catch (OperationCanceledException)
 			{
@@ -161,7 +157,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 			catch (Exception e)
 			{
-				logger.LogWarning("Error connecting to Discord: {0}", e);
+				Logger.LogWarning("Error connecting to Discord: {0}", e);
 				return false;
 			}
 
@@ -171,20 +167,20 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public override async Task Disconnect(CancellationToken cancellationToken)
 		{
-			logger.LogTrace("Disconnecting...");
+			Logger.LogTrace("Disconnecting...");
 			if (!Connected)
 			{
-				logger.LogTrace("Already disconnected not doing disconnection attempt!");
+				Logger.LogTrace("Already disconnected not doing disconnection attempt!");
 				return;
 			}
 
 			try
 			{
 				await client.StopAsync().ConfigureAwait(false);
-				logger.LogTrace("Stopped.");
+				Logger.LogTrace("Stopped.");
 				cancellationToken.ThrowIfCancellationRequested();
 				await client.LogoutAsync().ConfigureAwait(false);
-				logger.LogDebug("Disconnected!");
+				Logger.LogDebug("Disconnected!");
 			}
 			catch (OperationCanceledException)
 			{
@@ -192,18 +188,21 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 			catch (Exception e)
 			{
-				logger.LogWarning("Error disconnecting from discord: {0}", e);
+				Logger.LogWarning("Error disconnecting from discord: {0}", e);
 			}
 		}
 
 		/// <inheritdoc />
-		public override Task<IReadOnlyList<Channel>> MapChannels(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken)
+		public override Task<IReadOnlyCollection<Channel>> MapChannels(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken)
 		{
 			if (channels == null)
 				throw new ArgumentNullException(nameof(channels));
 
 			if (!Connected)
-				throw new InvalidOperationException("Provider not connected!");
+			{
+				Logger.LogWarning("Cannot map channels, provider disconnected!");
+				return Task.FromResult<IReadOnlyCollection<Channel>>(Array.Empty<Channel>());
+			}
 
 			Channel GetModelChannelFromDBChannel(ChatChannel channelFromDB)
 			{
@@ -223,11 +222,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						IsPrivateChannel = false,
 						Tag = channelFromDB.Tag
 					};
-					logger.LogTrace("Mapped channel {0}: {1}", channelModel.RealId, channelModel.FriendlyName);
+					Logger.LogTrace("Mapped channel {0}: {1}", channelModel.RealId, channelModel.FriendlyName);
 					return channelModel;
 				}
 
-				logger.LogWarning("Cound not map channel {0}! Incorrect type: {1}", channelId, discordChannel.GetType());
+				Logger.LogWarning("Cound not map channel {0}! Incorrect type: {1}", channelId, discordChannel.GetType());
 				return null;
 			}
 
@@ -239,7 +238,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				mappedChannels.AddRange(enumerator.Select(x => x.RealId));
 			}
 
-			return Task.FromResult<IReadOnlyList<Channel>>(enumerator);
+			return Task.FromResult<IReadOnlyCollection<Channel>>(enumerator);
 		}
 
 		/// <inheritdoc />
@@ -259,7 +258,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 			catch (Exception e)
 			{
-				logger.LogWarning("Error sending discord message: {0}", e);
+				Logger.LogWarning("Error sending discord message: {0}", e);
 			}
 		}
 	}
