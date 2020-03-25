@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -89,6 +90,13 @@ namespace Tgstation.Server.Tests
 					{
 						var client = await serverClientFactory.CreateServerClient(Url, User.AdminName, User.DefaultAdminPassword).ConfigureAwait(false);
 						break;
+					}
+					catch (HttpRequestException)
+					{
+						//migrating, to be expected
+						if (DateTimeOffset.Now > giveUpAt)
+							throw;
+						await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
 					}
 					catch (ServiceUnavailableException)
 					{

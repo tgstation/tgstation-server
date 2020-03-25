@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 
-namespace Tgstation.Server.Host.Models.Migrations
+namespace Tgstation.Server.Host.Database.Migrations
 {
 	/// <summary>
 	/// Make commit shas non-unique per Instance for MySQL/MariaDB.

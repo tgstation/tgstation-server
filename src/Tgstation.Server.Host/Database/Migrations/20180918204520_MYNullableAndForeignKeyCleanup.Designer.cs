@@ -3,23 +3,19 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Tgstation.Server.Host.Database;
 
-namespace Tgstation.Server.Host.Models.Migrations
+namespace Tgstation.Server.Host.Database.Migrations
 {
 	[DbContext(typeof(MySqlDatabaseContext))]
-	[Migration("20190219042440_MYFixRevInfoIndex")]
-	partial class MYFixRevInfoIndex
+	[Migration("20180918204520_MYNullableAndForeignKeyCleanup")]
+	partial class MYNullableAndForeignKeyCleanup
 	{
-		/// <summary>
-		/// Builds the target model
-		/// </summary>
-		/// <param name="modelBuilder">The <see cref="ModelBuilder"/> to use</param>
+		/// <inheritdoc />
 		protected override void BuildTargetModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+				.HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
 				.HasAnnotation("Relational:MaxIdentifierLength", 64);
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
@@ -295,7 +291,7 @@ namespace Tgstation.Server.Host.Models.Migrations
 					b.Property<string>("ChatCommandsJson")
 						.IsRequired();
 
-					b.Property<long>("CompileJobId");
+					b.Property<long?>("CompileJobId");
 
 					b.Property<bool>("IsPrimary");
 
@@ -337,9 +333,6 @@ namespace Tgstation.Server.Host.Models.Migrations
 						.IsRequired();
 
 					b.Property<long>("InstanceId");
-
-					b.Property<bool?>("PostTestMergeComment")
-						.IsRequired();
 
 					b.Property<bool?>("PushTestMergeCommits")
 						.IsRequired();
@@ -390,8 +383,10 @@ namespace Tgstation.Server.Host.Models.Migrations
 
 					b.HasKey("Id");
 
-					b.HasIndex("InstanceId", "CommitSha")
+					b.HasIndex("CommitSha")
 						.IsUnique();
+
+					b.HasIndex("InstanceId");
 
 					b.ToTable("RevisionInformations");
 				});
@@ -581,8 +576,7 @@ namespace Tgstation.Server.Host.Models.Migrations
 				{
 					b.HasOne("Tgstation.Server.Host.Models.CompileJob", "CompileJob")
 						.WithMany()
-						.HasForeignKey("CompileJobId")
-						.OnDelete(DeleteBehavior.Cascade);
+						.HasForeignKey("CompileJobId");
 				});
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.RepositorySettings", b =>

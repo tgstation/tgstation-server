@@ -18,6 +18,11 @@
 		/// <summary>
 		/// Use MariaDB
 		/// </summary>
-		MariaDB
+		MariaDB,
+
+		/// <summary>
+		/// Use Sqlite
+		/// </summary>
+		Sqlite,
 	}
 }

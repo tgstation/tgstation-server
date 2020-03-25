@@ -5,6 +5,7 @@ using Moq;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Threading;
@@ -99,6 +100,13 @@ namespace Tgstation.Server.Tests
 								adminClient = await clientFactory.CreateServerClient(server.Url, User.AdminName, User.DefaultAdminPassword).ConfigureAwait(false);
 								break;
 							}
+							catch (HttpRequestException)
+							{
+								//migrating, to be expected
+								if (DateTimeOffset.Now > giveUpAt)
+									throw;
+								await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+							}
 							catch (ServiceUnavailableException)
 							{
 								//migrating, to be expected
@@ -167,6 +175,13 @@ namespace Tgstation.Server.Tests
 							adminClient = await clientFactory.CreateServerClient(server.Url, User.AdminName, User.DefaultAdminPassword).ConfigureAwait(false);
 							break;
 						}
+						catch (HttpRequestException)
+						{
+							//migrating, to be expected
+							if (DateTimeOffset.Now > giveUpAt)
+								throw;
+							await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+						}
 						catch (ServiceUnavailableException)
 						{
 							// migrating, to be expected
@@ -194,6 +209,7 @@ namespace Tgstation.Server.Tests
 						await Assert.ThrowsExceptionAsync<UnauthorizedException>(() => badClient.Version(cancellationToken)).ConfigureAwait(false);
 
 						await new AdministrationTest(adminClient.Administration).Run(cancellationToken).ConfigureAwait(false);
+						await new UsersTest(adminClient.Users).Run(cancellationToken).ConfigureAwait(false);
 						await new InstanceManagerTest(adminClient.Instances, server.Directory).Run(cancellationToken).ConfigureAwait(false);
 					}
 				}
