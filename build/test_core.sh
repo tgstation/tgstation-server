@@ -34,6 +34,7 @@ $HOME/.dotnet/tools/coverlet bin/$CONFIG/netcoreapp2.1/Tgstation.Server.Host.Con
 
 cd ../Tgstation.Server.Tests
 export TGS4_TEST_DATABASE_TYPE=MySql
+export TGS4_TEST_DISCORD_CHANNEL=493119635319947269
 export TGS4_TEST_CONNECTION_STRING="server=127.0.0.1;uid=root;pwd=;database=tgs_test"
 #token set in CI settings
 dotnet build -c $CONFIG /p:CopyLocalLockFileAssemblies=true

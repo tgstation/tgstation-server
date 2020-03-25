@@ -24,12 +24,19 @@ namespace Tgstation.Server.Tests
 	{
 		readonly IServerClientFactory clientFactory = new ServerClientFactory(new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
-		[TestMethod]
-		public async Task TestAutomaticDiscordReconnection()
+		static string RequireDiscordToken()
 		{
 			var discordToken = Environment.GetEnvironmentVariable("TGS4_TEST_DISCORD_TOKEN");
 			if (String.IsNullOrWhiteSpace(discordToken))
 				Assert.Inconclusive("The TGS4_TEST_DISCORD_TOKEN environment variable must be set to run this test!");
+
+			return discordToken;
+		}
+
+		[TestMethod]
+		public async Task TestAutomaticDiscordReconnection()
+		{
+			var discordToken = RequireDiscordToken();
 
 			using (var discordProvider = new DiscordProvider(Mock.Of<ILogger<DiscordProvider>>(), discordToken, 1))
 			{
@@ -158,6 +165,7 @@ namespace Tgstation.Server.Tests
 		[TestMethod]
 		public async Task TestStandardOperation()
 		{
+			RequireDiscordToken();
 			var server = new TestingServer(clientFactory, null);
 			using (var serverCts = new CancellationTokenSource())
 			{
