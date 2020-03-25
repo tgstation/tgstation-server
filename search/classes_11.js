@@ -17,7 +17,7 @@ var searchData=
   ['setupwizard',['SetupWizard',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_setup_wizard.html',1,'Tgstation::Server::Host::Core']]],
   ['sladdsqlite',['SLAddSqlite',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_sqlite.html',1,'Tgstation::Server::Host::Database::Migrations']]],
   ['sqlitedatabasecontext',['SqliteDatabaseContext',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_sqlite_database_context.html',1,'Tgstation::Server::Host::Database']]],
-  ['sqlitedatabasecontextmodelsnapshot',['SqliteDatabaseContextModelSnapshot',['../class_tgstation_1_1_server_1_1_host_1_1_migrations_1_1_sqlite_database_context_model_snapshot.html',1,'Tgstation::Server::Host::Migrations']]],
+  ['sqlitedatabasecontextmodelsnapshot',['SqliteDatabaseContextModelSnapshot',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_sqlite_database_context_model_snapshot.html',1,'Tgstation::Server::Host::Database::Migrations']]],
   ['sqlitedesigntimedbcontextfactory',['SqliteDesignTimeDbContextFactory',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_sqlite_design_time_db_context_factory.html',1,'Tgstation::Server::Host::Database::Design']]],
   ['sqlserverdatabasecontext',['SqlServerDatabaseContext',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_sql_server_database_context.html',1,'Tgstation::Server::Host::Database']]],
   ['sqlserverdatabasecontextmodelsnapshot',['SqlServerDatabaseContextModelSnapshot',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_sql_server_database_context_model_snapshot.html',1,'Tgstation::Server::Host::Database::Migrations']]],

@@ -91,9 +91,6 @@ Inheritance diagram for Tgstation.Server.Host.Components.Chat.IChat:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a975213a6544826725fa975bbf4485db0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat.html#a975213a6544826725fa975bbf4485db0">Connected</a> (long connectionId)</td></tr>
-<tr class="memdesc:a975213a6544826725fa975bbf4485db0"><td class="mdescLeft">&#160;</td><td class="mdescRight">If a given set of ChatBot is connected  <a href="#a975213a6544826725fa975bbf4485db0">More...</a><br /></td></tr>
-<tr class="separator:a975213a6544826725fa975bbf4485db0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97c581c9838e82dd45f0f79f7b9b3ee9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat.html#a97c581c9838e82dd45f0f79f7b9b3ee9">RegisterCommandHandler</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html">ICustomCommandHandler</a> customCommandHandler)</td></tr>
 <tr class="memdesc:a97c581c9838e82dd45f0f79f7b9b3ee9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a <em>customCommandHandler</em>  to use  <a href="#a97c581c9838e82dd45f0f79f7b9b3ee9">More...</a><br /></td></tr>
 <tr class="separator:a97c581c9838e82dd45f0f79f7b9b3ee9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -211,35 +208,6 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a975213a6544826725fa975bbf4485db0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a975213a6544826725fa975bbf4485db0">&#9670;&nbsp;</a></span>Connected()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Tgstation.Server.Host.Components.Chat.IChat.Connected </td>
-          <td>(</td>
-          <td class="paramtype">long&#160;</td>
-          <td class="paramname"><em>connectionId</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>If a given set of ChatBot is connected </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">connectionId</td><td>The ChatBot.Id of the connection</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd><code>true</code> if it is connected, <code>false</code> otherwise</dd></dl>
-
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat.html#a14aac9b9fe6d650e938af7ec023f4147">Tgstation.Server.Host.Components.Chat.Chat</a>.</p>
-
-</div>
-</div>
 <a id="ac01264cccd53b252392b22dd6338ec67"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac01264cccd53b252392b22dd6338ec67">&#9670;&nbsp;</a></span>DeleteConnection()</h2>
 
@@ -346,7 +314,7 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">message</td><td>The message being sent</td></tr>
-    <tr><td class="paramname">channelIds</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html#a0dd252ba836263c5a825862bcda215f7" title="The row Id">Models.ChatChannel.Id</a>s of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html">Host.Models.ChatChannel</a>s to send to</td></tr>
+    <tr><td class="paramname">channelIds</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html#a0dd252ba836263c5a825862bcda215f7" title="The row Id">Models.ChatChannel.Id</a>s of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html">Models.ChatChannel</a>s to send to</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
   </table>
   </dd>

@@ -12,6 +12,7 @@ var searchData=
   ['chatcontroller_2ecs',['ChatController.cs',['../_chat_controller_8cs.html',1,'']]],
   ['chatfactory_2ecs',['ChatFactory.cs',['../_chat_factory_8cs.html',1,'']]],
   ['chatprovider_2ecs',['ChatProvider.cs',['../_chat_provider_8cs.html',1,'']]],
+  ['chattest_2ecs',['ChatTest.cs',['../_chat_test_8cs.html',1,'']]],
   ['claimsinjector_2ecs',['ClaimsInjector.cs',['../_claims_injector_8cs.html',1,'']]],
   ['clientexception_2ecs',['ClientException.cs',['../_client_exception_8cs.html',1,'']]],
   ['commandfactory_2ecs',['CommandFactory.cs',['../_command_factory_8cs.html',1,'']]],

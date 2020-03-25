@@ -3873,7 +3873,8 @@
       "ChatBot": {
         "required": [
           "ConnectionString",
-          "Name"
+          "Name",
+          "ReconnectionInterval"
         ],
         "type": "object",
         "properties": {
@@ -3898,6 +3899,11 @@
             "type": "boolean",
             "description": "If the connection is enabled",
             "nullable": true
+          },
+          "ReconnectionInterval": {
+            "type": "integer",
+            "description": "The time interval in minutes the chat bot attempts to reconnect if Tgstation.Server.Api.Models.Internal.ChatBot.Enabled and disconnected. Must not be zero.",
+            "format": "int32"
           },
           "Provider": {
             "$ref": "#/components/schemas/ChatProviderNullable"
@@ -4442,7 +4448,8 @@
           32,
           64,
           128,
-          256
+          256,
+          512
         ],
         "type": "integer",
         "format": "int64",
@@ -4457,7 +4464,8 @@
           "Read",
           "Create",
           "Delete",
-          "WriteName"
+          "WriteName",
+          "WriteReconnectionInterval"
         ]
       },
       "ConfigurationRightsNullable": {

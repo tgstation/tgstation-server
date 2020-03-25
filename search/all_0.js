@@ -24,6 +24,10 @@ var searchData=
   ['20190219041825_5fmsfixrevinfoindex_2edesigner_2ecs',['20190219041825_MSFixRevInfoIndex.Designer.cs',['../20190219041825___m_s_fix_rev_info_index_8_designer_8cs.html',1,'']]],
   ['20190219042440_5fmyfixrevinfoindex_2ecs',['20190219042440_MYFixRevInfoIndex.cs',['../20190219042440___m_y_fix_rev_info_index_8cs.html',1,'']]],
   ['20190219042440_5fmyfixrevinfoindex_2edesigner_2ecs',['20190219042440_MYFixRevInfoIndex.Designer.cs',['../20190219042440___m_y_fix_rev_info_index_8_designer_8cs.html',1,'']]],
-  ['20200322210825_5fsladdsqlite_2ecs',['20200322210825_SLAddSqlite.cs',['../20200322210825___s_l_add_sqlite_8cs.html',1,'']]],
-  ['20200322210825_5fsladdsqlite_2edesigner_2ecs',['20200322210825_SLAddSqlite.Designer.cs',['../20200322210825___s_l_add_sqlite_8_designer_8cs.html',1,'']]]
+  ['20200121170252_5fmsaddchatbotreconnectioninterval_2ecs',['20200121170252_MSAddChatBotReconnectionInterval.cs',['../20200121170252___m_s_add_chat_bot_reconnection_interval_8cs.html',1,'']]],
+  ['20200121170252_5fmsaddchatbotreconnectioninterval_2edesigner_2ecs',['20200121170252_MSAddChatBotReconnectionInterval.Designer.cs',['../20200121170252___m_s_add_chat_bot_reconnection_interval_8_designer_8cs.html',1,'']]],
+  ['20200121171159_5fmyaddchatbotreconnectioninterval_2ecs',['20200121171159_MYAddChatBotReconnectionInterval.cs',['../20200121171159___m_y_add_chat_bot_reconnection_interval_8cs.html',1,'']]],
+  ['20200121171159_5fmyaddchatbotreconnectioninterval_2edesigner_2ecs',['20200121171159_MYAddChatBotReconnectionInterval.Designer.cs',['../20200121171159___m_y_add_chat_bot_reconnection_interval_8_designer_8cs.html',1,'']]],
+  ['20200325150546_5fsladdsqlite_2ecs',['20200325150546_SLAddSqlite.cs',['../20200325150546___s_l_add_sqlite_8cs.html',1,'']]],
+  ['20200325150546_5fsladdsqlite_2edesigner_2ecs',['20200325150546_SLAddSqlite.Designer.cs',['../20200325150546___s_l_add_sqlite_8_designer_8cs.html',1,'']]]
 ];

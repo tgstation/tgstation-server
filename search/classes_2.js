@@ -10,6 +10,7 @@ var searchData=
   ['chatconnectionstringbuilder',['ChatConnectionStringBuilder',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_connection_string_builder.html',1,'Tgstation::Server::Api::Models::Internal']]],
   ['chatcontroller',['ChatController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html',1,'Tgstation::Server::Host::Controllers']]],
   ['chatfactory',['ChatFactory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_factory.html',1,'Tgstation::Server::Host::Components::Chat']]],
+  ['chattest',['ChatTest',['../class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_chat_test.html',1,'Tgstation::Server::Tests::Instance']]],
   ['claimsinjector',['ClaimsInjector',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_claims_injector.html',1,'Tgstation::Server::Host::Security']]],
   ['clientexception',['ClientException',['../class_tgstation_1_1_server_1_1_client_1_1_client_exception.html',1,'Tgstation::Server::Client']]],
   ['commandfactory',['CommandFactory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_command_factory.html',1,'Tgstation::Server::Host::Components::Chat::Commands']]],

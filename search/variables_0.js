@@ -1,6 +1,7 @@
 var searchData=
 [
   ['active',['active',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_json_tracking_context.html#ad884d3e85c000fa8e1e2a38f85205d71',1,'Tgstation::Server::Host::Components::Chat::JsonTrackingContext']]],
+  ['activechatbots',['activeChatBots',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat.html#a53913fec4fb2faefbae99c799bc5810b',1,'Tgstation::Server::Host::Components::Chat::Chat']]],
   ['activecompilejob',['ActiveCompileJob',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a5580d739e391520749d401cb340dc1c5',1,'Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.ActiveCompileJob()'],['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html#ad92fd5a42c701562bd4ae033b533b9bd',1,'Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog.ActiveCompileJob()']]],
   ['activeswappable',['activeSwappable',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a171508777b4e160775637f4729ec6f1b',1,'Tgstation::Server::Host::Components::Watchdog::WindowsWatchdog']]],
   ['activeversionfilename',['ActiveVersionFileName',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a55d24d297ec0618cf0ecdd6fc0bd5a66',1,'Tgstation::Server::Host::Components::Byond::ByondManager']]],
