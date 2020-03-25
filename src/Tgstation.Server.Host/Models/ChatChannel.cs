@@ -1,6 +1,4 @@
-﻿using Tgstation.Server.Api.Models;
-
-namespace Tgstation.Server.Host.Models
+﻿namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
 	public sealed class ChatChannel : Api.Models.ChatChannel
