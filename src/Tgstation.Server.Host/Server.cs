@@ -258,7 +258,7 @@ namespace Tgstation.Server.Host
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task Restart(Version newVersion, Exception exception, bool requireWatchdog)
 		{
-			CheckSanity(true);
+			CheckSanity(requireWatchdog);
 
 			logger.LogTrace("Begin Restart...");
 
