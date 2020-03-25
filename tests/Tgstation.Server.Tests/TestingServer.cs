@@ -80,7 +80,7 @@ namespace Tgstation.Server.Tests
 		public async Task RunAsync(CancellationToken cancellationToken)
 		{
 			Task runTask = realServer.RunAsync(cancellationToken);
-			
+
 			if (dumpOpenAPISpecpath)
 			{
 				var giveUpAt = DateTimeOffset.Now.AddSeconds(60);
