@@ -8,10 +8,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 	/// </summary>
 	public partial class MYFixRevInfoIndex : Migration
 	{
-		/// <summary>
-		/// Applies the migration
-		/// </summary>
-		/// <param name="migrationBuilder">The <see cref="MigrationBuilder"/> to use</param>
+		/// <inheritdoc />
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{
 			if (migrationBuilder == null)
@@ -44,10 +41,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 				onDelete: ReferentialAction.Cascade);
 		}
 
-		/// <summary>
-		/// Unapplies the migration
-		/// </summary>
-		/// <param name="migrationBuilder">The <see cref="MigrationBuilder"/> to use</param>
+		/// <inheritdoc />
 		protected override void Down(MigrationBuilder migrationBuilder)
 		{
 			if (migrationBuilder == null)

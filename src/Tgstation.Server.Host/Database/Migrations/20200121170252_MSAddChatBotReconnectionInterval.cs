@@ -1,17 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 
-namespace Tgstation.Server.Host.Models.Migrations
+namespace Tgstation.Server.Host.Database.Migrations
 {
 	/// <summary>
 	/// Adds the <see cref="Api.Models.Internal.ChatBot.ReconnectionInterval"/> property for MSSQL.
 	/// </summary>
 	public partial class MSAddChatBotReconnectionInterval : Migration
 	{
-		/// <summary>
-		/// Applies the migration.
-		/// </summary>
-		/// <param name="migrationBuilder">The <see cref="MigrationBuilder"/> to use.</param>
+		/// <inheritdoc />
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{
 			if (migrationBuilder == null)
@@ -24,10 +21,7 @@ namespace Tgstation.Server.Host.Models.Migrations
 				defaultValue: 5L);
 		}
 
-		/// <summary>
-		/// Unapplies the migration.
-		/// </summary>
-		/// <param name="migrationBuilder">The <see cref="MigrationBuilder"/> to use.</param>
+		/// <inheritdoc />
 		protected override void Down(MigrationBuilder migrationBuilder)
 		{
 			if (migrationBuilder == null)
