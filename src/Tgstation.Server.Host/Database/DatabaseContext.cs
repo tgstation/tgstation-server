@@ -146,7 +146,7 @@ namespace Tgstation.Server.Host.Database
 		}
 
 		/// <inheritdoc />
-		public async Task Initialize(CancellationToken cancellationToken)
+		public virtual async Task Initialize(CancellationToken cancellationToken)
 		{
 			if (DatabaseConfiguration.DropDatabase)
 			{

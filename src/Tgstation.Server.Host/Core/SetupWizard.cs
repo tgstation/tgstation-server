@@ -285,8 +285,7 @@ namespace Tgstation.Server.Host.Core
 				await console.WriteAsync(
 					String.Format(
 						CultureInfo.InvariantCulture,
-						"Please enter one of {0}, {1}, {2}, or {3}: ",
-						DatabaseType.Sqlite,
+						"Please enter one of {0}, {1}, or {2}: ",
 						DatabaseType.MariaDB,
 						DatabaseType.MySql,
 						DatabaseType.SqlServer),
