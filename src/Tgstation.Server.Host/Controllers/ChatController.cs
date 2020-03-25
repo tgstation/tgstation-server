@@ -98,6 +98,7 @@ namespace Tgstation.Server.Host.Controllers
 				return BadRequest(new ErrorMessage { Message = "One or more of channels aren't formatted correctly for the given provider!" });
 
 			model.Enabled = model.Enabled ?? false;
+			model.ReconnectionInterval = model.ReconnectionInterval ?? 1;
 
 			// try to update das db first
 			var dbModel = new Models.ChatBot
