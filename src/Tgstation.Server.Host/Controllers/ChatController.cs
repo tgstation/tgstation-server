@@ -91,10 +91,14 @@ namespace Tgstation.Server.Host.Controllers
 					return BadRequest(new ErrorMessage { Message = "Invalid provider!" });
 			}
 
+			if (model.ReconnectionInterval == 0)
+				return BadRequest(new ErrorMessage { Message = "ReconnectionInterval must not be zero!" });
+
 			if (!model.ValidateProviderChannelTypes())
 				return BadRequest(new ErrorMessage { Message = "One or more of channels aren't formatted correctly for the given provider!" });
 
 			model.Enabled = model.Enabled ?? false;
+			model.ReconnectionInterval = model.ReconnectionInterval ?? 1;
 
 			// try to update das db first
 			var dbModel = new Models.ChatBot
@@ -105,6 +109,7 @@ namespace Tgstation.Server.Host.Controllers
 				Channels = model.Channels?.Select(x => ConvertApiChatChannel(x)).ToList() ?? new List<Models.ChatChannel>(), // important that this isn't null
 				InstanceId = Instance.Id,
 				Provider = model.Provider,
+				ReconnectionInterval = model.ReconnectionInterval
 			};
 
 			DatabaseContext.ChatBots.Add(dbModel);
@@ -219,11 +224,17 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(ChatBotRights.WriteChannels | ChatBotRights.WriteConnectionString | ChatBotRights.WriteEnabled | ChatBotRights.WriteName | ChatBotRights.WriteProvider)]
 		[ProducesResponseType(200)]
 		[ProducesResponseType(typeof(Api.Models.ChatBot), 200)]
-		#pragma warning disable CA1506 // TODO: Decomplexify
+		#pragma warning disable CA1502 // TODO: Decomplexify
+		#pragma warning disable CA1506
 		public async Task<IActionResult> Update([FromBody] Api.Models.ChatBot model, CancellationToken cancellationToken)
+		#pragma warning restore CA1502
+		#pragma warning restore CA1506
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
+
+			if (model.ReconnectionInterval == 0)
+				return BadRequest(new ErrorMessage { Message = "ReconnectionInterval must not be zero!" });
 
 			if (model.Provider.HasValue && !model.ValidateProviderChannelTypes())
 				return BadRequest(new ErrorMessage { Message = "One or more of channels aren't formatted correctly for the given provider!" });
@@ -261,6 +272,7 @@ namespace Tgstation.Server.Host.Controllers
 				|| CheckModified(x => x.Enabled, ChatBotRights.WriteEnabled)
 				|| CheckModified(x => x.Name, ChatBotRights.WriteName)
 				|| CheckModified(x => x.Provider, ChatBotRights.WriteProvider)
+				|| CheckModified(x => x.ReconnectionInterval, ChatBotRights.WriteReconnectionInterval)
 				|| (model.Channels != null && !userRights.HasFlag(ChatBotRights.WriteChannels)))
 				return Forbid();
 
@@ -297,6 +309,5 @@ namespace Tgstation.Server.Host.Controllers
 
 			return Ok();
 		}
-		#pragma warning restore CA1506
 	}
 }

@@ -10,10 +10,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 	[Migration("20181124231549_MYToggleTestmergeComments")]
 	partial class MYToggleTestmergeComments
 	{
-		/// <summary>
-		/// Builds the target model
-		/// </summary>
-		/// <param name="modelBuilder">The <see cref="ModelBuilder"/> to use</param>
+		/// <inheritdoc />
 		protected override void BuildTargetModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618

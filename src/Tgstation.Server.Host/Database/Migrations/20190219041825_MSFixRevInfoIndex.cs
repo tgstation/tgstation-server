@@ -8,10 +8,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 	/// </summary>
 	public partial class MSFixRevInfoIndex : Migration
 	{
-		/// <summary>
-		/// Applies the migration
-		/// </summary>
-		/// <param name="migrationBuilder">The <see cref="MigrationBuilder"/> to use</param>
+		/// <inheritdoc />
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{
 			if (migrationBuilder == null)
@@ -32,10 +29,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 				unique: true);
 		}
 
-		/// <summary>
-		/// Unpplies the migration
-		/// </summary>
-		/// <param name="migrationBuilder">The <see cref="MigrationBuilder"/> to use</param>
+		/// <inheritdoc />
 		protected override void Down(MigrationBuilder migrationBuilder)
 		{
 			if (migrationBuilder == null)

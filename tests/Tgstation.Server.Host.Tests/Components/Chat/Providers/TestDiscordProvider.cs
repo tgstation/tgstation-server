@@ -21,18 +21,19 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 		[TestMethod]
 		public void TestConstructionAndDisposal()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(null, null, 1));
 			var mockLogger = new Mock<ILogger<DiscordProvider>>();
-			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockLogger.Object, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new DiscordProvider(mockLogger.Object, null, 1));
 			var mockToken = "asdf";
-			new DiscordProvider(mockLogger.Object, mockToken).Dispose();
+			Assert.ThrowsException<ArgumentOutOfRangeException>(() => new DiscordProvider(mockLogger.Object, mockToken, 0));
+			new DiscordProvider(mockLogger.Object, mockToken, 1).Dispose();
 		}
 
 		[TestMethod]
 		public async Task TestConnectWithFakeTokenFails()
 		{
 			var mockLogger = new Mock<ILogger<DiscordProvider>>();
-			using (var provider = new DiscordProvider(mockLogger.Object, "asdf"))
+			using (var provider = new DiscordProvider(mockLogger.Object, "asdf", 1))
 			{
 				Assert.IsFalse(await provider.Connect(default).ConfigureAwait(false));
 				Assert.IsFalse(provider.Connected);
@@ -48,7 +49,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers.Tests
 
 
 			var mockLogger = new Mock<ILogger<DiscordProvider>>();
-			using (var provider = new DiscordProvider(mockLogger.Object, testToken1))
+			using (var provider = new DiscordProvider(mockLogger.Object, testToken1, 1))
 			{
 				Assert.IsFalse(provider.Connected);
 				await provider.Disconnect(default).ConfigureAwait(false);

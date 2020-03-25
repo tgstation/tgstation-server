@@ -7,13 +7,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Tgstation.Server.Host.Database.Migrations
 {
     [DbContext(typeof(SqliteDatabaseContext))]
-    [Migration("20200322210825_SLAddSqlite")]
+    [Migration("20200325150546_SLAddSqlite")]
     partial class SLAddSqlite
     {
-        /// <summary>
-        /// Builds the target model
-        /// </summary>
-        /// <param name="modelBuilder">The <see cref="ModelBuilder"/> to use</param>
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
@@ -36,6 +33,9 @@ namespace Tgstation.Server.Host.Database.Migrations
                         .IsRequired();
 
                     b.Property<int?>("Provider");
+
+                    b.Property<uint?>("ReconnectionInterval")
+                        .IsRequired();
 
                     b.HasKey("Id");
 

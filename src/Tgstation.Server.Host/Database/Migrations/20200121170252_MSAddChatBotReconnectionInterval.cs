@@ -4,9 +4,9 @@ using System;
 namespace Tgstation.Server.Host.Database.Migrations
 {
 	/// <summary>
-	/// Add the <see cref="Api.Models.Internal.RepositorySettings.PostTestMergeComment"/> column for MySQL/MariaDB
+	/// Adds the <see cref="Api.Models.Internal.ChatBot.ReconnectionInterval"/> property for MSSQL.
 	/// </summary>
-	public partial class MYToggleTestmergeComments : Migration
+	public partial class MSAddChatBotReconnectionInterval : Migration
 	{
 		/// <inheritdoc />
 		protected override void Up(MigrationBuilder migrationBuilder)
@@ -14,11 +14,11 @@ namespace Tgstation.Server.Host.Database.Migrations
 			if (migrationBuilder == null)
 				throw new ArgumentNullException(nameof(migrationBuilder));
 
-			migrationBuilder.AddColumn<bool>(
-				name: "PostTestMergeComment",
-				table: "RepositorySettings",
+			migrationBuilder.AddColumn<long>(
+				name: "ReconnectionInterval",
+				table: "ChatBots",
 				nullable: false,
-				defaultValue: true);
+				defaultValue: 5L);
 		}
 
 		/// <inheritdoc />
@@ -28,8 +28,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 				throw new ArgumentNullException(nameof(migrationBuilder));
 
 			migrationBuilder.DropColumn(
-				name: "PostTestMergeComment",
-				table: "RepositorySettings");
+				name: "ReconnectionInterval",
+				table: "ChatBots");
 		}
 	}
 }

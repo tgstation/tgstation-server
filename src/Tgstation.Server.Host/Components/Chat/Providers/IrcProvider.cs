@@ -31,11 +31,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		readonly IAsyncDelayer asyncDelayer;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="IrcProvider"/>
-		/// </summary>
-		readonly ILogger<IrcProvider> logger;
-
-		/// <summary>
 		/// The <see cref="IrcFeatures"/> client
 		/// </summary>
 		readonly IrcFeatures client;
@@ -101,13 +96,24 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <param name="nickname">The value of <see cref="nickname"/></param>
 		/// <param name="password">The value of <see cref="password"/></param>
 		/// <param name="passwordType">The value of <see cref="passwordType"/></param>
+		/// <param name="reconnectInterval">The initial reconnect interval in minutes.</param>
 		/// <param name="useSsl">If <see cref="IrcConnection.UseSsl"/> should be used</param>
-		public IrcProvider(IApplication application, IAsyncDelayer asyncDelayer, ILogger<IrcProvider> logger, string address, ushort port, string nickname, string password, IrcPasswordType? passwordType, bool useSsl)
+		public IrcProvider(
+			IApplication application,
+			IAsyncDelayer asyncDelayer,
+			ILogger<IrcProvider> logger,
+			string address,
+			ushort port,
+			string nickname,
+			string password,
+			IrcPasswordType? passwordType,
+			uint reconnectInterval,
+			bool useSsl)
+			: base(logger, reconnectInterval)
 		{
 			if (application == null)
 				throw new ArgumentNullException(nameof(application));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
-			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			this.address = address ?? throw new ArgumentNullException(nameof(address));
 			this.port = port;
@@ -157,6 +163,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				disconnecting = true;
 				client.Disconnect(); // just closes the socket
 			}
+
+			base.Dispose();
 		}
 
 		/// <summary>
@@ -328,7 +336,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				}
 				catch (Exception e)
 				{
-					logger.LogWarning("Unable to connect to IRC: {0}", e);
+					Logger.LogWarning("Unable to connect to IRC: {0}", e);
 					return false;
 				}
 
@@ -350,7 +358,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					}
 					catch (Exception e)
 					{
-						logger.LogWarning("Error quitting IRC: {0}", e);
+						Logger.LogWarning("Error quitting IRC: {0}", e);
 					}
 				}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
 				Dispose();
@@ -362,12 +370,12 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 			catch (Exception e)
 			{
-				logger.LogWarning("Error disconnecting from IRC! Exception: {0}", e);
+				Logger.LogWarning("Error disconnecting from IRC! Exception: {0}", e);
 			}
 		}
 
 		/// <inheritdoc />
-		public override Task<IReadOnlyList<Channel>> MapChannels(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		public override Task<IReadOnlyCollection<Channel>> MapChannels(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
 			if (channels.Any(x => x.IrcChannel == null))
 				throw new InvalidOperationException("ChatChannel missing IrcChannel!");
@@ -386,7 +394,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				foreach (var I in hs)
 					client.RfcJoin(I);
 
-				return (IReadOnlyList<Channel>)channels.Select(x =>
+				return (IReadOnlyCollection<Channel>)channels.Select(x =>
 				{
 					ulong? id = null;
 					if (!channelIdMap.Any(y =>
@@ -432,7 +440,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 			catch (Exception e)
 			{
-				logger.LogWarning("Unable to send to channel: {0}", e);
+				Logger.LogWarning("Unable to send to channel: {0}", e);
 			}
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 	}

@@ -1,14 +1,12 @@
-﻿// Suppress the too much class coupling warning
-#pragma warning disable CA1506
-
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
 	/// <summary>
-	/// Initial migration for SQLite.
+	/// Creates the SQLite database.
 	/// </summary>
+	#pragma warning disable CA1506 // No fighting this
 	public partial class SLAddSqlite : Migration
 	{
 		/// <inheritdoc />
@@ -70,6 +68,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.Annotation("Sqlite:Autoincrement", true),
 					Name = table.Column<string>(nullable: false),
 					Enabled = table.Column<bool>(nullable: true),
+					ReconnectionInterval = table.Column<uint>(nullable: false),
 					Provider = table.Column<int>(nullable: true),
 					ConnectionString = table.Column<string>(nullable: false),
 					InstanceId = table.Column<long>(nullable: false)

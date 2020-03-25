@@ -25,6 +25,12 @@ namespace Tgstation.Server.Api.Models.Internal
 		public bool? Enabled { get; set; }
 
 		/// <summary>
+		/// The time interval in minutes the chat bot attempts to reconnect if <see cref="Enabled"/> and disconnected. Must not be zero.
+		/// </summary>
+		[Required]
+		public uint? ReconnectionInterval { get; set; }
+
+		/// <summary>
 		/// The <see cref="ChatProvider"/> used for the connection
 		/// </summary>
 		public ChatProvider? Provider { get; set; }

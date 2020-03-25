@@ -2,7 +2,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Tgstation.Server.Host.Database;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
@@ -13,7 +12,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+				.HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
 				.HasAnnotation("Relational:MaxIdentifierLength", 64);
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
@@ -32,6 +31,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.IsRequired();
 
 					b.Property<int?>("Provider");
+
+					b.Property<uint?>("ReconnectionInterval")
+						.IsRequired();
 
 					b.HasKey("Id");
 

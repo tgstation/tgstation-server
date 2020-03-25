@@ -2,14 +2,13 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Tgstation.Server.Host.Database;
 
-namespace Tgstation.Server.Host.Migrations
+namespace Tgstation.Server.Host.Database.Migrations
 {
     [DbContext(typeof(SqliteDatabaseContext))]
     partial class SqliteDatabaseContextModelSnapshot : ModelSnapshot
     {
+        /// <inheritdoc />
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
@@ -32,6 +31,9 @@ namespace Tgstation.Server.Host.Migrations
                         .IsRequired();
 
                     b.Property<int?>("Provider");
+
+                    b.Property<uint?>("ReconnectionInterval")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
