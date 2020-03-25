@@ -13,6 +13,9 @@ namespace Tgstation.Server.Host.Database
 	/// </summary>
 	sealed class MySqlDatabaseContext : DatabaseContext<MySqlDatabaseContext>
 	{
+		/// <inheritdoc />
+		protected override DatabaseType DatabaseType => DatabaseType.MySql;
+
 		/// <summary>
 		/// Construct a <see cref="MySqlDatabaseContext"/>
 		/// </summary>
@@ -34,12 +37,15 @@ namespace Tgstation.Server.Host.Database
 			if (stringDeconstructor.Server == "localhost")
 				Logger.LogWarning("MariaDB/MySQL server address is set to 'localhost'! If there are connection issues, try setting it to '127.0.0.1'!");
 			if (!String.IsNullOrEmpty(DatabaseConfiguration.MySqlServerVersion))
-				options.UseMySql(DatabaseConfiguration.ConnectionString, mySqlOptions => mySqlOptions.ServerVersion(Version.Parse(DatabaseConfiguration.MySqlServerVersion), DatabaseConfiguration.DatabaseType == DatabaseType.MariaDB ? ServerType.MariaDb : ServerType.MySql));
+				options.UseMySql(
+					DatabaseConfiguration.ConnectionString,
+					mySqlOptions => mySqlOptions.ServerVersion(
+						Version.Parse(DatabaseConfiguration.MySqlServerVersion),
+						DatabaseConfiguration.DatabaseType == DatabaseType.MariaDB
+							? ServerType.MariaDb
+							: ServerType.MySql));
 			else
 				options.UseMySql(DatabaseConfiguration.ConnectionString);
 		}
-
-		/// <inheritdoc />
-		protected override bool UseMySQLMigrations() => true;
 	}
 }

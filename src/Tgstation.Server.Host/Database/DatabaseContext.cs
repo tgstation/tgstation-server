@@ -10,8 +10,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Database.Migrations;
 using Tgstation.Server.Host.Models;
-using Tgstation.Server.Host.Models.Migrations;
 
 namespace Tgstation.Server.Host.Database
 {
@@ -79,6 +79,11 @@ namespace Tgstation.Server.Host.Database
 		protected DatabaseConfiguration DatabaseConfiguration { get; }
 
 		/// <summary>
+		/// Gets a value indicationg whether the MY_ class of migrations should be used instead of the MS_ class
+		/// </summary>
+		protected abstract DatabaseType DatabaseType { get; }
+
+		/// <summary>
 		/// The <see cref="IDatabaseSeeder"/> for the <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
 		readonly IDatabaseSeeder databaseSeeder;
@@ -141,7 +146,7 @@ namespace Tgstation.Server.Host.Database
 		}
 
 		/// <inheritdoc />
-		public async Task Initialize(CancellationToken cancellationToken)
+		public virtual async Task Initialize(CancellationToken cancellationToken)
 		{
 			if (DatabaseConfiguration.DropDatabase)
 			{
@@ -177,12 +182,6 @@ namespace Tgstation.Server.Host.Database
 		/// <inheritdoc />
 		public Task Save(CancellationToken cancellationToken) => SaveChangesAsync(cancellationToken);
 
-		/// <summary>
-		/// If the MY_ class of migrations should be used instead of the MS_ class
-		/// </summary>
-		/// <returns><see langword="true"/> if the MY_ class of migrations should be used instead of the MS_ class, <see langword="false"/> otherwise</returns>
-		protected abstract bool UseMySQLMigrations();
-
 		/// <inheritdoc />
 		public async Task SchemaDowngradeForServerVersion(Version version, CancellationToken cancellationToken)
 		{
@@ -196,13 +195,52 @@ namespace Tgstation.Server.Host.Database
 			// Update this with new migrations as they are made
 			// Always use the MS class
 			if (version < new Version(4, 0, 2))
+			{
+				// Special handling because this is where SQLite was introduced
+				if (DatabaseType == DatabaseType.Sqlite)
+					throw new NotSupportedException("Cannot migrate below version 4.0.2.0 while using Sqlite!");
+
 				targetMigration = nameof(MSReattachCompileJobRequired);
+			}
+
+			// Uncomment once next migration/version step happens
+			/*
+			else if (version < new Version(V_NEXT_MIGRATION))
+			{
+				// Special handling because this is where SQLite was introduced
+				if (DatabaseType == DatabaseType.Sqlite)
+					targetMigration = nameof(SLAddSqlite);
+
+				targetMigration = nameof(V_NEXT_LAST_MIGRATION);
+			}
+			*/
 
 			if (targetMigration == null)
+			{
+				Logger.LogDebug("No down migration required.");
 				return;
+			}
 
-			if (UseMySQLMigrations())
-				targetMigration = String.Format(CultureInfo.InvariantCulture, "MY{0}", targetMigration.Substring(2));
+			string migrationSubstitution;
+			switch (DatabaseType)
+			{
+				case DatabaseType.SqlServer:
+					// already setup
+					migrationSubstitution = null;
+					break;
+				case DatabaseType.MySql:
+				case DatabaseType.MariaDB:
+					migrationSubstitution = "MY{0}";
+					break;
+				case DatabaseType.Sqlite:
+					migrationSubstitution = "SL{0}";
+					break;
+				default:
+					throw new InvalidOperationException($"Invalid DatabaseType: {DatabaseType}");
+			}
+
+			if (migrationSubstitution != null)
+				targetMigration = String.Format(CultureInfo.InvariantCulture, migrationSubstitution, targetMigration.Substring(2));
 
 			// even though it clearly implements it in the DatabaseFacade definition this won't work without casting (╯ಠ益ಠ)╯︵ ┻━┻
 			var dbServiceProvider = ((IInfrastructure<IServiceProvider>)Database).Instance;

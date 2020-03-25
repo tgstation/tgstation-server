@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MySql.Data.MySqlClient;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -149,6 +151,157 @@ namespace Tgstation.Server.Host.Core
 		}
 
 		/// <summary>
+		/// Ensure a given <paramref name="testConnection"/> works.
+		/// </summary>
+		/// <param name="testConnection">The test <see cref="DbConnection"/>.</param>
+		/// <param name="databaseConfiguration">The <see cref="DatabaseConfiguration"/> may have derived data populated.</param>
+		/// <param name="databaseName">The database name (or path in the case of a <see cref="DatabaseType.Sqlite"/> database).</param>
+		/// <param name="dbExists">Whether or not the database exists.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		async Task TestDatabaseConnection(
+			DbConnection testConnection,
+			DatabaseConfiguration databaseConfiguration,
+			string databaseName,
+			bool dbExists,
+			CancellationToken cancellationToken)
+		{
+			bool isSqliteDB = databaseConfiguration.DatabaseType == DatabaseType.Sqlite;
+			using (testConnection)
+			{
+				await console.WriteAsync("Testing connection...", true, cancellationToken).ConfigureAwait(false);
+				await testConnection.OpenAsync(cancellationToken).ConfigureAwait(false);
+				await console.WriteAsync("Connection successful!", true, cancellationToken).ConfigureAwait(false);
+
+				if (databaseConfiguration.DatabaseType == DatabaseType.MariaDB
+					|| databaseConfiguration.DatabaseType == DatabaseType.MySql)
+				{
+					await console.WriteAsync("Checking MySQL/MariaDB version...", true, cancellationToken).ConfigureAwait(false);
+					using (var command = testConnection.CreateCommand())
+					{
+						command.CommandText = "SELECT VERSION()";
+						var fullVersion = (string)await command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false);
+						await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Found {0}", fullVersion), true, cancellationToken).ConfigureAwait(false);
+						var splits = fullVersion.Split('-');
+						databaseConfiguration.MySqlServerVersion = splits.First();
+					}
+				}
+
+				if (!isSqliteDB && !dbExists)
+				{
+					await console.WriteAsync("Testing create DB permission...", true, cancellationToken).ConfigureAwait(false);
+					using (var command = testConnection.CreateCommand())
+					{
+						// I really don't care about user sanitization here, they want to fuck their own DB? so be it
+#pragma warning disable CA2100 // Review SQL queries for security vulnerabilities
+						command.CommandText = $"CREATE DATABASE {databaseName}";
+#pragma warning restore CA2100 // Review SQL queries for security vulnerabilities
+						await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
+					}
+
+					await console.WriteAsync("Success!", true, cancellationToken).ConfigureAwait(false);
+					await console.WriteAsync("Dropping test database...", true, cancellationToken).ConfigureAwait(false);
+					using (var command = testConnection.CreateCommand())
+					{
+#pragma warning disable CA2100 // Review SQL queries for security vulnerabilities
+						command.CommandText = $"DROP DATABASE {databaseName}";
+#pragma warning restore CA2100 // Review SQL queries for security vulnerabilities
+						try
+						{
+							await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
+						}
+						catch (OperationCanceledException)
+						{
+							throw;
+						}
+						catch (Exception e)
+						{
+							await console.WriteAsync(e.Message, true, cancellationToken).ConfigureAwait(false);
+							await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
+							await console.WriteAsync("This should be okay, but you may want to manually drop the database before continuing!", true, cancellationToken).ConfigureAwait(false);
+							await console.WriteAsync("Press any key to continue...", true, cancellationToken).ConfigureAwait(false);
+							await console.PressAnyKeyAsync(cancellationToken).ConfigureAwait(false);
+						}
+					}
+				}
+			}
+
+			if (isSqliteDB && !dbExists)
+				await Task.WhenAll(
+					console.WriteAsync("Deleting test database file...", true, cancellationToken),
+					ioManager.DeleteFile(databaseName, cancellationToken)).ConfigureAwait(false);
+		}
+
+		async Task<string> ValidateNonExistantSqliteDBName(string databaseName, CancellationToken cancellationToken)
+		{
+			var resolvedPath = ioManager.ResolvePath(databaseName);
+			try
+			{
+				var directoryName = ioManager.GetDirectoryName(resolvedPath);
+				bool directoryExisted = await ioManager.DirectoryExists(directoryName, cancellationToken).ConfigureAwait(false);
+				await ioManager.CreateDirectory(directoryName, cancellationToken).ConfigureAwait(false);
+				try
+				{
+					await ioManager.WriteAllBytes(resolvedPath, Array.Empty<byte>(), cancellationToken).ConfigureAwait(false);
+				}
+				catch
+				{
+					if (!directoryExisted)
+						await ioManager.DeleteDirectory(directoryName, cancellationToken).ConfigureAwait(false);
+					throw;
+				}
+			}
+			catch (IOException)
+			{
+				return null;
+			}
+
+			if (!Path.IsPathRooted(databaseName))
+			{
+				await console.WriteAsync("Note, this relative path (currently) resolves to the following:", true, cancellationToken).ConfigureAwait(false);
+				await console.WriteAsync(resolvedPath, true, cancellationToken).ConfigureAwait(false);
+				bool writeResolved = await PromptYesNo(
+					"Would you like to save the relative path in the configuration? If not, the full path will be saved. (y/n): ",
+					cancellationToken)
+					.ConfigureAwait(false);
+
+				if (writeResolved)
+					databaseName = resolvedPath;
+			}
+
+			await ioManager.DeleteFile(databaseName, cancellationToken).ConfigureAwait(false);
+			return databaseName;
+		}
+
+		/// <summary>
+		/// Prompt the user for the <see cref="DatabaseType"/>.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the input <see cref="DatabaseType"/>.</returns>
+		async Task<DatabaseType> PromptDatabaseType(CancellationToken cancellationToken)
+		{
+			do
+			{
+				await console.WriteAsync(
+					String.Format(
+						CultureInfo.InvariantCulture,
+						"Please enter one of {0}, {1}, or {2}: ",
+						DatabaseType.MariaDB,
+						DatabaseType.MySql,
+						DatabaseType.SqlServer),
+					false,
+					cancellationToken)
+					.ConfigureAwait(false);
+				var databaseTypeString = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
+				if (Enum.TryParse<DatabaseType>(databaseTypeString, out var databaseType))
+					return databaseType;
+
+				await console.WriteAsync("Invalid database type!", true, cancellationToken).ConfigureAwait(false);
+			}
+			while (true);
+		}
+
+		/// <summary>
 		/// Prompts the user to create a <see cref="DatabaseConfiguration"/>
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
@@ -160,68 +313,68 @@ namespace Tgstation.Server.Host.Core
 				await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 				await console.WriteAsync("What SQL database type will you be using?", true, cancellationToken).ConfigureAwait(false);
 
-				var databaseConfiguration = new DatabaseConfiguration();
-				do
+				var databaseConfiguration = new DatabaseConfiguration
 				{
-					await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Please enter one of {0}, {1}, or {2}: ", DatabaseType.MariaDB, DatabaseType.SqlServer, DatabaseType.MySql), false, cancellationToken).ConfigureAwait(false);
-					var databaseTypeString = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
-					if (Enum.TryParse<DatabaseType>(databaseTypeString, out var databaseType))
-					{
-						databaseConfiguration.DatabaseType = databaseType;
-						break;
-					}
+					DatabaseType = await PromptDatabaseType(cancellationToken).ConfigureAwait(false)
+				};
 
-					await console.WriteAsync("Invalid database type!", true, cancellationToken).ConfigureAwait(false);
-				}
-				while (true);
-
-				string serverAddress;
+				string serverAddress = null;
 				uint? mySQLServerPort = null;
-				do
-				{
-					await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
-					await console.WriteAsync("Enter the server's address and port [<server>:<port> or <server>] (blank for local): ", false, cancellationToken).ConfigureAwait(false);
-					serverAddress = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
-					if (String.IsNullOrWhiteSpace(serverAddress))
+
+				bool isSqliteDB = databaseConfiguration.DatabaseType == DatabaseType.Sqlite;
+				if (!isSqliteDB)
+					do
 					{
-						serverAddress = null;
-						break;
-					}
-					else if (databaseConfiguration.DatabaseType != DatabaseType.SqlServer)
-					{
-						var m = Regex.Match(serverAddress, @"^(?<server>.+):(?<port>.+)$");
-						if (m.Success)
+						await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
+						await console.WriteAsync("Enter the server's address and port [<server>:<port> or <server>] (blank for local): ", false, cancellationToken).ConfigureAwait(false);
+						serverAddress = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
+						if (!String.IsNullOrWhiteSpace(serverAddress) && databaseConfiguration.DatabaseType == DatabaseType.SqlServer)
 						{
-							serverAddress = m.Groups["server"].Value;
-							if (uint.TryParse(m.Groups["port"].Value, out uint port))
+							var match = Regex.Match(serverAddress, @"^(?<server>.+):(?<port>.+)$");
+							if (match.Success)
 							{
-								mySQLServerPort = port;
-								break;
-							}
-							else
-							{
-								await console.WriteAsync($@"Failed to parse port ""{m.Groups["port"].Value}"", please try again.", true, cancellationToken).ConfigureAwait(false);
+								serverAddress = match.Groups["server"].Value;
+								var portString = match.Groups["port"].Value;
+								if (uint.TryParse(portString, out uint port))
+									mySQLServerPort = port;
+								else
+								{
+									await console.WriteAsync($"Failed to parse port \"{portString}\", please try again.", true, cancellationToken).ConfigureAwait(false);
+									continue;
+								}
 							}
 						}
-						else break;
+
+						break;
 					}
-					else break;
-				}
-				while (true);
+					while (true);
 
 				await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
-				await console.WriteAsync("Enter the database name (Can be from previous installation. Otherwise, should not exist): ", false, cancellationToken).ConfigureAwait(false);
+				await console.WriteAsync($"Enter the database {(isSqliteDB ? "file path" : "name")} (Can be from previous installation. Otherwise, should not exist): ", false, cancellationToken).ConfigureAwait(false);
+
 				string databaseName;
+				bool dbExists = false;
 				do
 				{
 					databaseName = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
 					if (!String.IsNullOrWhiteSpace(databaseName))
+					{
+						if (isSqliteDB)
+						{
+							dbExists = await ioManager.FileExists(databaseName, cancellationToken).ConfigureAwait(false);
+							if (!dbExists)
+								databaseName = await ValidateNonExistantSqliteDBName(databaseName, cancellationToken).ConfigureAwait(false);
+						}
+						else
+							await PromptYesNo("Does this database already exist? (y/n): ", cancellationToken).ConfigureAwait(false);
+					}
+
+					if (String.IsNullOrWhiteSpace(databaseName))
+						await console.WriteAsync("Invalid database name!", true, cancellationToken).ConfigureAwait(false);
+					else
 						break;
-					await console.WriteAsync("Invalid database name!", true, cancellationToken).ConfigureAwait(false);
 				}
 				while (true);
-
-				var dbExists = await PromptYesNo("Does this database already exist? (y/n): ", cancellationToken).ConfigureAwait(false);
 
 				bool useWinAuth;
 				if (databaseConfiguration.DatabaseType == DatabaseType.SqlServer && platformIdentifier.IsWindows)
@@ -233,27 +386,28 @@ namespace Tgstation.Server.Host.Core
 
 				string username = null;
 				string password = null;
-				if (!useWinAuth)
-				{
-					await console.WriteAsync("Enter username: ", false, cancellationToken).ConfigureAwait(false);
-					username = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
-					await console.WriteAsync("Enter password: ", false, cancellationToken).ConfigureAwait(false);
-					password = await console.ReadLineAsync(true, cancellationToken).ConfigureAwait(false);
-				}
-				else
-				{
-					await console.WriteAsync("IMPORTANT: If using the service runner, ensure this computer's LocalSystem account has CREATE DATABASE permissions on the target server!", true, cancellationToken).ConfigureAwait(false);
-					await console.WriteAsync("The account it uses in MSSQL is usually \"NT AUTHORITY\\SYSTEM\" and the role it needs is usually \"dbcreator\".", true, cancellationToken).ConfigureAwait(false);
-					await console.WriteAsync("We'll run a sanity test here, but it won't be indicative of the service's permissions if that is the case", true, cancellationToken).ConfigureAwait(false);
-				}
+				if (!isSqliteDB)
+					if (!useWinAuth)
+					{
+						await console.WriteAsync("Enter username: ", false, cancellationToken).ConfigureAwait(false);
+						username = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
+						await console.WriteAsync("Enter password: ", false, cancellationToken).ConfigureAwait(false);
+						password = await console.ReadLineAsync(true, cancellationToken).ConfigureAwait(false);
+					}
+					else
+					{
+						await console.WriteAsync("IMPORTANT: If using the service runner, ensure this computer's LocalSystem account has CREATE DATABASE permissions on the target server!", true, cancellationToken).ConfigureAwait(false);
+						await console.WriteAsync("The account it uses in MSSQL is usually \"NT AUTHORITY\\SYSTEM\" and the role it needs is usually \"dbcreator\".", true, cancellationToken).ConfigureAwait(false);
+						await console.WriteAsync("We'll run a sanity test here, but it won't be indicative of the service's permissions if that is the case", true, cancellationToken).ConfigureAwait(false);
+					}
 
 				await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 
 				DbConnection testConnection;
-				void CreateTestConnection(string connectionString)
-				{
-					testConnection = dbConnectionFactory.CreateConnection(connectionString, databaseConfiguration.DatabaseType);
-				}
+				void CreateTestConnection(string connectionString) =>
+					testConnection = dbConnectionFactory.CreateConnection(
+						connectionString,
+						databaseConfiguration.DatabaseType);
 
 				if (databaseConfiguration.DatabaseType == DatabaseType.SqlServer)
 				{
@@ -262,6 +416,7 @@ namespace Tgstation.Server.Host.Core
 						ApplicationName = application.VersionPrefix,
 						DataSource = serverAddress ?? "(local)"
 					};
+
 					if (useWinAuth)
 						csb.IntegratedSecurity = true;
 					else
@@ -274,8 +429,20 @@ namespace Tgstation.Server.Host.Core
 					csb.InitialCatalog = databaseName;
 					databaseConfiguration.ConnectionString = csb.ConnectionString;
 				}
+				else if(databaseConfiguration.DatabaseType == DatabaseType.Sqlite)
+				{
+					var csb = new SqliteConnectionStringBuilder
+					{
+						DataSource = databaseName,
+						Mode = dbExists ? SqliteOpenMode.ReadOnly : SqliteOpenMode.ReadWriteCreate
+					};
+
+					CreateTestConnection(csb.ConnectionString);
+					databaseConfiguration.ConnectionString = csb.ConnectionString;
+				}
 				else
 				{
+					// MySQL/MariaDB
 					var csb = new MySqlConnectionStringBuilder
 					{
 						Server = serverAddress ?? "127.0.0.1",
@@ -293,63 +460,7 @@ namespace Tgstation.Server.Host.Core
 
 				try
 				{
-					using (testConnection)
-					{
-						await console.WriteAsync("Testing connection...", true, cancellationToken).ConfigureAwait(false);
-						await testConnection.OpenAsync(cancellationToken).ConfigureAwait(false);
-						await console.WriteAsync("Connection successful!", true, cancellationToken).ConfigureAwait(false);
-
-						if (databaseConfiguration.DatabaseType != DatabaseType.SqlServer)
-						{
-							await console.WriteAsync("Checking MySQL/MariaDB version...", true, cancellationToken).ConfigureAwait(false);
-							using (var command = testConnection.CreateCommand())
-							{
-								command.CommandText = "SELECT VERSION()";
-								var fullVersion = (string)await command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false);
-								await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Found {0}", fullVersion), true, cancellationToken).ConfigureAwait(false);
-								var splits = fullVersion.Split('-');
-								databaseConfiguration.MySqlServerVersion = splits[0];
-							}
-						}
-
-						if (!dbExists)
-						{
-							await console.WriteAsync("Testing create DB permission...", true, cancellationToken).ConfigureAwait(false);
-							using (var command = testConnection.CreateCommand())
-							{
-								// I really don't care about user sanitization here, they want to fuck their own DB? so be it
-#pragma warning disable CA2100 // Review SQL queries for security vulnerabilities
-								command.CommandText = $"CREATE DATABASE {databaseName}";
-#pragma warning restore CA2100 // Review SQL queries for security vulnerabilities
-								await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
-							}
-
-							await console.WriteAsync("Success!", true, cancellationToken).ConfigureAwait(false);
-							await console.WriteAsync("Dropping test database...", true, cancellationToken).ConfigureAwait(false);
-							using (var command = testConnection.CreateCommand())
-							{
-#pragma warning disable CA2100 // Review SQL queries for security vulnerabilities
-								command.CommandText = $"DROP DATABASE {databaseName}";
-#pragma warning restore CA2100 // Review SQL queries for security vulnerabilities
-								try
-								{
-									await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
-								}
-								catch (OperationCanceledException)
-								{
-									throw;
-								}
-								catch (Exception e)
-								{
-									await console.WriteAsync(e.Message, true, cancellationToken).ConfigureAwait(false);
-									await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
-									await console.WriteAsync("This should be okay, but you may want to manually drop the database before continuing!", true, cancellationToken).ConfigureAwait(false);
-									await console.WriteAsync("Press any key to continue...", true, cancellationToken).ConfigureAwait(false);
-									await console.PressAnyKeyAsync(cancellationToken).ConfigureAwait(false);
-								}
-							}
-						}
-					}
+					await TestDatabaseConnection(testConnection, databaseConfiguration, databaseName, dbExists, cancellationToken).ConfigureAwait(false);
 
 					return databaseConfiguration;
 				}

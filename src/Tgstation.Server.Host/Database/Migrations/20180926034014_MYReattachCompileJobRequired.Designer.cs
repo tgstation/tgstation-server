@@ -3,13 +3,12 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Tgstation.Server.Host.Database;
 
-namespace Tgstation.Server.Host.Models.Migrations
+namespace Tgstation.Server.Host.Database.Migrations
 {
 	[DbContext(typeof(MySqlDatabaseContext))]
-	[Migration("20181124231549_MYToggleTestmergeComments")]
-	partial class MYToggleTestmergeComments
+	[Migration("20180926034014_MYReattachCompileJobRequired")]
+	partial class MYReattachCompileJobRequired
 	{
 		/// <summary>
 		/// Builds the target model
@@ -19,7 +18,7 @@ namespace Tgstation.Server.Host.Models.Migrations
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+				.HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
 				.HasAnnotation("Relational:MaxIdentifierLength", 64);
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
@@ -337,9 +336,6 @@ namespace Tgstation.Server.Host.Models.Migrations
 						.IsRequired();
 
 					b.Property<long>("InstanceId");
-
-					b.Property<bool?>("PostTestMergeComment")
-						.IsRequired();
 
 					b.Property<bool?>("PushTestMergeCommits")
 						.IsRequired();

@@ -3,13 +3,12 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Tgstation.Server.Host.Database;
 
-namespace Tgstation.Server.Host.Models.Migrations
+namespace Tgstation.Server.Host.Database.Migrations
 {
 	[DbContext(typeof(MySqlDatabaseContext))]
-	[Migration("20180918020726_MYAddMinimumSecurity")]
-	partial class MYAddMinimumSecurity
+	[Migration("20181124231549_MYToggleTestmergeComments")]
+	partial class MYToggleTestmergeComments
 	{
 		/// <summary>
 		/// Builds the target model
@@ -19,7 +18,7 @@ namespace Tgstation.Server.Host.Models.Migrations
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
+				.HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
 				.HasAnnotation("Relational:MaxIdentifierLength", 64);
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
@@ -90,15 +89,18 @@ namespace Tgstation.Server.Host.Models.Migrations
 					b.Property<string>("ByondVersion")
 						.IsRequired();
 
-					b.Property<Guid?>("DirectoryName");
+					b.Property<Guid?>("DirectoryName")
+						.IsRequired();
 
-					b.Property<string>("DmeName");
+					b.Property<string>("DmeName")
+						.IsRequired();
 
-					b.Property<long?>("JobId");
+					b.Property<long>("JobId");
 
 					b.Property<int>("MinimumSecurityLevel");
 
-					b.Property<string>("Output");
+					b.Property<string>("Output")
+						.IsRequired();
 
 					b.Property<long>("RevisionInformationId");
 
@@ -106,7 +108,8 @@ namespace Tgstation.Server.Host.Models.Migrations
 
 					b.HasIndex("DirectoryName");
 
-					b.HasIndex("JobId");
+					b.HasIndex("JobId")
+						.IsUnique();
 
 					b.HasIndex("RevisionInformationId");
 
@@ -196,14 +199,10 @@ namespace Tgstation.Server.Host.Models.Migrations
 					b.Property<string>("Path")
 						.IsRequired();
 
-					b.Property<long?>("WatchdogReattachInformationId");
-
 					b.HasKey("Id");
 
 					b.HasIndex("Path")
 						.IsUnique();
-
-					b.HasIndex("WatchdogReattachInformationId");
 
 					b.ToTable("Instances");
 				});
@@ -295,7 +294,7 @@ namespace Tgstation.Server.Host.Models.Migrations
 					b.Property<string>("ChatCommandsJson")
 						.IsRequired();
 
-					b.Property<long?>("CompileJobId");
+					b.Property<long>("CompileJobId");
 
 					b.Property<bool>("IsPrimary");
 
@@ -337,6 +336,9 @@ namespace Tgstation.Server.Host.Models.Migrations
 						.IsRequired();
 
 					b.Property<long>("InstanceId");
+
+					b.Property<bool?>("PostTestMergeComment")
+						.IsRequired();
 
 					b.Property<bool?>("PushTestMergeCommits")
 						.IsRequired();
@@ -415,7 +417,8 @@ namespace Tgstation.Server.Host.Models.Migrations
 					b.Property<int?>("Number")
 						.IsRequired();
 
-					b.Property<long?>("PrimaryRevisionInformationId");
+					b.Property<long?>("PrimaryRevisionInformationId")
+						.IsRequired();
 
 					b.Property<string>("PullRequestRevision")
 						.IsRequired();
@@ -486,11 +489,16 @@ namespace Tgstation.Server.Host.Models.Migrations
 
 					b.Property<long?>("BravoId");
 
+					b.Property<long>("InstanceId");
+
 					b.HasKey("Id");
 
 					b.HasIndex("AlphaId");
 
 					b.HasIndex("BravoId");
+
+					b.HasIndex("InstanceId")
+						.IsUnique();
 
 					b.ToTable("WatchdogReattachInformations");
 				});
@@ -514,8 +522,9 @@ namespace Tgstation.Server.Host.Models.Migrations
 			modelBuilder.Entity("Tgstation.Server.Host.Models.CompileJob", b =>
 				{
 					b.HasOne("Tgstation.Server.Host.Models.Job", "Job")
-						.WithMany()
-						.HasForeignKey("JobId");
+						.WithOne()
+						.HasForeignKey("Tgstation.Server.Host.Models.CompileJob", "JobId")
+						.OnDelete(DeleteBehavior.Restrict);
 
 					b.HasOne("Tgstation.Server.Host.Models.RevisionInformation", "RevisionInformation")
 						.WithMany("CompileJobs")
@@ -537,13 +546,6 @@ namespace Tgstation.Server.Host.Models.Migrations
 						.WithOne("DreamMakerSettings")
 						.HasForeignKey("Tgstation.Server.Host.Models.DreamMakerSettings", "InstanceId")
 						.OnDelete(DeleteBehavior.Cascade);
-				});
-
-			modelBuilder.Entity("Tgstation.Server.Host.Models.Instance", b =>
-				{
-					b.HasOne("Tgstation.Server.Host.Models.WatchdogReattachInformation", "WatchdogReattachInformation")
-						.WithMany()
-						.HasForeignKey("WatchdogReattachInformationId");
 				});
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.InstanceUser", b =>
@@ -580,7 +582,8 @@ namespace Tgstation.Server.Host.Models.Migrations
 				{
 					b.HasOne("Tgstation.Server.Host.Models.CompileJob", "CompileJob")
 						.WithMany()
-						.HasForeignKey("CompileJobId");
+						.HasForeignKey("CompileJobId")
+						.OnDelete(DeleteBehavior.Cascade);
 				});
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.RepositorySettings", b =>
@@ -622,7 +625,7 @@ namespace Tgstation.Server.Host.Models.Migrations
 					b.HasOne("Tgstation.Server.Host.Models.RevisionInformation", "PrimaryRevisionInformation")
 						.WithOne("PrimaryTestMerge")
 						.HasForeignKey("Tgstation.Server.Host.Models.TestMerge", "PrimaryRevisionInformationId")
-						.OnDelete(DeleteBehavior.SetNull);
+						.OnDelete(DeleteBehavior.Restrict);
 				});
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.User", b =>
@@ -641,6 +644,11 @@ namespace Tgstation.Server.Host.Models.Migrations
 					b.HasOne("Tgstation.Server.Host.Models.ReattachInformation", "Bravo")
 						.WithMany()
 						.HasForeignKey("BravoId");
+
+					b.HasOne("Tgstation.Server.Host.Models.Instance")
+						.WithOne("WatchdogReattachInformation")
+						.HasForeignKey("Tgstation.Server.Host.Models.WatchdogReattachInformation", "InstanceId")
+						.OnDelete(DeleteBehavior.Cascade);
 				});
 #pragma warning restore 612, 618
 		}

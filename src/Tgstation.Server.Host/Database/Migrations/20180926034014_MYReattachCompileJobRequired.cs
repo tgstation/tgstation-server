@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 
-namespace Tgstation.Server.Host.Models.Migrations
+namespace Tgstation.Server.Host.Database.Migrations
 {
 	/// <summary>
-	/// Marks the <see cref="CompileJob"/>s of <see cref="ReattachInformation"/>s as non-nullable for MySQL/MariaDB
+	/// Marks the <see cref="Models.CompileJob"/>s of <see cref="Models.ReattachInformation"/>s as non-nullable for MySQL/MariaDB
 	/// </summary>
 	public partial class MYReattachCompileJobRequired : Migration
 	{

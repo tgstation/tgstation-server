@@ -2,12 +2,12 @@
 using System;
 using Tgstation.Server.Api.Models;
 
-namespace Tgstation.Server.Host.Models.Migrations
+namespace Tgstation.Server.Host.Database.Migrations
 {
 	/// <summary>
-	/// Add the <see cref="Api.Models.Internal.CompileJob.MinimumSecurityLevel"/> and <see cref="DreamMaker.ApiValidationSecurityLevel"/> columns for MySQL/MariaDB
+	/// Add the <see cref="Api.Models.Internal.CompileJob.MinimumSecurityLevel"/> and <see cref="DreamMaker.ApiValidationSecurityLevel"/> columns for MSSQL
 	/// </summary>
-	public partial class MYAddMinimumSecurity : Migration
+	public partial class MSAddMinimumSecurity : Migration
 	{
 		/// <summary>
 		/// Applies the migration

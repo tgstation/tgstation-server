@@ -1,7 +1,8 @@
-﻿using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Data.Common;
 using System.Data.SqlClient;
+using Microsoft.Data.Sqlite;
+using MySql.Data.MySqlClient;
 using Tgstation.Server.Host.Configuration;
 
 namespace Tgstation.Server.Host.Database
@@ -25,6 +26,11 @@ namespace Tgstation.Server.Host.Database
 					};
 				case DatabaseType.SqlServer:
 					return new SqlConnection
+					{
+						ConnectionString = connectionString
+					};
+				case DatabaseType.Sqlite:
+					return new SqliteConnection
 					{
 						ConnectionString = connectionString
 					};
