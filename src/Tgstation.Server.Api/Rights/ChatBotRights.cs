@@ -57,5 +57,10 @@ namespace Tgstation.Server.Api.Rights
 		/// User can change <see cref="Models.Internal.ChatBot.Name"/>
 		/// </summary>
 		WriteName = 256,
+
+		/// <summary>
+		/// User can change <see cref="Models.Internal.ChatBot.ReconnectionInterval"/>
+		/// </summary>
+		WriteReconnectionInterval = 512,
 	}
 }
