@@ -25,7 +25,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the next available <see cref="Message"/> or <see langword="null"/> if the <see cref="IProvider"/> needed to reconnect.</returns>
-		/// <remarks>Note that private messages will come in the form of <see cref="Channel"/>s not returned in <see cref="MapChannels(IEnumerable{Api.Models.ChatChannel}, CancellationToken)"/></remarks>
+		/// <remarks>Note that private messages will come in the form of <see cref="Channel"/>s not returned in <see cref="MapChannels(IEnumerable{Api.Models.ChatChannel}, CancellationToken)"/>. Do not <see cref="IDisposable.Dispose"/> the <see cref="IProvider"/> on continuations run from the returned <see cref="Task"/>.</remarks>
 		Task<Message> NextMessage(CancellationToken cancellationToken);
 
 		/// <summary>

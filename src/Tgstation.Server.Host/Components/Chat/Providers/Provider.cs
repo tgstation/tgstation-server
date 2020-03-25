@@ -21,6 +21,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		readonly Queue<Message> messageQueue;
 
 		/// <summary>
+		/// Used for synchronizing access to <see cref="reconnectCts"/> and <see cref="reconnectTask"/>.
+		/// </summary>
+		readonly object reconnectTaskLock;
+
+		/// <summary>
 		/// <see cref="TaskCompletionSource{TResult}"/> that completes while <see cref="messageQueue"/> isn't empty
 		/// </summary>
 		TaskCompletionSource<object> nextMessage;
@@ -46,6 +51,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			messageQueue = new Queue<Message>();
 			nextMessage = new TaskCompletionSource<object>();
+
+			reconnectTaskLock = new object();
 
 			SetReconnectInterval(reconnectInterval).GetAwaiter().GetResult();
 			logger.LogTrace("Created.");
@@ -106,35 +113,37 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// Stops and awaits the <see cref="reconnectTask"/>.
 		/// </summary>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task StopReconnectionTimer()
+		Task StopReconnectionTimer()
 		{
-			reconnectCts?.Cancel();
-			reconnectCts?.Dispose();
-			if (reconnectTask != null)
-			{
-				await reconnectTask.ConfigureAwait(false);
-				reconnectTask = null;
-			}
+			lock (reconnectTaskLock)
+				if (reconnectCts != null)
+				{
+					reconnectCts.Cancel();
+					reconnectCts.Dispose();
+					reconnectCts = null;
+					Task reconnectTask = this.reconnectTask;
+					this.reconnectTask = null;
+					return reconnectTask;
+				}
+
+			return Task.CompletedTask;
 		}
 
 		/// <inheritdoc />
-		public async Task SetReconnectInterval(uint reconnectInterval)
+		public Task SetReconnectInterval(uint reconnectInterval)
 		{
 			if (reconnectInterval == 0)
 				throw new ArgumentOutOfRangeException(nameof(reconnectInterval), reconnectInterval, "Reconnect interval cannot be zero!");
 
-			await StopReconnectionTimer().ConfigureAwait(false);
-			reconnectCts = new CancellationTokenSource();
-			try
+			Task stopOldTimerTask;
+			lock (reconnectTaskLock)
 			{
+				stopOldTimerTask = StopReconnectionTimer();
+				reconnectCts = new CancellationTokenSource();
 				reconnectTask = ReconnectionLoop(reconnectInterval, reconnectCts.Token);
 			}
-			catch
-			{
-				reconnectCts.Dispose();
-				reconnectCts = null;
-				throw;
-			}
+
+			return stopOldTimerTask;
 		}
 
 		/// <summary>

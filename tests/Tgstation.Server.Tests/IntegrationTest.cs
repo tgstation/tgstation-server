@@ -1,8 +1,10 @@
+using Discord.WebSocket;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Threading;
@@ -11,16 +13,67 @@ using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Client;
 using Tgstation.Server.Host;
+using Tgstation.Server.Host.Components.Chat.Providers;
 
 namespace Tgstation.Server.Tests
 {
 	[TestClass]
+	[TestCategory("SkipWhenLiveUnitTesting")]
 	public sealed class IntegrationTest
 	{
 		readonly IServerClientFactory clientFactory = new ServerClientFactory(new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
-		
+
 		[TestMethod]
-		[TestCategory("SkipWhenLiveUnitTesting")]
+		public async Task TestAutomaticDiscordReconnection()
+		{
+			var discordToken = Environment.GetEnvironmentVariable("TGS4_TEST_DISCORD_TOKEN");
+			if (String.IsNullOrWhiteSpace(discordToken))
+				Assert.Inconclusive("The TGS4_TEST_DISCORD_TOKEN environment variable must be set to run this test!");
+
+			using (var discordProvider = new DiscordProvider(Mock.Of<ILogger<DiscordProvider>>(), discordToken, 1))
+			{
+				var connectResult = await discordProvider.Connect(default).ConfigureAwait(false);
+				Assert.IsTrue(connectResult, "Failed to connect to discord!");
+				Assert.IsTrue(discordProvider.Connected, "Discord provider is not connected!");
+
+				// Forcefully close the connection under the provider's nose
+				// This will be detected in real life scenarios
+				DiscordSocketClient socketClient = typeof(DiscordProvider)
+					.GetField("client", BindingFlags.Instance | BindingFlags.NonPublic)
+					?.GetValue(discordProvider)
+					as DiscordSocketClient;
+				Assert.IsNotNull(socketClient, "Reflection unable to read discord socket client!");
+
+				await socketClient.LogoutAsync().ConfigureAwait(false);
+
+				Assert.IsFalse(discordProvider.Connected, "Discord provider is still connected!");
+
+				try
+				{
+					using (CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(70)))
+					{
+						do
+						{
+							var message = await discordProvider.NextMessage(cts.Token).ConfigureAwait(false);
+							if (message == null)
+								break;
+						}
+						while (true);
+
+						// Prevents a deadlock coming from having the NextMessage continuation call Dispose
+						await Task.Yield();
+					}
+				}
+				catch (OperationCanceledException)
+				{
+					Assert.Fail("Failed to reconnect within the time period!");
+				}
+
+				Assert.IsTrue(discordProvider.Connected, "Discord provider not connected!");
+			}
+		}
+
+		[TestMethod]
 		public async Task TestUpdate()
 		{
 			var updatePathRoot = Path.GetTempFileName();
@@ -95,7 +148,6 @@ namespace Tgstation.Server.Tests
 		}
 
 		[TestMethod]
-		[TestCategory("SkipWhenLiveUnitTesting")]
 		public async Task TestStandardOperation()
 		{
 			var server = new TestingServer(clientFactory, null);
