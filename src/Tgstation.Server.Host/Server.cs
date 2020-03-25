@@ -202,7 +202,7 @@ namespace Tgstation.Server.Host
 						throw;
 					}
 
-					await Restart(version, null).ConfigureAwait(false);
+					await Restart(version, null, true).ConfigureAwait(false);
 				}
 				catch (OperationCanceledException)
 				{
@@ -247,15 +247,16 @@ namespace Tgstation.Server.Host
 		}
 
 		/// <inheritdoc />
-		public Task Restart() => Restart(null, null);
+		public Task Restart() => Restart(null, null, true);
 
 		/// <summary>
 		/// Implements <see cref="Restart()"/>
 		/// </summary>
 		/// <param name="newVersion">The <see cref="Version"/> of any potential updates being applied</param>
 		/// <param name="exception">The potential value of <see cref="propagatedException"/></param>
+		/// <param name="requireWatchdog">If the host watchdog is required for this "restart".</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		async Task Restart(Version newVersion, Exception exception)
+		async Task Restart(Version newVersion, Exception exception, bool requireWatchdog)
 		{
 			CheckSanity(true);
 
@@ -300,6 +301,6 @@ namespace Tgstation.Server.Host
 		}
 
 		/// <inheritdoc />
-		public Task Die(Exception exception) => Restart(null, exception);
+		public Task Die(Exception exception) => Restart(null, exception, false);
 	}
 }
