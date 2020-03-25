@@ -6,6 +6,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 	/// <summary>
 	/// Creates the SQLite database.
 	/// </summary>
+	#pragma warning disable CA1506 // No fighting this
 	public partial class SLAddSqlite : Migration
 	{
 		/// <inheritdoc />
