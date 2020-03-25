@@ -23,5 +23,7 @@ var searchData=
   ['20190219041825_5fmsfixrevinfoindex_2ecs',['20190219041825_MSFixRevInfoIndex.cs',['../20190219041825___m_s_fix_rev_info_index_8cs.html',1,'']]],
   ['20190219041825_5fmsfixrevinfoindex_2edesigner_2ecs',['20190219041825_MSFixRevInfoIndex.Designer.cs',['../20190219041825___m_s_fix_rev_info_index_8_designer_8cs.html',1,'']]],
   ['20190219042440_5fmyfixrevinfoindex_2ecs',['20190219042440_MYFixRevInfoIndex.cs',['../20190219042440___m_y_fix_rev_info_index_8cs.html',1,'']]],
-  ['20190219042440_5fmyfixrevinfoindex_2edesigner_2ecs',['20190219042440_MYFixRevInfoIndex.Designer.cs',['../20190219042440___m_y_fix_rev_info_index_8_designer_8cs.html',1,'']]]
+  ['20190219042440_5fmyfixrevinfoindex_2edesigner_2ecs',['20190219042440_MYFixRevInfoIndex.Designer.cs',['../20190219042440___m_y_fix_rev_info_index_8_designer_8cs.html',1,'']]],
+  ['20200322210825_5fsladdsqlite_2ecs',['20200322210825_SLAddSqlite.cs',['../20200322210825___s_l_add_sqlite_8cs.html',1,'']]],
+  ['20200322210825_5fsladdsqlite_2edesigner_2ecs',['20200322210825_SLAddSqlite.Designer.cs',['../20200322210825___s_l_add_sqlite_8_designer_8cs.html',1,'']]]
 ];

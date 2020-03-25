@@ -21,6 +21,7 @@ var searchData=
   ['skip',['Skip',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#a97c1a4a168451bd7e3be23c467aa2812a72ef2b9b6965d078e3c7f95487a82d1c',1,'Tgstation::Server::Host::Components::Watchdog']]],
   ['softrestart',['SoftRestart',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49a31d920012be69305899466206d2a4823',1,'Tgstation::Server::Api::Rights']]],
   ['softshutdown',['SoftShutdown',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49ae814f60fe597531f5630e0aef1adea94',1,'Tgstation::Server::Api::Rights']]],
+  ['sqlite',['Sqlite',['../namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617ca283f4ac146a612fabb50409a640cf21b',1,'Tgstation::Server::Host::Configuration']]],
   ['sqlserver',['SqlServer',['../namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617cae86e829e4d4c68b30a4fd26aa2bfca72',1,'Tgstation::Server::Host::Configuration']]],
   ['start',['Start',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49aa6122a65eaa676f700ae68d393054a37',1,'Tgstation::Server::Api::Rights']]],
   ['suspendresume',['SuspendResume',['../class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a14e5ef215cf77a3126bf7107d43bc52aa225c7a85340534236811e3cae22e885e',1,'Tgstation::Server::Host::NativeMethods']]],

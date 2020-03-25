@@ -15,8 +15,12 @@ var searchData=
   ['sessioncontroller',['SessionController',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html',1,'Tgstation::Server::Host::Components::Watchdog']]],
   ['sessioncontrollerfactory',['SessionControllerFactory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller_factory.html',1,'Tgstation::Server::Host::Components::Watchdog']]],
   ['setupwizard',['SetupWizard',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_setup_wizard.html',1,'Tgstation::Server::Host::Core']]],
+  ['sladdsqlite',['SLAddSqlite',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_sqlite.html',1,'Tgstation::Server::Host::Database::Migrations']]],
+  ['sqlitedatabasecontext',['SqliteDatabaseContext',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_sqlite_database_context.html',1,'Tgstation::Server::Host::Database']]],
+  ['sqlitedatabasecontextmodelsnapshot',['SqliteDatabaseContextModelSnapshot',['../class_tgstation_1_1_server_1_1_host_1_1_migrations_1_1_sqlite_database_context_model_snapshot.html',1,'Tgstation::Server::Host::Migrations']]],
+  ['sqlitedesigntimedbcontextfactory',['SqliteDesignTimeDbContextFactory',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_sqlite_design_time_db_context_factory.html',1,'Tgstation::Server::Host::Database::Design']]],
   ['sqlserverdatabasecontext',['SqlServerDatabaseContext',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_sql_server_database_context.html',1,'Tgstation::Server::Host::Database']]],
-  ['sqlserverdatabasecontextmodelsnapshot',['SqlServerDatabaseContextModelSnapshot',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_migrations_1_1_sql_server_database_context_model_snapshot.html',1,'Tgstation::Server::Host::Models::Migrations']]],
+  ['sqlserverdatabasecontextmodelsnapshot',['SqlServerDatabaseContextModelSnapshot',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_sql_server_database_context_model_snapshot.html',1,'Tgstation::Server::Host::Database::Migrations']]],
   ['sqlserverdesigntimedbcontextfactory',['SqlServerDesignTimeDbContextFactory',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_sql_server_design_time_db_context_factory.html',1,'Tgstation::Server::Host::Database::Design']]],
   ['swaggerconfiguration',['SwaggerConfiguration',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_swagger_configuration.html',1,'Tgstation::Server::Host::Core']]],
   ['synchronousiomanager',['SynchronousIOManager',['../class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html',1,'Tgstation::Server::Host::IO']]]
