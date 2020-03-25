@@ -7,6 +7,8 @@ environment:
   TGS4_TEST_CONNECTION_STRING: Server=(local)\SQL2017;Initial Catalog=TGS_Test;User ID=sa;Password=Password12!
   TGS4_TEST_GITHUB_TOKEN:
     secure: lJNGAXwiB5HlWdthz3K4PetqpTG5IEAyRgKaiKxFMQ8HW8CcOjRtB97B05op7BsK
+  TGS4_TEST_DISCORD_TOKEN:
+    secure: 5ENtMfhHDI6SOgZ9nP7oHX//nZ1w5cYSk3a17MO54+jmcZwEtwZPB4XvVKgtY2xIacjp96ZWNnQgIyfRHvnHSg==
   TGS_RELEASE_NOTES_TOKEN:
     secure: lJNGAXwiB5HlWdthz3K4PetqpTG5IEAyRgKaiKxFMQ8HW8CcOjRtB97B05op7BsK
 
