@@ -155,6 +155,8 @@ Whenever you make a change to a model schema that must be reflected in the datab
 1. Run `dotnet ef migrations add MS<NameOfYourMigration> --context SqlServerDatabaseContext`
 1. Configure your appsettings.Development.json to connect to a valid MySQL/MariaDB database.
 1. Run `dotnet ef migrations add MY<NameOfYourMigration> --context MySqlDatabaseContext`
+1. Configure your appsettings.Development.json to connect to a valid SQLite3 database.
+1. Run `dotnet ef migrations add SL<NameOfYourMigration> --context SqliteDatabaseContext`
 1. Fix compiler warnings in the generated files. Ensure all classes are in the Tgstation.Server.Host.Models.Migrations namespace.
 1. Run the server in both configurations to ensure the migrations work.
 
