@@ -2,6 +2,11 @@ sudo: false
 git:
   depth: 1
 
+branches:
+  only:
+  - dev
+  - master
+
 matrix:
   include:
     - env:

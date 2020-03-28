@@ -15,6 +15,7 @@ environment:
 
 branches:
   only:
+    - dev
     - master
 skip_tags: true
 image: Visual Studio 2019
