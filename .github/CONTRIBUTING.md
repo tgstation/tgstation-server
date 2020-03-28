@@ -162,6 +162,11 @@ Whenever you make a change to a model schema that must be reflected in the datab
 
 You should now have MY/MS migration files generated in `/src/Tgstation.Server.Host/Models/Migrations
 
+## Code Versioning
+
+Any backwards compatible fixes made should be committed to the `master` branch if possible. These will be automatically merged into the `dev` branch.
+All other changes should be made directly to the `dev` branch. These will be merged to `master` on the next minor release cycle.
+
 ## Deployment Process
 
 Every issue/pull request in a release should share a common milestone named with the release version i.e. `4.5.3.5`
