@@ -34,6 +34,8 @@ artifacts:
     name: DMAPI
   - path: tgsdox
     name: DocumentationHtml
+  - path: swagger/swagger.json
+    name: SwaggerSpec
 cache:
   - ~\.nuget\packages -> **\*.csproj
 services:
