@@ -40,4 +40,4 @@ if($publish_dox){
 mv C:/tgsdox "$bf/tgsdox"
 	
 # Add in the swagger specification
-cp C:/swagger.json "$bf/swagger/swagger.json"
+cp C:/swagger.json "$bf/swagger.json"
