@@ -26,6 +26,7 @@
   </PropertyGroup>
   
   <Target Name="NpmInstall" Inputs="ClientApp/package-lock.json" Outputs="$(NpmInstallStampFile)">
+    <Message Text="Restoring npm packages..." Importance="high" />
     <Exec WorkingDirectory="ClientApp" Command="npm ci" />
     <Touch Files="$(NpmInstallStampFile)" AlwaysCreate="true" />
   </Target>
