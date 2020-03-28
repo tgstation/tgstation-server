@@ -65,7 +65,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
-    <PackageReference Include="Octokit" Version="0.36.0" />
+    <PackageReference Include="Octokit" Version="0.46.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.2.6" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1" />
     <PackageReference Include="Serilog.Sinks.Async" Version="1.4.0" />
@@ -74,10 +74,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0-rc5" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.2.1" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="4.7.0" />
     <PackageReference Include="System.DirectoryServices.AccountManagement" Version="4.7.0" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.5.0" />
     <PackageReference Include="Wangkanai.Detection.Browser" Version="2.0.0" />
     <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="2.0.32" />
   </ItemGroup>
