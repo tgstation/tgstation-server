@@ -1,5 +1,4 @@
-﻿using System;
-using Tgstation.Server.Api.Models;
+﻿using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Client.Components
 {
