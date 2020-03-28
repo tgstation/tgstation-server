@@ -2,7 +2,7 @@
   <Import Project="../../build/Version.props" />
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
     <DebugType>Full</DebugType>
     <Version>$(TgsCoreVersion)</Version>
     <LangVersion>latest</LangVersion>
