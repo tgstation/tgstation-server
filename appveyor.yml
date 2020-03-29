@@ -96,7 +96,7 @@ deploy:
     description: "$(TGSReleaseNotes)"
     auth_token:
       secure: lJNGAXwiB5HlWdthz3K4PetqpTG5IEAyRgKaiKxFMQ8HW8CcOjRtB97B05op7BsK
-    artifact: ServerConsole,ServerService,ServerUpdatePackage,DMAPI
+    artifact: ServerConsole,ServerService,ServerUpdatePackage,DMAPI,SwaggerSpec
     draft: $(TGSDraftNotes)
     prerelease: true
     on:
