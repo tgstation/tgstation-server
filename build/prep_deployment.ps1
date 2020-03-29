@@ -7,9 +7,10 @@ if (($env:CONFIGURATION -match "Release") -And ($env:APPVEYOR_REPO_BRANCH -match
     $env:TGSDeploy = "Do it." 
 
     Write-Host "Generating release notes..."
-    dotnet run -p "$env:APPVEYOR_BUILD_FOLDER/tools/ReleaseNotes" $env:TGSVersion
+    $bf = $env:APPVEYOR_BUILD_FOLDER
+    dotnet run -p "$bf/tools/ReleaseNotes" $env:TGSVersion
     $env:TGSDraftNotes = !($?)
-    $releaseNotesPath = "$env:APPVEYOR_BUILD_FOLDER/tools/ReleaseNotes/release_notes.md"
+    $releaseNotesPath = "$bf/release_notes.md"
     Write-Host "Reading release notes from $releaseNotesPath..."
     if (Test-Path $releaseNotesPath -PathType Leaf) {
         $env:TGSReleaseNotes = [IO.File]::ReadAllText($releaseNotesPath)
