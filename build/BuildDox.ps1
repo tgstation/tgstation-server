@@ -38,3 +38,6 @@ if($publish_dox){
 	rm -r "$doxdir/.git"
 }
 mv C:/tgsdox "$bf/tgsdox"
+	
+# Add in the swagger specification
+cp C:/swagger.json "$bf/swagger.json"

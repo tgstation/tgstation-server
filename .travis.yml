@@ -2,13 +2,18 @@ sudo: false
 git:
   depth: 1
 
+branches:
+  only:
+  - dev
+  - master
+
 matrix:
   include:
     - env:
       - DockerBuild=false
       - DMAPI=true
-      - BYOND_MAJOR="511"
-      - BYOND_MINOR="1385"
+      - BYOND_MAJOR="513"
+      - BYOND_MINOR="1517"
       - DMEName="tests/DMAPI/travistester.dme"
       name: "DMAPI Unit Tests"
       language: generic

@@ -15,6 +15,7 @@ environment:
 
 branches:
   only:
+    - dev
     - master
 skip_tags: true
 image: Visual Studio 2019
@@ -33,6 +34,8 @@ artifacts:
     name: DMAPI
   - path: tgsdox
     name: DocumentationHtml
+  - path: swagger.json
+    name: SwaggerSpec
 cache:
   - ~\.nuget\packages -> **\*.csproj
 services:
@@ -93,7 +96,7 @@ deploy:
     description: "$(TGSReleaseNotes)"
     auth_token:
       secure: lJNGAXwiB5HlWdthz3K4PetqpTG5IEAyRgKaiKxFMQ8HW8CcOjRtB97B05op7BsK
-    artifact: ServerConsole,ServerService,ServerUpdatePackage,DMAPI
+    artifact: ServerConsole,ServerService,ServerUpdatePackage,DMAPI,SwaggerSpec
     draft: $(TGSDraftNotes)
     prerelease: true
     on:

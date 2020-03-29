@@ -34,11 +34,17 @@ You can of course, as always, ask for help at [#coderbus](irc://irc.rizon.net/co
 
 ### Development Environment
 
-You need the Dotnet 2.1 SDK and npm>=v5.7 (in your PATH) to compile the server. In order to build the service version you also need a .NET 4.7.1 build chain
+You need the Dotnet 2.2 SDK and npm>=v5.7 (in your PATH) to compile the server. In order to build the service version you also need a .NET 4.7.1 build chain
 
-The recommended IDE is Visual Studio 2017 which has installation options for both of these.
+The recommended IDE is Visual Studio 2019 which has installation options for both of these.
 
-In order to run the integration tests you must have the environment variables `TGS4_TEST_DATABASE_TYPE` set to `MySql`, `MariaDB` or `SqlServer` and `TGS4_TEST_CONNECTION_STRING` set appropriately
+In order to run the integration tests you must have the following environment variables set:
+- `TGS4_TEST_DATABASE_TYPE`: `MySql`, `MariaDB` or `SqlServer`.
+- `TGS4_TEST_CONNECTION_STRING`: To a valid database connection string. You can use the setup wizard to create one.
+
+The following environment variables aren't required but enable more tests.
+- `TSG4_TEST_DISCORD_TOKEN`: To a valid discord bot token.
+- `TGS4_TEST_DISCORD_CHANNEL`: To a valid discord channel ID that the above bot can access.
 
 ## Specifications
 
@@ -161,6 +167,11 @@ Whenever you make a change to a model schema that must be reflected in the datab
 1. Run the server in both configurations to ensure the migrations work.
 
 You should now have MY/MS migration files generated in `/src/Tgstation.Server.Host/Models/Migrations
+
+## Code Versioning
+
+Any backwards compatible fixes made should be committed to the `master` branch if possible. These will be automatically merged into the `dev` branch.
+All other changes should be made directly to the `dev` branch. These will be merged to `master` on the next minor release cycle.
 
 ## Deployment Process
 

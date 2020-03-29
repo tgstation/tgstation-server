@@ -532,8 +532,8 @@ namespace Tgstation.Server.Host.Core
 				newGeneralConfiguration.GitHubAccessToken = null;
 
 			newGeneralConfiguration.UseExperimentalWatchdog = await PromptYesNo("Use the experimental watchdog (NOT RECOMMENDED)? (y/n): ", cancellationToken).ConfigureAwait(false);
-			if (!newGeneralConfiguration.UseExperimentalWatchdog && platformIdentifier.IsWindows)
-				newGeneralConfiguration.UseBasicWatchdogOnWindows = !await PromptYesNo("Use the TGS3 style Windows watchdog (RECOMMENDED)? (y/n): ", cancellationToken).ConfigureAwait(false);
+
+			newGeneralConfiguration.UseBasicWatchdogOnWindows = true;
 
 			return newGeneralConfiguration;
 		}
