@@ -282,9 +282,10 @@ namespace ReleaseNotes
 				newNotes.Append(Environment.NewLine);
 				newNotes.Append(oldNotes);
 
-				Console.WriteLine("Writing out new release notes...");
+				const string OutputPath = "release_notes.md";
+				Console.WriteLine($"Writing out new release notes to {Path.GetFullPath(OutputPath)}...");
 				var releaseNotes = newNotes.ToString();
-				await File.WriteAllTextAsync("release_notes.md", releaseNotes).ConfigureAwait(false);
+				await File.WriteAllTextAsync(OutputPath, releaseNotes).ConfigureAwait(false);
 
 				if (doNotCloseMilestone)
 					Console.WriteLine("Not closing milestone due to parameter!");
