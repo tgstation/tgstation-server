@@ -71,7 +71,6 @@ $(function() {
 </a> <a href="https://travis-ci.org/tgstation/tgstation-server"><img src="https://travis-ci.org/tgstation/tgstation-server.svg?branch=master" alt="Build Status" class="inline"/>
 </a> <a href="https://codecov.io/gh/tgstation/tgstation-server"><object type="image/svg+xml" data="https://codecov.io/gh/tgstation/tgstation-server/branch/master/graph/badge.svg" alt="codecov"></object>
 />
-</a> <a href="https://waffle.io/tgstation/tgstation-server?utm_source=badge"><img src="https://badge.waffle.io/tgstation/tgstation-server.png?columns=all" alt="Waffle.io - Columns and their card count" class="inline"/>
 </a></p>
 <p><a href="https://github.com/tgstation/tgstation-server/blob/master/LICENSE"><object type="image/svg+xml" data="https://img.shields.io/github/license/tgstation/tgstation-server.svg" alt="GitHub license"></object>
 />
@@ -97,7 +96,7 @@ $(function() {
 <h2>Setup</h2>
 <h3>Pre-Requisites</h3>
 <ul>
-<li><a href="https://www.microsoft.com/net/download">.NET Core Runtime (&gt;= v2.1)</a> If you plan to install tgstation-server as a Windows service, you should also ensure that your .NET Framework runtime version is &gt;= v4.7.1 (Download can be found on same page). On Windows, ensure that the <code>dotnet</code> executable file is in your system's <code>PATH</code> variable (or the user's that will be running the server).</li>
+<li><a href="https://www.microsoft.com/net/download">.NET Core Runtime (&gt;= v2.2)</a> If you plan to install tgstation-server as a Windows service, you should also ensure that your .NET Framework runtime version is &gt;= v4.7.1 (Download can be found on same page). On Windows, ensure that the <code>dotnet</code> executable file is in your system's <code>PATH</code> variable (or the user's that will be running the server).</li>
 <li>A <a href="https://downloads.mariadb.org/">MariaDB</a>, MySQL, or <a href="https://www.microsoft.com/en-us/download/details.aspx?id=55994">Microsoft SQL Server</a> database engine is required</li>
 </ul>
 <h3>Installation</h3>
@@ -132,7 +131,7 @@ $(function() {
 <li><code>FileLogging:LogLevel</code>: Can be one of <code>Trace</code>, <code>Debug</code>, <code>Information</code>, <code>Warning</code>, <code>Error</code>, or <code>Critical</code>. Restricts what is put into the log files. Currently <code>Debug</code> is reccommended for help with error reporting.</li>
 <li><code>Kestrel:Endpoints:Http:Url</code>: The URL (i.e. interface and ports) your application should listen on. General use case should be <code><a href="http://localhost:">http://localhost:</a>&lt;port&gt;</code> for restricted local connections. See the Remote Access section for configuring public access to the World Wide Web. This doesn't need to be changed using the docker setup and should be mapped with the <code>-p</code> option instead</li>
 <li><code>Database:DatabaseType</code>: Can be one of <code>SqlServer</code>, <code>MariaDB</code>, or <code>MySql</code></li>
-<li><code>Database:MySqlServerVersion</code>: The version of MySql/MariaDB the database resides on, can be left as null for attempted auto detection. Used by the MySQL/MariaDB provider for selection of <a href="https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql/blob/2.1.1/src/EFCore.MySql/Storage/Internal/ServerVersion.cs">certain features</a> ignore at your own risk. A string in the form <code>&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;</code></li>
+<li><code>Database:MySqlServerVersion</code>: The version of MySql/MariaDB the database resides on, can be left as null for attempted auto detection. Used by the MySQL/MariaDB provider for selection of <a href="https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql/blob/2.2.6/src/EFCore.MySql/Storage/Internal/ServerVersion.cs">certain features</a> ignore at your own risk. A string in the form <code>&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;</code></li>
 <li><code>Database:ConnectionString</code>: Connection string for your database. Click <a href="https://www.developerfusion.com/tools/sql-connection-string/">here</a> for an SQL Server generator or see <a href="https://www.connectionstrings.com/mysql/">here</a> for a MySQL guide (<a href="https://stackoverflow.com/questions/19712307/mysql-localhost-127-0-0-1">You should probably use '127.0.0.1' instead of 'localhost'</a>).</li>
 <li><code>ControlPanel:Enable</code>: Enable the javascript based control panel to be served from the server via /index.html</li>
 <li><code>ControlPanel:AllowAnyOrigin</code>: Set the Access-Control-Allow-Origin header to * for all responses (also enables all headers and methods)</li>

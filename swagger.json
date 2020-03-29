@@ -387,8 +387,7 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/Byond"
-                  },
-                  "nullable": true
+                  }
                 }
               }
             }
@@ -592,6 +591,7 @@
             "required": true,
             "schema": {
               "type": "integer",
+              "description": "The Tgstation.Server.Api.Models.Internal.ChatBot.Id to delete.",
               "format": "int64"
             }
           },
@@ -648,6 +648,7 @@
             "required": true,
             "schema": {
               "type": "integer",
+              "description": "The Tgstation.Server.Api.Models.Internal.ChatBot.Id to retrieve.",
               "format": "int64"
             }
           },
@@ -728,8 +729,7 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/ChatBot"
-                  },
-                  "nullable": true
+                  }
                 }
               }
             }
@@ -1033,6 +1033,7 @@
             "required": true,
             "schema": {
               "type": "string",
+              "description": "The path of the file to get",
               "nullable": true
             }
           },
@@ -1104,6 +1105,7 @@
             "required": true,
             "schema": {
               "type": "string",
+              "description": "The path of the directory to get",
               "nullable": true
             }
           },
@@ -1126,8 +1128,7 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/ConfigurationFile"
-                  },
-                  "nullable": true
+                  }
                 }
               }
             }
@@ -1191,8 +1192,7 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/ConfigurationFile"
-                  },
-                  "nullable": true
+                  }
                 }
               }
             }
@@ -1723,6 +1723,7 @@
             "required": true,
             "schema": {
               "type": "integer",
+              "description": "The Tgstation.Server.Api.Models.EntityId.Id.",
               "format": "int64"
             }
           },
@@ -1803,8 +1804,7 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/EntityId"
-                  },
-                  "nullable": true
+                  }
                 }
               }
             }
@@ -2120,6 +2120,7 @@
             "required": true,
             "schema": {
               "type": "integer",
+              "description": "The Tgstation.Server.Api.Models.Instance.Id to detach.",
               "format": "int64"
             }
           },
@@ -2176,6 +2177,7 @@
             "required": true,
             "schema": {
               "type": "integer",
+              "description": "The Tgstation.Server.Api.Models.Instance.Id to retrieve.",
               "format": "int64"
             }
           },
@@ -2250,8 +2252,7 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/Instance"
-                  },
-                  "nullable": true
+                  }
                 }
               }
             }
@@ -2520,8 +2521,7 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/InstanceUser"
-                  },
-                  "nullable": true
+                  }
                 }
               }
             }
@@ -2567,6 +2567,7 @@
             "required": true,
             "schema": {
               "type": "integer",
+              "description": "The Tgstation.Server.Api.Models.InstanceUser.UserId.",
               "format": "int64"
             }
           },
@@ -2633,6 +2634,7 @@
             "required": true,
             "schema": {
               "type": "integer",
+              "description": "The Tgstation.Server.Api.Models.InstanceUser.UserId to delete.",
               "format": "int64"
             }
           },
@@ -2700,8 +2702,7 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/Job"
-                  },
-                  "nullable": true
+                  }
                 }
               }
             }
@@ -2756,8 +2757,7 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/EntityId"
-                  },
-                  "nullable": true
+                  }
                 }
               }
             }
@@ -2803,6 +2803,7 @@
             "required": true,
             "schema": {
               "type": "integer",
+              "description": "The Tgstation.Server.Api.Models.EntityId.Id of the Tgstation.Server.Api.Models.Job to cancel.",
               "format": "int64"
             }
           },
@@ -2862,6 +2863,7 @@
             "required": true,
             "schema": {
               "type": "integer",
+              "description": "The Tgstation.Server.Api.Models.EntityId.Id of the Tgstation.Server.Api.Models.Job to retrieve.",
               "format": "int64"
             }
           },
@@ -3446,8 +3448,7 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/User"
-                  },
-                  "nullable": true
+                  }
                 }
               }
             }
@@ -3493,6 +3494,7 @@
             "required": true,
             "schema": {
               "type": "integer",
+              "description": "The Tgstation.Server.Api.Models.Internal.User.Id to retrieve.",
               "format": "int64"
             }
           },
@@ -3579,8 +3581,7 @@
             "format": "int32",
             "readOnly": true
           }
-        },
-        "nullable": true
+        }
       },
       "Administration": {
         "type": "object",
@@ -3602,8 +3603,7 @@
             "$ref": "#/components/schemas/Version"
           }
         },
-        "description": "Represents administrative server information",
-        "nullable": true
+        "description": "Represents administrative server information"
       },
       "ErrorMessage": {
         "type": "object",
@@ -3617,10 +3617,9 @@
             "$ref": "#/components/schemas/Version"
           }
         },
-        "description": "Represents an error message returned by the server",
-        "nullable": true
+        "description": "Represents an error message returned by the server"
       },
-      "AdministrationRightsNullable": {
+      "AdministrationRights": {
         "enum": [
           0,
           1,
@@ -3630,8 +3629,8 @@
           16
         ],
         "type": "integer",
+        "description": "Rights for Tgstation.Server.Api.Models.Administration",
         "format": "int64",
-        "nullable": true,
         "x-enum-varnames": [
           "None",
           "WriteUsers",
@@ -3641,7 +3640,7 @@
           "ReadUsers"
         ]
       },
-      "InstanceManagerRightsNullable": {
+      "InstanceManagerRights": {
         "enum": [
           0,
           1,
@@ -3655,8 +3654,8 @@
           256
         ],
         "type": "integer",
+        "description": "Rights for managing Tgstation.Server.Api.Models.Instances",
         "format": "int64",
-        "nullable": true,
         "x-enum-varnames": [
           "None",
           "Read",
@@ -3707,15 +3706,14 @@
             "description": "The name of the Tgstation.Server.Api.Models.Internal.User"
           },
           "AdministrationRights": {
-            "$ref": "#/components/schemas/AdministrationRightsNullable"
+            "$ref": "#/components/schemas/AdministrationRights"
           },
           "InstanceManagerRights": {
-            "$ref": "#/components/schemas/InstanceManagerRightsNullable"
+            "$ref": "#/components/schemas/InstanceManagerRights"
           }
-        },
-        "nullable": true
+        }
       },
-      "RightsTypeNullable": {
+      "RightsType": {
         "enum": [
           0,
           1,
@@ -3728,8 +3726,8 @@
           8
         ],
         "type": "integer",
+        "description": "The type of rights a model uses",
         "format": "int64",
-        "nullable": true,
         "x-enum-varnames": [
           "Administration",
           "InstanceManager",
@@ -3787,7 +3785,7 @@
             "description": "If the Tgstation.Server.Api.Models.Internal.Job was cancelled"
           },
           "CancelRightsType": {
-            "$ref": "#/components/schemas/RightsTypeNullable"
+            "$ref": "#/components/schemas/RightsType"
           },
           "CancelRight": {
             "type": "integer",
@@ -3801,8 +3799,7 @@
             "format": "int64"
           }
         },
-        "description": "Represents a long running job on the server. Model is read-only, updates attempt to cancel the job",
-        "nullable": true
+        "description": "Represents a long running job on the server. Model is read-only, updates attempt to cancel the job"
       },
       "Byond": {
         "type": "object",
@@ -3814,8 +3811,7 @@
             "$ref": "#/components/schemas/Job"
           }
         },
-        "description": "Represents a BYOND installation",
-        "nullable": true
+        "description": "Represents a BYOND installation"
       },
       "ChatChannel": {
         "required": [
@@ -3854,17 +3850,16 @@
             "nullable": true
           }
         },
-        "description": "Indicates a chat channel",
-        "nullable": true
+        "description": "Indicates a chat channel"
       },
-      "ChatProviderNullable": {
+      "ChatProvider": {
         "enum": [
           0,
           1
         ],
         "type": "integer",
+        "description": "Represents a chat service provider",
         "format": "int32",
-        "nullable": true,
         "x-enum-varnames": [
           "Irc",
           "Discord"
@@ -3906,14 +3901,13 @@
             "format": "int32"
           },
           "Provider": {
-            "$ref": "#/components/schemas/ChatProviderNullable"
+            "$ref": "#/components/schemas/ChatProvider"
           },
           "ConnectionString": {
             "type": "string",
             "description": "The information used to connect to the Tgstation.Server.Api.Models.Internal.ChatBot.Provider"
           }
-        },
-        "nullable": true
+        }
       },
       "ConfigurationFile": {
         "type": "object",
@@ -3945,8 +3939,7 @@
             "nullable": true
           }
         },
-        "description": "Represents a game configuration file. Create and delete actions uncerimonuously overwrite/delete files",
-        "nullable": true
+        "description": "Represents a game configuration file. Create and delete actions uncerimonuously overwrite/delete files"
       },
       "TestMerge": {
         "required": [
@@ -4003,8 +3996,7 @@
             "description": "Optional comment about the test",
             "nullable": true
           }
-        },
-        "nullable": true
+        }
       },
       "RevisionInformation": {
         "required": [
@@ -4044,18 +4036,17 @@
             "type": "string",
             "description": "The sha of the most recent remote commit"
           }
-        },
-        "nullable": true
+        }
       },
-      "DreamDaemonSecurityNullable": {
+      "DreamDaemonSecurity": {
         "enum": [
           0,
           1,
           2
         ],
         "type": "integer",
+        "description": "DreamDaemon's security level",
         "format": "int32",
-        "nullable": true,
         "x-enum-varnames": [
           "Trusted",
           "Safe",
@@ -4094,15 +4085,14 @@
             "format": "uuid"
           },
           "MinimumSecurityLevel": {
-            "$ref": "#/components/schemas/DreamDaemonSecurityNullable"
+            "$ref": "#/components/schemas/DreamDaemonSecurity"
           },
           "Id": {
             "type": "integer",
             "description": "The ID of the entity.",
             "format": "int64"
           }
-        },
-        "nullable": true
+        }
       },
       "DreamDaemon": {
         "required": [
@@ -4129,7 +4119,7 @@
             "nullable": true
           },
           "CurrentSecurity": {
-            "$ref": "#/components/schemas/DreamDaemonSecurityNullable"
+            "$ref": "#/components/schemas/DreamDaemonSecurity"
           },
           "CurrentPort": {
             "type": "integer",
@@ -4159,7 +4149,7 @@
             "description": "If the BYOND web client can be used to connect to the game server"
           },
           "SecurityLevel": {
-            "$ref": "#/components/schemas/DreamDaemonSecurityNullable"
+            "$ref": "#/components/schemas/DreamDaemonSecurity"
           },
           "PrimaryPort": {
             "type": "integer",
@@ -4177,8 +4167,7 @@
             "format": "int32"
           }
         },
-        "description": "Represents an instance of BYOND's DreamDaemon game server. Create action starts the server. Delete action shuts down the server",
-        "nullable": true
+        "description": "Represents an instance of BYOND's DreamDaemon game server. Create action starts the server. Delete action shuts down the server"
       },
       "DreamMaker": {
         "required": [
@@ -4198,11 +4187,10 @@
             "format": "int32"
           },
           "ApiValidationSecurityLevel": {
-            "$ref": "#/components/schemas/DreamDaemonSecurityNullable"
+            "$ref": "#/components/schemas/DreamDaemonSecurity"
           }
         },
-        "description": "Represents the state of the DreamMaker compiler. Create action starts a new compile. Delete action cancels the current compile",
-        "nullable": true
+        "description": "Represents the state of the DreamMaker compiler. Create action starts a new compile. Delete action cancels the current compile"
       },
       "EntityId": {
         "type": "object",
@@ -4213,8 +4201,7 @@
             "format": "int64"
           }
         },
-        "description": "Base of Tgstation.Server.Api.Models.CompileJobs.",
-        "nullable": true
+        "description": "Base of Tgstation.Server.Api.Models.CompileJobs."
       },
       "ServerInformation": {
         "type": "object",
@@ -4226,8 +4213,7 @@
             "$ref": "#/components/schemas/Version"
           }
         },
-        "description": "Represents basic server information",
-        "nullable": true
+        "description": "Represents basic server information"
       },
       "Token": {
         "type": "object",
@@ -4244,18 +4230,17 @@
             "nullable": true
           }
         },
-        "description": "Represents a JWT returned by the API",
-        "nullable": true
+        "description": "Represents a JWT returned by the API"
       },
-      "ConfigurationTypeNullable": {
+      "ConfigurationType": {
         "enum": [
           0,
           1,
           2
         ],
         "type": "integer",
+        "description": "The type of configuration allowed on an Tgstation.Server.Api.Models.Instance",
         "format": "int32",
-        "nullable": true,
         "x-enum-varnames": [
           "Disallowed",
           "HostWrite",
@@ -4290,7 +4275,7 @@
             "description": "If the Tgstation.Server.Api.Models.Instance is online"
           },
           "ConfigurationType": {
-            "$ref": "#/components/schemas/ConfigurationTypeNullable"
+            "$ref": "#/components/schemas/ConfigurationType"
           },
           "AutoUpdateInterval": {
             "type": "integer",
@@ -4301,10 +4286,9 @@
             "$ref": "#/components/schemas/Job"
           }
         },
-        "description": "Metadata about a server instance",
-        "nullable": true
+        "description": "Metadata about a server instance"
       },
-      "InstanceUserRightsNullable": {
+      "InstanceUserRights": {
         "enum": [
           0,
           1,
@@ -4312,8 +4296,8 @@
           4
         ],
         "type": "integer",
+        "description": "Rights for an Tgstation.Server.Api.Models.Instance",
         "format": "int64",
-        "nullable": true,
         "x-enum-varnames": [
           "None",
           "ReadUsers",
@@ -4321,7 +4305,7 @@
           "CreateUsers"
         ]
       },
-      "ByondRightsNullable": {
+      "ByondRights": {
         "enum": [
           0,
           1,
@@ -4330,8 +4314,8 @@
           8
         ],
         "type": "integer",
+        "description": "Rights for Tgstation.Server.Api.Models.Byond",
         "format": "int64",
-        "nullable": true,
         "x-enum-varnames": [
           "None",
           "ReadActive",
@@ -4340,7 +4324,7 @@
           "CancelInstall"
         ]
       },
-      "DreamDaemonRightsNullable": {
+      "DreamDaemonRights": {
         "enum": [
           0,
           1,
@@ -4357,8 +4341,8 @@
           2048
         ],
         "type": "integer",
+        "description": "Rights for Tgstation.Server.Api.Models.DreamDaemon",
         "format": "int64",
-        "nullable": true,
         "x-enum-varnames": [
           "None",
           "ReadRevision",
@@ -4375,7 +4359,7 @@
           "SetStartupTimeout"
         ]
       },
-      "DreamMakerRightsNullable": {
+      "DreamMakerRights": {
         "enum": [
           0,
           1,
@@ -4387,8 +4371,8 @@
           64
         ],
         "type": "integer",
+        "description": "Rights for Tgstation.Server.Api.Models.DreamMaker",
         "format": "int64",
-        "nullable": true,
         "x-enum-varnames": [
           "None",
           "Read",
@@ -4400,7 +4384,7 @@
           "SetSecurityLevel"
         ]
       },
-      "RepositoryRightsNullable": {
+      "RepositoryRights": {
         "enum": [
           0,
           1,
@@ -4418,8 +4402,8 @@
           4096
         ],
         "type": "integer",
+        "description": "Rights for a Tgstation.Server.Api.Models.Repository",
         "format": "int64",
-        "nullable": true,
         "x-enum-varnames": [
           "None",
           "CancelPendingChanges",
@@ -4437,7 +4421,7 @@
           "CancelClone"
         ]
       },
-      "ChatBotRightsNullable": {
+      "ChatBotRights": {
         "enum": [
           0,
           1,
@@ -4452,8 +4436,8 @@
           512
         ],
         "type": "integer",
+        "description": "Rights for Tgstation.Server.Api.Models.ChatBot",
         "format": "int64",
-        "nullable": true,
         "x-enum-varnames": [
           "None",
           "WriteEnabled",
@@ -4468,7 +4452,7 @@
           "WriteReconnectionInterval"
         ]
       },
-      "ConfigurationRightsNullable": {
+      "ConfigurationRights": {
         "enum": [
           0,
           1,
@@ -4477,8 +4461,8 @@
           8
         ],
         "type": "integer",
+        "description": "Rights for Tgstation.Server.Api.Models.ConfigurationFile",
         "format": "int64",
-        "nullable": true,
         "x-enum-varnames": [
           "None",
           "Read",
@@ -4506,29 +4490,28 @@
             "format": "int64"
           },
           "InstanceUserRights": {
-            "$ref": "#/components/schemas/InstanceUserRightsNullable"
+            "$ref": "#/components/schemas/InstanceUserRights"
           },
           "ByondRights": {
-            "$ref": "#/components/schemas/ByondRightsNullable"
+            "$ref": "#/components/schemas/ByondRights"
           },
           "DreamDaemonRights": {
-            "$ref": "#/components/schemas/DreamDaemonRightsNullable"
+            "$ref": "#/components/schemas/DreamDaemonRights"
           },
           "DreamMakerRights": {
-            "$ref": "#/components/schemas/DreamMakerRightsNullable"
+            "$ref": "#/components/schemas/DreamMakerRights"
           },
           "RepositoryRights": {
-            "$ref": "#/components/schemas/RepositoryRightsNullable"
+            "$ref": "#/components/schemas/RepositoryRights"
           },
           "ChatBotRights": {
-            "$ref": "#/components/schemas/ChatBotRightsNullable"
+            "$ref": "#/components/schemas/ChatBotRights"
           },
           "ConfigurationRights": {
-            "$ref": "#/components/schemas/ConfigurationRightsNullable"
+            "$ref": "#/components/schemas/ConfigurationRights"
           }
         },
-        "description": "Represents a Tgstation.Server.Api.Models.Users permissions in an Tgstation.Server.Api.Models.Instance",
-        "nullable": true
+        "description": "Represents a Tgstation.Server.Api.Models.Users permissions in an Tgstation.Server.Api.Models.Instance"
       },
       "TestMergeParameters": {
         "required": [
@@ -4552,8 +4535,7 @@
             "nullable": true
           }
         },
-        "description": "Parameters for creating a Tgstation.Server.Api.Models.TestMerge",
-        "nullable": true
+        "description": "Parameters for creating a Tgstation.Server.Api.Models.TestMerge"
       },
       "Repository": {
         "required": [
@@ -4650,8 +4632,7 @@
             "description": "If test merging should create a comment"
           }
         },
-        "description": "Represents a git repository",
-        "nullable": true
+        "description": "Represents a git repository"
       },
       "UserUpdate": {
         "required": [
@@ -4695,14 +4676,13 @@
             "description": "The name of the Tgstation.Server.Api.Models.Internal.User"
           },
           "AdministrationRights": {
-            "$ref": "#/components/schemas/AdministrationRightsNullable"
+            "$ref": "#/components/schemas/AdministrationRights"
           },
           "InstanceManagerRights": {
-            "$ref": "#/components/schemas/InstanceManagerRightsNullable"
+            "$ref": "#/components/schemas/InstanceManagerRights"
           }
         },
-        "description": "For editing a given Tgstation.Server.Api.Models.User. Will never be returned by the API",
-        "nullable": true
+        "description": "For editing a given Tgstation.Server.Api.Models.User. Will never be returned by the API"
       }
     },
     "responses": {
