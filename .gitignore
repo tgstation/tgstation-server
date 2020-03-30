@@ -20,4 +20,5 @@ artifacts/
 /src/Tgstation.Server.Host/ClientApp/node_modules
 /src/Tgstation.Server.Host/ClientApp/build
 /tools/ReleaseNotes/release_notes.md
+/tools/ReleaseNotes/Properties/launchSettings.json
 release_notes.md

@@ -34,7 +34,7 @@ namespace ReleaseNotes
 
 			var doNotCloseMilestone = args.Length >= 2 && args[1].ToUpperInvariant() == "--NO-CLOSE";
 
-			const string ReleaseNotesEnvVar = "TGS_RELEASE_NOTES_TOKEN";
+			const string ReleaseNotesEnvVar = "TGS4_RELEASE_NOTES_TOKEN";
 			var githubToken = Environment.GetEnvironmentVariable(ReleaseNotesEnvVar);
 			if (String.IsNullOrWhiteSpace(githubToken))
 			{
@@ -95,7 +95,6 @@ namespace ReleaseNotes
 					{
 						var commentSplits = comment.Split('\n');
 						var notesOpen = false;
-						var notesClosed = false;
 						var notes = new List<string>();
 						foreach (var line in commentSplits)
 						{
@@ -103,12 +102,10 @@ namespace ReleaseNotes
 							if (!notesOpen)
 							{
 								notesOpen = trimmedLine.StartsWith(":cl:", StringComparison.Ordinal);
-								notesClosed = false;
 								continue;
 							}
 							if (trimmedLine.StartsWith("/:cl:", StringComparison.Ordinal))
 							{
-								notesClosed = true;
 								notesOpen = false;
 								continue;
 							}
@@ -116,7 +113,7 @@ namespace ReleaseNotes
 								continue;
 							notes.Add(trimmedLine);
 						}
-						if (!notesClosed || notes.Count == 0)
+						if (notesOpen || notes.Count == 0)
 							return;
 
 						Task<bool> authTask;
@@ -241,7 +238,7 @@ namespace ReleaseNotes
 					{
 						newNotes.Append("## [Changelog for ");
 						newNotes.Append(version.Build);
-						newNotes.Append(".x");
+						newNotes.Append(".X");
 					}
 				else
 				{
