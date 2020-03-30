@@ -21,7 +21,7 @@ if (($env:CONFIGURATION -match "Release") -And ($env:APPVEYOR_REPO_BRANCH -match
     }      
 }
     
-if ($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[NugetDeploy\]") {
+if (($env:APPVEYOR_REPO_BRANCH -match "master") -And ($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[NugetDeploy\]")) {
     $env:NugetDeploy = "Do it."
     Write-Host "Nuget deployment enabled"
 }  
