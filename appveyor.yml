@@ -50,6 +50,7 @@ build:
   parallel: false
   verbosity: minimal
   publish_nuget: true
+  publish_nuget_symbols: true
 test_script:
   - OpenCover.Console.exe -returntargetcode -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test -c %CONFIGURATION% --logger:trx;LogFileName=results.trx /p:DebugType=full tests/Tgstation.Server.Api.Tests/Tgstation.Server.Api.Tests.csproj" -filter:"+[Tgstation.Server*]* -[Tgstation.Server.Api.Tests*]*" -output:".\api_coverage.xml" -oldstyle
   - ps: $wc = New-Object 'System.Net.WebClient'

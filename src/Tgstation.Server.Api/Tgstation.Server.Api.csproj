@@ -16,6 +16,8 @@
     <Copyright>2018</Copyright>
     <PackageTags>json web api tgstation-server tgstation ss13 byond</PackageTags>
     <PackageReleaseNotes>Added ApiHeaders.RawUserAgent</PackageReleaseNotes>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <Version>$(TgsApiVersion)</Version>
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
     <LangVersion>latest</LangVersion>

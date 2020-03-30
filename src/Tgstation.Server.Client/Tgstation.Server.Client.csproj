@@ -18,6 +18,8 @@
     <PackageIcon>tgs.ico</PackageIcon>
     <PackageTags>json web api tgstation-server tgstation ss13 byond client</PackageTags>
     <PackageReleaseNotes>Added the ability to change the Token of IServerClient</PackageReleaseNotes>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <Copyright>2018</Copyright>
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
     <LangVersion>latest</LangVersion>
