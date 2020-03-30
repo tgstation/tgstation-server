@@ -106,6 +106,13 @@ deploy:
     api_key:
       secure: DzllxD27WDdbXf/U9myiLcu/DBlJBk1rlrPv629JHluIsffaJUbY1L+TRYo5gwjf
     skip_symbols: true
-    artifact: /.*\.nupkg/
+    artifact: /.*\.Api\.nupkg/
+    on:
+      NugetDeploy: "Do it."
+  - provider: NuGet
+    api_key:
+      secure: DzllxD27WDdbXf/U9myiLcu/DBlJBk1rlrPv629JHluIsffaJUbY1L+TRYo5gwjf
+    skip_symbols: true
+    artifact: /.*\.Client\.nupkg/
     on:
       NugetDeploy: "Do it."
