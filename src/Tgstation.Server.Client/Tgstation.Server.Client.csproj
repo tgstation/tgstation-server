@@ -15,7 +15,7 @@
     <RepositoryType>Git</RepositoryType>
     <NeutralLanguage>en-CA</NeutralLanguage>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageIcon>tgs.ico</PackageIcon>
+    <PackageIcon>tgs.png</PackageIcon>
     <PackageTags>json web api tgstation-server tgstation ss13 byond client</PackageTags>
     <PackageReleaseNotes>Added the ability to change the Token of IServerClient</PackageReleaseNotes>
     <IncludeSymbols>true</IncludeSymbols>
@@ -52,6 +52,6 @@
   <ItemGroup>
     <AdditionalFiles Include="../../build/stylecop.json" />
     <None Include="../../LICENSE" Pack="true" PackagePath="" />
-    <None Include="../../build/tgs.ico" Pack="true" PackagePath="" />
+    <None Include="../../build/tgs.png" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>

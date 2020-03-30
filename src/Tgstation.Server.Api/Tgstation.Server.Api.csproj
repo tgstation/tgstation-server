@@ -9,7 +9,7 @@
     <Company>/tg/station</Company>
     <Description>API definitions for tgstation-server</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageIcon>tgs.ico</PackageIcon>
+    <PackageIcon>tgs.png</PackageIcon>
     <PackageProjectUrl>https://tgstation.github.io/tgstation-server</PackageProjectUrl>
     <RepositoryType>Git</RepositoryType>
     <RepositoryUrl>https://github.com/tgstation/tgstation-server</RepositoryUrl>
@@ -51,6 +51,6 @@
   <ItemGroup>
     <AdditionalFiles Include="../../build/stylecop.json" />
     <None Include="../../LICENSE" Pack="true" PackagePath="" />
-    <None Include="../../build/tgs.ico" Pack="true" PackagePath="" />
+    <None Include="../../build/tgs.png" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>
