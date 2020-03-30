@@ -7,6 +7,7 @@
     <Version>$(TgsCoreVersion)</Version>
     <LangVersion>latest</LangVersion>
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
