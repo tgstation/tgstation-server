@@ -264,7 +264,7 @@ namespace ReleaseNotes
 					return 8;
 				}
 
-				foreach (var I in releaseDictionary)
+				foreach (var I in releaseDictionary.OrderBy(kvp => kvp.Key))
 					foreach (var note in I.Value)
 					{
 						newNotes.Append(Environment.NewLine);
