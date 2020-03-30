@@ -19,9 +19,9 @@ if (($env:CONFIGURATION -match "Release") -And ($env:APPVEYOR_REPO_BRANCH -match
         Write-Host "Release note generation failed, release will be created as a draft!"
         $env:TGSReleaseNotes = "Automatic generation failed, please fill manually!"
     }      
-    
-    if ($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[NugetDeploy\]") {
-        $env:NugetDeploy = "Do it."
-        Write-Host "Nuget deployment enabled"
-    }  
 }
+    
+if ($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[NugetDeploy\]") {
+    $env:NugetDeploy = "Do it."
+    Write-Host "Nuget deployment enabled"
+}  
