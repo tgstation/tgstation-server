@@ -167,7 +167,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				// Get the user from the database
 				IQueryable<User> query;
-				string canonicalName = ApiHeaders.Username.ToUpperInvariant();
+				string canonicalName = Models.User.CanonicalizeName(ApiHeaders.Username);
 				if (systemIdentity == null)
 					query = DatabaseContext.Users.Where(x => x.CanonicalName == canonicalName);
 				else
@@ -220,7 +220,7 @@ namespace Tgstation.Server.Host.Controllers
 					Logger.LogDebug("User ID {0}'s system identity needs a refresh, updating database.", user.Id);
 					DatabaseContext.Users.Attach(user);
 					user.Name = systemIdentity.Username;
-					user.CanonicalName = user.Name.ToUpperInvariant();
+					user.CanonicalName = Models.User.CanonicalizeName(user.Name);
 					await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 				}
 

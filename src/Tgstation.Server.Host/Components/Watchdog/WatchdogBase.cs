@@ -559,7 +559,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			long? adminUserId = null;
 
 			await databaseContextFactory.UseContext(async db => adminUserId = await db.Users
-			.Where(x => x.CanonicalName == Api.Models.User.AdminName.ToUpperInvariant())
+			.Where(x => x.CanonicalName == Models.User.CanonicalizeName(Api.Models.User.AdminName))
 			.Select(x => x.Id)
 			.FirstAsync(cancellationToken).ConfigureAwait(false)).ConfigureAwait(false);
 			var job = new Models.Job

@@ -38,7 +38,7 @@ namespace Tgstation.Server.Host.Database
 				CreatedAt = DateTimeOffset.Now,
 				InstanceManagerRights = RightsHelper.AllRights<InstanceManagerRights>(),
 				Name = Api.Models.User.AdminName,
-				CanonicalName = Api.Models.User.AdminName.ToUpperInvariant(),
+				CanonicalName = User.CanonicalizeName(Api.Models.User.AdminName),
 				Enabled = true,
 			};
 			cryptographySuite.SetUserPassword(admin, Api.Models.User.DefaultAdminPassword, true);
@@ -89,7 +89,11 @@ namespace Tgstation.Server.Host.Database
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the admin <see cref="User"/> or <see langword="null"/>. If <see langword="null"/>, <see cref="IDatabaseContext.Save(CancellationToken)"/> must be called on <paramref name="databaseContext"/>.</returns>
 		async Task<User> GetAdminUser(IDatabaseContext databaseContext, CancellationToken cancellationToken)
 		{
-			var admin = await databaseContext.Users.Where(x => x.CanonicalName == Api.Models.User.AdminName.ToUpperInvariant()).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var admin = await databaseContext
+				.Users
+				.Where(x => x.CanonicalName == User.CanonicalizeName(Api.Models.User.AdminName))
+				.FirstOrDefaultAsync(cancellationToken)
+				.ConfigureAwait(false);
 			if (admin == default)
 				SeedAdminUser(databaseContext);
 
