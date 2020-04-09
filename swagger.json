@@ -110,7 +110,14 @@
         },
         "responses": {
           "202": {
-            "description": "Update has been started successfully."
+            "description": "Update has been started successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Administration"
+                }
+              }
+            }
           },
           "410": {
             "description": "The requested version could not be found."
@@ -178,7 +185,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "204": {
             "description": "Restart begun successfully."
           },
           "422": {
@@ -606,7 +613,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "204": {
             "description": "Chat bot deleted or does not exist."
           },
           "400": {
@@ -986,7 +993,7 @@
           }
         },
         "responses": {
-          "200": {
+          "204": {
             "description": "Empty directory deleted successfully."
           },
           "501": {
@@ -1305,7 +1312,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "Read Tgstation.Server.Api.Models.DreamDaemon information successfully.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1316,9 +1323,6 @@
           },
           "410": {
             "description": "Client Error"
-          },
-          "202": {
-            "description": "Read Tgstation.Server.Api.Models.DreamDaemon information successfully."
           },
           "400": {
             "$ref": "#/components/responses/400"
@@ -1363,7 +1367,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "204": {
             "description": "Watchdog terminated."
           },
           "400": {
@@ -1677,7 +1681,17 @@
         },
         "responses": {
           "200": {
-            "description": "Changes applied successfully. The updated Tgstation.Server.Api.Models.DreamMaker settings will be returned based on user permissions."
+            "description": "Changes applied successfully. The updated Tgstation.Server.Api.Models.DreamMaker settings will be returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DreamMaker"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Changes applied successfully. The updated Tgstation.Server.Api.Models.DreamMaker settings will be not be returned due to permissions."
           },
           "410": {
             "description": "Instance no longer available."
@@ -2073,11 +2087,18 @@
               }
             }
           },
+          "202": {
+            "description": "Instance updated successfully and relocation job created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Instance"
+                }
+              }
+            }
+          },
           "410": {
             "description": "Client Error"
-          },
-          "202": {
-            "description": "Instance updated successfully and relocation job created."
           },
           "400": {
             "$ref": "#/components/responses/400"
@@ -2132,7 +2153,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "204": {
             "description": "Instance detatched successfully."
           },
           "410": {
@@ -2649,7 +2670,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "204": {
             "description": "Tgstation.Server.Api.Models.InstanceUser deleted or no longer exists."
           },
           "400": {
@@ -2816,7 +2837,14 @@
         ],
         "responses": {
           "202": {
-            "description": "Tgstation.Server.Api.Models.Job cancellation requested successfully."
+            "description": "Tgstation.Server.Api.Models.Job cancellation requested successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              }
+            }
           },
           "404": {
             "description": "Tgstation.Server.Api.Models.Job does not exist in this instance."
@@ -3172,7 +3200,7 @@
             }
           },
           "202": {
-            "description": "Success",
+            "description": "Updated the Tgstation.Server.Api.Models.Repository settings successfully and a Tgstation.Server.Api.Models.Job was created to make the requested git changes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3183,9 +3211,6 @@
           },
           "410": {
             "description": "Instance no longer available."
-          },
-          "201": {
-            "description": "Updated the Tgstation.Server.Api.Models.Repository settings successfully and a Tgstation.Server.Api.Models.Job was created to make the requested git changes."
           },
           "400": {
             "$ref": "#/components/responses/400"
