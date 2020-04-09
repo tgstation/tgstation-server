@@ -79,11 +79,11 @@ namespace Tgstation.Server.Api.Rights
 		public static TRight AllRights<TRight>() where TRight : Enum
 		{
 			ulong rights = 0;
-			Type rightsType = typeof(TRight);
-			foreach (Enum J in Enum.GetValues(rightsType))
-				rights = rights | Convert.ToUInt64(J, CultureInfo.InvariantCulture);
+			foreach (Enum J in Enum.GetValues(typeof(TRight)))
+				rights |= Convert.ToUInt64(J, CultureInfo.InvariantCulture);
 
-			return (TRight)Convert.ChangeType(rights, rightsType, CultureInfo.InvariantCulture);
+			// cri evertim
+			return (TRight)(object)rights;
 		}
 	}
 }
