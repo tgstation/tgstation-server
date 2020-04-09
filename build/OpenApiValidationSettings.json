@@ -6,7 +6,8 @@
       "no_summary": "error",
       "no_array_responses": "off",
       "parameter_order": "error",
-      "unused_tag": "error"
+      "unused_tag": "error",
+      "operation_id_naming_convention": "off"
     },
     "pagination": {
       "pagination_style": "error"
@@ -74,7 +75,8 @@
     },
     "responses": {
       "no_response_codes": "error",
-      "no_success_response_codes": "error"
+      "no_success_response_codes": "error",
+      "ibm_status_code_guidelines": "off"
     }
   }
 }

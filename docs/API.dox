@@ -57,15 +57,16 @@ An Authentication header is also required. See @ref api_auth
 
 TGS will only every return the response codes listed here
 
-- 200: General OK status. Unless the HTTP DELETE verb was used to make the request (In which case the response body will be empty), the response body will contain a json model or array depending on the API called.
-- 201: Created: Returned when the request created an entity, 202 trumps this
+- 200: OK. The response body will contain a json model or array depending on the API called.
+- 201: Created. Returned when the request created an entity, 202 trumps this
 - 202: Accepted. Used when a response triggers a long running operation such as a @ref Tgstation.Server.Api.Models.Job or server restart
-- 400: Bad request made. The response body will contain an @ref Tgstation.Server.Api.Models.ErrorMessage model detailing the error
-- 401: User unauthorized. Invalid or expired credentials were provided. Check rights APIs for updates. See @ref api_auth for details
-- 403: Usage forbidden. User tried to make a request they were not allowed to perform. 
+- 204: No Content. Identical to 200 with no response body.
+- 400: Bad Request. The response body will contain an @ref Tgstation.Server.Api.Models.ErrorMessage model detailing the error
+- 401: Unauthorized. Invalid or expired credentials were provided. Check rights APIs for updates. See @ref api_auth for details
+- 403: Forbidden. User tried to make a request they were not allowed to perform. 
 - 404: Not found. A resource was requested that had never existed. In the case of retrieving a resource by ID, it could potentially exist in the future
-- 406: Not acceptable. Consequence of failing to provide an Accept header
-- 408: Request timeout. The client took to long to continue a request
+- 406: Not Acceptable. Consequence of failing to provide an Accept header
+- 408: Request Timeout. The client took to long to continue a request
 - 409: Conflict. Documented in the requests that use them
 - 410: Gone. Attempted to access/modify a resource that ideally should have been ready, but isn't or no longer is
 - 422: Unprocessable Entity: Used specifically when an operation that requires a server restart is unable to be performed due to the @ref Tgstation.Server.Host.Watchdog not being present in the deployment. Should not happen with a proper server configuration. Response body contains an @ref Tgstation.Server.Api.Models.ErrorMessage

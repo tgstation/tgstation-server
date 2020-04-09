@@ -86,7 +86,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
-		/// <response code="202">Read <see cref="DreamDaemon"/> information successfully.</response>
+		/// <response code="200">Read <see cref="DreamDaemon"/> information successfully.</response>
 		[HttpGet]
 		[TgsAuthorize(DreamDaemonRights.ReadMetadata | DreamDaemonRights.ReadRevision)]
 		[ProducesResponseType(typeof(DreamDaemon), 200)]
@@ -150,15 +150,15 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
-		/// <response code="200">Watchdog terminated.</response>
+		/// <response code="204">Watchdog terminated.</response>
 		[HttpDelete]
 		[TgsAuthorize(DreamDaemonRights.Shutdown)]
-		[ProducesResponseType(200)]
+		[ProducesResponseType(204)]
 		public async Task<IActionResult> Delete(CancellationToken cancellationToken)
 		{
 			var instance = instanceManager.GetInstance(Instance);
 			await instance.Watchdog.Terminate(false, cancellationToken).ConfigureAwait(false);
-			return Ok();
+			return NoContent();
 		}
 
 		/// <summary>

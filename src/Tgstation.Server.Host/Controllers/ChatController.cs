@@ -149,10 +149,10 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="id">The <see cref="Api.Models.Internal.ChatBot.Id"/> to delete.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
-		/// <response code="200">Chat bot deleted or does not exist.</response>
+		/// <response code="204">Chat bot deleted or does not exist.</response>
 		[HttpDelete("{id}")]
 		[TgsAuthorize(ChatBotRights.Delete)]
-		[ProducesResponseType(200)]
+		[ProducesResponseType(204)]
 		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
 			var instance = instanceManager.GetInstance(Instance);
