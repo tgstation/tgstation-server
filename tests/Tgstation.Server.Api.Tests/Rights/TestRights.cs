@@ -36,5 +36,14 @@ namespace Tgstation.Server.Api.Rights.Tests
 				}
 			}
 		}
+
+		[TestMethod]
+		public void TestAllRightsWorks()
+		{
+			var allByondRights = ByondRights.CancelInstall | ByondRights.ChangeVersion | ByondRights.ListInstalled | ByondRights.ReadActive;
+			var automaticByondRights = RightsHelper.AllRights<ByondRights>();
+
+			Assert.AreEqual(allByondRights, automaticByondRights);
+		}
 	}
 }

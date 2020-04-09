@@ -20,10 +20,20 @@ namespace Tgstation.Server.Tests
 
 		public async Task Run(CancellationToken cancellationToken)
 		{
+			await TestRetrieveCurrentUser(cancellationToken).ConfigureAwait(false);
 			await TestSpamCreation(cancellationToken).ConfigureAwait(false);
 		}
+		
+		async Task TestRetrieveCurrentUser(CancellationToken cancellationToken)
+		{
+			var user = await this.client.Read(cancellationToken).ConfigureAwait(false);
+			Assert.IsNotNull(user);
+			Assert.AreEqual("Admin", user.Name);
+			Assert.IsNull(user.SystemIdentifier);
+			Assert.AreEqual(true, user.Enabled);
+		}
 
-		public async Task TestSpamCreation(CancellationToken cancellationToken)
+		async Task TestSpamCreation(CancellationToken cancellationToken)
 		{
 			ICollection<Task<User>> tasks = new List<Task<User>>();
 

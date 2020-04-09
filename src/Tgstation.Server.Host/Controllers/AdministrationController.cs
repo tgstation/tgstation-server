@@ -162,7 +162,11 @@ namespace Tgstation.Server.Host.Controllers
 						{
 							Message = "An update operation is already in progress!"
 						});
-					return Accepted(); // gtfo of here before all the cancellation tokens fire
+					return Accepted(new Administration
+					{
+						WindowsHost = platformIdentifier.IsWindows,
+						NewVersion = newVersion
+					}); // gtfo of here before all the cancellation tokens fire
 				}
 
 			return StatusCode((int)HttpStatusCode.Gone);
@@ -240,7 +244,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="429">A GitHub API error occurred.</response>
 		[HttpPost]
 		[TgsAuthorize(AdministrationRights.ChangeVersion)]
-		[ProducesResponseType(202)]
+		[ProducesResponseType(typeof(Administration), 202)]
 		[ProducesResponseType(410)]
 		[ProducesResponseType(typeof(ErrorMessage), 422)]
 		[ProducesResponseType(424)]
@@ -269,11 +273,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// Attempts to restart the server.
 		/// </summary>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request</returns>
-		/// <response code="200">Restart begun successfully.</response>
+		/// <response code="204">Restart begun successfully.</response>
 		/// <response code="422">Restart operations are unavailable due to the launch configuration of TGS.</response>
 		[HttpDelete]
 		[TgsAuthorize(AdministrationRights.RestartHost)]
-		[ProducesResponseType(200)]
+		[ProducesResponseType(204)]
 		[ProducesResponseType(typeof(ErrorMessage), 422)]
 		public async Task<IActionResult> Delete()
 		{
@@ -289,7 +293,7 @@ namespace Tgstation.Server.Host.Controllers
 				}
 
 				await serverUpdater.Restart().ConfigureAwait(false);
-				return Ok();
+				return NoContent();
 			}
 			catch (InvalidOperationException)
 			{

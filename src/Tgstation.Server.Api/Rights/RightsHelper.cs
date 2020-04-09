@@ -70,5 +70,20 @@ namespace Tgstation.Server.Api.Rights
 		/// <param name="rightsType">The <see cref="RightsType"/> to check</param>
 		/// <returns><see langword="true"/> if <paramref name="rightsType"/> is an instance right, <see langword="false"/> otherwise</returns>
 		public static bool IsInstanceRight(RightsType rightsType) => !(rightsType == RightsType.Administration || rightsType == RightsType.InstanceManager);
+
+		/// <summary>
+		/// Get all rights for a given <typeparamref name="TRight"/>.
+		/// </summary>
+		/// <typeparam name="TRight">The <see cref="RightsType"/>.</typeparam>
+		/// <returns>All rights for the given <typeparamref name="TRight"/>.</returns>
+		public static TRight AllRights<TRight>() where TRight : Enum
+		{
+			ulong rights = 0;
+			foreach (Enum J in Enum.GetValues(typeof(TRight)))
+				rights |= Convert.ToUInt64(J, CultureInfo.InvariantCulture);
+
+			// cri evertim
+			return (TRight)(object)rights;
+		}
 	}
 }

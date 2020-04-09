@@ -137,12 +137,13 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="model">The updated <see cref="DreamMaker"/> settings.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
-		/// <response code="200">Changes applied successfully. The updated <see cref="DreamMaker"/> settings will be returned based on user permissions.</response>
+		/// <response code="200">Changes applied successfully. The updated <see cref="DreamMaker"/> settings will be returned.</response>
+		/// <response code="204">Changes applied successfully. The updated <see cref="DreamMaker"/> settings will be not be returned due to permissions.</response>
 		/// <response code="410">Instance no longer available.</response>
 		[HttpPost]
 		[TgsAuthorize(DreamMakerRights.SetDme | DreamMakerRights.SetApiValidationPort | DreamMakerRights.SetApiValidationPort)]
 		[ProducesResponseType(typeof(DreamMaker), 200)]
-		[ProducesResponseType(200)]
+		[ProducesResponseType(204)]
 		[ProducesResponseType(410)]
 		public async Task<IActionResult> Update([FromBody] DreamMaker model, CancellationToken cancellationToken)
 		{
@@ -186,7 +187,7 @@ namespace Tgstation.Server.Host.Controllers
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
 			if ((AuthenticationContext.GetRight(RightsType.DreamMaker) & (ulong)DreamMakerRights.Read) == 0)
-				return Ok();
+				return NoContent();
 
 			return await Read(cancellationToken).ConfigureAwait(false);
 		}

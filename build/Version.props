@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <TgsCoreVersion>4.0.2</TgsCoreVersion>
+    <TgsCoreVersion>4.0.2.1</TgsCoreVersion>
     <TgsApiVersion>4.0.2</TgsApiVersion>
     <TgsClientVersion>4.0.3</TgsClientVersion>
   </PropertyGroup>

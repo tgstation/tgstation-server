@@ -255,11 +255,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="directory">A <see cref="ConfigurationFile"/> representing the path to the directory to delete</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
-		/// <response code="200">Empty directory deleted successfully.</response>
+		/// <response code="204">Empty directory deleted successfully.</response>
 		/// <response code="501">POSIX system impersonation requested but not implemented.</response>
 		[HttpDelete]
 		[TgsAuthorize(ConfigurationRights.Delete)]
-		[ProducesResponseType(200)]
+		[ProducesResponseType(204)]
 		[ProducesResponseType(501)]
 		public async Task<IActionResult> Delete([FromBody] ConfigurationFile directory, CancellationToken cancellationToken)
 		{
@@ -271,7 +271,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			try
 			{
-				return await instanceManager.GetInstance(Instance).Configuration.DeleteDirectory(directory.Path, systemIdentity, cancellationToken).ConfigureAwait(false) ? (IActionResult)Ok() : Conflict(new ErrorMessage
+				return await instanceManager.GetInstance(Instance).Configuration.DeleteDirectory(directory.Path, systemIdentity, cancellationToken).ConfigureAwait(false) ? (IActionResult)NoContent() : Conflict(new ErrorMessage
 				{
 					Message = "Directory not empty!"
 				});

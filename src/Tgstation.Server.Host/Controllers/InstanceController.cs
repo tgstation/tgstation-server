@@ -240,11 +240,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="id">The <see cref="Api.Models.Instance.Id"/> to detach.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
-		/// <response code="200">Instance detatched successfully.</response>
+		/// <response code="204">Instance detatched successfully.</response>
 		/// <response code="410">Instance not available.</response>
 		[HttpDelete("{id}")]
 		[TgsAuthorize(InstanceManagerRights.Delete)]
-		[ProducesResponseType(200)]
+		[ProducesResponseType(204)]
 		[ProducesResponseType(410)]
 		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
@@ -275,7 +275,7 @@ namespace Tgstation.Server.Host.Controllers
 			var attachFileName = ioManager.ConcatPath(originalModel.Path, InstanceAttachFileName);
 			await ioManager.WriteAllBytes(attachFileName, Array.Empty<byte>(), default).ConfigureAwait(false);
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false); // cascades everything
-			return Ok();
+			return NoContent();
 		}
 
 		/// <summary>
@@ -289,6 +289,7 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpPost]
 		[TgsAuthorize(InstanceManagerRights.Relocate | InstanceManagerRights.Rename | InstanceManagerRights.SetAutoUpdate | InstanceManagerRights.SetConfiguration | InstanceManagerRights.SetOnline)]
 		[ProducesResponseType(typeof(Api.Models.Instance), 200)]
+		[ProducesResponseType(typeof(Api.Models.Instance), 202)]
 		[ProducesResponseType(410)]
 #pragma warning disable CA1502 // TODO: Decomplexify
 		public async Task<IActionResult> Update([FromBody] Api.Models.Instance model, CancellationToken cancellationToken)

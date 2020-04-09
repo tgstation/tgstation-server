@@ -34,11 +34,11 @@ namespace Tgstation.Server.Host.Database
 		{
 			var admin = new User
 			{
-				AdministrationRights = ~AdministrationRights.None,
+				AdministrationRights = RightsHelper.AllRights<AdministrationRights>(),
 				CreatedAt = DateTimeOffset.Now,
-				InstanceManagerRights = ~InstanceManagerRights.None,
+				InstanceManagerRights = RightsHelper.AllRights<InstanceManagerRights>(),
 				Name = Api.Models.User.AdminName,
-				CanonicalName = Api.Models.User.AdminName.ToUpperInvariant(),
+				CanonicalName = User.CanonicalizeName(Api.Models.User.AdminName),
 				Enabled = true,
 			};
 			cryptographySuite.SetUserPassword(admin, Api.Models.User.DefaultAdminPassword, true);
@@ -53,18 +53,51 @@ namespace Tgstation.Server.Host.Database
 		}
 
 		/// <inheritdoc />
+		public async Task SanitizeDatabase(IDatabaseContext databaseContext, CancellationToken cancellationToken)
+		{
+			var admin = await GetAdminUser(databaseContext, cancellationToken).ConfigureAwait(false);
+			if (admin != null)
+			{
+				// Fix the issue with ulong enums
+				// https://github.com/tgstation/tgstation-server/commit/db341d43b3dab74fe3681f5172ca9bfeaafa6b6d#diff-09f06ec4584665cf89bb77b97f5ccfb9R36-R39
+				// https://github.com/JamesNK/Newtonsoft.Json/issues/2301
+				admin.AdministrationRights = admin.AdministrationRights & RightsHelper.AllRights<AdministrationRights>();
+				admin.InstanceManagerRights = admin.InstanceManagerRights & RightsHelper.AllRights<InstanceManagerRights>();
+			}
+
+			await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
 		public async Task ResetAdminPassword(IDatabaseContext databaseContext, CancellationToken cancellationToken)
 		{
-			var admin = await databaseContext.Users.Where(x => x.CanonicalName == Api.Models.User.AdminName.ToUpperInvariant()).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
-			if (admin == default)
-				SeedAdminUser(databaseContext);
-			else
+			var admin = await GetAdminUser(databaseContext, cancellationToken).ConfigureAwait(false);
+			if (admin != null)
 			{
 				admin.Enabled = true;
 				cryptographySuite.SetUserPassword(admin, Api.Models.User.DefaultAdminPassword, false);
 			}
 
 			await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+		}
+
+		/// <summary>
+		/// Get or create the admin <see cref="User"/>.
+		/// </summary>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to use.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the admin <see cref="User"/> or <see langword="null"/>. If <see langword="null"/>, <see cref="IDatabaseContext.Save(CancellationToken)"/> must be called on <paramref name="databaseContext"/>.</returns>
+		async Task<User> GetAdminUser(IDatabaseContext databaseContext, CancellationToken cancellationToken)
+		{
+			var admin = await databaseContext
+				.Users
+				.Where(x => x.CanonicalName == User.CanonicalizeName(Api.Models.User.AdminName))
+				.FirstOrDefaultAsync(cancellationToken)
+				.ConfigureAwait(false);
+			if (admin == default)
+				SeedAdminUser(databaseContext);
+
+			return admin;
 		}
 	}
 }

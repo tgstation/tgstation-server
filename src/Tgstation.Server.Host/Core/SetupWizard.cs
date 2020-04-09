@@ -366,7 +366,7 @@ namespace Tgstation.Server.Host.Core
 								databaseName = await ValidateNonExistantSqliteDBName(databaseName, cancellationToken).ConfigureAwait(false);
 						}
 						else
-							await PromptYesNo("Does this database already exist? (y/n): ", cancellationToken).ConfigureAwait(false);
+							dbExists = await PromptYesNo("Does this database already exist? (y/n): ", cancellationToken).ConfigureAwait(false);
 					}
 
 					if (String.IsNullOrWhiteSpace(databaseName))

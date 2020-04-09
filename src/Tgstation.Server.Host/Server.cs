@@ -120,7 +120,11 @@ namespace Tgstation.Server.Host
 					fsWatcher.Created += (a, b) =>
 					{
 						if (b.FullPath == updatePath && File.Exists(b.FullPath))
+						{
+							if (logger != null)
+								logger.LogInformation("Host watchdog appears to be requesting process termination!");
 							cancellationTokenSource.Cancel();
+						}
 					};
 					fsWatcher.EnableRaisingEvents = true;
 				}
@@ -129,9 +133,12 @@ namespace Tgstation.Server.Host
 					try
 					{
 						logger = webHost.Services.GetRequiredService<ILogger<Server>>();
-						var generalConfigurationOptions = webHost.Services.GetRequiredService<IOptions<GeneralConfiguration>>();
-						generalConfiguration = generalConfigurationOptions.Value;
-						await webHost.RunAsync(cancellationTokenSource.Token).ConfigureAwait(false);
+						using (cancellationToken.Register(() => logger.LogInformation("Process termination requested!")))
+						{
+							var generalConfigurationOptions = webHost.Services.GetRequiredService<IOptions<GeneralConfiguration>>();
+							generalConfiguration = generalConfigurationOptions.Value;
+							await webHost.RunAsync(cancellationTokenSource.Token).ConfigureAwait(false);
+						}
 					}
 					catch (OperationCanceledException)
 					{

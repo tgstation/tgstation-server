@@ -44,6 +44,13 @@ namespace Tgstation.Server.Host.Models
 		public List<TestMerge> TestMerges { get; set; }
 
 		/// <summary>
+		/// Change a <see cref="Api.Models.Internal.User.Name"/> into a <see cref="CanonicalName"/>.
+		/// </summary>
+		/// <param name="name">The <see cref="Api.Models.Internal.User.Name"/>.</param>
+		/// <returns>The <see cref="CanonicalName"/>.</returns>
+		public static string CanonicalizeName(string name) => name?.ToUpperInvariant() ?? throw new ArgumentNullException(nameof(name));
+
+		/// <summary>
 		/// See <see cref="ToApi(bool)"/>
 		/// </summary>
 		/// <param name="recursive">If we should recurse on <see cref="CreatedBy"/></param>

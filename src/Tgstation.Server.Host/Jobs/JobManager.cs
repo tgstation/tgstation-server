@@ -218,7 +218,7 @@ namespace Tgstation.Server.Host.Jobs
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> CancelJob(Job job, User user, bool blocking, CancellationToken cancellationToken)
+		public async Task<Job> CancelJob(Job job, User user, bool blocking, CancellationToken cancellationToken)
 		{
 			if (job == null)
 				throw new ArgumentNullException(nameof(job));
@@ -232,7 +232,7 @@ namespace Tgstation.Server.Host.Jobs
 			catch (InvalidOperationException)
 			{
 				// this is fine
-				return false;
+				return null;
 			}
 
 			handler.Cancel(); // this will ensure the db update is only done once
@@ -249,7 +249,7 @@ namespace Tgstation.Server.Host.Jobs
 			}).ConfigureAwait(false);
 			if (blocking)
 				await handler.Wait(cancellationToken).ConfigureAwait(false);
-			return true;
+			return job;
 		}
 
 		/// <inheritdoc />

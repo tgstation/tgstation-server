@@ -83,7 +83,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="410"><see cref="Api.Models.Job"/> already cancelled or completed.</response>
 		[HttpDelete("{id}")]
 		[TgsAuthorize]
-		[ProducesResponseType(202)]
+		[ProducesResponseType(typeof(Api.Models.Job), 202)]
 		[ProducesResponseType(404)]
 		[ProducesResponseType(410)]
 		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
@@ -99,8 +99,8 @@ namespace Tgstation.Server.Host.Controllers
 			if (job.CancelRight.HasValue && job.CancelRightsType.HasValue && (AuthenticationContext.GetRight(job.CancelRightsType.Value) & job.CancelRight.Value) == 0)
 				return Forbid();
 
-			var cancelled = await jobManager.CancelJob(job, AuthenticationContext.User, false, cancellationToken).ConfigureAwait(false);
-			return cancelled ? (IActionResult)Accepted() : StatusCode((int)HttpStatusCode.Gone);
+			job = await jobManager.CancelJob(job, AuthenticationContext.User, false, cancellationToken).ConfigureAwait(false);
+			return job != null ? (IActionResult)Accepted(job.ToApi()) : StatusCode((int)HttpStatusCode.Gone);
 		}
 
 		/// <summary>

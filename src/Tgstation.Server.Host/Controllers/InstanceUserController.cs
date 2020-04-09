@@ -173,14 +173,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="id">The <see cref="Api.Models.InstanceUser.UserId"/> to delete.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
-		/// <response code="200"><see cref="Api.Models.InstanceUser"/> deleted or no longer exists.</response>
+		/// <response code="204"><see cref="Api.Models.InstanceUser"/> deleted or no longer exists.</response>
 		[HttpDelete("{id}")]
 		[TgsAuthorize(InstanceUserRights.WriteUsers)]
-		[ProducesResponseType(200)]
+		[ProducesResponseType(204)]
 		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
 			await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).SelectMany(x => x.InstanceUsers).Where(x => x.UserId == id).DeleteAsync(cancellationToken).ConfigureAwait(false);
-			return Ok();
+			return NoContent();
 		}
 	}
 }

@@ -12,6 +12,7 @@ build/**
 !build/analyzers.ruleset
 !build/tgs.docker.sh
 !build/tgs.ico
+!build/tgs.png
 !build/stylecop.json
 !build/Version.props
 */bin

@@ -154,7 +154,7 @@ namespace Tgstation.Server.Host.Controllers
 					return result;
 			}
 
-			dbUser.CanonicalName = dbUser.Name.ToUpperInvariant();
+			dbUser.CanonicalName = Models.User.CanonicalizeName(dbUser.Name);
 
 			DatabaseContext.Users.Add(dbUser);
 
@@ -206,7 +206,7 @@ namespace Tgstation.Server.Host.Controllers
 					return result;
 			}
 
-			if (model.Name != null && model.Name.ToUpperInvariant() != originalUser.CanonicalName)
+			if (model.Name != null && Models.User.CanonicalizeName(model.Name) != originalUser.CanonicalName)
 				return BadRequest(new ErrorMessage { Message = "Can only change capitalization of a user's name!" });
 
 			originalUser.InstanceManagerRights = model.InstanceManagerRights ?? originalUser.InstanceManagerRights;
