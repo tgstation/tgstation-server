@@ -10,7 +10,7 @@ namespace Tgstation.Server.Host
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="IServerFactory"/>.
 		/// </summary>
-		public IIOManager IOManager { get; }
+		IIOManager IOManager { get; }
 
 		/// <summary>
 		/// Create a <see cref="IServer"/>

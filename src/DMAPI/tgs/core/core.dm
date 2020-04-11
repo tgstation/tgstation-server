@@ -22,17 +22,17 @@
 #ifndef TGS_V3_API
 			TGS_ERROR_LOG("Detected V3 API but TGS_V3_API isn't defined!")
 #else
-			switch(version.major)
+			switch(version.minor)
 				if(2)
 					api_datum = /datum/tgs_api/v3210
 #endif
 		if(4)
-			switch(version.major)
+			switch(version.minor)
 				if(0)
 					api_datum = /datum/tgs_api/v4
 
 	var/datum/tgs_version/max_api_version = TgsMaximumAPIVersion();
-	if(version.suite != null && version.major != null && version.minor != null && version.patch != null && version.deprefixed_parameter > max_api_version.deprefixed_parameter)
+	if(version.suite != null && version.minor != null && version.patch != null && version.deprecated_patch != null && version.deprefixed_parameter > max_api_version.deprefixed_parameter)
 		TGS_ERROR_LOG("Detected unknown API version! Defaulting to latest. Update the DMAPI to fix this problem.")
 		api_datum = /datum/tgs_api/latest
 
