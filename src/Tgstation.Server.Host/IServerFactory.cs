@@ -1,10 +1,17 @@
-﻿namespace Tgstation.Server.Host
+﻿using Tgstation.Server.Host.IO;
+
+namespace Tgstation.Server.Host
 {
 	/// <summary>
 	/// For creating <see cref="IServer"/>s
 	/// </summary>
 	public interface IServerFactory
 	{
+		/// <summary>
+		/// The <see cref="IIOManager"/> for the <see cref="IServerFactory"/>.
+		/// </summary>
+		public IIOManager IOManager { get; }
+
 		/// <summary>
 		/// Create a <see cref="IServer"/>
 		/// </summary>

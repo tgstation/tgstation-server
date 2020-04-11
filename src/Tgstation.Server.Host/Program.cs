@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Threading;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host
@@ -12,10 +12,15 @@ namespace Tgstation.Server.Host
 	/// </summary>
 	static class Program
 	{
-		/// <summary>
-		/// The <see cref="IServerFactory"/> to use
-		/// </summary>
 #pragma warning disable SA1401 // Fields must be private
+		/// <summary>
+		/// The expected host watchdog <see cref="Version"/>.
+		/// </summary>
+		internal static readonly Version HostWatchdogVersion = new Version(1, 1, 0);
+
+		/// <summary>
+		/// The <see cref="IServerFactory"/> to use.
+		/// </summary>
 		internal static IServerFactory ServerFactory = Host.ServerFactory.CreateDefault();
 #pragma warning restore SA1401 // Fields must be private
 
@@ -26,42 +31,32 @@ namespace Tgstation.Server.Host
 		/// <returns>The <see cref="Process.ExitCode"/></returns>
 		public static async Task<int> Main(string[] args)
 		{
-			var listArgs = new List<string>(args);
-
 			// first arg is 100% always the update path, starting it otherwise is solely for debugging purposes
-			string updatePath;
+			var listArgs = new List<string>(args);
+			string updatePath = null;
 			if (listArgs.Count > 0)
 			{
-				updatePath = listArgs[0];
+				updatePath = listArgs.First();
 				listArgs.RemoveAt(0);
+
+				// second arg should be host watchdog version
+				if (listArgs.Count > 0
+					&& Version.TryParse(listArgs.First(), out var hostWatchdogVersion)
+					&& hostWatchdogVersion.Major != HostWatchdogVersion.Major)
+					throw new InvalidOperationException(
+						$"Incompatible host watchdog version ({hostWatchdogVersion}) for server ({HostWatchdogVersion})! A major update was released and a full restart will be required. Please manually offline your servers!");
+
 				if (listArgs.Remove("--attach-debugger"))
 					Debugger.Launch();
 			}
-			else
-				updatePath = null;
+
 			try
 			{
 				var server = ServerFactory.CreateServer(listArgs.ToArray(), updatePath);
 				try
 				{
-					using (var cts = new CancellationTokenSource())
-					{
-						void AppDomainHandler(object a, EventArgs b) => cts.Cancel();
-						AppDomain.CurrentDomain.ProcessExit += AppDomainHandler;
-						try
-						{
-							Console.CancelKeyPress += (a, b) =>
-							{
-								b.Cancel = true;
-								cts.Cancel();
-							};
-							await server.RunAsync(cts.Token).ConfigureAwait(false);
-						}
-						finally
-						{
-							AppDomain.CurrentDomain.ProcessExit -= AppDomainHandler;
-						}
-					}
+					using (var shutdownNotifier = new ProgramShutdownTokenSource())
+						await server.RunAsync(shutdownNotifier.Token).ConfigureAwait(false);
 				}
 				catch (OperationCanceledException) { }
 				return server.RestartRequested ? 1 : 0;
@@ -70,7 +65,7 @@ namespace Tgstation.Server.Host
 			{
 				if (updatePath != null)
 				{
-					File.WriteAllText(updatePath, e.ToString());
+					await ServerFactory.IOManager.WriteAllBytes(updatePath, Encoding.UTF8.GetBytes(e.ToString()), default).ConfigureAwait(false);
 					return 2;
 				}
 
