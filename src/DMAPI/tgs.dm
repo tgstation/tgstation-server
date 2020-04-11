@@ -1,5 +1,7 @@
 //tgstation-server DMAPI
 
+#define TGS_DMAPI_VERSION "5.0.0"
+
 //All functions and datums outside this document are subject to change with any version and should not be relied on
 
 //CONFIGURATION
@@ -108,12 +110,12 @@
 
 //represents a version of tgstation-server
 /datum/tgs_version
-	var/suite			//The suite version, can be >=3
+	var/suite			//The suite/major version, can be >=3
 
 	//this group of variables can be null to represent a wild card
-	var/major					//The major version
 	var/minor					//The minor version
 	var/patch					//The patch version
+	var/deprecated_patch		//The legacy version
 
 	var/raw_parameter			//The unparsed parameter
 	var/deprefixed_parameter	//The version only bit of raw_parameter

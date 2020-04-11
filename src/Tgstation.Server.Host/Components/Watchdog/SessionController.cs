@@ -20,6 +20,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	/// <inheritdoc />
 	sealed class SessionController : ISessionController, ICommHandler
 	{
+		/// <summary>
+		/// The DMAPI version being used.
+		/// </summary>
+		public static readonly Version DMApiVersion = new Version(5, 0, 0);
+
 		/// <inheritdoc />
 		public bool IsPrimary
 		{
