@@ -2,17 +2,16 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
-	/// <summary>
-	/// Model snapshot for MYSQL.
-	/// </summary>
 	[DbContext(typeof(MySqlDatabaseContext))]
-	partial class MySqlDatabaseContextModelSnapshot : ModelSnapshot
+	[Migration("20200411170010_MYTonsOfValidation")]
+	partial class MYTonsOfValidation
 	{
 		/// <inheritdoc />
-		protected override void BuildModel(ModelBuilder modelBuilder)
+		protected override void BuildTargetModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
 			modelBuilder

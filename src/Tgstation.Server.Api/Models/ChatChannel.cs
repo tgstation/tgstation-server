@@ -10,6 +10,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The IRC channel name
 		/// </summary>
+		[StringLength(Limits.MaximumStringLength)]
 		public string IrcChannel { get; set; }
 
 		/// <summary>
@@ -38,6 +39,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// A custom tag users can define to group channels together
 		/// </summary>
+		[StringLength(Limits.MaximumStringLength)]
 		public string Tag { get; set; }
 	}
 }

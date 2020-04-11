@@ -2,22 +2,20 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
-	/// <summary>
-	/// Model snapshot for MYSQL.
-	/// </summary>
-	[DbContext(typeof(MySqlDatabaseContext))]
-	partial class MySqlDatabaseContextModelSnapshot : ModelSnapshot
+	[DbContext(typeof(SqliteDatabaseContext))]
+	[Migration("20200411171140_SLTonsOfValidation")]
+	partial class SLTonsOfValidation
 	{
 		/// <inheritdoc />
-		protected override void BuildModel(ModelBuilder modelBuilder)
+		protected override void BuildTargetModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
-				.HasAnnotation("Relational:MaxIdentifierLength", 64);
+				.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
 				{

@@ -1,22 +1,20 @@
 ﻿using System;
-using System.Net;
-using Tgstation.Server.Api.Models;
+using System.Net.Http;
 
 namespace Tgstation.Server.Client
 {
 	/// <summary>
 	/// Occurs when the client attempts to perform an action they do not have the rights for
 	/// </summary>
-	public sealed class InsufficientPermissionsException : ClientException
+	public sealed class InsufficientPermissionsException : ApiException
 	{
 		/// <summary>
 		/// Construct an <see cref="InsufficientPermissionsException"/>
 		/// </summary>
-		public InsufficientPermissionsException() : base(new ErrorMessage
-		{
-			Message = "The credentials provided do not have sufficient rights to make this request!",
-			SeverApiVersion = null
-		}, HttpStatusCode.Forbidden)
+		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/> for the <see cref="ClientException"/>.</param>
+		public InsufficientPermissionsException(HttpResponseMessage responseMessage) : base(
+			responseMessage,
+			"The current user has insufficient permissions to perform the requested operation!")
 		{ }
 
 		/// <summary>

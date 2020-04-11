@@ -68,8 +68,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns><see langword="null"/> if <paramref name="model"/> is valid, a <see cref="BadRequestObjectResult"/> otherwise.</returns>
 		BadRequestObjectResult CheckValidName(UserUpdate model)
 		{
+			if(String.IsNullOrWhiteSpace(model.Name))
+				return BadRequest(new ErrorMessage(ErrorCode.UserWhitespaceName));
+
+			model.Name = model.Name.Trim();
 			if (model.Name != null && model.Name.Contains(':', StringComparison.InvariantCulture))
-				return BadRequest(new ErrorMessage { Message = "Username must not contain colons!" });
+				return BadRequest(new ErrorMessage(ErrorCode.UserColonInName));
 			return null;
 		}
 
@@ -82,7 +86,10 @@ namespace Tgstation.Server.Host.Controllers
 		BadRequestObjectResult TrySetPassword(Models.User dbUser, string newPassword)
 		{
 			if (newPassword.Length < generalConfiguration.MinimumPasswordLength)
-				return BadRequest(new ErrorMessage { Message = $"Password must be at least {generalConfiguration.MinimumPasswordLength} characters long!" });
+				return BadRequest(new ErrorMessage(ErrorCode.UserPasswordLength)
+				{
+					AdditionalData = $"Required password length: {generalConfiguration.MinimumPasswordLength}"
+				});
 			cryptographySuite.SetUserPassword(dbUser, newPassword, true);
 			return null;
 		}
@@ -100,21 +107,20 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(AdministrationRights.WriteUsers)]
 		[ProducesResponseType(typeof(Api.Models.User), 201)]
 		[ProducesResponseType(410)]
-		[ProducesResponseType(501)]
 		public async Task<IActionResult> Create([FromBody] UserUpdate model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
 			if (!(model.Password == null ^ model.SystemIdentifier == null))
-				return BadRequest(new ErrorMessage { Message = "User must have exactly one of either a password or system identifier!" });
+				return BadRequest(new ErrorMessage(ErrorCode.UserMismatchPasswordSid));
 
 			model.Name = model.Name?.Trim();
 			if (model.Name?.Length == 0)
 				model.Name = null;
 
 			if (!(model.Name == null ^ model.SystemIdentifier == null))
-				return BadRequest(new ErrorMessage { Message = "User must have a name if and only if user has no system identifier!" });
+				return BadRequest(new ErrorMessage(ErrorCode.UserMismatchNameSid));
 
 			var fail = CheckValidName(model);
 			if (fail != null)
@@ -122,11 +128,11 @@ namespace Tgstation.Server.Host.Controllers
 
 			var dbUser = new Models.User
 			{
-				AdministrationRights = model.AdministrationRights ?? AdministrationRights.None,
+				AdministrationRights = RightsHelper.Clamp(model.AdministrationRights ?? AdministrationRights.None),
 				CreatedAt = DateTimeOffset.Now,
 				CreatedBy = AuthenticationContext.User,
 				Enabled = model.Enabled ?? false,
-				InstanceManagerRights = model.InstanceManagerRights ?? InstanceManagerRights.None,
+				InstanceManagerRights = RightsHelper.Clamp(model.InstanceManagerRights ?? InstanceManagerRights.None),
 				Name = model.Name,
 				SystemIdentifier = model.SystemIdentifier,
 				InstanceUsers = new List<Models.InstanceUser>()
@@ -175,6 +181,7 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(AdministrationRights.WriteUsers | AdministrationRights.EditOwnPassword)]
 		[ProducesResponseType(typeof(Api.Models.User), 200)]
 		[ProducesResponseType(404)]
+		#pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<IActionResult> Update([FromBody] UserUpdate model, CancellationToken cancellationToken)
 		{
 			if (model == null)
@@ -189,15 +196,21 @@ namespace Tgstation.Server.Host.Controllers
 					.Include(x => x.CreatedBy)
 					.FirstOrDefaultAsync(cancellationToken)
 					.ConfigureAwait(false);
+
 			if (originalUser == default)
 				return NotFound();
 
 			// Ensure they are only trying to edit password (system identity change will trigger a bad request)
-			if (passwordEditOnly && (model.Id != originalUser.Id || model.InstanceManagerRights.HasValue || model.AdministrationRights.HasValue || model.Enabled.HasValue || model.Name != null))
+			if (passwordEditOnly
+				&& (model.Id != originalUser.Id
+				|| model.InstanceManagerRights.HasValue
+				|| model.AdministrationRights.HasValue
+				|| model.Enabled.HasValue
+				|| model.Name != null))
 				return Forbid();
 
 			if (model.SystemIdentifier != null && model.SystemIdentifier != originalUser.SystemIdentifier)
-				return BadRequest(new ErrorMessage { Message = "Cannot change a user's system identifier!" });
+				return BadRequest(new ErrorMessage(ErrorCode.UserSidChange));
 
 			if (model.Password != null)
 			{
@@ -207,11 +220,11 @@ namespace Tgstation.Server.Host.Controllers
 			}
 
 			if (model.Name != null && Models.User.CanonicalizeName(model.Name) != originalUser.CanonicalName)
-				return BadRequest(new ErrorMessage { Message = "Can only change capitalization of a user's name!" });
+				return BadRequest(new ErrorMessage(ErrorCode.UserNameChange));
 
-			originalUser.InstanceManagerRights = model.InstanceManagerRights ?? originalUser.InstanceManagerRights;
-			originalUser.AdministrationRights = model.AdministrationRights ?? originalUser.AdministrationRights;
-			originalUser.Enabled = model.Enabled ?? originalUser.Enabled;
+			originalUser.InstanceManagerRights = RightsHelper.Clamp(model.InstanceManagerRights ?? originalUser.InstanceManagerRights.Value);
+			originalUser.AdministrationRights = RightsHelper.Clamp(model.AdministrationRights ?? originalUser.AdministrationRights.Value);
+			originalUser.Enabled = model.Enabled ?? originalUser.Enabled.Value;
 
 			var fail = CheckValidName(model);
 			if (fail != null)
@@ -221,7 +234,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
-			// return id only if not a self update or and cannot read users
+			// return id only if not a self update and cannot read users
 			return Json(
 				model.Id == originalUser.Id
 				|| callerAdministrationRights.HasFlag(AdministrationRights.ReadUsers)
@@ -231,6 +244,7 @@ namespace Tgstation.Server.Host.Controllers
 					Id = originalUser.Id
 				});
 		}
+		#pragma warning restore CA1506
 
 		/// <summary>
 		/// Get information about the current <see cref="Api.Models.User"/>.

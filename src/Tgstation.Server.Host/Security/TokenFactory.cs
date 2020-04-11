@@ -99,7 +99,11 @@ namespace Tgstation.Server.Host.Security
 			};
 
 			var token = new JwtSecurityToken(new JwtHeader(new SigningCredentials(ValidationParameters.IssuerSigningKey, SecurityAlgorithms.HmacSha256)), new JwtPayload(claims));
-			return new Token { Bearer = new JwtSecurityTokenHandler().WriteToken(token), ExpiresAt = expiry };
+			return new Token
+			{
+				Bearer = new JwtSecurityTokenHandler().WriteToken(token),
+				ExpiresAt = expiry
+			};
 		}
 	}
 }

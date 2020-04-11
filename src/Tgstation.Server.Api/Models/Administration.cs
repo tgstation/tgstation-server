@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models
 {
@@ -25,6 +26,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Changes the version of Tgstation.Server.Host to the given version from the upstream repository
 		/// </summary>
+		[Required]
 		public Version NewVersion { get; set; }
 	}
 }

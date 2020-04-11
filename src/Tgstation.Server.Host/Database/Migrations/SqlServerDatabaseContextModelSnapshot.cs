@@ -7,9 +7,13 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
+	/// <summary>
+	/// Model snapshot for MYSQL.
+	/// </summary>
 	[DbContext(typeof(SqlServerDatabaseContext))]
 	partial class SqlServerDatabaseContextModelSnapshot : ModelSnapshot
 	{
+		/// <inheritdoc />
 		protected override void BuildModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
@@ -25,24 +29,24 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
 					b.Property<string>("ConnectionString")
-						.IsRequired();
+						.IsRequired()
+						.HasMaxLength(10000);
 
 					b.Property<bool?>("Enabled");
 
 					b.Property<long>("InstanceId");
 
 					b.Property<string>("Name")
-						.IsRequired();
+						.IsRequired()
+						.HasMaxLength(10000);
 
-					b.Property<int?>("Provider");
+					b.Property<int>("Provider");
 
 					b.Property<long>("ReconnectionInterval");
 
 					b.HasKey("Id");
 
-					b.HasIndex("InstanceId");
-
-					b.HasIndex("Name")
+					b.HasIndex("InstanceId", "Name")
 						.IsUnique();
 
 					b.ToTable("ChatBots");
@@ -59,7 +63,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<decimal?>("DiscordChannelId")
 						.HasConversion(new ValueConverter<decimal, decimal>(v => default(decimal), v => default(decimal), new ConverterMappingHints(precision: 20, scale: 0)));
 
-					b.Property<string>("IrcChannel");
+					b.Property<string>("IrcChannel")
+						.HasMaxLength(10000);
 
 					b.Property<bool?>("IsAdminChannel")
 						.IsRequired();
@@ -70,7 +75,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<bool?>("IsWatchdogChannel")
 						.IsRequired();
 
-					b.Property<string>("Tag");
+					b.Property<string>("Tag")
+						.HasMaxLength(10000);
 
 					b.HasKey("Id");
 
@@ -173,7 +179,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 					b.Property<long>("InstanceId");
 
-					b.Property<string>("ProjectName");
+					b.Property<string>("ProjectName")
+						.HasMaxLength(10000);
 
 					b.HasKey("Id");
 
@@ -194,13 +201,15 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<int>("ConfigurationType");
 
 					b.Property<string>("Name")
-						.IsRequired();
+						.IsRequired()
+						.HasMaxLength(10000);
 
 					b.Property<bool?>("Online")
 						.IsRequired();
 
 					b.Property<string>("Path")
-						.IsRequired();
+						.IsRequired()
+						.HasMaxLength(10000);
 
 					b.HasKey("Id");
 
@@ -335,9 +344,11 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.ValueGeneratedOnAdd()
 						.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-					b.Property<string>("AccessToken");
+					b.Property<string>("AccessToken")
+						.HasMaxLength(10000);
 
-					b.Property<string>("AccessUser");
+					b.Property<string>("AccessUser")
+						.HasMaxLength(10000);
 
 					b.Property<bool?>("AutoUpdatesKeepTestMerges")
 						.IsRequired();
@@ -346,10 +357,12 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.IsRequired();
 
 					b.Property<string>("CommitterEmail")
-						.IsRequired();
+						.IsRequired()
+						.HasMaxLength(10000);
 
 					b.Property<string>("CommitterName")
-						.IsRequired();
+						.IsRequired()
+						.HasMaxLength(10000);
 
 					b.Property<long>("InstanceId");
 
@@ -425,7 +438,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<string>("BodyAtMerge")
 						.IsRequired();
 
-					b.Property<string>("Comment");
+					b.Property<string>("Comment")
+						.HasMaxLength(10000);
 
 					b.Property<DateTimeOffset>("MergedAt");
 
@@ -438,7 +452,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.IsRequired();
 
 					b.Property<string>("PullRequestRevision")
-						.IsRequired();
+						.IsRequired()
+						.HasMaxLength(40);
 
 					b.Property<string>("TitleAtMerge")
 						.IsRequired();
@@ -482,7 +497,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<DateTimeOffset?>("LastPasswordUpdate");
 
 					b.Property<string>("Name")
-						.IsRequired();
+						.IsRequired()
+						.HasMaxLength(10000);
 
 					b.Property<string>("PasswordHash");
 
@@ -494,6 +510,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.IsUnique();
 
 					b.HasIndex("CreatedById");
+
+					b.HasIndex("SystemIdentifier")
+						.IsUnique()
+						.HasFilter("[SystemIdentifier] IS NOT NULL");
 
 					b.ToTable("Users");
 				});

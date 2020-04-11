@@ -96,10 +96,11 @@ namespace Tgstation.Server.Host.Controllers
 
 				if (!ApiHeaders.Compatible())
 				{
-					await StatusCode((int)HttpStatusCode.UpgradeRequired, new ErrorMessage
-					{
-						Message = "Provided API version is incompatible with server version!"
-					}).ExecuteResultAsync(context).ConfigureAwait(false);
+					await StatusCode(
+						(int)HttpStatusCode.UpgradeRequired,
+						new ErrorMessage(ErrorCode.ApiMismatch))
+						.ExecuteResultAsync(context)
+						.ConfigureAwait(false);
 					return;
 				}
 
@@ -107,7 +108,7 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					if (!ApiHeaders.InstanceId.HasValue)
 					{
-						await BadRequest(new ErrorMessage { Message = "Missing Instance header!" }).ExecuteResultAsync(context).ConfigureAwait(false);
+						await BadRequest(new ErrorMessage(ErrorCode.InstanceHeaderRequired)).ExecuteResultAsync(context).ConfigureAwait(false);
 						return;
 					}
 
@@ -123,7 +124,13 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				if (requireHeaders)
 				{
-					await BadRequest(new ErrorMessage { Message = e.Message }).ExecuteResultAsync(context).ConfigureAwait(false);
+					await BadRequest(
+						new ErrorMessage(ErrorCode.BadHeaders)
+						{
+							AdditionalData = e.Message
+						})
+						.ExecuteResultAsync(context)
+						.ConfigureAwait(false);
 					return;
 				}
 			}
@@ -131,7 +138,12 @@ namespace Tgstation.Server.Host.Controllers
 			if (ModelState?.IsValid == false)
 			{
 				var errorMessages = ModelState.SelectMany(x => x.Value.Errors).Select(x => x.ErrorMessage);
-				await BadRequest(new ErrorMessage { Message = String.Join(Environment.NewLine, errorMessages) }).ExecuteResultAsync(context).ConfigureAwait(false);
+				await BadRequest(
+					new ErrorMessage(ErrorCode.ModelValidationFailure)
+					{
+						AdditionalData = String.Join(Environment.NewLine, errorMessages)
+					})
+					.ExecuteResultAsync(context).ConfigureAwait(false);
 				return;
 			}
 

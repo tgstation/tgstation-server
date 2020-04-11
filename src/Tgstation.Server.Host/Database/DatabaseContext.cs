@@ -110,6 +110,7 @@ namespace Tgstation.Server.Host.Database
 
 			var userModel = modelBuilder.Entity<User>();
 			userModel.HasIndex(x => x.CanonicalName).IsUnique();
+			userModel.HasIndex(x => x.SystemIdentifier).IsUnique();
 			userModel.HasMany(x => x.TestMerges).WithOne(x => x.MergedBy).OnDelete(DeleteBehavior.Restrict);
 
 			modelBuilder.Entity<InstanceUser>().HasIndex(x => new { x.UserId, x.InstanceId }).IsUnique();
@@ -131,7 +132,7 @@ namespace Tgstation.Server.Host.Database
 			chatChannel.HasIndex(x => new { x.ChatSettingsId, x.DiscordChannelId }).IsUnique();
 			chatChannel.HasOne(x => x.ChatSettings).WithMany(x => x.Channels).HasForeignKey(x => x.ChatSettingsId).OnDelete(DeleteBehavior.Cascade);
 
-			modelBuilder.Entity<ChatBot>().HasIndex(x => x.Name).IsUnique();
+			modelBuilder.Entity<ChatBot>().HasIndex(x => new { x.InstanceId, x.Name }).IsUnique();
 
 			var instanceModel = modelBuilder.Entity<Instance>();
 			instanceModel.HasIndex(x => x.Path).IsUnique();

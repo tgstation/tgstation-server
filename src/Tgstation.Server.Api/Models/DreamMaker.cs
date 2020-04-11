@@ -10,12 +10,14 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The .dme file <see cref="DreamMaker"/> tries to compile with without the extension
 		/// </summary>
+		[StringLength(Limits.MaximumStringLength)]
 		public string ProjectName { get; set; }
 
 		/// <summary>
 		/// The port used during compilation to validate the DMAPI
 		/// </summary>
 		[Required]
+		[Range(1, 65535)]
 		public ushort? ApiValidationPort { get; set; }
 
 		/// <summary>

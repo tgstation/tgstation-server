@@ -17,12 +17,14 @@ namespace Tgstation.Server.Api.Models
 		/// The name of the <see cref="Instance"/>
 		/// </summary>
 		[Required]
+		[StringLength(Limits.MaximumStringLength)]
 		public string Name { get; set; }
 
 		/// <summary>
 		/// The path to where the <see cref="Instance"/> is located. Can only be changed while the <see cref="Instance"/> is offline. Must not exist when the instance is created
 		/// </summary>
 		[Required]
+		[StringLength(Limits.MaximumStringLength)]
 		public string Path { get; set; }
 
 		/// <summary>
@@ -35,6 +37,7 @@ namespace Tgstation.Server.Api.Models
 		/// If <see cref="ConfigurationFile"/> can be used on the <see cref="Instance"/>
 		/// </summary>
 		[Required]
+		[EnumDataType(typeof(ConfigurationType))]
 		public ConfigurationType? ConfigurationType { get; set; }
 
 		/// <summary>

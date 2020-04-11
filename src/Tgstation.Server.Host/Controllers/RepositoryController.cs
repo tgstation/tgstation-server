@@ -146,10 +146,10 @@ namespace Tgstation.Server.Host.Controllers
 				throw new ArgumentNullException(nameof(model));
 
 			if (model.Origin == null)
-				return BadRequest(new ErrorMessage { Message = "Missing repo origin!" });
+				return BadRequest(ErrorCode.RepoMissingOrigin);
 
 			if (model.AccessUser == null ^ model.AccessToken == null)
-				return BadRequest(new ErrorMessage { Message = "Either both accessToken and accessUser must be present or neither!" });
+				return BadRequest(ErrorCode.RepoMismatchUserAndAccessToken);
 
 			var currentModel = await DatabaseContext.RepositorySettings.Where(x => x.InstanceId == Instance.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
@@ -172,25 +172,16 @@ namespace Tgstation.Server.Host.Controllers
 			var repoManager = instanceManager.GetInstance(Instance).RepositoryManager;
 
 			if (repoManager.CloneInProgress)
-				return Conflict(new ErrorMessage
-				{
-					Message = "A clone operation is in progress!"
-				});
+				return Conflict(new ErrorMessage(ErrorCode.RepoCloning));
 
 			if(repoManager.InUse)
-				return Conflict(new ErrorMessage
-				{
-					Message = "The repo is busy!"
-				});
+				return Conflict(new ErrorMessage(ErrorCode.RepoBusy));
 
 			using (var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 			{
 				// clone conflict
 				if (repo != null)
-					return Conflict(new ErrorMessage
-					{
-						Message = "The repository already exists!"
-					});
+					return Conflict(new ErrorMessage(ErrorCode.RepoExists));
 
 				var job = new Models.Job
 				{
@@ -280,22 +271,16 @@ namespace Tgstation.Server.Host.Controllers
 			var currentModel = await DatabaseContext.RepositorySettings.Where(x => x.InstanceId == Instance.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
 			if (currentModel == default)
-				return StatusCode((int)HttpStatusCode.Gone);
+				return StatusCode((int)HttpStatusCode.Gone, new ErrorMessage(ErrorCode.RepoMissing));
 
 			var api = currentModel.ToApi();
 			var repoManager = instanceManager.GetInstance(Instance).RepositoryManager;
 
 			if (repoManager.CloneInProgress)
-				return Conflict(new ErrorMessage
-				{
-					Message = "A clone operation is in progress!"
-				});
+				return Conflict(new ErrorMessage(ErrorCode.RepoCloning));
 
 			if (repoManager.InUse)
-				return Conflict(new ErrorMessage
-				{
-					Message = "The repo is busy!"
-				});
+				return Conflict(new ErrorMessage(ErrorCode.RepoBusy));
 
 			using (var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 			{
@@ -331,29 +316,29 @@ namespace Tgstation.Server.Host.Controllers
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
+			if (model.NewTestMerges?.Any(x => !x.Number.HasValue) == true)
+				throw new InvalidOperationException("All new test merges must provide a number!");
+
 			if (model.AccessUser == null ^ model.AccessToken == null)
-				return BadRequest(new ErrorMessage { Message = "Either both accessToken and accessUser must be present or neither!" });
+				return BadRequest(new ErrorMessage(ErrorCode.RepoMismatchUserAndAccessToken));
 
 			if (model.CheckoutSha != null && model.Reference != null)
-				return BadRequest(new ErrorMessage { Message = "Only one of sha or reference may be specified!" });
+				return BadRequest(new ErrorMessage(ErrorCode.RepoMismatchShaAndReference));
 
 			if (model.CheckoutSha != null && model.UpdateFromOrigin == true)
-				return BadRequest(new ErrorMessage { Message = "Cannot update a reference when checking out a sha!" });
+				return BadRequest(new ErrorMessage(ErrorCode.RepoMismatchShaAndUpdate));
 
 			if (model.Origin != null)
-				return BadRequest(new ErrorMessage { Message = "origin cannot be modified without deleting the repository!" });
-
-			if (model.NewTestMerges?.Any(x => !x.Number.HasValue) == true)
-				return BadRequest(new ErrorMessage { Message = "All new test merges must provide a number!" });
+				return BadRequest(new ErrorMessage(ErrorCode.RepoCantChangeOrigin));
 
 			if (model.NewTestMerges?.Any(x => model.NewTestMerges.Any(y => x != y && x.Number == y.Number)) == true)
-				return BadRequest(new ErrorMessage { Message = "Cannot test merge the same PR twice in one job!" });
+				return BadRequest(new ErrorMessage(ErrorCode.RepoDuplicateTestMerge));
 
 			if (model.CommitterName?.Length == 0)
-				return BadRequest(new ErrorMessage { Message = "Cannot set empty committer name!" });
+				return BadRequest(new ErrorMessage(ErrorCode.RepoWhitespaceCommitterName));
 
 			if (model.CommitterEmail?.Length == 0)
-				return BadRequest(new ErrorMessage { Message = "Cannot set empty committer e=mail!" });
+				return BadRequest(new ErrorMessage(ErrorCode.RepoWhitespaceCommitterEmail));
 
 			var newTestMerges = model.NewTestMerges != null && model.NewTestMerges.Count > 0;
 			var userRights = (RepositoryRights)AuthenticationContext.GetRight(RightsType.Repository);
@@ -407,24 +392,15 @@ namespace Tgstation.Server.Host.Controllers
 			if (canRead)
 			{
 				if (repoManager.CloneInProgress)
-					return Conflict(new ErrorMessage
-					{
-						Message = "A clone operation is in progress!"
-					});
+					return Conflict(new ErrorMessage(ErrorCode.RepoCloning));
 
 				if (repoManager.InUse)
-					return Conflict(new ErrorMessage
-					{
-						Message = "The repo is busy!"
-					});
+					return Conflict(new ErrorMessage(ErrorCode.RepoBusy));
 
 				using (var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 				{
 					if (repo == null)
-						return Conflict(new ErrorMessage
-						{
-							Message = "Repository could not be loaded!"
-						});
+						return Conflict(new ErrorMessage(ErrorCode.RepoMissing));
 					await PopulateApi(api, repo, DatabaseContext, Instance, cancellationToken).ConfigureAwait(false);
 				}
 			}

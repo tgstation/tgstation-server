@@ -65,64 +65,34 @@ namespace Tgstation.Server.Client
 			}
 			catch (JsonException) { }
 
-			const string BadSpecExtension = " This is not part of TGS4 communication specification and should be reported if it was returned from a TGS4 server!";
-
 #pragma warning disable IDE0010 // Add missing cases
 			switch (response.StatusCode)
 #pragma warning restore IDE0010 // Add missing cases
 			{
 				case HttpStatusCode.UpgradeRequired:
-					throw new ApiMismatchException(errorMessage ?? new ErrorMessage
-					{
-						Message = "API Mismatch but no current API version provided!" + BadSpecExtension,
-						SeverApiVersion = null
-					});
+					throw new VersionMismatchException(errorMessage, response);
 				case HttpStatusCode.Unauthorized:
-					throw new UnauthorizedException();
-				case HttpStatusCode.RequestTimeout:
-					throw new RequestTimeoutException();
-				case HttpStatusCode.Forbidden:
-					throw new InsufficientPermissionsException();
-				case HttpStatusCode.ServiceUnavailable:
-					throw new ServiceUnavailableException();
-				case HttpStatusCode.Gone:
-					errorMessage = errorMessage ?? new ErrorMessage
-					{
-						Message = "The requested resource could not be found!",
-						SeverApiVersion = null
-					};
-					goto case HttpStatusCode.Conflict;
-				case HttpStatusCode.NotFound:
-					// our fault somehow
-					errorMessage = errorMessage ?? new ErrorMessage
-					{
-						Message = "This is not a valid route!" + BadSpecExtension,
-						SeverApiVersion = null
-					};
-					goto case HttpStatusCode.Conflict;
-				case HttpStatusCode.Conflict:
-					throw new ConflictException(errorMessage ?? new ErrorMessage
-					{
-						Message = "An undescribed conflict occurred!" + BadSpecExtension,
-						SeverApiVersion = null
-					}, response.StatusCode);
+					throw new UnauthorizedException(errorMessage, response);
+				case HttpStatusCode.InternalServerError:
+					throw new ServerErrorException(errorMessage, response);
 				case HttpStatusCode.NotImplemented:
 				// unprocessable entity
 				case (HttpStatusCode)422:
-					throw new MethodNotSupportedException();
-				case HttpStatusCode.InternalServerError:
-					// response json is html
-					throw new ServerErrorException(errorMessage ?? new ErrorMessage
-					{
-						Message = "An internal server error occurred!",
-						SeverApiVersion = null
-					}, response.StatusCode);
+					throw new MethodNotSupportedException(errorMessage, response);
+				case HttpStatusCode.NotFound:
+				case HttpStatusCode.Gone:
+				case HttpStatusCode.Conflict:
+					throw new ConflictException(errorMessage, response);
+				case HttpStatusCode.Forbidden:
+					throw new InsufficientPermissionsException(response);
+				case HttpStatusCode.ServiceUnavailable:
+					throw new ServiceUnavailableException(response);
+				case HttpStatusCode.RequestTimeout:
+					throw new RequestTimeoutException(response);
 				case (HttpStatusCode)429:
-					// rate limited
-					response.Headers.TryGetValues("Retry-After", out var values);
-					throw new RateLimitException(values?.FirstOrDefault());
+					throw new RateLimitException(errorMessage, response);
 				default:
-					throw new ApiConflictException(errorMessage, response.StatusCode);
+					throw new ApiConflictException(errorMessage, response);
 			}
 		}
 
@@ -196,7 +166,7 @@ namespace Tgstation.Server.Client
 				}
 				catch (JsonException)
 				{
-					throw new UnrecognizedResponseException(json, response.StatusCode);
+					throw new UnrecognizedResponseException(response);
 				}
 			}
 		}

@@ -63,5 +63,15 @@ namespace Tgstation.Server.Host.Configuration
 		/// If the <see cref="Components.Watchdog.WindowsWatchdog"/> should not be used if it is available.
 		/// </summary>
 		public bool UseBasicWatchdogOnWindows { get; set; }
+
+		/// <summary>
+		/// The maximum number of <see cref="Models.Instance"/>s allowed.
+		/// </summary>
+		public uint InstanceLimit { get; set; }
+
+		/// <summary>
+		/// The maximum number of <see cref="Models.User"/>s allowed.
+		/// </summary>
+		public uint UserLimit { get; set; }
 	}
 }

@@ -18,18 +18,21 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// The <see cref="DreamDaemonSecurity"/> level of <see cref="DreamDaemon"/>
 		/// </summary>
 		[Required]
+		[EnumDataType(typeof(DreamDaemonSecurity))]
 		public DreamDaemonSecurity? SecurityLevel { get; set; }
 
 		/// <summary>
 		/// The first port <see cref="DreamDaemon"/> uses. This should be the publically advertised port
 		/// </summary>
 		[Required]
+		[Range(1, 65535)]
 		public ushort? PrimaryPort { get; set; }
 
 		/// <summary>
 		/// The second port <see cref="DreamDaemon"/> uses
 		/// </summary>
 		[Required]
+		[Range(1, 65535)]
 		public ushort? SecondaryPort { get; set; }
 
 		/// <summary>

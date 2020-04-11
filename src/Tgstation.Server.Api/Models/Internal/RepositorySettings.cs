@@ -11,22 +11,27 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// The name of the committer
 		/// </summary>
 		[Required]
+		[StringLength(Limits.MaximumStringLength)]
 		public string CommitterName { get; set; }
 
 		/// <summary>
 		/// The e-mail of the committer
 		/// </summary>
 		[Required]
+		[StringLength(Limits.MaximumStringLength)]
+		[EmailAddress]
 		public string CommitterEmail { get; set; }
 
 		/// <summary>
 		/// The username to access the git repository with
 		/// </summary>
+		[StringLength(Limits.MaximumStringLength)]
 		public string AccessUser { get; set; }
 
 		/// <summary>
 		/// The token/password to access the git repository with
 		/// </summary>
+		[StringLength(Limits.MaximumStringLength)]
 		public string AccessToken { get; set; }
 
 		/// <summary>

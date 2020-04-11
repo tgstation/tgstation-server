@@ -23,6 +23,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
@@ -370,8 +371,15 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="Application"/></param>
 		/// <param name="tokenFactory">The value of <see cref="tokenFactory"/></param>
 		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="ControlPanelConfiguration"/> to use</param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="GeneralConfiguration"/> to use</param>
 		/// <param name="logger">The <see cref="Microsoft.Extensions.Logging.ILogger"/> for the <see cref="Application"/></param>
-		public void Configure(IApplicationBuilder applicationBuilder, IServerControl serverControl, ITokenFactory tokenFactory, IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions, ILogger<Application> logger)
+		public void Configure(
+			IApplicationBuilder applicationBuilder,
+			IServerControl serverControl,
+			ITokenFactory tokenFactory,
+			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions,
+			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			ILogger<Application> logger)
 		{
 			if (applicationBuilder == null)
 				throw new ArgumentNullException(nameof(applicationBuilder));
@@ -381,6 +389,7 @@ namespace Tgstation.Server.Host.Core
 			this.tokenFactory = tokenFactory ?? throw new ArgumentNullException(nameof(tokenFactory));
 
 			var controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions));
+			var generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 
 			if (logger == null)
 				throw new ArgumentNullException(nameof(logger));
@@ -388,6 +397,13 @@ namespace Tgstation.Server.Host.Core
 			logger.LogInformation(VersionString);
 			logger.LogDebug("Content Root: {0}", hostingEnvironment.ContentRootPath);
 			logger.LogTrace("Web Root: {0}", hostingEnvironment.WebRootPath);
+
+			if (generalConfiguration.MinimumPasswordLength > Limits.MaximumStringLength)
+			{
+				logger.LogCritical("Configured minimum password length ({0}) is greater than the maximum database string length ({1})!");
+				serverControl.Die(new InvalidOperationException("Minimum password length greater than database limit!"));
+				return;
+			}
 
 			// attempt to restart the server if the configuration changes
 			if (serverControl.WatchdogPresent)

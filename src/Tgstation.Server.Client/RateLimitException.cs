@@ -1,5 +1,7 @@
-﻿using System;
-using System.Net;
+﻿using Microsoft.Net.Http.Headers;
+using System;
+using System.Linq;
+using System.Net.Http;
 using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Client
@@ -7,30 +9,32 @@ namespace Tgstation.Server.Client
 	/// <summary>
 	/// Occurs when a GitHub rate limit occurs
 	/// </summary>
-	public sealed class RateLimitException : ClientException
+	public sealed class RateLimitException : ApiException
 	{
-		DateTimeOffset RetryAfter { get; }
+		/// <summary>
+		/// Gets the <see cref="DateTimeOffset"/> to try the request again after.
+		/// </summary>
+		public DateTimeOffset? RetryAfter { get; }
+
+		/// <summary>
+		/// Initialize a new instance of the <see cref="MethodNotSupportedException"/> <see langword="class"/>.
+		/// </summary>
+		/// <param name="errorMessage">The <see cref="ErrorMessage"/> for the <see cref="ApiException"/>.</param>
+		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/> for the <see cref="ClientException"/>.</param>
+		public RateLimitException(ErrorMessage errorMessage, HttpResponseMessage responseMessage) : base(errorMessage, responseMessage)
+		{
+			if (!responseMessage.Headers.TryGetValues(HeaderNames.RetryAfter, out var values))
+				return;
+
+			var secondsString = values.FirstOrDefault();
+			if (UInt32.TryParse(secondsString, out var seconds))
+				RetryAfter = DateTimeOffset.Now.AddSeconds(seconds);
+		}
 
 		/// <summary>
 		/// Construct an <see cref="RateLimitException"/>
 		/// </summary>
 		public RateLimitException() { }
-
-		/// <summary>
-		/// Construct an <see cref="RateLimitException"/> with a <paramref name="secondsString"/>
-		/// </summary>
-		/// <param name="secondsString">The message for the <see cref="Exception"/></param>
-		public RateLimitException(string secondsString) : base(new ErrorMessage
-		{
-			Message = "GitHub rate limit reached!",
-			SeverApiVersion = null
-		}, (HttpStatusCode)429)
-		{
-			if (Int32.TryParse(secondsString, out var seconds) && seconds >= 0)
-				RetryAfter = DateTimeOffset.Now.AddSeconds(seconds);
-			else
-				RetryAfter = DateTimeOffset.Now;
-		}
 
 		/// <summary>
 		/// Construct an <see cref="RateLimitException"/> with a <paramref name="message"/> and <paramref name="innerException"/>

@@ -29,12 +29,14 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The SID/UID of the <see cref="User"/> on Windows/POSIX respectively
 		/// </summary>
+		// No need for StringLength as the server MUST validate it.
 		public string SystemIdentifier { get; set; }
 
 		/// <summary>
 		/// The name of the <see cref="User"/>
 		/// </summary>
 		[Required]
+		[StringLength(Limits.MaximumStringLength)]
 		public string Name { get; set; }
 
 		/// <summary>

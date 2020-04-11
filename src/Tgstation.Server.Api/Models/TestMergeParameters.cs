@@ -17,11 +17,13 @@ namespace Tgstation.Server.Api.Models
 		/// The sha of the pull request revision to merge. If not specified, the latest commit shall be used (semi-unsafe)
 		/// </summary>
 		[Required]
+		[StringLength(40)]
 		public string PullRequestRevision { get; set; }
 
 		/// <summary>
 		/// Optional comment about the test
 		/// </summary>
+		[StringLength(Limits.MaximumStringLength)]
 		public string Comment { get; set; }
 	}
 }

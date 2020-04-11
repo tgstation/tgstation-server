@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Net;
+using System.Net.Http;
 using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Client
@@ -7,14 +7,14 @@ namespace Tgstation.Server.Client
 	/// <summary>
 	/// Occurs when the client performs an action that would result in data conflict
 	/// </summary>
-	public sealed class ConflictException : ClientException
+	public sealed class ConflictException : ApiException
 	{
 		/// <summary>
-		/// Construct an <see cref="ConflictException"/> with a <paramref name="errorMessage"/> and <paramref name="statusCode"/>
+		/// Initialize a new instance of the <see cref="ConflictException"/> <see langword="class"/>.
 		/// </summary>
-		/// <param name="errorMessage">The <see cref="ErrorMessage"/> for the <see cref="ClientException"/></param>
-		/// <param name="statusCode">The <see cref="HttpStatusCode"/> for the <see cref="ClientException"/></param>
-		public ConflictException(ErrorMessage errorMessage, HttpStatusCode statusCode) : base(errorMessage, statusCode)
+		/// <param name="errorMessage">The <see cref="ErrorMessage"/> for the <see cref="ApiException"/>.</param>
+		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/> for the <see cref="ClientException"/>.</param>
+		public ConflictException(ErrorMessage errorMessage, HttpResponseMessage responseMessage) : base(errorMessage, responseMessage)
 		{ }
 
 		/// <summary>

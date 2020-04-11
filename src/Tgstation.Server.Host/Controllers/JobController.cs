@@ -118,7 +118,7 @@ namespace Tgstation.Server.Host.Controllers
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			var job = await DatabaseContext.Jobs.Where(x => x.Id == id && x.Instance.Id == Instance.Id).Include(x => x.StartedBy).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
-			if (job == default(Job))
+			if (job == default)
 				return NotFound();
 			var api = job.ToApi();
 			api.Progress = jobManager.JobProgress(job);

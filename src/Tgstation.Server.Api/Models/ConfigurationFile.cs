@@ -1,4 +1,6 @@
-﻿namespace Tgstation.Server.Api.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
 	/// Represents a game configuration file. Create and delete actions uncerimonuously overwrite/delete files
@@ -8,6 +10,7 @@
 		/// <summary>
 		/// The path to the <see cref="ConfigurationFile"/> file
 		/// </summary>
+		[StringLength(Limits.MaximumStringLength)]
 		public string Path { get; set; }
 
 		/// <summary>
