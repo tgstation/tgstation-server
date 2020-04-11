@@ -329,12 +329,17 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a710f101186ee1422e948d8ff01cb037f">Logger</a>.LogInformation(<span class="stringliteral">&quot;Seeding database...&quot;</span>);</div>
 <div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad1ded89f4bf6f07eee01c6b3a45d30c2">databaseSeeder</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html#afbad62130c7423f9de442d6d761d3524">SeedDatabase</a>(<span class="keyword">this</span>, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
 <div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;            }</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html">DatabaseConfiguration</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a90f97812f033dd9cc418ea1fcffe3ce0">ResetAdminPassword</a>)</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;            <span class="keywordflow">else</span></div>
 <div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;            {</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a710f101186ee1422e948d8ff01cb037f">Logger</a>.LogWarning(<span class="stringliteral">&quot;Enabling and resetting admin password due to configuration!&quot;</span>);</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;                await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad1ded89f4bf6f07eee01c6b3a45d30c2">databaseSeeder</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html#aa97dbc8284be5920728ad3bcf4c20353">ResetAdminPassword</a>(<span class="keyword">this</span>, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;            }</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        }</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html">DatabaseConfiguration</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a90f97812f033dd9cc418ea1fcffe3ce0">ResetAdminPassword</a>)</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;                {</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a710f101186ee1422e948d8ff01cb037f">Logger</a>.LogWarning(<span class="stringliteral">&quot;Enabling and resetting admin password due to configuration!&quot;</span>);</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;                    await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad1ded89f4bf6f07eee01c6b3a45d30c2">databaseSeeder</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html#aa97dbc8284be5920728ad3bcf4c20353">ResetAdminPassword</a>(<span class="keyword">this</span>, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;                }</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160; </div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;                await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad1ded89f4bf6f07eee01c6b3a45d30c2">databaseSeeder</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html#a28cbb80c1461f0d7bedffd613da18e3c">SanitizeDatabase</a>(<span class="keyword">this</span>, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;            }</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -462,79 +467,79 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a0859cd037c903cbc4d75a5e8439038c4">Tgstation.Server.Host.Database.IDatabaseContext</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00186">186</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        {</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;            <span class="keywordflow">if</span> (version == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(version));</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;            <span class="keywordflow">if</span> (version &lt; <span class="keyword">new</span> Version(4, 0))</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentOutOfRangeException(nameof(version), version, <span class="stringliteral">&quot;Not a valid V4 version!&quot;</span>);</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160; </div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;            <span class="keywordtype">string</span> targetMigration = <span class="keyword">null</span>;</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160; </div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;            <span class="comment">// Update this with new migrations as they are made</span></div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;            <span class="comment">// Always use the MS class</span></div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;            <span class="keywordflow">if</span> (version &lt; <span class="keyword">new</span> Version(4, 0, 2))</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;            {</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;                <span class="comment">// Special handling because this is where SQLite was introduced</span></div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a> == <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.Sqlite)</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;                    <span class="keywordflow">throw</span> <span class="keyword">new</span> NotSupportedException(<span class="stringliteral">&quot;Cannot migrate below version 4.0.2.0 while using Sqlite!&quot;</span>);</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160; </div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                targetMigration = nameof(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_reattach_compile_job_required.html">MSReattachCompileJobRequired</a>);</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;            }</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160; </div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;            <span class="comment">// Uncomment once next migration/version step happens</span></div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;            <span class="comment">/*</span></div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;<span class="comment">            else if (version &lt; new Version(V_NEXT_MIGRATION))</span></div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;<span class="comment">            {</span></div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;<span class="comment">                // Special handling because this is where SQLite was introduced</span></div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;<span class="comment">                if (DatabaseType == DatabaseType.Sqlite)</span></div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;<span class="comment">                    targetMigration = nameof(SLAddSqlite);</span></div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;<span class="comment">                targetMigration = nameof(V_NEXT_LAST_MIGRATION);</span></div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;<span class="comment">            }</span></div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;<span class="comment">            */</span></div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160; </div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;            <span class="keywordflow">if</span> (targetMigration == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;            {</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a710f101186ee1422e948d8ff01cb037f">Logger</a>.LogDebug(<span class="stringliteral">&quot;No down migration required.&quot;</span>);</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;                <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;            }</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160; </div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            <span class="keywordtype">string</span> migrationSubstitution;</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;            <span class="keywordflow">switch</span> (<a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>)</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;            {</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.SqlServer:</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;                    <span class="comment">// already setup</span></div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;                    migrationSubstitution = <span class="keyword">null</span>;</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;                    <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.MySql:</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.MariaDB:</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;                    migrationSubstitution = <span class="stringliteral">&quot;MY{0}&quot;</span>;</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;                    <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.Sqlite:</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;                    migrationSubstitution = <span class="stringliteral">&quot;SL{0}&quot;</span>;</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;                    <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;                <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;Invalid DatabaseType: {DatabaseType}&quot;</span>);</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;            }</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160; </div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;            <span class="keywordflow">if</span> (migrationSubstitution != <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;                targetMigration = String.Format(CultureInfo.InvariantCulture, migrationSubstitution, targetMigration.Substring(2));</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160; </div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;            <span class="comment">// even though it clearly implements it in the DatabaseFacade definition this won&#39;t work without casting (╯ಠ益ಠ)╯︵ ┻━┻</span></div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;            var dbServiceProvider = ((IInfrastructure&lt;IServiceProvider&gt;)Database).Instance;</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;            var migrator = dbServiceProvider.GetRequiredService&lt;IMigrator&gt;();</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160; </div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a710f101186ee1422e948d8ff01cb037f">Logger</a>.LogInformation(<span class="stringliteral">&quot;Migrating down to version {0}. Target: {1}&quot;</span>, version, targetMigration);</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;            <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;            {</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;                await migrator.MigrateAsync(targetMigration, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;            }</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;            <span class="keywordflow">catch</span> (Exception e)</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;            {</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a710f101186ee1422e948d8ff01cb037f">Logger</a>.LogCritical(<span class="stringliteral">&quot;Failed to migrate! Exception: {0}&quot;</span>, e);</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;            }</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00191">191</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        {</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;            <span class="keywordflow">if</span> (version == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(version));</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;            <span class="keywordflow">if</span> (version &lt; <span class="keyword">new</span> Version(4, 0))</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentOutOfRangeException(nameof(version), version, <span class="stringliteral">&quot;Not a valid V4 version!&quot;</span>);</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160; </div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;            <span class="keywordtype">string</span> targetMigration = <span class="keyword">null</span>;</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160; </div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;            <span class="comment">// Update this with new migrations as they are made</span></div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;            <span class="comment">// Always use the MS class</span></div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;            <span class="keywordflow">if</span> (version &lt; <span class="keyword">new</span> Version(4, 0, 2))</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;            {</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                <span class="comment">// Special handling because this is where SQLite was introduced</span></div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a> == <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.Sqlite)</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                    <span class="keywordflow">throw</span> <span class="keyword">new</span> NotSupportedException(<span class="stringliteral">&quot;Cannot migrate below version 4.0.2.0 while using Sqlite!&quot;</span>);</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160; </div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;                targetMigration = nameof(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_reattach_compile_job_required.html">MSReattachCompileJobRequired</a>);</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;            }</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160; </div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;            <span class="comment">// Uncomment once next migration/version step happens</span></div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;            <span class="comment">/*</span></div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;<span class="comment">            else if (version &lt; new Version(V_NEXT_MIGRATION))</span></div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;<span class="comment">            {</span></div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;<span class="comment">                // Special handling because this is where SQLite was introduced</span></div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;<span class="comment">                if (DatabaseType == DatabaseType.Sqlite)</span></div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;<span class="comment">                    targetMigration = nameof(SLAddSqlite);</span></div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;<span class="comment">                targetMigration = nameof(V_NEXT_LAST_MIGRATION);</span></div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;<span class="comment">            }</span></div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;<span class="comment">            */</span></div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160; </div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;            <span class="keywordflow">if</span> (targetMigration == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            {</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a710f101186ee1422e948d8ff01cb037f">Logger</a>.LogDebug(<span class="stringliteral">&quot;No down migration required.&quot;</span>);</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;                <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;            }</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160; </div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;            <span class="keywordtype">string</span> migrationSubstitution;</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;            <span class="keywordflow">switch</span> (<a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>)</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;            {</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.SqlServer:</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;                    <span class="comment">// already setup</span></div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;                    migrationSubstitution = <span class="keyword">null</span>;</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;                    <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.MySql:</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.MariaDB:</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;                    migrationSubstitution = <span class="stringliteral">&quot;MY{0}&quot;</span>;</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;                    <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;                <span class="keywordflow">case</span> <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.Sqlite:</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;                    migrationSubstitution = <span class="stringliteral">&quot;SL{0}&quot;</span>;</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;                    <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;                <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;Invalid DatabaseType: {DatabaseType}&quot;</span>);</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;            }</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160; </div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;            <span class="keywordflow">if</span> (migrationSubstitution != <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;                targetMigration = String.Format(CultureInfo.InvariantCulture, migrationSubstitution, targetMigration.Substring(2));</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160; </div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;            <span class="comment">// even though it clearly implements it in the DatabaseFacade definition this won&#39;t work without casting (╯ಠ益ಠ)╯︵ ┻━┻</span></div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;            var dbServiceProvider = ((IInfrastructure&lt;IServiceProvider&gt;)Database).Instance;</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;            var migrator = dbServiceProvider.GetRequiredService&lt;IMigrator&gt;();</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160; </div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a710f101186ee1422e948d8ff01cb037f">Logger</a>.LogInformation(<span class="stringliteral">&quot;Migrating down to version {0}. Target: {1}&quot;</span>, version, targetMigration);</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;            <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;            {</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;                await migrator.MigrateAsync(targetMigration, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;            }</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;            <span class="keywordflow">catch</span> (Exception e)</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;            {</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a710f101186ee1422e948d8ff01cb037f">Logger</a>.LogCritical(<span class="stringliteral">&quot;Failed to migrate! Exception: {0}&quot;</span>, e);</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;            }</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -877,7 +882,7 @@ Private Attributes</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_database_context_8cs_source.html#l00074">74</a> of file <a class="el" href="_database_context_8cs_source.html">DatabaseContext.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00098">Tgstation.Server.Host.Database.DatabaseContext&lt; SqliteDatabaseContext &gt;.DatabaseContext()</a>, <a class="el" href="_database_context_8cs_source.html#l00149">Tgstation.Server.Host.Database.DatabaseContext&lt; SqliteDatabaseContext &gt;.Initialize()</a>, <a class="el" href="_database_context_8cs_source.html#l00106">Tgstation.Server.Host.Database.DatabaseContext&lt; SqliteDatabaseContext &gt;.OnModelCreating()</a>, and <a class="el" href="_database_context_8cs_source.html#l00186">Tgstation.Server.Host.Database.DatabaseContext&lt; SqliteDatabaseContext &gt;.SchemaDowngradeForServerVersion()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_database_context_8cs_source.html#l00098">Tgstation.Server.Host.Database.DatabaseContext&lt; SqliteDatabaseContext &gt;.DatabaseContext()</a>, <a class="el" href="_database_context_8cs_source.html#l00149">Tgstation.Server.Host.Database.DatabaseContext&lt; SqliteDatabaseContext &gt;.Initialize()</a>, <a class="el" href="_database_context_8cs_source.html#l00106">Tgstation.Server.Host.Database.DatabaseContext&lt; SqliteDatabaseContext &gt;.OnModelCreating()</a>, and <a class="el" href="_database_context_8cs_source.html#l00191">Tgstation.Server.Host.Database.DatabaseContext&lt; SqliteDatabaseContext &gt;.SchemaDowngradeForServerVersion()</a>.</p>
 
 </div>
 </div>
@@ -1084,6 +1089,7 @@ Private Attributes</h2></td></tr>
 </div><!-- contents -->
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration_html_a90f97812f033dd9cc418ea1fcffe3ce0"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a90f97812f033dd9cc418ea1fcffe3ce0">Tgstation.Server.Host.Configuration.DatabaseConfiguration.ResetAdminPassword</a></div><div class="ttdeci">bool ResetAdminPassword</div><div class="ttdoc">If the admin user should be enabled and have it's password reset</div><div class="ttdef"><b>Definition:</b> <a href="_database_configuration_8cs_source.html#l00025">DatabaseConfiguration.cs:25</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_job_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html">Tgstation.Server.Host.Models.Job</a></div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_host_2_models_2_job_8cs_source.html#l00010">Job.cs:10</a></div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder_html_a28cbb80c1461f0d7bedffd613da18e3c"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html#a28cbb80c1461f0d7bedffd613da18e3c">Tgstation.Server.Host.Database.IDatabaseSeeder.SanitizeDatabase</a></div><div class="ttdeci">Task SanitizeDatabase(IDatabaseContext databaseContext, CancellationToken cancellationToken)</div><div class="ttdoc">Correct invalid database data caused by previous versions.</div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">Tgstation.Server.Host.Models.CompileJob</a></div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_host_2_models_2_compile_job_8cs_source.html#l00007">CompileJob.cs:7</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_html_ad1ded89f4bf6f07eee01c6b3a45d30c2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad1ded89f4bf6f07eee01c6b3a45d30c2">Tgstation.Server.Host.Database.DatabaseContext.databaseSeeder</a></div><div class="ttdeci">readonly IDatabaseSeeder databaseSeeder</div><div class="ttdoc">The IDatabaseSeeder for the DatabaseContext&lt;TParentContext&gt;</div><div class="ttdef"><b>Definition:</b> <a href="_database_context_8cs_source.html#l00089">DatabaseContext.cs:89</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">Tgstation.Server.Host.Models.RevisionInformation</a></div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_host_2_models_2_revision_information_8cs_source.html#l00008">RevisionInformation.cs:8</a></div></div>
