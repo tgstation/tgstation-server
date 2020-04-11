@@ -172,10 +172,15 @@ namespace Tgstation.Server.Host.Database
 				Logger.LogInformation("Seeding database...");
 				await databaseSeeder.SeedDatabase(this, cancellationToken).ConfigureAwait(false);
 			}
-			else if (DatabaseConfiguration.ResetAdminPassword)
+			else
 			{
-				Logger.LogWarning("Enabling and resetting admin password due to configuration!");
-				await databaseSeeder.ResetAdminPassword(this, cancellationToken).ConfigureAwait(false);
+				if (DatabaseConfiguration.ResetAdminPassword)
+				{
+					Logger.LogWarning("Enabling and resetting admin password due to configuration!");
+					await databaseSeeder.ResetAdminPassword(this, cancellationToken).ConfigureAwait(false);
+				}
+
+				await databaseSeeder.SanitizeDatabase(this, cancellationToken).ConfigureAwait(false);
 			}
 		}
 
