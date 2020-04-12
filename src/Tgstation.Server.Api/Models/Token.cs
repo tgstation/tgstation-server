@@ -15,6 +15,6 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// When the <see cref="Token"/> expires
 		/// </summary>
-		public DateTimeOffset? ExpiresAt { get; set; }
+		public DateTimeOffset ExpiresAt { get; set; }
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -15,6 +16,7 @@ using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
@@ -65,6 +67,11 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IPlatformIdentifier platformIdentifier;
 
 		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="InstanceController"/>.
+		/// </summary>
+		readonly GeneralConfiguration generalConfiguration;
+
+		/// <summary>
 		/// Construct a <see cref="InstanceController"/>
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
@@ -74,29 +81,38 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="application">The value of <see cref="application"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		public InstanceController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager, IInstanceManager instanceManager, IIOManager ioManager, IApplication application, IPlatformIdentifier platformIdentifier, ILogger<InstanceController> logger) : base(databaseContext, authenticationContextFactory, logger, false, true)
+		public InstanceController(
+			IDatabaseContext databaseContext,
+			IAuthenticationContextFactory authenticationContextFactory,
+			IJobManager jobManager,
+			IInstanceManager instanceManager,
+			IIOManager ioManager,
+			IApplication application,
+			IPlatformIdentifier platformIdentifier,
+			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			ILogger<InstanceController> logger)
+			: base(databaseContext, authenticationContextFactory, logger, false, true)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.application = application ?? throw new ArgumentNullException(nameof(application));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
+			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
-		void NormalizeModelPath(Api.Models.Instance model, out string absolutePath)
+		string NormalizePath(string path)
 		{
-			if (model.Path == null)
-			{
-				absolutePath = null;
-				return;
-			}
+			if (path == null)
+				return null;
 
-			absolutePath = ioManager.ResolvePath(model.Path);
+			path = ioManager.ResolvePath(path);
 			if (platformIdentifier.IsWindows)
-				model.Path = absolutePath.ToUpperInvariant();
-			else
-				model.Path = absolutePath;
+				path = path.ToUpperInvariant().Replace('\\', '/');
+
+			return path;
 		}
 
 		Models.InstanceUser InstanceAdminUser() => new Models.InstanceUser
@@ -129,34 +145,79 @@ namespace Tgstation.Server.Host.Controllers
 				throw new ArgumentNullException(nameof(model));
 
 			if (String.IsNullOrWhiteSpace(model.Name))
-				return BadRequest(new ErrorMessage { Message = "name must not be empty!" });
+				return BadRequest(new ErrorMessage(ErrorCode.InstanceWhitespaceName));
 
-			if (model.Path == null)
-				return BadRequest(new ErrorMessage { Message = "path must not be empty!" });
+			var targetInstancePath = NormalizePath(model.Path);
+			model.Path = targetInstancePath;
 
-			NormalizeModelPath(model, out var rawPath);
+			var installationDirectoryPath = NormalizePath(".");
 
-			var localPath = ioManager.ResolvePath(".");
-			NormalizeModelPath(new Api.Models.Instance
+			IActionResult CheckInstanceNotChildOf(string conflictingPath)
 			{
-				Path = localPath
-			}, out var normalizedLocalPath);
+				if (targetInstancePath.StartsWith(conflictingPath, StringComparison.Ordinal))
+				{
+					bool sameLength = targetInstancePath.Length == conflictingPath.Length;
+					char dirSeparatorChar = targetInstancePath.ToCharArray()[Math.Min(conflictingPath.Length, targetInstancePath.Length - 1)];
+					if (sameLength
+						|| dirSeparatorChar == Path.DirectorySeparatorChar
+						|| dirSeparatorChar == Path.AltDirectorySeparatorChar)
+						return Conflict(new ErrorMessage(ErrorCode.InstanceAtConflictingPath));
+				}
 
-			if (rawPath.StartsWith(normalizedLocalPath, StringComparison.Ordinal))
-			{
-				bool sameLength = rawPath.Length == normalizedLocalPath.Length;
-				char dirSeparatorChar = rawPath.ToCharArray()[normalizedLocalPath.Length];
-				if(sameLength
-					|| dirSeparatorChar == Path.DirectorySeparatorChar
-					|| dirSeparatorChar == Path.AltDirectorySeparatorChar)
-					return Conflict(new ErrorMessage { Message = "Instances cannot be created in the installation directory!" });
+				return null;
 			}
 
-			var dirExistsTask = ioManager.DirectoryExists(model.Path, cancellationToken);
+			var earlyOut = CheckInstanceNotChildOf(installationDirectoryPath);
+			if (earlyOut != null)
+				return earlyOut;
+
+			ulong countOfOtherInstances = 0;
+
+			// Validate it's not a child of any other instance
+			using (var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
+				try
+				{
+					await DatabaseContext.Instances.ForEachAsync(
+						otherInstance =>
+						{
+							if (++countOfOtherInstances >= generalConfiguration.InstanceLimit)
+								earlyOut = Conflict(new ErrorMessage(ErrorCode.InstanceLimitReached));
+							else
+								earlyOut = CheckInstanceNotChildOf(otherInstance.Path);
+
+							if (earlyOut != null)
+								cts.Cancel();
+						},
+						cts.Token)
+						.ConfigureAwait(false);
+				}
+				catch (OperationCanceledException)
+				{
+					cancellationToken.ThrowIfCancellationRequested();
+				}
+
+			if (earlyOut != null)
+				return earlyOut;
+
+			async Task<bool> DirExistsAndIsNotEmpty()
+			{
+				if (!await ioManager.DirectoryExists(model.Path, cancellationToken).ConfigureAwait(false))
+					return false;
+
+				var filesTask = ioManager.GetFiles(model.Path, cancellationToken);
+				var dirsTask = ioManager.GetDirectories(model.Path, cancellationToken);
+
+				var files = await filesTask.ConfigureAwait(false);
+				var dirs = await dirsTask.ConfigureAwait(false);
+
+				return files.Concat(dirs).Any();
+			}
+
+			var dirExistsTask = DirExistsAndIsNotEmpty();
 			bool attached = false;
 			if (await ioManager.FileExists(model.Path, cancellationToken).ConfigureAwait(false) || await dirExistsTask.ConfigureAwait(false))
 				if (!await ioManager.FileExists(ioManager.ConcatPath(model.Path, InstanceAttachFileName), cancellationToken).ConfigureAwait(false))
-					return Conflict(new ErrorMessage { Message = "Path not empty!" });
+					return Conflict(new ErrorMessage(ErrorCode.InstanceAtExistingPath));
 				else
 					attached = true;
 
@@ -207,8 +268,8 @@ namespace Tgstation.Server.Host.Controllers
 				try
 				{
 					// actually reserve it now
-					await ioManager.CreateDirectory(rawPath, cancellationToken).ConfigureAwait(false);
-					await ioManager.DeleteFile(ioManager.ConcatPath(rawPath, InstanceAttachFileName), cancellationToken).ConfigureAwait(false);
+					await ioManager.CreateDirectory(targetInstancePath, cancellationToken).ConfigureAwait(false);
+					await ioManager.DeleteFile(ioManager.ConcatPath(targetInstancePath, InstanceAttachFileName), cancellationToken).ConfigureAwait(false);
 				}
 				catch
 				{
@@ -221,11 +282,10 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch (IOException e)
 			{
-				return Conflict(new ErrorMessage { Message = e.Message });
-			}
-			catch (DbUpdateException e)
-			{
-				return Conflict(new ErrorMessage { Message = e.Message });
+				return Conflict(new ErrorMessage(ErrorCode.IOError)
+				{
+					AdditionalData = e.Message
+				});
 			}
 
 			Logger.LogInformation("{0} {1} instance {2}: {3} ({4})", AuthenticationContext.User.Name, attached ? "attached" : "created", newInstance.Name, newInstance.Id, newInstance.Path);
@@ -256,10 +316,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (originalModel == default)
 				return StatusCode((int)HttpStatusCode.Gone);
 			if (originalModel.Online.Value)
-				return Conflict(new ErrorMessage
-				{
-					Message = "Cannot detach an online instance!"
-				});
+				return Conflict(new ErrorMessage(ErrorCode.InstanceDetachOnline));
 
 			if (originalModel.WatchdogReattachInformation != null)
 			{
@@ -343,18 +400,18 @@ namespace Tgstation.Server.Host.Controllers
 			string rawPath = null;
 			if (model.Path != null)
 			{
-				NormalizeModelPath(model, out rawPath);
+				rawPath = NormalizePath(model.Path);
 
 				if (model.Path != originalModel.Path)
 				{
 					if (!userRights.HasFlag(InstanceManagerRights.Relocate))
 						return Forbid();
 					if (originalModel.Online.Value && model.Online != true)
-						return Conflict(new ErrorMessage { Message = "Cannot relocate an online instance!" });
+						return Conflict(new ErrorMessage(ErrorCode.InstanceRelocateOnline));
 
 					var dirExistsTask = ioManager.DirectoryExists(model.Path, cancellationToken);
 					if (await ioManager.FileExists(model.Path, cancellationToken).ConfigureAwait(false) || await dirExistsTask.ConfigureAwait(false))
-						return Conflict(new ErrorMessage { Message = "Path not empty!" });
+						return Conflict(new ErrorMessage(ErrorCode.InstanceAtExistingPath));
 
 					originalModelPath = originalModel.Path;
 					originalModel.Path = model.Path;

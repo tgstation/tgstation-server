@@ -91,9 +91,6 @@ namespace Tgstation.Server.Host.Controllers
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
-			if (model.Version == null)
-				return BadRequest(new ErrorMessage { Message = "Missing version!" });
-
 			var byondManager = instanceManager.GetInstance(Instance).ByondManager;
 
 			// remove cruff fields

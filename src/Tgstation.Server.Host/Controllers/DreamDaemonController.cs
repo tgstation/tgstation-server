@@ -173,17 +173,21 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(DreamDaemonRights.SetAutoStart | DreamDaemonRights.SetPorts | DreamDaemonRights.SetSecurity | DreamDaemonRights.SetWebClient | DreamDaemonRights.SoftRestart | DreamDaemonRights.SoftShutdown | DreamDaemonRights.Start | DreamDaemonRights.SetStartupTimeout)]
 		[ProducesResponseType(typeof(DreamDaemon), 200)]
 		[ProducesResponseType(410)]
-		#pragma warning disable CA1506 // TODO: Decomplexify
+		#pragma warning disable CA1502 // TODO: Decomplexify
+		#pragma warning disable CA1506
 		public async Task<IActionResult> Update([FromBody] DreamDaemon model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
 			if (model.PrimaryPort == 0)
-				return BadRequest(new ErrorMessage { Message = "Primary port cannot be 0!" });
+				throw new InvalidOperationException("Primary port cannot be 0!");
+
+			if (model.SecondaryPort == 0)
+				throw new InvalidOperationException("Secondary port cannot be 0!");
 
 			if (model.SecurityLevel == DreamDaemonSecurity.Ultrasafe)
-				return BadRequest(new ErrorMessage { Message = "This version of TGS does not support the ultrasafe DreamDaemon configuration!" });
+				return BadRequest(new ErrorMessage(ErrorCode.InvalidSecurityLevel));
 
 			// alias for changing DD settings
 			var current = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).Select(x => x.DreamDaemonSettings).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
@@ -222,7 +226,7 @@ namespace Tgstation.Server.Host.Controllers
 				return Forbid();
 
 			if (current.PrimaryPort == current.SecondaryPort)
-				return BadRequest(new ErrorMessage { Message = "Primary port and secondary port cannot be the same!" });
+				return BadRequest(new ErrorMessage(ErrorCode.DreamDaemonDuplicatePorts));
 
 			var wd = instanceManager.GetInstance(Instance).Watchdog;
 
@@ -241,6 +245,7 @@ namespace Tgstation.Server.Host.Controllers
 			return await ReadImpl(current, cancellationToken).ConfigureAwait(false);
 		}
 		#pragma warning restore CA1506
+		#pragma warning restore CA1502
 
 		/// <summary>
 		/// Creates a <see cref="Api.Models.Job"/> to restart the Watchdog. It will start if it wasn't already running.

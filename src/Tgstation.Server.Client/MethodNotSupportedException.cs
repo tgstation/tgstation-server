@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Net;
+using System.Net.Http;
 using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Client
@@ -7,16 +7,14 @@ namespace Tgstation.Server.Client
 	/// <summary>
 	/// Occurs when the client tries to use a currently unsupported API
 	/// </summary>
-	public sealed class MethodNotSupportedException : ClientException
+	public sealed class MethodNotSupportedException : ApiException
 	{
 		/// <summary>
-		/// Construct an <see cref="MethodNotSupportedException"/>
+		/// Initialize a new instance of the <see cref="MethodNotSupportedException"/> <see langword="class"/>.
 		/// </summary>
-		public MethodNotSupportedException() : base(new ErrorMessage
-		{
-			Message = "This method is not currently supported!",
-			SeverApiVersion = null
-		}, HttpStatusCode.NotImplemented)
+		/// <param name="errorMessage">The <see cref="ErrorMessage"/> for the <see cref="ApiException"/>.</param>
+		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/> for the <see cref="ClientException"/>.</param>
+		public MethodNotSupportedException(ErrorMessage errorMessage, HttpResponseMessage responseMessage) : base(errorMessage, responseMessage)
 		{ }
 
 		/// <summary>

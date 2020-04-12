@@ -36,16 +36,13 @@ namespace Tgstation.Server.Host.Controllers
 		/// Checks a <paramref name="model"/> for errors
 		/// </summary>
 		/// <param name="model">The <see cref="Api.Models.InstanceUser"/> to check</param>
-		/// <returns>A <see cref="BadRequestResult"/> explaining any errors, <see langword="null"/> if none</returns>
-		BadRequestObjectResult StandardModelChecks(Api.Models.InstanceUser model)
+		static void StandardModelChecks(Api.Models.InstanceUser model)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
 			if (!model.UserId.HasValue)
-				return BadRequest(new ErrorMessage { Message = "Missing UserId!" });
-
-			return null;
+				throw new InvalidOperationException("Model user ID is missing!");
 		}
 
 		/// <summary>
@@ -60,19 +57,17 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(Api.Models.InstanceUser), 201)]
 		public async Task<IActionResult> Create([FromBody] Api.Models.InstanceUser model, CancellationToken cancellationToken)
 		{
-			var test = StandardModelChecks(model);
-			if (test != null)
-				return test;
+			StandardModelChecks(model);
 
 			var dbUser = new Models.InstanceUser
 			{
-				ByondRights = model.ByondRights ?? ByondRights.None,
-				ChatBotRights = model.ChatBotRights ?? ChatBotRights.None,
-				ConfigurationRights = model.ConfigurationRights ?? ConfigurationRights.None,
-				DreamDaemonRights = model.DreamDaemonRights ?? DreamDaemonRights.None,
-				DreamMakerRights = model.DreamMakerRights ?? DreamMakerRights.None,
-				RepositoryRights = model.RepositoryRights ?? RepositoryRights.None,
-				InstanceUserRights = model.InstanceUserRights ?? InstanceUserRights.None,
+				ByondRights = RightsHelper.Clamp(model.ByondRights ?? ByondRights.None),
+				ChatBotRights = RightsHelper.Clamp(model.ChatBotRights ?? ChatBotRights.None),
+				ConfigurationRights = RightsHelper.Clamp(model.ConfigurationRights ?? ConfigurationRights.None),
+				DreamDaemonRights = RightsHelper.Clamp(model.DreamDaemonRights ?? DreamDaemonRights.None),
+				DreamMakerRights = RightsHelper.Clamp(model.DreamMakerRights ?? DreamMakerRights.None),
+				RepositoryRights = RightsHelper.Clamp(model.RepositoryRights ?? RepositoryRights.None),
+				InstanceUserRights = RightsHelper.Clamp(model.InstanceUserRights ?? InstanceUserRights.None),
 				UserId = model.UserId,
 				InstanceId = Instance.Id
 			};
@@ -98,21 +93,19 @@ namespace Tgstation.Server.Host.Controllers
 		#pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<IActionResult> Update([FromBody] Api.Models.InstanceUser model, CancellationToken cancellationToken)
 		{
-			var test = StandardModelChecks(model);
-			if (test != null)
-				return test;
+			StandardModelChecks(model);
 
 			var originalUser = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).SelectMany(x => x.InstanceUsers).Where(x => x.UserId == model.UserId).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (originalUser == null)
 				return StatusCode((int)HttpStatusCode.Gone);
 
-			originalUser.ByondRights = model.ByondRights ?? originalUser.ByondRights;
-			originalUser.RepositoryRights = model.RepositoryRights ?? originalUser.RepositoryRights;
-			originalUser.InstanceUserRights = model.InstanceUserRights ?? originalUser.InstanceUserRights;
-			originalUser.ChatBotRights = model.ChatBotRights ?? originalUser.ChatBotRights;
-			originalUser.ConfigurationRights = model.ConfigurationRights ?? originalUser.ConfigurationRights;
-			originalUser.DreamDaemonRights = model.DreamDaemonRights ?? originalUser.DreamDaemonRights;
-			originalUser.DreamMakerRights = model.DreamMakerRights ?? originalUser.DreamMakerRights;
+			originalUser.ByondRights = RightsHelper.Clamp(model.ByondRights ?? originalUser.ByondRights.Value);
+			originalUser.RepositoryRights = RightsHelper.Clamp(model.RepositoryRights ?? originalUser.RepositoryRights.Value);
+			originalUser.InstanceUserRights = RightsHelper.Clamp(model.InstanceUserRights ?? originalUser.InstanceUserRights.Value);
+			originalUser.ChatBotRights = RightsHelper.Clamp(model.ChatBotRights ?? originalUser.ChatBotRights.Value);
+			originalUser.ConfigurationRights = RightsHelper.Clamp(model.ConfigurationRights ?? originalUser.ConfigurationRights.Value);
+			originalUser.DreamDaemonRights = RightsHelper.Clamp(model.DreamDaemonRights ?? originalUser.DreamDaemonRights.Value);
+			originalUser.DreamMakerRights = RightsHelper.Clamp(model.DreamMakerRights ?? originalUser.DreamMakerRights.Value);
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 			return Json(originalUser.UserId == AuthenticationContext.User.Id || (AuthenticationContext.GetRight(RightsType.InstanceUser) & (ulong)InstanceUserRights.ReadUsers) != 0 ? originalUser.ToApi() : new Api.Models.InstanceUser

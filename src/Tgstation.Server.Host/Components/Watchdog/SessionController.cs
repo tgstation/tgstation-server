@@ -20,6 +20,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	/// <inheritdoc />
 	sealed class SessionController : ISessionController, ICommHandler
 	{
+		/// <summary>
+		/// The DMAPI version being used.
+		/// </summary>
+		public static readonly Version DMApiVersion = new Version(5, 0, 0);
+
 		/// <inheritdoc />
 		public bool IsPrimary
 		{
@@ -341,7 +346,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							{
 								/////UHHHH
 								logger.LogWarning("DreamDaemon sent new port command without providing it's own!");
-								content = new ErrorMessage { Message = "Missing stringified port as data parameter!" };
+								content = new ErrorMessage(ErrorCode.InternalServerError) { Message = "Missing stringified port as data parameter!" };
 								break;
 							}
 
@@ -372,7 +377,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						{
 							logger.LogWarning("DreamDaemon requested API validation but no intial security level was passed to the session controller!");
 							apiValidationStatus = ApiValidationStatus.UnaskedValidationRequest;
-							content = new ErrorMessage { Message = "Invalid API validation request!" };
+							content = new ErrorMessage(ErrorCode.InternalServerError) { Message = "Invalid API validation request!" };
 							break;
 						}
 
@@ -408,12 +413,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						postRespond = () => oldTcs.SetResult(null);
 						break;
 					default:
-						content = new ErrorMessage { Message = "Requested command not supported!" };
+						content = new ErrorMessage(ErrorCode.InternalServerError) { Message = "Requested command not supported!" };
 						break;
 				}
 			}
 			else
-				content = new ErrorMessage { Message = "Missing command parameter!" };
+				content = new ErrorMessage(ErrorCode.InternalServerError) { Message = "Missing command parameter!" };
 
 			var json = JsonConvert.SerializeObject(content);
 			var response = await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(Constants.DMTopicInteropResponse), byondTopicSender.SanitizeString(Constants.DMParameterData), byondTopicSender.SanitizeString(json)), overrideResponsePort, cancellationToken).ConfigureAwait(false);

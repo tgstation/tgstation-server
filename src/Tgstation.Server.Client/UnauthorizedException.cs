@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Net;
+using System.Net.Http;
 using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Client
@@ -7,16 +7,14 @@ namespace Tgstation.Server.Client
 	/// <summary>
 	/// Occurs when the client provides invalid credentials
 	/// </summary>
-	public sealed class UnauthorizedException : ClientException
+	public sealed class UnauthorizedException : ApiException
 	{
 		/// <summary>
 		/// Construct an <see cref="UnauthorizedException"/>
 		/// </summary>
-		public UnauthorizedException() : base(new ErrorMessage
-		{
-			Message = "Invalid credentials!",
-			SeverApiVersion = null
-		}, HttpStatusCode.Unauthorized)
+		/// <param name="errorMessage">The <see cref="ErrorMessage"/> returned by the API.</param>
+		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/>.</param>
+		public UnauthorizedException(ErrorMessage errorMessage, HttpResponseMessage responseMessage) : base(errorMessage, responseMessage)
 		{ }
 
 		/// <summary>

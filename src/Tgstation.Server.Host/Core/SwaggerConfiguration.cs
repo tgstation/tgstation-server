@@ -100,6 +100,12 @@ namespace Tgstation.Server.Host.Core
 			{
 				Description = "The server may be starting up or shutting down."
 			});
+
+			AddDefaultResponse(HttpStatusCode.NotImplemented, new OpenApiResponse
+			{
+				Description = "This operation requires POSIX system identites to be implemented. See https://github.com/tgstation/tgstation-server/issues/709",
+				Content = errorMessageContent
+			});
 		}
 
 		/// <summary>

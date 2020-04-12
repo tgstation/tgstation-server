@@ -18,10 +18,8 @@ namespace Tgstation.Server.Host
 		/// </summary>
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
-		/// <summary>
-		/// The <see cref="IIOManager"/> for the <see cref="ServerFactory"/>.
-		/// </summary>
-		readonly IIOManager ioManager;
+		/// <inheritdoc />
+		public IIOManager IOManager { get; }
 
 		/// <summary>
 		/// Create the default <see cref="IServerFactory"/>.
@@ -36,11 +34,11 @@ namespace Tgstation.Server.Host
 		/// Initializes a new instance of the <see cref="ServerFactory"/>.
 		/// </summary>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
-		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
+		/// <param name="ioManager">The value of <see cref="IOManager"/>.</param>
 		internal ServerFactory(IAssemblyInformationProvider assemblyInformationProvider, IIOManager ioManager)
 		{
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
-			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
+			IOManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 		}
 
 		/// <inheritdoc />
@@ -50,7 +48,7 @@ namespace Tgstation.Server.Host
 				.ConfigureAppConfiguration((context, configurationBuilder) => configurationBuilder.SetBasePath(Directory.GetCurrentDirectory()))
 				.ConfigureServices(serviceCollection =>
 				{
-					serviceCollection.AddSingleton(ioManager);
+					serviceCollection.AddSingleton(IOManager);
 					serviceCollection.AddSingleton(assemblyInformationProvider);
 				})
 				.UseStartup<Application>()
@@ -60,7 +58,7 @@ namespace Tgstation.Server.Host
 			if(updatePath != null)
 				webHost.UseContentRoot(Path.GetDirectoryName(assemblyInformationProvider.Path));
 
-			return new Server(webHost, ioManager, updatePath);
+			return new Server(webHost, IOManager, updatePath);
 		}
 	}
 }

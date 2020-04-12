@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Net;
+using System.Net.Http;
 using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Client
@@ -7,7 +7,7 @@ namespace Tgstation.Server.Client
 	/// <summary>
 	/// Occurs when an error occurs in the server
 	/// </summary>
-	public sealed class ServerErrorException : ClientException
+	public sealed class ServerErrorException : ApiException
 	{
 		/// <summary>
 		/// Construct an <see cref="ServerErrorException"/>
@@ -17,9 +17,9 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// Construct an <see cref="ServerErrorException"/> with a given <paramref name="errorMessage"/>
 		/// </summary>
-		/// <param name="errorMessage">The <see cref="ErrorMessage"/> for the <see cref="ClientException"/></param>
-		/// <param name="statusCode">The <see cref="HttpStatusCode"/> for the <see cref="ClientException"/></param>
-		public ServerErrorException(ErrorMessage errorMessage, HttpStatusCode statusCode) : base(errorMessage, statusCode)
+		/// <param name="errorMessage">The <see cref="ErrorMessage"/> for the <see cref="ApiException"/></param>
+		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/> for the <see cref="ClientException"/></param>
+		public ServerErrorException(ErrorMessage errorMessage, HttpResponseMessage responseMessage) : base(errorMessage, responseMessage)
 		{
 		}
 

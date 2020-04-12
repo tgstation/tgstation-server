@@ -44,26 +44,44 @@ namespace Tgstation.Server.Tests
 			//cant create instances in existent directories
 			var testNonEmpty = Path.Combine(testRootPath, Guid.NewGuid().ToString());
 			Directory.CreateDirectory(testNonEmpty);
-			await Assert.ThrowsExceptionAsync<ConflictException>(() => instanceManagerClient.CreateOrAttach(new Api.Models.Instance
+			var testFile = Path.Combine(testNonEmpty, "asdf");
+			await File.WriteAllBytesAsync(testFile, Array.Empty<byte>(), cancellationToken).ConfigureAwait(false);
+			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.CreateOrAttach(new Api.Models.Instance
 			{
 				Path = testNonEmpty,
 				Name = "NonEmptyTest"
-			}, cancellationToken)).ConfigureAwait(false);
+			}, cancellationToken), ErrorCode.InstanceAtExistingPath).ConfigureAwait(false);
+
+			//check it works for truly empty directories
+			File.Delete(testFile);
+			var secondTry = await instanceManagerClient.CreateOrAttach(new Api.Models.Instance
+			{
+				Path = Path.Combine(testRootPath, Guid.NewGuid().ToString()),
+				Name = "NonEmptyTest"
+			}, cancellationToken).ConfigureAwait(false);
+
 			await Assert.ThrowsExceptionAsync<ConflictException>(() => instanceManagerClient.CreateOrAttach(firstTest, cancellationToken)).ConfigureAwait(false);
 
 			//can't create instances in installation directory
-			await Assert.ThrowsExceptionAsync<ConflictException>(() => instanceManagerClient.CreateOrAttach(new Api.Models.Instance
+			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.CreateOrAttach(new Api.Models.Instance
 			{
 				Path = "./A/Local/Path",
 				Name = "NoInstallDirTest"
-			}, cancellationToken)).ConfigureAwait(false);
+			}, cancellationToken), ErrorCode.InstanceAtConflictingPath).ConfigureAwait(false);
+
+			//can't create instances as children of other instances
+			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.CreateOrAttach(new Api.Models.Instance
+			{
+				Path = Path.Combine(firstTest.Path, "subdir"),
+				Name = "NoOtherInstanceDirTest"
+			}, cancellationToken), ErrorCode.InstanceAtConflictingPath).ConfigureAwait(false);
 
 			//can't move to existent directories
-			await Assert.ThrowsExceptionAsync<ConflictException>(() => instanceManagerClient.Update(new Api.Models.Instance
+			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.Update(new Api.Models.Instance
 			{
 				Id = firstTest.Id,
 				Path = testNonEmpty
-			}, cancellationToken)).ConfigureAwait(false);
+			}, cancellationToken), ErrorCode.InstanceAtExistingPath).ConfigureAwait(false);
 
 			//test basic move
 			Directory.Delete(testNonEmpty);
@@ -91,11 +109,11 @@ namespace Tgstation.Server.Tests
 			Assert.AreEqual(ConfigurationType.HostWrite, firstTest.ConfigurationType);
 
 			//can't move online instance
-			await Assert.ThrowsExceptionAsync<ConflictException>(() => instanceManagerClient.Update(new Api.Models.Instance
+			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.Update(new Api.Models.Instance
 			{
 				Id = firstTest.Id,
 				Path = initialPath
-			}, cancellationToken)).ConfigureAwait(false);
+			}, cancellationToken), ErrorCode.InstanceRelocateOnline).ConfigureAwait(false);
 
 			var testSuite1 = new InstanceTest(instanceManagerClient.CreateClient(firstTest));
 			await testSuite1.RunTests(cancellationToken).ConfigureAwait(false);
@@ -114,7 +132,7 @@ namespace Tgstation.Server.Tests
 			ourInstanceUser = await instanceClient.Users.Read(cancellationToken).ConfigureAwait(false);
 
 			//can't detach online instance
-			await Assert.ThrowsExceptionAsync<ConflictException>(() => instanceManagerClient.Detach(firstTest, cancellationToken)).ConfigureAwait(false);
+			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.Detach(firstTest, cancellationToken), ErrorCode.InstanceDetachOnline).ConfigureAwait(false);
 
 			firstTest.Online = false;
 			firstTest = await instanceManagerClient.Update(firstTest, cancellationToken).ConfigureAwait(false);
@@ -130,7 +148,7 @@ namespace Tgstation.Server.Tests
 			//but only if the attach file exists
 			await instanceManagerClient.Detach(firstTest, cancellationToken).ConfigureAwait(false);
 			File.Delete(attachPath);
-			await Assert.ThrowsExceptionAsync<ConflictException>(() => instanceManagerClient.CreateOrAttach(firstTest, cancellationToken)).ConfigureAwait(false);
+			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.CreateOrAttach(firstTest, cancellationToken), ErrorCode.InstanceAtExistingPath).ConfigureAwait(false);
 		}
 	}
 }

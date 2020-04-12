@@ -146,11 +146,15 @@ namespace Tgstation.Server.Host.Controllers
 
 				Response.Headers.Add(HeaderNames.WWWAuthenticate, new StringValues("basic realm=\"Create TGS4 bearer token\""));
 
-				return BadRequest(new Api.Models.ErrorMessage { Message = errorMessage });
+				return BadRequest(
+					new Api.Models.ErrorMessage(Api.Models.ErrorCode.BadHeaders)
+					{
+						AdditionalData = errorMessage
+					});
 			}
 
 			if (ApiHeaders.IsTokenAuthentication)
-				return BadRequest(new Api.Models.ErrorMessage { Message = "Cannot create a token using another token!" });
+				return BadRequest(new Api.Models.ErrorMessage(Api.Models.ErrorCode.TokenWithToken));
 
 			ISystemIdentity systemIdentity;
 			try
@@ -235,7 +239,7 @@ namespace Tgstation.Server.Host.Controllers
 				if (usingSystemIdentity)
 				{
 					// expire the identity slightly after the auth token in case of lag
-					var identExpiry = token.ExpiresAt.Value;
+					var identExpiry = token.ExpiresAt;
 					identExpiry += tokenFactory.ValidationParameters.ClockSkew;
 					identExpiry += TimeSpan.FromSeconds(15);
 					identityCache.CacheSystemIdentity(user, systemIdentity, identExpiry);

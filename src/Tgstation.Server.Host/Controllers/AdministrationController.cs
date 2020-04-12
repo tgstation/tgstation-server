@@ -29,8 +29,6 @@ namespace Tgstation.Server.Host.Controllers
 	[Route(Routes.Administration)]
 	public sealed class AdministrationController : ApiController
 	{
-		const string RestartNotSupportedException = "This deployment of tgstation-server is lacking the Tgstation.Server.Host.Watchdog component. Restarts and version changes cannot be completed!";
-
 		const string OctokitException = "Bad GitHub API response, check configuration! Exception: {0}";
 
 		/// <summary>
@@ -158,10 +156,7 @@ namespace Tgstation.Server.Host.Controllers
 						continue;
 
 					if (!serverUpdater.ApplyUpdate(version, new Uri(asset.BrowserDownloadUrl), ioManager))
-						return Conflict(new ErrorMessage
-						{
-							Message = "An update operation is already in progress!"
-						});
+						return Conflict(new ErrorMessage(ErrorCode.ServerUpdateInProgress));
 					return Accepted(new Administration
 					{
 						WindowsHost = platformIdentifier.IsWindows,
@@ -224,9 +219,9 @@ namespace Tgstation.Server.Host.Controllers
 			catch (ApiException e)
 			{
 				Logger.LogWarning(OctokitException, e);
-				return StatusCode((int)HttpStatusCode.FailedDependency, new ErrorMessage
+				return StatusCode((int)HttpStatusCode.FailedDependency, new ErrorMessage(ErrorCode.GitHubApiError)
 				{
-					Message = e.Message
+					AdditionalData = e.Message
 				});
 			}
 		}
@@ -254,17 +249,11 @@ namespace Tgstation.Server.Host.Controllers
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
-			if (model.NewVersion == null)
-				return BadRequest(new ErrorMessage { Message = "Missing new version!" });
-
 			if (model.NewVersion.Major != application.Version.Major)
-				return BadRequest(new ErrorMessage { Message = "Cannot update to a different suite version!" });
+				return BadRequest(new ErrorMessage(ErrorCode.CannotChangeServerSuite));
 
 			if(!serverUpdater.WatchdogPresent)
-				return UnprocessableEntity(new ErrorMessage
-				{
-					Message = RestartNotSupportedException
-				});
+				return UnprocessableEntity(new ErrorMessage(ErrorCode.MissingHostWatchdog));
 
 			return await CheckReleasesAndApplyUpdate(model.NewVersion, cancellationToken).ConfigureAwait(false);
 		}
@@ -286,10 +275,7 @@ namespace Tgstation.Server.Host.Controllers
 				if (!serverUpdater.WatchdogPresent)
 				{
 					Logger.LogDebug("Restart request failed due to lack of host watchdog!");
-					return UnprocessableEntity(new ErrorMessage
-					{
-						Message = RestartNotSupportedException
-					});
+					return UnprocessableEntity(new ErrorMessage(ErrorCode.MissingHostWatchdog));
 				}
 
 				await serverUpdater.Restart().ConfigureAwait(false);
