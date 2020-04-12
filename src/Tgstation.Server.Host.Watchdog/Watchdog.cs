@@ -129,9 +129,9 @@ namespace Tgstation.Server.Host.Watchdog
 
 							var arguments = new List<string>
 							{
-								'"' + assemblyPath + '"',
-								'"' + updateDirectory + '"',
-								'"' + watchdogVersion + '"'
+								$"\"{assemblyPath}\"",
+								$"\"{updateDirectory}\"",
+								$"\"{watchdogVersion}\""
 							};
 
 							if (args.Any(x => x.Equals("--attach-host-debugger", StringComparison.OrdinalIgnoreCase)))

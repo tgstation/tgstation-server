@@ -19,7 +19,7 @@ namespace Tgstation.Server.Api.Models
 			   .GetField(errorCode.ToString())
 			   ?.GetCustomAttributes(typeof(DescriptionAttribute), false);
 
-			return attributes.FirstOrDefault()?.Description;
+			return attributes?.FirstOrDefault()?.Description;
 		}
 	}
 }
