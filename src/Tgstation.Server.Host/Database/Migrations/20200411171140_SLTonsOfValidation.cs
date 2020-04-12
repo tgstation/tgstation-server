@@ -14,6 +14,14 @@ namespace Tgstation.Server.Host.Database.Migrations
 			if (migrationBuilder == null)
 				throw new ArgumentNullException(nameof(migrationBuilder));
 
+			migrationBuilder.DropForeignKey(
+				name: "FK_ChatBots_Instances_InstanceId",
+				table: "ChatBots");
+
+			migrationBuilder.DropIndex(
+				name: "IX_ChatChannels_ChatSettingsId_IrcChannel",
+				table: "ChatChannels");
+
 			migrationBuilder.DropIndex(
 				name: "IX_ChatBots_InstanceId",
 				table: "ChatBots");
@@ -40,6 +48,21 @@ namespace Tgstation.Server.Host.Database.Migrations
 				table: "ChatBots",
 				columns: new[] { "InstanceId", "Name" },
 				unique: true);
+
+			migrationBuilder.CreateIndex(
+				name: "IX_ChatChannels_ChatSettingsId_IrcChannel",
+				table: "ChatChannels",
+				columns: new[] { "ChatSettingsId", "IrcChannel" },
+				unique: true,
+				filter: "[IrcChannel] IS NOT NULL");
+
+			migrationBuilder.AddForeignKey(
+				name: "FK_ChatBots_Instances_InstanceId",
+				table: "ChatBots",
+				column: "InstanceId",
+				principalTable: "Instances",
+				principalColumn: "Id",
+				onDelete: ReferentialAction.Cascade);
 		}
 
 		/// <inheritdoc />
@@ -47,6 +70,14 @@ namespace Tgstation.Server.Host.Database.Migrations
 		{
 			if (migrationBuilder == null)
 				throw new ArgumentNullException(nameof(migrationBuilder));
+
+			migrationBuilder.DropForeignKey(
+				name: "FK_ChatBots_Instances_InstanceId",
+				table: "ChatBots");
+
+			migrationBuilder.DropIndex(
+				name: "IX_ChatChannels_ChatSettingsId_IrcChannel",
+				table: "ChatChannels");
 
 			migrationBuilder.DropIndex(
 				name: "IX_Users_SystemIdentifier",
@@ -72,6 +103,21 @@ namespace Tgstation.Server.Host.Database.Migrations
 				table: "ChatBots",
 				column: "Name",
 				unique: true);
+
+			migrationBuilder.CreateIndex(
+				name: "IX_ChatChannels_ChatSettingsId_IrcChannel",
+				table: "ChatChannels",
+				columns: new[] { "ChatSettingsId", "IrcChannel" },
+				unique: true,
+				filter: "[IrcChannel] IS NOT NULL");
+
+			migrationBuilder.AddForeignKey(
+				name: "FK_ChatBots_Instances_InstanceId",
+				table: "ChatBots",
+				column: "InstanceId",
+				principalTable: "Instances",
+				principalColumn: "Id",
+				onDelete: ReferentialAction.Cascade);
 		}
 	}
 }

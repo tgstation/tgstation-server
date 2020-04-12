@@ -38,7 +38,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 					b.Property<string>("Name")
 						.IsRequired()
-						.HasMaxLength(10000);
+						.HasMaxLength(100);
 
 					b.Property<int>("Provider");
 
@@ -64,7 +64,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.HasConversion(new ValueConverter<decimal, decimal>(v => default(decimal), v => default(decimal), new ConverterMappingHints(precision: 20, scale: 0)));
 
 					b.Property<string>("IrcChannel")
-						.HasMaxLength(10000);
+						.HasMaxLength(100);
 
 					b.Property<bool?>("IsAdminChannel")
 						.IsRequired();
@@ -208,8 +208,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.IsRequired();
 
 					b.Property<string>("Path")
-						.IsRequired()
-						.HasMaxLength(10000);
+						.IsRequired();
 
 					b.HasKey("Id");
 

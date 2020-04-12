@@ -10,7 +10,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The IRC channel name
 		/// </summary>
-		[StringLength(Limits.MaximumStringLength)]
+		[StringLength(Limits.MaximumIndexableStringLength)]
 		public string IrcChannel { get; set; }
 
 		/// <summary>

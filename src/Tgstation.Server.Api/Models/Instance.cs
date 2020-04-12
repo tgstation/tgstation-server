@@ -24,7 +24,6 @@ namespace Tgstation.Server.Api.Models
 		/// The path to where the <see cref="Instance"/> is located. Can only be changed while the <see cref="Instance"/> is offline. Must not exist when the instance is created
 		/// </summary>
 		[Required]
-		[StringLength(Limits.MaximumStringLength)]
 		public string Path { get; set; }
 
 		/// <summary>

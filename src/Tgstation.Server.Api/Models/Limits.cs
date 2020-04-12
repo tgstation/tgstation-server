@@ -9,5 +9,10 @@
 		/// Length limit for strings in fields.
 		/// </summary>
 		public const int MaximumStringLength = 10000;
+
+		/// <summary>
+		/// Length limit for <see cref="Internal.ChatBot.Name"/>s.
+		/// </summary>
+		public const int MaximumIndexableStringLength = 100;
 	}
 }

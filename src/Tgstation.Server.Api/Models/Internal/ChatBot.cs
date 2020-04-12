@@ -17,7 +17,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// The name of the connection
 		/// </summary>
 		[Required]
-		[StringLength(Limits.MaximumStringLength)]
+		[StringLength(Limits.MaximumIndexableStringLength)]
 		public string Name { get; set; }
 
 		/// <summary>
