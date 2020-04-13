@@ -111,10 +111,10 @@ namespace Tgstation.Server.Api.Models
 		UserColonInName,
 
 		/// <summary>
-		/// Attempted to create a <see cref="User"/> with a whitespace <see cref="Internal.User.Name"/>.
+		/// Attempted to create a <see cref="User"/> with a <see langword="null"/> or whitespace <see cref="Internal.User.Name"/>.
 		/// </summary>
-		[Description("User names cannot be whitespace!")]
-		UserWhitespaceName,
+		[Description("User's name is missing or invalid whitespace!")]
+		UserMissingName,
 
 		/// <summary>
 		/// Attempted to change a <see cref="Instance.Path"/> while it was <see cref="Instance.Online"/>.

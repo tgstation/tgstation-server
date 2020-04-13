@@ -65,13 +65,15 @@ namespace Tgstation.Server.Host.Controllers
 		/// Check if a given <paramref name="model"/> has a valid <see cref="Api.Models.Internal.User.Name"/> specified.
 		/// </summary>
 		/// <param name="model">The <see cref="UserUpdate"/> to check.</param>
+		/// <param name="newUser">If this is a new <see cref="Api.Models.User"/>.</param>
 		/// <returns><see langword="null"/> if <paramref name="model"/> is valid, a <see cref="BadRequestObjectResult"/> otherwise.</returns>
-		BadRequestObjectResult CheckValidName(UserUpdate model)
+		BadRequestObjectResult CheckValidName(UserUpdate model, bool newUser)
 		{
-			if(String.IsNullOrWhiteSpace(model.Name))
-				return BadRequest(new ErrorMessage(ErrorCode.UserWhitespaceName));
+			var userInvalidWithNullName = newUser && model.Name == null;
+			if (userInvalidWithNullName || (model.Name != null && String.IsNullOrWhiteSpace(model.Name)))
+				return BadRequest(new ErrorMessage(ErrorCode.UserMissingName));
 
-			model.Name = model.Name.Trim();
+			model.Name = model.Name?.Trim();
 			if (model.Name != null && model.Name.Contains(':', StringComparison.InvariantCulture))
 				return BadRequest(new ErrorMessage(ErrorCode.UserColonInName));
 			return null;
@@ -82,15 +84,17 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="dbUser">The user to update.</param>
 		/// <param name="newPassword">The new password.</param>
+		/// <param name="newUser">If this is for a new <see cref="Api.Models.User"/>.</param>
 		/// <returns><see langword="null"/> on success, <see cref="BadRequestObjectResult"/> if <paramref name="newPassword"/> is too short.</returns>
-		BadRequestObjectResult TrySetPassword(Models.User dbUser, string newPassword)
+		BadRequestObjectResult TrySetPassword(Models.User dbUser, string newPassword, bool newUser)
 		{
+			newPassword = newPassword ?? String.Empty;
 			if (newPassword.Length < generalConfiguration.MinimumPasswordLength)
 				return BadRequest(new ErrorMessage(ErrorCode.UserPasswordLength)
 				{
 					AdditionalData = $"Required password length: {generalConfiguration.MinimumPasswordLength}"
 				});
-			cryptographySuite.SetUserPassword(dbUser, newPassword, true);
+			cryptographySuite.SetUserPassword(dbUser, newPassword, newUser);
 			return null;
 		}
 
@@ -122,7 +126,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (!(model.Name == null ^ model.SystemIdentifier == null))
 				return BadRequest(new ErrorMessage(ErrorCode.UserMismatchNameSid));
 
-			var fail = CheckValidName(model);
+			var fail = CheckValidName(model, true);
 			if (fail != null)
 				return fail;
 
@@ -155,7 +159,7 @@ namespace Tgstation.Server.Host.Controllers
 				}
 			else
 			{
-				var result = TrySetPassword(dbUser, model.Password);
+				var result = TrySetPassword(dbUser, model.Password, true);
 				if (result != null)
 					return result;
 			}
@@ -217,7 +221,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (model.Password != null)
 			{
-				var result = TrySetPassword(originalUser, model.Password);
+				var result = TrySetPassword(originalUser, model.Password, false);
 				if (result != null)
 					return result;
 			}
@@ -229,7 +233,7 @@ namespace Tgstation.Server.Host.Controllers
 			originalUser.AdministrationRights = RightsHelper.Clamp(model.AdministrationRights ?? originalUser.AdministrationRights.Value);
 			originalUser.Enabled = model.Enabled ?? originalUser.Enabled.Value;
 
-			var fail = CheckValidName(model);
+			var fail = CheckValidName(model, false);
 			if (fail != null)
 				return fail;
 
