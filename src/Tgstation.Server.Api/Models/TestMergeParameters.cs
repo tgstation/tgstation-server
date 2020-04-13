@@ -10,8 +10,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The number of the pull request
 		/// </summary>
-		[Required]
-		public int? Number { get; set; }
+		public int Number { get; set; }
 
 		/// <summary>
 		/// The sha of the pull request revision to merge. If not specified, the latest commit shall be used (semi-unsafe)

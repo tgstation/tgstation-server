@@ -168,6 +168,10 @@ Whenever you make a change to a model schema that must be reflected in the datab
 
 You should now have MY/MS migration files generated in `/src/Tgstation.Server.Host/Models/Migrations
 
+### Important Note About the \[Required\] Attribute.
+
+We use this attribute to ensure EFCore generated tables are not nullable for specific properties. They are valid to be null in API communication. Do not use this attribute expecting the model validator to prevent null data in API request.
+
 ## Code Versioning
 
 Any backwards compatible fixes made should be committed to the `master` branch if possible. These will be automatically merged into the `dev` branch.

@@ -312,6 +312,9 @@ namespace Tgstation.Server.Host.Core
 			if (context == null)
 				throw new ArgumentNullException(nameof(context));
 
+			// Nothing is required
+			schema.Required.Clear();
+
 			if (!schema.Enum?.Any() ?? false)
 				return;
 

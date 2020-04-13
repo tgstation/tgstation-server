@@ -316,9 +316,6 @@ namespace Tgstation.Server.Host.Controllers
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
-			if (model.NewTestMerges?.Any(x => !x.Number.HasValue) == true)
-				throw new InvalidOperationException("All new test merges must provide a number!");
-
 			if (model.AccessUser == null ^ model.AccessToken == null)
 				return BadRequest(new ErrorMessage(ErrorCode.RepoMismatchUserAndAccessToken));
 
@@ -586,8 +583,8 @@ namespace Tgstation.Server.Host.Controllers
 										try
 										{
 											// retrieve the latest sha
-											var pr = await gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number.Value).ConfigureAwait(false);
-											prMap.Add(I.Number.Value, pr);
+											var pr = await gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number).ConfigureAwait(false);
+											prMap.Add(I.Number, pr);
 											I.PullRequestRevision = pr.Head.Sha;
 										}
 										catch
@@ -686,14 +683,14 @@ namespace Tgstation.Server.Host.Controllers
 									Octokit.PullRequest pr = null;
 									string errorMessage = null;
 
-									if (lastRevisionInfo.ActiveTestMerges.Any(x => x.TestMerge.Number == I.Number.Value))
+									if (lastRevisionInfo.ActiveTestMerges.Any(x => x.TestMerge.Number == I.Number))
 										throw new JobException("Cannot test merge the same PR twice in one HEAD!");
 
 									try
 									{
 										// load from cache if possible
-										if (prMap == null || !prMap.TryGetValue(I.Number.Value, out pr))
-											pr = await gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number.Value).ConfigureAwait(false);
+										if (prMap == null || !prMap.TryGetValue(I.Number, out pr))
+											pr = await gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number).ConfigureAwait(false);
 									}
 									catch (Octokit.RateLimitExceededException)
 									{

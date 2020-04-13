@@ -33,16 +33,19 @@ namespace Tgstation.Server.Host.Controllers
 		{ }
 
 		/// <summary>
-		/// Checks a <paramref name="model"/> for errors
+		/// Checks a <paramref name="model"/> for errors.
 		/// </summary>
 		/// <param name="model">The <see cref="Api.Models.InstanceUser"/> to check</param>
-		static void StandardModelChecks(Api.Models.InstanceUser model)
+		/// <returns>The <see cref="IActionResult"/> to take if this is not a new <see cref="Api.Models.InstanceUser"/></returns>
+		IActionResult StandardModelChecks(Api.Models.InstanceUser model)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
 			if (!model.UserId.HasValue)
-				throw new InvalidOperationException("Model user ID is missing!");
+				return BadRequest(new ErrorMessage(ErrorCode.UserMissingId));
+
+			return null;
 		}
 
 		/// <summary>
@@ -57,6 +60,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(Api.Models.InstanceUser), 201)]
 		public async Task<IActionResult> Create([FromBody] Api.Models.InstanceUser model, CancellationToken cancellationToken)
 		{
+			// Don't check the result as how can a new user have an ID
 			StandardModelChecks(model);
 
 			var dbUser = new Models.InstanceUser
@@ -93,7 +97,9 @@ namespace Tgstation.Server.Host.Controllers
 		#pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<IActionResult> Update([FromBody] Api.Models.InstanceUser model, CancellationToken cancellationToken)
 		{
-			StandardModelChecks(model);
+			var earlyOut = StandardModelChecks(model);
+			if (earlyOut != null)
+				return earlyOut;
 
 			var originalUser = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).SelectMany(x => x.InstanceUsers).Where(x => x.UserId == model.UserId).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (originalUser == null)

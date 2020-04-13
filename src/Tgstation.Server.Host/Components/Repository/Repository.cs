@@ -220,7 +220,14 @@ namespace Tgstation.Server.Host.Components.Repository
 			if (!IsGitHubRepository)
 				throw new InvalidOperationException("Test merging is only available on GitHub hosted origin repositories!");
 
-			var commitMessage = String.Format(CultureInfo.InvariantCulture, "Test merge of pull request #{0}{1}{2}", testMergeParameters.Number.Value, testMergeParameters.Comment != null ? Environment.NewLine : String.Empty, testMergeParameters.Comment ?? String.Empty);
+			var commitMessage = String.Format(
+				CultureInfo.InvariantCulture,
+				"Test merge of pull request #{0}{1}{2}",
+				testMergeParameters.Number,
+				testMergeParameters.Comment != null
+					? Environment.NewLine
+					: String.Empty,
+				testMergeParameters.Comment ?? String.Empty);
 
 			var prBranchName = String.Format(CultureInfo.InvariantCulture, "pr-{0}", testMergeParameters.Number);
 			var localBranchName = String.Format(CultureInfo.InvariantCulture, "pull/{0}/headrefs/heads/{1}", testMergeParameters.Number, prBranchName);
@@ -314,7 +321,16 @@ namespace Tgstation.Server.Host.Components.Repository
 				}), cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
 			}
 
-			await eventConsumer.HandleEvent(EventType.RepoMergePullRequest, new List<string> { testMergeParameters.Number.ToString(), testMergeParameters.PullRequestRevision, testMergeParameters.Comment }, cancellationToken).ConfigureAwait(false);
+			await eventConsumer.HandleEvent(
+				EventType.RepoMergePullRequest,
+				new List<string>
+				{
+					testMergeParameters.Number.ToString(CultureInfo.InvariantCulture),
+					testMergeParameters.PullRequestRevision,
+					testMergeParameters.Comment
+				},
+				cancellationToken)
+				.ConfigureAwait(false);
 
 			return result.Status != MergeStatus.NonFastForward;
 		}

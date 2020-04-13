@@ -297,7 +297,7 @@ namespace Tgstation.Server.Host.Components
 								.RevisionInformation
 								.ActiveTestMerges
 								.Any(y => y.TestMerge.Number == x.Number)))
-							tasks.Add(CommentOnPR(I.Number.Value, FormatTestMerge(I, false)));
+							tasks.Add(CommentOnPR(I.Number, FormatTestMerge(I, false)));
 
 						// removed prs
 						foreach (var I in outgoingCompileJob
@@ -308,7 +308,7 @@ namespace Tgstation.Server.Host.Components
 								.RevisionInformation
 								.ActiveTestMerges
 								.Any(y => y.TestMerge.Number == x.Number)))
-							tasks.Add(CommentOnPR(I.Number.Value, "#### Test Merge Removed"));
+							tasks.Add(CommentOnPR(I.Number, "#### Test Merge Removed"));
 
 						// updated prs
 						foreach(var I in compileJob
@@ -319,7 +319,7 @@ namespace Tgstation.Server.Host.Components
 								.RevisionInformation
 								.ActiveTestMerges
 								.Any(y => y.TestMerge.Number == x.Number)))
-							tasks.Add(CommentOnPR(I.Number.Value, FormatTestMerge(I, true)));
+							tasks.Add(CommentOnPR(I.Number, FormatTestMerge(I, true)));
 
 						if (tasks.Any())
 							await Task.WhenAll(tasks).ConfigureAwait(false);

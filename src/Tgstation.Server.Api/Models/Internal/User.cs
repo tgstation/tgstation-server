@@ -12,7 +12,8 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The ID of the <see cref="User"/>
 		/// </summary>
-		public long Id { get; set; }
+		[Required]
+		public long? Id { get; set; }
 
 		/// <summary>
 		/// If the <see cref="User"/> is enabled since users cannot be deleted. System users cannot be disabled

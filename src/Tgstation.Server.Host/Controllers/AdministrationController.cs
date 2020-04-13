@@ -249,6 +249,12 @@ namespace Tgstation.Server.Host.Controllers
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
+			if (model.NewVersion == null)
+				return BadRequest(new ErrorMessage(ErrorCode.ModelValidationFailure)
+				{
+					AdditionalData = "newVersion is required!"
+				});
+
 			if (model.NewVersion.Major != application.Version.Major)
 				return BadRequest(new ErrorMessage(ErrorCode.CannotChangeServerSuite));
 

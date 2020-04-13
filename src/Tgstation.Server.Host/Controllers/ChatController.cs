@@ -70,6 +70,9 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(Api.Models.ChatBot), 201)]
 		public async Task<IActionResult> Create([FromBody] Api.Models.ChatBot model, CancellationToken cancellationToken)
 		{
+			if (model == null)
+				throw new ArgumentNullException(nameof(model));
+
 			var earlyOut = StandardModelChecks(model, true);
 			if (earlyOut != null)
 				return earlyOut;
@@ -200,6 +203,9 @@ namespace Tgstation.Server.Host.Controllers
 		#pragma warning restore CA1502
 		#pragma warning restore CA1506
 		{
+			if (model == null)
+				throw new ArgumentNullException(nameof(model));
+
 			var earlyOut = StandardModelChecks(model, false);
 			if (earlyOut != null)
 				return earlyOut;
@@ -283,14 +289,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>An <see cref="IActionResult"/> to respond with or <see langword="null"/>.</returns>
 		private IActionResult StandardModelChecks(Api.Models.ChatBot model, bool forCreation)
 		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
-
 			if (model.ReconnectionInterval == 0)
 				throw new InvalidOperationException("RecconnectionInterval cannot be zero!");
 
 			if (forCreation && !model.Provider.HasValue)
-				throw new InvalidOperationException("Provider cannot be null!");
+				return BadRequest(new ErrorMessage(ErrorCode.ChatBotProviderMissing));
 
 			if (model.Name != null && String.IsNullOrWhiteSpace(model.Name))
 				return BadRequest(new ErrorMessage(ErrorCode.ChatBotWhitespaceName));

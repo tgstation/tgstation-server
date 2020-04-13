@@ -187,6 +187,9 @@ namespace Tgstation.Server.Host.Controllers
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
+			if (!model.Id.HasValue)
+				return BadRequest(new ErrorMessage(ErrorCode.UserMissingId));
+
 			var callerAdministrationRights = (AdministrationRights)AuthenticationContext.GetRight(RightsType.Administration);
 			var passwordEditOnly = !callerAdministrationRights.HasFlag(AdministrationRights.WriteUsers);
 

@@ -83,19 +83,19 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Attempted to change a <see cref="Internal.User.SystemIdentifier"/>.
 		/// </summary>
-		[Description("Cannot change a user's system_identifier!")]
+		[Description("Cannot change a user's systemIdentifier!")]
 		UserSidChange,
 
 		/// <summary>
 		/// Attempted to create a <see cref="User"/> with a <see cref="Internal.User.Name"/> and <see cref="Internal.User.SystemIdentifier"/>.
 		/// </summary>
-		[Description("A user cannot have both a name and system_identifier!")]
+		[Description("A user cannot have both a name and systemIdentifier!")]
 		UserMismatchNameSid,
 
 		/// <summary>
 		/// Attempted to create a <see cref="User"/> with a <see cref="UserUpdate.Password"/> and <see cref="Internal.User.SystemIdentifier"/>.
 		/// </summary>
-		[Description("A user cannot have both a password and system_identifier!")]
+		[Description("A user cannot have both a password and systemIdentifier!")]
 		UserMismatchPasswordSid,
 
 		/// <summary>
@@ -185,7 +185,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// One of <see cref="Internal.RepositorySettings.AccessUser"/> and <see cref="Internal.RepositorySettings.AccessToken"/> is set while the other isn't.
 		/// </summary>
-		[Description("Either both access_user and access_token must be set or neither!")]
+		[Description("Either both accessUser and accessToken must be set or neither!")]
 		RepoMismatchUserAndAccessToken,
 
 		/// <summary>
@@ -215,13 +215,13 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Attempted to <see cref="Repository.CheckoutSha"/> and set <see cref="Repository.Reference"/> at the same time.
 		/// </summary>
-		[Description("Cannot checkout_sha and set reference at the same time!")]
+		[Description("Cannot checkoutSha and set reference at the same time!")]
 		RepoMismatchShaAndReference,
 
 		/// <summary>
 		/// Attempted to <see cref="Repository.CheckoutSha"/> and <see cref="Repository.UpdateFromOrigin"/> at the same time.
 		/// </summary>
-		[Description("Cannot checkout_sha and update_from_origin at the same time!")]
+		[Description("Cannot checkoutSha and updateFromOrigin at the same time!")]
 		RepoMismatchShaAndUpdate,
 
 		/// <summary>
@@ -239,13 +239,13 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Attempted to set a whitespace <see cref="Internal.RepositorySettings.CommitterName"/>.
 		/// </summary>
-		[Description("committer_name cannot be whitespace!")]
+		[Description("committerName cannot be whitespace!")]
 		RepoWhitespaceCommitterName,
 
 		/// <summary>
 		/// Attempted to set a whitespace <see cref="Internal.RepositorySettings.CommitterEmail"/>.
 		/// </summary>
-		[Description("committer_email cannot be whitespace!")]
+		[Description("committerEmail cannot be whitespace!")]
 		RepoWhitespaceCommitterEmail,
 
 		/// <summary>
@@ -277,5 +277,17 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("A chat bot's name cannot be whitespace!")]
 		ChatBotWhitespaceName,
+
+		/// <summary>
+		/// <see cref="Internal.ChatBot.Provider"/> was <see langword="null"/> during creation.
+		/// </summary>
+		[Description("Missing chat bot provider!")]
+		ChatBotProviderMissing,
+
+		/// <summary>
+		/// Attempted to update a <see cref="User"/> or <see cref="InstanceUser"/> without its ID.
+		/// </summary>
+		[Description("Missing user ID!")]
+		UserMissingId,
 	}
 }
