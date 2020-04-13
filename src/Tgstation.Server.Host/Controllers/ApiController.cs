@@ -137,14 +137,23 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (ModelState?.IsValid == false)
 			{
-				var errorMessages = ModelState.SelectMany(x => x.Value.Errors).Select(x => x.ErrorMessage);
-				await BadRequest(
-					new ErrorMessage(ErrorCode.ModelValidationFailure)
-					{
-						AdditionalData = String.Join(Environment.NewLine, errorMessages)
-					})
-					.ExecuteResultAsync(context).ConfigureAwait(false);
-				return;
+				var errorMessages = ModelState
+					.SelectMany(x => x.Value.Errors)
+					.Select(x => x.ErrorMessage)
+					.Where(x => !x.EndsWith(" field is required.", StringComparison.Ordinal));
+
+				if (errorMessages.Any())
+				{
+					await BadRequest(
+						new ErrorMessage(ErrorCode.ModelValidationFailure)
+						{
+							AdditionalData = String.Join(Environment.NewLine, errorMessages)
+						})
+						.ExecuteResultAsync(context).ConfigureAwait(false);
+					return;
+				}
+
+				ModelState.Clear();
 			}
 
 			if (ApiHeaders != null)

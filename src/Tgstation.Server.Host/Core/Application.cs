@@ -20,7 +20,6 @@ using Serilog.Formatting.Display;
 using System;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
@@ -243,11 +242,7 @@ namespace Tgstation.Server.Host.Core
 
 			// add mvc, configure the json serializer settings
 			services
-				.AddMvc(options =>
-				{
-					var dataAnnotationValidator = options.ModelValidatorProviders.Single(validator => validator.GetType().Name == "DataAnnotationsModelValidatorProvider");
-					options.ModelValidatorProviders.Remove(dataAnnotationValidator);
-				})
+				.AddMvc()
 				.SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
 				.AddJsonOptions(options =>
 				{
@@ -265,6 +260,7 @@ namespace Tgstation.Server.Host.Core
 				var assemblyDocumentationPath = GetDocumentationFilePath(assemblyInformationProvider.Path);
 				var apiDocumentationPath = GetDocumentationFilePath(typeof(ApiHeaders).Assembly.Location);
 				services.AddSwaggerGen(genOptions => SwaggerConfiguration.Configure(genOptions, assemblyDocumentationPath, apiDocumentationPath));
+				services.AddSwaggerGenNewtonsoftSupport();
 			}
 
 			// enable browser detection
