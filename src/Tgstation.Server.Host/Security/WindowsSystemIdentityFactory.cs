@@ -101,11 +101,11 @@ namespace Tgstation.Server.Host.Security
 			var res = NativeMethods.LogonUser(username, domainName, password, 3 /*LOGON32_LOGON_NETWORK*/, 0 /*LOGON32_PROVIDER_DEFAULT*/, out var token);
 			if (!res)
 			{
-				logger.LogTrace("Failed to log in username {0}!", originalUsername);
+				logger.LogTrace("Invalid system identity/password combo for username {0}!", originalUsername);
 				return null;
 			}
 
-			logger.LogTrace("Successfully logged in username {0}!", originalUsername);
+			logger.LogTrace("Authenticated username {0} using system identity!", originalUsername);
 
 			using (var handle = new SafeAccessTokenHandle(token)) // checked internally, windows identity always duplicates the handle when constructed with a userToken
 				return (ISystemIdentity)new WindowsSystemIdentity(new WindowsIdentity(handle.DangerousGetHandle()));   // https://github.com/dotnet/corefx/blob/6ed61acebe3214fcf79b4274f2bb9b55c0604a4d/src/System.Security.Principal.Windows/src/System/Security/Principal/WindowsIdentity.cs#L271
