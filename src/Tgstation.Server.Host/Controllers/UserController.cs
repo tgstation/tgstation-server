@@ -231,7 +231,13 @@ namespace Tgstation.Server.Host.Controllers
 
 			originalUser.InstanceManagerRights = RightsHelper.Clamp(model.InstanceManagerRights ?? originalUser.InstanceManagerRights.Value);
 			originalUser.AdministrationRights = RightsHelper.Clamp(model.AdministrationRights ?? originalUser.AdministrationRights.Value);
-			originalUser.Enabled = model.Enabled ?? originalUser.Enabled.Value;
+			if (model.Enabled.HasValue)
+			{
+				if (originalUser.Enabled.Value && !model.Enabled.Value)
+					originalUser.LastPasswordUpdate = DateTimeOffset.Now;
+
+				originalUser.Enabled = model.Enabled.Value;
+			}
 
 			var fail = CheckValidName(model, false);
 			if (fail != null)
