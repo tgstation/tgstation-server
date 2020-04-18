@@ -185,7 +185,8 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(AdministrationRights.WriteUsers | AdministrationRights.EditOwnPassword)]
 		[ProducesResponseType(typeof(Api.Models.User), 200)]
 		[ProducesResponseType(404)]
-		#pragma warning disable CA1506 // TODO: Decomplexify
+		#pragma warning disable CA1502 // TODO: Decomplexify
+		#pragma warning disable CA1506
 		public async Task<IActionResult> Update([FromBody] UserUpdate model, CancellationToken cancellationToken)
 		{
 			if (model == null)
@@ -258,6 +259,7 @@ namespace Tgstation.Server.Host.Controllers
 				});
 		}
 		#pragma warning restore CA1506
+		#pragma warning restore CA1502
 
 		/// <summary>
 		/// Get information about the current <see cref="Api.Models.User"/>.
