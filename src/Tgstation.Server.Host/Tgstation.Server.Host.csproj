@@ -47,7 +47,7 @@
     <PackageReference Include="Byond.TopicSender" Version="1.1.4" />
     <PackageReference Include="Cyberboss.AspNetCore.AsyncInitializer" Version="1.2.0" />
     <PackageReference Include="Cyberboss.SmartIrc4net.Standard" Version="0.4.6" />
-    <PackageReference Include="Discord.Net.WebSocket" Version="2.1.1" />
+    <PackageReference Include="Discord.Net.WebSocket" Version="2.2.0" />
     <PackageReference Include="LibGit2Sharp" Version="0.27.0-preview-0034" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.2.0" />
@@ -77,8 +77,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.3.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.3.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.3.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.3.2" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="4.7.0" />
     <PackageReference Include="System.DirectoryServices.AccountManagement" Version="4.7.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.5.0" />
