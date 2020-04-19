@@ -46,7 +46,7 @@ matrix:
       name: "Test Server Release"
       language: csharp
       mono: none
-      dotnet: 2.2.207
+      dotnet: 3.1
       services:
         - mysql
       cache:
