@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host.Database
 {
@@ -28,13 +30,13 @@ namespace Tgstation.Server.Host.Database
 		public IEnumerable<TModel> Local => dbSet.Local;
 
 		/// <inheritdoc />
-		public Type ElementType => ((IQueryable<TModel>)dbSet).ElementType;
+		public Type ElementType => dbSet.AsQueryable().ElementType;
 
 		/// <inheritdoc />
-		public Expression Expression => ((IQueryable<TModel>)dbSet).Expression;
+		public Expression Expression => dbSet.AsQueryable().Expression;
 
 		/// <inheritdoc />
-		public IQueryProvider Provider => ((IQueryable<TModel>)dbSet).Provider;
+		public IQueryProvider Provider => dbSet.AsQueryable().Provider;
 
 		/// <inheritdoc />
 		public void Add(TModel model) => dbSet.Add(model);
@@ -46,7 +48,12 @@ namespace Tgstation.Server.Host.Database
 		public void Attach(TModel model) => dbSet.Attach(model);
 
 		/// <inheritdoc />
-		public IEnumerator<TModel> GetEnumerator() => ((IQueryable<TModel>)dbSet).GetEnumerator();
+		public Task ForEachAsync(Action<TModel> action, CancellationToken cancellationToken) => dbSet
+			.AsAsyncEnumerable()
+			.ForEachAsync(action, cancellationToken);
+
+		/// <inheritdoc />
+		public IEnumerator<TModel> GetEnumerator() => dbSet.AsQueryable().GetEnumerator();
 
 		/// <inheritdoc />
 		public void Remove(TModel model) => dbSet.Remove(model);
@@ -55,6 +62,6 @@ namespace Tgstation.Server.Host.Database
 		public void RemoveRange(IEnumerable<TModel> models) => dbSet.RemoveRange(models);
 
 		/// <inheritdoc />
-		IEnumerator IEnumerable.GetEnumerator() => ((IQueryable<TModel>)dbSet).GetEnumerator();
+		IEnumerator IEnumerable.GetEnumerator() => dbSet.AsQueryable().GetEnumerator();
 	}
 }

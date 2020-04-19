@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host.Database
 {
@@ -43,5 +46,13 @@ namespace Tgstation.Server.Host.Database
 		/// </summary>
 		/// <param name="models">An <see cref="IEnumerable{T}"/> of <typeparamref name="TModel"/>s to remove.</param>
 		void RemoveRange(IEnumerable<TModel> models);
+
+		/// <summary>
+		/// Asyncronously run a given <paramref name="action"/> on the <see cref="IDatabaseCollection{TModel}"/>.
+		/// </summary>
+		/// <param name="action">The <see cref="Action{T}"/> to run.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		Task ForEachAsync(Action<TModel> action, CancellationToken cancellationToken);
 	}
 }
