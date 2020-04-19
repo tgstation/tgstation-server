@@ -36,9 +36,9 @@ namespace Tgstation.Server.Host.Core
 		readonly IConsole console;
 
 		/// <summary>
-		/// The <see cref="IHostingEnvironment"/> for the <see cref="SetupWizard"/>
+		/// The <see cref="IWebHostEnvironment"/> for the <see cref="SetupWizard"/>
 		/// </summary>
-		readonly IHostingEnvironment hostingEnvironment;
+		readonly IWebHostEnvironment hostingEnvironment;
 
 		/// <summary>
 		/// The <see cref="IApplication"/> for the <see cref="SetupWizard"/>
@@ -85,7 +85,7 @@ namespace Tgstation.Server.Host.Core
 		public SetupWizard(
 			IIOManager ioManager,
 			IConsole console,
-			IHostingEnvironment hostingEnvironment,
+			IWebHostEnvironment hostingEnvironment,
 			IApplication application,
 			IDatabaseConnectionFactory dbConnectionFactory,
 			IPlatformIdentifier platformIdentifier,

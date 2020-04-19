@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.Core.Tests
 			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, null, null, null, null, null, null, null, null));
 			var mockConsole = new Mock<IConsole>();
 			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, null, null, null, null, null, null, null));
-			var mockHostingEnvironment = new Mock<IHostingEnvironment>();
+			var mockHostingEnvironment = new Mock<IWebHostEnvironment>();
 			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, null, null, null, null, null, null));
 			var mockApplication = new Mock<IApplication>();
 			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, mockApplication.Object, null, null, null, null, null));
@@ -47,7 +47,7 @@ namespace Tgstation.Server.Host.Core.Tests
 		{
 			var mockIOManager = new Mock<IIOManager>();
 			var mockConsole = new Mock<IConsole>();
-			var mockHostingEnvironment = new Mock<IHostingEnvironment>();
+			var mockHostingEnvironment = new Mock<IWebHostEnvironment>();
 			var mockApplication = new Mock<IApplication>();
 			var mockDBConnectionFactory = new Mock<IDatabaseConnectionFactory>();
 			var mockLogger = new Mock<ILogger<SetupWizard>>();
@@ -76,7 +76,7 @@ namespace Tgstation.Server.Host.Core.Tests
 
 			mockConsole.SetupGet(x => x.Available).Returns(true).Verifiable();
 			mockIOManager.Setup(x => x.FileExists(It.IsNotNull<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(true)).Verifiable();
-			mockIOManager.Setup(x => x.ReadAllBytes(It.IsNotNull<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(Encoding.UTF8.GetBytes("cucked"))).Verifiable();
+			mockIOManager.Setup(x => x.ReadAllBytes(It.IsNotNull<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(Encoding.UTF8.GetBytes("less profane"))).Verifiable();
 			mockIOManager.Setup(x => x.WriteAllBytes(It.IsNotNull<string>(), It.IsNotNull<byte[]>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask).Verifiable();
 			
 			var mockSuccessCommand = new Mock<DbCommand>();

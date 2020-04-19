@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -67,9 +66,9 @@ namespace Tgstation.Server.Host.Core
 		readonly IIOManager ioManager;
 
 		/// <summary>
-		/// The <see cref="Microsoft.AspNetCore.Hosting.IHostingEnvironment"/> for the <see cref="Application"/>
+		/// The <see cref="IWebHostEnvironment"/> for the <see cref="Application"/>
 		/// </summary>
-		readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment;
+		readonly IWebHostEnvironment hostingEnvironment;
 
 		/// <summary>
 		/// The <see cref="TaskCompletionSource{TResult}"/> used for determining when the <see cref="Application"/> is <see cref="Ready(Exception)"/>
@@ -91,7 +90,7 @@ namespace Tgstation.Server.Host.Core
 		public Application(
 			IConfiguration configuration,
 			IAssemblyInformationProvider assemblyInformationProvider,
-			Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment,
+			IWebHostEnvironment hostingEnvironment,
 			IIOManager ioManager)
 		{
 			this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
@@ -146,11 +145,13 @@ namespace Tgstation.Server.Host.Core
 			// temporarily build the service provider in it's current state
 			// do it here so we can run the setup wizard if necessary
 			// also allows us to get some options and other services we need for continued configuration
+#pragma warning disable ASP0000 // Do not call 'IServiceCollection.BuildServiceProvider' in 'ConfigureServices'
 			using (var provider = services.BuildServiceProvider())
+#pragma warning restore ASP0000 // Do not call 'IServiceCollection.BuildServiceProvider' in 'ConfigureServices'
 			{
 				// run the wizard if necessary
 				var setupWizard = provider.GetRequiredService<ISetupWizard>();
-				var applicationLifetime = provider.GetRequiredService<Microsoft.AspNetCore.Hosting.IApplicationLifetime>();
+				var applicationLifetime = provider.GetRequiredService<IHostApplicationLifetime>();
 				var setupWizardRan = setupWizard.CheckRunWizard(applicationLifetime.ApplicationStopping).GetAwaiter().GetResult();
 
 				// load the configuration options we need
@@ -242,9 +243,11 @@ namespace Tgstation.Server.Host.Core
 
 			// add mvc, configure the json serializer settings
 			services
-				.AddMvc()
-				.SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-				.AddJsonOptions(options =>
+				.AddMvc(options =>
+				{
+					options.EnableEndpointRouting = false;
+				})
+				.AddNewtonsoftJson(options =>
 				{
 					options.AllowInputFormatterExceptionMessages = true;
 					options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;

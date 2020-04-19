@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
 using Tgstation.Server.Host.Core;
@@ -44,21 +44,26 @@ namespace Tgstation.Server.Host
 		/// <inheritdoc />
 		public IServer CreateServer(string[] args, string updatePath)
 		{
-			var webHost = WebHost.CreateDefaultBuilder(args ?? throw new ArgumentNullException(nameof(args)))
+			var hostBuilder = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(
+				args ?? throw new ArgumentNullException(nameof(args)))
 				.ConfigureAppConfiguration((context, configurationBuilder) => configurationBuilder.SetBasePath(Directory.GetCurrentDirectory()))
 				.ConfigureServices(serviceCollection =>
 				{
 					serviceCollection.AddSingleton(IOManager);
 					serviceCollection.AddSingleton(assemblyInformationProvider);
 				})
-				.UseStartup<Application>()
-				.SuppressStatusMessages(true)
-				.UseShutdownTimeout(TimeSpan.FromMinutes(1));
+				.ConfigureWebHostDefaults(webHostBuilder =>
+				{
+					webHostBuilder
+						.UseStartup<Application>()
+						.SuppressStatusMessages(true)
+						.UseShutdownTimeout(TimeSpan.FromMinutes(1));
+				});
 
 			if(updatePath != null)
-				webHost.UseContentRoot(Path.GetDirectoryName(assemblyInformationProvider.Path));
+				hostBuilder.UseContentRoot(Path.GetDirectoryName(assemblyInformationProvider.Path));
 
-			return new Server(webHost, IOManager, updatePath);
+			return new Server(hostBuilder, IOManager, updatePath);
 		}
 	}
 }

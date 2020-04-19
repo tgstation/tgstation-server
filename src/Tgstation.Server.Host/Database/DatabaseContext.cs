@@ -19,43 +19,69 @@ namespace Tgstation.Server.Host.Database
 	#pragma warning disable CA1506 // TODO: Decomplexify
 	abstract class DatabaseContext<TParentContext> : DbContext, IDatabaseContext where TParentContext : DbContext
 	{
-		/// <inheritdoc />
+		/// <summary>
+		/// The <see cref="User"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// </summary>
 		public DbSet<User> Users { get; set; }
 
-		/// <inheritdoc />
+		/// <summary>
+		/// The <see cref="Instance"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// </summary>
 		public DbSet<Instance> Instances { get; set; }
 
-		/// <inheritdoc />
+		/// <summary>
+		/// The <see cref="CompileJob"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// </summary>
 		public DbSet<CompileJob> CompileJobs { get; set; }
 
-		/// <inheritdoc />
+		/// <summary>
+		/// The <see cref="RevisionInformation"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// </summary>
 		public DbSet<RevisionInformation> RevisionInformations { get; set; }
 
-		/// <inheritdoc />
+		/// <summary>
+		/// The <see cref="Models.DreamMakerSettings"/> in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// </summary>
 		public DbSet<DreamMakerSettings> DreamMakerSettings { get; set; }
 
-		/// <inheritdoc />
+		/// <summary>
+		/// The <see cref="ChatBot"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// </summary>
 		public DbSet<ChatBot> ChatBots { get; set; }
 
-		/// <inheritdoc />
+		/// <summary>
+		/// The <see cref="Models.DreamDaemonSettings"/> in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// </summary>
 		public DbSet<DreamDaemonSettings> DreamDaemonSettings { get; set; }
 
-		/// <inheritdoc />
+		/// <summary>
+		/// The <see cref="Models.RepositorySettings"/> in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// </summary>
 		public DbSet<RepositorySettings> RepositorySettings { get; set; }
 
-		/// <inheritdoc />
+		/// <summary>
+		/// The <see cref="InstanceUser"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// </summary>
 		public DbSet<InstanceUser> InstanceUsers { get; set; }
 
-		/// <inheritdoc />
+		/// <summary>
+		/// The <see cref="ChatChannel"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// </summary>
 		public DbSet<ChatChannel> ChatChannels { get; set; }
 
-		/// <inheritdoc />
+		/// <summary>
+		/// The <see cref="Job"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// </summary>
 		public DbSet<Job> Jobs { get; set; }
 
-		/// <inheritdoc />
+		/// <summary>
+		/// The <see cref="ReattachInformation"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// </summary>
 		public DbSet<ReattachInformation> ReattachInformations { get; set; }
 
-		/// <inheritdoc />
+		/// <summary>
+		/// The <see cref="WatchdogReattachInformation"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// </summary>
 		public DbSet<WatchdogReattachInformation> WatchdogReattachInformations { get; set; }
 
 		/// <summary>
@@ -83,10 +109,114 @@ namespace Tgstation.Server.Host.Database
 		/// </summary>
 		protected abstract DatabaseType DatabaseType { get; }
 
+		/// <inheritdoc />
+		IDatabaseCollection<User> IDatabaseContext.Users => usersCollection;
+
+		/// <inheritdoc />
+		IDatabaseCollection<Instance> IDatabaseContext.Instances => instancesCollection;
+
+		/// <inheritdoc />
+		IDatabaseCollection<InstanceUser> IDatabaseContext.InstanceUsers => instanceUsersCollection;
+
+		/// <inheritdoc />
+		IDatabaseCollection<Job> IDatabaseContext.Jobs => jobsCollection;
+
+		/// <inheritdoc />
+		IDatabaseCollection<CompileJob> IDatabaseContext.CompileJobs => compileJobsCollection;
+
+		/// <inheritdoc />
+		IDatabaseCollection<RevisionInformation> IDatabaseContext.RevisionInformations => revisionInformationsCollection;
+
+		/// <inheritdoc />
+		IDatabaseCollection<DreamMakerSettings> IDatabaseContext.DreamMakerSettings => dreamMakerSettingsCollection;
+
+		/// <inheritdoc />
+		IDatabaseCollection<DreamDaemonSettings> IDatabaseContext.DreamDaemonSettings => dreamDaemonSettingsCollection;
+
+		/// <inheritdoc />
+		IDatabaseCollection<ChatBot> IDatabaseContext.ChatBots => chatBotsCollection;
+
+		/// <inheritdoc />
+		IDatabaseCollection<ChatChannel> IDatabaseContext.ChatChannels => chatChannelsCollection;
+
+		/// <inheritdoc />
+		IDatabaseCollection<RepositorySettings> IDatabaseContext.RepositorySettings => repositorySettingsCollection;
+
+		/// <inheritdoc />
+		IDatabaseCollection<ReattachInformation> IDatabaseContext.ReattachInformations => reattachInformationsCollection;
+
+		/// <inheritdoc />
+		IDatabaseCollection<WatchdogReattachInformation> IDatabaseContext.WatchdogReattachInformations => watchdogReattachInformationsCollection;
+
 		/// <summary>
 		/// The <see cref="IDatabaseSeeder"/> for the <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
 		readonly IDatabaseSeeder databaseSeeder;
+
+		/// <summary>
+		/// Backing field for <see cref="IDatabaseContext.Users"/>.
+		/// </summary>
+		readonly IDatabaseCollection<User> usersCollection;
+
+		/// <summary>
+		/// Backing field for <see cref="IDatabaseContext.Instances"/>.
+		/// </summary>
+		readonly IDatabaseCollection<Instance> instancesCollection;
+
+		/// <summary>
+		/// Backing field for <see cref="IDatabaseContext.CompileJobs"/>.
+		/// </summary>
+		readonly IDatabaseCollection<CompileJob> compileJobsCollection;
+
+		/// <summary>
+		/// Backing field for <see cref="IDatabaseContext.InstanceUsers"/>.
+		/// </summary>
+		readonly IDatabaseCollection<InstanceUser> instanceUsersCollection;
+
+		/// <summary>
+		/// Backing field for <see cref="IDatabaseContext.Jobs"/>.
+		/// </summary>
+		readonly IDatabaseCollection<Job> jobsCollection;
+
+		/// <summary>
+		/// Backing field for <see cref="IDatabaseContext.RevisionInformations"/>.
+		/// </summary>
+		readonly IDatabaseCollection<RevisionInformation> revisionInformationsCollection;
+
+		/// <summary>
+		/// Backing field for <see cref="IDatabaseContext.DreamMakerSettings"/>.
+		/// </summary>
+		readonly IDatabaseCollection<DreamMakerSettings> dreamMakerSettingsCollection;
+
+		/// <summary>
+		/// Backing field for <see cref="IDatabaseContext.DreamDaemonSettings"/>.
+		/// </summary>
+		readonly IDatabaseCollection<DreamDaemonSettings> dreamDaemonSettingsCollection;
+
+		/// <summary>
+		/// Backing field for <see cref="IDatabaseContext.ChatBots"/>.
+		/// </summary>
+		readonly IDatabaseCollection<ChatBot> chatBotsCollection;
+
+		/// <summary>
+		/// Backing field for <see cref="IDatabaseContext.ChatChannels"/>.
+		/// </summary>
+		readonly IDatabaseCollection<ChatChannel> chatChannelsCollection;
+
+		/// <summary>
+		/// Backing field for <see cref="IDatabaseContext.RepositorySettings"/>.
+		/// </summary>
+		readonly IDatabaseCollection<RepositorySettings> repositorySettingsCollection;
+
+		/// <summary>
+		/// Backing field for <see cref="IDatabaseContext.ReattachInformations"/>.
+		/// </summary>
+		readonly IDatabaseCollection<ReattachInformation> reattachInformationsCollection;
+
+		/// <summary>
+		/// Backing field for <see cref="IDatabaseContext.WatchdogReattachInformations"/>.
+		/// </summary>
+		readonly IDatabaseCollection<WatchdogReattachInformation> watchdogReattachInformationsCollection;
 
 		/// <summary>
 		/// Construct a <see cref="DatabaseContext{TParentContext}"/>
@@ -100,6 +230,20 @@ namespace Tgstation.Server.Host.Database
 			DatabaseConfiguration = databaseConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(databaseConfigurationOptions));
 			this.databaseSeeder = databaseSeeder ?? throw new ArgumentNullException(nameof(databaseSeeder));
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+			usersCollection = new DatabaseCollection<User>(Users);
+			instancesCollection = new DatabaseCollection<Instance>(Instances);
+			instanceUsersCollection = new DatabaseCollection<InstanceUser>(InstanceUsers);
+			compileJobsCollection = new DatabaseCollection<CompileJob>(CompileJobs);
+			repositorySettingsCollection = new DatabaseCollection<RepositorySettings>(RepositorySettings);
+			dreamMakerSettingsCollection = new DatabaseCollection<DreamMakerSettings>(DreamMakerSettings);
+			dreamDaemonSettingsCollection = new DatabaseCollection<DreamDaemonSettings>(DreamDaemonSettings);
+			chatBotsCollection = new DatabaseCollection<ChatBot>(ChatBots);
+			chatChannelsCollection = new DatabaseCollection<ChatChannel>(ChatChannels);
+			revisionInformationsCollection = new DatabaseCollection<RevisionInformation>(RevisionInformations);
+			jobsCollection = new DatabaseCollection<Job>(Jobs);
+			reattachInformationsCollection = new DatabaseCollection<ReattachInformation>(ReattachInformations);
+			watchdogReattachInformationsCollection = new DatabaseCollection<WatchdogReattachInformation>(WatchdogReattachInformations);
 		}
 
 		/// <inheritdoc />
@@ -166,7 +310,7 @@ namespace Tgstation.Server.Host.Database
 			else
 				Logger.LogDebug("No migrations to apply.");
 
-			wasEmpty |= (await Users.CountAsync(cancellationToken).ConfigureAwait(false)) == 0;
+			wasEmpty |= (await Users.AsQueryable().CountAsync(cancellationToken).ConfigureAwait(false)) == 0;
 
 			if (wasEmpty)
 			{

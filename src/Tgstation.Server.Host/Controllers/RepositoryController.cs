@@ -80,6 +80,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var revisionInfo = await ApplyQuery(databaseContext.RevisionInformations).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
+			// If the DB doesn't have it, check the local set
 			if (revisionInfo == default)
 				revisionInfo = databaseContext.RevisionInformations.Local.Where(x => x.CommitSha == repoSha && x.Instance.Id == instance.Id).FirstOrDefault();
 
@@ -669,6 +670,7 @@ namespace Tgstation.Server.Host.Controllers
 								var contextUser = databaseContext.Users.Local.Where(x => x.Id == AuthenticationContext.User.Id).FirstOrDefault();
 								if (contextUser == default)
 								{
+									// No reason to call the DB, just attach it
 									contextUser = new Models.User
 									{
 										Id = AuthenticationContext.User.Id
