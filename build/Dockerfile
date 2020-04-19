@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.2-sdk AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 
 # install node and npm
 # replace shell with bash so we can source files
@@ -40,7 +40,7 @@ RUN dotnet publish -c Release -o /app
 WORKDIR /src/src/Tgstation.Server.Host
 RUN dotnet publish -c Release -o /app/lib/Default && mv /app/lib/Default/appsettings* /app
 
-FROM microsoft/dotnet:2.2-aspnetcore-runtime
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
 EXPOSE 80
 
 #needed for byond
