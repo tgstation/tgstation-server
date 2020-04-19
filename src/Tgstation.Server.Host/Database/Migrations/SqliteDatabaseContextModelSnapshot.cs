@@ -2,667 +2,804 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Tgstation.Server.Host.Database;
 
-namespace Tgstation.Server.Host.Database.Migrations
+namespace Tgstation.Server.Host.Migrations
 {
-	/// <summary>
-	/// Model snapshot for SQLite.
-	/// </summary>
-	[DbContext(typeof(SqliteDatabaseContext))]
-	partial class SqliteDatabaseContextModelSnapshot : ModelSnapshot
-	{
-		/// <inheritdoc />
-		protected override void BuildModel(ModelBuilder modelBuilder)
-		{
+    [DbContext(typeof(SqliteDatabaseContext))]
+    partial class SqliteDatabaseContextModelSnapshot : ModelSnapshot
+    {
+        protected override void BuildModel(ModelBuilder modelBuilder)
+        {
 #pragma warning disable 612, 618
-			modelBuilder
-				.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "3.1.3");
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
-				{
-					b.Property<long>("Id")
-						.ValueGeneratedOnAdd();
+            modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
-					b.Property<string>("ConnectionString")
-						.IsRequired()
-						.HasMaxLength(10000);
+                    b.Property<string>("ConnectionString")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(10000);
 
-					b.Property<bool?>("Enabled");
+                    b.Property<bool?>("Enabled")
+                        .HasColumnType("INTEGER");
 
-					b.Property<long>("InstanceId");
+                    b.Property<long>("InstanceId")
+                        .HasColumnType("INTEGER");
 
-					b.Property<string>("Name")
-						.IsRequired()
-						.HasMaxLength(100);
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(100);
 
-					b.Property<int>("Provider");
+                    b.Property<int>("Provider")
+                        .HasColumnType("INTEGER");
 
-					b.Property<uint?>("ReconnectionInterval")
-						.IsRequired();
+                    b.Property<uint?>("ReconnectionInterval")
+                        .IsRequired()
+                        .HasColumnType("INTEGER");
 
-					b.HasKey("Id");
+                    b.HasKey("Id");
 
-					b.HasIndex("InstanceId", "Name")
-						.IsUnique();
+                    b.HasIndex("InstanceId", "Name")
+                        .IsUnique();
 
-					b.ToTable("ChatBots");
-				});
+                    b.ToTable("ChatBots");
+                });
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatChannel", b =>
-				{
-					b.Property<long>("Id")
-						.ValueGeneratedOnAdd();
+            modelBuilder.Entity("Tgstation.Server.Host.Models.ChatChannel", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
-					b.Property<long>("ChatSettingsId");
+                    b.Property<long>("ChatSettingsId")
+                        .HasColumnType("INTEGER");
 
-					b.Property<ulong?>("DiscordChannelId");
+                    b.Property<ulong?>("DiscordChannelId")
+                        .HasColumnType("INTEGER");
 
-					b.Property<string>("IrcChannel")
-						.HasMaxLength(100);
+                    b.Property<string>("IrcChannel")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(100);
 
-					b.Property<bool?>("IsAdminChannel")
-						.IsRequired();
+                    b.Property<bool?>("IsAdminChannel")
+                        .IsRequired()
+                        .HasColumnType("INTEGER");
 
-					b.Property<bool?>("IsUpdatesChannel")
-						.IsRequired();
+                    b.Property<bool?>("IsUpdatesChannel")
+                        .IsRequired()
+                        .HasColumnType("INTEGER");
 
-					b.Property<bool?>("IsWatchdogChannel")
-						.IsRequired();
+                    b.Property<bool?>("IsWatchdogChannel")
+                        .IsRequired()
+                        .HasColumnType("INTEGER");
 
-					b.Property<string>("Tag")
-						.HasMaxLength(10000);
+                    b.Property<string>("Tag")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(10000);
 
-					b.HasKey("Id");
+                    b.HasKey("Id");
 
-					b.HasIndex("ChatSettingsId", "DiscordChannelId")
-						.IsUnique();
+                    b.HasIndex("ChatSettingsId", "DiscordChannelId")
+                        .IsUnique();
 
-					b.HasIndex("ChatSettingsId", "IrcChannel")
-						.IsUnique();
+                    b.HasIndex("ChatSettingsId", "IrcChannel")
+                        .IsUnique();
 
-					b.ToTable("ChatChannels");
-				});
+                    b.ToTable("ChatChannels");
+                });
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.CompileJob", b =>
-				{
-					b.Property<long>("Id")
-						.ValueGeneratedOnAdd();
+            modelBuilder.Entity("Tgstation.Server.Host.Models.CompileJob", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
-					b.Property<string>("ByondVersion")
-						.IsRequired();
+                    b.Property<string>("ByondVersion")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-					b.Property<Guid?>("DirectoryName")
-						.IsRequired();
+                    b.Property<Guid?>("DirectoryName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-					b.Property<string>("DmeName")
-						.IsRequired();
+                    b.Property<string>("DmeName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-					b.Property<long>("JobId");
+                    b.Property<long>("JobId")
+                        .HasColumnType("INTEGER");
 
-					b.Property<int>("MinimumSecurityLevel");
+                    b.Property<int>("MinimumSecurityLevel")
+                        .HasColumnType("INTEGER");
 
-					b.Property<string>("Output")
-						.IsRequired();
+                    b.Property<string>("Output")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-					b.Property<long>("RevisionInformationId");
+                    b.Property<long>("RevisionInformationId")
+                        .HasColumnType("INTEGER");
 
-					b.HasKey("Id");
+                    b.HasKey("Id");
 
-					b.HasIndex("DirectoryName");
+                    b.HasIndex("DirectoryName");
 
-					b.HasIndex("JobId")
-						.IsUnique();
+                    b.HasIndex("JobId")
+                        .IsUnique();
 
-					b.HasIndex("RevisionInformationId");
+                    b.HasIndex("RevisionInformationId");
 
-					b.ToTable("CompileJobs");
-				});
+                    b.ToTable("CompileJobs");
+                });
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.DreamDaemonSettings", b =>
-				{
-					b.Property<long>("Id")
-						.ValueGeneratedOnAdd();
+            modelBuilder.Entity("Tgstation.Server.Host.Models.DreamDaemonSettings", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
-					b.Property<string>("AccessToken");
+                    b.Property<string>("AccessToken")
+                        .HasColumnType("TEXT");
 
-					b.Property<bool?>("AllowWebClient")
-						.IsRequired();
+                    b.Property<bool?>("AllowWebClient")
+                        .IsRequired()
+                        .HasColumnType("INTEGER");
 
-					b.Property<bool?>("AutoStart")
-						.IsRequired();
+                    b.Property<bool?>("AutoStart")
+                        .IsRequired()
+                        .HasColumnType("INTEGER");
 
-					b.Property<long>("InstanceId");
+                    b.Property<long>("InstanceId")
+                        .HasColumnType("INTEGER");
 
-					b.Property<ushort?>("PrimaryPort")
-						.IsRequired();
+                    b.Property<ushort?>("PrimaryPort")
+                        .IsRequired()
+                        .HasColumnType("INTEGER");
 
-					b.Property<int?>("ProcessId");
+                    b.Property<int?>("ProcessId")
+                        .HasColumnType("INTEGER");
 
-					b.Property<ushort?>("SecondaryPort")
-						.IsRequired();
+                    b.Property<ushort?>("SecondaryPort")
+                        .IsRequired()
+                        .HasColumnType("INTEGER");
 
-					b.Property<int>("SecurityLevel");
+                    b.Property<int>("SecurityLevel")
+                        .HasColumnType("INTEGER");
 
-					b.Property<bool?>("SoftRestart")
-						.IsRequired();
+                    b.Property<bool?>("SoftRestart")
+                        .IsRequired()
+                        .HasColumnType("INTEGER");
 
-					b.Property<bool?>("SoftShutdown")
-						.IsRequired();
+                    b.Property<bool?>("SoftShutdown")
+                        .IsRequired()
+                        .HasColumnType("INTEGER");
 
-					b.Property<uint?>("StartupTimeout")
-						.IsRequired();
+                    b.Property<uint?>("StartupTimeout")
+                        .IsRequired()
+                        .HasColumnType("INTEGER");
 
-					b.HasKey("Id");
+                    b.HasKey("Id");
 
-					b.HasIndex("InstanceId")
-						.IsUnique();
+                    b.HasIndex("InstanceId")
+                        .IsUnique();
 
-					b.ToTable("DreamDaemonSettings");
-				});
+                    b.ToTable("DreamDaemonSettings");
+                });
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.DreamMakerSettings", b =>
-				{
-					b.Property<long>("Id")
-						.ValueGeneratedOnAdd();
+            modelBuilder.Entity("Tgstation.Server.Host.Models.DreamMakerSettings", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
-					b.Property<ushort?>("ApiValidationPort")
-						.IsRequired();
+                    b.Property<ushort?>("ApiValidationPort")
+                        .IsRequired()
+                        .HasColumnType("INTEGER");
 
-					b.Property<int>("ApiValidationSecurityLevel");
+                    b.Property<int>("ApiValidationSecurityLevel")
+                        .HasColumnType("INTEGER");
 
-					b.Property<long>("InstanceId");
+                    b.Property<long>("InstanceId")
+                        .HasColumnType("INTEGER");
 
-					b.Property<string>("ProjectName")
-						.HasMaxLength(10000);
+                    b.Property<string>("ProjectName")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(10000);
 
-					b.HasKey("Id");
+                    b.HasKey("Id");
 
-					b.HasIndex("InstanceId")
-						.IsUnique();
+                    b.HasIndex("InstanceId")
+                        .IsUnique();
 
-					b.ToTable("DreamMakerSettings");
-				});
+                    b.ToTable("DreamMakerSettings");
+                });
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.Instance", b =>
-				{
-					b.Property<long>("Id")
-						.ValueGeneratedOnAdd();
+            modelBuilder.Entity("Tgstation.Server.Host.Models.Instance", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
-					b.Property<uint?>("AutoUpdateInterval")
-						.IsRequired();
+                    b.Property<uint?>("AutoUpdateInterval")
+                        .IsRequired()
+                        .HasColumnType("INTEGER");
 
-					b.Property<int>("ConfigurationType");
+                    b.Property<int>("ConfigurationType")
+                        .HasColumnType("INTEGER");
 
-					b.Property<string>("Name")
-						.IsRequired()
-						.HasMaxLength(10000);
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(10000);
 
-					b.Property<bool?>("Online")
-						.IsRequired();
+                    b.Property<bool?>("Online")
+                        .IsRequired()
+                        .HasColumnType("INTEGER");
 
-					b.Property<string>("Path")
-						.IsRequired();
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-					b.HasKey("Id");
+                    b.HasKey("Id");
 
-					b.HasIndex("Path")
-						.IsUnique();
+                    b.HasIndex("Path")
+                        .IsUnique();
 
-					b.ToTable("Instances");
-				});
+                    b.ToTable("Instances");
+                });
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.InstanceUser", b =>
-				{
-					b.Property<long>("Id")
-						.ValueGeneratedOnAdd();
+            modelBuilder.Entity("Tgstation.Server.Host.Models.InstanceUser", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
-					b.Property<ulong>("ByondRights");
+                    b.Property<ulong>("ByondRights")
+                        .HasColumnType("INTEGER");
 
-					b.Property<ulong>("ChatBotRights");
+                    b.Property<ulong>("ChatBotRights")
+                        .HasColumnType("INTEGER");
 
-					b.Property<ulong>("ConfigurationRights");
+                    b.Property<ulong>("ConfigurationRights")
+                        .HasColumnType("INTEGER");
 
-					b.Property<ulong>("DreamDaemonRights");
+                    b.Property<ulong>("DreamDaemonRights")
+                        .HasColumnType("INTEGER");
 
-					b.Property<ulong>("DreamMakerRights");
+                    b.Property<ulong>("DreamMakerRights")
+                        .HasColumnType("INTEGER");
 
-					b.Property<long>("InstanceId");
+                    b.Property<long>("InstanceId")
+                        .HasColumnType("INTEGER");
 
-					b.Property<ulong>("InstanceUserRights");
+                    b.Property<ulong>("InstanceUserRights")
+                        .HasColumnType("INTEGER");
 
-					b.Property<ulong>("RepositoryRights");
+                    b.Property<ulong>("RepositoryRights")
+                        .HasColumnType("INTEGER");
 
-					b.Property<long?>("UserId")
-						.IsRequired();
+                    b.Property<long?>("UserId")
+                        .IsRequired()
+                        .HasColumnType("INTEGER");
 
-					b.HasKey("Id");
+                    b.HasKey("Id");
 
-					b.HasIndex("InstanceId");
+                    b.HasIndex("InstanceId");
 
-					b.HasIndex("UserId", "InstanceId")
-						.IsUnique();
+                    b.HasIndex("UserId", "InstanceId")
+                        .IsUnique();
 
-					b.ToTable("InstanceUsers");
-				});
+                    b.ToTable("InstanceUsers");
+                });
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.Job", b =>
-				{
-					b.Property<long>("Id")
-						.ValueGeneratedOnAdd();
+            modelBuilder.Entity("Tgstation.Server.Host.Models.Job", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
-					b.Property<ulong?>("CancelRight");
+                    b.Property<ulong?>("CancelRight")
+                        .HasColumnType("INTEGER");
 
-					b.Property<ulong?>("CancelRightsType");
+                    b.Property<ulong?>("CancelRightsType")
+                        .HasColumnType("INTEGER");
 
-					b.Property<bool?>("Cancelled")
-						.IsRequired();
+                    b.Property<bool?>("Cancelled")
+                        .IsRequired()
+                        .HasColumnType("INTEGER");
 
-					b.Property<long?>("CancelledById");
+                    b.Property<long?>("CancelledById")
+                        .HasColumnType("INTEGER");
 
-					b.Property<string>("Description")
-						.IsRequired();
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-					b.Property<string>("ExceptionDetails");
+                    b.Property<string>("ExceptionDetails")
+                        .HasColumnType("TEXT");
 
-					b.Property<long>("InstanceId");
+                    b.Property<long>("InstanceId")
+                        .HasColumnType("INTEGER");
 
-					b.Property<DateTimeOffset?>("StartedAt")
-						.IsRequired();
+                    b.Property<DateTimeOffset?>("StartedAt")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-					b.Property<long>("StartedById");
+                    b.Property<long>("StartedById")
+                        .HasColumnType("INTEGER");
 
-					b.Property<DateTimeOffset?>("StoppedAt");
+                    b.Property<DateTimeOffset?>("StoppedAt")
+                        .HasColumnType("TEXT");
 
-					b.HasKey("Id");
+                    b.HasKey("Id");
 
-					b.HasIndex("CancelledById");
+                    b.HasIndex("CancelledById");
 
-					b.HasIndex("InstanceId");
+                    b.HasIndex("InstanceId");
 
-					b.HasIndex("StartedById");
+                    b.HasIndex("StartedById");
 
-					b.ToTable("Jobs");
-				});
+                    b.ToTable("Jobs");
+                });
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.ReattachInformation", b =>
-				{
-					b.Property<long>("Id")
-						.ValueGeneratedOnAdd();
+            modelBuilder.Entity("Tgstation.Server.Host.Models.ReattachInformation", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
-					b.Property<string>("AccessIdentifier")
-						.IsRequired();
+                    b.Property<string>("AccessIdentifier")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-					b.Property<string>("ChatChannelsJson")
-						.IsRequired();
+                    b.Property<string>("ChatChannelsJson")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-					b.Property<string>("ChatCommandsJson")
-						.IsRequired();
+                    b.Property<string>("ChatCommandsJson")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-					b.Property<long>("CompileJobId");
+                    b.Property<long>("CompileJobId")
+                        .HasColumnType("INTEGER");
 
-					b.Property<bool>("IsPrimary");
+                    b.Property<bool>("IsPrimary")
+                        .HasColumnType("INTEGER");
 
-					b.Property<ushort>("Port");
+                    b.Property<ushort>("Port")
+                        .HasColumnType("INTEGER");
 
-					b.Property<int>("ProcessId");
+                    b.Property<int>("ProcessId")
+                        .HasColumnType("INTEGER");
 
-					b.Property<int>("RebootState");
+                    b.Property<int>("RebootState")
+                        .HasColumnType("INTEGER");
 
-					b.Property<string>("ServerCommandsJson")
-						.IsRequired();
+                    b.Property<string>("ServerCommandsJson")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-					b.HasKey("Id");
+                    b.HasKey("Id");
 
-					b.HasIndex("CompileJobId");
+                    b.HasIndex("CompileJobId");
 
-					b.ToTable("ReattachInformations");
-				});
+                    b.ToTable("ReattachInformations");
+                });
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.RepositorySettings", b =>
-				{
-					b.Property<long>("Id")
-						.ValueGeneratedOnAdd();
+            modelBuilder.Entity("Tgstation.Server.Host.Models.RepositorySettings", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
-					b.Property<string>("AccessToken")
-						.HasMaxLength(10000);
+                    b.Property<string>("AccessToken")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(10000);
 
-					b.Property<string>("AccessUser")
-						.HasMaxLength(10000);
+                    b.Property<string>("AccessUser")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(10000);
 
-					b.Property<bool?>("AutoUpdatesKeepTestMerges")
-						.IsRequired();
+                    b.Property<bool?>("AutoUpdatesKeepTestMerges")
+                        .IsRequired()
+                        .HasColumnType("INTEGER");
 
-					b.Property<bool?>("AutoUpdatesSynchronize")
-						.IsRequired();
+                    b.Property<bool?>("AutoUpdatesSynchronize")
+                        .IsRequired()
+                        .HasColumnType("INTEGER");
 
-					b.Property<string>("CommitterEmail")
-						.IsRequired()
-						.HasMaxLength(10000);
+                    b.Property<string>("CommitterEmail")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(10000);
 
-					b.Property<string>("CommitterName")
-						.IsRequired()
-						.HasMaxLength(10000);
+                    b.Property<string>("CommitterName")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(10000);
 
-					b.Property<long>("InstanceId");
+                    b.Property<long>("InstanceId")
+                        .HasColumnType("INTEGER");
 
-					b.Property<bool?>("PostTestMergeComment")
-						.IsRequired();
+                    b.Property<bool?>("PostTestMergeComment")
+                        .IsRequired()
+                        .HasColumnType("INTEGER");
 
-					b.Property<bool?>("PushTestMergeCommits")
-						.IsRequired();
+                    b.Property<bool?>("PushTestMergeCommits")
+                        .IsRequired()
+                        .HasColumnType("INTEGER");
 
-					b.Property<bool?>("ShowTestMergeCommitters")
-						.IsRequired();
+                    b.Property<bool?>("ShowTestMergeCommitters")
+                        .IsRequired()
+                        .HasColumnType("INTEGER");
 
-					b.HasKey("Id");
+                    b.HasKey("Id");
 
-					b.HasIndex("InstanceId")
-						.IsUnique();
+                    b.HasIndex("InstanceId")
+                        .IsUnique();
 
-					b.ToTable("RepositorySettings");
-				});
+                    b.ToTable("RepositorySettings");
+                });
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.RevInfoTestMerge", b =>
-				{
-					b.Property<long>("Id")
-						.ValueGeneratedOnAdd();
+            modelBuilder.Entity("Tgstation.Server.Host.Models.RevInfoTestMerge", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
-					b.Property<long>("RevisionInformationId");
+                    b.Property<long>("RevisionInformationId")
+                        .HasColumnType("INTEGER");
 
-					b.Property<long>("TestMergeId");
+                    b.Property<long>("TestMergeId")
+                        .HasColumnType("INTEGER");
 
-					b.HasKey("Id");
+                    b.HasKey("Id");
 
-					b.HasIndex("RevisionInformationId");
+                    b.HasIndex("RevisionInformationId");
 
-					b.HasIndex("TestMergeId");
+                    b.HasIndex("TestMergeId");
 
-					b.ToTable("RevInfoTestMerges");
-				});
+                    b.ToTable("RevInfoTestMerges");
+                });
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.RevisionInformation", b =>
-				{
-					b.Property<long>("Id")
-						.ValueGeneratedOnAdd();
+            modelBuilder.Entity("Tgstation.Server.Host.Models.RevisionInformation", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
-					b.Property<string>("CommitSha")
-						.IsRequired()
-						.HasMaxLength(40);
+                    b.Property<string>("CommitSha")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(40);
 
-					b.Property<long>("InstanceId");
+                    b.Property<long>("InstanceId")
+                        .HasColumnType("INTEGER");
 
-					b.Property<string>("OriginCommitSha")
-						.IsRequired()
-						.HasMaxLength(40);
+                    b.Property<string>("OriginCommitSha")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(40);
 
-					b.HasKey("Id");
+                    b.HasKey("Id");
 
-					b.HasIndex("InstanceId", "CommitSha")
-						.IsUnique();
+                    b.HasIndex("InstanceId", "CommitSha")
+                        .IsUnique();
 
-					b.ToTable("RevisionInformations");
-				});
+                    b.ToTable("RevisionInformations");
+                });
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.TestMerge", b =>
-				{
-					b.Property<long>("Id")
-						.ValueGeneratedOnAdd();
+            modelBuilder.Entity("Tgstation.Server.Host.Models.TestMerge", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
-					b.Property<string>("Author")
-						.IsRequired();
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-					b.Property<string>("BodyAtMerge")
-						.IsRequired();
+                    b.Property<string>("BodyAtMerge")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-					b.Property<string>("Comment")
-						.HasMaxLength(10000);
+                    b.Property<string>("Comment")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(10000);
 
-					b.Property<DateTimeOffset>("MergedAt");
+                    b.Property<DateTimeOffset>("MergedAt")
+                        .HasColumnType("TEXT");
 
-					b.Property<long>("MergedById");
+                    b.Property<long>("MergedById")
+                        .HasColumnType("INTEGER");
 
-					b.Property<int?>("Number")
-						.IsRequired();
+                    b.Property<int>("Number")
+                        .HasColumnType("INTEGER");
 
-					b.Property<long?>("PrimaryRevisionInformationId")
-						.IsRequired();
+                    b.Property<long?>("PrimaryRevisionInformationId")
+                        .IsRequired()
+                        .HasColumnType("INTEGER");
 
-					b.Property<string>("PullRequestRevision")
-						.IsRequired()
-						.HasMaxLength(40);
+                    b.Property<string>("PullRequestRevision")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(40);
 
-					b.Property<string>("TitleAtMerge")
-						.IsRequired();
+                    b.Property<string>("TitleAtMerge")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-					b.Property<string>("Url")
-						.IsRequired();
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-					b.HasKey("Id");
+                    b.HasKey("Id");
 
-					b.HasIndex("MergedById");
+                    b.HasIndex("MergedById");
 
-					b.HasIndex("PrimaryRevisionInformationId")
-						.IsUnique();
+                    b.HasIndex("PrimaryRevisionInformationId")
+                        .IsUnique();
 
-					b.ToTable("TestMerges");
-				});
+                    b.ToTable("TestMerges");
+                });
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.User", b =>
-				{
-					b.Property<long>("Id")
-						.ValueGeneratedOnAdd();
+            modelBuilder.Entity("Tgstation.Server.Host.Models.User", b =>
+                {
+                    b.Property<long?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
-					b.Property<ulong>("AdministrationRights");
+                    b.Property<ulong>("AdministrationRights")
+                        .HasColumnType("INTEGER");
 
-					b.Property<string>("CanonicalName")
-						.IsRequired();
+                    b.Property<string>("CanonicalName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-					b.Property<DateTimeOffset?>("CreatedAt")
-						.IsRequired();
+                    b.Property<DateTimeOffset?>("CreatedAt")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-					b.Property<long?>("CreatedById");
+                    b.Property<long?>("CreatedById")
+                        .HasColumnType("INTEGER");
 
-					b.Property<bool?>("Enabled")
-						.IsRequired();
+                    b.Property<bool?>("Enabled")
+                        .IsRequired()
+                        .HasColumnType("INTEGER");
 
-					b.Property<ulong>("InstanceManagerRights");
+                    b.Property<ulong>("InstanceManagerRights")
+                        .HasColumnType("INTEGER");
 
-					b.Property<DateTimeOffset?>("LastPasswordUpdate");
+                    b.Property<DateTimeOffset?>("LastPasswordUpdate")
+                        .HasColumnType("TEXT");
 
-					b.Property<string>("Name")
-						.IsRequired()
-						.HasMaxLength(10000);
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(10000);
 
-					b.Property<string>("PasswordHash");
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("TEXT");
 
-					b.Property<string>("SystemIdentifier");
+                    b.Property<string>("SystemIdentifier")
+                        .HasColumnType("TEXT");
 
-					b.HasKey("Id");
+                    b.HasKey("Id");
 
-					b.HasIndex("CanonicalName")
-						.IsUnique();
+                    b.HasIndex("CanonicalName")
+                        .IsUnique();
 
-					b.HasIndex("CreatedById");
+                    b.HasIndex("CreatedById");
 
-					b.HasIndex("SystemIdentifier")
-						.IsUnique();
+                    b.HasIndex("SystemIdentifier")
+                        .IsUnique();
 
-					b.ToTable("Users");
-				});
+                    b.ToTable("Users");
+                });
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.WatchdogReattachInformation", b =>
-				{
-					b.Property<long>("Id")
-						.ValueGeneratedOnAdd();
+            modelBuilder.Entity("Tgstation.Server.Host.Models.WatchdogReattachInformation", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
-					b.Property<long?>("AlphaId");
+                    b.Property<long?>("AlphaId")
+                        .HasColumnType("INTEGER");
 
-					b.Property<bool>("AlphaIsActive");
+                    b.Property<bool>("AlphaIsActive")
+                        .HasColumnType("INTEGER");
 
-					b.Property<long?>("BravoId");
+                    b.Property<long?>("BravoId")
+                        .HasColumnType("INTEGER");
 
-					b.Property<long>("InstanceId");
+                    b.Property<long>("InstanceId")
+                        .HasColumnType("INTEGER");
 
-					b.HasKey("Id");
+                    b.HasKey("Id");
 
-					b.HasIndex("AlphaId");
+                    b.HasIndex("AlphaId");
 
-					b.HasIndex("BravoId");
+                    b.HasIndex("BravoId");
 
-					b.HasIndex("InstanceId")
-						.IsUnique();
+                    b.HasIndex("InstanceId")
+                        .IsUnique();
 
-					b.ToTable("WatchdogReattachInformations");
-				});
+                    b.ToTable("WatchdogReattachInformations");
+                });
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
-				{
-					b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
-						.WithMany("ChatSettings")
-						.HasForeignKey("InstanceId")
-						.OnDelete(DeleteBehavior.Cascade);
-				});
+            modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
+                {
+                    b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
+                        .WithMany("ChatSettings")
+                        .HasForeignKey("InstanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatChannel", b =>
-				{
-					b.HasOne("Tgstation.Server.Host.Models.ChatBot", "ChatSettings")
-						.WithMany("Channels")
-						.HasForeignKey("ChatSettingsId")
-						.OnDelete(DeleteBehavior.Cascade);
-				});
+            modelBuilder.Entity("Tgstation.Server.Host.Models.ChatChannel", b =>
+                {
+                    b.HasOne("Tgstation.Server.Host.Models.ChatBot", "ChatSettings")
+                        .WithMany("Channels")
+                        .HasForeignKey("ChatSettingsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.CompileJob", b =>
-				{
-					b.HasOne("Tgstation.Server.Host.Models.Job", "Job")
-						.WithOne()
-						.HasForeignKey("Tgstation.Server.Host.Models.CompileJob", "JobId")
-						.OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity("Tgstation.Server.Host.Models.CompileJob", b =>
+                {
+                    b.HasOne("Tgstation.Server.Host.Models.Job", "Job")
+                        .WithOne()
+                        .HasForeignKey("Tgstation.Server.Host.Models.CompileJob", "JobId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-					b.HasOne("Tgstation.Server.Host.Models.RevisionInformation", "RevisionInformation")
-						.WithMany("CompileJobs")
-						.HasForeignKey("RevisionInformationId")
-						.OnDelete(DeleteBehavior.Cascade);
-				});
+                    b.HasOne("Tgstation.Server.Host.Models.RevisionInformation", "RevisionInformation")
+                        .WithMany("CompileJobs")
+                        .HasForeignKey("RevisionInformationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.DreamDaemonSettings", b =>
-				{
-					b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
-						.WithOne("DreamDaemonSettings")
-						.HasForeignKey("Tgstation.Server.Host.Models.DreamDaemonSettings", "InstanceId")
-						.OnDelete(DeleteBehavior.Cascade);
-				});
+            modelBuilder.Entity("Tgstation.Server.Host.Models.DreamDaemonSettings", b =>
+                {
+                    b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
+                        .WithOne("DreamDaemonSettings")
+                        .HasForeignKey("Tgstation.Server.Host.Models.DreamDaemonSettings", "InstanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.DreamMakerSettings", b =>
-				{
-					b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
-						.WithOne("DreamMakerSettings")
-						.HasForeignKey("Tgstation.Server.Host.Models.DreamMakerSettings", "InstanceId")
-						.OnDelete(DeleteBehavior.Cascade);
-				});
+            modelBuilder.Entity("Tgstation.Server.Host.Models.DreamMakerSettings", b =>
+                {
+                    b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
+                        .WithOne("DreamMakerSettings")
+                        .HasForeignKey("Tgstation.Server.Host.Models.DreamMakerSettings", "InstanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.InstanceUser", b =>
-				{
-					b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
-						.WithMany("InstanceUsers")
-						.HasForeignKey("InstanceId")
-						.OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity("Tgstation.Server.Host.Models.InstanceUser", b =>
+                {
+                    b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
+                        .WithMany("InstanceUsers")
+                        .HasForeignKey("InstanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-					b.HasOne("Tgstation.Server.Host.Models.User")
-						.WithMany("InstanceUsers")
-						.HasForeignKey("UserId")
-						.OnDelete(DeleteBehavior.Cascade);
-				});
+                    b.HasOne("Tgstation.Server.Host.Models.User", null)
+                        .WithMany("InstanceUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.Job", b =>
-				{
-					b.HasOne("Tgstation.Server.Host.Models.User", "CancelledBy")
-						.WithMany()
-						.HasForeignKey("CancelledById");
+            modelBuilder.Entity("Tgstation.Server.Host.Models.Job", b =>
+                {
+                    b.HasOne("Tgstation.Server.Host.Models.User", "CancelledBy")
+                        .WithMany()
+                        .HasForeignKey("CancelledById");
 
-					b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
-						.WithMany("Jobs")
-						.HasForeignKey("InstanceId")
-						.OnDelete(DeleteBehavior.Cascade);
+                    b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
+                        .WithMany("Jobs")
+                        .HasForeignKey("InstanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-					b.HasOne("Tgstation.Server.Host.Models.User", "StartedBy")
-						.WithMany()
-						.HasForeignKey("StartedById")
-						.OnDelete(DeleteBehavior.Cascade);
-				});
+                    b.HasOne("Tgstation.Server.Host.Models.User", "StartedBy")
+                        .WithMany()
+                        .HasForeignKey("StartedById")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.ReattachInformation", b =>
-				{
-					b.HasOne("Tgstation.Server.Host.Models.CompileJob", "CompileJob")
-						.WithMany()
-						.HasForeignKey("CompileJobId")
-						.OnDelete(DeleteBehavior.Cascade);
-				});
+            modelBuilder.Entity("Tgstation.Server.Host.Models.ReattachInformation", b =>
+                {
+                    b.HasOne("Tgstation.Server.Host.Models.CompileJob", "CompileJob")
+                        .WithMany()
+                        .HasForeignKey("CompileJobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.RepositorySettings", b =>
-				{
-					b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
-						.WithOne("RepositorySettings")
-						.HasForeignKey("Tgstation.Server.Host.Models.RepositorySettings", "InstanceId")
-						.OnDelete(DeleteBehavior.Cascade);
-				});
+            modelBuilder.Entity("Tgstation.Server.Host.Models.RepositorySettings", b =>
+                {
+                    b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
+                        .WithOne("RepositorySettings")
+                        .HasForeignKey("Tgstation.Server.Host.Models.RepositorySettings", "InstanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.RevInfoTestMerge", b =>
-				{
-					b.HasOne("Tgstation.Server.Host.Models.RevisionInformation", "RevisionInformation")
-						.WithMany("ActiveTestMerges")
-						.HasForeignKey("RevisionInformationId")
-						.OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity("Tgstation.Server.Host.Models.RevInfoTestMerge", b =>
+                {
+                    b.HasOne("Tgstation.Server.Host.Models.RevisionInformation", "RevisionInformation")
+                        .WithMany("ActiveTestMerges")
+                        .HasForeignKey("RevisionInformationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-					b.HasOne("Tgstation.Server.Host.Models.TestMerge", "TestMerge")
-						.WithMany("RevisonInformations")
-						.HasForeignKey("TestMergeId")
-						.OnDelete(DeleteBehavior.Cascade);
-				});
+                    b.HasOne("Tgstation.Server.Host.Models.TestMerge", "TestMerge")
+                        .WithMany("RevisonInformations")
+                        .HasForeignKey("TestMergeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.RevisionInformation", b =>
-				{
-					b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
-						.WithMany("RevisionInformations")
-						.HasForeignKey("InstanceId")
-						.OnDelete(DeleteBehavior.Cascade);
-				});
+            modelBuilder.Entity("Tgstation.Server.Host.Models.RevisionInformation", b =>
+                {
+                    b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
+                        .WithMany("RevisionInformations")
+                        .HasForeignKey("InstanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.TestMerge", b =>
-				{
-					b.HasOne("Tgstation.Server.Host.Models.User", "MergedBy")
-						.WithMany("TestMerges")
-						.HasForeignKey("MergedById")
-						.OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity("Tgstation.Server.Host.Models.TestMerge", b =>
+                {
+                    b.HasOne("Tgstation.Server.Host.Models.User", "MergedBy")
+                        .WithMany("TestMerges")
+                        .HasForeignKey("MergedById")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-					b.HasOne("Tgstation.Server.Host.Models.RevisionInformation", "PrimaryRevisionInformation")
-						.WithOne("PrimaryTestMerge")
-						.HasForeignKey("Tgstation.Server.Host.Models.TestMerge", "PrimaryRevisionInformationId")
-						.OnDelete(DeleteBehavior.Restrict);
-				});
+                    b.HasOne("Tgstation.Server.Host.Models.RevisionInformation", "PrimaryRevisionInformation")
+                        .WithOne("PrimaryTestMerge")
+                        .HasForeignKey("Tgstation.Server.Host.Models.TestMerge", "PrimaryRevisionInformationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.User", b =>
-				{
-					b.HasOne("Tgstation.Server.Host.Models.User", "CreatedBy")
-						.WithMany("CreatedUsers")
-						.HasForeignKey("CreatedById");
-				});
+            modelBuilder.Entity("Tgstation.Server.Host.Models.User", b =>
+                {
+                    b.HasOne("Tgstation.Server.Host.Models.User", "CreatedBy")
+                        .WithMany("CreatedUsers")
+                        .HasForeignKey("CreatedById");
+                });
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.WatchdogReattachInformation", b =>
-				{
-					b.HasOne("Tgstation.Server.Host.Models.ReattachInformation", "Alpha")
-						.WithMany()
-						.HasForeignKey("AlphaId");
+            modelBuilder.Entity("Tgstation.Server.Host.Models.WatchdogReattachInformation", b =>
+                {
+                    b.HasOne("Tgstation.Server.Host.Models.ReattachInformation", "Alpha")
+                        .WithMany()
+                        .HasForeignKey("AlphaId");
 
-					b.HasOne("Tgstation.Server.Host.Models.ReattachInformation", "Bravo")
-						.WithMany()
-						.HasForeignKey("BravoId");
+                    b.HasOne("Tgstation.Server.Host.Models.ReattachInformation", "Bravo")
+                        .WithMany()
+                        .HasForeignKey("BravoId");
 
-					b.HasOne("Tgstation.Server.Host.Models.Instance")
-						.WithOne("WatchdogReattachInformation")
-						.HasForeignKey("Tgstation.Server.Host.Models.WatchdogReattachInformation", "InstanceId")
-						.OnDelete(DeleteBehavior.Cascade);
-				});
+                    b.HasOne("Tgstation.Server.Host.Models.Instance", null)
+                        .WithOne("WatchdogReattachInformation")
+                        .HasForeignKey("Tgstation.Server.Host.Models.WatchdogReattachInformation", "InstanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 #pragma warning restore 612, 618
-		}
-	}
+        }
+    }
 }

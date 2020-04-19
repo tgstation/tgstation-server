@@ -1,5 +1,4 @@
 ﻿using Byond.TopicSender;
-using Cyberboss.AspNetCore.AsyncInitializer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
@@ -19,7 +18,6 @@ using Serilog.Formatting.Display;
 using System;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
-using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components;
@@ -37,18 +35,21 @@ using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Core
 {
-	/// <inheritdoc />
+	/// <summary>
+	/// Sets up dependency injection.
+	/// </summary>
 #pragma warning disable CA1506
-	sealed class Application : IApplication
+	sealed class Application
 	{
-		/// <inheritdoc />
-		public string VersionPrefix => "tgstation-server";
+		/// <summary>
+		/// The <see cref="IIOManager"/> for the <see cref="Application"/>.
+		/// </summary>
+		static readonly IIOManager IOManager = new DefaultIOManager();
 
-		/// <inheritdoc />
-		public Version Version { get; }
-
-		/// <inheritdoc />
-		public string VersionString { get; }
+		/// <summary>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="Application"/>.
+		/// </summary>
+		static readonly IAssemblyInformationProvider AssemblyInformationProvider = new AssemblyInformationProvider();
 
 		/// <summary>
 		/// The <see cref="IConfiguration"/> for the <see cref="Application"/>
@@ -56,24 +57,9 @@ namespace Tgstation.Server.Host.Core
 		readonly IConfiguration configuration;
 
 		/// <summary>
-		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="Application"/>.
-		/// </summary>
-		readonly IAssemblyInformationProvider assemblyInformationProvider;
-
-		/// <summary>
-		/// The <see cref="IIOManager"/> for the <see cref="Application"/>.
-		/// </summary>
-		readonly IIOManager ioManager;
-
-		/// <summary>
 		/// The <see cref="IWebHostEnvironment"/> for the <see cref="Application"/>
 		/// </summary>
 		readonly IWebHostEnvironment hostingEnvironment;
-
-		/// <summary>
-		/// The <see cref="TaskCompletionSource{TResult}"/> used for determining when the <see cref="Application"/> is <see cref="Ready(Exception)"/>
-		/// </summary>
-		readonly TaskCompletionSource<object> startupTcs;
 
 		/// <summary>
 		/// The <see cref="ITokenFactory"/> for the <see cref="Application"/>
@@ -84,25 +70,23 @@ namespace Tgstation.Server.Host.Core
 		/// Construct an <see cref="Application"/>
 		/// </summary>
 		/// <param name="configuration">The value of <see cref="configuration"/></param>
-		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> for the <see cref="Application"/>.</param>
 		/// <param name="hostingEnvironment">The value of <see cref="hostingEnvironment"/></param>
-		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		public Application(
 			IConfiguration configuration,
-			IAssemblyInformationProvider assemblyInformationProvider,
-			IWebHostEnvironment hostingEnvironment,
-			IIOManager ioManager)
+			IWebHostEnvironment hostingEnvironment)
 		{
 			this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
-			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
-
-			startupTcs = new TaskCompletionSource<object>();
-
-			Version = assemblyInformationProvider.Name.Version;
-			VersionString = String.Format(CultureInfo.InvariantCulture, "{0} v{1}", VersionPrefix, Version);
 		}
+
+		/// <summary>
+		/// Create the default <see cref="IServerFactory"/>.
+		/// </summary>
+		/// <returns>A new <see cref="IServerFactory"/> with the default settings.</returns>
+		public static IServerFactory CreateDefaultServerFactory()
+			=> new ServerFactory<Application>(
+				AssemblyInformationProvider,
+				IOManager);
 
 		/// <summary>
 		/// Configure dependency injected services
@@ -112,9 +96,6 @@ namespace Tgstation.Server.Host.Core
 		{
 			if (services == null)
 				throw new ArgumentNullException(nameof(services));
-
-			// needful
-			services.AddSingleton<IApplication>(this);
 
 			// configure configuration
 			services.UseStandardConfig<UpdatesConfiguration>(configuration);
@@ -130,6 +111,8 @@ namespace Tgstation.Server.Host.Core
 			services.AddLogging();
 
 			// other stuff needed for for setup wizard and configuration
+			services.AddSingleton(IOManager);
+			services.AddSingleton(AssemblyInformationProvider);
 			services.AddSingleton<IConsole, IO.Console>();
 			services.AddSingleton<IDatabaseConnectionFactory, DatabaseConnectionFactory>();
 			services.AddSingleton<ISetupWizard, SetupWizard>();
@@ -178,42 +161,46 @@ namespace Tgstation.Server.Host.Core
 			if (!fileLoggingConfiguration.Disable)
 				services.AddLogging(builder =>
 				{
-					// common app data is C:/ProgramData on windows, else /usr/shar
-					var logPath = !String.IsNullOrEmpty(fileLoggingConfiguration.Directory) ? fileLoggingConfiguration.Directory : ioManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), VersionPrefix, "Logs");
+					// common app data is C:/ProgramData on windows, else /usr/share
+					var logPath = !String.IsNullOrEmpty(fileLoggingConfiguration.Directory)
+					? fileLoggingConfiguration.Directory
+					: IOManager.ConcatPath(
+						Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+						"tgstation-server",
+						"Logs");
 
-					logPath = ioManager.ConcatPath(logPath, "tgs-{Date}.log");
+					logPath = IOManager.ConcatPath(logPath, "tgs-{Date}.log");
 
-					LogEventLevel? ConvertLogLevel(LogLevel logLevel)
-					{
-						switch (logLevel)
+					static LogEventLevel? ConvertLogLevel(LogLevel logLevel) =>
+						logLevel switch
 						{
-							case LogLevel.Critical:
-								return LogEventLevel.Fatal;
-							case LogLevel.Debug:
-								return LogEventLevel.Debug;
-							case LogLevel.Error:
-								return LogEventLevel.Error;
-							case LogLevel.Information:
-								return LogEventLevel.Information;
-							case LogLevel.Trace:
-								return LogEventLevel.Verbose;
-							case LogLevel.Warning:
-								return LogEventLevel.Warning;
-							case LogLevel.None:
-								return null;
-							default:
-								throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid log level {0}", logLevel));
-						}
-					}
+							LogLevel.Critical => LogEventLevel.Fatal,
+							LogLevel.Debug => LogEventLevel.Debug,
+							LogLevel.Error => LogEventLevel.Error,
+							LogLevel.Information => LogEventLevel.Information,
+							LogLevel.Trace => LogEventLevel.Verbose,
+							LogLevel.Warning => LogEventLevel.Warning,
+							LogLevel.None => null,
+							_ => throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid log level {0}", logLevel)),
+						};
 
 					var logEventLevel = ConvertLogLevel(fileLoggingConfiguration.LogLevel);
 					var microsoftEventLevel = ConvertLogLevel(fileLoggingConfiguration.MicrosoftLogLevel);
 
-					var formatter = new MessageTemplateTextFormatter("{Timestamp:o} {RequestId,13} [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}", null);
+					var formatter = new MessageTemplateTextFormatter(
+						"{Timestamp:o} {RequestId,13} [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}",
+						null);
 
 					var configuration = new LoggerConfiguration()
-					.Enrich.FromLogContext()
-					.WriteTo.Async(w => w.RollingFile(formatter, logPath, shared: true, flushToDiskInterval: TimeSpan.FromSeconds(2)));
+						.Enrich
+						.FromLogContext()
+						.WriteTo
+						.Async(
+							w => w.RollingFile(
+								formatter,
+								logPath,
+								shared: true,
+								flushToDiskInterval: TimeSpan.FromSeconds(2)));
 
 					if (logEventLevel.HasValue)
 						configuration.MinimumLevel.Is(logEventLevel.Value);
@@ -233,7 +220,14 @@ namespace Tgstation.Server.Host.Core
 				jwtBearerOptions.Events = new JwtBearerEvents
 				{
 					// Application is our composition root so this monstrosity of a line is okay
-					OnTokenValidated = ctx => ctx.HttpContext.RequestServices.GetRequiredService<IClaimsInjector>().InjectClaimsIntoContext(ctx, ctx.HttpContext.RequestAborted)
+					// At least, that's what I tell myself to sleep at night
+					OnTokenValidated = ctx => ctx
+						.HttpContext
+						.RequestServices
+						.GetRequiredService<IClaimsInjector>()
+						.InjectClaimsIntoContext(
+							ctx,
+							ctx.HttpContext.RequestAborted)
 				};
 			});
 
@@ -259,8 +253,8 @@ namespace Tgstation.Server.Host.Core
 
 			if (hostingEnvironment.IsDevelopment())
 			{
-				string GetDocumentationFilePath(string assemblyLocation) => ioManager.ConcatPath(ioManager.GetDirectoryName(assemblyLocation), String.Concat(ioManager.GetFileNameWithoutExtension(assemblyLocation), ".xml"));
-				var assemblyDocumentationPath = GetDocumentationFilePath(assemblyInformationProvider.Path);
+				string GetDocumentationFilePath(string assemblyLocation) => IOManager.ConcatPath(IOManager.GetDirectoryName(assemblyLocation), String.Concat(IOManager.GetFileNameWithoutExtension(assemblyLocation), ".xml"));
+				var assemblyDocumentationPath = GetDocumentationFilePath(typeof(Application).Assembly.Location);
 				var apiDocumentationPath = GetDocumentationFilePath(typeof(ApiHeaders).Assembly.Location);
 				services.AddSwaggerGen(genOptions => SwaggerConfiguration.Configure(genOptions, assemblyDocumentationPath, apiDocumentationPath));
 				services.AddSwaggerGenNewtonsoftSupport();
@@ -393,7 +387,6 @@ namespace Tgstation.Server.Host.Core
 			if (logger == null)
 				throw new ArgumentNullException(nameof(logger));
 
-			logger.LogInformation(VersionString);
 			logger.LogDebug("Content Root: {0}", hostingEnvironment.ContentRootPath);
 			logger.LogTrace("Web Root: {0}", hostingEnvironment.WebRootPath);
 
@@ -446,13 +439,6 @@ namespace Tgstation.Server.Host.Core
 			};
 			applicationBuilder.UseCors(corsBuilder);
 
-			// Do not service requests until Ready is called, this will return 503 until that point
-			applicationBuilder.UseAsyncInitialization(async cancellationToken =>
-			{
-				using (cancellationToken.Register(() => startupTcs.SetCanceled()))
-					await startupTcs.Task.ConfigureAwait(false);
-			});
-
 			// spa loading if necessary
 			if (controlPanelConfiguration.Enable)
 			{
@@ -472,20 +458,6 @@ namespace Tgstation.Server.Host.Core
 			applicationBuilder.UseMvc();
 
 			// 404 anything that gets this far
-		}
-
-		/// <inheritdoc />
-		public void Ready(Exception initializationError)
-		{
-			lock (startupTcs)
-			{
-				if (startupTcs.Task.IsCompleted)
-					throw new InvalidOperationException("Ready has already been called!");
-				if (initializationError == null)
-					startupTcs.SetResult(null);
-				else
-					startupTcs.SetException(initializationError);
-			}
 		}
 	}
 }

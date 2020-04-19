@@ -1,12 +1,12 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Tgstation.Server.Host.Database.Migrations
+namespace Tgstation.Server.Host.Migrations
 {
 	/// <summary>
-	/// Creates the SQLite database.
+	/// Initial migration for SQLite.
 	/// </summary>
-	#pragma warning disable CA1506 // No fighting this
+	#pragma warning disable CA1506
 	public partial class SLAddSqlite : Migration
 	{
 		/// <inheritdoc />
@@ -21,7 +21,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 				{
 					Id = table.Column<long>(nullable: false)
 						.Annotation("Sqlite:Autoincrement", true),
-					Name = table.Column<string>(nullable: false),
+					Name = table.Column<string>(maxLength: 10000, nullable: false),
 					Path = table.Column<string>(nullable: false),
 					Online = table.Column<bool>(nullable: false),
 					ConfigurationType = table.Column<int>(nullable: false),
@@ -41,7 +41,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					Enabled = table.Column<bool>(nullable: false),
 					CreatedAt = table.Column<DateTimeOffset>(nullable: false),
 					SystemIdentifier = table.Column<string>(nullable: true),
-					Name = table.Column<string>(nullable: false),
+					Name = table.Column<string>(maxLength: 10000, nullable: false),
 					AdministrationRights = table.Column<ulong>(nullable: false),
 					InstanceManagerRights = table.Column<ulong>(nullable: false),
 					PasswordHash = table.Column<string>(nullable: true),
@@ -66,11 +66,11 @@ namespace Tgstation.Server.Host.Database.Migrations
 				{
 					Id = table.Column<long>(nullable: false)
 						.Annotation("Sqlite:Autoincrement", true),
-					Name = table.Column<string>(nullable: false),
+					Name = table.Column<string>(maxLength: 100, nullable: false),
 					Enabled = table.Column<bool>(nullable: true),
 					ReconnectionInterval = table.Column<uint>(nullable: false),
-					Provider = table.Column<int>(nullable: true),
-					ConnectionString = table.Column<string>(nullable: false),
+					Provider = table.Column<int>(nullable: false),
+					ConnectionString = table.Column<string>(maxLength: 10000, nullable: false),
 					InstanceId = table.Column<long>(nullable: false)
 				},
 				constraints: table =>
@@ -119,7 +119,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 				{
 					Id = table.Column<long>(nullable: false)
 						.Annotation("Sqlite:Autoincrement", true),
-					ProjectName = table.Column<string>(nullable: true),
+					ProjectName = table.Column<string>(maxLength: 10000, nullable: true),
 					ApiValidationPort = table.Column<ushort>(nullable: false),
 					ApiValidationSecurityLevel = table.Column<int>(nullable: false),
 					InstanceId = table.Column<long>(nullable: false)
@@ -141,10 +141,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 				{
 					Id = table.Column<long>(nullable: false)
 						.Annotation("Sqlite:Autoincrement", true),
-					CommitterName = table.Column<string>(nullable: false),
-					CommitterEmail = table.Column<string>(nullable: false),
-					AccessUser = table.Column<string>(nullable: true),
-					AccessToken = table.Column<string>(nullable: true),
+					CommitterName = table.Column<string>(maxLength: 10000, nullable: false),
+					CommitterEmail = table.Column<string>(maxLength: 10000, nullable: false),
+					AccessUser = table.Column<string>(maxLength: 10000, nullable: true),
+					AccessToken = table.Column<string>(maxLength: 10000, nullable: true),
 					PushTestMergeCommits = table.Column<bool>(nullable: false),
 					ShowTestMergeCommitters = table.Column<bool>(nullable: false),
 					AutoUpdatesKeepTestMerges = table.Column<bool>(nullable: false),
@@ -263,12 +263,12 @@ namespace Tgstation.Server.Host.Database.Migrations
 				{
 					Id = table.Column<long>(nullable: false)
 						.Annotation("Sqlite:Autoincrement", true),
-					IrcChannel = table.Column<string>(nullable: true),
+					IrcChannel = table.Column<string>(maxLength: 100, nullable: true),
 					DiscordChannelId = table.Column<ulong>(nullable: true),
 					IsAdminChannel = table.Column<bool>(nullable: false),
 					IsWatchdogChannel = table.Column<bool>(nullable: false),
 					IsUpdatesChannel = table.Column<bool>(nullable: false),
-					Tag = table.Column<string>(nullable: true),
+					Tag = table.Column<string>(maxLength: 10000, nullable: true),
 					ChatSettingsId = table.Column<long>(nullable: false)
 				},
 				constraints: table =>
@@ -289,8 +289,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					Id = table.Column<long>(nullable: false)
 						.Annotation("Sqlite:Autoincrement", true),
 					Number = table.Column<int>(nullable: false),
-					PullRequestRevision = table.Column<string>(nullable: false),
-					Comment = table.Column<string>(nullable: true),
+					PullRequestRevision = table.Column<string>(maxLength: 40, nullable: false),
+					Comment = table.Column<string>(maxLength: 10000, nullable: true),
 					TitleAtMerge = table.Column<string>(nullable: false),
 					BodyAtMerge = table.Column<string>(nullable: false),
 					Url = table.Column<string>(nullable: false),
@@ -435,14 +435,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 				});
 
 			migrationBuilder.CreateIndex(
-				name: "IX_ChatBots_InstanceId",
+				name: "IX_ChatBots_InstanceId_Name",
 				table: "ChatBots",
-				column: "InstanceId");
-
-			migrationBuilder.CreateIndex(
-				name: "IX_ChatBots_Name",
-				table: "ChatBots",
-				column: "Name",
+				columns: new[] { "InstanceId", "Name" },
 				unique: true);
 
 			migrationBuilder.CreateIndex(
@@ -565,6 +560,12 @@ namespace Tgstation.Server.Host.Database.Migrations
 				name: "IX_Users_CreatedById",
 				table: "Users",
 				column: "CreatedById");
+
+			migrationBuilder.CreateIndex(
+				name: "IX_Users_SystemIdentifier",
+				table: "Users",
+				column: "SystemIdentifier",
+				unique: true);
 
 			migrationBuilder.CreateIndex(
 				name: "IX_WatchdogReattachInformations_AlphaId",

@@ -45,9 +45,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly ICryptographySuite cryptographySuite;
 
 		/// <summary>
-		/// The <see cref="IApplication"/> for the <see cref="SessionControllerFactory"/>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="SessionControllerFactory"/>
 		/// </summary>
-		readonly IApplication application;
+		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="SessionControllerFactory"/>
@@ -106,7 +106,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="byond">The value of <see cref="byond"/></param>
 		/// <param name="byondTopicSender">The value of <see cref="byondTopicSender"/></param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
-		/// <param name="application">The value of <see cref="application"/></param>
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
 		/// <param name="instance">The value of <see cref="instance"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="chat">The value of <see cref="chat"/></param>
@@ -118,7 +118,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IByondManager byond,
 			IByondTopicSender byondTopicSender,
 			ICryptographySuite cryptographySuite,
-			IApplication application,
+			IAssemblyInformationProvider assemblyInformationProvider,
 			IIOManager ioManager,
 			IChat chat,
 			INetworkPromptReaper networkPromptReaper,
@@ -130,7 +130,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
 			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
-			this.application = application ?? throw new ArgumentNullException(nameof(application));
+			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
@@ -218,7 +218,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					{
 						// set command line options
 						// more sanitization here cause it uses the same scheme
-						var parameters = String.Format(CultureInfo.InvariantCulture, "{2}={0}&{3}={1}", byondTopicSender.SanitizeString(application.Version.ToString()), byondTopicSender.SanitizeString(interopJsonFile), byondTopicSender.SanitizeString(Constants.DMParamHostVersion), byondTopicSender.SanitizeString(Constants.DMParamInfoJson));
+						var parameters = String.Format(CultureInfo.InvariantCulture, "{2}={0}&{3}={1}", byondTopicSender.SanitizeString(assemblyInformationProvider.Version.ToString()), byondTopicSender.SanitizeString(interopJsonFile), byondTopicSender.SanitizeString(Constants.DMParamHostVersion), byondTopicSender.SanitizeString(Constants.DMParamInfoJson));
 
 						var visibility = apiValidate ? "invisible" : "public";
 

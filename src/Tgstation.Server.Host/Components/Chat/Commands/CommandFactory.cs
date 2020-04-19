@@ -5,6 +5,7 @@ using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Chat.Commands
 {
@@ -12,9 +13,9 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 	sealed class CommandFactory : ICommandFactory
 	{
 		/// <summary>
-		/// The <see cref="IApplication"/> for the <see cref="CommandFactory"/>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="CommandFactory"/>
 		/// </summary>
-		readonly IApplication application;
+		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
 		/// The <see cref="IByondManager"/> for the <see cref="CommandFactory"/>
@@ -44,14 +45,19 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		/// <summary>
 		/// Construct a <see cref="CommandFactory"/>
 		/// </summary>
-		/// <param name="application">The value of <see cref="application"/></param>
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
 		/// <param name="byondManager">The value of <see cref="byondManager"/></param>
 		/// <param name="repositoryManager">The value of <see cref="repositoryManager"/></param>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="instance">The value of <see cref="instance"/></param>
-		public CommandFactory(IApplication application, IByondManager byondManager, IRepositoryManager repositoryManager, IDatabaseContextFactory databaseContextFactory, Models.Instance instance)
+		public CommandFactory(
+			IAssemblyInformationProvider assemblyInformationProvider,
+			IByondManager byondManager,
+			IRepositoryManager repositoryManager,
+			IDatabaseContextFactory databaseContextFactory,
+			Models.Instance instance)
 		{
-			this.application = application ?? throw new ArgumentNullException(nameof(application));
+			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.byondManager = byondManager ?? throw new ArgumentNullException(nameof(byondManager));
 			this.repositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
@@ -76,7 +82,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 				throw new InvalidOperationException("SetWatchdog has not been called!");
 			return new List<ICommand>
 			{
-				new VersionCommand(application),
+				new VersionCommand(assemblyInformationProvider),
 				new ByondCommand(byondManager, watchdog),
 				new RevisionCommand(watchdog, repositoryManager, instance),
 				new PullRequestsCommand(watchdog, repositoryManager, databaseContextFactory, instance),

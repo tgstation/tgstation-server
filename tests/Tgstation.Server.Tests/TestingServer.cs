@@ -11,6 +11,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Client;
 using Tgstation.Server.Host;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Tests
 {
@@ -71,7 +72,7 @@ namespace Tgstation.Server.Tests
 			if (dumpOpenAPISpecpath)
 				Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
 
-			realServer = ServerFactory.CreateDefault().CreateServer(args.ToArray(), updatePath);
+			realServer = Application.CreateDefaultServerFactory().CreateServer(args.ToArray(), updatePath);
 		}
 
 		public void Dispose()

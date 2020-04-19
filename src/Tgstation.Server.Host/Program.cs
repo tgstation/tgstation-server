@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host
 {
@@ -21,7 +22,7 @@ namespace Tgstation.Server.Host
 		/// <summary>
 		/// The <see cref="IServerFactory"/> to use.
 		/// </summary>
-		internal static IServerFactory ServerFactory = Host.ServerFactory.CreateDefault();
+		internal static IServerFactory ServerFactory = Application.CreateDefaultServerFactory();
 #pragma warning restore SA1401 // Fields must be private
 
 		/// <summary>

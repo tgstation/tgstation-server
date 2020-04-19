@@ -1,5 +1,6 @@
 ﻿using System;
 using Octokit;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Core
 {
@@ -7,24 +8,24 @@ namespace Tgstation.Server.Host.Core
 	sealed class GitHubClientFactory : IGitHubClientFactory
 	{
 		/// <summary>
-		/// The <see cref="IApplication"/> for the <see cref="GitHubClientFactory"/>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="GitHubClientFactory"/>
 		/// </summary>
-		readonly IApplication application;
+		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
 		/// Construct a <see cref="GitHubClientFactory"/>
 		/// </summary>
-		/// <param name="application">The value of <see cref="application"/></param>
-		public GitHubClientFactory(IApplication application)
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
+		public GitHubClientFactory(IAssemblyInformationProvider assemblyInformationProvider)
 		{
-			this.application = application ?? throw new ArgumentNullException(nameof(application));
+			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 		}
 
 		/// <summary>
 		/// Create a <see cref="GitHubClient"/>
 		/// </summary>
 		/// <returns>A new <see cref="GitHubClient"/></returns>
-		GitHubClient CreateBaseClient() => new GitHubClient(new ProductHeaderValue(application.VersionPrefix, application.Version.ToString()));
+		GitHubClient CreateBaseClient() => new GitHubClient(new ProductHeaderValue(assemblyInformationProvider.VersionPrefix, assemblyInformationProvider.Version.ToString()));
 
 		/// <inheritdoc />
 		public IGitHubClient CreateClient() => CreateBaseClient();

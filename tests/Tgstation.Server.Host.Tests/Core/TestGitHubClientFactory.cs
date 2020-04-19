@@ -3,6 +3,7 @@ using Moq;
 using Octokit;
 using System;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Core.Tests
 {
@@ -15,7 +16,7 @@ namespace Tgstation.Server.Host.Core.Tests
 		[TestMethod]
 		public async Task TestCreateBasicClient()
 		{
-			var mockApp = new Mock<IApplication>();
+			var mockApp = new Mock<IAssemblyInformationProvider>();
 			mockApp.SetupGet(x => x.Version).Returns(new Version()).Verifiable();
 			mockApp.SetupGet(x => x.VersionPrefix).Returns("TGSTests").Verifiable();
 
@@ -34,7 +35,7 @@ namespace Tgstation.Server.Host.Core.Tests
 		[TestMethod]
 		public async Task TestCreateTokenClient()
 		{
-			var mockApp = new Mock<IApplication>();
+			var mockApp = new Mock<IAssemblyInformationProvider>();
 			mockApp.SetupGet(x => x.Version).Returns(new Version()).Verifiable();
 			mockApp.SetupGet(x => x.VersionPrefix).Returns("TGSTests").Verifiable();
 

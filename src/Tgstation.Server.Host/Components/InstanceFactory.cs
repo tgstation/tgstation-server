@@ -32,9 +32,9 @@ namespace Tgstation.Server.Host.Components
 		readonly IDatabaseContextFactory databaseContextFactory;
 
 		/// <summary>
-		/// The <see cref="IApplication"/> for the <see cref="InstanceFactory"/>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="InstanceFactory"/>
 		/// </summary>
-		readonly IApplication application;
+		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
 		/// The <see cref="ILoggerFactory"/> for the <see cref="InstanceFactory"/>
@@ -116,7 +116,7 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
-		/// <param name="application">The value of <see cref="application"/></param>
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
 		/// <param name="byondTopicSender">The value of <see cref="byondTopicSender"/></param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
@@ -135,7 +135,7 @@ namespace Tgstation.Server.Host.Components
 		public InstanceFactory(
 			IIOManager ioManager,
 			IDatabaseContextFactory databaseContextFactory,
-			IApplication application,
+			IAssemblyInformationProvider assemblyInformationProvider,
 			ILoggerFactory loggerFactory,
 			IByondTopicSender byondTopicSender,
 			ICryptographySuite cryptographySuite,
@@ -154,7 +154,7 @@ namespace Tgstation.Server.Host.Components
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
-			this.application = application ?? throw new ArgumentNullException(nameof(application));
+			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
@@ -192,12 +192,12 @@ namespace Tgstation.Server.Host.Components
 			{
 				var byond = new ByondManager(byondIOManager, byondInstaller, eventConsumer, loggerFactory.CreateLogger<ByondManager>());
 
-				var commandFactory = new CommandFactory(application, byond, repoManager, databaseContextFactory, metadata);
+				var commandFactory = new CommandFactory(assemblyInformationProvider, byond, repoManager, databaseContextFactory, metadata);
 
 				var chat = chatFactory.CreateChat(instanceIoManager, commandFactory, metadata.ChatSettings);
 				try
 				{
-					var sessionControllerFactory = new SessionControllerFactory(processExecutor, byond, byondTopicSender, cryptographySuite, application, gameIoManager, chat, networkPromptReaper, platformIdentifier, loggerFactory, metadata.CloneMetadata());
+					var sessionControllerFactory = new SessionControllerFactory(processExecutor, byond, byondTopicSender, cryptographySuite, assemblyInformationProvider, gameIoManager, chat, networkPromptReaper, platformIdentifier, loggerFactory, metadata.CloneMetadata());
 
 					var dmbFactory = new DmbFactory(databaseContextFactory, gameIoManager, loggerFactory.CreateLogger<DmbFactory>(), metadata.CloneMetadata());
 					try

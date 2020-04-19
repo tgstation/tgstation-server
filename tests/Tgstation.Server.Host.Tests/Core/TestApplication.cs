@@ -24,19 +24,12 @@ namespace Tgstation.Server.Host.Core.Tests
 		[TestMethod]
 		public void TestMethodThrows()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new Application(null, null, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new Application(null, null));
 			var mockConfiguration = new Mock<IConfiguration>();
-			Assert.ThrowsException<ArgumentNullException>(() => new Application(mockConfiguration.Object, null, null, null));
-
-			var mockAssemblyInfo = new Mock<IAssemblyInformationProvider>();
-			mockAssemblyInfo.SetupGet(x => x.Name).Returns(typeof(Application).Assembly.GetName());
-
-			Assert.ThrowsException<ArgumentNullException>(() => new Application(mockConfiguration.Object, mockAssemblyInfo.Object, null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new Application(mockConfiguration.Object, null));
 
 			var mockHostingEnvironment = new Mock<IWebHostEnvironment>();
-			Assert.ThrowsException<ArgumentNullException>(() => new Application(mockConfiguration.Object, mockAssemblyInfo.Object, mockHostingEnvironment.Object, null));
-
-			var app = new Application(mockConfiguration.Object, mockAssemblyInfo.Object, mockHostingEnvironment.Object, Mock.Of<IIOManager>());
+			var app = new Application(mockConfiguration.Object, mockHostingEnvironment.Object);
 
 			Assert.ThrowsException<ArgumentNullException>(() => app.ConfigureServices(null));
 			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(null, null, null, null, null, null));

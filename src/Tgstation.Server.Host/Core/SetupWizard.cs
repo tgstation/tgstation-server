@@ -41,9 +41,9 @@ namespace Tgstation.Server.Host.Core
 		readonly IWebHostEnvironment hostingEnvironment;
 
 		/// <summary>
-		/// The <see cref="IApplication"/> for the <see cref="SetupWizard"/>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="SetupWizard"/>
 		/// </summary>
-		readonly IApplication application;
+		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
 		/// The <see cref="IDatabaseConnectionFactory"/> for the <see cref="SetupWizard"/>
@@ -76,7 +76,7 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="console">The value of <see cref="console"/></param>
 		/// <param name="hostingEnvironment">The value of <see cref="hostingEnvironment"/></param>
-		/// <param name="application">The value of <see cref="application"/></param>
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
 		/// <param name="dbConnectionFactory">The value of <see cref="dbConnectionFactory"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
@@ -86,7 +86,7 @@ namespace Tgstation.Server.Host.Core
 			IIOManager ioManager,
 			IConsole console,
 			IWebHostEnvironment hostingEnvironment,
-			IApplication application,
+			IAssemblyInformationProvider assemblyInformationProvider,
 			IDatabaseConnectionFactory dbConnectionFactory,
 			IPlatformIdentifier platformIdentifier,
 			IAsyncDelayer asyncDelayer,
@@ -96,7 +96,7 @@ namespace Tgstation.Server.Host.Core
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.console = console ?? throw new ArgumentNullException(nameof(console));
 			this.hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
-			this.application = application ?? throw new ArgumentNullException(nameof(application));
+			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.dbConnectionFactory = dbConnectionFactory ?? throw new ArgumentNullException(nameof(dbConnectionFactory));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
@@ -413,7 +413,7 @@ namespace Tgstation.Server.Host.Core
 				{
 					var csb = new SqlConnectionStringBuilder
 					{
-						ApplicationName = application.VersionPrefix,
+						ApplicationName = assemblyInformationProvider.VersionPrefix,
 						DataSource = serverAddress ?? "(local)"
 					};
 

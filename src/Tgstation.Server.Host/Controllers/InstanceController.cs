@@ -17,7 +17,6 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
@@ -57,9 +56,9 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IIOManager ioManager;
 
 		/// <summary>
-		/// The <see cref="IApplication"/> for the <see cref="InstanceController"/>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="InstanceController"/>
 		/// </summary>
-		readonly IApplication application;
+		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
 		/// The <see cref="IPlatformIdentifier"/> for the <see cref="InstanceController"/>
@@ -79,7 +78,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
-		/// <param name="application">The value of <see cref="application"/></param>
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
@@ -89,7 +88,7 @@ namespace Tgstation.Server.Host.Controllers
 			IJobManager jobManager,
 			IInstanceManager instanceManager,
 			IIOManager ioManager,
-			IApplication application,
+			IAssemblyInformationProvider assemblyInformationProvider,
 			IPlatformIdentifier platformIdentifier,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			ILogger<InstanceController> logger)
@@ -98,7 +97,7 @@ namespace Tgstation.Server.Host.Controllers
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
-			this.application = application ?? throw new ArgumentNullException(nameof(application));
+			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
@@ -247,7 +246,7 @@ namespace Tgstation.Server.Host.Controllers
 				RepositorySettings = new RepositorySettings
 				{
 					CommitterEmail = "tgstation-server@users.noreply.github.com",
-					CommitterName = application.VersionPrefix,
+					CommitterName = assemblyInformationProvider.VersionPrefix,
 					PushTestMergeCommits = false,
 					ShowTestMergeCommitters = false,
 					AutoUpdatesKeepTestMerges = false,
