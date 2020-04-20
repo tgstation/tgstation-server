@@ -62,20 +62,17 @@ namespace Tgstation.Server.Host.Components.Repository
 			var supportsAnonymous = supportedCredentialTypes.HasFlag(SupportedCredentialTypes.Default);
 
 			logger.LogTrace("Credentials requested. Present: {0}. Supports anonymous: {1}. Supports user/pass: {2}", hasCreds, supportsAnonymous, supportsUserPass);
-			if (supportsUserPass)
-			{
-				if (hasCreds)
-					return new UsernamePasswordCredentials
-					{
-						Username = username,
-						Password = password
-					};
-			}
+			if (supportsUserPass && hasCreds)
+				return new UsernamePasswordCredentials
+				{
+					Username = username,
+					Password = password
+				};
 
 			if (supportsAnonymous)
 				return new DefaultCredentials();
 
-			if (hasCreds)
+			if (!hasCreds)
 				throw new JobException("Remote does not support anonymous authentication!");
 
 			throw new JobException("Server does not support anonymous or username/password authentication!");
