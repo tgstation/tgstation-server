@@ -17,6 +17,9 @@ namespace Tgstation.Server.Host.Security
 		/// <inheritdoc />
 		public string Username => userPrincipal?.Name ?? identity.Name;
 
+		/// <inheritdoc />
+		public bool CanCreateSymlinks => canCreateSymlinks ?? throw new NotSupportedException();
+
 		/// <summary>
 		/// The <see cref="WindowsIdentity"/> for the <see cref="WindowsSystemIdentity"/>
 		/// </summary>
@@ -28,12 +31,18 @@ namespace Tgstation.Server.Host.Security
 		readonly UserPrincipal userPrincipal;
 
 		/// <summary>
+		/// Backing field for <see cref="CanCreateSymlinks"/>.
+		/// </summary>
+		readonly bool? canCreateSymlinks;
+
+		/// <summary>
 		/// Construct a <see cref="WindowsSystemIdentity"/> using a <see cref="WindowsIdentity"/>
 		/// </summary>
 		/// <param name="identity">The value of <see cref="identity"/></param>
 		public WindowsSystemIdentity(WindowsIdentity identity)
 		{
 			this.identity = identity ?? throw new ArgumentNullException(nameof(identity));
+			canCreateSymlinks = new WindowsPrincipal(identity).IsInRole(WindowsBuiltInRole.Administrator);
 		}
 
 		/// <summary>
@@ -50,12 +59,10 @@ namespace Tgstation.Server.Host.Security
 		{
 			if (identity != null)
 				identity.Dispose();
-			else
-			{
-				var context = userPrincipal.Context;
-				userPrincipal.Dispose();
-				context.Dispose();
-			}
+
+			var context = userPrincipal.Context;
+			userPrincipal.Dispose();
+			context.Dispose();
 		}
 
 		/// <inheritdoc />
