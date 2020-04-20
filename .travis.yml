@@ -1,13 +1,13 @@
-sudo: false
+os: linux
+dist: xenial
+language: csharp
 git:
   depth: 1
-
 branches:
   only:
   - dev
   - master
-
-matrix:
+jobs:
   include:
     - env:
       - DockerBuild=false
@@ -33,7 +33,6 @@ matrix:
       - CONFIG=Debug
       - DoxBuild=false
       name: "Test Server Debug"
-      language: csharp
       mono: none
       dotnet: 2.2.207
       services:
@@ -47,7 +46,6 @@ matrix:
       - CONFIG=Release
       - DoxBuild=false
       name: "Test Server Release"
-      language: csharp
       mono: none
       dotnet: 2.2.207
       services:
@@ -59,6 +57,7 @@ matrix:
       - DockerBuild=true
       - DoxBuild=false
       name: "Docker Build"
+      language: generic
       services:
         - docker
     - env:
@@ -66,12 +65,10 @@ matrix:
       name: "Dox Build"
       language: generic
       os: windows
-
 install:
   - if [ $DoxBuild = false ] && [ $DockerBuild = false ] && [ $DMAPI = true ]; then build/install_byond.sh; fi
   - if [ $DoxBuild = false ] && [ $DockerBuild = false ] && [ $DMAPI = false ]; then dotnet restore tgstation-server.sln; fi
   - if [ $DoxBuild = true ]; then choco install doxygen.install codecov graphviz.portable; fi
-
 script:
   - if [ $DoxBuild = false ] && [ $DockerBuild = false ] && [ $DMAPI = true ]; then tests/DMAPI/build_byond.sh || travis_terminate 1; fi
   - if [ $DoxBuild = false ] && [ $DockerBuild = false ] && [ $DMAPI = false ]; then build/test_core.sh; fi
