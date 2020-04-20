@@ -1,7 +1,7 @@
-﻿using LibGit2Sharp;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Runtime.InteropServices;
+using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.System
@@ -21,6 +21,11 @@ namespace Tgstation.Server.Host.System
 		readonly ISystemIdentityFactory systemIdentityFactory;
 
 		/// <summary>
+		/// The <see cref="IRepositoryFactory"/> for the <see cref="PlatformIdentifier"/>.
+		/// </summary>
+		readonly IRepositoryFactory repositoryFactory;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="PlatformIdentifier"/>.
 		/// </summary>
 		readonly ILogger<PlatformIdentifier> logger;
@@ -28,11 +33,16 @@ namespace Tgstation.Server.Host.System
 		/// <summary>
 		/// Construct a <see cref="PlatformIdentifier"/>
 		/// </summary>
-		/// <param name="systemIdentityFactory">The value of <see cref="ISystemIdentityFactory"/>.</param>
+		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/>.</param>
+		/// <param name="repositoryFactory">The value of <see cref="repositoryFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		public PlatformIdentifier(ISystemIdentityFactory systemIdentityFactory, ILogger<PlatformIdentifier> logger)
+		public PlatformIdentifier(
+			ISystemIdentityFactory systemIdentityFactory,
+			IRepositoryFactory repositoryFactory,
+			ILogger<PlatformIdentifier> logger)
 		{
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
+			this.repositoryFactory = repositoryFactory ?? throw new ArgumentNullException(nameof(repositoryFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			IsWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
@@ -44,7 +54,7 @@ namespace Tgstation.Server.Host.System
 		{
 			try
 			{
-				new Repository().Dispose();
+				repositoryFactory.CreateInMemory().Dispose();
 			}
 			catch
 			{

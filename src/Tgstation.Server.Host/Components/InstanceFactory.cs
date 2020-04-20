@@ -92,11 +92,6 @@ namespace Tgstation.Server.Host.Components
 		readonly IJobManager jobManager;
 
 		/// <summary>
-		/// The <see cref="ICredentialsProvider"/> for the <see cref="InstanceFactory"/>
-		/// </summary>
-		readonly ICredentialsProvider credentialsProvider;
-
-		/// <summary>
 		/// The <see cref="INetworkPromptReaper"/> for the <see cref="InstanceFactory"/>
 		/// </summary>
 		readonly INetworkPromptReaper networkPromptReaper;
@@ -110,6 +105,11 @@ namespace Tgstation.Server.Host.Components
 		/// The <see cref="IPlatformIdentifier"/> for the <see cref="InstanceFactory"/>
 		/// </summary>
 		readonly IPlatformIdentifier platformIdentifier;
+
+		/// <summary>
+		/// The <see cref="IRepositoryFactory"/> for the <see cref="InstanceFactory"/>.
+		/// </summary>
+		readonly IRepositoryFactory repositoryFactory;
 
 		/// <summary>
 		/// Construct an <see cref="InstanceFactory"/>
@@ -128,10 +128,10 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/></param>
 		/// <param name="watchdogFactory">The value of <see cref="watchdogFactory"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
-		/// <param name="credentialsProvider">The value of <see cref="credentialsProvider"/></param>
 		/// <param name="networkPromptReaper">The value of <see cref="networkPromptReaper"/></param>
 		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
+		/// <param name="repositoryFactory">The value of <see cref="repositoryFactory"/>.</param>
 		public InstanceFactory(
 			IIOManager ioManager,
 			IDatabaseContextFactory databaseContextFactory,
@@ -147,10 +147,10 @@ namespace Tgstation.Server.Host.Components
 			IPostWriteHandler postWriteHandler,
 			IWatchdogFactory watchdogFactory,
 			IJobManager jobManager,
-			ICredentialsProvider credentialsProvider,
 			INetworkPromptReaper networkPromptReaper,
 			IGitHubClientFactory gitHubClientFactory,
-			IPlatformIdentifier platformIdentifier)
+			IPlatformIdentifier platformIdentifier,
+			IRepositoryFactory repositoryFactory)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
@@ -166,10 +166,10 @@ namespace Tgstation.Server.Host.Components
 			this.postWriteHandler = postWriteHandler ?? throw new ArgumentNullException(nameof(postWriteHandler));
 			this.watchdogFactory = watchdogFactory ?? throw new ArgumentNullException(nameof(watchdogFactory));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
-			this.credentialsProvider = credentialsProvider ?? throw new ArgumentNullException(nameof(credentialsProvider));
 			this.networkPromptReaper = networkPromptReaper ?? throw new ArgumentNullException(nameof(networkPromptReaper));
 			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
+			this.repositoryFactory = repositoryFactory ?? throw new ArgumentNullException(nameof(repositoryFactory));
 		}
 
 		/// <inheritdoc />
@@ -187,7 +187,13 @@ namespace Tgstation.Server.Host.Components
 
 			var configuration = new StaticFiles.Configuration(configurationIoManager, synchronousIOManager, symlinkFactory, processExecutor, postWriteHandler, platformIdentifier, loggerFactory.CreateLogger<StaticFiles.Configuration>());
 			var eventConsumer = new EventConsumer(configuration);
-			var repoManager = new RepositoryManager(metadata.RepositorySettings, repoIoManager, eventConsumer, credentialsProvider, loggerFactory.CreateLogger<Repository.Repository>(), loggerFactory.CreateLogger<RepositoryManager>());
+			var repoManager = new RepositoryManager(
+				repositoryFactory,
+				repoIoManager,
+				eventConsumer,
+				loggerFactory.CreateLogger<Repository.Repository>(),
+				loggerFactory.CreateLogger<RepositoryManager>(),
+				metadata.RepositorySettings);
 			try
 			{
 				var byond = new ByondManager(byondIOManager, byondInstaller, eventConsumer, loggerFactory.CreateLogger<ByondManager>());

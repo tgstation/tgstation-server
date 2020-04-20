@@ -10,6 +10,7 @@ using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components
 {
@@ -47,6 +48,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IServerControl serverControl;
 
 		/// <summary>
+		/// The <see cref="IPlatformIdentifier"/> for the <see cref="InstanceManager"/>
+		/// </summary>
+		readonly IPlatformIdentifier platformIdentifier;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="InstanceManager"/>
 		/// </summary>
 		readonly ILogger<InstanceManager> logger;
@@ -75,8 +81,17 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="application">The value of <see cref="application"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="serverControl">The value of <see cref="serverControl"/></param>
+		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public InstanceManager(IInstanceFactory instanceFactory, IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, IJobManager jobManager, IServerControl serverControl, ILogger<InstanceManager> logger)
+		public InstanceManager(
+			IInstanceFactory instanceFactory,
+			IIOManager ioManager,
+			IDatabaseContextFactory databaseContextFactory,
+			IApplication application,
+			IJobManager jobManager,
+			IServerControl serverControl,
+			IPlatformIdentifier platformIdentifier,
+			ILogger<InstanceManager> logger)
 		{
 			this.instanceFactory = instanceFactory ?? throw new ArgumentNullException(nameof(instanceFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
@@ -84,6 +99,7 @@ namespace Tgstation.Server.Host.Components
 			this.application = application ?? throw new ArgumentNullException(nameof(application));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
+			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			serverControl.RegisterForRestart(this);
@@ -212,6 +228,7 @@ namespace Tgstation.Server.Host.Components
 		{
 			try
 			{
+				platformIdentifier.CheckCompatibility();
 				var factoryStartup = instanceFactory.StartAsync(cancellationToken);
 				await databaseContext.Initialize(cancellationToken).ConfigureAwait(false);
 				await jobManager.StartAsync(cancellationToken).ConfigureAwait(false);

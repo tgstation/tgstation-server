@@ -19,6 +19,11 @@ namespace Tgstation.Server.Host.Components.Repository
 		public bool CloneInProgress { get; private set; }
 
 		/// <summary>
+		/// The <see cref="IRepositoryFactory"/> for the <see cref="RepositoryManager"/>
+		/// </summary>
+		readonly IRepositoryFactory repositoryFactory;
+
+		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="RepositoryManager"/>
 		/// </summary>
 		readonly IIOManager ioManager;
@@ -27,11 +32,6 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// The <see cref="IEventConsumer"/> for the <see cref="RepositoryManager"/>
 		/// </summary>
 		readonly IEventConsumer eventConsumer;
-
-		/// <summary>
-		/// The <see cref="ICredentialsProvider"/> for the <see cref="RepositoryManager"/>
-		/// </summary>
-		readonly ICredentialsProvider credentialsProvider;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> created <see cref="Repository"/>s
@@ -56,18 +56,23 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <summary>
 		/// Construct a <see cref="RepositoryManager"/>
 		/// </summary>
-		/// <param name="repositorySettings">The value of <see cref="repositorySettings"/></param>
+		/// <param name="repositoryFactory">The value of <see cref="repositoryFactory"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
-		/// <param name="credentialsProvider">The value of <see cref="credentialsProvider"/></param>
 		/// <param name="repositoryLogger">The value of <see cref="repositoryLogger"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public RepositoryManager(RepositorySettings repositorySettings, IIOManager ioManager, IEventConsumer eventConsumer, ICredentialsProvider credentialsProvider, ILogger<Repository> repositoryLogger, ILogger<RepositoryManager> logger)
+		/// <param name="repositorySettings">The value of <see cref="repositorySettings"/></param>
+		public RepositoryManager(
+			IRepositoryFactory repositoryFactory,
+			IIOManager ioManager,
+			IEventConsumer eventConsumer,
+			ILogger<Repository> repositoryLogger,
+			ILogger<RepositoryManager> logger,
+			RepositorySettings repositorySettings)
 		{
 			this.repositorySettings = repositorySettings ?? throw new ArgumentNullException(nameof(repositorySettings));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
-			this.credentialsProvider = credentialsProvider ?? throw new ArgumentNullException(nameof(credentialsProvider));
 			this.repositoryLogger = repositoryLogger ?? throw new ArgumentNullException(nameof(repositoryLogger));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			semaphore = new SemaphoreSlim(1);
@@ -104,30 +109,28 @@ namespace Tgstation.Server.Host.Components.Repository
 					if (!await ioManager.DirectoryExists(".", cancellationToken).ConfigureAwait(false))
 						try
 						{
-							await Task.Factory.StartNew(() =>
+							var cloneOptions = new CloneOptions
 							{
-								string path = null;
-								try
+								OnProgress = (a) => !cancellationToken.IsCancellationRequested,
+								OnTransferProgress = (a) =>
 								{
-									path = LibGit2Sharp.Repository.Clone(url.ToString(), ioManager.ResolvePath("."), new CloneOptions
-									{
-										OnProgress = (a) => !cancellationToken.IsCancellationRequested,
-										OnTransferProgress = (a) =>
-										{
-											var percentage = 100 * (((float)a.IndexedObjects + a.ReceivedObjects) / (a.TotalObjects * 2));
-											progressReporter((int)percentage);
-											return !cancellationToken.IsCancellationRequested;
-										},
-										RecurseSubmodules = true,
-										OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
-										RepositoryOperationStarting = (a) => !cancellationToken.IsCancellationRequested,
-										BranchName = initialBranch,
-										CredentialsProvider = credentialsProvider.GenerateHandler(username, password)
-									});
-								}
-								catch (UserCancelledException) { }
-								cancellationToken.ThrowIfCancellationRequested();
-							}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+									var percentage = 100 * (((float)a.IndexedObjects + a.ReceivedObjects) / (a.TotalObjects * 2));
+									progressReporter((int)percentage);
+									return !cancellationToken.IsCancellationRequested;
+								},
+								RecurseSubmodules = true,
+								OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
+								RepositoryOperationStarting = (a) => !cancellationToken.IsCancellationRequested,
+								BranchName = initialBranch,
+								CredentialsProvider = repositoryFactory.GenerateCredentialsHandler(username, password)
+							};
+
+							await repositoryFactory.Clone(
+								url,
+								cloneOptions,
+								ioManager.ResolvePath("."),
+								cancellationToken)
+								.ConfigureAwait(false);
 						}
 						catch
 						{
@@ -168,13 +171,13 @@ namespace Tgstation.Server.Host.Components.Repository
 				if (CloneInProgress)
 					throw new InvalidOperationException("The repository is being cloned!");
 			await semaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
-			LibGit2Sharp.Repository repo = null;
+			LibGit2Sharp.IRepository repo = null;
 			await Task.Factory.StartNew(() =>
 			{
 				try
 				{
 					logger.LogTrace("Creating LibGit2Sharp.Repository...");
-					repo = new LibGit2Sharp.Repository(ioManager.ResolvePath("."));
+					repo = repositoryFactory.CreateFromPath(ioManager.ResolvePath("."));
 				}
 				catch (RepositoryNotFoundException e)
 				{
@@ -193,7 +196,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				return null;
 			}
 
-			return new Repository(repo, ioManager, eventConsumer, credentialsProvider, repositoryLogger, () =>
+			return new Repository(repo, ioManager, eventConsumer, repositoryFactory, repositoryLogger, () =>
 			{
 				logger.LogTrace("Releasing semaphore due to Repository disposal...");
 				semaphore.Release();
