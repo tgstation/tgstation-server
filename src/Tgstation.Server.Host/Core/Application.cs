@@ -347,7 +347,7 @@ namespace Tgstation.Server.Host.Core
 			});
 
 			// configure component services
-			services.AddSingleton<ICredentialsProvider, CredentialsProvider>();
+			services.AddSingleton<IRepositoryFactory, RepositoryFactory>();
 			services.AddSingleton<IProviderFactory, ProviderFactory>();
 			services.AddSingleton<IChatFactory, ChatFactory>();
 			services.AddSingleton<IInstanceFactory, InstanceFactory>();

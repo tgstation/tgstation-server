@@ -10,6 +10,8 @@ using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
+using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components
 {
@@ -47,6 +49,16 @@ namespace Tgstation.Server.Host.Components
 		readonly IServerControl serverControl;
 
 		/// <summary>
+		/// The <see cref="IPlatformIdentifier"/> for the <see cref="InstanceManager"/>
+		/// </summary>
+		readonly IPlatformIdentifier platformIdentifier;
+
+		/// <summary>
+		/// The <see cref="ISystemIdentityFactory"/> for the <see cref="InstanceManager"/>
+		/// </summary>
+		readonly ISystemIdentityFactory systemIdentityFactory;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="InstanceManager"/>
 		/// </summary>
 		readonly ILogger<InstanceManager> logger;
@@ -75,8 +87,19 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="application">The value of <see cref="application"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="serverControl">The value of <see cref="serverControl"/></param>
+		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
+		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public InstanceManager(IInstanceFactory instanceFactory, IIOManager ioManager, IDatabaseContextFactory databaseContextFactory, IApplication application, IJobManager jobManager, IServerControl serverControl, ILogger<InstanceManager> logger)
+		public InstanceManager(
+			IInstanceFactory instanceFactory,
+			IIOManager ioManager,
+			IDatabaseContextFactory databaseContextFactory,
+			IApplication application,
+			IJobManager jobManager,
+			IServerControl serverControl,
+			IPlatformIdentifier platformIdentifier,
+			ISystemIdentityFactory systemIdentityFactory,
+			ILogger<InstanceManager> logger)
 		{
 			this.instanceFactory = instanceFactory ?? throw new ArgumentNullException(nameof(instanceFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
@@ -84,6 +107,8 @@ namespace Tgstation.Server.Host.Components
 			this.application = application ?? throw new ArgumentNullException(nameof(application));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
+			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
+			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			serverControl.RegisterForRestart(this);
@@ -212,6 +237,7 @@ namespace Tgstation.Server.Host.Components
 		{
 			try
 			{
+				CheckSystemCompatibility();
 				var factoryStartup = instanceFactory.StartAsync(cancellationToken);
 				await databaseContext.Initialize(cancellationToken).ConfigureAwait(false);
 				await jobManager.StartAsync(cancellationToken).ConfigureAwait(false);
@@ -265,6 +291,16 @@ namespace Tgstation.Server.Host.Components
 		{
 			downgradeVersion = updateVersion != null && updateVersion < application.Version ? updateVersion : null;
 			return Task.CompletedTask;
+		}
+
+		/// <summary>
+		/// Check we have a valid system identity.
+		/// </summary>
+		private void CheckSystemCompatibility()
+		{
+			using (var systemIdentity = systemIdentityFactory.GetCurrent())
+				if (!systemIdentity.CanCreateSymlinks)
+					throw new InvalidOperationException("The user running tgstation-server cannot create symlinks! Please try running as an administrative user!");
 		}
 	}
 }

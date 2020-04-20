@@ -12,6 +12,9 @@ namespace Tgstation.Server.Host.Security
 	sealed class PosixSystemIdentityFactory : ISystemIdentityFactory
 	{
 		/// <inheritdoc />
+		public ISystemIdentity GetCurrent() => new PosixSystemIdentity();
+
+		/// <inheritdoc />
 		public Task<ISystemIdentity> CreateSystemIdentity(User user, CancellationToken cancellationToken) => throw new NotImplementedException();
 
 		/// <inheritdoc />
