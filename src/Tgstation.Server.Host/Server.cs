@@ -15,9 +15,7 @@ using Tgstation.Server.Host.IO;
 namespace Tgstation.Server.Host
 {
 	/// <inheritdoc />
-#pragma warning disable CA1001 // Types that own disposable fields should be disposable
 	sealed class Server : IServer, IServerControl
-#pragma warning restore CA1001 // Types that own disposable fields should be disposable
 	{
 		/// <inheritdoc />
 		public bool RestartRequested { get; private set; }
