@@ -8,6 +8,11 @@ namespace Tgstation.Server.Host.Models
 	public sealed class Instance : Api.Models.Instance
 	{
 		/// <summary>
+		/// Default for <see cref="Api.Models.Instance.ChatBotLimit"/>.
+		/// </summary>
+		public const ushort DefaultChatBotLimit = 10;
+
+		/// <summary>
 		/// The <see cref="Models.DreamMakerSettings"/> for the <see cref="Instance"/>
 		/// </summary>
 		public DreamMakerSettings DreamMakerSettings { get; set; }

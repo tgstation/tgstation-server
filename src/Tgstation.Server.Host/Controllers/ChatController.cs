@@ -77,6 +77,15 @@ namespace Tgstation.Server.Host.Controllers
 			if (earlyOut != null)
 				return earlyOut;
 
+			var countOfExistingBotsInInstance = await DatabaseContext
+				.ChatBots
+				.Where(x => x.InstanceId == Instance.Id)
+				.CountAsync(cancellationToken)
+				.ConfigureAwait(false);
+
+			if (countOfExistingBotsInInstance >= Instance.ChatBotLimit.Value)
+				return BadRequest(new ErrorMessage(ErrorCode.ChatBotMax));
+
 			model.Enabled = model.Enabled ?? false;
 			model.ReconnectionInterval = model.ReconnectionInterval ?? 1;
 
@@ -217,6 +226,9 @@ namespace Tgstation.Server.Host.Controllers
 			if (current == default)
 				return StatusCode((int)HttpStatusCode.Gone);
 
+			if ((model.Channels?.Count ?? current.Channels.Count) > (model.ChannelLimit ?? current.ChannelLimit.Value))
+				return BadRequest(new ErrorMessage(ErrorCode.ChatBotMaxChannels));
+
 			var userRights = (ChatBotRights)AuthenticationContext.GetRight(RightsType.ChatBots);
 
 			bool anySettingsModified = false;
@@ -303,6 +315,13 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (!model.ValidateProviderChannelTypes())
 				return BadRequest(new ErrorMessage(ErrorCode.ChatBotWrongChannelType));
+
+			var defaultMaxChannels = (ulong)Math.Max(Models.ChatBot.DefaultChannelLimit, model.Channels?.Count ?? 0);
+			if (defaultMaxChannels > UInt16.MaxValue)
+				return BadRequest(new ErrorMessage(ErrorCode.ChatBotMaxChannels));
+
+			if (forCreation)
+				model.ChannelLimit = model.ChannelLimit ?? (ushort)defaultMaxChannels;
 
 			return null;
 		}

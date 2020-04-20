@@ -289,5 +289,17 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("Missing user ID!")]
 		UserMissingId,
+
+		/// <summary>
+		/// Attempted to add a <see cref="ChatBot"/> when at or above the <see cref="Instance.ChatBotLimit"/> or it was set to something lower than the existing amount of <see cref="ChatBot"/>.
+		/// </summary>
+		[Description("Performing this operation would violate the instance's configured chatBotLimit!")]
+		ChatBotMax,
+
+		/// <summary>
+		/// Attempted to configure a <see cref="ChatBot"/> with more <see cref="ChatChannel"/>s than the configured limit
+		/// </summary>
+		[Description("Set amount of chatChannels exceeds the configured channelLimit!")]
+		ChatBotMaxChannels,
 	}
 }
