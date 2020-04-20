@@ -14,5 +14,10 @@
 		/// The extension of executable script files for the system
 		/// </summary>
 		string ScriptFileExtension { get; }
+
+		/// <summary>
+		/// Check if the system is capable of running tgstation-server.
+		/// </summary>
+		void CheckCompatibility();
 	}
 }
