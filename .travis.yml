@@ -39,7 +39,7 @@ jobs:
         - mysql
       cache:
         directories:
-          - $HOME/.nuget/packages:
+          - $HOME/.nuget/packages
     - env:
       - DockerBuild=false
       - DMAPI=false
@@ -52,7 +52,7 @@ jobs:
         - mysql
       cache:
         directories:
-          - $HOME/.nuget/packages:
+          - $HOME/.nuget/packages
     - env:
       - DockerBuild=true
       - DoxBuild=false
