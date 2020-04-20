@@ -250,12 +250,21 @@ namespace Tgstation.Server.Host.Components
 				throw;
 			}
 		}
-		#pragma warning restore CA1506
+#pragma warning restore CA1506
 
 		/// <inheritdoc />
-		public Task StartAsync(CancellationToken cancellationToken) => byondInstaller.CleanCache(cancellationToken);
+		public Task StartAsync(CancellationToken cancellationToken)
+		{
+			CheckSystemCompatibility();
+			return byondInstaller.CleanCache(cancellationToken);
+		}
 
 		/// <inheritdoc />
 		public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
+
+		/// <summary>
+		/// Test that the <see cref="repositoryFactory"/> is functional.
+		/// </summary>
+		private void CheckSystemCompatibility() => repositoryFactory.CreateInMemory().Dispose();
 	}
 }

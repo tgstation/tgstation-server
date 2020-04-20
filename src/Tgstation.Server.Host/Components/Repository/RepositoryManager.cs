@@ -70,11 +70,12 @@ namespace Tgstation.Server.Host.Components.Repository
 			ILogger<RepositoryManager> logger,
 			RepositorySettings repositorySettings)
 		{
-			this.repositorySettings = repositorySettings ?? throw new ArgumentNullException(nameof(repositorySettings));
+			this.repositoryFactory = repositoryFactory ?? throw new ArgumentNullException(nameof(repositoryFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.repositoryLogger = repositoryLogger ?? throw new ArgumentNullException(nameof(repositoryLogger));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+			this.repositorySettings = repositorySettings ?? throw new ArgumentNullException(nameof(repositorySettings));
 			semaphore = new SemaphoreSlim(1);
 		}
 
