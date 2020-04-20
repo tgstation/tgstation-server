@@ -63,6 +63,8 @@ matrix:
         - docker
     - env:
       - DoxBuild=true
+      name: "Dox Build"
+      language: generic
       os: windows
 
 install:
