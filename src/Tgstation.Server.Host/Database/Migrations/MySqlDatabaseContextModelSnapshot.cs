@@ -5,13 +5,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
-	/// <summary>
-	/// Model snapshot for MYSQL.
-	/// </summary>
 	[DbContext(typeof(MySqlDatabaseContext))]
 	partial class MySqlDatabaseContextModelSnapshot : ModelSnapshot
 	{
-		/// <inheritdoc />
 		protected override void BuildModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
@@ -23,6 +19,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 				{
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd();
+
+					b.Property<ushort?>("ChannelLimit")
+						.IsRequired();
 
 					b.Property<string>("ConnectionString")
 						.IsRequired()
@@ -192,6 +191,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<uint?>("AutoUpdateInterval")
 						.IsRequired();
 
+					b.Property<ushort?>("ChatBotLimit")
+						.IsRequired();
+
 					b.Property<int>("ConfigurationType");
 
 					b.Property<string>("Name")
@@ -270,7 +272,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<DateTimeOffset?>("StartedAt")
 						.IsRequired();
 
-					b.Property<long>("StartedById");
+					b.Property<long?>("StartedById")
+						.IsRequired();
 
 					b.Property<DateTimeOffset?>("StoppedAt");
 
@@ -420,10 +423,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 					b.Property<DateTimeOffset>("MergedAt");
 
-					b.Property<long>("MergedById");
-
-					b.Property<int?>("Number")
+					b.Property<long?>("MergedById")
 						.IsRequired();
+
+					b.Property<int>("Number");
 
 					b.Property<long?>("PrimaryRevisionInformationId")
 						.IsRequired();
@@ -450,7 +453,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.User", b =>
 				{
-					b.Property<long>("Id")
+					b.Property<long?>("Id")
 						.ValueGeneratedOnAdd();
 
 					b.Property<ulong>("AdministrationRights");

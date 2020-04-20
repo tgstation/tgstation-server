@@ -33,6 +33,12 @@ namespace Tgstation.Server.Api.Models.Internal
 		public uint? ReconnectionInterval { get; set; }
 
 		/// <summary>
+		/// The maximum number of <see cref="ChatChannel"/>s the <see cref="ChatBot"/> may contain.
+		/// </summary>
+		[Required]
+		public ushort? ChannelLimit { get; set; }
+
+		/// <summary>
 		/// The <see cref="ChatProvider"/> used for the connection
 		/// </summary>
 		[Required]

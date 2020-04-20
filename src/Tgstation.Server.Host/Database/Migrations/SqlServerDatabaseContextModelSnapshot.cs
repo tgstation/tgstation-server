@@ -7,13 +7,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
-	/// <summary>
-	/// Model snapshot for MYSQL.
-	/// </summary>
 	[DbContext(typeof(SqlServerDatabaseContext))]
 	partial class SqlServerDatabaseContextModelSnapshot : ModelSnapshot
 	{
-		/// <inheritdoc />
 		protected override void BuildModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
@@ -27,6 +23,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
 						.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+					b.Property<int>("ChannelLimit");
 
 					b.Property<string>("ConnectionString")
 						.IsRequired()
@@ -198,6 +196,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 					b.Property<long>("AutoUpdateInterval");
 
+					b.Property<int>("ChatBotLimit");
+
 					b.Property<int>("ConfigurationType");
 
 					b.Property<string>("Name")
@@ -287,7 +287,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<DateTimeOffset?>("StartedAt")
 						.IsRequired();
 
-					b.Property<long>("StartedById");
+					b.Property<long?>("StartedById")
+						.IsRequired();
 
 					b.Property<DateTimeOffset?>("StoppedAt");
 
@@ -442,10 +443,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 					b.Property<DateTimeOffset>("MergedAt");
 
-					b.Property<long>("MergedById");
-
-					b.Property<int?>("Number")
+					b.Property<long?>("MergedById")
 						.IsRequired();
+
+					b.Property<int>("Number");
 
 					b.Property<long?>("PrimaryRevisionInformationId")
 						.IsRequired();
@@ -472,7 +473,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.User", b =>
 				{
-					b.Property<long>("Id")
+					b.Property<long?>("Id")
 						.ValueGeneratedOnAdd()
 						.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 

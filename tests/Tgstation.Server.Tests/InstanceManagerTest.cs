@@ -30,7 +30,8 @@ namespace Tgstation.Server.Tests
 		{
 			Name = "TestInstance-" + ++counter,
 			Path = Path.Combine(testRootPath, Guid.NewGuid().ToString()),
-			Online = true
+			Online = true,
+			ChatBotLimit = 1
 		}, cancellationToken);
 
 		public async Task Run(CancellationToken cancellationToken)
@@ -115,7 +116,7 @@ namespace Tgstation.Server.Tests
 				Path = initialPath
 			}, cancellationToken), ErrorCode.InstanceRelocateOnline).ConfigureAwait(false);
 
-			var testSuite1 = new InstanceTest(instanceManagerClient.CreateClient(firstTest));
+			var testSuite1 = new InstanceTest(instanceManagerClient.CreateClient(firstTest), instanceManagerClient);
 			await testSuite1.RunTests(cancellationToken).ConfigureAwait(false);
 
 			//can regain permissions on instance without instance user
