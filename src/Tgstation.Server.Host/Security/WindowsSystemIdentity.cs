@@ -59,10 +59,12 @@ namespace Tgstation.Server.Host.Security
 		{
 			if (identity != null)
 				identity.Dispose();
-
-			var context = userPrincipal.Context;
-			userPrincipal.Dispose();
-			context.Dispose();
+			else
+			{
+				var context = userPrincipal.Context;
+				userPrincipal.Dispose();
+				context.Dispose();
+			}
 		}
 
 		/// <inheritdoc />
