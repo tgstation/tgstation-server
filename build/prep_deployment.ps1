@@ -5,6 +5,9 @@ $env:APIVersion = $versionXML.Project.PropertyGroup.TgsApiVersion
 $env:DMVersion = $versionXML.Project.PropertyGroup.TgsDmapiVersion
 
 Write-Host "TGS Version: $env:TGSVersion"
+	
+# Add in the swagger specification
+cp C:/swagger.json "$bf/swagger.json"
 
 if (($env:CONFIGURATION -match "Release") -And ($env:APPVEYOR_REPO_BRANCH -match "master") -And ($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[TGSDeploy\]")) {
     Write-Host "Deploying TGS..."

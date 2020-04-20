@@ -15,6 +15,7 @@ matrix:
       - BYOND_MAJOR="513"
       - BYOND_MINOR="1517"
       - DMEName="tests/DMAPI/travistester.dme"
+      - DoxBuild=false
       name: "DMAPI Unit Tests"
       language: generic
       cache:
@@ -30,6 +31,7 @@ matrix:
       - DockerBuild=false
       - DMAPI=false
       - CONFIG=Debug
+      - DoxBuild=false
       name: "Test Server Debug"
       language: csharp
       mono: none
@@ -43,6 +45,7 @@ matrix:
       - DockerBuild=false
       - DMAPI=false
       - CONFIG=Release
+      - DoxBuild=false
       name: "Test Server Release"
       language: csharp
       mono: none
@@ -54,15 +57,21 @@ matrix:
           - $HOME/.nuget/packages:
     - env:
       - DockerBuild=true
+      - DoxBuild=false
       name: "Docker Build"
       services:
         - docker
+    - env:
+      - DoxBuild=true
+      os: windows
 
 install:
-  - if [ $DockerBuild = false ] && [ $DMAPI = true ]; then build/install_byond.sh; fi
-  - if [ $DockerBuild = false ] && [ $DMAPI = false ]; then dotnet restore tgstation-server.sln; fi
+  - if [ $DoxBuild = false ] && [ $DockerBuild = false ] && [ $DMAPI = true ]; then build/install_byond.sh; fi
+  - if [ $DoxBuild = false ] && [ $DockerBuild = false ] && [ $DMAPI = false ]; then dotnet restore tgstation-server.sln; fi
+  - if [ $DoxBuild = true ]; then choco install doxygen.install codecov graphviz.portable; fi
 
 script:
-  - if [ $DockerBuild = false ] && [ $DMAPI = true ]; then tests/DMAPI/build_byond.sh || travis_terminate 1; fi
-  - if [ $DockerBuild = false ] && [ $DMAPI = false ]; then build/test_core.sh; fi
-  - if [ $DockerBuild = true ]; then docker build . -f build/Dockerfile; fi
+  - if [ $DoxBuild = false ] && [ $DockerBuild = false ] && [ $DMAPI = true ]; then tests/DMAPI/build_byond.sh || travis_terminate 1; fi
+  - if [ $DoxBuild = false ] && [ $DockerBuild = false ] && [ $DMAPI = false ]; then build/test_core.sh; fi
+  - if [ $DoxBuild = false ] && [ $DockerBuild = true ]; then docker build . -f build/Dockerfile; fi
+  - if [ $DoxBuild = true ]; then powershell -File build/BuildDox.ps1; fi
