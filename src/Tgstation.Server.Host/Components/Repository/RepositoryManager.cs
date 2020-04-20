@@ -171,26 +171,26 @@ namespace Tgstation.Server.Host.Components.Repository
 			lock (semaphore)
 				if (CloneInProgress)
 					throw new InvalidOperationException("The repository is being cloned!");
-			try
-			{
-				using var context = await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false);
-				var repo = await repositoryFactory.CreateFromPath(ioManager.ResolvePath("."), cancellationToken).ConfigureAwait(false);
-
-				if (repo == null)
-					return null;
-
-				return new Repository(repo, ioManager, eventConsumer, repositoryFactory, repositoryLogger, () =>
+			using (var context = await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+				try
 				{
-					logger.LogTrace("Releasing semaphore due to Repository disposal...");
-					semaphore.Release();
-				});
-			}
-			catch (RepositoryNotFoundException e)
-			{
-				logger.LogDebug("Repository not found!");
-				logger.LogTrace("Exception: {0}", e);
-				return null;
-			}
+					var repo = await repositoryFactory.CreateFromPath(ioManager.ResolvePath("."), cancellationToken).ConfigureAwait(false);
+
+					if (repo == null)
+						return null;
+
+					return new Repository(repo, ioManager, eventConsumer, repositoryFactory, repositoryLogger, () =>
+					{
+						logger.LogTrace("Releasing semaphore due to Repository disposal...");
+						semaphore.Release();
+					});
+				}
+				catch (RepositoryNotFoundException e)
+				{
+					logger.LogDebug("Repository not found!");
+					logger.LogTrace("Exception: {0}", e);
+					return null;
+				}
 		}
 
 		/// <inheritdoc />

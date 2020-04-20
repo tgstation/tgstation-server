@@ -298,9 +298,9 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		private void CheckSystemCompatibility()
 		{
-			using var systemIdentity = systemIdentityFactory.GetCurrent();
-			if (!systemIdentity.CanCreateSymlinks)
-				throw new InvalidOperationException("The user running tgstation-server cannot create symlinks! Please try running as an administrative user!");
+			using (var systemIdentity = systemIdentityFactory.GetCurrent())
+				if (!systemIdentity.CanCreateSymlinks)
+					throw new InvalidOperationException("The user running tgstation-server cannot create symlinks! Please try running as an administrative user!");
 		}
 	}
 }

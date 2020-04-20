@@ -28,20 +28,22 @@ namespace Tgstation.Server.Host.Components.Repository.Tests
 		[TestMethod]
 		public void TestInMemoryRepoCreation()
 		{
-			using var repo = new RepositoryFactory(Mock.Of<ILogger<RepositoryFactory>>()).CreateInMemory();
+			new RepositoryFactory(Mock.Of<ILogger<RepositoryFactory>>()).CreateInMemory().Dispose();
 		}
 
 		[TestMethod]
 		public async Task TestLoadedRepoCreation()
 		{
-			using var repo = await TestRepoLoading(Path.GetFullPath("../../../../.."));
+			using (var repo = await TestRepoLoading(Path.GetFullPath("../../../../..")))
+			{
 
-			// Checking the commit previous to the one that creates this function exists
-			var gitObject = repo.Lookup("4802806bdccee27cb3d5fa8c2d0dfbdc117fdb4d");
-			Assert.IsNotNull(gitObject);
-			var commit = gitObject.Peel<Commit>();
+				// Checking the commit previous to the one that creates this function exists
+				var gitObject = repo.Lookup("4802806bdccee27cb3d5fa8c2d0dfbdc117fdb4d");
+				Assert.IsNotNull(gitObject);
+				var commit = gitObject.Peel<Commit>();
 
-			Assert.AreEqual("Cleanup repository management code", commit.Message.Trim());
+				Assert.AreEqual("Cleanup repository management code", commit.Message.Trim());
+			}
 		}
 
 		[TestMethod]
