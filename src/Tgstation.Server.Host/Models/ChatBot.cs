@@ -39,7 +39,9 @@ namespace Tgstation.Server.Host.Models
 			Enabled = Enabled,
 			Provider = Provider,
 			Id = Id,
-			Name = Name
+			Name = Name,
+			ChannelLimit = ChannelLimit,
+			ReconnectionInterval = ReconnectionInterval
 		};
 	}
 }

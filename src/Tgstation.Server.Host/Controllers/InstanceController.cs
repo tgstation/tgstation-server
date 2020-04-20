@@ -439,7 +439,7 @@ namespace Tgstation.Server.Host.Controllers
 					.ConfigureAwait(false);
 
 				if (countOfExistingChatBots > model.ChatBotLimit.Value)
-					return BadRequest(new ErrorMessage(ErrorCode.ChatBotMax));
+					return Conflict(new ErrorMessage(ErrorCode.ChatBotMax));
 			}
 
 			// ensure the current user has write privilege on the instance

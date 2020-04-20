@@ -63,7 +63,8 @@ namespace Tgstation.Server.Host.Models
 			Id = Id,
 			Name = Name,
 			Path = Path,
-			Online = Online
+			Online = Online,
+			ChatBotLimit = ChatBotLimit
 		};
 	}
 }
