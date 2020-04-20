@@ -20,8 +20,9 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// Load a <see cref="LibGit2Sharp.IRepository"/> from a given <paramref name="path"/>.
 		/// </summary>
 		/// <param name="path">The full path to the <see cref="LibGit2Sharp.IRepository"/>.</param>
-		/// <returns>The loaded <see cref="LibGit2Sharp.IRepository"/>.</returns>
-		LibGit2Sharp.IRepository CreateFromPath(string path);
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in, the loaded <see cref="LibGit2Sharp.IRepository"/>.</returns>
+		Task<LibGit2Sharp.IRepository> CreateFromPath(string path, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Clone a remote <see cref="LibGit2Sharp.IRepository"/>.

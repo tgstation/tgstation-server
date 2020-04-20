@@ -94,7 +94,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				throw new ArgumentNullException(nameof(progressReporter));
 
 			logger.LogInformation("Begin clone {0} (Branch: {1})", url, initialBranch);
-			lock (this)
+			lock (semaphore)
 			{
 				if (CloneInProgress)
 					throw new InvalidOperationException("The repository is already being cloned!");
@@ -167,40 +167,29 @@ namespace Tgstation.Server.Host.Components.Repository
 		public async Task<IRepository> LoadRepository(CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Begin LoadRepository...");
-			lock (this)
+			lock (semaphore)
 				if (CloneInProgress)
 					throw new InvalidOperationException("The repository is being cloned!");
-			await semaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
-			LibGit2Sharp.IRepository repo = null;
-			await Task.Factory.StartNew(() =>
+			try
 			{
-				try
+				using var context = await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false);
+				var repo = await repositoryFactory.CreateFromPath(ioManager.ResolvePath("."), cancellationToken).ConfigureAwait(false);
+
+				if (repo == null)
+					return null;
+
+				return new Repository(repo, ioManager, eventConsumer, repositoryFactory, repositoryLogger, () =>
 				{
-					logger.LogTrace("Creating LibGit2Sharp.Repository...");
-					repo = repositoryFactory.CreateFromPath(ioManager.ResolvePath("."));
-				}
-				catch (RepositoryNotFoundException e)
-				{
-					logger.LogDebug("Repository not found!");
-					logger.LogTrace("Exception: {0}", e);
-				}
-				catch
-				{
+					logger.LogTrace("Releasing semaphore due to Repository disposal...");
 					semaphore.Release();
-					throw;
-				}
-			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
-			if (repo == null)
+				});
+			}
+			catch (RepositoryNotFoundException e)
 			{
-				semaphore.Release();
+				logger.LogDebug("Repository not found!");
+				logger.LogTrace("Exception: {0}", e);
 				return null;
 			}
-
-			return new Repository(repo, ioManager, eventConsumer, repositoryFactory, repositoryLogger, () =>
-			{
-				logger.LogTrace("Releasing semaphore due to Repository disposal...");
-				semaphore.Release();
-			});
 		}
 
 		/// <inheritdoc />

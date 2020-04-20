@@ -28,17 +28,21 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <inheritdoc />
 		public LibGit2Sharp.IRepository CreateInMemory()
 		{
-			logger.LogTrace("Creating in-memory LibGit2Sharp...");
+			logger.LogTrace("Creating in-memory repository...");
 			return new LibGit2Sharp.Repository();
 		}
 
 		/// <inheritdoc />
-		public LibGit2Sharp.IRepository CreateFromPath(string path)
+		public Task<LibGit2Sharp.IRepository> CreateFromPath(string path, CancellationToken cancellationToken)
 		{
 			if (path == null)
 				throw new ArgumentNullException(nameof(path));
-			logger.LogTrace("Creating LibGit2Sharp Repostory at {0}...", path);
-			return new LibGit2Sharp.Repository(path);
+			logger.LogTrace("Creating repostory at {0}...", path);
+			return Task.Factory.StartNew(
+				() => (LibGit2Sharp.IRepository)new LibGit2Sharp.Repository(path),
+				cancellationToken,
+				TaskCreationOptions.LongRunning,
+				TaskScheduler.Current);
 		}
 
 		/// <inheritdoc />
@@ -46,10 +50,12 @@ namespace Tgstation.Server.Host.Components.Repository
 		{
 			try
 			{
+				logger.LogTrace("Cloning {0} into {1}...", url, path);
 				LibGit2Sharp.Repository.Clone(url.ToString(), path, cloneOptions);
 			}
-			catch (UserCancelledException)
+			catch (UserCancelledException ex)
 			{
+				logger.LogTrace("Suppressing clone cancellation exception: {0}", ex);
 				cancellationToken.ThrowIfCancellationRequested();
 			}
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
