@@ -174,6 +174,8 @@ namespace Tgstation.Server.Host.Controllers
 
 			// Validate it's not a child of any other instance
 			using (var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
+			{
+				var newCancellationToken = cts.Token;
 				try
 				{
 					await DatabaseContext.Instances.ForEachAsync(
@@ -184,16 +186,17 @@ namespace Tgstation.Server.Host.Controllers
 							else
 								earlyOut = CheckInstanceNotChildOf(otherInstance.Path);
 
-							if (earlyOut != null)
+							if (earlyOut != null && !newCancellationToken.IsCancellationRequested)
 								cts.Cancel();
 						},
-						cts.Token)
+						newCancellationToken)
 						.ConfigureAwait(false);
 				}
 				catch (OperationCanceledException)
 				{
 					cancellationToken.ThrowIfCancellationRequested();
 				}
+			}
 
 			if (earlyOut != null)
 				return earlyOut;
@@ -353,9 +356,9 @@ namespace Tgstation.Server.Host.Controllers
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
-			var instanceQuery = DatabaseContext.Instances.Where(x => x.Id == model.Id);
+			IQueryable<Models.Instance> InstanceQuery() => DatabaseContext.Instances.Where(x => x.Id == model.Id);
 
-			var moveJob = await instanceQuery
+			var moveJob = await InstanceQuery()
 				.SelectMany(x => x.Jobs).
 #pragma warning disable CA1307 // Specify StringComparison
 				Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
@@ -368,9 +371,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (moveJob != default)
 				await jobManager.CancelJob(moveJob, AuthenticationContext.User, true, cancellationToken).ConfigureAwait(false); // cancel it now
 
-			var usersInstanceUserTask = instanceQuery.SelectMany(x => x.InstanceUsers).Where(x => x.UserId == AuthenticationContext.User.Id).FirstOrDefaultAsync(cancellationToken);
-
-			var originalModel = await instanceQuery
+			var originalModel = await InstanceQuery()
 				.Include(x => x.RepositorySettings)
 				.Include(x => x.ChatSettings)
 				.ThenInclude(x => x.Channels)
@@ -428,7 +429,11 @@ namespace Tgstation.Server.Host.Controllers
 				return Forbid();
 
 			// ensure the current user has write privilege on the instance
-			var usersInstanceUser = await usersInstanceUserTask.ConfigureAwait(false);
+			var usersInstanceUser = await InstanceQuery()
+				.SelectMany(x => x.InstanceUsers)
+				.Where(x => x.UserId == AuthenticationContext.User.Id)
+				.FirstOrDefaultAsync(cancellationToken)
+				.ConfigureAwait(false);
 			if (usersInstanceUser == default)
 			{
 				var instanceAdminUser = InstanceAdminUser();
@@ -541,20 +546,17 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(410)]
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
-			var query = DatabaseContext.Instances.Where(x => x.Id == id);
 			var cantList = !AuthenticationContext.User.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List);
+			IQueryable<Models.Instance> QueryForUser()
+			{
+				var query = DatabaseContext.Instances.Where(x => x.Id == id);
 
-			if (cantList)
-				query = query.Include(x => x.InstanceUsers);
+				if (cantList)
+					query = query.Include(x => x.InstanceUsers);
+				return query;
+			}
 
-			var moveJobTask = query
-				.SelectMany(x => x.Jobs)
-#pragma warning disable CA1307 // Specify StringComparison
-				.Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
-#pragma warning restore CA1307 // Specify StringComparison
-				.Include(x => x.StartedBy).ThenInclude(x => x.CreatedBy)
-				.FirstOrDefaultAsync(cancellationToken);
-			var instance = await query.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var instance = await QueryForUser().FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
 			if (instance == null)
 				return StatusCode((int)HttpStatusCode.Gone);
@@ -563,7 +565,16 @@ namespace Tgstation.Server.Host.Controllers
 				return Forbid();
 
 			var api = instance.ToApi();
-			api.MoveJob = (await moveJobTask.ConfigureAwait(false))?.ToApi();
+
+			var moveJob = await QueryForUser()
+				.SelectMany(x => x.Jobs)
+#pragma warning disable CA1307 // Specify StringComparison
+				.Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
+#pragma warning restore CA1307 // Specify StringComparison
+				.Include(x => x.StartedBy).ThenInclude(x => x.CreatedBy)
+				.FirstOrDefaultAsync(cancellationToken)
+				.ConfigureAwait(false);
+			api.MoveJob = moveJob?.ToApi();
 			return Json(api);
 		}
 	}

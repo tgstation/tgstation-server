@@ -165,70 +165,73 @@ namespace Tgstation.Server.Tests
 		[TestMethod]
 		public async Task TestStandardOperation()
 		{
-			RequireDiscordToken();
-			var server = new TestingServer(clientFactory, null);
-			using (var serverCts = new CancellationTokenSource())
+			while (true)
 			{
-				var cancellationToken = serverCts.Token;
-				var serverTask = server.RunAsync(cancellationToken);
-				try
+				RequireDiscordToken();
+				var server = new TestingServer(clientFactory, null);
+				using (var serverCts = new CancellationTokenSource())
 				{
-					IServerClient adminClient;
-
-					var giveUpAt = DateTimeOffset.Now.AddSeconds(60);
-					do
-					{
-						try
-						{
-							adminClient = await clientFactory.CreateServerClient(server.Url, User.AdminName, User.DefaultAdminPassword).ConfigureAwait(false);
-							break;
-						}
-						catch (HttpRequestException)
-						{
-							//migrating, to be expected
-							if (DateTimeOffset.Now > giveUpAt)
-								throw;
-							await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-						}
-						catch (ServiceUnavailableException)
-						{
-							// migrating, to be expected
-							if (DateTimeOffset.Now > giveUpAt)
-								throw;
-							await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-						}
-					} while (true);
-
-					using (adminClient)
-					{
-						var serverInfo = await adminClient.Version(default).ConfigureAwait(false);
-
-						Assert.AreEqual(ApiHeaders.Version, serverInfo.ApiVersion);
-						Assert.AreEqual(typeof(IServer).Assembly.GetName().Version, serverInfo.Version);
-
-						//check that modifying the token even slightly fucks up the auth
-						var newToken = new Token
-						{
-							ExpiresAt = adminClient.Token.ExpiresAt,
-							Bearer = adminClient.Token.Bearer + '0'
-						};
-
-						var badClient = clientFactory.CreateServerClient(server.Url, newToken);
-						await Assert.ThrowsExceptionAsync<UnauthorizedException>(() => badClient.Version(cancellationToken)).ConfigureAwait(false);
-
-						await new AdministrationTest(adminClient.Administration).Run(cancellationToken).ConfigureAwait(false);
-						await new UsersTest(adminClient.Users).Run(cancellationToken).ConfigureAwait(false);
-						await new InstanceManagerTest(adminClient.Instances, server.Directory).Run(cancellationToken).ConfigureAwait(false);
-					}
-				}
-				finally
-				{
-					serverCts.Cancel();
+					var cancellationToken = serverCts.Token;
+					var serverTask = server.RunAsync(cancellationToken);
 					try
 					{
-						await serverTask.ConfigureAwait(false);
+						IServerClient adminClient;
+
+						var giveUpAt = DateTimeOffset.Now.AddSeconds(60);
+						do
+						{
+							try
+							{
+								adminClient = await clientFactory.CreateServerClient(server.Url, User.AdminName, User.DefaultAdminPassword).ConfigureAwait(false);
+								break;
+							}
+							catch (HttpRequestException)
+							{
+								//migrating, to be expected
+								if (DateTimeOffset.Now > giveUpAt)
+									throw;
+								await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+							}
+							catch (ServiceUnavailableException)
+							{
+								// migrating, to be expected
+								if (DateTimeOffset.Now > giveUpAt)
+									throw;
+								await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+							}
+						} while (true);
+
+						using (adminClient)
+						{
+							var serverInfo = await adminClient.Version(default).ConfigureAwait(false);
+
+							Assert.AreEqual(ApiHeaders.Version, serverInfo.ApiVersion);
+							Assert.AreEqual(typeof(IServer).Assembly.GetName().Version, serverInfo.Version);
+
+							//check that modifying the token even slightly fucks up the auth
+							var newToken = new Token
+							{
+								ExpiresAt = adminClient.Token.ExpiresAt,
+								Bearer = adminClient.Token.Bearer + '0'
+							};
+
+							var badClient = clientFactory.CreateServerClient(server.Url, newToken);
+							await Assert.ThrowsExceptionAsync<UnauthorizedException>(() => badClient.Version(cancellationToken)).ConfigureAwait(false);
+
+							await new AdministrationTest(adminClient.Administration).Run(cancellationToken).ConfigureAwait(false);
+							await new UsersTest(adminClient.Users).Run(cancellationToken).ConfigureAwait(false);
+							await new InstanceManagerTest(adminClient.Instances, server.Directory).Run(cancellationToken).ConfigureAwait(false);
+						}
 					}
-					catch (OperationCanceledException) { }
+					finally
+					{
+						serverCts.Cancel();
+						try
+						{
+							await serverTask.ConfigureAwait(false);
+						}
+						catch (OperationCanceledException) { }
+					}
 				}
 			}
 		}

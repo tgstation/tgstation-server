@@ -1,4 +1,5 @@
 ﻿using Byond.TopicSender;
+using Cyberboss.AspNetCore.AsyncInitializer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
@@ -18,6 +19,7 @@ using Serilog.Formatting.Display;
 using System;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
+using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components;
@@ -404,6 +406,15 @@ namespace Tgstation.Server.Host.Core
 			// setup the HTTP request pipeline
 			// Final point where we wrap exceptions in a 500 (ErrorMessage) response
 			applicationBuilder.UseServerErrorHandling();
+
+			// 503 requests made while the application is starting
+			applicationBuilder.UseAsyncInitialization<IHostApplicationLifetime>(async (applicationLifetime, cancellationToken) =>
+			{
+				var tcs = new TaskCompletionSource<object>();
+				using (cancellationToken.Register(() => tcs.SetCanceled()))
+				using (applicationLifetime.ApplicationStarted.Register(() => tcs.SetResult(null)))
+					await tcs.Task.ConfigureAwait(false);
+			});
 
 			// should anything after this throw an exception, catch it and display a detailed html page
 			if (hostingEnvironment.IsDevelopment())
