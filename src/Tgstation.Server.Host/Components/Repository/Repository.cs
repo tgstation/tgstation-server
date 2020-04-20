@@ -175,7 +175,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				progressReporter(50 + ((int)(50 * ((float)sentBytes) / totalBytes)));
 				return !cancellationToken.IsCancellationRequested;
 			},
-			CredentialsProvider = credentialsProvider.GenerateHandler(username, password)
+			CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password)
 		};
 
 		/// <summary>
@@ -262,7 +262,7 @@ namespace Tgstation.Server.Host.Components.Repository
 								return !cancellationToken.IsCancellationRequested;
 							},
 							OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
-							CredentialsProvider = credentialsProvider.GenerateHandler(username, password)
+							CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password)
 						}, logMessage);
 					}
 					catch (UserCancelledException) { }
@@ -375,7 +375,7 @@ namespace Tgstation.Server.Host.Components.Repository
 							return !cancellationToken.IsCancellationRequested;
 						},
 						OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
-						CredentialsProvider = credentialsProvider.GenerateHandler(username, password)
+						CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password)
 					}, "Fetch origin commits");
 				}
 				catch (UserCancelledException)

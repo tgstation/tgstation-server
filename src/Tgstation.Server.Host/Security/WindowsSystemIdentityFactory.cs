@@ -42,6 +42,9 @@ namespace Tgstation.Server.Host.Security
 		}
 
 		/// <inheritdoc />
+		public ISystemIdentity GetCurrent() => new WindowsSystemIdentity(WindowsIdentity.GetCurrent());
+
+		/// <inheritdoc />
 		public Task<ISystemIdentity> CreateSystemIdentity(User user, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
 			if (user == null)
