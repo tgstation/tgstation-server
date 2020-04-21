@@ -216,6 +216,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 						default:
 							throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Session controller returned unexpected ApiValidationStatus: {0}", validationStatus));
 					}
+
+					job.DMApiVersion = controller.DMApiVersion;
 				}
 
 				throw new JobException("DMAPI validation timed out!");

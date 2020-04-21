@@ -1,7 +1,6 @@
 ﻿using Byond.TopicSender;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -77,6 +76,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IBridgeRegistrar bridgeRegistrar;
 
 		/// <summary>
+		/// The <see cref="IServerPortProvider"/> for the <see cref="SessionControllerFactory"/>.
+		/// </summary>
+		readonly IServerPortProvider serverPortProvider;
+
+		/// <summary>
 		/// The <see cref="ILoggerFactory"/> for the <see cref="SessionControllerFactory"/>
 		/// </summary>
 		readonly ILoggerFactory loggerFactory;
@@ -120,6 +124,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="networkPromptReaper">The value of <see cref="networkPromptReaper"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
 		/// <param name="bridgeRegistrar">The value of <see cref="bridgeRegistrar"/>.</param>
+		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
 		public SessionControllerFactory(
 			IProcessExecutor processExecutor,
@@ -132,6 +137,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			INetworkPromptReaper networkPromptReaper,
 			IPlatformIdentifier platformIdentifier,
 			IBridgeRegistrar bridgeRegistrar,
+			IServerPortProvider serverPortProvider,
 			ILoggerFactory loggerFactory,
 			Api.Models.Instance instance)
 		{
@@ -146,6 +152,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.networkPromptReaper = networkPromptReaper ?? throw new ArgumentNullException(nameof(networkPromptReaper));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.bridgeRegistrar = bridgeRegistrar ?? throw new ArgumentNullException(nameof(bridgeRegistrar));
+			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 		}
 
@@ -212,7 +219,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				revisionInfo,
 				JsonFile("chat_channels"),
 				JsonFile("chat_commands"),
-				securityLevelToUse);
+				securityLevelToUse,
+				await serverPortProvider.HttpApiPort.ConfigureAwait(false));
 
 			var interopJsonFile = JsonFile("interop");
 

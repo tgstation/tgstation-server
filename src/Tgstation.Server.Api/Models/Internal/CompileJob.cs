@@ -35,6 +35,6 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The DMAPI <see cref="Version"/>.
 		/// </summary>
-		public Version DMApiVersion { get; set; 
+		public Version DMApiVersion { get; set; }
 	}
 }

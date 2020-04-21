@@ -113,6 +113,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IRepositoryFactory repositoryFactory;
 
 		/// <summary>
+		/// The <see cref="IServerPortProvider"/> for the <see cref="InstanceFactory"/>.
+		/// </summary>
+		readonly IServerPortProvider serverPortProvider;
+
+		/// <summary>
 		/// Construct an <see cref="InstanceFactory"/>
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
@@ -133,6 +138,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
 		/// <param name="repositoryFactory">The value of <see cref="repositoryFactory"/>.</param>
+		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
 		public InstanceFactory(
 			IIOManager ioManager,
 			IDatabaseContextFactory databaseContextFactory,
@@ -151,7 +157,8 @@ namespace Tgstation.Server.Host.Components
 			INetworkPromptReaper networkPromptReaper,
 			IGitHubClientFactory gitHubClientFactory,
 			IPlatformIdentifier platformIdentifier,
-			IRepositoryFactory repositoryFactory)
+			IRepositoryFactory repositoryFactory,
+			IServerPortProvider serverPortProvider)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
@@ -171,6 +178,7 @@ namespace Tgstation.Server.Host.Components
 			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.repositoryFactory = repositoryFactory ?? throw new ArgumentNullException(nameof(repositoryFactory));
+			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
 		}
 
 		/// <inheritdoc />
@@ -215,6 +223,7 @@ namespace Tgstation.Server.Host.Components
 						networkPromptReaper,
 						platformIdentifier,
 						bridgeRegistrar,
+						serverPortProvider,
 						loggerFactory,
 						metadata.CloneMetadata());
 

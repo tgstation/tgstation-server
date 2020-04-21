@@ -63,16 +63,17 @@ namespace Tgstation.Server.Host.Components.Interop.Runtime
 		/// <param name="channelsJson">The value of <see cref="RuntimeFileList.ChatChannelsJson"/>.</param>
 		/// <param name="commandsJson">The value of <see cref="RuntimeFileList.ChatCommandsJson"/>.</param>
 		/// <param name="securityLevel">The value of <see cref="SecurityLevel"/>.</param>
+		/// <param name="serverPort">The value of <see cref="ServerPort"/>.</param>
 		public RuntimeInformation(
 			IApplication application,
 			ICryptographySuite cryptographySuite,
-			IServerPortProvider portProvider,
 			IEnumerable<RuntimeTestMerge> testMerges,
 			Api.Models.Instance instance,
 			Api.Models.Internal.RevisionInformation revision,
 			string channelsJson,
 			string commandsJson,
-			DreamDaemonSecurity securityLevel)
+			DreamDaemonSecurity securityLevel,
+			ushort serverPort)
 		{
 			ServerVersion = application?.Version ?? throw new ArgumentNullException(nameof(application));
 			AccessIdentifier = cryptographySuite?.GetSecureString() ?? throw new ArgumentNullException(nameof(cryptographySuite));
@@ -82,6 +83,7 @@ namespace Tgstation.Server.Host.Components.Interop.Runtime
 			ChatChannelsJson = channelsJson ?? throw new ArgumentNullException(nameof(channelsJson));
 			ChatChannelsJson = commandsJson ?? throw new ArgumentNullException(nameof(commandsJson));
 			SecurityLevel = securityLevel;
+			ServerPort = serverPort;
 		}
 	}
 }
