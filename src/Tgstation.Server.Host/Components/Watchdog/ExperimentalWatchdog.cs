@@ -157,7 +157,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var newDmb = DmbFactory.LockNextDmb(1);
 				try
 				{
-					monitorState.InactiveServer = await SessionControllerFactory.LaunchNew(ActiveLaunchParameters, newDmb, null, false, !monitorState.ActiveServer.IsPrimary, false, cancellationToken).ConfigureAwait(false);
+					monitorState.InactiveServer = await SessionControllerFactory.LaunchNew(
+						newDmb,
+						null,
+						ActiveLaunchParameters,
+						false,
+						!monitorState.ActiveServer.IsPrimary,
+						false,
+						cancellationToken)
+						.ConfigureAwait(false);
 					monitorState.InactiveServer.SetHighPriority();
 				}
 				catch (OperationCanceledException)
@@ -179,7 +187,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						if (dmbBackup == null) // NANI!?
 							throw new JobException("Creating backup DMB provider failed!"); // just give up, if THAT compile job is failing then the ActiveServer is gonna crash soon too or already has
 
-						monitorState.InactiveServer = await SessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbBackup, null, false, !monitorState.ActiveServer.IsPrimary, false, cancellationToken).ConfigureAwait(false);
+						monitorState.InactiveServer = await SessionControllerFactory.LaunchNew(
+							dmbBackup,
+							null,
+							ActiveLaunchParameters,
+							false,
+							!monitorState.ActiveServer.IsPrimary,
+							false,
+							cancellationToken)
+							.ConfigureAwait(false);
 						monitorState.InactiveServer.SetHighPriority();
 						await Chat.SendWatchdogMessage("Staging newest DMB on inactive server failed: {0} Falling back to previous dmb...", cancellationToken).ConfigureAwait(false);
 					}
@@ -532,7 +548,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				// The tasks pertaining to server startup times are in the ISessionControllers
 				Task<ISessionController> alphaServerTask;
 				if (!doesntNeedNewDmb)
-					alphaServerTask = SessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbToUse, null, true, true, false, cancellationToken);
+					alphaServerTask = SessionControllerFactory.LaunchNew(
+						dmbToUse,
+						null,
+						ActiveLaunchParameters,
+						true,
+						true,
+						false,
+						cancellationToken);
 				else
 					alphaServerTask = SessionControllerFactory.Reattach(reattachInfo.Alpha, cancellationToken);
 
@@ -553,7 +576,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 				// now bring bravo up
 				if (!doesntNeedNewDmb)
-					bravoServer = await SessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbToUse, null, false, false, false, cancellationToken).ConfigureAwait(false);
+					bravoServer = await SessionControllerFactory.LaunchNew(
+						dmbToUse,
+						null,
+						ActiveLaunchParameters,
+						false,
+						false,
+						false,
+						cancellationToken)
+						.ConfigureAwait(false);
 				else
 					bravoServer = await SessionControllerFactory.Reattach(reattachInfo.Bravo, cancellationToken).ConfigureAwait(false);
 

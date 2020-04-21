@@ -7,6 +7,7 @@ using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Core;
@@ -174,7 +175,7 @@ namespace Tgstation.Server.Host.Components
 
 		/// <inheritdoc />
 #pragma warning disable CA1506 // TODO: Decomplexify
-		public IInstance CreateInstance(Models.Instance metadata)
+		public IInstance CreateInstance(IBridgeRegistrar bridgeRegistrar, Models.Instance metadata)
 		{
 			// Create the ioManager for the instance
 			var instanceIoManager = new ResolvingIOManager(ioManager, metadata.Path);
@@ -203,7 +204,19 @@ namespace Tgstation.Server.Host.Components
 				var chat = chatFactory.CreateChat(instanceIoManager, commandFactory, metadata.ChatSettings);
 				try
 				{
-					var sessionControllerFactory = new SessionControllerFactory(processExecutor, byond, byondTopicSender, cryptographySuite, application, gameIoManager, chat, networkPromptReaper, platformIdentifier, loggerFactory, metadata.CloneMetadata());
+					var sessionControllerFactory = new SessionControllerFactory(
+						processExecutor,
+						byond,
+						byondTopicSender,
+						cryptographySuite,
+						application,
+						gameIoManager,
+						chat,
+						networkPromptReaper,
+						platformIdentifier,
+						bridgeRegistrar,
+						loggerFactory,
+						metadata.CloneMetadata());
 
 					var dmbFactory = new DmbFactory(databaseContextFactory, gameIoManager, loggerFactory.CreateLogger<DmbFactory>(), metadata.CloneMetadata());
 					try

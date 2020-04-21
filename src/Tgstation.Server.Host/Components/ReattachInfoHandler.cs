@@ -72,7 +72,6 @@ namespace Tgstation.Server.Host.Components
 					AccessIdentifier = wdInfo.AccessIdentifier,
 					ChatChannelsJson = wdInfo.ChatChannelsJson,
 					ChatCommandsJson = wdInfo.ChatCommandsJson,
-					ServerCommandsJson = wdInfo.ServerCommandsJson,
 					CompileJob = wdInfo.Dmb.CompileJob,
 					IsPrimary = wdInfo.IsPrimary,
 					Port = wdInfo.Port,

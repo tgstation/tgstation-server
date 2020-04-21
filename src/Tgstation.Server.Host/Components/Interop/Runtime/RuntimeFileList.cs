@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Tgstation.Server.Host.Components.Interop
+namespace Tgstation.Server.Host.Components.Interop.Runtime
 {
 	/// <summary>
 	/// Information used in for reattaching and interop
 	/// </summary>
-	public class JsonSubFileList
+	public class RuntimeFileList
 	{
 		/// <summary>
 		/// Path to the chat commands json file
@@ -21,27 +21,20 @@ namespace Tgstation.Server.Host.Components.Interop
 		public string ChatChannelsJson { get; set; }
 
 		/// <summary>
-		/// Path to the server commands json file
+		/// Construct an <see cref="RuntimeFileList"/>
 		/// </summary>
-		[Required]
-		public string ServerCommandsJson { get; set; }
+		protected RuntimeFileList() { }
 
 		/// <summary>
-		/// Construct an <see cref="JsonSubFileList"/>
+		/// Construct an <see cref="RuntimeFileList"/> from a <paramref name="copy"/>
 		/// </summary>
-		protected JsonSubFileList() { }
-
-		/// <summary>
-		/// Construct an <see cref="JsonSubFileList"/> from a <paramref name="copy"/>
-		/// </summary>
-		/// <param name="copy">An <see cref="JsonSubFileList"/> to copy</param>
-		public JsonSubFileList(JsonSubFileList copy)
+		/// <param name="copy">An <see cref="RuntimeFileList"/> to copy</param>
+		public RuntimeFileList(RuntimeFileList copy)
 		{
 			if (copy == null)
 				throw new ArgumentNullException(nameof(copy));
 			ChatChannelsJson = copy.ChatChannelsJson;
 			ChatCommandsJson = copy.ChatCommandsJson;
-			ServerCommandsJson = copy.ServerCommandsJson;
 		}
 	}
 }

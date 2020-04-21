@@ -2,13 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
@@ -16,6 +14,7 @@ using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Interop;
+using Tgstation.Server.Host.Components.Interop.Topic;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
@@ -432,43 +431,25 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (!Running)
 				return true;
 
-			string results;
+			TopicResponse result;
 			using (await SemaphoreSlimContext.Lock(Semaphore, cancellationToken).ConfigureAwait(false))
 			{
 				if (!Running)
 					return true;
 
-				var builder = new StringBuilder(Constants.DMTopicEvent);
-				builder.Append('&');
-				var notification = new EventNotification
-				{
-					Type = eventType,
-					Parameters = parameters
-				};
-				var json = JsonConvert.SerializeObject(notification);
-				builder.Append(byondTopicSender.SanitizeString(Constants.DMParameterData));
-				builder.Append('=');
-				builder.Append(byondTopicSender.SanitizeString(json));
+				var notification = new EventNotification(eventType, parameters);
 
 				var activeServer = GetActiveController();
-				results = await activeServer.SendCommand(builder.ToString(), cancellationToken).ConfigureAwait(false);
+				result = await activeServer.SendCommand(
+					new TopicParameters(notification),
+					cancellationToken)
+					.ConfigureAwait(false);
 			}
 
-			if (results == Constants.DMResponseSuccess)
+			if (result?.ChatResponses == null)
 				return true;
 
-			List<Response> responses;
-			try
-			{
-				responses = JsonConvert.DeserializeObject<List<Response>>(results);
-			}
-			catch
-			{
-				Logger.LogInformation("Recieved invalid response from DD when parsing event {0}:{1}{2}", eventType, Environment.NewLine, results);
-				return true;
-			}
-
-			await Task.WhenAll(responses.Select(x => Chat.SendMessage(x.Message, x.ChannelIds, cancellationToken))).ConfigureAwait(false);
+			await Task.WhenAll(result.ChatResponses.Select(x => Chat.SendMessage(x.Message, x.ChannelIds, cancellationToken))).ConfigureAwait(false);
 
 			return true;
 		}
@@ -481,22 +462,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				if (!Running)
 					return "ERROR: Server offline!";
 
-				var commandObject = new ChatCommand
-				{
-					Command = commandName,
-					Params = arguments,
-					User = sender
-				};
+				var commandObject = new ChatCommand(sender, commandName, arguments);
 
-				var json = JsonConvert.SerializeObject(commandObject, new JsonSerializerSettings
-				{
-					ContractResolver = new CamelCasePropertyNamesContractResolver()
-				});
-
-				var command = String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(Constants.DMTopicChatCommand), byondTopicSender.SanitizeString(Constants.DMParameterData), byondTopicSender.SanitizeString(json));
+				var command = new TopicParameters(commandObject);
 
 				var activeServer = GetActiveController();
-				return await activeServer.SendCommand(command, cancellationToken).ConfigureAwait(false) ?? "ERROR: Bad topic exchange!";
+				var commandResult = await activeServer.SendCommand(command, cancellationToken).ConfigureAwait(false);
+
+				return commandResult?.CommandResponse ??
+					(commandResult == null
+						? "ERROR: Bad topic exchange!"
+						: "ERROR: Bad DMAPI response!");
 			}
 		}
 

@@ -31,5 +31,10 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// </summary>
 		[Required]
 		public DreamDaemonSecurity? MinimumSecurityLevel { get; set; }
+
+		/// <summary>
+		/// The DMAPI <see cref="Version"/>.
+		/// </summary>
+		public Version DMApiVersion { get; set; 
 	}
 }

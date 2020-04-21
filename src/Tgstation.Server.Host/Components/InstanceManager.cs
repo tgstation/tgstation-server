@@ -6,17 +6,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Components.Interop;
+using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Security;
-using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components
 {
 	/// <inheritdoc />
-	sealed class InstanceManager : IInstanceManager, IRestartHandler, IHostedService, IDisposable
+	sealed class InstanceManager : IInstanceManager, IRestartHandler, IHostedService, IBridgeRegistrar, IDisposable
 	{
 		/// <summary>
 		/// The <see cref="IInstanceFactory"/> for the <see cref="InstanceManager"/>
@@ -49,11 +50,6 @@ namespace Tgstation.Server.Host.Components
 		readonly IServerControl serverControl;
 
 		/// <summary>
-		/// The <see cref="IPlatformIdentifier"/> for the <see cref="InstanceManager"/>
-		/// </summary>
-		readonly IPlatformIdentifier platformIdentifier;
-
-		/// <summary>
 		/// The <see cref="ISystemIdentityFactory"/> for the <see cref="InstanceManager"/>
 		/// </summary>
 		readonly ISystemIdentityFactory systemIdentityFactory;
@@ -66,7 +62,12 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// Map of <see cref="Api.Models.Instance.Id"/>s to respective <see cref="IInstance"/>s
 		/// </summary>
-		readonly Dictionary<long, IInstance> instances;
+		readonly IDictionary<long, IInstance> instances;
+
+		/// <summary>
+		/// Map of <see cref="IBridgeHandler.AccessIdentifier"/>s to their respective <see cref="IBridgeHandler"/>s.
+		/// </summary>
+		readonly IDictionary<string, IBridgeHandler> bridgeHandlers;
 
 		/// <summary>
 		/// Used in <see cref="StopAsync(CancellationToken)"/> to determine if database downgrades must be made
@@ -87,7 +88,6 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="application">The value of <see cref="application"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="serverControl">The value of <see cref="serverControl"/></param>
-		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		public InstanceManager(
@@ -97,7 +97,6 @@ namespace Tgstation.Server.Host.Components
 			IApplication application,
 			IJobManager jobManager,
 			IServerControl serverControl,
-			IPlatformIdentifier platformIdentifier,
 			ISystemIdentityFactory systemIdentityFactory,
 			ILogger<InstanceManager> logger)
 		{
@@ -107,13 +106,13 @@ namespace Tgstation.Server.Host.Components
 			this.application = application ?? throw new ArgumentNullException(nameof(application));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
-			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			serverControl.RegisterForRestart(this);
 
 			instances = new Dictionary<long, IInstance>();
+			bridgeHandlers = new Dictionary<string, IBridgeHandler>();
 		}
 
 		/// <inheritdoc />
@@ -212,7 +211,7 @@ namespace Tgstation.Server.Host.Components
 			if (metadata == null)
 				throw new ArgumentNullException(nameof(metadata));
 			logger.LogInformation("Onlining instance ID {0} ({1}) at {2}", metadata.Id, metadata.Name, metadata.Path);
-			var instance = instanceFactory.CreateInstance(metadata);
+			var instance = instanceFactory.CreateInstance(this, metadata);
 			try
 			{
 				lock (this)
@@ -301,6 +300,40 @@ namespace Tgstation.Server.Host.Components
 			using (var systemIdentity = systemIdentityFactory.GetCurrent())
 				if (!systemIdentity.CanCreateSymlinks)
 					throw new InvalidOperationException("The user running tgstation-server cannot create symlinks! Please try running as an administrative user!");
+		}
+
+		/// <inheritdoc />
+		public async Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
+		{
+			if (parameters == null)
+				throw new ArgumentNullException(nameof(parameters));
+
+			IBridgeHandler bridgeHandler;
+			lock (bridgeHandlers)
+				if (!bridgeHandlers.TryGetValue(parameters.AccessIdentifier, out bridgeHandler))
+				{
+					logger.LogWarning("Recieved invalid bridge request with accees identifier: {0}", parameters.AccessIdentifier);
+					return null;
+				}
+
+			return await bridgeHandler.ProcessBridgeRequest(parameters, cancellationToken).ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		public IBridgeRegistration RegisterHandler(IBridgeHandler bridgeHandler)
+		{
+			if (bridgeHandler == null)
+				throw new ArgumentNullException(nameof(bridgeHandler));
+
+			var accessIdentifier = bridgeHandler.AccessIdentifier;
+			lock (bridgeHandlers)
+				bridgeHandlers.Add(accessIdentifier, bridgeHandler);
+
+			return new BridgeRegistration(() =>
+			{
+				lock (bridgeHandlers)
+					bridgeHandlers.Remove(accessIdentifier);
+			});
 		}
 	}
 }

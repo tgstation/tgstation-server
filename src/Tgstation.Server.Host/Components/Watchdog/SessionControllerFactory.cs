@@ -14,7 +14,9 @@ using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Interop;
+using Tgstation.Server.Host.Components.Interop.Runtime;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.System;
@@ -70,6 +72,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IPlatformIdentifier platformIdentifier;
 
 		/// <summary>
+		/// The <see cref="IBridgeRegistrar"/> for the <see cref="SessionControllerFactory"/>.
+		/// </summary>
+		readonly IBridgeRegistrar bridgeRegistrar;
+
+		/// <summary>
 		/// The <see cref="ILoggerFactory"/> for the <see cref="SessionControllerFactory"/>
 		/// </summary>
 		readonly ILoggerFactory loggerFactory;
@@ -112,6 +119,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="chat">The value of <see cref="chat"/></param>
 		/// <param name="networkPromptReaper">The value of <see cref="networkPromptReaper"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
+		/// <param name="bridgeRegistrar">The value of <see cref="bridgeRegistrar"/>.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
 		public SessionControllerFactory(
 			IProcessExecutor processExecutor,
@@ -123,6 +131,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IChat chat,
 			INetworkPromptReaper networkPromptReaper,
 			IPlatformIdentifier platformIdentifier,
+			IBridgeRegistrar bridgeRegistrar,
 			ILoggerFactory loggerFactory,
 			Api.Models.Instance instance)
 		{
@@ -136,12 +145,20 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.networkPromptReaper = networkPromptReaper ?? throw new ArgumentNullException(nameof(networkPromptReaper));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
+			this.bridgeRegistrar = bridgeRegistrar ?? throw new ArgumentNullException(nameof(bridgeRegistrar));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 		}
 
 		/// <inheritdoc />
 		#pragma warning disable CA1506 // TODO: Decomplexify
-		public async Task<ISessionController> LaunchNew(DreamDaemonLaunchParameters launchParameters, IDmbProvider dmbProvider, IByondExecutableLock currentByondLock, bool primaryPort, bool primaryDirectory, bool apiValidate, CancellationToken cancellationToken)
+		public async Task<ISessionController> LaunchNew(
+			IDmbProvider dmbProvider,
+			IByondExecutableLock currentByondLock,
+			DreamDaemonLaunchParameters launchParameters,
+			bool primaryPort,
+			bool primaryDirectory,
+			bool apiValidate,
+			CancellationToken cancellationToken)
 		{
 			var portToUse = primaryPort ? launchParameters.PrimaryPort : launchParameters.SecondaryPort;
 			if (!portToUse.HasValue)
@@ -155,9 +172,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			// delete all previous tgs json files
 			var files = await ioManager.GetFilesWithExtension(basePath, JsonPostfix, cancellationToken).ConfigureAwait(false);
 			await Task.WhenAll(files.Select(x => ioManager.DeleteFile(x, cancellationToken))).ConfigureAwait(false);
-
-			// i changed this back from guids, hopefully i don't regret that
-			string JsonFile(string name) => String.Format(CultureInfo.InvariantCulture, "{0}.{1}", name, JsonPostfix);
 
 			var securityLevelToUse = launchParameters.SecurityLevel.Value;
 			switch (dmbProvider.CompileJob.MinimumSecurityLevel)
@@ -175,32 +189,34 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid DreamDaemonSecurity value: {0}", dmbProvider.CompileJob.MinimumSecurityLevel));
 			}
 
-			// setup interop files
-			var interopInfo = new JsonFile
-			{
-				AccessIdentifier = accessIdentifier,
-				ApiValidateOnly = apiValidate,
-				ChatChannelsJson = JsonFile("chat_channels"),
-				ChatCommandsJson = JsonFile("chat_commands"),
-				ServerCommandsJson = JsonFile("server_commands"),
-				InstanceName = instance.Name,
-				SecurityLevel = securityLevelToUse,
-				Revision = new Api.Models.Internal.RevisionInformation
-				{
-					CommitSha = dmbProvider.CompileJob.RevisionInformation.CommitSha,
-					OriginCommitSha = dmbProvider.CompileJob.RevisionInformation.OriginCommitSha
-				}
-			};
+			// i changed this back from guids, hopefully i don't regret that
+			string JsonFile(string name) => $"tgs_{name}.{JsonPostfix}";
 
-			interopInfo.TestMerges.AddRange(dmbProvider.CompileJob.RevisionInformation.ActiveTestMerges.Select(x => x.TestMerge).Select(x => new Interop.TestMerge(x, interopInfo.Revision)));
+			// setup interop files
+			var revisionInfo = new Api.Models.Internal.RevisionInformation
+			{
+				CommitSha = dmbProvider.CompileJob.RevisionInformation.CommitSha,
+				OriginCommitSha = dmbProvider.CompileJob.RevisionInformation.OriginCommitSha
+			};
+			var testMerges = dmbProvider
+					.CompileJob
+					.RevisionInformation
+					.ActiveTestMerges
+					.Select(x => x.TestMerge)
+					.Select(x => new RuntimeTestMerge(x, revisionInfo));
+			var interopInfo = new RuntimeInformation(
+				application,
+				cryptographySuite,
+				testMerges,
+				instance,
+				revisionInfo,
+				JsonFile("chat_channels"),
+				JsonFile("chat_commands"),
+				securityLevelToUse);
 
 			var interopJsonFile = JsonFile("interop");
 
-			var interopJson = JsonConvert.SerializeObject(interopInfo, new JsonSerializerSettings
-			{
-				ContractResolver = new CamelCasePropertyNamesContractResolver(),
-				ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-			});
+			var interopJson = JsonConvert.SerializeObject(interopInfo, DMApiConstants.SerializerSettings);
 
 			var chatJsonTrackingTask = chat.TrackJsons(basePath, interopInfo.ChatChannelsJson, interopInfo.ChatCommandsJson, cancellationToken);
 
@@ -212,36 +228,33 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var byondLock = currentByondLock ?? await byond.UseExecutables(Version.Parse(dmbProvider.CompileJob.ByondVersion), cancellationToken).ConfigureAwait(false);
 				try
 				{
-					// create interop context
-					var context = new CommContext(ioManager, loggerFactory.CreateLogger<CommContext>(), basePath, interopInfo.ServerCommandsJson);
+					// set command line options
+					// more sanitization here cause it uses the same scheme
+					var parameters = $"{DMApiConstants.ParamApiVersion}={byondTopicSender.SanitizeString(DMApiConstants.Version.Semver())}&{byondTopicSender.SanitizeString(DMApiConstants.ParamDeploymentInformationFile)}={byondTopicSender.SanitizeString(interopJsonFile)}";
+
+					var visibility = apiValidate ? "invisible" : "public";
+
+					// important to run on all ports to allow port changing
+					var arguments = String.Format(CultureInfo.InvariantCulture, "{0} -port {1} -ports 1-65535 {2}-close -{3} -{5} -public -params \"{4}\"",
+						dmbProvider.DmbName,
+						primaryPort ? launchParameters.PrimaryPort : launchParameters.SecondaryPort,
+						launchParameters.AllowWebClient.Value ? "-webclient " : String.Empty,
+						SecurityWord(securityLevelToUse),
+						parameters,
+						visibility);
+
+					// See https://github.com/tgstation/tgstation-server/issues/719
+					var noShellExecute = !platformIdentifier.IsWindows;
+
+					// launch dd
+					var process = processExecutor.LaunchProcess(byondLock.DreamDaemonPath, basePath, arguments, noShellExecute: noShellExecute);
 					try
 					{
-						// set command line options
-						// more sanitization here cause it uses the same scheme
-						var parameters = String.Format(CultureInfo.InvariantCulture, "{2}={0}&{3}={1}", byondTopicSender.SanitizeString(application.Version.ToString()), byondTopicSender.SanitizeString(interopJsonFile), byondTopicSender.SanitizeString(Constants.DMParamHostVersion), byondTopicSender.SanitizeString(Constants.DMParamInfoJson));
+						networkPromptReaper.RegisterProcess(process);
 
-						var visibility = apiValidate ? "invisible" : "public";
-
-						// important to run on all ports to allow port changing
-						var arguments = String.Format(CultureInfo.InvariantCulture, "{0} -port {1} -ports 1-65535 {2}-close -{3} -{5} -public -params \"{4}\"",
-							dmbProvider.DmbName,
-							primaryPort ? launchParameters.PrimaryPort : launchParameters.SecondaryPort,
-							launchParameters.AllowWebClient.Value ? "-webclient " : String.Empty,
-							SecurityWord(securityLevelToUse),
-							parameters,
-							visibility);
-
-						// See https://github.com/tgstation/tgstation-server/issues/719
-						var noShellExecute = !platformIdentifier.IsWindows;
-
-						// launch dd
-						var process = processExecutor.LaunchProcess(byondLock.DreamDaemonPath, basePath, arguments, noShellExecute: noShellExecute);
-						try
-						{
-							networkPromptReaper.RegisterProcess(process);
-
-							// return the session controller for it
-							var result = new SessionController(new ReattachInformation
+						// return the session controller for it
+						var result = new SessionController(
+							new ReattachInformation
 							{
 								AccessIdentifier = accessIdentifier,
 								Dmb = dmbProvider,
@@ -250,23 +263,25 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								ProcessId = process.Id,
 								ChatChannelsJson = interopInfo.ChatChannelsJson,
 								ChatCommandsJson = interopInfo.ChatCommandsJson,
-								ServerCommandsJson = interopInfo.ServerCommandsJson,
-							}, process, byondLock, byondTopicSender, chatJsonTrackingContext, context, chat, loggerFactory.CreateLogger<SessionController>(), launchParameters.SecurityLevel, launchParameters.StartupTimeout);
+							},
+							process,
+							byondLock,
+							byondTopicSender,
+							chatJsonTrackingContext,
+							bridgeRegistrar,
+							chat,
+							loggerFactory.CreateLogger<SessionController>(),
+							launchParameters.SecurityLevel,
+							launchParameters.StartupTimeout);
 
-							// writeback launch parameter's fixed security level
-							launchParameters.SecurityLevel = securityLevelToUse;
+						// writeback launch parameter's fixed security level
+						launchParameters.SecurityLevel = securityLevelToUse;
 
-							return result;
-						}
-						catch
-						{
-							process.Dispose();
-							throw;
-						}
+						return result;
 					}
 					catch
 					{
-						context.Dispose();
+						process.Dispose();
 						throw;
 					}
 				}
@@ -286,7 +301,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		#pragma warning restore CA1506
 
 		/// <inheritdoc />
-		public async Task<ISessionController> Reattach(ReattachInformation reattachInformation, CancellationToken cancellationToken)
+		public async Task<ISessionController> Reattach(
+			ReattachInformation reattachInformation,
+			CancellationToken cancellationToken)
 		{
 			if (reattachInformation == null)
 				throw new ArgumentNullException(nameof(reattachInformation));
@@ -299,31 +316,31 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var byondLock = await byond.UseExecutables(Version.Parse(reattachInformation.Dmb.CompileJob.ByondVersion), cancellationToken).ConfigureAwait(false);
 				try
 				{
-					var context = new CommContext(ioManager, loggerFactory.CreateLogger<CommContext>(), basePath, reattachInformation.ServerCommandsJson);
-					try
-					{
-						var process = processExecutor.GetProcess(reattachInformation.ProcessId);
+					var process = processExecutor.GetProcess(reattachInformation.ProcessId);
+					if (process != null)
+						try
+						{
+							networkPromptReaper.RegisterProcess(process);
+							result = new SessionController(
+								reattachInformation,
+								process,
+								byondLock,
+								byondTopicSender,
+								chatJsonTrackingContext,
+								bridgeRegistrar,
+								chat,
+								loggerFactory.CreateLogger<SessionController>(),
+								null,
+								null);
 
-						if (process != null)
-							try
-							{
-								networkPromptReaper.RegisterProcess(process);
-								result = new SessionController(reattachInformation, process, byondLock, byondTopicSender, chatJsonTrackingContext, context, chat, loggerFactory.CreateLogger<SessionController>(), null, null);
-
-								process = null;
-								context = null;
-								byondLock = null;
-								chatJsonTrackingContext = null;
-							}
-							finally
-							{
-								process?.Dispose();
-							}
-					}
-					finally
-					{
-						context?.Dispose();
-					}
+							process = null;
+							byondLock = null;
+							chatJsonTrackingContext = null;
+						}
+						finally
+						{
+							process?.Dispose();
+						}
 				}
 				finally
 				{

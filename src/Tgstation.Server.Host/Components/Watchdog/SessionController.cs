@@ -1,9 +1,7 @@
 ﻿using Byond.TopicSender;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Net;
 using System.Threading;
@@ -13,17 +11,17 @@ using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Interop;
+using Tgstation.Server.Host.Components.Interop.Bridge;
+using Tgstation.Server.Host.Components.Interop.Topic;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <inheritdoc />
-	sealed class SessionController : ISessionController, ICommHandler
+	sealed class SessionController : ISessionController, IBridgeHandler
 	{
-		/// <summary>
-		/// The DMAPI version being used.
-		/// </summary>
-		public static readonly Version DMApiVersion = new Version(5, 0, 0);
+		/// <inheritdoc />
+		public string AccessIdentifier => reattachInformation.AccessIdentifier;
 
 		/// <inheritdoc />
 		public bool IsPrimary
@@ -79,6 +77,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
+		public Version DMApiVersion { get; private set; }
+
+		/// <inheritdoc />
 		public bool ClosePortOnReboot { get; set; }
 
 		/// <inheritdoc />
@@ -104,9 +105,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IByondTopicSender byondTopicSender;
 
 		/// <summary>
-		/// The <see cref="ICommContext"/> for the <see cref="SessionController"/>
+		/// The <see cref="IBridgeRegistration"/> for the <see cref="SessionController"/>
 		/// </summary>
-		readonly ICommContext interopContext;
+		readonly IBridgeRegistration bridgeRegistration;
 
 		/// <summary>
 		/// The <see cref="IProcess"/> for the <see cref="SessionController"/>
@@ -180,7 +181,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="process">The value of <see cref="process"/></param>
 		/// <param name="byondLock">The value of <see cref="byondLock"/></param>
 		/// <param name="byondTopicSender">The value of <see cref="byondTopicSender"/></param>
-		/// <param name="interopContext">The value of <see cref="interopContext"/></param>
+		/// <param name="bridgeRegistrar">The <see cref="IBridgeRegistrar"/> used to populate <see cref="bridgeRegistration"/>.</param>
 		/// <param name="chat">The value of <see cref="chat"/></param>
 		/// <param name="chatJsonTrackingContext">The value of <see cref="chatJsonTrackingContext"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
@@ -192,7 +193,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IByondExecutableLock byondLock,
 			IByondTopicSender byondTopicSender,
 			IJsonTrackingContext chatJsonTrackingContext,
-			ICommContext interopContext,
+			IBridgeRegistrar bridgeRegistrar,
 			IChat chat,
 			ILogger<SessionController> logger,
 			DreamDaemonSecurity? launchSecurityLevel,
@@ -203,13 +204,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
 			this.process = process ?? throw new ArgumentNullException(nameof(process));
 			this.byondLock = byondLock ?? throw new ArgumentNullException(nameof(byondLock));
-			this.interopContext = interopContext ?? throw new ArgumentNullException(nameof(interopContext));
+			bridgeRegistration = bridgeRegistrar?.RegisterHandler(this) ?? throw new ArgumentNullException(nameof(bridgeRegistrar));
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			this.launchSecurityLevel = launchSecurityLevel;
-
-			interopContext.RegisterHandler(this);
 
 			portClosedForReboot = false;
 			disposed = false;
@@ -277,7 +276,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					}
 
 					process.Dispose();
-					interopContext.Dispose();
+					bridgeRegistration.Dispose();
 					Dmb?.Dispose(); // will be null when released
 					chatJsonTrackingContext.Dispose();
 					disposed = true;
@@ -296,139 +295,145 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		#pragma warning disable CA1502 // TODO: Decomplexify
-		public async Task HandleInterop(CommCommand command, CancellationToken cancellationToken)
+		public async Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
 		{
-			if (command == null)
-				throw new ArgumentNullException(nameof(command));
+			if (parameters == null)
+				throw new ArgumentNullException(nameof(parameters));
 
-			var query = command.Parameters;
-
-			object content;
-			Action postRespond = null;
-			ushort? overrideResponsePort = null;
-			if (query.TryGetValue(Constants.DMParameterCommand, out var method))
+			var response = new BridgeResponse();
+			switch (parameters.CommandType)
 			{
-				content = new object();
-				switch (method)
-				{
-					case Constants.DMCommandChat:
-						try
+				case BridgeCommandType.ChatSend:
+					if (parameters.ChatMessage == null)
+						return new BridgeResponse
 						{
-							var message = JsonConvert.DeserializeObject<Response>(command.RawJson, new JsonSerializerSettings
+							ErrorMessage = "Missing chatMessage field!"
+						};
+
+					if (parameters.ChatMessage.ChannelIds == null)
+						return new BridgeResponse
+						{
+							ErrorMessage = "Missing channelIds field in chatMessage!"
+						};
+
+					if (parameters.ChatMessage.Message == null)
+						return new BridgeResponse
+						{
+							ErrorMessage = "Missing message field in chatMessage!"
+						};
+
+					await chat.SendMessage(
+						parameters.ChatMessage.Message,
+						parameters.ChatMessage.ChannelIds,
+						cancellationToken).ConfigureAwait(false);
+					break;
+				case BridgeCommandType.Prime:
+					// currently unused, maybe in the future
+					break;
+				case BridgeCommandType.Kill:
+					TerminationWasRequested = true;
+					process.Terminate();
+					break;
+				case BridgeCommandType.NewPort:
+					lock (this)
+					{
+						if (!parameters.NewPort.HasValue)
+						{
+							/////UHHHH
+							logger.LogWarning("DreamDaemon sent new port command without providing it's own!");
+							return new BridgeResponse
 							{
-								ContractResolver = new CamelCasePropertyNamesContractResolver()
-							});
-							if (message.ChannelIds == null)
-								throw new InvalidOperationException("Missing ChannelIds field!");
-							if (message.Message == null)
-								throw new InvalidOperationException("Missing Message field!");
-							await chat.SendMessage(message.Message, message.ChannelIds, cancellationToken).ConfigureAwait(false);
-						}
-						catch (Exception e)
-						{
-							logger.LogDebug("Exception while decoding chat message! Exception: {0}", e);
-							goto default;
+								ErrorMessage = "Missing stringified port as data parameter!"
+							};
 						}
 
-						break;
-					case Constants.DMCommandServerPrimed:
-						// currently unused, maybe in the future
-						break;
-					case Constants.DMCommandEndProcess:
-						TerminationWasRequested = true;
-						process.Terminate();
-						return;
-					case Constants.DMCommandNewPort:
-						lock (this)
-						{
-							if (!query.TryGetValue(Constants.DMParameterData, out var stringPortObject) || !UInt16.TryParse(stringPortObject as string, out var currentPort))
-							{
-								/////UHHHH
-								logger.LogWarning("DreamDaemon sent new port command without providing it's own!");
-								content = new ErrorMessage(ErrorCode.InternalServerError) { Message = "Missing stringified port as data parameter!" };
-								break;
-							}
-
-							if (!nextPort.HasValue)
-								reattachInformation.Port = currentPort; // not ready yet, so what we'll do is accept the random port DD opened on for now and change it later when we decide to
-							else
-							{
-								// nextPort is ready, tell DD to switch to that
-								// if it fails it'll kill itself
-								content = new Dictionary<string, ushort> { { Constants.DMParameterData, nextPort.Value } };
-								reattachInformation.Port = nextPort.Value;
-								overrideResponsePort = currentPort;
-								nextPort = null;
-
-								// we'll also get here from SetPort so complete that task
-								var tmpTcs = portAssignmentTcs;
-								portAssignmentTcs = null;
-								if (tmpTcs != null)
-									postRespond = () => tmpTcs.SetResult(true);
-							}
-
-							portClosedForReboot = false;
-						}
-
-						break;
-					case Constants.DMCommandApiValidate:
-						if (!launchSecurityLevel.HasValue)
-						{
-							logger.LogWarning("DreamDaemon requested API validation but no intial security level was passed to the session controller!");
-							apiValidationStatus = ApiValidationStatus.UnaskedValidationRequest;
-							content = new ErrorMessage(ErrorCode.InternalServerError) { Message = "Invalid API validation request!" };
-							break;
-						}
-
-						if (!query.TryGetValue(Constants.DMParameterData, out var stringMinimumSecurityLevelObject) || !Enum.TryParse<DreamDaemonSecurity>(stringMinimumSecurityLevelObject as string, out var minimumSecurityLevel))
-							apiValidationStatus = ApiValidationStatus.BadValidationRequest;
+						var currentPort = parameters.NewPort.Value;
+						if (!nextPort.HasValue)
+							reattachInformation.Port = parameters.NewPort.Value; // not ready yet, so what we'll do is accept the random port DD opened on for now and change it later when we decide to
 						else
-							switch (minimumSecurityLevel)
-							{
-								case DreamDaemonSecurity.Safe:
-									apiValidationStatus = ApiValidationStatus.RequiresSafe;
-									break;
-								case DreamDaemonSecurity.Ultrasafe:
-									apiValidationStatus = ApiValidationStatus.RequiresUltrasafe;
-									break;
-								case DreamDaemonSecurity.Trusted:
-									apiValidationStatus = ApiValidationStatus.RequiresTrusted;
-									break;
-								default:
-									throw new InvalidOperationException("Enum.TryParse failed to validate the DreamDaemonSecurity range!");
-							}
-
-						break;
-					case Constants.DMCommandWorldReboot:
-						if (ClosePortOnReboot)
 						{
-							chatJsonTrackingContext.Active = false;
-							content = new Dictionary<string, int> { { Constants.DMParameterData, 0 } };
-							portClosedForReboot = true;
+							// nextPort is ready, tell DD to switch to that
+							// if it fails it'll kill itself
+							response.NewPort = nextPort.Value;
+							reattachInformation.Port = nextPort.Value;
+							nextPort = null;
+
+							// we'll also get here from SetPort so complete that task
+							var tmpTcs = portAssignmentTcs;
+							portAssignmentTcs = null;
+							tmpTcs.SetResult(true);
 						}
 
-						var oldTcs = rebootTcs;
-						rebootTcs = new TaskCompletionSource<object>();
-						postRespond = () => oldTcs.SetResult(null);
-						break;
-					default:
-						content = new ErrorMessage(ErrorCode.InternalServerError) { Message = "Requested command not supported!" };
-						break;
-				}
+						portClosedForReboot = false;
+					}
+
+					break;
+				case BridgeCommandType.Validate:
+					if (!launchSecurityLevel.HasValue)
+					{
+						logger.LogWarning("DreamDaemon requested API validation but no intial security level was passed to the session controller!");
+						apiValidationStatus = ApiValidationStatus.UnaskedValidationRequest;
+						return new BridgeResponse
+						{
+							ErrorMessage = "Invalid time for an API validation request!"
+						};
+					}
+
+					if (parameters.Version == null)
+					{
+						return new BridgeResponse
+						{
+							ErrorMessage = "Missing dmApiVersion field!"
+						};
+					}
+
+					switch (parameters.MinimumSecurityLevel)
+					{
+						case DreamDaemonSecurity.Safe:
+							apiValidationStatus = ApiValidationStatus.RequiresSafe;
+							break;
+						case DreamDaemonSecurity.Ultrasafe:
+							apiValidationStatus = ApiValidationStatus.RequiresUltrasafe;
+							break;
+						case DreamDaemonSecurity.Trusted:
+							apiValidationStatus = ApiValidationStatus.RequiresTrusted;
+							break;
+						case null:
+							apiValidationStatus = ApiValidationStatus.BadValidationRequest;
+							return new BridgeResponse
+							{
+								ErrorMessage = "Missing minimumSecurityLevel field!"
+							};
+						default:
+							return new BridgeResponse
+							{
+								ErrorMessage = "Invalid minimumSecurityLevel!"
+							};
+					}
+
+					break;
+				case BridgeCommandType.Reboot:
+					if (ClosePortOnReboot)
+					{
+						chatJsonTrackingContext.Active = false;
+						response.NewPort = 0;
+						portClosedForReboot = true;
+					}
+
+					var oldTcs = rebootTcs;
+					rebootTcs = new TaskCompletionSource<object>();
+					oldTcs.SetResult(null);
+					break;
+				case null:
+					response.ErrorMessage = "Missing commandType!";
+					break;
+				default:
+					response.ErrorMessage = "Requested commandType not supported!";
+					break;
 			}
-			else
-				content = new ErrorMessage(ErrorCode.InternalServerError) { Message = "Missing command parameter!" };
 
-			var json = JsonConvert.SerializeObject(content);
-			var response = await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(Constants.DMTopicInteropResponse), byondTopicSender.SanitizeString(Constants.DMParameterData), byondTopicSender.SanitizeString(json)), overrideResponsePort, cancellationToken).ConfigureAwait(false);
-
-			if (response != Constants.DMResponseSuccess)
-				logger.LogWarning("Received error response while responding to interop: {0}", response);
-
-			postRespond?.Invoke();
+			return response;
 		}
-		#pragma warning restore CA1502
 
 		/// <summary>
 		/// Throws an <see cref="ObjectDisposedException"/> if <see cref="Dispose(bool)"/> has been called
@@ -459,35 +464,48 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public Task<string> SendCommand(string command, CancellationToken cancellationToken) => SendCommand(command, null, cancellationToken);
-
-		async Task<string> SendCommand(string command, ushort? overridePort, CancellationToken cancellationToken)
+		public async Task<TopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken)
 		{
 			if (Lifetime.IsCompleted)
 			{
 				logger.LogWarning(
-					"Attempted to send a command to an inactive SessionController{1}: {0}",
-					command,
-					overridePort.HasValue ? $" (Override port: {overridePort.Value})" : String.Empty);
+					"Attempted to send a command to an inactive SessionController: {0}",
+					parameters.CommandType);
 				return null;
 			}
 
+			parameters.AccessIdentifier = reattachInformation.AccessIdentifier;
+
+			var json = JsonConvert.SerializeObject(parameters, DMApiConstants.SerializerSettings);
 			try
 			{
 				var commandString = String.Format(CultureInfo.InvariantCulture,
-					"?{0}={1}&{2}={3}",
-					byondTopicSender.SanitizeString(Constants.DMInteropAccessIdentifier),
-					byondTopicSender.SanitizeString(reattachInformation.AccessIdentifier),
-					byondTopicSender.SanitizeString(Constants.DMParameterCommand),
-					command); // intentionally don't sanitize command, that's up to the caller
+					"?{0}={1}",
+					byondTopicSender.SanitizeString(DMApiConstants.TopicData),
+					byondTopicSender.SanitizeString(json));
 
-				var targetPort = overridePort ?? reattachInformation.Port;
+				var targetPort = reattachInformation.Port;
 				logger.LogTrace("Export to :{0}. Query: {1}", targetPort, commandString);
 
-				return await byondTopicSender.SendTopic(
+				var topicReturn = await byondTopicSender.SendTopic(
 					new IPEndPoint(IPAddress.Loopback, targetPort),
 					commandString,
 					cancellationToken).ConfigureAwait(false);
+
+				try
+				{
+					var result = JsonConvert.DeserializeObject<TopicResponse>(topicReturn, DMApiConstants.SerializerSettings);
+					if (result.ErrorMessage != null)
+					{
+						logger.LogWarning("Errored topic response for command {0}: {1}", parameters.CommandType, result.ErrorMessage);
+					}
+
+					return result;
+				}
+				catch
+				{
+					logger.LogWarning("Invalid topic response: {0}", topicReturn);
+				}
 			}
 			catch (OperationCanceledException)
 			{
@@ -495,9 +513,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			}
 			catch (Exception e)
 			{
-				logger.LogInformation("Send command exception:{0}{1}", Environment.NewLine, e.Message);
-				return null;
+				logger.LogWarning("Send command exception:{0}{1}", Environment.NewLine, e.Message);
 			}
+
+			return null;
 		}
 
 		/// <inheritdoc />
@@ -510,11 +529,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			async Task<bool> ImmediateTopicPortChange()
 			{
-				var commandResult = await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(Constants.DMTopicChangePort), byondTopicSender.SanitizeString(Constants.DMParameterData), byondTopicSender.SanitizeString(port.ToString(CultureInfo.InvariantCulture))), cancellationToken).ConfigureAwait(false);
+				var commandResult = await SendCommand(
+					new TopicParameters(port),
+					cancellationToken)
+					.ConfigureAwait(false);
 
-				if (commandResult != Constants.DMResponseSuccess)
+				if (commandResult.ErrorMessage != null)
 				{
-					logger.LogWarning("Failed port change! DD says: {0}", commandResult);
+					logger.LogWarning("Failed port change! DD says: {0}", commandResult.ErrorMessage);
 					return false;
 				}
 
@@ -541,7 +563,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (RebootState == newRebootState)
 				return true;
 			reattachInformation.RebootState = newRebootState;
-			return await SendCommand(String.Format(CultureInfo.InvariantCulture, "{0}&{1}={2}", byondTopicSender.SanitizeString(Constants.DMTopicChangeReboot), byondTopicSender.SanitizeString(Constants.DMParameterData), (int)newRebootState), cancellationToken).ConfigureAwait(false) == Constants.DMResponseSuccess;
+			var result = await SendCommand(
+				new TopicParameters(newRebootState),
+				cancellationToken)
+				.ConfigureAwait(false);
+
+			return result != null && result.ErrorMessage != null;
 		}
 
 		/// <inheritdoc />
@@ -563,13 +590,19 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public void ReplaceDmbProvider(IDmbProvider dmbProvider)
 		{
-#pragma warning disable IDE0016 // Use 'throw' expression
-			if (dmbProvider == null)
-				throw new ArgumentNullException(nameof(dmbProvider));
-#pragma warning restore IDE0016 // Use 'throw' expression
+			var oldDmb = reattachInformation.Dmb;
+			reattachInformation.Dmb = dmbProvider ?? throw new ArgumentNullException(nameof(dmbProvider));
+			oldDmb.Dispose();
+		}
 
-			reattachInformation.Dmb.Dispose();
-			reattachInformation.Dmb = dmbProvider;
+		/// <inheritdoc />
+		public async Task InstanceRenamed(string newInstanceName, CancellationToken cancellationToken)
+		{
+			var result = await SendCommand(new TopicParameters(newInstanceName), cancellationToken).ConfigureAwait(false);
+			if(result == null)
+				logger.LogWarning("Failed to change instance name! No DD response from Topic!", result.ErrorMessage);
+			if (result.ErrorMessage != null)
+				logger.LogWarning("Failed to change reboot state! DD says: {0}", result.ErrorMessage);
 		}
 	}
 }

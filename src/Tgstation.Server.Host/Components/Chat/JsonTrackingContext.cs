@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Components.Chat.Commands;
+using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 
@@ -80,13 +81,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					var resultBytes = await ioManager.ReadAllBytes(commandsPath, cancellationToken).ConfigureAwait(false);
 					var resultJson = Encoding.UTF8.GetString(resultBytes);
 					logger.LogTrace("Read commands JSON: {0}", resultJson);
-					var result = JsonConvert.DeserializeObject<List<CustomCommand>>(resultJson, new JsonSerializerSettings
-					{
-						ContractResolver = new DefaultContractResolver
-						{
-							NamingStrategy = new SnakeCaseNamingStrategy()
-						}
-					});
+					var result = JsonConvert.DeserializeObject<List<CustomCommand>>(resultJson, DMApiConstants.SerializerSettings);
 					foreach (var I in result)
 						I.SetHandler(customCommandHandler);
 					return result;
@@ -109,10 +104,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		{
 			using (await SemaphoreSlimContext.Lock(channelsSemaphore, cancellationToken).ConfigureAwait(false))
 			{
-				var json = JsonConvert.SerializeObject(channels, new JsonSerializerSettings
-				{
-					ContractResolver = new CamelCasePropertyNamesContractResolver()
-				});
+				var json = JsonConvert.SerializeObject(channels, DMApiConstants.SerializerSettings);
 				logger.LogTrace("Writing channels JSON: {0}", json);
 				await ioManager.WriteAllBytes(channelsPath, Encoding.UTF8.GetBytes(json), cancellationToken).ConfigureAwait(false);
 			}

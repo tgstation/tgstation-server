@@ -109,7 +109,7 @@ namespace Tgstation.Server.Host.Components.Watchdog.Tests
 				var sessionsToVerify = new List<Mock<ISessionController>>();
 
 				var cancellationToken = cts.Token;
-				mockSessionControllerFactory.Setup(x => x.LaunchNew(mockLaunchParameters, mDmbP, null, It.IsAny<bool>(), It.IsAny<bool>(), false, cancellationToken)).Returns(() =>
+				mockSessionControllerFactory.Setup(x => x.LaunchNew(mDmbP, null, mockLaunchParameters, It.IsAny<bool>(), It.IsAny<bool>(), false, cancellationToken)).Returns(() =>
 				{
 					var mockSession = new Mock<ISessionController>();
 					mockSession.SetupGet(x => x.Lifetime).Returns(infiniteTask).Verifiable();

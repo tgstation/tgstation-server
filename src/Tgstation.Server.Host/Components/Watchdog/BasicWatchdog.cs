@@ -182,7 +182,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				if (!doesntNeedNewDmb)
 				{
 					dmbToUse = await PrepServerForLaunch(dmbToUse, cancellationToken).ConfigureAwait(false);
-					serverLaunchTask = SessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbToUse, null, true, true, false, cancellationToken);
+					serverLaunchTask = SessionControllerFactory.LaunchNew(
+						dmbToUse,
+						null,
+						ActiveLaunchParameters,
+						true,
+						true,
+						false,
+						cancellationToken);
 				}
 				else
 					serverLaunchTask = SessionControllerFactory.Reattach(serverToReattach, cancellationToken);

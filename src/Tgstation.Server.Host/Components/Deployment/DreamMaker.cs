@@ -176,7 +176,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			var timeoutAt = DateTimeOffset.Now.AddSeconds(timeout);
 
 			using (var provider = new TemporaryDmbProvider(ioManager.ResolvePath(dirA), String.Concat(job.DmeName, DmbExtension), job))
-			using (var controller = await sessionControllerFactory.LaunchNew(launchParameters, provider, byondLock, true, true, true, cancellationToken).ConfigureAwait(false))
+			using (var controller = await sessionControllerFactory.LaunchNew(provider, byondLock, launchParameters, true, true, true, cancellationToken).ConfigureAwait(false))
 			{
 				var launchResult = await controller.LaunchResult.ConfigureAwait(false);
 

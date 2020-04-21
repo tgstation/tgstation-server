@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using Tgstation.Server.Api;
 using Tgstation.Server.Client;
 using Tgstation.Server.Host;
+using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Watchdog;
 
 namespace Tgstation.Server.Tests
@@ -85,7 +86,7 @@ namespace Tgstation.Server.Tests
 
 			Assert.IsTrue(Version.TryParse(versionLine, out var actual));
 			Assert.AreEqual(expected, actual);
-			Assert.AreEqual(expected, SessionController.DMApiVersion);
+			Assert.AreEqual(expected, DMApiConstants.Version);
 		}
 
 		[TestMethod]
