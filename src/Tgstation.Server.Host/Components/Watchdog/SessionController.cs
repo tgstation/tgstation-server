@@ -371,7 +371,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				case BridgeCommandType.Validate:
 					if (!launchSecurityLevel.HasValue)
 					{
-						logger.LogWarning("DreamDaemon requested API validation but no intial security level was passed to the session controller!");
+						logger.LogWarning(
+							"DreamDaemon requested API validation but no intial security level was passed to the session controller!");
 						apiValidationStatus = ApiValidationStatus.UnaskedValidationRequest;
 						return new BridgeResponse
 						{
@@ -380,20 +381,19 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					}
 
 					if (parameters.Version == null)
-					{
 						return new BridgeResponse
 						{
 							ErrorMessage = "Missing dmApiVersion field!"
 						};
-					}
 
+					DMApiVersion = parameters.Version;
 					switch (parameters.MinimumSecurityLevel)
 					{
-						case DreamDaemonSecurity.Safe:
-							apiValidationStatus = ApiValidationStatus.RequiresSafe;
-							break;
 						case DreamDaemonSecurity.Ultrasafe:
 							apiValidationStatus = ApiValidationStatus.RequiresUltrasafe;
+							break;
+						case DreamDaemonSecurity.Safe:
+							apiValidationStatus = ApiValidationStatus.RequiresSafe;
 							break;
 						case DreamDaemonSecurity.Trusted:
 							apiValidationStatus = ApiValidationStatus.RequiresTrusted;
