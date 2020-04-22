@@ -27,6 +27,7 @@ using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Chat.Providers;
+using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Configuration;
@@ -354,8 +355,9 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IChatFactory, ChatFactory>();
 			services.AddSingleton<IInstanceFactory, InstanceFactory>();
 
-			// configure root services
+			// configure root service
 			services.AddSingleton<InstanceManager>();
+			services.AddSingleton<IBridgeDispatcher>(x => x.GetRequiredService<InstanceManager>());
 			services.AddSingleton<IInstanceManager>(x => x.GetRequiredService<InstanceManager>());
 			services.AddSingleton<IHostedService>(x => x.GetRequiredService<InstanceManager>());
 

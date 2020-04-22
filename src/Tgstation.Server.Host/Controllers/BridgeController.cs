@@ -2,10 +2,10 @@
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
-using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 
@@ -19,9 +19,9 @@ namespace Tgstation.Server.Host.Controllers
 	public class BridgeController : Controller
 	{
 		/// <summary>
-		/// The <see cref="IInstanceManager"/> for the <see cref="BridgeController"/>
+		/// The <see cref="IBridgeDispatcher"/> for the <see cref="BridgeController"/>
 		/// </summary>
-		readonly IInstanceManager instanceManager;
+		readonly IBridgeDispatcher bridgeDispatcher;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="BridgeController"/>
@@ -31,11 +31,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BridgeController"/> <see langword="class"/>.
 		/// </summary>
-		/// <param name="instanceManager">The value of <see cref="instanceManager"/>.</param>
+		/// <param name="bridgeDispatcher">The value of <see cref="bridgeDispatcher"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		public BridgeController(IInstanceManager instanceManager, ILogger<BridgeController> logger)
+		public BridgeController(IBridgeDispatcher bridgeDispatcher, ILogger<BridgeController> logger)
 		{
-			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
+			this.bridgeDispatcher = bridgeDispatcher ?? throw new ArgumentNullException(nameof(bridgeDispatcher));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
@@ -48,8 +48,9 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Process([FromQuery]string data, CancellationToken cancellationToken)
 		{
-			if (String.IsNullOrWhiteSpace(data))
-				return BadRequest();
+			// Nothing to see here
+			if (!IPAddress.IsLoopback(Request.HttpContext.Connection.RemoteIpAddress))
+				return NotFound();
 
 			BridgeParameters request;
 			try
@@ -58,13 +59,13 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch
 			{
-				logger.LogDebug("Error deserializing bridge request: {0}", data);
+				logger.LogWarning("Error deserializing bridge request: {0}", data);
 				return BadRequest();
 			}
 
 			logger.LogTrace("Bridge Request: {0}", data);
 
-			var response = await instanceManager.ProcessBridgeRequest(request, cancellationToken).ConfigureAwait(false);
+			var response = await bridgeDispatcher.ProcessBridgeRequest(request, cancellationToken).ConfigureAwait(false);
 			if (response == null)
 				Forbid();
 

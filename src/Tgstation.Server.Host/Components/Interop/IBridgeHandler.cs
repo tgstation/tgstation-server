@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace Tgstation.Server.Host.Components.Interop
 {
 	/// <inheritdoc />
-	interface IBridgeHandler : IBridgeHandlerBase
+	interface IBridgeHandler : IBridgeDispatcher
 	{
 		/// <summary>
 		/// The <see cref="Runtime.RuntimeInformation.AccessIdentifier"/> for the <see cref="IBridgeHandler"/>.
