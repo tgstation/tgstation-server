@@ -7,7 +7,7 @@ namespace Tgstation.Server.Host.Components.Interop
 	interface IBridgeHandler : IBridgeHandlerBase
 	{
 		/// <summary>
-		/// The <see cref="RuntimeInformation.AccessIdentifier"/> for the <see cref="IBridgeHandler"/>.
+		/// The <see cref="Runtime.RuntimeInformation.AccessIdentifier"/> for the <see cref="IBridgeHandler"/>.
 		/// </summary>
 		string AccessIdentifier { get; }
 

@@ -34,7 +34,8 @@ namespace Tgstation.Server.Tests
 			Directory = Path.GetTempFileName();
 			File.Delete(Directory);
 			System.IO.Directory.CreateDirectory(Directory);
-			Url = new Uri("http://localhost:5001");
+			const string UrlString = "http://localhost:5001";
+			Url = new Uri(UrlString);
 
 			//so we need a db
 			//we have to rely on env vars
@@ -56,7 +57,7 @@ namespace Tgstation.Server.Tests
 			
 			var args = new List<string>()
 			{
-				String.Format(CultureInfo.InvariantCulture, "Kestrel:EndPoints:Http:Url={0}", Url),
+				String.Format(CultureInfo.InvariantCulture, "Kestrel:EndPoints:Http:Url={0}", UrlString),
 				String.Format(CultureInfo.InvariantCulture, "Database:DatabaseType={0}", databaseType),
 				String.Format(CultureInfo.InvariantCulture, "Database:ConnectionString={0}", connectionString),
 				String.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", true),

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Globalization;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -316,6 +317,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							ErrorMessage = "Missing channelIds field in chatMessage!"
 						};
 
+					if(parameters.ChatMessage.ChannelIds.Any(channelIdString => !UInt64.TryParse(channelIdString, out var _)))
+						return new BridgeResponse
+						{
+							ErrorMessage = "Invalid channelIds in chatMessage!"
+						};
+
 					if (parameters.ChatMessage.Text == null)
 						return new BridgeResponse
 						{
@@ -324,7 +331,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 					await chat.SendMessage(
 						parameters.ChatMessage.Text,
-						parameters.ChatMessage.ChannelIds,
+						parameters.ChatMessage.ChannelIds.Select(UInt64.Parse),
 						cancellationToken).ConfigureAwait(false);
 					break;
 				case BridgeCommandType.Prime:
@@ -334,10 +341,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					TerminationWasRequested = true;
 					process.Terminate();
 					break;
-				case BridgeCommandType.NewPort:
+				case BridgeCommandType.PortUpdate:
 					lock (this)
 					{
-						if (!parameters.NewPort.HasValue)
+						if (!parameters.CurrentPort.HasValue)
 						{
 							/////UHHHH
 							logger.LogWarning("DreamDaemon sent new port command without providing it's own!");
@@ -347,9 +354,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							};
 						}
 
-						var currentPort = parameters.NewPort.Value;
+						var currentPort = parameters.CurrentPort.Value;
 						if (!nextPort.HasValue)
-							reattachInformation.Port = parameters.NewPort.Value; // not ready yet, so what we'll do is accept the random port DD opened on for now and change it later when we decide to
+							reattachInformation.Port = parameters.CurrentPort.Value; // not ready yet, so what we'll do is accept the random port DD opened on for now and change it later when we decide to
 						else
 						{
 							// nextPort is ready, tell DD to switch to that

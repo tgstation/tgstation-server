@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Hosting.Server.Features;
+﻿using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host.Core
 {
@@ -9,38 +8,25 @@ namespace Tgstation.Server.Host.Core
 	sealed class ServerPortProivder : IServerPortProvider
 	{
 		/// <inheritdoc />
-		public Task<ushort> HttpApiPort => taskCompletionSource.Task;
+		public ushort HttpApiPort { get; }
 
 		/// <summary>
-		/// Backing <see cref="TaskCompletionSource{TResult}"/> field for <see cref="HttpApiPort"/>/
+		/// Initializes a new instance of the <see cref="ServerPortProivder"/> <see langword="class"/>.
 		/// </summary>
-		readonly TaskCompletionSource<ushort> taskCompletionSource;
-
-		/// <summary>
-		/// In
-		/// </summary>
-		public ServerPortProivder()
+		/// <param name="configuration">The <see cref="IConfiguration"/> to use.</param>
+		public ServerPortProivder(IConfiguration configuration)
 		{
-			taskCompletionSource = new TaskCompletionSource<ushort>();
-		}
+			if (configuration == null)
+				throw new ArgumentNullException(nameof(configuration));
 
-		/// <inheritdoc />
-		public void Configure(IServerAddressesFeature addressFeature)
-		{
-			if (addressFeature == null)
-				throw new ArgumentNullException(nameof(addressFeature));
+			var httpEndpoint = configuration
+				.GetSection("Kestrel")
+				.GetSection("Endpoints")
+				.GetSection("Http")
+				.GetSection("Url")
+				.Value;
 
-			var enumerator = addressFeature.Addresses.Select(GetPortFromAddress);
-			var newPort = enumerator.FirstOrDefault(x => x.HasValue);
-
-			if(!newPort.HasValue)
-				throw new InvalidOperationException("At least one plain HTTP endpoint must be configured. Neded for BYOND -> Server communications!");
-
-			if (!addressFeature.Addresses.Select(GetPortFromAddress).All(x => !x.HasValue || x == newPort))
-				throw new InvalidOperationException("All configured HTTP server addresses must use the same port!");
-
-			// Will fail if set twice
-			taskCompletionSource.SetResult(newPort.Value);
+			HttpApiPort = GetPortFromAddress(httpEndpoint);
 		}
 
 		/// <summary>
@@ -48,18 +34,14 @@ namespace Tgstation.Server.Host.Core
 		/// </summary>
 		/// <param name="address">The address <see cref="string"/>.</param>
 		/// <returns>The parsed port.</returns>
-		static ushort? GetPortFromAddress(string address)
+		static ushort GetPortFromAddress(string address)
 		{
 			var splits = address.Split(":", StringSplitOptions.RemoveEmptyEntries);
-			if (splits.First().Equals("https", StringComparison.OrdinalIgnoreCase))
-				return null;
-
 			var portString = splits.Last();
 			portString = portString.TrimEnd('/');
-			if (UInt16.TryParse(portString, out var result))
-				return result;
-
-			return null;
+			if (!UInt16.TryParse(portString, out var result))
+				throw new InvalidOperationException("Failed to parse HTTP API port!");
+			return result;
 		}
 	}
 }

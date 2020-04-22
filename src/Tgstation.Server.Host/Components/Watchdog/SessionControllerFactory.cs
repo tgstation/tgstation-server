@@ -220,7 +220,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				JsonFile("chat_channels"),
 				JsonFile("chat_commands"),
 				securityLevelToUse,
-				await serverPortProvider.HttpApiPort.ConfigureAwait(false));
+				serverPortProvider.HttpApiPort);
 
 			var interopJsonFile = JsonFile("interop");
 

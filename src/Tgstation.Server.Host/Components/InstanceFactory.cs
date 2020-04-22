@@ -68,7 +68,7 @@ namespace Tgstation.Server.Host.Components
 		readonly IByondInstaller byondInstaller;
 
 		/// <summary>
-		/// The <see cref="IProviderFactory"/> for the <see cref="InstanceFactory"/>
+		/// The <see cref="IChatFactory"/> for the <see cref="InstanceFactory"/>
 		/// </summary>
 		readonly IChatFactory chatFactory;
 

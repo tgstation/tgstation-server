@@ -13,7 +13,7 @@
 		/// <summary>
 		/// Notification of a TGS event.
 		/// </summary>
-		Event,
+		EventNotification,
 
 		/// <summary>
 		/// Port change request.

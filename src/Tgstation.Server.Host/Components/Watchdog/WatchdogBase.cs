@@ -447,13 +447,27 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (result?.ChatResponses == null)
 				return true;
 
-			await Task.WhenAll(result.ChatResponses.Select(x => Chat.SendMessage(x.Text, x.ChannelIds, cancellationToken))).ConfigureAwait(false);
+			await Task.WhenAll(
+				result.ChatResponses.Select(
+					x => Chat.SendMessage(
+						x.Text,
+						x.ChannelIds
+							.Select(channelIdString =>
+							{
+								if (UInt64.TryParse(channelIdString, out var channelId))
+									return (ulong?)channelId;
+
+								return null;
+							})
+							.Where(nullableChannelId => nullableChannelId.HasValue)
+							.Select(nullableChannelId => nullableChannelId.Value),
+						cancellationToken))).ConfigureAwait(false);
 
 			return true;
 		}
 
 		/// <inheritdoc />
-		public async Task<string> HandleChatCommand(string commandName, string arguments, Chat.ChatUser sender, CancellationToken cancellationToken)
+		public async Task<string> HandleChatCommand(string commandName, string arguments, ChatUser sender, CancellationToken cancellationToken)
 		{
 			using (await SemaphoreSlimContext.Lock(Semaphore, cancellationToken).ConfigureAwait(false))
 			{
