@@ -471,9 +471,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 			if (progressReporter == null)
 				throw new ArgumentNullException(nameof(progressReporter));
 
-			if (dreamMakerSettings.ApiValidationSecurityLevel == DreamDaemonSecurity.Ultrasafe)
-				throw new ArgumentOutOfRangeException(nameof(dreamMakerSettings), dreamMakerSettings, "Cannot compile with ultrasafe security!");
-
 			logger.LogTrace("Begin Compile");
 
 			lock (this)

@@ -1,11 +1,12 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
 	/// Types of <see cref="ErrorMessage"/>s that the API may return.
 	/// </summary>
-	/// <remarks>Entries marked with the <see cref="System.ObsoleteAttribute"/> are no longer in use but kept for reference.</remarks>
+	/// <remarks>Entries marked with the <see cref="ObsoleteAttribute"/> are no longer in use but kept for reference.</remarks>
 	public enum ErrorCode : uint
 	{
 		/// <summary>
@@ -257,7 +258,8 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// <see cref="DreamDaemonSecurity.Ultrasafe"/> was used where it is not supported.
 		/// </summary>
-		[Description("This version of TGS does not support the ultrasafe DreamDaemon configuration!")]
+		[Description("Deprecated error code.")]
+		[Obsolete("With DMAPI-5.0.0, ultrasafe security is now supported.", true)]
 		InvalidSecurityLevel,
 
 		/// <summary>
