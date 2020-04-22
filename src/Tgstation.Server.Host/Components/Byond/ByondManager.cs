@@ -22,6 +22,11 @@ namespace Tgstation.Server.Host.Components.Byond
 		public const string BinPath = "byond/bin";
 
 		/// <summary>
+		/// The path to the BYOND bin folder
+		/// </summary>
+		const string TrustedDmbListPath = "byond/cfg/trusted.txt";
+
+		/// <summary>
 		/// The file in which we store the <see cref="VersionKey(Version)"/> for installations
 		/// </summary>
 		const string VersionFileName = "Version.txt";
@@ -201,7 +206,13 @@ namespace Tgstation.Server.Host.Components.Byond
 
 			var versionKey = VersionKey(versionToUse);
 
-			return new ByondExecutableLock(versionToUse, ioManager.ResolvePath(ioManager.ConcatPath(versionKey, BinPath, byondInstaller.DreamDaemonName)), ioManager.ResolvePath(ioManager.ConcatPath(versionKey, BinPath, byondInstaller.DreamMakerName)));
+			return new ByondExecutableLock(
+				ioManager,
+				semaphore,
+				versionToUse,
+				ioManager.ResolvePath(ioManager.ConcatPath(versionKey, BinPath, byondInstaller.DreamDaemonName)),
+				ioManager.ResolvePath(ioManager.ConcatPath(versionKey, BinPath, byondInstaller.DreamMakerName)),
+				ioManager.ResolvePath(ioManager.ConcatPath(versionKey, TrustedDmbListPath)));
 		}
 
 		/// <inheritdoc />
@@ -218,7 +229,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			await ioManager.CreateDirectory(".", cancellationToken).ConfigureAwait(false);
 			var directories = await ioManager.GetDirectories(".", cancellationToken).ConfigureAwait(false);
 
-			async Task ReadVersion(string path)
+			async Task ReadVersionAndDeleteTrustedList(string path)
 			{
 				var versionFile = ioManager.ConcatPath(path, VersionFileName);
 				if (!await ioManager.FileExists(versionFile, cancellationToken).ConfigureAwait(false))
@@ -227,6 +238,9 @@ namespace Tgstation.Server.Host.Components.Byond
 					await ioManager.DeleteDirectory(path, cancellationToken).ConfigureAwait(false); // cleanup
 					return;
 				}
+
+				// Delete trusted.txt so it doesn't grow too large
+				await ioManager.DeleteFile(ioManager.ConcatPath(path, TrustedDmbListPath), cancellationToken).ConfigureAwait(false);
 
 				var bytes = await ioManager.ReadAllBytes(versionFile, cancellationToken).ConfigureAwait(false);
 				var text = Encoding.UTF8.GetString(bytes);
@@ -244,7 +258,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				await ioManager.DeleteDirectory(path, cancellationToken).ConfigureAwait(false);
 			}
 
-			await Task.WhenAll(directories.Select(x => ReadVersion(x))).ConfigureAwait(false);
+			await Task.WhenAll(directories.Select(x => ReadVersionAndDeleteTrustedList(x))).ConfigureAwait(false);
 
 			var activeVersionBytes = await activeVersionBytesTask.ConfigureAwait(false);
 			if (activeVersionBytes != null)

@@ -236,6 +236,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var byondLock = currentByondLock ?? await byond.UseExecutables(Version.Parse(dmbProvider.CompileJob.ByondVersion), cancellationToken).ConfigureAwait(false);
 				try
 				{
+					await byondLock.TrustDmbPath(dmbProvider.DmbName, cancellationToken).ConfigureAwait(false);
+
 					// set command line options
 					// more sanitization here cause it uses the same scheme
 					var parameters = $"{DMApiConstants.ParamApiVersion}={byondTopicSender.SanitizeString(DMApiConstants.Version.Semver())}&{byondTopicSender.SanitizeString(DMApiConstants.ParamDeploymentInformationFile)}={byondTopicSender.SanitizeString(interopJsonFile)}";
