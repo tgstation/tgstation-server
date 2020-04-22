@@ -220,7 +220,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					job.DMApiVersion = controller.DMApiVersion;
 				}
 
-				throw new JobException("DMAPI validation timed out!");
+				throw new JobException("DMAPI validation timed out! Is the security level too high?");
 			}
 		}
 
@@ -242,7 +242,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 				logger.LogDebug("DreamMaker exit code: {0}", exitCode);
 				job.Output = dm.GetCombinedOutput();
-				logger.LogTrace("DreamMaker output: {0}{1}", Environment.NewLine, job.Output);
+				logger.LogDebug("DreamMaker output: {0}{1}", Environment.NewLine, job.Output);
 				return exitCode;
 			}
 		}
