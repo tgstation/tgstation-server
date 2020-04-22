@@ -54,9 +54,12 @@ namespace Tgstation.Server.Host.Extensions
 				throw new ArgumentNullException(nameof(serviceCollection));
 
 			// IMPORTANT: Remove the event log provider, it's shitty and causes issues
-			serviceCollection.Remove(
-				serviceCollection.First(
-					descriptor => descriptor.ImplementationType == typeof(EventLogLoggerProvider)));
+			var eventLogDescriptor =
+				serviceCollection.FirstOrDefault(
+					descriptor => descriptor.ImplementationType == typeof(EventLogLoggerProvider));
+
+			if (eventLogDescriptor != default)
+				serviceCollection.Remove(eventLogDescriptor);
 
 			return serviceCollection;
 		}
