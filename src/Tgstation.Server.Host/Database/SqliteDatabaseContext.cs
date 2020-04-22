@@ -13,9 +13,6 @@ namespace Tgstation.Server.Host.Database
 	/// </summary>
 	sealed class SqliteDatabaseContext : DatabaseContext<SqliteDatabaseContext>
 	{
-		/// <inheritdoc />
-		protected override DatabaseType DatabaseType => DatabaseType.Sqlite;
-
 		/// <summary>
 		/// Construct a <see cref="MySqlDatabaseContext"/>
 		/// </summary>
@@ -34,6 +31,13 @@ namespace Tgstation.Server.Host.Database
 		{
 			base.OnConfiguring(options);
 			options.UseSqlite(DatabaseConfiguration.ConnectionString);
+		}
+
+		/// <inheritdoc />
+		protected override void ValidateDatabaseType()
+		{
+			if (DatabaseType != DatabaseType.Sqlite)
+				throw new InvalidOperationException("Invalid DatabaseType for SqliteDatabaseContext!");
 		}
 	}
 }

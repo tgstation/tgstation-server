@@ -13,9 +13,6 @@ namespace Tgstation.Server.Host.Database
 	/// </summary>
 	sealed class MySqlDatabaseContext : DatabaseContext<MySqlDatabaseContext>
 	{
-		/// <inheritdoc />
-		protected override DatabaseType DatabaseType => DatabaseType.MySql;
-
 		/// <summary>
 		/// Construct a <see cref="MySqlDatabaseContext"/>
 		/// </summary>
@@ -46,6 +43,13 @@ namespace Tgstation.Server.Host.Database
 							: ServerType.MySql));
 			else
 				options.UseMySql(DatabaseConfiguration.ConnectionString);
+		}
+
+		/// <inheritdoc />
+		protected override void ValidateDatabaseType()
+		{
+			if (DatabaseType != DatabaseType.MariaDB && DatabaseType != DatabaseType.MySql)
+				throw new InvalidOperationException("Invalid DatabaseType for MySqlDatabaseContext!");
 		}
 	}
 }

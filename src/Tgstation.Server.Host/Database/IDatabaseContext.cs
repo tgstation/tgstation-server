@@ -2,6 +2,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Database
@@ -11,6 +12,11 @@ namespace Tgstation.Server.Host.Database
 	/// </summary>
 	public interface IDatabaseContext
 	{
+		/// <summary>
+		/// The <see cref="DatabaseType"/>.
+		/// </summary>
+		DatabaseType DatabaseType { get; }
+
 		/// <summary>
 		/// The <see cref="User"/>s in the <see cref="IDatabaseContext"/>
 		/// </summary>

@@ -16,9 +16,12 @@ using Tgstation.Server.Host.Models;
 namespace Tgstation.Server.Host.Database
 {
 	/// <inheritdoc />
-	#pragma warning disable CA1506 // TODO: Decomplexify
+#pragma warning disable CA1506 // TODO: Decomplexify
 	abstract class DatabaseContext<TParentContext> : DbContext, IDatabaseContext where TParentContext : DbContext
 	{
+		/// <inheritdoc />
+		public DatabaseType DatabaseType => DatabaseConfiguration.DatabaseType;
+
 		/// <summary>
 		/// The <see cref="User"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
 		/// </summary>
@@ -103,11 +106,6 @@ namespace Tgstation.Server.Host.Database
 		/// The <see cref="DatabaseConfiguration"/> for the <see cref="DatabaseContext{TParentContext}"/>
 		/// </summary>
 		protected DatabaseConfiguration DatabaseConfiguration { get; }
-
-		/// <summary>
-		/// Gets a value indicationg whether the MY_ class of migrations should be used instead of the MS_ class
-		/// </summary>
-		protected abstract DatabaseType DatabaseType { get; }
 
 		/// <inheritdoc />
 		IDatabaseCollection<User> IDatabaseContext.Users => usersCollection;
@@ -293,6 +291,8 @@ namespace Tgstation.Server.Host.Database
 		/// <inheritdoc />
 		public virtual async Task Initialize(CancellationToken cancellationToken)
 		{
+			ValidateDatabaseType();
+
 			if (DatabaseConfiguration.DropDatabase)
 			{
 				Logger.LogCritical("DropDatabase configuration option set! Dropping any existing database...");
@@ -406,5 +406,10 @@ namespace Tgstation.Server.Host.Database
 				Logger.LogCritical("Failed to migrate! Exception: {0}", e);
 			}
 		}
+
+		/// <summary>
+		/// Ensure the <see cref="DatabaseType"/> is correct for the <see cref="DatabaseContext{TParentContext}"/>.
+		/// </summary>
+		protected abstract void ValidateDatabaseType();
 	}
 }
