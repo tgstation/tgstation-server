@@ -81,7 +81,7 @@ namespace Tgstation.Server.Host.Components.Interop.Runtime
 			InstanceName = instance?.Name ?? throw new ArgumentNullException(nameof(instance));
 			Revision = revision ?? throw new ArgumentNullException(nameof(revision));
 			ChatChannelsJson = channelsJson ?? throw new ArgumentNullException(nameof(channelsJson));
-			ChatChannelsJson = commandsJson ?? throw new ArgumentNullException(nameof(commandsJson));
+			ChatCommandsJson = commandsJson ?? throw new ArgumentNullException(nameof(commandsJson));
 			SecurityLevel = securityLevel;
 			ServerPort = serverPort;
 		}
