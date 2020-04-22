@@ -8,6 +8,11 @@
 		/// <summary>
 		/// The new port for <see cref="BridgeCommandType.Reboot"/> requests.
 		/// </summary>
-		public ushort? NewPort { get; set; }
+		public ushort? NewPort { get; }
+
+		/// <summary>
+		/// The 
+		/// </summary>
+		public RuntimeInformation RuntimeInformation { get; }
 	}
 }

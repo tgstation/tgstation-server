@@ -39,9 +39,10 @@ namespace Tgstation.Server.Host.Components.Interop
 			{
 				NamingStrategy = new CamelCaseNamingStrategy()
 			},
-			Converters = new[]
+			Converters = new JsonConverter[]
 			{
-				new VersionConverter()
+				new VersionConverter(),
+				new JsonBoolConverter()
 			},
 			DefaultValueHandling = DefaultValueHandling.Ignore,
 			ReferenceLoopHandling = ReferenceLoopHandling.Ignore

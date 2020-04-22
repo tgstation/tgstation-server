@@ -5,12 +5,12 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Security;
 
-namespace Tgstation.Server.Host.Components.Interop.Runtime
+namespace Tgstation.Server.Host.Components.Interop.Bridge
 {
 	/// <summary>
-	/// Representation of the initial json passed to DreamDaemon
+	/// Representation of the initial data passed as part of a <see cref="BridgeCommandType.Startup"/> request.
 	/// </summary>
-	sealed class RuntimeInformation : RuntimeFileList
+	public sealed class RuntimeInformation : ChatChannelsUpdate
 	{
 		/// <summary>
 		/// The code used by the server to authenticate command Topics
@@ -48,40 +48,37 @@ namespace Tgstation.Server.Host.Components.Interop.Runtime
 		public DreamDaemonSecurity SecurityLevel { get; }
 
 		/// <summary>
-		/// The <see cref="RuntimeTestMerge"/>s in the launch
+		/// The <see cref="TestMergeInformation"/>s in the launch.
 		/// </summary>
-		public IReadOnlyCollection<RuntimeTestMerge> TestMerges { get; }
+		public IReadOnlyCollection<TestMergeInformation> TestMerges { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RuntimeInformation"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="application">The <see cref="IApplication"/> to use.</param>
-		/// <param name="cryptographySuite">The <see cref="ICryptographySuite"/> to use.</param>
 		/// <param name="testMerges">An <see cref="IEnumerable{T}"/> used to construct the value of <see cref="TestMerges"/>.</param>
+		/// <param name="chatChannels">The <see cref="Chat.ChannelRepresentation"/>s for the <see cref="ChatChannelsUpdate"/>.</param>
 		/// <param name="instance">The <see cref="Instance"/> used to set <see cref="InstanceName"/>.</param>
 		/// <param name="revision">The value of <see cref="RevisionInformation"/>.</param>
-		/// <param name="channelsJson">The value of <see cref="RuntimeFileList.ChatChannelsJson"/>.</param>
-		/// <param name="commandsJson">The value of <see cref="RuntimeFileList.ChatCommandsJson"/>.</param>
+		/// <param name="accessIdentifier">The value of <see cref="DMApiParameters.AccessIdentifier"/>.</param>
 		/// <param name="securityLevel">The value of <see cref="SecurityLevel"/>.</param>
 		/// <param name="serverPort">The value of <see cref="ServerPort"/>.</param>
 		public RuntimeInformation(
 			IApplication application,
-			ICryptographySuite cryptographySuite,
-			IEnumerable<RuntimeTestMerge> testMerges,
+			IEnumerable<TestMergeInformation> testMerges,
+			IEnumerable<Chat.ChannelRepresentation> chatChannels,
 			Api.Models.Instance instance,
 			Api.Models.Internal.RevisionInformation revision,
-			string channelsJson,
-			string commandsJson,
+			string accessIdentifier,
 			DreamDaemonSecurity securityLevel,
 			ushort serverPort)
+			: base(chatChannels)
 		{
 			ServerVersion = application?.Version ?? throw new ArgumentNullException(nameof(application));
-			AccessIdentifier = cryptographySuite?.GetSecureString() ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			TestMerges = testMerges?.ToList() ?? throw new ArgumentNullException(nameof(testMerges));
 			InstanceName = instance?.Name ?? throw new ArgumentNullException(nameof(instance));
 			Revision = revision ?? throw new ArgumentNullException(nameof(revision));
-			ChatChannelsJson = channelsJson ?? throw new ArgumentNullException(nameof(channelsJson));
-			ChatCommandsJson = commandsJson ?? throw new ArgumentNullException(nameof(commandsJson));
+			AccessIdentifier = accessIdentifier ?? throw new ArgumentNullException(nameof(accessIdentifier));
 			SecurityLevel = securityLevel;
 			ServerPort = serverPort;
 		}

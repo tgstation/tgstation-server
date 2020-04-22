@@ -17,7 +17,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		public string HelpText { get; set; }
 
 		/// <inheritdoc />
-		[JsonConverter(typeof(BoolConverter))]
+		[JsonConverter(typeof(JsonBoolConverter))]
 		public bool AdminOnly { get; set; }
 
 		/// <summary>

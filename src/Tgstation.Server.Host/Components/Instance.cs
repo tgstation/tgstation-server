@@ -34,7 +34,7 @@ namespace Tgstation.Server.Host.Components
 		public IWatchdog Watchdog { get; }
 
 		/// <inheritdoc />
-		public IChat Chat { get; }
+		public IChatManager Chat { get; }
 
 		/// <inheritdoc />
 		public StaticFiles.IConfiguration Configuration { get; }
@@ -117,7 +117,7 @@ namespace Tgstation.Server.Host.Components
 			IByondManager byondManager,
 			IDreamMaker dreamMaker,
 			IWatchdog watchdog,
-			IChat chat,
+			IChatManager chat,
 			StaticFiles.IConfiguration
 			configuration,
 			ICompileJobConsumer compileJobConsumer,

@@ -9,7 +9,7 @@ using Tgstation.Server.Host.IO;
 namespace Tgstation.Server.Host.Components.Chat
 {
 	/// <inheritdoc />
-	sealed class ChatFactory : IChatFactory
+	sealed class ChatFactory : IChatManagerFactory
 	{
 		/// <summary>
 		/// The <see cref="ILoggerFactory"/> for the <see cref="ChatFactory"/>
@@ -47,6 +47,6 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public IChat CreateChat(IIOManager ioManager, ICommandFactory commandFactory, IEnumerable<Models.ChatBot> initialChatBots) => new Chat(providerFactory, ioManager, commandFactory, serverControl, asyncDelayer, loggerFactory, loggerFactory.CreateLogger<Chat>(), initialChatBots);
+		public IChatManager CreateChatManager(IIOManager ioManager, ICommandFactory commandFactory, IEnumerable<Models.ChatBot> initialChatBots) => new ChatManager(providerFactory, ioManager, commandFactory, serverControl, asyncDelayer, loggerFactory, loggerFactory.CreateLogger<ChatManager>(), initialChatBots);
 	}
 }

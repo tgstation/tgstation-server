@@ -52,7 +52,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ExperimentalWatchdog"/> <see langword="class"/>.
 		/// </summary>
-		/// <param name="chat">The <see cref="IChat"/> for the <see cref="WatchdogBase"/>.</param>
+		/// <param name="chat">The <see cref="IChatManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="sessionControllerFactory">The <see cref="ISessionControllerFactory"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="dmbFactory">The <see cref="IDmbFactory"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="reattachInfoHandler">The <see cref="IReattachInfoHandler"/> for the <see cref="WatchdogBase"/>.</param>
@@ -66,7 +66,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="initialLaunchParameters">The <see cref="DreamDaemonLaunchParameters"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="instance">The <see cref="Api.Models.Instance"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="autoStart">The autostart value for the <see cref="WatchdogBase"/>.</param>
-		public ExperimentalWatchdog(IChat chat, ISessionControllerFactory sessionControllerFactory, IDmbFactory dmbFactory, IReattachInfoHandler reattachInfoHandler, IDatabaseContextFactory databaseContextFactory, IByondTopicSender byondTopicSender, IEventConsumer eventConsumer, IJobManager jobManager, IServerControl serverControl, IAsyncDelayer asyncDelayer, ILogger<ExperimentalWatchdog> logger, DreamDaemonLaunchParameters initialLaunchParameters, Api.Models.Instance instance, bool autoStart)
+		public ExperimentalWatchdog(IChatManager chat, ISessionControllerFactory sessionControllerFactory, IDmbFactory dmbFactory, IReattachInfoHandler reattachInfoHandler, IDatabaseContextFactory databaseContextFactory, IByondTopicSender byondTopicSender, IEventConsumer eventConsumer, IJobManager jobManager, IServerControl serverControl, IAsyncDelayer asyncDelayer, ILogger<ExperimentalWatchdog> logger, DreamDaemonLaunchParameters initialLaunchParameters, Api.Models.Instance instance, bool autoStart)
 			: base(
 				 chat,
 				 sessionControllerFactory,

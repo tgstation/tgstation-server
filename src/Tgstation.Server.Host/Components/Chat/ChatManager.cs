@@ -17,47 +17,47 @@ namespace Tgstation.Server.Host.Components.Chat
 	/// <inheritdoc />
 	// TODO: Decomplexify
 	#pragma warning disable CA1506
-	sealed class Chat : IChat, IRestartHandler
+	sealed class ChatManager : IChatManager, IRestartHandler
 	{
 		const string CommonMention = "!tgs";
 
 		/// <summary>
-		/// The <see cref="IProviderFactory"/> for the <see cref="Chat"/>
+		/// The <see cref="IProviderFactory"/> for the <see cref="ChatManager"/>
 		/// </summary>
 		readonly IProviderFactory providerFactory;
 
 		/// <summary>
-		/// The <see cref="IIOManager"/> for the <see cref="Chat"/>
+		/// The <see cref="IIOManager"/> for the <see cref="ChatManager"/>
 		/// </summary>
 		readonly IIOManager ioManager;
 
 		/// <summary>
-		/// The <see cref="ICommandFactory"/> for the <see cref="Chat"/>
+		/// The <see cref="ICommandFactory"/> for the <see cref="ChatManager"/>
 		/// </summary>
 		readonly ICommandFactory commandFactory;
 
 		/// <summary>
-		/// The <see cref="IRestartRegistration"/> for the <see cref="Chat"/>
+		/// The <see cref="IRestartRegistration"/> for the <see cref="ChatManager"/>
 		/// </summary>
 		readonly IRestartRegistration restartRegistration;
 
 		/// <summary>
-		/// The <see cref="IAsyncDelayer"/> for the <see cref="Chat"/>
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="ChatManager"/>
 		/// </summary>
 		readonly IAsyncDelayer asyncDelayer;
 
 		/// <summary>
-		/// The <see cref="ILoggerFactory"/> for the <see cref="Chat"/>
+		/// The <see cref="ILoggerFactory"/> for the <see cref="ChatManager"/>
 		/// </summary>
 		readonly ILoggerFactory loggerFactory;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="Chat"/>
+		/// The <see cref="ILogger"/> for the <see cref="ChatManager"/>
 		/// </summary>
-		readonly ILogger<Chat> logger;
+		readonly ILogger<ChatManager> logger;
 
 		/// <summary>
-		/// Unchanging <see cref="ICommand"/>s in the <see cref="Chat"/> mapped by <see cref="ICommand.Name"/>
+		/// Unchanging <see cref="ICommand"/>s in the <see cref="ChatManager"/> mapped by <see cref="ICommand.Name"/>
 		/// </summary>
 		readonly Dictionary<string, ICommand> builtinCommands;
 
@@ -67,14 +67,14 @@ namespace Tgstation.Server.Host.Components.Chat
 		readonly Dictionary<long, IProvider> providers;
 
 		/// <summary>
-		/// Map of <see cref="ChatChannel.RealId"/>s to <see cref="ChannelMapping"/>s
+		/// Map of <see cref="ChannelRepresentation.RealId"/>s to <see cref="ChannelMapping"/>s
 		/// </summary>
 		readonly Dictionary<ulong, ChannelMapping> mappedChannels;
 
 		/// <summary>
-		/// The active <see cref="IJsonTrackingContext"/>s for the <see cref="Chat"/>
+		/// The active <see cref="IChatTrackingContext"/>s for the <see cref="ChatManager"/>
 		/// </summary>
-		readonly List<IJsonTrackingContext> trackingContexts;
+		readonly List<IChatTrackingContext> trackingContexts;
 
 		/// <summary>
 		/// The <see cref="CancellationTokenSource"/> for <see cref="chatHandler"/>
@@ -82,7 +82,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		readonly CancellationTokenSource handlerCts;
 
 		/// <summary>
-		/// The active <see cref="Models.ChatBot"/> for the <see cref="Chat"/>
+		/// The active <see cref="Models.ChatBot"/> for the <see cref="ChatManager"/>
 		/// </summary>
 		readonly List<Models.ChatBot> activeChatBots;
 
@@ -107,7 +107,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		TaskCompletionSource<object> connectionsUpdated;
 
 		/// <summary>
-		/// Used for remapping <see cref="ChatChannel.RealId"/>s
+		/// Used for remapping <see cref="ChannelRepresentation.RealId"/>s
 		/// </summary>
 		ulong channelIdCounter;
 
@@ -117,7 +117,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		bool started;
 
 		/// <summary>
-		/// Construct a <see cref="Chat"/>
+		/// Construct a <see cref="ChatManager"/>
 		/// </summary>
 		/// <param name="providerFactory">The value of <see cref="providerFactory"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
@@ -127,7 +127,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="initialChatBots">The <see cref="IEnumerable{T}"/> used to populate <see cref="activeChatBots"/></param>
-		public Chat(IProviderFactory providerFactory, IIOManager ioManager, ICommandFactory commandFactory, IServerControl serverControl, IAsyncDelayer asyncDelayer, ILoggerFactory loggerFactory, ILogger<Chat> logger, IEnumerable<Models.ChatBot> initialChatBots)
+		public ChatManager(IProviderFactory providerFactory, IIOManager ioManager, ICommandFactory commandFactory, IServerControl serverControl, IAsyncDelayer asyncDelayer, ILoggerFactory loggerFactory, ILogger<ChatManager> logger, IEnumerable<Models.ChatBot> initialChatBots)
 		{
 			this.providerFactory = providerFactory ?? throw new ArgumentNullException(nameof(providerFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
@@ -146,7 +146,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			builtinCommands = new Dictionary<string, ICommand>();
 			providers = new Dictionary<long, IProvider>();
 			mappedChannels = new Dictionary<ulong, ChannelMapping>();
-			trackingContexts = new List<IJsonTrackingContext>();
+			trackingContexts = new List<IChatTrackingContext>();
 			handlerCts = new CancellationTokenSource();
 			connectionsUpdated = new TaskCompletionSource<object>();
 			channelIdCounter = 1;
@@ -292,7 +292,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				{
 					if (!builtinCommands.TryGetValue(commandName, out var handler))
 					{
-						var tasks = trackingContexts.Select(x => x.GetCustomCommands(cancellationToken));
+						var tasks = trackingContexts.Select(x => x.GetChannels(cancellationToken));
 						await Task.WhenAll(tasks).ConfigureAwait(false);
 						handler = tasks.SelectMany(x => x.Result).Where(x => x.Name.ToUpperInvariant() == commandName).FirstOrDefault();
 					}
@@ -308,7 +308,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					if (splits.Count == 0)
 					{
 						var allCommands = builtinCommands.Select(x => x.Value).ToList();
-						var tasks = trackingContexts.Select(x => x.GetCustomCommands(cancellationToken)).ToList();
+						var tasks = trackingContexts.Select(x => x.GetChannels(cancellationToken)).ToList();
 						await Task.WhenAll(tasks).ConfigureAwait(false);
 						allCommands.AddRange(tasks.SelectMany(x => x.Result));
 						helpText = String.Format(CultureInfo.InvariantCulture, "Available commands (Type '?' or 'help' and then a command name for more details): {0}", String.Join(", ", allCommands.Select(x => x.Name)));
@@ -616,7 +616,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public async Task<IJsonTrackingContext> TrackJsons(string basePath, string channelsJsonName, string commandsJsonName, CancellationToken cancellationToken)
+		public async Task<IChatTrackingContext> TrackJsons(string basePath, string channelsJsonName, string commandsJsonName, CancellationToken cancellationToken)
 		{
 			if (customCommandHandler == null)
 				throw new InvalidOperationException("RegisterCommandHandler() hasn't been called!");

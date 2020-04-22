@@ -25,7 +25,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the next available <see cref="Message"/> or <see langword="null"/> if the <see cref="IProvider"/> needed to reconnect.</returns>
-		/// <remarks>Note that private messages will come in the form of <see cref="ChatChannel"/>s not returned in <see cref="MapChannels(IEnumerable{Api.Models.ChatChannel}, CancellationToken)"/>. Do not <see cref="IDisposable.Dispose"/> the <see cref="IProvider"/> on continuations run from the returned <see cref="Task"/>.</remarks>
+		/// <remarks>Note that private messages will come in the form of <see cref="ChannelRepresentation"/>s not returned in <see cref="MapChannels(IEnumerable{Api.Models.ChatChannel}, CancellationToken)"/>. Do not <see cref="IDisposable.Dispose"/> the <see cref="IProvider"/> on continuations run from the returned <see cref="Task"/>.</remarks>
 		Task<Message> NextMessage(CancellationToken cancellationToken);
 
 		/// <summary>
@@ -43,17 +43,17 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		Task Disconnect(CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Get the <see cref="ChatChannel"/>s for given <paramref name="channels"/>
+		/// Get the <see cref="ChannelRepresentation"/>s for given <paramref name="channels"/>
 		/// </summary>
 		/// <param name="channels">The <see cref="Api.Models.ChatChannel"/>s to map</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="IReadOnlyCollection{T}"/> of the <see cref="ChatChannel"/>s representing <paramref name="channels"/></returns>
-		Task<IReadOnlyCollection<ChatChannel>> MapChannels(IEnumerable<Api.Models.ChatChannel> channels, CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="IReadOnlyCollection{T}"/> of the <see cref="ChannelRepresentation"/>s representing <paramref name="channels"/></returns>
+		Task<IReadOnlyCollection<ChannelRepresentation>> MapChannels(IEnumerable<Api.Models.ChatChannel> channels, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Send a message to the <see cref="IProvider"/>
 		/// </summary>
-		/// <param name="channelId">The <see cref="ChatChannel.RealId"/> to send to</param>
+		/// <param name="channelId">The <see cref="ChannelRepresentation.RealId"/> to send to</param>
 		/// <param name="message">The message contents</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>

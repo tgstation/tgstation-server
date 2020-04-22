@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace Tgstation.Server.Host.Components.Chat
 {
 	/// <summary>
-	/// Handles <see cref="Commands.ICommand"/>s that map to those defined in a <see cref="IJsonTrackingContext"/>
+	/// Handles <see cref="Commands.ICommand"/>s that map to those defined in a <see cref="IChatTrackingContext"/>
 	/// </summary>
 	public interface ICustomCommandHandler
 	{

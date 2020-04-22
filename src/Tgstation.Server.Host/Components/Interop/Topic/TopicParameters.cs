@@ -24,7 +24,7 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		public EventNotification EventNotification { get; }
 
 		/// <summary>
-		/// The new port for <see cref="TopicCommandType.ChangePort"/> requests.
+		/// The new port for <see cref="TopicCommandType.ChangePort"/> or <see cref="TopicCommandType.ServerPortUpdate"/> requests.
 		/// </summary>
 		public ushort? NewPort { get; }
 
@@ -37,6 +37,11 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// The new <see cref="Api.Models.Instance.Name"/> for <see cref="TopicCommandType.InstanceRenamed"/> requests.
 		/// </summary>
 		public string NewInstanceName { get; }
+
+		/// <summary>
+		/// The <see cref="ChatChannelsUpdate"/> for <see cref="TopicCommandType.ChatChannelsUpdate"/> requests.
+		/// </summary>
+		public ChatChannelsUpdate ChannelsUpdate { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TopicParameters"/> <see langword="class"/>.
@@ -71,8 +76,9 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// Initializes a new instance of the <see cref="TopicParameters"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="newPort">The value of <see cref="NewPort"/>.</param>
-		public TopicParameters(ushort newPort)
-			: this(TopicCommandType.ChangePort)
+		/// <param name="forServer">If this is for a <see cref="TopicCommandType.ServerPortUpdate"/>.</param>
+		public TopicParameters(ushort newPort, bool forServer)
+			: this(forServer ? TopicCommandType.ServerPortUpdate : TopicCommandType.ChangePort)
 		{
 			NewPort = newPort;
 		}
@@ -95,6 +101,16 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 			: this(TopicCommandType.InstanceRenamed)
 		{
 			NewInstanceName = newInstanceName ?? throw new ArgumentNullException(nameof(newInstanceName));
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TopicParameters"/> <see langword="class"/>.
+		/// </summary>
+		/// <param name="channelsUpdate">The value of <see cref="ChannelsUpdate"/>.</param>
+		public TopicParameters(ChatChannelsUpdate channelsUpdate)
+			: this(TopicCommandType.ChatChannelsUpdate)
+		{
+			ChannelsUpdate = channelsUpdate ?? throw new ArgumentNullException(nameof(channelsUpdate));
 		}
 	}
 }

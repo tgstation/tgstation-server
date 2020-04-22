@@ -68,9 +68,9 @@ namespace Tgstation.Server.Host.Components
 		readonly IByondInstaller byondInstaller;
 
 		/// <summary>
-		/// The <see cref="IChatFactory"/> for the <see cref="InstanceFactory"/>
+		/// The <see cref="IChatManagerFactory"/> for the <see cref="InstanceFactory"/>
 		/// </summary>
-		readonly IChatFactory chatFactory;
+		readonly IChatManagerFactory chatFactory;
 
 		/// <summary>
 		/// The <see cref="IProcessExecutor"/> for the <see cref="InstanceFactory"/>
@@ -149,7 +149,7 @@ namespace Tgstation.Server.Host.Components
 			ISynchronousIOManager synchronousIOManager,
 			ISymlinkFactory symlinkFactory,
 			IByondInstaller byondInstaller,
-			IChatFactory chatFactory,
+			IChatManagerFactory chatFactory,
 			IProcessExecutor processExecutor,
 			IPostWriteHandler postWriteHandler,
 			IWatchdogFactory watchdogFactory,
@@ -209,7 +209,7 @@ namespace Tgstation.Server.Host.Components
 
 				var commandFactory = new CommandFactory(application, byond, repoManager, databaseContextFactory, metadata);
 
-				var chat = chatFactory.CreateChat(instanceIoManager, commandFactory, metadata.ChatSettings);
+				var chat = chatFactory.CreateChatManager(instanceIoManager, commandFactory, metadata.ChatSettings);
 				try
 				{
 					var sessionControllerFactory = new SessionControllerFactory(

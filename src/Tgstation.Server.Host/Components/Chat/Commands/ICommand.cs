@@ -19,7 +19,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		string HelpText { get; }
 
 		/// <summary>
-		/// If the command should only be available to <see cref="ChatUser"/>s who's <see cref="ChatUser.Channel"/> has <see cref="ChatChannel.IsAdminChannel"/> set
+		/// If the command should only be available to <see cref="ChatUser"/>s who's <see cref="ChatUser.Channel"/> has <see cref="ChannelRepresentation.IsAdminChannel"/> set
 		/// </summary>
 		bool AdminOnly { get; }
 

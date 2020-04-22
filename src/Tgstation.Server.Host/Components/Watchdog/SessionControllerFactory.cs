@@ -13,7 +13,7 @@ using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Interop;
-using Tgstation.Server.Host.Components.Interop.Runtime;
+using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
@@ -56,9 +56,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IIOManager ioManager;
 
 		/// <summary>
-		/// The <see cref="IChat"/> for the <see cref="SessionControllerFactory"/>
+		/// The <see cref="IChatManager"/> for the <see cref="SessionControllerFactory"/>
 		/// </summary>
-		readonly IChat chat;
+		readonly IChatManager chat;
 
 		/// <summary>
 		/// The <see cref="INetworkPromptReaper"/> for the <see cref="SessionControllerFactory"/>
@@ -133,7 +133,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			ICryptographySuite cryptographySuite,
 			IApplication application,
 			IIOManager ioManager,
-			IChat chat,
+			IChatManager chat,
 			INetworkPromptReaper networkPromptReaper,
 			IPlatformIdentifier platformIdentifier,
 			IBridgeRegistrar bridgeRegistrar,
@@ -170,15 +170,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			var portToUse = primaryPort ? launchParameters.PrimaryPort : launchParameters.SecondaryPort;
 			if (!portToUse.HasValue)
 				throw new InvalidOperationException("Given port is null!");
-			var accessIdentifier = cryptographySuite.GetSecureString();
-
-			const string JsonPostfix = "tgs.json";
 
 			var basePath = primaryDirectory ? dmbProvider.PrimaryDirectory : dmbProvider.SecondaryDirectory;
-
-			// delete all previous tgs json files
-			var files = await ioManager.GetFilesWithExtension(basePath, JsonPostfix, cancellationToken).ConfigureAwait(false);
-			await Task.WhenAll(files.Select(x => ioManager.DeleteFile(x, cancellationToken))).ConfigureAwait(false);
 
 			var securityLevelToUse = launchParameters.SecurityLevel.Value;
 			switch (dmbProvider.CompileJob.MinimumSecurityLevel)
@@ -196,40 +189,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid DreamDaemonSecurity value: {0}", dmbProvider.CompileJob.MinimumSecurityLevel));
 			}
 
-			// i changed this back from guids, hopefully i don't regret that
-			string JsonFile(string name) => $"{name}.{JsonPostfix}";
-
-			// setup interop files
-			var revisionInfo = new Api.Models.Internal.RevisionInformation
-			{
-				CommitSha = dmbProvider.CompileJob.RevisionInformation.CommitSha,
-				OriginCommitSha = dmbProvider.CompileJob.RevisionInformation.OriginCommitSha
-			};
-			var testMerges = dmbProvider
-					.CompileJob
-					.RevisionInformation
-					.ActiveTestMerges
-					.Select(x => x.TestMerge)
-					.Select(x => new RuntimeTestMerge(x, revisionInfo));
-			var interopInfo = new RuntimeInformation(
-				application,
-				cryptographySuite,
-				testMerges,
-				instance,
-				revisionInfo,
-				JsonFile("chat_channels"),
-				JsonFile("chat_commands"),
-				securityLevelToUse,
-				serverPortProvider.HttpApiPort);
-
-			var interopJsonFile = JsonFile("interop");
-
-			var interopJson = JsonConvert.SerializeObject(interopInfo, DMApiConstants.SerializerSettings);
-
-			var chatJsonTrackingTask = chat.TrackJsons(basePath, interopInfo.ChatChannelsJson, interopInfo.ChatCommandsJson, cancellationToken);
-
-			await ioManager.WriteAllBytes(ioManager.ConcatPath(basePath, interopJsonFile), Encoding.UTF8.GetBytes(interopJson), cancellationToken).ConfigureAwait(false);
-			var chatJsonTrackingContext = await chatJsonTrackingTask.ConfigureAwait(false);
+			var chatTrackingContext = await chat.CreateTrackingContext(cancellationToken).ConfigureAwait(false);
 			try
 			{
 				// get the byond lock
@@ -241,7 +201,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 					// set command line options
 					// more sanitization here cause it uses the same scheme
-					var parameters = $"{DMApiConstants.ParamApiVersion}={byondTopicSender.SanitizeString(DMApiConstants.Version.Semver())}&{byondTopicSender.SanitizeString(DMApiConstants.ParamDeploymentInformationFile)}={byondTopicSender.SanitizeString(interopJsonFile)}";
+					var parameters = $"{DMApiConstants.ParamApiVersion}={byondTopicSender.SanitizeString(DMApiConstants.Version.Semver())}&{byondTopicSender.SanitizeString(DMApiConstants.ParamServerPort)}={serverPortProvider.HttpApiPort}";
 
 					var visibility = apiValidate ? "invisible" : "public";
 
@@ -263,32 +223,53 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					{
 						networkPromptReaper.RegisterProcess(process);
 
+						// setup runtime information
+						var revisionInfo = new Api.Models.Internal.RevisionInformation
+						{
+							CommitSha = dmbProvider.CompileJob.RevisionInformation.CommitSha,
+							OriginCommitSha = dmbProvider.CompileJob.RevisionInformation.OriginCommitSha
+						};
+						var testMerges = dmbProvider
+								.CompileJob
+								.RevisionInformation
+								.ActiveTestMerges
+								.Select(x => x.TestMerge)
+								.Select(x => new TestMergeInformation(x, revisionInfo));
+						var accessIdentifier = cryptographySuite.GetSecureString();
+						var runtimeInformation = new RuntimeInformation(
+							application,
+							testMerges,
+							chatTrackingContext.Channels,
+							instance,
+							revisionInfo,
+							accessIdentifier,
+							securityLevelToUse);
+
 						// return the session controller for it
-						var result = new SessionController(
-							new ReattachInformation
-							{
-								AccessIdentifier = accessIdentifier,
-								Dmb = dmbProvider,
-								IsPrimary = primaryDirectory,
-								Port = portToUse.Value,
-								ProcessId = process.Id,
-								ChatChannelsJson = interopInfo.ChatChannelsJson,
-								ChatCommandsJson = interopInfo.ChatCommandsJson,
-							},
+						var reattachInformation = new ReattachInformation(
+							runtimeInformation,
+							dmbProvider,
+							process,
+							portToUse.Value,
+							primaryDirectory);
+
+						var sessionController = new SessionController(
+							reattachInformation,
 							process,
 							byondLock,
 							byondTopicSender,
-							chatJsonTrackingContext,
+							chatTrackingContext,
 							bridgeRegistrar,
 							chat,
 							loggerFactory.CreateLogger<SessionController>(),
 							launchParameters.SecurityLevel,
 							launchParameters.StartupTimeout);
 
+
 						// writeback launch parameter's fixed security level
 						launchParameters.SecurityLevel = securityLevelToUse;
 
-						return result;
+						return sessionController;
 					}
 					catch
 					{
@@ -305,7 +286,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			}
 			catch
 			{
-				chatJsonTrackingContext.Dispose();
+				chatTrackingContext.Dispose();
 				throw;
 			}
 		}
@@ -321,7 +302,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			SessionController result = null;
 			var basePath = reattachInformation.IsPrimary ? reattachInformation.Dmb.PrimaryDirectory : reattachInformation.Dmb.SecondaryDirectory;
-			var chatJsonTrackingContext = await chat.TrackJsons(basePath, reattachInformation.ChatChannelsJson, reattachInformation.ChatCommandsJson, cancellationToken).ConfigureAwait(false);
+			var chatChannels = await chat.CurrentChannels(cancellationToken).ConfigureAwait(false);
 			try
 			{
 				var byondLock = await byond.UseExecutables(Version.Parse(reattachInformation.Dmb.CompileJob.ByondVersion), cancellationToken).ConfigureAwait(false);

@@ -352,7 +352,7 @@ namespace Tgstation.Server.Host.Core
 			// configure component services
 			services.AddSingleton<IRepositoryFactory, RepositoryFactory>();
 			services.AddSingleton<IProviderFactory, ProviderFactory>();
-			services.AddSingleton<IChatFactory, ChatFactory>();
+			services.AddSingleton<IChatManagerFactory, ChatManagerFactory>();
 			services.AddSingleton<IInstanceFactory, InstanceFactory>();
 
 			// configure root service

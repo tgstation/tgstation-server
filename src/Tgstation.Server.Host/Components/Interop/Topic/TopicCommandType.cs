@@ -28,6 +28,11 @@
 		/// <summary>
 		/// The owning instance was renamed.
 		/// </summary>
-		InstanceRenamed
+		InstanceRenamed,
+
+		/// <summary>
+		/// Chat channels were changed.
+		/// </summary>
+		ChatChannelsUpdate
 	}
 }

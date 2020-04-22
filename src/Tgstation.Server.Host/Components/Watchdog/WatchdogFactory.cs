@@ -74,7 +74,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 		/// <inheritdoc />
 		public IWatchdog CreateWatchdog(
-			IChat chat,
+			IChatManager chat,
 			IDmbFactory dmbFactory,
 			IReattachInfoHandler reattachInfoHandler,
 			IEventConsumer eventConsumer,
@@ -106,7 +106,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// Create a <see cref="IWatchdog"/> that isn't the <see cref="ExperimentalWatchdog"/>.
 		/// </summary>
-		/// <param name="chat">The <see cref="IChat"/> for the <see cref="IWatchdog"/></param>
+		/// <param name="chat">The <see cref="IChatManager"/> for the <see cref="IWatchdog"/></param>
 		/// <param name="dmbFactory">The <see cref="IDmbFactory"/> for the <see cref="IWatchdog"/> with</param>
 		/// <param name="reattachInfoHandler">The <see cref="IReattachInfoHandler"/> for the <see cref="IWatchdog"/></param>
 		/// <param name="eventConsumer">The <see cref="IEventConsumer"/> for the <see cref="IWatchdog"/></param>
@@ -116,7 +116,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="settings">The initial <see cref="DreamDaemonSettings"/> for the <see cref="IWatchdog"/></param>
 		/// <returns>A new <see cref="IWatchdog"/></returns>
 		protected virtual IWatchdog CreateNonExperimentalWatchdog(
-			IChat chat,
+			IChatManager chat,
 			IDmbFactory dmbFactory,
 			IReattachInfoHandler reattachInfoHandler,
 			IEventConsumer eventConsumer,

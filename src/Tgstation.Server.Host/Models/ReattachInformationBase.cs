@@ -1,7 +1,6 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Globalization;
-using Tgstation.Server.Host.Components.Interop.Runtime;
+using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Watchdog;
 
 namespace Tgstation.Server.Host.Models
@@ -9,14 +8,8 @@ namespace Tgstation.Server.Host.Models
 	/// <summary>
 	/// Base class for <see cref="ReattachInformation"/>
 	/// </summary>
-	public abstract class ReattachInformationBase : RuntimeFileList
+	public abstract class ReattachInformationBase : DMApiParameters
 	{
-		/// <summary>
-		/// Used to identify and authenticate the DreamDaemon instance
-		/// </summary>
-		[Required]
-		public string AccessIdentifier { get; set; }
-
 		/// <summary>
 		/// The system process ID
 		/// </summary>
@@ -46,7 +39,7 @@ namespace Tgstation.Server.Host.Models
 		/// Construct a <see cref="ReattachInformationBase"/> from a given <paramref name="copy"/>
 		/// </summary>
 		/// <param name="copy">The <see cref="ReattachInformationBase"/> to copy values from</param>
-		protected ReattachInformationBase(ReattachInformationBase copy) : base(copy)
+		protected ReattachInformationBase(ReattachInformationBase copy)
 		{
 			if (copy == null)
 				throw new ArgumentNullException(nameof(copy));

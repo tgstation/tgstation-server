@@ -23,7 +23,7 @@ namespace Tgstation.Server.Host.Components.Watchdog.Tests
 		{
 			Assert.ThrowsException<ArgumentNullException>(() => new ExperimentalWatchdog(null, null, null, null, null, null, null, null, null, null, null, null, null, default));
 
-			var mockChat = new Mock<IChat>();
+			var mockChat = new Mock<IChatManager>();
 			mockChat.Setup(x => x.RegisterCommandHandler(It.IsNotNull<ICustomCommandHandler>())).Verifiable();
 			Assert.ThrowsException<ArgumentNullException>(() => new ExperimentalWatchdog(mockChat.Object, null, null, null, null, null, null, null, null, null, null, null, null, default));
 
@@ -74,7 +74,7 @@ namespace Tgstation.Server.Host.Components.Watchdog.Tests
 		[TestMethod]
 		public async Task TestSuccessfulLaunchAndShutdown()
 		{
-			var mockChat = new Mock<IChat>();
+			var mockChat = new Mock<IChatManager>();
 			mockChat.Setup(x => x.RegisterCommandHandler(It.IsNotNull<ICustomCommandHandler>())).Verifiable();
 			var mockSessionControllerFactory = new Mock<ISessionControllerFactory>();
 			var mockDmbFactory = new Mock<IDmbFactory>();

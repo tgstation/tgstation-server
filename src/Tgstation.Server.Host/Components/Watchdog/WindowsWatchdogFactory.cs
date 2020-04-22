@@ -57,7 +57,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 		/// <inheritdoc />
 		protected override IWatchdog CreateNonExperimentalWatchdog(
-			IChat chat,
+			IChatManager chat,
 			IDmbFactory dmbFactory,
 			IReattachInfoHandler reattachInfoHandler,
 			IEventConsumer eventConsumer,

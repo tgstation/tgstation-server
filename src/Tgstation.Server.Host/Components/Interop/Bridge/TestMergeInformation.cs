@@ -2,12 +2,12 @@
 using System.Globalization;
 using Tgstation.Server.Api.Models.Internal;
 
-namespace Tgstation.Server.Host.Components.Interop.Runtime
+namespace Tgstation.Server.Host.Components.Interop.Bridge
 {
 	/// <summary>
 	/// This model mirrors /datum/tgs_revision_information/test_merge
 	/// </summary>
-	sealed class RuntimeTestMerge : TestMergeBase
+	public sealed class TestMergeInformation : TestMergeBase
 	{
 		/// <summary>
 		/// The unix time of when the test merge was applied
@@ -15,16 +15,16 @@ namespace Tgstation.Server.Host.Components.Interop.Runtime
 		public string TimeMerged { get; set; }
 
 		/// <summary>
-		/// The <see cref="RevisionInformation"/> of the <see cref="RuntimeTestMerge"/>
+		/// The <see cref="RevisionInformation"/> of the <see cref="TestMergeInformation"/>
 		/// </summary>
 		public RevisionInformation Revision { get; set; }
 
 		/// <summary>
-		/// Construct a <see cref="RuntimeTestMerge"/>
+		/// Construct a <see cref="TestMergeInformation"/>
 		/// </summary>
 		/// <param name="testMerge">The <see cref="Models.TestMerge"/> to build from</param>
 		/// <param name="revision">The value of <see cref="Revision"/></param>
-		public RuntimeTestMerge(Models.TestMerge testMerge, RevisionInformation revision) : base(testMerge)
+		public TestMergeInformation(Models.TestMerge testMerge, RevisionInformation revision) : base(testMerge)
 		{
 			TimeMerged = testMerge.MergedAt.Ticks.ToString(CultureInfo.InvariantCulture);
 			Revision = revision ?? throw new ArgumentNullException(nameof(revision));

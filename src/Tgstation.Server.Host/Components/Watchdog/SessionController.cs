@@ -121,14 +121,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IByondExecutableLock byondLock;
 
 		/// <summary>
-		/// The <see cref="IJsonTrackingContext"/> for the <see cref="SessionController"/>
+		/// The <see cref="IChatTrackingContext"/> for the <see cref="SessionController"/>
 		/// </summary>
-		readonly IJsonTrackingContext chatJsonTrackingContext;
+		readonly IChatTrackingContext chatTrackingContext;
 
 		/// <summary>
-		/// The <see cref="IChat"/> for the <see cref="SessionController"/>
+		/// The <see cref="IChatManager"/> for the <see cref="SessionController"/>
 		/// </summary>
-		readonly IChat chat;
+		readonly IChatManager chat;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="SessionController"/>
@@ -184,7 +184,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="byondTopicSender">The value of <see cref="byondTopicSender"/></param>
 		/// <param name="bridgeRegistrar">The <see cref="IBridgeRegistrar"/> used to populate <see cref="bridgeRegistration"/>.</param>
 		/// <param name="chat">The value of <see cref="chat"/></param>
-		/// <param name="chatJsonTrackingContext">The value of <see cref="chatJsonTrackingContext"/></param>
+		/// <param name="chatTrackingContext">The value of <see cref="chatTrackingContext"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="launchSecurityLevel">The value of <see cref="launchSecurityLevel"/></param>
 		/// <param name="startupTimeout">The optional time to wait before failing the <see cref="LaunchResult"/></param>
@@ -193,18 +193,18 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IProcess process,
 			IByondExecutableLock byondLock,
 			IByondTopicSender byondTopicSender,
-			IJsonTrackingContext chatJsonTrackingContext,
+			IChatTrackingContext chatTrackingContext,
 			IBridgeRegistrar bridgeRegistrar,
-			IChat chat,
+			IChatManager chat,
 			ILogger<SessionController> logger,
 			DreamDaemonSecurity? launchSecurityLevel,
 			uint? startupTimeout)
 		{
-			this.chatJsonTrackingContext = chatJsonTrackingContext; // null valid
 			this.reattachInformation = reattachInformation ?? throw new ArgumentNullException(nameof(reattachInformation));
-			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
 			this.process = process ?? throw new ArgumentNullException(nameof(process));
 			this.byondLock = byondLock ?? throw new ArgumentNullException(nameof(byondLock));
+			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
+			this.chatTrackingContext = chatTrackingContext ?? throw new ArgumentNullException(nameof(chatTrackingContext));
 			bridgeRegistration = bridgeRegistrar?.RegisterHandler(this) ?? throw new ArgumentNullException(nameof(bridgeRegistrar));
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -218,7 +218,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			rebootTcs = new TaskCompletionSource<object>();
 
-			process.Lifetime.ContinueWith(x => chatJsonTrackingContext.Active = false, TaskScheduler.Current);
+			process.Lifetime.ContinueWith(x => chatTrackingContext.Active = false, TaskScheduler.Current);
 
 			async Task<LaunchResult> GetLaunchResult()
 			{
@@ -279,7 +279,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					process.Dispose();
 					bridgeRegistration.Dispose();
 					Dmb?.Dispose(); // will be null when released
-					chatJsonTrackingContext.Dispose();
+					chatTrackingContext.Dispose();
 					disposed = true;
 				}
 				else
@@ -375,18 +375,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					}
 
 					break;
-				case BridgeCommandType.Validate:
-					if (!launchSecurityLevel.HasValue)
-					{
-						logger.LogWarning(
-							"DreamDaemon requested API validation but no intial security level was passed to the session controller!");
-						apiValidationStatus = ApiValidationStatus.UnaskedValidationRequest;
-						return new BridgeResponse
-						{
-							ErrorMessage = "Invalid time for an API validation request!"
-						};
-					}
-
+				case BridgeCommandType.Startup:
+					apiValidationStatus = ApiValidationStatus.BadValidationRequest;
 					if (parameters.Version == null)
 						return new BridgeResponse
 						{
@@ -406,7 +396,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							apiValidationStatus = ApiValidationStatus.RequiresTrusted;
 							break;
 						case null:
-							apiValidationStatus = ApiValidationStatus.BadValidationRequest;
 							return new BridgeResponse
 							{
 								ErrorMessage = "Missing minimumSecurityLevel field!"
@@ -422,7 +411,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				case BridgeCommandType.Reboot:
 					if (ClosePortOnReboot)
 					{
-						chatJsonTrackingContext.Active = false;
+						chatTrackingContext.Active = false;
 						response.NewPort = 0;
 						portClosedForReboot = true;
 					}
@@ -452,7 +441,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public void EnableCustomChatCommands() => chatJsonTrackingContext.Active = true;
+		public void EnableCustomChatCommands() => chatTrackingContext.Active = true;
 
 		/// <inheritdoc />
 		public ReattachInformation Release()

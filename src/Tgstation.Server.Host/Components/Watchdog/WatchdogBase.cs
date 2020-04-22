@@ -60,9 +60,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected ILogger Logger { get; }
 
 		/// <summary>
-		/// The <see cref="IChat"/> for the <see cref="WatchdogBase"/>
+		/// The <see cref="IChatManager"/> for the <see cref="WatchdogBase"/>
 		/// </summary>
-		protected IChat Chat { get; }
+		protected IChatManager Chat { get; }
 
 		/// <summary>
 		/// The <see cref="ISessionControllerFactory"/> for the <see cref="WatchdogBase"/>
@@ -152,7 +152,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="instance">The value of <see cref="instance"/></param>
 		/// <param name="autoStart">The value of <see cref="autoStart"/></param>
 		protected WatchdogBase(
-			IChat chat,
+			IChatManager chat,
 			ISessionControllerFactory sessionControllerFactory,
 			IDmbFactory dmbFactory,
 			IReattachInfoHandler reattachInfoHandler,

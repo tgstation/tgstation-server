@@ -1,4 +1,6 @@
-﻿namespace Tgstation.Server.Host.Components.Interop
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Tgstation.Server.Host.Components.Interop
 {
 	/// <summary>
 	/// Common base for interop parameters.
@@ -6,8 +8,9 @@
 	public abstract class DMApiParameters
 	{
 		/// <summary>
-		/// The <see cref="Runtime.RuntimeInformation.AccessIdentifier"/> for interop.
+		/// Used to identify and authenticate the DreamDaemon instance
 		/// </summary>
+		[Required]
 		public string AccessIdentifier { get; set; }
 	}
 }

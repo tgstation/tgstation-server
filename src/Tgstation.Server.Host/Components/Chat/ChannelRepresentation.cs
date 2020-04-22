@@ -5,9 +5,10 @@ using System.Globalization;
 namespace Tgstation.Server.Host.Components.Chat
 {
 	/// <summary>
-	/// Represents a <see cref="Providers.IProvider"/> channel
+	/// Represents a <see cref="Providers.IProvider"/> channel.
 	/// </summary>
-	public sealed class ChatChannel
+	/// <remarks>This is referred to as a "ChatChannel" in the DMAPI.</remarks>
+	public sealed class ChannelRepresentation
 	{
 		/// <summary>
 		/// Backing field for <see cref="RealId"/>. Represented as a <see cref="string"/> to avoid BYOND percision loss
@@ -26,12 +27,12 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <summary>
-		/// The user friendly name of the <see cref="ChatChannel"/>
+		/// The user friendly name of the <see cref="ChannelRepresentation"/>
 		/// </summary>
 		public string FriendlyName { get; set; }
 
 		/// <summary>
-		/// The name of the connection the <see cref="ChatChannel"/> belongs to
+		/// The name of the connection the <see cref="ChannelRepresentation"/> belongs to
 		/// </summary>
 		public string ConnectionName { get; set; }
 

@@ -35,8 +35,8 @@ namespace Tgstation.Server.Host.Components.Chat
 		public string Mention { get; set; }
 
 		/// <summary>
-		/// The <see cref="ChatChannel"/> the user spoke from
+		/// The <see cref="ChannelRepresentation"/> the user spoke from
 		/// </summary>
-		public ChatChannel Channel { get; set; }
+		public ChannelRepresentation Channel { get; set; }
 	}
 }

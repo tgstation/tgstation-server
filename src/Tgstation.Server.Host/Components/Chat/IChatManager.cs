@@ -10,7 +10,7 @@ namespace Tgstation.Server.Host.Components.Chat
 	/// <summary>
 	/// For managing connected chat services
 	/// </summary>
-	public interface IChat : IHostedService, IDisposable
+	public interface IChatManager : IHostedService, IDisposable
 	{
 		/// <summary>
 		/// Registers a <paramref name="customCommandHandler"/> to use
@@ -69,13 +69,10 @@ namespace Tgstation.Server.Host.Components.Chat
 		Task SendUpdateMessage(string message, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Start tracking json files for commands and channels
+		/// Start tracking custom commands and chat channels.
 		/// </summary>
-		/// <param name="basePath">The base path of the .jsons</param>
-		/// <param name="channelsJsonName">The name of the chat channels json</param>
-		/// <param name="commandsJsonName">The name of the chat commands json</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="IDisposable"/> tied to the lifetime of the json trackings</returns>
-		Task<IJsonTrackingContext> TrackJsons(string basePath, string channelsJsonName, string commandsJsonName, CancellationToken cancellationToken);
+		Task<IChatTrackingContext> CreateTrackingContext(CancellationToken cancellationToken);
 	}
 }

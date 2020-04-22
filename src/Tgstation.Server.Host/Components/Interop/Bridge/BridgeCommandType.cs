@@ -11,9 +11,9 @@
 		PortUpdate,
 
 		/// <summary>
-		/// DreamDaemon responding to an API validation request.
+		/// DreamDaemon notifying it is starting.
 		/// </summary>
-		Validate,
+		Startup,
 
 		/// <summary>
 		/// DreamDaemon notifying the server is primed
