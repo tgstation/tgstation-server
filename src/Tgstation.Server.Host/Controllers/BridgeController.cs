@@ -69,6 +69,7 @@ namespace Tgstation.Server.Host.Controllers
 				Forbid();
 
 			var responseJson = JsonConvert.SerializeObject(response, DMApiConstants.SerializerSettings);
+			logger.LogTrace("Bridge Response: {0}", responseJson);
 			return Content(responseJson, ApiHeaders.ApplicationJson);
 		}
 	}
