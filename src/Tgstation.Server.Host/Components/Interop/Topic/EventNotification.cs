@@ -5,13 +5,13 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 {
 	sealed class EventNotification
 	{
-		public EventType EventType { get; }
+		public EventType Type { get; }
 
 		public IReadOnlyCollection<object> Parameters { get; }
 
 		public EventNotification(EventType eventType, IEnumerable<object> parameters = null)
 		{
-			EventType = eventType;
+			Type = eventType;
 			Parameters = parameters?.ToList();
 		}
 	}

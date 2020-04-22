@@ -447,13 +447,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (result?.ChatResponses == null)
 				return true;
 
-			await Task.WhenAll(result.ChatResponses.Select(x => Chat.SendMessage(x.Message, x.ChannelIds, cancellationToken))).ConfigureAwait(false);
+			await Task.WhenAll(result.ChatResponses.Select(x => Chat.SendMessage(x.Text, x.ChannelIds, cancellationToken))).ConfigureAwait(false);
 
 			return true;
 		}
 
 		/// <inheritdoc />
-		public async Task<string> HandleChatCommand(string commandName, string arguments, Chat.User sender, CancellationToken cancellationToken)
+		public async Task<string> HandleChatCommand(string commandName, string arguments, Chat.ChatUser sender, CancellationToken cancellationToken)
 		{
 			using (await SemaphoreSlimContext.Lock(Semaphore, cancellationToken).ConfigureAwait(false))
 			{
@@ -467,7 +467,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var activeServer = GetActiveController();
 				var commandResult = await activeServer.SendCommand(command, cancellationToken).ConfigureAwait(false);
 
-				return commandResult?.CommandResponse ??
+				return commandResult?.CommandResponseMessage ??
 					(commandResult == null
 						? "ERROR: Bad topic exchange!"
 						: "ERROR: Bad DMAPI response!");

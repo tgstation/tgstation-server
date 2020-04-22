@@ -13,9 +13,9 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// </summary>
 		/// <param name="commandName">The command name</param>
 		/// <param name="arguments">Everything typed after <paramref name="commandName"/> minus leading spaces</param>
-		/// <param name="sender">The sending <see cref="User"/></param>
+		/// <param name="sender">The sending <see cref="ChatUser"/></param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the response text to send back</returns>
-		Task<string> HandleChatCommand(string commandName, string arguments, User sender, CancellationToken cancellationToken);
+		Task<string> HandleChatCommand(string commandName, string arguments, ChatUser sender, CancellationToken cancellationToken);
 	}
 }

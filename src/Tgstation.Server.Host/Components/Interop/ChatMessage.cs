@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Tgstation.Server.Host.Components.Interop.Bridge
+namespace Tgstation.Server.Host.Components.Interop
 {
 	public sealed class ChatMessage
 	{

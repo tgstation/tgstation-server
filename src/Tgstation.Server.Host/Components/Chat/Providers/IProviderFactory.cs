@@ -1,7 +1,6 @@
 ﻿using Tgstation.Server.Api.Models.Internal;
-using Tgstation.Server.Host.Components.Chat.Providers;
 
-namespace Tgstation.Server.Host.Components.Chat
+namespace Tgstation.Server.Host.Components.Chat.Providers
 {
 	/// <summary>
 	/// Factory for <see cref="IProvider"/>s

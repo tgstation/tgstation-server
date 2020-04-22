@@ -7,7 +7,7 @@ namespace Tgstation.Server.Host.Components.Chat
 	/// <summary>
 	/// Represents a <see cref="Providers.IProvider"/> channel
 	/// </summary>
-	public sealed class Channel
+	public sealed class ChatChannel
 	{
 		/// <summary>
 		/// Backing field for <see cref="RealId"/>. Represented as a <see cref="string"/> to avoid BYOND percision loss
@@ -26,12 +26,12 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <summary>
-		/// The user friendly name of the <see cref="Channel"/>
+		/// The user friendly name of the <see cref="ChatChannel"/>
 		/// </summary>
 		public string FriendlyName { get; set; }
 
 		/// <summary>
-		/// The name of the connection the <see cref="Channel"/> belongs to
+		/// The name of the connection the <see cref="ChatChannel"/> belongs to
 		/// </summary>
 		public string ConnectionName { get; set; }
 

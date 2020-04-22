@@ -2,10 +2,9 @@
 using System;
 using System.Globalization;
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Host.Components.Chat.Providers;
 using Tgstation.Server.Host.Core;
 
-namespace Tgstation.Server.Host.Components.Chat
+namespace Tgstation.Server.Host.Components.Chat.Providers
 {
 	/// <inheritdoc />
 	sealed class ProviderFactory : IProviderFactory

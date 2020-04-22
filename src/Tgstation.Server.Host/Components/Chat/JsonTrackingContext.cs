@@ -99,7 +99,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public async Task SetChannels(IEnumerable<Channel> channels, CancellationToken cancellationToken)
+		public async Task SetChannels(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken)
 		{
 			using (await SemaphoreSlimContext.Lock(channelsSemaphore, cancellationToken).ConfigureAwait(false))
 			{

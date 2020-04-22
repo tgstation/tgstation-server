@@ -1,7 +1,7 @@
 ﻿namespace Tgstation.Server.Host.Components.Chat
 {
 	/// <summary>
-	/// Represents a mapping of a <see cref="Channel.RealId"/>
+	/// Represents a mapping of a <see cref="ChatChannel.RealId"/>
 	/// </summary>
 	sealed class ChannelMapping
 	{
@@ -11,7 +11,7 @@
 		public long ProviderId { get; set; }
 
 		/// <summary>
-		/// The original <see cref="Components.Chat.Channel.RealId"/>
+		/// The original <see cref="Components.Chat.ChatChannel.RealId"/>
 		/// </summary>
 		public ulong ProviderChannelId { get; set; }
 
@@ -26,8 +26,8 @@
 		public bool IsUpdatesChannel { get; set; }
 
 		/// <summary>
-		/// The <see cref="Components.Chat.Channel"/> with the mapped Id
+		/// The <see cref="Components.Chat.ChatChannel"/> with the mapped Id
 		/// </summary>
-		public Channel Channel { get; set; }
+		public ChatChannel Channel { get; set; }
 	}
 }

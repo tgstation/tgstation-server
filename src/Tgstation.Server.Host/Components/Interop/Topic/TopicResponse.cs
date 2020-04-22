@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Tgstation.Server.Host.Components.Chat;
 
 namespace Tgstation.Server.Host.Components.Interop.Topic
 {
@@ -7,8 +6,8 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 	{
 		public string ErrorMessage { get; set; }
 
-		public string CommandResponse { get; set; }
+		public string CommandResponseMessage { get; set; }
 
-		public ICollection<Response> ChatResponses { get; set; }
+		public ICollection<ChatMessage> ChatResponses { get; set; }
 	}
 }

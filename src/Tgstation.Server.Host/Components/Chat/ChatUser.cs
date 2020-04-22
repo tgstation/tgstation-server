@@ -7,7 +7,7 @@ namespace Tgstation.Server.Host.Components.Chat
 	/// <summary>
 	/// Represents a tgs_chat_user datum
 	/// </summary>
-	public sealed class User
+	public sealed class ChatUser
 	{
 		/// <summary>
 		/// Backing field for <see cref="RealId"/>. Represented as a <see cref="string"/> to avoid BYOND percision loss
@@ -35,8 +35,8 @@ namespace Tgstation.Server.Host.Components.Chat
 		public string Mention { get; set; }
 
 		/// <summary>
-		/// The <see cref="Components.Chat.Channel"/> the user spoke from
+		/// The <see cref="Components.Chat.ChatChannel"/> the user spoke from
 		/// </summary>
-		public Channel Channel { get; set; }
+		public ChatChannel Channel { get; set; }
 	}
 }

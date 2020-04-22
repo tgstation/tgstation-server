@@ -19,9 +19,9 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		public string Params { get; }
 
 		/// <summary>
-		/// The <see cref="Chat.User"/> that sent the command
+		/// The <see cref="Chat.ChatUser"/> that sent the command
 		/// </summary>
-		public User User { get; }
+		public ChatUser User { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ChatCommand"/> <see langword="class"/>.
@@ -29,7 +29,7 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// <param name="user">The value of <see cref="User"/>.</param>
 		/// <param name="command">The value of <see cref="Name"/>.</param>
 		/// <param name="parameters">The value of <see cref="Parames"/>.</param>
-		public ChatCommand(User user, string command, string parameters)
+		public ChatCommand(ChatUser user, string command, string parameters)
 		{
 			User = user ?? throw new ArgumentNullException(nameof(user));
 			Name = command ?? throw new ArgumentNullException(nameof(command));

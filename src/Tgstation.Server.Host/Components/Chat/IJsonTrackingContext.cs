@@ -26,9 +26,9 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// Writes information about connected <paramref name="channels"/> to the <see cref="IJsonTrackingContext"/>
 		/// </summary>
-		/// <param name="channels">The <see cref="Channel"/>s to write out</param>
+		/// <param name="channels">The <see cref="ChatChannel"/>s to write out</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task SetChannels(IEnumerable<Channel> channels, CancellationToken cancellationToken);
+		Task SetChannels(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken);
 	}
 }

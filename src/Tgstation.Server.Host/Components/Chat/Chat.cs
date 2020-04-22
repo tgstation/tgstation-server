@@ -67,7 +67,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		readonly Dictionary<long, IProvider> providers;
 
 		/// <summary>
-		/// Map of <see cref="Channel.RealId"/>s to <see cref="ChannelMapping"/>s
+		/// Map of <see cref="ChatChannel.RealId"/>s to <see cref="ChannelMapping"/>s
 		/// </summary>
 		readonly Dictionary<ulong, ChannelMapping> mappedChannels;
 
@@ -107,7 +107,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		TaskCompletionSource<object> connectionsUpdated;
 
 		/// <summary>
-		/// Used for remapping <see cref="Channel.RealId"/>s
+		/// Used for remapping <see cref="ChatChannel.RealId"/>s
 		/// </summary>
 		ulong channelIdCounter;
 
