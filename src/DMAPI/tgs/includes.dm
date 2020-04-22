@@ -11,6 +11,7 @@
 #include "v4\api.dm"
 #include "v4\commands.dm"
 
+#include "v5\_defines.dm"
 #include "v5\api.dm"
 #include "v5\commands.dm"
 #include "v5\undef.dm"
