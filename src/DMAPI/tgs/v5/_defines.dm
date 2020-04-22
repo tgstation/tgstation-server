@@ -1,5 +1,6 @@
 #define DMAPI5_PARAM_RUNTIME_INFORMATION_FILE "tgs_json"
-#define DMAPI5_TOPIC_DATA "data"
+#define DMAPI5_BRIDGE_DATA "data"
+#define DMAPI5_TOPIC_DATA "tgs_data"
 
 #define DMAPI5_BRIDGE_COMMAND_PORT_UPDATE 0
 #define DMAPI5_BRIDGE_COMMAND_VALIDATE 1
@@ -9,6 +10,7 @@
 #define DMAPI5_BRIDGE_COMMAND_CHAT_SEND 5
 
 #define DMAPI5_PARAMETER_ACCESS_IDENTIFIER "accessIdentifier"
+#define DMAPI5_RESPONSE_ERROR_MESSAGE "errorMessage"
 
 #define DMAPI5_BRIDGE_PARAMETER_COMMAND_TYPE "commandType"
 #define DMAPI5_BRIDGE_PARAMETER_CURRENT_PORT "currentPort"
@@ -16,8 +18,7 @@
 #define DMAPI5_BRIDGE_PARAMETER_CHAT_MESSAGE "chatMessage"
 #define DMAPI5_BRIDGE_PARAMETER_MINIMUM_SECURITY_LEVEL "minimumSecurityLevel"
 
-#define DMAPI5_BRIDGE_RESPONSE_ERROR_MESSAGE "errorMessage"
-#define DMAPI5_BRIDGE_RESPONSE_ERROR_NEW_PORT "newPort"
+#define DMAPI5_BRIDGE_RESPONSE_NEW_PORT "newPort"
 
 #define DMAPI5_CHAT_MESSAGE_TEXT "text"
 #define DMAPI5_CHAT_MESSAGE_CHANNEL_IDS "channelIds"
@@ -29,6 +30,9 @@
 #define DMAPI5_RUNTIME_INFORMATION_INSTANCE_NAME "instanceName"
 #define DMAPI5_RUNTIME_INFORMATION_REVISION "revision"
 #define DMAPI5_RUNTIME_INFORMATION_TEST_MERGES "testMerges"
+#define DMAPI5_RUNTIME_INFORMATION_SECURITY_LEVEL "securityLevel"
+#define DMAPI5_RUNTIME_INFORMATION_CHAT_COMMANDS_JSON "chatCommandsJson"
+#define DMAPI5_RUNTIME_INFORMATION_CHAT_CHANNELS_JSON "chatChannelsJson"
 
 #define DMAPI5_TEST_MERGE_TIME_MERGED "timeMerged"
 #define DMAPI5_TEST_MERGE_REVISION "revision"
@@ -36,6 +40,9 @@
 #define DMAPI5_TEST_MERGE_BODY_AT_MERGE "bodyAtMerge"
 #define DMAPI5_TEST_MERGE_URL "url"
 #define DMAPI5_TEST_MERGE_AUTHOR "author"
+#define DMAPI5_TEST_MERGE_NUMBER "number"
+#define DMAPI5_TEST_MERGE_PULL_REQUEST_REVISION "pullRequestRevision"
+#define DMAPI5_TEST_MERGE_COMMENT "comment"
 
 #define DMAPI5_CHAT_COMMAND_NAME "name"
 #define DMAPI5_CHAT_COMMAND_PARAMS "params"
@@ -57,7 +64,6 @@
 #define DMAPI5_TOPIC_PARAMETER_NEW_REBOOT_STATE "newRebootState"
 #define DMAPI5_TOPIC_PARAMETER_NEW_INSTANCE_NAME "newInstanceName"
 
-#define DMAPI5_TOPIC_RESPONSE_ERROR_MESSAGE "errorMessage"
 #define DMAPI5_TOPIC_RESPONSE_COMMAND_RESPONSE_MESSAGE "commandResponseMessage"
 #define DMAPI5_TOPIC_RESPONSE_CHAT_RESPONSES "chatResponses"
 
@@ -74,5 +80,35 @@
 #define DMAPI5_CHAT_CHANNEL_CONNECTION_NAME "connectionName"
 #define DMAPI5_CHAT_CHANNEL_IS_ADMIN_CHANNEL "isAdminChannel"
 #define DMAPI5_CHAT_CHANNEL_IS_PRIVATE_CHANNEL "isPrivateChannel"
-#define DMAPI5_CHAT_CHANNEL_IS_WATCHDOG_CHANNEL "isWatchdogChannel"
 #define DMAPI5_CHAT_CHANNEL_TAG "tag"
+
+#define DMAPI5_CUSTOM_CHAT_COMMAND_NAME "name"
+#define DMAPI5_CUSTOM_CHAT_COMMAND_HELP_TEXT "helpText"
+#define DMAPI5_CUSTOM_CHAT_COMMAND_ADMIN_ONLY "adminOnly"
+
+/*
+The MIT License
+
+Copyright (c) 2020 Jordan Brown
+
+Permission is hereby granted, free of charge,
+to any person obtaining a copy of this software and
+associated documentation files (the "Software"), to
+deal in the Software without restriction, including
+without limitation the rights to use, copy, modify,
+merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom
+the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice
+shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR
+ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/

@@ -23,7 +23,7 @@ namespace Tgstation.Server.Host.Components.Interop
 		/// <summary>
 		/// Parameter json is encoded in for topic requests.
 		/// </summary>
-		public const string TopicData = "data";
+		public const string TopicData = "tgs_data";
 
 		/// <summary>
 		/// The DMAPI <see cref="Version"/> being used.
