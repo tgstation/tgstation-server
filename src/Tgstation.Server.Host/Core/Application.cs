@@ -33,6 +33,7 @@ using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.Setup;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Core
@@ -41,25 +42,10 @@ namespace Tgstation.Server.Host.Core
 	/// Sets up dependency injection.
 	/// </summary>
 #pragma warning disable CA1506
-	sealed class Application
+	sealed class Application : SetupApplication
 	{
 		/// <summary>
-		/// The <see cref="IIOManager"/> for the <see cref="Application"/>.
-		/// </summary>
-		static readonly IIOManager IOManager = new DefaultIOManager();
-
-		/// <summary>
-		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="Application"/>.
-		/// </summary>
-		static readonly IAssemblyInformationProvider AssemblyInformationProvider = new AssemblyInformationProvider();
-
-		/// <summary>
-		/// The <see cref="IConfiguration"/> for the <see cref="Application"/>
-		/// </summary>
-		readonly IConfiguration configuration;
-
-		/// <summary>
-		/// The <see cref="IWebHostEnvironment"/> for the <see cref="Application"/>
+		/// The <see cref="IWebHostEnvironment"/> for the <see cref="Application"/>.
 		/// </summary>
 		readonly IWebHostEnvironment hostingEnvironment;
 
@@ -71,13 +57,13 @@ namespace Tgstation.Server.Host.Core
 		/// <summary>
 		/// Construct an <see cref="Application"/>
 		/// </summary>
-		/// <param name="configuration">The value of <see cref="configuration"/></param>
-		/// <param name="hostingEnvironment">The value of <see cref="hostingEnvironment"/></param>
+		/// <param name="configuration">The <see cref="IConfiguration"/> for the <see cref="SetupApplication"/>.</param>
+		/// <param name="hostingEnvironment">The <see cref="IWebHostEnvironment"/> for the <see cref="SetupApplication"/>.</param>
 		public Application(
 			IConfiguration configuration,
 			IWebHostEnvironment hostingEnvironment)
+			: base(configuration, hostingEnvironment)
 		{
-			this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 			this.hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
 		}
 
@@ -86,132 +72,88 @@ namespace Tgstation.Server.Host.Core
 		/// </summary>
 		/// <returns>A new <see cref="IServerFactory"/> with the default settings.</returns>
 		public static IServerFactory CreateDefaultServerFactory()
-			=> new ServerFactory<Application>(
+			=> new ServerFactory(
 				AssemblyInformationProvider,
 				IOManager);
 
 		/// <summary>
-		/// Configure dependency injected services
+		/// Configure the <see cref="Application"/>'s services.
 		/// </summary>
-		/// <param name="services">The <see cref="IServiceCollection"/> to configure</param>
-		public void ConfigureServices(IServiceCollection services)
+		/// <param name="services">The <see cref="IServiceCollection"/> to configure.</param>
+		/// <param name="postSetupServices">The <see cref="IPostSetupServices"/> needed for configuration.</param>
+		public void ConfigureServices(IServiceCollection services, IPostSetupServices postSetupServices)
 		{
-			if (services == null)
-				throw new ArgumentNullException(nameof(services));
+			ConfigureServices(services);
+
+			if (postSetupServices == null)
+				throw new ArgumentNullException(nameof(postSetupServices));
 
 			// configure configuration
-			services.UseStandardConfig<UpdatesConfiguration>(configuration);
-			services.UseStandardConfig<DatabaseConfiguration>(configuration);
-			services.UseStandardConfig<GeneralConfiguration>(configuration);
-			services.UseStandardConfig<FileLoggingConfiguration>(configuration);
-			services.UseStandardConfig<ControlPanelConfiguration>(configuration);
+			services.UseStandardConfig<UpdatesConfiguration>(Configuration);
+			services.UseStandardConfig<DatabaseConfiguration>(Configuration);
+			services.UseStandardConfig<FileLoggingConfiguration>(Configuration);
+			services.UseStandardConfig<ControlPanelConfiguration>(Configuration);
 
 			// enable options which give us config reloading
 			services.AddOptions();
 
-			// this is needful for the setup wizard
-			services.AddLogging();
-
-			// other stuff needed for for setup wizard and configuration
-			services.AddSingleton(IOManager);
-			services.AddSingleton(AssemblyInformationProvider);
-			services.AddSingleton<IConsole, IO.Console>();
-			services.AddSingleton<IDatabaseConnectionFactory, DatabaseConnectionFactory>();
-			services.AddSingleton<ISetupWizard, SetupWizard>();
-			services.AddSingleton<IPlatformIdentifier, PlatformIdentifier>();
-			services.AddSingleton<IAsyncDelayer, AsyncDelayer>();
-
-			GeneralConfiguration generalConfiguration;
-			DatabaseConfiguration databaseConfiguration;
-			FileLoggingConfiguration fileLoggingConfiguration;
-			ControlPanelConfiguration controlPanelConfiguration;
-			IPlatformIdentifier platformIdentifier;
-
-			// temporarily build the service provider in it's current state
-			// do it here so we can run the setup wizard if necessary
-			// also allows us to get some options and other services we need for continued configuration
-#pragma warning disable ASP0000 // Do not call 'IServiceCollection.BuildServiceProvider' in 'ConfigureServices'
-			using (var provider = services.BuildServiceProvider())
-#pragma warning restore ASP0000 // Do not call 'IServiceCollection.BuildServiceProvider' in 'ConfigureServices'
-			{
-				// run the wizard if necessary
-				var setupWizard = provider.GetRequiredService<ISetupWizard>();
-				var applicationLifetime = provider.GetRequiredService<IHostApplicationLifetime>();
-				var setupWizardRan = setupWizard.CheckRunWizard(applicationLifetime.ApplicationStopping).GetAwaiter().GetResult();
-
-				// load the configuration options we need
-				var generalOptions = provider.GetRequiredService<IOptions<GeneralConfiguration>>();
-				generalConfiguration = generalOptions.Value;
-
-				// unless this is set, in which case, we leave
-				if (setupWizardRan && generalConfiguration.SetupWizardMode == SetupWizardMode.Only)
-					throw new OperationCanceledException("Exiting due to SetupWizardMode configuration!"); // we don't inject a logger in the constuctor to log this because it's not yet configured
-
-				var dbOptions = provider.GetRequiredService<IOptions<DatabaseConfiguration>>();
-				databaseConfiguration = dbOptions.Value;
-
-				var loggingOptions = provider.GetRequiredService<IOptions<FileLoggingConfiguration>>();
-				fileLoggingConfiguration = loggingOptions.Value;
-
-				var controlPanelOptions = provider.GetRequiredService<IOptions<ControlPanelConfiguration>>();
-				controlPanelConfiguration = controlPanelOptions.Value;
-
-				platformIdentifier = provider.GetRequiredService<IPlatformIdentifier>();
-			}
-
 			// setup file logging via serilog
-			if (!fileLoggingConfiguration.Disable)
-				services.AddLogging(builder =>
-				{
-					// common app data is C:/ProgramData on windows, else /usr/share
-					var logPath = !String.IsNullOrEmpty(fileLoggingConfiguration.Directory)
-					? fileLoggingConfiguration.Directory
+			services.AddLogging(builder =>
+			{
+				if (postSetupServices.FileLoggingConfiguration.Disable)
+					return;
+
+				// common app data is C:/ProgramData on windows, else /usr/share
+				var logPath = !String.IsNullOrEmpty(postSetupServices.FileLoggingConfiguration.Directory)
+					? postSetupServices.FileLoggingConfiguration.Directory
 					: IOManager.ConcatPath(
-						Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
-						"tgstation-server",
-						"Logs");
+				Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+				"tgstation-server",
+				"Logs");
 
-					logPath = IOManager.ConcatPath(logPath, "tgs-{Date}.log");
+				logPath = IOManager.ConcatPath(logPath, "tgs-{Date}.log");
 
-					static LogEventLevel? ConvertLogLevel(LogLevel logLevel) =>
-						logLevel switch
-						{
-							LogLevel.Critical => LogEventLevel.Fatal,
-							LogLevel.Debug => LogEventLevel.Debug,
-							LogLevel.Error => LogEventLevel.Error,
-							LogLevel.Information => LogEventLevel.Information,
-							LogLevel.Trace => LogEventLevel.Verbose,
-							LogLevel.Warning => LogEventLevel.Warning,
-							LogLevel.None => null,
-							_ => throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid log level {0}", logLevel)),
-						};
+				static LogEventLevel? ConvertLogLevel(LogLevel logLevel) =>
+					logLevel switch
+					{
+						LogLevel.Critical => LogEventLevel.Fatal,
+						LogLevel.Debug => LogEventLevel.Debug,
+						LogLevel.Error => LogEventLevel.Error,
+						LogLevel.Information => LogEventLevel.Information,
+						LogLevel.Trace => LogEventLevel.Verbose,
+						LogLevel.Warning => LogEventLevel.Warning,
+						LogLevel.None => null,
+						_ => throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid log level {0}", logLevel)),
+					};
 
-					var logEventLevel = ConvertLogLevel(fileLoggingConfiguration.LogLevel);
-					var microsoftEventLevel = ConvertLogLevel(fileLoggingConfiguration.MicrosoftLogLevel);
+				var logEventLevel = ConvertLogLevel(postSetupServices.FileLoggingConfiguration.LogLevel);
+				var microsoftEventLevel = ConvertLogLevel(postSetupServices.FileLoggingConfiguration.MicrosoftLogLevel);
 
-					var formatter = new MessageTemplateTextFormatter(
-						"{Timestamp:o} {RequestId,13} [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}",
-						null);
+				var formatter = new MessageTemplateTextFormatter(
+					"{Timestamp:o} {RequestId,13} [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}",
+					null);
 
-					var configuration = new LoggerConfiguration()
-						.Enrich
-						.FromLogContext()
-						.WriteTo
-						.Async(
-							w => w.RollingFile(
-								formatter,
-								logPath,
-								shared: true,
-								flushToDiskInterval: TimeSpan.FromSeconds(2)));
+				var configuration = new LoggerConfiguration()
+					.Enrich
+					.FromLogContext()
+					.WriteTo
+					.Async(
+						w => w.RollingFile(
+							formatter,
+							logPath,
+							shared: true,
+							flushToDiskInterval: TimeSpan.FromSeconds(2)));
 
-					if (logEventLevel.HasValue)
-						configuration.MinimumLevel.Is(logEventLevel.Value);
+				if (logEventLevel.HasValue)
+					configuration.MinimumLevel.Is(logEventLevel.Value);
 
-					if (microsoftEventLevel.HasValue)
-						configuration.MinimumLevel.Override("Microsoft", microsoftEventLevel.Value);
+				if (microsoftEventLevel.HasValue)
+					configuration.MinimumLevel.Override("Microsoft", microsoftEventLevel.Value);
 
-					builder.AddSerilog(configuration.CreateLogger(), true);
-				});
+				builder.AddSerilog(configuration.CreateLogger(), true);
+			});
+
+			services.RemoveEventLogging();
 
 			// configure bearer token validation
 			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(jwtBearerOptions =>
@@ -279,7 +221,7 @@ namespace Tgstation.Server.Host.Core
 			}
 
 			// add the correct database context type
-			var dbType = databaseConfiguration.DatabaseType;
+			var dbType = postSetupServices.DatabaseConfiguration.DatabaseType;
 			switch (dbType)
 			{
 				case DatabaseType.MySql:
@@ -309,9 +251,9 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IPasswordHasher<Models.User>, PasswordHasher<Models.User>>();
 
 			// configure platform specific services
-			if (platformIdentifier.IsWindows)
+			if (postSetupServices.PlatformIdentifier.IsWindows)
 			{
-				if (generalConfiguration.UseBasicWatchdogOnWindows)
+				if (postSetupServices.GeneralConfiguration.UseBasicWatchdogOnWindows)
 					services.AddSingleton<IWatchdogFactory, WatchdogFactory>();
 				else
 					services.AddSingleton<IWatchdogFactory, WindowsWatchdogFactory>();
@@ -341,8 +283,8 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
 			services.AddSingleton<IByondTopicSender>(new ByondTopicSender
 			{
-				ReceiveTimeout = generalConfiguration.ByondTopicTimeout,
-				SendTimeout = generalConfiguration.ByondTopicTimeout
+				ReceiveTimeout = postSetupServices.GeneralConfiguration.ByondTopicTimeout,
+				SendTimeout = postSetupServices.GeneralConfiguration.ByondTopicTimeout
 			});
 
 			// configure component services
@@ -352,12 +294,15 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IInstanceFactory, InstanceFactory>();
 
 			// configure root services
+			services.AddSingleton<IJobManager, JobManager>();
+
 			services.AddSingleton<InstanceManager>();
 			services.AddSingleton<IInstanceManager>(x => x.GetRequiredService<InstanceManager>());
-			services.AddSingleton<IHostedService>(x => x.GetRequiredService<InstanceManager>());
-
-			services.AddSingleton<IJobManager, JobManager>();
 		}
+
+		/// <inheritdoc />
+		protected override void ConfigureHostedService(IServiceCollection services)
+			=> services.AddSingleton<IHostedService>(x => x.GetRequiredService<InstanceManager>());
 
 		/// <summary>
 		/// Configure the <see cref="Application"/>
@@ -401,7 +346,7 @@ namespace Tgstation.Server.Host.Core
 
 			// attempt to restart the server if the configuration changes
 			if (serverControl.WatchdogPresent)
-				ChangeToken.OnChange(configuration.GetReloadToken, () => serverControl.Restart());
+				ChangeToken.OnChange(Configuration.GetReloadToken, () => serverControl.Restart());
 
 			// setup the HTTP request pipeline
 			// Final point where we wrap exceptions in a 500 (ErrorMessage) response

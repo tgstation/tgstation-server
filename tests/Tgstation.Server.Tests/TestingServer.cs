@@ -20,9 +20,9 @@ namespace Tgstation.Server.Tests
 		public Uri Url { get; }
 
 		public string Directory { get; }
-		public bool RestartRequested => realServer.RestartRequested;
+		public bool RestartRequested => realServer.Result.RestartRequested;
 
-		readonly IServer realServer;
+		readonly Task<IServer> realServer;
 
 		readonly IServerClientFactory serverClientFactory;
 
@@ -72,7 +72,7 @@ namespace Tgstation.Server.Tests
 			if (dumpOpenAPISpecpath)
 				Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
 
-			realServer = Application.CreateDefaultServerFactory().CreateServer(args.ToArray(), updatePath);
+			realServer = Application.CreateDefaultServerFactory().CreateServer(args.ToArray(), updatePath, default);
 		}
 
 		public void Dispose()
@@ -80,9 +80,10 @@ namespace Tgstation.Server.Tests
 			System.IO.Directory.Delete(Directory, true);
 		}
 
-		public async Task RunAsync(CancellationToken cancellationToken)
+		public async Task Run(CancellationToken cancellationToken)
 		{
-			Task runTask = realServer.RunAsync(cancellationToken);
+			var serverInstance = await realServer.ConfigureAwait(false);
+			Task runTask = serverInstance.Run(cancellationToken);
 
 			if (dumpOpenAPISpecpath)
 			{

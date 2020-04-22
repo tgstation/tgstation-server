@@ -261,8 +261,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 				jobUidsToNotErase.Add(exceptThisOne.DirectoryName.Value.ToString().ToUpperInvariant());
 
 			// cleanup
-			await ioManager.CreateDirectory(".", cancellationToken).ConfigureAwait(false);
-			var directories = await ioManager.GetDirectories(".", cancellationToken).ConfigureAwait(false);
+			var gameDirectory = ioManager.ResolvePath();
+			await ioManager.CreateDirectory(gameDirectory, cancellationToken).ConfigureAwait(false);
+			var directories = await ioManager.GetDirectories(gameDirectory, cancellationToken).ConfigureAwait(false);
 			int deleting = 0;
 			var tasks = directories.Select(async x =>
 			{

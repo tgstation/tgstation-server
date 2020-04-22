@@ -1,7 +1,7 @@
 ﻿namespace Tgstation.Server.Host.Configuration
 {
 	/// <summary>
-	/// Determines if the <see cref="Core.ISetupWizard"/> will run
+	/// Determines if the <see cref="Setup.SetupWizard"/> will run
 	/// </summary>
 	public enum SetupWizardMode
 	{

@@ -101,14 +101,20 @@ namespace Tgstation.Server.Host
 		/// <summary>
 		/// Re-throw <see cref="propagatedException"/> if it exists
 		/// </summary>
-		void CheckExceptionPropagation()
+		/// <param name="otherException">An existing <see cref="Exception"/> that should be thrown as well, but not by itself.</param>
+		void CheckExceptionPropagation(Exception otherException)
 		{
-			if (propagatedException != null)
-				throw propagatedException;
+			if (propagatedException == null)
+				return;
+
+			if (otherException != null)
+				throw new AggregateException(propagatedException, otherException);
+
+			throw propagatedException;
 		}
 
 		/// <inheritdoc />
-		public async Task RunAsync(CancellationToken cancellationToken)
+		public async Task Run(CancellationToken cancellationToken)
 		{
 			using (cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
 			using (var fsWatcher = updatePath != null ? new FileSystemWatcher(Path.GetDirectoryName(updatePath)) : null)
@@ -138,14 +144,14 @@ namespace Tgstation.Server.Host
 							await host.RunAsync(cancellationTokenSource.Token).ConfigureAwait(false);
 						}
 					}
-					catch (OperationCanceledException)
+					catch (Exception ex)
 					{
-						CheckExceptionPropagation();
+						CheckExceptionPropagation(ex);
 						throw;
 					}
 			}
 
-			CheckExceptionPropagation();
+			CheckExceptionPropagation(null);
 		}
 
 		/// <inheritdoc />

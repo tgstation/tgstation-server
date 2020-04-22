@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+using System.Threading.Tasks;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
@@ -16,31 +17,31 @@ namespace Tgstation.Server.Host.Tests
 		[TestMethod]
 		public void TestContructor()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new ServerFactory<Application>(null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new ServerFactory(null, null));
 			IAssemblyInformationProvider assemblyInformationProvider = Mock.Of<IAssemblyInformationProvider>();
-			Assert.ThrowsException<ArgumentNullException>(() => new ServerFactory<Application>(assemblyInformationProvider, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new ServerFactory(assemblyInformationProvider, null));
 			IIOManager ioManager = Mock.Of<IIOManager>();
-			new ServerFactory<Application>(assemblyInformationProvider, ioManager);
+			new ServerFactory(assemblyInformationProvider, ioManager);
 		}
 
 		[TestMethod]
-		public void TestWorksWithoutUpdatePath()
+		public async Task TestWorksWithoutUpdatePath()
 		{
 			var factory = Application.CreateDefaultServerFactory();
 
-			Assert.ThrowsException<ArgumentNullException>(() => factory.CreateServer(null, null));
-			factory.CreateServer(Array.Empty<string>(), null);
+			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => factory.CreateServer(null, null, default));
+			await factory.CreateServer(new[] { "General:SetupWizardMode=Never" }, null, default);
 		}
 
 		[TestMethod]
-		public void TestWorksWithUpdatePath()
+		public async Task TestWorksWithUpdatePath()
 		{
 			var factory = Application.CreateDefaultServerFactory();
 			const string Path = "/test";
 
-			Assert.ThrowsException<ArgumentNullException>(() => factory.CreateServer(null, null));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.CreateServer(null, Path));
-			factory.CreateServer(Array.Empty<string>(), Path);
+			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => factory.CreateServer(null, null, default));
+			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => factory.CreateServer(null, Path, default));
+			await factory.CreateServer(new[] { "General:SetupWizardMode=Never" }, Path, default);
 		}
 	}
 }

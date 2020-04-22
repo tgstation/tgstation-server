@@ -149,7 +149,7 @@ namespace Tgstation.Server.Host.Controllers
 			var targetInstancePath = NormalizePath(model.Path);
 			model.Path = targetInstancePath;
 
-			var installationDirectoryPath = NormalizePath(".");
+			var installationDirectoryPath = NormalizePath(DefaultIOManager.CurrentDirectory);
 
 			IActionResult CheckInstanceNotChildOf(string conflictingPath)
 			{

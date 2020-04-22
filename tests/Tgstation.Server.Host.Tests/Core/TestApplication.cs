@@ -7,11 +7,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Threading;
-using System.Threading.Tasks;
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Security;
-using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Core.Tests
 {
@@ -52,11 +49,6 @@ namespace Tgstation.Server.Host.Core.Tests
 			Assert.ThrowsException<ArgumentNullException>(() => app.Configure(mockAppBuilder.Object, mockServerControl.Object, mockTokenFactory.Object, mockControlPanelOptions.Object, mockGeneralOptions.Object, null));
 			mockControlPanelOptions.VerifyAll();
 			mockGeneralOptions.VerifyAll();
-		}
-
-		class MockSetupWizard : ISetupWizard
-		{
-			public Task<bool> CheckRunWizard(CancellationToken cancellationToken) => Task.FromResult(true);
 		}
 
 		class MockHostApplicationLifetime : IHostApplicationLifetime
