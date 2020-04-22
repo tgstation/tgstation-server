@@ -1,6 +1,4 @@
-﻿using Tgstation.Server.Host.System;
-
-namespace Tgstation.Server.Host.Components.Watchdog
+﻿namespace Tgstation.Server.Host.System
 {
 	/// <summary>
 	/// On Windows, DreamDaemon will show an unskippable prompt when using /world/proc/OpenPort(). This looks out for those prompts and immediately clicks "Yes" if the owning process has registered for it

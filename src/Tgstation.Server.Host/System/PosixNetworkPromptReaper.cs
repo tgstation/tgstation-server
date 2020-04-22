@@ -1,6 +1,4 @@
-﻿using Tgstation.Server.Host.System;
-
-namespace Tgstation.Server.Host.Components.Watchdog
+﻿namespace Tgstation.Server.Host.System
 {
 	/// <inheritdoc />
 	sealed class PosixNetworkPromptReaper : INetworkPromptReaper
