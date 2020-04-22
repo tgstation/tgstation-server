@@ -230,7 +230,7 @@ namespace Tgstation.Server.Host.Controllers
 					AutoStart = false,
 					PrimaryPort = 1337,
 					SecondaryPort = 1338,
-					SecurityLevel = DreamDaemonSecurity.Ultrasafe,
+					SecurityLevel = DreamDaemonSecurity.Safe,
 					SoftRestart = false,
 					SoftShutdown = false,
 					StartupTimeout = 20
@@ -238,7 +238,7 @@ namespace Tgstation.Server.Host.Controllers
 				DreamMakerSettings = new DreamMakerSettings
 				{
 					ApiValidationPort = 1339,
-					ApiValidationSecurityLevel = DreamDaemonSecurity.Ultrasafe
+					ApiValidationSecurityLevel = DreamDaemonSecurity.Safe
 				},
 				Name = model.Name,
 				Online = false,
