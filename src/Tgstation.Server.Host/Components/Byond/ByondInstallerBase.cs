@@ -10,11 +10,19 @@ namespace Tgstation.Server.Host.Components.Byond
 	/// <inheritdoc />
 	abstract class ByondInstallerBase : IByondInstaller
 	{
+		/// <summary>
+		/// The name of BYOND's cache directory.
+		/// </summary>
+		const string CacheDirectoryName = "cache";
+
 		/// <inheritdoc />
 		public abstract string DreamDaemonName { get; }
 
 		/// <inheritdoc />
 		public abstract string DreamMakerName { get; }
+
+		/// <inheritdoc />
+		public abstract string PathToUserByondFolder { get; }
 
 		/// <summary>
 		/// Gets the URL formatter string for downloading a byond version of {0:Major} {1:Minor}.
@@ -43,7 +51,21 @@ namespace Tgstation.Server.Host.Components.Byond
 		}
 
 		/// <inheritdoc />
-		public abstract Task CleanCache(CancellationToken cancellationToken);
+		public async Task CleanCache(CancellationToken cancellationToken)
+		{
+			try
+			{
+				await IOManager.DeleteDirectory(IOManager.ConcatPath(PathToUserByondFolder, CacheDirectoryName), cancellationToken).ConfigureAwait(false);
+			}
+			catch (OperationCanceledException)
+			{
+				throw;
+			}
+			catch (Exception e)
+			{
+				Logger.LogWarning("Error deleting BYOND cache! Exception: {0}", e);
+			}
+		}
 
 		/// <inheritdoc />
 		public abstract Task InstallByond(string path, Version version, CancellationToken cancellationToken);

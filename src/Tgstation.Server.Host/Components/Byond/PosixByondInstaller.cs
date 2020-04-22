@@ -29,6 +29,9 @@ namespace Tgstation.Server.Host.Components.Byond
 		public override string DreamMakerName => DreamMakerExecutableName + ShellScriptExtension;
 
 		/// <inheritdoc />
+		public override string PathToUserByondFolder => IOManager.ResolvePath(ByondCachePath);
+
+		/// <inheritdoc />
 		protected override string ByondRevisionsURLTemplate => "https://secure.byond.com/download/build/{0}/{0}.{1}_byond_linux.zip";
 
 		/// <summary>
@@ -46,23 +49,6 @@ namespace Tgstation.Server.Host.Components.Byond
 			: base(ioManager, logger)
 		{
 			this.postWriteHandler = postWriteHandler ?? throw new ArgumentNullException(nameof(postWriteHandler));
-		}
-
-		/// <inheritdoc />
-		public override async Task CleanCache(CancellationToken cancellationToken)
-		{
-			try
-			{
-				await IOManager.DeleteDirectory(ByondCachePath, cancellationToken).ConfigureAwait(false);
-			}
-			catch (OperationCanceledException)
-			{
-				throw;
-			}
-			catch (Exception e)
-			{
-				Logger.LogWarning("Error deleting BYOND cache! Exception: {0}", e);
-			}
 		}
 
 		/// <inheritdoc />
