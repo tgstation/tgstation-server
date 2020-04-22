@@ -31,7 +31,7 @@ namespace Tgstation.Server.Host.Database
 		/// <inheritdoc />
 		protected override void ValidateDatabaseType()
 		{
-			if (DatabaseType != DatabaseType.Sqlite)
+			if (DatabaseType != DatabaseType.SqlServer)
 				throw new InvalidOperationException("Invalid DatabaseType for SqlServerDatabaseContext!");
 		}
 	}
