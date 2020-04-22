@@ -69,6 +69,7 @@ namespace Tgstation.Server.Host
 					return 2;
 				}
 
+				// If you hit an exception debug break on this line it caused the application to crash
 				throw;
 			}
 		}
