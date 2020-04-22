@@ -316,14 +316,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							ErrorMessage = "Missing channelIds field in chatMessage!"
 						};
 
-					if (parameters.ChatMessage.Message == null)
+					if (parameters.ChatMessage.Text == null)
 						return new BridgeResponse
 						{
 							ErrorMessage = "Missing message field in chatMessage!"
 						};
 
 					await chat.SendMessage(
-						parameters.ChatMessage.Message,
+						parameters.ChatMessage.Text,
 						parameters.ChatMessage.ChannelIds,
 						cancellationToken).ConfigureAwait(false);
 					break;
