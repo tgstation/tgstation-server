@@ -7,9 +7,9 @@
 	var/reboot_mode = TGS_REBOOT_MODE_NORMAL
 	var/security_level
 	var/server_port
-	
+
 	var/list/intercepted_message_queue
-	
+
 	var/list/custom_commands
 
 	var/list/cached_test_merges
@@ -41,7 +41,7 @@
 
 	if(cached_json[DMAPI5_RUNTIME_INFORMATION_API_VALIDATE_ONLY])
 		TGS_INFO_LOG("Validating DMAPI and exiting...")
-		Bridge(DMAPI5_BRIDGE_COMMAND_VALIDATE, list(DMAPI5_BRIDGE_PARAMETER_MINIMUM_SECURITY_LEVEL = minimum_required_security_level, DMAPI5_BRIDGE_PARAMETER_VERSION = Version()))
+		Bridge(DMAPI5_BRIDGE_COMMAND_VALIDATE, list(DMAPI5_BRIDGE_PARAMETER_MINIMUM_SECURITY_LEVEL = minimum_required_security_level, DMAPI5_BRIDGE_PARAMETER_VERSION = ApiVersion()))
 		del(world)
 
 	security_level = cached_json[DMAPI5_RUNTIME_INFORMATION_SECURITY_LEVEL]
@@ -91,7 +91,7 @@
 	if(world.sleep_offline == tgs4_secret_sleep_offline_sauce)	//if not someone changed it
 		world.sleep_offline = old_sleep_offline
 
-/datum/tgs_api/v5/TopicError(message)
+/datum/tgs_api/v5/proc/TopicError(message)
 	return json_encode(list(DMAPI5_RESPONSE_ERROR_MESSAGE = message))
 
 /datum/tgs_api/v5/OnTopic(T)
@@ -181,7 +181,7 @@
 		TGS_ERROR_LOG("Failed export request: [json]")
 		return
 
-	var/response_json = file2text(export_result["CONTENT"])
+	var/response_json = file2text(export_response["CONTENT"])
 	if(!response_json)
 		TGS_ERROR_LOG("Failed export request, missing content!")
 		return
@@ -190,19 +190,19 @@
 	if(!bridge_response)
 		TGS_ERROR_LOG("Failed export request, bad json: [response_json]")
 		return
-	
+
 	var/error = bridge_response[DMAPI5_RESPONSE_ERROR_MESSAGE]
 	if(error)
 		TGS_ERROR_LOG("Failed export request, bad request: [error]")
 		return
-	
+
 	return bridge_response
 
 /datum/tgs_api/v5/OnReboot()
 	var/list/result = Bridge(DMAPI5_BRIDGE_COMMAND_REBOOT)
 	if(!result)
 		return
-	
+
 	//okay so the standard TGS4 proceedure is: right before rebooting change the port to whatever was sent to us in the above json's data parameter
 
 	var/port = result[DMAPI5_BRIDGE_RESPONSE_NEW_PORT]
@@ -221,7 +221,7 @@
 
 /datum/tgs_api/v5/TestMerges()
 	return cached_test_merges
-	
+
 /datum/tgs_api/v5/EndProcess()
 	Bridge(DMAPI5_BRIDGE_COMMAND_KILL)
 
@@ -251,14 +251,14 @@
 	if(intercepted_message_queue)
 		intercepted_message_queue += list(message)
 	else
-		Export(TGS4_COMM_CHAT, message)
+		Bridge(TGS4_COMM_CHAT, message)
 
 /datum/tgs_api/v5/ChatPrivateMessage(message, datum/tgs_chat_user/user)
 	message = list(DMAPI5_CHAT_MESSAGE_TEXT = message, DMAPI5_CHAT_MESSAGE_CHANNEL_IDS = list(user.channel.id))
 	if(intercepted_message_queue)
 		intercepted_message_queue += list(message)
 	else
-		Export(TGS4_COMM_CHAT, message)
+		Bridge(TGS4_COMM_CHAT, message)
 
 /datum/tgs_api/v5/ChatChannelInfo()
 	. = list()
