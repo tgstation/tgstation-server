@@ -236,7 +236,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var byondLock = currentByondLock ?? await byond.UseExecutables(Version.Parse(dmbProvider.CompileJob.ByondVersion), cancellationToken).ConfigureAwait(false);
 				try
 				{
-					await byondLock.TrustDmbPath(ioManager.ConcatPath(basePath, dmbProvider.DmbName), cancellationToken).ConfigureAwait(false);
+					if (securityLevelToUse == DreamDaemonSecurity.Trusted)
+						await byondLock.TrustDmbPath(ioManager.ConcatPath(basePath, dmbProvider.DmbName), cancellationToken).ConfigureAwait(false);
 
 					// set command line options
 					// more sanitization here cause it uses the same scheme
