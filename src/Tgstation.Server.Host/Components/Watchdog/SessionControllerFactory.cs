@@ -197,7 +197,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			}
 
 			// i changed this back from guids, hopefully i don't regret that
-			string JsonFile(string name) => $"tgs_{name}.{JsonPostfix}";
+			string JsonFile(string name) => $"{name}.{JsonPostfix}";
 
 			// setup interop files
 			var revisionInfo = new Api.Models.Internal.RevisionInformation
@@ -236,7 +236,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var byondLock = currentByondLock ?? await byond.UseExecutables(Version.Parse(dmbProvider.CompileJob.ByondVersion), cancellationToken).ConfigureAwait(false);
 				try
 				{
-					await byondLock.TrustDmbPath(dmbProvider.DmbName, cancellationToken).ConfigureAwait(false);
+					await byondLock.TrustDmbPath(ioManager.ConcatPath(basePath, dmbProvider.DmbName), cancellationToken).ConfigureAwait(false);
 
 					// set command line options
 					// more sanitization here cause it uses the same scheme
