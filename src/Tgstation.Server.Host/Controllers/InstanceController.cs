@@ -246,6 +246,7 @@ namespace Tgstation.Server.Host.Controllers
 				Online = false,
 				Path = model.Path,
 				AutoUpdateInterval = model.AutoUpdateInterval ?? 0,
+				ChatBotLimit = model.ChatBotLimit ?? Models.Instance.DefaultChatBotLimit,
 				RepositorySettings = new RepositorySettings
 				{
 					CommitterEmail = "tgstation-server@users.noreply.github.com",
@@ -425,8 +426,21 @@ namespace Tgstation.Server.Host.Controllers
 			if (CheckModified(x => x.AutoUpdateInterval, InstanceManagerRights.SetAutoUpdate)
 				|| CheckModified(x => x.ConfigurationType, InstanceManagerRights.SetConfiguration)
 				|| CheckModified(x => x.Name, InstanceManagerRights.Rename)
-				|| CheckModified(x => x.Online, InstanceManagerRights.SetOnline))
+				|| CheckModified(x => x.Online, InstanceManagerRights.SetOnline)
+				|| CheckModified(x => x.ChatBotLimit, InstanceManagerRights.SetChatBotLimit))
 				return Forbid();
+
+			if (model.ChatBotLimit.HasValue)
+			{
+				var countOfExistingChatBots = await DatabaseContext
+					.ChatBots
+					.Where(x => x.InstanceId == originalModel.Id)
+					.CountAsync(cancellationToken)
+					.ConfigureAwait(false);
+
+				if (countOfExistingChatBots > model.ChatBotLimit.Value)
+					return Conflict(new ErrorMessage(ErrorCode.ChatBotMax));
+			}
 
 			// ensure the current user has write privilege on the instance
 			var usersInstanceUser = await InstanceQuery()

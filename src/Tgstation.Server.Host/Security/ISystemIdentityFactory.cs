@@ -10,6 +10,12 @@ namespace Tgstation.Server.Host.Security
 	public interface ISystemIdentityFactory
 	{
 		/// <summary>
+		/// Retrieves a <see cref="ISystemIdentity"/> representing the user executing tgstation-server.
+		/// </summary>
+		/// <returns>A <see cref="ISystemIdentity"/> representing the user executing tgstation-server.</returns>
+		ISystemIdentity GetCurrent();
+
+		/// <summary>
 		/// Create a <see cref="ISystemIdentity"/> for a given <paramref name="user"/>
 		/// </summary>
 		/// <param name="user">The user to create a <see cref="ISystemIdentity"/> for</param>

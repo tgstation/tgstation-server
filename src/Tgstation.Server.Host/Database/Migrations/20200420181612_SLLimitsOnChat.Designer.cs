@@ -2,18 +2,21 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Tgstation.Server.Host.Database;
 
-namespace Tgstation.Server.Host.Database.Migrations
+namespace Tgstation.Server.Host.Migrations
 {
-	[DbContext(typeof(MySqlDatabaseContext))]
-	partial class MySqlDatabaseContextModelSnapshot : ModelSnapshot
+	[DbContext(typeof(SqliteDatabaseContext))]
+	[Migration("20200420181612_SLLimitsOnChat")]
+	partial class SLLimitsOnChat
 	{
-		protected override void BuildModel(ModelBuilder modelBuilder)
+		/// <inheritdoc />
+		protected override void BuildTargetModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
-				.HasAnnotation("Relational:MaxIdentifierLength", 64);
+				.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
 				{

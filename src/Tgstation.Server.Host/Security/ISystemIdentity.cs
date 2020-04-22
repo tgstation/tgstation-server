@@ -20,6 +20,11 @@ namespace Tgstation.Server.Host.Security
 		string Username { get; }
 
 		/// <summary>
+		/// If this system identity has permissions to create symlinks.
+		/// </summary>
+		bool CanCreateSymlinks { get; }
+
+		/// <summary>
 		/// Clone the <see cref="ISystemIdentity"/> creating another copy that must have <see cref="IDisposable.Dispose"/> called on it
 		/// </summary>
 		/// <returns>A new <see cref="ISystemIdentity"/> mirroring the current one</returns>

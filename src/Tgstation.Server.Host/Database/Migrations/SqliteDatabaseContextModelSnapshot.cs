@@ -2,16 +2,15 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tgstation.Server.Host.Database;
 
 namespace Tgstation.Server.Host.Migrations
 {
-    [DbContext(typeof(SqliteDatabaseContext))]
-    partial class SqliteDatabaseContextModelSnapshot : ModelSnapshot
-    {
-        protected override void BuildModel(ModelBuilder modelBuilder)
-        {
+	[DbContext(typeof(SqliteDatabaseContext))]
+	partial class SqliteDatabaseContextModelSnapshot : ModelSnapshot
+	{
+		protected override void BuildModel(ModelBuilder modelBuilder)
+		{
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.3");
@@ -22,10 +21,12 @@ namespace Tgstation.Server.Host.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("ConnectionString")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(10000);
+					b.Property<ushort?>("ChannelLimit")
+						.IsRequired();
+
+					b.Property<string>("ConnectionString")
+						.IsRequired()
+						.HasMaxLength(10000);
 
                     b.Property<bool?>("Enabled")
                         .HasColumnType("INTEGER");
@@ -231,8 +232,10 @@ namespace Tgstation.Server.Host.Migrations
                         .IsRequired()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ConfigurationType")
-                        .HasColumnType("INTEGER");
+					b.Property<ushort?>("ChatBotLimit")
+						.IsRequired();
+
+					b.Property<int>("ConfigurationType");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -332,8 +335,8 @@ namespace Tgstation.Server.Host.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<long>("StartedById")
-                        .HasColumnType("INTEGER");
+					b.Property<long?>("StartedById")
+						.IsRequired();
 
                     b.Property<DateTimeOffset?>("StoppedAt")
                         .HasColumnType("TEXT");
@@ -517,15 +520,10 @@ namespace Tgstation.Server.Host.Migrations
                     b.Property<DateTimeOffset>("MergedAt")
                         .HasColumnType("TEXT");
 
-                    b.Property<long>("MergedById")
-                        .HasColumnType("INTEGER");
+					b.Property<long?>("MergedById")
+						.IsRequired();
 
-                    b.Property<int>("Number")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<long?>("PrimaryRevisionInformationId")
-                        .IsRequired()
-                        .HasColumnType("INTEGER");
+					b.Property<int>("Number");
 
                     b.Property<string>("PullRequestRevision")
                         .IsRequired()
@@ -550,11 +548,10 @@ namespace Tgstation.Server.Host.Migrations
                     b.ToTable("TestMerges");
                 });
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.User", b =>
-                {
-                    b.Property<long?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+			modelBuilder.Entity("Tgstation.Server.Host.Models.User", b =>
+				{
+					b.Property<long?>("Id")
+						.ValueGeneratedOnAdd();
 
                     b.Property<ulong>("AdministrationRights")
                         .HasColumnType("INTEGER");

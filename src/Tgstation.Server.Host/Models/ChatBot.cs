@@ -8,6 +8,11 @@ namespace Tgstation.Server.Host.Models
 	public sealed class ChatBot : Api.Models.Internal.ChatBot
 	{
 		/// <summary>
+		/// Default for <see cref="Api.Models.Internal.ChatBot.ChannelLimit"/>.
+		/// </summary>
+		public const ushort DefaultChannelLimit = 100;
+
+		/// <summary>
 		/// The <see cref="Api.Models.Instance.Id"/>
 		/// </summary>
 		public long InstanceId { get; set; }
@@ -34,7 +39,9 @@ namespace Tgstation.Server.Host.Models
 			Enabled = Enabled,
 			Provider = Provider,
 			Id = Id,
-			Name = Name
+			Name = Name,
+			ChannelLimit = ChannelLimit,
+			ReconnectionInterval = ReconnectionInterval
 		};
 	}
 }
