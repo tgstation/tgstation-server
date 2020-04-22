@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
@@ -35,6 +36,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The DMAPI <see cref="Version"/>.
 		/// </summary>
-		public Version DMApiVersion { get; set; }
+		[NotMapped]
+		public virtual Version DMApiVersion { get; set; }
 	}
 }

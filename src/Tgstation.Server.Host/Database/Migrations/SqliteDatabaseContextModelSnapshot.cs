@@ -5,13 +5,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
-	/// <summary>
-	/// Model snapshot for SQLite.
-	/// </summary>
 	[DbContext(typeof(SqliteDatabaseContext))]
 	partial class SqliteDatabaseContextModelSnapshot : ModelSnapshot
 	{
-		/// <inheritdoc />
 		protected override void BuildModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
@@ -90,6 +86,12 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 					b.Property<string>("ByondVersion")
 						.IsRequired();
+
+					b.Property<int?>("DMApiMajorVersion");
+
+					b.Property<int?>("DMApiMinorVersion");
+
+					b.Property<int?>("DMApiPatchVersion");
 
 					b.Property<Guid?>("DirectoryName")
 						.IsRequired();
@@ -269,7 +271,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<DateTimeOffset?>("StartedAt")
 						.IsRequired();
 
-					b.Property<long>("StartedById");
+					b.Property<long?>("StartedById")
+						.IsRequired();
 
 					b.Property<DateTimeOffset?>("StoppedAt");
 
@@ -307,9 +310,6 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<int>("ProcessId");
 
 					b.Property<int>("RebootState");
-
-					b.Property<string>("ServerCommandsJson")
-						.IsRequired();
 
 					b.HasKey("Id");
 
@@ -419,10 +419,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 					b.Property<DateTimeOffset>("MergedAt");
 
-					b.Property<long>("MergedById");
-
-					b.Property<int?>("Number")
+					b.Property<long?>("MergedById")
 						.IsRequired();
+
+					b.Property<int>("Number");
 
 					b.Property<long?>("PrimaryRevisionInformationId")
 						.IsRequired();
@@ -449,7 +449,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.User", b =>
 				{
-					b.Property<long>("Id")
+					b.Property<long?>("Id")
 						.ValueGeneratedOnAdd();
 
 					b.Property<ulong>("AdministrationRights");
