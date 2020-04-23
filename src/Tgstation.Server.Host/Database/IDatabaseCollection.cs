@@ -54,5 +54,12 @@ namespace Tgstation.Server.Host.Database
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		Task ForEachAsync(Action<TModel> action, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Retrieve all the <typeparamref name="TModel"/>s in the table.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="List{T}"/> of all <typeparamref name="TModel"/> in the table.</returns>
+		Task<List<TModel>> ToListAsync(CancellationToken cancellationToken);
 	}
 }

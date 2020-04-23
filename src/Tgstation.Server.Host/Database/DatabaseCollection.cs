@@ -62,6 +62,9 @@ namespace Tgstation.Server.Host.Database
 		public void RemoveRange(IEnumerable<TModel> models) => dbSet.RemoveRange(models);
 
 		/// <inheritdoc />
+		public Task<List<TModel>> ToListAsync(CancellationToken cancellationToken) => dbSet.AsQueryable().ToListAsync(cancellationToken);
+
+		/// <inheritdoc />
 		IEnumerator IEnumerable.GetEnumerator() => dbSet.AsQueryable().GetEnumerator();
 	}
 }
