@@ -264,7 +264,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			var splits = new List<string>(message.Content.Trim().Split(' '));
 			var address = splits[0];
 			if (address.Length > 1 && (address[address.Length - 1] == ':' || address[address.Length - 1] == ','))
-				address = address.Substring(0, address.Length - 1);
+				address = address[0..^1];
 
 			address = address.ToUpperInvariant();
 

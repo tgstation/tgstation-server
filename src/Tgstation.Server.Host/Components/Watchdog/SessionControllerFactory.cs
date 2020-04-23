@@ -95,17 +95,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <returns>A <see cref="string"/> representation of the command line parameter</returns>
 		static string SecurityWord(DreamDaemonSecurity securityLevel)
 		{
-			switch (securityLevel)
+			return securityLevel switch
 			{
-				case DreamDaemonSecurity.Safe:
-					return "safe";
-				case DreamDaemonSecurity.Trusted:
-					return "trusted";
-				case DreamDaemonSecurity.Ultrasafe:
-					return "ultrasafe";
-				default:
-					throw new ArgumentOutOfRangeException(nameof(securityLevel), securityLevel, String.Format(CultureInfo.InvariantCulture, "Bad DreamDaemon security level: {0}", securityLevel));
-			}
+				DreamDaemonSecurity.Safe => "safe",
+				DreamDaemonSecurity.Trusted => "trusted",
+				DreamDaemonSecurity.Ultrasafe => "ultrasafe",
+				_ => throw new ArgumentOutOfRangeException(nameof(securityLevel), securityLevel, String.Format(CultureInfo.InvariantCulture, "Bad DreamDaemon security level: {0}", securityLevel)),
+			};
 		}
 
 		/// <summary>
