@@ -27,13 +27,13 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		/// <summary>
 		/// Construct a <see cref="VersionCommand"/>
 		/// </summary>
-		/// <param name="application">The value of <see cref="assemblyInformationProvider"/></param>
-		public VersionCommand(IAssemblyInformationProvider application)
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
+		public VersionCommand(IAssemblyInformationProvider assemblyInformationProvider)
 		{
-			this.assemblyInformationProvider = application ?? throw new ArgumentNullException(nameof(application));
+			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 		}
 
 		/// <inheritdoc />
-		public Task<string> Invoke(string arguments, User user, CancellationToken cancellationToken) => Task.FromResult(assemblyInformationProvider.VersionString);
+		public Task<string> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken) => Task.FromResult(assemblyInformationProvider.VersionString);
 	}
 }

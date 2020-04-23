@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,7 +16,6 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		public string HelpText { get; set; }
 
 		/// <inheritdoc />
-		[JsonConverter(typeof(BoolConverter))]
 		public bool AdminOnly { get; set; }
 
 		/// <summary>
@@ -37,7 +35,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		}
 
 		/// <inheritdoc />
-		public Task<string> Invoke(string arguments, User user, CancellationToken cancellationToken)
+		public Task<string> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken)
 		{
 			if (handler == null)
 				throw new InvalidOperationException("SetHandler() has not been called!");

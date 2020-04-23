@@ -186,9 +186,6 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.SecondaryPort == 0)
 				throw new InvalidOperationException("Secondary port cannot be 0!");
 
-			if (model.SecurityLevel == DreamDaemonSecurity.Ultrasafe)
-				return BadRequest(new ErrorMessage(ErrorCode.InvalidSecurityLevel));
-
 			// alias for changing DD settings
 			var current = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).Select(x => x.DreamDaemonSettings).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 

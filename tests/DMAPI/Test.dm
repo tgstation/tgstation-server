@@ -22,3 +22,10 @@ var/list/clients = list()
 /client/Del()
 	clients -= src
 	return ..()
+
+/datum/tgs_chat_command/echo
+	name = "echo"
+	help_text = "echos input parameters"
+
+/datum/tgs_chat_command/echo/Run(datum/tgs_chat_user/sender, params)
+	return "[sender.channel.connection_name]|[sender.channel.friendly_name]|[sender.friendly_name]: [params]"

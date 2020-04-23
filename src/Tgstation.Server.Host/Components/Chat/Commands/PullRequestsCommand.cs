@@ -63,7 +63,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		/// <inheritdoc />
 		// TODO: Decomplexify
 		#pragma warning disable CA1506
-		public async Task<string> Invoke(string arguments, User user, CancellationToken cancellationToken)
+		public async Task<string> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken)
 		{
 			IEnumerable<Models.TestMerge> results = null;
 			if (arguments.Split(' ').Any(x => x.ToUpperInvariant() == "--REPO"))

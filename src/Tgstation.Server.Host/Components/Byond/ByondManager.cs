@@ -22,6 +22,16 @@ namespace Tgstation.Server.Host.Components.Byond
 		public const string BinPath = "byond/bin";
 
 		/// <summary>
+		/// The path to the cfg directory.
+		/// </summary>
+		const string CfgDirectoryName = "cfg";
+
+		/// <summary>
+		/// The name of the list of trusted .dmb files in the user's BYOND cfg directory.
+		/// </summary>
+		const string TrustedDmbFileName = "trusted.txt";
+
+		/// <summary>
 		/// The file in which we store the <see cref="VersionKey(Version)"/> for installations
 		/// </summary>
 		const string VersionFileName = "Version.txt";
@@ -200,8 +210,25 @@ namespace Tgstation.Server.Host.Components.Byond
 			await InstallVersion(versionToUse, cancellationToken).ConfigureAwait(false);
 
 			var versionKey = VersionKey(versionToUse);
+			var binPathForVersion = ioManager.ConcatPath(versionKey, BinPath);
 
-			return new ByondExecutableLock(versionToUse, ioManager.ResolvePath(ioManager.ConcatPath(versionKey, BinPath, byondInstaller.DreamDaemonName)), ioManager.ResolvePath(ioManager.ConcatPath(versionKey, BinPath, byondInstaller.DreamMakerName)));
+			return new ByondExecutableLock(
+				ioManager,
+				semaphore,
+				versionToUse,
+				ioManager.ResolvePath(
+					ioManager.ConcatPath(
+						binPathForVersion,
+						byondInstaller.DreamDaemonName)),
+				ioManager.ResolvePath(
+					ioManager.ConcatPath(
+						binPathForVersion,
+						byondInstaller.DreamMakerName)),
+				ioManager.ResolvePath(
+					ioManager.ConcatPath(
+						byondInstaller.PathToUserByondFolder,
+						CfgDirectoryName,
+						TrustedDmbFileName)));
 		}
 
 		/// <inheritdoc />
@@ -214,6 +241,24 @@ namespace Tgstation.Server.Host.Components.Byond
 			}
 
 			var activeVersionBytesTask = GetActiveVersion();
+
+			// Create local cfg directory in case it doesn't exist
+			var localCfgDirectory = ioManager.ConcatPath(
+					byondInstaller.PathToUserByondFolder,
+					CfgDirectoryName);
+			await ioManager.CreateDirectory(
+				localCfgDirectory,
+				cancellationToken).ConfigureAwait(false);
+
+			// No need to do this on dev machines
+#if !DEBUG
+			// Delete trusted.txt so it doesn't grow too large
+			await ioManager.DeleteFile(
+				ioManager.ConcatPath(
+					localCfgDirectory,
+					TrustedDmbFileName),
+				cancellationToken).ConfigureAwait(false);
+#endif
 
 			var byondDirectory = ioManager.ResolvePath();
 			await ioManager.CreateDirectory(byondDirectory, cancellationToken).ConfigureAwait(false);

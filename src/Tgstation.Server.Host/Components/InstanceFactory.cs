@@ -7,6 +7,7 @@ using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Core;
@@ -67,9 +68,9 @@ namespace Tgstation.Server.Host.Components
 		readonly IByondInstaller byondInstaller;
 
 		/// <summary>
-		/// The <see cref="IProviderFactory"/> for the <see cref="InstanceFactory"/>
+		/// The <see cref="IChatManagerFactory"/> for the <see cref="InstanceFactory"/>
 		/// </summary>
-		readonly IChatFactory chatFactory;
+		readonly IChatManagerFactory chatFactory;
 
 		/// <summary>
 		/// The <see cref="IProcessExecutor"/> for the <see cref="InstanceFactory"/>
@@ -112,6 +113,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IRepositoryFactory repositoryFactory;
 
 		/// <summary>
+		/// The <see cref="IServerPortProvider"/> for the <see cref="InstanceFactory"/>.
+		/// </summary>
+		readonly IServerPortProvider serverPortProvider;
+
+		/// <summary>
 		/// Construct an <see cref="InstanceFactory"/>
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
@@ -132,6 +138,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
 		/// <param name="repositoryFactory">The value of <see cref="repositoryFactory"/>.</param>
+		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
 		public InstanceFactory(
 			IIOManager ioManager,
 			IDatabaseContextFactory databaseContextFactory,
@@ -142,7 +149,7 @@ namespace Tgstation.Server.Host.Components
 			ISynchronousIOManager synchronousIOManager,
 			ISymlinkFactory symlinkFactory,
 			IByondInstaller byondInstaller,
-			IChatFactory chatFactory,
+			IChatManagerFactory chatFactory,
 			IProcessExecutor processExecutor,
 			IPostWriteHandler postWriteHandler,
 			IWatchdogFactory watchdogFactory,
@@ -150,7 +157,8 @@ namespace Tgstation.Server.Host.Components
 			INetworkPromptReaper networkPromptReaper,
 			IGitHubClientFactory gitHubClientFactory,
 			IPlatformIdentifier platformIdentifier,
-			IRepositoryFactory repositoryFactory)
+			IRepositoryFactory repositoryFactory,
+			IServerPortProvider serverPortProvider)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
@@ -170,11 +178,12 @@ namespace Tgstation.Server.Host.Components
 			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.repositoryFactory = repositoryFactory ?? throw new ArgumentNullException(nameof(repositoryFactory));
+			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
 		}
 
 		/// <inheritdoc />
 #pragma warning disable CA1506 // TODO: Decomplexify
-		public IInstance CreateInstance(Models.Instance metadata)
+		public IInstance CreateInstance(IBridgeRegistrar bridgeRegistrar, Models.Instance metadata)
 		{
 			// Create the ioManager for the instance
 			var instanceIoManager = new ResolvingIOManager(ioManager, metadata.Path);
@@ -200,17 +209,30 @@ namespace Tgstation.Server.Host.Components
 
 				var commandFactory = new CommandFactory(assemblyInformationProvider, byond, repoManager, databaseContextFactory, metadata);
 
-				var chat = chatFactory.CreateChat(instanceIoManager, commandFactory, metadata.ChatSettings);
+				var chatManager = chatFactory.CreateChatManager(instanceIoManager, commandFactory, metadata.ChatSettings);
 				try
 				{
-					var sessionControllerFactory = new SessionControllerFactory(processExecutor, byond, byondTopicSender, cryptographySuite, assemblyInformationProvider, gameIoManager, chat, networkPromptReaper, platformIdentifier, loggerFactory, metadata.CloneMetadata());
+					var sessionControllerFactory = new SessionControllerFactory(
+						processExecutor,
+						byond,
+						byondTopicSender,
+						cryptographySuite,
+						assemblyInformationProvider,
+						gameIoManager,
+						chatManager,
+						networkPromptReaper,
+						platformIdentifier,
+						bridgeRegistrar,
+						serverPortProvider,
+						loggerFactory,
+						metadata.CloneMetadata());
 
 					var dmbFactory = new DmbFactory(databaseContextFactory, gameIoManager, loggerFactory.CreateLogger<DmbFactory>(), metadata.CloneMetadata());
 					try
 					{
 						var reattachInfoHandler = new ReattachInfoHandler(databaseContextFactory, dmbFactory, loggerFactory.CreateLogger<ReattachInfoHandler>(), metadata.CloneMetadata());
 						var watchdog = watchdogFactory.CreateWatchdog(
-							chat,
+							chatManager,
 							dmbFactory,
 							reattachInfoHandler,
 							configuration,
@@ -222,9 +244,9 @@ namespace Tgstation.Server.Host.Components
 						commandFactory.SetWatchdog(watchdog);
 						try
 						{
-							var dreamMaker = new DreamMaker(byond, gameIoManager, configuration, sessionControllerFactory, eventConsumer, chat, processExecutor, watchdog, loggerFactory.CreateLogger<DreamMaker>());
+							var dreamMaker = new DreamMaker(byond, gameIoManager, configuration, sessionControllerFactory, eventConsumer, chatManager, processExecutor, watchdog, loggerFactory.CreateLogger<DreamMaker>());
 
-							return new Instance(metadata.CloneMetadata(), repoManager, byond, dreamMaker, watchdog, chat, configuration, dmbFactory, databaseContextFactory, dmbFactory, jobManager, eventConsumer, gitHubClientFactory, loggerFactory.CreateLogger<Instance>());
+							return new Instance(metadata.CloneMetadata(), repoManager, byond, dreamMaker, watchdog, chatManager, configuration, dmbFactory, databaseContextFactory, dmbFactory, jobManager, eventConsumer, gitHubClientFactory, loggerFactory.CreateLogger<Instance>());
 						}
 						catch
 						{
@@ -240,7 +262,7 @@ namespace Tgstation.Server.Host.Components
 				}
 				catch
 				{
-					chat.Dispose();
+					chatManager.Dispose();
 					throw;
 				}
 			}

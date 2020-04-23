@@ -19,4 +19,4 @@
 	return !Wildcard()
 
 /datum/tgs_version/Wildcard()
-	return minor == null || patch == null || deprecated_patch == null
+	return minor == null || patch == null

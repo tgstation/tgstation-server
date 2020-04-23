@@ -33,9 +33,9 @@ namespace Tgstation.Server.Host.Components
 		IWatchdog Watchdog { get; }
 
 		/// <summary>
-		/// The <see cref="IChat"/> for the <see cref="IInstance"/>
+		/// The <see cref="IChatManager"/> for the <see cref="IInstance"/>
 		/// </summary>
-		IChat Chat { get; }
+		IChatManager Chat { get; }
 
 		/// <summary>
 		/// The <see cref="IConfiguration"/> for the <see cref="IInstance"/>

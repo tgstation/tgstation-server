@@ -35,7 +35,7 @@ namespace Tgstation.Server.Host.Components
 		public IWatchdog Watchdog { get; }
 
 		/// <inheritdoc />
-		public IChat Chat { get; }
+		public IChatManager Chat { get; }
 
 		/// <inheritdoc />
 		public StaticFiles.IConfiguration Configuration { get; }
@@ -118,7 +118,7 @@ namespace Tgstation.Server.Host.Components
 			IByondManager byondManager,
 			IDreamMaker dreamMaker,
 			IWatchdog watchdog,
-			IChat chat,
+			IChatManager chat,
 			StaticFiles.IConfiguration
 			configuration,
 			ICompileJobConsumer compileJobConsumer,
@@ -168,12 +168,16 @@ namespace Tgstation.Server.Host.Components
 			if (progressReporter == null)
 				throw new ArgumentNullException(nameof(progressReporter));
 
-			var ddSettingsTask = databaseContext.DreamDaemonSettings.Where(x => x.InstanceId == metadata.Id).Select(x => new DreamDaemonSettings
-			{
-				StartupTimeout = x.StartupTimeout,
-			}).FirstOrDefaultAsync(cancellationToken);
+			var ddSettings = await databaseContext.DreamDaemonSettings.Where(x => x.InstanceId == metadata.Id).Select(x => new DreamDaemonSettings
+				{
+					StartupTimeout = x.StartupTimeout,
+				})
+				.FirstOrDefaultAsync(cancellationToken)
+				.ConfigureAwait(false);
+			if (ddSettings == default)
+				throw new JobException("Missing DreamDaemonSettings in DB!");
 
-			var compileJobsTask = databaseContext.CompileJobs
+			var previousCompileJobs = await databaseContext.CompileJobs
 				.Where(x => x.Job.Instance.Id == metadata.Id)
 				.OrderByDescending(x => x.Job.StoppedAt)
 				.Select(x => new Job
@@ -182,20 +186,19 @@ namespace Tgstation.Server.Host.Components
 					StartedAt = x.Job.StartedAt
 				})
 				.Take(10)
-				.ToListAsync(cancellationToken);
+				.ToListAsync(cancellationToken)
+				.ConfigureAwait(false);
 
 			var dreamMakerSettings = await databaseContext.DreamMakerSettings.Where(x => x.InstanceId == metadata.Id).FirstAsync(cancellationToken).ConfigureAwait(false);
 			if (dreamMakerSettings == default)
 				throw new JobException("Missing DreamMakerSettings in DB!");
-			var ddSettings = await ddSettingsTask.ConfigureAwait(false);
-			if (ddSettings == default)
-				throw new JobException("Missing DreamDaemonSettings in DB!");
 
-			Task<RepositorySettings> repositorySettingsTask = null;
+			RepositorySettings repositorySettings = null;
 			string repoOwner = null;
 			string repoName = null;
 			CompileJob compileJob;
 			RevisionInformation revInfo;
+			bool loadedRepositorySettings;
 			using (var repo = await RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 			{
 				if (repo == null)
@@ -205,13 +208,21 @@ namespace Tgstation.Server.Host.Components
 				{
 					repoOwner = repo.GitHubOwner;
 					repoName = repo.GitHubRepoName;
-					repositorySettingsTask = databaseContext.RepositorySettings.Where(x => x.InstanceId == metadata.Id).Select(x => new RepositorySettings
-					{
-						AccessToken = x.AccessToken,
-						ShowTestMergeCommitters = x.ShowTestMergeCommitters,
-						PushTestMergeCommits = x.PushTestMergeCommits
-					}).FirstOrDefaultAsync(cancellationToken);
+					repositorySettings = await databaseContext
+						.RepositorySettings
+						.Where(x => x.InstanceId == metadata.Id)
+						.Select(x => new RepositorySettings
+						{
+							AccessToken = x.AccessToken,
+							ShowTestMergeCommitters = x.ShowTestMergeCommitters,
+							PushTestMergeCommits = x.PushTestMergeCommits
+						})
+						.FirstOrDefaultAsync(cancellationToken)
+						.ConfigureAwait(false);
+					loadedRepositorySettings = true;
 				}
+				else
+					loadedRepositorySettings = false;
 
 				var repoSha = repo.Head;
 				revInfo = await databaseContext.RevisionInformations.Where(x => x.CommitSha == repoSha && x.Instance.Id == metadata.Id).Include(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).ThenInclude(x => x.MergedBy).FirstOrDefaultAsync().ConfigureAwait(false);
@@ -232,7 +243,6 @@ namespace Tgstation.Server.Host.Components
 				}
 
 				TimeSpan? averageSpan = null;
-				var previousCompileJobs = await compileJobsTask.ConfigureAwait(false);
 				if(previousCompileJobs.Count != 0)
 				{
 					var totalSpan = TimeSpan.Zero;
@@ -250,9 +260,8 @@ namespace Tgstation.Server.Host.Components
 
 			job.PostComplete = ct => compileJobConsumer.LoadCompileJob(compileJob, ct);
 
-			if (repositorySettingsTask != null)
+			if (loadedRepositorySettings)
 			{
-				var repositorySettings = await repositorySettingsTask.ConfigureAwait(false);
 				if (repositorySettings == default)
 					throw new JobException("Missing repository settings!");
 

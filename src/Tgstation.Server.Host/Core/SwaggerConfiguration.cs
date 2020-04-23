@@ -278,29 +278,36 @@ namespace Tgstation.Server.Host.Core
 				Schema = productHeaderSchema
 			});
 
-			foreach (var operation in swaggerDoc
-				.Paths
-				.SelectMany(path => path.Value.Operations)
-				.Select(kvp => kvp.Value))
-			{
-				operation.Parameters.Add(new OpenApiParameter
+			string bridgeOperationPath = null;
+			foreach (var path in swaggerDoc.Paths)
+				foreach (var operation in path.Value.Operations.Select(x => x.Value))
 				{
-					Reference = new OpenApiReference
+					if (operation.OperationId.Equals("BridgeController.Process", StringComparison.Ordinal))
 					{
-						Type = ReferenceType.Parameter,
-						Id = ApiHeaders.ApiVersionHeader
-					},
-				});
-
-				operation.Parameters.Add(new OpenApiParameter
-				{
-					Reference = new OpenApiReference
-					{
-						Type = ReferenceType.Parameter,
-						Id = HeaderNames.UserAgent
+						bridgeOperationPath = path.Key;
+						continue;
 					}
-				});
-			}
+
+					operation.Parameters.Add(new OpenApiParameter
+					{
+						Reference = new OpenApiReference
+						{
+							Type = ReferenceType.Parameter,
+							Id = ApiHeaders.ApiVersionHeader
+						},
+					});
+
+					operation.Parameters.Add(new OpenApiParameter
+					{
+						Reference = new OpenApiReference
+						{
+							Type = ReferenceType.Parameter,
+							Id = HeaderNames.UserAgent
+						}
+					});
+				}
+
+			swaggerDoc.Paths.Remove(bridgeOperationPath);
 
 			AddDefaultResponses(swaggerDoc);
 		}

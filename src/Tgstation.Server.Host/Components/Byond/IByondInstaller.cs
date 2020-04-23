@@ -20,6 +20,11 @@ namespace Tgstation.Server.Host.Components.Byond
 		string DreamMakerName { get; }
 
 		/// <summary>
+		/// The path to the BYOND folder for the user.
+		/// </summary>
+		string PathToUserByondFolder { get; }
+
+		/// <summary>
 		/// Download a given BYOND <paramref name="version"/>
 		/// </summary>
 		/// <param name="version">The <see cref="Version"/> of BYOND to download</param>

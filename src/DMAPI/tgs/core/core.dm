@@ -30,6 +30,8 @@
 			switch(version.minor)
 				if(0)
 					api_datum = /datum/tgs_api/v4
+		if(5)
+			api_datum = /datum/tgs_api/v5
 
 	var/datum/tgs_version/max_api_version = TgsMaximumAPIVersion();
 	if(version.suite != null && version.minor != null && version.patch != null && version.deprecated_patch != null && version.deprefixed_parameter > max_api_version.deprefixed_parameter)
@@ -51,10 +53,10 @@
 		TGS_ERROR_LOG("Failed to activate API!")
 
 /world/TgsMaximumAPIVersion()
-	return new /datum/tgs_version("4.0.x.x")
+	return new /datum/tgs_version("5.x.x")
 
 /world/TgsMinimumAPIVersion()
-	return new /datum/tgs_version("3.2.0.0")
+	return new /datum/tgs_version("3.2.x")
 
 /world/TgsInitializationComplete()
 	var/datum/tgs_api/api = TGS_READ_GLOBAL(tgs)

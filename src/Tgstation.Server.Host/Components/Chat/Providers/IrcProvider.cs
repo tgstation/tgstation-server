@@ -62,12 +62,12 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		readonly IrcPasswordType? passwordType;
 
 		/// <summary>
-		/// Map of <see cref="Channel.RealId"/>s to channel names
+		/// Map of <see cref="ChannelRepresentation.RealId"/>s to channel names
 		/// </summary>
 		readonly Dictionary<ulong, string> channelIdMap;
 
 		/// <summary>
-		/// Map of <see cref="Channel.RealId"/>s to query users
+		/// Map of <see cref="ChannelRepresentation.RealId"/>s to query users
 		/// </summary>
 		readonly Dictionary<ulong, string> queryChannelIdMap;
 
@@ -211,9 +211,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			var message = new Message
 			{
 				Content = e.Data.Message,
-				User = new User
+				User = new ChatUser
 				{
-					Channel = new Channel
+					Channel = new ChannelRepresentation
 					{
 						ConnectionName = address,
 						FriendlyName = isPrivate ? String.Format(CultureInfo.InvariantCulture, "PM: {0}", channelName) : channelName,
@@ -376,7 +376,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public override Task<IReadOnlyCollection<Channel>> MapChannels(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		public override Task<IReadOnlyCollection<ChannelRepresentation>> MapChannels(IEnumerable<Api.Models.ChatChannel> channels, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
 			if (channels.Any(x => x.IrcChannel == null))
 				throw new InvalidOperationException("ChatChannel missing IrcChannel!");
@@ -395,7 +395,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				foreach (var I in hs)
 					client.RfcJoin(I);
 
-				return (IReadOnlyCollection<Channel>)channels.Select(x =>
+				return (IReadOnlyCollection<ChannelRepresentation>)channels.Select(x =>
 				{
 					ulong? id = null;
 					if (!channelIdMap.Any(y =>
@@ -410,7 +410,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						channelIdMap.Add(id.Value, x.IrcChannel);
 					}
 
-					return new Channel
+					return new ChannelRepresentation
 					{
 						RealId = id.Value,
 						IsAdminChannel = x.IsAdminChannel == true,

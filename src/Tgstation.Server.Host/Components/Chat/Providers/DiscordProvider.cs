@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Components.Chat.Providers
 {
@@ -101,10 +100,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			var result = new Message
 			{
 				Content = e.Content,
-				User = new User
+				User = new ChatUser
 				{
 					RealId = e.Author.Id,
-					Channel = new Channel
+					Channel = new ChannelRepresentation
 					{
 						RealId = e.Channel.Id,
 						IsPrivateChannel = pm,
@@ -193,7 +192,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public override Task<IReadOnlyCollection<Channel>> MapChannels(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken)
+		public override Task<IReadOnlyCollection<ChannelRepresentation>> MapChannels(IEnumerable<Api.Models.ChatChannel> channels, CancellationToken cancellationToken)
 		{
 			if (channels == null)
 				throw new ArgumentNullException(nameof(channels));
@@ -201,10 +200,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			if (!Connected)
 			{
 				Logger.LogWarning("Cannot map channels, provider disconnected!");
-				return Task.FromResult<IReadOnlyCollection<Channel>>(Array.Empty<Channel>());
+				return Task.FromResult<IReadOnlyCollection<ChannelRepresentation>>(Array.Empty<ChannelRepresentation>());
 			}
 
-			Channel GetModelChannelFromDBChannel(ChatChannel channelFromDB)
+			ChannelRepresentation GetModelChannelFromDBChannel(Api.Models.ChatChannel channelFromDB)
 			{
 				if (!channelFromDB.DiscordChannelId.HasValue)
 					throw new InvalidOperationException("ChatChannel missing DiscordChannelId!");
@@ -213,7 +212,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				var discordChannel = client.GetChannel(channelId);
 				if (discordChannel is ITextChannel textChannel)
 				{
-					var channelModel = new Channel
+					var channelModel = new ChannelRepresentation
 					{
 						RealId = discordChannel.Id,
 						IsAdminChannel = channelFromDB.IsAdminChannel == true,
@@ -238,7 +237,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				mappedChannels.AddRange(enumerator.Select(x => x.RealId));
 			}
 
-			return Task.FromResult<IReadOnlyCollection<Channel>>(enumerator);
+			return Task.FromResult<IReadOnlyCollection<ChannelRepresentation>>(enumerator);
 		}
 
 		/// <inheritdoc />

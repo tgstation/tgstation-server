@@ -25,6 +25,8 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
+using Tgstation.Server.Host.Components.Chat.Providers;
+using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Configuration;
@@ -279,6 +281,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
 			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
+			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
 			services.AddSingleton<IByondTopicSender>(new ByondTopicSender
 			{
 				ReceiveTimeout = postSetupServices.GeneralConfiguration.ByondTopicTimeout,
@@ -288,13 +291,14 @@ namespace Tgstation.Server.Host.Core
 			// configure component services
 			services.AddSingleton<IRepositoryFactory, RepositoryFactory>();
 			services.AddSingleton<IProviderFactory, ProviderFactory>();
-			services.AddSingleton<IChatFactory, ChatFactory>();
+			services.AddSingleton<IChatManagerFactory, ChatManagerFactory>();
 			services.AddSingleton<IInstanceFactory, InstanceFactory>();
 
 			// configure root services
 			services.AddSingleton<IJobManager, JobManager>();
 
 			services.AddSingleton<InstanceManager>();
+			services.AddSingleton<IBridgeDispatcher>(x => x.GetRequiredService<InstanceManager>());
 			services.AddSingleton<IInstanceManager>(x => x.GetRequiredService<InstanceManager>());
 		}
 

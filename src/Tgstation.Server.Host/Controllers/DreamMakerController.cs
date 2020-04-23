@@ -153,9 +153,6 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.ApiValidationPort == 0)
 				throw new InvalidOperationException("ApiValidationPort cannot be 0!");
 
-			if (model.ApiValidationSecurityLevel == DreamDaemonSecurity.Ultrasafe)
-				return BadRequest(new ErrorMessage(ErrorCode.InvalidSecurityLevel));
-
 			var hostModel = await DatabaseContext.DreamMakerSettings.Where(x => x.InstanceId == Instance.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (hostModel == null)
 				return StatusCode((int)HttpStatusCode.Gone);

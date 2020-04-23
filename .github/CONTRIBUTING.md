@@ -132,6 +132,18 @@ This prevents nesting levels from getting deeper then they need to be.
 
 * You are expected to help maintain the code that you add, meaning that if there is a problem then you are likely to be approached in order to fix any issues, runtimes, or bugs.
 
+* Some terminology to help understand the architecture:
+	* An instance can be thought of as a separate server. It has a separate directory, repository, set of byond installations, etc... The only thing shared amongst instances is API surface, users, global configuration, the active tgstation-server version, and the host machine.
+	* API refers to the HTTP API unless otherwise specified.
+	* The entirety of server functionality resides in the host (Tgstation.Server.Host) project.
+	* A Component is a service running in tgstation-server to help with instance functionality. These can only be communicated with via the HTTP or DM APIs.
+	* There is a difference between Watchdog and Host Watchdog. The former monitors DreamDaemon uptime, the latter handles updating tgstation-server.
+	* Interop is complicated terminology wise:
+		* Interop: The overall process of communication between tgstation-server and DreamDaemon.
+		* DMAPI: The tgstation-server provided code compiled into .dmbs to provide additional functionality.
+		* Topic: The process of sending a message from the TGS -> DD via /world/Topic() and receiving a response.
+		* Bridge: The process of sending a message from DD -> TGS and receiving a response.
+
 ## Pull Request Process
 
 There is no strict process when it comes to merging pull requests. Pull requests will sometimes take a while before they are looked at by a maintainer; the bigger the change, the more time it will take before they are accepted into the code. Every team member is a volunteer who is giving up their own time to help maintain and contribute, so please be courteous and respectful. Here are some helpful ways to make it easier for you and for the maintainers when making a pull request.

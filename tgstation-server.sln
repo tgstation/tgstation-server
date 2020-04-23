@@ -1,12 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.136
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DA32568D-1D8D-4A4C-9943-BFD3CE796B3F}"
 	ProjectSection(SolutionItems) = preProject
 		.codecov.yml = .codecov.yml
 		.dockerignore = .dockerignore
+		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 		.travis.yml = .travis.yml
 		appveyor.yml = appveyor.yml
@@ -14,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		omnisharp.json = omnisharp.json
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host", "src\Tgstation.Server.Host\Tgstation.Server.Host.csproj", "{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host.Console", "src\Tgstation.Server.Host.Console\Tgstation.Server.Host.Console.csproj", "{A09C947F-4B9B-4AEE-AB50-47055EA05F18}"
 EndProject
@@ -36,8 +39,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{6FF654E6
 		build\UploadCoverage.ps1 = build\UploadCoverage.ps1
 		build\Version.props = build\Version.props
 	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host", "src\Tgstation.Server.Host\Tgstation.Server.Host.csproj", "{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Api", "src\Tgstation.Server.Api\Tgstation.Server.Api.csproj", "{8B4A208D-A48A-4A5D-8B94-E2661138865D}"
 EndProject
@@ -142,6 +143,14 @@ Global
 		ReleaseNoService|Any CPU = ReleaseNoService|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}.DebugNoService|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}.DebugNoService|Any CPU.Build.0 = Debug|Any CPU
+		{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}.ReleaseNoService|Any CPU.ActiveCfg = Release|Any CPU
+		{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}.ReleaseNoService|Any CPU.Build.0 = Release|Any CPU
 		{A09C947F-4B9B-4AEE-AB50-47055EA05F18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A09C947F-4B9B-4AEE-AB50-47055EA05F18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A09C947F-4B9B-4AEE-AB50-47055EA05F18}.DebugNoService|Any CPU.ActiveCfg = Debug|Any CPU
@@ -158,14 +167,6 @@ Global
 		{D36B99C4-E771-42D6-A95F-1102B3E236DF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D36B99C4-E771-42D6-A95F-1102B3E236DF}.ReleaseNoService|Any CPU.ActiveCfg = Release|Any CPU
 		{D36B99C4-E771-42D6-A95F-1102B3E236DF}.ReleaseNoService|Any CPU.Build.0 = Release|Any CPU
-		{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}.DebugNoService|Any CPU.ActiveCfg = Debug|Any CPU
-		{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}.DebugNoService|Any CPU.Build.0 = Debug|Any CPU
-		{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}.ReleaseNoService|Any CPU.ActiveCfg = Release|Any CPU
-		{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}.ReleaseNoService|Any CPU.Build.0 = Release|Any CPU
 		{8B4A208D-A48A-4A5D-8B94-E2661138865D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8B4A208D-A48A-4A5D-8B94-E2661138865D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B4A208D-A48A-4A5D-8B94-E2661138865D}.DebugNoService|Any CPU.ActiveCfg = Debug|Any CPU

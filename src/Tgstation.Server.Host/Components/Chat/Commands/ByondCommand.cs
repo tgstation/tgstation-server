@@ -44,7 +44,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		}
 
 		/// <inheritdoc />
-		public Task<string> Invoke(string arguments, User user, CancellationToken cancellationToken)
+		public Task<string> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken)
 		{
 			if (arguments.Split(' ').Any(x => x.ToUpperInvariant() == "--ACTIVE"))
 				return Task.FromResult(byondManager.ActiveVersion == null ? "None!" : String.Format(CultureInfo.InvariantCulture, "{0}.{1}", byondManager.ActiveVersion.Major, byondManager.ActiveVersion.Minor));

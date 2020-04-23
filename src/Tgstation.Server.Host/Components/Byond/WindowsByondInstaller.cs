@@ -43,6 +43,9 @@ namespace Tgstation.Server.Host.Components.Byond
 		public override string DreamMakerName => "dm.exe";
 
 		/// <inheritdoc />
+		public override string PathToUserByondFolder { get; }
+
+		/// <inheritdoc />
 		protected override string ByondRevisionsURLTemplate => "https://secure.byond.com/download/build/{0}/{0}.{1}_byond.zip";
 
 		/// <summary>
@@ -71,29 +74,14 @@ namespace Tgstation.Server.Host.Components.Byond
 		{
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 
+			PathToUserByondFolder = IOManager.ResolvePath(IOManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "BYOND"));
+
 			semaphore = new SemaphoreSlim(1);
 			installedDirectX = false;
 		}
 
 		/// <inheritdoc />
 		public void Dispose() => semaphore.Dispose();
-
-		/// <inheritdoc />
-		public override async Task CleanCache(CancellationToken cancellationToken)
-		{
-			try
-			{
-				await IOManager.DeleteDirectory(IOManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "byond/cache"), cancellationToken).ConfigureAwait(false);
-			}
-			catch(OperationCanceledException)
-			{
-				throw;
-			}
-			catch (Exception e)
-			{
-				Logger.LogWarning("Error deleting BYOND cache! Exception: {0}", e);
-			}
-		}
 
 		/// <inheritdoc />
 		public override async Task InstallByond(string path, Version version, CancellationToken cancellationToken)

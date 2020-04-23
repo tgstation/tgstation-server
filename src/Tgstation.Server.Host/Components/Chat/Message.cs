@@ -11,8 +11,8 @@
 		public string Content { get; set; }
 
 		/// <summary>
-		/// The <see cref="Components.Chat.User"/> who sent the <see cref="Message"/>
+		/// The <see cref="Components.Chat.ChatUser"/> who sent the <see cref="Message"/>
 		/// </summary>
-		public User User { get; set; }
+		public ChatUser User { get; set; }
 	}
 }

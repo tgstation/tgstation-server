@@ -42,7 +42,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// Initializes a new instance of the <see cref="WindowsWatchdog"/> <see langword="class"/>.
 		/// </summary>
-		/// <param name="chat">The <see cref="IChat"/> for the <see cref="WatchdogBase"/>.</param>
+		/// <param name="chat">The <see cref="IChatManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="sessionControllerFactory">The <see cref="ISessionControllerFactory"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="dmbFactory">The <see cref="IDmbFactory"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="reattachInfoHandler">The <see cref="IReattachInfoHandler"/> for the <see cref="WatchdogBase"/>.</param>
@@ -59,7 +59,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="instance">The <see cref="Api.Models.Instance"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="autoStart">The autostart value for the <see cref="WatchdogBase"/>.</param>
 		public WindowsWatchdog(
-			IChat chat,
+			IChatManager chat,
 			ISessionControllerFactory sessionControllerFactory,
 			IDmbFactory dmbFactory,
 			IReattachInfoHandler reattachInfoHandler,

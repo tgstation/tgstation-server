@@ -114,6 +114,15 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.IsRequired()
 						.HasColumnType("nvarchar(max)");
 
+					b.Property<int?>("DMApiMajorVersion")
+						.HasColumnType("int");
+
+					b.Property<int?>("DMApiMinorVersion")
+						.HasColumnType("int");
+
+					b.Property<int?>("DMApiPatchVersion")
+						.HasColumnType("int");
+
 					b.Property<Guid?>("DirectoryName")
 						.IsRequired()
 						.HasColumnType("uniqueidentifier");
@@ -371,19 +380,14 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.IsRequired()
 						.HasColumnType("nvarchar(max)");
 
-					b.Property<string>("ChatChannelsJson")
-						.IsRequired()
-						.HasColumnType("nvarchar(max)");
-
-					b.Property<string>("ChatCommandsJson")
-						.IsRequired()
-						.HasColumnType("nvarchar(max)");
-
 					b.Property<long>("CompileJobId")
 						.HasColumnType("bigint");
 
 					b.Property<bool>("IsPrimary")
 						.HasColumnType("bit");
+
+					b.Property<int>("LaunchSecurityLevel")
+						.HasColumnType("int");
 
 					b.Property<int>("Port")
 						.HasColumnType("int");
@@ -393,10 +397,6 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 					b.Property<int>("RebootState")
 						.HasColumnType("int");
-
-					b.Property<string>("ServerCommandsJson")
-						.IsRequired()
-						.HasColumnType("nvarchar(max)");
 
 					b.HasKey("Id");
 
