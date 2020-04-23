@@ -264,7 +264,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			await ioManager.CreateDirectory(byondDirectory, cancellationToken).ConfigureAwait(false);
 			var directories = await ioManager.GetDirectories(byondDirectory, cancellationToken).ConfigureAwait(false);
 
-			async Task ReadVersionAndDeleteTrustedList(string path)
+			async Task ReadVersion(string path)
 			{
 				var versionFile = ioManager.ConcatPath(path, VersionFileName);
 				if (!await ioManager.FileExists(versionFile, cancellationToken).ConfigureAwait(false))
@@ -290,7 +290,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				await ioManager.DeleteDirectory(path, cancellationToken).ConfigureAwait(false);
 			}
 
-			await Task.WhenAll(directories.Select(x => ReadVersionAndDeleteTrustedList(x))).ConfigureAwait(false);
+			await Task.WhenAll(directories.Select(x => ReadVersion(x))).ConfigureAwait(false);
 
 			var activeVersionBytes = await activeVersionBytesTask.ConfigureAwait(false);
 			if (activeVersionBytes != null)
