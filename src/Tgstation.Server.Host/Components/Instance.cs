@@ -193,11 +193,12 @@ namespace Tgstation.Server.Host.Components
 			if (dreamMakerSettings == default)
 				throw new JobException("Missing DreamMakerSettings in DB!");
 
-			Task<RepositorySettings> repositorySettingsTask = null;
+			RepositorySettings repositorySettings = null;
 			string repoOwner = null;
 			string repoName = null;
 			CompileJob compileJob;
 			RevisionInformation revInfo;
+			bool loadedRepositorySettings;
 			using (var repo = await RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 			{
 				if (repo == null)
@@ -207,13 +208,21 @@ namespace Tgstation.Server.Host.Components
 				{
 					repoOwner = repo.GitHubOwner;
 					repoName = repo.GitHubRepoName;
-					repositorySettingsTask = databaseContext.RepositorySettings.Where(x => x.InstanceId == metadata.Id).Select(x => new RepositorySettings
-					{
-						AccessToken = x.AccessToken,
-						ShowTestMergeCommitters = x.ShowTestMergeCommitters,
-						PushTestMergeCommits = x.PushTestMergeCommits
-					}).FirstOrDefaultAsync(cancellationToken);
+					repositorySettings = await databaseContext
+						.RepositorySettings
+						.Where(x => x.InstanceId == metadata.Id)
+						.Select(x => new RepositorySettings
+						{
+							AccessToken = x.AccessToken,
+							ShowTestMergeCommitters = x.ShowTestMergeCommitters,
+							PushTestMergeCommits = x.PushTestMergeCommits
+						})
+						.FirstOrDefaultAsync(cancellationToken)
+						.ConfigureAwait(false);
+					loadedRepositorySettings = true;
 				}
+				else
+					loadedRepositorySettings = false;
 
 				var repoSha = repo.Head;
 				revInfo = await databaseContext.RevisionInformations.Where(x => x.CommitSha == repoSha && x.Instance.Id == metadata.Id).Include(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).ThenInclude(x => x.MergedBy).FirstOrDefaultAsync().ConfigureAwait(false);
@@ -251,9 +260,8 @@ namespace Tgstation.Server.Host.Components
 
 			job.PostComplete = ct => compileJobConsumer.LoadCompileJob(compileJob, ct);
 
-			if (repositorySettingsTask != null)
+			if (loadedRepositorySettings)
 			{
-				var repositorySettings = await repositorySettingsTask.ConfigureAwait(false);
 				if (repositorySettings == default)
 					throw new JobException("Missing repository settings!");
 

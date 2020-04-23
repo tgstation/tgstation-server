@@ -343,7 +343,11 @@ namespace Tgstation.Server.Host.Controllers
 			if (newTestMerges && !userRights.HasFlag(RepositoryRights.MergePullRequest))
 				return Forbid();
 
-			var currentModel = await DatabaseContext.RepositorySettings.Where(x => x.InstanceId == Instance.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var currentModel = await DatabaseContext
+				.RepositorySettings
+				.Where(x => x.InstanceId == Instance.Id)
+				.FirstOrDefaultAsync(cancellationToken)
+				.ConfigureAwait(false);
 
 			if (currentModel == default)
 				return StatusCode((int)HttpStatusCode.Gone);
@@ -454,7 +458,9 @@ namespace Tgstation.Server.Host.Controllers
 					if (newTestMerges && !repo.IsGitHubRepository)
 						throw new JobException("Cannot test merge on a non GitHub based repository!");
 
-					var committerName = currentModel.ShowTestMergeCommitters.Value ? AuthenticationContext.User.Name : currentModel.CommitterName;
+					var committerName = currentModel.ShowTestMergeCommitters.Value
+						? AuthenticationContext.User.Name
+						: currentModel.CommitterName;
 
 					var hardResettingToOriginReference = model.UpdateFromOrigin == true && model.Reference != null;
 
@@ -713,7 +719,14 @@ namespace Tgstation.Server.Host.Controllers
 									if (I.PullRequestRevision == null && pr != null)
 										I.PullRequestRevision = pr.Head.Sha;
 
-									var mergeResult = await repo.AddTestMerge(I, committerName, currentModel.CommitterEmail, currentModel.AccessUser, currentModel.AccessToken, NextProgressReporter(), ct).ConfigureAwait(false);
+									var mergeResult = await repo.AddTestMerge(
+										I,
+										committerName,
+										currentModel.CommitterEmail,
+										currentModel.AccessUser,
+										currentModel.AccessToken,
+										NextProgressReporter(),
+										ct).ConfigureAwait(false);
 
 									if (!mergeResult.HasValue)
 										throw new JobException(String.Format(CultureInfo.InvariantCulture, "Merge of PR #{0} at {1} conflicted!", I.Number, I.PullRequestRevision.Substring(0, 7)));

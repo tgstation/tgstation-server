@@ -204,7 +204,14 @@ namespace Tgstation.Server.Host.Components.Repository
 
 		/// <inheritdoc />
 		#pragma warning disable CA1506 // TODO: Decomplexify
-		public async Task<bool?> AddTestMerge(TestMergeParameters testMergeParameters, string committerName, string committerEmail, string username, string password, Action<int> progressReporter, CancellationToken cancellationToken)
+		public async Task<bool?> AddTestMerge(
+			TestMergeParameters testMergeParameters,
+			string committerName,
+			string committerEmail,
+			string username,
+			string password,
+			Action<int> progressReporter,
+			CancellationToken cancellationToken)
 		{
 			if (testMergeParameters == null)
 				throw new ArgumentNullException(nameof(testMergeParameters));
@@ -215,7 +222,12 @@ namespace Tgstation.Server.Host.Components.Repository
 			if (progressReporter == null)
 				throw new ArgumentNullException(nameof(progressReporter));
 
-			logger.LogDebug("Begin AddTestMerge: #{0} at {1} ({4}) by <{2} ({3})>", testMergeParameters.Number, testMergeParameters.PullRequestRevision?.Substring(0, 7), committerName, committerEmail, testMergeParameters.Comment);
+			logger.LogDebug("Begin AddTestMerge: #{0} at {1} ({4}) by <{2} ({3})>",
+				testMergeParameters.Number,
+				testMergeParameters.PullRequestRevision?.Substring(0, 7),
+				committerName,
+				committerEmail,
+				testMergeParameters.Comment);
 
 			if (!IsGitHubRepository)
 				throw new InvalidOperationException("Test merging is only available on GitHub hosted origin repositories!");

@@ -56,6 +56,11 @@ namespace Tgstation.Server.Host.Components
 		readonly ISystemIdentityFactory systemIdentityFactory;
 
 		/// <summary>
+		/// The <see cref="IAsyncDelayer"/> for the <see cref="InstanceManager"/>
+		/// </summary>
+		readonly IAsyncDelayer asyncDelayer;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="InstanceManager"/>
 		/// </summary>
 		readonly ILogger<InstanceManager> logger;
@@ -90,6 +95,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="serverControl">The value of <see cref="serverControl"/></param>
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/>.</param>
+		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		public InstanceManager(
 			IInstanceFactory instanceFactory,
@@ -99,6 +105,7 @@ namespace Tgstation.Server.Host.Components
 			IJobManager jobManager,
 			IServerControl serverControl,
 			ISystemIdentityFactory systemIdentityFactory,
+			IAsyncDelayer asyncDelayer,
 			ILogger<InstanceManager> logger)
 		{
 			this.instanceFactory = instanceFactory ?? throw new ArgumentNullException(nameof(instanceFactory));
@@ -108,6 +115,7 @@ namespace Tgstation.Server.Host.Components
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
+			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			serverControl.RegisterForRestart(this);
@@ -312,13 +320,26 @@ namespace Tgstation.Server.Host.Components
 			if (parameters == null)
 				throw new ArgumentNullException(nameof(parameters));
 
-			IBridgeHandler bridgeHandler;
-			lock (bridgeHandlers)
-				if (!bridgeHandlers.TryGetValue(parameters.AccessIdentifier, out bridgeHandler))
-				{
-					logger.LogWarning("Recieved invalid bridge request with accees identifier: {0}", parameters.AccessIdentifier);
-					return null;
-				}
+			IBridgeHandler bridgeHandler = null;
+			for (var i = 0; bridgeHandler == null && i < 30; ++i)
+			{
+				// There's a miniscule time period where we could potentially receive a bridge request and not have the registration ready when we launch DD
+				// This is a stopgap
+				Task delayTask = Task.CompletedTask;
+				lock (bridgeHandlers)
+					if (!bridgeHandlers.TryGetValue(parameters.AccessIdentifier, out bridgeHandler))
+						delayTask = asyncDelayer.Delay(TimeSpan.FromMilliseconds(100), cancellationToken);
+
+				await delayTask.ConfigureAwait(false);
+			}
+
+			if (bridgeHandler == null)
+				lock (bridgeHandlers)
+					if (!bridgeHandlers.TryGetValue(parameters.AccessIdentifier, out bridgeHandler))
+					{
+						logger.LogWarning("Recieved invalid bridge request with accees identifier: {0}", parameters.AccessIdentifier);
+						return null;
+					}
 
 			return await bridgeHandler.ProcessBridgeRequest(parameters, cancellationToken).ConfigureAwait(false);
 		}
@@ -331,12 +352,18 @@ namespace Tgstation.Server.Host.Components
 
 			var accessIdentifier = bridgeHandler.DMApiParameters.AccessIdentifier;
 			lock (bridgeHandlers)
+			{
 				bridgeHandlers.Add(accessIdentifier, bridgeHandler);
+				logger.LogTrace("Registered bridge handler: {0}", accessIdentifier);
+			}
 
 			return new BridgeRegistration(() =>
 			{
 				lock (bridgeHandlers)
+				{
 					bridgeHandlers.Remove(accessIdentifier);
+					logger.LogTrace("Unregistered bridge handler: {0}", accessIdentifier);
+				}
 			});
 		}
 	}

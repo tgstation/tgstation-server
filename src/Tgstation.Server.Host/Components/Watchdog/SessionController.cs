@@ -222,6 +222,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					lock (lifetimeContinuation)
 						cts?.Cancel();
 					chatTrackingContext.Active = false;
+
+					if (x.Result == 17)
+						logger.LogError(
+							"DreamDaemon exit code indicates it could not bind to the requested port ({0}). Is there another proccess using it?",
+							reattachInformation.Port);
 				},
 				TaskScheduler.Current);
 
