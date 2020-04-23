@@ -16,6 +16,11 @@ namespace Tgstation.Server.Host.IO
 	class DefaultIOManager : IIOManager
 	{
 		/// <summary>
+		/// Path to the current working directory for the <see cref="IIOManager"/>.
+		/// </summary>
+		public const string CurrentDirectory = ".";
+
+		/// <summary>
 		/// Default <see cref="FileStream"/> buffer size used by .NET
 		/// </summary>
 		public const int DefaultBufferSize = 4096;
@@ -218,6 +223,9 @@ namespace Tgstation.Server.Host.IO
 				return buf;
 			}
 		}
+
+		/// <inheritdoc />
+		public string ResolvePath() => ResolvePath(CurrentDirectory);
 
 		/// <inheritdoc />
 		public virtual string ResolvePath(string path) => Path.GetFullPath(path ?? throw new ArgumentNullException(nameof(path)));

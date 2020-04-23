@@ -2,8 +2,6 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
-using System.Threading;
-using System.Threading.Tasks;
 using Tgstation.Server.Host.Configuration;
 
 namespace Tgstation.Server.Host.Database
@@ -13,9 +11,6 @@ namespace Tgstation.Server.Host.Database
 	/// </summary>
 	sealed class SqliteDatabaseContext : DatabaseContext<SqliteDatabaseContext>
 	{
-		/// <inheritdoc />
-		protected override DatabaseType DatabaseType => DatabaseType.Sqlite;
-
 		/// <summary>
 		/// Construct a <see cref="MySqlDatabaseContext"/>
 		/// </summary>
@@ -27,13 +22,17 @@ namespace Tgstation.Server.Host.Database
 		{ }
 
 		/// <inheritdoc />
-		public override Task Initialize(CancellationToken cancellationToken) => throw new NotImplementedException("SQLite support currently is incomplete. See tracking issue at https://github.com/tgstation/tgstation-server/issues/885");
-
-		/// <inheritdoc />
 		protected override void OnConfiguring(DbContextOptionsBuilder options)
 		{
 			base.OnConfiguring(options);
 			options.UseSqlite(DatabaseConfiguration.ConnectionString);
+		}
+
+		/// <inheritdoc />
+		protected override void ValidateDatabaseType()
+		{
+			if (DatabaseType != DatabaseType.Sqlite)
+				throw new InvalidOperationException("Invalid DatabaseType for SqliteDatabaseContext!");
 		}
 	}
 }

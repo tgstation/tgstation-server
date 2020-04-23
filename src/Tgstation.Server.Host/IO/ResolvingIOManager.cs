@@ -25,7 +25,7 @@ namespace Tgstation.Server.Host.IO
 			if (subdirectory == null)
 				throw new ArgumentNullException(nameof(subdirectory));
 
-			this.subdirectory = ConcatPath(parent.ResolvePath("."), subdirectory);
+			this.subdirectory = ConcatPath(parent.ResolvePath(), subdirectory);
 		}
 
 		/// <inheritdoc />

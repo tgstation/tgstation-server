@@ -24,10 +24,10 @@ namespace Tgstation.Server.Host.Tests
 		public async Task TestStandardRun()
 		{
 			var mockServer = new Mock<IServer>();
-			mockServer.Setup(x => x.RunAsync(It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
+			mockServer.Setup(x => x.Run(It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
 			mockServer.SetupGet(x => x.RestartRequested).Returns(false);
 			var mockServerFactory = new Mock<IServerFactory>();
-			mockServerFactory.Setup(x => x.CreateServer(It.IsNotNull<string[]>(), It.IsAny<string>())).Returns(mockServer.Object);
+			mockServerFactory.Setup(x => x.CreateServer(It.IsNotNull<string[]>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(mockServer.Object);
 			Program.ServerFactory = mockServerFactory.Object;
 
 			var result = await Program.Main(Array.Empty<string>()).ConfigureAwait(false);
@@ -38,10 +38,10 @@ namespace Tgstation.Server.Host.Tests
 		public async Task TestStandardRunWithRestart()
 		{
 			var mockServer = new Mock<IServer>();
-			mockServer.Setup(x => x.RunAsync(It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
+			mockServer.Setup(x => x.Run(It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
 			mockServer.SetupGet(x => x.RestartRequested).Returns(true);
 			var mockServerFactory = new Mock<IServerFactory>();
-			mockServerFactory.Setup(x => x.CreateServer(It.IsNotNull<string[]>(), It.IsAny<string>())).Returns(mockServer.Object);
+			mockServerFactory.Setup(x => x.CreateServer(It.IsNotNull<string[]>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(mockServer.Object);
 			Program.ServerFactory = mockServerFactory.Object;
 
 			var result = await Program.Main(Array.Empty<string>()).ConfigureAwait(false);
@@ -52,10 +52,10 @@ namespace Tgstation.Server.Host.Tests
 		public async Task TestStandardRunWithException()
 		{
 			var mockServer = new Mock<IServer>();
-			mockServer.Setup(x => x.RunAsync(It.IsAny<CancellationToken>())).Throws(new DivideByZeroException());
+			mockServer.Setup(x => x.Run(It.IsAny<CancellationToken>())).Throws(new DivideByZeroException());
 			mockServer.SetupGet(x => x.RestartRequested).Returns(true);
 			var mockServerFactory = new Mock<IServerFactory>();
-			mockServerFactory.Setup(x => x.CreateServer(It.IsNotNull<string[]>(), It.IsAny<string>())).Returns(mockServer.Object);
+			mockServerFactory.Setup(x => x.CreateServer(It.IsNotNull<string[]>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(mockServer.Object);
 			Program.ServerFactory = mockServerFactory.Object;
 
 			await Assert.ThrowsExceptionAsync<DivideByZeroException>(() => Program.Main(Array.Empty<string>())).ConfigureAwait(false);
@@ -66,11 +66,11 @@ namespace Tgstation.Server.Host.Tests
 		{
 			var mockServer = new Mock<IServer>();
 			var exception = new DivideByZeroException();
-			mockServer.Setup(x => x.RunAsync(It.IsAny<CancellationToken>())).Throws(exception);
+			mockServer.Setup(x => x.Run(It.IsAny<CancellationToken>())).Throws(exception);
 			mockServer.SetupGet(x => x.RestartRequested).Returns(true);
 			var mockServerFactory = new Mock<IServerFactory>();
 			mockServerFactory.SetupGet(x => x.IOManager).Returns(new DefaultIOManager());
-			mockServerFactory.Setup(x => x.CreateServer(It.IsNotNull<string[]>(), It.IsAny<string>())).Returns(mockServer.Object);
+			mockServerFactory.Setup(x => x.CreateServer(It.IsNotNull<string[]>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(mockServer.Object);
 			Program.ServerFactory = mockServerFactory.Object;
 
 			var tempFileName = Path.GetTempFileName();

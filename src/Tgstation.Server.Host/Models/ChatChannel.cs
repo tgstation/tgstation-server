@@ -14,7 +14,7 @@
 		public long ChatSettingsId { get; set; }
 
 		/// <summary>
-		/// The <see cref="Models.ChatBot"/>
+		/// The <see cref="ChatBot"/>.
 		/// </summary>
 		public ChatBot ChatSettings { get; set; }
 

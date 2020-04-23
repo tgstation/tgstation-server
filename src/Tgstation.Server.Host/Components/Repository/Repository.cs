@@ -467,7 +467,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			if (path == null)
 				throw new ArgumentNullException(nameof(path));
 			logger.LogTrace("Copying to {0}...", path);
-			await ioMananger.CopyDirectory(".", path, new List<string> { ".git" }, cancellationToken).ConfigureAwait(false);
+			await ioMananger.CopyDirectory(ioMananger.ResolvePath(), path, new List<string> { ".git" }, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -562,7 +562,14 @@ namespace Tgstation.Server.Host.Components.Repository
 			cancellationToken.ThrowIfCancellationRequested();
 			try
 			{
-				if (!await eventConsumer.HandleEvent(EventType.RepoPreSynchronize, new List<string> { ioMananger.ResolvePath(".") }, cancellationToken).ConfigureAwait(false))
+				if (!await eventConsumer.HandleEvent(
+					EventType.RepoPreSynchronize,
+					new List<string>
+					{
+						ioMananger.ResolvePath()
+					},
+					cancellationToken)
+					.ConfigureAwait(false))
 				{
 					logger.LogDebug("Aborted synchronize due to event handler response!");
 					return false;

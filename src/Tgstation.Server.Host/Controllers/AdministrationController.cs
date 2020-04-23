@@ -42,9 +42,9 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IServerControl serverUpdater;
 
 		/// <summary>
-		/// The <see cref="IApplication"/> for the <see cref="AdministrationController"/>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="AdministrationController"/>
 		/// </summary>
-		readonly IApplication application;
+		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="AdministrationController"/>
@@ -73,7 +73,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/></param>
 		/// <param name="serverUpdater">The value of <see cref="serverUpdater"/></param>
-		/// <param name="application">The value of <see cref="application"/></param>
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
@@ -84,7 +84,7 @@ namespace Tgstation.Server.Host.Controllers
 			IAuthenticationContextFactory authenticationContextFactory,
 			IGitHubClientFactory gitHubClientFactory,
 			IServerControl serverUpdater,
-			IApplication application,
+			IAssemblyInformationProvider assemblyInformationProvider,
 			IIOManager ioManager,
 			IPlatformIdentifier platformIdentifier,
 			ILogger<AdministrationController> logger,
@@ -99,7 +99,7 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 			this.serverUpdater = serverUpdater ?? throw new ArgumentNullException(nameof(serverUpdater));
-			this.application = application ?? throw new ArgumentNullException(nameof(application));
+			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			updatesConfiguration = updatesConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(updatesConfigurationOptions));
@@ -195,7 +195,7 @@ namespace Tgstation.Server.Host.Controllers
 
 					foreach (var I in releases)
 						if (Version.TryParse(I.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal), out var version)
-							&& version.Major == application.Version.Major
+							&& version.Major == assemblyInformationProvider.Version.Major
 							&& (greatestVersion == null || version > greatestVersion))
 							greatestVersion = version;
 					repoUrl = new Uri((await repositoryTask.ConfigureAwait(false)).HtmlUrl);
@@ -255,7 +255,7 @@ namespace Tgstation.Server.Host.Controllers
 					AdditionalData = "newVersion is required!"
 				});
 
-			if (model.NewVersion.Major != application.Version.Major)
+			if (model.NewVersion.Major != assemblyInformationProvider.Version.Major)
 				return BadRequest(new ErrorMessage(ErrorCode.CannotChangeServerSuite));
 
 			if(!serverUpdater.WatchdogPresent)

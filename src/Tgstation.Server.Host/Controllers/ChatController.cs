@@ -24,6 +24,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <see cref="ApiController"/> for managing <see cref="Api.Models.ChatBot"/>s
 	/// </summary>
 	[Route(Routes.Chat)]
+	#pragma warning disable CA1506 // TODO: Decomplexify
 	public sealed class ChatController : ApiController
 	{
 		/// <summary>
@@ -77,6 +78,15 @@ namespace Tgstation.Server.Host.Controllers
 			if (earlyOut != null)
 				return earlyOut;
 
+			var countOfExistingBotsInInstance = await DatabaseContext
+				.ChatBots
+				.Where(x => x.InstanceId == Instance.Id)
+				.CountAsync(cancellationToken)
+				.ConfigureAwait(false);
+
+			if (countOfExistingBotsInInstance >= Instance.ChatBotLimit.Value)
+				return Conflict(new ErrorMessage(ErrorCode.ChatBotMax));
+
 			model.Enabled = model.Enabled ?? false;
 			model.ReconnectionInterval = model.ReconnectionInterval ?? 1;
 
@@ -89,7 +99,8 @@ namespace Tgstation.Server.Host.Controllers
 				Channels = model.Channels?.Select(x => ConvertApiChatChannel(x)).ToList() ?? new List<Models.ChatChannel>(), // important that this isn't null
 				InstanceId = Instance.Id,
 				Provider = model.Provider,
-				ReconnectionInterval = model.ReconnectionInterval
+				ReconnectionInterval = model.ReconnectionInterval,
+				ChannelLimit = model.ChannelLimit
 			};
 
 			DatabaseContext.ChatBots.Add(dbModel);
@@ -197,8 +208,8 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(ChatBotRights.WriteChannels | ChatBotRights.WriteConnectionString | ChatBotRights.WriteEnabled | ChatBotRights.WriteName | ChatBotRights.WriteProvider)]
 		[ProducesResponseType(200)]
 		[ProducesResponseType(typeof(Api.Models.ChatBot), 200)]
-		#pragma warning disable CA1502 // TODO: Decomplexify
-		#pragma warning disable CA1506
+#pragma warning disable CA1502 // TODO: Decomplexify
+#pragma warning disable CA1506
 		public async Task<IActionResult> Update([FromBody] Api.Models.ChatBot model, CancellationToken cancellationToken)
 		#pragma warning restore CA1502
 		#pragma warning restore CA1506
@@ -216,6 +227,15 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (current == default)
 				return StatusCode((int)HttpStatusCode.Gone);
+
+			if ((model.Channels?.Count ?? current.Channels.Count) > (model.ChannelLimit ?? current.ChannelLimit.Value))
+			{
+				// 400 or 409 depends on if the client sent both
+				var errorMessage = new ErrorMessage(ErrorCode.ChatBotMaxChannels);
+				if (model.Channels != null && model.ChannelLimit.HasValue)
+					return BadRequest(errorMessage);
+				return Conflict(errorMessage);
+			}
 
 			var userRights = (ChatBotRights)AuthenticationContext.GetRight(RightsType.ChatBots);
 
@@ -304,7 +324,15 @@ namespace Tgstation.Server.Host.Controllers
 			if (!model.ValidateProviderChannelTypes())
 				return BadRequest(new ErrorMessage(ErrorCode.ChatBotWrongChannelType));
 
+			var defaultMaxChannels = (ulong)Math.Max(Models.ChatBot.DefaultChannelLimit, model.Channels?.Count ?? 0);
+			if (defaultMaxChannels > UInt16.MaxValue)
+				return BadRequest(new ErrorMessage(ErrorCode.ChatBotMaxChannels));
+
+			if (forCreation)
+				model.ChannelLimit = model.ChannelLimit ?? (ushort)defaultMaxChannels;
+
 			return null;
 		}
 	}
+	#pragma warning restore CA1506
 }

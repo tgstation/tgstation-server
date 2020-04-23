@@ -4,6 +4,7 @@ using System.Linq;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Interop.Bridge
 {
@@ -18,7 +19,7 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		public string AccessIdentifier { get; }
 
 		/// <summary>
-		/// The <see cref="IApplication.Version"/>.
+		/// The <see cref="IAssemblyInformationProvider.Version"/>.
 		/// </summary>
 		public Version ServerVersion { get; }
 
@@ -55,7 +56,7 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RuntimeInformation"/> <see langword="class"/>.
 		/// </summary>
-		/// <param name="application">The <see cref="IApplication"/> to use.</param>
+		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> to use.</param>
 		/// <param name="cryptographySuite">The <see cref="ICryptographySuite"/> used to generate the value of <see cref="DMApiParameters.AccessIdentifier"/>.</param>
 		/// <param name="serverPortProvider">The <see cref="IServerPortProvider"/> used to set the value of <see cref="ServerPort"/>.</param>
 		/// <param name="testMerges">An <see cref="IEnumerable{T}"/> used to construct the value of <see cref="TestMerges"/>.</param>
@@ -64,7 +65,7 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		/// <param name="revision">The value of <see cref="RevisionInformation"/>.</param>
 		/// <param name="securityLevel">The value of <see cref="SecurityLevel"/>.</param>
 		public RuntimeInformation(
-			IApplication application,
+			IAssemblyInformationProvider assemblyInformationProvider,
 			ICryptographySuite cryptographySuite,
 			IServerPortProvider serverPortProvider,
 			IEnumerable<TestMergeInformation> testMerges,
@@ -74,7 +75,7 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 			DreamDaemonSecurity? securityLevel)
 			: base(chatChannels)
 		{
-			ServerVersion = application?.Version ?? throw new ArgumentNullException(nameof(application));
+			ServerVersion = assemblyInformationProvider?.Version ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			AccessIdentifier = cryptographySuite?.GetSecureString() ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			ServerPort = serverPortProvider?.HttpApiPort ?? throw new ArgumentNullException(nameof(serverPortProvider));
 			TestMerges = testMerges?.ToList() ?? throw new ArgumentNullException(nameof(testMerges));

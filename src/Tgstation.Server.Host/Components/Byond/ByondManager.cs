@@ -260,8 +260,9 @@ namespace Tgstation.Server.Host.Components.Byond
 				cancellationToken).ConfigureAwait(false);
 #endif
 
-			await ioManager.CreateDirectory(".", cancellationToken).ConfigureAwait(false);
-			var directories = await ioManager.GetDirectories(".", cancellationToken).ConfigureAwait(false);
+			var byondDirectory = ioManager.ResolvePath();
+			await ioManager.CreateDirectory(byondDirectory, cancellationToken).ConfigureAwait(false);
+			var directories = await ioManager.GetDirectories(byondDirectory, cancellationToken).ConfigureAwait(false);
 
 			async Task ReadVersionAndDeleteTrustedList(string path)
 			{

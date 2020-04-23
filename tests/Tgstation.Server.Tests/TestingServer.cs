@@ -11,6 +11,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Client;
 using Tgstation.Server.Host;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Tests
 {
@@ -19,9 +20,12 @@ namespace Tgstation.Server.Tests
 		public Uri Url { get; }
 
 		public string Directory { get; }
-		public bool RestartRequested => realServer.RestartRequested;
 
-		readonly IServer realServer;
+		public string DatabaseType { get; }
+
+		public bool RestartRequested => realServer.Result.RestartRequested;
+
+		readonly Task<IServer> realServer;
 
 		readonly IServerClientFactory serverClientFactory;
 
@@ -39,12 +43,12 @@ namespace Tgstation.Server.Tests
 
 			//so we need a db
 			//we have to rely on env vars
-			var databaseType = Environment.GetEnvironmentVariable("TGS4_TEST_DATABASE_TYPE");
+			DatabaseType = Environment.GetEnvironmentVariable("TGS4_TEST_DATABASE_TYPE");
 			var connectionString = Environment.GetEnvironmentVariable("TGS4_TEST_CONNECTION_STRING");
 			var gitHubAccessToken = Environment.GetEnvironmentVariable("TGS4_TEST_GITHUB_TOKEN");
 			var dumpOpenAPISpecPathEnvVar = Environment.GetEnvironmentVariable("TGS4_TEST_DUMP_API_SPEC");
 
-			if (String.IsNullOrEmpty(databaseType))
+			if (String.IsNullOrEmpty(DatabaseType))
 				Assert.Inconclusive("No database type configured in env var TGS4_TEST_DATABASE_TYPE!");
 
 			if (String.IsNullOrEmpty(connectionString))
@@ -58,7 +62,7 @@ namespace Tgstation.Server.Tests
 			var args = new List<string>()
 			{
 				String.Format(CultureInfo.InvariantCulture, "Kestrel:EndPoints:Http:Url={0}", UrlString),
-				String.Format(CultureInfo.InvariantCulture, "Database:DatabaseType={0}", databaseType),
+				String.Format(CultureInfo.InvariantCulture, "Database:DatabaseType={0}", DatabaseType),
 				String.Format(CultureInfo.InvariantCulture, "Database:ConnectionString={0}", connectionString),
 				String.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", true),
 				String.Format(CultureInfo.InvariantCulture, "General:SetupWizardMode={0}", SetupWizardMode.Never),
@@ -72,7 +76,7 @@ namespace Tgstation.Server.Tests
 			if (dumpOpenAPISpecpath)
 				Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
 
-			realServer = ServerFactory.CreateDefault().CreateServer(args.ToArray(), updatePath);
+			realServer = Application.CreateDefaultServerFactory().CreateServer(args.ToArray(), updatePath, default);
 		}
 
 		public void Dispose()
@@ -80,9 +84,10 @@ namespace Tgstation.Server.Tests
 			System.IO.Directory.Delete(Directory, true);
 		}
 
-		public async Task RunAsync(CancellationToken cancellationToken)
+		public async Task Run(CancellationToken cancellationToken)
 		{
-			Task runTask = realServer.RunAsync(cancellationToken);
+			var serverInstance = await realServer.ConfigureAwait(false);
+			Task runTask = serverInstance.Run(cancellationToken);
 
 			if (dumpOpenAPISpecpath)
 			{

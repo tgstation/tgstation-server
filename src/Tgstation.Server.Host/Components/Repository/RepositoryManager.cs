@@ -107,7 +107,8 @@ namespace Tgstation.Server.Host.Components.Repository
 				using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 				{
 					logger.LogTrace("Semaphore acquired");
-					if (!await ioManager.DirectoryExists(".", cancellationToken).ConfigureAwait(false))
+					var repositoryPath = ioManager.ResolvePath();
+					if (!await ioManager.DirectoryExists(repositoryPath, cancellationToken).ConfigureAwait(false))
 						try
 						{
 							var cloneOptions = new CloneOptions
@@ -129,7 +130,7 @@ namespace Tgstation.Server.Host.Components.Repository
 							await repositoryFactory.Clone(
 								url,
 								cloneOptions,
-								ioManager.ResolvePath("."),
+								repositoryPath,
 								cancellationToken)
 								.ConfigureAwait(false);
 						}
@@ -138,7 +139,7 @@ namespace Tgstation.Server.Host.Components.Repository
 							try
 							{
 								logger.LogTrace("Deleting partially cloned repository...");
-								await ioManager.DeleteDirectory(".", default).ConfigureAwait(false);
+								await ioManager.DeleteDirectory(repositoryPath, default).ConfigureAwait(false);
 							}
 							catch (Exception e)
 							{
@@ -174,7 +175,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			using (var context = await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 				try
 				{
-					var repo = await repositoryFactory.CreateFromPath(ioManager.ResolvePath("."), cancellationToken).ConfigureAwait(false);
+					var repo = await repositoryFactory.CreateFromPath(ioManager.ResolvePath(), cancellationToken).ConfigureAwait(false);
 
 					if (repo == null)
 						return null;
@@ -200,7 +201,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 			{
 				logger.LogTrace("Semaphore acquired, deleting Repository directory...");
-				await ioManager.DeleteDirectory(".", cancellationToken).ConfigureAwait(false);
+				await ioManager.DeleteDirectory(ioManager.ResolvePath(), cancellationToken).ConfigureAwait(false);
 			}
 		}
 	}

@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Type of database to user
 	/// </summary>
-	enum DatabaseType
+	public enum DatabaseType
 	{
 		/// <summary>
 		/// Use Microsoft SQL Server

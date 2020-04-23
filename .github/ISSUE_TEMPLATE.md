@@ -1,9 +1,11 @@
-If your issue is for the web control panel, please report it here instead: https://github.com/tgstation/tgstation-server-control-panel
+Note that this repository does not contain any client code (With the exception of the web control panel which can be found in [its own repository](https://github.com/tgstation/tgstation-server-control-panel)). Any client issues should be reported to their respective codebases.
 
 Please include:
 
-- A description of the issue
+- A description of the issue.
 
-- Reproduction steps for the issue if possible
+- The version of tgstation-server you were using.
 
-- Relevent server logs, and screenshots if possible
+- Reproduction steps for the issue if possible (Very helpful).
+
+- Relevent server logs, request logs, and screenshots if possible.

@@ -5,7 +5,7 @@ using Tgstation.Server.Api.Models;
 namespace Tgstation.Server.Client
 {
 	/// <summary>
-	/// Occurs when the server returns an unknown response
+	/// Occurs when the server returns a bad request response if the <see cref="ApiException.ErrorCode"/> is present. The server returned an unknown reponse otherwise.
 	/// </summary>
 	public sealed class ApiConflictException : ApiException
 	{

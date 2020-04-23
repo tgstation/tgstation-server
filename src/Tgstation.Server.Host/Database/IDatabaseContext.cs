@@ -2,6 +2,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Database
@@ -12,69 +13,74 @@ namespace Tgstation.Server.Host.Database
 	public interface IDatabaseContext
 	{
 		/// <summary>
+		/// The <see cref="DatabaseType"/>.
+		/// </summary>
+		DatabaseType DatabaseType { get; }
+
+		/// <summary>
 		/// The <see cref="User"/>s in the <see cref="IDatabaseContext"/>
 		/// </summary>
-		DbSet<User> Users { get; }
+		IDatabaseCollection<User> Users { get; }
 
 		/// <summary>
 		/// The <see cref="Instance"/>s in the <see cref="IDatabaseContext"/>
 		/// </summary>
-		DbSet<Instance> Instances { get; }
+		IDatabaseCollection<Instance> Instances { get; }
 
 		/// <summary>
 		/// The <see cref="InstanceUser"/>s in the <see cref="IDatabaseContext"/>
 		/// </summary>
-		DbSet<InstanceUser> InstanceUsers { get; }
+		IDatabaseCollection<InstanceUser> InstanceUsers { get; }
 
 		/// <summary>
 		/// The <see cref="Job"/>s in the <see cref="IDatabaseContext"/>
 		/// </summary>
-		DbSet<Job> Jobs { get; }
+		IDatabaseCollection<Job> Jobs { get; }
 
 		/// <summary>
 		/// The <see cref="CompileJob"/>s in the <see cref="IDatabaseContext"/>
 		/// </summary>
-		DbSet<CompileJob> CompileJobs { get; }
+		IDatabaseCollection<CompileJob> CompileJobs { get; }
 
 		/// <summary>
 		/// The <see cref="RevisionInformation"/>s in the <see cref="IDatabaseContext"/>
 		/// </summary>
-		DbSet<RevisionInformation> RevisionInformations { get; }
+		IDatabaseCollection<RevisionInformation> RevisionInformations { get; }
 
 		/// <summary>
 		/// The <see cref="Models.DreamMakerSettings"/> in the <see cref="IDatabaseContext"/>
 		/// </summary>
-		DbSet<DreamMakerSettings> DreamMakerSettings { get; set; }
+		IDatabaseCollection<DreamMakerSettings> DreamMakerSettings { get; }
 
 		/// <summary>
 		/// The <see cref="Models.DreamDaemonSettings"/> in the <see cref="IDatabaseContext"/>
 		/// </summary>
-		DbSet<DreamDaemonSettings> DreamDaemonSettings { get; set; }
+		IDatabaseCollection<DreamDaemonSettings> DreamDaemonSettings { get; }
 
 		/// <summary>
 		/// The <see cref="ChatBot"/>s in the <see cref="IDatabaseContext"/>
 		/// </summary>
-		DbSet<ChatBot> ChatBots { get; set; }
+		IDatabaseCollection<ChatBot> ChatBots { get; }
 
 		/// <summary>
 		/// The <see cref="ChatChannel"/> in the <see cref="IDatabaseContext"/>
 		/// </summary>
-		DbSet<ChatChannel> ChatChannels { get; set; }
+		IDatabaseCollection<ChatChannel> ChatChannels { get; }
 
 		/// <summary>
 		/// The <see cref="Models.RepositorySettings"/> in the <see cref="IDatabaseContext"/>
 		/// </summary>
-		DbSet<RepositorySettings> RepositorySettings { get; set; }
+		IDatabaseCollection<RepositorySettings> RepositorySettings { get; }
 
 		/// <summary>
 		/// The <see cref="DbSet{TEntity}"/> for <see cref="ReattachInformation"/>s
 		/// </summary>
-		DbSet<ReattachInformation> ReattachInformations { get; set; }
+		IDatabaseCollection<ReattachInformation> ReattachInformations { get; }
 
 		/// <summary>
 		/// The <see cref="DbSet{TEntity}"/> for <see cref="WatchdogReattachInformation"/>s
 		/// </summary>
-		DbSet<WatchdogReattachInformation> WatchdogReattachInformations { get; set; }
+		IDatabaseCollection<WatchdogReattachInformation> WatchdogReattachInformations { get; }
 
 		/// <summary>
 		/// Saves changes made to the <see cref="IDatabaseContext"/>

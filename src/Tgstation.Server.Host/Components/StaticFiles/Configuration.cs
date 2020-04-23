@@ -169,11 +169,11 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		{
 			var nullOrEmptyCheck = String.IsNullOrEmpty(configurationRelativePath);
 			if (nullOrEmptyCheck)
-				configurationRelativePath = ".";
+				configurationRelativePath = DefaultIOManager.CurrentDirectory;
 			if (configurationRelativePath[0] == Path.DirectorySeparatorChar || configurationRelativePath[0] == Path.AltDirectorySeparatorChar)
-				configurationRelativePath = '.' + configurationRelativePath;
+				configurationRelativePath = DefaultIOManager.CurrentDirectory + configurationRelativePath;
 			var resolved = ioManager.ResolvePath(configurationRelativePath);
-			var local = !nullOrEmptyCheck ? ioManager.ResolvePath(".") : null;
+			var local = !nullOrEmptyCheck ? ioManager.ResolvePath() : null;
 			if (!nullOrEmptyCheck && resolved.Length < local.Length) // .. fuccbois
 				throw new InvalidOperationException("Attempted to access file outside of configuration manager!");
 			return resolved;

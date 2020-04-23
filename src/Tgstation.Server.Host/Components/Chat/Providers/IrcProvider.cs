@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Chat.Providers
 {
@@ -88,7 +89,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <summary>
 		/// Construct an <see cref="IrcProvider"/>
 		/// </summary>
-		/// <param name="application">The <see cref="IApplication"/> to get the <see cref="IApplication.VersionString"/> from</param>
+		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> to get the <see cref="IAssemblyInformationProvider.VersionString"/> from</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
 		/// <param name="logger">The value of logger</param>
 		/// <param name="address">The value of <see cref="address"/></param>
@@ -99,7 +100,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <param name="reconnectInterval">The initial reconnect interval in minutes.</param>
 		/// <param name="useSsl">If <see cref="IrcConnection.UseSsl"/> should be used</param>
 		public IrcProvider(
-			IApplication application,
+			IAssemblyInformationProvider assemblyInformationProvider,
 			IAsyncDelayer asyncDelayer,
 			ILogger<IrcProvider> logger,
 			string address,
@@ -111,8 +112,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			bool useSsl)
 			: base(logger, reconnectInterval)
 		{
-			if (application == null)
-				throw new ArgumentNullException(nameof(application));
+			if (assemblyInformationProvider == null)
+				throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 
 			this.address = address ?? throw new ArgumentNullException(nameof(address));
@@ -140,7 +141,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				AutoRetryDelay = TimeoutSeconds,
 				ActiveChannelSyncing = true,
 				AutoNickHandling = true,
-				CtcpVersion = application.VersionString,
+				CtcpVersion = assemblyInformationProvider.VersionString,
 				UseSsl = useSsl
 			};
 			if (useSsl)

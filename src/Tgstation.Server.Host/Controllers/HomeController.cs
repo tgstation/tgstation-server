@@ -17,6 +17,7 @@ using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.System;
 using Wangkanai.Detection;
 
 namespace Tgstation.Server.Host.Controllers
@@ -43,9 +44,9 @@ namespace Tgstation.Server.Host.Controllers
 		readonly ICryptographySuite cryptographySuite;
 
 		/// <summary>
-		/// The <see cref="IApplication"/> for the <see cref="HomeController"/>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="HomeController"/>
 		/// </summary>
-		readonly IApplication application;
+		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
 		/// The <see cref="IIdentityCache"/> for the <see cref="HomeController"/>
@@ -70,17 +71,17 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="tokenFactory">The value of <see cref="tokenFactory"/></param>
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/></param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
-		/// <param name="application">The value of <see cref="application"/></param>
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
 		/// <param name="identityCache">The value of <see cref="identityCache"/></param>
 		/// <param name="browserResolver">The value of <see cref="browserResolver"/></param>
 		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="controlPanelConfiguration"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		public HomeController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ITokenFactory tokenFactory, ISystemIdentityFactory systemIdentityFactory, ICryptographySuite cryptographySuite, IApplication application, IIdentityCache identityCache, IBrowserResolver browserResolver, IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions, ILogger<HomeController> logger) : base(databaseContext, authenticationContextFactory, logger, false, false)
+		public HomeController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ITokenFactory tokenFactory, ISystemIdentityFactory systemIdentityFactory, ICryptographySuite cryptographySuite, IAssemblyInformationProvider assemblyInformationProvider, IIdentityCache identityCache, IBrowserResolver browserResolver, IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions, ILogger<HomeController> logger) : base(databaseContext, authenticationContextFactory, logger, false, false)
 		{
 			this.tokenFactory = tokenFactory ?? throw new ArgumentNullException(nameof(tokenFactory));
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
-			this.application = application ?? throw new ArgumentNullException(nameof(application));
+			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.identityCache = identityCache ?? throw new ArgumentNullException(nameof(identityCache));
 			this.browserResolver = browserResolver ?? throw new ArgumentNullException(nameof(browserResolver));
 			controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions));
@@ -102,7 +103,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (AuthenticationContext != null)
 				return Json(new Api.Models.ServerInformation
 				{
-					Version = application.Version,
+					Version = assemblyInformationProvider.Version,
 					ApiVersion = ApiHeaders.Version
 				});
 

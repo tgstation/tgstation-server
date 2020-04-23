@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host
 {
@@ -21,7 +22,7 @@ namespace Tgstation.Server.Host
 		/// <summary>
 		/// The <see cref="IServerFactory"/> to use.
 		/// </summary>
-		internal static IServerFactory ServerFactory = Host.ServerFactory.CreateDefault();
+		internal static IServerFactory ServerFactory = Application.CreateDefaultServerFactory();
 #pragma warning restore SA1401 // Fields must be private
 
 		/// <summary>
@@ -50,16 +51,23 @@ namespace Tgstation.Server.Host
 					Debugger.Launch();
 			}
 
+			var updatedArgsArray = listArgs.ToArray();
 			try
 			{
-				var server = ServerFactory.CreateServer(listArgs.ToArray(), updatePath);
-				try
+				using (var shutdownNotifier = new ProgramShutdownTokenSource())
 				{
-					using (var shutdownNotifier = new ProgramShutdownTokenSource())
-						await server.RunAsync(shutdownNotifier.Token).ConfigureAwait(false);
+					var cancellationToken = shutdownNotifier.Token;
+					var server = await ServerFactory.CreateServer(updatedArgsArray, updatePath, cancellationToken).ConfigureAwait(false);
+					if (server == null)
+						return 0;
+
+					try
+					{
+						await server.Run(cancellationToken).ConfigureAwait(false);
+					}
+					catch (OperationCanceledException) { }
+					return server.RestartRequested ? 1 : 0;
 				}
-				catch (OperationCanceledException) { }
-				return server.RestartRequested ? 1 : 0;
 			}
 			catch (Exception e)
 			{

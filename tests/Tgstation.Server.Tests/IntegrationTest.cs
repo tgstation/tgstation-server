@@ -82,7 +82,7 @@ namespace Tgstation.Server.Tests
 		}
 
 		[TestMethod]
-		public async Task TestUpdate()
+		public async Task TestServerUpdate()
 		{
 			var updatePathRoot = Path.GetTempFileName();
 			File.Delete(updatePathRoot);
@@ -91,10 +91,14 @@ namespace Tgstation.Server.Tests
 			{
 				var updatePath = Path.Combine(updatePathRoot, Guid.NewGuid().ToString());
 				var server = new TestingServer(clientFactory, updatePath);
+
+				if (server.DatabaseType == "Sqlite")
+					Assert.Inconclusive("Cannot run this test on SQLite yet!");
+
 				using (var serverCts = new CancellationTokenSource())
 				{
 					var cancellationToken = serverCts.Token;
-					var serverTask = server.RunAsync(cancellationToken);
+					var serverTask = server.Run(cancellationToken);
 					try
 					{
 						IServerClient adminClient;
@@ -163,14 +167,14 @@ namespace Tgstation.Server.Tests
 		}
 
 		[TestMethod]
-		public async Task TestStandardOperation()
+		public async Task TestFullStandardOperation()
 		{
 			RequireDiscordToken();
 			var server = new TestingServer(clientFactory, null);
 			using (var serverCts = new CancellationTokenSource())
 			{
 				var cancellationToken = serverCts.Token;
-				var serverTask = server.RunAsync(cancellationToken);
+				var serverTask = server.Run(cancellationToken);
 				try
 				{
 					IServerClient adminClient;

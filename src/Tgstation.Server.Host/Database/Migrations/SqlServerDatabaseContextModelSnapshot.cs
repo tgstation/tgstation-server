@@ -3,695 +3,828 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Tgstation.Server.Host.Database;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
-    [DbContext(typeof(SqlServerDatabaseContext))]
-    partial class SqlServerDatabaseContextModelSnapshot : ModelSnapshot
-    {
-        protected override void BuildModel(ModelBuilder modelBuilder)
-        {
+	[DbContext(typeof(SqlServerDatabaseContext))]
+	partial class SqlServerDatabaseContextModelSnapshot : ModelSnapshot
+	{
+		protected override void BuildModel(ModelBuilder modelBuilder)
+		{
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+			modelBuilder
+				.HasAnnotation("ProductVersion", "3.1.3")
+				.HasAnnotation("Relational:MaxIdentifierLength", 128)
+				.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
+			{
+				b.Property<long>("Id")
+					.ValueGeneratedOnAdd()
+					.HasColumnType("bigint")
+					.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ConnectionString")
-                        .IsRequired()
-                        .HasMaxLength(10000);
+				b.Property<int>("ChannelLimit")
+					.HasColumnType("int");
 
-                    b.Property<bool?>("Enabled");
+				b.Property<string>("ConnectionString")
+					.IsRequired()
+					.HasColumnType("nvarchar(max)")
+					.HasMaxLength(10000);
 
-                    b.Property<long>("InstanceId");
+				b.Property<bool?>("Enabled")
+					.HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100);
+				b.Property<long>("InstanceId")
+					.HasColumnType("bigint");
 
-                    b.Property<int>("Provider");
+				b.Property<string>("Name")
+					.IsRequired()
+					.HasColumnType("nvarchar(100)")
+					.HasMaxLength(100);
 
-                    b.Property<long>("ReconnectionInterval");
+				b.Property<int>("Provider")
+					.HasColumnType("int");
 
-                    b.HasKey("Id");
+				b.Property<long>("ReconnectionInterval")
+					.HasColumnType("bigint");
 
-                    b.HasIndex("InstanceId", "Name")
-                        .IsUnique();
+				b.HasKey("Id");
 
-                    b.ToTable("ChatBots");
-                });
+				b.HasIndex("InstanceId", "Name")
+					.IsUnique();
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.ChatChannel", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+				b.ToTable("ChatBots");
+			});
 
-                    b.Property<long>("ChatSettingsId");
+			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatChannel", b =>
+			{
+				b.Property<long>("Id")
+					.ValueGeneratedOnAdd()
+					.HasColumnType("bigint")
+					.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<decimal?>("DiscordChannelId")
-                        .HasConversion(new ValueConverter<decimal, decimal>(v => default(decimal), v => default(decimal), new ConverterMappingHints(precision: 20, scale: 0)));
+				b.Property<long>("ChatSettingsId")
+					.HasColumnType("bigint");
 
-                    b.Property<string>("IrcChannel")
-                        .HasMaxLength(100);
+				b.Property<decimal?>("DiscordChannelId")
+					.HasColumnType("decimal(20,0)");
 
-                    b.Property<bool?>("IsAdminChannel")
-                        .IsRequired();
+				b.Property<string>("IrcChannel")
+					.HasColumnType("nvarchar(100)")
+					.HasMaxLength(100);
 
-                    b.Property<bool?>("IsUpdatesChannel")
-                        .IsRequired();
+				b.Property<bool?>("IsAdminChannel")
+					.IsRequired()
+					.HasColumnType("bit");
 
-                    b.Property<bool?>("IsWatchdogChannel")
-                        .IsRequired();
+				b.Property<bool?>("IsUpdatesChannel")
+					.IsRequired()
+					.HasColumnType("bit");
 
-                    b.Property<string>("Tag")
-                        .HasMaxLength(10000);
+				b.Property<bool?>("IsWatchdogChannel")
+					.IsRequired()
+					.HasColumnType("bit");
 
-                    b.HasKey("Id");
+				b.Property<string>("Tag")
+					.HasColumnType("nvarchar(max)")
+					.HasMaxLength(10000);
 
-                    b.HasIndex("ChatSettingsId", "DiscordChannelId")
-                        .IsUnique()
-                        .HasFilter("[DiscordChannelId] IS NOT NULL");
+				b.HasKey("Id");
 
-                    b.HasIndex("ChatSettingsId", "IrcChannel")
-                        .IsUnique()
-                        .HasFilter("[IrcChannel] IS NOT NULL");
+				b.HasIndex("ChatSettingsId", "DiscordChannelId")
+					.IsUnique()
+					.HasFilter("[DiscordChannelId] IS NOT NULL");
 
-                    b.ToTable("ChatChannels");
-                });
+				b.HasIndex("ChatSettingsId", "IrcChannel")
+					.IsUnique()
+					.HasFilter("[IrcChannel] IS NOT NULL");
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.CompileJob", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+				b.ToTable("ChatChannels");
+			});
 
-                    b.Property<string>("ByondVersion")
-                        .IsRequired();
+			modelBuilder.Entity("Tgstation.Server.Host.Models.CompileJob", b =>
+			{
+				b.Property<long>("Id")
+					.ValueGeneratedOnAdd()
+					.HasColumnType("bigint")
+					.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("DMApiMajorVersion");
+				b.Property<string>("ByondVersion")
+					.IsRequired()
+					.HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("DMApiMinorVersion");
+				b.Property<int?>("DMApiMajorVersion")
+					.HasColumnType("int");
 
-                    b.Property<int?>("DMApiPatchVersion");
+				b.Property<int?>("DMApiMinorVersion")
+					.HasColumnType("int");
 
-                    b.Property<Guid?>("DirectoryName")
-                        .IsRequired();
+				b.Property<int?>("DMApiPatchVersion")
+					.HasColumnType("int");
 
-                    b.Property<string>("DmeName")
-                        .IsRequired();
+				b.Property<Guid?>("DirectoryName")
+					.IsRequired()
+					.HasColumnType("uniqueidentifier");
 
-                    b.Property<long>("JobId");
+				b.Property<string>("DmeName")
+					.IsRequired()
+					.HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("MinimumSecurityLevel");
+				b.Property<long>("JobId")
+					.HasColumnType("bigint");
 
-                    b.Property<string>("Output")
-                        .IsRequired();
+				b.Property<int>("MinimumSecurityLevel")
+					.HasColumnType("int");
 
-                    b.Property<long>("RevisionInformationId");
+				b.Property<string>("Output")
+					.IsRequired()
+					.HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+				b.Property<long>("RevisionInformationId")
+					.HasColumnType("bigint");
 
-                    b.HasIndex("DirectoryName");
+				b.HasKey("Id");
 
-                    b.HasIndex("JobId")
-                        .IsUnique();
+				b.HasIndex("DirectoryName");
 
-                    b.HasIndex("RevisionInformationId");
+				b.HasIndex("JobId")
+					.IsUnique();
 
-                    b.ToTable("CompileJobs");
-                });
+				b.HasIndex("RevisionInformationId");
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.DreamDaemonSettings", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+				b.ToTable("CompileJobs");
+			});
 
-                    b.Property<string>("AccessToken");
+			modelBuilder.Entity("Tgstation.Server.Host.Models.DreamDaemonSettings", b =>
+			{
+				b.Property<long>("Id")
+					.ValueGeneratedOnAdd()
+					.HasColumnType("bigint")
+					.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool?>("AllowWebClient")
-                        .IsRequired();
+				b.Property<string>("AccessToken")
+					.HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("AutoStart")
-                        .IsRequired();
+				b.Property<bool?>("AllowWebClient")
+					.IsRequired()
+					.HasColumnType("bit");
 
-                    b.Property<long>("InstanceId");
+				b.Property<bool?>("AutoStart")
+					.IsRequired()
+					.HasColumnType("bit");
 
-                    b.Property<int>("PrimaryPort");
+				b.Property<long>("InstanceId")
+					.HasColumnType("bigint");
 
-                    b.Property<int?>("ProcessId");
+				b.Property<int>("PrimaryPort")
+					.HasColumnType("int");
 
-                    b.Property<int>("SecondaryPort");
+				b.Property<int?>("ProcessId")
+					.HasColumnType("int");
 
-                    b.Property<int>("SecurityLevel");
+				b.Property<int>("SecondaryPort")
+					.HasColumnType("int");
 
-                    b.Property<bool?>("SoftRestart")
-                        .IsRequired();
+				b.Property<int>("SecurityLevel")
+					.HasColumnType("int");
 
-                    b.Property<bool?>("SoftShutdown")
-                        .IsRequired();
+				b.Property<bool?>("SoftRestart")
+					.IsRequired()
+					.HasColumnType("bit");
 
-                    b.Property<long>("StartupTimeout");
+				b.Property<bool?>("SoftShutdown")
+					.IsRequired()
+					.HasColumnType("bit");
 
-                    b.HasKey("Id");
+				b.Property<long>("StartupTimeout")
+					.HasColumnType("bigint");
 
-                    b.HasIndex("InstanceId")
-                        .IsUnique();
+				b.HasKey("Id");
 
-                    b.ToTable("DreamDaemonSettings");
-                });
+				b.HasIndex("InstanceId")
+					.IsUnique();
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.DreamMakerSettings", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+				b.ToTable("DreamDaemonSettings");
+			});
 
-                    b.Property<int>("ApiValidationPort");
+			modelBuilder.Entity("Tgstation.Server.Host.Models.DreamMakerSettings", b =>
+			{
+				b.Property<long>("Id")
+					.ValueGeneratedOnAdd()
+					.HasColumnType("bigint")
+					.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ApiValidationSecurityLevel");
+				b.Property<int>("ApiValidationPort")
+					.HasColumnType("int");
 
-                    b.Property<long>("InstanceId");
+				b.Property<int>("ApiValidationSecurityLevel")
+					.HasColumnType("int");
 
-                    b.Property<string>("ProjectName")
-                        .HasMaxLength(10000);
+				b.Property<long>("InstanceId")
+					.HasColumnType("bigint");
 
-                    b.HasKey("Id");
+				b.Property<string>("ProjectName")
+					.HasColumnType("nvarchar(max)")
+					.HasMaxLength(10000);
 
-                    b.HasIndex("InstanceId")
-                        .IsUnique();
+				b.HasKey("Id");
 
-                    b.ToTable("DreamMakerSettings");
-                });
+				b.HasIndex("InstanceId")
+					.IsUnique();
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.Instance", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+				b.ToTable("DreamMakerSettings");
+			});
 
-                    b.Property<long>("AutoUpdateInterval");
+			modelBuilder.Entity("Tgstation.Server.Host.Models.Instance", b =>
+			{
+				b.Property<long>("Id")
+					.ValueGeneratedOnAdd()
+					.HasColumnType("bigint")
+					.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ConfigurationType");
+				b.Property<long>("AutoUpdateInterval")
+					.HasColumnType("bigint");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(10000);
+				b.Property<int>("ChatBotLimit")
+					.HasColumnType("int");
 
-                    b.Property<bool?>("Online")
-                        .IsRequired();
+				b.Property<int>("ConfigurationType")
+					.HasColumnType("int");
 
-                    b.Property<string>("Path")
-                        .IsRequired();
+				b.Property<string>("Name")
+					.IsRequired()
+					.HasColumnType("nvarchar(max)")
+					.HasMaxLength(10000);
 
-                    b.HasKey("Id");
+				b.Property<bool?>("Online")
+					.IsRequired()
+					.HasColumnType("bit");
 
-                    b.HasIndex("Path")
-                        .IsUnique();
+				b.Property<string>("Path")
+					.IsRequired()
+					.HasColumnType("nvarchar(450)");
 
-                    b.ToTable("Instances");
-                });
+				b.HasKey("Id");
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.InstanceUser", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+				b.HasIndex("Path")
+					.IsUnique();
 
-                    b.Property<decimal>("ByondRights")
-                        .HasConversion(new ValueConverter<decimal, decimal>(v => default(decimal), v => default(decimal), new ConverterMappingHints(precision: 20, scale: 0)));
+				b.ToTable("Instances");
+			});
 
-                    b.Property<decimal>("ChatBotRights")
-                        .HasConversion(new ValueConverter<decimal, decimal>(v => default(decimal), v => default(decimal), new ConverterMappingHints(precision: 20, scale: 0)));
+			modelBuilder.Entity("Tgstation.Server.Host.Models.InstanceUser", b =>
+			{
+				b.Property<long>("Id")
+					.ValueGeneratedOnAdd()
+					.HasColumnType("bigint")
+					.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<decimal>("ConfigurationRights")
-                        .HasConversion(new ValueConverter<decimal, decimal>(v => default(decimal), v => default(decimal), new ConverterMappingHints(precision: 20, scale: 0)));
+				b.Property<decimal>("ByondRights")
+					.HasColumnType("decimal(20,0)");
 
-                    b.Property<decimal>("DreamDaemonRights")
-                        .HasConversion(new ValueConverter<decimal, decimal>(v => default(decimal), v => default(decimal), new ConverterMappingHints(precision: 20, scale: 0)));
+				b.Property<decimal>("ChatBotRights")
+					.HasColumnType("decimal(20,0)");
 
-                    b.Property<decimal>("DreamMakerRights")
-                        .HasConversion(new ValueConverter<decimal, decimal>(v => default(decimal), v => default(decimal), new ConverterMappingHints(precision: 20, scale: 0)));
+				b.Property<decimal>("ConfigurationRights")
+					.HasColumnType("decimal(20,0)");
 
-                    b.Property<long>("InstanceId");
+				b.Property<decimal>("DreamDaemonRights")
+					.HasColumnType("decimal(20,0)");
 
-                    b.Property<decimal>("InstanceUserRights")
-                        .HasConversion(new ValueConverter<decimal, decimal>(v => default(decimal), v => default(decimal), new ConverterMappingHints(precision: 20, scale: 0)));
+				b.Property<decimal>("DreamMakerRights")
+					.HasColumnType("decimal(20,0)");
 
-                    b.Property<decimal>("RepositoryRights")
-                        .HasConversion(new ValueConverter<decimal, decimal>(v => default(decimal), v => default(decimal), new ConverterMappingHints(precision: 20, scale: 0)));
+				b.Property<long>("InstanceId")
+					.HasColumnType("bigint");
 
-                    b.Property<long?>("UserId")
-                        .IsRequired();
+				b.Property<decimal>("InstanceUserRights")
+					.HasColumnType("decimal(20,0)");
 
-                    b.HasKey("Id");
+				b.Property<decimal>("RepositoryRights")
+					.HasColumnType("decimal(20,0)");
 
-                    b.HasIndex("InstanceId");
+				b.Property<long?>("UserId")
+					.IsRequired()
+					.HasColumnType("bigint");
 
-                    b.HasIndex("UserId", "InstanceId")
-                        .IsUnique();
+				b.HasKey("Id");
 
-                    b.ToTable("InstanceUsers");
-                });
+				b.HasIndex("InstanceId");
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.Job", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+				b.HasIndex("UserId", "InstanceId")
+					.IsUnique();
 
-                    b.Property<decimal?>("CancelRight")
-                        .HasConversion(new ValueConverter<decimal, decimal>(v => default(decimal), v => default(decimal), new ConverterMappingHints(precision: 20, scale: 0)));
+				b.ToTable("InstanceUsers");
+			});
 
-                    b.Property<decimal?>("CancelRightsType")
-                        .HasConversion(new ValueConverter<decimal, decimal>(v => default(decimal), v => default(decimal), new ConverterMappingHints(precision: 20, scale: 0)));
+			modelBuilder.Entity("Tgstation.Server.Host.Models.Job", b =>
+			{
+				b.Property<long>("Id")
+					.ValueGeneratedOnAdd()
+					.HasColumnType("bigint")
+					.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool?>("Cancelled")
-                        .IsRequired();
+				b.Property<decimal?>("CancelRight")
+					.HasColumnType("decimal(20,0)");
 
-                    b.Property<long?>("CancelledById");
+				b.Property<decimal?>("CancelRightsType")
+					.HasColumnType("decimal(20,0)");
 
-                    b.Property<string>("Description")
-                        .IsRequired();
+				b.Property<bool?>("Cancelled")
+					.IsRequired()
+					.HasColumnType("bit");
 
-                    b.Property<string>("ExceptionDetails");
+				b.Property<long?>("CancelledById")
+					.HasColumnType("bigint");
 
-                    b.Property<long>("InstanceId");
+				b.Property<string>("Description")
+					.IsRequired()
+					.HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("StartedAt")
-                        .IsRequired();
+				b.Property<string>("ExceptionDetails")
+					.HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("StartedById")
-                        .IsRequired();
+				b.Property<long>("InstanceId")
+					.HasColumnType("bigint");
 
-                    b.Property<DateTimeOffset?>("StoppedAt");
+				b.Property<DateTimeOffset?>("StartedAt")
+					.IsRequired()
+					.HasColumnType("datetimeoffset");
 
-                    b.HasKey("Id");
+				b.Property<long>("StartedById")
+					.HasColumnType("bigint");
 
-                    b.HasIndex("CancelledById");
+				b.Property<DateTimeOffset?>("StoppedAt")
+					.HasColumnType("datetimeoffset");
 
-                    b.HasIndex("InstanceId");
+				b.HasKey("Id");
 
-                    b.HasIndex("StartedById");
+				b.HasIndex("CancelledById");
 
-                    b.ToTable("Jobs");
-                });
+				b.HasIndex("InstanceId");
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.ReattachInformation", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+				b.HasIndex("StartedById");
 
-                    b.Property<string>("AccessIdentifier")
-                        .IsRequired();
+				b.ToTable("Jobs");
+			});
 
-                    b.Property<string>("ChatChannelsJson")
-                        .IsRequired();
+			modelBuilder.Entity("Tgstation.Server.Host.Models.ReattachInformation", b =>
+			{
+				b.Property<long>("Id")
+					.ValueGeneratedOnAdd()
+					.HasColumnType("bigint")
+					.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ChatCommandsJson")
-                        .IsRequired();
+				b.Property<string>("AccessIdentifier")
+					.IsRequired()
+					.HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("CompileJobId");
+				b.Property<string>("ChatChannelsJson")
+					.IsRequired()
+					.HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsPrimary");
+				b.Property<string>("ChatCommandsJson")
+					.IsRequired()
+					.HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Port");
+				b.Property<long>("CompileJobId")
+					.HasColumnType("bigint");
 
-                    b.Property<int>("ProcessId");
+				b.Property<bool>("IsPrimary")
+					.HasColumnType("bit");
 
-                    b.Property<int>("RebootState");
+				b.Property<int>("Port")
+					.HasColumnType("int");
 
-                    b.HasKey("Id");
+				b.Property<int>("ProcessId")
+					.HasColumnType("int");
 
-                    b.HasIndex("CompileJobId");
+				b.Property<int>("RebootState")
+					.HasColumnType("int");
 
-                    b.ToTable("ReattachInformations");
-                });
+				b.HasKey("Id");
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.RepositorySettings", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+				b.HasIndex("CompileJobId");
 
-                    b.Property<string>("AccessToken")
-                        .HasMaxLength(10000);
+				b.ToTable("ReattachInformations");
+			});
 
-                    b.Property<string>("AccessUser")
-                        .HasMaxLength(10000);
+			modelBuilder.Entity("Tgstation.Server.Host.Models.RepositorySettings", b =>
+			{
+				b.Property<long>("Id")
+					.ValueGeneratedOnAdd()
+					.HasColumnType("bigint")
+					.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool?>("AutoUpdatesKeepTestMerges")
-                        .IsRequired();
+				b.Property<string>("AccessToken")
+					.HasColumnType("nvarchar(max)")
+					.HasMaxLength(10000);
 
-                    b.Property<bool?>("AutoUpdatesSynchronize")
-                        .IsRequired();
+				b.Property<string>("AccessUser")
+					.HasColumnType("nvarchar(max)")
+					.HasMaxLength(10000);
 
-                    b.Property<string>("CommitterEmail")
-                        .IsRequired()
-                        .HasMaxLength(10000);
+				b.Property<bool?>("AutoUpdatesKeepTestMerges")
+					.IsRequired()
+					.HasColumnType("bit");
 
-                    b.Property<string>("CommitterName")
-                        .IsRequired()
-                        .HasMaxLength(10000);
+				b.Property<bool?>("AutoUpdatesSynchronize")
+					.IsRequired()
+					.HasColumnType("bit");
 
-                    b.Property<long>("InstanceId");
+				b.Property<string>("CommitterEmail")
+					.IsRequired()
+					.HasColumnType("nvarchar(max)")
+					.HasMaxLength(10000);
 
-                    b.Property<bool?>("PostTestMergeComment")
-                        .IsRequired();
+				b.Property<string>("CommitterName")
+					.IsRequired()
+					.HasColumnType("nvarchar(max)")
+					.HasMaxLength(10000);
 
-                    b.Property<bool?>("PushTestMergeCommits")
-                        .IsRequired();
+				b.Property<long>("InstanceId")
+					.HasColumnType("bigint");
 
-                    b.Property<bool?>("ShowTestMergeCommitters")
-                        .IsRequired();
+				b.Property<bool?>("PostTestMergeComment")
+					.IsRequired()
+					.HasColumnType("bit");
 
-                    b.HasKey("Id");
+				b.Property<bool?>("PushTestMergeCommits")
+					.IsRequired()
+					.HasColumnType("bit");
 
-                    b.HasIndex("InstanceId")
-                        .IsUnique();
+				b.Property<bool?>("ShowTestMergeCommitters")
+					.IsRequired()
+					.HasColumnType("bit");
 
-                    b.ToTable("RepositorySettings");
-                });
+				b.HasKey("Id");
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.RevInfoTestMerge", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+				b.HasIndex("InstanceId")
+					.IsUnique();
 
-                    b.Property<long>("RevisionInformationId");
+				b.ToTable("RepositorySettings");
+			});
 
-                    b.Property<long>("TestMergeId");
+			modelBuilder.Entity("Tgstation.Server.Host.Models.RevInfoTestMerge", b =>
+			{
+				b.Property<long>("Id")
+					.ValueGeneratedOnAdd()
+					.HasColumnType("bigint")
+					.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.HasKey("Id");
+				b.Property<long>("RevisionInformationId")
+					.HasColumnType("bigint");
 
-                    b.HasIndex("RevisionInformationId");
+				b.Property<long>("TestMergeId")
+					.HasColumnType("bigint");
 
-                    b.HasIndex("TestMergeId");
+				b.HasKey("Id");
 
-                    b.ToTable("RevInfoTestMerges");
-                });
+				b.HasIndex("RevisionInformationId");
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.RevisionInformation", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+				b.HasIndex("TestMergeId");
 
-                    b.Property<string>("CommitSha")
-                        .IsRequired()
-                        .HasMaxLength(40);
+				b.ToTable("RevInfoTestMerges");
+			});
 
-                    b.Property<long>("InstanceId");
+			modelBuilder.Entity("Tgstation.Server.Host.Models.RevisionInformation", b =>
+			{
+				b.Property<long>("Id")
+					.ValueGeneratedOnAdd()
+					.HasColumnType("bigint")
+					.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("OriginCommitSha")
-                        .IsRequired()
-                        .HasMaxLength(40);
+				b.Property<string>("CommitSha")
+					.IsRequired()
+					.HasColumnType("nvarchar(40)")
+					.HasMaxLength(40);
 
-                    b.HasKey("Id");
+				b.Property<long>("InstanceId")
+					.HasColumnType("bigint");
 
-                    b.HasIndex("InstanceId", "CommitSha")
-                        .IsUnique();
+				b.Property<string>("OriginCommitSha")
+					.IsRequired()
+					.HasColumnType("nvarchar(40)")
+					.HasMaxLength(40);
 
-                    b.ToTable("RevisionInformations");
-                });
+				b.HasKey("Id");
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.TestMerge", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+				b.HasIndex("InstanceId", "CommitSha")
+					.IsUnique();
 
-                    b.Property<string>("Author")
-                        .IsRequired();
+				b.ToTable("RevisionInformations");
+			});
 
-                    b.Property<string>("BodyAtMerge")
-                        .IsRequired();
+			modelBuilder.Entity("Tgstation.Server.Host.Models.TestMerge", b =>
+			{
+				b.Property<long>("Id")
+					.ValueGeneratedOnAdd()
+					.HasColumnType("bigint")
+					.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Comment")
-                        .HasMaxLength(10000);
+				b.Property<string>("Author")
+					.IsRequired()
+					.HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("MergedAt");
+				b.Property<string>("BodyAtMerge")
+					.IsRequired()
+					.HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("MergedById")
-                        .IsRequired();
+				b.Property<string>("Comment")
+					.HasColumnType("nvarchar(max)")
+					.HasMaxLength(10000);
 
-                    b.Property<int>("Number");
+				b.Property<DateTimeOffset>("MergedAt")
+					.HasColumnType("datetimeoffset");
 
-                    b.Property<long?>("PrimaryRevisionInformationId")
-                        .IsRequired();
+				b.Property<long?>("MergedById")
+					.HasColumnType("bigint")
+					.IsRequired();
 
-                    b.Property<string>("PullRequestRevision")
-                        .IsRequired()
-                        .HasMaxLength(40);
+				b.Property<int>("Number")
+					.HasColumnType("int");
 
-                    b.Property<string>("TitleAtMerge")
-                        .IsRequired();
+				b.Property<long?>("PrimaryRevisionInformationId")
+					.IsRequired()
+					.HasColumnType("bigint");
 
-                    b.Property<string>("Url")
-                        .IsRequired();
+				b.Property<string>("PullRequestRevision")
+					.IsRequired()
+					.HasColumnType("nvarchar(40)")
+					.HasMaxLength(40);
 
-                    b.HasKey("Id");
+				b.Property<string>("TitleAtMerge")
+					.IsRequired()
+					.HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("MergedById");
+				b.Property<string>("Url")
+					.IsRequired()
+					.HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("PrimaryRevisionInformationId")
-                        .IsUnique();
+				b.HasKey("Id");
 
-                    b.ToTable("TestMerges");
-                });
+				b.HasIndex("MergedById");
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.User", b =>
-                {
-                    b.Property<long?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+				b.HasIndex("PrimaryRevisionInformationId")
+					.IsUnique();
 
-                    b.Property<decimal>("AdministrationRights")
-                        .HasConversion(new ValueConverter<decimal, decimal>(v => default(decimal), v => default(decimal), new ConverterMappingHints(precision: 20, scale: 0)));
+				b.ToTable("TestMerges");
+			});
 
-                    b.Property<string>("CanonicalName")
-                        .IsRequired();
+			modelBuilder.Entity("Tgstation.Server.Host.Models.User", b =>
+			{
+				b.Property<long?>("Id")
+					.ValueGeneratedOnAdd()
+					.HasColumnType("bigint")
+					.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTimeOffset?>("CreatedAt")
-                        .IsRequired();
+				b.Property<decimal>("AdministrationRights")
+					.HasColumnType("decimal(20,0)");
 
-                    b.Property<long?>("CreatedById");
+				b.Property<string>("CanonicalName")
+					.IsRequired()
+					.HasColumnType("nvarchar(450)");
 
-                    b.Property<bool?>("Enabled")
-                        .IsRequired();
+				b.Property<DateTimeOffset?>("CreatedAt")
+					.IsRequired()
+					.HasColumnType("datetimeoffset");
 
-                    b.Property<decimal>("InstanceManagerRights")
-                        .HasConversion(new ValueConverter<decimal, decimal>(v => default(decimal), v => default(decimal), new ConverterMappingHints(precision: 20, scale: 0)));
+				b.Property<long?>("CreatedById")
+					.HasColumnType("bigint");
 
-                    b.Property<DateTimeOffset?>("LastPasswordUpdate");
+				b.Property<bool?>("Enabled")
+					.IsRequired()
+					.HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(10000);
+				b.Property<decimal>("InstanceManagerRights")
+					.HasColumnType("decimal(20,0)");
 
-                    b.Property<string>("PasswordHash");
+				b.Property<DateTimeOffset?>("LastPasswordUpdate")
+					.HasColumnType("datetimeoffset");
 
-                    b.Property<string>("SystemIdentifier");
+				b.Property<string>("Name")
+					.IsRequired()
+					.HasColumnType("nvarchar(max)")
+					.HasMaxLength(10000);
 
-                    b.HasKey("Id");
+				b.Property<string>("PasswordHash")
+					.HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("CanonicalName")
-                        .IsUnique();
+				b.Property<string>("SystemIdentifier")
+					.HasColumnType("nvarchar(450)");
 
-                    b.HasIndex("CreatedById");
+				b.HasKey("Id");
 
-                    b.HasIndex("SystemIdentifier")
-                        .IsUnique()
-                        .HasFilter("[SystemIdentifier] IS NOT NULL");
+				b.HasIndex("CanonicalName")
+					.IsUnique();
 
-                    b.ToTable("Users");
-                });
+				b.HasIndex("CreatedById");
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.WatchdogReattachInformation", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+				b.HasIndex("SystemIdentifier")
+					.IsUnique()
+					.HasFilter("[SystemIdentifier] IS NOT NULL");
 
-                    b.Property<long?>("AlphaId");
+				b.ToTable("Users");
+			});
 
-                    b.Property<bool>("AlphaIsActive");
+			modelBuilder.Entity("Tgstation.Server.Host.Models.WatchdogReattachInformation", b =>
+			{
+				b.Property<long>("Id")
+					.ValueGeneratedOnAdd()
+					.HasColumnType("bigint")
+					.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long?>("BravoId");
+				b.Property<long?>("AlphaId")
+					.HasColumnType("bigint");
 
-                    b.Property<long>("InstanceId");
+				b.Property<bool>("AlphaIsActive")
+					.HasColumnType("bit");
 
-                    b.HasKey("Id");
+				b.Property<long?>("BravoId")
+					.HasColumnType("bigint");
 
-                    b.HasIndex("AlphaId");
+				b.Property<long>("InstanceId")
+					.HasColumnType("bigint");
 
-                    b.HasIndex("BravoId");
+				b.HasKey("Id");
 
-                    b.HasIndex("InstanceId")
-                        .IsUnique();
+				b.HasIndex("AlphaId");
 
-                    b.ToTable("WatchdogReattachInformations");
-                });
+				b.HasIndex("BravoId");
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
-                {
-                    b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
-                        .WithMany("ChatSettings")
-                        .HasForeignKey("InstanceId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+				b.HasIndex("InstanceId")
+					.IsUnique();
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.ChatChannel", b =>
-                {
-                    b.HasOne("Tgstation.Server.Host.Models.ChatBot", "ChatSettings")
-                        .WithMany("Channels")
-                        .HasForeignKey("ChatSettingsId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+				b.ToTable("WatchdogReattachInformations");
+			});
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.CompileJob", b =>
-                {
-                    b.HasOne("Tgstation.Server.Host.Models.Job", "Job")
-                        .WithOne()
-                        .HasForeignKey("Tgstation.Server.Host.Models.CompileJob", "JobId")
-                        .OnDelete(DeleteBehavior.Restrict);
+			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
+			{
+				b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
+					.WithMany("ChatSettings")
+					.HasForeignKey("InstanceId")
+					.OnDelete(DeleteBehavior.Cascade)
+					.IsRequired();
+			});
 
-                    b.HasOne("Tgstation.Server.Host.Models.RevisionInformation", "RevisionInformation")
-                        .WithMany("CompileJobs")
-                        .HasForeignKey("RevisionInformationId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatChannel", b =>
+			{
+				b.HasOne("Tgstation.Server.Host.Models.ChatBot", "ChatSettings")
+					.WithMany("Channels")
+					.HasForeignKey("ChatSettingsId")
+					.OnDelete(DeleteBehavior.Cascade)
+					.IsRequired();
+			});
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.DreamDaemonSettings", b =>
-                {
-                    b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
-                        .WithOne("DreamDaemonSettings")
-                        .HasForeignKey("Tgstation.Server.Host.Models.DreamDaemonSettings", "InstanceId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+			modelBuilder.Entity("Tgstation.Server.Host.Models.CompileJob", b =>
+			{
+				b.HasOne("Tgstation.Server.Host.Models.Job", "Job")
+					.WithOne()
+					.HasForeignKey("Tgstation.Server.Host.Models.CompileJob", "JobId")
+					.OnDelete(DeleteBehavior.Restrict)
+					.IsRequired();
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.DreamMakerSettings", b =>
-                {
-                    b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
-                        .WithOne("DreamMakerSettings")
-                        .HasForeignKey("Tgstation.Server.Host.Models.DreamMakerSettings", "InstanceId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+				b.HasOne("Tgstation.Server.Host.Models.RevisionInformation", "RevisionInformation")
+					.WithMany("CompileJobs")
+					.HasForeignKey("RevisionInformationId")
+					.OnDelete(DeleteBehavior.Cascade)
+					.IsRequired();
+			});
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.InstanceUser", b =>
-                {
-                    b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
-                        .WithMany("InstanceUsers")
-                        .HasForeignKey("InstanceId")
-                        .OnDelete(DeleteBehavior.Cascade);
+			modelBuilder.Entity("Tgstation.Server.Host.Models.DreamDaemonSettings", b =>
+			{
+				b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
+					.WithOne("DreamDaemonSettings")
+					.HasForeignKey("Tgstation.Server.Host.Models.DreamDaemonSettings", "InstanceId")
+					.OnDelete(DeleteBehavior.Cascade)
+					.IsRequired();
+			});
 
-                    b.HasOne("Tgstation.Server.Host.Models.User")
-                        .WithMany("InstanceUsers")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+			modelBuilder.Entity("Tgstation.Server.Host.Models.DreamMakerSettings", b =>
+			{
+				b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
+					.WithOne("DreamMakerSettings")
+					.HasForeignKey("Tgstation.Server.Host.Models.DreamMakerSettings", "InstanceId")
+					.OnDelete(DeleteBehavior.Cascade)
+					.IsRequired();
+			});
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.Job", b =>
-                {
-                    b.HasOne("Tgstation.Server.Host.Models.User", "CancelledBy")
-                        .WithMany()
-                        .HasForeignKey("CancelledById");
+			modelBuilder.Entity("Tgstation.Server.Host.Models.InstanceUser", b =>
+			{
+				b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
+					.WithMany("InstanceUsers")
+					.HasForeignKey("InstanceId")
+					.OnDelete(DeleteBehavior.Cascade)
+					.IsRequired();
 
-                    b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
-                        .WithMany("Jobs")
-                        .HasForeignKey("InstanceId")
-                        .OnDelete(DeleteBehavior.Cascade);
+				b.HasOne("Tgstation.Server.Host.Models.User", null)
+					.WithMany("InstanceUsers")
+					.HasForeignKey("UserId")
+					.OnDelete(DeleteBehavior.Cascade)
+					.IsRequired();
+			});
 
-                    b.HasOne("Tgstation.Server.Host.Models.User", "StartedBy")
-                        .WithMany()
-                        .HasForeignKey("StartedById")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+			modelBuilder.Entity("Tgstation.Server.Host.Models.Job", b =>
+			{
+				b.HasOne("Tgstation.Server.Host.Models.User", "CancelledBy")
+					.WithMany()
+					.HasForeignKey("CancelledById");
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.ReattachInformation", b =>
-                {
-                    b.HasOne("Tgstation.Server.Host.Models.CompileJob", "CompileJob")
-                        .WithMany()
-                        .HasForeignKey("CompileJobId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+				b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
+					.WithMany("Jobs")
+					.HasForeignKey("InstanceId")
+					.OnDelete(DeleteBehavior.Cascade)
+					.IsRequired();
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.RepositorySettings", b =>
-                {
-                    b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
-                        .WithOne("RepositorySettings")
-                        .HasForeignKey("Tgstation.Server.Host.Models.RepositorySettings", "InstanceId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+				b.HasOne("Tgstation.Server.Host.Models.User", "StartedBy")
+					.WithMany()
+					.HasForeignKey("StartedById")
+					.OnDelete(DeleteBehavior.Cascade)
+					.IsRequired();
+			});
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.RevInfoTestMerge", b =>
-                {
-                    b.HasOne("Tgstation.Server.Host.Models.RevisionInformation", "RevisionInformation")
-                        .WithMany("ActiveTestMerges")
-                        .HasForeignKey("RevisionInformationId")
-                        .OnDelete(DeleteBehavior.Cascade);
+			modelBuilder.Entity("Tgstation.Server.Host.Models.ReattachInformation", b =>
+			{
+				b.HasOne("Tgstation.Server.Host.Models.CompileJob", "CompileJob")
+					.WithMany()
+					.HasForeignKey("CompileJobId")
+					.OnDelete(DeleteBehavior.Cascade)
+					.IsRequired();
+			});
 
-                    b.HasOne("Tgstation.Server.Host.Models.TestMerge", "TestMerge")
-                        .WithMany("RevisonInformations")
-                        .HasForeignKey("TestMergeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+			modelBuilder.Entity("Tgstation.Server.Host.Models.RepositorySettings", b =>
+			{
+				b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
+					.WithOne("RepositorySettings")
+					.HasForeignKey("Tgstation.Server.Host.Models.RepositorySettings", "InstanceId")
+					.OnDelete(DeleteBehavior.Cascade)
+					.IsRequired();
+			});
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.RevisionInformation", b =>
-                {
-                    b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
-                        .WithMany("RevisionInformations")
-                        .HasForeignKey("InstanceId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+			modelBuilder.Entity("Tgstation.Server.Host.Models.RevInfoTestMerge", b =>
+			{
+				b.HasOne("Tgstation.Server.Host.Models.RevisionInformation", "RevisionInformation")
+					.WithMany("ActiveTestMerges")
+					.HasForeignKey("RevisionInformationId")
+					.OnDelete(DeleteBehavior.Cascade)
+					.IsRequired();
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.TestMerge", b =>
-                {
-                    b.HasOne("Tgstation.Server.Host.Models.User", "MergedBy")
-                        .WithMany("TestMerges")
-                        .HasForeignKey("MergedById")
-                        .OnDelete(DeleteBehavior.Restrict);
+				b.HasOne("Tgstation.Server.Host.Models.TestMerge", "TestMerge")
+					.WithMany("RevisonInformations")
+					.HasForeignKey("TestMergeId")
+					.OnDelete(DeleteBehavior.Cascade)
+					.IsRequired();
+			});
 
-                    b.HasOne("Tgstation.Server.Host.Models.RevisionInformation", "PrimaryRevisionInformation")
-                        .WithOne("PrimaryTestMerge")
-                        .HasForeignKey("Tgstation.Server.Host.Models.TestMerge", "PrimaryRevisionInformationId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
+			modelBuilder.Entity("Tgstation.Server.Host.Models.RevisionInformation", b =>
+			{
+				b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
+					.WithMany("RevisionInformations")
+					.HasForeignKey("InstanceId")
+					.OnDelete(DeleteBehavior.Cascade)
+					.IsRequired();
+			});
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.User", b =>
-                {
-                    b.HasOne("Tgstation.Server.Host.Models.User", "CreatedBy")
-                        .WithMany("CreatedUsers")
-                        .HasForeignKey("CreatedById");
-                });
+			modelBuilder.Entity("Tgstation.Server.Host.Models.TestMerge", b =>
+			{
+				b.HasOne("Tgstation.Server.Host.Models.User", "MergedBy")
+					.WithMany("TestMerges")
+					.HasForeignKey("MergedById")
+					.OnDelete(DeleteBehavior.Restrict)
+					.IsRequired();
 
-            modelBuilder.Entity("Tgstation.Server.Host.Models.WatchdogReattachInformation", b =>
-                {
-                    b.HasOne("Tgstation.Server.Host.Models.ReattachInformation", "Alpha")
-                        .WithMany()
-                        .HasForeignKey("AlphaId");
+				b.HasOne("Tgstation.Server.Host.Models.RevisionInformation", "PrimaryRevisionInformation")
+					.WithOne("PrimaryTestMerge")
+					.HasForeignKey("Tgstation.Server.Host.Models.TestMerge", "PrimaryRevisionInformationId")
+					.OnDelete(DeleteBehavior.Restrict)
+					.IsRequired();
+			});
 
-                    b.HasOne("Tgstation.Server.Host.Models.ReattachInformation", "Bravo")
-                        .WithMany()
-                        .HasForeignKey("BravoId");
+			modelBuilder.Entity("Tgstation.Server.Host.Models.User", b =>
+			{
+				b.HasOne("Tgstation.Server.Host.Models.User", "CreatedBy")
+					.WithMany("CreatedUsers")
+					.HasForeignKey("CreatedById");
+			});
 
-                    b.HasOne("Tgstation.Server.Host.Models.Instance")
-                        .WithOne("WatchdogReattachInformation")
-                        .HasForeignKey("Tgstation.Server.Host.Models.WatchdogReattachInformation", "InstanceId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+			modelBuilder.Entity("Tgstation.Server.Host.Models.WatchdogReattachInformation", b =>
+			{
+				b.HasOne("Tgstation.Server.Host.Models.ReattachInformation", "Alpha")
+					.WithMany()
+					.HasForeignKey("AlphaId");
+
+				b.HasOne("Tgstation.Server.Host.Models.ReattachInformation", "Bravo")
+					.WithMany()
+					.HasForeignKey("BravoId");
+
+				b.HasOne("Tgstation.Server.Host.Models.Instance", null)
+					.WithOne("WatchdogReattachInformation")
+					.HasForeignKey("Tgstation.Server.Host.Models.WatchdogReattachInformation", "InstanceId")
+					.OnDelete(DeleteBehavior.Cascade)
+					.IsRequired();
+			});
 #pragma warning restore 612, 618
-        }
-    }
+		}
+	}
 }
