@@ -242,6 +242,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					}
 					catch
 					{
+						process.Terminate();
 						process.Dispose();
 						throw;
 					}

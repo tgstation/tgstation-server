@@ -55,7 +55,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (!runtimeInformation.SecurityLevel.HasValue)
 				throw new ArgumentException("runtimeInformation must have a valid SecurityLevel!", nameof(runtimeInformation));
 
-			LaunchSecurityLevel = runtimeInformation.SecurityLevel.Value;
+			base.LaunchSecurityLevel = runtimeInformation.SecurityLevel.Value;
 			Port = port;
 			IsPrimary = isPrimary;
 
