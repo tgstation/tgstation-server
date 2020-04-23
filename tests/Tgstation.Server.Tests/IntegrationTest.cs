@@ -167,39 +167,6 @@ namespace Tgstation.Server.Tests
 		}
 
 		[TestMethod]
-		public async Task LoopingIntegrationTest()
-		{
-			if (!Debugger.IsAttached)
-				Assert.Inconclusive("This test is for debugging purposes only!");
-
-			for (ulong i = 1; ; ++i)
-			{
-				Console.WriteLine("---------------------------------------------------");
-				Console.WriteLine();
-				Console.WriteLine();
-				Console.WriteLine();
-				Console.WriteLine();
-				Console.WriteLine();
-				Console.WriteLine();
-				Console.WriteLine();
-				Console.WriteLine();
-				Console.WriteLine();
-				Console.WriteLine($"INTEGRATION TEST ITERATION: {i}");
-				Console.WriteLine();
-				Console.WriteLine();
-				Console.WriteLine();
-				Console.WriteLine();
-				Console.WriteLine();
-				Console.WriteLine();
-				Console.WriteLine();
-				Console.WriteLine();
-				Console.WriteLine();
-				Console.WriteLine("---------------------------------------------------");
-				await TestFullStandardOperation();
-			}
-		}
-
-		[TestMethod]
 		public async Task TestFullStandardOperation()
 		{
 			RequireDiscordToken();
