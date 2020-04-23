@@ -1,83 +1,84 @@
 /datum/tgs_api/v5
-	var/access_identifier
-	var/instance_name
-	var/json_path
-	var/chat_channels_json_path
-	var/chat_commands_json_path
-	var/reboot_mode = TGS_REBOOT_MODE_NORMAL
-	var/security_level
 	var/server_port
+	var/access_identifier
+
+	var/instance_name
+	var/security_level
+
+	var/reboot_mode = TGS_REBOOT_MODE_NORMAL
 
 	var/list/intercepted_message_queue
 
 	var/list/custom_commands
 
-	var/list/cached_test_merges
-	var/datum/tgs_revision_information/cached_revision
+	var/list/test_merges
+	var/datum/tgs_revision_information/revision
+	var/list/chat_channels
 
 	var/datum/tgs_event_handler/event_handler
-
-	var/export_lock = FALSE
 
 /datum/tgs_api/v5/ApiVersion()
 	return "5.0.0"
 
 /datum/tgs_api/v5/OnWorldNew(datum/tgs_event_handler/event_handler, minimum_required_security_level)
-	json_path = world.params[DMAPI5_PARAM_RUNTIME_INFORMATION_FILE]
-	if(!json_path)
-		TGS_ERROR_LOG("Missing [DMAPI5_PARAM_RUNTIME_INFORMATION_FILE] world parameter!")
-		return
-	var/json_file = file2text(json_path)
-	if(!json_file)
-		TGS_ERROR_LOG("Missing specified json file: [json_path]")
-		return
-	var/cached_json = json_decode(json_file)
-	if(!cached_json)
-		TGS_ERROR_LOG("Failed to decode info json: [json_file]")
-		return
+	src.event_handler = event_handler
 
-	access_identifier = cached_json[DMAPI5_RUNTIME_INFORMATION_ACCESS_IDENTIFIER]
-	server_port = cached_json[DMAPI5_RUNTIME_INFORMATION_SERVER_PORT]
+	server_port = world.params[DMAPI5_PARAM_SERVER_PORT]
+	access_identifier = world.params[DMAPI5_PARAM_ACCESS_IDENTIFIER]
 
-	if(cached_json[DMAPI5_RUNTIME_INFORMATION_API_VALIDATE_ONLY])
-		TGS_INFO_LOG("Validating DMAPI and exiting...")
-		Bridge(DMAPI5_BRIDGE_COMMAND_VALIDATE, list(DMAPI5_BRIDGE_PARAMETER_MINIMUM_SECURITY_LEVEL = minimum_required_security_level, DMAPI5_BRIDGE_PARAMETER_VERSION = ApiVersion()))
+	var/list/bridge_response = Bridge(DMAPI5_BRIDGE_COMMAND_STARTUP, list(DMAPI5_BRIDGE_PARAMETER_MINIMUM_SECURITY_LEVEL = minimum_required_security_level, DMAPI5_BRIDGE_PARAMETER_VERSION = ApiVersion(), DMAPI5_BRIDGE_PARAMETER_CUSTOM_COMMANDS = ListCustomCommands()))
+	if(!istype(bridge_response))
+		TGS_ERROR_LOG("Failed initial bridge request!")
+		return FALSE
+
+	var/list/runtime_information = bridge_response[DMAPI5_BRIDGE_RESPONSE_RUNTIME_INFORMATION]
+	if(!istype(runtime_information)
+		TGS_ERROR_LOG("Failed to decode runtime information from bridge response: [json_encode(bridge_response)]!")
+		return FALSE
+
+	if(runtime_information[DMAPI5_RUNTIME_INFORMATION_API_VALIDATE_ONLY])
+		TGS_INFO_LOG("DMAPI validation, exiting...")
 		del(world)
 
-	security_level = cached_json[DMAPI5_RUNTIME_INFORMATION_SECURITY_LEVEL]
-	chat_channels_json_path = cached_json[DMAPI5_RUNTIME_INFORMATION_CHAT_CHANNELS_JSON]
-	chat_commands_json_path = cached_json[DMAPI5_RUNTIME_INFORMATION_CHAT_COMMANDS_JSON]
-	src.event_handler = event_handler
-	instance_name = cached_json[DMAPI5_RUNTIME_INFORMATION_INSTANCE_NAME]
+	security_level = runtime_information[DMAPI5_RUNTIME_INFORMATION_SECURITY_LEVEL]
+	instance_name = runtime_information[DMAPI5_RUNTIME_INFORMATION_INSTANCE_NAME]
 
-	ListCustomCommands()
+	var/list/revisionData = runtime_information[DMAPI5_RUNTIME_INFORMATION_REVISION]
+	if(istype(revisionData))
+		revision = new
+		revision.commit = revisionData[DMAPI5_REVISION_INFORMATION_COMMIT_SHA]
+		revision.origin_commit = revisionData[DMAPI5_REVISION_INFORMATION_ORIGIN_COMMIT_SHA]
+	else
+		TGS_ERROR_LOG("Failed to decode [DMAPI5_RUNTIME_INFORMATION_REVISION] from runtime information!")
 
-	var/list/revisionData = cached_json[DMAPI5_RUNTIME_INFORMATION_REVISION]
-	if(revisionData)
-		cached_revision = new
-		cached_revision.commit = revisionData[DMAPI5_REVISION_INFORMATION_COMMIT_SHA]
-		cached_revision.origin_commit = revisionData[DMAPI5_REVISION_INFORMATION_ORIGIN_COMMIT_SHA]
+	test_merges = list()
+	var/list/test_merge_json = runtime_information[DMAPI5_RUNTIME_INFORMATION_TEST_MERGES]
+	if(istype(test_merge_json))
+		for(var/entry in json)
+			var/datum/tgs_revision_information/test_merge/tm = new
+			tm.number = entry[DMAPI5_TEST_MERGE_NUMBER]
 
-	cached_test_merges = list()
-	var/list/json = cached_json[DMAPI5_RUNTIME_INFORMATION_TEST_MERGES]
-	for(var/entry in json)
-		var/datum/tgs_revision_information/test_merge/tm = new
-		tm.time_merged = text2num(entry[DMAPI5_TEST_MERGE_TIME_MERGED])
+			var/list/revInfo = entry[DMAPI5_TEST_MERGE_REVISION]
+			if(revInfo)
+				tm.commit = revisionData[DMAPI5_REVISION_INFORMATION_COMMIT_SHA]
+				tm.origin_commit = revisionData[DMAPI5_REVISION_INFORMATION_ORIGIN_COMMIT_SHA]
+			else
+				TGS_ERROR_LOG("Failed to decode [DMAPI5_TEST_MERGE_REVISION] from test merge #[tm.number]!")
 
-		var/list/revInfo = entry[DMAPI5_TEST_MERGE_REVISION]
-		if(revInfo)
-			tm.commit = revisionData[DMAPI5_REVISION_INFORMATION_COMMIT_SHA]
-			tm.origin_commit = revisionData[DMAPI5_REVISION_INFORMATION_ORIGIN_COMMIT_SHA]
+			tm.time_merged = text2num(entry[DMAPI5_TEST_MERGE_TIME_MERGED])
+			tm.title = entry[DMAPI5_TEST_MERGE_TITLE_AT_MERGE]
+			tm.body = entry[DMAPI5_TEST_MERGE_BODY_AT_MERGE]
+			tm.url = entry[DMAPI5_TEST_MERGE_URL]
+			tm.author = entry[DMAPI5_TEST_MERGE_AUTHOR]
+			tm.pull_request_commit = entry[DMAPI5_TEST_MERGE_PULL_REQUEST_REVISION]
+			tm.comment = entry[DMAPI5_TEST_MERGE_COMMENT]
 
-		tm.title = entry[DMAPI5_TEST_MERGE_TITLE_AT_MERGE]
-		tm.body = entry[DMAPI5_TEST_MERGE_BODY_AT_MERGE]
-		tm.url = entry[DMAPI5_TEST_MERGE_URL]
-		tm.author = entry[DMAPI5_TEST_MERGE_AUTHOR]
-		tm.number = entry[DMAPI5_TEST_MERGE_NUMBER]
-		tm.pull_request_commit = entry[DMAPI5_TEST_MERGE_PULL_REQUEST_REVISION]
-		tm.comment = entry[DMAPI5_TEST_MERGE_COMMENT]
+			test_merges += tm
+	else
+		TGS_ERROR_LOG("Failed to decode [DMAPI5_RUNTIME_INFORMATION_TEST_MERGES] from runtime information!")
 
-		cached_test_merges += tm
+	chat_channels = list()
+	DecodeChannels(runtime_information)
 
 	return TRUE
 
@@ -91,8 +92,12 @@
 	if(world.sleep_offline == tgs4_secret_sleep_offline_sauce)	//if not someone changed it
 		world.sleep_offline = old_sleep_offline
 
-/datum/tgs_api/v5/proc/TopicError(message)
-	return json_encode(list(DMAPI5_RESPONSE_ERROR_MESSAGE = message))
+/datum/tgs_api/v5/proc/TopicResponse(error_message = null)
+	var/list/response = list()
+	if(error_message)
+		response[DMAPI5_RESPONSE_ERROR_MESSAGE] = error_message
+
+	return json_encode(response)
 
 /datum/tgs_api/v5/OnTopic(T)
 	var/list/params = params2list(T)
@@ -102,27 +107,37 @@
 
 	var/list/topic_parameters = json_decode(json)
 	if(!topic_parameters)
-		return TopicError("Invalid topic parameters json!");
+		return TopicResponse("Invalid topic parameters json!");
 
 	var/their_sCK = topic_parameters[DMAPI5_PARAMETER_ACCESS_IDENTIFIER]
 	if(their_sCK != access_identifier)
-		return TopicError("Invalid access identifier!");
+		return TopicResponse("Failed to decode [[DMAPI5_PARAMETER_ACCESS_IDENTIFIER]] from: [json]!");
 
 	var/command = topic_parameters[DMAPI5_TOPIC_PARAMETER_COMMAND_TYPE]
-	if(command == null)
-		return TopicError("No command type!")
+	if(!isnum(command))
+		return TopicResponse("Failed to decode [[DMAPI5_TOPIC_PARAMETER_COMMAND_TYPE]] from: [json]!")
 
 	switch(command)
 		if(DMAPI5_TOPIC_COMMAND_CHAT_COMMAND)
 			var/result = HandleCustomCommand(topic_parameters[DMAPI5_TOPIC_PARAMETER_CHAT_COMMAND])
 			if(!result)
-				result = TopicError("Error running chat command!")
+				result = TopicResponse("Error running chat command!")
 			return result
 		if(DMAPI5_TOPIC_COMMAND_EVENT_NOTIFICATION)
 			intercepted_message_queue = list()
 			var/list/event_notification = topic_parameters[DMAPI5_TOPIC_PARAMETER_EVENT_NOTIFICATION]
+			if(!istype(event_notification))
+				return TopicResponse("Invalid or missing [DMAPI5_TOPIC_PARAMETER_EVENT_NOTIFICATION]!")
+
+			var/event_type = event_notification[DMAPI5_EVENT_NOTIFICATION_TYPE]
+			if(!isnum(event_type))
+				return TopicResponse("Invalid or missing [DMAPI5_EVENT_NOTIFICATION_TYPE]!")
+
 			var/list/event_parameters = event_notification[DMAPI5_EVENT_NOTIFICATION_PARAMETERS]
-			var/list/event_call = list(event_notification[DMAPI5_EVENT_NOTIFICATION_TYPE])
+			if(!istype(event_parameters))
+				return TopicResponse("Invalid or missing [DMAPI5_EVENT_NOTIFICATION_PARAMETERS]!")
+
+			var/list/event_call = list(event_type)
 			if(event_parameters)
 				event_call += event_parameters
 
@@ -135,31 +150,52 @@
 			intercepted_message_queue = null
 			return json_encode(response)
 		if(DMAPI5_TOPIC_COMMAND_CHANGE_PORT)
-			var/new_port = text2num(topic_parameters[DMAPI5_TOPIC_PARAMETER_NEW_PORT])
-			if (!(new_port > 0))
-				return TopicError("Invalid port: [new_port]")
+			var/new_port = topic_parameters[DMAPI5_TOPIC_PARAMETER_NEW_PORT]
+			if (!isnum(new_port) || !(new_port > 0))
+				return TopicResponse("Invalid or missing [DMAPI5_TOPIC_PARAMETER_NEW_PORT]]")
 
-			//the topic still completes, miraculously
-			//I honestly didn't believe byond could do it
 			if(event_handler != null)
 				event_handler.HandleEvent(TGS_EVENT_PORT_SWAP, new_port)
+
+			//the topic still completes, miraculously
+			//I honestly didn't believe byond could do it without exploding
 			if(!world.OpenPort(new_port))
-				return TopicError("Port change failed!")
-			return json_encode(list())
+				return TopicResponse("Port change failed!")
+
+			return TopicResponse()
 		if(DMAPI5_TOPIC_COMMAND_CHANGE_REBOOT_STATE)
-			var/new_reboot_mode = text2num(topic_parameters[DMAPI5_TOPIC_PARAMETER_NEW_REBOOT_STATE])
+			var/new_reboot_mode = topic_parameters[DMAPI5_TOPIC_PARAMETER_NEW_REBOOT_STATE]
+			if(!isnum(new_reboot_mode))
+				return TopicResponse("Invalid or missing [DMAPI5_TOPIC_PARAMETER_NEW_REBOOT_STATE]!")
+
 			if(event_handler != null)
 				event_handler.HandleEvent(TGS_EVENT_REBOOT_MODE_CHANGE, reboot_mode, new_reboot_mode)
+
 			reboot_mode = new_reboot_mode
-			return json_encode(list())
+			return TopicResponse()
 		if(DMAPI5_TOPIC_COMMAND_INSTANCE_RENAMED)
 			var/new_instance_name = topic_parameters[DMAPI5_TOPIC_PARAMETER_NEW_INSTANCE_NAME]
-			if(!new_instance_name)
-				return TopicError("Missing new instance name!")
-			instance_name = new_instance_name
-			return json_encode(list())
+			if(!istext(new_instance_name))
+				return TopicResponse("Invalid or missing [DMAPI5_TOPIC_PARAMETER_NEW_INSTANCE_NAME]!")
 
-	return TopicError("Unknown command: [command]")
+			instance_name = new_instance_name
+			return TopicResponse()
+		if(DMAPI5_TOPIC_COMMAND_CHAT_CHANNELS_UPDATE)
+			var/list/chat_update_json = topic_parameters[DMAPI5_TOPIC_PARAMETER_CHAT_UPDATE]
+			if(!istype(chat_update_json))
+				return TopicResponse("Invalid or missing [DMAPI5_TOPIC_PARAMETER_CHAT_UPDATE]!")
+
+			DecodeChannels(chat_channels_json)
+			return TopicResponse()
+		if(DMAPI5_TOPIC_COMMAND_SERVER_PORT_UPDATE)
+			var/new_port = topic_parameters[DMAPI5_TOPIC_PARAMETER_NEW_PORT]
+			if (!isnum(new_port) || !(new_port > 0))
+				return TopicResponse("Invalid or missing [DMAPI5_TOPIC_PARAMETER_NEW_PORT]]")
+
+			server_port = new_port
+			return TopicResponse()
+
+	return TopicResponse("Unknown command: [command]")
 
 /datum/tgs_api/v5/proc/Bridge(command, list/data)
 	if(command == null)
@@ -220,13 +256,13 @@
 	return instance_name
 
 /datum/tgs_api/v5/TestMerges()
-	return cached_test_merges
+	return test_merges
 
 /datum/tgs_api/v5/EndProcess()
 	Bridge(DMAPI5_BRIDGE_COMMAND_KILL)
 
 /datum/tgs_api/v5/Revision()
-	return cached_revision
+	return revision
 
 /datum/tgs_api/v5/ChatBroadcast(message, list/channels)
 	var/list/ids
@@ -261,11 +297,18 @@
 		Bridge(TGS4_COMM_CHAT, message)
 
 /datum/tgs_api/v5/ChatChannelInfo()
-	. = list()
-	//no caching cause tgs may change this
-	var/list/json = json_decode(file2text(chat_channels_json_path))
-	for(var/I in json)
-		. += DecodeChannel(I)
+	return chat_channels
+
+/datum/tgs_api/v5/proc/DecodeChannels(chat_update_json)
+	var/list/chat_channels_json = runtime_information[DMAPI5_CHAT_UPDATE_CHANNELS]
+	if(istype(chat_channels_json))
+		chat_channels.Cut()
+		for(var/channel_json in chat_channels_json)
+			var/datum/tgs_chat_channel/channel = DecodeChannel(channel_json)
+			if(channel)
+				chat_channels += channel
+	else
+		TGS_ERROR_LOG("Failed to decode [DMAPI5_CHAT_UPDATE_CHANNELS] from channel update!")
 
 /datum/tgs_api/v5/proc/DecodeChannel(channel_json)
 	var/datum/tgs_chat_channel/channel = new

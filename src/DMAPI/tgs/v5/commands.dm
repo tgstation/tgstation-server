@@ -1,6 +1,5 @@
 /datum/tgs_api/v5/proc/ListCustomCommands()
 	var/results = list()
-	custom_commands = list()
 	for(var/I in typesof(/datum/tgs_chat_command) - /datum/tgs_chat_command)
 		var/datum/tgs_chat_command/stc = new I
 		var/command_name = stc.name
@@ -15,10 +14,7 @@
 		results += list(list(DMAPI5_CUSTOM_CHAT_COMMAND_NAME = command_name, DMAPI5_CUSTOM_CHAT_COMMAND_HELP_TEXT = stc.help_text, DMAPI5_CUSTOM_CHAT_COMMAND_ADMIN_ONLY = stc.admin_only))
 		custom_commands[command_name] = stc
 
-	var/commands_file = chat_commands_json_path
-	if(!commands_file)
-		return
-	text2file(json_encode(results), commands_file)
+	return results
 
 /datum/tgs_api/v5/proc/HandleCustomCommand(list/command_json)
 	var/command = command_json[DMAPI5_CHAT_COMMAND_NAME]

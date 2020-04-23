@@ -620,7 +620,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public Task UpdateChannels(IEnumerable<ChannelRepresentation> newChannels, CancellationToken cancellationToken)
 			=> SendCommand(
 				new TopicParameters(
-					new ChatChannelsUpdate(newChannels)),
+					new ChatUpdate(newChannels)),
 				cancellationToken);
 	}
 }

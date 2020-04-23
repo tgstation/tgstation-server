@@ -18,7 +18,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// The <see cref="Providers.IProvider"/> channel Id.
 		/// </summary>
-		/// <remarks><see cref="Chat"/> remaps this to an internal id using <see cref="ChannelMapping"/></remarks>
+		/// <remarks><see cref="Chat"/> remaps this to an internal id using <see cref="ChannelMapping"/>. Not sent over the DMAPI.</remarks>
 		[JsonIgnore]
 		public ulong RealId
 		{

@@ -39,9 +39,9 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		public string NewInstanceName { get; }
 
 		/// <summary>
-		/// The <see cref="ChatChannelsUpdate"/> for <see cref="TopicCommandType.ChatChannelsUpdate"/> requests.
+		/// The <see cref="Interop.ChatUpdate"/> for <see cref="TopicCommandType.ChatChannelsUpdate"/> requests.
 		/// </summary>
-		public ChatChannelsUpdate ChannelsUpdate { get; }
+		public ChatUpdate ChatUpdate { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TopicParameters"/> <see langword="class"/>.
@@ -106,11 +106,11 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TopicParameters"/> <see langword="class"/>.
 		/// </summary>
-		/// <param name="channelsUpdate">The value of <see cref="ChannelsUpdate"/>.</param>
-		public TopicParameters(ChatChannelsUpdate channelsUpdate)
+		/// <param name="channelsUpdate">The value of <see cref="ChatUpdate"/>.</param>
+		public TopicParameters(ChatUpdate channelsUpdate)
 			: this(TopicCommandType.ChatChannelsUpdate)
 		{
-			ChannelsUpdate = channelsUpdate ?? throw new ArgumentNullException(nameof(channelsUpdate));
+			ChatUpdate = channelsUpdate ?? throw new ArgumentNullException(nameof(channelsUpdate));
 		}
 	}
 }

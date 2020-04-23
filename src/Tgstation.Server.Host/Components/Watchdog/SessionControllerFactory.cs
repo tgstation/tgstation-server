@@ -192,20 +192,22 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					if (launchParameters.SecurityLevel == DreamDaemonSecurity.Trusted)
 						await byondLock.TrustDmbPath(ioManager.ConcatPath(basePath, dmbProvider.DmbName), cancellationToken).ConfigureAwait(false);
 
+					var runtimeInformation = CreateRuntimeInformation(dmbProvider, chatTrackingContext, launchParameters.SecurityLevel.Value);
+
 					// set command line options
 					// more sanitization here cause it uses the same scheme
-					var parameters = $"{DMApiConstants.ParamApiVersion}={byondTopicSender.SanitizeString(DMApiConstants.Version.Semver())}&{byondTopicSender.SanitizeString(DMApiConstants.ParamServerPort)}={serverPortProvider.HttpApiPort}";
+					var parameters = $"{DMApiConstants.ParamApiVersion}={byondTopicSender.SanitizeString(DMApiConstants.Version.Semver())}&{byondTopicSender.SanitizeString(DMApiConstants.ParamServerPort)}={serverPortProvider.HttpApiPort}&{byondTopicSender.SanitizeString(DMApiConstants.ParamAccessIdentifier)}={runtimeInformation.AccessIdentifier}";
 
 					var visibility = apiValidate ? "invisible" : "public";
 
 					// important to run on all ports to allow port changing
-					var arguments = String.Format(CultureInfo.InvariantCulture, "{0} -port {1} -ports 1-65535 {2}-close -{3} -{5} -public -params \"{4}\"",
+					var arguments = String.Format(CultureInfo.InvariantCulture, "{0} -port {1} -ports 1-65535 {2}-close -{3} -{4} -public -params \"{5}\"",
 						dmbProvider.DmbName,
 						primaryPort ? launchParameters.PrimaryPort : launchParameters.SecondaryPort,
 						launchParameters.AllowWebClient.Value ? "-webclient " : String.Empty,
 						SecurityWord(launchParameters.SecurityLevel.Value),
-						parameters,
-						visibility);
+						visibility,
+						parameters);
 
 					// See https://github.com/tgstation/tgstation-server/issues/719
 					var noShellExecute = !platformIdentifier.IsWindows;
@@ -215,7 +217,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					try
 					{
 						networkPromptReaper.RegisterProcess(process);
-						var runtimeInformation = CreateRuntimeInformation(dmbProvider, chatTrackingContext, launchParameters.SecurityLevel.Value);
 
 						// return the session controller for it
 						var reattachInformation = new ReattachInformation(
