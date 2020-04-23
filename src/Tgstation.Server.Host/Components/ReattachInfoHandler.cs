@@ -70,13 +70,12 @@ namespace Tgstation.Server.Host.Components
 				return new Models.ReattachInformation
 				{
 					AccessIdentifier = wdInfo.AccessIdentifier,
-					ChatChannelsJson = wdInfo.ChatChannelsJson,
-					ChatCommandsJson = wdInfo.ChatCommandsJson,
 					CompileJob = wdInfo.Dmb.CompileJob,
 					IsPrimary = wdInfo.IsPrimary,
 					Port = wdInfo.Port,
 					ProcessId = wdInfo.ProcessId,
-					RebootState = wdInfo.RebootState
+					RebootState = wdInfo.RebootState,
+					LaunchSecurityLevel = wdInfo.LaunchSecurityLevel
 				};
 			}
 

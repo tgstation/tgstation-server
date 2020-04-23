@@ -209,7 +209,7 @@ namespace Tgstation.Server.Host.Components
 
 				var commandFactory = new CommandFactory(application, byond, repoManager, databaseContextFactory, metadata);
 
-				var chat = chatFactory.CreateChatManager(instanceIoManager, commandFactory, metadata.ChatSettings);
+				var chatManager = chatFactory.CreateChatManager(instanceIoManager, commandFactory, metadata.ChatSettings);
 				try
 				{
 					var sessionControllerFactory = new SessionControllerFactory(
@@ -219,7 +219,7 @@ namespace Tgstation.Server.Host.Components
 						cryptographySuite,
 						application,
 						gameIoManager,
-						chat,
+						chatManager,
 						networkPromptReaper,
 						platformIdentifier,
 						bridgeRegistrar,
@@ -232,7 +232,7 @@ namespace Tgstation.Server.Host.Components
 					{
 						var reattachInfoHandler = new ReattachInfoHandler(databaseContextFactory, dmbFactory, loggerFactory.CreateLogger<ReattachInfoHandler>(), metadata.CloneMetadata());
 						var watchdog = watchdogFactory.CreateWatchdog(
-							chat,
+							chatManager,
 							dmbFactory,
 							reattachInfoHandler,
 							configuration,
@@ -244,9 +244,9 @@ namespace Tgstation.Server.Host.Components
 						commandFactory.SetWatchdog(watchdog);
 						try
 						{
-							var dreamMaker = new DreamMaker(byond, gameIoManager, configuration, sessionControllerFactory, eventConsumer, chat, processExecutor, watchdog, loggerFactory.CreateLogger<DreamMaker>());
+							var dreamMaker = new DreamMaker(byond, gameIoManager, configuration, sessionControllerFactory, eventConsumer, chatManager, processExecutor, watchdog, loggerFactory.CreateLogger<DreamMaker>());
 
-							return new Instance(metadata.CloneMetadata(), repoManager, byond, dreamMaker, watchdog, chat, configuration, dmbFactory, databaseContextFactory, dmbFactory, jobManager, eventConsumer, gitHubClientFactory, loggerFactory.CreateLogger<Instance>());
+							return new Instance(metadata.CloneMetadata(), repoManager, byond, dreamMaker, watchdog, chatManager, configuration, dmbFactory, databaseContextFactory, dmbFactory, jobManager, eventConsumer, gitHubClientFactory, loggerFactory.CreateLogger<Instance>());
 						}
 						catch
 						{
@@ -262,7 +262,7 @@ namespace Tgstation.Server.Host.Components
 				}
 				catch
 				{
-					chat.Dispose();
+					chatManager.Dispose();
 					throw;
 				}
 			}

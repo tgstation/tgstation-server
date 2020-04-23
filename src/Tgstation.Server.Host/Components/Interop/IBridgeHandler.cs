@@ -7,9 +7,9 @@ namespace Tgstation.Server.Host.Components.Interop
 	interface IBridgeHandler : IBridgeDispatcher
 	{
 		/// <summary>
-		/// The <see cref="Runtime.RuntimeInformation.AccessIdentifier"/> for the <see cref="IBridgeHandler"/>.
+		/// The <see cref="DMApiParameters"/> for the <see cref="IBridgeHandler"/>.
 		/// </summary>
-		string AccessIdentifier { get; }
+		DMApiParameters DMApiParameters { get; }
 
 		/// <summary>
 		/// Called when the owning <see cref="Instance"/> is renamed.

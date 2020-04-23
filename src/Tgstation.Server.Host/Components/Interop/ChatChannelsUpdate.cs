@@ -16,7 +16,7 @@ namespace Tgstation.Server.Host.Components.Interop
 		public IEnumerable<ChannelRepresentation> Channels { get; }
 
 		/// <summary>
-		/// Initializes a new 
+		/// Initializes a new instance of the <see cref="ChatChannelsUpdate"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="channels">The <see cref="IEnumerable{T}"/> that forms the value of <see cref="Channels"/>.</param>
 		public ChatChannelsUpdate(IEnumerable<ChannelRepresentation> channels)

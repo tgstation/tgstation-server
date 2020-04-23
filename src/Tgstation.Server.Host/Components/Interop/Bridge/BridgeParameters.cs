@@ -19,12 +19,12 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		public ushort? CurrentPort { get; set; }
 
 		/// <summary>
-		/// The DMAPI <see cref="global::System.Version"/> for <see cref="BridgeCommandType.Validate"/> requests.
+		/// The DMAPI <see cref="global::System.Version"/> for <see cref="BridgeCommandType.Startup"/> requests.
 		/// </summary>
 		public Version Version { get; set; }
 
 		/// <summary>
-		/// The minimum required <see cref="DreamDaemonSecurity"/> level for <see cref="BridgeCommandType.Validate"/> requests.
+		/// The minimum required <see cref="DreamDaemonSecurity"/> level for <see cref="BridgeCommandType.Startup"/> requests.
 		/// </summary>
 		public DreamDaemonSecurity? MinimumSecurityLevel { get; set; }
 

@@ -59,22 +59,22 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// Unchanging <see cref="ICommand"/>s in the <see cref="ChatManager"/> mapped by <see cref="ICommand.Name"/>
 		/// </summary>
-		readonly Dictionary<string, ICommand> builtinCommands;
+		readonly IDictionary<string, ICommand> builtinCommands;
 
 		/// <summary>
 		/// Map of <see cref="IProvider"/>s in use, keyed by <see cref="ChatBot.Id"/>
 		/// </summary>
-		readonly Dictionary<long, IProvider> providers;
+		readonly IDictionary<long, IProvider> providers;
 
 		/// <summary>
 		/// Map of <see cref="ChannelRepresentation.RealId"/>s to <see cref="ChannelMapping"/>s
 		/// </summary>
-		readonly Dictionary<ulong, ChannelMapping> mappedChannels;
+		readonly IDictionary<ulong, ChannelMapping> mappedChannels;
 
 		/// <summary>
 		/// The active <see cref="IChatTrackingContext"/>s for the <see cref="ChatManager"/>
 		/// </summary>
-		readonly List<IChatTrackingContext> trackingContexts;
+		readonly IList<IChatTrackingContext> trackingContexts;
 
 		/// <summary>
 		/// The <see cref="CancellationTokenSource"/> for <see cref="chatHandler"/>
@@ -166,28 +166,32 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// </summary>
 		/// <param name="connectionId">The <see cref="ChatBot.Id"/> of the <see cref="IProvider"/> to delete</param>
 		/// <param name="updateTrackings">If <see cref="trackingContexts"/> should be update</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IProvider"/> being removed if it exists, <see langword="null"/> otherwise</returns>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IProvider"/> being removed if it exists, <see langword="null"/> otherwise.</returns>
 		async Task<IProvider> RemoveProvider(long connectionId, bool updateTrackings, CancellationToken cancellationToken)
 		{
 			IProvider provider;
 			lock (providers)
 				if (!providers.TryGetValue(connectionId, out provider))
 					return null;
-			Task task;
+
+			Task trackingContextsUpdateTask;
 			lock (mappedChannels)
 			{
 				foreach (var I in mappedChannels.Where(x => x.Value.ProviderId == connectionId).Select(x => x.Key).ToList())
 					mappedChannels.Remove(I);
 
+				var newMappedChannels = mappedChannels.Select(y => y.Value.Channel).ToList();
+
 				if (updateTrackings)
 					lock (trackingContexts)
-						task = Task.WhenAll(trackingContexts.Select(x => x.SetChannels(mappedChannels.Select(y => y.Value.Channel), cancellationToken)));
+						trackingContextsUpdateTask = Task.WhenAll(trackingContexts.Select(x => x.UpdateChannels(newMappedChannels, cancellationToken)));
 				else
-					task = Task.CompletedTask;
+					trackingContextsUpdateTask = Task.CompletedTask;
 			}
 
-			await task.ConfigureAwait(false);
+			await trackingContextsUpdateTask.ConfigureAwait(false);
+
 			return provider;
 		}
 
@@ -288,13 +292,15 @@ namespace Tgstation.Server.Host.Components.Chat
 
 			try
 			{
-				async Task<ICommand> GetCommand(string commandName)
+				ICommand GetCommand(string commandName)
 				{
 					if (!builtinCommands.TryGetValue(commandName, out var handler))
 					{
-						var tasks = trackingContexts.Select(x => x.GetChannels(cancellationToken));
-						await Task.WhenAll(tasks).ConfigureAwait(false);
-						handler = tasks.SelectMany(x => x.Result).Where(x => x.Name.ToUpperInvariant() == commandName).FirstOrDefault();
+						handler = trackingContexts
+							.Where(x => x.CustomCommands != null)
+							.SelectMany(x => x.CustomCommands)
+							.Where(x => x.Name.ToUpperInvariant() == commandName)
+							.FirstOrDefault();
 					}
 
 					return handler;
@@ -308,14 +314,16 @@ namespace Tgstation.Server.Host.Components.Chat
 					if (splits.Count == 0)
 					{
 						var allCommands = builtinCommands.Select(x => x.Value).ToList();
-						var tasks = trackingContexts.Select(x => x.GetChannels(cancellationToken)).ToList();
-						await Task.WhenAll(tasks).ConfigureAwait(false);
-						allCommands.AddRange(tasks.SelectMany(x => x.Result));
+						allCommands.AddRange(
+							trackingContexts
+								.Where(x => x.CustomCommands != null)
+								.SelectMany(
+									x => x.CustomCommands));
 						helpText = String.Format(CultureInfo.InvariantCulture, "Available commands (Type '?' or 'help' and then a command name for more details): {0}", String.Join(", ", allCommands.Select(x => x.Name)));
 					}
 					else
 					{
-						var helpHandler = await GetCommand(splits[0].ToUpperInvariant()).ConfigureAwait(false);
+						var helpHandler = GetCommand(splits[0].ToUpperInvariant());
 						if (helpHandler != default)
 							helpText = String.Format(CultureInfo.InvariantCulture, "{0}: {1}{2}", helpHandler.Name, helpHandler.HelpText, helpHandler.AdminOnly ? " - May only be used in admin channels" : String.Empty);
 						else
@@ -326,7 +334,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					return;
 				}
 
-				var commandHandler = await GetCommand(command).ConfigureAwait(false);
+				var commandHandler = GetCommand(command);
 
 				if (commandHandler == default)
 				{
@@ -465,7 +473,11 @@ namespace Tgstation.Server.Host.Components.Chat
 				}
 
 				lock (trackingContexts)
-					trackingContextUpdateTask = Task.WhenAll(trackingContexts.Select(x => x.SetChannels(mappedChannels.Select(y => y.Value.Channel), cancellationToken)));
+					trackingContextUpdateTask = Task.WhenAll(
+						trackingContexts.Select(
+							x => x.UpdateChannels(
+								mappedChannels.Select(y => y.Value.Channel).ToList(),
+								cancellationToken)));
 			}
 
 			await trackingContextUpdateTask.ConfigureAwait(false);
@@ -616,31 +628,25 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public async Task<IChatTrackingContext> TrackJsons(string basePath, string channelsJsonName, string commandsJsonName, CancellationToken cancellationToken)
+		public IChatTrackingContext CreateTrackingContext()
 		{
 			if (customCommandHandler == null)
 				throw new InvalidOperationException("RegisterCommandHandler() hasn't been called!");
-			JsonTrackingContext context = null;
-			context = new JsonTrackingContext(
-				ioManager,
-				customCommandHandler,
-				loggerFactory.CreateLogger<JsonTrackingContext>(),
-				() =>
-				{
-					lock (trackingContexts)
-						trackingContexts.Remove(context);
-				},
-				ioManager.ConcatPath(basePath, commandsJsonName),
-				ioManager.ConcatPath(basePath, channelsJsonName));
-			Task task;
-			lock (trackingContexts)
-			{
-				trackingContexts.Add(context);
-				lock (mappedChannels)
-					task = context.SetChannels(mappedChannels.Select(y => y.Value.Channel), cancellationToken);
-			}
 
-			await task.ConfigureAwait(false);
+			IChatTrackingContext context = null;
+			lock (mappedChannels)
+				context = new ChatTrackingContext(
+					mappedChannels.Select(y => y.Value.Channel),
+					loggerFactory.CreateLogger<ChatTrackingContext>(),
+					() =>
+					{
+						lock (trackingContexts)
+							trackingContexts.Remove(context);
+					});
+
+			lock (trackingContexts)
+				trackingContexts.Add(context);
+
 			return context;
 		}
 

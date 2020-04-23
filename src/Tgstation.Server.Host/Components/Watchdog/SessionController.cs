@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
@@ -19,10 +20,10 @@ using Tgstation.Server.Host.System;
 namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <inheritdoc />
-	sealed class SessionController : ISessionController, IBridgeHandler
+	sealed class SessionController : ISessionController, IBridgeHandler, IChannelSink
 	{
 		/// <inheritdoc />
-		public string AccessIdentifier => reattachInformation.AccessIdentifier;
+		public DMApiParameters DMApiParameters => reattachInformation;
 
 		/// <inheritdoc />
 		public bool IsPrimary
@@ -136,11 +137,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly ILogger<SessionController> logger;
 
 		/// <summary>
-		/// The <see cref="DreamDaemonSecurity"/> level the <see cref="process"/> was launched with
-		/// </summary>
-		readonly DreamDaemonSecurity? launchSecurityLevel;
-
-		/// <summary>
 		/// The <see cref="TaskCompletionSource{TResult}"/> <see cref="SetPort(ushort, CancellationToken)"/> waits on when DreamDaemon currently has it's ports closed
 		/// </summary>
 		TaskCompletionSource<bool> portAssignmentTcs;
@@ -186,8 +182,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="chat">The value of <see cref="chat"/></param>
 		/// <param name="chatTrackingContext">The value of <see cref="chatTrackingContext"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		/// <param name="launchSecurityLevel">The value of <see cref="launchSecurityLevel"/></param>
 		/// <param name="startupTimeout">The optional time to wait before failing the <see cref="LaunchResult"/></param>
+		/// <param name="reattached">If this is a reattached session.</param>
 		public SessionController(
 			ReattachInformation reattachInformation,
 			IProcess process,
@@ -197,8 +193,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IBridgeRegistrar bridgeRegistrar,
 			IChatManager chat,
 			ILogger<SessionController> logger,
-			DreamDaemonSecurity? launchSecurityLevel,
-			uint? startupTimeout)
+			uint? startupTimeout,
+			bool reattached)
 		{
 			this.reattachInformation = reattachInformation ?? throw new ArgumentNullException(nameof(reattachInformation));
 			this.process = process ?? throw new ArgumentNullException(nameof(process));
@@ -209,7 +205,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-			this.launchSecurityLevel = launchSecurityLevel;
+			this.chatTrackingContext.SetChannelSink(this);
 
 			portClosedForReboot = false;
 			disposed = false;
@@ -218,7 +214,16 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			rebootTcs = new TaskCompletionSource<object>();
 
-			process.Lifetime.ContinueWith(x => chatTrackingContext.Active = false, TaskScheduler.Current);
+			CancellationTokenSource cts = null;
+			Task lifetimeContinuation = null;
+			lifetimeContinuation = process.Lifetime.ContinueWith(
+				x =>
+				{
+					lock (lifetimeContinuation)
+						cts?.Cancel();
+					chatTrackingContext.Active = false;
+				},
+				TaskScheduler.Current);
 
 			async Task<LaunchResult> GetLaunchResult()
 			{
@@ -235,6 +240,24 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					ExitCode = process.Lifetime.IsCompleted ? (int?)await process.Lifetime.ConfigureAwait(false) : null,
 					StartupTime = process.Startup.IsCompleted ? (TimeSpan?)(DateTimeOffset.Now - startTime) : null
 				};
+
+				if (!result.ExitCode.HasValue && reattached)
+					using (cts = new CancellationTokenSource())
+						try
+						{
+							await SendCommand(
+								new TopicParameters(
+									reattachInformation.RuntimeInformation.ServerPort,
+									true),
+								cts.Token)
+								.ConfigureAwait(false);
+						}
+						finally
+						{
+							lock (lifetimeContinuation)
+								cts = null;
+						}
+
 				return result;
 			}
 
@@ -407,6 +430,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							};
 					}
 
+					response.RuntimeInformation = reattachInformation.RuntimeInformation;
 					break;
 				case BridgeCommandType.Reboot:
 					if (ClosePortOnReboot)
@@ -526,15 +550,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			async Task<bool> ImmediateTopicPortChange()
 			{
 				var commandResult = await SendCommand(
-					new TopicParameters(port),
+					new TopicParameters(port, false),
 					cancellationToken)
 					.ConfigureAwait(false);
 
 				if (commandResult.ErrorMessage != null)
-				{
-					logger.LogWarning("Failed port change! DD says: {0}", commandResult.ErrorMessage);
 					return false;
-				}
 
 				reattachInformation.Port = port;
 				return true;
@@ -592,13 +613,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async Task InstanceRenamed(string newInstanceName, CancellationToken cancellationToken)
-		{
-			var result = await SendCommand(new TopicParameters(newInstanceName), cancellationToken).ConfigureAwait(false);
-			if(result == null)
-				logger.LogWarning("Failed to change instance name! No DD response from Topic!", result.ErrorMessage);
-			if (result.ErrorMessage != null)
-				logger.LogWarning("Failed to change reboot state! DD says: {0}", result.ErrorMessage);
-		}
+		public Task InstanceRenamed(string newInstanceName, CancellationToken cancellationToken)
+			=> SendCommand(new TopicParameters(newInstanceName), cancellationToken);
+
+		/// <inheritdoc />
+		public Task UpdateChannels(IEnumerable<ChannelRepresentation> newChannels, CancellationToken cancellationToken)
+			=> SendCommand(
+				new TopicParameters(
+					new ChatChannelsUpdate(newChannels)),
+				cancellationToken);
 	}
 }

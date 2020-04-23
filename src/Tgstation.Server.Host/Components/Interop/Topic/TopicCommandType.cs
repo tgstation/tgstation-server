@@ -16,7 +16,7 @@
 		EventNotification,
 
 		/// <summary>
-		/// Port change request.
+		/// DreamDaemon port change request.
 		/// </summary>
 		ChangePort,
 
@@ -33,6 +33,11 @@
 		/// <summary>
 		/// Chat channels were changed.
 		/// </summary>
-		ChatChannelsUpdate
+		ChatChannelsUpdate,
+
+		/// <summary>
+		/// The server's port was possibly changed.
+		/// </summary>
+		ServerPortUpdate
 	}
 }

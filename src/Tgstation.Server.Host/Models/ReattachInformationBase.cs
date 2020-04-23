@@ -1,5 +1,7 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Watchdog;
 
@@ -31,6 +33,12 @@ namespace Tgstation.Server.Host.Models
 		public RebootState RebootState { get; set; }
 
 		/// <summary>
+		/// The <see cref="DreamDaemonSecurity"/> level DreamDaemon was launched with.
+		/// </summary>
+		[Required]
+		public virtual DreamDaemonSecurity? LaunchSecurityLevel { get; set; }
+
+		/// <summary>
 		/// Construct a <see cref="ReattachInformationBase"/>
 		/// </summary>
 		protected ReattachInformationBase() { }
@@ -48,6 +56,7 @@ namespace Tgstation.Server.Host.Models
 			Port = copy.Port;
 			ProcessId = copy.ProcessId;
 			RebootState = copy.RebootState;
+			LaunchSecurityLevel = copy.LaunchSecurityLevel;
 		}
 
 		/// <inheritdoc />

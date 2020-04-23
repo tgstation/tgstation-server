@@ -45,7 +45,7 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		/// <summary>
 		/// The <see cref="DreamDaemonSecurity"/> level of the launch
 		/// </summary>
-		public DreamDaemonSecurity SecurityLevel { get; }
+		public DreamDaemonSecurity? SecurityLevel { get; }
 
 		/// <summary>
 		/// The <see cref="TestMergeInformation"/>s in the launch.
@@ -56,31 +56,31 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		/// Initializes a new instance of the <see cref="RuntimeInformation"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="application">The <see cref="IApplication"/> to use.</param>
+		/// <param name="cryptographySuite">The <see cref="ICryptographySuite"/> used to generate the value of <see cref="DMApiParameters.AccessIdentifier"/>.</param>
+		/// <param name="serverPortProvider">The <see cref="IServerPortProvider"/> used to set the value of <see cref="ServerPort"/>.</param>
 		/// <param name="testMerges">An <see cref="IEnumerable{T}"/> used to construct the value of <see cref="TestMerges"/>.</param>
 		/// <param name="chatChannels">The <see cref="Chat.ChannelRepresentation"/>s for the <see cref="ChatChannelsUpdate"/>.</param>
 		/// <param name="instance">The <see cref="Instance"/> used to set <see cref="InstanceName"/>.</param>
 		/// <param name="revision">The value of <see cref="RevisionInformation"/>.</param>
-		/// <param name="accessIdentifier">The value of <see cref="DMApiParameters.AccessIdentifier"/>.</param>
 		/// <param name="securityLevel">The value of <see cref="SecurityLevel"/>.</param>
-		/// <param name="serverPort">The value of <see cref="ServerPort"/>.</param>
 		public RuntimeInformation(
 			IApplication application,
+			ICryptographySuite cryptographySuite,
+			IServerPortProvider serverPortProvider,
 			IEnumerable<TestMergeInformation> testMerges,
 			IEnumerable<Chat.ChannelRepresentation> chatChannels,
 			Api.Models.Instance instance,
 			Api.Models.Internal.RevisionInformation revision,
-			string accessIdentifier,
-			DreamDaemonSecurity securityLevel,
-			ushort serverPort)
+			DreamDaemonSecurity? securityLevel)
 			: base(chatChannels)
 		{
 			ServerVersion = application?.Version ?? throw new ArgumentNullException(nameof(application));
+			AccessIdentifier = cryptographySuite?.GetSecureString() ?? throw new ArgumentNullException(nameof(cryptographySuite));
+			ServerPort = serverPortProvider?.HttpApiPort ?? throw new ArgumentNullException(nameof(serverPortProvider));
 			TestMerges = testMerges?.ToList() ?? throw new ArgumentNullException(nameof(testMerges));
 			InstanceName = instance?.Name ?? throw new ArgumentNullException(nameof(instance));
 			Revision = revision ?? throw new ArgumentNullException(nameof(revision));
-			AccessIdentifier = accessIdentifier ?? throw new ArgumentNullException(nameof(accessIdentifier));
 			SecurityLevel = securityLevel;
-			ServerPort = serverPort;
 		}
 	}
 }

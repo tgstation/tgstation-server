@@ -1,4 +1,5 @@
 ﻿using System;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Models;
@@ -14,12 +15,19 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// The <see cref="IDmbProvider"/> used by DreamDaemon
 		/// </summary>
-		public IDmbProvider Dmb { get; }
+		public IDmbProvider Dmb { get; set; }
 
 		/// <summary>
 		/// The <see cref="Interop.Bridge.RuntimeInformation"/> for the DMAPI.
 		/// </summary>
 		public RuntimeInformation RuntimeInformation { get; private set; }
+
+		/// <inheritdoc />
+		public override DreamDaemonSecurity? LaunchSecurityLevel
+		{
+			get => RuntimeInformation.SecurityLevel ?? base.LaunchSecurityLevel;
+			set => throw new NotSupportedException();
+		}
 
 		/// <summary>
 		/// <see langword="lock"/> <see cref="object"/> for accessing <see cref="RuntimeInformation"/>.

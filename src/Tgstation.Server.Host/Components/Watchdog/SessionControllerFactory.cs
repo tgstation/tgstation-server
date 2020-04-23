@@ -1,10 +1,8 @@
 ﻿using Byond.TopicSender;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using System;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -173,30 +171,29 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			var basePath = primaryDirectory ? dmbProvider.PrimaryDirectory : dmbProvider.SecondaryDirectory;
 
-			var securityLevelToUse = launchParameters.SecurityLevel.Value;
 			switch (dmbProvider.CompileJob.MinimumSecurityLevel)
 			{
 				case DreamDaemonSecurity.Ultrasafe:
 					break;
 				case DreamDaemonSecurity.Safe:
-					if (securityLevelToUse == DreamDaemonSecurity.Ultrasafe)
-						securityLevelToUse = DreamDaemonSecurity.Safe;
+					if (launchParameters.SecurityLevel == DreamDaemonSecurity.Ultrasafe)
+						launchParameters.SecurityLevel = DreamDaemonSecurity.Safe;
 					break;
 				case DreamDaemonSecurity.Trusted:
-					securityLevelToUse = DreamDaemonSecurity.Trusted;
+					launchParameters.SecurityLevel = DreamDaemonSecurity.Trusted;
 					break;
 				default:
 					throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid DreamDaemonSecurity value: {0}", dmbProvider.CompileJob.MinimumSecurityLevel));
 			}
 
-			var chatTrackingContext = await chat.CreateTrackingContext(cancellationToken).ConfigureAwait(false);
+			var chatTrackingContext = chat.CreateTrackingContext();
 			try
 			{
 				// get the byond lock
 				var byondLock = currentByondLock ?? await byond.UseExecutables(Version.Parse(dmbProvider.CompileJob.ByondVersion), cancellationToken).ConfigureAwait(false);
 				try
 				{
-					if (securityLevelToUse == DreamDaemonSecurity.Trusted)
+					if (launchParameters.SecurityLevel == DreamDaemonSecurity.Trusted)
 						await byondLock.TrustDmbPath(ioManager.ConcatPath(basePath, dmbProvider.DmbName), cancellationToken).ConfigureAwait(false);
 
 					// set command line options
@@ -210,7 +207,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						dmbProvider.DmbName,
 						primaryPort ? launchParameters.PrimaryPort : launchParameters.SecondaryPort,
 						launchParameters.AllowWebClient.Value ? "-webclient " : String.Empty,
-						SecurityWord(securityLevelToUse),
+						SecurityWord(launchParameters.SecurityLevel.Value),
 						parameters,
 						visibility);
 
@@ -222,34 +219,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					try
 					{
 						networkPromptReaper.RegisterProcess(process);
-
-						// setup runtime information
-						var revisionInfo = new Api.Models.Internal.RevisionInformation
-						{
-							CommitSha = dmbProvider.CompileJob.RevisionInformation.CommitSha,
-							OriginCommitSha = dmbProvider.CompileJob.RevisionInformation.OriginCommitSha
-						};
-						var testMerges = dmbProvider
-								.CompileJob
-								.RevisionInformation
-								.ActiveTestMerges
-								.Select(x => x.TestMerge)
-								.Select(x => new TestMergeInformation(x, revisionInfo));
-						var accessIdentifier = cryptographySuite.GetSecureString();
-						var runtimeInformation = new RuntimeInformation(
-							application,
-							testMerges,
-							chatTrackingContext.Channels,
-							instance,
-							revisionInfo,
-							accessIdentifier,
-							securityLevelToUse);
+						var runtimeInformation = CreateRuntimeInformation(dmbProvider, chatTrackingContext, launchParameters.SecurityLevel.Value);
 
 						// return the session controller for it
 						var reattachInformation = new ReattachInformation(
-							runtimeInformation,
 							dmbProvider,
 							process,
+							runtimeInformation,
 							portToUse.Value,
 							primaryDirectory);
 
@@ -262,12 +238,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							bridgeRegistrar,
 							chat,
 							loggerFactory.CreateLogger<SessionController>(),
-							launchParameters.SecurityLevel,
-							launchParameters.StartupTimeout);
-
-
-						// writeback launch parameter's fixed security level
-						launchParameters.SecurityLevel = securityLevelToUse;
+							launchParameters.StartupTimeout,
+							false);
 
 						return sessionController;
 					}
@@ -300,39 +272,44 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (reattachInformation == null)
 				throw new ArgumentNullException(nameof(reattachInformation));
 
-			SessionController result = null;
-			var basePath = reattachInformation.IsPrimary ? reattachInformation.Dmb.PrimaryDirectory : reattachInformation.Dmb.SecondaryDirectory;
-			var chatChannels = await chat.CurrentChannels(cancellationToken).ConfigureAwait(false);
+			var chatTrackingContext = chat.CreateTrackingContext();
 			try
 			{
 				var byondLock = await byond.UseExecutables(Version.Parse(reattachInformation.Dmb.CompileJob.ByondVersion), cancellationToken).ConfigureAwait(false);
 				try
 				{
 					var process = processExecutor.GetProcess(reattachInformation.ProcessId);
-					if (process != null)
-						try
-						{
-							networkPromptReaper.RegisterProcess(process);
-							result = new SessionController(
-								reattachInformation,
-								process,
-								byondLock,
-								byondTopicSender,
-								chatJsonTrackingContext,
-								bridgeRegistrar,
-								chat,
-								loggerFactory.CreateLogger<SessionController>(),
-								null,
-								null);
+					if (process == null)
+						return null;
 
-							process = null;
-							byondLock = null;
-							chatJsonTrackingContext = null;
-						}
-						finally
-						{
-							process?.Dispose();
-						}
+					try
+					{
+						networkPromptReaper.RegisterProcess(process);
+						var runtimeInformation = CreateRuntimeInformation(reattachInformation.Dmb, chatTrackingContext, null);
+						reattachInformation.SetRuntimeInformation(runtimeInformation);
+
+						var controller = new SessionController(
+							reattachInformation,
+							process,
+							byondLock,
+							byondTopicSender,
+							chatTrackingContext,
+							bridgeRegistrar,
+							chat,
+							loggerFactory.CreateLogger<SessionController>(),
+							null,
+							true);
+
+						process = null;
+						byondLock = null;
+						chatTrackingContext = null;
+
+						return controller;
+					}
+					finally
+					{
+						process?.Dispose();
+					}
 				}
 				finally
 				{
@@ -341,13 +318,47 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			}
 			finally
 			{
-				chatJsonTrackingContext?.Dispose();
+				chatTrackingContext?.Dispose();
 			}
-
-			return result;
 		}
 
 		/// <inheritdoc />
 		public ISessionController CreateDeadSession(IDmbProvider dmbProvider) => new DeadSessionController(dmbProvider);
+
+		/// <summary>
+		/// Create <see cref="RuntimeInformation"/>.
+		/// </summary>
+		/// <param name="dmbProvider">The <see cref="IDmbProvider"/>.</param>
+		/// <param name="chatTrackingContext">The <see cref="IChatTrackingContext"/>.</param>
+		/// <param name="securityLevel">The <see cref="DreamDaemonSecurity"/> level if any.</param>
+		/// <returns>A new <see cref="RuntimeInformation"/> <see langword="class"/>.</returns>
+		RuntimeInformation CreateRuntimeInformation(
+			IDmbProvider dmbProvider,
+			IChatTrackingContext chatTrackingContext,
+			DreamDaemonSecurity? securityLevel)
+		{
+			var revisionInfo = new Api.Models.Internal.RevisionInformation
+			{
+				CommitSha = dmbProvider.CompileJob.RevisionInformation.CommitSha,
+				OriginCommitSha = dmbProvider.CompileJob.RevisionInformation.OriginCommitSha
+			};
+
+			var testMerges = dmbProvider
+				.CompileJob
+				.RevisionInformation
+				.ActiveTestMerges
+				.Select(x => x.TestMerge)
+				.Select(x => new TestMergeInformation(x, revisionInfo));
+
+			return new RuntimeInformation(
+				application,
+				cryptographySuite,
+				serverPortProvider,
+				testMerges,
+				chatTrackingContext.Channels,
+				instance,
+				revisionInfo,
+				securityLevel);
+		}
 	}
 }

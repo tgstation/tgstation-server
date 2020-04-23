@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,7 +16,6 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		public string HelpText { get; set; }
 
 		/// <inheritdoc />
-		[JsonConverter(typeof(JsonBoolConverter))]
 		public bool AdminOnly { get; set; }
 
 		/// <summary>

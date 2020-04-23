@@ -69,10 +69,9 @@ namespace Tgstation.Server.Host.Components.Chat
 		Task SendUpdateMessage(string message, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Start tracking custom commands and chat channels.
+		/// Start tracking <see cref="Commands.CustomCommand"/>s and <see cref="ChannelRepresentation"/>s.
 		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="IDisposable"/> tied to the lifetime of the json trackings</returns>
-		Task<IChatTrackingContext> CreateTrackingContext(CancellationToken cancellationToken);
+		/// <returns>A new <see cref="IChatTrackingContext"/>.</returns>
+		IChatTrackingContext CreateTrackingContext();
 	}
 }

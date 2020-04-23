@@ -67,9 +67,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly IEventConsumer eventConsumer;
 
 		/// <summary>
-		/// The <see cref="IChat"/> for <see cref="DreamMaker"/>
+		/// The <see cref="IChatManager"/> for <see cref="DreamMaker"/>
 		/// </summary>
-		readonly IChat chat;
+		readonly IChatManager chatManager;
 
 		/// <summary>
 		/// The <see cref="IProcessExecutor"/> for <see cref="DreamMaker"/>
@@ -99,7 +99,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="configuration">The value of <see cref="configuration"/></param>
 		/// <param name="sessionControllerFactory">The value of <see cref="sessionControllerFactory"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
-		/// <param name="chat">The value of <see cref="chat"/></param>
+		/// <param name="chatManager">The value of <see cref="chatManager"/></param>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
 		/// <param name="watchdog">The value of <see cref="watchdog"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
@@ -109,7 +109,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			StaticFiles.IConfiguration configuration,
 			ISessionControllerFactory sessionControllerFactory,
 			IEventConsumer eventConsumer,
-			IChat chat,
+			IChatManager chatManager,
 			IProcessExecutor processExecutor,
 			IWatchdog watchdog,
 			ILogger<DreamMaker> logger)
@@ -119,7 +119,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 			this.sessionControllerFactory = sessionControllerFactory ?? throw new ArgumentNullException(nameof(sessionControllerFactory));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
-			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
+			this.chatManager = chatManager ?? throw new ArgumentNullException(nameof(chatManager));
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			this.watchdog = watchdog ?? throw new ArgumentNullException(nameof(watchdog));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -311,7 +311,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		async Task CleanupFailedCompile(Models.CompileJob job, bool cancelled, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Cleaning compile directory...");
-			var chatTask = chat.SendUpdateMessage(cancelled ? "Deploy cancelled!" : "Deploy failed!", cancellationToken);
+			var chatTask = chatManager.SendUpdateMessage(cancelled ? "Deploy cancelled!" : "Deploy failed!", cancellationToken);
 			var jobPath = job.DirectoryName.ToString();
 			try
 			{
@@ -326,7 +326,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		}
 
 		/// <summary>
-		/// Send a message to <see cref="chat"/> about a deployment
+		/// Send a message to <see cref="chatManager"/> about a deployment
 		/// </summary>
 		/// <param name="revisionInformation">The <see cref="Models.RevisionInformation"/> for the deployment</param>
 		/// <param name="byondLock">The <see cref="IByondExecutableLock"/> for the deployment</param>
@@ -353,7 +353,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					return result;
 				})));
 
-			await chat.SendUpdateMessage(String.Format(CultureInfo.InvariantCulture, "Deploying revision: {0}{1}{2} BYOND Version: {3}", commitInsert, testmergeInsert, remoteCommitInsert, byondLock.Version), cancellationToken).ConfigureAwait(false);
+			await chatManager.SendUpdateMessage(String.Format(CultureInfo.InvariantCulture, "Deploying revision: {0}{1}{2} BYOND Version: {3}", commitInsert, testmergeInsert, remoteCommitInsert, byondLock.Version), cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <summary>
@@ -445,7 +445,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 				await Task.WhenAll(symATask, symBTask).ConfigureAwait(false);
 
-				await chat.SendUpdateMessage(String.Format(CultureInfo.InvariantCulture, "Deployment complete!{0}", watchdog.Running ? " Changes will be applied on next server reboot." : String.Empty), cancellationToken).ConfigureAwait(false);
+				await chatManager.SendUpdateMessage(String.Format(CultureInfo.InvariantCulture, "Deployment complete!{0}", watchdog.Running ? " Changes will be applied on next server reboot." : String.Empty), cancellationToken).ConfigureAwait(false);
 
 				logger.LogDebug("Compile complete!");
 			}

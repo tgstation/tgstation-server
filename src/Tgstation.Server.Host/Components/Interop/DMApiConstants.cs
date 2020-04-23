@@ -16,9 +16,9 @@ namespace Tgstation.Server.Host.Components.Interop
 		public const string ParamApiVersion = "server_service_version";
 
 		/// <summary>
-		/// Identifies the path to the <see cref="Runtime.RuntimeInformation"/> file.
+		/// Identifies the <see cref="Core.IServerPortProvider.HttpApiPort"/> of the server.
 		/// </summary>
-		public const string ParamDeploymentInformationFile = "tgs_json";
+		public const string ParamServerPort = "tgs_port";
 
 		/// <summary>
 		/// Parameter json is encoded in for topic requests.

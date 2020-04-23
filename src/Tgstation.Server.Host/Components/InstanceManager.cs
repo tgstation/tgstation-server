@@ -65,7 +65,7 @@ namespace Tgstation.Server.Host.Components
 		readonly IDictionary<long, IInstance> instances;
 
 		/// <summary>
-		/// Map of <see cref="IBridgeHandler.AccessIdentifier"/>s to their respective <see cref="IBridgeHandler"/>s.
+		/// Map of <see cref="DMApiParameters.AccessIdentifier"/>s to their respective <see cref="IBridgeHandler"/>s.
 		/// </summary>
 		readonly IDictionary<string, IBridgeHandler> bridgeHandlers;
 
@@ -325,7 +325,7 @@ namespace Tgstation.Server.Host.Components
 			if (bridgeHandler == null)
 				throw new ArgumentNullException(nameof(bridgeHandler));
 
-			var accessIdentifier = bridgeHandler.AccessIdentifier;
+			var accessIdentifier = bridgeHandler.DMApiParameters.AccessIdentifier;
 			lock (bridgeHandlers)
 				bridgeHandlers.Add(accessIdentifier, bridgeHandler);
 
