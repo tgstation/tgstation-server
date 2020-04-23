@@ -21,6 +21,11 @@ namespace Tgstation.Server.Host.Components.Interop
 		public const string ParamServerPort = "tgs_port";
 
 		/// <summary>
+		/// Identifies the <see cref="DMApiParameters.AccessIdentifier"/> for the session.
+		/// </summary>
+		public const string ParamAccessIdentifier = "tgs_key";
+
+		/// <summary>
 		/// Parameter json is encoded in for topic requests.
 		/// </summary>
 		public const string TopicData = "tgs_data";

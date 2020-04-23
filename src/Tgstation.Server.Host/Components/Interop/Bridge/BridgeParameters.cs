@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.Components.Chat.Commands;
 
 namespace Tgstation.Server.Host.Components.Interop.Bridge
 {
@@ -22,6 +24,11 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		/// The DMAPI <see cref="global::System.Version"/> for <see cref="BridgeCommandType.Startup"/> requests.
 		/// </summary>
 		public Version Version { get; set; }
+
+		/// <summary>
+		/// The DMAPI <see cref="CustomCommand"/>s for <see cref="BridgeCommandType.Startup"/> requests.
+		/// </summary>
+		public ICollection<CustomCommand> CustomCommands { get; set; }
 
 		/// <summary>
 		/// The minimum required <see cref="DreamDaemonSecurity"/> level for <see cref="BridgeCommandType.Startup"/> requests.

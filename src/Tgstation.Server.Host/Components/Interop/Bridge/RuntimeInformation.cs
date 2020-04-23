@@ -11,7 +11,7 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 	/// <summary>
 	/// Representation of the initial data passed as part of a <see cref="BridgeCommandType.Startup"/> request.
 	/// </summary>
-	public sealed class RuntimeInformation : ChatChannelsUpdate
+	public sealed class RuntimeInformation : ChatUpdate
 	{
 		/// <summary>
 		/// The code used by the server to authenticate command Topics
@@ -60,7 +60,7 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		/// <param name="cryptographySuite">The <see cref="ICryptographySuite"/> used to generate the value of <see cref="DMApiParameters.AccessIdentifier"/>.</param>
 		/// <param name="serverPortProvider">The <see cref="IServerPortProvider"/> used to set the value of <see cref="ServerPort"/>.</param>
 		/// <param name="testMerges">An <see cref="IEnumerable{T}"/> used to construct the value of <see cref="TestMerges"/>.</param>
-		/// <param name="chatChannels">The <see cref="Chat.ChannelRepresentation"/>s for the <see cref="ChatChannelsUpdate"/>.</param>
+		/// <param name="chatChannels">The <see cref="Chat.ChannelRepresentation"/>s for the <see cref="ChatUpdate"/>.</param>
 		/// <param name="instance">The <see cref="Instance"/> used to set <see cref="InstanceName"/>.</param>
 		/// <param name="revision">The value of <see cref="RevisionInformation"/>.</param>
 		/// <param name="securityLevel">The value of <see cref="SecurityLevel"/>.</param>
