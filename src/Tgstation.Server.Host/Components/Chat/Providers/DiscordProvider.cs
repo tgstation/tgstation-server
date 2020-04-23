@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Components.Chat.Providers
 {
