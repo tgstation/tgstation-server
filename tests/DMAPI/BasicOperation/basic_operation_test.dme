@@ -12,7 +12,6 @@
 
 // BEGIN_INCLUDE
 #include "Config.dm"
-#include "..\..\src\DMAPI\tgs.dm"
-#include "..\..\src\DMAPI\tgs\includes.dm"
+#include "..\tgs_include.dm"
 #include "Test.dm"
 // END_INCLUDE

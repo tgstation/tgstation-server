@@ -99,8 +99,8 @@ namespace Tgstation.Server.Host.Controllers
 			if (job.CancelRight.HasValue && job.CancelRightsType.HasValue && (AuthenticationContext.GetRight(job.CancelRightsType.Value) & job.CancelRight.Value) == 0)
 				return Forbid();
 
-			job = await jobManager.CancelJob(job, AuthenticationContext.User, false, cancellationToken).ConfigureAwait(false);
-			return job != null ? (IActionResult)Accepted(job.ToApi()) : StatusCode((int)HttpStatusCode.Gone);
+			var updatedJob = await jobManager.CancelJob(job, AuthenticationContext.User, false, cancellationToken).ConfigureAwait(false);
+			return updatedJob != null ? (IActionResult)Accepted(updatedJob.ToApi()) : StatusCode((int)HttpStatusCode.Gone);
 		}
 
 		/// <summary>

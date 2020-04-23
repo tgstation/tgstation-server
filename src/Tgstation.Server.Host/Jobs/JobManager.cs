@@ -238,14 +238,15 @@ namespace Tgstation.Server.Host.Jobs
 			handler.Cancel(); // this will ensure the db update is only done once
 			await databaseContextFactory.UseContext(async databaseContext =>
 			{
-				job = new Job { Id = job.Id };
+				var updatedJob = new Job { Id = job.Id };
 				databaseContext.Jobs.Attach(job);
-				user = new User { Id = user.Id };
+				var attachedUser = new User { Id = user.Id };
 				databaseContext.Users.Attach(user);
-				job.CancelledBy = user;
+				updatedJob.CancelledBy = attachedUser;
 
 				// let either startup or cancellation set job.cancelled
 				await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+				job.CancelledBy = user;
 			}).ConfigureAwait(false);
 			if (blocking)
 				await handler.Wait(cancellationToken).ConfigureAwait(false);

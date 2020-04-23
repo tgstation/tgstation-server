@@ -326,9 +326,6 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.CheckoutSha != null && model.UpdateFromOrigin == true)
 				return BadRequest(new ErrorMessage(ErrorCode.RepoMismatchShaAndUpdate));
 
-			if (model.Origin != null)
-				return BadRequest(new ErrorMessage(ErrorCode.RepoCantChangeOrigin));
-
 			if (model.NewTestMerges?.Any(x => model.NewTestMerges.Any(y => x != y && x.Number == y.Number)) == true)
 				return BadRequest(new ErrorMessage(ErrorCode.RepoDuplicateTestMerge));
 
@@ -404,6 +401,9 @@ namespace Tgstation.Server.Host.Controllers
 					if (repo == null)
 						return Conflict(new ErrorMessage(ErrorCode.RepoMissing));
 					await PopulateApi(api, repo, DatabaseContext, Instance, cancellationToken).ConfigureAwait(false);
+
+					if (model.Origin != null && model.Origin != repo.Origin)
+						return BadRequest(new ErrorMessage(ErrorCode.RepoCantChangeOrigin));
 				}
 			}
 
