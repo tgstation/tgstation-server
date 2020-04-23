@@ -67,6 +67,8 @@ namespace Tgstation.Server.Host.Setup
 			services.AddSingleton<IAsyncDelayer, AsyncDelayer>();
 
 			services.UseStandardConfig<GeneralConfiguration>(Configuration);
+			services.UseStandardConfig<DatabaseConfiguration>(Configuration);
+			services.UseStandardConfig<FileLoggingConfiguration>(Configuration);
 
 			ConfigureHostedService(services);
 		}

@@ -12,13 +12,28 @@ namespace Tgstation.Server.Host.Setup
 		public IPlatformIdentifier PlatformIdentifier { get; }
 
 		/// <inheritdoc />
-		public GeneralConfiguration GeneralConfiguration { get; }
+		public GeneralConfiguration GeneralConfiguration => generalConfigurationOptions.Value;
 
 		/// <inheritdoc />
-		public DatabaseConfiguration DatabaseConfiguration { get; }
+		public DatabaseConfiguration DatabaseConfiguration => databaseConfigurationOptions.Value;
 
 		/// <inheritdoc />
-		public FileLoggingConfiguration FileLoggingConfiguration { get; }
+		public FileLoggingConfiguration FileLoggingConfiguration => fileLoggingConfigurationOptions.Value;
+
+		/// <summary>
+		/// Backing <see cref="IOptions{TOptions}"/> for <see cref="GeneralConfiguration"/>.
+		/// </summary>
+		readonly IOptions<GeneralConfiguration> generalConfigurationOptions;
+
+		/// <summary>
+		/// Backing <see cref="IOptions{TOptions}"/> for <see cref="DatabaseConfiguration"/>.
+		/// </summary>
+		readonly IOptions<DatabaseConfiguration> databaseConfigurationOptions;
+
+		/// <summary>
+		/// Backing <see cref="IOptions{TOptions}"/> for <see cref="FileLoggingConfiguration"/>.
+		/// </summary>
+		readonly IOptions<FileLoggingConfiguration> fileLoggingConfigurationOptions;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PostSetupServices"/> <see langword="class"/>.
@@ -34,9 +49,9 @@ namespace Tgstation.Server.Host.Setup
 			IOptions<FileLoggingConfiguration> fileLoggingConfigurationOptions)
 		{
 			PlatformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
-			GeneralConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
-			DatabaseConfiguration = databaseConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(databaseConfigurationOptions));
-			FileLoggingConfiguration = fileLoggingConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(fileLoggingConfigurationOptions));
+			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			this.databaseConfigurationOptions = databaseConfigurationOptions ?? throw new ArgumentNullException(nameof(databaseConfigurationOptions));
+			this.fileLoggingConfigurationOptions = fileLoggingConfigurationOptions ?? throw new ArgumentNullException(nameof(fileLoggingConfigurationOptions));
 		}
 	}
 }
