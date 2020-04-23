@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace Tgstation.Server.Host.Components.Interop
+namespace Tgstation.Server.Host.Components.Interop.Converters
 {
 	/// <summary>
-	/// <see cref="JsonConverter"/> for decoding bools returned by BYOND
+	/// <see cref="JsonConverter"/> for decoding <see cref="bool"/>s returned by BYOND.
 	/// </summary>
-	sealed class JsonBoolConverter : JsonConverter
+	sealed class BoolConverter : JsonConverter
 	{
 		/// <inheritdoc />
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) => writer.WriteValue(((bool)value) ? 1 : 0);

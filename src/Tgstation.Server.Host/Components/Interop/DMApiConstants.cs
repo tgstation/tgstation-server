@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using System;
+using Tgstation.Server.Host.Components.Interop.Converters;
 
 namespace Tgstation.Server.Host.Components.Interop
 {
@@ -47,7 +47,7 @@ namespace Tgstation.Server.Host.Components.Interop
 			Converters = new JsonConverter[]
 			{
 				new VersionConverter(),
-				new JsonBoolConverter()
+				new BoolConverter()
 			},
 			DefaultValueHandling = DefaultValueHandling.Ignore,
 			ReferenceLoopHandling = ReferenceLoopHandling.Ignore
