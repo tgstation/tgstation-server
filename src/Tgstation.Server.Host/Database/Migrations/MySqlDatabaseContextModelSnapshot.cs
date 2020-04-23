@@ -109,11 +109,14 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.IsRequired()
 						.HasColumnType("longtext CHARACTER SET utf8mb4");
 
-					b.Property<int?>("DMApiMajorVersion");
+					b.Property<int?>("DMApiMajorVersion")
+						.HasColumnType("int");
 
-					b.Property<int?>("DMApiMinorVersion");
+					b.Property<int?>("DMApiMinorVersion")
+						.HasColumnType("int");
 
-					b.Property<int?>("DMApiPatchVersion");
+					b.Property<int?>("DMApiPatchVersion")
+						.HasColumnType("int");
 
 					b.Property<Guid?>("DirectoryName")
 						.IsRequired()
@@ -345,9 +348,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.IsRequired()
 						.HasColumnType("datetime(6)");
 
-					b.Property<long?>("StartedById")
-						.HasColumnType("bigint")
-						.IsRequired();
+					b.Property<long>("StartedById")
+						.HasColumnType("bigint");
 
 					b.Property<DateTimeOffset?>("StoppedAt")
 						.HasColumnType("datetime(6)");
@@ -373,19 +375,14 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.IsRequired()
 						.HasColumnType("longtext CHARACTER SET utf8mb4");
 
-					b.Property<string>("ChatChannelsJson")
-						.IsRequired()
-						.HasColumnType("longtext CHARACTER SET utf8mb4");
-
-					b.Property<string>("ChatCommandsJson")
-						.IsRequired()
-						.HasColumnType("longtext CHARACTER SET utf8mb4");
-
 					b.Property<long>("CompileJobId")
 						.HasColumnType("bigint");
 
 					b.Property<bool>("IsPrimary")
 						.HasColumnType("tinyint(1)");
+
+					b.Property<int>("LaunchSecurityLevel")
+						.HasColumnType("int");
 
 					b.Property<ushort>("Port")
 						.HasColumnType("smallint unsigned");
@@ -527,9 +524,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<DateTimeOffset>("MergedAt")
 						.HasColumnType("datetime(6)");
 
-					b.Property<long?>("MergedById")
-						.HasColumnType("bigint")
-						.IsRequired();
+					b.Property<long>("MergedById")
+						.HasColumnType("bigint");
 
 					b.Property<int>("Number")
 						.HasColumnType("int");
