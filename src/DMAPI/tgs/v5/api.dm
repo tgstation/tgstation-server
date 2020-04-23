@@ -32,7 +32,7 @@
 		return FALSE
 
 	var/list/runtime_information = bridge_response[DMAPI5_BRIDGE_RESPONSE_RUNTIME_INFORMATION]
-	if(!istype(runtime_information)
+	if(!istype(runtime_information))
 		TGS_ERROR_LOG("Failed to decode runtime information from bridge response: [json_encode(bridge_response)]!")
 		return FALSE
 
