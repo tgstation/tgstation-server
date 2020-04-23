@@ -168,12 +168,16 @@ namespace Tgstation.Server.Host.Components
 			if (progressReporter == null)
 				throw new ArgumentNullException(nameof(progressReporter));
 
-			var ddSettingsTask = databaseContext.DreamDaemonSettings.Where(x => x.InstanceId == metadata.Id).Select(x => new DreamDaemonSettings
-			{
-				StartupTimeout = x.StartupTimeout,
-			}).FirstOrDefaultAsync(cancellationToken);
+			var ddSettings = await databaseContext.DreamDaemonSettings.Where(x => x.InstanceId == metadata.Id).Select(x => new DreamDaemonSettings
+				{
+					StartupTimeout = x.StartupTimeout,
+				})
+				.FirstOrDefaultAsync(cancellationToken)
+				.ConfigureAwait(false);
+			if (ddSettings == default)
+				throw new JobException("Missing DreamDaemonSettings in DB!");
 
-			var compileJobsTask = databaseContext.CompileJobs
+			var previousCompileJobs = await databaseContext.CompileJobs
 				.Where(x => x.Job.Instance.Id == metadata.Id)
 				.OrderByDescending(x => x.Job.StoppedAt)
 				.Select(x => new Job
@@ -182,14 +186,12 @@ namespace Tgstation.Server.Host.Components
 					StartedAt = x.Job.StartedAt
 				})
 				.Take(10)
-				.ToListAsync(cancellationToken);
+				.ToListAsync(cancellationToken)
+				.ConfigureAwait(false);
 
 			var dreamMakerSettings = await databaseContext.DreamMakerSettings.Where(x => x.InstanceId == metadata.Id).FirstAsync(cancellationToken).ConfigureAwait(false);
 			if (dreamMakerSettings == default)
 				throw new JobException("Missing DreamMakerSettings in DB!");
-			var ddSettings = await ddSettingsTask.ConfigureAwait(false);
-			if (ddSettings == default)
-				throw new JobException("Missing DreamDaemonSettings in DB!");
 
 			Task<RepositorySettings> repositorySettingsTask = null;
 			string repoOwner = null;
@@ -232,7 +234,6 @@ namespace Tgstation.Server.Host.Components
 				}
 
 				TimeSpan? averageSpan = null;
-				var previousCompileJobs = await compileJobsTask.ConfigureAwait(false);
 				if(previousCompileJobs.Count != 0)
 				{
 					var totalSpan = TimeSpan.Zero;

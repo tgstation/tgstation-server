@@ -192,11 +192,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					if (launchParameters.SecurityLevel == DreamDaemonSecurity.Trusted)
 						await byondLock.TrustDmbPath(ioManager.ConcatPath(basePath, dmbProvider.DmbName), cancellationToken).ConfigureAwait(false);
 
-					var runtimeInformation = CreateRuntimeInformation(dmbProvider, chatTrackingContext, launchParameters.SecurityLevel.Value);
+					var accessIdentifier = cryptographySuite.GetSecureString();
 
 					// set command line options
 					// more sanitization here cause it uses the same scheme
-					var parameters = $"{DMApiConstants.ParamApiVersion}={byondTopicSender.SanitizeString(DMApiConstants.Version.Semver())}&{byondTopicSender.SanitizeString(DMApiConstants.ParamServerPort)}={serverPortProvider.HttpApiPort}&{byondTopicSender.SanitizeString(DMApiConstants.ParamAccessIdentifier)}={runtimeInformation.AccessIdentifier}";
+					var parameters = $"{DMApiConstants.ParamApiVersion}={byondTopicSender.SanitizeString(DMApiConstants.Version.Semver())}&{byondTopicSender.SanitizeString(DMApiConstants.ParamServerPort)}={serverPortProvider.HttpApiPort}&{byondTopicSender.SanitizeString(DMApiConstants.ParamAccessIdentifier)}={accessIdentifier}";
 
 					var visibility = apiValidate ? "invisible" : "public";
 
@@ -218,11 +218,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					{
 						networkPromptReaper.RegisterProcess(process);
 
-						// return the session controller for it
+						var runtimeInformation = CreateRuntimeInformation(
+							dmbProvider,
+							chatTrackingContext,
+							launchParameters.SecurityLevel.Value,
+							apiValidate);
+
 						var reattachInformation = new ReattachInformation(
 							dmbProvider,
 							process,
 							runtimeInformation,
+							accessIdentifier,
 							portToUse.Value,
 							primaryDirectory);
 
@@ -283,7 +289,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					try
 					{
 						networkPromptReaper.RegisterProcess(process);
-						var runtimeInformation = CreateRuntimeInformation(reattachInformation.Dmb, chatTrackingContext, null);
+						var runtimeInformation = CreateRuntimeInformation(
+							reattachInformation.Dmb,
+							chatTrackingContext,
+							null,
+							false);
 						reattachInformation.SetRuntimeInformation(runtimeInformation);
 
 						var controller = new SessionController(
@@ -329,11 +339,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="dmbProvider">The <see cref="IDmbProvider"/>.</param>
 		/// <param name="chatTrackingContext">The <see cref="IChatTrackingContext"/>.</param>
 		/// <param name="securityLevel">The <see cref="DreamDaemonSecurity"/> level if any.</param>
+		/// <param name="apiValidateOnly">The value of <see cref="RuntimeInformation.ApiValidateOnly"/>.</param>
 		/// <returns>A new <see cref="RuntimeInformation"/> <see langword="class"/>.</returns>
 		RuntimeInformation CreateRuntimeInformation(
 			IDmbProvider dmbProvider,
 			IChatTrackingContext chatTrackingContext,
-			DreamDaemonSecurity? securityLevel)
+			DreamDaemonSecurity? securityLevel,
+			bool apiValidateOnly)
 		{
 			var revisionInfo = new Api.Models.Internal.RevisionInformation
 			{
@@ -350,13 +362,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			return new RuntimeInformation(
 				assemblyInformationProvider,
-				cryptographySuite,
 				serverPortProvider,
 				testMerges,
 				chatTrackingContext.Channels,
 				instance,
 				revisionInfo,
-				securityLevel);
+				securityLevel,
+				apiValidateOnly);
 		}
 	}
 }

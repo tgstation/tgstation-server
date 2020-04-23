@@ -83,7 +83,7 @@
 	return TRUE
 
 /datum/tgs_api/v5/OnInitializationComplete()
-	Bridge(TGS4_COMM_SERVER_PRIMED)
+	Bridge(DMAPI5_BRIDGE_COMMAND_PRIME)
 
 	var/tgs4_secret_sleep_offline_sauce = 29051994
 	var/old_sleep_offline = world.sleep_offline

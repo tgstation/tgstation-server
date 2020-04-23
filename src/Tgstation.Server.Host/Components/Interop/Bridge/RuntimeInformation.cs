@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Core;
-using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Interop.Bridge
@@ -13,11 +12,6 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 	/// </summary>
 	public sealed class RuntimeInformation : ChatUpdate
 	{
-		/// <summary>
-		/// The code used by the server to authenticate command Topics
-		/// </summary>
-		public string AccessIdentifier { get; }
-
 		/// <summary>
 		/// The <see cref="IAssemblyInformationProvider.Version"/>.
 		/// </summary>
@@ -57,31 +51,31 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		/// Initializes a new instance of the <see cref="RuntimeInformation"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> to use.</param>
-		/// <param name="cryptographySuite">The <see cref="ICryptographySuite"/> used to generate the value of <see cref="DMApiParameters.AccessIdentifier"/>.</param>
 		/// <param name="serverPortProvider">The <see cref="IServerPortProvider"/> used to set the value of <see cref="ServerPort"/>.</param>
 		/// <param name="testMerges">An <see cref="IEnumerable{T}"/> used to construct the value of <see cref="TestMerges"/>.</param>
 		/// <param name="chatChannels">The <see cref="Chat.ChannelRepresentation"/>s for the <see cref="ChatUpdate"/>.</param>
 		/// <param name="instance">The <see cref="Instance"/> used to set <see cref="InstanceName"/>.</param>
 		/// <param name="revision">The value of <see cref="RevisionInformation"/>.</param>
 		/// <param name="securityLevel">The value of <see cref="SecurityLevel"/>.</param>
+		/// <param name="apiValidateOnly">The value of <see cref="ApiValidateOnly"/>.</param>
 		public RuntimeInformation(
 			IAssemblyInformationProvider assemblyInformationProvider,
-			ICryptographySuite cryptographySuite,
 			IServerPortProvider serverPortProvider,
 			IEnumerable<TestMergeInformation> testMerges,
 			IEnumerable<Chat.ChannelRepresentation> chatChannels,
 			Api.Models.Instance instance,
 			Api.Models.Internal.RevisionInformation revision,
-			DreamDaemonSecurity? securityLevel)
+			DreamDaemonSecurity? securityLevel,
+			bool apiValidateOnly)
 			: base(chatChannels)
 		{
 			ServerVersion = assemblyInformationProvider?.Version ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
-			AccessIdentifier = cryptographySuite?.GetSecureString() ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			ServerPort = serverPortProvider?.HttpApiPort ?? throw new ArgumentNullException(nameof(serverPortProvider));
 			TestMerges = testMerges?.ToList() ?? throw new ArgumentNullException(nameof(testMerges));
 			InstanceName = instance?.Name ?? throw new ArgumentNullException(nameof(instance));
 			Revision = revision ?? throw new ArgumentNullException(nameof(revision));
 			SecurityLevel = securityLevel;
+			ApiValidateOnly = apiValidateOnly;
 		}
 	}
 }

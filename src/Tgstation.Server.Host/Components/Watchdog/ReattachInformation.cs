@@ -23,16 +23,16 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public RuntimeInformation RuntimeInformation { get; private set; }
 
 		/// <inheritdoc />
-		public override string AccessIdentifier
+		public override DreamDaemonSecurity? LaunchSecurityLevel
 		{
-			get => RuntimeInformation.AccessIdentifier ?? base.AccessIdentifier;
+			get => RuntimeInformation.SecurityLevel ?? base.LaunchSecurityLevel;
 			set => throw new NotSupportedException();
 		}
 
 		/// <inheritdoc />
-		public override DreamDaemonSecurity? LaunchSecurityLevel
+		public override string AccessIdentifier
 		{
-			get => RuntimeInformation.SecurityLevel ?? base.LaunchSecurityLevel;
+			get => base.AccessIdentifier;
 			set => throw new NotSupportedException();
 		}
 
@@ -47,12 +47,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="dmb">The value of <see cref="Dmb"/>.</param>
 		/// <param name="process">The <see cref="IProcess"/> used to get the <see cref="ReattachInformationBase.ProcessId"/>.</param>
 		/// <param name="runtimeInformation">The value of <see cref="RuntimeInformation"/>.</param>
+		/// <param name="accessIdentifier">The value of <see cref="AccessIdentifier"/>.</param>
 		/// <param name="port">The value of <see cref="ReattachInformationBase.Port"/>.</param>
 		/// <param name="isPrimary">The value of <see cref="ReattachInformationBase.IsPrimary"/>.</param>
 		internal ReattachInformation(
 			IDmbProvider dmb,
 			IProcess process,
 			RuntimeInformation runtimeInformation,
+			string accessIdentifier,
 			ushort port,
 			bool isPrimary)
 		{
@@ -61,6 +63,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			RuntimeInformation = runtimeInformation ?? throw new ArgumentNullException(nameof(runtimeInformation));
 			if (!runtimeInformation.SecurityLevel.HasValue)
 				throw new ArgumentException("runtimeInformation must have a valid SecurityLevel!", nameof(runtimeInformation));
+
+			base.AccessIdentifier = accessIdentifier ?? throw new ArgumentNullException(nameof(accessIdentifier));
 
 			base.LaunchSecurityLevel = runtimeInformation.SecurityLevel.Value;
 			Port = port;

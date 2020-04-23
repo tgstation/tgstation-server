@@ -497,6 +497,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			parameters.AccessIdentifier = reattachInformation.AccessIdentifier;
 
 			var json = JsonConvert.SerializeObject(parameters, DMApiConstants.SerializerSettings);
+			logger.LogTrace("Topic request: {0}", json);
 			try
 			{
 				var commandString = String.Format(CultureInfo.InvariantCulture,
@@ -511,6 +512,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					new IPEndPoint(IPAddress.Loopback, targetPort),
 					commandString,
 					cancellationToken).ConfigureAwait(false);
+
+				if (topicReturn != null)
+					logger.LogTrace("Topic response: {0}", topicReturn);
 
 				try
 				{
