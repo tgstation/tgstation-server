@@ -54,7 +54,7 @@
 	test_merges = list()
 	var/list/test_merge_json = runtime_information[DMAPI5_RUNTIME_INFORMATION_TEST_MERGES]
 	if(istype(test_merge_json))
-		for(var/entry in json)
+		for(var/entry in test_merge_json)
 			var/datum/tgs_revision_information/test_merge/tm = new
 			tm.number = entry[DMAPI5_TEST_MERGE_NUMBER]
 
@@ -111,11 +111,11 @@
 
 	var/their_sCK = topic_parameters[DMAPI5_PARAMETER_ACCESS_IDENTIFIER]
 	if(their_sCK != access_identifier)
-		return TopicResponse("Failed to decode [[DMAPI5_PARAMETER_ACCESS_IDENTIFIER]] from: [json]!");
+		return TopicResponse("Failed to decode [DMAPI5_PARAMETER_ACCESS_IDENTIFIER] from: [json]!");
 
 	var/command = topic_parameters[DMAPI5_TOPIC_PARAMETER_COMMAND_TYPE]
 	if(!isnum(command))
-		return TopicResponse("Failed to decode [[DMAPI5_TOPIC_PARAMETER_COMMAND_TYPE]] from: [json]!")
+		return TopicResponse("Failed to decode [DMAPI5_TOPIC_PARAMETER_COMMAND_TYPE] from: [json]!")
 
 	switch(command)
 		if(DMAPI5_TOPIC_COMMAND_CHAT_COMMAND)
@@ -185,7 +185,7 @@
 			if(!istype(chat_update_json))
 				return TopicResponse("Invalid or missing [DMAPI5_TOPIC_PARAMETER_CHAT_UPDATE]!")
 
-			DecodeChannels(chat_channels_json)
+			DecodeChannels(chat_update_json)
 			return TopicResponse()
 		if(DMAPI5_TOPIC_COMMAND_SERVER_PORT_UPDATE)
 			var/new_port = topic_parameters[DMAPI5_TOPIC_PARAMETER_NEW_PORT]
@@ -300,7 +300,7 @@
 	return chat_channels
 
 /datum/tgs_api/v5/proc/DecodeChannels(chat_update_json)
-	var/list/chat_channels_json = runtime_information[DMAPI5_CHAT_UPDATE_CHANNELS]
+	var/list/chat_channels_json = chat_update_json[DMAPI5_CHAT_UPDATE_CHANNELS]
 	if(istype(chat_channels_json))
 		chat_channels.Cut()
 		for(var/channel_json in chat_channels_json)

@@ -34,7 +34,7 @@
 		if(textResponse != null)
 			topic_response[DMAPI5_TOPIC_RESPONSE_COMMAND_RESPONSE_MESSAGE] = textResponse
 		return topic_response
-	return TopicError("Unknown custom chat command: [command]!")
+	return TopicResponse("Unknown custom chat command: [command]!")
 
 /*
 
