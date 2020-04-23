@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging.EventLog;
 using System;
 using System.Globalization;
+using System.Linq;
 using Tgstation.Server.Host.Configuration;
 
 namespace Tgstation.Server.Host.Extensions
@@ -39,6 +41,27 @@ namespace Tgstation.Server.Host.Extensions
 			var sectionName = (string)sectionField.GetValue(null);
 
 			return serviceCollection.Configure<TConfig>(configuration.GetSection(sectionName));
+		}
+
+		/// <summary>
+		/// Removes the <see cref="EventLogLoggerProvider"/> from a given <paramref name="serviceCollection"/>.
+		/// </summary>
+		/// <param name="serviceCollection">The <see cref="IServiceCollection"/> to remove the <see cref="EventLogLoggerProvider"/> from.</param>
+		/// <returns>The updated <paramref name="serviceCollection"/>.</returns>
+		public static IServiceCollection RemoveEventLogging(this IServiceCollection serviceCollection)
+		{
+			if (serviceCollection == null)
+				throw new ArgumentNullException(nameof(serviceCollection));
+
+			// IMPORTANT: Remove the event log provider, it's shitty and causes issues
+			var eventLogDescriptor =
+				serviceCollection.FirstOrDefault(
+					descriptor => descriptor.ImplementationType == typeof(EventLogLoggerProvider));
+
+			if (eventLogDescriptor != default)
+				serviceCollection.Remove(eventLogDescriptor);
+
+			return serviceCollection;
 		}
 	}
 }

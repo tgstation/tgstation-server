@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MySql.Data.MySqlClient;
@@ -16,14 +16,15 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
 
-namespace Tgstation.Server.Host.Core
+namespace Tgstation.Server.Host.Setup
 {
 	/// <inheritdoc />
-	sealed class SetupWizard : ISetupWizard
+	sealed class SetupWizard : IHostedService
 	{
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="SetupWizard"/>
@@ -36,14 +37,14 @@ namespace Tgstation.Server.Host.Core
 		readonly IConsole console;
 
 		/// <summary>
-		/// The <see cref="IHostingEnvironment"/> for the <see cref="SetupWizard"/>
+		/// The <see cref="IHostEnvironment"/> for the <see cref="SetupWizard"/>
 		/// </summary>
-		readonly IHostingEnvironment hostingEnvironment;
+		readonly IHostEnvironment hostingEnvironment;
 
 		/// <summary>
-		/// The <see cref="IApplication"/> for the <see cref="SetupWizard"/>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="SetupWizard"/>
 		/// </summary>
-		readonly IApplication application;
+		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
 		/// The <see cref="IDatabaseConnectionFactory"/> for the <see cref="SetupWizard"/>
@@ -61,9 +62,9 @@ namespace Tgstation.Server.Host.Core
 		readonly IAsyncDelayer asyncDelayer;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="SetupWizard"/>
+		/// The <see cref="IHostApplicationLifetime"/> for the <see cref="SetupWizard"/>.
 		/// </summary>
-		readonly ILogger<SetupWizard> logger;
+		readonly IHostApplicationLifetime applicationLifetime;
 
 		/// <summary>
 		/// The <see cref="GeneralConfiguration"/> for the <see cref="SetupWizard"/>
@@ -76,31 +77,31 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="console">The value of <see cref="console"/></param>
 		/// <param name="hostingEnvironment">The value of <see cref="hostingEnvironment"/></param>
-		/// <param name="application">The value of <see cref="application"/></param>
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
 		/// <param name="dbConnectionFactory">The value of <see cref="dbConnectionFactory"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
-		/// <param name="logger">The value of <see cref="logger"/></param>
+		/// <param name="applicationLifetime">The value of <see cref="applicationLifetime"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/></param>
 		public SetupWizard(
 			IIOManager ioManager,
 			IConsole console,
-			IHostingEnvironment hostingEnvironment,
-			IApplication application,
+			IHostEnvironment hostingEnvironment,
+			IAssemblyInformationProvider assemblyInformationProvider,
 			IDatabaseConnectionFactory dbConnectionFactory,
 			IPlatformIdentifier platformIdentifier,
 			IAsyncDelayer asyncDelayer,
-			ILogger<SetupWizard> logger,
+			IHostApplicationLifetime applicationLifetime,
 			IOptions<GeneralConfiguration> generalConfigurationOptions)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.console = console ?? throw new ArgumentNullException(nameof(console));
 			this.hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
-			this.application = application ?? throw new ArgumentNullException(nameof(application));
+			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.dbConnectionFactory = dbConnectionFactory ?? throw new ArgumentNullException(nameof(dbConnectionFactory));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
-			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+			this.applicationLifetime = applicationLifetime ?? throw new ArgumentNullException(nameof(applicationLifetime));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
@@ -280,15 +281,31 @@ namespace Tgstation.Server.Host.Core
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the input <see cref="DatabaseType"/>.</returns>
 		async Task<DatabaseType> PromptDatabaseType(CancellationToken cancellationToken)
 		{
+			await console.WriteAsync("What SQL database type will you be using?", true, cancellationToken).ConfigureAwait(false);
+
+#if !DEBUG
+			await console.WriteAsync(
+				"NOTE: It is HIGHLY reccommended that TGS runs on a complete relational database (i.e. *NOT* Sqlite)",
+				true,
+				cancellationToken)
+				.ConfigureAwait(false);
+			await console.WriteAsync(
+				"Please consider taking the time to set one up if this is meant to be a long-standing server.",
+				true,
+				cancellationToken)
+				.ConfigureAwait(false);
+#endif
+
 			do
 			{
 				await console.WriteAsync(
 					String.Format(
 						CultureInfo.InvariantCulture,
-						"Please enter one of {0}, {1}, or {2}: ",
+						"Please enter one of {0}, {1}, {2} or {3}: ",
 						DatabaseType.MariaDB,
 						DatabaseType.MySql,
-						DatabaseType.SqlServer),
+						DatabaseType.SqlServer,
+						DatabaseType.Sqlite),
 					false,
 					cancellationToken)
 					.ConfigureAwait(false);
@@ -311,7 +328,6 @@ namespace Tgstation.Server.Host.Core
 			do
 			{
 				await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
-				await console.WriteAsync("What SQL database type will you be using?", true, cancellationToken).ConfigureAwait(false);
 
 				var databaseConfiguration = new DatabaseConfiguration
 				{
@@ -413,7 +429,7 @@ namespace Tgstation.Server.Host.Core
 				{
 					var csb = new SqlConnectionStringBuilder
 					{
-						ApplicationName = application.VersionPrefix,
+						ApplicationName = assemblyInformationProvider.VersionPrefix,
 						DataSource = serverAddress ?? "(local)"
 					};
 
@@ -743,25 +759,23 @@ namespace Tgstation.Server.Host.Core
 			await SaveConfiguration(userConfigFileName, hostingPort, databaseConfiguration, newGeneralConfiguration, fileLoggingConfiguration, controlPanelConfiguration, cancellationToken).ConfigureAwait(false);
 		}
 
-		/// <inheritdoc />
-		public async Task<bool> CheckRunWizard(CancellationToken cancellationToken)
+		/// <summary>
+		/// Check if it should and run the <see cref="SetupWizard"/> if necessary.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		async Task CheckRunWizard(CancellationToken cancellationToken)
 		{
 			var setupWizardMode = generalConfiguration.SetupWizardMode;
-			logger.LogTrace("Checking if setup wizard should run. SetupWizardMode: {0}", setupWizardMode);
-
 			if (setupWizardMode == SetupWizardMode.Never)
-			{
-				logger.LogTrace("Skipping due to configuration...");
-				return false;
-			}
+				return;
 
 			var forceRun = setupWizardMode == SetupWizardMode.Force || setupWizardMode == SetupWizardMode.Only;
 			if (!console.Available)
 			{
 				if (forceRun)
 					throw new InvalidOperationException("Asked to run setup wizard with no console avaliable!");
-				logger.LogTrace("Skipping due to console not being available...");
-				return false;
+				return;
 			}
 
 			var userConfigFileName = String.Format(CultureInfo.InvariantCulture, "appsettings.{0}.json", hostingEnvironment.EnvironmentName);
@@ -786,27 +800,22 @@ namespace Tgstation.Server.Host.Core
 						var bytes = await ioManager.ReadAllBytes(userConfigFileName, cancellationToken).ConfigureAwait(false);
 						var contents = Encoding.UTF8.GetString(bytes);
 						var existingConfigIsEmpty = String.IsNullOrWhiteSpace(contents) || contents.Trim() == "{}";
-						logger.LogTrace("Configuration json detected. Empty: {0}", existingConfigIsEmpty);
 						shouldRunBasedOnAutodetect = existingConfigIsEmpty;
 					}
 					else
-					{
 						shouldRunBasedOnAutodetect = true;
-						logger.LogTrace("No configuration json detected");
-					}
 
 					if (!shouldRunBasedOnAutodetect)
 					{
 						if (forceRun)
 						{
-							logger.LogTrace("Asking user to bypass due to force run request...");
 							await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "The configuration settings are requesting the setup wizard be run, but you already appear to have a configuration file ({0})!", userConfigFileName), true, cancellationToken).ConfigureAwait(false);
 
 							forceRun = await PromptYesNo("Continue running setup wizard? (y/n): ", cancellationToken).ConfigureAwait(false);
 						}
 
 						if (!forceRun)
-							return false;
+							return;
 					}
 
 					// flush the logs to prevent console conflicts
@@ -818,8 +827,16 @@ namespace Tgstation.Server.Host.Core
 				{
 					await finalTask.ConfigureAwait(false);
 				}
-
-			return true;
 		}
+
+		/// <inheritdoc />
+		public async Task StartAsync(CancellationToken cancellationToken)
+		{
+			await CheckRunWizard(cancellationToken).ConfigureAwait(false);
+			applicationLifetime.StopApplication();
+		}
+
+		/// <inheritdoc />
+		public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 	}
 }

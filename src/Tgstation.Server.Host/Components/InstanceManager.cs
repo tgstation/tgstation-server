@@ -34,9 +34,9 @@ namespace Tgstation.Server.Host.Components
 		readonly IDatabaseContextFactory databaseContextFactory;
 
 		/// <summary>
-		/// The <see cref="IApplication"/> for the <see cref="InstanceManager"/>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="InstanceManager"/>
 		/// </summary>
-		readonly IApplication application;
+		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
 		/// The <see cref="IJobManager"/> for the <see cref="InstanceManager"/>
@@ -84,7 +84,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="instanceFactory">The value of <see cref="instanceFactory"/></param>
 		/// <param name="ioManager">The value of <paramref name="ioManager"/></param>
 		/// <param name="databaseContextFactory">The value of <paramref name="databaseContextFactory"/></param>
-		/// <param name="application">The value of <see cref="application"/></param>
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="serverControl">The value of <see cref="serverControl"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
@@ -94,7 +94,7 @@ namespace Tgstation.Server.Host.Components
 			IInstanceFactory instanceFactory,
 			IIOManager ioManager,
 			IDatabaseContextFactory databaseContextFactory,
-			IApplication application,
+			IAssemblyInformationProvider assemblyInformationProvider,
 			IJobManager jobManager,
 			IServerControl serverControl,
 			IPlatformIdentifier platformIdentifier,
@@ -104,7 +104,7 @@ namespace Tgstation.Server.Host.Components
 			this.instanceFactory = instanceFactory ?? throw new ArgumentNullException(nameof(instanceFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
-			this.application = application ?? throw new ArgumentNullException(nameof(application));
+			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
@@ -235,6 +235,8 @@ namespace Tgstation.Server.Host.Components
 		#pragma warning disable CA1506 // TODO: Decomplexify
 		public Task StartAsync(CancellationToken cancellationToken) => databaseContextFactory.UseContext(async databaseContext =>
 		{
+			logger.LogInformation(assemblyInformationProvider.VersionString);
+
 			try
 			{
 				CheckSystemCompatibility();
@@ -242,17 +244,16 @@ namespace Tgstation.Server.Host.Components
 				await databaseContext.Initialize(cancellationToken).ConfigureAwait(false);
 				await jobManager.StartAsync(cancellationToken).ConfigureAwait(false);
 				var dbInstances = databaseContext.Instances.Where(x => x.Online.Value)
-				.Include(x => x.RepositorySettings)
-				.Include(x => x.ChatSettings)
-				.ThenInclude(x => x.Channels)
-				.Include(x => x.DreamDaemonSettings)
-				.ToAsyncEnumerable();
+					.Include(x => x.RepositorySettings)
+					.Include(x => x.ChatSettings)
+					.ThenInclude(x => x.Channels)
+					.Include(x => x.DreamDaemonSettings)
+					.ToAsyncEnumerable();
 				var tasks = new List<Task>();
 				await factoryStartup.ConfigureAwait(false);
 				await dbInstances.ForEachAsync(metadata => tasks.Add(metadata.Online.Value ? OnlineInstance(metadata, cancellationToken) : Task.CompletedTask), cancellationToken).ConfigureAwait(false);
 				await Task.WhenAll(tasks).ConfigureAwait(false);
 				logger.LogInformation("Server ready!");
-				application.Ready(null);
 			}
 			catch (OperationCanceledException)
 			{
@@ -261,15 +262,17 @@ namespace Tgstation.Server.Host.Components
 			catch (Exception e)
 			{
 				logger.LogCritical("Instance manager startup error! Exception: {0}", e);
-				application.Ready(e);
 				try
 				{
 					await serverControl.Die(e).ConfigureAwait(false);
+					return;
 				}
 				catch (Exception e2)
 				{
 					logger.LogCritical("Failed to kill server! Exception: {0}", e2);
 				}
+
+				throw;
 			}
 		});
 		#pragma warning restore CA1506 // TODO: Decomplexify
@@ -289,7 +292,7 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public Task HandleRestart(Version updateVersion, CancellationToken cancellationToken)
 		{
-			downgradeVersion = updateVersion != null && updateVersion < application.Version ? updateVersion : null;
+			downgradeVersion = updateVersion != null && updateVersion < assemblyInformationProvider.Version ? updateVersion : null;
 			return Task.CompletedTask;
 		}
 

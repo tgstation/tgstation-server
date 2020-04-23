@@ -1,17 +1,21 @@
-﻿using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
-using System.IO;
-using Tgstation.Server.Host.Core;
+using System.Threading;
+using System.Threading.Tasks;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.Setup;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host
 {
-	/// <inheritdoc />
-	public sealed class ServerFactory : IServerFactory
+	/// <summary>
+	/// Implementation of <see cref="IServerFactory"/>.
+	/// </summary>
+	sealed class ServerFactory : IServerFactory
 	{
 		/// <summary>
 		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="ServerFactory"/>.
@@ -20,15 +24,6 @@ namespace Tgstation.Server.Host
 
 		/// <inheritdoc />
 		public IIOManager IOManager { get; }
-
-		/// <summary>
-		/// Create the default <see cref="IServerFactory"/>.
-		/// </summary>
-		/// <returns>A new <see cref="IServerFactory"/> with the default settings.</returns>
-		public static IServerFactory CreateDefault()
-			=> new ServerFactory(
-				new AssemblyInformationProvider(),
-				new DefaultIOManager());
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ServerFactory"/>.
@@ -42,23 +37,38 @@ namespace Tgstation.Server.Host
 		}
 
 		/// <inheritdoc />
-		public IServer CreateServer(string[] args, string updatePath)
+		public async Task<IServer> CreateServer(string[] args, string updatePath, CancellationToken cancellationToken)
 		{
-			var webHost = WebHost.CreateDefaultBuilder(args ?? throw new ArgumentNullException(nameof(args)))
-				.ConfigureAppConfiguration((context, configurationBuilder) => configurationBuilder.SetBasePath(Directory.GetCurrentDirectory()))
-				.ConfigureServices(serviceCollection =>
-				{
-					serviceCollection.AddSingleton(IOManager);
-					serviceCollection.AddSingleton(assemblyInformationProvider);
-				})
-				.UseStartup<Application>()
-				.SuppressStatusMessages(true)
-				.UseShutdownTimeout(TimeSpan.FromMinutes(1));
+			if (args == null)
+				throw new ArgumentNullException(nameof(args));
 
-			if(updatePath != null)
-				webHost.UseContentRoot(Path.GetDirectoryName(assemblyInformationProvider.Path));
+			IHostBuilder CreateDefaultBuilder() => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
+				.ConfigureAppConfiguration((context, configurationBuilder) => configurationBuilder.SetBasePath(IOManager.ResolvePath()))
+				.ConfigureServices(services => services.RemoveEventLogging());
 
-			return new Server(webHost, IOManager, updatePath);
+			var setupWizardHostBuilder = CreateDefaultBuilder()
+				.UseSetupApplication();
+
+			IPostSetupServices postSetupServices;
+			using (var setupHost = setupWizardHostBuilder.Build())
+			{
+				postSetupServices = setupHost.Services.GetRequiredService<IPostSetupServices>();
+				await setupHost.RunAsync(cancellationToken).ConfigureAwait(false);
+			}
+
+			var hostBuilder = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
+				.ConfigureWebHostDefaults(webHostBuilder =>
+					webHostBuilder
+						.UseApplication(postSetupServices)
+						.SuppressStatusMessages(true)
+						.UseShutdownTimeout(TimeSpan.FromMinutes(1)));
+
+			if (updatePath != null)
+				hostBuilder.UseContentRoot(
+					IOManager.ResolvePath(
+						IOManager.GetDirectoryName(assemblyInformationProvider.Path)));
+
+			return new Server(hostBuilder, IOManager, updatePath);
 		}
 	}
 }

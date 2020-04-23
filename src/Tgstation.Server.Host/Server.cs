@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
@@ -24,9 +24,9 @@ namespace Tgstation.Server.Host
 		public bool WatchdogPresent => updatePath != null;
 
 		/// <summary>
-		/// The <see cref="IWebHostBuilder"/> for the <see cref="Server"/>
+		/// The <see cref="IHostBuilder"/> for the <see cref="Server"/>
 		/// </summary>
-		readonly IWebHostBuilder webHostBuilder;
+		readonly IHostBuilder hostBuilder;
 
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="Server"/>.
@@ -71,16 +71,16 @@ namespace Tgstation.Server.Host
 		/// <summary>
 		/// Construct a <see cref="Server"/>
 		/// </summary>
-		/// <param name="webHostBuilder">The value of <see cref="webHostBuilder"/></param>
+		/// <param name="hostBuilder">The value of <see cref="hostBuilder"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="updatePath">The value of <see cref="updatePath"/></param>
-		public Server(IWebHostBuilder webHostBuilder, IIOManager ioManager, string updatePath)
+		public Server(IHostBuilder hostBuilder, IIOManager ioManager, string updatePath)
 		{
-			this.webHostBuilder = webHostBuilder ?? throw new ArgumentNullException(nameof(webHostBuilder));
+			this.hostBuilder = hostBuilder ?? throw new ArgumentNullException(nameof(hostBuilder));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.updatePath = updatePath;
 
-			webHostBuilder.ConfigureServices(serviceCollection => serviceCollection.AddSingleton<IServerControl>(this));
+			hostBuilder.ConfigureServices(serviceCollection => serviceCollection.AddSingleton<IServerControl>(this));
 
 			restartHandlers = new List<IRestartHandler>();
 		}
@@ -101,14 +101,20 @@ namespace Tgstation.Server.Host
 		/// <summary>
 		/// Re-throw <see cref="propagatedException"/> if it exists
 		/// </summary>
-		void CheckExceptionPropagation()
+		/// <param name="otherException">An existing <see cref="Exception"/> that should be thrown as well, but not by itself.</param>
+		void CheckExceptionPropagation(Exception otherException)
 		{
-			if (propagatedException != null)
-				throw propagatedException;
+			if (propagatedException == null)
+				return;
+
+			if (otherException != null)
+				throw new AggregateException(propagatedException, otherException);
+
+			throw propagatedException;
 		}
 
 		/// <inheritdoc />
-		public async Task RunAsync(CancellationToken cancellationToken)
+		public async Task Run(CancellationToken cancellationToken)
 		{
 			using (cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
 			using (var fsWatcher = updatePath != null ? new FileSystemWatcher(Path.GetDirectoryName(updatePath)) : null)
@@ -127,25 +133,25 @@ namespace Tgstation.Server.Host
 					fsWatcher.EnableRaisingEvents = true;
 				}
 
-				using (var webHost = webHostBuilder.Build())
+				using (var host = hostBuilder.Build())
 					try
 					{
-						logger = webHost.Services.GetRequiredService<ILogger<Server>>();
+						logger = host.Services.GetRequiredService<ILogger<Server>>();
 						using (cancellationToken.Register(() => logger.LogInformation("Process termination requested!")))
 						{
-							var generalConfigurationOptions = webHost.Services.GetRequiredService<IOptions<GeneralConfiguration>>();
+							var generalConfigurationOptions = host.Services.GetRequiredService<IOptions<GeneralConfiguration>>();
 							generalConfiguration = generalConfigurationOptions.Value;
-							await webHost.RunAsync(cancellationTokenSource.Token).ConfigureAwait(false);
+							await host.RunAsync(cancellationTokenSource.Token).ConfigureAwait(false);
 						}
 					}
-					catch (OperationCanceledException)
+					catch (Exception ex)
 					{
-						CheckExceptionPropagation();
+						CheckExceptionPropagation(ex);
 						throw;
 					}
 			}
 
-			CheckExceptionPropagation();
+			CheckExceptionPropagation(null);
 		}
 
 		/// <inheritdoc />

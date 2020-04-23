@@ -3,9 +3,8 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Tgstation.Server.Host.Database;
 
-namespace Tgstation.Server.Host.Migrations
+namespace Tgstation.Server.Host.Database.Migrations
 {
 	[DbContext(typeof(MySqlDatabaseContext))]
 	[Migration("20200420181015_MYLimitsOnChat")]

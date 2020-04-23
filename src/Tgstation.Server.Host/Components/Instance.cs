@@ -15,6 +15,7 @@ using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 
@@ -579,7 +580,7 @@ namespace Tgstation.Server.Host.Components
 			CompileJob latestCompileJob = null;
 			await databaseContextFactory.UseContext(async db =>
 			{
-				latestCompileJob = await db.CompileJobs.Where(x => x.Job.Instance.Id == metadata.Id).OrderByDescending(x => x.Job.StoppedAt).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+				latestCompileJob = await db.MostRecentCompletedCompileJobOrDefault(metadata, cancellationToken).ConfigureAwait(false);
 			}).ConfigureAwait(false);
 			await dmbFactory.CleanUnusedCompileJobs(latestCompileJob, cancellationToken).ConfigureAwait(false);
 		}

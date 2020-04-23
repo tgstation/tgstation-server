@@ -2,7 +2,7 @@
 using System;
 using Tgstation.Server.Host.Models;
 
-namespace Tgstation.Server.Host.Migrations
+namespace Tgstation.Server.Host.Database.Migrations
 {
 	/// <summary>
 	/// Adds chat limits for MSSQL.

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Database;
-using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Security
 {
@@ -13,11 +12,6 @@ namespace Tgstation.Server.Host.Security
 	{
 		/// <inheritdoc />
 		public IAuthenticationContext CurrentAuthenticationContext { get; private set; }
-
-		/// <summary>
-		/// The <see cref="ISystemIdentityFactory"/> for the <see cref="AuthenticationContextFactory"/>
-		/// </summary>
-		readonly ISystemIdentityFactory systemIdentityFactory;
 
 		/// <summary>
 		/// The <see cref="IDatabaseContext"/> for the <see cref="AuthenticationContextFactory"/>
@@ -32,12 +26,10 @@ namespace Tgstation.Server.Host.Security
 		/// <summary>
 		/// Construct an <see cref="AuthenticationContextFactory"/>
 		/// </summary>
-		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/></param>
 		/// <param name="databaseContext">The value of <see cref="databaseContext"/></param>
 		/// <param name="identityCache">The value of <see cref="identityCache"/></param>
-		public AuthenticationContextFactory(ISystemIdentityFactory systemIdentityFactory, IDatabaseContext databaseContext, IIdentityCache identityCache)
+		public AuthenticationContextFactory(IDatabaseContext databaseContext, IIdentityCache identityCache)
 		{
-			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
 			this.databaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
 			this.identityCache = identityCache ?? throw new ArgumentNullException(nameof(identityCache));
 		}
@@ -51,16 +43,10 @@ namespace Tgstation.Server.Host.Security
 			if (CurrentAuthenticationContext != null)
 				throw new InvalidOperationException("Authentication context has already been loaded");
 
-			var userQuery = databaseContext.Users.Where(x => x.Id == userId)
+			var user = await databaseContext.Users.Where(x => x.Id == userId)
 				.Include(x => x.CreatedBy)
-				.FirstOrDefaultAsync(cancellationToken);
-
-			var instanceUserQuery = instanceId.HasValue ? databaseContext.InstanceUsers
-				.Where(x => x.UserId == userId && x.InstanceId == instanceId && x.Instance.Online.Value)
-				.Include(x => x.Instance)
-				.FirstOrDefaultAsync(cancellationToken) : Task.FromResult<InstanceUser>(null);
-
-			var user = await userQuery.ConfigureAwait(false);
+				.FirstOrDefaultAsync(cancellationToken)
+				.ConfigureAwait(false);
 			if (user == default)
 			{
 				CurrentAuthenticationContext = new AuthenticationContext();
@@ -83,7 +69,13 @@ namespace Tgstation.Server.Host.Security
 
 			try
 			{
-				var instanceUser = await instanceUserQuery.ConfigureAwait(false);
+				var instanceUser = instanceId.HasValue
+					? await databaseContext.InstanceUsers
+						.Where(x => x.UserId == userId && x.InstanceId == instanceId && x.Instance.Online.Value)
+						.Include(x => x.Instance)
+						.FirstOrDefaultAsync(cancellationToken)
+						.ConfigureAwait(false)
+					: null;
 
 				CurrentAuthenticationContext = new AuthenticationContext(systemIdentity, user, instanceUser);
 			}
