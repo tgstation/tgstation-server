@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
 
@@ -162,17 +163,23 @@ namespace Tgstation.Server.Host.Components.Deployment
 		}
 
 		/// <inheritdoc />
-		public Task StartAsync(CancellationToken cancellationToken) => databaseContextFactory.UseContext(async (db) =>
+		public async Task StartAsync(CancellationToken cancellationToken)
 		{
-			// where complete clause not necessary, only successful COMPILEjobs get in the db
-			var cj = await db.CompileJobs.Where(x => x.Job.Instance.Id == instance.Id)
-				.OrderByDescending(x => x.Job.StoppedAt).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			CompileJob cj = null;
+			await databaseContextFactory.UseContext(async (db) =>
+			{
+				cj = await db
+					.MostRecentCompletedCompileJobOrDefault(instance, cancellationToken)
+					.ConfigureAwait(false);
+			})
+			.ConfigureAwait(false);
+
 			if (cj == default(CompileJob))
 				return;
 			await LoadCompileJob(cj, cancellationToken).ConfigureAwait(false);
 
 			// we dont do CleanUnusedCompileJobs here because the watchdog may have plans for them yet
-		});
+		}
 
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken)

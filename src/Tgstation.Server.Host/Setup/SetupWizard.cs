@@ -281,15 +281,31 @@ namespace Tgstation.Server.Host.Setup
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the input <see cref="DatabaseType"/>.</returns>
 		async Task<DatabaseType> PromptDatabaseType(CancellationToken cancellationToken)
 		{
+			await console.WriteAsync("What SQL database type will you be using?", true, cancellationToken).ConfigureAwait(false);
+
+#if !DEBUG
+			await console.WriteAsync(
+				"NOTE: It is HIGHLY reccommended that TGS runs on a complete relational database (i.e. *NOT* Sqlite)",
+				true,
+				cancellationToken)
+				.ConfigureAwait(false);
+			await console.WriteAsync(
+				"Please consider taking the time to set one up if this is meant to be a long-standing server.",
+				true,
+				cancellationToken)
+				.ConfigureAwait(false);
+#endif
+
 			do
 			{
 				await console.WriteAsync(
 					String.Format(
 						CultureInfo.InvariantCulture,
-						"Please enter one of {0}, {1}, or {2}: ",
+						"Please enter one of {0}, {1}, {2} or {3}: ",
 						DatabaseType.MariaDB,
 						DatabaseType.MySql,
-						DatabaseType.SqlServer),
+						DatabaseType.SqlServer,
+						DatabaseType.Sqlite),
 					false,
 					cancellationToken)
 					.ConfigureAwait(false);
@@ -312,7 +328,6 @@ namespace Tgstation.Server.Host.Setup
 			do
 			{
 				await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
-				await console.WriteAsync("What SQL database type will you be using?", true, cancellationToken).ConfigureAwait(false);
 
 				var databaseConfiguration = new DatabaseConfiguration
 				{

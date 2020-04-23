@@ -289,7 +289,7 @@ namespace Tgstation.Server.Host.Database
 		}
 
 		/// <inheritdoc />
-		public virtual async Task Initialize(CancellationToken cancellationToken)
+		public async Task Initialize(CancellationToken cancellationToken)
 		{
 			ValidateDatabaseType();
 

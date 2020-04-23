@@ -91,6 +91,10 @@ namespace Tgstation.Server.Tests
 			{
 				var updatePath = Path.Combine(updatePathRoot, Guid.NewGuid().ToString());
 				var server = new TestingServer(clientFactory, updatePath);
+
+				if (server.DatabaseType == "Sqlite")
+					Assert.Inconclusive("Cannot run this test on SQLite yet!");
+
 				using (var serverCts = new CancellationTokenSource())
 				{
 					var cancellationToken = serverCts.Token;

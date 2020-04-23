@@ -20,6 +20,9 @@ namespace Tgstation.Server.Tests
 		public Uri Url { get; }
 
 		public string Directory { get; }
+
+		public string DatabaseType { get; }
+
 		public bool RestartRequested => realServer.Result.RestartRequested;
 
 		readonly Task<IServer> realServer;
@@ -39,12 +42,12 @@ namespace Tgstation.Server.Tests
 
 			//so we need a db
 			//we have to rely on env vars
-			var databaseType = Environment.GetEnvironmentVariable("TGS4_TEST_DATABASE_TYPE");
+			DatabaseType = Environment.GetEnvironmentVariable("TGS4_TEST_DATABASE_TYPE");
 			var connectionString = Environment.GetEnvironmentVariable("TGS4_TEST_CONNECTION_STRING");
 			var gitHubAccessToken = Environment.GetEnvironmentVariable("TGS4_TEST_GITHUB_TOKEN");
 			var dumpOpenAPISpecPathEnvVar = Environment.GetEnvironmentVariable("TGS4_TEST_DUMP_API_SPEC");
 
-			if (String.IsNullOrEmpty(databaseType))
+			if (String.IsNullOrEmpty(DatabaseType))
 				Assert.Inconclusive("No database type configured in env var TGS4_TEST_DATABASE_TYPE!");
 
 			if (String.IsNullOrEmpty(connectionString))
@@ -58,7 +61,7 @@ namespace Tgstation.Server.Tests
 			var args = new List<string>()
 			{
 				String.Format(CultureInfo.InvariantCulture, "Kestrel:EndPoints:Http:Url={0}", Url),
-				String.Format(CultureInfo.InvariantCulture, "Database:DatabaseType={0}", databaseType),
+				String.Format(CultureInfo.InvariantCulture, "Database:DatabaseType={0}", DatabaseType),
 				String.Format(CultureInfo.InvariantCulture, "Database:ConnectionString={0}", connectionString),
 				String.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", true),
 				String.Format(CultureInfo.InvariantCulture, "General:SetupWizardMode={0}", SetupWizardMode.Never),
