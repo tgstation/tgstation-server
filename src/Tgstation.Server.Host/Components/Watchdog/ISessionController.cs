@@ -63,7 +63,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		Task OnReboot { get; }
 
 		/// <summary>
-		/// Releases the <see cref="IProcess"/> without terminating it. Also calls <see cref="global::System.IDisposable.Dispose"/>
+		/// Releases the <see cref="IProcess"/> without terminating it. Also calls <see cref="IDisposable.Dispose"/>
 		/// </summary>
 		/// <returns><see cref="ReattachInformation"/> which can be used to create a new <see cref="ISessionController"/> similar to this one</returns>
 		ReattachInformation Release();

@@ -612,9 +612,10 @@ namespace Tgstation.Server.Host.Components.Chat
 		{
 			foreach (var I in commandFactory.GenerateCommands())
 				builtinCommands.Add(I.Name.ToUpperInvariant(), I);
-			await Task.WhenAll(activeChatBots.Select(x => ChangeSettings(x, cancellationToken))).ConfigureAwait(false);
+			var initialChatBots = activeChatBots.ToList();
+			await Task.WhenAll(initialChatBots.Select(x => ChangeSettings(x, cancellationToken))).ConfigureAwait(false);
 			await Task.WhenAll(providers.Select(x => x.Value).Select(x => x.Connect(cancellationToken))).ConfigureAwait(false);
-			await Task.WhenAll(activeChatBots.Select(x => ChangeChannels(x.Id, x.Channels, cancellationToken))).ConfigureAwait(false);
+			await Task.WhenAll(initialChatBots.Select(x => ChangeChannels(x.Id, x.Channels, cancellationToken))).ConfigureAwait(false);
 			chatHandler = MonitorMessages(handlerCts.Token);
 			started = true;
 		}

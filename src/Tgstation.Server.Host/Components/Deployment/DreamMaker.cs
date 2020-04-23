@@ -451,6 +451,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			}
 			catch (Exception e)
 			{
+				logger.LogDebug("Cleaning up failed compile due to exception: {0}", e);
 				await CleanupFailedCompile(job, e is OperationCanceledException, cancellationToken).ConfigureAwait(false);
 				throw;
 			}

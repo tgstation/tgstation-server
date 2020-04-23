@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Controllers
@@ -165,7 +166,7 @@ namespace Tgstation.Server.Host.Controllers
 				Logger.LogDebug(
 					"Request made by User ID {0}. Api version: {1}. User-Agent: {2}. Type: {3}. Route {4}{5} to Instance {6}",
 					AuthenticationContext?.User.Id.Value.ToString(CultureInfo.InvariantCulture),
-					ApiHeaders.ApiVersion,
+					ApiHeaders.ApiVersion.Semver(),
 					ApiHeaders.RawUserAgent,
 					Request.Method,
 					Request.Path,

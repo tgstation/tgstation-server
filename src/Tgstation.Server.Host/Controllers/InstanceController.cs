@@ -526,21 +526,33 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(IEnumerable<Api.Models.Instance>), 200)]
 		public async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
-			IQueryable<Models.Instance> query = DatabaseContext.Instances;
-			if (!AuthenticationContext.User.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List))
-				query = query.Where(x => x.InstanceUsers.Any(y => y.UserId == AuthenticationContext.User.Id)).Where(x => x.InstanceUsers.Any(y => y.AnyRights));
+			IQueryable<Models.Instance> GetBaseQuery()
+			{
+				IQueryable<Models.Instance> query = DatabaseContext.Instances;
+				if (!AuthenticationContext.User.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List))
+					query = query
+						.Where(x => x.InstanceUsers.Any(y => y.UserId == AuthenticationContext.User.Id))
+						.Where(x => x.InstanceUsers.Any(y => y.AnyRights));
 
-			var moveJobTasks = query
+				// Hack for EF IAsyncEnumerable BS
+				return query.Select(x => x);
+			}
+
+			var moveJobs = await GetBaseQuery()
 				.SelectMany(x => x.Jobs)
 #pragma warning disable CA1307 // Specify StringComparison
 				.Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
 #pragma warning restore CA1307 // Specify StringComparison
 				.Include(x => x.StartedBy).ThenInclude(x => x.CreatedBy)
 				.Include(x => x.Instance)
-				.ToListAsync(cancellationToken);
-			var instances = await query.ToListAsync(cancellationToken).ConfigureAwait(false);
+				.ToListAsync(cancellationToken)
+				.ConfigureAwait(false);
+
+			var instances = await GetBaseQuery()
+				.ToListAsync(cancellationToken)
+				.ConfigureAwait(false);
+
 			var apis = instances.Select(x => x.ToApi());
-			var moveJobs = await moveJobTasks.ConfigureAwait(false);
 			foreach(var I in moveJobs)
 				apis.Where(x => x.Id == I.Instance.Id).First().MoveJob = I.ToApi(); // if this .First() fails i will personally murder kevinz000 because I just know he is somehow responsible
 			return Json(apis);
