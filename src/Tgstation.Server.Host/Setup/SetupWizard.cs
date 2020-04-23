@@ -281,21 +281,34 @@ namespace Tgstation.Server.Host.Setup
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the input <see cref="DatabaseType"/>.</returns>
 		async Task<DatabaseType> PromptDatabaseType(CancellationToken cancellationToken)
 		{
-			await console.WriteAsync("What SQL database type will you be using?", true, cancellationToken).ConfigureAwait(false);
-
 #if !DEBUG
+			await console.WriteAsync(String.Empty, true, cancellationToken).ConfigureAwait(false);
 			await console.WriteAsync(
-				"NOTE: It is HIGHLY reccommended that TGS runs on a complete relational database (i.e. *NOT* Sqlite)",
+				"NOTE: It is HIGHLY reccommended that TGS runs on a complete relational database, specfically *NOT* Sqlite.",
 				true,
 				cancellationToken)
 				.ConfigureAwait(false);
 			await console.WriteAsync(
-				"Please consider taking the time to set one up if this is meant to be a long-standing server.",
+				"Sqlite, by nature cannot perform several DDL operations. Because of this future compatiblility cannot be guaranteed.",
 				true,
 				cancellationToken)
 				.ConfigureAwait(false);
+			await console.WriteAsync(
+				"This means that you may not be able to update to the next minor version of TGS4 without a clean re-installation!",
+				true,
+				cancellationToken)
+				.ConfigureAwait(false);
+			await console.WriteAsync(
+				"Please consider taking the time to set up a relational database if this is meant to be a long-standing server.",
+				true,
+				cancellationToken)
+				.ConfigureAwait(false);
+			await console.WriteAsync(String.Empty, true, cancellationToken).ConfigureAwait(false);
+
+			await asyncDelayer.Delay(TimeSpan.FromSeconds(3), cancellationToken).ConfigureAwait(false);
 #endif
 
+			await console.WriteAsync("What SQL database type will you be using?", true, cancellationToken).ConfigureAwait(false);
 			do
 			{
 				await console.WriteAsync(
