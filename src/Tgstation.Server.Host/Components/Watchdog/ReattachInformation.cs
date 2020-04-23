@@ -23,6 +23,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public RuntimeInformation RuntimeInformation { get; private set; }
 
 		/// <inheritdoc />
+		public override string AccessIdentifier
+		{
+			get => RuntimeInformation.AccessIdentifier ?? base.AccessIdentifier;
+			set => throw new NotSupportedException();
+		}
+
+		/// <inheritdoc />
 		public override DreamDaemonSecurity? LaunchSecurityLevel
 		{
 			get => RuntimeInformation.SecurityLevel ?? base.LaunchSecurityLevel;
