@@ -63,7 +63,7 @@
 				tm.commit = revisionData[DMAPI5_REVISION_INFORMATION_COMMIT_SHA]
 				tm.origin_commit = revisionData[DMAPI5_REVISION_INFORMATION_ORIGIN_COMMIT_SHA]
 			else
-				TGS_ERROR_LOG("Failed to decode [DMAPI5_TEST_MERGE_REVISION] from test merge #[tm.number]!")
+				TGS_WARNING_LOG("Failed to decode [DMAPI5_TEST_MERGE_REVISION] from test merge #[tm.number]!")
 
 			tm.time_merged = text2num(entry[DMAPI5_TEST_MERGE_TIME_MERGED])
 			tm.title = entry[DMAPI5_TEST_MERGE_TITLE_AT_MERGE]
@@ -75,7 +75,7 @@
 
 			test_merges += tm
 	else
-		TGS_ERROR_LOG("Failed to decode [DMAPI5_RUNTIME_INFORMATION_TEST_MERGES] from runtime information!")
+		TGS_WARNING_LOG("Failed to decode [DMAPI5_RUNTIME_INFORMATION_TEST_MERGES] from runtime information!")
 
 	chat_channels = list()
 	DecodeChannels(runtime_information)
@@ -198,10 +198,6 @@
 	return TopicResponse("Unknown command: [command]")
 
 /datum/tgs_api/v5/proc/Bridge(command, list/data)
-	if(command == null)
-		TGS_ERROR_LOG("Attempted to bridge with no command!")
-		return
-
 	if(!data)
 		data = list()
 
@@ -308,7 +304,7 @@
 			if(channel)
 				chat_channels += channel
 	else
-		TGS_ERROR_LOG("Failed to decode [DMAPI5_CHAT_UPDATE_CHANNELS] from channel update!")
+		TGS_WARNING_LOG("Failed to decode [DMAPI5_CHAT_UPDATE_CHANNELS] from channel update!")
 
 /datum/tgs_api/v5/proc/DecodeChannel(channel_json)
 	var/datum/tgs_chat_channel/channel = new
