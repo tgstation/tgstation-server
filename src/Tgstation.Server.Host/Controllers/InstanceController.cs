@@ -184,7 +184,7 @@ namespace Tgstation.Server.Host.Controllers
 							if (++countOfOtherInstances >= generalConfiguration.InstanceLimit)
 								earlyOut = Conflict(new ErrorMessage(ErrorCode.InstanceLimitReached));
 							else
-								earlyOut = CheckInstanceNotChildOf(otherInstance.Path);
+								earlyOut = earlyOut ?? CheckInstanceNotChildOf(otherInstance.Path);
 
 							if (earlyOut != null && !newCancellationToken.IsCancellationRequested)
 								cts.Cancel();
