@@ -1,6 +1,6 @@
 #!/bin/sh
 
-$SCRIPT_VERSION="1.1.0"
+SCRIPT_VERSION="1.1.0"
 
 echo "tgstation-server 4 container startup script v$SCRIPT_VERSION"
 echo "PWD: $PWD"
