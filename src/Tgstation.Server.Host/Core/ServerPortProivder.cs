@@ -21,24 +21,6 @@ namespace Tgstation.Server.Host.Core
 			if (configuration == null)
 				throw new ArgumentNullException(nameof(configuration));
 
-			// Log the active configuration.
-			logger.LogInformation("Active Config:");
-
-			void LogSection(IConfigurationSection section, string prefix)
-			{
-				prefix = $"{prefix}{section.Key}:";
-				if (section.Value != null)
-					logger.LogInformation("{0} {1}", prefix, section.Value);
-				else
-				{
-					foreach (var child in section.GetChildren())
-						LogSection(child, prefix);
-				}
-			}
-
-			foreach (var section in configuration.GetChildren())
-				LogSection(section, String.Empty);
-
 			var httpEndpoint = configuration
 				.GetSection("Kestrel")
 				.GetSection("EndPoints")
