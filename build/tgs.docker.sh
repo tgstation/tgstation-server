@@ -13,7 +13,6 @@ if [ ! -f $PROD_CONFIG ]; then
 	echo "{}" > $PROD_CONFIG
 fi
 
-echo "Linking $PROD_CONFIG to $HOST_CONFIG"
 ln -v -s $PROD_CONFIG $HOST_CONFIG
 
 if [ ! -f "$HOST_CONFIG" ]; then
