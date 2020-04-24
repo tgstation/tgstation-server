@@ -13,10 +13,10 @@ COPY ["src/Tgstation.Server.Api/Tgstation.Server.Api.csproj", "src/Tgstation.Ser
 RUN dotnet restore "src/Tgstation.Server.Host/Tgstation.Server.Host.csproj"
 COPY . .
 WORKDIR "/src/src/Tgstation.Server.Host"
-RUN dotnet build "Tgstation.Server.Host.csproj" -c Release -o /app/build
+RUN dotnet build "Tgstation.Server.Host.csproj" -c Debug -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Tgstation.Server.Host.csproj" -c Release -o /app/publish
+RUN dotnet publish "Tgstation.Server.Host.csproj" -c Debug -o /app/publish
 
 FROM base AS final
 WORKDIR /app
