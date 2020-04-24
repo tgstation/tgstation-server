@@ -92,7 +92,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			if (supportsAnonymous)
 				return new DefaultCredentials();
 
-			if (!hasCreds)
+			if (supportsUserPass)
 				throw new JobException("Remote does not support anonymous authentication!");
 
 			throw new JobException("Server does not support anonymous or username/password authentication!");
