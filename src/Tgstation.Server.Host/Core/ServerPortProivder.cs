@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 
@@ -15,8 +14,7 @@ namespace Tgstation.Server.Host.Core
 		/// Initializes a new instance of the <see cref="ServerPortProivder"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="configuration">The <see cref="IConfiguration"/> to use.</param>
-		/// <param name="logger">The <see cref="ILogger"/> to use.</param>
-		public ServerPortProivder(IConfiguration configuration, ILogger<ServerPortProivder> logger)
+		public ServerPortProivder(IConfiguration configuration)
 		{
 			if (configuration == null)
 				throw new ArgumentNullException(nameof(configuration));
