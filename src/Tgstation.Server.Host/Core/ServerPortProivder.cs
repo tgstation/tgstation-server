@@ -21,10 +21,13 @@ namespace Tgstation.Server.Host.Core
 
 			var httpEndpoint = configuration
 				.GetSection("Kestrel")
-				.GetSection("Endpoints")
+				.GetSection("EndPoints")
 				.GetSection("Http")
 				.GetSection("Url")
 				.Value;
+
+			if (httpEndpoint == null)
+				throw new InvalidOperationException("Missing required configuration option for Kestrel:EndPoints:Http:Url!");
 
 			HttpApiPort = GetPortFromAddress(httpEndpoint);
 		}
