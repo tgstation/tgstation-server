@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "Tgstation.Server.Host": {
+    "Local": {
       "commandName": "Project",
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development",
