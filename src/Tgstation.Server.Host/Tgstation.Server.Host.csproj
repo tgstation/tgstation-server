@@ -26,6 +26,8 @@
   <PropertyGroup>
     <NodeModulesFolder>ClientApp/node_modules</NodeModulesFolder>
     <NpmInstallStampFile>ClientApp/node_modules/.install-stamp</NpmInstallStampFile>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
   
   <Target Name="NpmInstall" Inputs="ClientApp/package-lock.json" Outputs="$(NpmInstallStampFile)">
@@ -68,6 +70,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.10" />
     <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
     <PackageReference Include="Octokit" Version="0.47.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.1" />
