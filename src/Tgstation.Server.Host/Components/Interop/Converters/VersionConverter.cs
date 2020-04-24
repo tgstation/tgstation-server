@@ -22,7 +22,7 @@ namespace Tgstation.Server.Host.Components.Interop.Converters
 			}
 			else
 			{
-				throw new JsonSerializationException("Expected Version object value!");
+				throw new ArgumentException("Expected Version object!", nameof(value));
 			}
 		}
 
