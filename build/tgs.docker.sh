@@ -19,7 +19,7 @@ ln -v -s $PROD_CONFIG $HOST_CONFIG
 if [ ! -f "$HOST_CONFIG" ]; then
 	echo "ln failed to create symlink!"
 	exit 1
-exit
+fi
 
 echo "Executing console runner..."
 exec dotnet Tgstation.Server.Host.Console.dll
