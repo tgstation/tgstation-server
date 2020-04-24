@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 
@@ -14,10 +15,29 @@ namespace Tgstation.Server.Host.Core
 		/// Initializes a new instance of the <see cref="ServerPortProivder"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="configuration">The <see cref="IConfiguration"/> to use.</param>
-		public ServerPortProivder(IConfiguration configuration)
+		/// <param name="logger">The <see cref="ILogger"/> to use.</param>
+		public ServerPortProivder(IConfiguration configuration, ILogger<ServerPortProivder> logger)
 		{
 			if (configuration == null)
 				throw new ArgumentNullException(nameof(configuration));
+
+			// Log the active configuration.
+			logger.LogTrace("Active Config:");
+
+			void LogSection(IConfigurationSection section, string prefix)
+			{
+				prefix = $"{prefix}{section.Key}:";
+				if (section.Value != null)
+					logger.LogTrace("{0} {1}", prefix, section.Value);
+				else
+				{
+					foreach (var child in section.GetChildren())
+						LogSection(child, prefix);
+				}
+			}
+
+			foreach (var section in configuration.GetChildren())
+				LogSection(section, String.Empty);
 
 			var httpEndpoint = configuration
 				.GetSection("Kestrel")

@@ -336,11 +336,6 @@ namespace Tgstation.Server.Host.Core
 			if (logger == null)
 				throw new ArgumentNullException(nameof(logger));
 
-			// Log the active configuration.
-			logger.LogTrace("Active Config:");
-			foreach (var section in Configuration.GetChildren())
-				logger.LogTrace("{0}: {1}", section.Key, section.Value);
-
 			logger.LogDebug("Content Root: {0}", hostingEnvironment.ContentRootPath);
 			logger.LogTrace("Web Root: {0}", hostingEnvironment.WebRootPath);
 
