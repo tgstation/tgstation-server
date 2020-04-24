@@ -27,7 +27,7 @@ namespace Tgstation.Server.Host.Core
 				.Value;
 
 			if (httpEndpoint == null)
-				throw new InvalidOperationException("Missing required configuration option for Kestrel:EndPoints:Http:Url!");
+				throw new InvalidOperationException("Missing required configuration option Kestrel:EndPoints:Http:Url!");
 
 			var splits = httpEndpoint.Split(":", StringSplitOptions.RemoveEmptyEntries);
 			var portString = splits.Last();
