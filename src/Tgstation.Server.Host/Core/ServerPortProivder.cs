@@ -22,13 +22,13 @@ namespace Tgstation.Server.Host.Core
 				throw new ArgumentNullException(nameof(configuration));
 
 			// Log the active configuration.
-			logger.LogTrace("Active Config:");
+			logger.LogInformation("Active Config:");
 
 			void LogSection(IConfigurationSection section, string prefix)
 			{
 				prefix = $"{prefix}{section.Key}:";
 				if (section.Value != null)
-					logger.LogTrace("{0} {1}", prefix, section.Value);
+					logger.LogInformation("{0} {1}", prefix, section.Value);
 				else
 				{
 					foreach (var child in section.GetChildren())
