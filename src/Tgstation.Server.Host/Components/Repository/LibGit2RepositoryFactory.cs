@@ -9,18 +9,18 @@ using Tgstation.Server.Host.Jobs;
 namespace Tgstation.Server.Host.Components.Repository
 {
 	/// <inheritdoc />
-	sealed class RepositoryFactory : IRepositoryFactory
+	sealed class LibGit2RepositoryFactory : ILibGit2RepositoryFactory
 	{
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="RepositoryFactory"/>.
+		/// The <see cref="ILogger"/> for the <see cref="LibGit2RepositoryFactory"/>.
 		/// </summary>
-		readonly ILogger<RepositoryFactory> logger;
+		readonly ILogger<LibGit2RepositoryFactory> logger;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="RepositoryFactory"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="LibGit2RepositoryFactory"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		public RepositoryFactory(ILogger<RepositoryFactory> logger)
+		public LibGit2RepositoryFactory(ILogger<LibGit2RepositoryFactory> logger)
 		{
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
@@ -28,8 +28,18 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <inheritdoc />
 		public LibGit2Sharp.IRepository CreateInMemory()
 		{
-			logger.LogTrace("Creating in-memory repository...");
-			return new LibGit2Sharp.Repository();
+			logger.LogTrace("Creating in-memory libgit2 repository...");
+			var repo = new LibGit2Sharp.Repository();
+			try
+			{
+				logger.LogTrace("Successfully created in-memory libgit2 repository.");
+				return repo;
+			}
+			catch
+			{
+				repo.Dispose();
+				throw;
+			}
 		}
 
 		/// <inheritdoc />
@@ -37,9 +47,13 @@ namespace Tgstation.Server.Host.Components.Repository
 		{
 			if (path == null)
 				throw new ArgumentNullException(nameof(path));
-			logger.LogTrace("Creating repostory at {0}...", path);
-			return Task.Factory.StartNew(
-				() => (LibGit2Sharp.IRepository)new LibGit2Sharp.Repository(path),
+
+			return Task.Factory.StartNew<LibGit2Sharp.IRepository>(
+				() =>
+				{
+					logger.LogTrace("Creating libgit2 repostory at {0}...", path);
+					return new LibGit2Sharp.Repository(path);
+				},
 				cancellationToken,
 				TaskCreationOptions.LongRunning,
 				TaskScheduler.Current);

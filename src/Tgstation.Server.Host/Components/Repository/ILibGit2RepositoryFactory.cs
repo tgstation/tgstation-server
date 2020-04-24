@@ -8,7 +8,7 @@ namespace Tgstation.Server.Host.Components.Repository
 	/// <summary>
 	/// Factory for creating <see cref="LibGit2Sharp.IRepository"/>s.
 	/// </summary>
-	interface IRepositoryFactory : ICredentialsProvider
+	interface ILibGit2RepositoryFactory : ICredentialsProvider
 	{
 		/// <summary>
 		/// Create an in-memeory <see cref="LibGit2Sharp.IRepository"/>.
