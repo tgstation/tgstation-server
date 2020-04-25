@@ -489,7 +489,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			if (progressReporter == null)
 				throw new ArgumentNullException(nameof(progressReporter));
 			if (!Tracking)
-				throw new JobException("Cannot reset to origin while not on a tracked reference!");
+				throw new JobException(ErrorCode.RepoReferenceRequired);
 			logger.LogTrace("Reset to origin...");
 			var trackedBranch = libGitRepo.Head.TrackedBranch;
 			await eventConsumer.HandleEvent(EventType.RepoResetOrigin, new List<string> { trackedBranch.FriendlyName, trackedBranch.Tip.Sha }, cancellationToken).ConfigureAwait(false);
@@ -545,7 +545,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			await Task.Factory.StartNew(() =>
 			{
 				if (!Tracking)
-					throw new JobException("Cannot reset to origin while not on a tracked reference!");
+					throw new JobException(ErrorCode.RepoReferenceRequired);
 
 				libGitRepo.RemoveUntrackedFiles();
 

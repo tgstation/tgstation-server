@@ -234,7 +234,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// <see cref="Repository.NewTestMerges"/> contained duplicate <see cref="TestMergeParameters.Number"/>s.
 		/// </summary>
-		[Description("The same pull request was present more than once in the test merge requests!")]
+		[Description("The same pull request was present more than once in the test merge requests or is already merged!")]
 		RepoDuplicateTestMerge,
 
 		/// <summary>
@@ -303,5 +303,161 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("Set amount of chatChannels exceeds the configured channelLimit!")]
 		ChatBotMaxChannels,
+
+		/// <summary>
+		/// Failed to install DirectX with BYOND.
+		/// </summary>
+		[Description("Unable to start DirectX installer process! Is the server running with admin privileges?")]
+		ByondDirectXInstallFail,
+
+		/// <summary>
+		/// Failed to download a given BYOND version.
+		/// </summary>
+		[Description("Error downloading specified BYOND version!")]
+		ByondDownloadFail,
+
+		/// <summary>
+		/// Failed to lock BYOND executables.
+		/// </summary>
+		[Description("Could not acquire lock on BYOND installation as none exist!")]
+		ByondNoVersionsInstalled,
+
+		/// <summary>
+		/// The DMAPI never validated itself
+		/// </summary>
+		[Description("DreamDaemon exited without validating the DMAPI@")]
+		DreamMakerNeverValidated,
+
+		/// <summary>
+		/// The DMAPI sent an invalid validation request.
+		/// </summary>
+		[Description("The DMAPI sent an invalid validation request!")]
+		DreamMakerInvalidValidation,
+
+		/// <summary>
+		/// DMAPI validation timeout.
+		/// </summary>
+		[Description("The DreamDaemon startup timeout was hit before the DMAPI validated!")]
+		DreamMakerValidationTimeout,
+
+		/// <summary>
+		/// No .dme could be found for deployment.
+		/// </summary>
+		[Description("No .dme configured and could not automatically detect one!")]
+		DreamMakerNoDme,
+
+		/// <summary>
+		/// The configured .dme could not be found.
+		/// </summary>
+		[Description("Could not load configured .dme!")]
+		DreamMakerMissingDme,
+
+		/// <summary>
+		/// DreamMaker failed to compile.
+		/// </summary>
+		[Description("DreamMaker exited with a non-zero exit code!")]
+		DreamMakerExitCode,
+
+		/// <summary>
+		/// Deployment already in progress
+		/// </summary>
+		[Description("There is already a deployment operation in progress!")]
+		DreamMakerCompileJobInProgress,
+
+		/// <summary>
+		/// Missing <see cref="DreamDaemon"/> settings in database.
+		/// </summary>
+		[Description("Could not retrieve DreamDaemon settings from the database!")]
+		InstanceMissingDreamDaemonSettings,
+
+		/// <summary>
+		/// Missing <see cref="DreamMaker"/> settings in database.
+		/// </summary>
+		[Description("Could not retrieve DreamMaker settings from the database!")]
+		InstanceMissingDreamMakerSettings,
+
+		/// <summary>
+		/// Missing <see cref="Repository"/> settings in database.
+		/// </summary>
+		[Description("Could not retrieve Repository settings from the database!")]
+		InstanceMissingRepositorySettings,
+
+		/// <summary>
+		/// Performing an automatic update with the <see cref="Internal.RepositorySettings.AutoUpdatesKeepTestMerges"/> flag resulted in merge conflicts.
+		/// </summary>
+		[Description("Performing this automatic update as a merge would result in conficts. Aborting!")]
+		InstanceUpdateTestMergeConflict,
+
+		/// <summary>
+		/// <see cref="Internal.RepositorySettings.AccessUser"/> and <see cref="Internal.RepositorySettings.AccessToken"/> are required for this operation.
+		/// </summary>
+		[Description("Git credentials are required for this operation!")]
+		RepoCredentialsRequired,
+
+		/// <summary>
+		/// The remote returned an invalid authentication request.
+		/// </summary>
+		[Description("The remote is requesting authentication, but is not allowing credentials to be received!")]
+		RepoCannotAuthenticate,
+
+		/// <summary>
+		/// Cannot perform operation while not on a <see cref="Repository.Reference"/>.
+		/// </summary>
+		[Description("This git operation requires the repository HEAD to currently be on a tracked reference!")]
+		RepoReferenceRequired,
+
+		/// <summary>
+		/// Attempted to start the watchdog when it was already running.
+		/// </summary>
+		[Description("The watchdog is already running!")]
+		WatchdogRunning,
+
+		/// <summary>
+		/// Attempted to start the watchdog with a corrupted <see cref="CompileJob"/>.
+		/// </summary>
+		[Description("Cannot launch with active compile job as it is corrupted!")]
+		WatchdogCompileJobCorrupted,
+
+		/// <summary>
+		/// DreamDaemon exited before it finished starting.
+		/// </summary>
+		[Description("DreamDaemon failed to start!")]
+		WatchdogStartupFailed,
+
+		/// <summary>
+		/// DreamDaemon timed-out before it finished starting.
+		/// </summary>
+		[Description("DreamDaemon failed to start within the configured timeout!")]
+		WatchdogStartupTimeout,
+
+		/// <summary>
+		/// Attempted to test merge with an unsupported remote.
+		/// </summary>
+		[Description("Test merging with the current remote is not supported!")]
+		RepoUnsupportedTestMergeRemote,
+
+		/// <summary>
+		/// Either <see cref="Repository.CheckoutSha"/> or <see cref="Repository.Reference"/> was in one when it should have been the other.
+		/// </summary>
+		[Description("The value set for checkoutSha or reference should be in the other field!")]
+		RepoSwappedShaOrReference,
+
+		/// <summary>
+		/// A merge conflict occurred during a git operation.
+		/// </summary>
+		[Description("A merge conflict occurred while performing the operation!")]
+		RepoMergeConflict,
+
+		/// <summary>
+		/// The current <see cref="Repository.Reference"/> does not track a remote reference.
+		/// </summary>
+		[Description("The repository's current reference is unsuitable for this operation as it does not track a remote reference!")]
+		RepoReferenceNotTracking,
+
+		/// <summary>
+		/// Encounted merge conflicts while test merging.
+		/// </summary>
+		[Description("Encountered merge conflicts while test merging one or more pull requests!")]
+		RepoTestMergeConflict,
 	}
 }

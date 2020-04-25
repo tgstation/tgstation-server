@@ -89,10 +89,16 @@ namespace Tgstation.Server.Host.Jobs
 						}
 						catch (JobException e)
 						{
+							job.ErrorCode = e.ErrorCode;
 							job.ExceptionDetails = e.Message;
 							LogRegularException();
 							if (e.InnerException != null)
-								logger.LogDebug("Inner exception for job {0}: {1}", job.Id, e.InnerException);
+								logger.LogDebug(
+									"Inner exception for job {0}: {1}",
+									job.Id,
+									e.InnerException is JobException
+										? e.InnerException.Message
+										: e.InnerException.ToString());
 						}
 						catch (Exception e)
 						{

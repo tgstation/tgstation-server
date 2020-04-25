@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Jobs;
 
 namespace Tgstation.Server.Host.Components.Repository
@@ -93,9 +94,9 @@ namespace Tgstation.Server.Host.Components.Repository
 				return new DefaultCredentials();
 
 			if (supportsUserPass)
-				throw new JobException("Remote does not support anonymous authentication!");
+				throw new JobException(ErrorCode.RepoCredentialsRequired);
 
-			throw new JobException("Server does not support anonymous or username/password authentication!");
+			throw new JobException(ErrorCode.RepoCannotAuthenticate);
 		};
 	}
 }

@@ -337,6 +337,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.IsRequired()
 						.HasColumnType("TEXT");
 
+					b.Property<uint?>("ErrorCode")
+						.HasColumnType("INTEGER");
+
 					b.Property<string>("ExceptionDetails")
 						.HasColumnType("TEXT");
 
