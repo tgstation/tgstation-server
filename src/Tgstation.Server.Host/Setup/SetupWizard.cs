@@ -661,7 +661,7 @@ namespace Tgstation.Server.Host.Setup
 		{
 			var config = new ControlPanelConfiguration
 			{
-				Enable = await PromptYesNo("Enable the web control panel? (y/n): ", cancellationToken).ConfigureAwait(false),
+				Enable = await PromptYesNo("Enable the web control panel (Incomplete)? (y/n): ", cancellationToken).ConfigureAwait(false),
 				AllowAnyOrigin = await PromptYesNo("Allow web control panels hosted elsewhere to access the server? (Access-Control-Allow-Origin: *) (y/n): ", cancellationToken).ConfigureAwait(false)
 			};
 
