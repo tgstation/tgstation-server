@@ -43,7 +43,9 @@ namespace Tgstation.Server.Host
 				throw new ArgumentNullException(nameof(args));
 
 			IHostBuilder CreateDefaultBuilder() => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
-				.ConfigureAppConfiguration((context, configurationBuilder) => configurationBuilder.SetBasePath(IOManager.ResolvePath()))
+				.ConfigureAppConfiguration((context, configuration) => configuration
+					.SetBasePath(
+						IOManager.ResolvePath()))
 				.ConfigureServices(services => services.RemoveEventLogging());
 
 			var setupWizardHostBuilder = CreateDefaultBuilder()
@@ -56,7 +58,7 @@ namespace Tgstation.Server.Host
 				await setupHost.RunAsync(cancellationToken).ConfigureAwait(false);
 			}
 
-			var hostBuilder = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
+			var hostBuilder = CreateDefaultBuilder()
 				.ConfigureWebHostDefaults(webHostBuilder =>
 					webHostBuilder
 						.UseApplication(postSetupServices)

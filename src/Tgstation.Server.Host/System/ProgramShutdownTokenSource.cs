@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace Tgstation.Server.Host
+namespace Tgstation.Server.Host.System
 {
 	/// <summary>
 	/// Contains a <see cref="CancellationToken"/> that triggers when the operating system requests the program shuts down.

@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-bionic AS build
 
 # install node and npm
 # replace shell with bash so we can source files
@@ -18,29 +18,42 @@ RUN . $NVM_DIR/nvm.sh \
 ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
-WORKDIR /src
+# Build web control panel
+WORKDIR /repo/build
 
+COPY build/Version.props Version.props
+
+WORKDIR /repo/src/Tgstation.Server.Host
+
+COPY src/Tgstation.Server.Host/ClientApp ClientApp
+COPY src/Tgstation.Server.Host/Tgstation.Server.Host.csproj ./
+
+RUN dotnet msbuild -target:NpmBuild
+
+WORKDIR /repo
+
+# Restore nuget packages
 COPY tgstation-server.sln ./
 
 COPY src/Tgstation.Server.Host.Console/Tgstation.Server.Host.Console.csproj src/Tgstation.Server.Host.Console/
 COPY src/Tgstation.Server.Host.Watchdog/Tgstation.Server.Host.Watchdog.csproj src/Tgstation.Server.Host.Watchdog/
-COPY src/Tgstation.Server.Host/Tgstation.Server.Host.csproj src/Tgstation.Server.Host/
 COPY src/Tgstation.Server.Api/Tgstation.Server.Api.csproj src/Tgstation.Server.Api/
 
 RUN dotnet restore -nowarn:MSB3202,nu1503 -p:RestoreUseSkipNonexistentTargets=false
 
+# Final copy for building
 COPY . .
 
 #run dos2unix on tgs.docker.sh so we can build without issue on windows
 RUN dos2unix build/tgs.docker.sh
 
-WORKDIR /src/src/Tgstation.Server.Host.Console
+WORKDIR /repo/src/Tgstation.Server.Host.Console
 RUN dotnet publish -c Release -o /app
 
-WORKDIR /src/src/Tgstation.Server.Host
+WORKDIR /repo/src/Tgstation.Server.Host
 RUN dotnet publish -c Release -o /app/lib/Default && mv /app/lib/Default/appsettings* /app
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-bionic
 EXPOSE 80
 
 #needed for byond
@@ -52,7 +65,7 @@ RUN apt-get update \
 WORKDIR /app
 
 COPY --from=build /app .
-COPY --from=build /src/build/tgs.docker.sh tgs.sh
+COPY --from=build /repo/build/tgs.docker.sh tgs.sh
 
 VOLUME ["/config_data", "/tgs_logs", "/app/lib"]
 

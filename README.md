@@ -361,15 +361,17 @@ Contact project maintainers to get your client added to this list
 
 Note that tgstation-server is NOT a backup solution, the onus is on the server runners.
 
-The `Repository` folder should, by the nature of git, not need to be backed up or should be done so on the remote server if necessary.
+The `Repository` folder should be backed up on the remote server, do not rely on the instance copy to store changes.
 
-The `BYOND` and `Game` folders should never be backed up due.
+The `BYOND` and `Game` folders should never be backed up due to being intertwined with instance data.
 
-The `Configuration` folder should and database be fully backed up
+The `Configuration` folder should be fully backed up.
 
-To restore an installation from backups, first restore the instance `Configuration` folders in their new homes. Then restore the database, modifying the `Path` column in the `Instances` table where necessary to point to the new instances. Then start the server pointed at the new database.
+The database should be fully backed up.
 
-Should you end up with a lost database for some reason or want to reattach a detached instance you can reattach an existing folder by creating an empty file named `TGS4_ALLOW_INSTANCE_ATTACH` inside it (This is automatically created when detaching instances). Then create a new instance with that path, this will bypass the empty folder check. Note that this will not restore things such as user permissions, server config options, or deployment metadata. Those must be reconfigured manually
+To restore an installation from backups, first restore the instance `Configuration` folder in its new home. Then restore the database, modifying the `Path` column in the `Instances` table where necessary to point to the new instances. Then start the server pointed at the new database.
+
+Should you end up with a lost database for some reason or want to reattach a detached instance you can reattach an existing folder by creating an empty file named `TGS4_ALLOW_INSTANCE_ATTACH` inside it (This is automatically created when detaching instances). Then create a new instance with that path, this will bypass the empty folder check. Note that this will not restore things such as user permissions, server config options, or deployment metadata. Those must be reconfigured manually.
 
 ## Troubleshooting
 

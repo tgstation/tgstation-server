@@ -9,26 +9,26 @@ using System.Threading.Tasks;
 namespace Tgstation.Server.Host.Components.Repository.Tests
 {
 	/// <summary>
-	/// Tests for <see cref="RepositoryFactory"/>.
+	/// Tests for <see cref="LibGit2RepositoryFactory"/>.
 	/// </summary>
 	[TestClass]
 	public sealed class TestRepositoryFactory
 	{
-		static IRepositoryFactory CreateFactory() => new RepositoryFactory(Mock.Of<ILogger<RepositoryFactory>>());
+		static ILibGit2RepositoryFactory CreateFactory() => new LibGit2RepositoryFactory(Mock.Of<ILogger<LibGit2RepositoryFactory>>());
 
 		static Task<LibGit2Sharp.IRepository> TestRepoLoading(
 			string path,
-			IRepositoryFactory repositoryFactory = null) =>
+			ILibGit2RepositoryFactory repositoryFactory = null) =>
 			(repositoryFactory ?? CreateFactory())
 			.CreateFromPath(path, default);
 
 		[TestMethod]
-		public void TestConstructionThrows() => Assert.ThrowsException<ArgumentNullException>(() => new RepositoryFactory(null));
+		public void TestConstructionThrows() => Assert.ThrowsException<ArgumentNullException>(() => new LibGit2RepositoryFactory(null));
 
 		[TestMethod]
 		public void TestInMemoryRepoCreation()
 		{
-			new RepositoryFactory(Mock.Of<ILogger<RepositoryFactory>>()).CreateInMemory().Dispose();
+			new LibGit2RepositoryFactory(Mock.Of<ILogger<LibGit2RepositoryFactory>>()).CreateInMemory().Dispose();
 		}
 
 		[TestMethod]

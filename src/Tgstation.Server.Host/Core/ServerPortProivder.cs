@@ -21,27 +21,22 @@ namespace Tgstation.Server.Host.Core
 
 			var httpEndpoint = configuration
 				.GetSection("Kestrel")
-				.GetSection("Endpoints")
+				.GetSection("EndPoints")
 				.GetSection("Http")
 				.GetSection("Url")
 				.Value;
 
-			HttpApiPort = GetPortFromAddress(httpEndpoint);
-		}
+			if (httpEndpoint == null)
+				throw new InvalidOperationException("Missing required configuration option Kestrel:EndPoints:Http:Url!");
 
-		/// <summary>
-		/// Convert a given <paramref name="address"/> to its port.
-		/// </summary>
-		/// <param name="address">The address <see cref="string"/>.</param>
-		/// <returns>The parsed port.</returns>
-		static ushort GetPortFromAddress(string address)
-		{
-			var splits = address.Split(":", StringSplitOptions.RemoveEmptyEntries);
+			var splits = httpEndpoint.Split(":", StringSplitOptions.RemoveEmptyEntries);
 			var portString = splits.Last();
 			portString = portString.TrimEnd('/');
+
 			if (!UInt16.TryParse(portString, out var result))
-				throw new InvalidOperationException("Failed to parse HTTP API port!");
-			return result;
+				throw new InvalidOperationException($"Failed to parse HTTP EndPoint port: {httpEndpoint}");
+
+			HttpApiPort = result;
 		}
 	}
 }
