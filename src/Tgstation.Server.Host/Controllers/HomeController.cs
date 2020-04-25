@@ -59,6 +59,11 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IBrowserResolver browserResolver;
 
 		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="HomeController"/>.
+		/// </summary>
+		readonly GeneralConfiguration generalConfiguration;
+
+		/// <summary>
 		/// The <see cref="ControlPanelConfiguration"/> for the <see cref="HomeController"/>
 		/// </summary>
 		readonly ControlPanelConfiguration controlPanelConfiguration;
@@ -74,9 +79,22 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
 		/// <param name="identityCache">The value of <see cref="identityCache"/></param>
 		/// <param name="browserResolver">The value of <see cref="browserResolver"/></param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="controlPanelConfiguration"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		public HomeController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ITokenFactory tokenFactory, ISystemIdentityFactory systemIdentityFactory, ICryptographySuite cryptographySuite, IAssemblyInformationProvider assemblyInformationProvider, IIdentityCache identityCache, IBrowserResolver browserResolver, IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions, ILogger<HomeController> logger) : base(databaseContext, authenticationContextFactory, logger, false, false)
+		public HomeController(
+			IDatabaseContext databaseContext,
+			IAuthenticationContextFactory authenticationContextFactory,
+			ITokenFactory tokenFactory,
+			ISystemIdentityFactory systemIdentityFactory,
+			ICryptographySuite cryptographySuite,
+			IAssemblyInformationProvider assemblyInformationProvider,
+			IIdentityCache identityCache,
+			IBrowserResolver browserResolver,
+			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions,
+			ILogger<HomeController> logger)
+			: base(databaseContext, authenticationContextFactory, logger, false, false)
 		{
 			this.tokenFactory = tokenFactory ?? throw new ArgumentNullException(nameof(tokenFactory));
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
@@ -84,6 +102,7 @@ namespace Tgstation.Server.Host.Controllers
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.identityCache = identityCache ?? throw new ArgumentNullException(nameof(identityCache));
 			this.browserResolver = browserResolver ?? throw new ArgumentNullException(nameof(browserResolver));
+			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions));
 		}
 
@@ -104,7 +123,10 @@ namespace Tgstation.Server.Host.Controllers
 				return Json(new Api.Models.ServerInformation
 				{
 					Version = assemblyInformationProvider.Version,
-					ApiVersion = ApiHeaders.Version
+					ApiVersion = ApiHeaders.Version,
+					MinimumPasswordLength = generalConfiguration.MinimumPasswordLength,
+					InstanceLimit = generalConfiguration.InstanceLimit,
+					UserLimit = generalConfiguration.UserLimit
 				});
 
 			// if we are using a browser and the control panel, soft redirect to the app page

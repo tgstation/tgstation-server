@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Reflection;
-using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Api;
 
 namespace Tgstation.Server.Host.System
 {
@@ -11,7 +11,7 @@ namespace Tgstation.Server.Host.System
 		public string VersionPrefix => "tgstation-server";
 
 		/// <inheritdoc />
-		public Version Version => Name.Version!;
+		public Version Version { get; }
 
 		/// <inheritdoc />
 		public AssemblyName Name { get; }
@@ -30,7 +30,8 @@ namespace Tgstation.Server.Host.System
 			Assembly assembly = Assembly.GetExecutingAssembly();
 			Path = assembly.Location;
 			Name = assembly.GetName();
-			VersionString = String.Concat(VersionPrefix, '-', Version.Semver());
+			Version = Name.Version.Semver();
+			VersionString = String.Concat(VersionPrefix, '-', Version);
 		}
 	}
 }

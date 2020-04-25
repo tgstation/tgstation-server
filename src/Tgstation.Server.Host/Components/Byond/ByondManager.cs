@@ -7,6 +7,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
@@ -50,7 +51,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			get
 			{
 				lock (installedVersions)
-					return installedVersions.Select(x => Version.Parse(x.Key)).ToList();
+					return installedVersions.Select(x => Version.Parse(x.Key).Semver()).ToList();
 			}
 		}
 
@@ -297,7 +298,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			{
 				var activeVersionString = Encoding.UTF8.GetString(activeVersionBytes);
 				if (Version.TryParse(activeVersionString, out var activeVersion))
-					ActiveVersion = activeVersion;
+					ActiveVersion = activeVersion.Semver();
 				else
 					await ioManager.DeleteFile(ActiveVersionFileName, cancellationToken).ConfigureAwait(false);
 			}

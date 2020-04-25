@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
-using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Api;
 
 namespace Tgstation.Server.Host.Components.Interop.Converters
 {
@@ -18,11 +18,11 @@ namespace Tgstation.Server.Host.Components.Interop.Converters
 			}
 			else if (value is Version version)
 			{
-				writer.WriteValue(version.Semver());
+				writer.WriteValue(version.Semver().ToString());
 			}
 			else
 			{
-				throw new JsonSerializationException("Expected Version object value!");
+				throw new ArgumentException("Expected Version object!", nameof(value));
 			}
 		}
 
@@ -37,7 +37,7 @@ namespace Tgstation.Server.Host.Components.Interop.Converters
 				try
 				{
 					Version v = new Version((string)reader.Value);
-					return v;
+					return v.Semver();
 				}
 				catch (Exception ex)
 				{

@@ -2,6 +2,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api;
 using Tgstation.Server.Client.Components;
 
 namespace Tgstation.Server.Tests.Instance
@@ -51,7 +52,7 @@ namespace Tgstation.Server.Tests.Instance
 				Assert.Fail(job.ExceptionDetails);
 
 			var currentShit = await byondClient.ActiveVersion(cancellationToken).ConfigureAwait(false);
-			Assert.AreEqual(newModel.Version, currentShit.Version);
+			Assert.AreEqual(newModel.Version.Semver(), currentShit.Version);
 		}
 
 		async Task TestNoVersion(CancellationToken cancellationToken)

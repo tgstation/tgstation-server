@@ -17,7 +17,7 @@ namespace Tgstation.Server.Api
 	public sealed class ApiHeaders
 	{
 		/// <summary>
-		/// TODO: Remove this when https://github.com/dotnet/corefx/pull/26701 makes it into the sdk
+		/// TODO: Remove this when we upgrade to .NET Standard 2.1
 		/// </summary>
 		public const string ApplicationJson = "application/json";
 
@@ -59,7 +59,7 @@ namespace Tgstation.Server.Api
 		/// <summary>
 		/// Get the version of the <see cref="Api"/> the caller is using
 		/// </summary>
-		public static Version Version => AssemblyName.Version;
+		public static readonly Version Version = AssemblyName.Version.Semver();
 
 		/// <summary>
 		/// The <see cref="Models.Instance.Id"/> being accessed
@@ -164,7 +164,7 @@ namespace Tgstation.Server.Api
 			if (!Version.TryParse(apiUserAgent.Product.Version, out var apiVersion))
 				throw new InvalidOperationException("Malformed API version!");
 
-			ApiVersion = apiVersion;
+			ApiVersion = apiVersion.Semver();
 
 			if (!requestHeaders.Headers.TryGetValue(HeaderNames.Authorization, out StringValues authorization))
 				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Missing {0} header!", HeaderNames.Authorization));

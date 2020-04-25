@@ -3,9 +3,9 @@
 namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
-	/// Represents basic server information
+	/// Represents basic server information.
 	/// </summary>
-	public sealed class ServerInformation
+	public sealed class ServerInformation : Internal.ServerInformation
 	{
 		/// <summary>
 		/// The version of the host

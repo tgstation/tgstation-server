@@ -11,7 +11,6 @@ using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Controllers;
-using Tgstation.Server.Host.Extensions;
 
 namespace Tgstation.Server.Host.Core
 {
@@ -122,7 +121,7 @@ namespace Tgstation.Server.Host.Core
 				new OpenApiInfo
 				{
 					Title = "TGS API",
-					Version = ApiHeaders.Version.Semver()
+					Version = ApiHeaders.Version.Semver().ToString()
 				});
 
 			// Important to do this before applying our own filters
