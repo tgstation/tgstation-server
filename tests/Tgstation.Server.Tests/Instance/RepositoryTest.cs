@@ -88,6 +88,7 @@ namespace Tgstation.Server.Tests.Instance
 			updated = await Checkout(updated, false, false, cancellationToken);
 
 			// Fake SHA
+			updated.Reference = null;
 			updated.CheckoutSha = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 			updated = await Checkout(updated, true, false, cancellationToken);
 
@@ -97,7 +98,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			// Back
 			updated.Reference = workingBranch;
-			updated = await Checkout(updated, true, true, cancellationToken);
+			updated = await Checkout(updated, false, true, cancellationToken);
 
 			var testPRString = Environment.GetEnvironmentVariable("TGS4_TEST_PULL_REQUEST_NUMBER");
 			if (String.IsNullOrWhiteSpace(testPRString))
