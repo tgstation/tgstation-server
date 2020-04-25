@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
@@ -162,7 +162,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				catch (WebException e)
 				{
 					// since the user can easily provide non-exitent version numbers, we'll turn this into a JobException
-					throw new JobException(String.Format(CultureInfo.InvariantCulture, "Error downloading BYOND version: {0}", e.Message));
+					throw new JobException(ErrorCode.ByondDownloadFail, e);
 				}
 				catch (OperationCanceledException)
 				{
@@ -207,7 +207,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		{
 			var versionToUse = requiredVersion ?? ActiveVersion;
 			if (versionToUse == null)
-				throw new JobException("No BYOND versions installed!");
+				throw new JobException(ErrorCode.ByondNoVersionsInstalled);
 			await InstallVersion(versionToUse, cancellationToken).ConfigureAwait(false);
 
 			var versionKey = VersionKey(versionToUse);

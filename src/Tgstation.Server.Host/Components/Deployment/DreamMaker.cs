@@ -193,34 +193,31 @@ namespace Tgstation.Server.Host.Components.Deployment
 				{
 					var validationStatus = controller.ApiValidationStatus;
 					logger.LogTrace("API validation status: {0}", validationStatus);
+
+					job.DMApiVersion = controller.DMApiVersion;
 					switch (validationStatus)
 					{
 						case ApiValidationStatus.RequiresUltrasafe:
 							job.MinimumSecurityLevel = DreamDaemonSecurity.Ultrasafe;
 							return;
 						case ApiValidationStatus.RequiresSafe:
-							if (securityLevel == DreamDaemonSecurity.Ultrasafe)
-								throw new JobException("This game must be run with at least the 'Safe' DreamDaemon security level!");
 							job.MinimumSecurityLevel = DreamDaemonSecurity.Safe;
 							return;
 						case ApiValidationStatus.RequiresTrusted:
-							if (securityLevel != DreamDaemonSecurity.Trusted)
-								throw new JobException("This game must be run with at least the 'Trusted' DreamDaemon security level!");
 							job.MinimumSecurityLevel = DreamDaemonSecurity.Trusted;
 							return;
 						case ApiValidationStatus.NeverValidated:
-							break;
+							throw new JobException(ErrorCode.DreamMakerNeverValidated);
 						case ApiValidationStatus.BadValidationRequest:
-							throw new JobException("Recieved an unrecognized API validation request from DreamDaemon!");
+							throw new JobException(ErrorCode.DreamMakerInvalidValidation);
 						case ApiValidationStatus.UnaskedValidationRequest:
 						default:
-							throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Session controller returned unexpected ApiValidationStatus: {0}", validationStatus));
+							throw new InvalidOperationException(
+								$"Session controller returned unexpected ApiValidationStatus: {validationStatus}");
 					}
-
-					job.DMApiVersion = controller.DMApiVersion;
 				}
 
-				throw new JobException("DMAPI validation timed out! Is the security level too high?");
+				throw new JobException(ErrorCode.DreamMakerValidationTimeout);
 			}
 		}
 
@@ -395,7 +392,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					var foundPaths = await ioManager.GetFilesWithExtension(dirA, DmeExtension, cancellationToken).ConfigureAwait(false);
 					var foundPath = foundPaths.FirstOrDefault();
 					if (foundPath == default)
-						throw new JobException("Unable to find any .dme!");
+						throw new JobException(ErrorCode.DreamMakerNoDme);
 					var dmeWithExtension = ioManager.GetFileName(foundPath);
 					job.DmeName = dmeWithExtension.Substring(0, dmeWithExtension.Length - DmeExtension.Length - 1);
 				}
@@ -404,7 +401,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					var targetDme = ioManager.ConcatPath(dirA, String.Join('.', job.DmeName, DmeExtension));
 					var targetDmeExists = await ioManager.FileExists(targetDme, cancellationToken).ConfigureAwait(false);
 					if (!targetDmeExists)
-						throw new JobException("Unable to locate specified .dme!");
+						throw new JobException(ErrorCode.DreamMakerMissingDme);
 				}
 
 				logger.LogDebug("Selected {0}.dme for compilation!", job.DmeName);
@@ -418,7 +415,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 				try
 				{
 					if (exitCode != 0)
-						throw new JobException(String.Format(CultureInfo.InvariantCulture, "DM exited with a non-zero code: {0}{1}{2}", exitCode, Environment.NewLine, job.Output));
+						throw new JobException(
+							ErrorCode.DreamMakerExitCode,
+							new JobException($"Exit code: {exitCode}{Environment.NewLine}{Environment.NewLine}{job.Output}"));
 
 					await VerifyApi(apiValidateTimeout, dreamMakerSettings.ApiValidationSecurityLevel.Value, job, byondLock, dreamMakerSettings.ApiValidationPort.Value, cancellationToken).ConfigureAwait(false);
 				}
@@ -476,7 +475,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			lock (this)
 			{
 				if (compiling)
-					throw new JobException("There is already a compile job in progress!");
+					throw new JobException(ErrorCode.DreamMakerCompileJobInProgress);
 				compiling = true;
 			}
 

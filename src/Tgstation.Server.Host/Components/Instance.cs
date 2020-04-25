@@ -169,13 +169,13 @@ namespace Tgstation.Server.Host.Components
 				throw new ArgumentNullException(nameof(progressReporter));
 
 			var ddSettings = await databaseContext.DreamDaemonSettings.Where(x => x.InstanceId == metadata.Id).Select(x => new DreamDaemonSettings
-				{
-					StartupTimeout = x.StartupTimeout,
-				})
+			{
+				StartupTimeout = x.StartupTimeout,
+			})
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);
 			if (ddSettings == default)
-				throw new JobException("Missing DreamDaemonSettings in DB!");
+				throw new JobException(Api.Models.ErrorCode.InstanceMissingDreamDaemonSettings);
 
 			var previousCompileJobs = await databaseContext.CompileJobs
 				.Where(x => x.Job.Instance.Id == metadata.Id)
@@ -191,18 +191,17 @@ namespace Tgstation.Server.Host.Components
 
 			var dreamMakerSettings = await databaseContext.DreamMakerSettings.Where(x => x.InstanceId == metadata.Id).FirstAsync(cancellationToken).ConfigureAwait(false);
 			if (dreamMakerSettings == default)
-				throw new JobException("Missing DreamMakerSettings in DB!");
+				throw new JobException(Api.Models.ErrorCode.InstanceMissingDreamMakerSettings);
 
 			RepositorySettings repositorySettings = null;
 			string repoOwner = null;
 			string repoName = null;
 			CompileJob compileJob;
 			RevisionInformation revInfo;
-			bool loadedRepositorySettings;
 			using (var repo = await RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 			{
 				if (repo == null)
-					throw new JobException("Missing Repository!");
+					throw new JobException(Api.Models.ErrorCode.RepoMissing);
 
 				if (repo.IsGitHubRepository)
 				{
@@ -219,10 +218,9 @@ namespace Tgstation.Server.Host.Components
 						})
 						.FirstOrDefaultAsync(cancellationToken)
 						.ConfigureAwait(false);
-					loadedRepositorySettings = true;
+					if (repositorySettings == default)
+						throw new JobException(Api.Models.ErrorCode.InstanceMissingRepositorySettings);
 				}
-				else
-					loadedRepositorySettings = false;
 
 				var repoSha = repo.Head;
 				revInfo = await databaseContext.RevisionInformations.Where(x => x.CommitSha == repoSha && x.Instance.Id == metadata.Id).Include(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).ThenInclude(x => x.MergedBy).FirstOrDefaultAsync().ConfigureAwait(false);
@@ -243,7 +241,7 @@ namespace Tgstation.Server.Host.Components
 				}
 
 				TimeSpan? averageSpan = null;
-				if(previousCompileJobs.Count != 0)
+				if (previousCompileJobs.Count != 0)
 				{
 					var totalSpan = TimeSpan.Zero;
 					foreach (var I in previousCompileJobs)
@@ -260,80 +258,74 @@ namespace Tgstation.Server.Host.Components
 
 			job.PostComplete = ct => compileJobConsumer.LoadCompileJob(compileJob, ct);
 
-			if (loadedRepositorySettings)
+			if (repositorySettings?.AccessToken != null)
 			{
-				if (repositorySettings == default)
-					throw new JobException("Missing repository settings!");
+				// potential for commenting on a test merge change
+				var outgoingCompileJob = LatestCompileJob();
 
-				if (repositorySettings.AccessToken != null)
+				if (outgoingCompileJob != null && outgoingCompileJob.RevisionInformation.CommitSha != compileJob.RevisionInformation.CommitSha && repositorySettings.PostTestMergeComment.Value)
 				{
-					// potential for commenting on a test merge change
-					var outgoingCompileJob = LatestCompileJob();
+					var gitHubClient = gitHubClientFactory.CreateClient(repositorySettings.AccessToken);
 
-					if(outgoingCompileJob != null && outgoingCompileJob.RevisionInformation.CommitSha != compileJob.RevisionInformation.CommitSha && repositorySettings.PostTestMergeComment.Value)
+					async Task CommentOnPR(int prNumber, string comment)
 					{
-						var gitHubClient = gitHubClientFactory.CreateClient(repositorySettings.AccessToken);
-
-						async Task CommentOnPR(int prNumber, string comment)
+						try
 						{
-							try
-							{
-								await gitHubClient.Issue.Comment.Create(repoOwner, repoName, prNumber, comment).ConfigureAwait(false);
-							}
-							catch (ApiException e)
-							{
-								logger.LogWarning("Error posting GitHub comment! Exception: {0}", e);
-							}
+							await gitHubClient.Issue.Comment.Create(repoOwner, repoName, prNumber, comment).ConfigureAwait(false);
 						}
-
-						var tasks = new List<Task>();
-
-						string FormatTestMerge(TestMerge testMerge, bool updated) => String.Format(CultureInfo.InvariantCulture, "#### Test Merge {4}{0}{0}##### Server Instance{0}{5}{1}{0}{0}##### Revision{0}Origin: {6}{0}Pull Request: {2}{0}Server: {7}{3}",
-							Environment.NewLine,
-							repositorySettings.ShowTestMergeCommitters.Value ? String.Format(CultureInfo.InvariantCulture, "{0}{0}##### Merged By{0}{1}", Environment.NewLine, testMerge.MergedBy.Name) : String.Empty,
-							testMerge.PullRequestRevision,
-							testMerge.Comment != null ? String.Format(CultureInfo.InvariantCulture, "{0}{0}##### Comment{0}{1}", Environment.NewLine, testMerge.Comment) : String.Empty,
-							updated ? "Updated" : "Deployed",
-							metadata.Name,
-							compileJob.RevisionInformation.OriginCommitSha,
-							compileJob.RevisionInformation.CommitSha);
-
-						// added prs
-						foreach (var I in compileJob
-							.RevisionInformation
-							.ActiveTestMerges
-							.Select(x => x.TestMerge)
-							.Where(x => !outgoingCompileJob
-								.RevisionInformation
-								.ActiveTestMerges
-								.Any(y => y.TestMerge.Number == x.Number)))
-							tasks.Add(CommentOnPR(I.Number, FormatTestMerge(I, false)));
-
-						// removed prs
-						foreach (var I in outgoingCompileJob
-							.RevisionInformation
-							.ActiveTestMerges
-							.Select(x => x.TestMerge)
-								.Where(x => !compileJob
-								.RevisionInformation
-								.ActiveTestMerges
-								.Any(y => y.TestMerge.Number == x.Number)))
-							tasks.Add(CommentOnPR(I.Number, "#### Test Merge Removed"));
-
-						// updated prs
-						foreach(var I in compileJob
-							.RevisionInformation
-							.ActiveTestMerges
-							.Select(x => x.TestMerge)
-							.Where(x => outgoingCompileJob
-								.RevisionInformation
-								.ActiveTestMerges
-								.Any(y => y.TestMerge.Number == x.Number)))
-							tasks.Add(CommentOnPR(I.Number, FormatTestMerge(I, true)));
-
-						if (tasks.Any())
-							await Task.WhenAll(tasks).ConfigureAwait(false);
+						catch (ApiException e)
+						{
+							logger.LogWarning("Error posting GitHub comment! Exception: {0}", e);
+						}
 					}
+
+					var tasks = new List<Task>();
+
+					string FormatTestMerge(TestMerge testMerge, bool updated) => String.Format(CultureInfo.InvariantCulture, "#### Test Merge {4}{0}{0}##### Server Instance{0}{5}{1}{0}{0}##### Revision{0}Origin: {6}{0}Pull Request: {2}{0}Server: {7}{3}",
+						Environment.NewLine,
+						repositorySettings.ShowTestMergeCommitters.Value ? String.Format(CultureInfo.InvariantCulture, "{0}{0}##### Merged By{0}{1}", Environment.NewLine, testMerge.MergedBy.Name) : String.Empty,
+						testMerge.PullRequestRevision,
+						testMerge.Comment != null ? String.Format(CultureInfo.InvariantCulture, "{0}{0}##### Comment{0}{1}", Environment.NewLine, testMerge.Comment) : String.Empty,
+						updated ? "Updated" : "Deployed",
+						metadata.Name,
+						compileJob.RevisionInformation.OriginCommitSha,
+						compileJob.RevisionInformation.CommitSha);
+
+					// added prs
+					foreach (var I in compileJob
+						.RevisionInformation
+						.ActiveTestMerges
+						.Select(x => x.TestMerge)
+						.Where(x => !outgoingCompileJob
+							.RevisionInformation
+							.ActiveTestMerges
+							.Any(y => y.TestMerge.Number == x.Number)))
+						tasks.Add(CommentOnPR(I.Number, FormatTestMerge(I, false)));
+
+					// removed prs
+					foreach (var I in outgoingCompileJob
+						.RevisionInformation
+						.ActiveTestMerges
+						.Select(x => x.TestMerge)
+							.Where(x => !compileJob
+							.RevisionInformation
+							.ActiveTestMerges
+							.Any(y => y.TestMerge.Number == x.Number)))
+						tasks.Add(CommentOnPR(I.Number, "#### Test Merge Removed"));
+
+					// updated prs
+					foreach (var I in compileJob
+						.RevisionInformation
+						.ActiveTestMerges
+						.Select(x => x.TestMerge)
+						.Where(x => outgoingCompileJob
+							.RevisionInformation
+							.ActiveTestMerges
+							.Any(y => y.TestMerge.Number == x.Number)))
+						tasks.Add(CommentOnPR(I.Number, FormatTestMerge(I, true)));
+
+					if (tasks.Any())
+						await Task.WhenAll(tasks).ConfigureAwait(false);
 				}
 			}
 		}
@@ -464,7 +456,7 @@ namespace Tgstation.Server.Host.Components
 									var result = await repo.MergeOrigin(repositorySettings.CommitterName, repositorySettings.CommitterEmail, NextProgressReporter(), jobCancellationToken).ConfigureAwait(false);
 
 									if (!result.HasValue)
-										throw new JobException("Merge conflict while preserving test merges!");
+										throw new JobException(Api.Models.ErrorCode.InstanceUpdateTestMergeConflict);
 
 									currentRevInfo = await currentRevInfoTask.ConfigureAwait(false);
 

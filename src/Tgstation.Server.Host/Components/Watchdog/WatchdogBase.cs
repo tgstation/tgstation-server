@@ -4,10 +4,10 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components.Chat;
@@ -253,10 +253,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			Logger.LogTrace("Begin LaunchNoLock");
 
 			if (Running)
-				throw new JobException("Watchdog already running!");
+				throw new JobException(ErrorCode.WatchdogRunning);
 
 			if (!DmbFactory.DmbAvailable)
-				throw new JobException("Corrupted compilation, please redeploy!");
+				throw new JobException(ErrorCode.WatchdogCompileJobCorrupted);
 
 			// this is necessary, the monitor could be in it's sleep loop trying to restart, if so cancel THAT monitor and start our own with blackjack and hookers
 			Task chatTask;
@@ -371,9 +371,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			// Dead sessions won't trigger this
 			if (launchResult.ExitCode.HasValue) // you killed us ray...
-				throw new JobException(String.Format(CultureInfo.InvariantCulture, "{0} failed to start: {1}", serverName, launchResult));
+				throw new JobException(
+					ErrorCode.WatchdogStartupFailed,
+					new JobException($"{serverName} failed to start: {launchResult}"));
 			if (!launchResult.StartupTime.HasValue)
-				throw new JobException(String.Format(CultureInfo.InvariantCulture, "{0} timed out on startup: {1}s", serverName, ActiveLaunchParameters.StartupTimeout.Value));
+				throw new JobException(
+					ErrorCode.WatchdogStartupTimeout,
+					new JobException($"{serverName} timed out on startup: {ActiveLaunchParameters.StartupTimeout.Value}s"));
 		}
 
 		/// <summary>

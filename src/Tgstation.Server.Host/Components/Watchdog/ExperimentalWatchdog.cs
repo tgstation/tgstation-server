@@ -185,7 +185,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						var dmbBackup = await DmbFactory.FromCompileJob(monitorState.ActiveServer.Dmb.CompileJob, cancellationToken).ConfigureAwait(false);
 
 						if (dmbBackup == null) // NANI!?
-							throw new JobException("Creating backup DMB provider failed!"); // just give up, if THAT compile job is failing then the ActiveServer is gonna crash soon too or already has
+							throw new InvalidOperationException("Watchdog double crit-fail!"); // just give up, if THAT compile job is failing then the ActiveServer is gonna crash soon too or already has
 
 						monitorState.InactiveServer = await SessionControllerFactory.LaunchNew(
 							dmbBackup,
