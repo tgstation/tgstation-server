@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Database;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Controllers
