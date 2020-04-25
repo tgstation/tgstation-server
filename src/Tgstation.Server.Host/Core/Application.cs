@@ -289,7 +289,8 @@ namespace Tgstation.Server.Host.Core
 			});
 
 			// configure component services
-			services.AddSingleton<IRepositoryFactory, RepositoryFactory>();
+			services.AddSingleton<ILibGit2RepositoryFactory, LibGit2RepositoryFactory>();
+			services.AddSingleton<ILibGit2Commands, LibGit2Commands>();
 			services.AddSingleton<IProviderFactory, ProviderFactory>();
 			services.AddSingleton<IChatManagerFactory, ChatManagerFactory>();
 			services.AddSingleton<IInstanceFactory, InstanceFactory>();

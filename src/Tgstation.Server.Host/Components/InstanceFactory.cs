@@ -108,9 +108,14 @@ namespace Tgstation.Server.Host.Components
 		readonly IPlatformIdentifier platformIdentifier;
 
 		/// <summary>
-		/// The <see cref="IRepositoryFactory"/> for the <see cref="InstanceFactory"/>.
+		/// The <see cref="ILibGit2RepositoryFactory"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
-		readonly IRepositoryFactory repositoryFactory;
+		readonly ILibGit2RepositoryFactory repositoryFactory;
+
+		/// <summary>
+		/// The <see cref="ILibGit2Commands"/> for the <see cref="InstanceFactory"/>.
+		/// </summary>
+		readonly ILibGit2Commands repositoryCommands;
 
 		/// <summary>
 		/// The <see cref="IServerPortProvider"/> for the <see cref="InstanceFactory"/>.
@@ -138,6 +143,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
 		/// <param name="repositoryFactory">The value of <see cref="repositoryFactory"/>.</param>
+		/// <param name="repositoryCommands">The value of <see cref="repositoryCommands"/>.</param>
 		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
 		public InstanceFactory(
 			IIOManager ioManager,
@@ -157,7 +163,8 @@ namespace Tgstation.Server.Host.Components
 			INetworkPromptReaper networkPromptReaper,
 			IGitHubClientFactory gitHubClientFactory,
 			IPlatformIdentifier platformIdentifier,
-			IRepositoryFactory repositoryFactory,
+			ILibGit2RepositoryFactory repositoryFactory,
+			ILibGit2Commands repositoryCommands,
 			IServerPortProvider serverPortProvider)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
@@ -178,6 +185,7 @@ namespace Tgstation.Server.Host.Components
 			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.repositoryFactory = repositoryFactory ?? throw new ArgumentNullException(nameof(repositoryFactory));
+			this.repositoryCommands = repositoryCommands ?? throw new ArgumentNullException(nameof(repositoryCommands));
 			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
 		}
 
@@ -198,6 +206,7 @@ namespace Tgstation.Server.Host.Components
 			var eventConsumer = new EventConsumer(configuration);
 			var repoManager = new RepositoryManager(
 				repositoryFactory,
+				repositoryCommands,
 				repoIoManager,
 				eventConsumer,
 				loggerFactory.CreateLogger<Repository.Repository>(),
