@@ -342,6 +342,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.IsRequired()
 						.HasColumnType("nvarchar(max)");
 
+					b.Property<long?>("ErrorCode")
+						.HasColumnType("bigint");
+
 					b.Property<string>("ExceptionDetails")
 						.HasColumnType("nvarchar(max)");
 

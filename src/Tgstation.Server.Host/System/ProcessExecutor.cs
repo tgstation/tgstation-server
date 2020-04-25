@@ -39,8 +39,10 @@ namespace Tgstation.Server.Host.System
 					return;
 				}
 
-				tcs.SetResult(exitCode);
+				// Try because this can be invoked twice for weird reasons
+				tcs.TrySetResult(exitCode);
 			};
+
 			return tcs.Task;
 		}
 

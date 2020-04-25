@@ -16,6 +16,11 @@ namespace Tgstation.Server.Api.Models.Internal
 		public string Description { get; set; }
 
 		/// <summary>
+		/// The <see cref="Models.ErrorCode"/> associated with the <see cref="Job"/> if any.
+		/// </summary>
+		public ErrorCode? ErrorCode { get; set; }
+
+		/// <summary>
 		/// Details of any exceptions caught during the <see cref="Job"/>
 		/// </summary>
 		public string ExceptionDetails { get; set; }

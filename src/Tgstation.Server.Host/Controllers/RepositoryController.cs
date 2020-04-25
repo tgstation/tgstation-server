@@ -198,7 +198,7 @@ namespace Tgstation.Server.Host.Controllers
 					using (var repos = await repoManager.CloneRepository(new Uri(origin), cloneBranch, currentModel.AccessUser, currentModel.AccessToken, progressReporter, ct).ConfigureAwait(false))
 					{
 						if (repos == null)
-							throw new JobException("Filesystem conflict while cloning repository!");
+							throw new JobException(ErrorCode.RepoExists);
 						var instance = new Models.Instance
 						{
 							Id = Instance.Id
@@ -447,7 +447,7 @@ namespace Tgstation.Server.Host.Controllers
 				using (var repo = await repoManager.LoadRepository(ct).ConfigureAwait(false))
 				{
 					if (repo == null)
-						throw new JobException("Repository could not be loaded!");
+						throw new JobException(ErrorCode.RepoMissing);
 
 					var modelHasShaOrReference = model.CheckoutSha != null || model.Reference != null;
 
@@ -456,7 +456,7 @@ namespace Tgstation.Server.Host.Controllers
 					string postUpdateSha = null;
 
 					if (newTestMerges && !repo.IsGitHubRepository)
-						throw new JobException("Cannot test merge on a non GitHub based repository!");
+						throw new JobException(ErrorCode.RepoUnsupportedTestMergeRemote);
 
 					var committerName = currentModel.ShowTestMergeCommitters.Value
 						? AuthenticationContext.User.Name
@@ -501,14 +501,14 @@ namespace Tgstation.Server.Host.Controllers
 						if (model.UpdateFromOrigin == true)
 						{
 							if (!repo.Tracking)
-								throw new JobException("Not on an updatable reference!");
+								throw new JobException(ErrorCode.RepoReferenceRequired);
 							await repo.FetchOrigin(currentModel.AccessUser, currentModel.AccessToken, NextProgressReporter(), ct).ConfigureAwait(false);
 							doneSteps = 1;
 							if (!modelHasShaOrReference)
 							{
 								var fastForward = await repo.MergeOrigin(committerName, currentModel.CommitterEmail, NextProgressReporter(), ct).ConfigureAwait(false);
 								if (!fastForward.HasValue)
-									throw new JobException("Merge conflict occurred during origin update!");
+									throw new JobException(ErrorCode.RepoMergeConflict);
 								await UpdateRevInfo().ConfigureAwait(false);
 								if (fastForward.Value)
 								{
@@ -531,7 +531,7 @@ namespace Tgstation.Server.Host.Controllers
 								var isSha = await repo.IsSha(committish, cancellationToken).ConfigureAwait(false);
 
 								if ((isSha && model.Reference != null) || (!isSha && model.CheckoutSha != null))
-									throw new JobException("Attempted to checkout a SHA or reference that was actually the opposite!");
+									throw new JobException(ErrorCode.RepoSwappedShaOrReference);
 
 								await repo.CheckoutObject(committish, NextProgressReporter(), ct).ConfigureAwait(false);
 								await LoadRevisionInformation(repo, databaseContext, attachedInstance, null, x => lastRevisionInfo = x, ct).ConfigureAwait(false); // we've either seen origin before or what we're checking out is on origin
@@ -542,7 +542,7 @@ namespace Tgstation.Server.Host.Controllers
 							if (hardResettingToOriginReference)
 							{
 								if (!repo.Tracking)
-									throw new JobException("Checked out reference does not track a remote object!");
+									throw new JobException(ErrorCode.RepoReferenceNotTracking);
 								await repo.ResetToOrigin(NextProgressReporter(), ct).ConfigureAwait(false);
 								await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, currentModel.CommitterName, currentModel.CommitterEmail, NextProgressReporter(), true, ct).ConfigureAwait(false);
 								await LoadRevisionInformation(repo, databaseContext, attachedInstance, null, x => lastRevisionInfo = x, ct).ConfigureAwait(false);
@@ -692,28 +692,35 @@ namespace Tgstation.Server.Host.Controllers
 									string errorMessage = null;
 
 									if (lastRevisionInfo.ActiveTestMerges.Any(x => x.TestMerge.Number == I.Number))
-										throw new JobException("Cannot test merge the same PR twice in one HEAD!");
+										throw new JobException(ErrorCode.RepoDuplicateTestMerge);
 
+									Exception exception = null;
 									try
 									{
 										// load from cache if possible
 										if (prMap == null || !prMap.TryGetValue(I.Number, out pr))
 											pr = await gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number).ConfigureAwait(false);
 									}
-									catch (Octokit.RateLimitExceededException)
+									catch (Octokit.RateLimitExceededException ex)
 									{
 										// you look at your anonymous access and sigh
-										errorMessage = "P.R.E. RATE LIMITED";
+										errorMessage = "REMOTE API ERROR: RATE LIMITED";
+										exception = ex;
 									}
-									catch (Octokit.AuthorizationException)
+									catch (Octokit.AuthorizationException ex)
 									{
-										errorMessage = "P.R.E. BAD CREDENTIALS";
+										errorMessage = "REMOTE API ERROR: BAD CREDENTIALS";
+										exception = ex;
 									}
-									catch (Octokit.NotFoundException)
+									catch (Octokit.NotFoundException ex)
 									{
 										// you look at your shithub and sigh
-										errorMessage = "P.R.E. NOT FOUND";
+										errorMessage = "REMOTE API ERROR: PULL REQUEST NOT FOUND";
+										exception = ex;
 									}
+
+									if (exception != null)
+										Logger.LogWarning("Error retrieving pull request metadata: {0}", exception);
 
 									// we want to take the earliest truth possible to prevent RCEs, if this fails AddTestMerge will set it
 									if (I.PullRequestRevision == null && pr != null)
@@ -729,7 +736,10 @@ namespace Tgstation.Server.Host.Controllers
 										ct).ConfigureAwait(false);
 
 									if (!mergeResult.HasValue)
-										throw new JobException(String.Format(CultureInfo.InvariantCulture, "Merge of PR #{0} at {1} conflicted!", I.Number, I.PullRequestRevision.Substring(0, 7)));
+										throw new JobException(
+											ErrorCode.RepoTestMergeConflict,
+											new JobException(
+												$"Merge of PR #{I.Number} at {I.PullRequestRevision.Substring(0, 7)} conflicted!"));
 
 									++doneSteps;
 

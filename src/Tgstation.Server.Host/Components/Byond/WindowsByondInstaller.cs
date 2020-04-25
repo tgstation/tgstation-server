@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
-using System.Globalization;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
@@ -114,7 +114,7 @@ namespace Tgstation.Server.Host.Components.Byond
 						}
 						catch (Exception e)
 						{
-							throw new JobException("Unable to start DirectX installer process! Is the server running with admin privileges?", e);
+							throw new JobException(ErrorCode.ByondDirectXInstallFail, e);
 						}
 
 						using (directXInstaller)
@@ -125,7 +125,7 @@ namespace Tgstation.Server.Host.Components.Byond
 							cancellationToken.ThrowIfCancellationRequested();
 
 							if (exitCode != 0)
-								throw new JobException(String.Format(CultureInfo.InvariantCulture, "Failed to install included DirectX! Exit code: {0}", exitCode));
+								throw new JobException(ErrorCode.ByondDirectXInstallFail, new JobException($"Invalid exit code: {exitCode}"));
 							installedDirectX = true;
 						}
 					}
