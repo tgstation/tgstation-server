@@ -15,6 +15,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Client;
 using Tgstation.Server.Host;
 using Tgstation.Server.Host.Components.Chat.Providers;
+using Tgstation.Server.Host.Extensions;
 
 namespace Tgstation.Server.Tests
 {
@@ -81,6 +82,8 @@ namespace Tgstation.Server.Tests
 			}
 		}
 
+		// Disabled until 4.1.0 due to changes in version handling
+		[Ignore]
 		[TestMethod]
 		public async Task TestServerUpdate()
 		{
@@ -208,7 +211,11 @@ namespace Tgstation.Server.Tests
 						var serverInfo = await adminClient.Version(default).ConfigureAwait(false);
 
 						Assert.AreEqual(ApiHeaders.Version, serverInfo.ApiVersion);
-						Assert.AreEqual(typeof(IServer).Assembly.GetName().Version, serverInfo.Version);
+						var assemblyVersion = typeof(IServer).Assembly.GetName().Version.Semver();
+						Assert.AreEqual(assemblyVersion, serverInfo.Version);
+						Assert.AreEqual(15U, serverInfo.MinimumPasswordLength);
+						Assert.AreEqual(10U, serverInfo.InstanceLimit);
+						Assert.AreEqual(150U, serverInfo.UserLimit);
 
 						//check that modifying the token even slightly fucks up the auth
 						var newToken = new Token

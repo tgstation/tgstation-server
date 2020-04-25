@@ -22,7 +22,7 @@ namespace Tgstation.Server.Client.Tests
 		{
 			var sample = new Byond
 			{
-				Version = new Version(511, 1385)
+				Version = new Version(511, 1385, 0)
 			};
 
 			var sampleJson = JsonConvert.SerializeObject(sample, new JsonSerializerSettings
@@ -43,6 +43,7 @@ namespace Tgstation.Server.Client.Tests
 
 			var result = await client.Read<Byond>(Routes.Byond, default).ConfigureAwait(false);
 			Assert.AreEqual(sample.Version, result.Version);
+			Assert.AreEqual(0, result.Version.Build);
 		}
 
 		[TestMethod]
