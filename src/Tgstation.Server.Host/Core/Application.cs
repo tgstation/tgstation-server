@@ -12,7 +12,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Display;
@@ -27,6 +26,7 @@ using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Chat.Providers;
 using Tgstation.Server.Host.Components.Interop;
+using Tgstation.Server.Host.Components.Interop.Converters;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Configuration;
@@ -289,7 +289,8 @@ namespace Tgstation.Server.Host.Core
 			});
 
 			// configure component services
-			services.AddSingleton<IRepositoryFactory, RepositoryFactory>();
+			services.AddSingleton<ILibGit2RepositoryFactory, LibGit2RepositoryFactory>();
+			services.AddSingleton<ILibGit2Commands, LibGit2Commands>();
 			services.AddSingleton<IProviderFactory, ProviderFactory>();
 			services.AddSingleton<IChatManagerFactory, ChatManagerFactory>();
 			services.AddSingleton<IInstanceFactory, InstanceFactory>();

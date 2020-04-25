@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host
 {
@@ -29,7 +30,7 @@ namespace Tgstation.Server.Host
 		/// Entrypoint for the <see cref="Program"/>
 		/// </summary>
 		/// <param name="args">The command line arguments</param>
-		/// <returns>The <see cref="Process.ExitCode"/></returns>
+		/// <returns>The <see cref="global::System.Diagnostics.Process.ExitCode"/>.</returns>
 		public static async Task<int> Main(string[] args)
 		{
 			// first arg is 100% always the update path, starting it otherwise is solely for debugging purposes

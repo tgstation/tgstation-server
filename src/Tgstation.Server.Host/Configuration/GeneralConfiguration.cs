@@ -1,12 +1,13 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Host.Configuration
 {
 	/// <summary>
 	/// General configuration options
 	/// </summary>
-	public sealed class GeneralConfiguration
+	public sealed class GeneralConfiguration : ServerInformation
 	{
 		/// <summary>
 		/// The key for the <see cref="Microsoft.Extensions.Configuration.IConfigurationSection"/> the <see cref="GeneralConfiguration"/> resides in
@@ -14,9 +15,19 @@ namespace Tgstation.Server.Host.Configuration
 		public const string Section = "General";
 
 		/// <summary>
-		/// The default value for <see cref="MinimumPasswordLength"/>
+		/// The default value for <see cref="ServerInformation.MinimumPasswordLength"/>.
 		/// </summary>
 		const uint DefaultMinimumPasswordLength = 15;
+
+		/// <summary>
+		/// The default value for <see cref="ServerInformation.InstanceLimit"/>.
+		/// </summary>
+		const uint DefaultInstanceLimit = 10;
+
+		/// <summary>
+		/// The default value for <see cref="ServerInformation.UserLimit"/>.
+		/// </summary>
+		const uint DefaultUserLimit = 100;
 
 		/// <summary>
 		/// The default value for <see cref="ByondTopicTimeout"/>
@@ -27,11 +38,6 @@ namespace Tgstation.Server.Host.Configuration
 		/// The default value for <see cref="RestartTimeout"/>
 		/// </summary>
 		const int DefaultRestartTimeout = 10000;
-
-		/// <summary>
-		/// Minimum length of database user passwords
-		/// </summary>
-		public uint MinimumPasswordLength { get; set; } = DefaultMinimumPasswordLength;
 
 		/// <summary>
 		/// A GitHub personal access token to use for bypassing rate limits on requests. Requires no scopes
@@ -65,13 +71,13 @@ namespace Tgstation.Server.Host.Configuration
 		public bool UseBasicWatchdogOnWindows { get; set; }
 
 		/// <summary>
-		/// The maximum number of <see cref="Models.Instance"/>s allowed.
+		/// Initializes a new instance of the <see cref="GeneralConfiguration"/> <see langword="class"/>.
 		/// </summary>
-		public uint InstanceLimit { get; set; }
-
-		/// <summary>
-		/// The maximum number of <see cref="Models.User"/>s allowed.
-		/// </summary>
-		public uint UserLimit { get; set; }
+		public GeneralConfiguration()
+		{
+			MinimumPasswordLength = DefaultMinimumPasswordLength;
+			InstanceLimit = DefaultInstanceLimit;
+			UserLimit = DefaultUserLimit;
+		}
 	}
 }
