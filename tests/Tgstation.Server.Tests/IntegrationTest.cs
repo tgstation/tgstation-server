@@ -232,6 +232,11 @@ namespace Tgstation.Server.Tests
 						await new InstanceManagerTest(adminClient.Instances, server.Directory).Run(cancellationToken).ConfigureAwait(false);
 					}
 				}
+				catch (Exception ex)
+				{
+					Console.WriteLine($"TEST ERROR: {ex.GetType()} in flight!");
+					throw;
+				}
 				finally
 				{
 					serverCts.Cancel();
