@@ -151,7 +151,7 @@ namespace Tgstation.Server.Tests.Instance
 			await WaitForJob(numberOnlyMerging.ActiveJob, 20, false, cancellationToken);
 
 			var withMerge = await repositoryClient.Read(cancellationToken);
-			Assert.IsNull(withMerge.Reference);
+			Assert.AreEqual(repository.Reference, withMerge.Reference);
 			Assert.AreEqual(1, withMerge.RevisionInformation.ActiveTestMerges.Count);
 			Assert.AreEqual(prNumber, withMerge.RevisionInformation.ActiveTestMerges.First().Number);
 			Assert.AreEqual(prNumber, withMerge.RevisionInformation.PrimaryTestMerge.Number);
