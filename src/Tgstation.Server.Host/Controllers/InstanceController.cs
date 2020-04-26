@@ -151,17 +151,22 @@ namespace Tgstation.Server.Host.Controllers
 
 			var installationDirectoryPath = NormalizePath(DefaultIOManager.CurrentDirectory);
 
+			bool InstanceIsChildOf(string otherPath)
+			{
+				if (!targetInstancePath.StartsWith(otherPath, StringComparison.Ordinal))
+					return false;
+
+				bool sameLength = targetInstancePath.Length == otherPath.Length;
+				char dirSeparatorChar = targetInstancePath.ToCharArray()[Math.Min(otherPath.Length, targetInstancePath.Length - 1)];
+				return sameLength
+					|| dirSeparatorChar == Path.DirectorySeparatorChar
+					|| dirSeparatorChar == Path.AltDirectorySeparatorChar;
+			}
+
 			IActionResult CheckInstanceNotChildOf(string conflictingPath)
 			{
-				if (targetInstancePath.StartsWith(conflictingPath, StringComparison.Ordinal))
-				{
-					bool sameLength = targetInstancePath.Length == conflictingPath.Length;
-					char dirSeparatorChar = targetInstancePath.ToCharArray()[Math.Min(conflictingPath.Length, targetInstancePath.Length - 1)];
-					if (sameLength
-						|| dirSeparatorChar == Path.DirectorySeparatorChar
-						|| dirSeparatorChar == Path.AltDirectorySeparatorChar)
-						return Conflict(new ErrorMessage(ErrorCode.InstanceAtConflictingPath));
-				}
+				if (InstanceIsChildOf(conflictingPath))
+					return Conflict(new ErrorMessage(ErrorCode.InstanceAtConflictingPath));
 
 				return null;
 			}
@@ -198,8 +203,16 @@ namespace Tgstation.Server.Host.Controllers
 				}
 			}
 
+			if(earlyOut == null && generalConfiguration.ValidInstancePaths != null)
+			{
+				// Last test, ensure it's in the list of valid paths
+			}
+
 			if (earlyOut != null)
 				return earlyOut;
+
+			if (!(generalConfiguration.ValidInstancePaths?.Any(path => InstanceIsChildOf(path)) ?? false))
+				return BadRequest();
 
 			async Task<bool> DirExistsAndIsNotEmpty()
 			{
