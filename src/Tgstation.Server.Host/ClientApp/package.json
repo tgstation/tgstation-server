@@ -5,13 +5,12 @@
     "tgstation-server-control-panel": "0.3.1"
   },
   "scripts": {
-    "msbuild": "npm run clean && react-scripts build && cp-cli node_modules/tgstation-server-control-panel/build/public/ build/ && minify-json build && rimraf ../wwwroot && move-cli build ../wwwroot",
+    "msbuild": "npm run clean && react-scripts build && cp-cli node_modules/tgstation-server-control-panel/build/public/ build/ && rimraf ../wwwroot && move-cli build ../wwwroot",
     "clean": "rimraf build"
   },
   "devDependencies": {
     "@types/node": "^13.13.2",
     "@types/react-dom": "^16.9.6",
-    "minify-json": "^1.0.0",
     "move-cli": "^1.2.1",
     "react-scripts": "^3.4.1",
     "rimraf": "^3.0.2",
