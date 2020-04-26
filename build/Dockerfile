@@ -69,4 +69,6 @@ COPY --from=build /repo/build/tgs.docker.sh tgs.sh
 
 VOLUME ["/config_data", "/tgs_logs", "/app/lib"]
 
+ENV General__ValidInstancePaths__0 /tgs4_instances
+
 ENTRYPOINT ["./tgs.sh"]
