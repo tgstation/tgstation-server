@@ -163,21 +163,12 @@ namespace Tgstation.Server.Host.Controllers
 					|| dirSeparatorChar == Path.AltDirectorySeparatorChar;
 			}
 
-			IActionResult CheckInstanceNotChildOf(string conflictingPath)
-			{
-				if (InstanceIsChildOf(conflictingPath))
-					return Conflict(new ErrorMessage(ErrorCode.InstanceAtConflictingPath));
-
-				return null;
-			}
-
-			var earlyOut = CheckInstanceNotChildOf(installationDirectoryPath);
-			if (earlyOut != null)
-				return earlyOut;
-
-			ulong countOfOtherInstances = 0;
+			if (InstanceIsChildOf(installationDirectoryPath))
+				return Conflict(new ErrorMessage(ErrorCode.InstanceAtConflictingPath));
 
 			// Validate it's not a child of any other instance
+			IActionResult earlyOut = null;
+			ulong countOfOtherInstances = 0;
 			using (var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
 			{
 				var newCancellationToken = cts.Token;
@@ -187,9 +178,9 @@ namespace Tgstation.Server.Host.Controllers
 						otherInstance =>
 						{
 							if (++countOfOtherInstances >= generalConfiguration.InstanceLimit)
-								earlyOut = Conflict(new ErrorMessage(ErrorCode.InstanceLimitReached));
-							else
-								earlyOut = earlyOut ?? CheckInstanceNotChildOf(otherInstance.Path);
+								earlyOut ??= Conflict(new ErrorMessage(ErrorCode.InstanceLimitReached));
+							else if (InstanceIsChildOf(otherInstance.Path))
+								earlyOut ??= Conflict(new ErrorMessage(ErrorCode.InstanceAtConflictingPath));
 
 							if (earlyOut != null && !newCancellationToken.IsCancellationRequested)
 								cts.Cancel();
@@ -203,16 +194,14 @@ namespace Tgstation.Server.Host.Controllers
 				}
 			}
 
-			if(earlyOut == null && generalConfiguration.ValidInstancePaths != null)
-			{
-				// Last test, ensure it's in the list of valid paths
-			}
-
 			if (earlyOut != null)
 				return earlyOut;
 
-			if (!(generalConfiguration.ValidInstancePaths?.Any(path => InstanceIsChildOf(path)) ?? false))
-				return BadRequest();
+			// Last test, ensure it's in the list of valid paths
+			if (!(generalConfiguration.ValidInstancePaths?
+				.Select(path => NormalizePath(path))
+				.Any(path => InstanceIsChildOf(path)) ?? true))
+				return BadRequest(new ErrorMessage(ErrorCode.InstanceNotAtWhitelistedPath));
 
 			async Task<bool> DirExistsAndIsNotEmpty()
 			{
