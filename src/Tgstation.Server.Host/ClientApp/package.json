@@ -2,7 +2,7 @@
   "private": true,
   "dependencies": {
     "react-dom": "^16.13.1",
-    "tgstation-server-control-panel": "0.3.0"
+    "tgstation-server-control-panel": "0.3.1"
   },
   "scripts": {
     "msbuild": "npm run clean && react-scripts build && cp-cli node_modules/tgstation-server-control-panel/build/public/ build/ && minify-json build && rimraf ../wwwroot && move-cli build ../wwwroot",
