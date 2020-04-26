@@ -103,14 +103,12 @@
   <ItemGroup>
     <Content Remove="ClientApp\package-lock.json" />
     <Content Remove="ClientApp\package.json" />
-    <Content Remove="ClientApp\public\manifest.json" />
     <Content Remove="ClientApp\tsconfig.json" />
     <Content Remove="ClientApp\tslint.json" />
     <None Include="ClientApp\package-lock.json" />
     <None Include="ClientApp\package.json" />
-    <None Include="ClientApp\public\manifest.json" />
     <None Include="ClientApp\tsconfig.json" />
-    <ClientApp Include="ClientApp\src\**\*;ClientApp\public\**\*;ClientApp\tsconfig.json;ClientApp\tslint.json;ClientApp\package.json;ClientApp\package-lock.json" />
+    <ClientApp Include="ClientApp\src\**\*;ClientApp\public\**\*;ClientApp\tsconfig.json;ClientApp\package.json;ClientApp\package-lock.json" />
     <AdditionalFiles Include="../../build/stylecop.json" />
   </ItemGroup>
 
