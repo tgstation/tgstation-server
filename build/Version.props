@@ -4,9 +4,9 @@
     <!-- Integration tests will ensure they match across the board -->
     <TgsCoreVersion>4.1.0</TgsCoreVersion>
     <TgsApiVersion>6.0.0</TgsApiVersion>
-    <TgsClientVersion>5.1.0</TgsClientVersion>
+    <TgsClientVersion>6.0.0</TgsClientVersion>
     <TgsDmapiVersion>5.0.0</TgsDmapiVersion>
-    <TgsControlPanelVersion>0.3.0</TgsControlPanelVersion>
+    <TgsControlPanelVersion>0.3.1</TgsControlPanelVersion>
     <TgsHostWatchdogVersion>1.1.0</TgsHostWatchdogVersion>
   </PropertyGroup>
 </Project>
