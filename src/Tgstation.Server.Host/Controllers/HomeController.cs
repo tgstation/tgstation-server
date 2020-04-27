@@ -126,7 +126,8 @@ namespace Tgstation.Server.Host.Controllers
 					ApiVersion = ApiHeaders.Version,
 					MinimumPasswordLength = generalConfiguration.MinimumPasswordLength,
 					InstanceLimit = generalConfiguration.InstanceLimit,
-					UserLimit = generalConfiguration.UserLimit
+					UserLimit = generalConfiguration.UserLimit,
+					ValidInstancePaths = generalConfiguration.ValidInstancePaths
 				});
 
 			// if we are using a browser and the control panel, soft redirect to the app page

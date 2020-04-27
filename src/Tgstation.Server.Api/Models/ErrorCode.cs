@@ -459,5 +459,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("Encountered merge conflicts while test merging one or more pull requests!")]
 		RepoTestMergeConflict,
+
+		/// <summary>
+		/// Attempted to create an instance outside of the <see cref="Internal.ServerInformation.ValidInstancePaths"/>.
+		/// </summary>
+		[Description("The new instance's path is not under a white-listed path.")]
+		InstanceNotAtWhitelistedPath,
 	}
 }
