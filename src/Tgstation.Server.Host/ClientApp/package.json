@@ -2,7 +2,7 @@
   "private": true,
   "dependencies": {
     "react-dom": "^16.13.1",
-    "tgstation-server-control-panel": "0.3.1"
+    "tgstation-server-control-panel": "0.4.0"
   },
   "optionalDependencies": {
     "fsevents": "1.2.9"
