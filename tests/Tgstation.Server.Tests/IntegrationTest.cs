@@ -213,8 +213,8 @@ namespace Tgstation.Server.Tests
 						Assert.AreEqual(ApiHeaders.Version, serverInfo.ApiVersion);
 						var assemblyVersion = typeof(IServer).Assembly.GetName().Version.Semver();
 						Assert.AreEqual(assemblyVersion, serverInfo.Version);
-						Assert.AreEqual(15U, serverInfo.MinimumPasswordLength);
-						Assert.AreEqual(10U, serverInfo.InstanceLimit);
+						Assert.AreEqual(10U, serverInfo.MinimumPasswordLength);
+						Assert.AreEqual(11U, serverInfo.InstanceLimit);
 						Assert.AreEqual(150U, serverInfo.UserLimit);
 
 						//check that modifying the token even slightly fucks up the auth
