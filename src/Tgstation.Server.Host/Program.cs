@@ -58,7 +58,17 @@ namespace Tgstation.Server.Host
 				using (var shutdownNotifier = new ProgramShutdownTokenSource())
 				{
 					var cancellationToken = shutdownNotifier.Token;
-					var server = await ServerFactory.CreateServer(updatedArgsArray, updatePath, cancellationToken).ConfigureAwait(false);
+					IServer server;
+					try
+					{
+						server = await ServerFactory.CreateServer(updatedArgsArray, updatePath, cancellationToken).ConfigureAwait(false);
+					}
+					catch (OperationCanceledException)
+					{
+						// Console cancelled
+						return 0;
+					}
+
 					if (server == null)
 						return 0;
 
