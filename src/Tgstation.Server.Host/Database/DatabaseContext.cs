@@ -313,7 +313,7 @@ namespace Tgstation.Server.Host.Database
 			if (wasEmpty || (await Database.GetPendingMigrationsAsync(cancellationToken).ConfigureAwait(false)).Any())
 			{
 				Logger.LogInformation("Migrating database...");
-				await Database.EnsureCreatedAsync(cancellationToken).ConfigureAwait(false);
+				await Database.MigrateAsync(cancellationToken).ConfigureAwait(false);
 			}
 			else
 				Logger.LogDebug("No migrations to apply.");
