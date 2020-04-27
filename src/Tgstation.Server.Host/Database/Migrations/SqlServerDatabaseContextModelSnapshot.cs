@@ -679,13 +679,13 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.HasOne("Tgstation.Server.Host.Models.Job", "Job")
 						.WithOne()
 						.HasForeignKey("Tgstation.Server.Host.Models.CompileJob", "JobId")
-						.OnDelete(DeleteBehavior.Restrict)
+						.OnDelete(DeleteBehavior.Cascade)
 						.IsRequired();
 
 					b.HasOne("Tgstation.Server.Host.Models.RevisionInformation", "RevisionInformation")
 						.WithMany("CompileJobs")
 						.HasForeignKey("RevisionInformationId")
-						.OnDelete(DeleteBehavior.Cascade)
+						.OnDelete(DeleteBehavior.ClientNoAction)
 						.IsRequired();
 				});
 
@@ -770,7 +770,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.HasOne("Tgstation.Server.Host.Models.TestMerge", "TestMerge")
 						.WithMany("RevisonInformations")
 						.HasForeignKey("TestMergeId")
-						.OnDelete(DeleteBehavior.Cascade)
+						.OnDelete(DeleteBehavior.ClientNoAction)
 						.IsRequired();
 				});
 
@@ -794,7 +794,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.HasOne("Tgstation.Server.Host.Models.RevisionInformation", "PrimaryRevisionInformation")
 						.WithOne("PrimaryTestMerge")
 						.HasForeignKey("Tgstation.Server.Host.Models.TestMerge", "PrimaryRevisionInformationId")
-						.OnDelete(DeleteBehavior.Restrict)
+						.OnDelete(DeleteBehavior.Cascade)
 						.IsRequired();
 				});
 

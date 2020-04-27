@@ -257,17 +257,25 @@ namespace Tgstation.Server.Host.Database
 
 			modelBuilder.Entity<InstanceUser>().HasIndex(x => new { x.UserId, x.InstanceId }).IsUnique();
 
-			modelBuilder.Entity<TestMerge>().HasMany(x => x.RevisonInformations).WithOne(x => x.TestMerge).OnDelete(DeleteBehavior.Cascade);
-
 			var revInfo = modelBuilder.Entity<RevisionInformation>();
-			revInfo.HasMany(x => x.CompileJobs).WithOne(x => x.RevisionInformation).OnDelete(DeleteBehavior.Cascade);
 			revInfo.HasMany(x => x.ActiveTestMerges).WithOne(x => x.RevisionInformation).OnDelete(DeleteBehavior.Cascade);
-			revInfo.HasOne(x => x.PrimaryTestMerge).WithOne(x => x.PrimaryRevisionInformation).OnDelete(DeleteBehavior.Restrict);
+			revInfo.HasOne(x => x.PrimaryTestMerge).WithOne(x => x.PrimaryRevisionInformation).OnDelete(DeleteBehavior.Cascade);
 			revInfo.HasIndex(x => new { x.InstanceId, x.CommitSha }).IsUnique();
 
-			modelBuilder.Entity<CompileJob>().HasIndex(x => x.DirectoryName);
+			// IMPORTANT: When an instance is deleted (detached) it cascades into the maze of revinfo/testmerge/ritm/compilejob/job/ri relations
+			// This maze starts at revInfo and jobs
+			// jobs takes care of deleting compile jobs and ris
+			// rev info takes care of the rest
+			// Break the link here so the db doesn't shit itself complaining about cascading deletes
+			// EF will handle making the right query to destroy everything
+			revInfo.HasMany(x => x.CompileJobs).WithOne(x => x.RevisionInformation).OnDelete(DeleteBehavior.ClientNoAction);
 
-			modelBuilder.Entity<Job>().HasOne<CompileJob>().WithOne(x => x.Job).OnDelete(DeleteBehavior.Restrict);
+			// Also break the link between ritm and testmerge so it doesn't cycle in a triangle with rev info
+			modelBuilder.Entity<TestMerge>().HasMany(x => x.RevisonInformations).WithOne(x => x.TestMerge).OnDelete(DeleteBehavior.ClientNoAction);
+
+			var compileJob = modelBuilder.Entity<CompileJob>();
+			compileJob.HasIndex(x => x.DirectoryName);
+			compileJob.HasOne(x => x.Job).WithOne().OnDelete(DeleteBehavior.Cascade);
 
 			var chatChannel = modelBuilder.Entity<ChatChannel>();
 			chatChannel.HasIndex(x => new { x.ChatSettingsId, x.IrcChannel }).IsUnique();
@@ -305,7 +313,7 @@ namespace Tgstation.Server.Host.Database
 			if (wasEmpty || (await Database.GetPendingMigrationsAsync(cancellationToken).ConfigureAwait(false)).Any())
 			{
 				Logger.LogInformation("Migrating database...");
-				await Database.MigrateAsync(cancellationToken).ConfigureAwait(false);
+				await Database.EnsureCreatedAsync(cancellationToken).ConfigureAwait(false);
 			}
 			else
 				Logger.LogDebug("No migrations to apply.");

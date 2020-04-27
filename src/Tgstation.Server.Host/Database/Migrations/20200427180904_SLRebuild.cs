@@ -1,9 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-#pragma warning disable CA1502
-#pragma warning disable CA1506
-
 namespace Tgstation.Server.Host.Database.Migrations
 {
 	/// <summary>
@@ -228,6 +225,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					Id = table.Column<long>(nullable: false)
 						.Annotation("Sqlite:Autoincrement", true),
 					Description = table.Column<string>(nullable: false),
+					ErrorCode = table.Column<uint>(nullable: true),
 					ExceptionDetails = table.Column<string>(nullable: true),
 					StartedAt = table.Column<DateTimeOffset>(nullable: false),
 					StoppedAt = table.Column<DateTimeOffset>(nullable: true),
@@ -317,7 +315,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 						column: x => x.PrimaryRevisionInformationId,
 						principalTable: "RevisionInformations",
 						principalColumn: "Id",
-						onDelete: ReferentialAction.Restrict);
+						onDelete: ReferentialAction.Cascade);
 				});
 
 			migrationBuilder.CreateTable(
@@ -345,13 +343,12 @@ namespace Tgstation.Server.Host.Database.Migrations
 						column: x => x.JobId,
 						principalTable: "Jobs",
 						principalColumn: "Id",
-						onDelete: ReferentialAction.Restrict);
+						onDelete: ReferentialAction.Cascade);
 					table.ForeignKey(
 						name: "FK_CompileJobs_RevisionInformations_RevisionInformationId",
 						column: x => x.RevisionInformationId,
 						principalTable: "RevisionInformations",
-						principalColumn: "Id",
-						onDelete: ReferentialAction.Cascade);
+						principalColumn: "Id");
 				});
 
 			migrationBuilder.CreateTable(
@@ -376,8 +373,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 						name: "FK_RevInfoTestMerges_TestMerges_TestMergeId",
 						column: x => x.TestMergeId,
 						principalTable: "TestMerges",
-						principalColumn: "Id",
-						onDelete: ReferentialAction.Cascade);
+						principalColumn: "Id");
 				});
 
 			migrationBuilder.CreateTable(
