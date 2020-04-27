@@ -1,5 +1,10 @@
 /world/New()
 	TgsNew()
+	StartAsync()
+
+/proc/StartAsync()
+	set waitfor = FALSE
+	sleep(100)
 	TgsInitializationComplete()
 
 /world/Topic(T, Addr, Master, Keys)

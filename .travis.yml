@@ -63,6 +63,6 @@ install:
   - if [ $DockerBuild = false ] && [ $DMAPI = false ]; then dotnet restore tgstation-server.sln; fi
 
 script:
-  - if [ $DockerBuild = false ] && [ $DMAPI = true ]; then tests/DMAPI/build_byond.sh || travis_terminate 1; fi
+  - if [ $DockerBuild = false ] && [ $DMAPI = true ]; then tests/DMAPI/BasicOperation/build_byond.sh || travis_terminate 1; fi
   - if [ $DockerBuild = false ] && [ $DMAPI = false ]; then build/test_core.sh; fi
   - if [ $DockerBuild = true ]; then docker build . -f build/Dockerfile; fi

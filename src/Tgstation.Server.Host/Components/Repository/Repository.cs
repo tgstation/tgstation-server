@@ -207,14 +207,38 @@ namespace Tgstation.Server.Host.Components.Repository
 			progressReporter(0);
 			cancellationToken.ThrowIfCancellationRequested();
 
-			commands.Checkout(
+			var checkoutOptions = new CheckoutOptions
+			{
+				CheckoutModifiers = CheckoutModifiers.Force,
+				OnCheckoutProgress = CheckoutProgressHandler(progressReporter)
+			};
+
+			void RunCheckout() => commands.Checkout(
 				libGitRepo,
-				new CheckoutOptions
-				{
-					CheckoutModifiers = CheckoutModifiers.Force,
-					OnCheckoutProgress = CheckoutProgressHandler(progressReporter)
-				},
+				checkoutOptions,
 				committish);
+
+			try
+			{
+				RunCheckout();
+			}
+			catch (NotFoundException)
+			{
+				// Maybe (likely) a remote?
+				var remoteName = $"origin/{committish}";
+				var potentialBranch = libGitRepo.Branches.FirstOrDefault(
+					branch => branch.FriendlyName.Equals(remoteName, StringComparison.Ordinal));
+				cancellationToken.ThrowIfCancellationRequested();
+
+				if (potentialBranch == default)
+					throw;
+
+				logger.LogDebug("Creating local branch for {0}...", potentialBranch.FriendlyName);
+				libGitRepo.CreateBranch(committish, potentialBranch.Tip);
+				cancellationToken.ThrowIfCancellationRequested();
+
+				RunCheckout();
+			}
 
 			cancellationToken.ThrowIfCancellationRequested();
 

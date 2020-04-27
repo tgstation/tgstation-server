@@ -13,7 +13,7 @@ if (!contentElement)
     throw new Error("Missing root div, cannot render app!");
 
 const legacyUserLanguageKey = "userLanguage";
-const userLang = navigator.language || navigator[legacyUserLanguageKey];
+const userLang = navigator.language || navigator[legacyUserLanguageKey] || "en-CA";
 const serverAddress = window.location.href;
 const controlPanel = <ControlPanel serverAddress={serverAddress} locale={userLang} />;
 
