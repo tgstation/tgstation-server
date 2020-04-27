@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -12,12 +11,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
-using Tgstation.Server.Host.Setup;
 using Tgstation.Server.Host.System;
 
-namespace Tgstation.Server.Host.Core.Tests
+namespace Tgstation.Server.Host.Setup.Tests
 {
 	[TestClass]
 	public sealed class TestSetupWizard
