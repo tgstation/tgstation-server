@@ -737,11 +737,6 @@ namespace Tgstation.Server.Host.Setup
 				await console.PressAnyKeyAsync(cancellationToken).ConfigureAwait(false);
 				throw new OperationCanceledException();
 			}
-
-			await console.WriteAsync("Waiting for configuration changes to reload...", true, cancellationToken).ConfigureAwait(false);
-
-			// we need to wait for the configuration's file system watcher to read and reload the changes
-			await asyncDelayer.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <summary>
