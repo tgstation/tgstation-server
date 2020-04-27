@@ -1,7 +1,8 @@
 codecov:
   strict_yaml_branch: master
 ignore:
-  - "src/Tgstation.Server.Host/Models/Migrations"
+  - "src/Tgstation.Server.Host/Database/Migrations"
+  - "src/Tgstation.Server.Host/Database/Design"
 coverage:
   status:
     project:
