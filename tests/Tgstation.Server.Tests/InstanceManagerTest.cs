@@ -84,6 +84,15 @@ namespace Tgstation.Server.Tests
 				Path = testNonEmpty
 			}, cancellationToken), ErrorCode.InstanceAtExistingPath).ConfigureAwait(false);
 
+			// test can't create instance outside of whitelist
+			await ApiAssert.ThrowsException<ApiConflictException>(() => instanceManagerClient.CreateOrAttach(new Api.Models.Instance
+			{
+				Name = "TestInstanceOutsideOfWhitelist",
+				Path = Path.Combine(testRootPath, "..", Guid.NewGuid().ToString()),
+				Online = true,
+				ChatBotLimit = 1
+			}, cancellationToken), ErrorCode.InstanceNotAtWhitelistedPath);
+
 			//test basic move
 			Directory.Delete(testNonEmpty);
 			var initialPath = firstTest.Path;

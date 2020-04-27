@@ -151,28 +151,24 @@ namespace Tgstation.Server.Host.Controllers
 
 			var installationDirectoryPath = NormalizePath(DefaultIOManager.CurrentDirectory);
 
-			IActionResult CheckInstanceNotChildOf(string conflictingPath)
+			bool InstanceIsChildOf(string otherPath)
 			{
-				if (targetInstancePath.StartsWith(conflictingPath, StringComparison.Ordinal))
-				{
-					bool sameLength = targetInstancePath.Length == conflictingPath.Length;
-					char dirSeparatorChar = targetInstancePath.ToCharArray()[Math.Min(conflictingPath.Length, targetInstancePath.Length - 1)];
-					if (sameLength
-						|| dirSeparatorChar == Path.DirectorySeparatorChar
-						|| dirSeparatorChar == Path.AltDirectorySeparatorChar)
-						return Conflict(new ErrorMessage(ErrorCode.InstanceAtConflictingPath));
-				}
+				if (!targetInstancePath.StartsWith(otherPath, StringComparison.Ordinal))
+					return false;
 
-				return null;
+				bool sameLength = targetInstancePath.Length == otherPath.Length;
+				char dirSeparatorChar = targetInstancePath.ToCharArray()[Math.Min(otherPath.Length, targetInstancePath.Length - 1)];
+				return sameLength
+					|| dirSeparatorChar == Path.DirectorySeparatorChar
+					|| dirSeparatorChar == Path.AltDirectorySeparatorChar;
 			}
 
-			var earlyOut = CheckInstanceNotChildOf(installationDirectoryPath);
-			if (earlyOut != null)
-				return earlyOut;
-
-			ulong countOfOtherInstances = 0;
+			if (InstanceIsChildOf(installationDirectoryPath))
+				return Conflict(new ErrorMessage(ErrorCode.InstanceAtConflictingPath));
 
 			// Validate it's not a child of any other instance
+			IActionResult earlyOut = null;
+			ulong countOfOtherInstances = 0;
 			using (var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
 			{
 				var newCancellationToken = cts.Token;
@@ -182,9 +178,9 @@ namespace Tgstation.Server.Host.Controllers
 						otherInstance =>
 						{
 							if (++countOfOtherInstances >= generalConfiguration.InstanceLimit)
-								earlyOut = Conflict(new ErrorMessage(ErrorCode.InstanceLimitReached));
-							else
-								earlyOut = earlyOut ?? CheckInstanceNotChildOf(otherInstance.Path);
+								earlyOut ??= Conflict(new ErrorMessage(ErrorCode.InstanceLimitReached));
+							else if (InstanceIsChildOf(otherInstance.Path))
+								earlyOut ??= Conflict(new ErrorMessage(ErrorCode.InstanceAtConflictingPath));
 
 							if (earlyOut != null && !newCancellationToken.IsCancellationRequested)
 								cts.Cancel();
@@ -200,6 +196,12 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (earlyOut != null)
 				return earlyOut;
+
+			// Last test, ensure it's in the list of valid paths
+			if (!(generalConfiguration.ValidInstancePaths?
+				.Select(path => NormalizePath(path))
+				.Any(path => InstanceIsChildOf(path)) ?? true))
+				return BadRequest(new ErrorMessage(ErrorCode.InstanceNotAtWhitelistedPath));
 
 			async Task<bool> DirExistsAndIsNotEmpty()
 			{

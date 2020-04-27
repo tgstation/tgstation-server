@@ -10,7 +10,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Channels the Discord bot should listen/announce in
 		/// </summary>
-		public List<ChatChannel> Channels { get; set; }
+		public ICollection<ChatChannel> Channels { get; set; }
 
 		/// <summary>
 		/// Validates <see cref="Channels"/> are correct for the <see cref="Internal.ChatBot.Provider"/>

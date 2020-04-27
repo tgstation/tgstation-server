@@ -58,7 +58,7 @@ namespace Tgstation.Server.Tests
 				Console.WriteLine("WARNING: No GitHub access token configured, test may fail due to rate limits!");
 
 			dumpOpenAPISpecpath = !String.IsNullOrEmpty(dumpOpenAPISpecPathEnvVar);
-			
+
 			var args = new List<string>()
 			{
 				String.Format(CultureInfo.InvariantCulture, "Kestrel:EndPoints:Http:Url={0}", UrlString),
@@ -67,7 +67,8 @@ namespace Tgstation.Server.Tests
 				String.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", true),
 				String.Format(CultureInfo.InvariantCulture, "General:SetupWizardMode={0}", SetupWizardMode.Never),
 				String.Format(CultureInfo.InvariantCulture, "General:InstanceLimit={0}", 10),
-				String.Format(CultureInfo.InvariantCulture, "General:UserLimit={0}", 150)
+				String.Format(CultureInfo.InvariantCulture, "General:UserLimit={0}", 150),
+				String.Format(CultureInfo.InvariantCulture, "General:ValidInstancePaths:0={0}", Directory)
 			};
 
 			if (!String.IsNullOrEmpty(gitHubAccessToken))
