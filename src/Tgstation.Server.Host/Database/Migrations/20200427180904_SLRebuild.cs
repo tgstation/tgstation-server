@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#pragma warning disable CA1506
+
 namespace Tgstation.Server.Host.Database.Migrations
 {
 	/// <summary>
