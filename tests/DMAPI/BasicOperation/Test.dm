@@ -14,7 +14,7 @@
 /proc/StartAsync()
 	set waitfor = FALSE
 	sleep(100)
-	TgsInitializationComplete()
+	world.TgsInitializationComplete()
 	sleep(100)
 	world.TgsEndProcess()
 
