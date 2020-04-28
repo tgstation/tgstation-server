@@ -1,6 +1,6 @@
 /world/New()
 	log << "About to call TgsNew()"
-	TgsNew(minimum_required_security_level = TGS_SECURITY_SAFE)
+	TgsNew(minimum_required_security_level = TGS_SECURITY_ULTRASAFE)
 	log << "About to call StartAsync()"
 	StartAsync()
 
