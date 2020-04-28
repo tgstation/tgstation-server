@@ -36,8 +36,6 @@ namespace Tgstation.Server.Tests.Instance
 
 			await WaitForJob(compileJobJob, 90, false, cancellationToken);
 
-			await Task.Delay(3000);
-
 			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 
 			Assert.IsNotNull(daemonStatus.ActiveCompileJob);
