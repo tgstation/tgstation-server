@@ -6,11 +6,10 @@
 
 /proc/StartAsync()
 	set waitfor = FALSE
-	world.log << "First sleep"
-	sleep(50)
-	world.log << "Priming..."
-	world.TgsInitializationComplete()
-	world.log << "Second sleep"
+	Run()
+
+/proc/Run()
+	world.log << "sleep"
 	sleep(50)
 	TgsTargetedChatBroadcast("Sample admin-only message", TRUE)
 
