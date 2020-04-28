@@ -263,12 +263,14 @@
 	return revision
 
 /datum/tgs_api/v5/ChatBroadcast(message, list/channels)
-	var/list/ids
-	if(length(channels))
-		ids = list()
-		for(var/I in channels)
-			var/datum/tgs_chat_channel/channel = I
-			ids += channel.id
+	if(!length(channels))
+		channels = ChatChannelInfo()
+
+	var/list/ids = list()
+	for(var/I in channels)
+		var/datum/tgs_chat_channel/channel = I
+		ids += channel.id
+
 	message = list(DMAPI5_CHAT_MESSAGE_TEXT = message, DMAPI5_CHAT_MESSAGE_CHANNEL_IDS = ids)
 	if(intercepted_message_queue)
 		intercepted_message_queue += list(message)
