@@ -25,4 +25,4 @@
 	if(!istype(other_version))
 		return FALSE
 
-	return suite == other_version.suite && minor == other_version.minor && patch == other_version.patch && deprecated_patch != other_version.deprecated_patch
+	return suite == other_version.suite && minor == other_version.minor && patch == other_version.patch && deprecated_patch == other_version.deprecated_patch
