@@ -12,6 +12,7 @@
 	world.TgsInitializationComplete()
 	world.log << "Second sleep"
 	sleep(50)
+	TgsTargetedChatBroadcast("Sample admin-only message", TRUE)
 
 	world.log << "Validating API sleep"
 	// Validate TGS_DMAPI_VERSION against DMAPI version used
