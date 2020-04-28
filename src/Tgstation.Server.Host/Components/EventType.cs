@@ -8,71 +8,76 @@
 		/// <summary>
 		/// Parameters: Reference name, commit sha
 		/// </summary>
-		RepoResetOrigin = 0,
+		RepoResetOrigin,
 
 		/// <summary>
 		/// Parameters: Checkout target
 		/// </summary>
-		RepoCheckout = 1,
+		RepoCheckout,
 
 		/// <summary>
 		/// No parameters
 		/// </summary>
-		RepoFetch = 2,
+		RepoFetch,
 
 		/// <summary>
 		/// Parameters: Pull request number, pull request sha, merger message
 		/// </summary>
-		RepoMergePullRequest = 3,
+		RepoMergePullRequest,
 
 		/// <summary>
 		/// Parameters: Absolute path to repository root
 		/// </summary>
-		RepoPreSynchronize = 4,
+		RepoPreSynchronize,
 
 		/// <summary>
 		/// Parameters: Version being installed
 		/// </summary>
-		ByondInstallStart = 5,
+		ByondInstallStart,
 
 		/// <summary>
 		/// Parameters: Error string
 		/// </summary>
-		ByondInstallFail = 6,
+		ByondInstallFail,
 
 		/// <summary>
 		/// Parameters: Old active version, new active version
 		/// </summary>
-		ByondActiveVersionChange = 7,
+		ByondActiveVersionChange,
 
 		/// <summary>
 		/// Parameters: Game directory path, origin commit sha
 		/// </summary>
-		CompileStart = 8,
+		CompileStart,
 
 		/// <summary>
 		/// No parameters
 		/// </summary>
-		CompileCancelled = 9,
+		CompileCancelled,
 
 		/// <summary>
 		/// Parameters: Game directory path, "1" if compile succeeded and api validation failed, "0" otherwise
 		/// </summary>
-		CompileFailure = 10,
+		CompileFailure,
 
 		/// <summary>
 		/// Parameters: Game directory path
 		/// </summary>
-		CompileComplete = 11,
+		CompileComplete,
 
 		/// <summary>
 		/// No parameters
 		/// </summary>
-		InstanceAutoUpdateStart = 12,
+		InstanceAutoUpdateStart,
 
 		/// <summary>
 		/// Parameters: Base sha, target sha, base reference, target reference
 		/// </summary>
-		RepoMergeConflict = 13,
+		RepoMergeConflict,
+
+		/// <summary>
+		/// No parameters
+		/// </summary>
+		DeploymentComplete
 	}
 }
