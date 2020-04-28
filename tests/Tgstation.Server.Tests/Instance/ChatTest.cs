@@ -78,7 +78,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreEqual(1, updatedBot.Channels.Count);
 			Assert.AreEqual(false, updatedBot.Channels.First().IsAdminChannel);
 			Assert.AreEqual(true, updatedBot.Channels.First().IsUpdatesChannel);
-			Assert.AreEqual(false, updatedBot.Channels.First().IsWatchdogChannel);
+			Assert.AreEqual(true, updatedBot.Channels.First().IsWatchdogChannel);
 			Assert.AreEqual("butt2", updatedBot.Channels.First().Tag);
 			Assert.AreEqual(channelId, updatedBot.Channels.First().IrcChannel);
 			Assert.IsNull(updatedBot.Channels.First().DiscordChannelId);
