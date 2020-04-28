@@ -145,8 +145,7 @@
 				event_handler.HandleEvent(arglist(event_call))
 
 			var/list/response = list()
-			if(intercepted_message_queue.len)
-				response[DMAPI5_TOPIC_RESPONSE_CHAT_RESPONSES] = intercepted_message_queue
+			response[DMAPI5_TOPIC_RESPONSE_CHAT_RESPONSES] = intercepted_message_queue
 			intercepted_message_queue = null
 			return json_encode(response)
 		if(DMAPI5_TOPIC_COMMAND_CHANGE_PORT)

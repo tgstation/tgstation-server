@@ -30,9 +30,12 @@
 
 	var/datum/tgs_chat_command/sc = custom_commands[command]
 	if(sc)
-		var/textResponse = sc.Run(u, params)
+		var/text_response = sc.Run(u, params)
 		var/list/topic_response = list()
-		topic_response[DMAPI5_TOPIC_RESPONSE_COMMAND_RESPONSE_MESSAGE] = textResponse
+		if(!istext(text_response))
+			TGS_ERROR_LOG("Custom command [command] should return a string! Got: \"[text_response]\"")
+			text_response = null
+		topic_response[DMAPI5_TOPIC_RESPONSE_COMMAND_RESPONSE_MESSAGE] = text_response
 		return json_encode(topic_response)
 	return TopicResponse("Unknown custom chat command: [command]!")
 

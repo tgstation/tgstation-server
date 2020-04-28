@@ -27,9 +27,10 @@
 
 /datum/tgs_chat_command/reboot/Run(datum/tgs_chat_user/sender, params)
 	set waitfor = FALSE
+	. = "Echo: [sender.channel.connection_name]|[sender.channel.friendly_name]|[sender.friendly_name]: [params]. Rebooting..."
 	RebootAsync()
-	return "Echo: [sender.channel.connection_name]|[sender.channel.friendly_name]|[sender.friendly_name]: [params]. Rebooting..."
 
 /proc/RebootAsync()
+	set waitfor = FALSE
 	sleep(30)
 	world.Reboot()

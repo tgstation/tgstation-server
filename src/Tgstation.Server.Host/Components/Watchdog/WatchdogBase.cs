@@ -494,7 +494,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return commandResult?.CommandResponseMessage ??
 					(commandResult == null
 						? "ERROR: Bad topic exchange!"
-						: "ERROR: Bad DMAPI response!");
+						: "TGS: Command processed but no DMAPI response returned!");
 			}
 		}
 
