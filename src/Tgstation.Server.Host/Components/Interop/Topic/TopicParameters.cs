@@ -11,7 +11,8 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// <summary>
 		/// The <see cref="TopicCommandType"/>.
 		/// </summary>
-		public TopicCommandType CommandType { get; }
+		/// <remarks>This is <see cref="Nullable"/> but always set to work around a serialization issue.</remarks>
+		public TopicCommandType? CommandType { get; }
 
 		/// <summary>
 		/// The <see cref="Topic.ChatCommand"/> for <see cref="TopicCommandType.ChatCommand"/> requests.
