@@ -338,11 +338,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (monitorTask == null)
 				return false;
 			monitorCts.Cancel();
+			var wasRunning = !monitorTask.IsCompleted;
 			await monitorTask.ConfigureAwait(false);
 			monitorCts.Dispose();
 			monitorTask = null;
 			monitorCts = null;
-			return true;
+			return wasRunning;
 		}
 
 		/// <summary>
