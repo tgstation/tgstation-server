@@ -11,7 +11,7 @@
 /proc/Run()
 	world.log << "sleep"
 	sleep(50)
-	world.TgsInitializationsComplete()
+	world.TgsInitializationComplete()
 
 /world/Topic(T, Addr, Master, Keys)
 	TGS_TOPIC

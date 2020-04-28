@@ -36,27 +36,36 @@ namespace Tgstation.Server.Tests.Instance
 		{
 			var daemonStatus = await DeployTestDme("BasicOperation/basic_operation_test", DreamDaemonSecurity.Ultrasafe, cancellationToken);
 
+			Assert.IsFalse(daemonStatus.Running.Value);
 			Assert.IsNotNull(daemonStatus.ActiveCompileJob);
+			Assert.IsNull(daemonStatus.StagedCompileJob);
 			Assert.AreEqual(DMApiConstants.Version, daemonStatus.ActiveCompileJob.DMApiVersion);
 			Assert.AreEqual(DreamDaemonSecurity.Safe, daemonStatus.ActiveCompileJob.MinimumSecurityLevel);
 
 			var startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
 
 			await WaitForJob(startJob, 10, false, cancellationToken);
+			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			Assert.IsTrue(daemonStatus.Running.Value);
 
 			await GracefulWatchdogShutdown(30, cancellationToken);
+
+			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			Assert.IsFalse(daemonStatus.Running.Value);
 
 			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken);
 		}
 
 		async Task RunLongRunningTestThenUpdate(CancellationToken cancellationToken)
 		{
-			const string DmeName = "BasicOperation/basic_operation_test";
+			const string DmeName = "LongRunning/long_running_test";
 
 			var daemonStatus = await DeployTestDme(DmeName, DreamDaemonSecurity.Trusted, cancellationToken);
 
 			var initialCompileJob = daemonStatus.ActiveCompileJob;
+			Assert.IsFalse(daemonStatus.Running.Value);
 			Assert.IsNotNull(daemonStatus.ActiveCompileJob);
+			Assert.IsNull(daemonStatus.StagedCompileJob);
 			Assert.AreEqual(DMApiConstants.Version, daemonStatus.ActiveCompileJob.DMApiVersion);
 			Assert.AreEqual(DreamDaemonSecurity.Ultrasafe, daemonStatus.ActiveCompileJob.MinimumSecurityLevel);
 
@@ -64,14 +73,25 @@ namespace Tgstation.Server.Tests.Instance
 
 			await WaitForJob(startJob, 10, false, cancellationToken);
 
-			daemonStatus = await DeployTestDme(DmeName, DreamDaemonSecurity.Trusted, cancellationToken);
+			daemonStatus = await DeployTestDme(DmeName, DreamDaemonSecurity.Safe, cancellationToken);
 
+			Assert.IsTrue(daemonStatus.Running.Value);
 			Assert.AreEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
 			Assert.AreNotEqual(initialCompileJob.Id, daemonStatus.StagedCompileJob.Id);
+			Assert.AreEqual(DreamDaemonSecurity.Ultrasafe, daemonStatus.StagedCompileJob.MinimumSecurityLevel);
 
 			await SendCommandHack("reboot", false, cancellationToken);
 
-			await GracefulWatchdogShutdown(30, cancellationToken);
+			await Task.Delay(10000, cancellationToken);
+
+			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			Assert.AreNotEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
+			Assert.AreEqual(daemonStatus.ActiveCompileJob.Id, daemonStatus.StagedCompileJob.Id);
+
+			await instanceClient.DreamDaemon.Shutdown(cancellationToken);
+
+			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			Assert.IsFalse(daemonStatus.Running.Value);
 		}
 
 		async Task SendCommandHack(string message, bool useTgsGlobal, CancellationToken cancellationToken)
@@ -90,7 +110,7 @@ namespace Tgstation.Server.Tests.Instance
 				Mock.Of<ILogger<IrcProvider>>(),
 				builder.Address,
 				builder.Port.Value,
-				builder.Nickname + "_hack_other_user",
+				builder.Nickname + "_hack_other",
 				null,
 				null,
 				10,
