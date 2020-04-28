@@ -123,7 +123,7 @@ namespace Tgstation.Server.Tests.Instance
 				{
 					new ChatChannel
 					{
-						IrcChannel = Environment.GetEnvironmentVariable("TGS4_IRC_CHAT_CHANNEL"),
+						IrcChannel = Environment.GetEnvironmentVariable("TGS4_TEST_IRC_CHANNEL"),
 						Tag = "ohgodohfuck",
 						IsAdminChannel = false,
 						IsUpdatesChannel = false,

@@ -65,7 +65,7 @@ namespace Tgstation.Server.Tests.Instance
 				{
 					IsAdminChannel = false,
 					IsUpdatesChannel = true,
-					IsWatchdogChannel = false,
+					IsWatchdogChannel = true,
 					Tag = "butt2",
 					IrcChannel = channelId
 				}
