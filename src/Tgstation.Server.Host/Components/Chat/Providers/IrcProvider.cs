@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Chat.Providers
@@ -376,52 +377,68 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public override Task<IReadOnlyCollection<ChannelRepresentation>> MapChannels(IEnumerable<Api.Models.ChatChannel> channels, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
-		{
-			if (channels.Any(x => x.IrcChannel == null))
-				throw new InvalidOperationException("ChatChannel missing IrcChannel!");
-			lock (this)
+		public override Task<IReadOnlyCollection<ChannelRepresentation>> MapChannels(
+			IEnumerable<ChatChannel> channels,
+			CancellationToken cancellationToken)
+			=> Task.Factory.StartNew(() =>
 			{
-				var hs = new HashSet<string>(); // for unique inserts
-				foreach (var I in channels)
-					hs.Add(I.IrcChannel);
-				var toPart = new List<string>();
-				foreach (var I in client.JoinedChannels)
-					if (!hs.Remove(I))
-						toPart.Add(I);
-
-				foreach (var I in toPart)
-					client.RfcPart(I, "Pretty nice abscond!");
-				foreach (var I in hs)
-					client.RfcJoin(I);
-
-				return (IReadOnlyCollection<ChannelRepresentation>)channels.Select(x =>
+				if (channels.Any(x => x.IrcChannel == null))
+					throw new InvalidOperationException("ChatChannel missing IrcChannel!");
+				lock (this)
 				{
-					ulong? id = null;
-					if (!channelIdMap.Any(y =>
+					var channelsWithKeys = new Dictionary<string, string>();
+					var hs = new HashSet<string>(); // for unique inserts
+					foreach (var channel in channels)
 					{
-						if (y.Value != x.IrcChannel)
-							return false;
-						id = y.Key;
-						return true;
-					}))
-					{
-						id = channelIdCounter++;
-						channelIdMap.Add(id.Value, x.IrcChannel);
+						var name = channel.GetIrcChannelName();
+						var key = channel.GetIrcChannelKey();
+						if (hs.Add(name) && key != null)
+							channelsWithKeys.Add(name, key);
 					}
 
-					return new ChannelRepresentation
-					{
-						RealId = id.Value,
-						IsAdminChannel = x.IsAdminChannel == true,
-						ConnectionName = address,
-						FriendlyName = channelIdMap[id.Value],
-						IsPrivateChannel = false,
-						Tag = x.Tag
-					};
-				}).ToList();
-			}
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+					var toPart = new List<string>();
+					foreach (var activeChannel in client.JoinedChannels)
+						if (!hs.Remove(activeChannel))
+							toPart.Add(activeChannel);
+
+					foreach (var channelToLeave in toPart)
+						client.RfcPart(channelToLeave, "Pretty nice abscond!");
+					foreach (var channelToJoin in hs)
+						if (channelsWithKeys.TryGetValue(channelToJoin, out var key))
+							client.RfcJoin(channelToJoin, key);
+						else
+							client.RfcJoin(channelToJoin);
+
+					return (IReadOnlyCollection<ChannelRepresentation>)channels
+						.Select(x =>
+						{
+							var channelName = x.GetIrcChannelName();
+							ulong? id = null;
+							if (!channelIdMap.Any(y =>
+							{
+								if (y.Value != channelName)
+									return false;
+								id = y.Key;
+								return true;
+							}))
+							{
+								id = channelIdCounter++;
+								channelIdMap.Add(id.Value, channelName);
+							}
+
+							return new ChannelRepresentation
+							{
+								RealId = id.Value,
+								IsAdminChannel = x.IsAdminChannel == true,
+								ConnectionName = address,
+								FriendlyName = channelIdMap[id.Value],
+								IsPrivateChannel = false,
+								Tag = x.Tag
+							};
+						})
+						.ToList();
+				}
+			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public override Task SendMessage(ulong channelId, string message, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>

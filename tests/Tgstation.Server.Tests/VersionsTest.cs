@@ -61,19 +61,6 @@ namespace Tgstation.Server.Tests
 		}
 
 		[TestMethod]
-		public void TestClientVersionFollowingApiVersion()
-		{
-			var versionString = versionsPropertyGroup.Element(xmlNamespace + "TgsApiVersion").Value + ".0";
-			Assert.IsNotNull(versionString);
-			Assert.IsTrue(Version.TryParse(versionString, out var apiVersion));
-
-			versionString = versionsPropertyGroup.Element(xmlNamespace + "TgsClientVersion").Value + ".0";
-			Assert.IsNotNull(versionString);
-			Assert.IsTrue(Version.TryParse(versionString, out var clientVersion));
-			Assert.IsTrue(clientVersion >= apiVersion);
-		}
-
-		[TestMethod]
 		public void TestWatchdogVersion()
 		{
 			var versionString = versionsPropertyGroup.Element(xmlNamespace + "TgsHostWatchdogVersion").Value + ".0";
