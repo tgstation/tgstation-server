@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -216,8 +215,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			Semaphore.Dispose();
 			restartRegistration.Dispose();
 			DisposeAndNullControllers();
-
-			Debug.Assert(monitorCts == null, "Expected monitorCts to be null!");
 			monitorCts?.Dispose();
 		}
 
@@ -258,7 +255,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		protected async Task LaunchImplNoLock(bool startMonitor, bool announce, WatchdogReattachInformation reattachInfo, CancellationToken cancellationToken)
 		{
-			Logger.LogTrace("Begin LaunchNoLock");
+			Logger.LogTrace("Begin LaunchImplNoLock");
 
 			if (Running)
 				throw new JobException(ErrorCode.WatchdogRunning);
