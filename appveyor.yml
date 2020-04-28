@@ -100,7 +100,7 @@ deploy:
       secure: lJNGAXwiB5HlWdthz3K4PetqpTG5IEAyRgKaiKxFMQ8HW8CcOjRtB97B05op7BsK
     artifact: ServerConsole,ServerService,ServerUpdatePackage,DMAPI,SwaggerSpec
     draft: $(TGSDraftNotes)
-    prerelease: true
+    prerelease: false
     on:
       TGSDeploy: "Do it."
   - provider: GitHub

@@ -444,7 +444,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 				await Task.WhenAll(symATask, symBTask).ConfigureAwait(false);
 
-				await chatManager.SendUpdateMessage(String.Format(CultureInfo.InvariantCulture, "Deployment complete!{0}", watchdog.Running ? " Changes will be applied on next server reboot." : String.Empty), cancellationToken).ConfigureAwait(false);
+				await chatManager.SendUpdateMessage(String.Format(CultureInfo.InvariantCulture, "Deployment complete! Changes will be applied {0}.", watchdog.DeploymentApplicationTime), cancellationToken).ConfigureAwait(false);
 
 				logger.LogDebug("Compile complete!");
 			}
