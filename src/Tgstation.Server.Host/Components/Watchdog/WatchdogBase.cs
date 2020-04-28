@@ -33,6 +33,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public abstract bool AlphaIsActive { get; }
 
 		/// <inheritdoc />
+		public string DeploymentApplicationTime => Running ? DeploymentTimeWhileRunning : "when DreamDaemon is launched";
+
+		/// <inheritdoc />
 		public abstract Models.CompileJob ActiveCompileJob { get; }
 
 		/// <inheritdoc />
@@ -43,6 +46,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 		/// <inheritdoc />
 		public abstract RebootState? RebootState { get; }
+
+		/// <summary>
+		/// When deployments happen if the <see cref="IWatchdog"/> is <see cref="Running"/>.
+		/// </summary>
+		protected abstract string DeploymentTimeWhileRunning { get; }
 
 		/// <summary>
 		/// <see cref="TaskCompletionSource{TResult}"/> that completes when <see cref="ActiveLaunchParameters"/> are changed and we are <see cref="Running"/>.
