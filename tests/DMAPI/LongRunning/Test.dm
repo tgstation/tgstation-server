@@ -11,7 +11,7 @@
 /proc/Run()
 	world.log << "sleep"
 	sleep(50)
-	TgsChatBroadcast("World Initialized")
+	world.TgsChatBroadcast("World Initialized")
 	world.TgsInitializationComplete()
 
 /world/Topic(T, Addr, Master, Keys)
