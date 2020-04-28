@@ -127,6 +127,10 @@
 /datum/tgs_version/proc/Wildcard()
 	return
 
+//if the tgs_version equals some other_version
+/datum/tgs_version/proc/Equals(datum/tgs_version/other_version)
+	return
+
 //represents a merge of a GitHub pull request
 /datum/tgs_revision_information/test_merge
 	var/number				//pull request number
