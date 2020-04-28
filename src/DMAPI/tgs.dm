@@ -183,12 +183,16 @@
 	return
 
 //Returns TRUE if the world was launched under the server tools and the API matches, FALSE otherwise
-//No function below this succeeds if it returns FALSE
+//No function below this succeeds if it returns FALSE or if TgsNew() has yet to be called
 /world/proc/TgsAvailable()
 	return
 
 //Gets the current /datum/tgs_version of the server tools running the server
 /world/proc/TgsVersion()
+	return
+
+//Gets the current /datum/tgs_version of the DMAPI being used
+/world/proc/TgsApiVersion()
 	return
 
 //Gets the name of the TGS instance running the game
