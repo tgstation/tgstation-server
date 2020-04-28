@@ -28,7 +28,7 @@ namespace Tgstation.Server.Tests.Instance
 		{
 			await instanceClient.DreamMaker.Update(new DreamMaker
 			{
-				ApiValidationSecurityLevel = DreamDaemonSecurity.Trusted,
+				ApiValidationSecurityLevel = DreamDaemonSecurity.Ultrasafe,
 				ProjectName = "tests/DMAPI/BasicOperation/basic_operation_test"
 			}, cancellationToken);
 
@@ -73,7 +73,7 @@ namespace Tgstation.Server.Tests.Instance
 
 		async Task CheckDMApiFail(CompileJob compileJob, CancellationToken cancellationToken)
 		{
-			var failFile = Path.Combine(instanceClient.Metadata.Path, "Game", compileJob.DirectoryName.Value.ToString(), Path.GetDirectoryName(compileJob.DmeName), "test_fail_reason.txt");
+			var failFile = Path.Combine(instanceClient.Metadata.Path, "Game", compileJob.DirectoryName.Value.ToString(), "A", Path.GetDirectoryName(compileJob.DmeName), "test_fail_reason.txt");
 			if (!File.Exists(failFile))
 				return;
 

@@ -26,7 +26,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			var repoTests = repoTest.RunPreWatchdog(cancellationToken);
 			var byondTests = byondTest.Run(cancellationToken);
-			var chatTests = chatTest.Run(cancellationToken);
+			var chatTests = chatTest.RunPreWatchdog(cancellationToken);
 			await configTest.Run(cancellationToken).ConfigureAwait(false);
 			await byondTests.ConfigureAwait(false);
 			await chatTests.ConfigureAwait(false);
@@ -34,7 +34,9 @@ namespace Tgstation.Server.Tests.Instance
 
 			await new FunctionalTest(instanceClient).Run(cancellationToken);
 
+			var chatShutdown = chatTest.RunPostWatchdog(cancellationToken);
 			await repoTest.RunPostWatchdog(cancellationToken);
+			await chatShutdown;
 		}
 	}
 }
