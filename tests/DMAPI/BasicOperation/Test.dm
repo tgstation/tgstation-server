@@ -1,11 +1,12 @@
 /world/New()
-	TgsNew()
+	TgsNew(minimum_required_security_level = TGS_SECURITY_SAFE)
 
 	// Validate TGS_DMAPI_VERSION against DMAPI version used
 	var/datum/tgs_version/active_version = world.TgsApiVersion()
 	var/datum/tgs_version/dmapi_version = new /datum/tgs_version(TGS_DMAPI_VERSION)
 
 	if(!active_version.Equals(dmapi_version))
+		text2file("DMAPI version [TGS_DMAPI_VERSION] does not match active API version [active_version.raw_parameter]", "test_fail_reason.txt")
 		del(src)
 
 	StartAsync()
