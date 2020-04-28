@@ -645,6 +645,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			IChatTrackingContext context = null;
 			lock (mappedChannels)
 				context = new ChatTrackingContext(
+					customCommandHandler,
 					mappedChannels.Select(y => y.Value.Channel),
 					loggerFactory.CreateLogger<ChatTrackingContext>(),
 					() =>
