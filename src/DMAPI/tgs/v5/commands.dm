@@ -31,7 +31,7 @@
 	var/datum/tgs_chat_command/sc = custom_commands[command]
 	if(sc)
 		var/textResponse = sc.Run(u, params)
-		var/list/topic_response = list()
+		var/list/topic_response = TopicResponse()
 		if(textResponse != null)
 			topic_response[DMAPI5_TOPIC_RESPONSE_COMMAND_RESPONSE_MESSAGE] = textResponse
 		return topic_response
