@@ -11,12 +11,14 @@
 /proc/Run()
 	world.log << "sleep"
 	sleep(50)
+	TgsChatBroadcast("World Initialized")
 	world.TgsInitializationComplete()
 
 /world/Topic(T, Addr, Master, Keys)
 	TGS_TOPIC
 
 /world/Reboot(reason)
+	TgsChatBroadcast("World Rebooting")
 	TgsReboot()
 
 /datum/tgs_chat_command/reboot
