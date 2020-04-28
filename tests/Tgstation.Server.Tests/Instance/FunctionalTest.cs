@@ -110,7 +110,7 @@ namespace Tgstation.Server.Tests.Instance
 				Mock.Of<ILogger<IrcProvider>>(),
 				builder.Address,
 				builder.Port.Value,
-				builder.Nickname + "_hack_other",
+				builder.Nickname + "_other",
 				null,
 				null,
 				10,
@@ -133,6 +133,10 @@ namespace Tgstation.Server.Tests.Instance
 				cancellationToken);
 
 			await provider.SendMessage(channels.First().RealId, $"!{(useTgsGlobal ? "tgs" : builder.Nickname)} {message}", cancellationToken);
+
+			// irc provider is weird
+
+			await Task.Delay(5000);
 		}
 
 		async Task<DreamDaemon> DeployTestDme(string dmeName, DreamDaemonSecurity deploymentSecurity, CancellationToken cancellationToken)
