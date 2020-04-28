@@ -1,11 +1,21 @@
 /world/New()
 	TgsNew()
+
+	// Validate TGS_DMAPI_VERSION against DMAPI version used
+	var/datum/tgs_version/active_version = world.TgsApiVersion()
+	var/datum/tgs_version/dmapi_version = new /datum/tgs_version(TGS_DMAPI_VERSION)
+
+	if(!active_version.Equals(dmapi_version))
+		del(src)
+
 	StartAsync()
 
 /proc/StartAsync()
 	set waitfor = FALSE
 	sleep(100)
 	TgsInitializationComplete()
+	sleep(100)
+	world.TgsEndProcess()
 
 /world/Topic(T, Addr, Master, Keys)
 	TGS_TOPIC
