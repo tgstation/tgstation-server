@@ -5,17 +5,15 @@
 	var/datum/tgs_version/active_version = world.TgsApiVersion()
 	var/datum/tgs_version/dmapi_version = new /datum/tgs_version(TGS_DMAPI_VERSION)
 
-	if(!active_version.Equals(dmapi_version))
-		text2file("DMAPI version [TGS_DMAPI_VERSION] does not match active API version [active_version.raw_parameter]", "test_fail_reason.txt")
-		del(src)
-
 	StartAsync()
 
 /proc/StartAsync()
 	set waitfor = FALSE
-	sleep(100)
+	sleep(50)
 	world.TgsInitializationComplete()
-	sleep(100)
+	sleep(50)
+	if(!active_version.Equals(dmapi_version))
+		text2file("DMAPI version [TGS_DMAPI_VERSION] does not match active API version [active_version.raw_parameter]", "test_fail_reason.txt")
 	world.TgsEndProcess()
 
 /world/Topic(T, Addr, Master, Keys)
