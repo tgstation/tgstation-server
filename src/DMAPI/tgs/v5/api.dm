@@ -127,14 +127,14 @@
 			intercepted_message_queue = list()
 			var/list/event_notification = topic_parameters[DMAPI5_TOPIC_PARAMETER_EVENT_NOTIFICATION]
 			if(!istype(event_notification))
-				return TopicResponse("Invalid or missing [DMAPI5_TOPIC_PARAMETER_EVENT_NOTIFICATION]!")
+				return TopicResponse("Invalid [DMAPI5_TOPIC_PARAMETER_EVENT_NOTIFICATION]!")
 
 			var/event_type = event_notification[DMAPI5_EVENT_NOTIFICATION_TYPE]
 			if(!isnum(event_type))
 				return TopicResponse("Invalid or missing [DMAPI5_EVENT_NOTIFICATION_TYPE]!")
 
 			var/list/event_parameters = event_notification[DMAPI5_EVENT_NOTIFICATION_PARAMETERS]
-			if(!istype(event_parameters))
+			if(event_parameters && !istype(event_parameters))
 				return TopicResponse("Invalid or missing [DMAPI5_EVENT_NOTIFICATION_PARAMETERS]!")
 
 			var/list/event_call = list(event_type)
