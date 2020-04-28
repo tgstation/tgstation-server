@@ -591,7 +591,17 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public Task StopAsync(CancellationToken cancellationToken) => Task.WhenAll(SetAutoUpdateInterval(0), Configuration.StopAsync(cancellationToken), ByondManager.StopAsync(cancellationToken), Watchdog.StopAsync(cancellationToken), Chat.StopAsync(cancellationToken), compileJobConsumer.StopAsync(cancellationToken));
+		public async Task StopAsync(CancellationToken cancellationToken)
+		{
+			await Watchdog.StopAsync(cancellationToken).ConfigureAwait(false);
+			await SetAutoUpdateInterval(0).ConfigureAwait(false);
+			await Task.WhenAll(
+				Configuration.StopAsync(cancellationToken),
+				ByondManager.StopAsync(cancellationToken),
+				Chat.StopAsync(cancellationToken),
+				compileJobConsumer.StopAsync(cancellationToken))
+				.ConfigureAwait(false);
+		}
 
 		/// <inheritdoc />
 		public async Task SetAutoUpdateInterval(uint newInterval)
