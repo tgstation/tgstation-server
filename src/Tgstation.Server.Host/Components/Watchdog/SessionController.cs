@@ -432,6 +432,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					}
 
 					response.RuntimeInformation = reattachInformation.RuntimeInformation;
+
+					// Load custom commands
+					chatTrackingContext.CustomCommands = parameters.CustomCommands.ToList();
 					break;
 				case BridgeCommandType.Reboot:
 					if (ClosePortOnReboot)
