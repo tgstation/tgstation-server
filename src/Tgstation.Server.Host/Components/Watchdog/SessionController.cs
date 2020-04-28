@@ -361,6 +361,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					// currently unused, maybe in the future
 					break;
 				case BridgeCommandType.Kill:
+					logger.LogInformation("Bridge requested process termination!");
 					TerminationWasRequested = true;
 					process.Terminate();
 					break;
