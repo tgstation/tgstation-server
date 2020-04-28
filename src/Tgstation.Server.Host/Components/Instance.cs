@@ -256,7 +256,11 @@ namespace Tgstation.Server.Host.Components
 
 			databaseContext.CompileJobs.Add(compileJob); // will be saved by job context
 
-			job.PostComplete = ct => compileJobConsumer.LoadCompileJob(compileJob, ct);
+			job.PostComplete = async postCompleteCancellationToken =>
+			{
+				await compileJobConsumer.LoadCompileJob(compileJob, postCompleteCancellationToken).ConfigureAwait(false);
+				await eventConsumer.HandleEvent(EventType.DeploymentComplete, null, postCompleteCancellationToken).ConfigureAwait(false);
+			};
 
 			if (repositorySettings?.AccessToken != null)
 			{

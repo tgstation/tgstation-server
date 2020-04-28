@@ -18,7 +18,7 @@
 	var/datum/tgs_event_handler/event_handler
 
 /datum/tgs_api/v5/ApiVersion()
-	return new /datum/tgs_version("5.0.0")
+	return new /datum/tgs_version("5.1.0")
 
 /datum/tgs_api/v5/OnWorldNew(datum/tgs_event_handler/event_handler, minimum_required_security_level)
 	src.event_handler = event_handler
@@ -177,6 +177,9 @@
 			var/new_instance_name = topic_parameters[DMAPI5_TOPIC_PARAMETER_NEW_INSTANCE_NAME]
 			if(!istext(new_instance_name))
 				return TopicResponse("Invalid or missing [DMAPI5_TOPIC_PARAMETER_NEW_INSTANCE_NAME]!")
+
+			if(event_handler != null)
+				event_handler.HandleEvent(TGS_EVENT_INSTANCE_RENAMED, new_instance_name)
 
 			instance_name = new_instance_name
 			return TopicResponse()
