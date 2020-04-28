@@ -31,21 +31,6 @@
 /world/Reboot(reason)
 	TgsReboot()
 
-/proc/message_admins(event)
-	event = "Admins: [event]"
-	world << event
-	world.log << event
-
-var/list/clients = list()
-
-/client/New()
-	clients += src
-	return ..()
-
-/client/Del()
-	clients -= src
-	return ..()
-
 /datum/tgs_chat_command/echo
 	name = "echo"
 	help_text = "echos input parameters"
