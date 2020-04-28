@@ -32,6 +32,8 @@ namespace Tgstation.Server.Tests.Instance
 			await chatTests.ConfigureAwait(false);
 			await repoTests;
 
+			await new FunctionalTest(instanceClient).Run(cancellationToken);
+
 			await repoTest.RunPostWatchdog(cancellationToken);
 		}
 	}

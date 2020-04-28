@@ -230,7 +230,15 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task<int> RunDreamMaker(string dreamMakerPath, Models.CompileJob job, CancellationToken cancellationToken)
 		{
-			using (var dm = processExecutor.LaunchProcess(dreamMakerPath, ioManager.ResolvePath(ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName)), String.Format(CultureInfo.InvariantCulture, "-clean {0}.{1}", job.DmeName, DmeExtension), true, true))
+			using (var dm = processExecutor.LaunchProcess(
+				dreamMakerPath,
+				ioManager.ResolvePath(
+					ioManager.ConcatPath(
+						job.DirectoryName.ToString(),
+						ADirectoryName)),
+				$"-clean {job.DmeName}.{DmeExtension}",
+				true,
+				true))
 			{
 				int exitCode;
 				using (cancellationToken.Register(() => dm.Terminate()))
