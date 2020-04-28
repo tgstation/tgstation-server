@@ -18,3 +18,16 @@
 
 /world/Reboot(reason)
 	TgsReboot()
+
+/datum/tgs_chat_command/reboot
+	name = "echo"
+	help_text = "echos input parameters"
+
+/datum/tgs_chat_command/reboot/Run(datum/tgs_chat_user/sender, params)
+	set waitfor = FALSE
+	RebootAsync()
+	return "Echo: [sender.channel.connection_name]|[sender.channel.friendly_name]|[sender.friendly_name]: [params]. Rebooting..."
+
+/proc/RebootAsync()
+	sleep(30)
+	world.Reboot()
