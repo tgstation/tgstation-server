@@ -178,6 +178,9 @@
 			if(!istext(new_instance_name))
 				return TopicResponse("Invalid or missing [DMAPI5_TOPIC_PARAMETER_NEW_INSTANCE_NAME]!")
 
+			if(event_handler != null)
+				event_handler.HandleEvent(TGS_EVENT_INSTANCE_RENAMED, new_instance_name)
+
 			instance_name = new_instance_name
 			return TopicResponse()
 		if(DMAPI5_TOPIC_COMMAND_CHAT_CHANNELS_UPDATE)
