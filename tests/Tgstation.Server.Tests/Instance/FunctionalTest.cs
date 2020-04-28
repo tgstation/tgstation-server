@@ -86,7 +86,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreNotEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
-			Assert.AreEqual(daemonStatus.ActiveCompileJob.Id, daemonStatus.StagedCompileJob.Id);
+			Assert.IsNull(daemonStatus.StagedCompileJob);
 
 			await instanceClient.DreamDaemon.Shutdown(cancellationToken);
 
@@ -94,7 +94,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.IsFalse(daemonStatus.Running.Value);
 		}
 
-		async Task SendCommandHack(string message, bool useTgsGlobal, CancellationToken cancellationToken)
+		async Task SendCommandHack(string command, bool useTgsGlobal, CancellationToken cancellationToken)
 		{
 			// tricky part, we need to get tgs to reboot.
 			// We have a chat command to do this
@@ -132,7 +132,9 @@ namespace Tgstation.Server.Tests.Instance
 				},
 				cancellationToken);
 
-			await provider.SendMessage(channels.First().RealId, $"!{(useTgsGlobal ? "tgs" : builder.Nickname)} {message}", cancellationToken);
+			await provider.SendMessage(channels.First().RealId, $"{(useTgsGlobal ? "!tgs" : builder.Nickname)} help", cancellationToken);
+			await provider.SendMessage(channels.First().RealId, $"{(useTgsGlobal ? "!tgs" : builder.Nickname)} ? {command}", cancellationToken);
+			await provider.SendMessage(channels.First().RealId, $"{(useTgsGlobal ? "!tgs" : builder.Nickname)} {command}", cancellationToken);
 
 			// irc provider is weird
 
