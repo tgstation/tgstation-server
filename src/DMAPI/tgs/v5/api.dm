@@ -274,7 +274,7 @@
 	if(intercepted_message_queue)
 		intercepted_message_queue += list(message)
 	else
-		Bridge(DMAPI5_BRIDGE_PARAMETER_CHAT_MESSAGE, message)
+		Bridge(DMAPI5_BRIDGE_COMMAND_CHAT_SEND, list(DMAPI5_BRIDGE_PARAMETER_CHAT_MESSAGE = message))
 
 /datum/tgs_api/v5/ChatTargetedBroadcast(message, admin_only)
 	var/list/channels = list()

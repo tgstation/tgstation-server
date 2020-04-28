@@ -22,8 +22,8 @@
 	TgsReboot()
 
 /datum/tgs_chat_command/reboot
-	name = "echo"
-	help_text = "echos input parameters"
+	name = "reboot"
+	help_text = "echos input parameters and reboots server"
 
 /datum/tgs_chat_command/reboot/Run(datum/tgs_chat_user/sender, params)
 	set waitfor = FALSE
