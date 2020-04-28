@@ -286,14 +286,14 @@
 	if(intercepted_message_queue)
 		intercepted_message_queue += list(message)
 	else
-		Bridge(TGS4_COMM_CHAT, message)
+		Bridge(DMAPI5_BRIDGE_COMMAND_CHAT_SEND, message)
 
 /datum/tgs_api/v5/ChatPrivateMessage(message, datum/tgs_chat_user/user)
 	message = list(DMAPI5_CHAT_MESSAGE_TEXT = message, DMAPI5_CHAT_MESSAGE_CHANNEL_IDS = list(user.channel.id))
 	if(intercepted_message_queue)
 		intercepted_message_queue += list(message)
 	else
-		Bridge(TGS4_COMM_CHAT, message)
+		Bridge(DMAPI5_BRIDGE_COMMAND_CHAT_SEND, message)
 
 /datum/tgs_api/v5/ChatChannelInfo()
 	return chat_channels
