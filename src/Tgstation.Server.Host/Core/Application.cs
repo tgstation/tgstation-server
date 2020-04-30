@@ -364,10 +364,6 @@ namespace Tgstation.Server.Host.Core
 					await tcs.Task.ConfigureAwait(false);
 			});
 
-			// should anything after this throw an exception, catch it and display a detailed html page
-			if (hostingEnvironment.IsDevelopment())
-				applicationBuilder.UseDeveloperExceptionPage(); // it is not worth it to limit this, you should only ever get it if you're an authorized user
-
 			// suppress OperationCancelledExceptions, they are just aborted HTTP requests
 			applicationBuilder.UseCancelledRequestSuppression();
 
