@@ -9,6 +9,9 @@ branches:
   - dev
   - master
 
+env:
+  - TGS4_TEST_TEMP_DIRECTORY=/tgs4_test
+
 jobs:
   include:
     - env:

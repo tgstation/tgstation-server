@@ -35,9 +35,14 @@ namespace Tgstation.Server.Tests
 		{
 			this.serverClientFactory = serverClientFactory;
 
-			Directory = Path.GetTempFileName();
-			File.Delete(Directory);
-			Directory = Directory.Replace(".tmp", ".tgs4");
+			Directory = Environment.GetEnvironmentVariable("TGS4_TEST_TEMP_DIRECTORY");
+			if (String.IsNullOrWhiteSpace(Directory))
+			{
+				Directory = Path.GetTempFileName();
+				File.Delete(Directory);
+				Directory = Directory.Replace(".tmp", ".tgs4");
+			}
+
 			System.IO.Directory.CreateDirectory(Directory);
 			const string UrlString = "http://localhost:5001";
 			Url = new Uri(UrlString);

@@ -2,6 +2,7 @@ version: '{build}'
 pull_requests:
   do_not_increment_build_number: true
 environment:
+  TGS4_TEST_TEMP_DIRECTORY: C:/tgs4_test
   TGS4_TEST_DATABASE_TYPE: SqlServer
   TGS4_TEST_DUMP_API_SPEC: yes
   TGS4_TEST_CONNECTION_STRING: Server=(local)\SQL2017;Initial Catalog=TGS_Test;User ID=sa;Password=Password12!
