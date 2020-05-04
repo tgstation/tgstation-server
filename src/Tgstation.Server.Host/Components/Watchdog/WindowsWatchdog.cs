@@ -140,6 +140,19 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected override async Task HandleNewDmbAvailable(CancellationToken cancellationToken)
 		{
 			IDmbProvider compileJobProvider = DmbFactory.LockNextDmb(1);
+			if (compileJobProvider.CompileJob.ByondVersion != ActiveCompileJob.ByondVersion)
+			{
+				// have to do a graceful restart
+				Logger.LogDebug(
+					"Not swapping to new compile job {0} as it uses a different BYOND version ({1}) than what is currently active {2}. Queueing graceful restart instead...",
+					compileJobProvider.CompileJob.Id,
+					compileJobProvider.CompileJob.ByondVersion,
+					ActiveCompileJob.ByondVersion);
+				compileJobProvider.Dispose();
+				await base.HandleNewDmbAvailable(cancellationToken).ConfigureAwait(false);
+				return;
+			}
+
 			WindowsSwappableDmbProvider windowsProvider = null;
 			try
 			{
