@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Byond.TopicSender;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -11,6 +12,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Client.Components;
 using Tgstation.Server.Host.Components.Chat.Providers;
 using Tgstation.Server.Host.Components.Interop;
+using Tgstation.Server.Host.Components.Interop.Topic;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.System;
 
@@ -83,7 +85,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreNotEqual(initialCompileJob.Id, daemonStatus.StagedCompileJob.Id);
 			Assert.AreEqual(DreamDaemonSecurity.Ultrasafe, daemonStatus.StagedCompileJob.MinimumSecurityLevel);
 
-			await SendCommandHack("reboot", false, cancellationToken);
+			await TellWorldToReboot(cancellationToken);
 
 			await Task.Delay(10000, cancellationToken);
 
@@ -119,7 +121,6 @@ namespace Tgstation.Server.Tests.Instance
 
 			await WaitForJob(startJob, 10, false, cancellationToken);
 
-			var initialCompileJob = daemonStatus.ActiveCompileJob;
 			Assert.IsTrue(daemonStatus.Running.Value);
 			Assert.IsNotNull(daemonStatus.ActiveCompileJob);
 			Assert.IsNotNull(daemonStatus.StagedCompileJob);
@@ -127,7 +128,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreEqual(versionToInstall, daemonStatus.StagedCompileJob.ByondVersion);
 			Assert.AreEqual(true, daemonStatus.SoftRestart);
 
-			await SendCommandHack("reboot", false, cancellationToken);
+			await TellWorldToReboot(cancellationToken);
 
 			await Task.Delay(10000, cancellationToken);
 
@@ -141,51 +142,20 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.IsFalse(daemonStatus.Running.Value);
 		}
 
-		async Task SendCommandHack(string command, bool useTgsGlobal, CancellationToken cancellationToken)
+		async Task TellWorldToReboot(CancellationToken cancellationToken)
 		{
-			// tricky part, we need to get tgs to reboot.
-			// We have a chat command to do this
-			// But oh god i should be drawn and quartered for how i'm invoking it here
-			// this assumes a purely open channel stored in the TGS4_TEST_IRC_CONNECTION_STRING
+			//we've wired long_running_test to reboot if its reboot mode is changed TO normal
 
-			var connectionString = Environment.GetEnvironmentVariable("TGS4_TEST_IRC_CONNECTION_STRING");
-			var builder = new IrcConnectionStringBuilder(connectionString);
+			await instanceClient.DreamDaemon.Update(new DreamDaemon
+			{
+				SoftRestart = true
+			}, cancellationToken);
 
-			using var provider = new IrcProvider(
-				new AssemblyInformationProvider(),
-				new AsyncDelayer(),
-				Mock.Of<ILogger<IrcProvider>>(),
-				builder.Address,
-				builder.Port.Value,
-				builder.Nickname + "_other",
-				null,
-				null,
-				10,
-				builder.UseSsl.Value);
+			await instanceClient.DreamDaemon.Update(new DreamDaemon
+			{
+				SoftRestart = false
+			}, cancellationToken);
 
-			await provider.Connect(cancellationToken);
-
-			var channels = await provider.MapChannels(
-				new List<ChatChannel>
-				{
-					new ChatChannel
-					{
-						IrcChannel = Environment.GetEnvironmentVariable("TGS4_TEST_IRC_CHANNEL"),
-						Tag = "ohgodohfuck",
-						IsAdminChannel = false,
-						IsUpdatesChannel = false,
-						IsWatchdogChannel = false
-					}
-				},
-				cancellationToken);
-
-			await provider.SendMessage(channels.First().RealId, $"{(useTgsGlobal ? "!tgs" : builder.Nickname)} help", cancellationToken);
-			await provider.SendMessage(channels.First().RealId, $"{(useTgsGlobal ? "!tgs" : builder.Nickname)} ? {command}", cancellationToken);
-			await provider.SendMessage(channels.First().RealId, $"{(useTgsGlobal ? "!tgs" : builder.Nickname)} {command}", cancellationToken);
-
-			// irc provider is weird
-
-			await Task.Delay(5000);
 		}
 
 		async Task<DreamDaemon> DeployTestDme(string dmeName, DreamDaemonSecurity deploymentSecurity, CancellationToken cancellationToken)

@@ -1,6 +1,6 @@
 /world/New()
 	log << "About to call TgsNew()"
-	TgsNew(minimum_required_security_level = TGS_SECURITY_ULTRASAFE)
+	TgsNew(new /datum/tgs_event_handler/impl, TGS_SECURITY_ULTRASAFE)
 	log << "About to call StartAsync()"
 	StartAsync()
 
@@ -21,15 +21,16 @@
 	TgsChatBroadcast("World Rebooting")
 	TgsReboot()
 
-/datum/tgs_chat_command/reboot
-	name = "reboot"
-	help_text = "echos input parameters and reboots server"
-
-/datum/tgs_chat_command/reboot/Run(datum/tgs_chat_user/sender, params)
+/datum/tgs_event_handler/impl/HandleEvent(event_code, ...)
 	set waitfor = FALSE
-	world.sleep_offline = FALSE
+	if(event_code != TGS_EVENT_REBOOT_MODE_CHANGE)
+		return
+
+	if(args[3] != TGS_REBOOT_MODE_NORMAL)
+		return
+
 	RebootAsync()
-	. = "Echo: [sender.channel.connection_name]|[sender.channel.friendly_name]|[sender.friendly_name]: [params]. Rebooting..."
+
 
 /proc/RebootAsync()
 	set waitfor = FALSE
