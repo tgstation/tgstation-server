@@ -85,7 +85,7 @@ namespace Tgstation.Server.Host.System
 		async Task<int> WrapLifetimeTask(Task<int> lifetimeTask)
 		{
 			var result = await lifetimeTask.ConfigureAwait(false);
-			logger.LogTrace("Process {0} ended with code {1}", Id, result);
+			logger.LogTrace("PID {0} ended with code {1}", Id, result);
 			return result;
 		}
 
@@ -120,7 +120,7 @@ namespace Tgstation.Server.Host.System
 				return;
 			try
 			{
-				logger.LogTrace("Terminating process...");
+				logger.LogTrace("Terminating PID {0}...", Id);
 				handle.Kill();
 				handle.WaitForExit();
 			}
@@ -140,7 +140,7 @@ namespace Tgstation.Server.Host.System
 			}
 			catch (Exception e)
 			{
-				logger.LogWarning("Unable to raise process priority! Exception: {0}", e);
+				logger.LogWarning("Unable to raise process priority for PID {0}! Exception: {1}", Id, e);
 			}
 		}
 
