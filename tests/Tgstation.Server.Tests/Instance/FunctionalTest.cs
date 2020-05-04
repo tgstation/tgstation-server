@@ -30,6 +30,7 @@ namespace Tgstation.Server.Tests.Instance
 		{
 			await RunBasicTest(cancellationToken);
 			await RunLongRunningTestThenUpdate(cancellationToken);
+			await RunLongRunningTestThenUpdateWithByondVersionSwitch(cancellationToken);
 		}
 
 		async Task RunBasicTest(CancellationToken cancellationToken)
@@ -47,6 +48,8 @@ namespace Tgstation.Server.Tests.Instance
 			await WaitForJob(startJob, 10, false, cancellationToken);
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.IsTrue(daemonStatus.Running.Value);
+			Assert.AreEqual(false, daemonStatus.SoftRestart);
+			Assert.AreEqual(false, daemonStatus.SoftShutdown);
 
 			await GracefulWatchdogShutdown(30, cancellationToken);
 
@@ -86,6 +89,50 @@ namespace Tgstation.Server.Tests.Instance
 
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreNotEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
+			Assert.IsNull(daemonStatus.StagedCompileJob);
+
+			await instanceClient.DreamDaemon.Shutdown(cancellationToken);
+
+			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			Assert.IsFalse(daemonStatus.Running.Value);
+		}
+
+		async Task RunLongRunningTestThenUpdateWithByondVersionSwitch(CancellationToken cancellationToken)
+		{
+			var versionToInstall = new Version(511, 1384, 0);
+			var byondInstallJobTask = instanceClient.Byond.SetActiveVersion(
+				new Api.Models.Byond
+				{
+					Version = versionToInstall
+				},
+				cancellationToken);
+
+			var startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
+
+			var byondInstallJob = await byondInstallJobTask;
+
+			await WaitForJob(byondInstallJob.InstallJob, 30, false, cancellationToken);
+
+			const string DmeName = "LongRunning/long_running_test";
+
+			var daemonStatus = await DeployTestDme(DmeName, DreamDaemonSecurity.Safe, cancellationToken);
+
+			await WaitForJob(startJob, 10, false, cancellationToken);
+
+			var initialCompileJob = daemonStatus.ActiveCompileJob;
+			Assert.IsTrue(daemonStatus.Running.Value);
+			Assert.IsNotNull(daemonStatus.ActiveCompileJob);
+			Assert.IsNotNull(daemonStatus.StagedCompileJob);
+			Assert.AreNotEqual(daemonStatus.ActiveCompileJob.ByondVersion, daemonStatus.StagedCompileJob.ByondVersion);
+			Assert.AreEqual(versionToInstall, daemonStatus.StagedCompileJob.ByondVersion);
+			Assert.AreEqual(true, daemonStatus.SoftRestart);
+
+			await SendCommandHack("reboot", false, cancellationToken);
+
+			await Task.Delay(10000, cancellationToken);
+
+			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			Assert.AreEqual(versionToInstall, daemonStatus.ActiveCompileJob.ByondVersion);
 			Assert.IsNull(daemonStatus.StagedCompileJob);
 
 			await instanceClient.DreamDaemon.Shutdown(cancellationToken);
@@ -165,6 +212,9 @@ namespace Tgstation.Server.Tests.Instance
 			{
 				SoftShutdown = true
 			}, cancellationToken);
+
+			var newStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			Assert.AreEqual(true, newStatus.SoftShutdown);
 
 			do
 			{
