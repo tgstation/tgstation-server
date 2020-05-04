@@ -54,4 +54,4 @@ bash <(curl -s https://codecov.io/bash) -f host.xml -F unittests
 bash <(curl -s https://codecov.io/bash) -f watchdog.xml -F unittests
 bash <(curl -s https://codecov.io/bash) -f console.xml -F unittests
 bash <(curl -s https://codecov.io/bash) -f servermy.xml -F integration
-# bash <(curl -s https://codecov.io/bash) -f serversl.xml -F integration
+bash <(curl -s https://codecov.io/bash) -f serversl.xml -F integration
