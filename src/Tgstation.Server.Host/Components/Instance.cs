@@ -593,8 +593,8 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken)
 		{
-			await Watchdog.StopAsync(cancellationToken).ConfigureAwait(false);
 			await SetAutoUpdateInterval(0).ConfigureAwait(false);
+			await Watchdog.StopAsync(cancellationToken).ConfigureAwait(false);
 			await Task.WhenAll(
 				Configuration.StopAsync(cancellationToken),
 				ByondManager.StopAsync(cancellationToken),
