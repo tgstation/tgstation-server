@@ -452,7 +452,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			// always execute in serial
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 			{
-				var files = await ioManager.GetFilesWithExtension(EventScriptsSubdirectory, platformIdentifier.ScriptFileExtension, cancellationToken).ConfigureAwait(false);
+				var files = await ioManager.GetFilesWithExtension(EventScriptsSubdirectory, platformIdentifier.ScriptFileExtension, false, cancellationToken).ConfigureAwait(false);
 				var resolvedScriptsDir = ioManager.ResolvePath(EventScriptsSubdirectory);
 
 				foreach (var I in files.Select(x => ioManager.GetFileName(x)).Where(x => x.StartsWith(scriptName, StringComparison.Ordinal)))

@@ -153,6 +153,9 @@ namespace Tgstation.Server.Tests.Instance
 
 			await WaitForJob(compileJobJob, 90, false, cancellationToken);
 
+			// Compile job isn't loaded until after the job completes
+			await Task.Delay(TimeSpan.FromSeconds(1));
+
 			return await instanceClient.DreamDaemon.Read(cancellationToken);
 		}
 

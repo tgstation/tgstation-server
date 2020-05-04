@@ -1,5 +1,4 @@
-﻿using Byond.TopicSender;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
 using System.Threading;
@@ -11,6 +10,7 @@ using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
@@ -43,6 +43,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		WindowsSwappableDmbProvider pendingSwappable;
 
 		/// <summary>
+		/// The <see cref="IDmbProvider"/> the <see cref="WindowsWatchdog"/> was started with.
+		/// </summary>
+		IDmbProvider startupDmbProvider;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="WindowsWatchdog"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="chat">The <see cref="IChatManager"/> for the <see cref="WatchdogBase"/>.</param>
@@ -50,11 +55,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="dmbFactory">The <see cref="IDmbFactory"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="reattachInfoHandler">The <see cref="IReattachInfoHandler"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="databaseContextFactory">The <see cref="IDatabaseContextFactory"/> for the <see cref="WatchdogBase"/>.</param>
-		/// <param name="byondTopicSender">The <see cref="IByondTopicSender"/> for the <see cref="WatchdogBase"/>.</param>
-		/// <param name="eventConsumer">The <see cref="IEventConsumer"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogBase"/>.</param>
+		/// <param name="platformIdentifier">The <see cref="IPlatformIdentifier"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="WatchdogBase"/>.</param>
@@ -67,11 +71,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IDmbFactory dmbFactory,
 			IReattachInfoHandler reattachInfoHandler,
 			IDatabaseContextFactory databaseContextFactory,
-			IByondTopicSender byondTopicSender,
-			IEventConsumer eventConsumer,
 			IJobManager jobManager,
 			IServerControl serverControl,
 			IAsyncDelayer asyncDelayer,
+			IPlatformIdentifier platformIdentifier,
 			IIOManager ioManager,
 			ISymlinkFactory symlinkFactory,
 			ILogger<WindowsWatchdog> logger,
@@ -83,11 +86,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				dmbFactory,
 				reattachInfoHandler,
 				databaseContextFactory,
-				byondTopicSender,
-				eventConsumer,
 				jobManager,
 				serverControl,
 				asyncDelayer,
+				platformIdentifier,
 				logger,
 				initialLaunchParameters,
 				instance,
@@ -114,6 +116,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			activeSwappable = null;
 			pendingSwappable?.Dispose();
 			pendingSwappable = null;
+
+			startupDmbProvider?.Dispose();
+			startupDmbProvider = null;
 		}
 
 		/// <inheritdoc />
@@ -145,8 +150,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				await windowsProvider.MakeActive(cancellationToken).ConfigureAwait(false);
 				Server.Resume();
 			}
-			catch
+			catch(Exception ex)
 			{
+				Logger.LogDebug("Exception while swapping: {0}", ex);
 				IDmbProvider providerToDispose = windowsProvider ?? compileJobProvider;
 				providerToDispose.Dispose();
 				throw;
@@ -162,6 +168,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			Debug.Assert(activeSwappable == null, "Expected swappableDmbProvider to be null!");
 
 			Logger.LogTrace("Prep for server launch. pendingSwappable is {0}avaiable", pendingSwappable == null ? "not " : String.Empty);
+
+			// Add another lock to the startup DMB because it'll be used throughout the lifetime of the watchdog
+			startupDmbProvider = await DmbFactory.FromCompileJob(dmbToUse.CompileJob, cancellationToken).ConfigureAwait(false);
 
 			activeSwappable = pendingSwappable ?? new WindowsSwappableDmbProvider(dmbToUse, ioManager, symlinkFactory);
 			pendingSwappable = null;

@@ -244,7 +244,6 @@ namespace Tgstation.Server.Host.Components
 							chatManager,
 							dmbFactory,
 							reattachInfoHandler,
-							configuration,
 							sessionControllerFactory,
 							gameIoManager,
 							metadata.CloneMetadata(),

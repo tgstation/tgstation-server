@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -176,13 +175,16 @@ namespace Tgstation.Server.Host.IO
 		public string GetFileNameWithoutExtension(string path) => Path.GetFileNameWithoutExtension(path ?? throw new ArgumentNullException(nameof(path)));
 
 		/// <inheritdoc />
-		public Task<List<string>> GetFilesWithExtension(string path, string extension, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		public Task<List<string>> GetFilesWithExtension(string path, string extension, bool recursive, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
 			path = ResolvePath(path);
 			if (extension == null)
 				throw new ArgumentNullException(extension);
 			var results = new List<string>();
-			foreach (var I in Directory.EnumerateFiles(path, String.Format(CultureInfo.InvariantCulture, "*.{0}", extension), SearchOption.TopDirectoryOnly))
+			foreach (var I in Directory.EnumerateFiles(
+				path,
+				$"*.{extension}",
+				recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly))
 			{
 				cancellationToken.ThrowIfCancellationRequested();
 				results.Add(I);

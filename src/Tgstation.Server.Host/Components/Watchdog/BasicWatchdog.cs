@@ -1,5 +1,4 @@
-﻿using Byond.TopicSender;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
 using System.Globalization;
@@ -11,6 +10,7 @@ using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Jobs;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
@@ -44,11 +44,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="dmbFactory">The <see cref="IDmbFactory"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="reattachInfoHandler">The <see cref="IReattachInfoHandler"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="databaseContextFactory">The <see cref="IDatabaseContextFactory"/> for the <see cref="WatchdogBase"/>.</param>
-		/// <param name="byondTopicSender">The <see cref="IByondTopicSender"/> for the <see cref="WatchdogBase"/>.</param>
-		/// <param name="eventConsumer">The <see cref="IEventConsumer"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogBase"/>.</param>
+		/// <param name="platformIdentifier">The <see cref="IPlatformIdentifier"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="initialLaunchParameters">The <see cref="DreamDaemonLaunchParameters"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="instance">The <see cref="Api.Models.Instance"/> for the <see cref="WatchdogBase"/>.</param>
@@ -59,11 +58,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IDmbFactory dmbFactory,
 			IReattachInfoHandler reattachInfoHandler,
 			IDatabaseContextFactory databaseContextFactory,
-			IByondTopicSender byondTopicSender,
-			IEventConsumer eventConsumer,
 			IJobManager jobManager,
 			IServerControl serverControl,
 			IAsyncDelayer asyncDelayer,
+			IPlatformIdentifier platformIdentifier,
 			ILogger<BasicWatchdog> logger,
 			DreamDaemonLaunchParameters initialLaunchParameters,
 			Api.Models.Instance instance,
@@ -74,11 +72,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				 dmbFactory,
 				 reattachInfoHandler,
 				 databaseContextFactory,
-				 byondTopicSender,
-				 eventConsumer,
 				 jobManager,
 				 serverControl,
 				 asyncDelayer,
+				 platformIdentifier,
 				 logger,
 				 initialLaunchParameters,
 				 instance,

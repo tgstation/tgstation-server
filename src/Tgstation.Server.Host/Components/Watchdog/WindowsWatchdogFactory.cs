@@ -1,5 +1,4 @@
-﻿using Byond.TopicSender;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using Tgstation.Server.Api.Models.Internal;
@@ -10,6 +9,7 @@ using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
@@ -29,27 +29,27 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="loggerFactory">The <see cref="ILoggerFactory"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="databaseContextFactory">The <see cref="IDatabaseContextFactory"/> for the <see cref="WatchdogFactory"/>.</param>
-		/// <param name="byondTopicSender">The <see cref="IByondTopicSender"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogFactory"/>.</param>
+		/// <param name="platformIdentifier">The <see cref="IPlatformIdentifier"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> for <see cref="GeneralConfiguration"/> for the <see cref="WatchdogFactory"/>.</param>
 		public WindowsWatchdogFactory(
 			IServerControl serverControl,
 			ILoggerFactory loggerFactory,
 			IDatabaseContextFactory databaseContextFactory,
-			IByondTopicSender byondTopicSender,
 			IJobManager jobManager,
 			IAsyncDelayer asyncDelayer,
+			IPlatformIdentifier platformIdentifier,
 			ISymlinkFactory symlinkFactory,
 			IOptions<GeneralConfiguration> generalConfigurationOptions)
 			: base(
 				serverControl,
 				loggerFactory,
 				databaseContextFactory,
-				byondTopicSender,
 				jobManager,
 				asyncDelayer,
+				platformIdentifier,
 				generalConfigurationOptions)
 		{
 			this.symlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
@@ -60,7 +60,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IChatManager chat,
 			IDmbFactory dmbFactory,
 			IReattachInfoHandler reattachInfoHandler,
-			IEventConsumer eventConsumer,
 			ISessionControllerFactory sessionControllerFactory,
 			IIOManager ioManager,
 			Api.Models.Instance instance,
@@ -71,11 +70,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				dmbFactory,
 				reattachInfoHandler,
 				DatabaseContextFactory,
-				ByondTopicSender,
-				eventConsumer,
 				JobManager,
 				ServerControl,
 				AsyncDelayer,
+				PlatformIdentifier,
 				ioManager,
 				symlinkFactory,
 				LoggerFactory.CreateLogger<WindowsWatchdog>(),
