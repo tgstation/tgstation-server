@@ -45,7 +45,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			var csb = new IrcConnectionStringBuilder(firstBot.ConnectionString);
 
-			Assert.IsTrue(csb.Valid);
+			Assert.IsTrue(csb.Valid, $"Invalid IRC connection string: {firstBot.ConnectionString}");
 
 			firstBot = await chatClient.Create(firstBot, cancellationToken);
 
@@ -103,7 +103,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			var csb = new DiscordConnectionStringBuilder(firstBot.ConnectionString);
 
-			Assert.IsTrue(csb.Valid);
+			Assert.IsTrue(csb.Valid, $"Invalid Discord connection string: {firstBot.ConnectionString}");
 
 			firstBot = await chatClient.Create(firstBot, cancellationToken);
 
