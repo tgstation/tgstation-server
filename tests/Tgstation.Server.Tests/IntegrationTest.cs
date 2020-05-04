@@ -172,11 +172,6 @@ namespace Tgstation.Server.Tests
 		[TestMethod]
 		public async Task TestFullStandardOperation()
 		{
-			while (true)
-				await TestImpl();
-		}
-
-		async Task TestImpl() { 
 			RequireDiscordToken();
 			var server = new TestingServer(clientFactory, null);
 			using (var serverCts = new CancellationTokenSource())
