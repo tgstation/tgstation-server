@@ -43,8 +43,13 @@ namespace Tgstation.Server.Tests.Instance
 				ChannelLimit = 1
 			};
 
+			var csb = new IrcConnectionStringBuilder(firstBot.ConnectionString);
+
+			Assert.IsTrue(csb.Valid);
+
 			firstBot = await chatClient.Create(firstBot, cancellationToken);
 
+			Assert.AreEqual(csb.ToString(), firstBot.ConnectionString);
 			Assert.AreNotEqual(0, firstBot.Id);
 
 			var bots = await chatClient.List(cancellationToken);
@@ -96,8 +101,13 @@ namespace Tgstation.Server.Tests.Instance
 				ChannelLimit = 1
 			};
 
+			var csb = new DiscordConnectionStringBuilder(firstBot.ConnectionString);
+
+			Assert.IsTrue(csb.Valid);
+
 			firstBot = await chatClient.Create(firstBot, cancellationToken);
 
+			Assert.AreEqual(csb.ToString(), firstBot.ConnectionString);
 			Assert.AreNotEqual(0, firstBot.Id);
 
 			var bots = await chatClient.List(cancellationToken);
