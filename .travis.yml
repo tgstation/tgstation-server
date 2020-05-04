@@ -31,7 +31,6 @@ jobs:
       - DockerBuild=false
       - DMAPI=false
       - CONFIG=Debug
-      - TGS4_TEST_TEMP_DIRECTORY=/tgs4_test
       name: "Test Server Debug"
       language: csharp
       mono: none
@@ -45,7 +44,6 @@ jobs:
       - DockerBuild=false
       - DMAPI=false
       - CONFIG=Release
-      - TGS4_TEST_TEMP_DIRECTORY=/tgs4_test
       name: "Test Server Release"
       language: csharp
       mono: none
