@@ -154,22 +154,35 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			}
 
 			WindowsSwappableDmbProvider windowsProvider = null;
+			bool suspended = false;
 			try
 			{
 				windowsProvider = new WindowsSwappableDmbProvider(compileJobProvider, ioManager, symlinkFactory);
 
 				Logger.LogDebug("Swapping to compile job {0}...", windowsProvider.CompileJob.Id);
-				Server.Suspend();
+				try
+				{
+					Server.Suspend();
+					suspended = true;
+				}
+				catch (Exception ex)
+				{
+					Logger.LogWarning("Exception while suspending server: {0}", ex);
+				}
+
 				await windowsProvider.MakeActive(cancellationToken).ConfigureAwait(false);
-				Server.Resume();
 			}
 			catch(Exception ex)
 			{
-				Logger.LogDebug("Exception while swapping: {0}", ex);
+				Logger.LogError("Exception while swapping: {0}", ex);
 				IDmbProvider providerToDispose = windowsProvider ?? compileJobProvider;
 				providerToDispose.Dispose();
 				throw;
 			}
+
+			// Let this throw hard if it fails
+			if (suspended)
+				Server.Resume();
 
 			pendingSwappable?.Dispose();
 			pendingSwappable = windowsProvider;
