@@ -66,10 +66,11 @@ namespace Tgstation.Server.Host.Components.Byond
 			var dreamDaemonScript = String.Format(CultureInfo.InvariantCulture, StandardScript, DreamDaemonExecutableName);
 			var dreamMakerScript = String.Format(CultureInfo.InvariantCulture, StandardScript, DreamMakerExecutableName);
 
-			async Task WriteAndMakeExecutable(string fullPath, string script)
+			async Task WriteAndMakeExecutable(string pathToScript, string script)
 			{
-				await IOManager.WriteAllBytes(fullPath, Encoding.ASCII.GetBytes(script), cancellationToken).ConfigureAwait(false);
-				postWriteHandler.HandleWrite(fullPath);
+				Logger.LogTrace("Writing script {0}:{1}{2}", pathToScript, Environment.NewLine, script);
+				await IOManager.WriteAllBytes(pathToScript, Encoding.ASCII.GetBytes(script), cancellationToken).ConfigureAwait(false);
+				postWriteHandler.HandleWrite(IOManager.ResolvePath(pathToScript));
 			}
 
 			var basePath = IOManager.ConcatPath(path, ByondManager.BinPath);
