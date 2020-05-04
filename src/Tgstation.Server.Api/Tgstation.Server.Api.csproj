@@ -2,7 +2,7 @@
   <Import Project="../../build/Version.props" />
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <DebugType>Full</DebugType>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Cyberboss</Authors>
