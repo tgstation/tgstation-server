@@ -15,7 +15,7 @@
     <RepositoryUrl>https://github.com/tgstation/tgstation-server</RepositoryUrl>
     <Copyright>2018</Copyright>
     <PackageTags>json web api tgstation-server tgstation ss13 byond</PackageTags>
-    <PackageReleaseNotes>Added ApiHeaders.RawUserAgent</PackageReleaseNotes>
+    <PackageReleaseNotes>See https://github.com/tgstation/tgstation-server/releases/tag/api-v$(TgsApiVersion)</PackageReleaseNotes>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <Version>$(TgsApiVersion)</Version>
