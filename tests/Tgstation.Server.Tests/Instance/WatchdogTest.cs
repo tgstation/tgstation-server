@@ -176,21 +176,6 @@ namespace Tgstation.Server.Tests.Instance
 				ProjectName = $"tests/DMAPI/{dmeName}"
 			}, cancellationToken);
 
-			// argh 
-			var dreamMaker = "DreamMaker";
-			if (new PlatformIdentifier().IsWindows)
-				dreamMaker += ".exe";
-
-			var dreamMakerDir = Path.Combine(
-				instanceClient.Metadata.Path,
-				"Byond",
-				$"{byondVersionUsed.Version.Major}.{byondVersionUsed.Version.Minor}",
-				"byond",
-				"bin");
-
-			Assert.IsTrue(Directory.Exists(dreamMakerDir), $"Directory {dreamMakerDir} does not exist!");
-			Assert.IsTrue(File.Exists(Path.Combine(dreamMakerDir, dreamMaker)), $"Missing DreamMaker executable! Dir contents: {String.Join(", ", Directory.GetFileSystemEntries(dreamMakerDir))}");
-
 			var compileJobJob = await instanceClient.DreamMaker.Compile(cancellationToken);
 
 			await WaitForJob(compileJobJob, 90, false, cancellationToken);
