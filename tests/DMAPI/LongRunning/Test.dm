@@ -10,7 +10,7 @@
 
 /proc/Run()
 	world.log << "sleep"
-	sleep(50)
+	sleep(60)
 	world.TgsChatBroadcast("World Initialized")
 	world.TgsInitializationComplete()
 
