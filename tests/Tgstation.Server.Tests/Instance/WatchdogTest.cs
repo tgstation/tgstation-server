@@ -130,10 +130,11 @@ namespace Tgstation.Server.Tests.Instance
 
 			const string DmeName = "LongRunning/long_running_test";
 
-			var daemonStatus = await DeployTestDme(DmeName, DreamDaemonSecurity.Safe, cancellationToken);
+			await DeployTestDme(DmeName, DreamDaemonSecurity.Safe, cancellationToken);
 
 			await WaitForJob(startJob, 40, false, cancellationToken);
 
+			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.IsTrue(daemonStatus.Running.Value);
 			Assert.IsNotNull(daemonStatus.ActiveCompileJob);
 			if (new PlatformIdentifier().IsWindows)
