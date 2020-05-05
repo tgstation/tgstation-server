@@ -1,9 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Client.Components;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Tests.Instance
 {
@@ -11,10 +13,13 @@ namespace Tgstation.Server.Tests.Instance
 	{
 		readonly IByondClient byondClient;
 
-		public ByondTest(IByondClient byondClient, IJobsClient jobsClient)
+		readonly Api.Models.Instance metadata;
+
+		public ByondTest(IByondClient byondClient, IJobsClient jobsClient, Api.Models.Instance metadata)
 			: base(jobsClient)
 		{
 			this.byondClient = byondClient ?? throw new ArgumentNullException(nameof(byondClient));
+			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 		}
 
 		public async Task Run(CancellationToken cancellationToken)
@@ -47,6 +52,15 @@ namespace Tgstation.Server.Tests.Instance
 			var job = await WaitForJob(test.InstallJob, 60, false, cancellationToken).ConfigureAwait(false);
 			var currentShit = await byondClient.ActiveVersion(cancellationToken).ConfigureAwait(false);
 			Assert.AreEqual(newModel.Version.Semver(), currentShit.Version);
+
+			var dreamMaker = "DreamMaker";
+			if (new PlatformIdentifier().IsWindows)
+				dreamMaker += ".exe";
+
+			var dreamMakerDir = Path.Combine(metadata.Path, "Byond", "511.1385", "byond", "bin");
+
+			Assert.IsTrue(Directory.Exists(dreamMakerDir), $"Directory {dreamMakerDir} does not exist!");
+			Assert.IsTrue(File.Exists(Path.Combine(dreamMakerDir, dreamMaker)), $"Missing DreamMaker executable! Dir contents: {String.Join(", ", Directory.GetFileSystemEntries(dreamMakerDir))}");
 		}
 
 		async Task TestNoVersion(CancellationToken cancellationToken)
