@@ -227,9 +227,12 @@ namespace Tgstation.Server.Tests
 						var badClient = clientFactory.CreateServerClient(server.Url, newToken);
 						await Assert.ThrowsExceptionAsync<UnauthorizedException>(() => badClient.Version(cancellationToken)).ConfigureAwait(false);
 
-						await new AdministrationTest(adminClient.Administration).Run(cancellationToken).ConfigureAwait(false);
-						await new UsersTest(adminClient.Users).Run(cancellationToken).ConfigureAwait(false);
+						var adminTest = new AdministrationTest(adminClient.Administration).Run(cancellationToken);
+						var usersTest = new UsersTest(adminClient.Users).Run(cancellationToken);
 						await new InstanceManagerTest(adminClient.Instances, server.Directory).Run(cancellationToken).ConfigureAwait(false);
+
+						await adminTest.ConfigureAwait(false);
+						await usersTest.ConfigureAwait(false);
 					}
 				}
 				catch (Exception ex)
