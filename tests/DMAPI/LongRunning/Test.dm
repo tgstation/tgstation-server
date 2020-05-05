@@ -27,7 +27,7 @@
 		world.TgsChatBroadcast("Not rebooting, wrong event");
 		return
 
-	if(args[3] != TGS_REBOOT_MODE_NORMAL)
+	if(args[3] != TGS_REBOOT_MODE_RESTART)
 		world.TgsChatBroadcast("Not rebooting, wrong reboot mode");
 		return
 
