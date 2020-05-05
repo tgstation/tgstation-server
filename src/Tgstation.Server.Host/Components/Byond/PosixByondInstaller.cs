@@ -13,11 +13,6 @@ namespace Tgstation.Server.Host.Components.Byond
 	/// </summary>
 	sealed class PosixByondInstaller : ByondInstallerBase
 	{
-		/// <summary>
-		/// Path to the BYOND cache
-		/// </summary>
-		const string ByondCachePath = "~/.byond/cache";
-
 		const string DreamDaemonExecutableName = "DreamDaemon";
 		const string DreamMakerExecutableName = "DreamMaker";
 		const string ShellScriptExtension = ".sh";
@@ -29,7 +24,7 @@ namespace Tgstation.Server.Host.Components.Byond
 		public override string DreamMakerName => DreamMakerExecutableName + ShellScriptExtension;
 
 		/// <inheritdoc />
-		public override string PathToUserByondFolder => IOManager.ResolvePath(ByondCachePath);
+		public override string PathToUserByondFolder { get; }
 
 		/// <inheritdoc />
 		protected override string ByondRevisionsURLTemplate => "https://secure.byond.com/download/build/{0}/{0}.{1}_byond_linux.zip";
@@ -49,6 +44,12 @@ namespace Tgstation.Server.Host.Components.Byond
 			: base(ioManager, logger)
 		{
 			this.postWriteHandler = postWriteHandler ?? throw new ArgumentNullException(nameof(postWriteHandler));
+
+			PathToUserByondFolder = IOManager.ResolvePath(
+				IOManager.ConcatPath(
+					Environment.GetFolderPath(
+						Environment.SpecialFolder.UserProfile),
+					"./byond/cache"));
 		}
 
 		/// <inheritdoc />
