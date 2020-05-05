@@ -24,7 +24,7 @@
 /datum/tgs_event_handler/impl/HandleEvent(event_code, ...)
 	set waitfor = FALSE
 
-	TgsChatBroadcast("Recieved event: [json_encode(args)]")
+	world.TgsChatBroadcast("Recieved event: [json_encode(args)]")
 
 	if(event_code != TGS_EVENT_REBOOT_MODE_CHANGE)
 		return
