@@ -30,6 +30,12 @@ namespace Tgstation.Server.Tests.Instance
 
 		public async Task Run(CancellationToken cancellationToken)
 		{
+			// Increase startup timeout
+			await instanceClient.DreamDaemon.Update(new DreamDaemon
+			{
+				StartupTimeout = 45
+			}, cancellationToken);
+
 			await RunBasicTest(cancellationToken);
 			await RunLongRunningTestThenUpdate(cancellationToken);
 			await RunLongRunningTestThenUpdateWithByondVersionSwitch(cancellationToken);

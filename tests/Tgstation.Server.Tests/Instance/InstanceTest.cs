@@ -32,7 +32,7 @@ namespace Tgstation.Server.Tests.Instance
 			await chatTests.ConfigureAwait(false);
 			await repoTests;
 
-			await new FunctionalTest(instanceClient).Run(cancellationToken);
+			await new WatchdogTest(instanceClient).Run(cancellationToken);
 
 			var chatShutdown = chatTest.RunPostWatchdog(cancellationToken);
 			await repoTest.RunPostWatchdog(cancellationToken);
