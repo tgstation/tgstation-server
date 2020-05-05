@@ -504,7 +504,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async Task ResetRebootState(CancellationToken cancellationToken)
+		public virtual async Task ResetRebootState(CancellationToken cancellationToken)
 		{
 			using (await SemaphoreSlimContext.Lock(Semaphore, cancellationToken).ConfigureAwait(false))
 			{
