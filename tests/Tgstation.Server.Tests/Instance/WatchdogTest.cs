@@ -18,11 +18,11 @@ using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Tests.Instance
 {
-	sealed class FunctionalTest : JobsRequiredTest
+	sealed class WatchdogTest : JobsRequiredTest
 	{
 		readonly IInstanceClient instanceClient;
 
-		public FunctionalTest(IInstanceClient instanceClient)
+		public WatchdogTest(IInstanceClient instanceClient)
 			: base(instanceClient.Jobs)
 		{
 			this.instanceClient = instanceClient ?? throw new ArgumentNullException(nameof(instanceClient));
