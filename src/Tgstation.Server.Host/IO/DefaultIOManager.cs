@@ -138,9 +138,9 @@ namespace Tgstation.Server.Host.IO
 				throw new ArgumentNullException(nameof(src));
 			if (dest == null)
 				throw new ArgumentNullException(nameof(dest));
-			using (var srcStream = new FileStream(ResolvePath(src), FileMode.Open, FileAccess.Read, FileShare.Read | FileShare.Delete, DefaultBufferSize, true))
-			using (var destStream = new FileStream(ResolvePath(dest), FileMode.Create, FileAccess.Write, FileShare.ReadWrite | FileShare.Delete, DefaultBufferSize, true))
-				await srcStream.CopyToAsync(destStream, 81920, cancellationToken).ConfigureAwait(false);
+			using var srcStream = new FileStream(ResolvePath(src), FileMode.Open, FileAccess.Read, FileShare.Read | FileShare.Delete, DefaultBufferSize, true);
+			using var destStream = new FileStream(ResolvePath(dest), FileMode.Create, FileAccess.Write, FileShare.ReadWrite | FileShare.Delete, DefaultBufferSize, true);
+			await srcStream.CopyToAsync(destStream, 81920, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -217,13 +217,11 @@ namespace Tgstation.Server.Host.IO
 		public async Task<byte[]> ReadAllBytes(string path, CancellationToken cancellationToken)
 		{
 			path = ResolvePath(path);
-			using (var file = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read | FileShare.Delete, DefaultBufferSize, true))
-			{
-				byte[] buf;
-				buf = new byte[file.Length];
-				await file.ReadAsync(buf, 0, (int)file.Length, cancellationToken).ConfigureAwait(false);
-				return buf;
-			}
+			using var file = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read | FileShare.Delete, DefaultBufferSize, true);
+			byte[] buf;
+			buf = new byte[file.Length];
+			await file.ReadAsync(buf, 0, (int)file.Length, cancellationToken).ConfigureAwait(false);
+			return buf;
 		}
 
 		/// <inheritdoc />
@@ -236,8 +234,8 @@ namespace Tgstation.Server.Host.IO
 		public async Task WriteAllBytes(string path, byte[] contents, CancellationToken cancellationToken)
 		{
 			path = ResolvePath(path);
-			using (var file = OpenWriteStream(path))
-				await file.WriteAsync(contents, 0, contents.Length, cancellationToken).ConfigureAwait(false);
+			using var file = OpenWriteStream(path);
+			await file.WriteAsync(contents, 0, contents.Length, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -274,26 +272,24 @@ namespace Tgstation.Server.Host.IO
 		public async Task<byte[]> DownloadFile(Uri url, CancellationToken cancellationToken)
 		{
 			// DownloadDataTaskAsync can't be cancelled and is shittily written, don't use it
-			using (var wc = new WebClient())
+			using var wc = new WebClient();
+			var tcs = new TaskCompletionSource<byte[]>();
+			wc.DownloadDataCompleted += (a, b) =>
 			{
-				var tcs = new TaskCompletionSource<byte[]>();
-				wc.DownloadDataCompleted += (a, b) =>
-				{
-					if (b.Error != null)
-						tcs.TrySetException(b.Error);
-					else if (b.Cancelled)
-						tcs.TrySetCanceled();
-					else
-						tcs.TrySetResult(b.Result);
-				};
-				wc.DownloadDataAsync(url);
-				using (cancellationToken.Register(() =>
-				{
-					wc.CancelAsync();
+				if (b.Error != null)
+					tcs.TrySetException(b.Error);
+				else if (b.Cancelled)
 					tcs.TrySetCanceled();
-				}))
-					return await tcs.Task.ConfigureAwait(false);
-			}
+				else
+					tcs.TrySetResult(b.Result);
+			};
+			wc.DownloadDataAsync(url);
+			using (cancellationToken.Register(() =>
+			{
+				wc.CancelAsync();
+				tcs.TrySetCanceled();
+			}))
+				return await tcs.Task.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -303,9 +299,9 @@ namespace Tgstation.Server.Host.IO
 			if (zipFileBytes == null)
 				throw new ArgumentNullException(nameof(zipFileBytes));
 
-			using (var ms = new MemoryStream(zipFileBytes))
-			using (var archive = new ZipArchive(ms, ZipArchiveMode.Read))
-				archive.ExtractToDirectory(path);
+			using var ms = new MemoryStream(zipFileBytes);
+			using var archive = new ZipArchive(ms, ZipArchiveMode.Read);
+			archive.ExtractToDirectory(path);
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
 		/// <inheritdoc />

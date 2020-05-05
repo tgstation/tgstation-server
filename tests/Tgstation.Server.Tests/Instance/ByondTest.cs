@@ -49,7 +49,7 @@ namespace Tgstation.Server.Tests.Instance
 			var test = await byondClient.SetActiveVersion(newModel, cancellationToken).ConfigureAwait(false);
 			Assert.IsNotNull(test.InstallJob);
 			Assert.IsNull(test.Version);
-			var job = await WaitForJob(test.InstallJob, 60, false, cancellationToken).ConfigureAwait(false);
+			await WaitForJob(test.InstallJob, 60, false, cancellationToken).ConfigureAwait(false);
 			var currentShit = await byondClient.ActiveVersion(cancellationToken).ConfigureAwait(false);
 			Assert.AreEqual(newModel.Version.Semver(), currentShit.Version);
 

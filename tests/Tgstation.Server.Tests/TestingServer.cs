@@ -126,12 +126,10 @@ namespace Tgstation.Server.Tests
 				// Dump swagger to disk
 				// This is purely for CI
 				var webRequest = WebRequest.Create(Url.ToString() + "swagger/v1/swagger.json");
-				using (var response = webRequest.GetResponse())
-				using (var content = response.GetResponseStream())
-				using (var output = new FileStream(@"C:\swagger.json", FileMode.Create))
-				{
-					await content.CopyToAsync(output);
-				}
+				using var response = webRequest.GetResponse();
+				using var content = response.GetResponseStream();
+				using var output = new FileStream(@"C:\swagger.json", FileMode.Create);
+				await content.CopyToAsync(output);
 			}
 
 			await runTask;

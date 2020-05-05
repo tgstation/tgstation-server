@@ -226,7 +226,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				monitorState.RebootingInactiveServer = true;
 			}
 
-			string ExitWord(ISessionController controller) => controller.TerminationWasRequested ? "exited" : "crashed";
+			static string ExitWord(ISessionController controller) => controller.TerminationWasRequested ? "exited" : "crashed";
 
 			// reason handling
 			switch (activationReason)

@@ -169,7 +169,6 @@ namespace Tgstation.Server.Tests.Instance
 
 		async Task<DreamDaemon> DeployTestDme(string dmeName, DreamDaemonSecurity deploymentSecurity, CancellationToken cancellationToken)
 		{
-			var byondVersionUsed = await instanceClient.Byond.ActiveVersion(cancellationToken);
 			await instanceClient.DreamMaker.Update(new DreamMaker
 			{
 				ApiValidationSecurityLevel = deploymentSecurity,
