@@ -37,5 +37,6 @@
 /proc/RebootAsync()
 	set waitfor = FALSE
 	world.TgsChatBroadcast("Rebooting after 3 seconds");
+	world.sleep_offline = FALSE
 	sleep(30)
 	world.Reboot()
