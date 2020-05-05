@@ -39,6 +39,8 @@ namespace Tgstation.Server.Tests.Instance
 			await RunBasicTest(cancellationToken);
 			await RunLongRunningTestThenUpdate(cancellationToken);
 			await RunLongRunningTestThenUpdateWithByondVersionSwitch(cancellationToken);
+
+			await StartAndLeaveRunning(cancellationToken);
 		}
 
 		async Task RunBasicTest(CancellationToken cancellationToken)
@@ -125,7 +127,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			var daemonStatus = await DeployTestDme(DmeName, DreamDaemonSecurity.Safe, cancellationToken);
 
-			await WaitForJob(startJob, 10, false, cancellationToken);
+			await WaitForJob(startJob, 40, false, cancellationToken);
 
 			Assert.IsTrue(daemonStatus.Running.Value);
 			Assert.IsNotNull(daemonStatus.ActiveCompileJob);
@@ -144,6 +146,13 @@ namespace Tgstation.Server.Tests.Instance
 
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.IsFalse(daemonStatus.Running.Value);
+		}
+
+		async Task StartAndLeaveRunning(CancellationToken cancellationToken)
+		{
+			var startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
+
+			await WaitForJob(startJob, 40, false, cancellationToken);
 		}
 
 		async Task TellWorldToReboot(CancellationToken cancellationToken)
