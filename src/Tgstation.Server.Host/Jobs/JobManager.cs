@@ -29,6 +29,11 @@ namespace Tgstation.Server.Host.Jobs
 		readonly Dictionary<long, JobHandler> jobs;
 
 		/// <summary>
+		/// <see langword="lock"/> <see cref="object"/> for various operations.
+		/// </summary>
+		readonly object synchronizationLock;
+
+		/// <summary>
 		/// Construct a <see cref="JobManager"/>
 		/// </summary>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
@@ -38,6 +43,7 @@ namespace Tgstation.Server.Host.Jobs
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			jobs = new Dictionary<long, JobHandler>();
+			synchronizationLock = new object();
 		}
 
 		/// <inheritdoc />
@@ -54,7 +60,7 @@ namespace Tgstation.Server.Host.Jobs
 		/// <returns>The <see cref="JobHandler"/></returns>
 		JobHandler CheckGetJob(Job job)
 		{
-			lock (this)
+			lock (synchronizationLock)
 			{
 				if (!jobs.TryGetValue(job.Id, out JobHandler jobHandler))
 					throw new InvalidOperationException("Job not running!");
@@ -139,7 +145,7 @@ namespace Tgstation.Server.Host.Jobs
 			}
 			finally
 			{
-				lock (this)
+				lock (synchronizationLock)
 				{
 					var handler = jobs[job.Id];
 					jobs.Remove(job.Id);
@@ -178,12 +184,12 @@ namespace Tgstation.Server.Host.Jobs
 			var jobHandler = new JobHandler(x => RunJob(job, (jobParam, serviceProvider, ct) =>
 			operation(jobParam, serviceProvider, y =>
 			{
-				lock (this)
+				lock (synchronizationLock)
 					if (jobs.TryGetValue(job.Id, out var handler))
 						handler.Progress = y;
 			}, ct),
 			x));
-			lock (this)
+			lock (synchronizationLock)
 				jobs.Add(job.Id, jobHandler);
 		});
 
@@ -264,7 +270,7 @@ namespace Tgstation.Server.Host.Jobs
 		{
 			if (job == null)
 				throw new ArgumentNullException(nameof(job));
-			lock (this)
+			lock (synchronizationLock)
 			{
 				if (!jobs.TryGetValue(job.Id, out var handler))
 					return null;
@@ -280,7 +286,7 @@ namespace Tgstation.Server.Host.Jobs
 			if (canceller == null)
 				throw new ArgumentNullException(nameof(canceller));
 			JobHandler handler;
-			lock (this)
+			lock (synchronizationLock)
 			{
 				if (!jobs.TryGetValue(job.Id, out handler))
 					return;

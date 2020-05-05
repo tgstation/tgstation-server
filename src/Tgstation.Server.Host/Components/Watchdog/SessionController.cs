@@ -137,6 +137,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly ILogger<SessionController> logger;
 
 		/// <summary>
+		/// <see langword="lock"/> <see cref="object"/> for port updates and <see cref="disposed"/>.
+		/// </summary>
+		readonly object synchronizationLock;
+
+		/// <summary>
 		/// The <see cref="TaskCompletionSource{TResult}"/> <see cref="SetPort(ushort, CancellationToken)"/> waits on when DreamDaemon currently has it's ports closed
 		/// </summary>
 		TaskCompletionSource<bool> portAssignmentTcs;
@@ -214,6 +219,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			rebootTcs = new TaskCompletionSource<object>();
 
+			synchronizationLock = new object();
+
 			CancellationTokenSource cts = null;
 			Task lifetimeContinuation = null;
 			lifetimeContinuation = process.Lifetime.ContinueWith(
@@ -287,7 +294,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="disposing">If this function was NOT called by the finalizer</param>
 		void Dispose(bool disposing)
 		{
-			lock (this)
+			lock (synchronizationLock)
 			{
 				if (disposed)
 					return;
@@ -366,7 +373,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					process.Terminate();
 					break;
 				case BridgeCommandType.PortUpdate:
-					lock (this)
+					lock (synchronizationLock)
 					{
 						if (!parameters.CurrentPort.HasValue)
 						{
@@ -569,7 +576,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return true;
 			}
 
-			lock (this)
+			lock (synchronizationLock)
 				if (portClosedForReboot)
 				{
 					if (portAssignmentTcs != null)

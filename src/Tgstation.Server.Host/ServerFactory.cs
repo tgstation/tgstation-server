@@ -70,7 +70,7 @@ namespace Tgstation.Server.Host
 					IOManager.ResolvePath(
 						IOManager.GetDirectoryName(assemblyInformationProvider.Path)));
 
-			return new Server(hostBuilder, IOManager, updatePath);
+			return new Server(hostBuilder, updatePath);
 		}
 	}
 }

@@ -203,7 +203,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 
 			ulong userId, channelId;
-			lock (this)
+			lock (client)
 			{
 				userId = MapAndGetChannelId(queryChannelIdMap);
 				channelId = isPrivate ? userId : MapAndGetChannelId(channelIdMap);
@@ -250,7 +250,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		public override Task<bool> Connect(CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
 			disconnecting = false;
-			lock (this)
+			lock (client)
 				try
 				{
 					client.Connect(address, port);
@@ -384,7 +384,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			{
 				if (channels.Any(x => x.IrcChannel == null))
 					throw new InvalidOperationException("ChatChannel missing IrcChannel!");
-				lock (this)
+				lock (client)
 				{
 					var channelsWithKeys = new Dictionary<string, string>();
 					var hs = new HashSet<string>(); // for unique inserts

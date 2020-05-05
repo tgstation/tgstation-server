@@ -237,7 +237,7 @@ namespace Tgstation.Server.Host.Components.Chat
 						if (!enumerable.Any())
 						{
 							ulong newId;
-							lock (this)
+							lock (synchronizationLock)
 								newId = channelIdCounter++;
 							logger.LogTrace(
 								"Mapping private channel {0}:{1} as {2}",
@@ -268,7 +268,7 @@ namespace Tgstation.Server.Host.Components.Chat
 
 			var splits = new List<string>(message.Content.Trim().Split(' '));
 			var address = splits[0];
-			if (address.Length > 1 && (address[address.Length - 1] == ':' || address[address.Length - 1] == ','))
+			if (address.Length > 1 && (address.Last() == ':' || address.Last() == ','))
 				address = address[0..^1];
 
 			address = address.ToUpperInvariant();

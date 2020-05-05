@@ -231,7 +231,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			var enumerator = channels.Select(x => GetModelChannelFromDBChannel(x)).Where(x => x != null).ToList();
 
-			lock (this)
+			lock (client)
 			{
 				mappedChannels.Clear();
 				mappedChannels.AddRange(enumerator.Select(x => x.RealId));

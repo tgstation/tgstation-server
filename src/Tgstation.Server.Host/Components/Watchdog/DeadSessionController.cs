@@ -49,6 +49,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public Version DMApiVersion => throw new NotSupportedException();
 
 		/// <summary>
+		/// <see langword="lock"/> <see cref="object"/> for <see cref="disposed"/>.
+		/// </summary>
+		readonly object disposeLock;
+
+		/// <summary>
 		/// If the <see cref="DeadSessionController"/> was <see cref="Dispose"/>d
 		/// </summary>
 		bool disposed;
@@ -66,12 +71,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			});
 			Lifetime = Task.FromResult(-1);
 			OnReboot = new TaskCompletionSource<object>().Task;
+			disposeLock = new object();
 		}
 
 		/// <inheritdoc />
 		public void Dispose()
 		{
-			lock (this)
+			lock (disposeLock)
 			{
 				if (disposed)
 					return;

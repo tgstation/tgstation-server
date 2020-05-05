@@ -87,6 +87,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly ILogger<DreamMaker> logger;
 
 		/// <summary>
+		/// <see langword="lock"/> <see cref="object"/> for <see cref="compiling"/>.
+		/// </summary>
+		readonly object compilingLock;
+
+		/// <summary>
 		/// If a compile job is running
 		/// </summary>
 		bool compiling;
@@ -123,6 +128,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			this.watchdog = watchdog ?? throw new ArgumentNullException(nameof(watchdog));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+			compilingLock = new object();
 		}
 
 		/// <summary>
@@ -175,50 +182,48 @@ namespace Tgstation.Server.Host.Components.Deployment
 			job.MinimumSecurityLevel = securityLevel; // needed for the TempDmbProvider
 			var timeoutAt = DateTimeOffset.Now.AddSeconds(timeout);
 
-			using (var provider = new TemporaryDmbProvider(ioManager.ResolvePath(dirA), String.Concat(job.DmeName, DmbExtension), job))
-			using (var controller = await sessionControllerFactory.LaunchNew(provider, byondLock, launchParameters, true, true, true, cancellationToken).ConfigureAwait(false))
+			using var provider = new TemporaryDmbProvider(ioManager.ResolvePath(dirA), String.Concat(job.DmeName, DmbExtension), job);
+			using var controller = await sessionControllerFactory.LaunchNew(provider, byondLock, launchParameters, true, true, true, cancellationToken).ConfigureAwait(false);
+			var launchResult = await controller.LaunchResult.ConfigureAwait(false);
+
+			var now = DateTimeOffset.Now;
+			if (now < timeoutAt && launchResult.StartupTime.HasValue)
 			{
-				var launchResult = await controller.LaunchResult.ConfigureAwait(false);
+				var timeoutTask = Task.Delay(timeoutAt - now, cancellationToken);
 
-				var now = DateTimeOffset.Now;
-				if (now < timeoutAt && launchResult.StartupTime.HasValue)
-				{
-					var timeoutTask = Task.Delay(timeoutAt - now, cancellationToken);
-
-					await Task.WhenAny(controller.Lifetime, timeoutTask).ConfigureAwait(false);
-					cancellationToken.ThrowIfCancellationRequested();
-				}
-
-				if (controller.Lifetime.IsCompleted)
-				{
-					var validationStatus = controller.ApiValidationStatus;
-					logger.LogTrace("API validation status: {0}", validationStatus);
-
-					job.DMApiVersion = controller.DMApiVersion;
-					switch (validationStatus)
-					{
-						case ApiValidationStatus.RequiresUltrasafe:
-							job.MinimumSecurityLevel = DreamDaemonSecurity.Ultrasafe;
-							return;
-						case ApiValidationStatus.RequiresSafe:
-							job.MinimumSecurityLevel = DreamDaemonSecurity.Safe;
-							return;
-						case ApiValidationStatus.RequiresTrusted:
-							job.MinimumSecurityLevel = DreamDaemonSecurity.Trusted;
-							return;
-						case ApiValidationStatus.NeverValidated:
-							throw new JobException(ErrorCode.DreamMakerNeverValidated);
-						case ApiValidationStatus.BadValidationRequest:
-							throw new JobException(ErrorCode.DreamMakerInvalidValidation);
-						case ApiValidationStatus.UnaskedValidationRequest:
-						default:
-							throw new InvalidOperationException(
-								$"Session controller returned unexpected ApiValidationStatus: {validationStatus}");
-					}
-				}
-
-				throw new JobException(ErrorCode.DreamMakerValidationTimeout);
+				await Task.WhenAny(controller.Lifetime, timeoutTask).ConfigureAwait(false);
+				cancellationToken.ThrowIfCancellationRequested();
 			}
+
+			if (controller.Lifetime.IsCompleted)
+			{
+				var validationStatus = controller.ApiValidationStatus;
+				logger.LogTrace("API validation status: {0}", validationStatus);
+
+				job.DMApiVersion = controller.DMApiVersion;
+				switch (validationStatus)
+				{
+					case ApiValidationStatus.RequiresUltrasafe:
+						job.MinimumSecurityLevel = DreamDaemonSecurity.Ultrasafe;
+						return;
+					case ApiValidationStatus.RequiresSafe:
+						job.MinimumSecurityLevel = DreamDaemonSecurity.Safe;
+						return;
+					case ApiValidationStatus.RequiresTrusted:
+						job.MinimumSecurityLevel = DreamDaemonSecurity.Trusted;
+						return;
+					case ApiValidationStatus.NeverValidated:
+						throw new JobException(ErrorCode.DreamMakerNeverValidated);
+					case ApiValidationStatus.BadValidationRequest:
+						throw new JobException(ErrorCode.DreamMakerInvalidValidation);
+					case ApiValidationStatus.UnaskedValidationRequest:
+					default:
+						throw new InvalidOperationException(
+							$"Session controller returned unexpected ApiValidationStatus: {validationStatus}");
+				}
+			}
+
+			throw new JobException(ErrorCode.DreamMakerValidationTimeout);
 		}
 
 		/// <summary>
@@ -230,7 +235,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task<int> RunDreamMaker(string dreamMakerPath, Models.CompileJob job, CancellationToken cancellationToken)
 		{
-			using (var dm = processExecutor.LaunchProcess(
+			using var dm = processExecutor.LaunchProcess(
 				dreamMakerPath,
 				ioManager.ResolvePath(
 					ioManager.ConcatPath(
@@ -238,18 +243,16 @@ namespace Tgstation.Server.Host.Components.Deployment
 						ADirectoryName)),
 				$"-clean {job.DmeName}.{DmeExtension}",
 				true,
-				true))
-			{
-				int exitCode;
-				using (cancellationToken.Register(() => dm.Terminate()))
-					exitCode = await dm.Lifetime.ConfigureAwait(false);
-				cancellationToken.ThrowIfCancellationRequested();
+				true);
+			int exitCode;
+			using (cancellationToken.Register(() => dm.Terminate()))
+				exitCode = await dm.Lifetime.ConfigureAwait(false);
+			cancellationToken.ThrowIfCancellationRequested();
 
-				logger.LogDebug("DreamMaker exit code: {0}", exitCode);
-				job.Output = dm.GetCombinedOutput();
-				logger.LogDebug("DreamMaker output: {0}{1}", Environment.NewLine, job.Output);
-				return exitCode;
-			}
+			logger.LogDebug("DreamMaker exit code: {0}", exitCode);
+			job.Output = dm.GetCombinedOutput();
+			logger.LogDebug("DreamMaker output: {0}{1}", Environment.NewLine, job.Output);
+			return exitCode;
 		}
 
 		/// <summary>
@@ -480,46 +483,42 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 			logger.LogTrace("Begin Compile");
 
-			lock (this)
+			lock (compilingLock)
 			{
 				if (compiling)
 					throw new JobException(ErrorCode.DreamMakerCompileJobInProgress);
 				compiling = true;
 			}
 
-			using (var progressCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
+			using var progressCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+			var progressTask = estimatedDuration.HasValue ? ProgressTask(progressReporter, estimatedDuration.Value, cancellationToken) : Task.CompletedTask;
+			try
 			{
-				var progressTask = estimatedDuration.HasValue ? ProgressTask(progressReporter, estimatedDuration.Value, cancellationToken) : Task.CompletedTask;
-				try
-				{
-					using (var byondLock = await byond.UseExecutables(null, cancellationToken).ConfigureAwait(false))
-					{
-						await SendDeploymentMessage(revisionInformation, byondLock, cancellationToken).ConfigureAwait(false);
+				using var byondLock = await byond.UseExecutables(null, cancellationToken).ConfigureAwait(false);
+				await SendDeploymentMessage(revisionInformation, byondLock, cancellationToken).ConfigureAwait(false);
 
-						var job = new Models.CompileJob
-						{
-							DirectoryName = Guid.NewGuid(),
-							DmeName = dreamMakerSettings.ProjectName,
-							RevisionInformation = revisionInformation,
-							ByondVersion = byondLock.Version.ToString()
-						};
-
-						await RunCompileJob(job, dreamMakerSettings, byondLock, repository, apiValidateTimeout, cancellationToken).ConfigureAwait(false);
-
-						return job;
-					}
-				}
-				catch (OperationCanceledException)
+				var job = new Models.CompileJob
 				{
-					await eventConsumer.HandleEvent(EventType.CompileCancelled, null, default).ConfigureAwait(false);
-					throw;
-				}
-				finally
-				{
-					compiling = false;
-					progressCts.Cancel();
-					await progressTask.ConfigureAwait(false);
-				}
+					DirectoryName = Guid.NewGuid(),
+					DmeName = dreamMakerSettings.ProjectName,
+					RevisionInformation = revisionInformation,
+					ByondVersion = byondLock.Version.ToString()
+				};
+
+				await RunCompileJob(job, dreamMakerSettings, byondLock, repository, apiValidateTimeout, cancellationToken).ConfigureAwait(false);
+
+				return job;
+			}
+			catch (OperationCanceledException)
+			{
+				await eventConsumer.HandleEvent(EventType.CompileCancelled, null, default).ConfigureAwait(false);
+				throw;
+			}
+			finally
+			{
+				compiling = false;
+				progressCts.Cancel();
+				await progressTask.ConfigureAwait(false);
 			}
 		}
 	}

@@ -74,7 +74,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		readonly ILogger<Configuration> logger;
 
 		/// <summary>
-		/// The <see cref="SemaphoreSlim"/> for <see cref="Configuration"/>
+		/// The <see cref="SemaphoreSlim"/> for <see cref="Configuration"/>. Also used as a <see langword="lock"/> <see cref="object"/>.
 		/// </summary>
 		readonly SemaphoreSlim semaphore;
 
@@ -159,7 +159,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				if (!headFileExistsTask.Result && !tailFileExistsTask.Result)
 					return null;
 
-				string IncludeLine(string filePath) => String.Format(CultureInfo.InvariantCulture, "#include \"{0}\"", filePath);
+				static string IncludeLine(string filePath) => String.Format(CultureInfo.InvariantCulture, "#include \"{0}\"", filePath);
 
 				return new ServerSideModifications(headFileExistsTask.Result ? IncludeLine(CodeModificationsHeadFile) : null, tailFileExistsTask.Result ? IncludeLine(CodeModificationsTailFile) : null, false);
 			}
@@ -235,7 +235,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 			void ReadImpl()
 			{
-				lock (this)
+				lock (semaphore)
 					try
 					{
 						var content = synchronousIOManager.ReadFile(path);
@@ -366,7 +366,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 			void WriteImpl()
 			{
-				lock (this)
+				lock (semaphore)
 					try
 					{
 						var fileHash = previousHash;

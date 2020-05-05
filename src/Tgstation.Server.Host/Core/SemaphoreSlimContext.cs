@@ -30,6 +30,11 @@ namespace Tgstation.Server.Host.Core
 		readonly SemaphoreSlim lockedSemaphore;
 
 		/// <summary>
+		/// <see langword="lock"/> <see cref="object"/> for <see cref="disposed"/>.
+		/// </summary>
+		readonly object disposeLock;
+
+		/// <summary>
 		/// If <see cref="Dispose"/> has been called
 		/// </summary>
 		bool disposed;
@@ -41,6 +46,7 @@ namespace Tgstation.Server.Host.Core
 		SemaphoreSlimContext(SemaphoreSlim lockedSemaphore)
 		{
 			this.lockedSemaphore = lockedSemaphore;
+			disposeLock = new object();
 		}
 
 		/// <summary>
@@ -55,7 +61,7 @@ namespace Tgstation.Server.Host.Core
 		/// </summary>
 		public void Dispose()
 		{
-			lock (this)
+			lock (disposeLock)
 			{
 				if (disposed)
 					return;

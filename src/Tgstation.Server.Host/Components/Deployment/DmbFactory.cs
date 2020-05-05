@@ -22,7 +22,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		{
 			get
 			{
-				lock (this)
+				lock (jobLockCounts)
 					return newerDmbTcs.Task;
 			}
 		}
@@ -114,7 +114,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				await Task.WhenAll(otherTask, deleteJob).ConfigureAwait(false);
 			}
 
-			lock (this)
+			lock (jobLockCounts)
 				if (!jobLockCounts.TryGetValue(job.Id, out var currentVal) || currentVal == 1)
 				{
 					jobLockCounts.Remove(job.Id);
@@ -137,7 +137,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			var newProvider = await FromCompileJob(job, cancellationToken).ConfigureAwait(false);
 			if (newProvider == null)
 				return;
-			lock (this)
+			lock (jobLockCounts)
 			{
 				nextDmbProvider?.Dispose();
 				nextDmbProvider = newProvider;
@@ -153,7 +153,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				throw new InvalidOperationException("No .dmb available!");
 			if (lockCount < 0)
 				throw new ArgumentOutOfRangeException(nameof(lockCount), lockCount, "lockCount must be greater than or equal to 0!");
-			lock (this)
+			lock (jobLockCounts)
 			{
 				var jobId = nextDmbProvider.CompileJob.Id;
 				var incremented = jobLockCounts[jobId] += lockCount;
@@ -221,7 +221,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					return null; // omae wa mou shinderu
 				}
 
-				lock (this)
+				lock (jobLockCounts)
 				{
 					if (!jobLockCounts.TryGetValue(compileJob.Id, out int value))
 					{
@@ -252,7 +252,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			List<long> jobIdsToSkip;
 
 			// don't clean locked directories
-			lock (this)
+			lock (jobLockCounts)
 				jobIdsToSkip = jobLockCounts.Select(x => x.Key).ToList();
 
 			List<string> jobUidsToNotErase = null;

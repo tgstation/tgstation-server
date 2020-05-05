@@ -86,6 +86,11 @@ namespace Tgstation.Server.Host.Components
 		readonly Api.Models.Instance metadata;
 
 		/// <summary>
+		/// <see langword="lock"/> <see cref="object"/> for <see cref="timerCts"/> and <see cref="timerTask"/>.
+		/// </summary>
+		readonly object timerLock;
+
+		/// <summary>
 		/// The auto update <see cref="Task"/>
 		/// </summary>
 		Task timerTask;
@@ -143,6 +148,8 @@ namespace Tgstation.Server.Host.Components
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+			timerLock = new object();
 		}
 
 		/// <inheritdoc />
@@ -605,7 +612,7 @@ namespace Tgstation.Server.Host.Components
 		public async Task SetAutoUpdateInterval(uint newInterval)
 		{
 			Task toWait;
-			lock (this)
+			lock (timerLock)
 			{
 				if (timerTask != null)
 				{
@@ -619,7 +626,7 @@ namespace Tgstation.Server.Host.Components
 			await toWait.ConfigureAwait(false);
 			if (newInterval == 0)
 				return;
-			lock (this)
+			lock (timerLock)
 			{
 				// race condition, just quit
 				if (timerTask != null)
