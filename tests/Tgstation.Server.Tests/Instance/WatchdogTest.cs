@@ -136,10 +136,10 @@ namespace Tgstation.Server.Tests.Instance
 
 			Assert.IsTrue(daemonStatus.Running.Value);
 			Assert.IsNotNull(daemonStatus.ActiveCompileJob);
-			Assert.IsNotNull(daemonStatus.StagedCompileJob);
 			if (new PlatformIdentifier().IsWindows)
 			{
 				// basic watchdog won't do this because it reboots instantly
+				Assert.IsNotNull(daemonStatus.StagedCompileJob);
 				Assert.AreNotEqual(daemonStatus.ActiveCompileJob.ByondVersion, daemonStatus.StagedCompileJob.ByondVersion);
 				Assert.AreEqual(versionToInstall, daemonStatus.StagedCompileJob.ByondVersion);
 				Assert.AreEqual(true, daemonStatus.SoftRestart);
