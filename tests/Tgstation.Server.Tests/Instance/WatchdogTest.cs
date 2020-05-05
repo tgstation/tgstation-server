@@ -89,13 +89,19 @@ namespace Tgstation.Server.Tests.Instance
 			daemonStatus = await DeployTestDme(DmeName, DreamDaemonSecurity.Safe, cancellationToken);
 
 			Assert.IsTrue(daemonStatus.Running.Value);
-			Assert.AreEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
-			Assert.AreNotEqual(initialCompileJob.Id, daemonStatus.StagedCompileJob.Id);
+
+			if (new PlatformIdentifier().IsWindows)
+			{
+				// basic watchdog won't do this because it reboots instantly
+				Assert.AreEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
+				Assert.AreNotEqual(initialCompileJob.Id, daemonStatus.StagedCompileJob.Id);
+
+				await TellWorldToReboot(cancellationToken);
+
+				await Task.Delay(10000, cancellationToken);
+			}
+
 			Assert.AreEqual(DreamDaemonSecurity.Ultrasafe, daemonStatus.StagedCompileJob.MinimumSecurityLevel);
-
-			await TellWorldToReboot(cancellationToken);
-
-			await Task.Delay(10000, cancellationToken);
 
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreNotEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
@@ -132,11 +138,15 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.IsTrue(daemonStatus.Running.Value);
 			Assert.IsNotNull(daemonStatus.ActiveCompileJob);
 			Assert.IsNotNull(daemonStatus.StagedCompileJob);
-			Assert.AreNotEqual(daemonStatus.ActiveCompileJob.ByondVersion, daemonStatus.StagedCompileJob.ByondVersion);
-			Assert.AreEqual(versionToInstall, daemonStatus.StagedCompileJob.ByondVersion);
-			Assert.AreEqual(true, daemonStatus.SoftRestart);
+			if (new PlatformIdentifier().IsWindows)
+			{
+				// basic watchdog won't do this because it reboots instantly
+				Assert.AreNotEqual(daemonStatus.ActiveCompileJob.ByondVersion, daemonStatus.StagedCompileJob.ByondVersion);
+				Assert.AreEqual(versionToInstall, daemonStatus.StagedCompileJob.ByondVersion);
+				Assert.AreEqual(true, daemonStatus.SoftRestart);
 
-			await TellWorldToReboot(cancellationToken);
+				await TellWorldToReboot(cancellationToken);
+			}
 
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreEqual(versionToInstall, daemonStatus.ActiveCompileJob.ByondVersion);
