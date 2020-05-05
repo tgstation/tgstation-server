@@ -125,7 +125,7 @@ namespace Tgstation.Server.Host
 						if (b.FullPath == updatePath && File.Exists(b.FullPath))
 						{
 							if (logger != null)
-								logger.LogInformation("Host watchdog appears to be requesting process termination!");
+								logger.LogInformation("Host watchdog appears to be requesting server termination!");
 							cancellationTokenSource.Cancel();
 						}
 					};
@@ -136,7 +136,7 @@ namespace Tgstation.Server.Host
 				try
 				{
 					logger = host.Services.GetRequiredService<ILogger<Server>>();
-					using (cancellationToken.Register(() => logger.LogInformation("Process termination requested!")))
+					using (cancellationToken.Register(() => logger.LogInformation("Server termination requested!")))
 					{
 						var generalConfigurationOptions = host.Services.GetRequiredService<IOptions<GeneralConfiguration>>();
 						generalConfiguration = generalConfigurationOptions.Value;
