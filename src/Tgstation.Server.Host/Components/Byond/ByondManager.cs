@@ -155,8 +155,11 @@ namespace Tgstation.Server.Host.Components.Byond
 				try
 				{
 					var download = await downloadTask.ConfigureAwait(false);
-					await ioManager.ZipToDirectory(versionKey, download, cancellationToken).ConfigureAwait(false);
-					await byondInstaller.InstallByond(ioManager.ResolvePath(versionKey), version, cancellationToken).ConfigureAwait(false);
+
+					var extractPath = ioManager.ResolvePath(versionKey);
+					logger.LogTrace("Extracting downloaded BYOND zip to {0}...", extractPath);
+					await ioManager.ZipToDirectory(extractPath, download, cancellationToken).ConfigureAwait(false);
+					await byondInstaller.InstallByond(extractPath, version, cancellationToken).ConfigureAwait(false);
 
 					// make sure to do this last because this is what tells us we have a valid version in the future
 					await ioManager.WriteAllBytes(ioManager.ConcatPath(versionKey, VersionFileName), Encoding.UTF8.GetBytes(version.ToString()), cancellationToken).ConfigureAwait(false);
