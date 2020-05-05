@@ -130,8 +130,6 @@ namespace Tgstation.Server.Tests.Instance
 
 			await TellWorldToReboot(cancellationToken);
 
-			await Task.Delay(10000, cancellationToken);
-
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreEqual(versionToInstall, daemonStatus.ActiveCompileJob.ByondVersion);
 			Assert.IsNull(daemonStatus.StagedCompileJob);
@@ -151,11 +149,7 @@ namespace Tgstation.Server.Tests.Instance
 				SoftRestart = true
 			}, cancellationToken);
 
-			await instanceClient.DreamDaemon.Update(new DreamDaemon
-			{
-				SoftRestart = false
-			}, cancellationToken);
-
+			await Task.Delay(6000, cancellationToken);
 		}
 
 		async Task<DreamDaemon> DeployTestDme(string dmeName, DreamDaemonSecurity deploymentSecurity, CancellationToken cancellationToken)
