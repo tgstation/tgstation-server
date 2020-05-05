@@ -95,13 +95,12 @@ namespace Tgstation.Server.Tests.Instance
 				// basic watchdog won't do this because it reboots instantly
 				Assert.AreEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
 				Assert.AreNotEqual(initialCompileJob.Id, daemonStatus.StagedCompileJob.Id);
+				Assert.AreEqual(DreamDaemonSecurity.Ultrasafe, daemonStatus.StagedCompileJob.MinimumSecurityLevel);
 
 				await TellWorldToReboot(cancellationToken);
 
 				await Task.Delay(10000, cancellationToken);
 			}
-
-			Assert.AreEqual(DreamDaemonSecurity.Ultrasafe, daemonStatus.StagedCompileJob.MinimumSecurityLevel);
 
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreNotEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
