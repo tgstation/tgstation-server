@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
@@ -124,14 +123,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		protected override MonitorAction HandleNormalReboot()
 		{
-			Debug.Assert(activeSwappable != null, "Expected activeSwappable to not be null!");
+			if (activeSwappable == null)
+				throw new InvalidOperationException("Expected activeSwappable to not be null!");
 			if (pendingSwappable != null)
 			{
-				Logger.LogTrace("Replacing activeSwappable with pendingSwappable");
+				Logger.LogTrace("Replacing activeSwappable with pendingSwappable...");
 				Server.ReplaceDmbProvider(pendingSwappable);
 				activeSwappable = pendingSwappable;
 				pendingSwappable = null;
 			}
+			else
+				Logger.LogTrace("Nothing to do as pendingSwappable is null.");
 
 			return MonitorAction.Continue;
 		}
@@ -191,9 +193,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		protected override async Task<IDmbProvider> PrepServerForLaunch(IDmbProvider dmbToUse, CancellationToken cancellationToken)
 		{
-			Debug.Assert(activeSwappable == null, "Expected swappableDmbProvider to be null!");
+			if(activeSwappable != null)
+				throw new InvalidOperationException("Expected activeSwappable to be null!");
+			if(startupDmbProvider != null)
+				throw new InvalidOperationException("Expected startupDmbProvider to be null!");
 
-			Logger.LogTrace("Prep for server launch. pendingSwappable is {0}avaiable", pendingSwappable == null ? "not " : String.Empty);
+			Logger.LogTrace("Prep for server launch. pendingSwappable is {0}available", pendingSwappable == null ? "not " : String.Empty);
 
 			// Add another lock to the startup DMB because it'll be used throughout the lifetime of the watchdog
 			startupDmbProvider = await DmbFactory.FromCompileJob(dmbToUse.CompileJob, cancellationToken).ConfigureAwait(false);
