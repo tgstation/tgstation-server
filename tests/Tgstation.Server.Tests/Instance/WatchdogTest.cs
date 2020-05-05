@@ -169,11 +169,27 @@ namespace Tgstation.Server.Tests.Instance
 
 		async Task<DreamDaemon> DeployTestDme(string dmeName, DreamDaemonSecurity deploymentSecurity, CancellationToken cancellationToken)
 		{
+			var byondVersionUsed = await instanceClient.Byond.ActiveVersion(cancellationToken);
 			await instanceClient.DreamMaker.Update(new DreamMaker
 			{
 				ApiValidationSecurityLevel = deploymentSecurity,
 				ProjectName = $"tests/DMAPI/{dmeName}"
 			}, cancellationToken);
+
+			// argh 
+			var dreamMaker = "DreamMaker";
+			if (new PlatformIdentifier().IsWindows)
+				dreamMaker += ".exe";
+
+			var dreamMakerDir = Path.Combine(
+				instanceClient.Metadata.Path,
+				"Byond",
+				$"{byondVersionUsed.Version.Major}.{byondVersionUsed.Version.Minor}",
+				"byond",
+				"bin");
+
+			Assert.IsTrue(Directory.Exists(dreamMakerDir), $"Directory {dreamMakerDir} does not exist!");
+			Assert.IsTrue(File.Exists(Path.Combine(dreamMakerDir, dreamMaker)), $"Missing DreamMaker executable! Dir contents: {String.Join(", ", Directory.GetFileSystemEntries(dreamMakerDir))}");
 
 			var compileJobJob = await instanceClient.DreamMaker.Compile(cancellationToken);
 
