@@ -512,7 +512,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					return;
 				var toClear = GetActiveController();
 				if (toClear != null)
-					toClear.ResetRebootState();
+					await toClear.SetRebootState(Watchdog.RebootState.Normal, cancellationToken).ConfigureAwait(false);
 			}
 		}
 

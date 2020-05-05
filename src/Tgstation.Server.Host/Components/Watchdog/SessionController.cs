@@ -593,7 +593,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				cancellationToken)
 				.ConfigureAwait(false);
 
-			return result != null && result.ErrorMessage != null;
+			return result != null && result.ErrorMessage == null;
 		}
 
 		/// <inheritdoc />
