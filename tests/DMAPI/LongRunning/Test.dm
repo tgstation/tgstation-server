@@ -14,6 +14,7 @@
 /world/Topic(T, Addr, Master, Keys)
 	TGS_TOPIC
 
+	world.sleep_offline = FALSE
 	TgsChatBroadcast("Recieved non-tgs topic: [T]")
 
 	var/list/data = params2list(T)
@@ -21,6 +22,8 @@
 	if(special_tactics)
 		RebootAsync()
 		return "ack"
+
+	TgsChatBroadcast("Not rebooting...")
 	return "feck"
 
 /world/Reboot(reason)
@@ -35,6 +38,5 @@
 /proc/RebootAsync()
 	set waitfor = FALSE
 	world.TgsChatBroadcast("Rebooting after 3 seconds");
-	world.sleep_offline = FALSE
 	sleep(30)
 	world.Reboot()
