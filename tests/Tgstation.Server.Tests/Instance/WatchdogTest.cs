@@ -101,9 +101,9 @@ namespace Tgstation.Server.Tests.Instance
 				Assert.AreEqual(DreamDaemonSecurity.Ultrasafe, daemonStatus.StagedCompileJob.MinimumSecurityLevel);
 
 				await TellWorldToReboot(cancellationToken);
-
-				await Task.Delay(10000, cancellationToken);
 			}
+
+			await Task.Delay(10000, cancellationToken);
 
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreNotEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
