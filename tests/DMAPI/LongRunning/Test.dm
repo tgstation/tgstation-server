@@ -14,6 +14,8 @@
 /world/Topic(T, Addr, Master, Keys)
 	TGS_TOPIC
 
+	TgsChatBroadcast("Recieved non-tgs topic: [T]")
+
 	var/list/data = params2list(T)
 	var/special_tactics = data["tgs_integration_test_special_tactics"]
 	if(special_tactics)
