@@ -14,6 +14,13 @@
 /world/Topic(T, Addr, Master, Keys)
 	TGS_TOPIC
 
+	var/list/data = params2list(T)
+	var/special_tactics = data["tgs_integration_test_special_tactics"]
+	if(special_tactics)
+		RebootAsync()
+		return "ack"
+	return "feck"
+
 /world/Reboot(reason)
 	TgsChatBroadcast("World Rebooting")
 	TgsReboot()
@@ -22,17 +29,6 @@
 	set waitfor = FALSE
 
 	world.TgsChatBroadcast("Recieved event: [json_encode(args)]")
-
-	if(event_code != TGS_EVENT_REBOOT_MODE_CHANGE)
-		world.TgsChatBroadcast("Not rebooting, wrong event");
-		return
-
-	if(args[3] != TGS_REBOOT_MODE_RESTART)
-		world.TgsChatBroadcast("Not rebooting, wrong reboot mode");
-		return
-
-	RebootAsync()
-
 
 /proc/RebootAsync()
 	set waitfor = FALSE

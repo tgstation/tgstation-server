@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -56,7 +57,7 @@ namespace Tgstation.Server.Tests.Instance
 			var startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
 
 			await WaitForJob(startJob, 10, false, cancellationToken);
-			await Task.Delay(TimeSpan.FromSeconds(1));
+
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.IsTrue(daemonStatus.Running.Value);
 			Assert.AreEqual(false, daemonStatus.SoftRestart);
@@ -89,21 +90,13 @@ namespace Tgstation.Server.Tests.Instance
 
 			daemonStatus = await DeployTestDme(DmeName, DreamDaemonSecurity.Safe, cancellationToken);
 
-			await Task.Delay(TimeSpan.FromSeconds(3), cancellationToken);
-
 			Assert.IsTrue(daemonStatus.Running.Value);
 
-			if (new PlatformIdentifier().IsWindows)
-			{
-				// basic watchdog won't do this because it reboots instantly
-				Assert.AreEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
-				Assert.AreNotEqual(initialCompileJob.Id, daemonStatus.StagedCompileJob.Id);
-				Assert.AreEqual(DreamDaemonSecurity.Ultrasafe, daemonStatus.StagedCompileJob.MinimumSecurityLevel);
+			Assert.AreEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
+			Assert.AreNotEqual(initialCompileJob.Id, daemonStatus.StagedCompileJob.Id);
+			Assert.AreEqual(DreamDaemonSecurity.Ultrasafe, daemonStatus.StagedCompileJob.MinimumSecurityLevel);
 
-				await TellWorldToReboot(cancellationToken);
-			}
-
-			await Task.Delay(10000, cancellationToken);
+			await TellWorldToReboot(cancellationToken);
 
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreNotEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
@@ -177,12 +170,14 @@ namespace Tgstation.Server.Tests.Instance
 
 		async Task TellWorldToReboot(CancellationToken cancellationToken)
 		{
-			//we've wired long_running_test to reboot if its reboot mode is changed TO normal
-
-			await instanceClient.DreamDaemon.Update(new DreamDaemon
+			IByondTopicSender bts = new ByondTopicSender
 			{
-				SoftRestart = true
-			}, cancellationToken);
+				SendTimeout = 5000,
+				ReceiveTimeout = 5000
+			};
+
+			var result = await bts.SendTopic(IPAddress.Loopback, "tgs_integration_test_special_tactics=1", 1337, cancellationToken);
+			Assert.AreEqual("ack", result);
 
 			await Task.Delay(6000, cancellationToken);
 		}
@@ -198,9 +193,6 @@ namespace Tgstation.Server.Tests.Instance
 			var compileJobJob = await instanceClient.DreamMaker.Compile(cancellationToken);
 
 			await WaitForJob(compileJobJob, 90, false, cancellationToken);
-
-			// Compile job isn't loaded until after the job completes
-			await Task.Delay(TimeSpan.FromSeconds(3));
 
 			return await instanceClient.DreamDaemon.Read(cancellationToken);
 		}
