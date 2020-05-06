@@ -27,7 +27,7 @@ namespace Tgstation.Server.Host.IO
 			 * sure it works in SOME cases
 			 * i.e. win10 1803+ and IN DEVELOPER MODE
 			 * other times it throws ERROR_INVALID_PARAMETER
-			 * but the fucking worst is there is some configuration of windows that accept the argument and allow the function to succeed
+			 * but the fucking worst is there are some configurations of windows that accept the argument and allow the function to succeed
 			 * BUT IT DOESN'T CREATE THE FUCKING LINK
 			 * I AM NOT DEBUGGING THAT SHIT AGAIN AHHH
 
