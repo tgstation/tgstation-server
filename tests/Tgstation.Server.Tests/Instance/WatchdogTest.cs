@@ -56,6 +56,7 @@ namespace Tgstation.Server.Tests.Instance
 			var startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
 
 			await WaitForJob(startJob, 10, false, cancellationToken);
+			await Task.Delay(TimeSpan.FromSeconds(1));
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.IsTrue(daemonStatus.Running.Value);
 			Assert.AreEqual(false, daemonStatus.SoftRestart);
@@ -87,6 +88,8 @@ namespace Tgstation.Server.Tests.Instance
 			await WaitForJob(startJob, 10, false, cancellationToken);
 
 			daemonStatus = await DeployTestDme(DmeName, DreamDaemonSecurity.Safe, cancellationToken);
+
+			await Task.Delay(TimeSpan.FromSeconds(3), cancellationToken);
 
 			Assert.IsTrue(daemonStatus.Running.Value);
 
@@ -122,6 +125,8 @@ namespace Tgstation.Server.Tests.Instance
 				},
 				cancellationToken);
 
+			var initialStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+
 			var startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
 
 			var byondInstallJob = await byondInstallJobTask;
@@ -140,7 +145,7 @@ namespace Tgstation.Server.Tests.Instance
 			if (new PlatformIdentifier().IsWindows)
 			{
 				// basic watchdog won't do this because it reboots instantly
-				Assert.IsNotNull(daemonStatus.StagedCompileJob);
+				Assert.IsTrue(daemonStatus.StagedCompileJob != null || daemonStatus.ActiveCompileJob.Id != initialStatus.ActiveCompileJob.Id);
 				Assert.AreNotEqual(daemonStatus.ActiveCompileJob.ByondVersion, daemonStatus.StagedCompileJob.ByondVersion);
 				Assert.AreEqual(versionToInstall, daemonStatus.StagedCompileJob.ByondVersion);
 				Assert.AreEqual(true, daemonStatus.SoftRestart);
@@ -203,7 +208,7 @@ namespace Tgstation.Server.Tests.Instance
 			}, cancellationToken);
 
 			var newStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
-			Assert.AreEqual(true, newStatus.SoftShutdown);
+			Assert.IsTrue(newStatus.SoftShutdown.Value || !newStatus.Running.Value);
 
 			do
 			{
