@@ -145,6 +145,7 @@ namespace Tgstation.Server.Tests.Instance
 			if (new PlatformIdentifier().IsWindows)
 			{
 				// basic watchdog won't do this because it reboots instantly
+				Assert.IsNotNull(daemonStatus.ActiveCompileJob);
 				Assert.IsTrue(daemonStatus.StagedCompileJob != null || daemonStatus.ActiveCompileJob.Id != initialStatus.ActiveCompileJob.Id);
 				if (daemonStatus.StagedCompileJob != null)
 				{
