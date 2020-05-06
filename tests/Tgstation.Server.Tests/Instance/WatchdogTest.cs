@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Client.Components;
 using Tgstation.Server.Host.Components.Interop;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Tests.Instance
 {
@@ -84,8 +85,18 @@ namespace Tgstation.Server.Tests.Instance
 
 			Assert.IsTrue(daemonStatus.Running.Value);
 
-			Assert.AreEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
-			Assert.AreNotEqual(initialCompileJob.Id, daemonStatus.StagedCompileJob.Id);
+			CompileJob newerCompileJob;
+			if (new PlatformIdentifier().IsWindows)
+			{
+				Assert.AreEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
+				newerCompileJob = daemonStatus.StagedCompileJob;
+			}
+			else
+				// BasicWatchdog reboots instantly
+				newerCompileJob = daemonStatus.StagedCompileJob ?? daemonStatus.ActiveCompileJob;
+
+			Assert.IsNotNull(newerCompileJob);
+			Assert.AreNotEqual(initialCompileJob.Id, newerCompileJob.Id);
 			Assert.AreEqual(DreamDaemonSecurity.Ultrasafe, daemonStatus.StagedCompileJob.MinimumSecurityLevel);
 
 			await TellWorldToReboot(cancellationToken);
@@ -116,21 +127,29 @@ namespace Tgstation.Server.Tests.Instance
 
 			var byondInstallJob = await byondInstallJobTask;
 
+			await WaitForJob(startJob, 40, false, cancellationToken);
+
 			await WaitForJob(byondInstallJob.InstallJob, 30, false, cancellationToken);
 
 			const string DmeName = "LongRunning/long_running_test";
 
 			await DeployTestDme(DmeName, DreamDaemonSecurity.Safe, cancellationToken);
 
-			await WaitForJob(startJob, 40, false, cancellationToken);
-
 			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.IsTrue(daemonStatus.Running.Value);
 			Assert.IsNotNull(daemonStatus.ActiveCompileJob);
 
-			Assert.IsNotNull(daemonStatus.StagedCompileJob);
-			Assert.AreNotEqual(daemonStatus.ActiveCompileJob.ByondVersion, daemonStatus.StagedCompileJob.ByondVersion);
-			Assert.AreEqual(versionToInstall, daemonStatus.StagedCompileJob.ByondVersion);
+			CompileJob newerCompileJob;
+			if (new PlatformIdentifier().IsWindows)
+			{
+				Assert.AreEqual(initialStatus.ActiveCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
+				newerCompileJob = daemonStatus.StagedCompileJob;
+			}
+			else
+				// BasicWatchdog reboots instantly
+				newerCompileJob = daemonStatus.StagedCompileJob ?? daemonStatus.ActiveCompileJob;
+			Assert.AreNotEqual(daemonStatus.ActiveCompileJob.ByondVersion, newerCompileJob.ByondVersion);
+			Assert.AreEqual(versionToInstall, newerCompileJob.ByondVersion);
 
 			Assert.AreEqual(true, daemonStatus.SoftRestart);
 
