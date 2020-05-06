@@ -1,21 +1,13 @@
 ﻿using Byond.TopicSender;
-using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Client.Components;
-using Tgstation.Server.Host.Components.Chat.Providers;
 using Tgstation.Server.Host.Components.Interop;
-using Tgstation.Server.Host.Components.Interop.Topic;
-using Tgstation.Server.Host.Core;
-using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Tests.Instance
 {
@@ -135,21 +127,14 @@ namespace Tgstation.Server.Tests.Instance
 			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.IsTrue(daemonStatus.Running.Value);
 			Assert.IsNotNull(daemonStatus.ActiveCompileJob);
-			if (new PlatformIdentifier().IsWindows)
-			{
-				// basic watchdog won't do this because it reboots instantly
-				Assert.IsNotNull(daemonStatus.ActiveCompileJob);
-				Assert.IsTrue(daemonStatus.StagedCompileJob != null || daemonStatus.ActiveCompileJob.Id != initialStatus.ActiveCompileJob.Id);
-				if (daemonStatus.StagedCompileJob != null)
-				{
-					Assert.AreNotEqual(daemonStatus.ActiveCompileJob.ByondVersion, daemonStatus.StagedCompileJob.ByondVersion);
-					Assert.AreEqual(versionToInstall, daemonStatus.StagedCompileJob.ByondVersion);
-				}
 
-				Assert.AreEqual(true, daemonStatus.SoftRestart);
+			Assert.IsNotNull(daemonStatus.StagedCompileJob);
+			Assert.AreNotEqual(daemonStatus.ActiveCompileJob.ByondVersion, daemonStatus.StagedCompileJob.ByondVersion);
+			Assert.AreEqual(versionToInstall, daemonStatus.StagedCompileJob.ByondVersion);
 
-				await TellWorldToReboot(cancellationToken);
-			}
+			Assert.AreEqual(true, daemonStatus.SoftRestart);
+
+			await TellWorldToReboot(cancellationToken);
 
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreEqual(versionToInstall, daemonStatus.ActiveCompileJob.ByondVersion);
