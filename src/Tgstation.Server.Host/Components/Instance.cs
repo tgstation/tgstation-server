@@ -261,84 +261,111 @@ namespace Tgstation.Server.Host.Components
 
 			compileJob.Job = job;
 
-			databaseContext.CompileJobs.Add(compileJob); // will be saved by job context
+			databaseContext.CompileJobs.Add(compileJob);
 
-			job.PostComplete = async postCompleteCancellationToken =>
+			// The difficulty with compile jobs is they have a two part commit
+			await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+			try
 			{
-				await compileJobConsumer.LoadCompileJob(compileJob, postCompleteCancellationToken).ConfigureAwait(false);
-				await eventConsumer.HandleEvent(EventType.DeploymentComplete, null, postCompleteCancellationToken).ConfigureAwait(false);
-			};
-
-			if (repositorySettings?.AccessToken != null)
+				await compileJobConsumer.LoadCompileJob(compileJob, cancellationToken).ConfigureAwait(false);
+			}
+			catch
 			{
-				// potential for commenting on a test merge change
-				var outgoingCompileJob = LatestCompileJob();
+				// So we need to un-commit the compile job if the above throws
+				databaseContext.CompileJobs.Remove(compileJob);
+				await databaseContext.Save(default).ConfigureAwait(false);
+				throw;
+			}
 
-				if (outgoingCompileJob != null && outgoingCompileJob.RevisionInformation.CommitSha != compileJob.RevisionInformation.CommitSha && repositorySettings.PostTestMergeComment.Value)
+			await eventConsumer.HandleEvent(EventType.DeploymentComplete, null, cancellationToken).ConfigureAwait(false);
+
+			await PostDeploymentComments(compileJob, repositorySettings, repoOwner, repoName).ConfigureAwait(false);
+		}
+
+		/// <summary>
+		/// Post deployment GitHub comments.
+		/// </summary>
+		/// <param name="compileJob">The deployed <see cref="CompileJob"/>.</param>
+		/// <param name="repositorySettings">The <see cref="RepositorySettings"/>.</param>
+		/// <param name="repoOwner">The GitHub repostiory owner.</param>
+		/// <param name="repoName">The GitHub repostiory name.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		async Task PostDeploymentComments(
+			CompileJob compileJob,
+			RepositorySettings repositorySettings,
+			string repoOwner,
+			string repoName)
+		{
+			if (repositorySettings?.AccessToken == null)
+				return;
+
+			// potential for commenting on a test merge change
+			var outgoingCompileJob = LatestCompileJob();
+
+			if (outgoingCompileJob == null || outgoingCompileJob.RevisionInformation.CommitSha == compileJob.RevisionInformation.CommitSha || !repositorySettings.PostTestMergeComment.Value)
+				return;
+
+			var gitHubClient = gitHubClientFactory.CreateClient(repositorySettings.AccessToken);
+
+			async Task CommentOnPR(int prNumber, string comment)
+			{
+				try
 				{
-					var gitHubClient = gitHubClientFactory.CreateClient(repositorySettings.AccessToken);
-
-					async Task CommentOnPR(int prNumber, string comment)
-					{
-						try
-						{
-							await gitHubClient.Issue.Comment.Create(repoOwner, repoName, prNumber, comment).ConfigureAwait(false);
-						}
-						catch (ApiException e)
-						{
-							logger.LogWarning("Error posting GitHub comment! Exception: {0}", e);
-						}
-					}
-
-					var tasks = new List<Task>();
-
-					string FormatTestMerge(TestMerge testMerge, bool updated) => String.Format(CultureInfo.InvariantCulture, "#### Test Merge {4}{0}{0}##### Server Instance{0}{5}{1}{0}{0}##### Revision{0}Origin: {6}{0}Pull Request: {2}{0}Server: {7}{3}",
-						Environment.NewLine,
-						repositorySettings.ShowTestMergeCommitters.Value ? String.Format(CultureInfo.InvariantCulture, "{0}{0}##### Merged By{0}{1}", Environment.NewLine, testMerge.MergedBy.Name) : String.Empty,
-						testMerge.PullRequestRevision,
-						testMerge.Comment != null ? String.Format(CultureInfo.InvariantCulture, "{0}{0}##### Comment{0}{1}", Environment.NewLine, testMerge.Comment) : String.Empty,
-						updated ? "Updated" : "Deployed",
-						metadata.Name,
-						compileJob.RevisionInformation.OriginCommitSha,
-						compileJob.RevisionInformation.CommitSha);
-
-					// added prs
-					foreach (var I in compileJob
-						.RevisionInformation
-						.ActiveTestMerges
-						.Select(x => x.TestMerge)
-						.Where(x => !outgoingCompileJob
-							.RevisionInformation
-							.ActiveTestMerges
-							.Any(y => y.TestMerge.Number == x.Number)))
-						tasks.Add(CommentOnPR(I.Number, FormatTestMerge(I, false)));
-
-					// removed prs
-					foreach (var I in outgoingCompileJob
-						.RevisionInformation
-						.ActiveTestMerges
-						.Select(x => x.TestMerge)
-							.Where(x => !compileJob
-							.RevisionInformation
-							.ActiveTestMerges
-							.Any(y => y.TestMerge.Number == x.Number)))
-						tasks.Add(CommentOnPR(I.Number, "#### Test Merge Removed"));
-
-					// updated prs
-					foreach (var I in compileJob
-						.RevisionInformation
-						.ActiveTestMerges
-						.Select(x => x.TestMerge)
-						.Where(x => outgoingCompileJob
-							.RevisionInformation
-							.ActiveTestMerges
-							.Any(y => y.TestMerge.Number == x.Number)))
-						tasks.Add(CommentOnPR(I.Number, FormatTestMerge(I, true)));
-
-					if (tasks.Any())
-						await Task.WhenAll(tasks).ConfigureAwait(false);
+					await gitHubClient.Issue.Comment.Create(repoOwner, repoName, prNumber, comment).ConfigureAwait(false);
+				}
+				catch (ApiException e)
+				{
+					logger.LogWarning("Error posting GitHub comment! Exception: {0}", e);
 				}
 			}
+
+			var tasks = new List<Task>();
+
+			string FormatTestMerge(TestMerge testMerge, bool updated) => String.Format(CultureInfo.InvariantCulture, "#### Test Merge {4}{0}{0}##### Server Instance{0}{5}{1}{0}{0}##### Revision{0}Origin: {6}{0}Pull Request: {2}{0}Server: {7}{3}",
+				Environment.NewLine,
+				repositorySettings.ShowTestMergeCommitters.Value ? String.Format(CultureInfo.InvariantCulture, "{0}{0}##### Merged By{0}{1}", Environment.NewLine, testMerge.MergedBy.Name) : String.Empty,
+				testMerge.PullRequestRevision,
+				testMerge.Comment != null ? String.Format(CultureInfo.InvariantCulture, "{0}{0}##### Comment{0}{1}", Environment.NewLine, testMerge.Comment) : String.Empty,
+				updated ? "Updated" : "Deployed",
+				metadata.Name,
+				compileJob.RevisionInformation.OriginCommitSha,
+				compileJob.RevisionInformation.CommitSha);
+
+			// added prs
+			foreach (var I in compileJob
+				.RevisionInformation
+				.ActiveTestMerges
+				.Select(x => x.TestMerge)
+				.Where(x => !outgoingCompileJob
+					.RevisionInformation
+					.ActiveTestMerges
+					.Any(y => y.TestMerge.Number == x.Number)))
+				tasks.Add(CommentOnPR(I.Number, FormatTestMerge(I, false)));
+
+			// removed prs
+			foreach (var I in outgoingCompileJob
+				.RevisionInformation
+				.ActiveTestMerges
+				.Select(x => x.TestMerge)
+					.Where(x => !compileJob
+					.RevisionInformation
+					.ActiveTestMerges
+					.Any(y => y.TestMerge.Number == x.Number)))
+				tasks.Add(CommentOnPR(I.Number, "#### Test Merge Removed"));
+
+			// updated prs
+			foreach (var I in compileJob
+				.RevisionInformation
+				.ActiveTestMerges
+				.Select(x => x.TestMerge)
+				.Where(x => outgoingCompileJob
+					.RevisionInformation
+					.ActiveTestMerges
+					.Any(y => y.TestMerge.Number == x.Number)))
+				tasks.Add(CommentOnPR(I.Number, FormatTestMerge(I, true)));
+
+			if (tasks.Any())
+				await Task.WhenAll(tasks).ConfigureAwait(false);
 		}
 
 		/// <summary>

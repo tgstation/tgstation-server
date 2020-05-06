@@ -81,43 +81,8 @@ namespace Tgstation.Server.Host.Jobs
 			{
 				await databaseContextFactory.UseContext(async databaseContext =>
 				{
-					async Task HandleExceptions(Task task)
-					{
-						void LogRegularException() => logger.LogDebug("Job {0} exited with error! Exception: {1}", job.Id, job.ExceptionDetails);
-						try
-						{
-							await task.ConfigureAwait(false);
-						}
-						catch (OperationCanceledException)
-						{
-							logger.LogDebug("Job {0} cancelled!", job.Id);
-							job.Cancelled = true;
-						}
-						catch (JobException e)
-						{
-							job.ErrorCode = e.ErrorCode;
-							job.ExceptionDetails = e.Message;
-							LogRegularException();
-							if (e.InnerException != null)
-								logger.LogDebug(
-									"Inner exception for job {0}: {1}",
-									job.Id,
-									e.InnerException is JobException
-										? e.InnerException.Message
-										: e.InnerException.ToString());
-						}
-						catch (Exception e)
-						{
-							job.ExceptionDetails = e.ToString();
-							LogRegularException();
-						}
-						finally
-						{
-							job.StoppedAt = DateTimeOffset.Now;
-						}
-					}
-
-					async Task RunJobInternal()
+					void LogRegularException() => logger.LogDebug("Job {0} exited with error! Exception: {1}", job.Id, job.ExceptionDetails);
+					try
 					{
 						var oldJob = job;
 						job = new Job { Id = oldJob.Id };
@@ -127,20 +92,35 @@ namespace Tgstation.Server.Host.Jobs
 
 						logger.LogDebug("Job {0} completed!", job.Id);
 					}
-
-					await HandleExceptions(RunJobInternal()).ConfigureAwait(false);
+					catch (OperationCanceledException)
+					{
+						logger.LogDebug("Job {0} cancelled!", job.Id);
+						job.Cancelled = true;
+					}
+					catch (JobException e)
+					{
+						job.ErrorCode = e.ErrorCode;
+						job.ExceptionDetails = e.Message;
+						LogRegularException();
+						if (e.InnerException != null)
+							logger.LogDebug(
+								"Inner exception for job {0}: {1}",
+								job.Id,
+								e.InnerException is JobException
+									? e.InnerException.Message
+									: e.InnerException.ToString());
+					}
+					catch (Exception e)
+					{
+						job.ExceptionDetails = e.ToString();
+						LogRegularException();
+					}
+					finally
+					{
+						job.StoppedAt = DateTimeOffset.Now;
+					}
 
 					await databaseContext.Save(default).ConfigureAwait(false);
-
-					bool JobErroredOrCancelled() => job.ExceptionDetails != null || job.Cancelled == true;
-
-					// ok so, now it's time for the post commit step if it exists
-					if (!JobErroredOrCancelled() && job.PostComplete != null)
-					{
-						await HandleExceptions(job.PostComplete(cancellationToken)).ConfigureAwait(false);
-						if (JobErroredOrCancelled())
-							await databaseContext.Save(default).ConfigureAwait(false);
-					}
 				}).ConfigureAwait(false);
 			}
 			finally
