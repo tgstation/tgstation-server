@@ -146,7 +146,8 @@ namespace Tgstation.Server.Tests.Instance
 			{
 				// basic watchdog won't do this because it reboots instantly
 				Assert.IsTrue(daemonStatus.StagedCompileJob != null || daemonStatus.ActiveCompileJob.Id != initialStatus.ActiveCompileJob.Id);
-				Assert.AreNotEqual(daemonStatus.ActiveCompileJob.ByondVersion, daemonStatus.StagedCompileJob.ByondVersion);
+				if (daemonStatus.StagedCompileJob != null)
+					Assert.AreNotEqual(daemonStatus.ActiveCompileJob.ByondVersion, daemonStatus.StagedCompileJob.ByondVersion);
 				Assert.AreEqual(versionToInstall, daemonStatus.StagedCompileJob.ByondVersion);
 				Assert.AreEqual(true, daemonStatus.SoftRestart);
 
