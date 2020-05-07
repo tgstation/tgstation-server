@@ -34,9 +34,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IByondManager byond;
 
 		/// <summary>
-		/// The <see cref="IByondTopicSender"/> for the <see cref="SessionControllerFactory"/>
+		/// The <see cref="ITopicClient"/> for the <see cref="SessionControllerFactory"/>
 		/// </summary>
-		readonly IByondTopicSender byondTopicSender;
+		readonly ITopicClient byondTopicSender;
 
 		/// <summary>
 		/// The <see cref="ICryptographySuite"/> for the <see cref="SessionControllerFactory"/>
@@ -123,7 +123,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public SessionControllerFactory(
 			IProcessExecutor processExecutor,
 			IByondManager byond,
-			IByondTopicSender byondTopicSender,
+			ITopicClient byondTopicSender,
 			ICryptographySuite cryptographySuite,
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IIOManager ioManager,

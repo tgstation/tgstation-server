@@ -174,11 +174,11 @@ namespace Tgstation.Server.Tests.Instance
 
 		async Task TellWorldToReboot(CancellationToken cancellationToken)
 		{
-			IByondTopicSender bts = new ByondTopicSender
+			var bts = new TopicClient(new SocketParameters
 			{
 				SendTimeout = 5000,
 				ReceiveTimeout = 5000
-			};
+			});
 
 			var result = await bts.SendTopic(IPAddress.Loopback, "tgs_integration_test_special_tactics=1", 1337, cancellationToken);
 			Assert.AreEqual("ack", result);

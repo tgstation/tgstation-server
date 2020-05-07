@@ -282,7 +282,8 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
 			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
-			services.AddSingleton<IByondTopicSender>(new ByondTopicSender
+			services.AddSingleton<ITopicClient, TopicClient>();
+			services.AddSingleton(new SocketParameters
 			{
 				ReceiveTimeout = postSetupServices.GeneralConfiguration.ByondTopicTimeout,
 				SendTimeout = postSetupServices.GeneralConfiguration.ByondTopicTimeout

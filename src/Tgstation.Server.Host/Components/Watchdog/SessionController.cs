@@ -102,9 +102,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly ReattachInformation reattachInformation;
 
 		/// <summary>
-		/// The <see cref="IByondTopicSender"/> for the <see cref="SessionController"/>
+		/// The <see cref="ITopicClient"/> for the <see cref="SessionController"/>
 		/// </summary>
-		readonly IByondTopicSender byondTopicSender;
+		readonly ITopicClient byondTopicSender;
 
 		/// <summary>
 		/// The <see cref="IBridgeRegistration"/> for the <see cref="SessionController"/>
@@ -193,7 +193,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			ReattachInformation reattachInformation,
 			IProcess process,
 			IByondExecutableLock byondLock,
-			IByondTopicSender byondTopicSender,
+			ITopicClient byondTopicSender,
 			IChatTrackingContext chatTrackingContext,
 			IBridgeRegistrar bridgeRegistrar,
 			IChatManager chat,
@@ -495,7 +495,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async Task<TopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken)
+		public async Task<Interop.Topic.TopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken)
 		{
 			if (Lifetime.IsCompleted)
 			{
@@ -517,19 +517,19 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					byondTopicSender.SanitizeString(json));
 
 				var targetPort = reattachInformation.Port;
-				logger.LogTrace("Export to :{0}. Query: {1}", targetPort, commandString);
 
-				var topicReturn = await byondTopicSender.SendTopic(
+				var topicResponse = await byondTopicSender.SendTopic(
 					new IPEndPoint(IPAddress.Loopback, targetPort),
 					commandString,
 					cancellationToken).ConfigureAwait(false);
 
+				var topicReturn = topicResponse.StringData;
 				if (topicReturn != null)
 					logger.LogTrace("Topic response: {0}", topicReturn);
 
 				try
 				{
-					var result = JsonConvert.DeserializeObject<TopicResponse>(topicReturn, DMApiConstants.SerializerSettings);
+					var result = JsonConvert.DeserializeObject<Interop.Topic.TopicResponse>(topicReturn, DMApiConstants.SerializerSettings);
 					if (result.ErrorMessage != null)
 					{
 						logger.LogWarning("Errored topic response for command {0}: {1}", parameters.CommandType, result.ErrorMessage);

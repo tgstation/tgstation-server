@@ -43,9 +43,9 @@ namespace Tgstation.Server.Host.Components
 		readonly ILoggerFactory loggerFactory;
 
 		/// <summary>
-		/// The <see cref="IByondTopicSender"/> for the <see cref="InstanceFactory"/>
+		/// The <see cref="ITopicClient"/> for the <see cref="InstanceFactory"/>
 		/// </summary>
-		readonly IByondTopicSender byondTopicSender;
+		readonly ITopicClient byondTopicSender;
 
 		/// <summary>
 		/// The <see cref="ICryptographySuite"/> for the <see cref="InstanceFactory"/>
@@ -150,7 +150,7 @@ namespace Tgstation.Server.Host.Components
 			IDatabaseContextFactory databaseContextFactory,
 			IAssemblyInformationProvider assemblyInformationProvider,
 			ILoggerFactory loggerFactory,
-			IByondTopicSender byondTopicSender,
+			ITopicClient byondTopicSender,
 			ICryptographySuite cryptographySuite,
 			ISynchronousIOManager synchronousIOManager,
 			ISymlinkFactory symlinkFactory,
