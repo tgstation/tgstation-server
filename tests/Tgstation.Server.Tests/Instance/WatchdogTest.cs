@@ -85,15 +85,8 @@ namespace Tgstation.Server.Tests.Instance
 
 			Assert.IsTrue(daemonStatus.Running.Value);
 
-			CompileJob newerCompileJob;
-			if (new PlatformIdentifier().IsWindows)
-			{
-				Assert.AreEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
-				newerCompileJob = daemonStatus.StagedCompileJob;
-			}
-			else
-				// BasicWatchdog reboots instantly
-				newerCompileJob = daemonStatus.StagedCompileJob ?? daemonStatus.ActiveCompileJob;
+			Assert.AreEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
+			var newerCompileJob = daemonStatus.StagedCompileJob;
 
 			Assert.IsNotNull(newerCompileJob);
 			Assert.AreNotEqual(initialCompileJob.Id, newerCompileJob.Id);
@@ -139,15 +132,9 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.IsTrue(daemonStatus.Running.Value);
 			Assert.IsNotNull(daemonStatus.ActiveCompileJob);
 
-			CompileJob newerCompileJob;
-			if (new PlatformIdentifier().IsWindows)
-			{
-				Assert.AreEqual(initialStatus.ActiveCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
-				newerCompileJob = daemonStatus.StagedCompileJob;
-			}
-			else
-				// BasicWatchdog reboots instantly
-				newerCompileJob = daemonStatus.StagedCompileJob ?? daemonStatus.ActiveCompileJob;
+
+			Assert.AreEqual(initialStatus.ActiveCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
+			var newerCompileJob = daemonStatus.StagedCompileJob;
 			Assert.AreNotEqual(daemonStatus.ActiveCompileJob.ByondVersion, newerCompileJob.ByondVersion);
 			Assert.AreEqual(versionToInstall, newerCompileJob.ByondVersion);
 
