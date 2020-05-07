@@ -31,8 +31,8 @@ namespace Tgstation.Server.Tests.Instance
 			}, cancellationToken);
 
 			await RunBasicTest(cancellationToken);
-			await RunLongRunningTestThenUpdate(cancellationToken);
-			await RunLongRunningTestThenUpdateWithByondVersionSwitch(cancellationToken);
+			// await RunLongRunningTestThenUpdate(cancellationToken);
+			// await RunLongRunningTestThenUpdateWithByondVersionSwitch(cancellationToken);
 
 			await StartAndLeaveRunning(cancellationToken);
 		}
