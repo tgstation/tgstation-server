@@ -89,7 +89,7 @@
 
 	var/tgs4_secret_sleep_offline_sauce = 29051994
 	var/old_sleep_offline = world.sleep_offline
-	world.sleep_offline = tgs4_secret_sleep_offline_sauce
+	// world.sleep_offline = tgs4_secret_sleep_offline_sauce
 	sleep(1)
 	if(world.sleep_offline == tgs4_secret_sleep_offline_sauce)	//if not someone changed it
 		world.sleep_offline = old_sleep_offline
