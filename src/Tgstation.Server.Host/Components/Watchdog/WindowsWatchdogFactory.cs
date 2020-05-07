@@ -1,5 +1,4 @@
-﻿using Byond.TopicSender;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using Tgstation.Server.Api.Models.Internal;
@@ -29,7 +28,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="loggerFactory">The <see cref="ILoggerFactory"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="databaseContextFactory">The <see cref="IDatabaseContextFactory"/> for the <see cref="WatchdogFactory"/>.</param>
-		/// <param name="byondTopicSender">The <see cref="IByondTopicSender"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/>.</param>
@@ -38,7 +36,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IServerControl serverControl,
 			ILoggerFactory loggerFactory,
 			IDatabaseContextFactory databaseContextFactory,
-			IByondTopicSender byondTopicSender,
 			IJobManager jobManager,
 			IAsyncDelayer asyncDelayer,
 			ISymlinkFactory symlinkFactory,
@@ -47,7 +44,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				serverControl,
 				loggerFactory,
 				databaseContextFactory,
-				byondTopicSender,
 				jobManager,
 				asyncDelayer,
 				generalConfigurationOptions)
@@ -60,7 +56,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IChatManager chat,
 			IDmbFactory dmbFactory,
 			IReattachInfoHandler reattachInfoHandler,
-			IEventConsumer eventConsumer,
 			ISessionControllerFactory sessionControllerFactory,
 			IIOManager ioManager,
 			Api.Models.Instance instance,
@@ -71,8 +66,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				dmbFactory,
 				reattachInfoHandler,
 				DatabaseContextFactory,
-				ByondTopicSender,
-				eventConsumer,
 				JobManager,
 				ServerControl,
 				AsyncDelayer,

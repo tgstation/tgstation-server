@@ -55,7 +55,13 @@ namespace Tgstation.Server.Host.Components.Byond
 		{
 			try
 			{
-				await IOManager.DeleteDirectory(IOManager.ConcatPath(PathToUserByondFolder, CacheDirectoryName), cancellationToken).ConfigureAwait(false);
+				Logger.LogDebug("Cleaning BYOND cache...");
+				await IOManager.DeleteDirectory(
+					IOManager.ConcatPath(
+						PathToUserByondFolder,
+						CacheDirectoryName),
+					cancellationToken)
+					.ConfigureAwait(false);
 			}
 			catch (OperationCanceledException)
 			{

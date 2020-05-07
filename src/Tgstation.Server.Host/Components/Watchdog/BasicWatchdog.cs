@@ -1,5 +1,4 @@
-﻿using Byond.TopicSender;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
 using System.Globalization;
@@ -37,6 +36,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected ISessionController Server { get; private set; }
 
 		/// <summary>
+		/// If the server is set to gracefully reboot due to a pending dmb change.
+		/// </summary>
+		bool gracefulRebootSetDueToNewDmb;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="BasicWatchdog"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="chat">The <see cref="IChatManager"/> for the <see cref="WatchdogBase"/>.</param>
@@ -44,8 +48,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="dmbFactory">The <see cref="IDmbFactory"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="reattachInfoHandler">The <see cref="IReattachInfoHandler"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="databaseContextFactory">The <see cref="IDatabaseContextFactory"/> for the <see cref="WatchdogBase"/>.</param>
-		/// <param name="byondTopicSender">The <see cref="IByondTopicSender"/> for the <see cref="WatchdogBase"/>.</param>
-		/// <param name="eventConsumer">The <see cref="IEventConsumer"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogBase"/>.</param>
@@ -59,8 +61,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IDmbFactory dmbFactory,
 			IReattachInfoHandler reattachInfoHandler,
 			IDatabaseContextFactory databaseContextFactory,
-			IByondTopicSender byondTopicSender,
-			IEventConsumer eventConsumer,
 			IJobManager jobManager,
 			IServerControl serverControl,
 			IAsyncDelayer asyncDelayer,
@@ -74,8 +74,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				 dmbFactory,
 				 reattachInfoHandler,
 				 databaseContextFactory,
-				 byondTopicSender,
-				 eventConsumer,
 				 jobManager,
 				 serverControl,
 				 asyncDelayer,
@@ -103,6 +101,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					return MonitorAction.Restart;
 				case MonitorActivationReason.ActiveServerRebooted:
 					var rebootState = Server.RebootState;
+					gracefulRebootSetDueToNewDmb = false;
 					Server.ResetRebootState();
 
 					switch (rebootState)
@@ -149,6 +148,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			Server?.Dispose();
 			Server = null;
 			Running = false;
+			gracefulRebootSetDueToNewDmb = false;
 		}
 
 		/// <inheritdoc />
@@ -388,7 +388,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected virtual Task HandleNewDmbAvailable(CancellationToken cancellationToken) => Server.SetRebootState(Watchdog.RebootState.Restart, cancellationToken);
+		protected virtual Task HandleNewDmbAvailable(CancellationToken cancellationToken)
+		{
+			gracefulRebootSetDueToNewDmb = true;
+			return Server.SetRebootState(Watchdog.RebootState.Restart, cancellationToken);
+		}
 
 		/// <summary>
 		/// Prepare the server to launch a new instance with the <see cref="WatchdogBase.ActiveLaunchParameters"/> and a given <paramref name="dmbToUse"/>.
@@ -397,5 +401,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the modified <see cref="IDmbProvider"/> to be used.</returns>
 		protected virtual Task<IDmbProvider> PrepServerForLaunch(IDmbProvider dmbToUse, CancellationToken cancellationToken) => Task.FromResult(dmbToUse);
+
+		/// <inheritdoc />
+		public override Task ResetRebootState(CancellationToken cancellationToken)
+		{
+			if (gracefulRebootSetDueToNewDmb)
+				return Task.CompletedTask;
+			return base.ResetRebootState(cancellationToken);
+		}
 	}
 }

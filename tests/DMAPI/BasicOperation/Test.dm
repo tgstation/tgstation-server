@@ -1,32 +1,35 @@
 /world/New()
-	TgsNew()
+	log << "About to call TgsNew()"
+	TgsNew(minimum_required_security_level = TGS_SECURITY_SAFE)
+	log << "About to call StartAsync()"
 	StartAsync()
 
 /proc/StartAsync()
 	set waitfor = FALSE
-	sleep(100)
-	TgsInitializationComplete()
+	Run()
+
+/proc/Run()
+	world.log << "sleep"
+	sleep(50)
+	world.TgsTargetedChatBroadcast("Sample admin-only message", TRUE)
+
+	world.log << "Validating API sleep"
+	// Validate TGS_DMAPI_VERSION against DMAPI version used
+	var/datum/tgs_version/active_version = world.TgsApiVersion()
+	var/datum/tgs_version/dmapi_version = new /datum/tgs_version(TGS_DMAPI_VERSION)
+	if(!active_version.Equals(dmapi_version))
+		text2file("DMAPI version [TGS_DMAPI_VERSION] does not match active API version [active_version.raw_parameter]", "test_fail_reason.txt")
+
+	world.log << "Terminating..."
+	world.TgsEndProcess()
+
+	world.log << "You really shouldn't be able to read this"
 
 /world/Topic(T, Addr, Master, Keys)
 	TGS_TOPIC
 
 /world/Reboot(reason)
 	TgsReboot()
-
-/proc/message_admins(event)
-	event = "Admins: [event]"
-	world << event
-	world.log << event
-
-var/list/clients = list()
-
-/client/New()
-	clients += src
-	return ..()
-
-/client/Del()
-	clients -= src
-	return ..()
 
 /datum/tgs_chat_command/echo
 	name = "echo"

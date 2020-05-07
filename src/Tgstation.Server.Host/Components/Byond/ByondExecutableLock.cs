@@ -89,6 +89,9 @@ namespace Tgstation.Server.Host.Components.Byond
 					trustedFileText = String.Empty;
 				}
 
+				if (trustedFileText.Contains(fullDmbPath, StringComparison.Ordinal))
+					return;
+
 				trustedFileText = $"{trustedFileText}{fullDmbPath}{Environment.NewLine}";
 
 				var newTrustedFileBytes = Encoding.UTF8.GetBytes(trustedFileText);

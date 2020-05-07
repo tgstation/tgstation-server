@@ -102,9 +102,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly ReattachInformation reattachInformation;
 
 		/// <summary>
-		/// The <see cref="IByondTopicSender"/> for the <see cref="SessionController"/>
+		/// The <see cref="ITopicClient"/> for the <see cref="SessionController"/>
 		/// </summary>
-		readonly IByondTopicSender byondTopicSender;
+		readonly ITopicClient byondTopicSender;
 
 		/// <summary>
 		/// The <see cref="IBridgeRegistration"/> for the <see cref="SessionController"/>
@@ -135,6 +135,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// The <see cref="ILogger"/> for the <see cref="SessionController"/>
 		/// </summary>
 		readonly ILogger<SessionController> logger;
+
+		/// <summary>
+		/// <see langword="lock"/> <see cref="object"/> for port updates and <see cref="disposed"/>.
+		/// </summary>
+		readonly object synchronizationLock;
 
 		/// <summary>
 		/// The <see cref="TaskCompletionSource{TResult}"/> <see cref="SetPort(ushort, CancellationToken)"/> waits on when DreamDaemon currently has it's ports closed
@@ -188,7 +193,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			ReattachInformation reattachInformation,
 			IProcess process,
 			IByondExecutableLock byondLock,
-			IByondTopicSender byondTopicSender,
+			ITopicClient byondTopicSender,
 			IChatTrackingContext chatTrackingContext,
 			IBridgeRegistrar bridgeRegistrar,
 			IChatManager chat,
@@ -213,6 +218,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			released = false;
 
 			rebootTcs = new TaskCompletionSource<object>();
+
+			synchronizationLock = new object();
 
 			CancellationTokenSource cts = null;
 			Task lifetimeContinuation = null;
@@ -287,7 +294,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="disposing">If this function was NOT called by the finalizer</param>
 		void Dispose(bool disposing)
 		{
-			lock (this)
+			lock (synchronizationLock)
 			{
 				if (disposed)
 					return;
@@ -361,11 +368,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					// currently unused, maybe in the future
 					break;
 				case BridgeCommandType.Kill:
+					logger.LogInformation("Bridge requested process termination!");
 					TerminationWasRequested = true;
 					process.Terminate();
 					break;
 				case BridgeCommandType.PortUpdate:
-					lock (this)
+					lock (synchronizationLock)
 					{
 						if (!parameters.CurrentPort.HasValue)
 						{
@@ -431,6 +439,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					}
 
 					response.RuntimeInformation = reattachInformation.RuntimeInformation;
+
+					// Load custom commands
+					chatTrackingContext.CustomCommands = parameters.CustomCommands.ToList();
 					break;
 				case BridgeCommandType.Reboot:
 					if (ClosePortOnReboot)
@@ -484,7 +495,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async Task<TopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken)
+		public async Task<Interop.Topic.TopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken)
 		{
 			if (Lifetime.IsCompleted)
 			{
@@ -506,19 +517,19 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					byondTopicSender.SanitizeString(json));
 
 				var targetPort = reattachInformation.Port;
-				logger.LogTrace("Export to :{0}. Query: {1}", targetPort, commandString);
 
-				var topicReturn = await byondTopicSender.SendTopic(
+				var topicResponse = await byondTopicSender.SendTopic(
 					new IPEndPoint(IPAddress.Loopback, targetPort),
 					commandString,
 					cancellationToken).ConfigureAwait(false);
 
+				var topicReturn = topicResponse.StringData;
 				if (topicReturn != null)
 					logger.LogTrace("Topic response: {0}", topicReturn);
 
 				try
 				{
-					var result = JsonConvert.DeserializeObject<TopicResponse>(topicReturn, DMApiConstants.SerializerSettings);
+					var result = JsonConvert.DeserializeObject<Interop.Topic.TopicResponse>(topicReturn, DMApiConstants.SerializerSettings);
 					if (result.ErrorMessage != null)
 					{
 						logger.LogWarning("Errored topic response for command {0}: {1}", parameters.CommandType, result.ErrorMessage);
@@ -565,7 +576,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return true;
 			}
 
-			lock (this)
+			lock (synchronizationLock)
 				if (portClosedForReboot)
 				{
 					if (portAssignmentTcs != null)
@@ -589,7 +600,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				cancellationToken)
 				.ConfigureAwait(false);
 
-			return result != null && result.ErrorMessage != null;
+			return result != null && result.ErrorMessage == null;
 		}
 
 		/// <inheritdoc />

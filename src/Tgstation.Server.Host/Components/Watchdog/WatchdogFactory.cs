@@ -1,5 +1,4 @@
-﻿using Byond.TopicSender;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using Tgstation.Server.Api.Models.Internal;
@@ -32,11 +31,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected IDatabaseContextFactory DatabaseContextFactory { get; }
 
 		/// <summary>
-		/// The <see cref="IByondTopicSender"/> for the <see cref="WatchdogFactory"/>
-		/// </summary>
-		protected IByondTopicSender ByondTopicSender { get; }
-
-		/// <summary>
 		/// The <see cref="IJobManager"/> for the <see cref="WatchdogFactory"/>
 		/// </summary>
 		protected IJobManager JobManager { get; }
@@ -57,16 +51,20 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="serverControl">The value of <see cref="ServerControl"/></param>
 		/// <param name="loggerFactory">The value of <see cref="LoggerFactory"/></param>
 		/// <param name="databaseContextFactory">The value of <see cref="DatabaseContextFactory"/></param>
-		/// <param name="byondTopicSender">The value of <see cref="ByondTopicSender"/></param>
 		/// <param name="jobManager">The value of <see cref="JobManager"/></param>
 		/// <param name="asyncDelayer">The value of <see cref="AsyncDelayer"/></param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="GeneralConfiguration"/></param>
-		public WatchdogFactory(IServerControl serverControl, ILoggerFactory loggerFactory, IDatabaseContextFactory databaseContextFactory, IByondTopicSender byondTopicSender, IJobManager jobManager, IAsyncDelayer asyncDelayer, IOptions<GeneralConfiguration> generalConfigurationOptions)
+		public WatchdogFactory(
+			IServerControl serverControl,
+			ILoggerFactory loggerFactory,
+			IDatabaseContextFactory databaseContextFactory,
+			IJobManager jobManager,
+			IAsyncDelayer asyncDelayer,
+			IOptions<GeneralConfiguration> generalConfigurationOptions)
 		{
 			ServerControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
 			LoggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			DatabaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
-			ByondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
 			JobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			AsyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			GeneralConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
@@ -77,7 +75,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IChatManager chat,
 			IDmbFactory dmbFactory,
 			IReattachInfoHandler reattachInfoHandler,
-			IEventConsumer eventConsumer,
 			ISessionControllerFactory sessionControllerFactory,
 			IIOManager ioManager,
 			Api.Models.Instance instance,
@@ -90,8 +87,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					dmbFactory,
 					reattachInfoHandler,
 					DatabaseContextFactory,
-					ByondTopicSender,
-					eventConsumer,
 					JobManager,
 					ServerControl,
 					AsyncDelayer,
@@ -100,7 +95,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					instance,
 					settings.AutoStart.Value);
 
-			return CreateNonExperimentalWatchdog(chat, dmbFactory, reattachInfoHandler, eventConsumer, sessionControllerFactory, ioManager, instance, settings);
+			return CreateNonExperimentalWatchdog(chat, dmbFactory, reattachInfoHandler, sessionControllerFactory, ioManager, instance, settings);
 		}
 
 		/// <summary>
@@ -109,7 +104,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="chat">The <see cref="IChatManager"/> for the <see cref="IWatchdog"/></param>
 		/// <param name="dmbFactory">The <see cref="IDmbFactory"/> for the <see cref="IWatchdog"/> with</param>
 		/// <param name="reattachInfoHandler">The <see cref="IReattachInfoHandler"/> for the <see cref="IWatchdog"/></param>
-		/// <param name="eventConsumer">The <see cref="IEventConsumer"/> for the <see cref="IWatchdog"/></param>
 		/// <param name="sessionControllerFactory">The <see cref="ISessionControllerFactory"/> for the <see cref="IWatchdog"/></param>
 		/// <param name="ioManager">The <see cref="IIOManager"/> for the <see cref="IWatchdog"/>.</param>
 		/// <param name="instance">The <see cref="Instance"/> for the <see cref="IWatchdog"/></param>
@@ -119,7 +113,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IChatManager chat,
 			IDmbFactory dmbFactory,
 			IReattachInfoHandler reattachInfoHandler,
-			IEventConsumer eventConsumer,
 			ISessionControllerFactory sessionControllerFactory,
 			IIOManager ioManager,
 			Api.Models.Instance instance,
@@ -130,8 +123,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				dmbFactory,
 				reattachInfoHandler,
 				DatabaseContextFactory,
-				ByondTopicSender,
-				eventConsumer,
 				JobManager,
 				ServerControl,
 				AsyncDelayer,

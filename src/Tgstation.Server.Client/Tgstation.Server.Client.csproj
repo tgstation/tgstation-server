@@ -2,7 +2,7 @@
   <Import Project="../../build/Version.props" />
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <DebugType>Full</DebugType>
     <Version>$(TgsClientVersion)</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -17,7 +17,7 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageIcon>tgs.png</PackageIcon>
     <PackageTags>json web api tgstation-server tgstation ss13 byond client</PackageTags>
-    <PackageReleaseNotes>Added the ability to change the Token of IServerClient</PackageReleaseNotes>
+    <PackageReleaseNotes>Updated to API version $(TgsApiVersion)</PackageReleaseNotes>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <Copyright>2018</Copyright>

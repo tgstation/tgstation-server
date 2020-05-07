@@ -106,12 +106,15 @@ namespace Tgstation.Server.Tests.Instance
 			if (String.IsNullOrWhiteSpace(testPRString))
 				testPRString = Environment.GetEnvironmentVariable("TRAVIS_PULL_REQUEST");
 
-			if (!String.IsNullOrWhiteSpace(testPRString))
-			{
-				if (!int.TryParse(testPRString, out var prNumber))
-					Assert.Inconclusive($"Invalid PR #: {testPRString}");
-				await TestMergeTests(updated, prNumber, cancellationToken);
-			}
+			if (String.IsNullOrWhiteSpace(testPRString))
+				if (workingBranch == "dev")
+					testPRString = "957";
+				else
+					testPRString = "958";
+
+			if (!int.TryParse(testPRString, out var prNumber))
+				Assert.Inconclusive($"Invalid PR #: {testPRString}");
+			await TestMergeTests(updated, prNumber, cancellationToken);
 		}
 
 		async Task<Repository> Checkout(Repository updated, bool expectFailure, bool isRef, CancellationToken cancellationToken)

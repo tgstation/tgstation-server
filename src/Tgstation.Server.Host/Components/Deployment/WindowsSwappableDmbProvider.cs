@@ -72,7 +72,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 			// Note this comment from TGS3:
 			// These next two lines should be atomic but this is the best we can do
 			await ioManager.DeleteDirectory(LiveGameDirectory, cancellationToken).ConfigureAwait(false);
-			await symlinkFactory.CreateSymbolicLink(baseProvider.PrimaryDirectory, ioManager.ResolvePath(LiveGameDirectory), cancellationToken).ConfigureAwait(false);
+			await symlinkFactory.CreateSymbolicLink(
+				ioManager.ResolvePath(baseProvider.PrimaryDirectory),
+				ioManager.ResolvePath(LiveGameDirectory),
+				cancellationToken)
+				.ConfigureAwait(false);
 		}
 	}
 }

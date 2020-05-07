@@ -16,7 +16,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="chat">The <see cref="IChatManager"/> for the <see cref="IWatchdog"/></param>
 		/// <param name="dmbFactory">The <see cref="IDmbFactory"/> for the <see cref="IWatchdog"/> with</param>
 		/// <param name="reattachInfoHandler">The <see cref="IReattachInfoHandler"/> for the <see cref="IWatchdog"/></param>
-		/// <param name="eventConsumer">The <see cref="IEventConsumer"/> for the <see cref="IWatchdog"/></param>
 		/// <param name="sessionControllerFactory">The <see cref="ISessionControllerFactory"/> for the <see cref="IWatchdog"/></param>
 		/// <param name="ioManager">The <see cref="IIOManager"/> for the <see cref="IWatchdog"/>.</param>
 		/// <param name="instance">The <see cref="Instance"/> for the <see cref="IWatchdog"/></param>
@@ -26,7 +25,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IChatManager chat,
 			IDmbFactory dmbFactory,
 			IReattachInfoHandler reattachInfoHandler,
-			IEventConsumer eventConsumer,
 			ISessionControllerFactory sessionControllerFactory,
 			IIOManager ioManager,
 			Api.Models.Instance instance,

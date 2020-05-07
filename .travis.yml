@@ -1,4 +1,6 @@
-sudo: false
+os: linux
+dist: xenial
+language: generic
 git:
   depth: 1
 
@@ -7,7 +9,7 @@ branches:
   - dev
   - master
 
-matrix:
+jobs:
   include:
     - env:
       - DockerBuild=false
@@ -16,7 +18,6 @@ matrix:
       - BYOND_MINOR="1517"
       - DMEName="tests/DMAPI/travistester.dme"
       name: "DMAPI Unit Tests"
-      language: generic
       cache:
         directories:
           - $HOME/BYOND-${BYOND_MAJOR}.${BYOND_MINOR}
@@ -39,6 +40,11 @@ matrix:
       cache:
         directories:
           - $HOME/.nuget/packages:
+      addons:
+        apt:
+          packages:
+            - libc6-i386
+            - libstdc++6:i386
     - env:
       - DockerBuild=false
       - DMAPI=false
@@ -52,6 +58,11 @@ matrix:
       cache:
         directories:
           - $HOME/.nuget/packages:
+      addons:
+        apt:
+          packages:
+            - libc6-i386
+            - libstdc++6:i386
     - env:
       - DockerBuild=true
       name: "Docker Build"

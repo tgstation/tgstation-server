@@ -45,8 +45,7 @@ namespace Tgstation.Server.Host
 			IHostBuilder CreateDefaultBuilder() => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
 				.ConfigureAppConfiguration((context, configuration) => configuration
 					.SetBasePath(
-						IOManager.ResolvePath()))
-				.ConfigureServices(services => services.RemoveEventLogging());
+						IOManager.ResolvePath()));
 
 			var setupWizardHostBuilder = CreateDefaultBuilder()
 				.UseSetupApplication();
@@ -70,7 +69,7 @@ namespace Tgstation.Server.Host
 					IOManager.ResolvePath(
 						IOManager.GetDirectoryName(assemblyInformationProvider.Path)));
 
-			return new Server(hostBuilder, IOManager, updatePath);
+			return new Server(hostBuilder, updatePath);
 		}
 	}
 }

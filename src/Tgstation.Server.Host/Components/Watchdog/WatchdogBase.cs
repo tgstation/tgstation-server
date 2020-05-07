@@ -1,9 +1,7 @@
-﻿using Byond.TopicSender;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -98,27 +96,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IReattachInfoHandler reattachInfoHandler;
 
 		/// <summary>
-		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="ExperimentalWatchdog"/>
+		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="WatchdogBase"/>
 		/// </summary>
 		readonly IDatabaseContextFactory databaseContextFactory;
 
 		/// <summary>
-		/// The <see cref="IByondTopicSender"/> for the <see cref="ExperimentalWatchdog"/>
-		/// </summary>
-		readonly IByondTopicSender byondTopicSender;
-
-		/// <summary>
-		/// The <see cref="IEventConsumer"/> for the <see cref="ExperimentalWatchdog"/>
-		/// </summary>
-		readonly IEventConsumer eventConsumer;
-
-		/// <summary>
-		/// The <see cref="IJobManager"/> for the <see cref="ExperimentalWatchdog"/>
+		/// The <see cref="IJobManager"/> for the <see cref="WatchdogBase"/>.
 		/// </summary>
 		readonly IJobManager jobManager;
 
 		/// <summary>
-		/// The <see cref="IRestartRegistration"/> for the <see cref="ExperimentalWatchdog"/>
+		/// The <see cref="IRestartRegistration"/> for the <see cref="WatchdogBase"/>.
 		/// </summary>
 		readonly IRestartRegistration restartRegistration;
 
@@ -150,8 +138,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="dmbFactory">The value of <see cref="DmbFactory"/></param>
 		/// <param name="reattachInfoHandler">The value of <see cref="reattachInfoHandler"/></param>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
-		/// <param name="byondTopicSender">The value of <see cref="byondTopicSender"/></param>
-		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> to populate <see cref="restartRegistration"/> with</param>
 		/// <param name="asyncDelayer">The value of <see cref="AsyncDelayer"/>.</param>
@@ -165,8 +151,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IDmbFactory dmbFactory,
 			IReattachInfoHandler reattachInfoHandler,
 			IDatabaseContextFactory databaseContextFactory,
-			IByondTopicSender byondTopicSender,
-			IEventConsumer eventConsumer,
 			IJobManager jobManager,
 			IServerControl serverControl,
 			IAsyncDelayer asyncDelayer,
@@ -178,12 +162,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			Chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			SessionControllerFactory = sessionControllerFactory ?? throw new ArgumentNullException(nameof(sessionControllerFactory));
 			DmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
-			AsyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.reattachInfoHandler = reattachInfoHandler ?? throw new ArgumentNullException(nameof(reattachInfoHandler));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
-			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
-			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
+			AsyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			ActiveLaunchParameters = initialLaunchParameters ?? throw new ArgumentNullException(nameof(initialLaunchParameters));
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
@@ -216,8 +198,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			Semaphore.Dispose();
 			restartRegistration.Dispose();
 			DisposeAndNullControllers();
-
-			Debug.Assert(monitorCts == null, "Expected monitorCts to be null!");
 			monitorCts?.Dispose();
 		}
 
@@ -236,8 +216,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			{
 				var chatTask = announce ? Chat.SendWatchdogMessage("Terminating...", cancellationToken) : Task.CompletedTask;
 				await StopMonitor().ConfigureAwait(false);
+
 				DisposeAndNullControllers();
+
 				LastLaunchParameters = null;
+
 				await chatTask.ConfigureAwait(false);
 				return;
 			}
@@ -258,7 +241,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		protected async Task LaunchImplNoLock(bool startMonitor, bool announce, WatchdogReattachInformation reattachInfo, CancellationToken cancellationToken)
 		{
-			Logger.LogTrace("Begin LaunchNoLock");
+			Logger.LogTrace("Begin LaunchImplNoLock");
 
 			if (Running)
 				throw new JobException(ErrorCode.WatchdogRunning);
@@ -341,11 +324,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (monitorTask == null)
 				return false;
 			monitorCts.Cancel();
+			var wasRunning = !monitorTask.IsCompleted;
 			await monitorTask.ConfigureAwait(false);
 			monitorCts.Dispose();
 			monitorTask = null;
 			monitorCts = null;
-			return true;
+			return wasRunning;
 		}
 
 		/// <summary>
@@ -450,6 +434,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var notification = new EventNotification(eventType, parameters);
 
 				var activeServer = GetActiveController();
+
+				// Server may have ended
+				if (activeServer == null)
+					return true;
+
 				result = await activeServer.SendCommand(
 					new TopicParameters(notification),
 					cancellationToken)
@@ -496,7 +485,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return commandResult?.CommandResponseMessage ??
 					(commandResult == null
 						? "ERROR: Bad topic exchange!"
-						: "ERROR: Bad DMAPI response!");
+						: "TGS: Command processed but no DMAPI response returned!");
 			}
 		}
 
@@ -508,7 +497,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async Task ResetRebootState(CancellationToken cancellationToken)
+		public virtual async Task ResetRebootState(CancellationToken cancellationToken)
 		{
 			using (await SemaphoreSlimContext.Lock(Semaphore, cancellationToken).ConfigureAwait(false))
 			{
@@ -516,7 +505,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					return;
 				var toClear = GetActiveController();
 				if (toClear != null)
-					toClear.ResetRebootState();
+					await toClear.SetRebootState(Watchdog.RebootState.Normal, cancellationToken).ConfigureAwait(false);
 			}
 		}
 

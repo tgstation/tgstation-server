@@ -90,7 +90,14 @@ namespace Tgstation.Server.Host.Components.Byond
 			{
 				var configPath = IOManager.ConcatPath(path, ByondConfigDir);
 				await IOManager.CreateDirectory(configPath, cancellationToken).ConfigureAwait(false);
-				await IOManager.WriteAllBytes(IOManager.ConcatPath(configPath, ByondDDConfig), Encoding.UTF8.GetBytes(ByondNoPromptTrustedMode), cancellationToken).ConfigureAwait(false);
+
+				var configFilePath = IOManager.ConcatPath(configPath, ByondDDConfig);
+				Logger.LogTrace("Disabling trusted prompts in {0}...", configFilePath);
+				await IOManager.WriteAllBytes(
+					configFilePath,
+					Encoding.UTF8.GetBytes(ByondNoPromptTrustedMode),
+					cancellationToken)
+					.ConfigureAwait(false);
 			}
 
 			var setNoPromptTrustedModeTask = SetNoPromptTrusted();
@@ -103,6 +110,8 @@ namespace Tgstation.Server.Host.Components.Byond
 					if (!installedDirectX)
 					{
 						// ^check again because race conditions
+						Logger.LogTrace("Installing DirectX redistributable...");
+
 						// always install it, it's pretty fast and will do better redundancy checking than us
 						var rbdx = IOManager.ConcatPath(path, ByondDXDir);
 

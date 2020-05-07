@@ -31,7 +31,7 @@ namespace Tgstation.Server.Tests
 			Name = "TestInstance-" + ++counter,
 			Path = Path.Combine(testRootPath, Guid.NewGuid().ToString()),
 			Online = true,
-			ChatBotLimit = 1
+			ChatBotLimit = 2
 		}, cancellationToken);
 
 		public async Task Run(CancellationToken cancellationToken)

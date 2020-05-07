@@ -124,9 +124,10 @@ namespace Tgstation.Server.Host.IO
 		/// </summary>
 		/// <param name="path">The directory which contains the files</param>
 		/// <param name="extension">The extension to look for without the preceeding "."</param>
+		/// <param name="recursive">If the search should be recursive.</param>
 		/// <param name="cancellationToken">A <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> resulting in a list of paths to files in <paramref name="path"/> with the given <paramref name="extension"/></returns>
-		Task<List<string>> GetFilesWithExtension(string path, string extension, CancellationToken cancellationToken);
+		Task<List<string>> GetFilesWithExtension(string path, string extension, bool recursive, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Deletes a file at <paramref name="path"/>

@@ -140,6 +140,8 @@ namespace Tgstation.Server.Host.Components.Byond
 					cancellationToken.ThrowIfCancellationRequested();
 					return;
 				}
+			else
+				logger.LogDebug("Requested BYOND version {0} not currently installed. Doing so now...");
 
 			// okay up to us to install it then
 			try
@@ -153,8 +155,11 @@ namespace Tgstation.Server.Host.Components.Byond
 				try
 				{
 					var download = await downloadTask.ConfigureAwait(false);
-					await ioManager.ZipToDirectory(versionKey, download, cancellationToken).ConfigureAwait(false);
-					await byondInstaller.InstallByond(ioManager.ResolvePath(versionKey), version, cancellationToken).ConfigureAwait(false);
+
+					var extractPath = ioManager.ResolvePath(versionKey);
+					logger.LogTrace("Extracting downloaded BYOND zip to {0}...", extractPath);
+					await ioManager.ZipToDirectory(extractPath, download, cancellationToken).ConfigureAwait(false);
+					await byondInstaller.InstallByond(extractPath, version, cancellationToken).ConfigureAwait(false);
 
 					// make sure to do this last because this is what tells us we have a valid version in the future
 					await ioManager.WriteAllBytes(ioManager.ConcatPath(versionKey, VersionFileName), Encoding.UTF8.GetBytes(version.ToString()), cancellationToken).ConfigureAwait(false);
@@ -213,6 +218,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			var versionKey = VersionKey(versionToUse);
 			var binPathForVersion = ioManager.ConcatPath(versionKey, BinPath);
 
+			logger.LogTrace("Creating ByondExecutableLock lock for version {0}", requiredVersion);
 			return new ByondExecutableLock(
 				ioManager,
 				semaphore,
@@ -251,15 +257,15 @@ namespace Tgstation.Server.Host.Components.Byond
 				localCfgDirectory,
 				cancellationToken).ConfigureAwait(false);
 
-			// No need to do this on dev machines
-#if !DEBUG
 			// Delete trusted.txt so it doesn't grow too large
-			await ioManager.DeleteFile(
+			var trustedFilePath =
 				ioManager.ConcatPath(
 					localCfgDirectory,
-					TrustedDmbFileName),
+					TrustedDmbFileName);
+			logger.LogTrace("Deleting trusted .dmbs file {0}", trustedFilePath);
+			await ioManager.DeleteFile(
+				trustedFilePath,
 				cancellationToken).ConfigureAwait(false);
-#endif
 
 			var byondDirectory = ioManager.ResolvePath();
 			await ioManager.CreateDirectory(byondDirectory, cancellationToken).ConfigureAwait(false);
@@ -283,6 +289,7 @@ namespace Tgstation.Server.Host.Components.Byond
 					lock (installedVersions)
 						if (!installedVersions.ContainsKey(key))
 						{
+							logger.LogDebug("Adding detected BYOND version {0}...", key);
 							installedVersions.Add(key, Task.CompletedTask);
 							return;
 						}
@@ -297,10 +304,16 @@ namespace Tgstation.Server.Host.Components.Byond
 			if (activeVersionBytes != null)
 			{
 				var activeVersionString = Encoding.UTF8.GetString(activeVersionBytes);
-				if (Version.TryParse(activeVersionString, out var activeVersion))
+				bool hasRequestedActiveVersion;
+				lock (installedVersions)
+					hasRequestedActiveVersion = installedVersions.ContainsKey(activeVersionString);
+				if (hasRequestedActiveVersion && Version.TryParse(activeVersionString, out var activeVersion))
 					ActiveVersion = activeVersion.Semver();
 				else
+				{
+					logger.LogWarning("Failed to load saved active version {0}!", activeVersionString);
 					await ioManager.DeleteFile(ActiveVersionFileName, cancellationToken).ConfigureAwait(false);
+				}
 			}
 		}
 

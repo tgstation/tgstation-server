@@ -35,8 +35,14 @@ namespace Tgstation.Server.Tests
 		{
 			this.serverClientFactory = serverClientFactory;
 
-			Directory = Path.GetTempFileName();
-			File.Delete(Directory);
+			Directory = Environment.GetEnvironmentVariable("TGS4_TEST_TEMP_DIRECTORY");
+			if (String.IsNullOrWhiteSpace(Directory))
+			{
+				Directory = Path.GetTempFileName();
+				File.Delete(Directory);
+				Directory = Directory.Replace(".tmp", ".tgs4");
+			}
+
 			System.IO.Directory.CreateDirectory(Directory);
 			const string UrlString = "http://localhost:5001";
 			Url = new Uri(UrlString);
@@ -120,12 +126,10 @@ namespace Tgstation.Server.Tests
 				// Dump swagger to disk
 				// This is purely for CI
 				var webRequest = WebRequest.Create(Url.ToString() + "swagger/v1/swagger.json");
-				using (var response = webRequest.GetResponse())
-				using (var content = response.GetResponseStream())
-				using (var output = new FileStream(@"C:\swagger.json", FileMode.Create))
-				{
-					await content.CopyToAsync(output);
-				}
+				using var response = webRequest.GetResponse();
+				using var content = response.GetResponseStream();
+				using var output = new FileStream(@"C:\swagger.json", FileMode.Create);
+				await content.CopyToAsync(output);
 			}
 
 			await runTask;

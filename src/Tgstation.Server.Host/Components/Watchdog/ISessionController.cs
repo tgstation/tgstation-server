@@ -93,7 +93,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		Task<bool> SetRebootState(RebootState newRebootState, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Changes <see cref="RebootState"/> to <see cref="Watchdog.RebootState.Normal"/> without telling the DMAPI
+		/// Changes <see cref="RebootState"/> to <see cref="RebootState.Normal"/> without telling the DMAPI
 		/// </summary>
 		void ResetRebootState();
 

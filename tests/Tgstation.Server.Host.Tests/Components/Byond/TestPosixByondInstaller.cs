@@ -67,8 +67,6 @@ namespace Tgstation.Server.Host.Components.Byond.Tests
 
 			await installer.InstallByond(FakePath, new Version(511, 1385), default).ConfigureAwait(false);
 
-			mockIOManager.Verify(x => x.ConcatPath(It.IsAny<string>(), It.IsNotNull<string>()), Times.Exactly(5));
-			mockIOManager.Verify(x => x.WriteAllBytes(It.IsAny<string>(), It.IsNotNull<byte[]>(), default), Times.Exactly(2));
 			mockPostWriteHandler.Verify(x => x.HandleWrite(It.IsAny<string>()), Times.Exactly(4));
 		}
 	}

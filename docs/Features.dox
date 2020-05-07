@@ -1,0 +1,40 @@
+/*!
+@page api API
+
+@section features_list New Features
+
+TGS4 has a multitude of improvements over V3:
+
+- Non proprietary API (WCF -> HTTP)
+
+Communication between client applications and TGS is now done over HTTP instead of WCF SOAP. In the past, attempts to create custom clients failed due to the complexity of the old API. The new, simple, json API should serve as a much needed improvement.
+
+- Granular access controls
+
+Almost every server action a client can take is now guarded by a robust permissions system. Coupled with built in user account management, this should provide an effective way to grant limited access to servers.
+
+- Proper long running operation support
+
+The client no longer has to wait literal minutes for a single request. Long running operations now create @ref Tgstation.Server.Api.Models.Job objects to track their progress and errors.
+
+- Concrete data backend
+
+The old save file system for instances is gone. All configuration data per instance is now stored in a relational database
+
+- Smarter repository handling
+
+The entire repository component is now much more effective in handling complex merges, automatic updates, and tracking git objects.
+
+- Linux support
+
+The framework used to create the server has been changed to dotnet 3.1. Because of this, we can now support linux hosting somewhat effectively. Note that seamless .dmb updates are still a Windows only feature for the time being.
+
+- Detailed logging
+
+We now actually have log files to reference which will greatly help with debugging.
+
+- OPTIONAL Windows FS permission integration
+
+No longer a requirement as in V3. While Windows logins are still supported for authentication and remote file manipulation (on Windows), remote file manipulation can now be done via the server's executing user.
+
+*/

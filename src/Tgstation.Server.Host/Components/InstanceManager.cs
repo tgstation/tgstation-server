@@ -66,7 +66,7 @@ namespace Tgstation.Server.Host.Components
 		readonly ILogger<InstanceManager> logger;
 
 		/// <summary>
-		/// Map of <see cref="Api.Models.Instance.Id"/>s to respective <see cref="IInstance"/>s
+		/// Map of <see cref="Api.Models.Instance.Id"/>s to respective <see cref="IInstance"/>s. Also used as a <see langword="lock"/> <see cref="object"/>.
 		/// </summary>
 		readonly IDictionary<long, IInstance> instances;
 
@@ -127,7 +127,7 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public void Dispose()
 		{
-			lock (this)
+			lock (instances)
 			{
 				if (disposed)
 					return;
@@ -143,7 +143,7 @@ namespace Tgstation.Server.Host.Components
 		{
 			if (metadata == null)
 				throw new ArgumentNullException(nameof(metadata));
-			lock (this)
+			lock (instances)
 			{
 				if (!instances.TryGetValue(metadata.Id, out IInstance instance))
 					throw new InvalidOperationException("Instance not online!");
@@ -180,7 +180,7 @@ namespace Tgstation.Server.Host.Components
 				throw new ArgumentNullException(nameof(metadata));
 			logger.LogInformation("Offlining instance ID {0}", metadata.Id);
 			IInstance instance;
-			lock (this)
+			lock (instances)
 			{
 				if (!instances.TryGetValue(metadata.Id, out instance))
 					throw new InvalidOperationException("Instance not online!");
@@ -223,7 +223,7 @@ namespace Tgstation.Server.Host.Components
 			var instance = instanceFactory.CreateInstance(this, metadata);
 			try
 			{
-				lock (this)
+				lock (instances)
 				{
 					if (instances.ContainsKey(metadata.Id))
 						throw new InvalidOperationException("Instance already online!");
@@ -309,9 +309,9 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		private void CheckSystemCompatibility()
 		{
-			using (var systemIdentity = systemIdentityFactory.GetCurrent())
-				if (!systemIdentity.CanCreateSymlinks)
-					throw new InvalidOperationException("The user running tgstation-server cannot create symlinks! Please try running as an administrative user!");
+			using var systemIdentity = systemIdentityFactory.GetCurrent();
+			if (!systemIdentity.CanCreateSymlinks)
+				throw new InvalidOperationException("The user running tgstation-server cannot create symlinks! Please try running as an administrative user!");
 		}
 
 		/// <inheritdoc />

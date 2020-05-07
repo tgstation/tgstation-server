@@ -64,7 +64,7 @@ namespace Tgstation.Server.Host.Core
 		public Application(
 			IConfiguration configuration,
 			IWebHostEnvironment hostingEnvironment)
-			: base(configuration, hostingEnvironment)
+			: base(configuration)
 		{
 			this.hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
 		}
@@ -97,63 +97,52 @@ namespace Tgstation.Server.Host.Core
 			// enable options which give us config reloading
 			services.AddOptions();
 
-			// setup file logging via serilog
-			services.AddLogging(builder =>
-			{
-				if (postSetupServices.FileLoggingConfiguration.Disable)
-					return;
+			static LogEventLevel? ConvertSeriLogLevel(LogLevel logLevel) =>
+				logLevel switch
+				{
+					LogLevel.Critical => LogEventLevel.Fatal,
+					LogLevel.Debug => LogEventLevel.Debug,
+					LogLevel.Error => LogEventLevel.Error,
+					LogLevel.Information => LogEventLevel.Information,
+					LogLevel.Trace => LogEventLevel.Verbose,
+					LogLevel.Warning => LogEventLevel.Warning,
+					LogLevel.None => null,
+					_ => throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid log level {0}", logLevel)),
+				};
 
-				// common app data is C:/ProgramData on windows, else /usr/share
-				var logPath = !String.IsNullOrEmpty(postSetupServices.FileLoggingConfiguration.Directory)
-					? postSetupServices.FileLoggingConfiguration.Directory
-					: IOManager.ConcatPath(
-				Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
-				"tgstation-server",
-				"Logs");
+			var microsoftEventLevel = ConvertSeriLogLevel(postSetupServices.FileLoggingConfiguration.MicrosoftLogLevel);
+			services.SetupLogging(
+				config =>
+				{
+					if (microsoftEventLevel.HasValue)
+						config.MinimumLevel.Override("Microsoft", microsoftEventLevel.Value);
+				},
+				sinkConfig =>
+				{
+					if (postSetupServices.FileLoggingConfiguration.Disable)
+						return;
 
-				logPath = IOManager.ConcatPath(logPath, "tgs-{Date}.log");
+					// common app data is C:/ProgramData on windows, else /usr/share
+					var logPath = !String.IsNullOrEmpty(postSetupServices.FileLoggingConfiguration.Directory)
+						? postSetupServices.FileLoggingConfiguration.Directory
+						: IOManager.ConcatPath(
+					Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+					AssemblyInformationProvider.VersionPrefix,
+					"Logs");
 
-				static LogEventLevel? ConvertLogLevel(LogLevel logLevel) =>
-					logLevel switch
-					{
-						LogLevel.Critical => LogEventLevel.Fatal,
-						LogLevel.Debug => LogEventLevel.Debug,
-						LogLevel.Error => LogEventLevel.Error,
-						LogLevel.Information => LogEventLevel.Information,
-						LogLevel.Trace => LogEventLevel.Verbose,
-						LogLevel.Warning => LogEventLevel.Warning,
-						LogLevel.None => null,
-						_ => throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid log level {0}", logLevel)),
-					};
+					var logEventLevel = ConvertSeriLogLevel(postSetupServices.FileLoggingConfiguration.LogLevel);
 
-				var logEventLevel = ConvertLogLevel(postSetupServices.FileLoggingConfiguration.LogLevel);
-				var microsoftEventLevel = ConvertLogLevel(postSetupServices.FileLoggingConfiguration.MicrosoftLogLevel);
+					var formatter = new MessageTemplateTextFormatter(
+						"{Timestamp:o} {RequestId,13} [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}",
+						null);
 
-				var formatter = new MessageTemplateTextFormatter(
-					"{Timestamp:o} {RequestId,13} [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}",
-					null);
-
-				var configuration = new LoggerConfiguration()
-					.Enrich
-					.FromLogContext()
-					.WriteTo
-					.Async(
-						w => w.RollingFile(
-							formatter,
-							logPath,
-							shared: true,
-							flushToDiskInterval: TimeSpan.FromSeconds(2)));
-
-				if (logEventLevel.HasValue)
-					configuration.MinimumLevel.Is(logEventLevel.Value);
-
-				if (microsoftEventLevel.HasValue)
-					configuration.MinimumLevel.Override("Microsoft", microsoftEventLevel.Value);
-
-				builder.AddSerilog(configuration.CreateLogger(), true);
-			});
-
-			services.RemoveEventLogging();
+					logPath = IOManager.ConcatPath(logPath, "tgs-{Date}.log");
+					var rollingFileConfig = sinkConfig.RollingFile(
+						formatter,
+						logPath,
+						logEventLevel ?? LogEventLevel.Verbose,
+						flushToDiskInterval: TimeSpan.FromSeconds(2));
+				});
 
 			// configure bearer token validation
 			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(jwtBearerOptions =>
@@ -197,7 +186,7 @@ namespace Tgstation.Server.Host.Core
 
 			if (hostingEnvironment.IsDevelopment())
 			{
-				string GetDocumentationFilePath(string assemblyLocation) => IOManager.ConcatPath(IOManager.GetDirectoryName(assemblyLocation), String.Concat(IOManager.GetFileNameWithoutExtension(assemblyLocation), ".xml"));
+				static string GetDocumentationFilePath(string assemblyLocation) => IOManager.ConcatPath(IOManager.GetDirectoryName(assemblyLocation), String.Concat(IOManager.GetFileNameWithoutExtension(assemblyLocation), ".xml"));
 				var assemblyDocumentationPath = GetDocumentationFilePath(typeof(Application).Assembly.Location);
 				var apiDocumentationPath = GetDocumentationFilePath(typeof(ApiHeaders).Assembly.Location);
 				services.AddSwaggerGen(genOptions => SwaggerConfiguration.Configure(genOptions, assemblyDocumentationPath, apiDocumentationPath));
@@ -282,7 +271,8 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
 			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
-			services.AddSingleton<IByondTopicSender>(new ByondTopicSender
+			services.AddSingleton<ITopicClient, TopicClient>();
+			services.AddSingleton(new SocketParameters
 			{
 				ReceiveTimeout = postSetupServices.GeneralConfiguration.ByondTopicTimeout,
 				SendTimeout = postSetupServices.GeneralConfiguration.ByondTopicTimeout
@@ -363,10 +353,6 @@ namespace Tgstation.Server.Host.Core
 				using (applicationLifetime.ApplicationStarted.Register(() => tcs.SetResult(null)))
 					await tcs.Task.ConfigureAwait(false);
 			});
-
-			// should anything after this throw an exception, catch it and display a detailed html page
-			if (hostingEnvironment.IsDevelopment())
-				applicationBuilder.UseDeveloperExceptionPage(); // it is not worth it to limit this, you should only ever get it if you're an authorized user
 
 			// suppress OperationCancelledExceptions, they are just aborted HTTP requests
 			applicationBuilder.UseCancelledRequestSuppression();

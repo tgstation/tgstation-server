@@ -237,8 +237,13 @@ namespace Tgstation.Server.Host.Components.Chat
 						if (!enumerable.Any())
 						{
 							ulong newId;
-							lock (this)
+							lock (synchronizationLock)
 								newId = channelIdCounter++;
+							logger.LogTrace(
+								"Mapping private channel {0}:{1} as {2}",
+								message.User.Channel.ConnectionName,
+								message.User.FriendlyName,
+								newId);
 							mappedChannels.Add(newId, new ChannelMapping
 							{
 								IsWatchdogChannel = false,
@@ -263,7 +268,7 @@ namespace Tgstation.Server.Host.Components.Chat
 
 			var splits = new List<string>(message.Content.Trim().Split(' '));
 			var address = splits[0];
-			if (address.Length > 1 && (address[address.Length - 1] == ':' || address[address.Length - 1] == ','))
+			if (address.Length > 1 && (address.Last() == ':' || address.Last() == ','))
 				address = address[0..^1];
 
 			address = address.ToUpperInvariant();
@@ -468,6 +473,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				foreach (var I in mappings)
 				{
 					var newId = baseId++;
+					logger.LogTrace("Mapping channel {0}:{1} as {2}", I.Channel.ConnectionName, I.Channel.FriendlyName, newId);
 					mappedChannels.Add(newId, I);
 					I.Channel.RealId = newId;
 				}
@@ -573,6 +579,8 @@ namespace Tgstation.Server.Host.Components.Chat
 			if (channelIds == null)
 				throw new ArgumentNullException(nameof(channelIds));
 
+			logger.LogTrace("Chat send \"{0}\" to channels: {1}", message, String.Join(", ", channelIds));
+
 			return Task.WhenAll(channelIds.Select(x =>
 			{
 				ChannelMapping channelMapping;
@@ -637,6 +645,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			IChatTrackingContext context = null;
 			lock (mappedChannels)
 				context = new ChatTrackingContext(
+					customCommandHandler,
 					mappedChannels.Select(y => y.Value.Channel),
 					loggerFactory.CreateLogger<ChatTrackingContext>(),
 					() =>

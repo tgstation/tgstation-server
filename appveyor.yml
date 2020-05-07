@@ -2,6 +2,7 @@ version: '{build}'
 pull_requests:
   do_not_increment_build_number: true
 environment:
+  TGS4_TEST_TEMP_DIRECTORY: C:/tgs4_test
   TGS4_TEST_DATABASE_TYPE: SqlServer
   TGS4_TEST_DUMP_API_SPEC: yes
   TGS4_TEST_CONNECTION_STRING: Server=(local)\SQL2017;Initial Catalog=TGS_Test;User ID=sa;Password=Password12!
@@ -10,6 +11,9 @@ environment:
   TGS4_TEST_DISCORD_TOKEN:
     secure: 5ENtMfhHDI6SOgZ9nP7oHX//nZ1w5cYSk3a17MO54+jmcZwEtwZPB4XvVKgtY2xIacjp96ZWNnQgIyfRHvnHSg==
   TGS4_TEST_DISCORD_CHANNEL: 493119635319947269
+  TGS4_TEST_IRC_CONNECTION_STRING:
+    secure: ralERi6QrigvQYZWkLruZGP37RwuadDIkocs+gvT5OcOMUlBODExyI9FPss3HtGx
+  TGS4_TEST_IRC_CHANNEL: \#botbus
   TGS4_RELEASE_NOTES_TOKEN:
     secure: lJNGAXwiB5HlWdthz3K4PetqpTG5IEAyRgKaiKxFMQ8HW8CcOjRtB97B05op7BsK
 
