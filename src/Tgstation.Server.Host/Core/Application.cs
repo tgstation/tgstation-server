@@ -64,7 +64,7 @@ namespace Tgstation.Server.Host.Core
 		public Application(
 			IConfiguration configuration,
 			IWebHostEnvironment hostingEnvironment)
-			: base(configuration, hostingEnvironment)
+			: base(configuration)
 		{
 			this.hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
 		}
@@ -97,63 +97,52 @@ namespace Tgstation.Server.Host.Core
 			// enable options which give us config reloading
 			services.AddOptions();
 
-			// setup file logging via serilog
-			services.AddLogging(builder =>
-			{
-				if (postSetupServices.FileLoggingConfiguration.Disable)
-					return;
+			static LogEventLevel? ConvertSeriLogLevel(LogLevel logLevel) =>
+				logLevel switch
+				{
+					LogLevel.Critical => LogEventLevel.Fatal,
+					LogLevel.Debug => LogEventLevel.Debug,
+					LogLevel.Error => LogEventLevel.Error,
+					LogLevel.Information => LogEventLevel.Information,
+					LogLevel.Trace => LogEventLevel.Verbose,
+					LogLevel.Warning => LogEventLevel.Warning,
+					LogLevel.None => null,
+					_ => throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid log level {0}", logLevel)),
+				};
 
-				// common app data is C:/ProgramData on windows, else /usr/share
-				var logPath = !String.IsNullOrEmpty(postSetupServices.FileLoggingConfiguration.Directory)
-					? postSetupServices.FileLoggingConfiguration.Directory
-					: IOManager.ConcatPath(
-				Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
-				"tgstation-server",
-				"Logs");
+			var microsoftEventLevel = ConvertSeriLogLevel(postSetupServices.FileLoggingConfiguration.MicrosoftLogLevel);
+			services.SetupLogging(
+				config =>
+				{
+					if (microsoftEventLevel.HasValue)
+						config.MinimumLevel.Override("Microsoft", microsoftEventLevel.Value);
+				},
+				sinkConfig =>
+				{
+					if (postSetupServices.FileLoggingConfiguration.Disable)
+						return;
 
-				logPath = IOManager.ConcatPath(logPath, "tgs-{Date}.log");
+					// common app data is C:/ProgramData on windows, else /usr/share
+					var logPath = !String.IsNullOrEmpty(postSetupServices.FileLoggingConfiguration.Directory)
+						? postSetupServices.FileLoggingConfiguration.Directory
+						: IOManager.ConcatPath(
+					Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+					AssemblyInformationProvider.VersionPrefix,
+					"Logs");
 
-				static LogEventLevel? ConvertLogLevel(LogLevel logLevel) =>
-					logLevel switch
-					{
-						LogLevel.Critical => LogEventLevel.Fatal,
-						LogLevel.Debug => LogEventLevel.Debug,
-						LogLevel.Error => LogEventLevel.Error,
-						LogLevel.Information => LogEventLevel.Information,
-						LogLevel.Trace => LogEventLevel.Verbose,
-						LogLevel.Warning => LogEventLevel.Warning,
-						LogLevel.None => null,
-						_ => throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid log level {0}", logLevel)),
-					};
+					var logEventLevel = ConvertSeriLogLevel(postSetupServices.FileLoggingConfiguration.LogLevel);
 
-				var logEventLevel = ConvertLogLevel(postSetupServices.FileLoggingConfiguration.LogLevel);
-				var microsoftEventLevel = ConvertLogLevel(postSetupServices.FileLoggingConfiguration.MicrosoftLogLevel);
+					var formatter = new MessageTemplateTextFormatter(
+						"{Timestamp:o} {RequestId,13} [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}",
+						null);
 
-				var formatter = new MessageTemplateTextFormatter(
-					"{Timestamp:o} {RequestId,13} [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}",
-					null);
-
-				var configuration = new LoggerConfiguration()
-					.Enrich
-					.FromLogContext()
-					.WriteTo
-					.Async(
-						w => w.RollingFile(
-							formatter,
-							logPath,
-							shared: true,
-							flushToDiskInterval: TimeSpan.FromSeconds(2)));
-
-				if (logEventLevel.HasValue)
-					configuration.MinimumLevel.Is(logEventLevel.Value);
-
-				if (microsoftEventLevel.HasValue)
-					configuration.MinimumLevel.Override("Microsoft", microsoftEventLevel.Value);
-
-				builder.AddSerilog(configuration.CreateLogger(), true);
-			});
-
-			services.RemoveEventLogging();
+					logPath = IOManager.ConcatPath(logPath, "tgs-{Date}.log");
+					var rollingFileConfig = sinkConfig.RollingFile(
+						formatter,
+						logPath,
+						logEventLevel ?? LogEventLevel.Verbose,
+						flushToDiskInterval: TimeSpan.FromSeconds(2));
+				});
 
 			// configure bearer token validation
 			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(jwtBearerOptions =>
