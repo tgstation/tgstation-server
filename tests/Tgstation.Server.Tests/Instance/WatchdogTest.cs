@@ -183,7 +183,7 @@ namespace Tgstation.Server.Tests.Instance
 			var result = await bts.SendTopic(IPAddress.Loopback, "tgs_integration_test_special_tactics=1", 1337, cancellationToken);
 			Assert.AreEqual("ack", result);
 
-			await Task.Delay(6000, cancellationToken);
+			await Task.Delay(7000, cancellationToken);
 		}
 
 		async Task<DreamDaemon> DeployTestDme(string dmeName, DreamDaemonSecurity deploymentSecurity, CancellationToken cancellationToken)
