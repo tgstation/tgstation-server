@@ -87,8 +87,8 @@ namespace Tgstation.Server.Host.Controllers
 			if (countOfExistingBotsInInstance >= Instance.ChatBotLimit.Value)
 				return Conflict(new ErrorMessage(ErrorCode.ChatBotMax));
 
-			model.Enabled = model.Enabled ?? false;
-			model.ReconnectionInterval = model.ReconnectionInterval ?? 1;
+			model.Enabled ??= false;
+			model.ReconnectionInterval ??= 1;
 
 			// try to update das db first
 			var dbModel = new Models.ChatBot
@@ -264,6 +264,7 @@ namespace Tgstation.Server.Host.Controllers
 				|| CheckModified(x => x.Name, ChatBotRights.WriteName)
 				|| CheckModified(x => x.Provider, ChatBotRights.WriteProvider)
 				|| CheckModified(x => x.ReconnectionInterval, ChatBotRights.WriteReconnectionInterval)
+				|| CheckModified(x => x.ChannelLimit, ChatBotRights.WriteChannelLimit)
 				|| (model.Channels != null && !userRights.HasFlag(ChatBotRights.WriteChannels)))
 				return Forbid();
 
@@ -329,7 +330,7 @@ namespace Tgstation.Server.Host.Controllers
 				return BadRequest(new ErrorMessage(ErrorCode.ChatBotMaxChannels));
 
 			if (forCreation)
-				model.ChannelLimit = model.ChannelLimit ?? (ushort)defaultMaxChannels;
+				model.ChannelLimit ??= (ushort)defaultMaxChannels;
 
 			return null;
 		}
