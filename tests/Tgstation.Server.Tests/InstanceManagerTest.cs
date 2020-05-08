@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Client;
 using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Tests.Instance;
@@ -14,13 +15,15 @@ namespace Tgstation.Server.Tests
 	sealed class InstanceManagerTest
 	{
 		readonly IInstanceManagerClient instanceManagerClient;
+		readonly IUsersClient usersClient;
 		readonly string testRootPath;
 
 		long counter;
 
-		public InstanceManagerTest(IInstanceManagerClient instanceManagerClient, string testRootPath)
+		public InstanceManagerTest(IInstanceManagerClient instanceManagerClient, IUsersClient usersClient, string testRootPath)
 		{
 			this.instanceManagerClient = instanceManagerClient ?? throw new ArgumentNullException(nameof(instanceManagerClient));
+			this.usersClient = usersClient ?? throw new ArgumentNullException(nameof(usersClient));
 			this.testRootPath = testRootPath ?? throw new ArgumentNullException(nameof(testRootPath));
 
 			counter = 0;
@@ -110,7 +113,7 @@ namespace Tgstation.Server.Tests
 				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false);
 			} while (firstTest.MoveJob != null);
 
-			
+
 			//online it for real for component tests
 			firstTest.Online = true;
 			firstTest.ConfigurationType = ConfigurationType.HostWrite;
@@ -152,9 +155,24 @@ namespace Tgstation.Server.Tests
 			var instanceAttachFileName = (string)typeof(InstanceController).GetField("InstanceAttachFileName", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
 			var attachPath = Path.Combine(firstTest.Path, instanceAttachFileName);
 			Assert.IsTrue(File.Exists(attachPath));
-			
+
 			//can recreate detached instance
 			firstTest = await instanceManagerClient.CreateOrAttach(firstTest, cancellationToken).ConfigureAwait(false);
+
+			// Test updating only with SetChatBotLimit works
+			var current = await usersClient.Read(cancellationToken);
+			var update = new UserUpdate
+			{
+				Id = current.Id,
+				InstanceManagerRights = InstanceManagerRights.SetChatBotLimit
+			};
+			await usersClient.Update(update, cancellationToken);
+			firstTest.ChatBotLimit = 77;
+			var newThing = await instanceManagerClient.Update(firstTest, cancellationToken);
+			Assert.AreEqual(77, newThing.ChatBotLimit);
+
+			update.InstanceManagerRights |= InstanceManagerRights.Delete;
+			await usersClient.Update(update, cancellationToken);
 
 			//but only if the attach file exists
 			await instanceManagerClient.Detach(firstTest, cancellationToken).ConfigureAwait(false);

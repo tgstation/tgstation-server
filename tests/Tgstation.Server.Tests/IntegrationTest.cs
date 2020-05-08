@@ -123,7 +123,7 @@ namespace Tgstation.Server.Tests
 						}
 					} while (true);
 
-					var testUpdateVersion = new Version(4, 0, 0, 6);
+					var testUpdateVersion = new Version(4, 1, 0);
 					using (adminClient)
 						//attempt to update to stable
 						await adminClient.Administration.Update(new Administration
@@ -142,7 +142,7 @@ namespace Tgstation.Server.Tests
 					Assert.IsTrue(File.Exists(updatedAssemblyPath), "Updated assembly missing!");
 
 					var updatedAssemblyVersion = FileVersionInfo.GetVersionInfo(updatedAssemblyPath);
-					Assert.AreEqual(testUpdateVersion, Version.Parse(updatedAssemblyVersion.FileVersion));
+					Assert.AreEqual(testUpdateVersion, Version.Parse(updatedAssemblyVersion.FileVersion).Semver());
 				}
 				finally
 				{
@@ -220,7 +220,7 @@ namespace Tgstation.Server.Tests
 
 					var adminTest = new AdministrationTest(adminClient.Administration).Run(cancellationToken);
 					var usersTest = new UsersTest(adminClient.Users).Run(cancellationToken);
-					await new InstanceManagerTest(adminClient.Instances, server.Directory).Run(cancellationToken).ConfigureAwait(false);
+					await new InstanceManagerTest(adminClient.Instances, adminClient.Users, server.Directory).Run(cancellationToken).ConfigureAwait(false);
 
 					await adminTest.ConfigureAwait(false);
 					await usersTest.ConfigureAwait(false);
