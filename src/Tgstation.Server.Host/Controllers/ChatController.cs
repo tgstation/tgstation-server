@@ -264,6 +264,7 @@ namespace Tgstation.Server.Host.Controllers
 				|| CheckModified(x => x.Name, ChatBotRights.WriteName)
 				|| CheckModified(x => x.Provider, ChatBotRights.WriteProvider)
 				|| CheckModified(x => x.ReconnectionInterval, ChatBotRights.WriteReconnectionInterval)
+				|| CheckModified(x => x.ChannelLimit, ChatBotRights.WriteChannelLimit)
 				|| (model.Channels != null && !userRights.HasFlag(ChatBotRights.WriteChannels)))
 				return Forbid();
 
