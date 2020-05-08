@@ -189,7 +189,7 @@ namespace ReleaseNotes
 						continue;
 					}
 
-					if (currentReleaseVersion.Major == releasingSuite && (highestReleaseVersion == null || currentReleaseVersion > highestReleaseVersion))
+					if (currentReleaseVersion.Major == releasingSuite && (highestReleaseVersion == null || currentReleaseVersion > highestReleaseVersion) && version != currentReleaseVersion)
 					{
 						highestReleaseVersion = currentReleaseVersion;
 						highestRelease = I;
@@ -208,13 +208,10 @@ namespace ReleaseNotes
 				//trim away all the lines that don't start with #
 
 				string keepThisRelease;
-				if (version.Major != 4 && version.Revision == 0)
-					if (version.Build == 0)
-						keepThisRelease = "# ";
-					else
-						keepThisRelease = "## ";
+				if (version.Build == 0)
+					keepThisRelease = "# ";
 				else
-					keepThisRelease = "### ";
+					keepThisRelease = "## ";
 
 				for (; !splits[0].StartsWith(keepThisRelease, StringComparison.Ordinal); splits.RemoveAt(0))
 					if (splits.Count == 1)
