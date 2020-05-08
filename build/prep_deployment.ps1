@@ -24,19 +24,19 @@ if (($env:CONFIGURATION -match "Release") -And ($env:APPVEYOR_REPO_BRANCH -match
     }
 }
 
-if (($env:CONFIGURATION -match "Release")-And ($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[APIDeploy\]")) {
+if (($env:CONFIGURATION -match "Release") -And ($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[APIDeploy\]")) {
     Write-Host "Deploying API..."
     $env:APIDeploy = "Do it." 
     $env:APIReleaseNotes = "# tgstation-server 4 API v$env:APIVersion"
 }
 
-if (($env:CONFIGURATION -match "Release")-And ($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[DMDeploy\]")) {
+if (($env:CONFIGURATION -match "Release") -And ($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[DMDeploy\]")) {
     Write-Host "Deploying DMAPI..."
     $env:DMDeploy = "Do it." 
     $env:DMReleaseNotes = "# tgstation-server 4 DMAPI v$env:DMReleaseNotes"
 }
     
-if (($env:APPVEYOR_REPO_BRANCH -match "master") -And ($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[NugetDeploy\]")) {
+if (($env:CONFIGURATION -match "Release") -And ($env:APPVEYOR_REPO_COMMIT_MESSAGE -match "\[NugetDeploy\]")) {
     $env:NugetDeploy = "Do it."
     Write-Host "Nuget deployment enabled"
 }  
