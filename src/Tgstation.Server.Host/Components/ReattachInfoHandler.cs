@@ -113,8 +113,12 @@ namespace Tgstation.Server.Host.Components
 				return null;
 			}
 
-			var bravoDmbTask = dmbFactory.FromCompileJob(result.Bravo.CompileJob, cancellationToken);
-			var info = new WatchdogReattachInformation(result, await dmbFactory.FromCompileJob(result.Alpha.CompileJob, cancellationToken).ConfigureAwait(false), await bravoDmbTask.ConfigureAwait(false));
+			Task<IDmbProvider> GetDmbForReattachInfo(Models.ReattachInformation reattachInformation) => reattachInformation != null
+				? dmbFactory.FromCompileJob(reattachInformation.CompileJob, cancellationToken)
+				: Task.FromResult<IDmbProvider>(null);
+
+			var bravoDmbTask = GetDmbForReattachInfo(result.Bravo);
+			var info = new WatchdogReattachInformation(result, await GetDmbForReattachInfo(result.Alpha).ConfigureAwait(false), await bravoDmbTask.ConfigureAwait(false));
 			logger.LogDebug("Reattach information loaded: {0}", info);
 			return info;
 		}
