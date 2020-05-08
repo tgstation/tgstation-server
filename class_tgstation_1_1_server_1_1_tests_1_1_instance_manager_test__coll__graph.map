@@ -1,6 +1,7 @@
 <map id="Tgstation.Server.Tests.InstanceManagerTest" name="Tgstation.Server.Tests.InstanceManagerTest">
-<area shape="rect" id="node1" title=" " alt="" coords="69,109,273,151"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,13,112,39"/>
-<area shape="rect" id="node3" title=" " alt="" coords="147,13,194,39"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html" title="For managing Instances" alt="" coords="219,5,376,47"/>
+<area shape="rect" id="node1" title=" " alt="" coords="348,89,552,131"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_users_client.html" title="For managing Users" alt="" coords="6,5,162,47"/>
+<area shape="rect" id="node3" title=" " alt="" coords="31,71,137,98"/>
+<area shape="rect" id="node4" title=" " alt="" coords="61,122,107,149"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html" title="For managing Instances" alt="" coords="5,173,163,215"/>
 </map>
