@@ -1,24 +1,20 @@
 ﻿using System;
-using System.Net;
+using System.Net.Http;
 using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Client
 {
 	/// <summary>
-	/// Occurs when the server returns an unknown response
+	/// Occurs when the server returns a bad request response if the <see cref="ApiException.ErrorCode"/> is present. The server returned an unknown reponse otherwise.
 	/// </summary>
-	public sealed class ApiConflictException : ClientException
+	public sealed class ApiConflictException : ApiException
 	{
 		/// <summary>
 		/// Construct an <see cref="ApiConflictException"/> using an <paramref name="errorMessage"/>
 		/// </summary>
-		/// <param name="errorMessage">The <see cref="ErrorMessage"/> for the <see cref="ClientException"/></param>
-		/// <param name="statusCode">The <see cref="HttpStatusCode"/> for the <see cref="ClientException"/></param>
-		public ApiConflictException(ErrorMessage errorMessage, HttpStatusCode statusCode) : base(errorMessage ?? new ErrorMessage
-		{
-			Message = "An unknown API error occurred!",
-			SeverApiVersion = null
-		}, statusCode)
+		/// <param name="errorMessage">The <see cref="ErrorMessage"/> for the <see cref="ApiException"/></param>
+		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/> for the <see cref="ClientException"/></param>
+		public ApiConflictException(ErrorMessage errorMessage, HttpResponseMessage responseMessage) : base(errorMessage, responseMessage)
 		{ }
 
 		/// <summary>

@@ -2,7 +2,7 @@
 
 [![Build status](https://ci.appveyor.com/api/projects/status/7t1h7bvuha0p9j5f/branch/master?svg=true)](https://ci.appveyor.com/project/Cyberboss/tgstation-server-tools/branch/master) [![Build Status](https://travis-ci.org/tgstation/tgstation-server.svg?branch=master)](https://travis-ci.org/tgstation/tgstation-server) [![codecov](https://codecov.io/gh/tgstation/tgstation-server/branch/master/graph/badge.svg)](https://codecov.io/gh/tgstation/tgstation-server)
 
-[![GitHub license](https://img.shields.io/github/license/tgstation/tgstation-server.svg)](https://github.com/tgstation/tgstation-server/blob/master/LICENSE) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/tgstation/tgstation-server.svg)](http://isitmaintained.com/project/tgstation/tgstation-server "Average time to resolve an issue") [![NuGet version](https://img.shields.io/nuget/v/Tgstation.Server.Api.svg)](https://www.nuget.org/packages/Tgstation.Server.Api) [![NuGet version](https://img.shields.io/nuget/v/Tgstation.Server.Client.svg)](https://www.nuget.org/packages/Tgstation.Server.Client)
+[![GitHub license](https://img.shields.io/github/license/tgstation/tgstation-server.svg)](LICENSE) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/tgstation/tgstation-server.svg)](http://isitmaintained.com/project/tgstation/tgstation-server "Average time to resolve an issue") [![NuGet version](https://img.shields.io/nuget/v/Tgstation.Server.Api.svg)](https://www.nuget.org/packages/Tgstation.Server.Api) [![NuGet version](https://img.shields.io/nuget/v/Tgstation.Server.Client.svg)](https://www.nuget.org/packages/Tgstation.Server.Client)
 
 [![forthebadge](http://forthebadge.com/images/badges/made-with-c-sharp.svg)](http://forthebadge.com) [![forinfinityandbyond](https://user-images.githubusercontent.com/5211576/29499758-4efff304-85e6-11e7-8267-62919c3688a9.gif)](https://www.reddit.com/r/SS13/comments/5oplxp/what_is_the_main_problem_with_byond_as_an_engine/dclbu1a)
 
@@ -18,7 +18,7 @@ Older server versions can be found in the V# branches of this repository. Note t
 
 ### Pre-Requisites
 
-- [.NET Core Runtime (>= v2.2)](https://www.microsoft.com/net/download) If you plan to install tgstation-server as a Windows service, you should also ensure that your .NET Framework runtime version is >= v4.7.1 (Download can be found on same page). On Windows, ensure that the `dotnet` executable file is in your system's `PATH` variable (or the user's that will be running the server).
+- [.NET Core Runtime (>= v3.1)](https://www.microsoft.com/net/download) If you plan to install tgstation-server as a Windows service, you should also ensure that your .NET Framework runtime version is >= v4.7.1 (Download can be found on same page). On Windows, ensure that the `dotnet` executable file is in your system's `PATH` variable (or the user's that will be running the server).
 - A [MariaDB](https://downloads.mariadb.org/), MySQL, or [Microsoft SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=55994) database engine is required
 
 ### Installation
@@ -30,8 +30,6 @@ Older server versions can be found in the V# branches of this repository. Note t
 
 If you wish to install the TGS as a service, run `Tgstation.Server.Host.Service.exe`. It should prompt you to install it. Click `Yes` and accept a potential UAC elevation prompt and the setup wizard should run.
 
-#### REFER TO ISSUE [#798](https://github.com/tgstation/tgstation-server/issues/798) BEFORE DECIDING TO USE A LINUX DEPLOYMENT
-
 #### Linux (Native)
 
 We recommend using Docker for Linux installations, see below. The content of this parent section may be skipped if you choose to do so.
@@ -40,7 +38,7 @@ The following dependencies are required to run tgstation-server on Linux alongsi
 
 - gcc-multilib (on 64-bit systems for running BYOND)
 
-Note that tgstation-server has only ever been tested on Linux via it's [docker environment](https://github.com/tgstation/tgstation-server/blob/master/build/Dockerfile#L22). If you are having trouble with something in a native installation, or figure out a required workaround, please contact project maintainers so this documentation may be better updated.
+Note that tgstation-server has only ever been tested on Linux via it's [docker environment](build/Dockerfile#L22). If you are having trouble with something in a native installation, or figure out a required workaround, please contact project maintainers so this documentation may be better updated.
 
 #### Docker (Linux)
 
@@ -60,7 +58,7 @@ docker run \
 	-v /path/to/your/configfile/directory:/config_data \ #only if you want to use manual configuration
 	-v /path/to/store/instances:/tgs4_instances \
 	-v /path/to/your/log/folder:/tgs_logs \
-	tgstation/server #replace this with <your tag name> if you built the image locally
+	tgstation/server:<release version> #replace this with <your tag name> if you built the image locally
 ```
 with any additional options you desire (i.e. You'll have to expose more game ports in order to host more than one instance).
 
@@ -106,7 +104,7 @@ If using a MariaDB/MySQL server, our client library [recommends you set 'utf8mb4
 
 The user created for the application will need the privilege to create databases on the first run, do not create the database for it. Once the initial set of migrations is run, the create right may be revoked. The user should maintain DDL rights though for applying future migrations
 
-Note that the ratio of application installations to databases is 1:1. Do not attempt to share a database amongst multiple TGS installations. (We know SQLite would be perfect for this, but it does not handle the high level of concurrency the server uses)
+Note that the ratio of application installations to databases is 1:1. Do not attempt to share a database amongst multiple TGS installations.
 
 ### Starting
 
@@ -130,9 +128,9 @@ For the docker version run `docker stop <your container name>`
 
 ## Integrating
 
-tgstation-server 4 now REQUIRES the DMAPI to be integrated into any BYOND codebase which plans on being used by it. The integration process is a fairly simple set of code changes.
+tgstation-server 4 currently REQUIRES the DMAPI to be integrated into any BYOND codebase which plans on being used by it. The integration process is a fairly simple set of code changes.
 
-1. Copy the [DMAPI](https://github.com/tgstation/tgstation-server/tree/master/src/DMAPI) files anywhere in your code base. `tgs.dm` can be seperated from the `tgs` folder, but do not modify or move the contents of the `tgs` folder
+1. Copy the [latest release of the DMAPI](https://github.com/tgstation/tgstation-server/releases) anywhere in your code base. `tgs.dm` can be seperated from the `tgs` folder, but do not modify or move the contents of the `tgs` folder
 2. Modify your `.dme`(s) to include the `tgs.dm` and `tgs/includes.dm` files (ORDER OF APPEARANCE IS MANDATORY)
 3. Follow the instructions in `tgs.dm` to integrate the API with your codebase.
 
@@ -181,7 +179,6 @@ var/global/client_count = 0
 /client/Del()
 	..()
 	--global.client_count
-
 ```
 
 ## Remote Access
@@ -264,11 +261,11 @@ Example VirtualHost Entry
 
 ## Usage
 
-tgstation-server v4 is controlled via a RESTful HTTP json API. Documentation on this API can be found [here](https://tgstation.github.io/tgstation-server/api.html). This section serves to document the concepts of the server.
+tgstation-server v4 is controlled via a RESTful HTTP json API. Documentation on this API can be found [here](https://tgstation.github.io/tgstation-server/api.html). This section serves to document the concepts of the server. The API is versioned separately from the release version. A specification for it can be found in the api-vX.X.X git releases/tags.
 
 ### Users
 
-All actions apart from logging in must be taken by a user. TGS installs with one default user whose credentials can be found [here](https://github.com/tgstation/tgstation-server/blob/master/src/Tgstation.Server.Api/Models/User.cs). It is recommended to disable this user ASAP as it is used to create Jobs that are started by the system. If access to all users is lost, the default user can be reset using the `Database:ResetAdminPassword` configuration setting. 
+All actions apart from logging in must be taken by a user. TGS installs with one default user whose credentials can be found [here](src/Tgstation.Server.Api/Models/User.cs). It is recommended to disable this user ASAP as it is used to create Jobs that are started by the server itself. If access to all users is lost, the default user can be reset using the `Database:ResetAdminPassword` configuration setting. 
 
 Users can be enabled/disabled and have a very granular set of rights associated to them that determine the actions they are allowed to take (i.e. Modify the user list or create instances). Users can be _database based_ or _system based_. Database users are your standard web users with a username and password. System users, on the otherhand, are authenticated with the host OS. These users cannot have their password or names changed by TGS as they are managed by the system (and in reverse, login tokens don't expire when their password changes). The benefit to having these users is it allows the use of system ACLs for static file control. More on that later.
 
@@ -311,7 +308,7 @@ TGS supports creating infinite chat bots for notifying staff or players of thing
 - Internet Relay Chat (IRC)
 - Discord
 
-More can be added by providing a new implementation of the [IProvider](https://github.com/tgstation/tgstation-server/blob/master/src/Tgstation.Server.Host/Components/Chat/Providers/IProvider.cs) interface
+More can be added by providing a new implementation of the [IProvider](src/Tgstation.Server.Host/Components/Chat/Providers/IProvider.cs) interface
 
 Bots have a set of built-in commands that can be triggered via `!tgs`, mentioning, or private messaging them. Along with these, custom commands can be defined using the DMAPI by creating a subtype of the `/datum/tgs_chat_command` type (See `tgs.dm` for details). Invocation for custom commands can be restricted to certain channels.
 
@@ -338,7 +335,7 @@ Otherwise the files `HeadInclude.dm` and `TailInclude.dm` are searched for and a
 
 #### EventScripts
 
-This folder can contain anything. But, when certain events occur in the instance, TGS will look here for `.bat` or `.sh` files with the same name and run those with corresponding arguments. List of supported events can be found [here](https://github.com/tgstation/tgstation-server/blob/master/src/Tgstation.Server.Host/Components/StaticFiles/Configuration.cs#L28) (subject to expansion) list of event parameters can be found [here](https://github.com/tgstation/tgstation-server/blob/master/src/Tgstation.Server.Host/Components/EventType.cs)
+This folder can contain anything. But, when certain events occur in the instance, TGS will look here for `.bat` or `.sh` files with the same name and run those with corresponding arguments. List of supported events can be found [here](src/Tgstation.Server.Host/Components/StaticFiles/Configuration.cs#L28) (subject to expansion) list of event parameters can be found [here](src/Tgstation.Server.Host/Components/EventType.cs)
 
 #### GameStaticFiles
 
@@ -352,10 +349,11 @@ TGS 4 can self update without stopping your DreamDaemon servers. Any V4 release 
 
 Here are tools for interacting with the TGS 4 web API
 
+- [tgstation-server-control-panel]: Official client and included with the server. A react web app for using tgstation-server.
 - [Tgstation.Server.ControlPanel](https://github.com/tgstation/Tgstation.Server.ControlPanel): Official client. A cross platform GUI for using tgstation-server
 - [Tgstation.Server.Client](https://www.nuget.org/packages/Tgstation.Server.Client): A nuget .NET Standard 2.0 TAP based library for communicating with tgstation-server
 - [Tgstation.Server.Api](https://www.nuget.org/packages/Tgstation.Server.Api): A nuget .NET Standard 2.0 library containing API definitions for tgstation-server
-- [Postman](https://www.getpostman.com/): This repository contains [TGS.postman_collection.json](https://github.com/tgstation/tgstation-server/blob/master/tools/TGS.postman_collection.json) which is used during development for testing. Contains example requests for all endpoints but takes some knowledge to use (Note that the pre-request script is configured to login the default admin user for every request)
+- [Postman](https://www.getpostman.com/): This repository contains [TGS.postman_collection.json](tools/TGS.postman_collection.json) which is used during development for testing. Contains example requests for all endpoints but takes some knowledge to use (Note that the pre-request script is configured to login the default admin user for every request)
 
 Contact project maintainers to get your client added to this list
 
@@ -363,23 +361,25 @@ Contact project maintainers to get your client added to this list
 
 Note that tgstation-server is NOT a backup solution, the onus is on the server runners.
 
-The `Repository` folder should, by the nature of git, not need to be backed up or should be done so on the remote server if necessary.
+The `Repository` folder should be backed up on the remote server, do not rely on the instance copy to store changes.
 
-The `BYOND` and `Game` folders should never be backed up due.
+The `BYOND` and `Game` folders should never be backed up due to being intertwined with instance data.
 
-The `Configuration` folder should and database be fully backed up
+The `Configuration` folder should be fully backed up.
 
-To restore an installation from backups, first restore the instance `Configuration` folders in their new homes. Then restore the database, modifying the `Path` column in the `Instances` table where necessary to point to the new instances. Then start the server pointed at the new database.
+The database should be fully backed up.
 
-Should you end up with a lost database for some reason or want to reattach a detached instance you can reattach an existing folder by creating an empty file named `TGS4_ALLOW_INSTANCE_ATTACH` inside it (This is automatically created when detaching instances). Then create a new instance with that path, this will bypass the empty folder check. Note that this will not restore things such as user permissions, server config options, or deployment metadata. Those must be reconfigured manually
+To restore an installation from backups, first restore the instance `Configuration` folder in its new home. Then restore the database, modifying the `Path` column in the `Instances` table where necessary to point to the new instances. Then start the server pointed at the new database.
+
+Should you end up with a lost database for some reason or want to reattach a detached instance you can reattach an existing folder by creating an empty file named `TGS4_ALLOW_INSTANCE_ATTACH` inside it (This is automatically created when detaching instances). Then create a new instance with that path, this will bypass the empty folder check. Note that this will not restore things such as user permissions, server config options, or deployment metadata. Those must be reconfigured manually.
 
 ## Troubleshooting
 
-Feel free to ask for help at the coderbus discord in #tooling-questions: https://discord.gg/Vh8TJp9. Cyberboss#8246 can answer most questions.
+Feel free to ask for help at the coderbus discord in \#tooling-questions: https://discord.gg/Vh8TJp9. Cyberboss#8246 can answer most questions.
 
 ## Contributing
 
-* See [CONTRIBUTING.md](https://github.com/tgstation/tgstation-server/blob/master/.github/CONTRIBUTING.md)
+* See [CONTRIBUTING.md](.github/CONTRIBUTING.md)
 
 ## Licensing
 

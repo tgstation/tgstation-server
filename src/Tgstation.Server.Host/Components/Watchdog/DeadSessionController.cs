@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.Components.Interop.Topic;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
@@ -44,6 +45,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public Task<int> Lifetime { get; }
 
+		/// <inheritdoc />
+		public Version DMApiVersion => throw new NotSupportedException();
+
+		/// <summary>
+		/// <see langword="lock"/> <see cref="object"/> for <see cref="disposed"/>.
+		/// </summary>
+		readonly object disposeLock;
+
 		/// <summary>
 		/// If the <see cref="DeadSessionController"/> was <see cref="Dispose"/>d
 		/// </summary>
@@ -62,12 +71,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			});
 			Lifetime = Task.FromResult(-1);
 			OnReboot = new TaskCompletionSource<object>().Task;
+			disposeLock = new object();
 		}
 
 		/// <inheritdoc />
 		public void Dispose()
 		{
-			lock (this)
+			lock (disposeLock)
 			{
 				if (disposed)
 					return;
@@ -87,7 +97,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public void ResetRebootState() => throw new NotSupportedException();
 
 		/// <inheritdoc />
-		public Task<string> SendCommand(string command, CancellationToken cancellationToken) => throw new NotSupportedException();
+		public Task<TopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken) => throw new NotSupportedException();
 
 		/// <inheritdoc />
 		public void SetHighPriority() => throw new NotSupportedException();

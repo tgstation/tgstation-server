@@ -30,27 +30,7 @@ namespace Tgstation.Server.Host.Components.Byond.Tests
 			var mockIOManager = new Mock<IIOManager>();
 			var mockLogger = new Mock<ILogger<PosixByondInstaller>>();
 			var installer = new PosixByondInstaller(mockPostWriteHandler.Object, mockIOManager.Object, mockLogger.Object);
-
-			const string ByondCachePath = "~/.byond/cache";
-
-			mockIOManager.Setup(x => x.DeleteDirectory(ByondCachePath, default)).Returns(Task.CompletedTask).Verifiable();
-
 			await installer.CleanCache(default);
-
-			mockPostWriteHandler.Verify();
-
-
-			mockIOManager.Setup(x => x.DeleteDirectory(ByondCachePath, default)).Throws(new OperationCanceledException()).Verifiable();
-
-			await Assert.ThrowsExceptionAsync<OperationCanceledException>(() => installer.CleanCache(default)).ConfigureAwait(false);
-
-			mockIOManager.Verify();
-
-			mockIOManager.Setup(x => x.DeleteDirectory(ByondCachePath, default)).Throws(new Exception()).Verifiable();
-
-			await installer.CleanCache(default).ConfigureAwait(false);
-
-			mockIOManager.Verify();
 		}
 
 
@@ -87,8 +67,6 @@ namespace Tgstation.Server.Host.Components.Byond.Tests
 
 			await installer.InstallByond(FakePath, new Version(511, 1385), default).ConfigureAwait(false);
 
-			mockIOManager.Verify(x => x.ConcatPath(It.IsAny<string>(), It.IsNotNull<string>()), Times.Exactly(5));
-			mockIOManager.Verify(x => x.WriteAllBytes(It.IsAny<string>(), It.IsNotNull<byte[]>(), default), Times.Exactly(2));
 			mockPostWriteHandler.Verify(x => x.HandleWrite(It.IsAny<string>()), Times.Exactly(4));
 		}
 	}

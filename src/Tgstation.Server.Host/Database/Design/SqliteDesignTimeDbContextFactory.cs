@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Logging;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Database.Design
 {
@@ -20,7 +21,8 @@ namespace Tgstation.Server.Host.Database.Design
 					DesignTimeDbContextFactoryHelpers.GetDbContextOptions(),
 					new DatabaseSeeder(
 						new CryptographySuite(
-							new PasswordHasher<User>())),
+							new PasswordHasher<User>()),
+						new PlatformIdentifier()),
 					loggerFactory.CreateLogger<SqliteDatabaseContext>());
 			}
 		}

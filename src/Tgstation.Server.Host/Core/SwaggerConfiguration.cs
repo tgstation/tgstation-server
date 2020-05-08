@@ -100,6 +100,12 @@ namespace Tgstation.Server.Host.Core
 			{
 				Description = "The server may be starting up or shutting down."
 			});
+
+			AddDefaultResponse(HttpStatusCode.NotImplemented, new OpenApiResponse
+			{
+				Description = "This operation requires POSIX system identites to be implemented. See https://github.com/tgstation/tgstation-server/issues/709",
+				Content = errorMessageContent
+			});
 		}
 
 		/// <summary>
@@ -115,7 +121,7 @@ namespace Tgstation.Server.Host.Core
 				new OpenApiInfo
 				{
 					Title = "TGS API",
-					Version = "v4"
+					Version = ApiHeaders.Version.Semver().ToString()
 				});
 
 			// Important to do this before applying our own filters
@@ -271,29 +277,36 @@ namespace Tgstation.Server.Host.Core
 				Schema = productHeaderSchema
 			});
 
-			foreach (var operation in swaggerDoc
-				.Paths
-				.SelectMany(path => path.Value.Operations)
-				.Select(kvp => kvp.Value))
-			{
-				operation.Parameters.Add(new OpenApiParameter
+			string bridgeOperationPath = null;
+			foreach (var path in swaggerDoc.Paths)
+				foreach (var operation in path.Value.Operations.Select(x => x.Value))
 				{
-					Reference = new OpenApiReference
+					if (operation.OperationId.Equals("BridgeController.Process", StringComparison.Ordinal))
 					{
-						Type = ReferenceType.Parameter,
-						Id = ApiHeaders.ApiVersionHeader
-					},
-				});
-
-				operation.Parameters.Add(new OpenApiParameter
-				{
-					Reference = new OpenApiReference
-					{
-						Type = ReferenceType.Parameter,
-						Id = HeaderNames.UserAgent
+						bridgeOperationPath = path.Key;
+						continue;
 					}
-				});
-			}
+
+					operation.Parameters.Add(new OpenApiParameter
+					{
+						Reference = new OpenApiReference
+						{
+							Type = ReferenceType.Parameter,
+							Id = ApiHeaders.ApiVersionHeader
+						},
+					});
+
+					operation.Parameters.Add(new OpenApiParameter
+					{
+						Reference = new OpenApiReference
+						{
+							Type = ReferenceType.Parameter,
+							Id = HeaderNames.UserAgent
+						}
+					});
+				}
+
+			swaggerDoc.Paths.Remove(bridgeOperationPath);
 
 			AddDefaultResponses(swaggerDoc);
 		}
@@ -305,6 +318,9 @@ namespace Tgstation.Server.Host.Core
 				throw new ArgumentNullException(nameof(schema));
 			if (context == null)
 				throw new ArgumentNullException(nameof(context));
+
+			// Nothing is required
+			schema.Required.Clear();
 
 			if (!schema.Enum?.Any() ?? false)
 				return;

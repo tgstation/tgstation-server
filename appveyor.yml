@@ -2,6 +2,7 @@ version: '{build}'
 pull_requests:
   do_not_increment_build_number: true
 environment:
+  TGS4_TEST_TEMP_DIRECTORY: C:/tgs4_test
   TGS4_TEST_DATABASE_TYPE: SqlServer
   TGS4_TEST_DUMP_API_SPEC: yes
   TGS4_TEST_CONNECTION_STRING: Server=(local)\SQL2017;Initial Catalog=TGS_Test;User ID=sa;Password=Password12!
@@ -10,6 +11,9 @@ environment:
   TGS4_TEST_DISCORD_TOKEN:
     secure: 5ENtMfhHDI6SOgZ9nP7oHX//nZ1w5cYSk3a17MO54+jmcZwEtwZPB4XvVKgtY2xIacjp96ZWNnQgIyfRHvnHSg==
   TGS4_TEST_DISCORD_CHANNEL: 493119635319947269
+  TGS4_TEST_IRC_CONNECTION_STRING:
+    secure: ralERi6QrigvQYZWkLruZGP37RwuadDIkocs+gvT5OcOMUlBODExyI9FPss3HtGx
+  TGS4_TEST_IRC_CHANNEL: \#botbus
   TGS4_RELEASE_NOTES_TOKEN:
     secure: lJNGAXwiB5HlWdthz3K4PetqpTG5IEAyRgKaiKxFMQ8HW8CcOjRtB97B05op7BsK
 
@@ -66,7 +70,7 @@ test_script:
   - ps: $wc = New-Object 'System.Net.WebClient'
   - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\tests\Tgstation.Server.Host.Console.Tests\TestResults\results.trx))
   - set path=%ProgramFiles(x86)%\Microsoft Visual Studio\2019\TestAgent\Common7\IDE\CommonExtensions\Microsoft\TestWindow;%path%
-  - vstest.console /logger:trx;LogFileName=results.trx "tests\Tgstation.Server.Host.Service.Tests\bin\%CONFIGURATION%\net471\Tgstation.Server.Host.Service.Tests.dll" /inIsolation /Platform:x64
+  - vstest.console /logger:trx;LogFileName=results.trx "tests\Tgstation.Server.Host.Service.Tests\bin\%CONFIGURATION%\net472\Tgstation.Server.Host.Service.Tests.dll" /inIsolation /Platform:x64
   - ps: $wc = New-Object 'System.Net.WebClient'
   - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\TestResults\results.trx))
   - OpenCover.Console.exe -returntargetcode -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test -c %CONFIGURATION% --logger:trx;LogFileName=results.trx /p:DebugType=full tests/Tgstation.Server.Host.Watchdog.Tests/Tgstation.Server.Host.Watchdog.Tests.csproj" -filter:"+[Tgstation.Server*]* -[Tgstation.Server.Host.Watchdog.Tests*]*" -output:".\watchdog_coverage.xml" -oldstyle
@@ -100,9 +104,29 @@ deploy:
       secure: lJNGAXwiB5HlWdthz3K4PetqpTG5IEAyRgKaiKxFMQ8HW8CcOjRtB97B05op7BsK
     artifact: ServerConsole,ServerService,ServerUpdatePackage,DMAPI,SwaggerSpec
     draft: $(TGSDraftNotes)
-    prerelease: true
+    prerelease: false
     on:
       TGSDeploy: "Do it."
+  - provider: GitHub
+    release: "api-v$(APIVersion)"
+    description: "$(APIReleaseNotes)"
+    auth_token:
+      secure: lJNGAXwiB5HlWdthz3K4PetqpTG5IEAyRgKaiKxFMQ8HW8CcOjRtB97B05op7BsK
+    artifact: SwaggerSpec
+    draft: false
+    prerelease: false
+    on:
+      APIDeploy: "Do it."
+  - provider: GitHub
+    release: "dmapi-v$(DMVersion)"
+    description: "$(DMReleaseNotes)"
+    auth_token:
+      secure: lJNGAXwiB5HlWdthz3K4PetqpTG5IEAyRgKaiKxFMQ8HW8CcOjRtB97B05op7BsK
+    artifact: DMAPI
+    draft: false
+    prerelease: false
+    on:
+      DMDeploy: "Do it."
   - provider: NuGet
     api_key:
       secure: DzllxD27WDdbXf/U9myiLcu/DBlJBk1rlrPv629JHluIsffaJUbY1L+TRYo5gwjf

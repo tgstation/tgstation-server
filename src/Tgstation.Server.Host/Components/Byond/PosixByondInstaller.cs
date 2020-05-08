@@ -13,11 +13,6 @@ namespace Tgstation.Server.Host.Components.Byond
 	/// </summary>
 	sealed class PosixByondInstaller : ByondInstallerBase
 	{
-		/// <summary>
-		/// Path to the BYOND cache
-		/// </summary>
-		const string ByondCachePath = "~/.byond/cache";
-
 		const string DreamDaemonExecutableName = "DreamDaemon";
 		const string DreamMakerExecutableName = "DreamMaker";
 		const string ShellScriptExtension = ".sh";
@@ -27,6 +22,9 @@ namespace Tgstation.Server.Host.Components.Byond
 
 		/// <inheritdoc />
 		public override string DreamMakerName => DreamMakerExecutableName + ShellScriptExtension;
+
+		/// <inheritdoc />
+		public override string PathToUserByondFolder { get; }
 
 		/// <inheritdoc />
 		protected override string ByondRevisionsURLTemplate => "https://secure.byond.com/download/build/{0}/{0}.{1}_byond_linux.zip";
@@ -46,23 +44,12 @@ namespace Tgstation.Server.Host.Components.Byond
 			: base(ioManager, logger)
 		{
 			this.postWriteHandler = postWriteHandler ?? throw new ArgumentNullException(nameof(postWriteHandler));
-		}
 
-		/// <inheritdoc />
-		public override async Task CleanCache(CancellationToken cancellationToken)
-		{
-			try
-			{
-				await IOManager.DeleteDirectory(ByondCachePath, cancellationToken).ConfigureAwait(false);
-			}
-			catch (OperationCanceledException)
-			{
-				throw;
-			}
-			catch (Exception e)
-			{
-				Logger.LogWarning("Error deleting BYOND cache! Exception: {0}", e);
-			}
+			PathToUserByondFolder = IOManager.ResolvePath(
+				IOManager.ConcatPath(
+					Environment.GetFolderPath(
+						Environment.SpecialFolder.UserProfile),
+					"./byond/cache"));
 		}
 
 		/// <inheritdoc />
@@ -80,10 +67,11 @@ namespace Tgstation.Server.Host.Components.Byond
 			var dreamDaemonScript = String.Format(CultureInfo.InvariantCulture, StandardScript, DreamDaemonExecutableName);
 			var dreamMakerScript = String.Format(CultureInfo.InvariantCulture, StandardScript, DreamMakerExecutableName);
 
-			async Task WriteAndMakeExecutable(string fullPath, string script)
+			async Task WriteAndMakeExecutable(string pathToScript, string script)
 			{
-				await IOManager.WriteAllBytes(fullPath, Encoding.ASCII.GetBytes(script), cancellationToken).ConfigureAwait(false);
-				postWriteHandler.HandleWrite(fullPath);
+				Logger.LogTrace("Writing script {0}:{1}{2}", pathToScript, Environment.NewLine, script);
+				await IOManager.WriteAllBytes(pathToScript, Encoding.ASCII.GetBytes(script), cancellationToken).ConfigureAwait(false);
+				postWriteHandler.HandleWrite(IOManager.ResolvePath(pathToScript));
 			}
 
 			var basePath = IOManager.ConcatPath(path, ByondManager.BinPath);

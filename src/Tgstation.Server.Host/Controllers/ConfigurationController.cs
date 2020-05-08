@@ -55,7 +55,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns><see langword="true"/> if a <see cref="ForbidResult"/> should be returned, <see langword="false"/> otherwise</returns>
 		bool ForbidDueToModeConflicts(string path, out ISystemIdentity systemIdentityToUse)
 		{
-			if (Instance.ConfigurationType == ConfigurationType.Disallowed || (Instance.ConfigurationType == ConfigurationType.SystemIdentityWrite && AuthenticationContext.SystemIdentity == null) || (path != null && ioManager.PathContainsParentAccess(path)))
+			if (Instance.ConfigurationType == ConfigurationType.Disallowed
+				|| (Instance.ConfigurationType == ConfigurationType.SystemIdentityWrite && AuthenticationContext.SystemIdentity == null)
+				|| (path != null && ioManager.PathContainsParentAccess(path)))
 			{
 				systemIdentityToUse = null;
 				return true;
@@ -78,7 +80,6 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(ConfigurationRights.Write)]
 		[ProducesResponseType(typeof(ConfigurationFile), 200)]
 		[ProducesResponseType(typeof(ConfigurationFile), 201)]
-		[ProducesResponseType(501)]
 		public async Task<IActionResult> Update([FromBody] ConfigurationFile model, CancellationToken cancellationToken)
 		{
 			if (model == null)
@@ -91,10 +92,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				var newFile = await config.Write(model.Path, systemIdentity, model.Content, model.LastReadHash, cancellationToken).ConfigureAwait(false);
 				if (newFile == null)
-					return Conflict(new ErrorMessage
-					{
-						Message = "This file has been updated since you last viewed it!"
-					});
+					return Conflict(new ErrorMessage(ErrorCode.ConfigurationFileUpdated));
 
 				newFile.Content = null;
 
@@ -103,9 +101,9 @@ namespace Tgstation.Server.Host.Controllers
 			catch(IOException e)
 			{
 				Logger.LogInformation("IOException while updating file {0}: {1}", model.Path, e);
-				return Conflict(new ErrorMessage
+				return Conflict(new ErrorMessage(ErrorCode.IOError)
 				{
-					Message = e.Message
+					AdditionalData = e.Message
 				});
 			}
 			catch (NotImplementedException)
@@ -126,7 +124,6 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(ConfigurationRights.Read)]
 		[ProducesResponseType(typeof(ConfigurationFile), 200)]
 		[ProducesResponseType(410)]
-		[ProducesResponseType(501)]
 		public async Task<IActionResult> File(string filePath, CancellationToken cancellationToken)
 		{
 			if (ForbidDueToModeConflicts(filePath, out var systemIdentity))
@@ -143,9 +140,9 @@ namespace Tgstation.Server.Host.Controllers
 			catch (IOException e)
 			{
 				Logger.LogInformation("IOException while reading file {0}: {1}", filePath, e);
-				return Conflict(new ErrorMessage
+				return Conflict(new ErrorMessage(ErrorCode.IOError)
 				{
-					Message = e.Message
+					AdditionalData = e.Message
 				});
 			}
 			catch (NotImplementedException)
@@ -166,7 +163,6 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(ConfigurationRights.List)]
 		[ProducesResponseType(typeof(IReadOnlyList<ConfigurationFile>), 200)]
 		[ProducesResponseType(410)]
-		[ProducesResponseType(501)]
 		public async Task<IActionResult> Directory(string directoryPath, CancellationToken cancellationToken)
 		{
 			if (ForbidDueToModeConflicts(directoryPath, out var systemIdentity))
@@ -234,7 +230,7 @@ namespace Tgstation.Server.Host.Controllers
 			catch (IOException e)
 			{
 				Logger.LogInformation("IOException while creating directory {0}: {1}", model.Path, e);
-				return Conflict(new ErrorMessage
+				return Conflict(new ErrorMessage(ErrorCode.IOError)
 				{
 					Message = e.Message
 				});
@@ -271,10 +267,13 @@ namespace Tgstation.Server.Host.Controllers
 
 			try
 			{
-				return await instanceManager.GetInstance(Instance).Configuration.DeleteDirectory(directory.Path, systemIdentity, cancellationToken).ConfigureAwait(false) ? (IActionResult)NoContent() : Conflict(new ErrorMessage
-				{
-					Message = "Directory not empty!"
-				});
+				return await instanceManager
+					.GetInstance(Instance)
+					.Configuration
+					.DeleteDirectory(directory.Path, systemIdentity, cancellationToken)
+					.ConfigureAwait(false)
+					? (IActionResult)NoContent()
+					: Conflict(new ErrorMessage(ErrorCode.ConfigurationDirectoryNotEmpty));
 			}
 			catch (NotImplementedException)
 			{

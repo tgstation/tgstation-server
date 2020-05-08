@@ -1,4 +1,5 @@
-﻿using Tgstation.Server.Api.Models.Internal;
+﻿using System.ComponentModel.DataAnnotations;
+using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Api.Models
 {
@@ -25,6 +26,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The current <see cref="DreamDaemonSecurity"/> of <see cref="DreamDaemon"/>. May be downgraded due to requirements of <see cref="ActiveCompileJob"/>
 		/// </summary>
+		[EnumDataType(typeof(DreamDaemonSecurity))]
 		public DreamDaemonSecurity? CurrentSecurity { get; set; }
 
 		/// <summary>

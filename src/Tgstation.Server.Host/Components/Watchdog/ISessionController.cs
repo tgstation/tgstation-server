@@ -1,6 +1,8 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.Components.Interop.Topic;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Watchdog
@@ -31,6 +33,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		ApiValidationStatus ApiValidationStatus { get; }
 
 		/// <summary>
+		/// The DMAPI <see cref="Version"/>.
+		/// </summary>
+		Version DMApiVersion { get; }
+
+		/// <summary>
 		/// The <see cref="IDmbProvider"/> being used
 		/// </summary>
 		IDmbProvider Dmb { get; }
@@ -56,7 +63,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		Task OnReboot { get; }
 
 		/// <summary>
-		/// Releases the <see cref="IProcess"/> without terminating it. Also calls <see cref="global::System.IDisposable.Dispose"/>
+		/// Releases the <see cref="IProcess"/> without terminating it. Also calls <see cref="IDisposable.Dispose"/>
 		/// </summary>
 		/// <returns><see cref="ReattachInformation"/> which can be used to create a new <see cref="ISessionController"/> similar to this one</returns>
 		ReattachInformation Release();
@@ -64,10 +71,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// Sends a command to DreamDaemon through /world/Topic()
 		/// </summary>
-		/// <param name="command">The sanitized command to send</param>
+		/// <param name="parameters">The <see cref="TopicParameters"/> to send.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the result of /world/Topic()</returns>
-		Task<string> SendCommand(string command, CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="TopicResponse"/> of /world/Topic()</returns>
+		Task<TopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Causes the world to start listening on a <paramref name="newPort"/>
@@ -86,7 +93,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		Task<bool> SetRebootState(RebootState newRebootState, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Changes <see cref="RebootState"/> to <see cref="Watchdog.RebootState.Normal"/> without telling the DMAPI
+		/// Changes <see cref="RebootState"/> to <see cref="RebootState.Normal"/> without telling the DMAPI
 		/// </summary>
 		void ResetRebootState();
 

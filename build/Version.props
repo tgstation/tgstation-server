@@ -1,7 +1,12 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <TgsCoreVersion>4.0.2.1</TgsCoreVersion>
-    <TgsApiVersion>4.0.2</TgsApiVersion>
-    <TgsClientVersion>4.0.3</TgsClientVersion>
+    <!-- This is the authorative version list -->
+    <!-- Integration tests will ensure they match across the board -->
+    <TgsCoreVersion>4.1.0</TgsCoreVersion>
+    <TgsApiVersion>6.1.0</TgsApiVersion>
+    <TgsClientVersion>6.0.0</TgsClientVersion>
+    <TgsDmapiVersion>5.0.0</TgsDmapiVersion>
+    <TgsControlPanelVersion>0.4.0</TgsControlPanelVersion>
+    <TgsHostWatchdogVersion>1.1.0</TgsHostWatchdogVersion>
   </PropertyGroup>
 </Project>

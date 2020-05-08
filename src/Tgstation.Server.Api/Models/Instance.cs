@@ -17,6 +17,7 @@ namespace Tgstation.Server.Api.Models
 		/// The name of the <see cref="Instance"/>
 		/// </summary>
 		[Required]
+		[StringLength(Limits.MaximumStringLength)]
 		public string Name { get; set; }
 
 		/// <summary>
@@ -35,6 +36,7 @@ namespace Tgstation.Server.Api.Models
 		/// If <see cref="ConfigurationFile"/> can be used on the <see cref="Instance"/>
 		/// </summary>
 		[Required]
+		[EnumDataType(typeof(ConfigurationType))]
 		public ConfigurationType? ConfigurationType { get; set; }
 
 		/// <summary>
@@ -42,6 +44,12 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Required]
 		public uint? AutoUpdateInterval { get; set; }
+
+		/// <summary>
+		/// The maximum number of <see cref="ChatBot"/>s the <see cref="Instance"/> may contain.
+		/// </summary>
+		[Required]
+		public ushort? ChatBotLimit { get; set; }
 
 		/// <summary>
 		/// The <see cref="Job"/> representing a change of <see cref="Path"/>

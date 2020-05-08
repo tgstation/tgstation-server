@@ -19,7 +19,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		string HelpText { get; }
 
 		/// <summary>
-		/// If the command should only be available to <see cref="User"/>s who's <see cref="User.Channel"/> has <see cref="Channel.IsAdminChannel"/> set
+		/// If the command should only be available to <see cref="ChatUser"/>s who's <see cref="ChatUser.Channel"/> has <see cref="ChannelRepresentation.IsAdminChannel"/> set
 		/// </summary>
 		bool AdminOnly { get; }
 
@@ -27,9 +27,9 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		/// Invoke the <see cref="ICommand"/>
 		/// </summary>
 		/// <param name="arguments">The text after <see cref="Name"/> with leading whitespace trimmed</param>
-		/// <param name="user">The <see cref="User"/> who invoked the command</param>
+		/// <param name="user">The <see cref="ChatUser"/> who invoked the command</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="string"/> to send to the invoker</returns>
-		Task<string> Invoke(string arguments, User user, CancellationToken cancellationToken);
+		Task<string> Invoke(string arguments, ChatUser user, CancellationToken cancellationToken);
 	}
 }

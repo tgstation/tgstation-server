@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Database
 {
@@ -18,12 +19,19 @@ namespace Tgstation.Server.Host.Database
 		readonly ICryptographySuite cryptographySuite;
 
 		/// <summary>
+		/// The <see cref="IPlatformIdentifier"/> for the <see cref="DatabaseContext{TParentContext}"/>.
+		/// </summary>
+		readonly IPlatformIdentifier platformIdentifier;
+
+		/// <summary>
 		/// Construct a <see cref="DatabaseSeeder"/>
 		/// </summary>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
-		public DatabaseSeeder(ICryptographySuite cryptographySuite)
+		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
+		public DatabaseSeeder(ICryptographySuite cryptographySuite, IPlatformIdentifier platformIdentifier)
 		{
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
+			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 		}
 
 		/// <summary>
@@ -63,6 +71,14 @@ namespace Tgstation.Server.Host.Database
 				// https://github.com/JamesNK/Newtonsoft.Json/issues/2301
 				admin.AdministrationRights = admin.AdministrationRights & RightsHelper.AllRights<AdministrationRights>();
 				admin.InstanceManagerRights = admin.InstanceManagerRights & RightsHelper.AllRights<InstanceManagerRights>();
+			}
+
+			if (platformIdentifier.IsWindows)
+			{
+				// normalize backslashes to forward slashes
+				var allInstances = await databaseContext.Instances.ToListAsync(cancellationToken).ConfigureAwait(false);
+				foreach (var instance in allInstances)
+					instance.Path = instance.Path.Replace('\\', '/');
 			}
 
 			await databaseContext.Save(cancellationToken).ConfigureAwait(false);

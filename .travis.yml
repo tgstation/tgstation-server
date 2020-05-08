@@ -1,4 +1,6 @@
-sudo: false
+os: linux
+dist: xenial
+language: generic
 git:
   depth: 1
 
@@ -7,7 +9,7 @@ branches:
   - dev
   - master
 
-matrix:
+jobs:
   include:
     - env:
       - DockerBuild=false
@@ -16,7 +18,6 @@ matrix:
       - BYOND_MINOR="1517"
       - DMEName="tests/DMAPI/travistester.dme"
       name: "DMAPI Unit Tests"
-      language: generic
       cache:
         directories:
           - $HOME/BYOND-${BYOND_MAJOR}.${BYOND_MINOR}
@@ -33,12 +34,17 @@ matrix:
       name: "Test Server Debug"
       language: csharp
       mono: none
-      dotnet: 2.2.207
+      dotnet: 3.1
       services:
         - mysql
       cache:
         directories:
           - $HOME/.nuget/packages:
+      addons:
+        apt:
+          packages:
+            - libc6-i386
+            - libstdc++6:i386
     - env:
       - DockerBuild=false
       - DMAPI=false
@@ -46,12 +52,17 @@ matrix:
       name: "Test Server Release"
       language: csharp
       mono: none
-      dotnet: 2.2.207
+      dotnet: 3.1
       services:
         - mysql
       cache:
         directories:
           - $HOME/.nuget/packages:
+      addons:
+        apt:
+          packages:
+            - libc6-i386
+            - libstdc++6:i386
     - env:
       - DockerBuild=true
       name: "Docker Build"
@@ -63,6 +74,6 @@ install:
   - if [ $DockerBuild = false ] && [ $DMAPI = false ]; then dotnet restore tgstation-server.sln; fi
 
 script:
-  - if [ $DockerBuild = false ] && [ $DMAPI = true ]; then tests/DMAPI/build_byond.sh || travis_terminate 1; fi
+  - if [ $DockerBuild = false ] && [ $DMAPI = true ]; then tests/DMAPI/BasicOperation/build_byond.sh || travis_terminate 1; fi
   - if [ $DockerBuild = false ] && [ $DMAPI = false ]; then build/test_core.sh; fi
   - if [ $DockerBuild = true ]; then docker build . -f build/Dockerfile; fi

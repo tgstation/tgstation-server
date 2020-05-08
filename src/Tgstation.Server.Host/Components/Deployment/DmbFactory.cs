@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
 
@@ -21,7 +22,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		{
 			get
 			{
-				lock (this)
+				lock (jobLockCounts)
 					return newerDmbTcs.Task;
 			}
 		}
@@ -113,7 +114,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				await Task.WhenAll(otherTask, deleteJob).ConfigureAwait(false);
 			}
 
-			lock (this)
+			lock (jobLockCounts)
 				if (!jobLockCounts.TryGetValue(job.Id, out var currentVal) || currentVal == 1)
 				{
 					jobLockCounts.Remove(job.Id);
@@ -136,7 +137,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			var newProvider = await FromCompileJob(job, cancellationToken).ConfigureAwait(false);
 			if (newProvider == null)
 				return;
-			lock (this)
+			lock (jobLockCounts)
 			{
 				nextDmbProvider?.Dispose();
 				nextDmbProvider = newProvider;
@@ -152,7 +153,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				throw new InvalidOperationException("No .dmb available!");
 			if (lockCount < 0)
 				throw new ArgumentOutOfRangeException(nameof(lockCount), lockCount, "lockCount must be greater than or equal to 0!");
-			lock (this)
+			lock (jobLockCounts)
 			{
 				var jobId = nextDmbProvider.CompileJob.Id;
 				var incremented = jobLockCounts[jobId] += lockCount;
@@ -162,17 +163,23 @@ namespace Tgstation.Server.Host.Components.Deployment
 		}
 
 		/// <inheritdoc />
-		public Task StartAsync(CancellationToken cancellationToken) => databaseContextFactory.UseContext(async (db) =>
+		public async Task StartAsync(CancellationToken cancellationToken)
 		{
-			// where complete clause not necessary, only successful COMPILEjobs get in the db
-			var cj = await db.CompileJobs.Where(x => x.Job.Instance.Id == instance.Id)
-				.OrderByDescending(x => x.Job.StoppedAt).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			CompileJob cj = null;
+			await databaseContextFactory.UseContext(async (db) =>
+			{
+				cj = await db
+					.MostRecentCompletedCompileJobOrDefault(instance, cancellationToken)
+					.ConfigureAwait(false);
+			})
+			.ConfigureAwait(false);
+
 			if (cj == default(CompileJob))
 				return;
 			await LoadCompileJob(cj, cancellationToken).ConfigureAwait(false);
 
 			// we dont do CleanUnusedCompileJobs here because the watchdog may have plans for them yet
-		});
+		}
 
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken)
@@ -214,7 +221,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					return null; // omae wa mou shinderu
 				}
 
-				lock (this)
+				lock (jobLockCounts)
 				{
 					if (!jobLockCounts.TryGetValue(compileJob.Id, out int value))
 					{
@@ -245,7 +252,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			List<long> jobIdsToSkip;
 
 			// don't clean locked directories
-			lock (this)
+			lock (jobLockCounts)
 				jobIdsToSkip = jobLockCounts.Select(x => x.Key).ToList();
 
 			List<string> jobUidsToNotErase = null;
@@ -261,8 +268,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 				jobUidsToNotErase.Add(exceptThisOne.DirectoryName.Value.ToString().ToUpperInvariant());
 
 			// cleanup
-			await ioManager.CreateDirectory(".", cancellationToken).ConfigureAwait(false);
-			var directories = await ioManager.GetDirectories(".", cancellationToken).ConfigureAwait(false);
+			var gameDirectory = ioManager.ResolvePath();
+			await ioManager.CreateDirectory(gameDirectory, cancellationToken).ConfigureAwait(false);
+			var directories = await ioManager.GetDirectories(gameDirectory, cancellationToken).ConfigureAwait(false);
 			int deleting = 0;
 			var tasks = directories.Select(async x =>
 			{

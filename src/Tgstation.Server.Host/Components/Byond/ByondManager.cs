@@ -1,12 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
@@ -20,6 +21,16 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// The path to the BYOND bin folder
 		/// </summary>
 		public const string BinPath = "byond/bin";
+
+		/// <summary>
+		/// The path to the cfg directory.
+		/// </summary>
+		const string CfgDirectoryName = "cfg";
+
+		/// <summary>
+		/// The name of the list of trusted .dmb files in the user's BYOND cfg directory.
+		/// </summary>
+		const string TrustedDmbFileName = "trusted.txt";
 
 		/// <summary>
 		/// The file in which we store the <see cref="VersionKey(Version)"/> for installations
@@ -40,7 +51,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			get
 			{
 				lock (installedVersions)
-					return installedVersions.Select(x => Version.Parse(x.Key)).ToList();
+					return installedVersions.Select(x => Version.Parse(x.Key).Semver()).ToList();
 			}
 		}
 
@@ -129,6 +140,8 @@ namespace Tgstation.Server.Host.Components.Byond
 					cancellationToken.ThrowIfCancellationRequested();
 					return;
 				}
+			else
+				logger.LogDebug("Requested BYOND version {0} not currently installed. Doing so now...");
 
 			// okay up to us to install it then
 			try
@@ -142,8 +155,11 @@ namespace Tgstation.Server.Host.Components.Byond
 				try
 				{
 					var download = await downloadTask.ConfigureAwait(false);
-					await ioManager.ZipToDirectory(versionKey, download, cancellationToken).ConfigureAwait(false);
-					await byondInstaller.InstallByond(ioManager.ResolvePath(versionKey), version, cancellationToken).ConfigureAwait(false);
+
+					var extractPath = ioManager.ResolvePath(versionKey);
+					logger.LogTrace("Extracting downloaded BYOND zip to {0}...", extractPath);
+					await ioManager.ZipToDirectory(extractPath, download, cancellationToken).ConfigureAwait(false);
+					await byondInstaller.InstallByond(extractPath, version, cancellationToken).ConfigureAwait(false);
 
 					// make sure to do this last because this is what tells us we have a valid version in the future
 					await ioManager.WriteAllBytes(ioManager.ConcatPath(versionKey, VersionFileName), Encoding.UTF8.GetBytes(version.ToString()), cancellationToken).ConfigureAwait(false);
@@ -151,7 +167,7 @@ namespace Tgstation.Server.Host.Components.Byond
 				catch (WebException e)
 				{
 					// since the user can easily provide non-exitent version numbers, we'll turn this into a JobException
-					throw new JobException(String.Format(CultureInfo.InvariantCulture, "Error downloading BYOND version: {0}", e.Message));
+					throw new JobException(ErrorCode.ByondDownloadFail, e);
 				}
 				catch (OperationCanceledException)
 				{
@@ -196,12 +212,30 @@ namespace Tgstation.Server.Host.Components.Byond
 		{
 			var versionToUse = requiredVersion ?? ActiveVersion;
 			if (versionToUse == null)
-				throw new JobException("No BYOND versions installed!");
+				throw new JobException(ErrorCode.ByondNoVersionsInstalled);
 			await InstallVersion(versionToUse, cancellationToken).ConfigureAwait(false);
 
 			var versionKey = VersionKey(versionToUse);
+			var binPathForVersion = ioManager.ConcatPath(versionKey, BinPath);
 
-			return new ByondExecutableLock(versionToUse, ioManager.ResolvePath(ioManager.ConcatPath(versionKey, BinPath, byondInstaller.DreamDaemonName)), ioManager.ResolvePath(ioManager.ConcatPath(versionKey, BinPath, byondInstaller.DreamMakerName)));
+			logger.LogTrace("Creating ByondExecutableLock lock for version {0}", requiredVersion);
+			return new ByondExecutableLock(
+				ioManager,
+				semaphore,
+				versionToUse,
+				ioManager.ResolvePath(
+					ioManager.ConcatPath(
+						binPathForVersion,
+						byondInstaller.DreamDaemonName)),
+				ioManager.ResolvePath(
+					ioManager.ConcatPath(
+						binPathForVersion,
+						byondInstaller.DreamMakerName)),
+				ioManager.ResolvePath(
+					ioManager.ConcatPath(
+						byondInstaller.PathToUserByondFolder,
+						CfgDirectoryName,
+						TrustedDmbFileName)));
 		}
 
 		/// <inheritdoc />
@@ -215,8 +249,27 @@ namespace Tgstation.Server.Host.Components.Byond
 
 			var activeVersionBytesTask = GetActiveVersion();
 
-			await ioManager.CreateDirectory(".", cancellationToken).ConfigureAwait(false);
-			var directories = await ioManager.GetDirectories(".", cancellationToken).ConfigureAwait(false);
+			// Create local cfg directory in case it doesn't exist
+			var localCfgDirectory = ioManager.ConcatPath(
+					byondInstaller.PathToUserByondFolder,
+					CfgDirectoryName);
+			await ioManager.CreateDirectory(
+				localCfgDirectory,
+				cancellationToken).ConfigureAwait(false);
+
+			// Delete trusted.txt so it doesn't grow too large
+			var trustedFilePath =
+				ioManager.ConcatPath(
+					localCfgDirectory,
+					TrustedDmbFileName);
+			logger.LogTrace("Deleting trusted .dmbs file {0}", trustedFilePath);
+			await ioManager.DeleteFile(
+				trustedFilePath,
+				cancellationToken).ConfigureAwait(false);
+
+			var byondDirectory = ioManager.ResolvePath();
+			await ioManager.CreateDirectory(byondDirectory, cancellationToken).ConfigureAwait(false);
+			var directories = await ioManager.GetDirectories(byondDirectory, cancellationToken).ConfigureAwait(false);
 
 			async Task ReadVersion(string path)
 			{
@@ -236,6 +289,7 @@ namespace Tgstation.Server.Host.Components.Byond
 					lock (installedVersions)
 						if (!installedVersions.ContainsKey(key))
 						{
+							logger.LogDebug("Adding detected BYOND version {0}...", key);
 							installedVersions.Add(key, Task.CompletedTask);
 							return;
 						}
@@ -250,10 +304,16 @@ namespace Tgstation.Server.Host.Components.Byond
 			if (activeVersionBytes != null)
 			{
 				var activeVersionString = Encoding.UTF8.GetString(activeVersionBytes);
-				if (Version.TryParse(activeVersionString, out var activeVersion))
-					ActiveVersion = activeVersion;
+				bool hasRequestedActiveVersion;
+				lock (installedVersions)
+					hasRequestedActiveVersion = installedVersions.ContainsKey(activeVersionString);
+				if (hasRequestedActiveVersion && Version.TryParse(activeVersionString, out var activeVersion))
+					ActiveVersion = activeVersion.Semver();
 				else
+				{
+					logger.LogWarning("Failed to load saved active version {0}!", activeVersionString);
 					await ioManager.DeleteFile(ActiveVersionFileName, cancellationToken).ConfigureAwait(false);
+				}
 			}
 		}
 

@@ -9,6 +9,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Chat.Providers
 {
@@ -61,12 +63,12 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		readonly IrcPasswordType? passwordType;
 
 		/// <summary>
-		/// Map of <see cref="Channel.RealId"/>s to channel names
+		/// Map of <see cref="ChannelRepresentation.RealId"/>s to channel names
 		/// </summary>
 		readonly Dictionary<ulong, string> channelIdMap;
 
 		/// <summary>
-		/// Map of <see cref="Channel.RealId"/>s to query users
+		/// Map of <see cref="ChannelRepresentation.RealId"/>s to query users
 		/// </summary>
 		readonly Dictionary<ulong, string> queryChannelIdMap;
 
@@ -88,7 +90,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <summary>
 		/// Construct an <see cref="IrcProvider"/>
 		/// </summary>
-		/// <param name="application">The <see cref="IApplication"/> to get the <see cref="IApplication.VersionString"/> from</param>
+		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> to get the <see cref="IAssemblyInformationProvider.VersionString"/> from</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
 		/// <param name="logger">The value of logger</param>
 		/// <param name="address">The value of <see cref="address"/></param>
@@ -99,7 +101,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <param name="reconnectInterval">The initial reconnect interval in minutes.</param>
 		/// <param name="useSsl">If <see cref="IrcConnection.UseSsl"/> should be used</param>
 		public IrcProvider(
-			IApplication application,
+			IAssemblyInformationProvider assemblyInformationProvider,
 			IAsyncDelayer asyncDelayer,
 			ILogger<IrcProvider> logger,
 			string address,
@@ -111,8 +113,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			bool useSsl)
 			: base(logger, reconnectInterval)
 		{
-			if (application == null)
-				throw new ArgumentNullException(nameof(application));
+			if (assemblyInformationProvider == null)
+				throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 
 			this.address = address ?? throw new ArgumentNullException(nameof(address));
@@ -140,7 +142,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				AutoRetryDelay = TimeoutSeconds,
 				ActiveChannelSyncing = true,
 				AutoNickHandling = true,
-				CtcpVersion = application.VersionString,
+				CtcpVersion = assemblyInformationProvider.VersionString,
 				UseSsl = useSsl
 			};
 			if (useSsl)
@@ -201,7 +203,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 
 			ulong userId, channelId;
-			lock (this)
+			lock (client)
 			{
 				userId = MapAndGetChannelId(queryChannelIdMap);
 				channelId = isPrivate ? userId : MapAndGetChannelId(channelIdMap);
@@ -210,9 +212,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			var message = new Message
 			{
 				Content = e.Data.Message,
-				User = new User
+				User = new ChatUser
 				{
-					Channel = new Channel
+					Channel = new ChannelRepresentation
 					{
 						ConnectionName = address,
 						FriendlyName = isPrivate ? String.Format(CultureInfo.InvariantCulture, "PM: {0}", channelName) : channelName,
@@ -248,7 +250,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		public override Task<bool> Connect(CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
 			disconnecting = false;
-			lock (this)
+			lock (client)
 				try
 				{
 					client.Connect(address, port);
@@ -375,52 +377,68 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public override Task<IReadOnlyCollection<Channel>> MapChannels(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
-		{
-			if (channels.Any(x => x.IrcChannel == null))
-				throw new InvalidOperationException("ChatChannel missing IrcChannel!");
-			lock (this)
+		public override Task<IReadOnlyCollection<ChannelRepresentation>> MapChannels(
+			IEnumerable<ChatChannel> channels,
+			CancellationToken cancellationToken)
+			=> Task.Factory.StartNew(() =>
 			{
-				var hs = new HashSet<string>(); // for unique inserts
-				foreach (var I in channels)
-					hs.Add(I.IrcChannel);
-				var toPart = new List<string>();
-				foreach (var I in client.JoinedChannels)
-					if (!hs.Remove(I))
-						toPart.Add(I);
-
-				foreach (var I in toPart)
-					client.RfcPart(I, "Pretty nice abscond!");
-				foreach (var I in hs)
-					client.RfcJoin(I);
-
-				return (IReadOnlyCollection<Channel>)channels.Select(x =>
+				if (channels.Any(x => x.IrcChannel == null))
+					throw new InvalidOperationException("ChatChannel missing IrcChannel!");
+				lock (client)
 				{
-					ulong? id = null;
-					if (!channelIdMap.Any(y =>
+					var channelsWithKeys = new Dictionary<string, string>();
+					var hs = new HashSet<string>(); // for unique inserts
+					foreach (var channel in channels)
 					{
-						if (y.Value != x.IrcChannel)
-							return false;
-						id = y.Key;
-						return true;
-					}))
-					{
-						id = channelIdCounter++;
-						channelIdMap.Add(id.Value, x.IrcChannel);
+						var name = channel.GetIrcChannelName();
+						var key = channel.GetIrcChannelKey();
+						if (hs.Add(name) && key != null)
+							channelsWithKeys.Add(name, key);
 					}
 
-					return new Channel
-					{
-						RealId = id.Value,
-						IsAdminChannel = x.IsAdminChannel == true,
-						ConnectionName = address,
-						FriendlyName = channelIdMap[id.Value],
-						IsPrivateChannel = false,
-						Tag = x.Tag
-					};
-				}).ToList();
-			}
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+					var toPart = new List<string>();
+					foreach (var activeChannel in client.JoinedChannels)
+						if (!hs.Remove(activeChannel))
+							toPart.Add(activeChannel);
+
+					foreach (var channelToLeave in toPart)
+						client.RfcPart(channelToLeave, "Pretty nice abscond!");
+					foreach (var channelToJoin in hs)
+						if (channelsWithKeys.TryGetValue(channelToJoin, out var key))
+							client.RfcJoin(channelToJoin, key);
+						else
+							client.RfcJoin(channelToJoin);
+
+					return (IReadOnlyCollection<ChannelRepresentation>)channels
+						.Select(x =>
+						{
+							var channelName = x.GetIrcChannelName();
+							ulong? id = null;
+							if (!channelIdMap.Any(y =>
+							{
+								if (y.Value != channelName)
+									return false;
+								id = y.Key;
+								return true;
+							}))
+							{
+								id = channelIdCounter++;
+								channelIdMap.Add(id.Value, channelName);
+							}
+
+							return new ChannelRepresentation
+							{
+								RealId = id.Value,
+								IsAdminChannel = x.IsAdminChannel == true,
+								ConnectionName = address,
+								FriendlyName = channelIdMap[id.Value],
+								IsPrivateChannel = false,
+								Tag = x.Tag
+							};
+						})
+						.ToList();
+				}
+			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public override Task SendMessage(ulong channelId, string message, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>

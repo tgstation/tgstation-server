@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace ReleaseNotes
 {
@@ -26,7 +27,7 @@ namespace ReleaseNotes
 			}
 
 			var versionString = args[0];
-			if (!Version.TryParse(versionString, out var version))
+			if (!Version.TryParse(versionString, out var version) || version.Revision != -1)
 			{
 				Console.WriteLine("Invalid version: " + versionString);
 				return 2;
@@ -36,7 +37,7 @@ namespace ReleaseNotes
 
 			const string ReleaseNotesEnvVar = "TGS4_RELEASE_NOTES_TOKEN";
 			var githubToken = Environment.GetEnvironmentVariable(ReleaseNotesEnvVar);
-			if (String.IsNullOrWhiteSpace(githubToken))
+			if (String.IsNullOrWhiteSpace(githubToken) && !doNotCloseMilestone)
 			{
 				Console.WriteLine("Missing " + ReleaseNotesEnvVar + " environment variable!");
 				return 3;
@@ -45,7 +46,10 @@ namespace ReleaseNotes
 			try
 			{
 				var client = new GitHubClient(new ProductHeaderValue("tgs_release_notes"));
-				client.Credentials = new Credentials(githubToken);
+				if (!String.IsNullOrWhiteSpace(githubToken)) 
+				{
+					client.Credentials = new Credentials(githubToken);
+				}
 
 				const string RepoOwner = "tgstation";
 				const string RepoName = "tgstation-server";
@@ -55,7 +59,7 @@ namespace ReleaseNotes
 				Console.WriteLine("Getting pull requests in milestone " + versionString + "...");
 				var milestonePRs = await client.Search.SearchIssues(new SearchIssuesRequest
 				{
-					Milestone = versionString,
+					Milestone = $"v{versionString}",
 					Type = IssueTypeQualifier.PullRequest,
 					Repos = { { RepoOwner, RepoName } }
 				}).ConfigureAwait(false);
@@ -72,10 +76,15 @@ namespace ReleaseNotes
 				var releaseDictionary = new Dictionary<int, List<string>>();
 				var authorizedUsers = new Dictionary<long, Task<bool>>();
 
+				bool hasSqliteFuckage = false;
+
 				async Task GetReleaseNotesFromPR(Issue pullRequest)
 				{
 					//need to check it was merged
 					var fullPR = await client.Repository.PullRequest.Get(RepoOwner, RepoName, pullRequest.Number).ConfigureAwait(false);
+
+					if (fullPR.Labels.Any(x => x.Name.Equals("SQLite Unmigratable")))
+						hasSqliteFuckage = true;
 
 					async Task<Milestone> GetMilestone()
 					{
@@ -132,8 +141,10 @@ namespace ReleaseNotes
 							try
 							{
 								//check if the user has access
-								var perm = await client.Repository.Collaborator.ReviewPermission(RepoOwner, RepoName, user.Login).ConfigureAwait(false);
-								ourTcs.SetResult(perm.Permission == PermissionLevel.Write || perm.Permission == PermissionLevel.Admin);
+								var perm = String.IsNullOrWhiteSpace(githubToken)
+									? PermissionLevel.Write
+									: (await client.Repository.Collaborator.ReviewPermission(RepoOwner, RepoName, user.Login).ConfigureAwait(false)).Permission;
+								ourTcs.SetResult(perm == PermissionLevel.Write || perm == PermissionLevel.Admin);
 							}
 							catch
 							{
@@ -197,7 +208,7 @@ namespace ReleaseNotes
 				//trim away all the lines that don't start with #
 
 				string keepThisRelease;
-				if (version.Revision == 0)
+				if (version.Major != 4 && version.Revision == 0)
 					if (version.Build == 0)
 						keepThisRelease = "# ";
 					else
@@ -217,6 +228,31 @@ namespace ReleaseNotes
 				string prefix;
 				switch (releasingSuite)
 				{
+					case 4:
+						var doc = XDocument.Load("../../../../../build/Version.props");
+						var project = doc.Root;
+						var xmlNamespace = project.GetDefaultNamespace();
+						var versionsPropertyGroup = project.Elements().First();
+
+						var coreVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsCoreVersion").Value);
+						if(coreVersion != version)
+						{
+							Console.WriteLine("Received a different version on command line than in Version.props!");
+							return 10;
+						}
+
+						var apiVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsApiVersion").Value);
+						var dmApiVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsDmapiVersion").Value);
+						var webControlVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsControlPanelVersion").Value);
+						var hostWatchdogVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsHostWatchdogVersion").Value);
+
+						prefix = $"#### Component Versions\nCore: {coreVersion}\nHTTP API: {apiVersion}\nDreamMaker API: {dmApiVersion}\n[Web Control Panel](https://github.com/tgstation/tgstation-server-control-panel): {webControlVersion}\nHost Watchdog: {hostWatchdogVersion}";
+
+						//hasSqliteFuckage = hasSqliteFuckage && version != new Version(4, 1, 0);
+						if (hasSqliteFuckage)
+							prefix = $"{prefix}{Environment.NewLine}{Environment.NewLine}#### THIS VERSION IS INCOMPATIBLE WITH PREVIOUS SQLITE DATABASES!";
+
+						break;
 					case 3:
 						prefix = "The /tg/station server suite";
 						break;
@@ -228,21 +264,15 @@ namespace ReleaseNotes
 				var newNotes = new StringBuilder(prefix);
 				newNotes.Append(Environment.NewLine);
 				newNotes.Append(Environment.NewLine);
-				if (version.Revision == 0)
-					if (version.Build == 0)
-					{
-						newNotes.Append("# [Version ");
-						newNotes.Append(version.Minor);
-					}
-					else
-					{
-						newNotes.Append("## [Changelog for ");
-						newNotes.Append(version.Build);
-						newNotes.Append(".X");
-					}
+				if (version.Build == 0)
+				{
+					newNotes.Append("# [Update ");
+					newNotes.Append(version.Minor);
+					newNotes.Append(".X");
+				}
 				else
 				{
-					newNotes.Append("### [Patch ");
+					newNotes.Append("## [Patch ");
 					newNotes.Append(version.Revision);
 				}
 				newNotes.Append("](");
@@ -277,7 +307,9 @@ namespace ReleaseNotes
 
 				newNotes.Append(Environment.NewLine);
 				newNotes.Append(Environment.NewLine);
-				newNotes.Append(oldNotes);
+
+				if (version != new Version(4, 1, 0))
+					newNotes.Append(oldNotes);
 
 				const string OutputPath = "release_notes.md";
 				Console.WriteLine($"Writing out new release notes to {Path.GetFullPath(OutputPath)}...");

@@ -17,6 +17,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// The name of the connection
 		/// </summary>
 		[Required]
+		[StringLength(Limits.MaximumIndexableStringLength)]
 		public string Name { get; set; }
 
 		/// <summary>
@@ -28,17 +29,27 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// The time interval in minutes the chat bot attempts to reconnect if <see cref="Enabled"/> and disconnected. Must not be zero.
 		/// </summary>
 		[Required]
+		[Range(1, UInt32.MaxValue)]
 		public uint? ReconnectionInterval { get; set; }
+
+		/// <summary>
+		/// The maximum number of <see cref="ChatChannel"/>s the <see cref="ChatBot"/> may contain.
+		/// </summary>
+		[Required]
+		public ushort? ChannelLimit { get; set; }
 
 		/// <summary>
 		/// The <see cref="ChatProvider"/> used for the connection
 		/// </summary>
+		[Required]
+		[EnumDataType(typeof(ChatProvider))]
 		public ChatProvider? Provider { get; set; }
 
 		/// <summary>
 		/// The information used to connect to the <see cref="Provider"/>
 		/// </summary>
 		[Required]
+		[StringLength(Limits.MaximumStringLength)]
 		public string ConnectionString { get; set; }
 
 		/// <summary>

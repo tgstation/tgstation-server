@@ -80,6 +80,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var revisionInfo = await ApplyQuery(databaseContext.RevisionInformations).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
+			// If the DB doesn't have it, check the local set
 			if (revisionInfo == default)
 				revisionInfo = databaseContext.RevisionInformations.Local.Where(x => x.CommitSha == repoSha && x.Instance.Id == instance.Id).FirstOrDefault();
 
@@ -146,10 +147,10 @@ namespace Tgstation.Server.Host.Controllers
 				throw new ArgumentNullException(nameof(model));
 
 			if (model.Origin == null)
-				return BadRequest(new ErrorMessage { Message = "Missing repo origin!" });
+				return BadRequest(ErrorCode.RepoMissingOrigin);
 
 			if (model.AccessUser == null ^ model.AccessToken == null)
-				return BadRequest(new ErrorMessage { Message = "Either both accessToken and accessUser must be present or neither!" });
+				return BadRequest(ErrorCode.RepoMismatchUserAndAccessToken);
 
 			var currentModel = await DatabaseContext.RepositorySettings.Where(x => x.InstanceId == Instance.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
@@ -172,25 +173,16 @@ namespace Tgstation.Server.Host.Controllers
 			var repoManager = instanceManager.GetInstance(Instance).RepositoryManager;
 
 			if (repoManager.CloneInProgress)
-				return Conflict(new ErrorMessage
-				{
-					Message = "A clone operation is in progress!"
-				});
+				return Conflict(new ErrorMessage(ErrorCode.RepoCloning));
 
 			if(repoManager.InUse)
-				return Conflict(new ErrorMessage
-				{
-					Message = "The repo is busy!"
-				});
+				return Conflict(new ErrorMessage(ErrorCode.RepoBusy));
 
 			using (var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 			{
 				// clone conflict
 				if (repo != null)
-					return Conflict(new ErrorMessage
-					{
-						Message = "The repository already exists!"
-					});
+					return Conflict(new ErrorMessage(ErrorCode.RepoExists));
 
 				var job = new Models.Job
 				{
@@ -206,7 +198,7 @@ namespace Tgstation.Server.Host.Controllers
 					using (var repos = await repoManager.CloneRepository(new Uri(origin), cloneBranch, currentModel.AccessUser, currentModel.AccessToken, progressReporter, ct).ConfigureAwait(false))
 					{
 						if (repos == null)
-							throw new JobException("Filesystem conflict while cloning repository!");
+							throw new JobException(ErrorCode.RepoExists);
 						var instance = new Models.Instance
 						{
 							Id = Instance.Id
@@ -280,22 +272,16 @@ namespace Tgstation.Server.Host.Controllers
 			var currentModel = await DatabaseContext.RepositorySettings.Where(x => x.InstanceId == Instance.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
 			if (currentModel == default)
-				return StatusCode((int)HttpStatusCode.Gone);
+				return StatusCode((int)HttpStatusCode.Gone, new ErrorMessage(ErrorCode.RepoMissing));
 
 			var api = currentModel.ToApi();
 			var repoManager = instanceManager.GetInstance(Instance).RepositoryManager;
 
 			if (repoManager.CloneInProgress)
-				return Conflict(new ErrorMessage
-				{
-					Message = "A clone operation is in progress!"
-				});
+				return Conflict(new ErrorMessage(ErrorCode.RepoCloning));
 
 			if (repoManager.InUse)
-				return Conflict(new ErrorMessage
-				{
-					Message = "The repo is busy!"
-				});
+				return Conflict(new ErrorMessage(ErrorCode.RepoBusy));
 
 			using (var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 			{
@@ -332,35 +318,33 @@ namespace Tgstation.Server.Host.Controllers
 				throw new ArgumentNullException(nameof(model));
 
 			if (model.AccessUser == null ^ model.AccessToken == null)
-				return BadRequest(new ErrorMessage { Message = "Either both accessToken and accessUser must be present or neither!" });
+				return BadRequest(new ErrorMessage(ErrorCode.RepoMismatchUserAndAccessToken));
 
 			if (model.CheckoutSha != null && model.Reference != null)
-				return BadRequest(new ErrorMessage { Message = "Only one of sha or reference may be specified!" });
+				return BadRequest(new ErrorMessage(ErrorCode.RepoMismatchShaAndReference));
 
 			if (model.CheckoutSha != null && model.UpdateFromOrigin == true)
-				return BadRequest(new ErrorMessage { Message = "Cannot update a reference when checking out a sha!" });
-
-			if (model.Origin != null)
-				return BadRequest(new ErrorMessage { Message = "origin cannot be modified without deleting the repository!" });
-
-			if (model.NewTestMerges?.Any(x => !x.Number.HasValue) == true)
-				return BadRequest(new ErrorMessage { Message = "All new test merges must provide a number!" });
+				return BadRequest(new ErrorMessage(ErrorCode.RepoMismatchShaAndUpdate));
 
 			if (model.NewTestMerges?.Any(x => model.NewTestMerges.Any(y => x != y && x.Number == y.Number)) == true)
-				return BadRequest(new ErrorMessage { Message = "Cannot test merge the same PR twice in one job!" });
+				return BadRequest(new ErrorMessage(ErrorCode.RepoDuplicateTestMerge));
 
 			if (model.CommitterName?.Length == 0)
-				return BadRequest(new ErrorMessage { Message = "Cannot set empty committer name!" });
+				return BadRequest(new ErrorMessage(ErrorCode.RepoWhitespaceCommitterName));
 
 			if (model.CommitterEmail?.Length == 0)
-				return BadRequest(new ErrorMessage { Message = "Cannot set empty committer e=mail!" });
+				return BadRequest(new ErrorMessage(ErrorCode.RepoWhitespaceCommitterEmail));
 
 			var newTestMerges = model.NewTestMerges != null && model.NewTestMerges.Count > 0;
 			var userRights = (RepositoryRights)AuthenticationContext.GetRight(RightsType.Repository);
 			if (newTestMerges && !userRights.HasFlag(RepositoryRights.MergePullRequest))
 				return Forbid();
 
-			var currentModel = await DatabaseContext.RepositorySettings.Where(x => x.InstanceId == Instance.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var currentModel = await DatabaseContext
+				.RepositorySettings
+				.Where(x => x.InstanceId == Instance.Id)
+				.FirstOrDefaultAsync(cancellationToken)
+				.ConfigureAwait(false);
 
 			if (currentModel == default)
 				return StatusCode((int)HttpStatusCode.Gone);
@@ -407,25 +391,19 @@ namespace Tgstation.Server.Host.Controllers
 			if (canRead)
 			{
 				if (repoManager.CloneInProgress)
-					return Conflict(new ErrorMessage
-					{
-						Message = "A clone operation is in progress!"
-					});
+					return Conflict(new ErrorMessage(ErrorCode.RepoCloning));
 
 				if (repoManager.InUse)
-					return Conflict(new ErrorMessage
-					{
-						Message = "The repo is busy!"
-					});
+					return Conflict(new ErrorMessage(ErrorCode.RepoBusy));
 
 				using (var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 				{
 					if (repo == null)
-						return Conflict(new ErrorMessage
-						{
-							Message = "Repository could not be loaded!"
-						});
+						return Conflict(new ErrorMessage(ErrorCode.RepoMissing));
 					await PopulateApi(api, repo, DatabaseContext, Instance, cancellationToken).ConfigureAwait(false);
+
+					if (model.Origin != null && model.Origin != repo.Origin)
+						return BadRequest(new ErrorMessage(ErrorCode.RepoCantChangeOrigin));
 				}
 			}
 
@@ -469,7 +447,7 @@ namespace Tgstation.Server.Host.Controllers
 				using (var repo = await repoManager.LoadRepository(ct).ConfigureAwait(false))
 				{
 					if (repo == null)
-						throw new JobException("Repository could not be loaded!");
+						throw new JobException(ErrorCode.RepoMissing);
 
 					var modelHasShaOrReference = model.CheckoutSha != null || model.Reference != null;
 
@@ -478,9 +456,11 @@ namespace Tgstation.Server.Host.Controllers
 					string postUpdateSha = null;
 
 					if (newTestMerges && !repo.IsGitHubRepository)
-						throw new JobException("Cannot test merge on a non GitHub based repository!");
+						throw new JobException(ErrorCode.RepoUnsupportedTestMergeRemote);
 
-					var committerName = currentModel.ShowTestMergeCommitters.Value ? AuthenticationContext.User.Name : currentModel.CommitterName;
+					var committerName = currentModel.ShowTestMergeCommitters.Value
+						? AuthenticationContext.User.Name
+						: currentModel.CommitterName;
 
 					var hardResettingToOriginReference = model.UpdateFromOrigin == true && model.Reference != null;
 
@@ -521,14 +501,14 @@ namespace Tgstation.Server.Host.Controllers
 						if (model.UpdateFromOrigin == true)
 						{
 							if (!repo.Tracking)
-								throw new JobException("Not on an updatable reference!");
+								throw new JobException(ErrorCode.RepoReferenceRequired);
 							await repo.FetchOrigin(currentModel.AccessUser, currentModel.AccessToken, NextProgressReporter(), ct).ConfigureAwait(false);
 							doneSteps = 1;
 							if (!modelHasShaOrReference)
 							{
 								var fastForward = await repo.MergeOrigin(committerName, currentModel.CommitterEmail, NextProgressReporter(), ct).ConfigureAwait(false);
 								if (!fastForward.HasValue)
-									throw new JobException("Merge conflict occurred during origin update!");
+									throw new JobException(ErrorCode.RepoMergeConflict);
 								await UpdateRevInfo().ConfigureAwait(false);
 								if (fastForward.Value)
 								{
@@ -544,14 +524,19 @@ namespace Tgstation.Server.Host.Controllers
 						// checkout/hard reset
 						if (modelHasShaOrReference)
 						{
-							if ((model.CheckoutSha != null && repo.Head.ToUpperInvariant().StartsWith(model.CheckoutSha.ToUpperInvariant(), StringComparison.Ordinal))
-								|| (model.Reference != null && repo.Reference.ToUpperInvariant() != model.Reference.ToUpperInvariant()))
+							var validCheckoutSha =
+								model.CheckoutSha != null
+								&& !repo.Head.StartsWith(model.CheckoutSha, StringComparison.OrdinalIgnoreCase);
+							var validCheckoutReference =
+								model.Reference != null
+								&& !repo.Reference.Equals(model.Reference, StringComparison.OrdinalIgnoreCase);
+							if (validCheckoutSha || validCheckoutReference)
 							{
 								var committish = model.CheckoutSha ?? model.Reference;
 								var isSha = await repo.IsSha(committish, cancellationToken).ConfigureAwait(false);
 
 								if ((isSha && model.Reference != null) || (!isSha && model.CheckoutSha != null))
-									throw new JobException("Attempted to checkout a SHA or reference that was actually the opposite!");
+									throw new JobException(ErrorCode.RepoSwappedShaOrReference);
 
 								await repo.CheckoutObject(committish, NextProgressReporter(), ct).ConfigureAwait(false);
 								await LoadRevisionInformation(repo, databaseContext, attachedInstance, null, x => lastRevisionInfo = x, ct).ConfigureAwait(false); // we've either seen origin before or what we're checking out is on origin
@@ -562,7 +547,7 @@ namespace Tgstation.Server.Host.Controllers
 							if (hardResettingToOriginReference)
 							{
 								if (!repo.Tracking)
-									throw new JobException("Checked out reference does not track a remote object!");
+									throw new JobException(ErrorCode.RepoReferenceNotTracking);
 								await repo.ResetToOrigin(NextProgressReporter(), ct).ConfigureAwait(false);
 								await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, currentModel.CommitterName, currentModel.CommitterEmail, NextProgressReporter(), true, ct).ConfigureAwait(false);
 								await LoadRevisionInformation(repo, databaseContext, attachedInstance, null, x => lastRevisionInfo = x, ct).ConfigureAwait(false);
@@ -610,8 +595,8 @@ namespace Tgstation.Server.Host.Controllers
 										try
 										{
 											// retrieve the latest sha
-											var pr = await gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number.Value).ConfigureAwait(false);
-											prMap.Add(I.Number.Value, pr);
+											var pr = await gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number).ConfigureAwait(false);
+											prMap.Add(I.Number, pr);
 											I.PullRequestRevision = pr.Head.Sha;
 										}
 										catch
@@ -696,6 +681,7 @@ namespace Tgstation.Server.Host.Controllers
 								var contextUser = databaseContext.Users.Local.Where(x => x.Id == AuthenticationContext.User.Id).FirstOrDefault();
 								if (contextUser == default)
 								{
+									// No reason to call the DB, just attach it
 									contextUser = new Models.User
 									{
 										Id = AuthenticationContext.User.Id
@@ -710,38 +696,55 @@ namespace Tgstation.Server.Host.Controllers
 									Octokit.PullRequest pr = null;
 									string errorMessage = null;
 
-									if (lastRevisionInfo.ActiveTestMerges.Any(x => x.TestMerge.Number == I.Number.Value))
-										throw new JobException("Cannot test merge the same PR twice in one HEAD!");
+									if (lastRevisionInfo.ActiveTestMerges.Any(x => x.TestMerge.Number == I.Number))
+										throw new JobException(ErrorCode.RepoDuplicateTestMerge);
 
+									Exception exception = null;
 									try
 									{
 										// load from cache if possible
-										if (prMap == null || !prMap.TryGetValue(I.Number.Value, out pr))
-											pr = await gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number.Value).ConfigureAwait(false);
+										if (prMap == null || !prMap.TryGetValue(I.Number, out pr))
+											pr = await gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number).ConfigureAwait(false);
 									}
-									catch (Octokit.RateLimitExceededException)
+									catch (Octokit.RateLimitExceededException ex)
 									{
 										// you look at your anonymous access and sigh
-										errorMessage = "P.R.E. RATE LIMITED";
+										errorMessage = "REMOTE API ERROR: RATE LIMITED";
+										exception = ex;
 									}
-									catch (Octokit.AuthorizationException)
+									catch (Octokit.AuthorizationException ex)
 									{
-										errorMessage = "P.R.E. BAD CREDENTIALS";
+										errorMessage = "REMOTE API ERROR: BAD CREDENTIALS";
+										exception = ex;
 									}
-									catch (Octokit.NotFoundException)
+									catch (Octokit.NotFoundException ex)
 									{
 										// you look at your shithub and sigh
-										errorMessage = "P.R.E. NOT FOUND";
+										errorMessage = "REMOTE API ERROR: PULL REQUEST NOT FOUND";
+										exception = ex;
 									}
+
+									if (exception != null)
+										Logger.LogWarning("Error retrieving pull request metadata: {0}", exception);
 
 									// we want to take the earliest truth possible to prevent RCEs, if this fails AddTestMerge will set it
 									if (I.PullRequestRevision == null && pr != null)
 										I.PullRequestRevision = pr.Head.Sha;
 
-									var mergeResult = await repo.AddTestMerge(I, committerName, currentModel.CommitterEmail, currentModel.AccessUser, currentModel.AccessToken, NextProgressReporter(), ct).ConfigureAwait(false);
+									var mergeResult = await repo.AddTestMerge(
+										I,
+										committerName,
+										currentModel.CommitterEmail,
+										currentModel.AccessUser,
+										currentModel.AccessToken,
+										NextProgressReporter(),
+										ct).ConfigureAwait(false);
 
 									if (!mergeResult.HasValue)
-										throw new JobException(String.Format(CultureInfo.InvariantCulture, "Merge of PR #{0} at {1} conflicted!", I.Number, I.PullRequestRevision.Substring(0, 7)));
+										throw new JobException(
+											ErrorCode.RepoTestMergeConflict,
+											new JobException(
+												$"Merge of PR #{I.Number} at {I.PullRequestRevision.Substring(0, 7)} conflicted!"));
 
 									++doneSteps;
 

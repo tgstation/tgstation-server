@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Net;
-using Tgstation.Server.Api.Models;
+using System.Net.Http;
 
 namespace Tgstation.Server.Client
 {
@@ -12,11 +11,8 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// Construct an <see cref="RequestTimeoutException"/>
 		/// </summary>
-		public RequestTimeoutException() : base(new ErrorMessage
-		{
-			Message = "The request timed out!",
-			SeverApiVersion = null
-		}, HttpStatusCode.RequestTimeout)
+		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/> for the <see cref="ClientException"/>.</param>
+		public RequestTimeoutException(HttpResponseMessage responseMessage) : base(responseMessage, "The request timed out!")
 		{ }
 
 		/// <summary>

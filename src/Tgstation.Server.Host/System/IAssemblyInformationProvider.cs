@@ -1,11 +1,12 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 namespace Tgstation.Server.Host.System
 {
 	/// <summary>
 	/// For retrieving the <see cref="Assembly"/>'s location.
 	/// </summary>
-	interface IAssemblyInformationProvider
+	public interface IAssemblyInformationProvider
 	{
 		/// <summary>
 		/// Gets the path to the executing assembly.
@@ -16,5 +17,20 @@ namespace Tgstation.Server.Host.System
 		/// Gets the <see cref="AssemblyName"/>.
 		/// </summary>
 		AssemblyName Name { get; }
+
+		/// <summary>
+		/// Prefix to <see cref="VersionString"/>.
+		/// </summary>
+		string VersionPrefix { get; }
+
+		/// <summary>
+		/// A more verbose version of <see cref="Version"/>.
+		/// </summary>
+		string VersionString { get; }
+
+		/// <summary>
+		/// The version of the assembly.
+		/// </summary>
+		Version Version { get; }
 	}
 }

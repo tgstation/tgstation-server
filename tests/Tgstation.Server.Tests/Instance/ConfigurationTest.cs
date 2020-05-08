@@ -47,7 +47,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			Assert.IsTrue(FileExists(file));
 
-			await Assert.ThrowsExceptionAsync<ConflictException>(() => configurationClient.DeleteEmptyDirectory(TestDir, cancellationToken)).ConfigureAwait(false);
+			await ApiAssert.ThrowsException<ConflictException>(() => configurationClient.DeleteEmptyDirectory(TestDir, cancellationToken), ErrorCode.ConfigurationDirectoryNotEmpty).ConfigureAwait(false);
 
 			file.Content = null;
 			await configurationClient.Write(file, cancellationToken).ConfigureAwait(false);

@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Net;
-using Tgstation.Server.Api.Models;
+using System.Net.Http;
 
 namespace Tgstation.Server.Client
 {
@@ -12,11 +11,8 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// Construct an <see cref="ServiceUnavailableException"/>
 		/// </summary>
-		public ServiceUnavailableException() : base(new ErrorMessage
-		{
-			Message = "The server is currently starting or stopping and is unable to process the request!",
-			SeverApiVersion = null
-		}, HttpStatusCode.ServiceUnavailable)
+		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/>.</param>
+		public ServiceUnavailableException(HttpResponseMessage responseMessage) : base(responseMessage, "The service is unavailable!")
 		{ }
 
 		/// <summary>

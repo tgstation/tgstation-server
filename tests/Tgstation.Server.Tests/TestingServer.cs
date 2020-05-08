@@ -11,6 +11,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Client;
 using Tgstation.Server.Host;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Tests
 {
@@ -19,9 +20,12 @@ namespace Tgstation.Server.Tests
 		public Uri Url { get; }
 
 		public string Directory { get; }
-		public bool RestartRequested => realServer.RestartRequested;
 
-		readonly IServer realServer;
+		public string DatabaseType { get; }
+
+		public bool RestartRequested => realServer.Result.RestartRequested;
+
+		readonly Task<IServer> realServer;
 
 		readonly IServerClientFactory serverClientFactory;
 
@@ -31,19 +35,26 @@ namespace Tgstation.Server.Tests
 		{
 			this.serverClientFactory = serverClientFactory;
 
-			Directory = Path.GetTempFileName();
-			File.Delete(Directory);
+			Directory = Environment.GetEnvironmentVariable("TGS4_TEST_TEMP_DIRECTORY");
+			if (String.IsNullOrWhiteSpace(Directory))
+			{
+				Directory = Path.GetTempFileName();
+				File.Delete(Directory);
+				Directory = Directory.Replace(".tmp", ".tgs4");
+			}
+
 			System.IO.Directory.CreateDirectory(Directory);
-			Url = new Uri("http://localhost:5001");
+			const string UrlString = "http://localhost:5001";
+			Url = new Uri(UrlString);
 
 			//so we need a db
 			//we have to rely on env vars
-			var databaseType = Environment.GetEnvironmentVariable("TGS4_TEST_DATABASE_TYPE");
+			DatabaseType = Environment.GetEnvironmentVariable("TGS4_TEST_DATABASE_TYPE");
 			var connectionString = Environment.GetEnvironmentVariable("TGS4_TEST_CONNECTION_STRING");
 			var gitHubAccessToken = Environment.GetEnvironmentVariable("TGS4_TEST_GITHUB_TOKEN");
 			var dumpOpenAPISpecPathEnvVar = Environment.GetEnvironmentVariable("TGS4_TEST_DUMP_API_SPEC");
 
-			if (String.IsNullOrEmpty(databaseType))
+			if (String.IsNullOrEmpty(DatabaseType))
 				Assert.Inconclusive("No database type configured in env var TGS4_TEST_DATABASE_TYPE!");
 
 			if (String.IsNullOrEmpty(connectionString))
@@ -53,14 +64,18 @@ namespace Tgstation.Server.Tests
 				Console.WriteLine("WARNING: No GitHub access token configured, test may fail due to rate limits!");
 
 			dumpOpenAPISpecpath = !String.IsNullOrEmpty(dumpOpenAPISpecPathEnvVar);
-			
+
 			var args = new List<string>()
 			{
-				String.Format(CultureInfo.InvariantCulture, "Kestrel:EndPoints:Http:Url={0}", Url),
-				String.Format(CultureInfo.InvariantCulture, "Database:DatabaseType={0}", databaseType),
+				String.Format(CultureInfo.InvariantCulture, "Kestrel:EndPoints:Http:Url={0}", UrlString),
+				String.Format(CultureInfo.InvariantCulture, "Database:DatabaseType={0}", DatabaseType),
 				String.Format(CultureInfo.InvariantCulture, "Database:ConnectionString={0}", connectionString),
 				String.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", true),
-				String.Format(CultureInfo.InvariantCulture, "General:SetupWizardMode={0}", SetupWizardMode.Never)
+				String.Format(CultureInfo.InvariantCulture, "General:SetupWizardMode={0}", SetupWizardMode.Never),
+				String.Format(CultureInfo.InvariantCulture, "General:MinimumPasswordLength={0}", 10),
+				String.Format(CultureInfo.InvariantCulture, "General:InstanceLimit={0}", 11),
+				String.Format(CultureInfo.InvariantCulture, "General:UserLimit={0}", 150),
+				String.Format(CultureInfo.InvariantCulture, "General:ValidInstancePaths:0={0}", Directory)
 			};
 
 			if (!String.IsNullOrEmpty(gitHubAccessToken))
@@ -69,7 +84,7 @@ namespace Tgstation.Server.Tests
 			if (dumpOpenAPISpecpath)
 				Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
 
-			realServer = ServerFactory.CreateDefault().CreateServer(args.ToArray(), updatePath);
+			realServer = Application.CreateDefaultServerFactory().CreateServer(args.ToArray(), updatePath, default);
 		}
 
 		public void Dispose()
@@ -77,9 +92,10 @@ namespace Tgstation.Server.Tests
 			System.IO.Directory.Delete(Directory, true);
 		}
 
-		public async Task RunAsync(CancellationToken cancellationToken)
+		public async Task Run(CancellationToken cancellationToken)
 		{
-			Task runTask = realServer.RunAsync(cancellationToken);
+			var serverInstance = await realServer.ConfigureAwait(false);
+			Task runTask = serverInstance.Run(cancellationToken);
 
 			if (dumpOpenAPISpecpath)
 			{
@@ -110,12 +126,10 @@ namespace Tgstation.Server.Tests
 				// Dump swagger to disk
 				// This is purely for CI
 				var webRequest = WebRequest.Create(Url.ToString() + "swagger/v1/swagger.json");
-				using (var response = webRequest.GetResponse())
-				using (var content = response.GetResponseStream())
-				using (var output = new FileStream(@"C:\swagger.json", FileMode.Create))
-				{
-					await content.CopyToAsync(output);
-				}
+				using var response = webRequest.GetResponse();
+				using var content = response.GetResponseStream();
+				using var output = new FileStream(@"C:\swagger.json", FileMode.Create);
+				await content.CopyToAsync(output);
 			}
 
 			await runTask;

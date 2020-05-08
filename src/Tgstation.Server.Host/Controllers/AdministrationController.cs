@@ -29,8 +29,6 @@ namespace Tgstation.Server.Host.Controllers
 	[Route(Routes.Administration)]
 	public sealed class AdministrationController : ApiController
 	{
-		const string RestartNotSupportedException = "This deployment of tgstation-server is lacking the Tgstation.Server.Host.Watchdog component. Restarts and version changes cannot be completed!";
-
 		const string OctokitException = "Bad GitHub API response, check configuration! Exception: {0}";
 
 		/// <summary>
@@ -44,9 +42,9 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IServerControl serverUpdater;
 
 		/// <summary>
-		/// The <see cref="IApplication"/> for the <see cref="AdministrationController"/>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="AdministrationController"/>
 		/// </summary>
-		readonly IApplication application;
+		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="AdministrationController"/>
@@ -75,7 +73,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/></param>
 		/// <param name="serverUpdater">The value of <see cref="serverUpdater"/></param>
-		/// <param name="application">The value of <see cref="application"/></param>
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
@@ -86,7 +84,7 @@ namespace Tgstation.Server.Host.Controllers
 			IAuthenticationContextFactory authenticationContextFactory,
 			IGitHubClientFactory gitHubClientFactory,
 			IServerControl serverUpdater,
-			IApplication application,
+			IAssemblyInformationProvider assemblyInformationProvider,
 			IIOManager ioManager,
 			IPlatformIdentifier platformIdentifier,
 			ILogger<AdministrationController> logger,
@@ -101,7 +99,7 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 			this.serverUpdater = serverUpdater ?? throw new ArgumentNullException(nameof(serverUpdater));
-			this.application = application ?? throw new ArgumentNullException(nameof(application));
+			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			updatesConfiguration = updatesConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(updatesConfigurationOptions));
@@ -158,10 +156,7 @@ namespace Tgstation.Server.Host.Controllers
 						continue;
 
 					if (!serverUpdater.ApplyUpdate(version, new Uri(asset.BrowserDownloadUrl), ioManager))
-						return Conflict(new ErrorMessage
-						{
-							Message = "An update operation is already in progress!"
-						});
+						return Conflict(new ErrorMessage(ErrorCode.ServerUpdateInProgress));
 					return Accepted(new Administration
 					{
 						WindowsHost = platformIdentifier.IsWindows,
@@ -200,7 +195,7 @@ namespace Tgstation.Server.Host.Controllers
 
 					foreach (var I in releases)
 						if (Version.TryParse(I.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal), out var version)
-							&& version.Major == application.Version.Major
+							&& version.Major == assemblyInformationProvider.Version.Major
 							&& (greatestVersion == null || version > greatestVersion))
 							greatestVersion = version;
 					repoUrl = new Uri((await repositoryTask.ConfigureAwait(false)).HtmlUrl);
@@ -224,9 +219,9 @@ namespace Tgstation.Server.Host.Controllers
 			catch (ApiException e)
 			{
 				Logger.LogWarning(OctokitException, e);
-				return StatusCode((int)HttpStatusCode.FailedDependency, new ErrorMessage
+				return StatusCode((int)HttpStatusCode.FailedDependency, new ErrorMessage(ErrorCode.GitHubApiError)
 				{
-					Message = e.Message
+					AdditionalData = e.Message
 				});
 			}
 		}
@@ -255,16 +250,16 @@ namespace Tgstation.Server.Host.Controllers
 				throw new ArgumentNullException(nameof(model));
 
 			if (model.NewVersion == null)
-				return BadRequest(new ErrorMessage { Message = "Missing new version!" });
+				return BadRequest(new ErrorMessage(ErrorCode.ModelValidationFailure)
+				{
+					AdditionalData = "newVersion is required!"
+				});
 
-			if (model.NewVersion.Major != application.Version.Major)
-				return BadRequest(new ErrorMessage { Message = "Cannot update to a different suite version!" });
+			if (model.NewVersion.Major != assemblyInformationProvider.Version.Major)
+				return BadRequest(new ErrorMessage(ErrorCode.CannotChangeServerSuite));
 
 			if(!serverUpdater.WatchdogPresent)
-				return UnprocessableEntity(new ErrorMessage
-				{
-					Message = RestartNotSupportedException
-				});
+				return UnprocessableEntity(new ErrorMessage(ErrorCode.MissingHostWatchdog));
 
 			return await CheckReleasesAndApplyUpdate(model.NewVersion, cancellationToken).ConfigureAwait(false);
 		}
@@ -286,10 +281,7 @@ namespace Tgstation.Server.Host.Controllers
 				if (!serverUpdater.WatchdogPresent)
 				{
 					Logger.LogDebug("Restart request failed due to lack of host watchdog!");
-					return UnprocessableEntity(new ErrorMessage
-					{
-						Message = RestartNotSupportedException
-					});
+					return UnprocessableEntity(new ErrorMessage(ErrorCode.MissingHostWatchdog));
 				}
 
 				await serverUpdater.Restart().ConfigureAwait(false);

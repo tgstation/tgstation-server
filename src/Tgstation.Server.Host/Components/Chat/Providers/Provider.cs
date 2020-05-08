@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Components.Chat.Providers
 {
@@ -91,7 +90,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		public abstract Task Disconnect(CancellationToken cancellationToken);
 
 		/// <inheritdoc />
-		public abstract Task<IReadOnlyCollection<Channel>> MapChannels(IEnumerable<ChatChannel> channels, CancellationToken cancellationToken);
+		public abstract Task<IReadOnlyCollection<ChannelRepresentation>> MapChannels(IEnumerable<Api.Models.ChatChannel> channels, CancellationToken cancellationToken);
 
 		/// <inheritdoc />
 		public async Task<Message> NextMessage(CancellationToken cancellationToken)

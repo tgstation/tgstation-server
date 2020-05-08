@@ -24,6 +24,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <see cref="ApiController"/> for managing <see cref="Api.Models.ChatBot"/>s
 	/// </summary>
 	[Route(Routes.Chat)]
+	#pragma warning disable CA1506 // TODO: Decomplexify
 	public sealed class ChatController : ApiController
 	{
 		/// <summary>
@@ -73,29 +74,18 @@ namespace Tgstation.Server.Host.Controllers
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
-			if (String.IsNullOrWhiteSpace(model.Name))
-				return BadRequest(new ErrorMessage { Message = "name cannot be null or whitespace!" });
+			var earlyOut = StandardModelChecks(model, true);
+			if (earlyOut != null)
+				return earlyOut;
 
-			if (String.IsNullOrWhiteSpace(model.ConnectionString))
-				return BadRequest(new ErrorMessage { Message = "connection_string cannot be null or whitespace!" });
+			var countOfExistingBotsInInstance = await DatabaseContext
+				.ChatBots
+				.Where(x => x.InstanceId == Instance.Id)
+				.CountAsync(cancellationToken)
+				.ConfigureAwait(false);
 
-			if (!model.Provider.HasValue)
-				return BadRequest(new ErrorMessage { Message = "provider cannot be null!" });
-
-			switch (model.Provider)
-			{
-				case ChatProvider.Discord:
-				case ChatProvider.Irc:
-					break;
-				default:
-					return BadRequest(new ErrorMessage { Message = "Invalid provider!" });
-			}
-
-			if (model.ReconnectionInterval == 0)
-				return BadRequest(new ErrorMessage { Message = "ReconnectionInterval must not be zero!" });
-
-			if (!model.ValidateProviderChannelTypes())
-				return BadRequest(new ErrorMessage { Message = "One or more of channels aren't formatted correctly for the given provider!" });
+			if (countOfExistingBotsInInstance >= Instance.ChatBotLimit.Value)
+				return Conflict(new ErrorMessage(ErrorCode.ChatBotMax));
 
 			model.Enabled = model.Enabled ?? false;
 			model.ReconnectionInterval = model.ReconnectionInterval ?? 1;
@@ -109,35 +99,29 @@ namespace Tgstation.Server.Host.Controllers
 				Channels = model.Channels?.Select(x => ConvertApiChatChannel(x)).ToList() ?? new List<Models.ChatChannel>(), // important that this isn't null
 				InstanceId = Instance.Id,
 				Provider = model.Provider,
-				ReconnectionInterval = model.ReconnectionInterval
+				ReconnectionInterval = model.ReconnectionInterval,
+				ChannelLimit = model.ChannelLimit
 			};
 
 			DatabaseContext.ChatBots.Add(dbModel);
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
-
+			var instance = instanceManager.GetInstance(Instance);
 			try
 			{
-				try
-				{
-					// try to create it
-					var instance = instanceManager.GetInstance(Instance);
-					await instance.Chat.ChangeSettings(dbModel, cancellationToken).ConfigureAwait(false);
+				// try to create it
+				await instance.Chat.ChangeSettings(dbModel, cancellationToken).ConfigureAwait(false);
 
-					if (dbModel.Channels.Count > 0)
-						await instance.Chat.ChangeChannels(dbModel.Id, dbModel.Channels, cancellationToken).ConfigureAwait(false);
-				}
-				catch
-				{
-					// undo the add
-					DatabaseContext.ChatBots.Remove(dbModel);
-					await DatabaseContext.Save(default).ConfigureAwait(false);
-					throw;
-				}
+				if (dbModel.Channels.Count > 0)
+					await instance.Chat.ChangeChannels(dbModel.Id, dbModel.Channels, cancellationToken).ConfigureAwait(false);
 			}
-			catch (InvalidOperationException e)
+			catch
 			{
-				return BadRequest(new ErrorMessage { Message = e.Message });
+				// undo the add
+				DatabaseContext.ChatBots.Remove(dbModel);
+				await DatabaseContext.Save(default).ConfigureAwait(false);
+				await instance.Chat.DeleteConnection(dbModel.Id, cancellationToken).ConfigureAwait(false);
+				throw;
 			}
 
 			return StatusCode((int)HttpStatusCode.Created, dbModel.ToApi());
@@ -224,8 +208,8 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(ChatBotRights.WriteChannels | ChatBotRights.WriteConnectionString | ChatBotRights.WriteEnabled | ChatBotRights.WriteName | ChatBotRights.WriteProvider)]
 		[ProducesResponseType(200)]
 		[ProducesResponseType(typeof(Api.Models.ChatBot), 200)]
-		#pragma warning disable CA1502 // TODO: Decomplexify
-		#pragma warning disable CA1506
+#pragma warning disable CA1502 // TODO: Decomplexify
+#pragma warning disable CA1506
 		public async Task<IActionResult> Update([FromBody] Api.Models.ChatBot model, CancellationToken cancellationToken)
 		#pragma warning restore CA1502
 		#pragma warning restore CA1506
@@ -233,11 +217,9 @@ namespace Tgstation.Server.Host.Controllers
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
-			if (model.ReconnectionInterval == 0)
-				return BadRequest(new ErrorMessage { Message = "ReconnectionInterval must not be zero!" });
-
-			if (model.Provider.HasValue && !model.ValidateProviderChannelTypes())
-				return BadRequest(new ErrorMessage { Message = "One or more of channels aren't formatted correctly for the given provider!" });
+			var earlyOut = StandardModelChecks(model, false);
+			if (earlyOut != null)
+				return earlyOut;
 
 			var query = DatabaseContext.ChatBots.Where(x => x.InstanceId == Instance.Id && x.Id == model.Id).Include(x => x.Channels);
 
@@ -245,6 +227,15 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (current == default)
 				return StatusCode((int)HttpStatusCode.Gone);
+
+			if ((model.Channels?.Count ?? current.Channels.Count) > (model.ChannelLimit ?? current.ChannelLimit.Value))
+			{
+				// 400 or 409 depends on if the client sent both
+				var errorMessage = new ErrorMessage(ErrorCode.ChatBotMaxChannels);
+				if (model.Channels != null && model.ChannelLimit.HasValue)
+					return BadRequest(errorMessage);
+				return Conflict(errorMessage);
+			}
 
 			var userRights = (ChatBotRights)AuthenticationContext.GetRight(RightsType.ChatBots);
 
@@ -309,5 +300,39 @@ namespace Tgstation.Server.Host.Controllers
 
 			return Ok();
 		}
+
+		/// <summary>
+		/// Perform some basic validation of a given <paramref name="model"/>.
+		/// </summary>
+		/// <param name="model">The <see cref="Api.Models.ChatBot"/> to validate.</param>
+		/// <param name="forCreation">If the <paramref name="model"/> is being created.</param>
+		/// <returns>An <see cref="IActionResult"/> to respond with or <see langword="null"/>.</returns>
+		private IActionResult StandardModelChecks(Api.Models.ChatBot model, bool forCreation)
+		{
+			if (model.ReconnectionInterval == 0)
+				throw new InvalidOperationException("RecconnectionInterval cannot be zero!");
+
+			if (forCreation && !model.Provider.HasValue)
+				return BadRequest(new ErrorMessage(ErrorCode.ChatBotProviderMissing));
+
+			if (model.Name != null && String.IsNullOrWhiteSpace(model.Name))
+				return BadRequest(new ErrorMessage(ErrorCode.ChatBotWhitespaceName));
+
+			if (model.ConnectionString != null && String.IsNullOrWhiteSpace(model.ConnectionString))
+				return BadRequest(new ErrorMessage(ErrorCode.ChatBotWhitespaceConnectionString));
+
+			if (!model.ValidateProviderChannelTypes())
+				return BadRequest(new ErrorMessage(ErrorCode.ChatBotWrongChannelType));
+
+			var defaultMaxChannels = (ulong)Math.Max(Models.ChatBot.DefaultChannelLimit, model.Channels?.Count ?? 0);
+			if (defaultMaxChannels > UInt16.MaxValue)
+				return BadRequest(new ErrorMessage(ErrorCode.ChatBotMaxChannels));
+
+			if (forCreation)
+				model.ChannelLimit = model.ChannelLimit ?? (ushort)defaultMaxChannels;
+
+			return null;
+		}
 	}
+	#pragma warning restore CA1506
 }

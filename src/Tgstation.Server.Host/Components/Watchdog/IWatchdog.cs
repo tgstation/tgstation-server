@@ -22,6 +22,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		bool AlphaIsActive { get; }
 
 		/// <summary>
+		/// When new <see cref="Models.CompileJob"/>s will be made active.
+		/// </summary>
+		string DeploymentApplicationTime { get; }
+
+		/// <summary>
 		/// The <see cref="CompileJob"/> currently running on the server
 		/// </summary>
 		Models.CompileJob ActiveCompileJob { get; }
@@ -37,7 +42,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		DreamDaemonLaunchParameters LastLaunchParameters { get; }
 
 		/// <summary>
-		/// The <see cref="Components.Watchdog.RebootState"/> of the active server
+		/// The <see cref="Watchdog.RebootState"/> of the active server
 		/// </summary>
 		RebootState? RebootState { get; }
 

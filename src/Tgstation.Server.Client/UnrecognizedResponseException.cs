@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Globalization;
-using System.Net;
-using Tgstation.Server.Api.Models;
+using System.Net.Http;
 
 namespace Tgstation.Server.Client
 {
@@ -11,15 +9,10 @@ namespace Tgstation.Server.Client
 	sealed class UnrecognizedResponseException : ClientException
 	{
 		/// <summary>
-		/// Construct an <see cref="UnrecognizedResponseException"/> with the <paramref name="data"/> of a response body and the <paramref name="statusCode"/>
+		/// Initialize a new instance of the <see cref="UnrecognizedResponseException"/> <see langword="class"/>.
 		/// </summary>
-		/// <param name="data">The body of the response</param>
-		/// <param name="statusCode">The <see cref="HttpStatusCode"/> for the <see cref="ClientException"/></param>
-		public UnrecognizedResponseException(string data, HttpStatusCode statusCode) : base(new ErrorMessage
-		{
-			Message = String.Format(CultureInfo.InvariantCulture, "Unrecognized response body: {0}", data),
-			SeverApiVersion = null
-		}, statusCode)
+		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/>.</param>
+		public UnrecognizedResponseException(HttpResponseMessage responseMessage) : base(responseMessage, "Unrecognized response body!")
 		{ }
 
 		/// <summary>

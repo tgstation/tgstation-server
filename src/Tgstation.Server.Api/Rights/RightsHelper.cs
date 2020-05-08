@@ -85,5 +85,21 @@ namespace Tgstation.Server.Api.Rights
 			// cri evertim
 			return (TRight)(object)rights;
 		}
+
+		/// <summary>
+		/// Clamps a given set of <paramref name="rights"/> to their valid range.
+		/// </summary>
+		/// <typeparam name="TRight">The <see cref="RightsType"/>.</typeparam>
+		/// <param name="rights">The <typeparamref name="TRight"/>s to clamp.</param>
+		/// <returns>The clamped <paramref name="rights"/>.</returns>
+		public static TRight Clamp<TRight>(TRight rights) where TRight : Enum
+		{
+			var allRights = AllRights<TRight>();
+
+			var allAsUlong = Convert.ToUInt64(allRights, CultureInfo.InvariantCulture);
+			var rightsAsUlong = Convert.ToUInt64(rights, CultureInfo.InvariantCulture);
+
+			return (TRight)(object)(allAsUlong & rightsAsUlong);
+		}
 	}
 }

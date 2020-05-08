@@ -41,7 +41,10 @@ namespace Tgstation.Server.Host.Extensions
 				catch (DbUpdateException e)
 				{
 					logger.LogDebug("Database conflict: {0}", e.Message);
-					await new ConflictObjectResult(new ErrorMessage { Message = String.Format(CultureInfo.InvariantCulture, "A database conflict has occurred: {0}", (e.InnerException ?? e).Message) }).ExecuteResultAsync(new ActionContext
+					await new ConflictObjectResult(new ErrorMessage(ErrorCode.DatabaseIntegrityConflict)
+					{
+						AdditionalData = String.Format(CultureInfo.InvariantCulture, (e.InnerException ?? e).Message)
+					}).ExecuteResultAsync(new ActionContext
 					{
 						HttpContext = context
 					}).ConfigureAwait(false);
@@ -90,9 +93,9 @@ namespace Tgstation.Server.Host.Extensions
 				{
 					logger.LogError("Failed request: {0}", e);
 					await new ObjectResult(
-						new ErrorMessage
+						new ErrorMessage(ErrorCode.InternalServerError)
 						{
-							Message = $"A unhandled exception has occurred: {e}"
+							AdditionalData = e.ToString()
 						})
 					{
 						StatusCode = (int)HttpStatusCode.InternalServerError

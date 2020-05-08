@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
-using System.Globalization;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
@@ -43,6 +43,9 @@ namespace Tgstation.Server.Host.Components.Byond
 		public override string DreamMakerName => "dm.exe";
 
 		/// <inheritdoc />
+		public override string PathToUserByondFolder { get; }
+
+		/// <inheritdoc />
 		protected override string ByondRevisionsURLTemplate => "https://secure.byond.com/download/build/{0}/{0}.{1}_byond.zip";
 
 		/// <summary>
@@ -71,6 +74,8 @@ namespace Tgstation.Server.Host.Components.Byond
 		{
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 
+			PathToUserByondFolder = IOManager.ResolvePath(IOManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "BYOND"));
+
 			semaphore = new SemaphoreSlim(1);
 			installedDirectX = false;
 		}
@@ -79,30 +84,20 @@ namespace Tgstation.Server.Host.Components.Byond
 		public void Dispose() => semaphore.Dispose();
 
 		/// <inheritdoc />
-		public override async Task CleanCache(CancellationToken cancellationToken)
-		{
-			try
-			{
-				await IOManager.DeleteDirectory(IOManager.ConcatPath(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "byond/cache"), cancellationToken).ConfigureAwait(false);
-			}
-			catch(OperationCanceledException)
-			{
-				throw;
-			}
-			catch (Exception e)
-			{
-				Logger.LogWarning("Error deleting BYOND cache! Exception: {0}", e);
-			}
-		}
-
-		/// <inheritdoc />
 		public override async Task InstallByond(string path, Version version, CancellationToken cancellationToken)
 		{
 			async Task SetNoPromptTrusted()
 			{
 				var configPath = IOManager.ConcatPath(path, ByondConfigDir);
 				await IOManager.CreateDirectory(configPath, cancellationToken).ConfigureAwait(false);
-				await IOManager.WriteAllBytes(IOManager.ConcatPath(configPath, ByondDDConfig), Encoding.UTF8.GetBytes(ByondNoPromptTrustedMode), cancellationToken).ConfigureAwait(false);
+
+				var configFilePath = IOManager.ConcatPath(configPath, ByondDDConfig);
+				Logger.LogTrace("Disabling trusted prompts in {0}...", configFilePath);
+				await IOManager.WriteAllBytes(
+					configFilePath,
+					Encoding.UTF8.GetBytes(ByondNoPromptTrustedMode),
+					cancellationToken)
+					.ConfigureAwait(false);
 			}
 
 			var setNoPromptTrustedModeTask = SetNoPromptTrusted();
@@ -115,6 +110,8 @@ namespace Tgstation.Server.Host.Components.Byond
 					if (!installedDirectX)
 					{
 						// ^check again because race conditions
+						Logger.LogTrace("Installing DirectX redistributable...");
+
 						// always install it, it's pretty fast and will do better redundancy checking than us
 						var rbdx = IOManager.ConcatPath(path, ByondDXDir);
 
@@ -126,7 +123,7 @@ namespace Tgstation.Server.Host.Components.Byond
 						}
 						catch (Exception e)
 						{
-							throw new JobException("Unable to start DirectX installer process! Is the server running with admin privileges?", e);
+							throw new JobException(ErrorCode.ByondDirectXInstallFail, e);
 						}
 
 						using (directXInstaller)
@@ -137,7 +134,7 @@ namespace Tgstation.Server.Host.Components.Byond
 							cancellationToken.ThrowIfCancellationRequested();
 
 							if (exitCode != 0)
-								throw new JobException(String.Format(CultureInfo.InvariantCulture, "Failed to install included DirectX! Exit code: {0}", exitCode));
+								throw new JobException(ErrorCode.ByondDirectXInstallFail, new JobException($"Invalid exit code: {exitCode}"));
 							installedDirectX = true;
 						}
 					}

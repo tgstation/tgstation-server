@@ -74,7 +74,8 @@ namespace Tgstation.Server.Host.Watchdog
 
 				logger.LogInformation("Detected dotnet executable at {0}", dotnetPath);
 
-				var rootLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+				var executingAssembly = Assembly.GetExecutingAssembly();
+				var rootLocation = Path.GetDirectoryName(executingAssembly.Location);
 
 				var assemblyStoragePath = Path.Combine(rootLocation, "lib"); // always always next to watchdog
 #if DEBUG
@@ -86,7 +87,7 @@ namespace Tgstation.Server.Host.Watchdog
 				Directory.Delete(assemblyStoragePath, true);
 				Directory.CreateDirectory(defaultAssemblyPath);
 
-				var sourcePath = "../../../../Tgstation.Server.Host/bin/Debug/netcoreapp2.2";
+				var sourcePath = "../../../../Tgstation.Server.Host/bin/Debug/netcoreapp3.1";
 				foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
 					Directory.CreateDirectory(dirPath.Replace(sourcePath, defaultAssemblyPath));
 
@@ -114,6 +115,8 @@ namespace Tgstation.Server.Host.Watchdog
 					return;
 				}
 
+				string watchdogVersion = executingAssembly.GetName().Version.ToString();
+
 				while (!cancellationToken.IsCancellationRequested)
 					using (logger.BeginScope("Host invocation"))
 					{
@@ -126,11 +129,12 @@ namespace Tgstation.Server.Host.Watchdog
 
 							var arguments = new List<string>
 							{
-								'"' + assemblyPath + '"',
-								'"' + updateDirectory + '"'
+								$"\"{assemblyPath}\"",
+								$"\"{updateDirectory}\"",
+								$"\"{watchdogVersion}\""
 							};
 
-							if (Environment.GetCommandLineArgs().Any(x => x.Equals("--attach-host-debugger", StringComparison.OrdinalIgnoreCase)))
+							if (args.Any(x => x.Equals("--attach-host-debugger", StringComparison.OrdinalIgnoreCase)))
 								arguments.Add("--attach-debugger");
 
 							if (runConfigure)

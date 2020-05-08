@@ -1,6 +1,6 @@
 using System;
 using System.Net;
-using Tgstation.Server.Api.Models;
+using System.Net.Http;
 
 namespace Tgstation.Server.Client
 {
@@ -12,22 +12,16 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// The <see cref="HttpStatusCode"/> of the <see cref="ClientException"/>
 		/// </summary>
-		public HttpStatusCode StatusCode { get; }
+		public HttpResponseMessage ResponseMessage { get; }
 
 		/// <summary>
-		/// The <see cref="Version"/> of the server's API
+		/// Initialize a new instance of the <see cref="ClientException"/> <see langword="class"/>.
 		/// </summary>
-		public Version ServerApiVersion { get; }
-
-		/// <summary>
-		/// Construct a <see cref="ClientException"/> using an <paramref name="errorMessage"/> and <paramref name="statusCode"/>
-		/// </summary>
-		/// <param name="errorMessage">The <see cref="ErrorMessage"/> associated with the <see cref="ClientException"/></param>
-		/// <param name="statusCode">The <see cref="HttpStatusCode"/> of the <see cref="ClientException"/></param>
-		protected ClientException(ErrorMessage errorMessage, HttpStatusCode statusCode) : base(errorMessage == null ? throw new ArgumentNullException(nameof(errorMessage)) : errorMessage.Message ?? "Unknown Error")
+		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/> that generated the <see cref="ClientException"/>.</param>
+		/// <param name="message">The message for the <see cref="Exception"/>.</param>
+		protected ClientException(HttpResponseMessage responseMessage, string message) : base(message)
 		{
-			StatusCode = statusCode;
-			ServerApiVersion = errorMessage?.SeverApiVersion;
+			ResponseMessage = responseMessage ?? throw new ArgumentNullException(nameof(responseMessage));
 		}
 
 		/// <summary>

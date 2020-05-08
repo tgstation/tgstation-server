@@ -91,7 +91,7 @@ namespace Tgstation.Server.Host.Security
 			var expiry = now.AddMinutes(TokenExpiryMinutes);
 			var claims = new Claim[]
 			{
-				new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString(CultureInfo.InvariantCulture)),
+				new Claim(JwtRegisteredClaimNames.Sub, user.Id.Value.ToString(CultureInfo.InvariantCulture)),
 				new Claim(JwtRegisteredClaimNames.Exp, expiry.ToUnixTimeSeconds().ToString(CultureInfo.InvariantCulture)),
 				new Claim(JwtRegisteredClaimNames.Nbf, nowUnix.ToString(CultureInfo.InvariantCulture)),
 				new Claim(JwtRegisteredClaimNames.Iss, ValidationParameters.ValidIssuer),
@@ -99,7 +99,11 @@ namespace Tgstation.Server.Host.Security
 			};
 
 			var token = new JwtSecurityToken(new JwtHeader(new SigningCredentials(ValidationParameters.IssuerSigningKey, SecurityAlgorithms.HmacSha256)), new JwtPayload(claims));
-			return new Token { Bearer = new JwtSecurityTokenHandler().WriteToken(token), ExpiresAt = expiry };
+			return new Token
+			{
+				Bearer = new JwtSecurityTokenHandler().WriteToken(token),
+				ExpiresAt = expiry
+			};
 		}
 	}
 }

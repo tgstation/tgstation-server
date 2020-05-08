@@ -96,10 +96,11 @@ namespace Tgstation.Server.Host.Controllers
 
 				if (!ApiHeaders.Compatible())
 				{
-					await StatusCode((int)HttpStatusCode.UpgradeRequired, new ErrorMessage
-					{
-						Message = "Provided API version is incompatible with server version!"
-					}).ExecuteResultAsync(context).ConfigureAwait(false);
+					await StatusCode(
+						(int)HttpStatusCode.UpgradeRequired,
+						new ErrorMessage(ErrorCode.ApiMismatch))
+						.ExecuteResultAsync(context)
+						.ConfigureAwait(false);
 					return;
 				}
 
@@ -107,7 +108,7 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					if (!ApiHeaders.InstanceId.HasValue)
 					{
-						await BadRequest(new ErrorMessage { Message = "Missing Instance header!" }).ExecuteResultAsync(context).ConfigureAwait(false);
+						await BadRequest(new ErrorMessage(ErrorCode.InstanceHeaderRequired)).ExecuteResultAsync(context).ConfigureAwait(false);
 						return;
 					}
 
@@ -123,20 +124,53 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				if (requireHeaders)
 				{
-					await BadRequest(new ErrorMessage { Message = e.Message }).ExecuteResultAsync(context).ConfigureAwait(false);
+					await BadRequest(
+						new ErrorMessage(ErrorCode.BadHeaders)
+						{
+							AdditionalData = e.Message
+						})
+						.ExecuteResultAsync(context)
+						.ConfigureAwait(false);
 					return;
 				}
 			}
 
 			if (ModelState?.IsValid == false)
 			{
-				var errorMessages = ModelState.SelectMany(x => x.Value.Errors).Select(x => x.ErrorMessage);
-				await BadRequest(new ErrorMessage { Message = String.Join(Environment.NewLine, errorMessages) }).ExecuteResultAsync(context).ConfigureAwait(false);
-				return;
+				var errorMessages = ModelState
+					.SelectMany(x => x.Value.Errors)
+					.Select(x => x.ErrorMessage)
+
+					// We use RequiredAttributes purely for preventing properties from becoming nullable in the databases
+					// We validate missing required fields in controllers
+					// Unfortunately, we can't remove the whole validator for that as it checks other things like StringLength
+					// This is the best way to deal with it unfortunately
+					.Where(x => !x.EndsWith(" field is required.", StringComparison.Ordinal));
+
+				if (errorMessages.Any())
+				{
+					await BadRequest(
+						new ErrorMessage(ErrorCode.ModelValidationFailure)
+						{
+							AdditionalData = String.Join(Environment.NewLine, errorMessages)
+						})
+						.ExecuteResultAsync(context).ConfigureAwait(false);
+					return;
+				}
+
+				ModelState.Clear();
 			}
 
 			if (ApiHeaders != null)
-				Logger.LogDebug("Request made by User ID {0}. Api version: {1}. User-Agent: {2}. Type: {3}. Route {4}{5} to Instance {6}", AuthenticationContext?.User.Id.ToString(CultureInfo.InvariantCulture), ApiHeaders.ApiVersion, ApiHeaders.RawUserAgent, Request.Method, Request.Path, Request.QueryString, ApiHeaders.InstanceId);
+				Logger.LogDebug(
+					"Request made by User ID {0}. Api version: {1}. User-Agent: {2}. Type: {3}. Route {4}{5} to Instance {6}",
+					AuthenticationContext?.User.Id.Value.ToString(CultureInfo.InvariantCulture),
+					ApiHeaders.ApiVersion.Semver(),
+					ApiHeaders.RawUserAgent,
+					Request.Method,
+					Request.Path,
+					Request.QueryString,
+					ApiHeaders.InstanceId);
 
 			try
 			{

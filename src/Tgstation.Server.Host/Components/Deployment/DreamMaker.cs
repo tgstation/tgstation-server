@@ -67,9 +67,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly IEventConsumer eventConsumer;
 
 		/// <summary>
-		/// The <see cref="IChat"/> for <see cref="DreamMaker"/>
+		/// The <see cref="IChatManager"/> for <see cref="DreamMaker"/>
 		/// </summary>
-		readonly IChat chat;
+		readonly IChatManager chatManager;
 
 		/// <summary>
 		/// The <see cref="IProcessExecutor"/> for <see cref="DreamMaker"/>
@@ -87,6 +87,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly ILogger<DreamMaker> logger;
 
 		/// <summary>
+		/// <see langword="lock"/> <see cref="object"/> for <see cref="compiling"/>.
+		/// </summary>
+		readonly object compilingLock;
+
+		/// <summary>
 		/// If a compile job is running
 		/// </summary>
 		bool compiling;
@@ -99,7 +104,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="configuration">The value of <see cref="configuration"/></param>
 		/// <param name="sessionControllerFactory">The value of <see cref="sessionControllerFactory"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
-		/// <param name="chat">The value of <see cref="chat"/></param>
+		/// <param name="chatManager">The value of <see cref="chatManager"/></param>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
 		/// <param name="watchdog">The value of <see cref="watchdog"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
@@ -109,7 +114,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			StaticFiles.IConfiguration configuration,
 			ISessionControllerFactory sessionControllerFactory,
 			IEventConsumer eventConsumer,
-			IChat chat,
+			IChatManager chatManager,
 			IProcessExecutor processExecutor,
 			IWatchdog watchdog,
 			ILogger<DreamMaker> logger)
@@ -119,10 +124,12 @@ namespace Tgstation.Server.Host.Components.Deployment
 			this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 			this.sessionControllerFactory = sessionControllerFactory ?? throw new ArgumentNullException(nameof(sessionControllerFactory));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
-			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
+			this.chatManager = chatManager ?? throw new ArgumentNullException(nameof(chatManager));
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			this.watchdog = watchdog ?? throw new ArgumentNullException(nameof(watchdog));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+			compilingLock = new object();
 		}
 
 		/// <summary>
@@ -175,51 +182,48 @@ namespace Tgstation.Server.Host.Components.Deployment
 			job.MinimumSecurityLevel = securityLevel; // needed for the TempDmbProvider
 			var timeoutAt = DateTimeOffset.Now.AddSeconds(timeout);
 
-			using (var provider = new TemporaryDmbProvider(ioManager.ResolvePath(dirA), String.Concat(job.DmeName, DmbExtension), job))
-			using (var controller = await sessionControllerFactory.LaunchNew(launchParameters, provider, byondLock, true, true, true, cancellationToken).ConfigureAwait(false))
+			using var provider = new TemporaryDmbProvider(ioManager.ResolvePath(dirA), String.Concat(job.DmeName, DmbExtension), job);
+			using var controller = await sessionControllerFactory.LaunchNew(provider, byondLock, launchParameters, true, true, true, cancellationToken).ConfigureAwait(false);
+			var launchResult = await controller.LaunchResult.ConfigureAwait(false);
+
+			var now = DateTimeOffset.Now;
+			if (now < timeoutAt && launchResult.StartupTime.HasValue)
 			{
-				var launchResult = await controller.LaunchResult.ConfigureAwait(false);
+				var timeoutTask = Task.Delay(timeoutAt - now, cancellationToken);
 
-				var now = DateTimeOffset.Now;
-				if (now < timeoutAt && launchResult.StartupTime.HasValue)
-				{
-					var timeoutTask = Task.Delay(timeoutAt - now, cancellationToken);
-
-					await Task.WhenAny(controller.Lifetime, timeoutTask).ConfigureAwait(false);
-					cancellationToken.ThrowIfCancellationRequested();
-				}
-
-				if (controller.Lifetime.IsCompleted)
-				{
-					var validationStatus = controller.ApiValidationStatus;
-					logger.LogTrace("API validation status: {0}", validationStatus);
-					switch (validationStatus)
-					{
-						case ApiValidationStatus.RequiresUltrasafe:
-							job.MinimumSecurityLevel = DreamDaemonSecurity.Ultrasafe;
-							return;
-						case ApiValidationStatus.RequiresSafe:
-							if (securityLevel == DreamDaemonSecurity.Ultrasafe)
-								throw new JobException("This game must be run with at least the 'Safe' DreamDaemon security level!");
-							job.MinimumSecurityLevel = DreamDaemonSecurity.Safe;
-							return;
-						case ApiValidationStatus.RequiresTrusted:
-							if (securityLevel != DreamDaemonSecurity.Trusted)
-								throw new JobException("This game must be run with at least the 'Trusted' DreamDaemon security level!");
-							job.MinimumSecurityLevel = DreamDaemonSecurity.Trusted;
-							return;
-						case ApiValidationStatus.NeverValidated:
-							break;
-						case ApiValidationStatus.BadValidationRequest:
-							throw new JobException("Recieved an unrecognized API validation request from DreamDaemon!");
-						case ApiValidationStatus.UnaskedValidationRequest:
-						default:
-							throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Session controller returned unexpected ApiValidationStatus: {0}", validationStatus));
-					}
-				}
-
-				throw new JobException("DMAPI validation timed out!");
+				await Task.WhenAny(controller.Lifetime, timeoutTask).ConfigureAwait(false);
+				cancellationToken.ThrowIfCancellationRequested();
 			}
+
+			if (controller.Lifetime.IsCompleted)
+			{
+				var validationStatus = controller.ApiValidationStatus;
+				logger.LogTrace("API validation status: {0}", validationStatus);
+
+				job.DMApiVersion = controller.DMApiVersion;
+				switch (validationStatus)
+				{
+					case ApiValidationStatus.RequiresUltrasafe:
+						job.MinimumSecurityLevel = DreamDaemonSecurity.Ultrasafe;
+						return;
+					case ApiValidationStatus.RequiresSafe:
+						job.MinimumSecurityLevel = DreamDaemonSecurity.Safe;
+						return;
+					case ApiValidationStatus.RequiresTrusted:
+						job.MinimumSecurityLevel = DreamDaemonSecurity.Trusted;
+						return;
+					case ApiValidationStatus.NeverValidated:
+						throw new JobException(ErrorCode.DreamMakerNeverValidated);
+					case ApiValidationStatus.BadValidationRequest:
+						throw new JobException(ErrorCode.DreamMakerInvalidValidation);
+					case ApiValidationStatus.UnaskedValidationRequest:
+					default:
+						throw new InvalidOperationException(
+							$"Session controller returned unexpected ApiValidationStatus: {validationStatus}");
+				}
+			}
+
+			throw new JobException(ErrorCode.DreamMakerValidationTimeout);
 		}
 
 		/// <summary>
@@ -231,18 +235,24 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task<int> RunDreamMaker(string dreamMakerPath, Models.CompileJob job, CancellationToken cancellationToken)
 		{
-			using (var dm = processExecutor.LaunchProcess(dreamMakerPath, ioManager.ResolvePath(ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName)), String.Format(CultureInfo.InvariantCulture, "-clean {0}.{1}", job.DmeName, DmeExtension), true, true))
-			{
-				int exitCode;
-				using (cancellationToken.Register(() => dm.Terminate()))
-					exitCode = await dm.Lifetime.ConfigureAwait(false);
-				cancellationToken.ThrowIfCancellationRequested();
+			using var dm = processExecutor.LaunchProcess(
+				dreamMakerPath,
+				ioManager.ResolvePath(
+					ioManager.ConcatPath(
+						job.DirectoryName.ToString(),
+						ADirectoryName)),
+				$"-clean {job.DmeName}.{DmeExtension}",
+				true,
+				true);
+			int exitCode;
+			using (cancellationToken.Register(() => dm.Terminate()))
+				exitCode = await dm.Lifetime.ConfigureAwait(false);
+			cancellationToken.ThrowIfCancellationRequested();
 
-				logger.LogDebug("DreamMaker exit code: {0}", exitCode);
-				job.Output = dm.GetCombinedOutput();
-				logger.LogTrace("DreamMaker output: {0}{1}", Environment.NewLine, job.Output);
-				return exitCode;
-			}
+			logger.LogDebug("DreamMaker exit code: {0}", exitCode);
+			job.Output = dm.GetCombinedOutput();
+			logger.LogDebug("DreamMaker output: {0}{1}", Environment.NewLine, job.Output);
+			return exitCode;
 		}
 
 		/// <summary>
@@ -309,7 +319,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		async Task CleanupFailedCompile(Models.CompileJob job, bool cancelled, CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Cleaning compile directory...");
-			var chatTask = chat.SendUpdateMessage(cancelled ? "Deploy cancelled!" : "Deploy failed!", cancellationToken);
+			var chatTask = chatManager.SendUpdateMessage(cancelled ? "Deploy cancelled!" : "Deploy failed!", cancellationToken);
 			var jobPath = job.DirectoryName.ToString();
 			try
 			{
@@ -324,7 +334,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		}
 
 		/// <summary>
-		/// Send a message to <see cref="chat"/> about a deployment
+		/// Send a message to <see cref="chatManager"/> about a deployment
 		/// </summary>
 		/// <param name="revisionInformation">The <see cref="Models.RevisionInformation"/> for the deployment</param>
 		/// <param name="byondLock">The <see cref="IByondExecutableLock"/> for the deployment</param>
@@ -351,7 +361,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					return result;
 				})));
 
-			await chat.SendUpdateMessage(String.Format(CultureInfo.InvariantCulture, "Deploying revision: {0}{1}{2} BYOND Version: {3}", commitInsert, testmergeInsert, remoteCommitInsert, byondLock.Version), cancellationToken).ConfigureAwait(false);
+			await chatManager.SendUpdateMessage(String.Format(CultureInfo.InvariantCulture, "Deploying revision: {0}{1}{2} BYOND Version: {3}", commitInsert, testmergeInsert, remoteCommitInsert, byondLock.Version), cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <summary>
@@ -390,10 +400,10 @@ namespace Tgstation.Server.Host.Components.Deployment
 				if (job.DmeName == null)
 				{
 					logger.LogTrace("Searching for available .dmes...");
-					var foundPaths = await ioManager.GetFilesWithExtension(dirA, DmeExtension, cancellationToken).ConfigureAwait(false);
+					var foundPaths = await ioManager.GetFilesWithExtension(dirA, DmeExtension, true, cancellationToken).ConfigureAwait(false);
 					var foundPath = foundPaths.FirstOrDefault();
 					if (foundPath == default)
-						throw new JobException("Unable to find any .dme!");
+						throw new JobException(ErrorCode.DreamMakerNoDme);
 					var dmeWithExtension = ioManager.GetFileName(foundPath);
 					job.DmeName = dmeWithExtension.Substring(0, dmeWithExtension.Length - DmeExtension.Length - 1);
 				}
@@ -402,7 +412,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					var targetDme = ioManager.ConcatPath(dirA, String.Join('.', job.DmeName, DmeExtension));
 					var targetDmeExists = await ioManager.FileExists(targetDme, cancellationToken).ConfigureAwait(false);
 					if (!targetDmeExists)
-						throw new JobException("Unable to locate specified .dme!");
+						throw new JobException(ErrorCode.DreamMakerMissingDme);
 				}
 
 				logger.LogDebug("Selected {0}.dme for compilation!", job.DmeName);
@@ -416,7 +426,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 				try
 				{
 					if (exitCode != 0)
-						throw new JobException(String.Format(CultureInfo.InvariantCulture, "DM exited with a non-zero code: {0}{1}{2}", exitCode, Environment.NewLine, job.Output));
+						throw new JobException(
+							ErrorCode.DreamMakerExitCode,
+							new JobException($"Exit code: {exitCode}{Environment.NewLine}{Environment.NewLine}{job.Output}"));
 
 					await VerifyApi(apiValidateTimeout, dreamMakerSettings.ApiValidationSecurityLevel.Value, job, byondLock, dreamMakerSettings.ApiValidationPort.Value, cancellationToken).ConfigureAwait(false);
 				}
@@ -443,7 +455,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 				await Task.WhenAll(symATask, symBTask).ConfigureAwait(false);
 
-				await chat.SendUpdateMessage(String.Format(CultureInfo.InvariantCulture, "Deployment complete!{0}", watchdog.Running ? " Changes will be applied on next server reboot." : String.Empty), cancellationToken).ConfigureAwait(false);
+				await chatManager.SendUpdateMessage(String.Format(CultureInfo.InvariantCulture, "Deployment complete! Changes will be applied {0}.", watchdog.DeploymentApplicationTime), cancellationToken).ConfigureAwait(false);
 
 				logger.LogDebug("Compile complete!");
 			}
@@ -469,51 +481,44 @@ namespace Tgstation.Server.Host.Components.Deployment
 			if (progressReporter == null)
 				throw new ArgumentNullException(nameof(progressReporter));
 
-			if (dreamMakerSettings.ApiValidationSecurityLevel == DreamDaemonSecurity.Ultrasafe)
-				throw new ArgumentOutOfRangeException(nameof(dreamMakerSettings), dreamMakerSettings, "Cannot compile with ultrasafe security!");
-
 			logger.LogTrace("Begin Compile");
 
-			lock (this)
+			lock (compilingLock)
 			{
 				if (compiling)
-					throw new JobException("There is already a compile job in progress!");
+					throw new JobException(ErrorCode.DreamMakerCompileJobInProgress);
 				compiling = true;
 			}
 
-			using (var progressCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
+			using var progressCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+			var progressTask = estimatedDuration.HasValue ? ProgressTask(progressReporter, estimatedDuration.Value, cancellationToken) : Task.CompletedTask;
+			try
 			{
-				var progressTask = estimatedDuration.HasValue ? ProgressTask(progressReporter, estimatedDuration.Value, cancellationToken) : Task.CompletedTask;
-				try
-				{
-					using (var byondLock = await byond.UseExecutables(null, cancellationToken).ConfigureAwait(false))
-					{
-						await SendDeploymentMessage(revisionInformation, byondLock, cancellationToken).ConfigureAwait(false);
+				using var byondLock = await byond.UseExecutables(null, cancellationToken).ConfigureAwait(false);
+				await SendDeploymentMessage(revisionInformation, byondLock, cancellationToken).ConfigureAwait(false);
 
-						var job = new Models.CompileJob
-						{
-							DirectoryName = Guid.NewGuid(),
-							DmeName = dreamMakerSettings.ProjectName,
-							RevisionInformation = revisionInformation,
-							ByondVersion = byondLock.Version.ToString()
-						};
-
-						await RunCompileJob(job, dreamMakerSettings, byondLock, repository, apiValidateTimeout, cancellationToken).ConfigureAwait(false);
-
-						return job;
-					}
-				}
-				catch (OperationCanceledException)
+				var job = new Models.CompileJob
 				{
-					await eventConsumer.HandleEvent(EventType.CompileCancelled, null, default).ConfigureAwait(false);
-					throw;
-				}
-				finally
-				{
-					compiling = false;
-					progressCts.Cancel();
-					await progressTask.ConfigureAwait(false);
-				}
+					DirectoryName = Guid.NewGuid(),
+					DmeName = dreamMakerSettings.ProjectName,
+					RevisionInformation = revisionInformation,
+					ByondVersion = byondLock.Version.ToString()
+				};
+
+				await RunCompileJob(job, dreamMakerSettings, byondLock, repository, apiValidateTimeout, cancellationToken).ConfigureAwait(false);
+
+				return job;
+			}
+			catch (OperationCanceledException)
+			{
+				await eventConsumer.HandleEvent(EventType.CompileCancelled, null, default).ConfigureAwait(false);
+				throw;
+			}
+			finally
+			{
+				compiling = false;
+				progressCts.Cancel();
+				await progressTask.ConfigureAwait(false);
 			}
 		}
 	}

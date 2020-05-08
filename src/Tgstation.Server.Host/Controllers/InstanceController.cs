@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -15,7 +16,7 @@ using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
-using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
@@ -55,14 +56,19 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IIOManager ioManager;
 
 		/// <summary>
-		/// The <see cref="IApplication"/> for the <see cref="InstanceController"/>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="InstanceController"/>
 		/// </summary>
-		readonly IApplication application;
+		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
 		/// The <see cref="IPlatformIdentifier"/> for the <see cref="InstanceController"/>
 		/// </summary>
 		readonly IPlatformIdentifier platformIdentifier;
+
+		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="InstanceController"/>.
+		/// </summary>
+		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
 		/// Construct a <see cref="InstanceController"/>
@@ -72,31 +78,40 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
-		/// <param name="application">The value of <see cref="application"/></param>
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		public InstanceController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager, IInstanceManager instanceManager, IIOManager ioManager, IApplication application, IPlatformIdentifier platformIdentifier, ILogger<InstanceController> logger) : base(databaseContext, authenticationContextFactory, logger, false, true)
+		public InstanceController(
+			IDatabaseContext databaseContext,
+			IAuthenticationContextFactory authenticationContextFactory,
+			IJobManager jobManager,
+			IInstanceManager instanceManager,
+			IIOManager ioManager,
+			IAssemblyInformationProvider assemblyInformationProvider,
+			IPlatformIdentifier platformIdentifier,
+			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			ILogger<InstanceController> logger)
+			: base(databaseContext, authenticationContextFactory, logger, false, true)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
-			this.application = application ?? throw new ArgumentNullException(nameof(application));
+			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
+			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
-		void NormalizeModelPath(Api.Models.Instance model, out string absolutePath)
+		string NormalizePath(string path)
 		{
-			if (model.Path == null)
-			{
-				absolutePath = null;
-				return;
-			}
+			if (path == null)
+				return null;
 
-			absolutePath = ioManager.ResolvePath(model.Path);
+			path = ioManager.ResolvePath(path);
 			if (platformIdentifier.IsWindows)
-				model.Path = absolutePath.ToUpperInvariant();
-			else
-				model.Path = absolutePath;
+				path = path.ToUpperInvariant().Replace('\\', '/');
+
+			return path;
 		}
 
 		Models.InstanceUser InstanceAdminUser() => new Models.InstanceUser
@@ -129,34 +144,84 @@ namespace Tgstation.Server.Host.Controllers
 				throw new ArgumentNullException(nameof(model));
 
 			if (String.IsNullOrWhiteSpace(model.Name))
-				return BadRequest(new ErrorMessage { Message = "name must not be empty!" });
+				return BadRequest(new ErrorMessage(ErrorCode.InstanceWhitespaceName));
 
-			if (model.Path == null)
-				return BadRequest(new ErrorMessage { Message = "path must not be empty!" });
+			var targetInstancePath = NormalizePath(model.Path);
+			model.Path = targetInstancePath;
 
-			NormalizeModelPath(model, out var rawPath);
+			var installationDirectoryPath = NormalizePath(DefaultIOManager.CurrentDirectory);
 
-			var localPath = ioManager.ResolvePath(".");
-			NormalizeModelPath(new Api.Models.Instance
+			bool InstanceIsChildOf(string otherPath)
 			{
-				Path = localPath
-			}, out var normalizedLocalPath);
+				if (!targetInstancePath.StartsWith(otherPath, StringComparison.Ordinal))
+					return false;
 
-			if (rawPath.StartsWith(normalizedLocalPath, StringComparison.Ordinal))
-			{
-				bool sameLength = rawPath.Length == normalizedLocalPath.Length;
-				char dirSeparatorChar = rawPath.ToCharArray()[normalizedLocalPath.Length];
-				if(sameLength
+				bool sameLength = targetInstancePath.Length == otherPath.Length;
+				char dirSeparatorChar = targetInstancePath.ToCharArray()[Math.Min(otherPath.Length, targetInstancePath.Length - 1)];
+				return sameLength
 					|| dirSeparatorChar == Path.DirectorySeparatorChar
-					|| dirSeparatorChar == Path.AltDirectorySeparatorChar)
-					return Conflict(new ErrorMessage { Message = "Instances cannot be created in the installation directory!" });
+					|| dirSeparatorChar == Path.AltDirectorySeparatorChar;
 			}
 
-			var dirExistsTask = ioManager.DirectoryExists(model.Path, cancellationToken);
+			if (InstanceIsChildOf(installationDirectoryPath))
+				return Conflict(new ErrorMessage(ErrorCode.InstanceAtConflictingPath));
+
+			// Validate it's not a child of any other instance
+			IActionResult earlyOut = null;
+			ulong countOfOtherInstances = 0;
+			using (var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
+			{
+				var newCancellationToken = cts.Token;
+				try
+				{
+					await DatabaseContext.Instances.ForEachAsync(
+						otherInstance =>
+						{
+							if (++countOfOtherInstances >= generalConfiguration.InstanceLimit)
+								earlyOut ??= Conflict(new ErrorMessage(ErrorCode.InstanceLimitReached));
+							else if (InstanceIsChildOf(otherInstance.Path))
+								earlyOut ??= Conflict(new ErrorMessage(ErrorCode.InstanceAtConflictingPath));
+
+							if (earlyOut != null && !newCancellationToken.IsCancellationRequested)
+								cts.Cancel();
+						},
+						newCancellationToken)
+						.ConfigureAwait(false);
+				}
+				catch (OperationCanceledException)
+				{
+					cancellationToken.ThrowIfCancellationRequested();
+				}
+			}
+
+			if (earlyOut != null)
+				return earlyOut;
+
+			// Last test, ensure it's in the list of valid paths
+			if (!(generalConfiguration.ValidInstancePaths?
+				.Select(path => NormalizePath(path))
+				.Any(path => InstanceIsChildOf(path)) ?? true))
+				return BadRequest(new ErrorMessage(ErrorCode.InstanceNotAtWhitelistedPath));
+
+			async Task<bool> DirExistsAndIsNotEmpty()
+			{
+				if (!await ioManager.DirectoryExists(model.Path, cancellationToken).ConfigureAwait(false))
+					return false;
+
+				var filesTask = ioManager.GetFiles(model.Path, cancellationToken);
+				var dirsTask = ioManager.GetDirectories(model.Path, cancellationToken);
+
+				var files = await filesTask.ConfigureAwait(false);
+				var dirs = await dirsTask.ConfigureAwait(false);
+
+				return files.Concat(dirs).Any();
+			}
+
+			var dirExistsTask = DirExistsAndIsNotEmpty();
 			bool attached = false;
 			if (await ioManager.FileExists(model.Path, cancellationToken).ConfigureAwait(false) || await dirExistsTask.ConfigureAwait(false))
 				if (!await ioManager.FileExists(ioManager.ConcatPath(model.Path, InstanceAttachFileName), cancellationToken).ConfigureAwait(false))
-					return Conflict(new ErrorMessage { Message = "Path not empty!" });
+					return Conflict(new ErrorMessage(ErrorCode.InstanceAtExistingPath));
 				else
 					attached = true;
 
@@ -183,10 +248,11 @@ namespace Tgstation.Server.Host.Controllers
 				Online = false,
 				Path = model.Path,
 				AutoUpdateInterval = model.AutoUpdateInterval ?? 0,
+				ChatBotLimit = model.ChatBotLimit ?? Models.Instance.DefaultChatBotLimit,
 				RepositorySettings = new RepositorySettings
 				{
 					CommitterEmail = "tgstation-server@users.noreply.github.com",
-					CommitterName = application.VersionPrefix,
+					CommitterName = assemblyInformationProvider.VersionPrefix,
 					PushTestMergeCommits = false,
 					ShowTestMergeCommitters = false,
 					AutoUpdatesKeepTestMerges = false,
@@ -207,8 +273,8 @@ namespace Tgstation.Server.Host.Controllers
 				try
 				{
 					// actually reserve it now
-					await ioManager.CreateDirectory(rawPath, cancellationToken).ConfigureAwait(false);
-					await ioManager.DeleteFile(ioManager.ConcatPath(rawPath, InstanceAttachFileName), cancellationToken).ConfigureAwait(false);
+					await ioManager.CreateDirectory(targetInstancePath, cancellationToken).ConfigureAwait(false);
+					await ioManager.DeleteFile(ioManager.ConcatPath(targetInstancePath, InstanceAttachFileName), cancellationToken).ConfigureAwait(false);
 				}
 				catch
 				{
@@ -221,11 +287,10 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch (IOException e)
 			{
-				return Conflict(new ErrorMessage { Message = e.Message });
-			}
-			catch (DbUpdateException e)
-			{
-				return Conflict(new ErrorMessage { Message = e.Message });
+				return Conflict(new ErrorMessage(ErrorCode.IOError)
+				{
+					AdditionalData = e.Message
+				});
 			}
 
 			Logger.LogInformation("{0} {1} instance {2}: {3} ({4})", AuthenticationContext.User.Name, attached ? "attached" : "created", newInstance.Name, newInstance.Id, newInstance.Path);
@@ -256,10 +321,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (originalModel == default)
 				return StatusCode((int)HttpStatusCode.Gone);
 			if (originalModel.Online.Value)
-				return Conflict(new ErrorMessage
-				{
-					Message = "Cannot detach an online instance!"
-				});
+				return Conflict(new ErrorMessage(ErrorCode.InstanceDetachOnline));
 
 			if (originalModel.WatchdogReattachInformation != null)
 			{
@@ -297,9 +359,9 @@ namespace Tgstation.Server.Host.Controllers
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
-			var instanceQuery = DatabaseContext.Instances.Where(x => x.Id == model.Id);
+			IQueryable<Models.Instance> InstanceQuery() => DatabaseContext.Instances.Where(x => x.Id == model.Id);
 
-			var moveJob = await instanceQuery
+			var moveJob = await InstanceQuery()
 				.SelectMany(x => x.Jobs).
 #pragma warning disable CA1307 // Specify StringComparison
 				Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
@@ -312,9 +374,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (moveJob != default)
 				await jobManager.CancelJob(moveJob, AuthenticationContext.User, true, cancellationToken).ConfigureAwait(false); // cancel it now
 
-			var usersInstanceUserTask = instanceQuery.SelectMany(x => x.InstanceUsers).Where(x => x.UserId == AuthenticationContext.User.Id).FirstOrDefaultAsync(cancellationToken);
-
-			var originalModel = await instanceQuery
+			var originalModel = await InstanceQuery()
 				.Include(x => x.RepositorySettings)
 				.Include(x => x.ChatSettings)
 				.ThenInclude(x => x.Channels)
@@ -343,18 +403,18 @@ namespace Tgstation.Server.Host.Controllers
 			string rawPath = null;
 			if (model.Path != null)
 			{
-				NormalizeModelPath(model, out rawPath);
+				rawPath = NormalizePath(model.Path);
 
 				if (model.Path != originalModel.Path)
 				{
 					if (!userRights.HasFlag(InstanceManagerRights.Relocate))
 						return Forbid();
 					if (originalModel.Online.Value && model.Online != true)
-						return Conflict(new ErrorMessage { Message = "Cannot relocate an online instance!" });
+						return Conflict(new ErrorMessage(ErrorCode.InstanceRelocateOnline));
 
 					var dirExistsTask = ioManager.DirectoryExists(model.Path, cancellationToken);
 					if (await ioManager.FileExists(model.Path, cancellationToken).ConfigureAwait(false) || await dirExistsTask.ConfigureAwait(false))
-						return Conflict(new ErrorMessage { Message = "Path not empty!" });
+						return Conflict(new ErrorMessage(ErrorCode.InstanceAtExistingPath));
 
 					originalModelPath = originalModel.Path;
 					originalModel.Path = model.Path;
@@ -368,11 +428,28 @@ namespace Tgstation.Server.Host.Controllers
 			if (CheckModified(x => x.AutoUpdateInterval, InstanceManagerRights.SetAutoUpdate)
 				|| CheckModified(x => x.ConfigurationType, InstanceManagerRights.SetConfiguration)
 				|| CheckModified(x => x.Name, InstanceManagerRights.Rename)
-				|| CheckModified(x => x.Online, InstanceManagerRights.SetOnline))
+				|| CheckModified(x => x.Online, InstanceManagerRights.SetOnline)
+				|| CheckModified(x => x.ChatBotLimit, InstanceManagerRights.SetChatBotLimit))
 				return Forbid();
 
+			if (model.ChatBotLimit.HasValue)
+			{
+				var countOfExistingChatBots = await DatabaseContext
+					.ChatBots
+					.Where(x => x.InstanceId == originalModel.Id)
+					.CountAsync(cancellationToken)
+					.ConfigureAwait(false);
+
+				if (countOfExistingChatBots > model.ChatBotLimit.Value)
+					return Conflict(new ErrorMessage(ErrorCode.ChatBotMax));
+			}
+
 			// ensure the current user has write privilege on the instance
-			var usersInstanceUser = await usersInstanceUserTask.ConfigureAwait(false);
+			var usersInstanceUser = await InstanceQuery()
+				.SelectMany(x => x.InstanceUsers)
+				.Where(x => x.UserId == AuthenticationContext.User.Id)
+				.FirstOrDefaultAsync(cancellationToken)
+				.ConfigureAwait(false);
 			if (usersInstanceUser == default)
 			{
 				var instanceAdminUser = InstanceAdminUser();
@@ -451,21 +528,33 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(IEnumerable<Api.Models.Instance>), 200)]
 		public async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
-			IQueryable<Models.Instance> query = DatabaseContext.Instances;
-			if (!AuthenticationContext.User.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List))
-				query = query.Where(x => x.InstanceUsers.Any(y => y.UserId == AuthenticationContext.User.Id)).Where(x => x.InstanceUsers.Any(y => y.AnyRights));
+			IQueryable<Models.Instance> GetBaseQuery()
+			{
+				IQueryable<Models.Instance> query = DatabaseContext.Instances;
+				if (!AuthenticationContext.User.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List))
+					query = query
+						.Where(x => x.InstanceUsers.Any(y => y.UserId == AuthenticationContext.User.Id))
+						.Where(x => x.InstanceUsers.Any(y => y.AnyRights));
 
-			var moveJobTasks = query
+				// Hack for EF IAsyncEnumerable BS
+				return query.Select(x => x);
+			}
+
+			var moveJobs = await GetBaseQuery()
 				.SelectMany(x => x.Jobs)
 #pragma warning disable CA1307 // Specify StringComparison
 				.Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
 #pragma warning restore CA1307 // Specify StringComparison
 				.Include(x => x.StartedBy).ThenInclude(x => x.CreatedBy)
 				.Include(x => x.Instance)
-				.ToListAsync(cancellationToken);
-			var instances = await query.ToListAsync(cancellationToken).ConfigureAwait(false);
+				.ToListAsync(cancellationToken)
+				.ConfigureAwait(false);
+
+			var instances = await GetBaseQuery()
+				.ToListAsync(cancellationToken)
+				.ConfigureAwait(false);
+
 			var apis = instances.Select(x => x.ToApi());
-			var moveJobs = await moveJobTasks.ConfigureAwait(false);
 			foreach(var I in moveJobs)
 				apis.Where(x => x.Id == I.Instance.Id).First().MoveJob = I.ToApi(); // if this .First() fails i will personally murder kevinz000 because I just know he is somehow responsible
 			return Json(apis);
@@ -485,20 +574,17 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(410)]
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
-			var query = DatabaseContext.Instances.Where(x => x.Id == id);
 			var cantList = !AuthenticationContext.User.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List);
+			IQueryable<Models.Instance> QueryForUser()
+			{
+				var query = DatabaseContext.Instances.Where(x => x.Id == id);
 
-			if (cantList)
-				query = query.Include(x => x.InstanceUsers);
+				if (cantList)
+					query = query.Include(x => x.InstanceUsers);
+				return query;
+			}
 
-			var moveJobTask = query
-				.SelectMany(x => x.Jobs)
-#pragma warning disable CA1307 // Specify StringComparison
-				.Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
-#pragma warning restore CA1307 // Specify StringComparison
-				.Include(x => x.StartedBy).ThenInclude(x => x.CreatedBy)
-				.FirstOrDefaultAsync(cancellationToken);
-			var instance = await query.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var instance = await QueryForUser().FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
 			if (instance == null)
 				return StatusCode((int)HttpStatusCode.Gone);
@@ -507,7 +593,16 @@ namespace Tgstation.Server.Host.Controllers
 				return Forbid();
 
 			var api = instance.ToApi();
-			api.MoveJob = (await moveJobTask.ConfigureAwait(false))?.ToApi();
+
+			var moveJob = await QueryForUser()
+				.SelectMany(x => x.Jobs)
+#pragma warning disable CA1307 // Specify StringComparison
+				.Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
+#pragma warning restore CA1307 // Specify StringComparison
+				.Include(x => x.StartedBy).ThenInclude(x => x.CreatedBy)
+				.FirstOrDefaultAsync(cancellationToken)
+				.ConfigureAwait(false);
+			api.MoveJob = moveJob?.ToApi();
 			return Json(api);
 		}
 	}

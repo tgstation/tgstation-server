@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
 using Tgstation.Server.Host.Configuration;
 
 namespace Tgstation.Server.Host.Database
@@ -10,9 +11,6 @@ namespace Tgstation.Server.Host.Database
 	/// </summary>
 	sealed class SqlServerDatabaseContext : DatabaseContext<SqlServerDatabaseContext>
 	{
-		/// <inheritdoc />
-		protected override DatabaseType DatabaseType => DatabaseType.SqlServer;
-
 		/// <summary>
 		/// Construct a <see cref="SqlServerDatabaseContext"/>
 		/// </summary>
@@ -28,6 +26,13 @@ namespace Tgstation.Server.Host.Database
 		{
 			base.OnConfiguring(options);
 			options.UseSqlServer(DatabaseConfiguration.ConnectionString);
+		}
+
+		/// <inheritdoc />
+		protected override void ValidateDatabaseType()
+		{
+			if (DatabaseType != DatabaseType.SqlServer)
+				throw new InvalidOperationException("Invalid DatabaseType for SqlServerDatabaseContext!");
 		}
 	}
 }

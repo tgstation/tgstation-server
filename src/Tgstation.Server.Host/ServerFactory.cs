@@ -1,66 +1,75 @@
-﻿using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
-using System.IO;
-using Tgstation.Server.Host.Core;
+using System.Threading;
+using System.Threading.Tasks;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.Setup;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host
 {
-	/// <inheritdoc />
-	public sealed class ServerFactory : IServerFactory
+	/// <summary>
+	/// Implementation of <see cref="IServerFactory"/>.
+	/// </summary>
+	sealed class ServerFactory : IServerFactory
 	{
 		/// <summary>
 		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="ServerFactory"/>.
 		/// </summary>
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
-		/// <summary>
-		/// The <see cref="IIOManager"/> for the <see cref="ServerFactory"/>.
-		/// </summary>
-		readonly IIOManager ioManager;
-
-		/// <summary>
-		/// Create the default <see cref="IServerFactory"/>.
-		/// </summary>
-		/// <returns>A new <see cref="IServerFactory"/> with the default settings.</returns>
-		public static IServerFactory CreateDefault()
-			=> new ServerFactory(
-				new AssemblyInformationProvider(),
-				new DefaultIOManager());
+		/// <inheritdoc />
+		public IIOManager IOManager { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ServerFactory"/>.
 		/// </summary>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
-		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
+		/// <param name="ioManager">The value of <see cref="IOManager"/>.</param>
 		internal ServerFactory(IAssemblyInformationProvider assemblyInformationProvider, IIOManager ioManager)
 		{
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
-			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
+			IOManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 		}
 
 		/// <inheritdoc />
-		public IServer CreateServer(string[] args, string updatePath)
+		public async Task<IServer> CreateServer(string[] args, string updatePath, CancellationToken cancellationToken)
 		{
-			var webHost = WebHost.CreateDefaultBuilder(args ?? throw new ArgumentNullException(nameof(args)))
-				.ConfigureAppConfiguration((context, configurationBuilder) => configurationBuilder.SetBasePath(Directory.GetCurrentDirectory()))
-				.ConfigureServices(serviceCollection =>
-				{
-					serviceCollection.AddSingleton(ioManager);
-					serviceCollection.AddSingleton(assemblyInformationProvider);
-				})
-				.UseStartup<Application>()
-				.SuppressStatusMessages(true)
-				.UseShutdownTimeout(TimeSpan.FromMinutes(1));
+			if (args == null)
+				throw new ArgumentNullException(nameof(args));
 
-			if(updatePath != null)
-				webHost.UseContentRoot(Path.GetDirectoryName(assemblyInformationProvider.Path));
+			IHostBuilder CreateDefaultBuilder() => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
+				.ConfigureAppConfiguration((context, configuration) => configuration
+					.SetBasePath(
+						IOManager.ResolvePath()));
 
-			return new Server(webHost, ioManager, updatePath);
+			var setupWizardHostBuilder = CreateDefaultBuilder()
+				.UseSetupApplication();
+
+			IPostSetupServices postSetupServices;
+			using (var setupHost = setupWizardHostBuilder.Build())
+			{
+				postSetupServices = setupHost.Services.GetRequiredService<IPostSetupServices>();
+				await setupHost.RunAsync(cancellationToken).ConfigureAwait(false);
+			}
+
+			var hostBuilder = CreateDefaultBuilder()
+				.ConfigureWebHostDefaults(webHostBuilder =>
+					webHostBuilder
+						.UseApplication(postSetupServices)
+						.SuppressStatusMessages(true)
+						.UseShutdownTimeout(TimeSpan.FromMinutes(1)));
+
+			if (updatePath != null)
+				hostBuilder.UseContentRoot(
+					IOManager.ResolvePath(
+						IOManager.GetDirectoryName(assemblyInformationProvider.Path)));
+
+			return new Server(hostBuilder, updatePath);
 		}
 	}
 }

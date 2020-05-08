@@ -30,6 +30,39 @@ namespace Tgstation.Server.Host.Models
 		public string ByondVersion { get; set; }
 
 		/// <summary>
+		/// Backing field for <see cref="Version.Major"/> of <see cref="DMApiVersion"/>.
+		/// </summary>
+		public int? DMApiMajorVersion { get; set; }
+
+		/// <summary>
+		/// Backing field for <see cref="Version.Minor"/> of <see cref="DMApiVersion"/>.
+		/// </summary>
+		public int? DMApiMinorVersion { get; set; }
+
+		/// <summary>
+		/// Backing field for <see cref="Version.Build"/> of <see cref="DMApiVersion"/>.
+		/// </summary>
+		public int? DMApiPatchVersion { get; set; }
+
+		/// <inheritdoc />
+		public override Version DMApiVersion
+		{
+			get
+			{
+				if (!DMApiMajorVersion.HasValue)
+					return null;
+
+				return new Version(DMApiMajorVersion.Value, DMApiMinorVersion.Value, DMApiPatchVersion.Value);
+			}
+			set
+			{
+				DMApiMajorVersion = value?.Major;
+				DMApiMinorVersion = value?.Minor;
+				DMApiPatchVersion = value?.Build;
+			}
+		}
+
+		/// <summary>
 		/// Convert the <see cref="CompileJob"/> to it's API form
 		/// </summary>
 		/// <returns>A new <see cref="Api.Models.CompileJob"/></returns>
@@ -42,7 +75,8 @@ namespace Tgstation.Server.Host.Models
 			Output = Output,
 			RevisionInformation = RevisionInformation.ToApi(),
 			ByondVersion = Version.Parse(ByondVersion),
-			MinimumSecurityLevel = MinimumSecurityLevel
+			MinimumSecurityLevel = MinimumSecurityLevel,
+			DMApiVersion = DMApiVersion
 		};
 	}
 }

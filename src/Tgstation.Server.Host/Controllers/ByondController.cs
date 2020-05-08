@@ -91,9 +91,6 @@ namespace Tgstation.Server.Host.Controllers
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
-			if (model.Version == null)
-				return BadRequest(new ErrorMessage { Message = "Missing version!" });
-
 			var byondManager = instanceManager.GetInstance(Instance).ByondManager;
 
 			// remove cruff fields
@@ -108,7 +105,11 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			else
 			{
-				Logger.LogInformation("User ID {0} installing BYOND version to {2} on instance ID {1}", AuthenticationContext.User.Id, Instance.Id, installingVersion);
+				Logger.LogInformation(
+					"User ID {0} installing BYOND version to {1} on instance ID {2}",
+					AuthenticationContext.User.Id,
+					installingVersion,
+					Instance.Id);
 
 				// run the install through the job manager
 				var job = new Models.Job

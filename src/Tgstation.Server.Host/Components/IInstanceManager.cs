@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components
@@ -7,7 +8,7 @@ namespace Tgstation.Server.Host.Components
 	/// <summary>
 	/// For managing <see cref="IInstance"/>s
 	/// </summary>
-	public interface IInstanceManager
+	public interface IInstanceManager : IBridgeDispatcher
 	{
 		/// <summary>
 		/// Get the <see cref="IInstance"/> associated with given <paramref name="metadata"/>

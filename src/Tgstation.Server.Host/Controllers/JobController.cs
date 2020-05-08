@@ -99,8 +99,8 @@ namespace Tgstation.Server.Host.Controllers
 			if (job.CancelRight.HasValue && job.CancelRightsType.HasValue && (AuthenticationContext.GetRight(job.CancelRightsType.Value) & job.CancelRight.Value) == 0)
 				return Forbid();
 
-			job = await jobManager.CancelJob(job, AuthenticationContext.User, false, cancellationToken).ConfigureAwait(false);
-			return job != null ? (IActionResult)Accepted(job.ToApi()) : StatusCode((int)HttpStatusCode.Gone);
+			var updatedJob = await jobManager.CancelJob(job, AuthenticationContext.User, false, cancellationToken).ConfigureAwait(false);
+			return updatedJob != null ? (IActionResult)Accepted(updatedJob.ToApi()) : StatusCode((int)HttpStatusCode.Gone);
 		}
 
 		/// <summary>
@@ -118,7 +118,7 @@ namespace Tgstation.Server.Host.Controllers
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			var job = await DatabaseContext.Jobs.Where(x => x.Id == id && x.Instance.Id == Instance.Id).Include(x => x.StartedBy).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
-			if (job == default(Job))
+			if (job == default)
 				return NotFound();
 			var api = job.ToApi();
 			api.Progress = jobManager.JobProgress(job);

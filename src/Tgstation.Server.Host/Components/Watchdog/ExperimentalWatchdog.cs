@@ -1,5 +1,4 @@
-﻿using Byond.TopicSender;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
@@ -34,6 +33,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public override RebootState? RebootState => Running ? (AlphaIsActive ? alphaServer?.RebootState : bravoServer?.RebootState) : null;
 
+		/// <inheritdoc />
+		protected override string DeploymentTimeWhileRunning => "when DreamDaemon reboots";
+
 		/// <summary>
 		/// Server designation alpha
 		/// </summary>
@@ -52,13 +54,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ExperimentalWatchdog"/> <see langword="class"/>.
 		/// </summary>
-		/// <param name="chat">The <see cref="IChat"/> for the <see cref="WatchdogBase"/>.</param>
+		/// <param name="chat">The <see cref="IChatManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="sessionControllerFactory">The <see cref="ISessionControllerFactory"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="dmbFactory">The <see cref="IDmbFactory"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="reattachInfoHandler">The <see cref="IReattachInfoHandler"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="databaseContextFactory">The <see cref="IDatabaseContextFactory"/> for the <see cref="WatchdogBase"/>.</param>
-		/// <param name="byondTopicSender">The <see cref="IByondTopicSender"/> for the <see cref="WatchdogBase"/>.</param>
-		/// <param name="eventConsumer">The <see cref="IEventConsumer"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogBase"/>.</param>
@@ -66,15 +66,24 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="initialLaunchParameters">The <see cref="DreamDaemonLaunchParameters"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="instance">The <see cref="Api.Models.Instance"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="autoStart">The autostart value for the <see cref="WatchdogBase"/>.</param>
-		public ExperimentalWatchdog(IChat chat, ISessionControllerFactory sessionControllerFactory, IDmbFactory dmbFactory, IReattachInfoHandler reattachInfoHandler, IDatabaseContextFactory databaseContextFactory, IByondTopicSender byondTopicSender, IEventConsumer eventConsumer, IJobManager jobManager, IServerControl serverControl, IAsyncDelayer asyncDelayer, ILogger<ExperimentalWatchdog> logger, DreamDaemonLaunchParameters initialLaunchParameters, Api.Models.Instance instance, bool autoStart)
+		public ExperimentalWatchdog(
+			IChatManager chat,
+			ISessionControllerFactory sessionControllerFactory,
+			IDmbFactory dmbFactory,
+			IReattachInfoHandler reattachInfoHandler,
+			IDatabaseContextFactory databaseContextFactory,
+			IJobManager jobManager,
+			IServerControl serverControl,
+			IAsyncDelayer asyncDelayer,
+			ILogger<ExperimentalWatchdog> logger,
+			DreamDaemonLaunchParameters initialLaunchParameters,
+			Api.Models.Instance instance, bool autoStart)
 			: base(
 				 chat,
 				 sessionControllerFactory,
 				 dmbFactory,
 				 reattachInfoHandler,
 				 databaseContextFactory,
-				 byondTopicSender,
-				 eventConsumer,
 				 jobManager,
 				 serverControl,
 				 asyncDelayer,
@@ -157,7 +166,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var newDmb = DmbFactory.LockNextDmb(1);
 				try
 				{
-					monitorState.InactiveServer = await SessionControllerFactory.LaunchNew(ActiveLaunchParameters, newDmb, null, false, !monitorState.ActiveServer.IsPrimary, false, cancellationToken).ConfigureAwait(false);
+					monitorState.InactiveServer = await SessionControllerFactory.LaunchNew(
+						newDmb,
+						null,
+						ActiveLaunchParameters,
+						false,
+						!monitorState.ActiveServer.IsPrimary,
+						false,
+						cancellationToken)
+						.ConfigureAwait(false);
 					monitorState.InactiveServer.SetHighPriority();
 				}
 				catch (OperationCanceledException)
@@ -177,9 +194,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						var dmbBackup = await DmbFactory.FromCompileJob(monitorState.ActiveServer.Dmb.CompileJob, cancellationToken).ConfigureAwait(false);
 
 						if (dmbBackup == null) // NANI!?
-							throw new JobException("Creating backup DMB provider failed!"); // just give up, if THAT compile job is failing then the ActiveServer is gonna crash soon too or already has
+							throw new InvalidOperationException("Watchdog double crit-fail!"); // just give up, if THAT compile job is failing then the ActiveServer is gonna crash soon too or already has
 
-						monitorState.InactiveServer = await SessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbBackup, null, false, !monitorState.ActiveServer.IsPrimary, false, cancellationToken).ConfigureAwait(false);
+						monitorState.InactiveServer = await SessionControllerFactory.LaunchNew(
+							dmbBackup,
+							null,
+							ActiveLaunchParameters,
+							false,
+							!monitorState.ActiveServer.IsPrimary,
+							false,
+							cancellationToken)
+							.ConfigureAwait(false);
 						monitorState.InactiveServer.SetHighPriority();
 						await Chat.SendWatchdogMessage("Staging newest DMB on inactive server failed: {0} Falling back to previous dmb...", cancellationToken).ConfigureAwait(false);
 					}
@@ -201,7 +226,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				monitorState.RebootingInactiveServer = true;
 			}
 
-			string ExitWord(ISessionController controller) => controller.TerminationWasRequested ? "exited" : "crashed";
+			static string ExitWord(ISessionController controller) => controller.TerminationWasRequested ? "exited" : "crashed";
 
 			// reason handling
 			switch (activationReason)
@@ -532,7 +557,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				// The tasks pertaining to server startup times are in the ISessionControllers
 				Task<ISessionController> alphaServerTask;
 				if (!doesntNeedNewDmb)
-					alphaServerTask = SessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbToUse, null, true, true, false, cancellationToken);
+					alphaServerTask = SessionControllerFactory.LaunchNew(
+						dmbToUse,
+						null,
+						ActiveLaunchParameters,
+						true,
+						true,
+						false,
+						cancellationToken);
 				else
 					alphaServerTask = SessionControllerFactory.Reattach(reattachInfo.Alpha, cancellationToken);
 
@@ -553,7 +585,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 				// now bring bravo up
 				if (!doesntNeedNewDmb)
-					bravoServer = await SessionControllerFactory.LaunchNew(ActiveLaunchParameters, dmbToUse, null, false, false, false, cancellationToken).ConfigureAwait(false);
+					bravoServer = await SessionControllerFactory.LaunchNew(
+						dmbToUse,
+						null,
+						ActiveLaunchParameters,
+						false,
+						false,
+						false,
+						cancellationToken)
+						.ConfigureAwait(false);
 				else
 					bravoServer = await SessionControllerFactory.Reattach(reattachInfo.Bravo, cancellationToken).ConfigureAwait(false);
 

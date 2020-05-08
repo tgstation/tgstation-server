@@ -1,11 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
     <LangVersion>latest</LangVersion>
-    <CodeAnalysisRuleSet />
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Tgstation.Server.Client\Tgstation.Server.Client.csproj" />
+    <ProjectReference Include="..\..\src\Tgstation.Server.Host.Watchdog\Tgstation.Server.Host.Watchdog.csproj" />
     <ProjectReference Include="..\..\src\Tgstation.Server.Host\Tgstation.Server.Host.csproj" />
   </ItemGroup>
 
