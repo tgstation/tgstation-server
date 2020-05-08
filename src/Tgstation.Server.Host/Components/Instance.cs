@@ -221,7 +221,8 @@ namespace Tgstation.Server.Host.Components
 						{
 							AccessToken = x.AccessToken,
 							ShowTestMergeCommitters = x.ShowTestMergeCommitters,
-							PushTestMergeCommits = x.PushTestMergeCommits
+							PushTestMergeCommits = x.PushTestMergeCommits,
+							PostTestMergeComment = x.PostTestMergeComment
 						})
 						.FirstOrDefaultAsync(cancellationToken)
 						.ConfigureAwait(false);
@@ -263,6 +264,8 @@ namespace Tgstation.Server.Host.Components
 
 			databaseContext.CompileJobs.Add(compileJob);
 
+			await PostDeploymentComments(compileJob, repositorySettings, repoOwner, repoName).ConfigureAwait(false);
+
 			// The difficulty with compile jobs is they have a two part commit
 			await databaseContext.Save(cancellationToken).ConfigureAwait(false);
 			try
@@ -278,8 +281,6 @@ namespace Tgstation.Server.Host.Components
 			}
 
 			await eventConsumer.HandleEvent(EventType.DeploymentComplete, null, cancellationToken).ConfigureAwait(false);
-
-			await PostDeploymentComments(compileJob, repositorySettings, repoOwner, repoName).ConfigureAwait(false);
 		}
 
 		/// <summary>
@@ -302,8 +303,16 @@ namespace Tgstation.Server.Host.Components
 			// potential for commenting on a test merge change
 			var outgoingCompileJob = LatestCompileJob();
 
-			if (outgoingCompileJob == null || outgoingCompileJob.RevisionInformation.CommitSha == compileJob.RevisionInformation.CommitSha || !repositorySettings.PostTestMergeComment.Value)
+			if ((outgoingCompileJob != null && outgoingCompileJob.RevisionInformation.CommitSha == compileJob.RevisionInformation.CommitSha) || !repositorySettings.PostTestMergeComment.Value)
 				return;
+
+			outgoingCompileJob ??= new CompileJob
+			{
+				RevisionInformation = new RevisionInformation
+				{
+					ActiveTestMerges = new List<RevInfoTestMerge>()
+				}
+			};
 
 			var gitHubClient = gitHubClientFactory.CreateClient(repositorySettings.AccessToken);
 
