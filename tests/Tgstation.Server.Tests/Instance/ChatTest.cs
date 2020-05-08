@@ -198,6 +198,7 @@ namespace Tgstation.Server.Tests.Instance
 			await ApiAssert.ThrowsException<ConflictException>(() => instanceClient.Update(instance, cancellationToken), ErrorCode.ChatBotMax);
 
 			discordBot.ChannelLimit = 20;
+			discordBot.Channels = null;
 			await chatClient.Update(discordBot, cancellationToken);
 		}
 	}

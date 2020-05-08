@@ -167,11 +167,14 @@ namespace Tgstation.Server.Tests
 				InstanceManagerRights = InstanceManagerRights.SetChatBotLimit
 			};
 			await usersClient.Update(update, cancellationToken);
-			firstTest.ChatBotLimit = 77;
-			var newThing = await instanceManagerClient.Update(firstTest, cancellationToken);
-			Assert.AreEqual(77, newThing.ChatBotLimit);
+			var update2 = new Api.Models.Instance
+			{
+				Id = firstTest.Id,
+				ChatBotLimit = 77
+			};
+			var newThing = await instanceManagerClient.Update(update2, cancellationToken);
 
-			update.InstanceManagerRights |= InstanceManagerRights.Delete;
+			update.InstanceManagerRights |= InstanceManagerRights.Delete | InstanceManagerRights.Create;
 			await usersClient.Update(update, cancellationToken);
 
 			//but only if the attach file exists
