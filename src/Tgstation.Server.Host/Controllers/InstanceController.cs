@@ -349,7 +349,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="200">Instance updated successfully.</response>
 		/// <response code="202">Instance updated successfully and relocation job created.</response>
 		[HttpPost]
-		[TgsAuthorize(InstanceManagerRights.Relocate | InstanceManagerRights.Rename | InstanceManagerRights.SetAutoUpdate | InstanceManagerRights.SetConfiguration | InstanceManagerRights.SetOnline)]
+		[TgsAuthorize(InstanceManagerRights.Relocate | InstanceManagerRights.Rename | InstanceManagerRights.SetAutoUpdate | InstanceManagerRights.SetConfiguration | InstanceManagerRights.SetOnline | InstanceManagerRights.SetChatBotLimit)]
 		[ProducesResponseType(typeof(Api.Models.Instance), 200)]
 		[ProducesResponseType(typeof(Api.Models.Instance), 202)]
 		[ProducesResponseType(410)]
