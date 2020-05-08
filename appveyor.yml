@@ -90,7 +90,7 @@ after_test:
   - ps: Copy-Item -path "artifacts/ServerHost" -destination artifacts/ServerConsole/lib/Default -recurse
   - ps: Move-Item -path artifacts/ServerConsole/lib/Default/appsettings.json -destination artifacts/ServerConsole/
   #service
-  - ps: Copy-Item -path "src/Tgstation.Server.Host.Service/bin/$env:CONFIGURATION/net471/win" -destination artifacts/ServerService -recurse
+  - ps: Copy-Item -path "src/Tgstation.Server.Host.Service/bin/$env:CONFIGURATION/net472/win" -destination artifacts/ServerService -recurse
   - ps: Copy-Item -path "artifacts/ServerHost" -destination artifacts/ServerService/lib/Default -recurse
   - ps: Move-Item -path artifacts/ServerService/lib/Default/appsettings.json -destination artifacts/ServerService/
   - ps: Remove-Item artifacts/ServerHost/appsettings.json
