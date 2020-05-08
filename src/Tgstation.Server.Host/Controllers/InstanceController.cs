@@ -534,7 +534,13 @@ namespace Tgstation.Server.Host.Controllers
 				if (!AuthenticationContext.User.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List))
 					query = query
 						.Where(x => x.InstanceUsers.Any(y => y.UserId == AuthenticationContext.User.Id))
-						.Where(x => x.InstanceUsers.Any(y => y.AnyRights));
+						.Where(x => x.InstanceUsers.Any(instanceUser =>
+							instanceUser.ByondRights != ByondRights.None ||
+							instanceUser.ChatBotRights != ChatBotRights.None ||
+							instanceUser.ConfigurationRights != ConfigurationRights.None ||
+							instanceUser.DreamDaemonRights != DreamDaemonRights.None ||
+							instanceUser.DreamMakerRights != DreamMakerRights.None ||
+							instanceUser.InstanceUserRights != InstanceUserRights.None));
 
 				// Hack for EF IAsyncEnumerable BS
 				return query.Select(x => x);
@@ -589,7 +595,13 @@ namespace Tgstation.Server.Host.Controllers
 			if (instance == null)
 				return StatusCode((int)HttpStatusCode.Gone);
 
-			if (cantList && !instance.InstanceUsers.Any(x => x.UserId == AuthenticationContext.User.Id && x.AnyRights))
+			if (cantList && !instance.InstanceUsers.Any(instanceUser => instanceUser.UserId == AuthenticationContext.User.Id &&
+				(instanceUser.ByondRights != ByondRights.None ||
+				instanceUser.ChatBotRights != ChatBotRights.None ||
+				instanceUser.ConfigurationRights != ConfigurationRights.None ||
+				instanceUser.DreamDaemonRights != DreamDaemonRights.None ||
+				instanceUser.DreamMakerRights != DreamMakerRights.None ||
+				instanceUser.InstanceUserRights != InstanceUserRights.None)))
 				return Forbid();
 
 			var api = instance.ToApi();

@@ -22,16 +22,6 @@ namespace Tgstation.Server.Host.Models
 		public Instance Instance { get; set; }
 
 		/// <summary>
-		/// If the <see cref="InstanceUser"/> has any instance rights
-		/// </summary>
-		public bool AnyRights => ByondRights != Api.Rights.ByondRights.None ||
-			ChatBotRights != Api.Rights.ChatBotRights.None ||
-			ConfigurationRights != Api.Rights.ConfigurationRights.None ||
-			DreamDaemonRights != Api.Rights.DreamDaemonRights.None ||
-			DreamMakerRights != Api.Rights.DreamMakerRights.None ||
-			InstanceUserRights != Api.Rights.InstanceUserRights.None;
-
-		/// <summary>
 		/// Convert the <see cref="InstanceUser"/> to it's API form
 		/// </summary>
 		/// <returns>A new <see cref="Api.Models.InstanceUser"/></returns>

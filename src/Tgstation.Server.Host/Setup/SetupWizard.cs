@@ -178,14 +178,12 @@ namespace Tgstation.Server.Host.Setup
 					|| databaseConfiguration.DatabaseType == DatabaseType.MySql)
 				{
 					await console.WriteAsync("Checking MySQL/MariaDB version...", true, cancellationToken).ConfigureAwait(false);
-					using (var command = testConnection.CreateCommand())
-					{
-						command.CommandText = "SELECT VERSION()";
-						var fullVersion = (string)await command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false);
-						await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Found {0}", fullVersion), true, cancellationToken).ConfigureAwait(false);
-						var splits = fullVersion.Split('-');
-						databaseConfiguration.MySqlServerVersion = splits.First();
-					}
+					using var command = testConnection.CreateCommand();
+					command.CommandText = "SELECT VERSION()";
+					var fullVersion = (string)await command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false);
+					await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Found {0}", fullVersion), true, cancellationToken).ConfigureAwait(false);
+					var splits = fullVersion.Split('-');
+					databaseConfiguration.MySqlServerVersion = splits.First();
 				}
 
 				if (!isSqliteDB && !dbExists)

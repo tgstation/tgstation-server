@@ -35,11 +35,6 @@ namespace Tgstation.Server.Host.Controllers
 		readonly ICryptographySuite cryptographySuite;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="UserController"/>
-		/// </summary>
-		readonly ILogger<UserController> logger;
-
-		/// <summary>
 		/// The <see cref="GeneralConfiguration"/> for the <see cref="UserController"/>
 		/// </summary>
 		readonly GeneralConfiguration generalConfiguration;
@@ -51,11 +46,10 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/></param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
-		/// <param name="logger">The value of <see cref="logger"/></param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/></param>
 		public UserController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ISystemIdentityFactory systemIdentityFactory, ICryptographySuite cryptographySuite, ILogger<UserController> logger, IOptions<GeneralConfiguration> generalConfigurationOptions) : base(databaseContext, authenticationContextFactory, logger, false, true)
 		{
-			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
@@ -69,7 +63,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns><see langword="null"/> if <paramref name="model"/> is valid, a <see cref="BadRequestObjectResult"/> otherwise.</returns>
 		BadRequestObjectResult CheckValidName(UserUpdate model, bool newUser)
 		{
-			var userInvalidWithNullName = newUser && model.Name == null;
+			var userInvalidWithNullName = newUser && model.Name == null && model.SystemIdentifier == null;
 			if (userInvalidWithNullName || (model.Name != null && String.IsNullOrWhiteSpace(model.Name)))
 				return BadRequest(new ErrorMessage(ErrorCode.UserMissingName));
 
@@ -88,7 +82,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns><see langword="null"/> on success, <see cref="BadRequestObjectResult"/> if <paramref name="newPassword"/> is too short.</returns>
 		BadRequestObjectResult TrySetPassword(Models.User dbUser, string newPassword, bool newUser)
 		{
-			newPassword = newPassword ?? String.Empty;
+			newPassword ??= String.Empty;
 			if (newPassword.Length < generalConfiguration.MinimumPasswordLength)
 				return BadRequest(new ErrorMessage(ErrorCode.UserPasswordLength)
 				{
@@ -145,13 +139,11 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.SystemIdentifier != null)
 				try
 				{
-					using (var sysIdentity = await systemIdentityFactory.CreateSystemIdentity(dbUser, cancellationToken).ConfigureAwait(false))
-					{
-						if (sysIdentity == null)
-							return StatusCode((int)HttpStatusCode.Gone);
-						dbUser.Name = sysIdentity.Username;
-						dbUser.SystemIdentifier = sysIdentity.Uid;
-					}
+					using var sysIdentity = await systemIdentityFactory.CreateSystemIdentity(dbUser, cancellationToken).ConfigureAwait(false);
+					if (sysIdentity == null)
+						return StatusCode((int)HttpStatusCode.Gone);
+					dbUser.Name = sysIdentity.Username;
+					dbUser.SystemIdentifier = sysIdentity.Uid;
 				}
 				catch (NotImplementedException)
 				{

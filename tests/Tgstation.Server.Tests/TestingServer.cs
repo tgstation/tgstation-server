@@ -15,7 +15,7 @@ using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Tests
 {
-	sealed class TestingServer : IServer
+	sealed class TestingServer : IServer, IDisposable
 	{
 		public Uri Url { get; }
 
@@ -89,7 +89,16 @@ namespace Tgstation.Server.Tests
 
 		public void Dispose()
 		{
-			System.IO.Directory.Delete(Directory, true);
+			for (int i = 0; i < 5; ++i)
+				try
+				{
+					System.IO.Directory.Delete(Directory, true);
+				}
+				catch
+				{
+					GC.Collect(Int32.MaxValue, GCCollectionMode.Forced, false);
+					Thread.Sleep(3000);
+				}
 		}
 
 		public async Task Run(CancellationToken cancellationToken)

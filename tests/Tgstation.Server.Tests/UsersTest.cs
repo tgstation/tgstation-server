@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Client;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Tests
 {
@@ -21,9 +22,10 @@ namespace Tgstation.Server.Tests
 		public async Task Run(CancellationToken cancellationToken)
 		{
 			await TestRetrieveCurrentUser(cancellationToken).ConfigureAwait(false);
+			await TestCreateSysUser(cancellationToken);
 			await TestSpamCreation(cancellationToken).ConfigureAwait(false);
 		}
-		
+
 		async Task TestRetrieveCurrentUser(CancellationToken cancellationToken)
 		{
 			var user = await this.client.Read(cancellationToken).ConfigureAwait(false);
@@ -31,6 +33,19 @@ namespace Tgstation.Server.Tests
 			Assert.AreEqual("Admin", user.Name);
 			Assert.IsNull(user.SystemIdentifier);
 			Assert.AreEqual(true, user.Enabled);
+		}
+
+		async Task TestCreateSysUser(CancellationToken cancellationToken)
+		{
+			var sysId = Environment.UserName;
+			var update = new UserUpdate
+			{
+				SystemIdentifier = sysId
+			};
+			if (new PlatformIdentifier().IsWindows)
+				await client.Create(update, cancellationToken);
+			else
+				await ApiAssert.ThrowsException<MethodNotSupportedException>(() => client.Create(update, cancellationToken), ErrorCode.RequiresPosixSystemIdentity);
 		}
 
 		async Task TestSpamCreation(CancellationToken cancellationToken)

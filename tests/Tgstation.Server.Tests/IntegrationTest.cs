@@ -87,7 +87,7 @@ namespace Tgstation.Server.Tests
 			try
 			{
 				var updatePath = Path.Combine(updatePathRoot, Guid.NewGuid().ToString());
-				var server = new TestingServer(clientFactory, updatePath);
+				using var server = new TestingServer(clientFactory, updatePath);
 
 				if (server.DatabaseType == "Sqlite")
 					Assert.Inconclusive("Cannot run this test on SQLite yet!");
@@ -165,7 +165,7 @@ namespace Tgstation.Server.Tests
 		public async Task TestFullStandardOperation()
 		{
 			RequireDiscordToken();
-			var server = new TestingServer(clientFactory, null);
+			using var server = new TestingServer(clientFactory, null);
 			using var serverCts = new CancellationTokenSource();
 			var cancellationToken = serverCts.Token;
 			var serverTask = server.Run(cancellationToken);
