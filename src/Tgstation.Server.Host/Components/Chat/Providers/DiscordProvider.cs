@@ -24,7 +24,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			{
 				if (!Connected)
 					throw new InvalidOperationException("Provider not connected");
-				return NormalizeMention(client.CurrentUser.Mention);
+				return NormalizeMentions(client.CurrentUser.Mention);
 			}
 		}
 
@@ -48,7 +48,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// </summary>
 		/// <param name="fromDiscord">The mention <see cref="string"/> provided by the Discord library</param>
 		/// <returns>The normalized mention <see cref="string"/></returns>
-		static string NormalizeMention(string fromDiscord) => fromDiscord.Replace("!", String.Empty, StringComparison.Ordinal);
+		static string NormalizeMentions(string fromDiscord) => fromDiscord.Replace("<!@", "<@", StringComparison.Ordinal);
 
 		/// <summary>
 		/// Construct a <see cref="DiscordProvider"/>
@@ -99,7 +99,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			var result = new Message
 			{
-				Content = e.Content,
+				Content = NormalizeMentions(e.Content),
 				User = new ChatUser
 				{
 					RealId = e.Author.Id,
@@ -113,7 +113,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						// isAdmin and Tag populated by manager
 					},
 					FriendlyName = e.Author.Username,
-					Mention = NormalizeMention(e.Author.Mention)
+					Mention = NormalizeMentions(e.Author.Mention)
 				}
 			};
 			EnqueueMessage(result);
