@@ -174,9 +174,9 @@ Private Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
 Static Private Member Functions</h2></td></tr>
-<tr class="memitem:a8618deb5180b94f46015301982fa36a1"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a8618deb5180b94f46015301982fa36a1">NormalizeMention</a> (string fromDiscord)</td></tr>
-<tr class="memdesc:a8618deb5180b94f46015301982fa36a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Normalize a discord mention string  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a8618deb5180b94f46015301982fa36a1">More...</a><br /></td></tr>
-<tr class="separator:a8618deb5180b94f46015301982fa36a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3cf5b9ba9079d6c9f582f61b5894f7c1"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3cf5b9ba9079d6c9f582f61b5894f7c1">NormalizeMentions</a> (string fromDiscord)</td></tr>
+<tr class="memdesc:a3cf5b9ba9079d6c9f582f61b5894f7c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Normalize a discord mention string  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3cf5b9ba9079d6c9f582f61b5894f7c1">More...</a><br /></td></tr>
+<tr class="separator:a3cf5b9ba9079d6c9f582f61b5894f7c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -265,7 +265,7 @@ Here is the call graph for this function:</div>
 <area shape="rect" title="Construct a DiscordProvider" alt="" coords="5,71,253,127"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3866a830f4cedcfdc6b2d1ca7e87ab4d" title="Handle a message recieved from Discord" alt="" coords="301,71,539,127"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac45c189505744c6f1012461193fca877" title="Queues a message &#160;for NextMessage(CancellationToken)" alt="" coords="587,5,851,47"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a8618deb5180b94f46015301982fa36a1" title="Normalize a discord mention string" alt="" coords="587,71,850,127"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3cf5b9ba9079d6c9f582f61b5894f7c1" title="Normalize a discord mention string" alt="" coords="587,71,850,127"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ac986f3eaca89e94c1a16d3a6392c44dd" title="Send a message to the IProvider" alt="" coords="601,151,836,207"/>
 </map>
 </div>
@@ -327,7 +327,7 @@ Here is the call graph for this function:</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            var result = <span class="keyword">new</span> Message</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            {</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                Content = e.Content,</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                Content = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3cf5b9ba9079d6c9f582f61b5894f7c1">NormalizeMentions</a>(e.Content),</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                User = <span class="keyword">new</span> ChatUser</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                {</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                    RealId = e.Author.Id,</div>
@@ -341,13 +341,13 @@ Here is the call graph for this function:</div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                        <span class="comment">// isAdmin and Tag populated by manager</span></div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                    },</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                    FriendlyName = e.Author.Username,</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                    Mention = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a8618deb5180b94f46015301982fa36a1">NormalizeMention</a>(e.Author.Mention)</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                    Mention = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3cf5b9ba9079d6c9f582f61b5894f7c1">NormalizeMentions</a>(e.Author.Mention)</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                }</div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            };</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac45c189505744c6f1012461193fca877">EnqueueMessage</a>(result);</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_discord_provider_8cs_source.html#l00034">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.client</a>, <a class="el" href="_message_8cs_source.html#l00011">Tgstation.Server.Host.Components.Chat.Providers.Message.Content</a>, <a class="el" href="_provider_8cs_source.html#l00070">Tgstation.Server.Host.Components.Chat.Providers.Provider.EnqueueMessage()</a>, <a class="el" href="_chat_user_8cs_source.html#l00015">Tgstation.Server.Host.Components.Chat.ChatUser.Id</a>, <a class="el" href="_channel_representation_8cs_source.html#l00016">Tgstation.Server.Host.Components.Chat.ChannelRepresentation.Id</a>, <a class="el" href="_provider_8cs_source.html#l00015">Tgstation.Server.Host.Components.Chat.Providers.Provider.Logger</a>, <a class="el" href="_discord_provider_8cs_source.html#l00044">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.mappedChannels</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a8618deb5180b94f46015301982fa36a1">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.NormalizeMention()</a>, and <a class="el" href="_discord_provider_8cs_source.html#l00244">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.SendMessage()</a>.</p>
+<p class="reference">References <a class="el" href="_discord_provider_8cs_source.html#l00034">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.client</a>, <a class="el" href="_provider_8cs_source.html#l00070">Tgstation.Server.Host.Components.Chat.Providers.Provider.EnqueueMessage()</a>, <a class="el" href="_chat_user_8cs_source.html#l00015">Tgstation.Server.Host.Components.Chat.ChatUser.Id</a>, <a class="el" href="_channel_representation_8cs_source.html#l00016">Tgstation.Server.Host.Components.Chat.ChannelRepresentation.Id</a>, <a class="el" href="_provider_8cs_source.html#l00015">Tgstation.Server.Host.Components.Chat.Providers.Provider.Logger</a>, <a class="el" href="_discord_provider_8cs_source.html#l00044">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.mappedChannels</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3cf5b9ba9079d6c9f582f61b5894f7c1">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.NormalizeMentions()</a>, and <a class="el" href="_discord_provider_8cs_source.html#l00244">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.SendMessage()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_discord_provider_8cs_source.html#l00059">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.DiscordProvider()</a>.</p>
 <div class="dynheader">
@@ -357,7 +357,7 @@ Here is the call graph for this function:</div>
 <map name="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider_a3866a830f4cedcfdc6b2d1ca7e87ab4d_cgraph" id="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider_a3866a830f4cedcfdc6b2d1ca7e87ab4d_cgraph">
 <area shape="rect" title="Handle a message recieved from Discord" alt="" coords="5,71,243,127"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac45c189505744c6f1012461193fca877" title="Queues a message &#160;for NextMessage(CancellationToken)" alt="" coords="291,5,555,47"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a8618deb5180b94f46015301982fa36a1" title="Normalize a discord mention string" alt="" coords="291,71,554,127"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3cf5b9ba9079d6c9f582f61b5894f7c1" title="Normalize a discord mention string" alt="" coords="291,71,554,127"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ac986f3eaca89e94c1a16d3a6392c44dd" title="Send a message to the IProvider" alt="" coords="305,151,540,207"/>
 </map>
 </div>
@@ -646,8 +646,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a8618deb5180b94f46015301982fa36a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8618deb5180b94f46015301982fa36a1">&#9670;&nbsp;</a></span>NormalizeMention()</h2>
+<a id="a3cf5b9ba9079d6c9f582f61b5894f7c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3cf5b9ba9079d6c9f582f61b5894f7c1">&#9670;&nbsp;</a></span>NormalizeMentions()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -656,7 +656,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static string Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.NormalizeMention </td>
+          <td class="memname">static string Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.NormalizeMentions </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>fromDiscord</em></td><td>)</td>
@@ -683,8 +683,8 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider_a8618deb5180b94f46015301982fa36a1_icgraph.png" border="0" usemap="#class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider_a8618deb5180b94f46015301982fa36a1_icgraph" alt=""/></div>
-<map name="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider_a8618deb5180b94f46015301982fa36a1_icgraph" id="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider_a8618deb5180b94f46015301982fa36a1_icgraph">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider_a3cf5b9ba9079d6c9f582f61b5894f7c1_icgraph.png" border="0" usemap="#class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider_a3cf5b9ba9079d6c9f582f61b5894f7c1_icgraph" alt=""/></div>
+<map name="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider_a3cf5b9ba9079d6c9f582f61b5894f7c1_icgraph" id="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider_a3cf5b9ba9079d6c9f582f61b5894f7c1_icgraph">
 <area shape="rect" title="Normalize a discord mention string" alt="" coords="587,5,849,61"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3866a830f4cedcfdc6b2d1ca7e87ab4d" title="Handle a message recieved from Discord" alt="" coords="301,5,539,61"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a8b7a115b697a54940a0f18bfb14ed3bf" title="Construct a DiscordProvider" alt="" coords="5,5,253,61"/>
@@ -907,7 +907,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            {</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                <span class="keywordflow">if</span> (!<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ac2744da20824177724b971eb20a6d5a0">Connected</a>)</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Provider not connected&quot;</span>);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a8618deb5180b94f46015301982fa36a1">NormalizeMention</a>(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a059457d72470d29c3530d489adb91d1c">client</a>.CurrentUser.Mention);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3cf5b9ba9079d6c9f582f61b5894f7c1">NormalizeMentions</a>(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a059457d72470d29c3530d489adb91d1c">client</a>.CurrentUser.Mention);</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            }</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        }</div>
 </div><!-- fragment -->
@@ -921,11 +921,11 @@ Here is the caller graph for this function:</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider_html_aad9b7dc9415dbb1751b34994124d36ad"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#aad9b7dc9415dbb1751b34994124d36ad">Tgstation.Server.Host.Components.Chat.Providers.Provider.Logger</a></div><div class="ttdeci">ILogger Logger</div><div class="ttdoc">The ILogger for the Provider.</div><div class="ttdef"><b>Definition:</b> <a href="_provider_8cs_source.html#l00015">Provider.cs:15</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider_html_a3866a830f4cedcfdc6b2d1ca7e87ab4d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3866a830f4cedcfdc6b2d1ca7e87ab4d">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.Client_MessageReceived</a></div><div class="ttdeci">async Task Client_MessageReceived(SocketMessage e)</div><div class="ttdoc">Handle a message recieved from Discord</div><div class="ttdef"><b>Definition:</b> <a href="_discord_provider_8cs_source.html#l00081">DiscordProvider.cs:81</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider_html_ac2744da20824177724b971eb20a6d5a0"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ac2744da20824177724b971eb20a6d5a0">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.Connected</a></div><div class="ttdeci">override bool Connected</div><div class="ttdef"><b>Definition:</b> <a href="_discord_provider_8cs_source.html#l00018">DiscordProvider.cs:18</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider_html_a8618deb5180b94f46015301982fa36a1"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a8618deb5180b94f46015301982fa36a1">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.NormalizeMention</a></div><div class="ttdeci">static string NormalizeMention(string fromDiscord)</div><div class="ttdoc">Normalize a discord mention string</div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider_html_ac45c189505744c6f1012461193fca877"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac45c189505744c6f1012461193fca877">Tgstation.Server.Host.Components.Chat.Providers.Provider.EnqueueMessage</a></div><div class="ttdeci">void EnqueueMessage(Message message)</div><div class="ttdoc">Queues a message  for NextMessage(CancellationToken)</div><div class="ttdef"><b>Definition:</b> <a href="_provider_8cs_source.html#l00070">Provider.cs:70</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider_html_a45475c58bb323678370c010872a126c9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a45475c58bb323678370c010872a126c9">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.botToken</a></div><div class="ttdeci">readonly string botToken</div><div class="ttdoc">The token used for connecting to discord</div><div class="ttdef"><b>Definition:</b> <a href="_discord_provider_8cs_source.html#l00039">DiscordProvider.cs:39</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider_html_a059457d72470d29c3530d489adb91d1c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a059457d72470d29c3530d489adb91d1c">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.client</a></div><div class="ttdeci">readonly DiscordSocketClient client</div><div class="ttdoc">The DiscordSocketClient for the DiscordProvider</div><div class="ttdef"><b>Definition:</b> <a href="_discord_provider_8cs_source.html#l00034">DiscordProvider.cs:34</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider_html_a044ae95d278a4ed4a6a02449e24e8146"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a044ae95d278a4ed4a6a02449e24e8146">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.mappedChannels</a></div><div class="ttdeci">readonly List&lt; ulong &gt; mappedChannels</div><div class="ttdoc">List&lt;T&gt; of mapped ITextChannel IEntity&lt;TId&gt;.Ids</div><div class="ttdef"><b>Definition:</b> <a href="_discord_provider_8cs_source.html#l00044">DiscordProvider.cs:44</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider_html_a3cf5b9ba9079d6c9f582f61b5894f7c1"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3cf5b9ba9079d6c9f582f61b5894f7c1">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.NormalizeMentions</a></div><div class="ttdeci">static string NormalizeMentions(string fromDiscord)</div><div class="ttdoc">Normalize a discord mention string</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">
