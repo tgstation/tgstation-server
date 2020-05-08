@@ -78,8 +78,6 @@ namespace Tgstation.Server.Tests
 			Assert.IsTrue(discordProvider.Connected, "Discord provider not connected!");
 		}
 
-		// Disabled until 4.1.0 due to changes in version handling
-		[Ignore]
 		[TestMethod]
 		public async Task TestServerUpdate()
 		{
