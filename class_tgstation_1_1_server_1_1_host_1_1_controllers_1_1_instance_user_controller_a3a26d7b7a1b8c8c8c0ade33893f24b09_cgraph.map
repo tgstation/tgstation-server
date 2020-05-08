@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Controllers.InstanceUserController.Create" name="Tgstation.Server.Host.Controllers.InstanceUserController.Create">
+<area shape="rect" id="node1" title="Create am Api.Models.InstanceUser." alt="" coords="5,39,221,80"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#aa86fc5ec52331371d4f924520d3bdcb6" title="Saves changes made to the IDatabaseContext" alt="" coords="309,5,518,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_user_controller.html#a696abecedfc3d8617af4e98fa44ad3fa" title="Checks a model &#160;for errors." alt="" coords="269,71,557,112"/>
+</map>

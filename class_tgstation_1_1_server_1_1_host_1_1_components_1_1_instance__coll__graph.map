@@ -1,0 +1,18 @@
+<map id="Tgstation.Server.Host.Components.Instance" name="Tgstation.Server.Host.Components.Instance">
+<area shape="rect" id="node1" title=" " alt="" coords="588,384,815,425"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="For interacting with the instance services" alt="" coords="241,566,315,593"/>
+<area shape="rect" id="node3" href="$class_i_hosted_service.html" title=" " alt="" coords="5,143,113,170"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs" alt="" coords="187,5,369,47"/>
+<area shape="rect" id="node13" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_compile_job_consumer.html" title="Sink for CompileJobs" alt="" coords="165,136,391,177"/>
+<area shape="rect" id="node4" href="$class_i_disposable.html" title=" " alt="" coords="15,427,104,454"/>
+<area shape="rect" id="node5" title=" " alt="" coords="163,71,393,112"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions" alt="" coords="165,201,391,243"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html" title="For creating IGitHubClients" alt="" coords="187,267,369,308"/>
+<area shape="rect" id="node9" title=" " alt="" coords="257,333,299,359"/>
+<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components" alt="" coords="173,384,383,425"/>
+<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dream_maker.html" title="For managing the compiler" alt="" coords="165,449,391,491"/>
+<area shape="rect" id="node12" title=" " alt="" coords="253,515,303,542"/>
+<area shape="rect" id="node14" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html" title="Factory for IDmbProviders" alt="" coords="165,617,391,659"/>
+<area shape="rect" id="node15" title=" " alt="" coords="223,683,333,710"/>
+<area shape="rect" id="node16" title=" " alt="" coords="193,734,363,761"/>
+</map>

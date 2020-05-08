@@ -1,0 +1,10 @@
+<map id="Tgstation.Server.Host.Components.Watchdog.IWatchdog" name="Tgstation.Server.Host.Components.Watchdog.IWatchdog">
+<area shape="rect" id="node1" title="Runs and monitors the twin server controllers" alt="" coords="169,49,396,90"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs." alt="" coords="444,49,671,90"/>
+<area shape="rect" id="node2" href="$class_i_hosted_service.html" title=" " alt="" coords="9,5,117,32"/>
+<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="19,56,108,83"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions" alt="" coords="5,107,121,133"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html" title="A IWatchdog that manages one server." alt="" coords="719,15,945,57"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html" title="A IWatchdog that tries to manage 2 servers at once for maximum uptime." alt="" coords="719,81,945,122"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html" title="A version of the BasicWatchdog that, instead of killing servers for updates, uses the wonders of syml..." alt="" coords="993,15,1220,57"/>
+</map>

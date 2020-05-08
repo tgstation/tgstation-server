@@ -1,0 +1,12 @@
+<map id="Tgstation.Server.Host.Components.Deployment.WindowsSwappableDmbProvider" name="Tgstation.Server.Host.Components.Deployment.WindowsSwappableDmbProvider">
+<area shape="rect" id="node1" title="A windows IDmbProvider that uses symlinks." alt="" coords="701,153,985,194"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs" alt="" coords="376,5,475,32"/>
+<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="147,41,237,68"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs" alt="" coords="312,57,539,98"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems" alt="" coords="342,122,509,163"/>
+<area shape="rect" id="node5" title=" " alt="" coords="398,196,453,223"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html" title="For creating filesystem symbolic links" alt="" coords="342,247,509,289"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html" title=" " alt="" coords="327,313,523,354"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_compile_job.html" title="Represents a run of DreamMaker" alt="" coords="121,313,263,354"/>
+<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of CompileJobs and Jobs." alt="" coords="5,320,72,347"/>
+</map>

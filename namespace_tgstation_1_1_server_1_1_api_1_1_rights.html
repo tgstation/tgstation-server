@@ -125,7 +125,8 @@ Enumerations</h2></td></tr>
 <br />
 &#160;&#160;<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72af2a6c498fb90ee345d997f888fce3b18">ChatBotRights.Delete</a> = 128, 
 <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72ad70280daaa48077a6f4b46bad136e51a">ChatBotRights.WriteName</a> = 256, 
-<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72a5db432c7c2e28bfe63195a8f1998f470">ChatBotRights.WriteReconnectionInterval</a> = 512
+<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72a5db432c7c2e28bfe63195a8f1998f470">ChatBotRights.WriteReconnectionInterval</a> = 512, 
+<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72a7362ebd340de083949f47079eb6beca4">ChatBotRights.WriteChannelLimit</a> = 1024
 <br />
  }</td></tr>
 <tr class="memdesc:a580a36a11165b2590be342b45c31ec72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rights for Models.ChatBot  <a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72">More...</a><br /></td></tr>
@@ -188,7 +189,8 @@ Enumerations</h2></td></tr>
 <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79a4ee29ca12c7d126654bd0e5275de6135">InstanceManagerRights.List</a> = 64, 
 <br />
 &#160;&#160;<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79a2e423f35163ade75efce4061c98e1803">InstanceManagerRights.SetConfiguration</a> = 128, 
-<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79a2e54e04dba31375a3401f9f300a80d81">InstanceManagerRights.SetAutoUpdate</a> = 256
+<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79a2e54e04dba31375a3401f9f300a80d81">InstanceManagerRights.SetAutoUpdate</a> = 256, 
+<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79aa0526dcf7b059eda11e1e3bc375eb6d0">InstanceManagerRights.SetChatBotLimit</a> = 512
 <br />
  }</td></tr>
 <tr class="memdesc:af199a84ed6fe6ca557db9de91070ad79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rights for managing Models.Instances  <a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79">More...</a><br /></td></tr>
@@ -372,7 +374,7 @@ Enumerations</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="a580a36a11165b2590be342b45c31ec72a46417a8d9d6f4823667e403b90796186"></a>WriteProvider&#160;</td><td class="fielddoc"><p>User can change <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot.html#aa1c996d380be8d91b5042b6e1286b443" title="The ChatProvider used for the connection">Models.Internal.ChatBot.Provider</a> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a580a36a11165b2590be342b45c31ec72a536002a3cc297a67dcee8ec692a569ec"></a>WriteChannels&#160;</td><td class="fielddoc"><p>User can change <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_bot.html#ab7b0c6f09a83ff00c65b668b19d7992e" title="Channels the Discord bot should listen/announce in">Models.ChatBot.Channels</a> </p>
+<tr><td class="fieldname"><a id="a580a36a11165b2590be342b45c31ec72a536002a3cc297a67dcee8ec692a569ec"></a>WriteChannels&#160;</td><td class="fielddoc"><p>User can change <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_bot.html#ac42f4028b2e16b24a34acd8b0c1087d0" title="Channels the Discord bot should listen/announce in">Models.ChatBot.Channels</a> </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a580a36a11165b2590be342b45c31ec72a58680118e47c510bac627f8b20e175a9"></a>WriteConnectionString&#160;</td><td class="fielddoc"><p>User can change <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot.html#a21674d47d37f627eb1058f47c0018f7b" title="The information used to connect to the Provider">Models.Internal.ChatBot.ConnectionString</a> </p>
 </td></tr>
@@ -387,6 +389,8 @@ Enumerations</h2></td></tr>
 <tr><td class="fieldname"><a id="a580a36a11165b2590be342b45c31ec72ad70280daaa48077a6f4b46bad136e51a"></a>WriteName&#160;</td><td class="fielddoc"><p>User can change <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot.html#a5fe1533e33e54183640013c08aebdf2f" title="The name of the connection">Models.Internal.ChatBot.Name</a> </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a580a36a11165b2590be342b45c31ec72a5db432c7c2e28bfe63195a8f1998f470"></a>WriteReconnectionInterval&#160;</td><td class="fielddoc"><p>User can change <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot.html#a036a54aabe0dcecabb794483396c8bb9" title="The time interval in minutes the chat bot attempts to reconnect if Enabled and disconnected....">Models.Internal.ChatBot.ReconnectionInterval</a> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a580a36a11165b2590be342b45c31ec72a7362ebd340de083949f47079eb6beca4"></a>WriteChannelLimit&#160;</td><td class="fielddoc"><p>User can change <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot.html#a8dbeaca6b993adef66fa1e1a01530f4b" title="The maximum number of ChatChannels the ChatBot may contain.">Models.Internal.ChatBot.ChannelLimit</a> </p>
 </td></tr>
 </table>
 
@@ -414,7 +418,9 @@ Enumerations</h2></td></tr>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72ad70280daaa48077a6f4b46bad136e51a">WriteName</a> = 256,</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72a5db432c7c2e28bfe63195a8f1998f470">WriteReconnectionInterval</a> = 512,</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    }</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72a7362ebd340de083949f47079eb6beca4">WriteChannelLimit</a> = 1024,</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -654,6 +660,8 @@ Enumerations</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="af199a84ed6fe6ca557db9de91070ad79a2e54e04dba31375a3401f9f300a80d81"></a>SetAutoUpdate&#160;</td><td class="fielddoc"><p>User can change <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#aebe907c68112eae3f1ac2dfdf384ec5b" title="The time interval in minutes the repository is automatically pulled and compiles. 0 disables">Models.Instance.AutoUpdateInterval</a> </p>
 </td></tr>
+<tr><td class="fieldname"><a id="af199a84ed6fe6ca557db9de91070ad79aa0526dcf7b059eda11e1e3bc375eb6d0"></a>SetChatBotLimit&#160;</td><td class="fielddoc"><p>User can change <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#ae07e119a1bd8ddbcf2641a8f7b734c2b" title="The maximum number of ChatBots the Instance may contain.">Models.Instance.ChatBotLimit</a>. </p>
+</td></tr>
 </table>
 
 <p class="definition">Definition at line <a class="el" href="_instance_manager_rights_8cs_source.html#l00009">9</a> of file <a class="el" href="_instance_manager_rights_8cs_source.html">InstanceManagerRights.cs</a>.</p>
@@ -677,8 +685,10 @@ Enumerations</h2></td></tr>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79a2e423f35163ade75efce4061c98e1803">SetConfiguration</a> = 128,</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79a2e54e04dba31375a3401f9f300a80d81">SetAutoUpdate</a> = 256</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    }</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79a2e54e04dba31375a3401f9f300a80d81">SetAutoUpdate</a> = 256,</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79aa0526dcf7b059eda11e1e3bc375eb6d0">SetChatBotLimit</a> = 512</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -896,6 +906,7 @@ Enumerations</h2></td></tr>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a580a36a11165b2590be342b45c31ec72a536002a3cc297a67dcee8ec692a569ec"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72a536002a3cc297a67dcee8ec692a569ec">Tgstation.Server.Api.Rights.ChatBotRights.WriteChannels</a></div><div class="ttdeci">@ WriteChannels</div><div class="ttdoc">User can change Models.ChatBot.Channels</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_acf2642afce6567c03b79876139a10a49ae814f60fe597531f5630e0aef1adea94"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49ae814f60fe597531f5630e0aef1adea94">Tgstation.Server.Api.Rights.DreamDaemonRights.SoftShutdown</a></div><div class="ttdeci">@ SoftShutdown</div><div class="ttdoc">User can enable Models.Internal.DreamDaemonSettings.SoftShutdown</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a95336db3db40dbae9701ef6e51240f39a4cfe869c65c26d572cd5ab1b98abdb6a"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a95336db3db40dbae9701ef6e51240f39a4cfe869c65c26d572cd5ab1b98abdb6a">Tgstation.Server.Api.Rights.RepositoryRights.SetOrigin</a></div><div class="ttdeci">@ SetOrigin</div><div class="ttdoc">User may create the Models.Repository if it does not exist</div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_af199a84ed6fe6ca557db9de91070ad79aa0526dcf7b059eda11e1e3bc375eb6d0"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79aa0526dcf7b059eda11e1e3bc375eb6d0">Tgstation.Server.Api.Rights.InstanceManagerRights.SetChatBotLimit</a></div><div class="ttdeci">@ SetChatBotLimit</div><div class="ttdoc">User can change Models.Instance.ChatBotLimit.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a7b02c8c3dadd90810a9eaa24712a0a20a2f4b44b678b37bcd3239cd83e64d0eb0"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7b02c8c3dadd90810a9eaa24712a0a20a2f4b44b678b37bcd3239cd83e64d0eb0">Tgstation.Server.Api.Rights.RightsType.Byond</a></div><div class="ttdeci">@ Byond</div><div class="ttdoc">ByondRights</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a2a217a19e652f117e2324fb79ed838b9a9557127a4ed0a1726e4b32579364083b"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a2a217a19e652f117e2324fb79ed838b9a9557127a4ed0a1726e4b32579364083b">Tgstation.Server.Api.Rights.ByondRights.CancelInstall</a></div><div class="ttdeci">@ CancelInstall</div><div class="ttdoc">User may cancel version installations</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a7b02c8c3dadd90810a9eaa24712a0a20a254f642527b45bc260048e30704edb39"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7b02c8c3dadd90810a9eaa24712a0a20a254f642527b45bc260048e30704edb39">Tgstation.Server.Api.Rights.RightsType.Configuration</a></div><div class="ttdeci">@ Configuration</div><div class="ttdoc">ConfigurationRights</div></div>
@@ -921,6 +932,7 @@ Enumerations</h2></td></tr>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_acf2642afce6567c03b79876139a10a49aa6122a65eaa676f700ae68d393054a37"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49aa6122a65eaa676f700ae68d393054a37">Tgstation.Server.Api.Rights.DreamDaemonRights.Start</a></div><div class="ttdeci">@ Start</div><div class="ttdoc">User can start Models.DreamDaemon and disable Models.Internal.DreamDaemonSettings....</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a580a36a11165b2590be342b45c31ec72a5db432c7c2e28bfe63195a8f1998f470"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72a5db432c7c2e28bfe63195a8f1998f470">Tgstation.Server.Api.Rights.ChatBotRights.WriteReconnectionInterval</a></div><div class="ttdeci">@ WriteReconnectionInterval</div><div class="ttdoc">User can change Models.Internal.ChatBot.ReconnectionInterval</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_acf2642afce6567c03b79876139a10a49a81a46f4105078d5ddae4991343644468"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49a81a46f4105078d5ddae4991343644468">Tgstation.Server.Api.Rights.DreamDaemonRights.SetPorts</a></div><div class="ttdeci">@ SetPorts</div><div class="ttdoc">User can change both primary and secondary ports</div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a580a36a11165b2590be342b45c31ec72a7362ebd340de083949f47079eb6beca4"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72a7362ebd340de083949f47079eb6beca4">Tgstation.Server.Api.Rights.ChatBotRights.WriteChannelLimit</a></div><div class="ttdeci">@ WriteChannelLimit</div><div class="ttdoc">User can change Models.Internal.ChatBot.ChannelLimit</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_af199a84ed6fe6ca557db9de91070ad79a2e423f35163ade75efce4061c98e1803"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79a2e423f35163ade75efce4061c98e1803">Tgstation.Server.Api.Rights.InstanceManagerRights.SetConfiguration</a></div><div class="ttdeci">@ SetConfiguration</div><div class="ttdoc">User can change Models.Instance.ConfigurationType</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a580a36a11165b2590be342b45c31ec72a1696551e4b826946427650d66b0a0c18"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72a1696551e4b826946427650d66b0a0c18">Tgstation.Server.Api.Rights.ChatBotRights.ReadConnectionString</a></div><div class="ttdeci">@ ReadConnectionString</div><div class="ttdoc">User can read Models.Internal.ChatBot.ConnectionString requires Read</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_af199a84ed6fe6ca557db9de91070ad79a2e54e04dba31375a3401f9f300a80d81"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79a2e54e04dba31375a3401f9f300a80d81">Tgstation.Server.Api.Rights.InstanceManagerRights.SetAutoUpdate</a></div><div class="ttdeci">@ SetAutoUpdate</div><div class="ttdoc">User can change Models.Instance.AutoUpdateInterval</div></div>

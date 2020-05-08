@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Database.Migrations.MSLimitsOnChat" name="Tgstation.Server.Host.Database.Migrations.MSLimitsOnChat">
+<area shape="rect" id="node1" title="Adds chat limits for MSSQL." alt="" coords="5,80,215,121"/>
+<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="73,5,147,32"/>
+</map>

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['trusted_3534',['Trusted',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5ac0405d71f21e769c787a10b9620f11ea',1,'Tgstation::Server::Api::Models']]]
+  ['portupdate_4148',['PortUpdate',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge.html#a50ede689312259c6ba4fe6595f8ad91da07c70f002c020dbbf271b086039983ee',1,'Tgstation::Server::Host::Components::Interop::Bridge']]],
+  ['prime_4149',['Prime',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge.html#a50ede689312259c6ba4fe6595f8ad91dabe7938e9a87618a98a7b6b47e12aa44b',1,'Tgstation::Server::Host::Components::Interop::Bridge']]]
 ];

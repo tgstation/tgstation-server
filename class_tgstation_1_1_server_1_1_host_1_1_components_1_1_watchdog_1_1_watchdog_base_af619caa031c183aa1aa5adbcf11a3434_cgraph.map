@@ -1,0 +1,11 @@
+<map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.Launch" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.Launch">
+<area shape="rect" id="node1" title="Start the IWatchdog" alt="" coords="5,187,232,228"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a589411b1060254b846b3c5a083744441" title="Launches the watchdog." alt="" coords="280,136,568,177"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a01e4f4e2d775bd2bf0910a1f5c2f24ef" title="Asyncronously locks a semaphore" alt="" coords="329,237,519,279"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a37ced913cc4105a8df8250579bace8f8" title="Starts all ISessionControllers." alt="" coords="627,5,884,47"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#afd05b7393661f33ea421cc169b621cea" title="Send a chat message &#160;to configured watchdog channels" alt="" coords="616,71,895,112"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a4a2930b2a0a2ae99537024bb3cd4c397" title="Call MonitorLifetimes(CancellationToken) and setup monitorCts and monitorTask." alt="" coords="631,136,880,177"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a565b987a394c375c75b3fe14ca3f75e1" title="Stops MonitorLifetimes(CancellationToken). Doesn&#39;t kill the servers" alt="" coords="631,201,879,243"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a4863be0a433eff6e496eb03230759fc5" title="The loop that watches the watchdog" alt="" coords="943,136,1216,177"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a600d8d0a279d2fe17d1f48c1a1bd17d4" title="Construct a SemaphoreSlimContext" alt="" coords="628,267,883,323"/>
+</map>

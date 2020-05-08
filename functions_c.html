@@ -72,6 +72,9 @@ $(function() {
 <li>cachedIdentities
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html#ab9206118af46526c3bb89c95c5197bd8">Tgstation.Server.Host.Security.IdentityCache</a>
 </li>
+<li>CacheDirectoryName
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a4f8d03c61dfdd7c1a60c6b495288806f">Tgstation.Server.Host.Components.Byond.ByondInstallerBase</a>
+</li>
 <li>CacheSystemIdentity()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html#acbbad46e8e5ac5cae600edce613f9cf5">Tgstation.Server.Host.Security.IdentityCache</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html#a40f3695ec18d3df1bea7b230b75dabbb">Tgstation.Server.Host.Security.IIdentityCache</a>
@@ -92,16 +95,13 @@ $(function() {
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#ab866e78375ea43803c7d8a64b181e21c">Tgstation.Server.Host.IO.Console</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#a850a82073bea75fd1c0011f92aa91191">Tgstation.Server.Host.IO.IConsole</a>
 </li>
-<li>cancellationToken
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_comm_context.html#ad2f0b06a4dbe78c59e2e0709fb8d8fda">Tgstation.Server.Host.Components.Interop.CommContext</a>
-</li>
 <li>cancellationTokenSource
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_comm_context.html#aa5d4e8581299b0fbbc8622b276f12397">Tgstation.Server.Host.Components.Interop.CommContext</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_network_prompt_reaper.html#a4ec45a0beda901300d6ce268d34c0ef5">Tgstation.Server.Host.Components.Watchdog.WindowsNetworkPromptReaper</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#ac30004f8ba4f9497c9f81cf26c4c2d24">Tgstation.Server.Host.Jobs.JobHandler</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#ac30004f8ba4f9497c9f81cf26c4c2d24">Tgstation.Server.Host.Jobs.JobHandler</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#ac8422fda839cd16fd8b467bb4947f8a1">Tgstation.Server.Host.Security.IdentityCacheObject</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a80bf6f84e712996ae1d8894ec96e9ba3">Tgstation.Server.Host.Server</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a4f65e767919ae007c07ef7b3b715b498">Tgstation.Server.Host.Service.ServerService</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_program_shutdown_token_source.html#a2b51b208174b00545d40d6cf58d82a6e">Tgstation.Server.Host.System.ProgramShutdownTokenSource</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a23cc7eb8e4b7ca1d16f8a3bbb220c8b8">Tgstation.Server.Host.System.WindowsNetworkPromptReaper</a>
 </li>
 <li>Cancelled
 : <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#ab68caae8a7e5bd3bfd7764cab7b8773d">Tgstation.Server.Api.Models.Internal.Job</a>
@@ -120,7 +120,16 @@ $(function() {
 : <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html#a796c6a9e900858ec0084648e9b375609">Tgstation.Server.Api.Models.Internal.Job</a>
 </li>
 <li>CanConvert()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_bool_converter.html#adad719823d31566cc209bc717c5ccc55">Tgstation.Server.Host.Components.Chat.Commands.BoolConverter</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_converters_1_1_bool_converter.html#a06799ee353b6539298ae9157a94447d7">Tgstation.Server.Host.Components.Interop.Converters.BoolConverter</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_converters_1_1_version_converter.html#a4179b3dce37ebd3e673c0d3326c08624">Tgstation.Server.Host.Components.Interop.Converters.VersionConverter</a>
+</li>
+<li>CanCreateSymlinks
+: <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html#a372abf6465e892a3fee94c1aa32aaf3f">Tgstation.Server.Host.Security.ISystemIdentity</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_posix_system_identity.html#a9b80b72e3694f14852de2d3fdb252472">Tgstation.Server.Host.Security.PosixSystemIdentity</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html#ae0e95b11dc35386e5a276bd9b24b3312">Tgstation.Server.Host.Security.WindowsSystemIdentity</a>
+</li>
+<li>canCreateSymlinks
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html#afe60cf0ed06def30a229734840a69a33">Tgstation.Server.Host.Security.WindowsSystemIdentity</a>
 </li>
 <li>CanonicalizeName()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16">Tgstation.Server.Host.Models.User</a>
@@ -128,13 +137,16 @@ $(function() {
 <li>CanonicalName
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a6882aa0e73af174efc9a7d843888a242">Tgstation.Server.Host.Models.User</a>
 </li>
+<li>CfgDirectoryName
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#adbe97e65b8edae12e2f41947ed94dfc1">Tgstation.Server.Host.Components.Byond.ByondManager</a>
+</li>
 <li>ChangeChannels()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat.html#a2e51d14e66a9be0de64dd55feadb9e7d">Tgstation.Server.Host.Components.Chat.Chat</a>
-, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat.html#ac0cee4adb5e625763dc8829922e20afe">Tgstation.Server.Host.Components.Chat.IChat</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a29ba2842fd3cf2c5532acc07966eb1a9">Tgstation.Server.Host.Components.Chat.ChatManager</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#ab9ba3beba537518b1f68ca31ae9dea25">Tgstation.Server.Host.Components.Chat.IChatManager</a>
 </li>
 <li>ChangeSettings()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat.html#ad9805fbf5079c35993641c458d697566">Tgstation.Server.Host.Components.Chat.Chat</a>
-, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat.html#af5fac12babaf773ee5bc457bc7eaeeda">Tgstation.Server.Host.Components.Chat.IChat</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ab92aecc1e67b8057488533089666939c">Tgstation.Server.Host.Components.Chat.ChatManager</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a2fce5d039137dca648c736b935b1d274">Tgstation.Server.Host.Components.Chat.IChatManager</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html#afab0aa088dc77e54e978c730645d8d00">Tgstation.Server.Host.Components.Watchdog.IWatchdog</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a390fcde5ed6ed30d6e5b5b2ebc8273dc">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>
 </li>
@@ -143,49 +155,49 @@ $(function() {
 , <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html#a04ad9b7aeb3bf8b080dd54a396a7911c">Tgstation.Server.Host.Components.Byond.IByondManager</a>
 </li>
 <li>Channel
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_mapping.html#a3e47c8143bcb6ea125dc7e19d61981a7">Tgstation.Server.Host.Components.Chat.ChannelMapping</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_user.html#a757ab1b226367fcaca7c770885002bbd">Tgstation.Server.Host.Components.Chat.User</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_mapping.html#a38d8a714d5e64f7ec0864400c47af3d9">Tgstation.Server.Host.Components.Chat.ChannelMapping</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html#ae40aff12bbf1b190b66a8f8f274dbdba">Tgstation.Server.Host.Components.Chat.ChatUser</a>
 </li>
 <li>channelIdCounter
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat.html#a2e2b66e3a89f1bd6aceda7f0a4bb234b">Tgstation.Server.Host.Components.Chat.Chat</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a9f8c4d78e74aa61eb4aaa13cc1a88bbf">Tgstation.Server.Host.Components.Chat.ChatManager</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a3170ebdb4e8568868efd3b1c1764bf38">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider</a>
 </li>
 <li>channelIdMap
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a403b3ff6bccc4b1e3f7e9e8729f84908">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider</a>
 </li>
 <li>ChannelIds
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_response.html#a1ccfbf76be5cfe35a6df3da7c615bb5e">Tgstation.Server.Host.Components.Chat.Response</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_message.html#ae0f13f64bd97247dd98165a6a4b7e4af">Tgstation.Server.Host.Components.Interop.ChatMessage</a>
+</li>
+<li>ChannelLimit
+: <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot.html#a8dbeaca6b993adef66fa1e1a01530f4b">Tgstation.Server.Api.Models.Internal.ChatBot</a>
 </li>
 <li>Channels
-: <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_bot.html#ab7b0c6f09a83ff00c65b668b19d7992e">Tgstation.Server.Api.Models.ChatBot</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_bot.html#ac42f4028b2e16b24a34acd8b0c1087d0">Tgstation.Server.Api.Models.ChatBot</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#af0d278930e8e0b2779444e406bbfdbb6">Tgstation.Server.Host.Components.Chat.ChatTrackingContext</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_tracking_context.html#a7f7c9a94446c1b5e1afc9156705b6777">Tgstation.Server.Host.Components.Chat.IChatTrackingContext</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_update.html#a280793bb9606d15ac3291b491db28fa2">Tgstation.Server.Host.Components.Interop.ChatUpdate</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html#a962580026629eab3c997002c86e9cb6d">Tgstation.Server.Host.Models.ChatBot</a>
 </li>
-<li>channelsPath
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_json_tracking_context.html#af702fc418b52e116273bacce6697c5dc">Tgstation.Server.Host.Components.Chat.JsonTrackingContext</a>
-</li>
-<li>channelsSemaphore
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_json_tracking_context.html#a1257ebc66455fcbe3ab2e7e72534ce6e">Tgstation.Server.Host.Components.Chat.JsonTrackingContext</a>
+<li>channelSink
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a5b89c6d03b5b49c2444ae5e815a537a2">Tgstation.Server.Host.Components.Chat.ChatTrackingContext</a>
 </li>
 <li>Chat
 : <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a6cf0d5e4d1f8ed76d2cf84a56392ed2d">Tgstation.Server.Api.Routes</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat.html#a2b3416bb9a400628d5de0737b0649ef0">Tgstation.Server.Host.Components.Chat.Chat</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html#a466bba00e31a4271dda0fb5f2e835074">Tgstation.Server.Host.Components.IInstance</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a33d0e17d96ba16ead347ff8fb1bf6b45">Tgstation.Server.Host.Components.Instance</a>
 </li>
 <li>chat
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#aefd451b2e23d31e4844cb80fb2c011ae">Tgstation.Server.Host.Components.Deployment.DreamMaker</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a5a1af309153dd42b772a3807b1612a57">Tgstation.Server.Host.Components.Watchdog.SessionController</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller_factory.html#a11b8f64ceb040270912a50f2d6186538">Tgstation.Server.Host.Components.Watchdog.SessionControllerFactory</a>
 </li>
 <li>Chat
-: <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html#ad00e650236f4e0d2c512113b9fe2446b">Tgstation.Server.Host.Components.IInstance</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#abfb0276f594ece7d091630365f7f036a">Tgstation.Server.Host.Components.Instance</a>
-</li>
-<li>chat
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#ab46cb8a880307f45012474909bada8c3">Tgstation.Server.Host.Components.Watchdog.SessionController</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller_factory.html#af039fd67d6fa74b527048459e1a358b0">Tgstation.Server.Host.Components.Watchdog.SessionControllerFactory</a>
-</li>
-<li>Chat
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a934fd52d3434a057fbac3f2994810cb4">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#aec24ff5e3b22b40e62f4a2443eb8cec9">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>
 </li>
 <li>ChatBot()
 : <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_chat_bots_client.html#aa8342c38e2ed6d4290be11a1dfd906d5">Tgstation.Server.Client.Components.ChatBotsClient</a>
+</li>
+<li>ChatBotLimit
+: <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#ae07e119a1bd8ddbcf2641a8f7b734c2b">Tgstation.Server.Api.Models.Instance</a>
 </li>
 <li>ChatBotRights
 : <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_user.html#a940fa0780621d08d50f1e961bb79a87b">Tgstation.Server.Api.Models.InstanceUser</a>
@@ -194,40 +206,51 @@ $(function() {
 : <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_instance_client.html#aca06567ce5a36c7e6b2ac09d5e6d9a38">Tgstation.Server.Client.Components.IInstanceClient</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_instance_client.html#a8b8ccd6c8cb8f046bc1c94e4220df1c8">Tgstation.Server.Client.Components.InstanceClient</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a5dfab7827b720d895196f51449a1b964">Tgstation.Server.Host.Database.DatabaseContext&lt; TParentContext &gt;</a>
-, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a60c9ae3d375ff233298fa899f0e985b5">Tgstation.Server.Host.Database.IDatabaseContext</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#ab21b0ca8cd1ea61dd71a2b3fd8879e6e">Tgstation.Server.Host.Database.IDatabaseContext</a>
 </li>
 <li>ChatBotsClient()
 : <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_chat_bots_client.html#a322c40d10b0b8b65802c71a899a555d9">Tgstation.Server.Client.Components.ChatBotsClient</a>
 </li>
+<li>chatBotsCollection
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#af73316112796e4f24601cc331699f1d3">Tgstation.Server.Host.Database.DatabaseContext&lt; TParentContext &gt;</a>
+</li>
 <li>ChatChannels
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a3c03d2042089794a3977109d2ab38c52">Tgstation.Server.Host.Database.DatabaseContext&lt; TParentContext &gt;</a>
-, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#af54f2bfbb52c8e7c50a85b5e37559bad">Tgstation.Server.Host.Database.IDatabaseContext</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a1b4b0a39df2b5009142fbced4a3b431d">Tgstation.Server.Host.Database.IDatabaseContext</a>
 </li>
-<li>ChatChannelsJson
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_json_file.html#ac4b12b2ff255a2e18bac3b47ad7b1eda">Tgstation.Server.Host.Components.Interop.JsonFile</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_json_sub_file_list.html#a467e7d6f73cb109da69af86e1644d8f3">Tgstation.Server.Host.Components.Interop.JsonSubFileList</a>
+<li>chatChannelsCollection
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad8351cda8055683df533a05493f93c70">Tgstation.Server.Host.Database.DatabaseContext&lt; TParentContext &gt;</a>
 </li>
 <li>chatClient
 : <a class="el" href="class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_chat_test.html#ae870c5f5dc9742bbee30290b36391265">Tgstation.Server.Tests.Instance.ChatTest</a>
 </li>
-<li>ChatCommandsJson
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_json_file.html#ad9b9e6e7af1746d22adc0cda60302dda">Tgstation.Server.Host.Components.Interop.JsonFile</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_json_sub_file_list.html#aab62b9247392345c712b668535e03282">Tgstation.Server.Host.Components.Interop.JsonSubFileList</a>
+<li>ChatCommand()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_chat_command.html#a1737c025e35743a0f2be00fba48521c4">Tgstation.Server.Host.Components.Interop.Topic.ChatCommand</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_topic_parameters.html#ae601a706f441dab0b1b606652e6bf479">Tgstation.Server.Host.Components.Interop.Topic.TopicParameters</a>
 </li>
 <li>ChatController()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#aeb8a6d7b46b068d26e685b7b22e78cb4">Tgstation.Server.Host.Controllers.ChatController</a>
 </li>
-<li>ChatFactory()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_factory.html#a42579d851d612e220ec567b406b525ad">Tgstation.Server.Host.Components.Chat.ChatFactory</a>
-</li>
 <li>chatFactory
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a59397e41a1bb1df63d5ac8022cbb67d8">Tgstation.Server.Host.Components.InstanceFactory</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a86c6ee3938a05c7ce3adf413911345ce">Tgstation.Server.Host.Components.InstanceFactory</a>
 </li>
 <li>chatHandler
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat.html#a67736c6716ce7bc9b5167dedb4e43220">Tgstation.Server.Host.Components.Chat.Chat</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ada23a21c30710b64e7c9ee85e82e32d4">Tgstation.Server.Host.Components.Chat.ChatManager</a>
 </li>
-<li>chatJsonTrackingContext
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#aa5a9ae38d8ab674620397be99c74cada">Tgstation.Server.Host.Components.Watchdog.SessionController</a>
+<li>ChatManager()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae0a718f1cae22fe94e31e1c6103ddbed">Tgstation.Server.Host.Components.Chat.ChatManager</a>
+</li>
+<li>chatManager
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ad8f8e86f9e52a3f5e027b9570c5f32df">Tgstation.Server.Host.Components.Deployment.DreamMaker</a>
+</li>
+<li>ChatManagerFactory()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_factory.html#a664778f38f54960c97b79cb3bcd97651">Tgstation.Server.Host.Components.Chat.ChatManagerFactory</a>
+</li>
+<li>ChatMessage
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_parameters.html#a5c439c5d7dcadaa0c3dddaca1b07046e">Tgstation.Server.Host.Components.Interop.Bridge.BridgeParameters</a>
+</li>
+<li>ChatResponses
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_topic_response.html#a18c82501c779543e0aea47992f683bd3">Tgstation.Server.Host.Components.Interop.Topic.TopicResponse</a>
 </li>
 <li>ChatSettings
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html#a082ce7e1f98a393dc31eed005abc5002">Tgstation.Server.Host.Models.ChatChannel</a>
@@ -237,7 +260,17 @@ $(function() {
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html#aa81eda97809d3993ebf0d34f77fc0c1b">Tgstation.Server.Host.Models.ChatChannel</a>
 </li>
 <li>ChatTest()
-: <a class="el" href="class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_chat_test.html#af5c16d789827ab0662defac529668c6a">Tgstation.Server.Tests.Instance.ChatTest</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_chat_test.html#a86280e64c46adc7a07f7a0c2b2cb2e73">Tgstation.Server.Tests.Instance.ChatTest</a>
+</li>
+<li>ChatTrackingContext()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a930d4047b0c065fa25b3a149bb541648">Tgstation.Server.Host.Components.Chat.ChatTrackingContext</a>
+</li>
+<li>chatTrackingContext
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a71c3c169a7cdf6bce3527c1fbf6530e5">Tgstation.Server.Host.Components.Watchdog.SessionController</a>
+</li>
+<li>ChatUpdate()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_update.html#aad6730fe7ca3dfdf9b037bdc07a97c91">Tgstation.Server.Host.Components.Interop.ChatUpdate</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_topic_parameters.html#ab3602746a6cf5978f869fbbd3ec35021">Tgstation.Server.Host.Components.Interop.Topic.TopicParameters</a>
 </li>
 <li>CheckAvailable()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#a6556df91ef25960c814f583b71996a9f">Tgstation.Server.Host.IO.Console</a>
@@ -248,14 +281,22 @@ $(function() {
 <li>CheckDisposed()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#ab0dfcae37e616a35d85fce7af3e432d8">Tgstation.Server.Host.Components.Watchdog.SessionController</a>
 </li>
+<li>CheckDMApiFail()
+: <a class="el" href="class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_watchdog_test.html#a76827ef52aa539b52c8ce4e45d559927">Tgstation.Server.Tests.Instance.WatchdogTest</a>
+</li>
 <li>CheckExceptionPropagation()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#adc61d0d2d0cae4ed8a883db99ebe40e5">Tgstation.Server.Host.Server</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#ab5cd879190ac2d9764b9849eb31985f8">Tgstation.Server.Host.Server</a>
 </li>
 <li>CheckGetJob()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#ae129c81a2e2ad2ecf8838e03a5a7db07">Tgstation.Server.Host.Jobs.JobManager</a>
 </li>
 <li>CheckLaunchResult()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a96ad9302ae812f4ba3bbbaed2f7adbd0">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>
+</li>
+<li>Checkout()
+: <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_commands.html#a193582291ff43c0841b5c75f77f50fcb">Tgstation.Server.Host.Components.Repository.ILibGit2Commands</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_commands.html#a6bd416c14953fd88906f93050249e705">Tgstation.Server.Host.Components.Repository.LibGit2Commands</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_repository_test.html#a36f92e0b4c139afa8abcad414091320c">Tgstation.Server.Tests.Instance.RepositoryTest</a>
 </li>
 <li>CheckoutObject()
 : <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ab069c1ee11c48955e51956ff31a0d0fc">Tgstation.Server.Host.Components.Repository.IRepository</a>
@@ -271,28 +312,31 @@ $(function() {
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a136149ffd1e19c77776bf08ad6f019d8">Tgstation.Server.Host.Controllers.AdministrationController</a>
 </li>
 <li>CheckRunWizard()
-: <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_setup_wizard.html#af7ba7d5740fede2bc7d52977afbd1832">Tgstation.Server.Host.Core.ISetupWizard</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_setup_wizard.html#ac1d5103c18b9b1ae0cee11fd61cf4417">Tgstation.Server.Host.Core.SetupWizard</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_tests_1_1_test_application_1_1_mock_setup_wizard.html#a50972281286613e25958de1e126c86c9">Tgstation.Server.Host.Core.Tests.TestApplication.MockSetupWizard</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a3b92be081e2beac876e749532a6d1d87">Tgstation.Server.Host.Setup.SetupWizard</a>
 </li>
 <li>CheckSanity()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a5307337e3bb84c45327e8a856b7f425f">Tgstation.Server.Host.Server</a>
+</li>
+<li>CheckSystemCompatibility()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#ade02e9746380fbab6b087a74bd701dbe">Tgstation.Server.Host.Components.InstanceFactory</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a3e875f6dd7bf0458e6d54e0dcf7bfe44">Tgstation.Server.Host.Components.InstanceManager</a>
 </li>
 <li>CheckUserPassword()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#a020220485dde96985ea6bfe224a85d89">Tgstation.Server.Host.Security.CryptographySuite</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#ac23fd656dc42cf07e64a62844f8bcfbc">Tgstation.Server.Host.Security.ICryptographySuite</a>
 </li>
 <li>CheckValidName()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#aa85affa140d33be0d7f08be410a171f2">Tgstation.Server.Host.Controllers.UserController</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a7d6d50ff837b991a62dd2664cc0577ad">Tgstation.Server.Host.Controllers.UserController</a>
 </li>
 <li>ClaimsInjector()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_claims_injector.html#aaa5f275fb556a0382b8f6aec8368ea8d">Tgstation.Server.Host.Security.ClaimsInjector</a>
 </li>
+<li>Clamp&lt; TRight &gt;()
+: <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a3ff2a4a6158c2a8f6264fabd88d8cdff">Tgstation.Server.Api.Rights.RightsHelper</a>
+</li>
 <li>CleanCache()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a716c569493926d9b684ef4c41f2193a3">Tgstation.Server.Host.Components.Byond.ByondInstallerBase</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#a26fd27ae8ad551f07cb655309bed6830">Tgstation.Server.Host.Components.Byond.ByondInstallerBase</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html#ad014a7849a1246dc316a9ac3d8a43d16">Tgstation.Server.Host.Components.Byond.IByondInstaller</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#a77d191c1050e8e35c89b7fab2462280c">Tgstation.Server.Host.Components.Byond.PosixByondInstaller</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#a8e2ef48c18a80db450763cfc8396ca86">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller</a>
 </li>
 <li>CleanJob()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#abc5644c8a944e0cebe2599d910f6df18">Tgstation.Server.Host.Components.Deployment.DmbFactory</a>
@@ -326,7 +370,7 @@ $(function() {
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a6709ea88022cc7f1ed175e5f863e79c9">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider</a>
 </li>
 <li>ClientException()
-: <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_client_exception.html#a5949cd7fd2b3647b5125539d19ad4837">Tgstation.Server.Client.ClientException</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_client_exception.html#a3f17ba166b12061604c4324017a8b82b">Tgstation.Server.Client.ClientException</a>
 </li>
 <li>clientFactory
 : <a class="el" href="class_tgstation_1_1_server_1_1_tests_1_1_integration_test.html#a531e3e175cefd7786c6e349fa7584f68">Tgstation.Server.Tests.IntegrationTest</a>
@@ -334,7 +378,10 @@ $(function() {
 <li>Clone()
 : <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_repository_client.html#ad1443ff74ddf28de61129c0c98e2abc2">Tgstation.Server.Client.Components.IRepositoryClient</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_repository_client.html#a5e84a3b8d18e965718b2c37386c6aede">Tgstation.Server.Client.Components.RepositoryClient</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#a0a6ed81450e50013e2ec1bae65e5f8cb">Tgstation.Server.Host.Components.Repository.ILibGit2RepositoryFactory</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#ac40ab8e01d38e4283f2b108b6cf3d4e4">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html#a1cb40673b65fa830543c69461449953a">Tgstation.Server.Host.Security.ISystemIdentity</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_posix_system_identity.html#a59df57ef35247cd92739a0617e1b967c">Tgstation.Server.Host.Security.PosixSystemIdentity</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html#aa3df6c34f2e2c1a5755b21595bc6f1a5">Tgstation.Server.Host.Security.WindowsSystemIdentity</a>
 </li>
 <li>CloneInProgress
@@ -368,20 +415,22 @@ $(function() {
 <li>combinedStringBuilder
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a2b6851fe998b0764f198a17f05c411b0">Tgstation.Server.Host.System.Process</a>
 </li>
-<li>Command
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_command.html#ad3c1493d8915aecd4c800d462d5931f2">Tgstation.Server.Host.Components.Interop.ChatCommand</a>
-</li>
 <li>commandFactory
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat.html#a3e34b59cab804565caa31a230980e65b">Tgstation.Server.Host.Components.Chat.Chat</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#aa6a9c74750f2d7681b3e2f2a2913d0b3">Tgstation.Server.Host.Components.Chat.ChatManager</a>
 </li>
 <li>CommandFactory()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_command_factory.html#aa195d342dbe8a6dbbb2294f15cbe09c0">Tgstation.Server.Host.Components.Chat.Commands.CommandFactory</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_command_factory.html#ac2c9597d5999233e2e8e138ea59f8808">Tgstation.Server.Host.Components.Chat.Commands.CommandFactory</a>
 </li>
-<li>commandsPath
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_json_tracking_context.html#a88d413546c92683df93fb058d7f40dc8">Tgstation.Server.Host.Components.Chat.JsonTrackingContext</a>
+<li>CommandResponseMessage
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_topic_response.html#a5e4edc24d276cd6f04ac5f9ca341854e">Tgstation.Server.Host.Components.Interop.Topic.TopicResponse</a>
 </li>
-<li>CommContext()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_comm_context.html#a9fb9b0ef078701162f9a307bf04af648">Tgstation.Server.Host.Components.Interop.CommContext</a>
+<li>commands
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a0430493b4192fa846e3bd01855bded49">Tgstation.Server.Host.Components.Repository.Repository</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#a8216cd27859d7fffa1c3f2d22d76fc62">Tgstation.Server.Host.Components.Repository.RepositoryManager</a>
+</li>
+<li>CommandType
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_parameters.html#a1d4ee9b9e14b762f89c37089f5e95adc">Tgstation.Server.Host.Components.Interop.Bridge.BridgeParameters</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_topic_parameters.html#a4ff929e0039bac0fc761fdc518fb3cd2">Tgstation.Server.Host.Components.Interop.Topic.TopicParameters</a>
 </li>
 <li>Comment
 : <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#ac347f526ceb9f50ab47df5db6c710385">Tgstation.Server.Api.Models.TestMergeParameters</a>
@@ -396,7 +445,7 @@ $(function() {
 : <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#ac2fd6ed73ec47e1a8b308ec5d5f6ddf5">Tgstation.Server.Api.Models.Internal.RepositorySettings</a>
 </li>
 <li>CommonMention
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat.html#a55432cab80130ced59f78ce28750a96a">Tgstation.Server.Host.Components.Chat.Chat</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a0b5b0d03d129b21de29dc2c2bbf17edf">Tgstation.Server.Host.Components.Chat.ChatManager</a>
 </li>
 <li>Compatible()
 : <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a305abd5b6b16230fb32f779af0a07d61">Tgstation.Server.Api.ApiHeaders</a>
@@ -418,10 +467,13 @@ $(function() {
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a83fa9f5ca1f5dda6fcacbc0131d30fa9">Tgstation.Server.Host.Components.Instance</a>
 </li>
 <li>CompileJobs
-: <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html#a9b60bc78fa491f2fced9f0432a2708ba">Tgstation.Server.Api.Models.RevisionInformation</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html#adf695545f0c5baf039a7e7d21f4314ec">Tgstation.Server.Api.Models.RevisionInformation</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a6b75492b18fbd32070794a5452099275">Tgstation.Server.Host.Database.DatabaseContext&lt; TParentContext &gt;</a>
-, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#afe80f47369a677497577066e627f34e0">Tgstation.Server.Host.Database.IDatabaseContext</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a9f93949abe42bddbbf9134946c7f5be5">Tgstation.Server.Host.Database.IDatabaseContext</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html#ad53239b4213e48130a30f10662a5b2b6">Tgstation.Server.Host.Models.RevisionInformation</a>
+</li>
+<li>compileJobsCollection
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#aa82d464631ce1f960495c53ee717f35f">Tgstation.Server.Host.Database.DatabaseContext&lt; TParentContext &gt;</a>
 </li>
 <li>CompileProcess()
 : <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html#abf2c616c3ac6205bdfea350d2bbea222">Tgstation.Server.Host.Components.IInstance</a>
@@ -429,6 +481,9 @@ $(function() {
 </li>
 <li>compiling
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#af9fdd225bd839f2d361bbe355080d873">Tgstation.Server.Host.Components.Deployment.DreamMaker</a>
+</li>
+<li>compilingLock
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a01a39fc784108fc06f4c6bd27fd55b55">Tgstation.Server.Host.Components.Deployment.DreamMaker</a>
 </li>
 <li>ConcatPath()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#abd68930642dbf40df272b35dc438312e">Tgstation.Server.Host.IO.DefaultIOManager</a>
@@ -447,9 +502,7 @@ $(function() {
 : <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html#a223522ccf4c8fa14c528d55065134f42">Tgstation.Server.Host.Components.IInstance</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a49c2073606768819b91a401c21fe3555">Tgstation.Server.Host.Components.Instance</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ae5932bea40716ebcc3145ccfd2c48aa3">Tgstation.Server.Host.Components.StaticFiles.Configuration</a>
-</li>
-<li>configuration
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a5b2985673070866ac14432d088c44b1e">Tgstation.Server.Host.Core.Application</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_application.html#abecd5329f7937e822959734f3c5272d1">Tgstation.Server.Host.Setup.SetupApplication</a>
 </li>
 <li>ConfigurationClient()
 : <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#aed092908af675dfdec16528492815010">Tgstation.Server.Client.Components.ConfigurationClient</a>
@@ -474,27 +527,32 @@ $(function() {
 : <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#a6183efad1d4344d06e59ea8bc2072a19">Tgstation.Server.Api.Models.Instance</a>
 </li>
 <li>Configure()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#ab90a6ff592e181685e3d31cca74200cb">Tgstation.Server.Host.Core.Application</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a196ba99cf42237bd2de8efbc51ccf7f6">Tgstation.Server.Host.Core.Application</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_swagger_configuration.html#a58ef7bff279e5663448d9c5e9fa81e89">Tgstation.Server.Host.Core.SwaggerConfiguration</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#aaba3eb445c2c2c0f8a11d150096b7457">Tgstation.Server.Host.Service.Program</a>
 </li>
 <li>ConfigureControlPanel()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_setup_wizard.html#a7e1172bb615dad9313a2c003dc4b6ecb">Tgstation.Server.Host.Core.SetupWizard</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a4395ef504696978cdc743b50121456f7">Tgstation.Server.Host.Setup.SetupWizard</a>
 </li>
 <li>ConfigureDatabase()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_setup_wizard.html#a183509bedc6c64025be09ed2a449dc28">Tgstation.Server.Host.Core.SetupWizard</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a1deda504d8ba5d227a51c83564b72ca1">Tgstation.Server.Host.Setup.SetupWizard</a>
 </li>
 <li>ConfigureGeneral()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_setup_wizard.html#aa2fcb84250b683e9ae517a7d3f965617">Tgstation.Server.Host.Core.SetupWizard</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#ae6f4a68f9543e70ef9b01c4f1088aa1b">Tgstation.Server.Host.Setup.SetupWizard</a>
+</li>
+<li>ConfigureHostedService()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a1d6e849d4a69fe90f23f60aaeb2bc960">Tgstation.Server.Host.Core.Application</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_application.html#a03097b9f375ae721b318fc2aaf970b9b">Tgstation.Server.Host.Setup.SetupApplication</a>
 </li>
 <li>ConfigureLogging()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_setup_wizard.html#a7dd99f9a874086509e1c0517fbaa8033">Tgstation.Server.Host.Core.SetupWizard</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a95d031c71d5219c0d2327191b220311b">Tgstation.Server.Host.Setup.SetupWizard</a>
 </li>
 <li>ConfigureServices()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#aceaab5ce98c719a556d7e9af25d0da81">Tgstation.Server.Host.Core.Application</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a2b610f9600937f97857f303dcfe41823">Tgstation.Server.Host.Core.Application</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_application.html#a1225384501e2dfd8dd509a1f96ea2fa6">Tgstation.Server.Host.Setup.SetupApplication</a>
 </li>
 <li>ConflictException()
-: <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_conflict_exception.html#a1712ba2a2c9c17fd749f7afc9d096df1">Tgstation.Server.Client.ConflictException</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_conflict_exception.html#a7f70c88fb9025a7db9bac18bb8bfa5e5">Tgstation.Server.Client.ConflictException</a>
 </li>
 <li>Connect()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ae0ae6a98f9e73c337f6b4fca3791df76">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider</a>
@@ -509,20 +567,20 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#afab0213888c139dbb1786d7f5c0d8680">Tgstation.Server.Host.Components.Chat.Providers.Provider</a>
 </li>
 <li>ConnectionName
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel.html#aa1a46e5a96e903a9bb79cd1fcf93ea0c">Tgstation.Server.Host.Components.Chat.Channel</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#a0d68ca440d98dc89941ef3c5781f2f61">Tgstation.Server.Host.Components.Chat.ChannelRepresentation</a>
 </li>
 <li>ConnectionString
 : <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot.html#a21674d47d37f627eb1058f47c0018f7b">Tgstation.Server.Api.Models.Internal.ChatBot</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a53a14b4a89de73b8ea223804c4aea365">Tgstation.Server.Host.Configuration.DatabaseConfiguration</a>
 </li>
 <li>connectionsUpdated
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat.html#a70431daa3f7477949d950d44026ee802">Tgstation.Server.Host.Components.Chat.Chat</a>
-</li>
-<li>console
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_setup_wizard.html#a65a52e0b0d2e65eb557e0250bbe0de97">Tgstation.Server.Host.Core.SetupWizard</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a179b0d01333a267410199e524601dc84">Tgstation.Server.Host.Components.Chat.ChatManager</a>
 </li>
 <li>Console()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html#aba874ec794084e164acb19d73c7c1dee">Tgstation.Server.Host.IO.Console</a>
+</li>
+<li>console
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#aadeb44bb71d804e15c6a6bd0c3131bd7">Tgstation.Server.Host.Setup.SetupWizard</a>
 </li>
 <li>Content
 : <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html#a01ea9f02cf1c5f6442b5753c2d0b0024">Tgstation.Server.Api.Models.ConfigurationFile</a>
@@ -573,11 +631,11 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a99457477cad4b6adcedbba47d939f005">Tgstation.Server.Host.Controllers.UserController</a>
 </li>
 <li>Create&lt; TBody, TResult &gt;()
-: <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a73701939b0af1ee33b46c931829200fc">Tgstation.Server.Client.ApiClient</a>
-, <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a726cb2cf80d2499c3e6ff8ae67bbc0ed">Tgstation.Server.Client.IApiClient</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#ab5fc54acd429e50a254fccaf23e52299">Tgstation.Server.Client.ApiClient</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a0448d3803d9f45d2e67295cef2096174">Tgstation.Server.Client.IApiClient</a>
 </li>
 <li>Create&lt; TResult &gt;()
-: <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a5c7201add0fadb2be2851aa749a0c3c6">Tgstation.Server.Client.ApiClient</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a70d6c289a7e07426ff72c36eb2502819">Tgstation.Server.Client.ApiClient</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#ac4bbf7c3cc9ff87beda2b13f018a25f5">Tgstation.Server.Client.IApiClient</a>
 </li>
 <li>CreateApiClient()
@@ -591,14 +649,14 @@ $(function() {
 <li>CreateBaseClient()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_git_hub_client_factory.html#a0d2033f1157b71089477c1383ed77e09">Tgstation.Server.Host.Core.GitHubClientFactory</a>
 </li>
-<li>CreateChat()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_factory.html#af6247bee1404c3167c5df0534e164930">Tgstation.Server.Host.Components.Chat.ChatFactory</a>
-, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_factory.html#a931511f281ecbb0ec05c825c1643514e">Tgstation.Server.Host.Components.Chat.IChatFactory</a>
+<li>CreateChatManager()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_factory.html#ab7cb1f1ac63ad00a080ec4cb65b03ac6">Tgstation.Server.Host.Components.Chat.ChatManagerFactory</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_factory.html#a2da119ff14c5553f07a8e0c3b3d43755">Tgstation.Server.Host.Components.Chat.IChatManagerFactory</a>
 </li>
 <li>CreateClient()
 : <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a89d0d8409ead36832135461bb544ad09">Tgstation.Server.Client.IInstanceManagerClient</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#aad7c5289f672bb2598084276d583a1f9">Tgstation.Server.Client.InstanceManagerClient</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_git_hub_client_factory.html#ab32f8e03603c878ebc0affdc144facd0">Tgstation.Server.Host.Core.GitHubClientFactory</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_git_hub_client_factory.html#aa2f86d385b449ccf9b4d9011c0479e34">Tgstation.Server.Host.Core.GitHubClientFactory</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html#a9043597fb0563f7fb0ed751819aa7525">Tgstation.Server.Host.Core.IGitHubClientFactory</a>
 </li>
 <li>CreateConnection()
@@ -624,8 +682,8 @@ $(function() {
 : <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller_factory.html#af66f5557aadefc4d380b878a60d59239">Tgstation.Server.Host.Components.Watchdog.ISessionControllerFactory</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller_factory.html#a4e4a17d6fa2269f86f0da6cce942244d">Tgstation.Server.Host.Components.Watchdog.SessionControllerFactory</a>
 </li>
-<li>CreateDefault()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a17699df6d98a18e194a6496bdf106388">Tgstation.Server.Host.ServerFactory</a>
+<li>CreateDefaultServerFactory()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a6720ad4775ff4751c0d2e00b36f0c31f">Tgstation.Server.Host.Core.Application</a>
 </li>
 <li>CreateDirectory()
 : <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#ad3f4cf594c24523ba3717b926843c078">Tgstation.Server.Client.Components.ConfigurationClient</a>
@@ -640,30 +698,44 @@ $(function() {
 <li>CreatedUsers
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#abe7d2baab75bacc69885b90664d6c81a">Tgstation.Server.Host.Models.User</a>
 </li>
+<li>CreateFactory()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_tests_1_1_test_repository_factory.html#ade00544633aa62457a37a9837c34ef6d">Tgstation.Server.Host.Components.Repository.Tests.TestRepositoryFactory</a>
+</li>
+<li>CreateFromPath()
+: <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#a855673b50e2639242bea6d6770c39773">Tgstation.Server.Host.Components.Repository.ILibGit2RepositoryFactory</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#aff825ad3b4e4f4de83285d3cf2281e7b">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory</a>
+</li>
+<li>CreateInMemory()
+: <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#af08df14e3a5e9e63b14a6d65cc47abd6">Tgstation.Server.Host.Components.Repository.ILibGit2RepositoryFactory</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#ad04e55b87e2ea16c68210ce73a80cebd">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory</a>
+</li>
 <li>CreateInstance()
-: <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html#acd069937d6ccb57144f9023c6c05412f">Tgstation.Server.Host.Components.IInstanceFactory</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#afa887ad5dc0636a0c0605b59c7284b3c">Tgstation.Server.Host.Components.InstanceFactory</a>
+: <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html#aba000cffe2b386d227e1a9d174d026d1">Tgstation.Server.Host.Components.IInstanceFactory</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#ac02a0bbbf943e2b7db0d57398283b497">Tgstation.Server.Host.Components.InstanceFactory</a>
 </li>
 <li>CreateNonExperimentalWatchdog()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#a11072b6a9fe5acccd6f23eb0a37d6ee4">Tgstation.Server.Host.Components.Watchdog.WatchdogFactory</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html#adbc91fe6c20850ca15be505e82a54c49">Tgstation.Server.Host.Components.Watchdog.WindowsWatchdogFactory</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#a46ae6b8af80e6d489c2a7714b71a9900">Tgstation.Server.Host.Components.Watchdog.WatchdogFactory</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html#a6a30173c82382567c5aa2dfe472d4683">Tgstation.Server.Host.Components.Watchdog.WindowsWatchdogFactory</a>
 </li>
 <li>CreateOrAttach()
 : <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#af937af9989159b8d9336cffa4f3b578a">Tgstation.Server.Client.IInstanceManagerClient</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a1a1428f9a34d1cec0fa1bc3fe6b8a3a8">Tgstation.Server.Client.InstanceManagerClient</a>
 </li>
 <li>CreateProvider()
-: <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_provider_factory.html#aed7d74bc6b967e2d69f727567ab61abd">Tgstation.Server.Host.Components.Chat.IProviderFactory</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_provider_factory.html#ae6dfc0771ddd57040d0b83fd6e99141d">Tgstation.Server.Host.Components.Chat.ProviderFactory</a>
+: <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_factory.html#a4250fc0dc09258c391507fbf29977758">Tgstation.Server.Host.Components.Chat.Providers.IProviderFactory</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider_factory.html#a3629075cbf3f4feae52331f13c1d7731">Tgstation.Server.Host.Components.Chat.Providers.ProviderFactory</a>
 </li>
 <li>CreateReattachInformation()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a0316d8546f19f4eb37537591c1356aaf">Tgstation.Server.Host.Components.Watchdog.BasicWatchdog</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html#a0f806ceeb96d87b20963af6368ffae0f">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ab10a4b4a00e9e54761121771f475cdf6">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>
 </li>
+<li>CreateRuntimeInformation()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller_factory.html#ad0acaf3c654562967bf013a6f131790a">Tgstation.Server.Host.Components.Watchdog.SessionControllerFactory</a>
+</li>
 <li>CreateServer()
-: <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server_factory.html#a378688ff3642bb0b72b9224dacb24704">Tgstation.Server.Host.IServerFactory</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a9074ef7b4f79ffba8a4213d6b56938e1">Tgstation.Server.Host.ServerFactory</a>
+: <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server_factory.html#a063542cb78195a507feb3c0e6921b01b">Tgstation.Server.Host.IServerFactory</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a4234b15ede546c23f9b5d35bc5c8749b">Tgstation.Server.Host.ServerFactory</a>
 </li>
 <li>CreateServerClient()
 : <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client_factory.html#a58ce916728cfc81f8e143682cd1df5e7">Tgstation.Server.Client.IServerClientFactory</a>
@@ -691,21 +763,18 @@ $(function() {
 , <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a57edffc2d8c63352fbf4ebd0b5991b45">Tgstation.Server.Host.Security.ITokenFactory</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a17610f96f7e87136d957e8ba3c1f5d4a">Tgstation.Server.Host.Security.TokenFactory</a>
 </li>
+<li>CreateTrackingContext()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#aadf2ea0ffdbf567ac24cc5c45f6f66b6">Tgstation.Server.Host.Components.Chat.ChatManager</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a5b3b4e9ab7d03bd8020ee9dfa9bebbbe">Tgstation.Server.Host.Components.Chat.IChatManager</a>
+</li>
 <li>CreateWatchdog()
-: <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html#af8531ab675365f52470876449ec41ede">Tgstation.Server.Host.Components.Watchdog.IWatchdogFactory</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#abfdd272e2e56e3ade1731d9a20aa0610">Tgstation.Server.Host.Components.Watchdog.WatchdogFactory</a>
+: <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html#ae33542d5dc8e241079bcd540867fcfe9">Tgstation.Server.Host.Components.Watchdog.IWatchdogFactory</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#afd02a561fb81a964f00d37711a5ccaf7">Tgstation.Server.Host.Components.Watchdog.WatchdogFactory</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory.html#a4610f9c60c131dab81a56aa23abdfbb8">Tgstation.Server.Host.Watchdog.IWatchdogFactory</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory.html#ae25446ee2a7bb19d9208695d18621914">Tgstation.Server.Host.Watchdog.WatchdogFactory</a>
 </li>
 <li>credentialsProvider
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a9c50da4252e0c984da5f3042053ca28f">Tgstation.Server.Host.Components.InstanceFactory</a>
-</li>
-<li>CredentialsProvider()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_credentials_provider.html#afabb0d6c31961ce6f295822688694196">Tgstation.Server.Host.Components.Repository.CredentialsProvider</a>
-</li>
-<li>credentialsProvider
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#afdb8ee82eed9e1b0251d71af2c3ff612">Tgstation.Server.Host.Components.Repository.Repository</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#aa5ecd6e3290afe55b0ab07da6ec99948">Tgstation.Server.Host.Components.Repository.RepositoryManager</a>
 </li>
 <li>cryptographySuite
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#ae61c8c28bfce67853a5b1acbcd095533">Tgstation.Server.Host.Components.InstanceFactory</a>
@@ -724,8 +793,12 @@ $(function() {
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#a37a564f1b33b53dc2af9fb751b5a7e9b">Tgstation.Server.Host.Security.AuthenticationContextFactory</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html#a6c1be0fe695cf57fa21674373868f709">Tgstation.Server.Host.Security.IAuthenticationContextFactory</a>
 </li>
+<li>CurrentDirectory
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a984a32ee93a073036f63d543ad9a6cdd">Tgstation.Server.Host.IO.DefaultIOManager</a>
+</li>
 <li>CurrentPort
 : <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_dream_daemon.html#a3740443b5c26f64b1b4f516399219040">Tgstation.Server.Api.Models.DreamDaemon</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_parameters.html#a6dacbc68c2a5f471a5540afc3150ddc7">Tgstation.Server.Host.Components.Interop.Bridge.BridgeParameters</a>
 </li>
 <li>CurrentSecurity
 : <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_dream_daemon.html#aea8a6590efc3c90d0e57f532902a149e">Tgstation.Server.Api.Models.DreamDaemon</a>
@@ -734,8 +807,16 @@ $(function() {
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_tests_1_1_test_job_handler.html#a6e52c2701bd94e28b845a1873f6fad8b">Tgstation.Server.Host.Jobs.Tests.TestJobHandler</a>
 </li>
 <li>customCommandHandler
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat.html#aaf9418637d15f3785e1a7225fc12ea5b">Tgstation.Server.Host.Components.Chat.Chat</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_json_tracking_context.html#a29e2454d48fe2ce5e023c37bd2ceb5b8">Tgstation.Server.Host.Components.Chat.JsonTrackingContext</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a32ce1266bccc40aebf2f9c284ed6e69a">Tgstation.Server.Host.Components.Chat.ChatManager</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a198bebe94c736431862c137cbb3d0ea8">Tgstation.Server.Host.Components.Chat.ChatTrackingContext</a>
+</li>
+<li>customCommands
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#a0dfced9917f1bf96b1b46f511e643709">Tgstation.Server.Host.Components.Chat.ChatTrackingContext</a>
+</li>
+<li>CustomCommands
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html#abfda6bc1a90add9d6bff98456cf550ec">Tgstation.Server.Host.Components.Chat.ChatTrackingContext</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_tracking_context.html#a09fedbbe7a7681b0e28fe47158af766d">Tgstation.Server.Host.Components.Chat.IChatTrackingContext</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_parameters.html#a86c0726e12e80ae3c6f2b3742d3a229c">Tgstation.Server.Host.Components.Interop.Bridge.BridgeParameters</a>
 </li>
 </ul>
 </div><!-- contents -->

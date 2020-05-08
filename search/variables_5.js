@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['file_3232',['File',['../class_tgstation_1_1_server_1_1_api_1_1_routes.html#a6e67fe387a01c4d8e686734ad936f8b0',1,'Tgstation::Server::Api::Routes']]],
-  ['filesystemwatcher_3233',['fileSystemWatcher',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_comm_context.html#aeefa70f3fd0bc957bb192aee1aff0a68',1,'Tgstation::Server::Host::Components::Interop::CommContext']]]
+  ['file_3807',['File',['../class_tgstation_1_1_server_1_1_api_1_1_routes.html#a6e67fe387a01c4d8e686734ad936f8b0',1,'Tgstation::Server::Api::Routes']]],
+  ['fileloggingconfiguration_3808',['FileLoggingConfiguration',['../class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_post_setup_services.html#a4be1377bd389e012f4a1ce6251c5bc8b',1,'Tgstation::Server::Host::Setup::PostSetupServices']]],
+  ['fileloggingconfigurationoptions_3809',['fileLoggingConfigurationOptions',['../class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_post_setup_services.html#a7a7c03faa8541f6a8d2a54d62542799c',1,'Tgstation::Server::Host::Setup::PostSetupServices']]]
 ];

@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Database.DatabaseSeeder" name="Tgstation.Server.Host.Database.DatabaseSeeder">
+<area shape="rect" id="node1" title=" " alt="" coords="365,57,575,98"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html" title="For initially seeding a database" alt="" coords="46,5,167,32"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html" title="Contains various cryptographic functions" alt="" coords="5,57,208,98"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform" alt="" coords="7,122,206,163"/>
+</map>

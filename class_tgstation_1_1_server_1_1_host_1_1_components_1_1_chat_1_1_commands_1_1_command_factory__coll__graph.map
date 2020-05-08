@@ -1,0 +1,13 @@
+<map id="Tgstation.Server.Host.Components.Chat.Commands.CommandFactory" name="Tgstation.Server.Host.Components.Chat.Commands.CommandFactory">
+<area shape="rect" id="node1" title=" " alt="" coords="615,187,841,229"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command_factory.html" title="Factory for built in ICommands" alt="" coords="220,5,348,32"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html" title="For managing the BYOND installation" alt="" coords="171,122,397,163"/>
+<area shape="rect" id="node4" href="$class_i_hosted_service.html" title=" " alt="" coords="9,203,117,229"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers" alt="" coords="171,253,397,294"/>
+<area shape="rect" id="node5" href="$class_i_disposable.html" title=" " alt="" coords="19,128,108,155"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html" title="Factory for creating and loading IRepositorys" alt="" coords="171,57,397,98"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions" alt="" coords="5,261,121,288"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components" alt="" coords="179,187,389,229"/>
+<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="185,318,383,359"/>
+<area shape="rect" id="node11" title=" " alt="" coords="252,384,316,411"/>
+</map>

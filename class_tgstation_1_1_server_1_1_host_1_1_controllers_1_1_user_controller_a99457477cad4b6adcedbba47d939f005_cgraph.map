@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.Controllers.UserController.Create" name="Tgstation.Server.Host.Controllers.UserController.Create">
+<area shape="rect" id="node1" title="Create a Api.Models.User." alt="" coords="5,152,221,193"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a7d6d50ff837b991a62dd2664cc0577ad" title="Check if a given model &#160;has a valid Api.Models.Internal.User.Name specified." alt="" coords="283,5,499,47"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#adaf274d215700bf692b1c3964ff32103" title="Create a ISystemIdentity for a given user" alt="" coords="269,71,512,127"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a353236ca8ecf842a8458111667be8f22" title="List all Api.Models.Users in the server." alt="" coords="283,152,499,193"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#aa86fc5ec52331371d4f924520d3bdcb6" title="Saves changes made to the IDatabaseContext" alt="" coords="286,217,495,259"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#ac2c00169e075062d4e1f040ed0c3b5b0" title="Attempt to change the password of a given dbUser ." alt="" coords="283,283,499,324"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#aeab60aa0a0ee2cb5e2ad5dbde1983430" title="Sets a User.PasswordHash for a given user" alt="" coords="560,283,800,324"/>
+</map>

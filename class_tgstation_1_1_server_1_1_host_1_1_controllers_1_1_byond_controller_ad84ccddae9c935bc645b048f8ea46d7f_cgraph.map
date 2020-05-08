@@ -1,0 +1,8 @@
+<map id="Tgstation.Server.Host.Controllers.ByondController.Update" name="Tgstation.Server.Host.Controllers.ByondController.Update">
+<area shape="rect" id="node1" title="Changes the active BYOND version to the one specified in a given model ." alt="" coords="5,71,221,112"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#af8941660b12690639e314c4c266e33c4" title="Get the IInstance associated with given metadata" alt="" coords="269,5,496,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType" alt="" coords="280,71,485,112"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#ad13e45f48187be1d93f98f7dc60597d2" title="Registers a given Job and begins running it" alt="" coords="281,136,484,177"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb" title="Check if a given rightsType &#160;is meant for an Models.Instance" alt="" coords="544,39,733,80"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c" title="Map a given rightsType &#160;to its respective Enum Type" alt="" coords="547,104,730,145"/>
+</map>

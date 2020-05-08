@@ -75,34 +75,34 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Handles <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots">Commands.ICommand</a>s that map to those defined in a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_json_tracking_context.html" title="Represents a tracking of dynamic chat json files">IJsonTrackingContext</a>  
+<p>Handles <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots">Commands.ICommand</a>s that map to those defined in a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_tracking_context.html" title="Represents a tracking of dynamic chat json files">IChatTrackingContext</a>  
  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html#details">More...</a></p>
 <div class="dynheader">
 Inheritance diagram for Tgstation.Server.Host.Components.Chat.ICustomCommandHandler:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.png" usemap="#Tgstation.Server.Host.Components.Chat.ICustomCommandHandler_map" alt=""/>
-  <map id="Tgstation.Server.Host.Components.Chat.ICustomCommandHandler_map" name="Tgstation.Server.Host.Components.Chat.ICustomCommandHandler_map">
-<area href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs." alt="Tgstation.Server.Host.Components.Watchdog.WatchdogBase" shape="rect" coords="204,56,603,80"/>
-<area href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html" title="A IWatchdog that manages one server." alt="Tgstation.Server.Host.Components.Watchdog.BasicWatchdog" shape="rect" coords="0,112,399,136"/>
-<area href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html" title="A IWatchdog that tries to manage 2 servers at once for maximum uptime." alt="Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog" shape="rect" coords="409,112,808,136"/>
-<area href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html" title="A version of the BasicWatchdog that, instead of killing servers for updates, uses the wonders of syml..." alt="Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog" shape="rect" coords="0,168,399,192"/>
-  </map>
-</div></div>
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler__inherit__graph.png" border="0" usemap="#_tgstation_8_server_8_host_8_components_8_chat_8_i_custom_command_handler_inherit__map" alt="Inheritance graph"/></div>
+<map name="_tgstation_8_server_8_host_8_components_8_chat_8_i_custom_command_handler_inherit__map" id="_tgstation_8_server_8_host_8_components_8_chat_8_i_custom_command_handler_inherit__map">
+<area shape="rect" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext" alt="" coords="5,39,232,80"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs." alt="" coords="280,39,507,80"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html" title="A IWatchdog that manages one server." alt="" coords="555,5,781,47"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html" title="A IWatchdog that tries to manage 2 servers at once for maximum uptime." alt="" coords="555,71,781,112"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html" title="A version of the BasicWatchdog that, instead of killing servers for updates, uses the wonders of syml..." alt="" coords="829,5,1056,47"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab7df30a189d971d3bbd053ce2b5bdd0c"><td class="memItemLeft" align="right" valign="top">Task&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html#ab7df30a189d971d3bbd053ce2b5bdd0c">HandleChatCommand</a> (string commandName, string arguments, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_user.html">User</a> sender, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ab7df30a189d971d3bbd053ce2b5bdd0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a chat command  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html#ab7df30a189d971d3bbd053ce2b5bdd0c">More...</a><br /></td></tr>
-<tr class="separator:ab7df30a189d971d3bbd053ce2b5bdd0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a3d290a61fd94176c66692b35035eb2"><td class="memItemLeft" align="right" valign="top">Task&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html#a0a3d290a61fd94176c66692b35035eb2">HandleChatCommand</a> (string commandName, string arguments, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html">ChatUser</a> sender, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a0a3d290a61fd94176c66692b35035eb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle a chat command  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html#a0a3d290a61fd94176c66692b35035eb2">More...</a><br /></td></tr>
+<tr class="separator:a0a3d290a61fd94176c66692b35035eb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Handles <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots">Commands.ICommand</a>s that map to those defined in a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_json_tracking_context.html" title="Represents a tracking of dynamic chat json files">IJsonTrackingContext</a> </p>
+<div class="textblock"><p>Handles <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots">Commands.ICommand</a>s that map to those defined in a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_tracking_context.html" title="Represents a tracking of dynamic chat json files">IChatTrackingContext</a> </p>
 
 <p class="definition">Definition at line <a class="el" href="_i_custom_command_handler_8cs_source.html#l00009">9</a> of file <a class="el" href="_i_custom_command_handler_8cs_source.html">ICustomCommandHandler.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="ab7df30a189d971d3bbd053ce2b5bdd0c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab7df30a189d971d3bbd053ce2b5bdd0c">&#9670;&nbsp;</a></span>HandleChatCommand()</h2>
+<a id="a0a3d290a61fd94176c66692b35035eb2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a3d290a61fd94176c66692b35035eb2">&#9670;&nbsp;</a></span>HandleChatCommand()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -122,7 +122,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_user.html">User</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html">ChatUser</a>&#160;</td>
           <td class="paramname"><em>sender</em>, </td>
         </tr>
         <tr>
@@ -144,14 +144,25 @@ Public Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">commandName</td><td>The command name</td></tr>
     <tr><td class="paramname">arguments</td><td>Everything typed after <em>commandName</em>  minus leading spaces</td></tr>
-    <tr><td class="paramname">sender</td><td>The sending <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_user.html" title="Represents a tgs_chat_user datum">User</a></td></tr>
+    <tr><td class="paramname">sender</td><td>The sending <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html" title="Represents a tgs_chat_user datum">ChatUser</a></td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the response text to send back</dd></dl>
 
-<p class="reference">Referenced by <a class="el" href="_custom_command_8cs_source.html#l00040">Tgstation.Server.Host.Components.Chat.Commands.CustomCommand.Invoke()</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a59a2116696ef8c2e84761a4f25d8d957">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_custom_command_8cs_source.html#l00038">Tgstation.Server.Host.Components.Chat.Commands.CustomCommand.Invoke()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler_a0a3d290a61fd94176c66692b35035eb2_icgraph.png" border="0" usemap="#interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler_a0a3d290a61fd94176c66692b35035eb2_icgraph" alt=""/></div>
+<map name="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler_a0a3d290a61fd94176c66692b35035eb2_icgraph" id="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler_a0a3d290a61fd94176c66692b35035eb2_icgraph">
+<area shape="rect" title="Handle a chat command" alt="" coords="320,5,595,61"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html#a25ab08ad3ea95e7a9f36331508835415" title="Invoke the ICommand" alt="" coords="5,13,272,54"/>
+</map>
+</div>
 
 </div>
 </div>

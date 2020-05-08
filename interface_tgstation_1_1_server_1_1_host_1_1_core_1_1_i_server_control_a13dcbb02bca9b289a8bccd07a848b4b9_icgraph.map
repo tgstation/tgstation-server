@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Core.IServerControl.Restart" name="Tgstation.Server.Host.Core.IServerControl.Restart">
+<area shape="rect" id="node1" title="Restarts the Host" alt="" coords="269,39,451,80"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a196ba99cf42237bd2de8efbc51ccf7f6" title="Configure the Application" alt="" coords="23,5,204,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#aacf3549e22bb38699d3226a156e3e0dc" title="Attempts to restart the server." alt="" coords="5,71,221,112"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Database.Migrations.MSReattachCompileJobRequired" name="Tgstation.Server.Host.Database.Migrations.MSReattachCompileJobRequired">
+<area shape="rect" id="node1" title="Marks the Models.CompileJobs of Models.ReattachInformations as non&#45;nullable for MSSQL" alt="" coords="5,80,281,121"/>
+<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="106,5,181,32"/>
+</map>

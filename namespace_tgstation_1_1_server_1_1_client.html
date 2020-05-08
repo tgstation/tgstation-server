@@ -91,10 +91,10 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client_factory.html">ApiClientFactory</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_conflict_exception.html">ApiConflictException</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Occurs when the server returns an unknown response  <a href="class_tgstation_1_1_server_1_1_client_1_1_api_conflict_exception.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Occurs when the server returns a bad request response if the <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_exception.html#a48a3f168920dc3f7c5643f2c3cf51a41" title="The API ErrorCode if applicable.">ApiException.ErrorCode</a> is present. The server returned an unknown reponse otherwise.  <a href="class_tgstation_1_1_server_1_1_client_1_1_api_conflict_exception.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_mismatch_exception.html">ApiMismatchException</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Occurs when the API version of the client is not compatible with the server's  <a href="class_tgstation_1_1_server_1_1_client_1_1_api_mismatch_exception.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_exception.html">ApiException</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">API related Exceptions.  <a href="class_tgstation_1_1_server_1_1_client_1_1_api_exception.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_client_exception.html">ClientException</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exceptions thrown by <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server">IServerClient</a>s  <a href="class_tgstation_1_1_server_1_1_client_1_1_client_exception.html#details">More...</a><br /></td></tr>
@@ -162,6 +162,9 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Occurs when a response is received that did not deserialize to one of the expected <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html">Api.Models</a>  <a href="class_tgstation_1_1_server_1_1_client_1_1_unrecognized_response_exception.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_users_client.html">UsersClient</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_version_mismatch_exception.html">VersionMismatchException</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Occurs when the API version of the client is not compatible with the server's  <a href="class_tgstation_1_1_server_1_1_client_1_1_version_mismatch_exception.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->

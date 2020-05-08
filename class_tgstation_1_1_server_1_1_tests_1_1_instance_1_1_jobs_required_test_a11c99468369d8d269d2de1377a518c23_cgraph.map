@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Tests.Instance.JobsRequiredTest.WaitForJob" name="Tgstation.Server.Tests.Instance.JobsRequiredTest.WaitForJob">
+<area shape="rect" id="node1" title=" " alt="" coords="5,39,213,80"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a50456aace539b2c54afc8f8218278c49" title="Cancels a job" alt="" coords="261,5,464,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a1a7399807a0abd4dfaed05c1c0d3adff" title="Get a job" alt="" coords="265,71,460,112"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.NativeMethods.CloseHandle" name="Tgstation.Server.Host.NativeMethods.CloseHandle">
+<area shape="rect" id="node1" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms724211(v=vs.85).aspx" alt="" coords="252,39,437,80"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#ac71f30aab7fc20ad92dc9b1ce8971b55" title="Resumes the process." alt="" coords="5,5,204,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a639ecf20dfbbd73e72f4b181d0b89243" title="Suspends the process." alt="" coords="5,71,204,112"/>
+</map>

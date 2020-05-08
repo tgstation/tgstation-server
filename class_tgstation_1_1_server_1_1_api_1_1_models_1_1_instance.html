@@ -81,12 +81,12 @@ $(function() {
 <div class="dynheader">
 Inheritance diagram for Tgstation.Server.Api.Models.Instance:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.png" usemap="#Tgstation.Server.Api.Models.Instance_map" alt=""/>
-  <map id="Tgstation.Server.Api.Models.Instance_map" name="Tgstation.Server.Api.Models.Instance_map">
-<area href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html" title="Represents an Api.Models.Instance in the database" alt="Tgstation.Server.Host.Models.Instance" shape="rect" coords="0,56,230,80"/>
-  </map>
-</div></div>
+<div class="center"><img src="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance__inherit__graph.png" border="0" usemap="#_tgstation_8_server_8_api_8_models_8_instance_inherit__map" alt="Inheritance graph"/></div>
+<map name="_tgstation_8_server_8_api_8_models_8_instance_inherit__map" id="_tgstation_8_server_8_api_8_models_8_instance_inherit__map">
+<area shape="rect" title="Metadata about a server instance" alt="" coords="9,5,197,47"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html" title="Represents an Api.Models.Instance in the database" alt="" coords="5,95,201,136"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -114,6 +114,9 @@ Properties</h2></td></tr>
 <tr class="memitem:aebe907c68112eae3f1ac2dfdf384ec5b"><td class="memItemLeft" align="right" valign="top">uint?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#aebe907c68112eae3f1ac2dfdf384ec5b">AutoUpdateInterval</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:aebe907c68112eae3f1ac2dfdf384ec5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The time interval in minutes the repository is automatically pulled and compiles. 0 disables  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#aebe907c68112eae3f1ac2dfdf384ec5b">More...</a><br /></td></tr>
 <tr class="separator:aebe907c68112eae3f1ac2dfdf384ec5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae07e119a1bd8ddbcf2641a8f7b734c2b"><td class="memItemLeft" align="right" valign="top">ushort?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#ae07e119a1bd8ddbcf2641a8f7b734c2b">ChatBotLimit</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:ae07e119a1bd8ddbcf2641a8f7b734c2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The maximum number of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_bot.html">ChatBot</a>s the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance">Instance</a> may contain.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#ae07e119a1bd8ddbcf2641a8f7b734c2b">More...</a><br /></td></tr>
+<tr class="separator:ae07e119a1bd8ddbcf2641a8f7b734c2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af06c3e84c2a288ca0bd6cddd172a568d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#af06c3e84c2a288ca0bd6cddd172a568d">MoveJob</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:af06c3e84c2a288ca0bd6cddd172a568d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html" title="Represents a long running job on the server. Model is read-only, updates attempt to cancel the job">Job</a> representing a change of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#ae390e04ad03e5f6daaefcfa96ed9a6d2" title="The path to where the Instance is located. Can only be changed while the Instance is offline....">Path</a>  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#af06c3e84c2a288ca0bd6cddd172a568d">More...</a><br /></td></tr>
 <tr class="separator:af06c3e84c2a288ca0bd6cddd172a568d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -166,9 +169,38 @@ Properties</h2></td></tr>
 
 <p>The time interval in minutes the repository is automatically pulled and compiles. 0 disables </p>
 
-<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html#l00044">44</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html">Instance.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html#l00046">46</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html">Instance.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
+</div>
+</div>
+<a id="ae07e119a1bd8ddbcf2641a8f7b734c2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae07e119a1bd8ddbcf2641a8f7b734c2b">&#9670;&nbsp;</a></span>ChatBotLimit</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">ushort? Tgstation.Server.Api.Models.Instance.ChatBotLimit</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The maximum number of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_bot.html">ChatBot</a>s the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance">Instance</a> may contain. </p>
+
+<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html#l00052">52</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html">Instance.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_chat_controller_8cs_source.html#l00072">Tgstation.Server.Host.Controllers.ChatController.Create()</a>.</p>
+
 </div>
 </div>
 <a id="a6183efad1d4344d06e59ea8bc2072a19"></a>
@@ -193,8 +225,8 @@ Properties</h2></td></tr>
 
 <p>If <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html" title="Represents a game configuration file. Create and delete actions uncerimonuously overwrite/delete file...">ConfigurationFile</a> can be used on the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance">Instance</a> </p>
 
-<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html#l00038">38</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html">Instance.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html#l00040">40</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html">Instance.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_configuration_controller_8cs_source.html#l00056">Tgstation.Server.Host.Controllers.ConfigurationController.ForbidDueToModeConflicts()</a>.</p>
 
@@ -225,7 +257,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html#l00014">14</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html">Instance.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_instance_user_controller_8cs_source.html#l00061">Tgstation.Server.Host.Controllers.InstanceUserController.Create()</a>, <a class="el" href="_chat_controller_8cs_source.html#l00071">Tgstation.Server.Host.Controllers.ChatController.Create()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00143">Tgstation.Server.Host.Controllers.RepositoryController.Create()</a>, <a class="el" href="_instance_manager_client_8cs_source.html#l00051">Tgstation.Server.Client.InstanceManagerClient.CreateClient()</a>, <a class="el" href="_job_controller_8cs_source.html#l00089">Tgstation.Server.Host.Controllers.JobController.Delete()</a>, <a class="el" href="_instance_user_controller_8cs_source.html#l00180">Tgstation.Server.Host.Controllers.InstanceUserController.Delete()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00239">Tgstation.Server.Host.Controllers.RepositoryController.Delete()</a>, <a class="el" href="_dream_maker_controller_8cs_source.html#l00080">Tgstation.Server.Host.Controllers.DreamMakerController.GetId()</a>, <a class="el" href="_job_controller_8cs_source.html#l00118">Tgstation.Server.Host.Controllers.JobController.GetId()</a>, <a class="el" href="_instance_user_controller_8cs_source.html#l00161">Tgstation.Server.Host.Controllers.InstanceUserController.GetId()</a>, <a class="el" href="_job_controller_8cs_source.html#l00065">Tgstation.Server.Host.Controllers.JobController.List()</a>, <a class="el" href="_dream_maker_controller_8cs_source.html#l00102">Tgstation.Server.Host.Controllers.DreamMakerController.List()</a>, <a class="el" href="_instance_user_controller_8cs_source.html#l00143">Tgstation.Server.Host.Controllers.InstanceUserController.List()</a>, <a class="el" href="_chat_controller_8cs_source.html#l00173">Tgstation.Server.Host.Controllers.ChatController.List()</a>, <a class="el" href="_job_controller_8cs_source.html#l00050">Tgstation.Server.Host.Controllers.JobController.Read()</a>, <a class="el" href="_configuration_client_8cs_source.html#l00058">Tgstation.Server.Client.Components.ConfigurationClient.Read()</a>, <a class="el" href="_dream_maker_controller_8cs_source.html#l00061">Tgstation.Server.Host.Controllers.DreamMakerController.Read()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00278">Tgstation.Server.Host.Controllers.RepositoryController.Read()</a>, <a class="el" href="_dream_daemon_controller_8cs_source.html#l00102">Tgstation.Server.Host.Controllers.DreamDaemonController.ReadImpl()</a>, <a class="el" href="_byond_controller_8cs_source.html#l00089">Tgstation.Server.Host.Controllers.ByondController.Update()</a>, <a class="el" href="_instance_user_controller_8cs_source.html#l00099">Tgstation.Server.Host.Controllers.InstanceUserController.Update()</a>, <a class="el" href="_dream_maker_controller_8cs_source.html#l00148">Tgstation.Server.Host.Controllers.DreamMakerController.Update()</a>, <a class="el" href="_dream_daemon_controller_8cs_source.html#l00177">Tgstation.Server.Host.Controllers.DreamDaemonController.Update()</a>, <a class="el" href="_chat_controller_8cs_source.html#l00229">Tgstation.Server.Host.Controllers.ChatController.Update()</a>, and <a class="el" href="_repository_controller_8cs_source.html#l00329">Tgstation.Server.Host.Controllers.RepositoryController.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_instance_user_controller_8cs_source.html#l00061">Tgstation.Server.Host.Controllers.InstanceUserController.Create()</a>, <a class="el" href="_chat_controller_8cs_source.html#l00072">Tgstation.Server.Host.Controllers.ChatController.Create()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00144">Tgstation.Server.Host.Controllers.RepositoryController.Create()</a>, <a class="el" href="_instance_manager_client_8cs_source.html#l00051">Tgstation.Server.Client.InstanceManagerClient.CreateClient()</a>, <a class="el" href="_job_controller_8cs_source.html#l00089">Tgstation.Server.Host.Controllers.JobController.Delete()</a>, <a class="el" href="_instance_user_controller_8cs_source.html#l00179">Tgstation.Server.Host.Controllers.InstanceUserController.Delete()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00231">Tgstation.Server.Host.Controllers.RepositoryController.Delete()</a>, <a class="el" href="_dream_maker_controller_8cs_source.html#l00080">Tgstation.Server.Host.Controllers.DreamMakerController.GetId()</a>, <a class="el" href="_job_controller_8cs_source.html#l00118">Tgstation.Server.Host.Controllers.JobController.GetId()</a>, <a class="el" href="_instance_user_controller_8cs_source.html#l00160">Tgstation.Server.Host.Controllers.InstanceUserController.GetId()</a>, <a class="el" href="_job_controller_8cs_source.html#l00065">Tgstation.Server.Host.Controllers.JobController.List()</a>, <a class="el" href="_dream_maker_controller_8cs_source.html#l00102">Tgstation.Server.Host.Controllers.DreamMakerController.List()</a>, <a class="el" href="_instance_user_controller_8cs_source.html#l00142">Tgstation.Server.Host.Controllers.InstanceUserController.List()</a>, <a class="el" href="_chat_controller_8cs_source.html#l00157">Tgstation.Server.Host.Controllers.ChatController.List()</a>, <a class="el" href="_job_controller_8cs_source.html#l00050">Tgstation.Server.Host.Controllers.JobController.Read()</a>, <a class="el" href="_configuration_client_8cs_source.html#l00058">Tgstation.Server.Client.Components.ConfigurationClient.Read()</a>, <a class="el" href="_dream_maker_controller_8cs_source.html#l00061">Tgstation.Server.Host.Controllers.DreamMakerController.Read()</a>, <a class="el" href="_repository_controller_8cs_source.html#l00270">Tgstation.Server.Host.Controllers.RepositoryController.Read()</a>, <a class="el" href="_dream_daemon_controller_8cs_source.html#l00102">Tgstation.Server.Host.Controllers.DreamDaemonController.ReadImpl()</a>, <a class="el" href="_byond_controller_8cs_source.html#l00089">Tgstation.Server.Host.Controllers.ByondController.Update()</a>, <a class="el" href="_instance_user_controller_8cs_source.html#l00098">Tgstation.Server.Host.Controllers.InstanceUserController.Update()</a>, <a class="el" href="_dream_maker_controller_8cs_source.html#l00148">Tgstation.Server.Host.Controllers.DreamMakerController.Update()</a>, <a class="el" href="_dream_daemon_controller_8cs_source.html#l00178">Tgstation.Server.Host.Controllers.DreamDaemonController.Update()</a>, <a class="el" href="_chat_controller_8cs_source.html#l00213">Tgstation.Server.Host.Controllers.ChatController.Update()</a>, and <a class="el" href="_repository_controller_8cs_source.html#l00315">Tgstation.Server.Host.Controllers.RepositoryController.Update()</a>.</p>
 
 </div>
 </div>
@@ -252,8 +284,8 @@ Properties</h2></td></tr>
 <p>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html" title="Represents a long running job on the server. Model is read-only, updates attempt to cancel the job">Job</a> representing a change of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#ae390e04ad03e5f6daaefcfa96ed9a6d2" title="The path to where the Instance is located. Can only be changed while the Instance is offline....">Path</a> </p>
 <p>Due to how <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html" title="Represents a long running job on the server. Model is read-only, updates attempt to cancel the job">Job</a>s are children of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance">Instance</a>s but moving one requires the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance">Instance</a> to be offline, interactions with this <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html" title="Represents a long running job on the server. Model is read-only, updates attempt to cancel the job">Job</a> are performed in a non-standard fashion. The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html" title="Represents a long running job on the server. Model is read-only, updates attempt to cancel the job">Job</a> is read by querying the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance">Instance</a> again (either via list or ID lookup) and cancelled by making any sort of update to the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance">Instance</a>. Once the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance">Instance</a> comes back <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#a6f024aa440adbecbd80b053eb57badc2" title="If the Instance is online">Online</a> it can be queried like a normal job</p>
 
-<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html#l00051">51</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html">Instance.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html#l00059">59</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html">Instance.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -279,8 +311,8 @@ Properties</h2></td></tr>
 
 <p>The name of the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance">Instance</a> </p>
 
-<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html#l00020">20</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html">Instance.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html#l00021">21</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html">Instance.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -306,8 +338,8 @@ Properties</h2></td></tr>
 
 <p>If the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance">Instance</a> is online </p>
 
-<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html#l00032">32</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html">Instance.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html#l00033">33</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html">Instance.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -333,10 +365,10 @@ Properties</h2></td></tr>
 
 <p>The path to where the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance">Instance</a> is located. Can only be changed while the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance">Instance</a> is offline. Must not exist when the instance is created </p>
 
-<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html#l00026">26</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html">Instance.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html#l00027">27</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_instance_8cs_source.html">Instance.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_configuration_test_8cs_source.html#l00024">Tgstation.Server.Tests.Instance.ConfigurationTest.FileExists()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_watchdog_test_8cs_source.html#l00224">Tgstation.Server.Tests.Instance.WatchdogTest.CheckDMApiFail()</a>, and <a class="el" href="_configuration_test_8cs_source.html#l00024">Tgstation.Server.Tests.Instance.ConfigurationTest.FileExists()</a>.</p>
 
 </div>
 </div>

@@ -80,17 +80,17 @@ $(function() {
 <div class="dynheader">
 Inheritance diagram for Tgstation.Server.Api.Models.ChatChannel:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.png" usemap="#Tgstation.Server.Api.Models.ChatChannel_map" alt=""/>
-  <map id="Tgstation.Server.Api.Models.ChatChannel_map" name="Tgstation.Server.Api.Models.ChatChannel_map">
-<area href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html" alt="Tgstation.Server.Host.Models.ChatChannel" shape="rect" coords="0,56,256,80"/>
-  </map>
-</div></div>
+<div class="center"><img src="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel__inherit__graph.png" border="0" usemap="#_tgstation_8_server_8_api_8_models_8_chat_channel_inherit__map" alt="Inheritance graph"/></div>
+<map name="_tgstation_8_server_8_api_8_models_8_chat_channel_inherit__map" id="_tgstation_8_server_8_api_8_models_8_chat_channel_inherit__map">
+<area shape="rect" title="Indicates a chat channel" alt="" coords="9,5,197,47"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html" title=" " alt="" coords="5,95,201,136"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
 <tr class="memitem:a4efdc5fca3a1230d57d63b6393b65239"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html#a4efdc5fca3a1230d57d63b6393b65239">IrcChannel</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:a4efdc5fca3a1230d57d63b6393b65239"><td class="mdescLeft">&#160;</td><td class="mdescRight">The IRC channel name  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html#a4efdc5fca3a1230d57d63b6393b65239">More...</a><br /></td></tr>
+<tr class="memdesc:a4efdc5fca3a1230d57d63b6393b65239"><td class="mdescLeft">&#160;</td><td class="mdescRight">The IRC channel name. Also potentially contains the channel passsword (if separated by a colon). If multiple copies of the same channel with different keys are added to the server, the one that will be used is undefined.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html#a4efdc5fca3a1230d57d63b6393b65239">More...</a><br /></td></tr>
 <tr class="separator:a4efdc5fca3a1230d57d63b6393b65239"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d69363fd8b5b85e8a66d7c6d4aeb4ec"><td class="memItemLeft" align="right" valign="top">ulong?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html#a7d69363fd8b5b85e8a66d7c6d4aeb4ec">DiscordChannelId</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a7d69363fd8b5b85e8a66d7c6d4aeb4ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Discord channel ID  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html#a7d69363fd8b5b85e8a66d7c6d4aeb4ec">More...</a><br /></td></tr>
@@ -135,11 +135,9 @@ Properties</h2></td></tr>
 
 <p>The Discord channel ID </p>
 
-<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html#l00018">18</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html">ChatChannel.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html#l00020">20</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html">ChatChannel.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_discord_provider_8cs_source.html#l00196">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.MapChannels()</a>.</p>
-
 </div>
 </div>
 <a id="a4efdc5fca3a1230d57d63b6393b65239"></a>
@@ -162,11 +160,13 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>The IRC channel name </p>
+<p>The IRC channel name. Also potentially contains the channel passsword (if separated by a colon). If multiple copies of the same channel with different keys are added to the server, the one that will be used is undefined. </p>
 
-<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html#l00013">13</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html">ChatChannel.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html#l00015">15</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html">ChatChannel.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_chat_channel_extensions_8cs_source.html#l00038">Tgstation.Server.Host.Extensions.ChatChannelExtensions.GetIrcChannelSplits()</a>.</p>
+
 </div>
 </div>
 <a id="a1a945855589edd8cd22a68bb1ae7323e"></a>
@@ -191,11 +191,9 @@ Properties</h2></td></tr>
 
 <p>If the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html" title="Indicates a chat channel">ChatChannel</a> is an admin channel </p>
 
-<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html#l00024">24</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html">ChatChannel.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html#l00026">26</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html">ChatChannel.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_discord_provider_8cs_source.html#l00196">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.MapChannels()</a>.</p>
-
 </div>
 </div>
 <a id="a9e8659b045bad05567bef7d037d372d9"></a>
@@ -220,8 +218,8 @@ Properties</h2></td></tr>
 
 <p>If the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html" title="Indicates a chat channel">ChatChannel</a> is an updates channel </p>
 
-<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html#l00036">36</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html">ChatChannel.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html#l00038">38</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html">ChatChannel.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -247,8 +245,8 @@ Properties</h2></td></tr>
 
 <p>If the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html" title="Indicates a chat channel">ChatChannel</a> is a watchdog channel </p>
 
-<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html#l00030">30</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html">ChatChannel.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html#l00032">32</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html">ChatChannel.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -274,11 +272,9 @@ Properties</h2></td></tr>
 
 <p>A custom tag users can define to group channels together </p>
 
-<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html#l00041">41</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html">ChatChannel.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html#l00044">44</a> of file <a class="el" href="_tgstation_8_server_8_api_2_models_2_chat_channel_8cs_source.html">ChatChannel.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_discord_provider_8cs_source.html#l00196">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.MapChannels()</a>.</p>
-
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>

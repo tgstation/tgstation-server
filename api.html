@@ -67,36 +67,6 @@ $(function() {
 <div class="title">API </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#api_swag">OpenAPI Spec</a></li>
-<li class="level1"><a href="#api_intro">Introduction</a></li>
-<li class="level1"><a href="#api_lib">Official Libraries</a><ul><li class="level2"><a href="#api_interp">Interpreting C# Models</a></li>
-</ul>
-</li>
-<li class="level1"><a href="#api_header">Headers</a></li>
-<li class="level1"><a href="#api_response">Response Codes</a></li>
-<li class="level1"><a href="#api_auth">Authentication</a></li>
-<li class="level1"><a href="#api_perms">Permissions</a></li>
-<li class="level1"><a href="#api_user">User Management</a><ul><li class="level2"><a href="#api_iuser">Instance User Management</a></li>
-</ul>
-</li>
-<li class="level1"><a href="#api_ver">Version</a></li>
-<li class="level1"><a href="#api_admin">Server-wide Administrative Actions</a></li>
-<li class="level1"><a href="#api_inst">Instances</a><ul><li class="level2"><a href="#api_job">Jobs</a></li>
-<li class="level2"><a href="#api_chat">Chat Bots</a></li>
-<li class="level2"><a href="#api_byond">Byond Version Management</a></li>
-<li class="level2"><a href="#Git">Repository Management</a><ul><li class="level3"><a href="#api_repopost">Repository Commands for Git Aliases</a></li>
-<li class="level3"><a href="#api_repotm">Test Merging</a></li>
-<li class="level3"><a href="#api_repounsetauth">Unsetting Authentication</a></li>
-</ul>
-</li>
-<li class="level2"><a href="#api_dm">Compiler Handling</a></li>
-<li class="level2"><a href="#api_config">Static Files</a></li>
-<li class="level2"><a href="#api_dog">Watchdog</a></li>
-</ul>
-</li>
-</ul>
-</div>
 <div class="textblock"><h1><a class="anchor" id="api_swag"></a>
 OpenAPI Spec</h1>
 <p>TGS4 has a, from code, generated OpenAPI 3.0 specification. It is much more authorative than these documents.</p>
@@ -262,7 +232,7 @@ Chat Bots</h2>
 <p>For IRC chat bots see <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html">Tgstation.Server.Api.Models.IrcConnectionStringBuilder</a> For Discord chat bots see <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html">Tgstation.Server.Api.Models.DiscordConnectionStringBuilder</a></p>
 <p>A specific bot's settings may be retrieved with:</p>
 <p>I GET "/Chat/{ChatBotId}" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_bot.html">Tgstation.Server.Api.Models.ChatBot</a></p>
-<p>Also note that if the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_bot.html#ab7b0c6f09a83ff00c65b668b19d7992e">Tgstation.Server.Api.Models.ChatBot.Channels</a> is present in a POST request, the list will fully replace any active channels</p>
+<p>Also note that if the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_bot.html#ac42f4028b2e16b24a34acd8b0c1087d0">Tgstation.Server.Api.Models.ChatBot.Channels</a> is present in a POST request, the list will fully replace any active channels</p>
 <h2><a class="anchor" id="api_byond"></a>
 Byond Version Management</h2>
 <p>To get the Byond version used for new compilations use the following request:</p>
@@ -374,7 +344,42 @@ Watchdog</h2>
 <p>I PATCH "/DreamDaemon" Empty =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Tgstation.Server.Api.Models.Job</a></p>
 <p>The returned jobs represents the startup process for the watchdog</p>
 <p>To stop the watchdog use the following request:</p>
-<p>I DELETE "/DreamDaemon" =&gt; OK </p>
+<p>I DELETE "/DreamDaemon" =&gt; OK</p>
+<h1><a class="anchor" id="features_list"></a>
+New Features</h1>
+<p>TGS4 has a multitude of improvements over V3:</p>
+<ul>
+<li>Non proprietary API (WCF -&gt; HTTP)</li>
+</ul>
+<p>Communication between client applications and TGS is now done over HTTP instead of WCF SOAP. In the past, attempts to create custom clients failed due to the complexity of the old API. The new, simple, json API should serve as a much needed improvement.</p>
+<ul>
+<li>Granular access controls</li>
+</ul>
+<p>Almost every server action a client can take is now guarded by a robust permissions system. Coupled with built in user account management, this should provide an effective way to grant limited access to servers.</p>
+<ul>
+<li>Proper long running operation support</li>
+</ul>
+<p>The client no longer has to wait literal minutes for a single request. Long running operations now create <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Tgstation.Server.Api.Models.Job</a> objects to track their progress and errors.</p>
+<ul>
+<li>Concrete data backend</li>
+</ul>
+<p>The old save file system for instances is gone. All configuration data per instance is now stored in a relational database</p>
+<ul>
+<li>Smarter repository handling</li>
+</ul>
+<p>The entire repository component is now much more effective in handling complex merges, automatic updates, and tracking git objects.</p>
+<ul>
+<li>Linux support</li>
+</ul>
+<p>The framework used to create the server has been changed to dotnet 3.1. Because of this, we can now support linux hosting somewhat effectively. Note that seamless .dmb updates are still a Windows only feature for the time being.</p>
+<ul>
+<li>Detailed logging</li>
+</ul>
+<p>We now actually have log files to reference which will greatly help with debugging.</p>
+<ul>
+<li>OPTIONAL Windows FS permission integration</li>
+</ul>
+<p>No longer a requirement as in V3. While Windows logins are still supported for authentication and remote file manipulation (on Windows), remote file manipulation can now be done via the server's executing user. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 <!-- start footer part -->

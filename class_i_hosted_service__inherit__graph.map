@@ -1,0 +1,25 @@
+<map id="IHostedService" name="IHostedService">
+<area shape="rect" id="node1" title=" " alt="" coords="5,339,113,366"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html" title="For managing the BYOND installation" alt="" coords="161,5,388,47"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html" title="For managing connected chat services" alt="" coords="161,71,388,112"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_compile_job_consumer.html" title="Sink for CompileJobs" alt="" coords="161,136,388,177"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="For interacting with the instance services" alt="" coords="161,201,388,243"/>
+<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html" title="Factory for creating IInstances" alt="" coords="161,267,388,308"/>
+<area shape="rect" id="node12" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html" title=" " alt="" coords="161,332,388,373"/>
+<area shape="rect" id="node13" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_i_configuration.html" title="For managing the Configuration directory" alt="" coords="161,397,388,439"/>
+<area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers" alt="" coords="161,463,388,504"/>
+<area shape="rect" id="node20" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs" alt="" coords="184,528,365,569"/>
+<area shape="rect" id="node22" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html" title=" " alt="" coords="181,593,369,635"/>
+<area shape="rect" id="node23" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html" title=" " alt="" coords="172,659,377,700"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html" title=" " alt="" coords="436,5,663,47"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html" title=" " alt="" coords="436,71,663,112"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html" title="Standard IDmbFactory" alt="" coords="436,136,663,177"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html" title=" " alt="" coords="436,201,663,243"/>
+<area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html" title=" " alt="" coords="436,267,663,308"/>
+<area shape="rect" id="node14" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html" title=" " alt="" coords="436,397,663,439"/>
+<area shape="rect" id="node16" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs." alt="" coords="436,463,663,504"/>
+<area shape="rect" id="node17" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html" title="A IWatchdog that manages one server." alt="" coords="711,431,937,472"/>
+<area shape="rect" id="node19" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html" title="A IWatchdog that tries to manage 2 servers at once for maximum uptime." alt="" coords="711,496,937,537"/>
+<area shape="rect" id="node18" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html" title="A version of the BasicWatchdog that, instead of killing servers for updates, uses the wonders of syml..." alt="" coords="985,431,1212,472"/>
+<area shape="rect" id="node21" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html" title=" " alt="" coords="459,528,640,569"/>
+</map>

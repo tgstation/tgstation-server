@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.System.IProcessBase" name="Tgstation.Server.Host.System.IProcessBase">
+<area shape="rect" id="node1" title="Represents process lifetime" alt="" coords="143,104,341,145"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess" alt="" coords="389,71,616,112"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process" alt="" coords="403,136,602,177"/>
+<area shape="rect" id="node2" href="$class_i_disposable.html" title=" " alt="" coords="5,111,95,138"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_dead_session_controller.html" title="Implements a fake &quot;dead&quot; ISessionController" alt="" coords="664,5,891,47"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html" title=" " alt="" coords="664,71,891,112"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html" title=" " alt="" coords="678,136,877,177"/>
+</map>
