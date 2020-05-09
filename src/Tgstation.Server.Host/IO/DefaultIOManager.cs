@@ -147,13 +147,18 @@ namespace Tgstation.Server.Host.IO
 		public Task CreateDirectory(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(() => Directory.CreateDirectory(ResolvePath(path)), cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public async Task DeleteDirectory(string path, CancellationToken cancellationToken)
+		public Task DeleteDirectory(string path, CancellationToken cancellationToken)
 		{
 			path = ResolvePath(path);
 			var di = new DirectoryInfo(path);
 			if (!di.Exists)
-				return;
-			await NormalizeAndDelete(di, cancellationToken).ConfigureAwait(false);
+				return Task.CompletedTask;
+
+			return Task.Factory.StartNew(
+				() => NormalizeAndDelete(di, cancellationToken),
+				cancellationToken,
+				TaskCreationOptions.LongRunning,
+				TaskScheduler.Current);
 		}
 
 		/// <inheritdoc />
