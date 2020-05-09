@@ -33,9 +33,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public override RebootState? RebootState => Running ? (AlphaIsActive ? alphaServer?.RebootState : bravoServer?.RebootState) : null;
 
-		/// <inheritdoc />
-		protected override string DeploymentTimeWhileRunning => "when DreamDaemon reboots";
-
 		/// <summary>
 		/// Server designation alpha
 		/// </summary>
