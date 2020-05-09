@@ -455,7 +455,13 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 				await Task.WhenAll(symATask, symBTask).ConfigureAwait(false);
 
-				await chatManager.SendUpdateMessage(String.Format(CultureInfo.InvariantCulture, "Deployment complete! Changes will be applied {0}.", watchdog.DeploymentApplicationTime), cancellationToken).ConfigureAwait(false);
+				await chatManager.SendUpdateMessage(
+					String.Format(
+						CultureInfo.InvariantCulture,
+						"Deployment complete! Changes will be applied when DreamDaemon {0}.",
+						watchdog.Running ? "reboots" : "is launched"),
+					cancellationToken)
+					.ConfigureAwait(false);
 
 				logger.LogDebug("Compile complete!");
 			}

@@ -22,11 +22,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		bool AlphaIsActive { get; }
 
 		/// <summary>
-		/// When new <see cref="Models.CompileJob"/>s will be made active.
-		/// </summary>
-		string DeploymentApplicationTime { get; }
-
-		/// <summary>
 		/// The <see cref="CompileJob"/> currently running on the server
 		/// </summary>
 		Models.CompileJob ActiveCompileJob { get; }

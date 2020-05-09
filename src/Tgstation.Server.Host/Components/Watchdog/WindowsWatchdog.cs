@@ -17,9 +17,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	/// </summary>
 	sealed class WindowsWatchdog : BasicWatchdog
 	{
-		/// <inheritdoc />
-		protected override string DeploymentTimeWhileRunning => "when DreamDaemon reboots";
-
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="WindowsWatchdog"/>.
 		/// </summary>

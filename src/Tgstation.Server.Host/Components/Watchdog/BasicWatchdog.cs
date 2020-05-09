@@ -24,9 +24,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public sealed override Models.CompileJob ActiveCompileJob => Server?.Dmb.CompileJob;
 
 		/// <inheritdoc />
-		protected override string DeploymentTimeWhileRunning => "immediately";
-
-		/// <inheritdoc />
 		public sealed override RebootState? RebootState => Server?.RebootState;
 
 		/// <summary>
