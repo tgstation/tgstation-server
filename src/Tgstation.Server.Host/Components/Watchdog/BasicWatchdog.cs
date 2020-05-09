@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
-using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -157,22 +156,23 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		protected sealed override async Task InitControllers(Action callBeforeRecurse, Task chatTask, WatchdogReattachInformation reattachInfo, CancellationToken cancellationToken)
 		{
-			Debug.Assert(Server == null, "Entered LaunchNoLock with server not being null!");
-
-			// don't need a new dmb if reattaching
-			var doesntNeedNewDmb = reattachInfo?.Alpha != null && reattachInfo?.Bravo != null;
-			var dmbToUse = doesntNeedNewDmb ? null : DmbFactory.LockNextDmb(1);
-
 			var serverToReattach = reattachInfo?.Alpha ?? reattachInfo?.Bravo;
 			var serverToKill = reattachInfo?.Bravo ?? reattachInfo?.Alpha;
 
 			// vice versa
+			if (serverToKill == serverToReattach)
+				serverToKill = null;
+
 			if (reattachInfo?.AlphaIsActive == false)
 			{
 				var temp = serverToReattach;
 				serverToReattach = serverToKill;
 				serverToKill = temp;
 			}
+
+			// don't need a new dmb if reattaching
+			var doesntNeedNewDmb = serverToReattach != null;
+			var dmbToUse = doesntNeedNewDmb ? null : DmbFactory.LockNextDmb(1);
 
 			// if this try catches something, both servers are killed
 			bool inactiveServerWasKilled = false;

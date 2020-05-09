@@ -11,6 +11,6 @@ namespace Tgstation.Server.Host.Components.Interop
 		/// Used to identify and authenticate the DreamDaemon instance
 		/// </summary>
 		[Required]
-		public virtual string AccessIdentifier { get; set; }
+		public string AccessIdentifier { get; set; }
 	}
 }

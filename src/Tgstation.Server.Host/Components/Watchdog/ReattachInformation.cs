@@ -1,5 +1,4 @@
 ﻿using System;
-using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Models;
@@ -22,20 +21,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		public RuntimeInformation RuntimeInformation { get; private set; }
 
-		/// <inheritdoc />
-		public override DreamDaemonSecurity? LaunchSecurityLevel
-		{
-			get => RuntimeInformation.SecurityLevel ?? base.LaunchSecurityLevel;
-			set => throw new NotSupportedException();
-		}
-
-		/// <inheritdoc />
-		public override string AccessIdentifier
-		{
-			get => base.AccessIdentifier;
-			set => throw new NotSupportedException();
-		}
-
 		/// <summary>
 		/// <see langword="lock"/> <see cref="object"/> for accessing <see cref="RuntimeInformation"/>.
 		/// </summary>
@@ -47,7 +32,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="dmb">The value of <see cref="Dmb"/>.</param>
 		/// <param name="process">The <see cref="IProcess"/> used to get the <see cref="ReattachInformationBase.ProcessId"/>.</param>
 		/// <param name="runtimeInformation">The value of <see cref="RuntimeInformation"/>.</param>
-		/// <param name="accessIdentifier">The value of <see cref="AccessIdentifier"/>.</param>
+		/// <param name="accessIdentifier">The value of <see cref="Interop.DMApiParameters.AccessIdentifier"/>.</param>
 		/// <param name="port">The value of <see cref="ReattachInformationBase.Port"/>.</param>
 		/// <param name="isPrimary">The value of <see cref="ReattachInformationBase.IsPrimary"/>.</param>
 		internal ReattachInformation(
@@ -64,9 +49,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (!runtimeInformation.SecurityLevel.HasValue)
 				throw new ArgumentException("runtimeInformation must have a valid SecurityLevel!", nameof(runtimeInformation));
 
-			base.AccessIdentifier = accessIdentifier ?? throw new ArgumentNullException(nameof(accessIdentifier));
+			AccessIdentifier = accessIdentifier ?? throw new ArgumentNullException(nameof(accessIdentifier));
 
-			base.LaunchSecurityLevel = runtimeInformation.SecurityLevel.Value;
+			LaunchSecurityLevel = runtimeInformation.SecurityLevel.Value;
 			Port = port;
 			IsPrimary = isPrimary;
 

@@ -55,30 +55,28 @@ namespace Tgstation.Server.Host
 			var updatedArgsArray = listArgs.ToArray();
 			try
 			{
-				using (var shutdownNotifier = new ProgramShutdownTokenSource())
+				using var shutdownNotifier = new ProgramShutdownTokenSource();
+				var cancellationToken = shutdownNotifier.Token;
+				IServer server;
+				try
 				{
-					var cancellationToken = shutdownNotifier.Token;
-					IServer server;
-					try
-					{
-						server = await ServerFactory.CreateServer(updatedArgsArray, updatePath, cancellationToken).ConfigureAwait(false);
-					}
-					catch (OperationCanceledException)
-					{
-						// Console cancelled
-						return 0;
-					}
-
-					if (server == null)
-						return 0;
-
-					try
-					{
-						await server.Run(cancellationToken).ConfigureAwait(false);
-					}
-					catch (OperationCanceledException) { }
-					return server.RestartRequested ? 1 : 0;
+					server = await ServerFactory.CreateServer(updatedArgsArray, updatePath, cancellationToken).ConfigureAwait(false);
 				}
+				catch (OperationCanceledException)
+				{
+					// Console cancelled
+					return 0;
+				}
+
+				if (server == null)
+					return 0;
+
+				try
+				{
+					await server.Run(cancellationToken).ConfigureAwait(false);
+				}
+				catch (OperationCanceledException) { }
+				return server.RestartRequested ? 1 : 0;
 			}
 			catch (Exception e)
 			{
