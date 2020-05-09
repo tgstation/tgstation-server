@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Controllers.InstanceController" name="Tgstation.Server.Host.Controllers.InstanceController">
-<area shape="rect" id="node1" title="ApiController for managing Components.Instances" alt="" coords="813,279,1029,321"/>
+<area shape="rect" id="node1" title="ApiController for managing Components.Instances" alt="" coords="813,263,1029,305"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="A Controller for API functions" alt="" coords="433,52,529,79"/>
 <area shape="rect" id="node3" href="$class_controller.html" title=" " alt="" coords="29,5,106,32"/>
 <area shape="rect" id="node4" title=" " alt="" coords="44,56,91,83"/>
@@ -8,11 +8,12 @@
 <area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems" alt="" coords="398,169,565,210"/>
 <area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html" title="For managing IInstances" alt="" coords="368,234,595,275"/>
 <area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters." alt="" coords="5,241,129,268"/>
-<area shape="rect" id="node10" title=" " alt="" coords="40,329,95,356"/>
-<area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options" alt="" coords="367,378,596,419"/>
-<area shape="rect" id="node12" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information.html" title="Base class for Models.ServerInformation." alt="" coords="7,395,128,421"/>
-<area shape="rect" id="node13" title=" " alt="" coords="28,459,107,485"/>
-<area shape="rect" id="node14" title=" " alt="" coords="31,519,103,545"/>
-<area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform" alt="" coords="382,443,581,485"/>
-<area shape="rect" id="node16" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="382,509,581,550"/>
+<area shape="rect" id="node10" title=" " alt="" coords="454,300,509,327"/>
+<area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options" alt="" coords="367,351,596,393"/>
+<area shape="rect" id="node12" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information.html" title="Base class for Models.ServerInformation." alt="" coords="7,293,128,320"/>
+<area shape="rect" id="node13" title=" " alt="" coords="28,357,107,384"/>
+<area shape="rect" id="node14" title=" " alt="" coords="31,417,103,444"/>
+<area shape="rect" id="node15" title=" " alt="" coords="22,468,113,495"/>
+<area shape="rect" id="node16" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform" alt="" coords="382,417,581,458"/>
+<area shape="rect" id="node17" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="382,482,581,523"/>
 </map>

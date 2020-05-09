@@ -114,45 +114,43 @@ $(function() {
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            var updatedArgsArray = listArgs.ToArray();</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="keywordflow">try</span></div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            {</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                <span class="keyword">using</span> (var shutdownNotifier = <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_program_shutdown_token_source.html">ProgramShutdownTokenSource</a>())</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                {</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                    var cancellationToken = shutdownNotifier.Token;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                    <a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server.html">IServer</a> server;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                    <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                    {</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                        server = await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html">ServerFactory</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a4234b15ede546c23f9b5d35bc5c8749b">CreateServer</a>(updatedArgsArray, updatePath, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                    }</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                    <span class="keywordflow">catch</span> (OperationCanceledException)</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                    {</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                        <span class="comment">// Console cancelled</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                    }</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                    <span class="keywordflow">if</span> (server == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                    <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                    {</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                        await server.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server.html#a2b5c3521d783dd9eee7a3e4f2e03fc9f">Run</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                    }</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                    <span class="keywordflow">catch</span> (OperationCanceledException) { }</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                    <span class="keywordflow">return</span> server.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server.html#ac87902a08c496cd40add682a2ec6c616">RestartRequested</a> ? 1 : 0;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                }</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            }</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            <span class="keywordflow">catch</span> (Exception e)</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            {</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                <span class="keywordflow">if</span> (updatePath != <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                {</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                    await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html">ServerFactory</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a00dd1ed657781fec45931a35278ac3a2">IOManager</a>.WriteAllBytes(updatePath, Encoding.UTF8.GetBytes(e.ToString()), <span class="keywordflow">default</span>).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                    <span class="keywordflow">return</span> 2;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                }</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                <span class="comment">// If you hit an exception debug break on this line it caused the application to crash</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            }</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        }</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    }</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;}</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                <span class="keyword">using</span> var shutdownNotifier = <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_program_shutdown_token_source.html">ProgramShutdownTokenSource</a>();</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                var cancellationToken = shutdownNotifier.Token;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                <a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server.html">IServer</a> server;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                    server = await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html">ServerFactory</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a4234b15ede546c23f9b5d35bc5c8749b">CreateServer</a>(updatedArgsArray, updatePath, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                }</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                <span class="keywordflow">catch</span> (OperationCanceledException)</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                {</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                    <span class="comment">// Console cancelled</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                }</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                <span class="keywordflow">if</span> (server == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                {</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                    await server.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server.html#a2b5c3521d783dd9eee7a3e4f2e03fc9f">Run</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                }</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                <span class="keywordflow">catch</span> (OperationCanceledException) { }</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                <span class="keywordflow">return</span> server.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server.html#ac87902a08c496cd40add682a2ec6c616">RestartRequested</a> ? 1 : 0;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            }</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <span class="keywordflow">catch</span> (Exception e)</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            {</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                <span class="keywordflow">if</span> (updatePath != <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                {</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                    await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html">ServerFactory</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a00dd1ed657781fec45931a35278ac3a2">IOManager</a>.WriteAllBytes(updatePath, Encoding.UTF8.GetBytes(e.ToString()), <span class="keywordflow">default</span>).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                    <span class="keywordflow">return</span> 2;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                }</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                <span class="comment">// If you hit an exception debug break on this line it caused the application to crash</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            }</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        }</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    }</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_program_shutdown_token_source_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_program_shutdown_token_source.html">Tgstation.Server.Host.System.ProgramShutdownTokenSource</a></div><div class="ttdoc">Contains a CancellationToken that triggers when the operating system requests the program shuts down.</div><div class="ttdef"><b>Definition:</b> <a href="_program_shutdown_token_source_8cs_source.html#l00009">ProgramShutdownTokenSource.cs:9</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_application_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html">Tgstation.Server.Host.Core.Application</a></div><div class="ttdoc">Sets up dependency injection.</div><div class="ttdef"><b>Definition:</b> <a href="_application_8cs_source.html#l00047">Application.cs:47</a></div></div>
