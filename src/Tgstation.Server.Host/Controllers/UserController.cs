@@ -147,7 +147,7 @@ namespace Tgstation.Server.Host.Controllers
 				}
 				catch (NotImplementedException)
 				{
-					return StatusCode((int)HttpStatusCode.NotImplemented);
+					return StatusCode((int)HttpStatusCode.NotImplemented, new ErrorMessage(ErrorCode.RequiresPosixSystemIdentity));
 				}
 			else
 			{

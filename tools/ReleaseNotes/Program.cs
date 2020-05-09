@@ -77,6 +77,7 @@ namespace ReleaseNotes
 				var authorizedUsers = new Dictionary<long, Task<bool>>();
 
 				bool hasSqliteFuckage = false;
+				bool postControlPanelMessage = false;
 
 				async Task GetReleaseNotesFromPR(Issue pullRequest)
 				{
@@ -243,6 +244,9 @@ namespace ReleaseNotes
 						var webControlVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsControlPanelVersion").Value);
 						var hostWatchdogVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsHostWatchdogVersion").Value);
 
+						if (webControlVersion.Major == 0)
+							postControlPanelMessage = true;
+
 						prefix = $"#### Component Versions\nCore: {coreVersion}\nHTTP API: {apiVersion}\nDreamMaker API: {dmApiVersion}\n[Web Control Panel](https://github.com/tgstation/tgstation-server-control-panel): {webControlVersion}\nHost Watchdog: {hostWatchdogVersion}";
 
 						//hasSqliteFuckage = hasSqliteFuckage && version != new Version(4, 1, 0);
@@ -259,6 +263,13 @@ namespace ReleaseNotes
 				}
 
 				var newNotes = new StringBuilder(prefix);
+				if (postControlPanelMessage)
+				{
+					newNotes.Append(Environment.NewLine);
+					newNotes.Append(Environment.NewLine);
+					newNotes.Append("### The recommended client is currently the legacy [Tgstation.Server.ControlPanel](https://github.com/tgstation/Tgstation.Server.ControlPanel/releases/latest). This will be phased out as the web client is completed.");
+				}
+
 				newNotes.Append(Environment.NewLine);
 				newNotes.Append(Environment.NewLine);
 				if (version.Build == 0)
@@ -270,7 +281,7 @@ namespace ReleaseNotes
 				else
 				{
 					newNotes.Append("## [Patch ");
-					newNotes.Append(version.Revision);
+					newNotes.Append(version.Build);
 				}
 				newNotes.Append("](");
 				var milestone = await milestoneTask.ConfigureAwait(false);
