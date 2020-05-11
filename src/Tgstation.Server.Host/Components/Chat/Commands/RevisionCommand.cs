@@ -33,21 +33,14 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		readonly IRepositoryManager repositoryManager;
 
 		/// <summary>
-		/// The <see cref="Models.Instance"/> for the <see cref="PullRequestsCommand"/>
-		/// </summary>
-		readonly Models.Instance instance;
-
-		/// <summary>
 		/// Construct a <see cref="RevisionCommand"/>
 		/// </summary>
 		/// <param name="watchdog">The value of <see cref="watchdog"/></param>
 		/// <param name="repositoryManager">The value of <see cref="repositoryManager"/></param>
-		/// <param name="instance">The value of <see cref="instance"/></param>
-		public RevisionCommand(IWatchdog watchdog, IRepositoryManager repositoryManager, Models.Instance instance)
+		public RevisionCommand(IWatchdog watchdog, IRepositoryManager repositoryManager)
 		{
 			this.watchdog = watchdog ?? throw new ArgumentNullException(nameof(watchdog));
 			this.repositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
-			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 		}
 
 		/// <inheritdoc />
