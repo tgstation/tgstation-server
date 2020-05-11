@@ -15,7 +15,6 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Client;
 using Tgstation.Server.Host;
 using Tgstation.Server.Host.Components.Chat.Providers;
-using Tgstation.Server.Host.Extensions;
 
 namespace Tgstation.Server.Tests
 {
@@ -123,7 +122,7 @@ namespace Tgstation.Server.Tests
 						}
 					} while (true);
 
-					var testUpdateVersion = new Version(4, 1, 0);
+					var testUpdateVersion = new Version(4, 1, 4);
 					using (adminClient)
 						//attempt to update to stable
 						await adminClient.Administration.Update(new Administration
