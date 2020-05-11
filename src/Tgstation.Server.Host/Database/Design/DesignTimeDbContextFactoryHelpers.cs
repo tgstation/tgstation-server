@@ -34,7 +34,9 @@ namespace Tgstation.Server.Host.Database.Design
 			builder.AddJsonFile(RootJson);
 			builder.AddJsonFile(DevJson);
 			var configuration = builder.Build();
-			return Options.Create(configuration.GetSection(DatabaseConfiguration.Section).Get<DatabaseConfiguration>());
+			var dbConfig = configuration.GetSection(DatabaseConfiguration.Section).Get<DatabaseConfiguration>();
+			dbConfig.DesignTime = true;
+			return Options.Create(dbConfig);
 		}
 	}
 }
