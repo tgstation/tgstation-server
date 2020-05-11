@@ -197,6 +197,8 @@
 
 			server_port = new_port
 			return TopicResponse()
+		if(DMAPI5_TOPIC_COMMAND_HEARTBEAT)
+			return TopicResponse()
 
 	return TopicResponse("Unknown command: [command]")
 
