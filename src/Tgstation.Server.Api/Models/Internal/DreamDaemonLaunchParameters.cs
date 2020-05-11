@@ -57,6 +57,7 @@ namespace Tgstation.Server.Api.Models.Internal
 				&& SecurityLevel == otherParameters.SecurityLevel
 				&& PrimaryPort == otherParameters.PrimaryPort
 				&& SecondaryPort == otherParameters.SecondaryPort
-				&& StartupTimeout == otherParameters.StartupTimeout;
+				&& StartupTimeout == otherParameters.StartupTimeout
+				&& HeartbeatSeconds == otherParameters.HeartbeatSeconds;
 	}
 }
