@@ -43,6 +43,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public Task OnReboot { get; }
 
 		/// <inheritdoc />
+		public Task OnPrime { get; }
+
+		/// <inheritdoc />
 		public Task<int> Lifetime { get; }
 
 		/// <inheritdoc />
@@ -70,7 +73,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				StartupTime = TimeSpan.FromSeconds(0)
 			});
 			Lifetime = Task.FromResult(-1);
-			OnReboot = new TaskCompletionSource<object>().Task;
+			OnReboot = Extensions.TaskExtensions.InfiniteTask();
+			OnPrime = Extensions.TaskExtensions.InfiniteTask();
 			disposeLock = new object();
 		}
 
@@ -97,7 +101,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public void ResetRebootState() => throw new NotSupportedException();
 
 		/// <inheritdoc />
-		public Task<TopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken) => throw new NotSupportedException();
+		public Task<CombinedTopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken) => throw new NotSupportedException();
 
 		/// <inheritdoc />
 		public void SetHighPriority() => throw new NotSupportedException();

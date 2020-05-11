@@ -120,19 +120,19 @@ namespace Tgstation.Server.Host.Controllers
 				var alphaActive = dd.AlphaIsActive;
 				var llp = dd.LastLaunchParameters;
 				var rstate = dd.RebootState;
-				result.AutoStart = settings.AutoStart;
-				result.CurrentPort = alphaActive ? llp?.PrimaryPort : llp?.SecondaryPort;
-				result.CurrentSecurity = llp?.SecurityLevel;
-				result.CurrentAllowWebclient = llp?.AllowWebClient;
-				result.PrimaryPort = settings.PrimaryPort;
-				result.AllowWebClient = settings.AllowWebClient;
+				result.AutoStart = settings.AutoStart.Value;
+				result.CurrentPort = alphaActive ? llp?.PrimaryPort.Value : llp?.SecondaryPort.Value;
+				result.CurrentSecurity = llp?.SecurityLevel.Value;
+				result.CurrentAllowWebclient = llp?.AllowWebClient.Value;
+				result.PrimaryPort = settings.PrimaryPort.Value;
+				result.AllowWebClient = settings.AllowWebClient.Value;
 				result.Running = dd.Running;
-				result.SecondaryPort = settings.SecondaryPort;
-				result.SecurityLevel = settings.SecurityLevel;
+				result.SecondaryPort = settings.SecondaryPort.Value;
+				result.SecurityLevel = settings.SecurityLevel.Value;
 				result.SoftRestart = rstate == RebootState.Restart;
 				result.SoftShutdown = rstate == RebootState.Shutdown;
-				result.StartupTimeout = settings.StartupTimeout;
-				result.HeartbeatSeconds = settings.HeartbeatSeconds;
+				result.StartupTimeout = settings.StartupTimeout.Value;
+				result.HeartbeatSeconds = settings.HeartbeatSeconds.Value;
 			}
 
 			if (revision)

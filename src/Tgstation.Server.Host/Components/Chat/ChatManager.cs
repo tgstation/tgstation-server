@@ -452,6 +452,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			{
 				IsWatchdogChannel = x.IsWatchdogChannel == true,
 				IsUpdatesChannel = x.IsUpdatesChannel == true,
+				IsAdminChannel = x.IsAdminChannel == true,
 				ProviderChannelId = y.RealId,
 				ProviderId = connectionId,
 				Channel = y
@@ -596,12 +597,25 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public Task SendWatchdogMessage(string message, CancellationToken cancellationToken)
+		public Task SendWatchdogMessage(string message, bool adminOnly, CancellationToken cancellationToken)
 		{
-			List<ulong> wdChannels;
+			List<ulong> wdChannels = null;
 			message = String.Format(CultureInfo.InvariantCulture, "WD: {0}", message);
-			lock (mappedChannels) // so it doesn't change while we're using it
-				wdChannels = mappedChannels.Where(x => x.Value.IsWatchdogChannel).Select(x => x.Key).ToList();
+
+			// so it doesn't change while we're using it
+			lock (mappedChannels)
+			{
+				if (adminOnly)
+				{
+					wdChannels = mappedChannels.Where(x => x.Value.IsAdminChannel).Select(x => x.Key).ToList();
+					if (wdChannels.Count == 0)
+						adminOnly = false;
+				}
+
+				if (!adminOnly)
+					wdChannels = mappedChannels.Where(x => x.Value.IsWatchdogChannel).Select(x => x.Key).ToList();
+			}
+
 			return SendMessage(message, wdChannels, cancellationToken);
 		}
 

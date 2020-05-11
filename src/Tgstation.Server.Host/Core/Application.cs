@@ -276,8 +276,10 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<ITopicClient, TopicClient>();
 			services.AddSingleton(new SocketParameters
 			{
-				ReceiveTimeout = postSetupServices.GeneralConfiguration.ByondTopicTimeout,
-				SendTimeout = postSetupServices.GeneralConfiguration.ByondTopicTimeout
+				ReceiveTimeout = TimeSpan.FromMilliseconds(postSetupServices.GeneralConfiguration.ByondTopicTimeout),
+				SendTimeout = TimeSpan.FromMilliseconds(postSetupServices.GeneralConfiguration.ByondTopicTimeout),
+				ConnectTimeout = TimeSpan.FromMilliseconds(postSetupServices.GeneralConfiguration.ByondTopicTimeout),
+				DisconnectTimeout = TimeSpan.FromMilliseconds(postSetupServices.GeneralConfiguration.ByondTopicTimeout)
 			});
 
 			// configure component services

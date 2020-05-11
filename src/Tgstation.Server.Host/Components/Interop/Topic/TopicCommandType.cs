@@ -38,6 +38,11 @@
 		/// <summary>
 		/// The server's port was possibly changed.
 		/// </summary>
-		ServerPortUpdate
+		ServerPortUpdate,
+
+		/// <summary>
+		/// Ping to ensure the server is running.
+		/// </summary>
+		Heartbeat,
 	}
 }

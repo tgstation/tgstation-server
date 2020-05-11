@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -118,6 +119,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		Task monitorTask;
 
 		/// <summary>
+		/// The number of hearbeats missed.
+		/// </summary>
+		int heartbeatsMissed;
+
+		/// <summary>
 		/// If the servers should be released instead of shutdown
 		/// </summary>
 		bool releaseServers;
@@ -206,7 +212,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return;
 			if (!graceful)
 			{
-				var chatTask = announce ? Chat.SendWatchdogMessage("Terminating...", cancellationToken) : Task.CompletedTask;
+				var chatTask = announce ? Chat.SendWatchdogMessage("Terminating...", false, cancellationToken) : Task.CompletedTask;
 				await StopMonitor().ConfigureAwait(false);
 
 				DisposeAndNullControllers();
@@ -221,6 +227,56 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			var toKill = GetActiveController();
 			if (toKill != null)
 				await toKill.SetRebootState(Watchdog.RebootState.Shutdown, cancellationToken).ConfigureAwait(false);
+		}
+
+		/// <summary>
+		/// Handles a watchdog heartbeat.
+		/// </summary>
+		/// <param name="activeServer">The active <see cref="ISessionController"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the next <see cref="MonitorAction"/> to take.</returns>
+		async Task<MonitorAction> HandleHeartbeat(ISessionController activeServer, CancellationToken cancellationToken)
+		{
+			Logger.LogTrace("Sending heartbeat to session controller on :{0}", activeServer.Port);
+
+			var response = await activeServer.SendCommand(new TopicParameters(), cancellationToken).ConfigureAwait(false);
+
+			if (response == null)
+			{
+				switch (++heartbeatsMissed)
+				{
+					case 1:
+						Logger.LogDebug("DEFCON 4: Watchdog missed first heartbeat!");
+						break;
+					case 2:
+						var message2 = "DEFCON 3: Watchdog has missed 2 heartbeats!";
+						Logger.LogInformation(message2);
+						await Chat.SendWatchdogMessage(message2, true, cancellationToken).ConfigureAwait(false);
+						break;
+					case 3:
+						var message3 = "DEFCON 2: Watchdog has missed 3 heartbeats! If DreamDaemon does not respond to the next one, the server will be restarted!";
+						Logger.LogWarning(message3);
+						await Chat.SendWatchdogMessage(message3, false, cancellationToken).ConfigureAwait(false);
+						break;
+					case 4:
+						var shouldShutdown = activeServer.RebootState == Watchdog.RebootState.Shutdown;
+						var actionToTake = shouldShutdown
+							? "Shutting down due to graceful termination request"
+							: "Restarting";
+						var message4 = $"DEFCON 1: Four heartbeats have been missed! {actionToTake}...";
+						Logger.LogWarning(message4);
+						DisposeAndNullControllers();
+						await Chat.SendWatchdogMessage(message4, false, cancellationToken).ConfigureAwait(false);
+						return shouldShutdown ? MonitorAction.Exit : MonitorAction.Restart;
+					default:
+						Logger.LogError("Invalid heartbeats missed count: {0}", heartbeatsMissed);
+						break;
+				}
+			}
+			else
+				heartbeatsMissed = 0;
+
+			return MonitorAction.Continue;
 		}
 
 		/// <summary>
@@ -244,14 +300,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			// this is necessary, the monitor could be in it's sleep loop trying to restart, if so cancel THAT monitor and start our own with blackjack and hookers
 			Task chatTask;
 			if (startMonitor && await StopMonitor().ConfigureAwait(false))
-				chatTask = Chat.SendWatchdogMessage("Automatic retry sequence cancelled by manual launch. Restarting...", cancellationToken);
+				chatTask = Chat.SendWatchdogMessage("Automatic retry sequence cancelled by manual launch. Restarting...", false, cancellationToken);
 			else if (announce)
-				chatTask = Chat.SendWatchdogMessage(reattachInfo == null ? "Starting..." : "Reattaching...", cancellationToken); // simple announce
+				chatTask = Chat.SendWatchdogMessage(reattachInfo == null ? "Starting..." : "Reattaching...", false, cancellationToken); // simple announce
 			else
 				chatTask = Task.CompletedTask; // no announce
 
 			// since neither server is running, this is safe to do
 			LastLaunchParameters = ActiveLaunchParameters;
+			heartbeatsMissed = 0;
 
 			// for when we call ourself and want to not catch thrown exceptions
 			var ignoreNestedException = false;
@@ -277,7 +334,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					async Task ChainChatTaskWithErrorMessage()
 					{
 						await originalChatTask.ConfigureAwait(false);
-						await Chat.SendWatchdogMessage("Startup failed!", cancellationToken).ConfigureAwait(false);
+						await Chat.SendWatchdogMessage("Startup failed!", false, cancellationToken).ConfigureAwait(false);
 					}
 
 					chatTask = ChainChatTaskWithErrorMessage();
@@ -337,7 +394,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			const string FailReattachMessage = "Unable to properly reattach to server! Restarting...";
 			Logger.LogWarning(FailReattachMessage);
 			Logger.LogDebug(inactiveReattachSuccess ? "Also could not reattach to inactive server!" : "Inactive server was reattached successfully!");
-			Task chatTask = Chat.SendWatchdogMessage(FailReattachMessage, cancellationToken);
+			Task chatTask = Chat.SendWatchdogMessage(FailReattachMessage, false, cancellationToken);
 			await LaunchImplNoLock(true, false, null, cancellationToken).ConfigureAwait(false);
 			await chatTask.ConfigureAwait(false);
 		}
@@ -382,11 +439,201 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected abstract WatchdogReattachInformation CreateReattachInformation();
 
 		/// <summary>
-		/// The loop that watches the watchdog
+		/// Gets the tasks for the following <see cref="MonitorActivationReason"/>s: <see cref="MonitorActivationReason.ActiveServerCrashed"/>, <see cref="MonitorActivationReason.ActiveServerRebooted"/>, <see cref="MonitorActivationReason.InactiveServerCrashed"/>, <see cref="MonitorActivationReason.InactiveServerRebooted"/>, <see cref="MonitorActivationReason.InactiveServerStartupComplete"/>.
 		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		protected abstract Task MonitorLifetimes(CancellationToken cancellationToken);
+		/// <param name="monitorState">The current <see cref="MonitorState"/>.</param>
+		/// <returns>A <see cref="IReadOnlyDictionary{TKey, TValue}"/> of the <see cref="Task"/>s keyed by their <see cref="MonitorActivationReason"/>.</returns>
+		protected abstract IReadOnlyDictionary<MonitorActivationReason, Task> GetMonitoredServerTasks(MonitorState monitorState);
+
+		/// <summary>
+		/// Handles the actions to take when the monitor has to "wake up"
+		/// </summary>
+		/// <param name="activationReason">The <see cref="MonitorActivationReason"/> that caused the invocation.</param>
+		/// <param name="monitorState">The current <see cref="MonitorState"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		protected abstract Task HandleMonitorWakeup(
+			MonitorActivationReason activationReason,
+			MonitorState monitorState,
+			CancellationToken cancellationToken);
+
+		/// <summary>
+		/// The loop that watches the watchdog.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		private async Task MonitorLifetimes(CancellationToken cancellationToken)
+		{
+			Logger.LogTrace("Entered MonitorLifetimes");
+
+			// this function is responsible for calling HandlerMonitorWakeup when necessary and manitaining the MonitorState
+			var iteration = 1;
+			for (var monitorState = new MonitorState(); monitorState.NextAction != MonitorAction.Exit; ++iteration)
+			{
+				Logger.LogDebug("Iteration {0} of monitor loop", iteration);
+				try
+				{
+					// load the activation tasks into local variables
+					cancellationToken.ThrowIfCancellationRequested();
+					var serverTasks = GetMonitoredServerTasks(monitorState);
+					if (serverTasks.Count != 5)
+						throw new InvalidOperationException("Expected 5 monitored server tasks!");
+
+					var activeServerLifetime = serverTasks[MonitorActivationReason.ActiveServerCrashed];
+					var activeServerReboot = serverTasks[MonitorActivationReason.ActiveServerRebooted];
+					var inactiveServerLifetime = serverTasks[MonitorActivationReason.InactiveServerCrashed];
+					var inactiveServerReboot = serverTasks[MonitorActivationReason.InactiveServerRebooted];
+					var inactiveStartupComplete = serverTasks[MonitorActivationReason.InactiveServerStartupComplete];
+					Task activeLaunchParametersChanged = ActiveParametersUpdated.Task;
+					var newDmbAvailable = DmbFactory.OnNewerDmb;
+					var heartbeatSeconds = ActiveLaunchParameters.HeartbeatSeconds.Value;
+					var heartbeat = heartbeatSeconds == 0
+						? Extensions.TaskExtensions.InfiniteTask()
+						: Task.Delay(TimeSpan.FromSeconds(heartbeatSeconds));
+
+					// cancel waiting if requested
+					var cancelTcs = new TaskCompletionSource<object>();
+					using (cancellationToken.Register(() => cancelTcs.SetCanceled()))
+					{
+						var toWaitOn = Task.WhenAny(
+							activeServerLifetime,
+							activeServerReboot,
+							inactiveServerLifetime,
+							inactiveServerReboot,
+							inactiveStartupComplete,
+							heartbeat,
+							newDmbAvailable,
+							cancelTcs.Task,
+							activeLaunchParametersChanged);
+
+						// wait for something to happen
+						await toWaitOn.ConfigureAwait(false);
+						cancellationToken.ThrowIfCancellationRequested();
+					}
+
+					var chatTask = Task.CompletedTask;
+					using (await SemaphoreSlimContext.Lock(Semaphore, cancellationToken).ConfigureAwait(false))
+					{
+						// always run HandleMonitorWakeup from the context of the semaphore lock
+						// multiple things may have happened, handle them one at a time
+						for (var moreActivationsToProcess = true; moreActivationsToProcess && (monitorState.NextAction == MonitorAction.Continue || monitorState.NextAction == MonitorAction.Skip);)
+						{
+							MonitorActivationReason activationReason = default; // this will always be assigned before being used
+
+							// process the tasks in this order and call HandlerMonitorWakup for each
+							bool CheckActivationReason(ref Task task, MonitorActivationReason testActivationReason)
+							{
+								var taskCompleted = task?.IsCompleted == true;
+								task = null;
+								if (monitorState.NextAction == MonitorAction.Skip)
+									monitorState.NextAction = MonitorAction.Continue;
+								else if (taskCompleted)
+								{
+									activationReason = testActivationReason;
+									return true;
+								}
+
+								return false;
+							}
+
+							if (CheckActivationReason(ref activeServerLifetime, MonitorActivationReason.ActiveServerCrashed)
+								|| CheckActivationReason(ref activeServerReboot, MonitorActivationReason.ActiveServerRebooted)
+								|| CheckActivationReason(ref newDmbAvailable, MonitorActivationReason.NewDmbAvailable)
+								|| CheckActivationReason(ref inactiveServerLifetime, MonitorActivationReason.InactiveServerCrashed)
+								|| CheckActivationReason(ref inactiveServerReboot, MonitorActivationReason.InactiveServerRebooted)
+								|| CheckActivationReason(ref inactiveStartupComplete, MonitorActivationReason.InactiveServerStartupComplete)
+								|| CheckActivationReason(ref activeLaunchParametersChanged, MonitorActivationReason.ActiveLaunchParametersUpdated))
+							{
+								Logger.LogTrace("Monitor activation: {0}", activationReason);
+								await HandleMonitorWakeup(activationReason, monitorState, cancellationToken).ConfigureAwait(false);
+							}
+							else if (CheckActivationReason(ref heartbeat, MonitorActivationReason.Heartbeat))
+							{
+								Logger.LogTrace("Monitor activation: {0}", activationReason);
+								monitorState.NextAction = await HandleHeartbeat(monitorState.ActiveServer, cancellationToken).ConfigureAwait(false);
+							}
+							else
+								moreActivationsToProcess = false;
+						}
+					}
+
+					// full reboot required
+					if (monitorState.NextAction == MonitorAction.Restart)
+					{
+						Logger.LogDebug("Next state action is to restart");
+						DisposeAndNullControllers();
+
+						for (var retryAttempts = 1; ; ++retryAttempts)
+						{
+							Exception launchException = null;
+							using (await SemaphoreSlimContext.Lock(Semaphore, cancellationToken).ConfigureAwait(false))
+								try
+								{
+									// use LaunchImplNoLock without announcements or restarting the monitor
+									await LaunchImplNoLock(false, false, null, cancellationToken).ConfigureAwait(false);
+									if (Running)
+									{
+										Logger.LogDebug("Relaunch successful, resetting monitor state...");
+										break; // continue on main loop
+									}
+								}
+								catch (OperationCanceledException)
+								{
+									throw;
+								}
+								catch (Exception e)
+								{
+									launchException = e;
+								}
+
+							await chatTask.ConfigureAwait(false);
+							if (!Running)
+							{
+								if (launchException == null)
+									Logger.LogWarning("Failed to automatically restart the watchdog! Attempt: {0}", retryAttempts);
+								else
+									Logger.LogWarning("Failed to automatically restart the watchdog! Attempt: {0}, Exception: {1}", retryAttempts, launchException);
+								var retryDelay = Math.Min(
+									Convert.ToInt32(
+										Math.Pow(2, retryAttempts)),
+									TimeSpan.FromHours(1).Seconds); // max of one hour, increasing by a power of 2 each time
+								chatTask = Chat.SendWatchdogMessage(
+									$"Failed to restart (Attempt: {retryAttempts}), retrying in {retryDelay}",
+									false,
+									cancellationToken);
+								await Task.WhenAll(
+									AsyncDelayer.Delay(
+										TimeSpan.FromSeconds(retryDelay),
+										cancellationToken),
+									chatTask)
+									.ConfigureAwait(false);
+							}
+						}
+					}
+				}
+				catch (OperationCanceledException)
+				{
+					Logger.LogDebug("Monitor cancelled");
+					break;
+				}
+				catch (Exception e)
+				{
+					// really, this should NEVER happen
+					Logger.LogError(
+						"Monitor crashed! Iteration: {0}, Monitor State: {1}, Exception: {2}",
+						iteration,
+						JsonConvert.SerializeObject(monitorState),
+						e);
+					await Chat.SendWatchdogMessage(
+						$"Monitor crashed, this should NEVER happen! Please report this, full details in logs! Restarting monitor... Error: {e.Message}",
+						false,
+						cancellationToken)
+						.ConfigureAwait(false);
+				}
+			}
+
+			Logger.LogTrace("Monitor exiting...");
+		}
 
 		/// <summary>
 		/// Starts all <see cref="ISessionController"/>s.
@@ -417,7 +664,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (!Running)
 				return true;
 
-			TopicResponse result;
+			CombinedTopicResponse result;
 			using (await SemaphoreSlimContext.Lock(Semaphore, cancellationToken).ConfigureAwait(false))
 			{
 				if (!Running)
@@ -437,11 +684,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					.ConfigureAwait(false);
 			}
 
-			if (result?.ChatResponses == null)
+			if (result?.InteropResponse?.ChatResponses == null)
 				return true;
 
 			await Task.WhenAll(
-				result.ChatResponses.Select(
+				result.InteropResponse.ChatResponses.Select(
 					x => Chat.SendMessage(
 						x.Text,
 						x.ChannelIds
@@ -474,10 +721,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var activeServer = GetActiveController();
 				var commandResult = await activeServer.SendCommand(command, cancellationToken).ConfigureAwait(false);
 
-				return commandResult?.CommandResponseMessage ??
-					(commandResult == null
-						? "ERROR: Bad topic exchange!"
-						: "TGS: Command processed but no DMAPI response returned!");
+				if (commandResult == null)
+					return "TGS: Bad topic exchange!";
+
+				if (commandResult.InteropResponse == null)
+					return "TGS: Bad topic response!";
+
+				return commandResult.InteropResponse.CommandResponseMessage ??
+					"TGS: Command processed but no DMAPI response returned!";
 			}
 		}
 
@@ -512,7 +763,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					Task chatTask;
 					if (Running)
 					{
-						chatTask = Chat.SendWatchdogMessage("Manual restart triggered...", cancellationToken);
+						chatTask = Chat.SendWatchdogMessage("Manual restart triggered...", false, cancellationToken);
 						await TerminateNoLock(false, false, cancellationToken).ConfigureAwait(false);
 					}
 					else
@@ -569,7 +820,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			try
 			{
-				if (releaseServers && Running)
+				if (!Running)
+					return;
+
+				if (releaseServers)
 				{
 					await StopMonitor().ConfigureAwait(false);
 
@@ -577,7 +831,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					await reattachInfoHandler.Save(reattachInformation, cancellationToken).ConfigureAwait(false);
 				}
 
-				await Terminate(false, cancellationToken).ConfigureAwait(false);
+				await TerminateNoLock(false, !releaseServers, cancellationToken).ConfigureAwait(false);
 			}
 			catch
 			{
@@ -598,7 +852,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			releaseServers = true;
 			if (Running)
-				await Chat.SendWatchdogMessage("Detaching...", cancellationToken).ConfigureAwait(false);
+				await Chat.SendWatchdogMessage("Detaching...", false, cancellationToken).ConfigureAwait(false);
 		}
 	}
 }

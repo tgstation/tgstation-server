@@ -96,6 +96,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public Task OnReboot => rebootTcs.Task;
 
+		/// <inheritdoc />
+		public Task OnPrime => primeTcs.Task;
+
 		/// <summary>
 		/// The up to date <see cref="ReattachInformation"/>
 		/// </summary>
@@ -155,6 +158,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// The <see cref="TaskCompletionSource{TResult}"/> that completes when DD tells us about a reboot
 		/// </summary>
 		TaskCompletionSource<object> rebootTcs;
+
+		/// <summary>
+		/// The <see cref="TaskCompletionSource{TResult}"/> that completes when DD tells us it's primed.
+		/// </summary>
+		TaskCompletionSource<object> primeTcs;
 
 		/// <summary>
 		/// If we know DreamDaemon currently has it's port closed
@@ -218,6 +226,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			released = false;
 
 			rebootTcs = new TaskCompletionSource<object>();
+			primeTcs = new TaskCompletionSource<object>();
 
 			synchronizationLock = new object();
 
@@ -365,7 +374,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						cancellationToken).ConfigureAwait(false);
 					break;
 				case BridgeCommandType.Prime:
-					// currently unused, maybe in the future
+					var oldPrimeTcs = primeTcs;
+					primeTcs = new TaskCompletionSource<object>();
+					oldPrimeTcs.SetResult(null);
 					break;
 				case BridgeCommandType.Kill:
 					logger.LogInformation("Bridge requested process termination!");
@@ -451,9 +462,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						portClosedForReboot = true;
 					}
 
-					var oldTcs = rebootTcs;
+					var oldRebootTcs = rebootTcs;
 					rebootTcs = new TaskCompletionSource<object>();
-					oldTcs.SetResult(null);
+					oldRebootTcs.SetResult(null);
 					break;
 				case null:
 					response.ErrorMessage = "Missing commandType!";
@@ -495,7 +506,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async Task<Interop.Topic.TopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken)
+		public async Task<CombinedTopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken)
 		{
 			if (Lifetime.IsCompleted)
 			{
@@ -509,6 +520,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			var json = JsonConvert.SerializeObject(parameters, DMApiConstants.SerializerSettings);
 			logger.LogTrace("Topic request: {0}", json);
+			Exception caughtException;
 			try
 			{
 				var commandString = String.Format(CultureInfo.InvariantCulture,
@@ -524,32 +536,38 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					cancellationToken).ConfigureAwait(false);
 
 				var topicReturn = topicResponse.StringData;
-				if (topicReturn != null)
-					logger.LogTrace("Topic response: {0}", topicReturn);
 
-				try
-				{
-					var result = JsonConvert.DeserializeObject<Interop.Topic.TopicResponse>(topicReturn, DMApiConstants.SerializerSettings);
-					if (result.ErrorMessage != null)
+				Interop.Topic.TopicResponse interopResponse = null;
+				if (topicReturn != null)
+					try
 					{
-						logger.LogWarning("Errored topic response for command {0}: {1}", parameters.CommandType, result.ErrorMessage);
+						interopResponse = JsonConvert.DeserializeObject<Interop.Topic.TopicResponse>(topicReturn, DMApiConstants.SerializerSettings);
+						if (interopResponse.ErrorMessage != null)
+						{
+							logger.LogWarning("Errored topic response for command {0}: {1}", parameters.CommandType, interopResponse.ErrorMessage);
+						}
+
+						logger.LogTrace("Interop response: {0}", topicReturn);
+					}
+					catch
+					{
+						logger.LogWarning("Invalid interop response: {0}", topicReturn);
 					}
 
-					return result;
-				}
-				catch
-				{
-					logger.LogWarning("Invalid topic response: {0}", topicReturn);
-				}
+				return new CombinedTopicResponse(topicResponse, interopResponse);
 			}
-			catch (OperationCanceledException)
+			catch (OperationCanceledException e)
 			{
-				throw;
+				cancellationToken.ThrowIfCancellationRequested();
+				caughtException = e;
 			}
 			catch (Exception e)
 			{
-				logger.LogWarning("Send command exception:{0}{1}", Environment.NewLine, e.Message);
+				caughtException = e;
 			}
+
+			if (caughtException == null)
+				logger.LogWarning("Send command exception:{0}{1}", Environment.NewLine, caughtException.Message);
 
 			return null;
 		}
@@ -569,7 +587,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					cancellationToken)
 					.ConfigureAwait(false);
 
-				if (commandResult.ErrorMessage != null)
+				if (commandResult.InteropResponse?.ErrorMessage != null)
 					return false;
 
 				reattachInformation.Port = port;
@@ -600,7 +618,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				cancellationToken)
 				.ConfigureAwait(false);
 
-			return result != null && result.ErrorMessage == null;
+			return result?.InteropResponse != null && result.InteropResponse?.ErrorMessage == null;
 		}
 
 		/// <inheritdoc />

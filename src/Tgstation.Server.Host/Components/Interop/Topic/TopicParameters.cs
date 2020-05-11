@@ -113,5 +113,14 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		{
 			ChatUpdate = channelsUpdate ?? throw new ArgumentNullException(nameof(channelsUpdate));
 		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TopicParameters"/> <see langword="class"/>.
+		/// </summary>
+		/// <remarks>Constructor for <see cref="TopicCommandType.Heartbeat"/>s.</remarks>
+		public TopicParameters()
+			: this(TopicCommandType.Heartbeat)
+		{
+		}
 	}
 }

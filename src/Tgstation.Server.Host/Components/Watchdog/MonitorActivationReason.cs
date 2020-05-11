@@ -38,6 +38,11 @@
 		/// <summary>
 		/// Server launch parameters were changed
 		/// </summary>
-		ActiveLaunchParametersUpdated
+		ActiveLaunchParametersUpdated,
+
+		/// <summary>
+		/// A heartbeat is required.
+		/// </summary>
+		Heartbeat,
 	}
 }
