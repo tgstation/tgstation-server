@@ -247,7 +247,7 @@ namespace ReleaseNotes
 						if (webControlVersion.Major == 0)
 							postControlPanelMessage = true;
 
-						prefix = $"#### Component Versions\nCore: {coreVersion}\nHTTP API: {apiVersion}\nDreamMaker API: {dmApiVersion}\n[Web Control Panel](https://github.com/tgstation/tgstation-server-control-panel): {webControlVersion}\nHost Watchdog: {hostWatchdogVersion}";
+						prefix = $"Please refer to the [README](https://github.com/tgstation/tgstation-server#setup) for setup instructions.{Environment.NewLine}{Environment.NewLine}#### Component Versions\nCore: {coreVersion}\nHTTP API: {apiVersion}\nDreamMaker API: {dmApiVersion}\n[Web Control Panel](https://github.com/tgstation/tgstation-server-control-panel): {webControlVersion}\nHost Watchdog: {hostWatchdogVersion}";
 
 						//hasSqliteFuckage = hasSqliteFuckage && version != new Version(4, 1, 0);
 						if (hasSqliteFuckage)
