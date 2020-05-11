@@ -71,6 +71,11 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.StartupTimeout"/>
 		/// </summary>
-		SetStartupTimeout = 2048
+		SetStartupTimeout = 2048,
+
+		/// <summary>
+		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.HeartbeatSeconds"/>
+		/// </summary>
+		SetHeartbeatInterval = 4096,
 	}
 }

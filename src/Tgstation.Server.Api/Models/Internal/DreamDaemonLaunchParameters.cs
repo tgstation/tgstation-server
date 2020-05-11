@@ -42,6 +42,12 @@ namespace Tgstation.Server.Api.Models.Internal
 		public uint? StartupTimeout { get; set; }
 
 		/// <summary>
+		/// The number of seconds between each watchdog heartbeat. 0 disables.
+		/// </summary>
+		[Required]
+		public uint? HeartbeatSeconds { get; set; }
+
+		/// <summary>
 		/// Check if we match a given set of <paramref name="otherParameters"/>
 		/// </summary>
 		/// <param name="otherParameters">The <see cref="DreamDaemonLaunchParameters"/> to compare against</param>
