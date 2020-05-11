@@ -132,6 +132,7 @@ namespace Tgstation.Server.Host.Controllers
 				result.SoftRestart = rstate == RebootState.Restart;
 				result.SoftShutdown = rstate == RebootState.Shutdown;
 				result.StartupTimeout = settings.StartupTimeout;
+				result.HeartbeatSeconds = settings.HeartbeatSeconds;
 			}
 
 			if (revision)
@@ -170,7 +171,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="200">Settings applied successfully.</response>
 		/// <response code="410">Instance no longer available.</response>
 		[HttpPost]
-		[TgsAuthorize(DreamDaemonRights.SetAutoStart | DreamDaemonRights.SetPorts | DreamDaemonRights.SetSecurity | DreamDaemonRights.SetWebClient | DreamDaemonRights.SoftRestart | DreamDaemonRights.SoftShutdown | DreamDaemonRights.Start | DreamDaemonRights.SetStartupTimeout)]
+		[TgsAuthorize(DreamDaemonRights.SetAutoStart | DreamDaemonRights.SetPorts | DreamDaemonRights.SetSecurity | DreamDaemonRights.SetWebClient | DreamDaemonRights.SoftRestart | DreamDaemonRights.SoftShutdown | DreamDaemonRights.Start | DreamDaemonRights.SetStartupTimeout | DreamDaemonRights.SetHeartbeatInterval)]
 		[ProducesResponseType(typeof(DreamDaemon), 200)]
 		[ProducesResponseType(410)]
 		#pragma warning disable CA1502 // TODO: Decomplexify
@@ -219,7 +220,8 @@ namespace Tgstation.Server.Host.Controllers
 				|| CheckModified(x => x.SecurityLevel, DreamDaemonRights.SetSecurity)
 				|| CheckModified(x => x.SoftRestart, DreamDaemonRights.SoftRestart)
 				|| CheckModified(x => x.SoftShutdown, DreamDaemonRights.SoftShutdown)
-				|| CheckModified(x => x.StartupTimeout, DreamDaemonRights.SetStartupTimeout))
+				|| CheckModified(x => x.StartupTimeout, DreamDaemonRights.SetStartupTimeout)
+				|| CheckModified(x => x.HeartbeatSeconds, DreamDaemonRights.SetHeartbeatInterval))
 				return Forbid();
 
 			if (current.PrimaryPort == current.SecondaryPort)

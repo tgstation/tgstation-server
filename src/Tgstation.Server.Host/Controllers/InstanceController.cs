@@ -237,7 +237,8 @@ namespace Tgstation.Server.Host.Controllers
 					SecurityLevel = DreamDaemonSecurity.Safe,
 					SoftRestart = false,
 					SoftShutdown = false,
-					StartupTimeout = 20
+					StartupTimeout = 20,
+					HeartbeatSeconds = 60
 				},
 				DreamMakerSettings = new DreamMakerSettings
 				{
