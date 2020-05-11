@@ -1,5 +1,4 @@
-﻿using BetterWin32Errors;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
 using System.Text;
@@ -19,6 +18,16 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public Task<int> Lifetime { get; }
 
+		/// <summary>
+		/// The <see cref="IProcessSuspender"/> for the <see cref="Process"/>.
+		/// </summary>
+		readonly IProcessSuspender processSuspender;
+
+		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="Process"/>
+		/// </summary>
+		readonly ILogger<Process> logger;
+
 		readonly global::System.Diagnostics.Process handle;
 
 		readonly StringBuilder outputStringBuilder;
@@ -26,13 +35,9 @@ namespace Tgstation.Server.Host.System
 		readonly StringBuilder combinedStringBuilder;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="Process"/>
-		/// </summary>
-		readonly ILogger<Process> logger;
-
-		/// <summary>
 		/// Construct a <see cref="Process"/>
 		/// </summary>
+		/// <param name="processSuspender">The value of <see cref="processSuspender"/></param>
 		/// <param name="handle">The value of <see cref="handle"/></param>
 		/// <param name="lifetime">The value of <see cref="Lifetime"/></param>
 		/// <param name="outputStringBuilder">The value of <see cref="outputStringBuilder"/></param>
@@ -41,6 +46,7 @@ namespace Tgstation.Server.Host.System
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="preExisting">If <paramref name="handle"/> was NOT just created</param>
 		public Process(
+			IProcessSuspender processSuspender,
 			global::System.Diagnostics.Process handle,
 			Task<int> lifetime,
 			StringBuilder outputStringBuilder,
@@ -49,6 +55,7 @@ namespace Tgstation.Server.Host.System
 			ILogger<Process> logger,
 			bool preExisting)
 		{
+			this.processSuspender = processSuspender ?? throw new ArgumentNullException(nameof(processSuspender));
 			this.handle = handle ?? throw new ArgumentNullException(nameof(handle));
 
 			this.outputStringBuilder = outputStringBuilder;
@@ -145,55 +152,9 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public void Suspend()
-		{
-			try
-			{
-				foreach (ProcessThread thread in handle.Threads)
-				{
-					var pOpenThread = NativeMethods.OpenThread(NativeMethods.ThreadAccess.SuspendResume, false, (uint)thread.Id);
-					if (pOpenThread == IntPtr.Zero)
-						continue;
-
-					if (NativeMethods.SuspendThread(pOpenThread) == UInt32.MaxValue)
-						throw new Win32Exception();
-
-					NativeMethods.CloseHandle(pOpenThread);
-				}
-
-				logger.LogTrace("Suspended PID {0}", Id);
-			}
-			catch (Exception e)
-			{
-				logger.LogError(e, "Failed to suspend PID {0}!", Id);
-				throw;
-			}
-		}
+		public void Suspend() => processSuspender.SuspendProcess(handle);
 
 		/// <inheritdoc />
-		public void Resume()
-		{
-			try
-			{
-				foreach (ProcessThread thread in handle.Threads)
-				{
-					var pOpenThread = NativeMethods.OpenThread(NativeMethods.ThreadAccess.SuspendResume, false, (uint)thread.Id);
-					if (pOpenThread == IntPtr.Zero)
-						continue;
-
-					if (NativeMethods.ResumeThread(pOpenThread) == UInt32.MaxValue)
-						throw new Win32Exception();
-
-					NativeMethods.CloseHandle(pOpenThread);
-				}
-
-				logger.LogTrace("Resumed PID {0}", Id);
-			}
-			catch (Exception e)
-			{
-				logger.LogError(e, "Failed to resume PID {0}!", Id);
-				throw;
-			}
-		}
+		public void Resume() => processSuspender.ResumeProcess(handle);
 	}
 }

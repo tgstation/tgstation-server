@@ -9,6 +9,11 @@ namespace Tgstation.Server.Host.System
 	sealed class ProcessExecutor : IProcessExecutor
 	{
 		/// <summary>
+		/// The <see cref="IProcessSuspender"/> for the <see cref="ProcessExecutor"/>.
+		/// </summary>
+		readonly IProcessSuspender processSuspender;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="ProcessExecutor"/>
 		/// </summary>
 		readonly ILogger<ProcessExecutor> logger;
@@ -49,10 +54,15 @@ namespace Tgstation.Server.Host.System
 		/// <summary>
 		/// Construct a <see cref="ProcessExecutor"/>
 		/// </summary>
+		/// <param name="processSuspender">The value of <see cref="processSuspender"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
-		public ProcessExecutor(ILogger<ProcessExecutor> logger, ILoggerFactory loggerFactory)
+		public ProcessExecutor(
+			IProcessSuspender processSuspender,
+			ILogger<ProcessExecutor> logger,
+			ILoggerFactory loggerFactory)
 		{
+			this.processSuspender = processSuspender ?? throw new ArgumentNullException(nameof(processSuspender));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 		}
@@ -74,7 +84,15 @@ namespace Tgstation.Server.Host.System
 
 			try
 			{
-				return new Process(handle, AttachExitHandler(handle), null, null, null, loggerFactory.CreateLogger<Process>(), true);
+				return new Process(
+					processSuspender,
+					handle,
+					AttachExitHandler(handle),
+					null,
+					null,
+					null,
+					loggerFactory.CreateLogger<Process>(),
+					true);
 			}
 			catch
 			{
@@ -143,7 +161,14 @@ namespace Tgstation.Server.Host.System
 				}
 				catch (InvalidOperationException) { }
 
-				return new Process(handle, lifetimeTask, outputStringBuilder, errorStringBuilder, combinedStringBuilder, loggerFactory.CreateLogger<Process>(), false);
+				return new Process(
+					processSuspender,
+					handle,
+					lifetimeTask,
+					outputStringBuilder,
+					errorStringBuilder,
+					combinedStringBuilder,
+					loggerFactory.CreateLogger<Process>(), false);
 			}
 			catch
 			{
