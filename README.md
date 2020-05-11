@@ -18,12 +18,12 @@ Older server versions can be found in the V# branches of this repository. Note t
 
 ### Pre-Requisites
 
-- [ASP .NET Core Runtime (>= v3.1)](https://dotnet.microsoft.com/download/dotnet-core/current/runtime) (Choose the option to `Run Server Apps` for your system) If you plan to install tgstation-server as a Windows service, you should also ensure that your .NET Framework runtime version is >= v4.7.2 (Download can be found on same page). On Windows, ensure that the `dotnet` executable file is in your system's `PATH` variable (or the user's that will be running the server).
+- [ASP .NET Core Runtime (>= v3.1)](https://dotnet.microsoft.com/download/dotnet-core/current/runtime) (Choose the option to `Run Server Apps` for your system) If you plan to install tgstation-server as a Windows service, you should also ensure that your .NET Framework runtime version is >= v4.7.2 (Download can be found on same page). Ensure that the `dotnet` executable file is in your system's `PATH` variable (or that of the user's that will be running the server).
 - A [MariaDB](https://downloads.mariadb.org/), MySQL, or [Microsoft SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=55994) database engine is required
 
 ### Installation
 
-1. [Download the latest V4 release .zip](https://github.com/tgstation/tgstation-server/releases/latest). The ServerService package will only work on Windows. Choose ServerConsole if that is not your target OS or you prefer not to use the Windows service.
+1. [Download the latest V4 release .zip](https://github.com/tgstation/tgstation-server/releases/latest). The `ServerService` package will only work on Windows. Choose `ServerConsole` if that is not your target OS or you prefer not to use the Windows service.
 2. Extract the .zip file to where you want the server to run from. Note the account running the server must have write and delete access to the `lib` subdirectory.
 
 #### Windows
@@ -36,7 +36,9 @@ We recommend using Docker for Linux installations, see below. The content of thi
 
 The following dependencies are required to run tgstation-server on Linux alongside the .NET Core runtime
 
-- gcc-multilib (on 64-bit systems for running BYOND)
+- libc6-i386
+- libstdc++6:i386
+- gcc-multilib (Only on 64-bit systems)
 
 Note that tgstation-server has only ever been tested on Linux via it's [docker environment](build/Dockerfile#L22). If you are having trouble with something in a native installation, or figure out a required workaround, please contact project maintainers so this documentation may be better updated.
 
@@ -64,7 +66,11 @@ with any additional options you desire (i.e. You'll have to expose more game por
 
 Note although `/app/lib` is specified as a volume mount point in the `Dockerfile`, unless you REALLY know what you're doing. Do not mount any volumes over this for fear of breaking your container.
 
-If using manual configuration, before starting your container make sure the aforemention `appsettings.Production.json` is setup properly. See below
+The configuration option `General:ValidInstancePaths` will be preconfigured to point to `/tgs4_instances`. It is recommended you don't change this.
+
+Note that this container is meant to be long running. Updates are handled internally as opposed to at the container level.
+
+If using manual configuration, before starting your container make sure the aforementioned `appsettings.Production.json` is setup properly. See below
 
 ### Configuring
 
@@ -77,6 +83,12 @@ This wizard will, generally, run whenever the server is launched without detecti
 Create an `appsettings.Production.json` file next to `appsettings.json`. This will override the default settings in appsettings.json with your production settings. There are a few keys meant to be changed by hosts. Modifying any config files while the server is running will trigger a safe restart (Keeps DreamDaemon's running). Note these are all case-sensitive: 
 
 - `General:MinimumPasswordLength`: Minimum password length requirement for database users
+
+- `General:ValidInstancePaths`: Array meant to limit the directories in which instances may be created.
+
+- `General:UserLimit`: Maximum number of users that may be created
+
+- `General:InstanceLimit`: Maximum number of instances that may be created
 
 - `General:GitHubAccessToken`: Specify a GitHub personal access token with no scopes here to highly mitigate the possiblity of 429 response codes from GitHub requests
 
