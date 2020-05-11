@@ -167,6 +167,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.IsRequired()
 						.HasColumnType("INTEGER");
 
+					b.Property<uint?>("HeartbeatSeconds")
+						.IsRequired()
+						.HasColumnType("INTEGER");
+
 					b.Property<long>("InstanceId")
 						.HasColumnType("INTEGER");
 

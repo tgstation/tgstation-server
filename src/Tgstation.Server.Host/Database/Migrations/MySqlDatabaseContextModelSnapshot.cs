@@ -168,6 +168,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.IsRequired()
 						.HasColumnType("tinyint(1)");
 
+					b.Property<uint?>("HeartbeatSeconds")
+						.IsRequired()
+						.HasColumnType("int unsigned");
+
 					b.Property<long>("InstanceId")
 						.HasColumnType("bigint");
 
