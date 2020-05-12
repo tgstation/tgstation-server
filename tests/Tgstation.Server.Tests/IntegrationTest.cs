@@ -152,6 +152,13 @@ namespace Tgstation.Server.Tests
 			Assert.IsTrue(server.RestartRequested, "Server not requesting restart!");
 		}
 
+		static void TerminateAllDDs()
+		{
+			foreach (var proc in Process.GetProcessesByName("DreamDaemon"))
+				using (proc)
+					proc.Kill();
+		}
+
 		[TestMethod]
 		public async Task TestFullStandardOperation()
 		{
@@ -159,6 +166,7 @@ namespace Tgstation.Server.Tests
 			using var server = new TestingServer();
 			using var serverCts = new CancellationTokenSource();
 			var cancellationToken = serverCts.Token;
+			TerminateAllDDs();
 			var serverTask = server.Run(cancellationToken);
 			try
 			{
@@ -264,6 +272,8 @@ namespace Tgstation.Server.Tests
 					await serverTask.ConfigureAwait(false);
 				}
 				catch (OperationCanceledException) { }
+
+				TerminateAllDDs();
 			}
 		}
 	}
