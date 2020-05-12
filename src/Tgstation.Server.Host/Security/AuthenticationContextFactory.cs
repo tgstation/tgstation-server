@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Security
 {
@@ -24,14 +26,24 @@ namespace Tgstation.Server.Host.Security
 		readonly IIdentityCache identityCache;
 
 		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="AuthenticationContextFactory"/>.
+		/// </summary>
+		readonly ILogger<AuthenticationContextFactory> logger;
+
+		/// <summary>
 		/// Construct an <see cref="AuthenticationContextFactory"/>
 		/// </summary>
 		/// <param name="databaseContext">The value of <see cref="databaseContext"/></param>
 		/// <param name="identityCache">The value of <see cref="identityCache"/></param>
-		public AuthenticationContextFactory(IDatabaseContext databaseContext, IIdentityCache identityCache)
+		/// <param name="logger">The value of <see cref="logger"/>.</param>
+		public AuthenticationContextFactory(
+			IDatabaseContext databaseContext,
+			IIdentityCache identityCache,
+			ILogger<AuthenticationContextFactory> logger)
 		{
 			this.databaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
 			this.identityCache = identityCache ?? throw new ArgumentNullException(nameof(identityCache));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
 		/// <inheritdoc />
@@ -69,13 +81,18 @@ namespace Tgstation.Server.Host.Security
 
 			try
 			{
-				var instanceUser = instanceId.HasValue
-					? await databaseContext.InstanceUsers
+				InstanceUser instanceUser = null;
+				if (instanceId.HasValue)
+				{
+					instanceUser = await databaseContext.InstanceUsers
 						.Where(x => x.UserId == userId && x.InstanceId == instanceId && x.Instance.Online.Value)
 						.Include(x => x.Instance)
 						.FirstOrDefaultAsync(cancellationToken)
-						.ConfigureAwait(false)
-					: null;
+						.ConfigureAwait(false);
+
+					if (instanceUser == null)
+						logger.LogDebug("User {0} does not have permissions on instance {1}!", userId, instanceId.Value);
+				}
 
 				CurrentAuthenticationContext = new AuthenticationContext(systemIdentity, user, instanceUser);
 			}
