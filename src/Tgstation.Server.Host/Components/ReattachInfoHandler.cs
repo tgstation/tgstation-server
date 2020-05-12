@@ -78,15 +78,13 @@ namespace Tgstation.Server.Host.Components
 
 			await deleteTask.ConfigureAwait(false);
 
-			var instance = new Models.Instance { Id = metadata.Id };
-			db.Instances.Attach(instance);
-
-			instance.WatchdogReattachInformation = new Models.WatchdogReattachInformation
+			db.WatchdogReattachInformations.Add(new Models.WatchdogReattachInformation
 			{
 				Alpha = ConvertReattachInfo(reattachInformation.Alpha),
 				Bravo = ConvertReattachInfo(reattachInformation.Bravo),
 				AlphaIsActive = reattachInformation.AlphaIsActive,
-			};
+				InstanceId = metadata.Id
+			});
 			await db.Save(cancellationToken).ConfigureAwait(false);
 		});
 
