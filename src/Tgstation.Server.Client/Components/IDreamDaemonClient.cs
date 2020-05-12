@@ -38,7 +38,7 @@ namespace Tgstation.Server.Client.Components
 		Task Shutdown(CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Update <see cref="DreamDaemon"/>. This may trigger <see cref="Api.Models.Internal.DreamDaemonSettings.SoftRestart"/>
+		/// Update <see cref="DreamDaemon"/>. This may trigger <see cref="DreamDaemon.SoftRestart"/>
 		/// </summary>
 		/// <param name="dreamDaemon">The <see cref="DreamDaemon"/> to update</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
