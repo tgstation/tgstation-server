@@ -98,7 +98,7 @@ Create an `appsettings.Production.json` file next to `appsettings.json`. This wi
 
 - `Kestrel:Endpoints:Http:Url`: The URL (i.e. interface and ports) your application should listen on. General use case should be `http://localhost:<port>` for restricted local connections. See the Remote Access section for configuring public access to the World Wide Web. This doesn't need to be changed using the docker setup and should be mapped with the `-p` option instead
 
-- `Database:DatabaseType`: Can be one of `SqlServer`, `MariaDB`, or `MySql`
+- `Database:DatabaseType`: Can be one of `SqlServer`, `MariaDB`, `MySql`, or `Sqlite`.
 
 - `Database:MySqlServerVersion`: The version of MySql/MariaDB the database resides on, can be left as null for attempted auto detection. Used by the MySQL/MariaDB provider for selection of [certain features](https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql/blob/2.2.6/src/EFCore.MySql/Storage/Internal/ServerVersion.cs) ignore at your own risk. A string in the form `<major>.<minor>.<patch>`
 
