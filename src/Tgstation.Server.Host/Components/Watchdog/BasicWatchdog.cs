@@ -83,6 +83,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		protected override IReadOnlyDictionary<MonitorActivationReason, Task> GetMonitoredServerTasks(MonitorState monitorState)
 		{
+			if (Server == null)
+				return null;
+
 			Logger.LogDebug("Server compile job ID is {0}", Server.Dmb.CompileJob.Id);
 
 			monitorState.ActiveServer = Server;

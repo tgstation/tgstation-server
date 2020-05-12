@@ -5,6 +5,8 @@ using Moq;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
@@ -81,7 +83,7 @@ namespace Tgstation.Server.Tests
 		[TestMethod]
 		public async Task TestServerUpdate()
 		{
-			using var server = new TestingServer(clientFactory);
+			using var server = new TestingServer();
 
 			if (server.DatabaseType == "Sqlite")
 				Assert.Inconclusive("Cannot run this test on SQLite yet!");
@@ -154,87 +156,7 @@ namespace Tgstation.Server.Tests
 		public async Task TestFullStandardOperation()
 		{
 			RequireDiscordToken();
-			using var server = new TestingServer(clientFactory);
-			using var serverCts = new CancellationTokenSource();
-			var cancellationToken = serverCts.Token;
-			var serverTask = server.Run(cancellationToken);
-			try
-			{
-				IServerClient adminClient;
-
-				var giveUpAt = DateTimeOffset.Now.AddSeconds(60);
-				do
-				{
-					try
-					{
-						adminClient = await clientFactory.CreateServerClient(server.Url, User.AdminName, User.DefaultAdminPassword).ConfigureAwait(false);
-						break;
-					}
-					catch (HttpRequestException)
-					{
-						//migrating, to be expected
-						if (DateTimeOffset.Now > giveUpAt)
-							throw;
-						await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-					}
-					catch (ServiceUnavailableException)
-					{
-						// migrating, to be expected
-						if (DateTimeOffset.Now > giveUpAt)
-							throw;
-						await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-					}
-				} while (true);
-
-				using (adminClient)
-				{
-					var serverInfo = await adminClient.Version(default).ConfigureAwait(false);
-
-					Assert.AreEqual(ApiHeaders.Version, serverInfo.ApiVersion);
-					var assemblyVersion = typeof(IServer).Assembly.GetName().Version.Semver();
-					Assert.AreEqual(assemblyVersion, serverInfo.Version);
-					Assert.AreEqual(10U, serverInfo.MinimumPasswordLength);
-					Assert.AreEqual(11U, serverInfo.InstanceLimit);
-					Assert.AreEqual(150U, serverInfo.UserLimit);
-
-					//check that modifying the token even slightly fucks up the auth
-					var newToken = new Token
-					{
-						ExpiresAt = adminClient.Token.ExpiresAt,
-						Bearer = adminClient.Token.Bearer + '0'
-					};
-
-					var badClient = clientFactory.CreateServerClient(server.Url, newToken);
-					await Assert.ThrowsExceptionAsync<UnauthorizedException>(() => badClient.Version(cancellationToken)).ConfigureAwait(false);
-
-					var adminTest = new AdministrationTest(adminClient.Administration).Run(cancellationToken);
-					var usersTest = new UsersTest(adminClient.Users).Run(cancellationToken);
-					await new InstanceManagerTest(adminClient.Instances, adminClient.Users, server.Directory).Run(cancellationToken).ConfigureAwait(false);
-
-					await adminTest.ConfigureAwait(false);
-					await usersTest.ConfigureAwait(false);
-				}
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"TEST ERROR: {ex.GetType()} in flight!");
-				throw;
-			}
-			finally
-			{
-				serverCts.Cancel();
-				try
-				{
-					await serverTask.ConfigureAwait(false);
-				}
-				catch (OperationCanceledException) { }
-			}
-		}
-
-		[TestMethod]
-		public async Task TestRebootAndAttach()
-		{
-			using var server = new TestingServer(clientFactory);
+			using var server = new TestingServer();
 			using var serverCts = new CancellationTokenSource();
 			var cancellationToken = serverCts.Token;
 			var serverTask = server.Run(cancellationToken);
@@ -269,19 +191,45 @@ namespace Tgstation.Server.Tests
 				Api.Models.Instance instance;
 				using (var adminClient = await CreateAdminClient())
 				{
-					var instanceTest = new InstanceManagerTest(adminClient.Instances, adminClient.Users, server.Directory);
-					instance = await instanceTest.CreateTestInstance(cancellationToken);
-					instance.Online = true;
-					instance = await adminClient.Instances.Update(instance, cancellationToken);
+					if (server.DumpOpenApiSpecpath)
+					{
+						// Dump swagger to disk
+						// This is purely for CI
+						var webRequest = WebRequest.Create(server.Url.ToString() + "swagger/v1/swagger.json");
+						using var response = webRequest.GetResponse();
+						using var content = response.GetResponseStream();
+						using var output = new FileStream(@"C:\swagger.json", FileMode.Create);
+						await content.CopyToAsync(output);
+					}
+
+					var serverInfo = await adminClient.Version(default).ConfigureAwait(false);
+
+					Assert.AreEqual(ApiHeaders.Version, serverInfo.ApiVersion);
+					var assemblyVersion = typeof(IServer).Assembly.GetName().Version.Semver();
+					Assert.AreEqual(assemblyVersion, serverInfo.Version);
+					Assert.AreEqual(10U, serverInfo.MinimumPasswordLength);
+					Assert.AreEqual(11U, serverInfo.InstanceLimit);
+					Assert.AreEqual(150U, serverInfo.UserLimit);
+
+					//check that modifying the token even slightly fucks up the auth
+					var newToken = new Token
+					{
+						ExpiresAt = adminClient.Token.ExpiresAt,
+						Bearer = adminClient.Token.Bearer + '0'
+					};
+
+					var badClient = clientFactory.CreateServerClient(server.Url, newToken);
+					await Assert.ThrowsExceptionAsync<UnauthorizedException>(() => badClient.Version(cancellationToken)).ConfigureAwait(false);
+
+					var adminTest = new AdministrationTest(adminClient.Administration).Run(cancellationToken);
+					var usersTest = new UsersTest(adminClient.Users).Run(cancellationToken);
+					instance = await new InstanceManagerTest(adminClient.Instances, adminClient.Users, server.Directory).RunPreInstanceTest(cancellationToken).ConfigureAwait(false);
+
 					var instanceClient = adminClient.Instances.CreateClient(instance);
-					var repoTest = new RepositoryTest(instanceClient.Repository, instanceClient.Jobs);
-					var byondTest = new ByondTest(instanceClient.Byond, instanceClient.Jobs, instance);
 
-					var repoTask = repoTest.RunPreWatchdog(cancellationToken);
-					await byondTest.Run(cancellationToken);
-					await repoTask;
+					var instanceTests = new InstanceTest(instanceClient, adminClient.Instances).RunTests(cancellationToken);
 
-					await new WatchdogTest(instanceClient).StartAndLeaveRunning(cancellationToken);
+					await Task.WhenAll(adminTest, instanceTests, usersTest);
 
 					await adminClient.Administration.Restart(cancellationToken);
 				}
@@ -295,30 +243,27 @@ namespace Tgstation.Server.Tests
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 
-					await new RepositoryTest(instanceClient.Repository, instanceClient.Jobs).RunPostWatchdog(cancellationToken);
+					await new RepositoryTest(instanceClient.Repository, instanceClient.Jobs).RunPostTest(cancellationToken);
+					await new ChatTest(instanceClient.ChatBots, adminClient.Instances, instance).RunPostTest(cancellationToken);
+
+					await new InstanceManagerTest(adminClient.Instances, adminClient.Users, server.Directory).RunPostTest(cancellationToken);
 
 					Assert.IsTrue(dd.Running.Value);
 				}
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"TEST: ERROR: {ex.GetType()} in flight!");
+				Console.WriteLine($"TEST ERROR: {ex.GetType()} in flight!");
 				throw;
 			}
 			finally
 			{
-				Console.WriteLine($"TEST: STOPPING SERVER!");
 				serverCts.Cancel();
 				try
 				{
-					Console.WriteLine($"TEST: WAITING FOR SERVER!");
 					await serverTask.ConfigureAwait(false);
 				}
 				catch (OperationCanceledException) { }
-
-				foreach (var proc in System.Diagnostics.Process.GetProcessesByName("DreamDaemon"))
-					using (proc)
-						proc.Kill();
 			}
 		}
 	}

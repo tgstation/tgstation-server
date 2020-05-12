@@ -4,12 +4,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Api.Models;
-using Tgstation.Server.Client;
 using Tgstation.Server.Host;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
@@ -26,20 +22,16 @@ namespace Tgstation.Server.Tests
 
 		public string DatabaseType { get; }
 
+		public bool DumpOpenApiSpecpath { get; }
+
 		public bool RestartRequested => realServer.RestartRequested;
-
-		readonly IServerClientFactory serverClientFactory;
-
-		readonly bool dumpOpenAPISpecpath;
 
 		string[] args;
 
 		IServer realServer;
 
-		public TestingServer(IServerClientFactory serverClientFactory)
+		public TestingServer()
 		{
-			this.serverClientFactory = serverClientFactory;
-
 			Directory = Environment.GetEnvironmentVariable("TGS4_TEST_TEMP_DIRECTORY");
 			if (String.IsNullOrWhiteSpace(Directory))
 			{
@@ -68,7 +60,7 @@ namespace Tgstation.Server.Tests
 			if (String.IsNullOrEmpty(gitHubAccessToken))
 				Console.WriteLine("WARNING: No GitHub access token configured, test may fail due to rate limits!");
 
-			dumpOpenAPISpecpath = !String.IsNullOrEmpty(dumpOpenAPISpecPathEnvVar);
+			DumpOpenApiSpecpath = !String.IsNullOrEmpty(dumpOpenAPISpecPathEnvVar);
 
 			var args = new List<string>()
 			{
@@ -87,7 +79,7 @@ namespace Tgstation.Server.Tests
 			if (!String.IsNullOrEmpty(gitHubAccessToken))
 				args.Add(String.Format(CultureInfo.InvariantCulture, "General:GitHubAccessToken={0}", gitHubAccessToken));
 
-			if (dumpOpenAPISpecpath)
+			if (DumpOpenApiSpecpath)
 				Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
 
 			UpdatePath = Path.Combine(Directory, Guid.NewGuid().ToString());
@@ -121,44 +113,7 @@ namespace Tgstation.Server.Tests
 			if (firstRun)
 				args = args.Skip(1).ToArray();
 
-			Task runTask = realServer.Run(cancellationToken);
-
-			if (dumpOpenAPISpecpath)
-			{
-				var giveUpAt = DateTimeOffset.Now.AddSeconds(60);
-				do
-				{
-					try
-					{
-						var client = await serverClientFactory.CreateServerClient(Url, User.AdminName, User.DefaultAdminPassword).ConfigureAwait(false);
-						break;
-					}
-					catch (HttpRequestException)
-					{
-						//migrating, to be expected
-						if (DateTimeOffset.Now > giveUpAt)
-							throw;
-						await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-					}
-					catch (ServiceUnavailableException)
-					{
-						//migrating, to be expected
-						if (DateTimeOffset.Now > giveUpAt)
-							throw;
-						await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-					}
-				} while (true);
-
-				// Dump swagger to disk
-				// This is purely for CI
-				var webRequest = WebRequest.Create(Url.ToString() + "swagger/v1/swagger.json");
-				using var response = webRequest.GetResponse();
-				using var content = response.GetResponseStream();
-				using var output = new FileStream(@"C:\swagger.json", FileMode.Create);
-				await content.CopyToAsync(output);
-			}
-
-			await runTask;
+			await realServer.Run(cancellationToken);
 		}
 	}
 }

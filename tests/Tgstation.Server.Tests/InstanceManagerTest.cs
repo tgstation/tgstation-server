@@ -1,12 +1,14 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Client;
+using Tgstation.Server.Client.Components;
 using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Tests.Instance;
 
@@ -14,30 +16,28 @@ namespace Tgstation.Server.Tests
 {
 	sealed class InstanceManagerTest
 	{
+		public const string TestInstanceName = "IntegrationTestInstance";
+
 		readonly IInstanceManagerClient instanceManagerClient;
 		readonly IUsersClient usersClient;
 		readonly string testRootPath;
-
-		long counter;
 
 		public InstanceManagerTest(IInstanceManagerClient instanceManagerClient, IUsersClient usersClient, string testRootPath)
 		{
 			this.instanceManagerClient = instanceManagerClient ?? throw new ArgumentNullException(nameof(instanceManagerClient));
 			this.usersClient = usersClient ?? throw new ArgumentNullException(nameof(usersClient));
 			this.testRootPath = testRootPath ?? throw new ArgumentNullException(nameof(testRootPath));
-
-			counter = 0;
 		}
 
 		public Task<Api.Models.Instance> CreateTestInstance(CancellationToken cancellationToken) => instanceManagerClient.CreateOrAttach(new Api.Models.Instance
 		{
-			Name = "TestInstance-" + ++counter,
+			Name = TestInstanceName,
 			Path = Path.Combine(testRootPath, Guid.NewGuid().ToString()),
 			Online = true,
 			ChatBotLimit = 2
 		}, cancellationToken);
 
-		public async Task Run(CancellationToken cancellationToken)
+		public async Task<Api.Models.Instance> RunPreInstanceTest(CancellationToken cancellationToken)
 		{
 			var firstTest = await CreateTestInstance(cancellationToken).ConfigureAwait(false);
 			//instances always start offline
@@ -128,9 +128,14 @@ namespace Tgstation.Server.Tests
 				Path = initialPath
 			}, cancellationToken), ErrorCode.InstanceRelocateOnline).ConfigureAwait(false);
 
+			return firstTest;
+		}
+
+		public async Task RunPostTest(CancellationToken cancellationToken)
+		{
+			var instances = await instanceManagerClient.List(cancellationToken);
+			var firstTest = instances.Single(x => x.Name == TestInstanceName);
 			var instanceClient = instanceManagerClient.CreateClient(firstTest);
-			var testSuite1 = new InstanceTest(instanceClient, instanceManagerClient);
-			await testSuite1.RunTests(cancellationToken).ConfigureAwait(false);
 
 			//can regain permissions on instance without instance user
 			var ourInstanceUser = await instanceClient.Users.Read(cancellationToken).ConfigureAwait(false);
@@ -174,7 +179,7 @@ namespace Tgstation.Server.Tests
 			};
 			var newThing = await instanceManagerClient.Update(update2, cancellationToken);
 
-			update.InstanceManagerRights |= InstanceManagerRights.Delete | InstanceManagerRights.Create;
+			update.InstanceManagerRights |= InstanceManagerRights.Delete | InstanceManagerRights.Create | InstanceManagerRights.List;
 			await usersClient.Update(update, cancellationToken);
 
 			//but only if the attach file exists

@@ -16,9 +16,19 @@
 		public long InstanceId { get; set; }
 
 		/// <summary>
+		/// The <see cref="ReattachInformation.Id"/> of <see cref="Alpha"/>.
+		/// </summary>
+		public long? AlphaId { get; set; }
+
+		/// <summary>
 		/// The <see cref="ReattachInformation"/> for the Alpha server
 		/// </summary>
 		public ReattachInformation Alpha { get; set; }
+
+		/// <summary>
+		/// The <see cref="ReattachInformation.Id"/> of <see cref="Bravo"/>.
+		/// </summary>
+		public long? BravoId { get; set; }
 
 		/// <summary>
 		/// The <see cref="ReattachInformation"/> for the Bravo server

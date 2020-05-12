@@ -147,7 +147,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.IsNull(updatedBot.Channels.First().IrcChannel);
 		}
 
-		public async Task RunPostWatchdog(CancellationToken cancellationToken)
+		public async Task RunPostTest(CancellationToken cancellationToken)
 		{
 			var activeBots = await chatClient.List(cancellationToken);
 

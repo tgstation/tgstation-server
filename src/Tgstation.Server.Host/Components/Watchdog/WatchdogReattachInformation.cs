@@ -40,6 +40,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public override string ToString() => String.Format(CultureInfo.InvariantCulture, "Alpha: {0}, Bravo {1}", Alpha, Bravo);
+		public override string ToString() => String.Format(
+			CultureInfo.InvariantCulture,
+			"Alpha: {0}, Bravo {1}",
+			Alpha?.ToString() ?? "(null)",
+			Bravo?.ToString() ?? "(null)");
 	}
 }

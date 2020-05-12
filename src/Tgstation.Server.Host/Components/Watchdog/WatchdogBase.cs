@@ -109,6 +109,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly bool autoStart;
 
 		/// <summary>
+		/// Used when detaching servers.
+		/// </summary>
+		WatchdogReattachInformation releasedReattachInformation;
+
+		/// <summary>
 		/// The <see cref="CancellationTokenSource"/> for the monitor loop
 		/// </summary>
 		CancellationTokenSource monitorCts;
@@ -450,6 +455,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		/// <param name="monitorState">The current <see cref="MonitorState"/>.</param>
 		/// <returns>A <see cref="IReadOnlyDictionary{TKey, TValue}"/> of the <see cref="Task"/>s keyed by their <see cref="MonitorActivationReason"/>.</returns>
+		/// <remarks>This function should not assume the servers are not <see langword="null"/>.</remarks>
 		protected abstract IReadOnlyDictionary<MonitorActivationReason, Task> GetMonitoredServerTasks(MonitorState monitorState);
 
 		/// <summary>
@@ -655,6 +661,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				catch (OperationCanceledException)
 				{
 					Logger.LogDebug("Monitor cancelled");
+
+					if (releaseServers)
+					{
+						Logger.LogTrace("Detaching servers...");
+						releasedReattachInformation = CreateReattachInformation();
+					}
 				}
 
 			DisposeAndNullControllers();
@@ -817,10 +829,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			long? adminUserId = null;
 
-			await databaseContextFactory.UseContext(async db => adminUserId = await db.Users
-			.Where(x => x.CanonicalName == Models.User.CanonicalizeName(Api.Models.User.AdminName))
-			.Select(x => x.Id)
-			.FirstAsync(cancellationToken).ConfigureAwait(false)).ConfigureAwait(false);
+			await databaseContextFactory.UseContext(
+				async db => adminUserId = await db
+					.Users
+					.Where(x => x.CanonicalName == Models.User.CanonicalizeName(Api.Models.User.AdminName))
+					.Select(x => x.Id)
+					.FirstAsync(cancellationToken)
+					.ConfigureAwait(false))
+				.ConfigureAwait(false);
 			var job = new Models.Job
 			{
 				StartedBy = new Models.User
@@ -845,28 +861,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken)
 		{
-			try
+			if (releaseServers)
 			{
-				if (!Running)
-					return;
-
-				if (releaseServers)
-				{
-					await StopMonitor().ConfigureAwait(false);
-
-					var reattachInformation = CreateReattachInformation();
-
-					Logger.LogDebug("Saving reattach information...");
-					await reattachInfoHandler.Save(reattachInformation, cancellationToken).ConfigureAwait(false);
-				}
-
-				await TerminateNoLock(false, !releaseServers, cancellationToken).ConfigureAwait(false);
+				await StopMonitor().ConfigureAwait(false);
+				if (releasedReattachInformation != null)
+					await reattachInfoHandler.Save(releasedReattachInformation, cancellationToken).ConfigureAwait(false);
 			}
-			catch
-			{
-				releaseServers = false;
-				throw;
-			}
+
+			await TerminateNoLock(false, !releaseServers, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
