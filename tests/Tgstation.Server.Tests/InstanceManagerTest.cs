@@ -29,7 +29,7 @@ namespace Tgstation.Server.Tests
 			counter = 0;
 		}
 
-		Task<Api.Models.Instance> CreateTestInstance(CancellationToken cancellationToken) => instanceManagerClient.CreateOrAttach(new Api.Models.Instance
+		public Task<Api.Models.Instance> CreateTestInstance(CancellationToken cancellationToken) => instanceManagerClient.CreateOrAttach(new Api.Models.Instance
 		{
 			Name = "TestInstance-" + ++counter,
 			Path = Path.Combine(testRootPath, Guid.NewGuid().ToString()),

@@ -9,18 +9,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Rights;
-using Tgstation.Server.Host.Database;
 
 namespace Tgstation.Server.Host.Security
 {
 	/// <inheritdoc />
 	sealed class ClaimsInjector : IClaimsInjector
 	{
-		/// <summary>
-		/// The <see cref="IDatabaseContext"/> for the <see cref="ClaimsInjector"/>
-		/// </summary>
-		readonly IDatabaseContext databaseContext;
-
 		/// <summary>
 		/// The <see cref="IAuthenticationContextFactory"/> for the <see cref="ClaimsInjector"/>
 		/// </summary>
@@ -29,11 +23,9 @@ namespace Tgstation.Server.Host.Security
 		/// <summary>
 		/// Construct a <see cref="ClaimsInjector"/>
 		/// </summary>
-		/// <param name="databaseContext">The value of <see cref="databaseContext"/></param>
 		/// <param name="authenticationContextFactory">The value of <see cref="authenticationContextFactory"/></param>
-		public ClaimsInjector(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory)
+		public ClaimsInjector(IAuthenticationContextFactory authenticationContextFactory)
 		{
-			this.databaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
 			this.authenticationContextFactory = authenticationContextFactory ?? throw new ArgumentNullException(nameof(authenticationContextFactory));
 		}
 
@@ -70,7 +62,12 @@ namespace Tgstation.Server.Host.Security
 			}
 
 			// This populates the CurrentAuthenticationContext field for use by us and subsequent controllers
-			await authenticationContextFactory.CreateAuthenticationContext(userId, apiHeaders.InstanceId, tokenValidatedContext.SecurityToken.ValidFrom, cancellationToken).ConfigureAwait(false);
+			await authenticationContextFactory.CreateAuthenticationContext(
+				userId,
+				apiHeaders.InstanceId,
+				tokenValidatedContext.SecurityToken.ValidFrom,
+				cancellationToken)
+				.ConfigureAwait(false);
 
 			var authenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
 

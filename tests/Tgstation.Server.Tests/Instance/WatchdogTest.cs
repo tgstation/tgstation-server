@@ -211,8 +211,12 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.IsFalse(daemonStatus.Running.Value);
 		}
 
-		async Task StartAndLeaveRunning(CancellationToken cancellationToken)
+		public async Task StartAndLeaveRunning(CancellationToken cancellationToken)
 		{
+			var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
+			if(dd.ActiveCompileJob == null)
+				await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, cancellationToken);
+
 			var startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
 
 			await WaitForJob(startJob, 40, false, cancellationToken);

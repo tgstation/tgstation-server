@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -21,17 +22,21 @@ namespace Tgstation.Server.Tests
 
 		public string Directory { get; }
 
+		public string UpdatePath { get; }
+
 		public string DatabaseType { get; }
 
-		public bool RestartRequested => realServer.Result.RestartRequested;
-
-		readonly Task<IServer> realServer;
+		public bool RestartRequested => realServer.RestartRequested;
 
 		readonly IServerClientFactory serverClientFactory;
 
 		readonly bool dumpOpenAPISpecpath;
 
-		public TestingServer(IServerClientFactory serverClientFactory, string updatePath)
+		string[] args;
+
+		IServer realServer;
+
+		public TestingServer(IServerClientFactory serverClientFactory)
 		{
 			this.serverClientFactory = serverClientFactory;
 
@@ -67,10 +72,10 @@ namespace Tgstation.Server.Tests
 
 			var args = new List<string>()
 			{
+				String.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", true),
 				String.Format(CultureInfo.InvariantCulture, "Kestrel:EndPoints:Http:Url={0}", UrlString),
 				String.Format(CultureInfo.InvariantCulture, "Database:DatabaseType={0}", DatabaseType),
 				String.Format(CultureInfo.InvariantCulture, "Database:ConnectionString={0}", connectionString),
-				String.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", true),
 				String.Format(CultureInfo.InvariantCulture, "General:SetupWizardMode={0}", SetupWizardMode.Never),
 				String.Format(CultureInfo.InvariantCulture, "General:MinimumPasswordLength={0}", 10),
 				String.Format(CultureInfo.InvariantCulture, "General:InstanceLimit={0}", 11),
@@ -85,7 +90,8 @@ namespace Tgstation.Server.Tests
 			if (dumpOpenAPISpecpath)
 				Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
 
-			realServer = Application.CreateDefaultServerFactory().CreateServer(args.ToArray(), updatePath, default);
+			UpdatePath = Path.Combine(Directory, Guid.NewGuid().ToString());
+			this.args = args.ToArray();
 		}
 
 		public void Dispose()
@@ -104,8 +110,18 @@ namespace Tgstation.Server.Tests
 
 		public async Task Run(CancellationToken cancellationToken)
 		{
-			var serverInstance = await realServer.ConfigureAwait(false);
-			Task runTask = serverInstance.Run(cancellationToken);
+			var firstRun = realServer == null;
+			realServer = await Application
+				.CreateDefaultServerFactory()
+				.CreateServer(
+					args,
+					UpdatePath,
+					default);
+
+			if (firstRun)
+				args = args.Skip(1).ToArray();
+
+			Task runTask = realServer.Run(cancellationToken);
 
 			if (dumpOpenAPISpecpath)
 			{
