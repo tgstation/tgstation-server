@@ -163,9 +163,6 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.HasColumnType("bigint")
 						.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-					b.Property<string>("AccessToken")
-						.HasColumnType("nvarchar(max)");
-
 					b.Property<bool?>("AllowWebClient")
 						.IsRequired()
 						.HasColumnType("bit");
@@ -183,22 +180,11 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<int>("PrimaryPort")
 						.HasColumnType("int");
 
-					b.Property<int?>("ProcessId")
-						.HasColumnType("int");
-
 					b.Property<int>("SecondaryPort")
 						.HasColumnType("int");
 
 					b.Property<int>("SecurityLevel")
 						.HasColumnType("int");
-
-					b.Property<bool?>("SoftRestart")
-						.IsRequired()
-						.HasColumnType("bit");
-
-					b.Property<bool?>("SoftShutdown")
-						.IsRequired()
-						.HasColumnType("bit");
 
 					b.Property<long>("StartupTimeout")
 						.HasColumnType("bigint");

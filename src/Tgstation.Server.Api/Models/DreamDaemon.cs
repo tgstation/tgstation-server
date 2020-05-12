@@ -38,5 +38,15 @@ namespace Tgstation.Server.Api.Models
 		/// The webclient status the running <see cref="DreamDaemon"/> instance is set to
 		/// </summary>
 		public bool? CurrentAllowWebclient { get; set; }
+
+		/// <summary>
+		/// If the server is undergoing a soft reset. This may be automatically set by changes to other fields
+		/// </summary>
+		public bool? SoftRestart { get; set; }
+
+		/// <summary>
+		/// If the server is undergoing a soft shutdown
+		/// </summary>
+		public bool? SoftShutdown { get; set; }
 	}
 }

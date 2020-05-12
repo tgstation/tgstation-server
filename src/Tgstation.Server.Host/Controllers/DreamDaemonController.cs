@@ -187,6 +187,9 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.SecondaryPort == 0)
 				throw new InvalidOperationException("Secondary port cannot be 0!");
 
+			if (model.SoftShutdown == true && model.SoftRestart == true)
+				return BadRequest(new ErrorMessage(ErrorCode.DreamDaemonDoubleSoft));
+
 			// alias for changing DD settings
 			var current = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).Select(x => x.DreamDaemonSettings).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
@@ -210,16 +213,19 @@ namespace Tgstation.Server.Host.Controllers
 				return false;
 			}
 
-			var oldSoftRestart = current.SoftRestart;
-			var oldSoftShutdown = current.SoftShutdown;
+			var instance = instanceManager.GetInstance(Instance);
+			var dd = instance.Watchdog;
+			var rebootState = dd.RebootState;
+			var oldSoftRestart = rebootState == RebootState.Restart;
+			var oldSoftShutdown = rebootState == RebootState.Shutdown;
 
 			if (CheckModified(x => x.AllowWebClient, DreamDaemonRights.SetWebClient)
 				|| CheckModified(x => x.AutoStart, DreamDaemonRights.SetAutoStart)
 				|| CheckModified(x => x.PrimaryPort, DreamDaemonRights.SetPorts)
 				|| CheckModified(x => x.SecondaryPort, DreamDaemonRights.SetPorts)
 				|| CheckModified(x => x.SecurityLevel, DreamDaemonRights.SetSecurity)
-				|| CheckModified(x => x.SoftRestart, DreamDaemonRights.SoftRestart)
-				|| CheckModified(x => x.SoftShutdown, DreamDaemonRights.SoftShutdown)
+				|| (model.SoftRestart.HasValue && !AuthenticationContext.InstanceUser.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftRestart))
+				|| (model.SoftShutdown.HasValue && !AuthenticationContext.InstanceUser.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftShutdown))
 				|| CheckModified(x => x.StartupTimeout, DreamDaemonRights.SetStartupTimeout)
 				|| CheckModified(x => x.HeartbeatSeconds, DreamDaemonRights.SetHeartbeatInterval))
 				return Forbid();
@@ -234,11 +240,11 @@ namespace Tgstation.Server.Host.Controllers
 			// run this second because current may be modified by it
 			await wd.ChangeSettings(current, cancellationToken).ConfigureAwait(false);
 
-			if (!oldSoftRestart.Value && current.SoftRestart.Value)
+			if (!oldSoftRestart && model.SoftRestart == true)
 				await wd.Restart(true, cancellationToken).ConfigureAwait(false);
-			else if (!oldSoftShutdown.Value && current.SoftShutdown.Value)
+			else if (!oldSoftShutdown && model.SoftShutdown == true)
 				await wd.Terminate(true, cancellationToken).ConfigureAwait(false);
-			else if ((oldSoftRestart.Value && !current.SoftRestart.Value) || (oldSoftShutdown.Value && !current.SoftShutdown.Value))
+			else if ((oldSoftRestart && model.SoftRestart == false) || (oldSoftShutdown && model.SoftShutdown == false))
 				await wd.ResetRebootState(cancellationToken).ConfigureAwait(false);
 
 			return await ReadImpl(current, cancellationToken).ConfigureAwait(false);

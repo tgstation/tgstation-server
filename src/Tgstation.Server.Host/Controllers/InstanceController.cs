@@ -235,8 +235,6 @@ namespace Tgstation.Server.Host.Controllers
 					PrimaryPort = 1337,
 					SecondaryPort = 1338,
 					SecurityLevel = DreamDaemonSecurity.Safe,
-					SoftRestart = false,
-					SoftShutdown = false,
 					StartupTimeout = 20,
 					HeartbeatSeconds = 60
 				},
