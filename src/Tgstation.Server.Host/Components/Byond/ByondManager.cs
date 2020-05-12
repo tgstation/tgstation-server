@@ -150,11 +150,11 @@ namespace Tgstation.Server.Host.Components.Byond
 				var downloadTask = byondInstaller.DownloadVersion(version, cancellationToken);
 
 				await ioManager.DeleteDirectory(versionKey, cancellationToken).ConfigureAwait(false);
-				await ioManager.CreateDirectory(versionKey, cancellationToken).ConfigureAwait(false);
 
 				try
 				{
 					var download = await downloadTask.ConfigureAwait(false);
+					await ioManager.CreateDirectory(versionKey, cancellationToken).ConfigureAwait(false);
 
 					var extractPath = ioManager.ResolvePath(versionKey);
 					logger.LogTrace("Extracting downloaded BYOND zip to {0}...", extractPath);
