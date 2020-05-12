@@ -574,6 +574,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					await StopMonitor().ConfigureAwait(false);
 
 					var reattachInformation = CreateReattachInformation();
+
+					Logger.LogDebug("Saving reattach information...");
 					await reattachInfoHandler.Save(reattachInformation, cancellationToken).ConfigureAwait(false);
 				}
 
