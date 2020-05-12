@@ -361,7 +361,17 @@ namespace Tgstation.Server.Host.Components.Deployment
 					return result;
 				})));
 
-			await chatManager.SendUpdateMessage(String.Format(CultureInfo.InvariantCulture, "Deploying revision: {0}{1}{2} BYOND Version: {3}", commitInsert, testmergeInsert, remoteCommitInsert, byondLock.Version), cancellationToken).ConfigureAwait(false);
+			await chatManager.SendUpdateMessage(
+				String.Format(
+					CultureInfo.InvariantCulture,
+					"Deploying revision: {0}{1}{2} BYOND Version: {3}.{4}",
+					commitInsert,
+					testmergeInsert,
+					remoteCommitInsert,
+					byondLock.Version.Major,
+					byondLock.Version.Minor),
+				cancellationToken)
+				.ConfigureAwait(false);
 		}
 
 		/// <summary>
