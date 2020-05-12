@@ -315,8 +315,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			Logger.LogTrace("StopMonitor");
 			if (monitorTask == null)
 				return false;
-			monitorCts.Cancel();
 			var wasRunning = !monitorTask.IsCompleted;
+			monitorCts.Cancel();
 			await monitorTask.ConfigureAwait(false);
 			monitorCts.Dispose();
 			monitorTask = null;
