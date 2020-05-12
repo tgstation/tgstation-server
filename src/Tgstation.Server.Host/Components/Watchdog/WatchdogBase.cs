@@ -315,8 +315,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			Logger.LogTrace("StopMonitor");
 			if (monitorTask == null)
 				return false;
-			monitorCts.Cancel();
 			var wasRunning = !monitorTask.IsCompleted;
+			monitorCts.Cancel();
 			await monitorTask.ConfigureAwait(false);
 			monitorCts.Dispose();
 			monitorTask = null;
@@ -574,6 +574,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					await StopMonitor().ConfigureAwait(false);
 
 					var reattachInformation = CreateReattachInformation();
+
+					Logger.LogDebug("Saving reattach information...");
 					await reattachInfoHandler.Save(reattachInformation, cancellationToken).ConfigureAwait(false);
 				}
 

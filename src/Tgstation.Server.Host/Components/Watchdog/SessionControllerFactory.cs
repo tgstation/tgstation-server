@@ -356,9 +356,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			var testMerges = dmbProvider
 				.CompileJob
 				.RevisionInformation
-				.ActiveTestMerges
+				.ActiveTestMerges?
 				.Select(x => x.TestMerge)
-				.Select(x => new TestMergeInformation(x, revisionInfo));
+				.Select(x => new TestMergeInformation(x, revisionInfo))
+				?? Enumerable.Empty<TestMergeInformation>();
 
 			return new RuntimeInformation(
 				assemblyInformationProvider,
