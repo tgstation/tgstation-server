@@ -76,16 +76,12 @@ namespace ReleaseNotes
 				var releaseDictionary = new Dictionary<int, List<string>>();
 				var authorizedUsers = new Dictionary<long, Task<bool>>();
 
-				bool hasSqliteFuckage = false;
 				bool postControlPanelMessage = false;
 
 				async Task GetReleaseNotesFromPR(Issue pullRequest)
 				{
 					//need to check it was merged
 					var fullPR = await client.Repository.PullRequest.Get(RepoOwner, RepoName, pullRequest.Number).ConfigureAwait(false);
-
-					if (fullPR.Labels.Any(x => x.Name.Equals("SQLite Unmigratable")))
-						hasSqliteFuckage = true;
 
 					async Task<Milestone> GetMilestone()
 					{
@@ -248,11 +244,6 @@ namespace ReleaseNotes
 							postControlPanelMessage = true;
 
 						prefix = $"Please refer to the [README](https://github.com/tgstation/tgstation-server#setup) for setup instructions.{Environment.NewLine}{Environment.NewLine}#### Component Versions\nCore: {coreVersion}\nHTTP API: {apiVersion}\nDreamMaker API: {dmApiVersion}\n[Web Control Panel](https://github.com/tgstation/tgstation-server-control-panel): {webControlVersion}\nHost Watchdog: {hostWatchdogVersion}";
-
-						//hasSqliteFuckage = hasSqliteFuckage && version != new Version(4, 1, 0);
-						if (hasSqliteFuckage)
-							prefix = $"{prefix}{Environment.NewLine}{Environment.NewLine}#### THIS VERSION IS INCOMPATIBLE WITH PREVIOUS SQLITE DATABASES!";
-
 						break;
 					case 3:
 						prefix = "The /tg/station server suite";
