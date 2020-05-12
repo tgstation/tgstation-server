@@ -61,11 +61,10 @@ RUN apt-get update \
 	gcc-multilib \
 	&& rm -rf /var/lib/apt/lists/*
 	
-EXPOSE 80
+EXPOSE 5000
 
 ENV General__ValidInstancePaths__0 /tgs4_instances
 ENV FileLogging__Directory /tgs_logs
-ENV Kestrel__EndPoints__Http__Url http://0.0.0.0:80
 
 WORKDIR /app
 
