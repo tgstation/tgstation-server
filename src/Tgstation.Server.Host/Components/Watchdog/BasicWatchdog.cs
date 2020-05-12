@@ -33,9 +33,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected ISessionController Server { get; private set; }
 
 		/// <summary>
-		/// If the server is set to gracefully reboot due to a pending dmb change.
+		/// If the server is set to gracefully reboot due to a pending dmb or settings change.
 		/// </summary>
-		bool gracefulRebootSetDueToNewDmb;
+		bool gracefulRebootRequired;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BasicWatchdog"/> <see langword="class"/>.
@@ -110,12 +110,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						await Chat.SendWatchdogMessage(
 							String.Format(
 								CultureInfo.InvariantCulture,
-								"Server {0}! Stopping due to graceful termination request...",
+								"Server {0}! Shutting down due to graceful termination request...",
 								exitWord),
 							false,
 							cancellationToken)
 							.ConfigureAwait(false);
-						DisposeAndNullControllers();
 						monitorState.NextAction = MonitorAction.Exit;
 					}
 					else
@@ -134,7 +133,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					break;
 				case MonitorActivationReason.ActiveServerRebooted:
 					var rebootState = Server.RebootState;
-					gracefulRebootSetDueToNewDmb = false;
+					if (gracefulRebootRequired && rebootState == Watchdog.RebootState.Normal)
+					{
+						Logger.LogError("Watchdog reached normal reboot state with gracefulRebootRequired set!");
+						rebootState = Watchdog.RebootState.Restart;
+					}
+
+					gracefulRebootRequired = false;
 					Server.ResetRebootState();
 
 					switch (rebootState)
@@ -148,11 +153,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						case Watchdog.RebootState.Shutdown:
 							// graceful shutdown time
 							await Chat.SendWatchdogMessage(
-								"Active server rebooted! Stopping due to graceful termination request...",
+								"Active server rebooted! Shutting down due to graceful termination request...",
 								false,
 								cancellationToken)
 								.ConfigureAwait(false);
-							DisposeAndNullControllers();
 							monitorState.NextAction = MonitorAction.Exit;
 							break;
 						default:
@@ -162,11 +166,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					break;
 				case MonitorActivationReason.ActiveLaunchParametersUpdated:
 					await Server.SetRebootState(Watchdog.RebootState.Restart, cancellationToken).ConfigureAwait(false);
-					monitorState.NextAction = MonitorAction.Continue;
+					gracefulRebootRequired = true;
 					break;
 				case MonitorActivationReason.NewDmbAvailable:
 					await HandleNewDmbAvailable(cancellationToken).ConfigureAwait(false);
-					monitorState.NextAction = MonitorAction.Continue;
 					break;
 				case MonitorActivationReason.InactiveServerCrashed:
 				case MonitorActivationReason.InactiveServerRebooted:
@@ -192,7 +195,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			Server?.Dispose();
 			Server = null;
 			Running = false;
-			gracefulRebootSetDueToNewDmb = false;
+			gracefulRebootRequired = false;
 		}
 
 		/// <inheritdoc />
@@ -303,7 +306,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		protected virtual Task HandleNewDmbAvailable(CancellationToken cancellationToken)
 		{
-			gracefulRebootSetDueToNewDmb = true;
+			gracefulRebootRequired = true;
 			return Server.SetRebootState(Watchdog.RebootState.Restart, cancellationToken);
 		}
 
@@ -318,9 +321,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public override Task ResetRebootState(CancellationToken cancellationToken)
 		{
-			if (gracefulRebootSetDueToNewDmb)
-				return Task.CompletedTask;
-			return base.ResetRebootState(cancellationToken);
+			if (!gracefulRebootRequired)
+				return base.ResetRebootState(cancellationToken);
+
+			return Restart(true, cancellationToken);
 		}
 	}
 }

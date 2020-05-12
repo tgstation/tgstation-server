@@ -612,6 +612,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			if (RebootState == newRebootState)
 				return true;
+
+			logger.LogTrace("Changing reboot state to {0}", newRebootState);
+
 			reattachInformation.RebootState = newRebootState;
 			var result = await SendCommand(
 				new TopicParameters(newRebootState),
@@ -625,6 +628,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public void ResetRebootState()
 		{
 			CheckDisposed();
+			logger.LogTrace("Resetting reboot state...");
 			reattachInformation.RebootState = RebootState.Normal;
 		}
 

@@ -235,11 +235,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						await Chat.SendWatchdogMessage(
 							String.Format(
 								CultureInfo.InvariantCulture,
-								"Active server {0}! Exiting due to graceful termination request...",
+								"Active server {0}! Shutting down due to graceful termination request...",
 								ExitWord(monitorState.ActiveServer)),
 							false,
 							cancellationToken).ConfigureAwait(false);
-						DisposeAndNullControllers();
 						monitorState.NextAction = MonitorAction.Exit;
 						break;
 					}
@@ -312,11 +311,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						case Watchdog.RebootState.Shutdown:
 							// graceful shutdown time
 							await Chat.SendWatchdogMessage(
-								"Active server rebooted! Stopping due to graceful termination request...",
+								"Active server rebooted! Shutting down due to graceful termination request...",
 								false,
 								cancellationToken)
 								.ConfigureAwait(false);
-							DisposeAndNullControllers();
 							monitorState.NextAction = MonitorAction.Exit;
 							return;
 						default:
