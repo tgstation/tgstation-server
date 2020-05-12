@@ -249,15 +249,46 @@ namespace Tgstation.Server.Tests
 				using (var adminClient = await CreateAdminClient())
 				{
 					var instanceClient = adminClient.Instances.CreateClient(instance);
-					var dd = instanceClient.DreamDaemon.Read(cancellationToken);
+					await Task.Delay(3000, cancellationToken);
+
+					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
+					Assert.IsTrue(dd.Running.Value);
+
+					await instanceClient.DreamDaemon.Shutdown(cancellationToken);
+					await instanceClient.DreamDaemon.Update(new DreamDaemon
+					{
+						AutoStart = true
+					}, cancellationToken);
+
+					await adminClient.Administration.Restart(cancellationToken);
+				}
+
+				await Task.WhenAny(serverTask, Task.Delay(30000, cancellationToken));
+				Assert.IsTrue(serverTask.IsCompleted);
+
+				serverTask = server.Run(cancellationToken);
+				using (var adminClient = await CreateAdminClient())
+				{
+					var instanceClient = adminClient.Instances.CreateClient(instance);
+
+					var jobs = await instanceClient.Jobs.ListActive(cancellationToken);
+					if (jobs.Any())
+					{
+						Assert.AreEqual(1, jobs.Count);
+
+						await new JobsRequiredTest(instanceClient.Jobs).WaitForJob(jobs.Single(), 40, false, cancellationToken);
+					}
+
+					await Task.Delay(3000, cancellationToken);
+					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
+
+					Assert.IsTrue(dd.Running.Value);
 
 					var repoTest = new RepositoryTest(instanceClient.Repository, instanceClient.Jobs).RunPostTest(cancellationToken);
 					await new ChatTest(instanceClient.ChatBots, adminClient.Instances, instance).RunPostTest(cancellationToken);
 					await repoTest;
 
 					await new InstanceManagerTest(adminClient.Instances, adminClient.Users, server.Directory).RunPostTest(cancellationToken);
-
-					Assert.IsTrue((await dd).Running.Value);
 				}
 			}
 			catch (Exception ex)
