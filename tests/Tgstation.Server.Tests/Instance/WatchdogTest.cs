@@ -9,6 +9,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.System;
@@ -33,6 +34,12 @@ namespace Tgstation.Server.Tests.Instance
 				StartupTimeout = 45,
 				HeartbeatSeconds = 0,
 			}, cancellationToken);
+
+			await ApiAssert.ThrowsException<ApiConflictException>(() => instanceClient.DreamDaemon.Update(new DreamDaemon
+			{
+				SoftShutdown = true,
+				SoftRestart = true
+			}, cancellationToken), ErrorCode.DreamDaemonDoubleSoft);
 
 			await RunBasicTest(cancellationToken);
 			await RunHeartbeatTest(cancellationToken);
