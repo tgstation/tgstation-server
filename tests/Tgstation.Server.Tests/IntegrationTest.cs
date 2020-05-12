@@ -249,14 +249,15 @@ namespace Tgstation.Server.Tests
 				using (var adminClient = await CreateAdminClient())
 				{
 					var instanceClient = adminClient.Instances.CreateClient(instance);
-					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
+					var dd = instanceClient.DreamDaemon.Read(cancellationToken);
 
-					await new RepositoryTest(instanceClient.Repository, instanceClient.Jobs).RunPostTest(cancellationToken);
+					var repoTest = new RepositoryTest(instanceClient.Repository, instanceClient.Jobs).RunPostTest(cancellationToken);
 					await new ChatTest(instanceClient.ChatBots, adminClient.Instances, instance).RunPostTest(cancellationToken);
+					await repoTest;
 
 					await new InstanceManagerTest(adminClient.Instances, adminClient.Users, server.Directory).RunPostTest(cancellationToken);
 
-					Assert.IsTrue(dd.Running.Value);
+					Assert.IsTrue((await dd).Running.Value);
 				}
 			}
 			catch (Exception ex)
