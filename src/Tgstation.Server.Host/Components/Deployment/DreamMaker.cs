@@ -352,16 +352,43 @@ namespace Tgstation.Server.Host.Components.Deployment
 			else
 				remoteCommitInsert = String.Format(CultureInfo.InvariantCulture, ". Remote commit: ^{0}", revisionInformation.OriginCommitSha.Substring(0, 7));
 
-			var testmergeInsert = (revisionInformation.ActiveTestMerges?.Count ?? 0) == 0 ? String.Empty : String.Format(CultureInfo.InvariantCulture, " (Test Merges: {0})",
-				String.Join(", ", revisionInformation.ActiveTestMerges.Select(x => x.TestMerge).Select(x =>
-				{
-					var result = String.Format(CultureInfo.InvariantCulture, "#{0} at {1}", x.Number, x.PullRequestRevision.Substring(0, 7));
-					if (x.Comment != null)
-						result += String.Format(CultureInfo.InvariantCulture, " ({0})", x.Comment);
-					return result;
-				})));
+			var testmergeInsert = (revisionInformation.ActiveTestMerges?.Count ?? 0) == 0
+				? String.Empty
+				: String.Format(
+					CultureInfo.InvariantCulture,
+					"{0}Test Merges:{1}",
+					Environment.NewLine,
+					String.Join(
+						Environment.NewLine,
+						revisionInformation
+							.ActiveTestMerges
+							.Select(x => x.TestMerge)
+							.Select(x =>
+							{
+								var result = String.Format(
+									CultureInfo.InvariantCulture,
+									"- #{0} at {1}",
+									x.Number,
+									x.PullRequestRevision.Substring(0, 7));
 
-			await chatManager.SendUpdateMessage(String.Format(CultureInfo.InvariantCulture, "Deploying revision: {0}{1}{2} BYOND Version: {3}", commitInsert, testmergeInsert, remoteCommitInsert, byondLock.Version), cancellationToken).ConfigureAwait(false);
+								if (x.Comment != null)
+									result += $": {x.Comment}";
+
+								return result;
+							})));
+
+			await chatManager.SendUpdateMessage(
+				String.Format(
+					CultureInfo.InvariantCulture,
+					"*Deployment Triggered*{0}Revision: {1}{2}{3}{0} BYOND Version: {4}.{5}",
+					Environment.NewLine,
+					commitInsert,
+					testmergeInsert,
+					remoteCommitInsert,
+					byondLock.Version.Major,
+					byondLock.Version.Minor),
+				cancellationToken)
+				.ConfigureAwait(false);
 		}
 
 		/// <summary>
