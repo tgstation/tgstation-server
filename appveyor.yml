@@ -36,9 +36,7 @@ artifacts:
     name: ServerUpdatePackage
   - path: src/DMAPI
     name: DMAPI
-  - path: tgsdox
-    name: DocumentationHtml
-  - path: swagger.json
+  - path: C:/swagger.json
     name: SwaggerSpec
 cache:
   - ~\.nuget\packages -> **\*.csproj
@@ -82,7 +80,6 @@ test_script:
   - lint-openapi -p -c build/OpenApiValidationSettings.json C:/swagger.json
 after_test:
   - ps: build/UploadCoverage.ps1
-  - ps: build/BuildDox.ps1
   #host updater
   - dotnet publish src/Tgstation.Server.Host/Tgstation.Server.Host.csproj -o artifacts/ServerHost -c %CONFIGURATION%
   #console
