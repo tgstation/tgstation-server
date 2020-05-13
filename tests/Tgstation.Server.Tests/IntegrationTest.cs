@@ -27,59 +27,6 @@ namespace Tgstation.Server.Tests
 	{
 		readonly IServerClientFactory clientFactory = new ServerClientFactory(new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
-		static string RequireDiscordToken()
-		{
-			var discordToken = Environment.GetEnvironmentVariable("TGS4_TEST_DISCORD_TOKEN");
-			if (String.IsNullOrWhiteSpace(discordToken))
-				Assert.Inconclusive("The TGS4_TEST_DISCORD_TOKEN environment variable must be set to run this test!");
-
-			return discordToken;
-		}
-
-		[TestMethod]
-		public async Task TestAutomaticDiscordReconnection()
-		{
-			var discordToken = RequireDiscordToken();
-
-			using var discordProvider = new DiscordProvider(Mock.Of<ILogger<DiscordProvider>>(), discordToken, 1);
-			var connectResult = await discordProvider.Connect(default).ConfigureAwait(false);
-			Assert.IsTrue(connectResult, "Failed to connect to discord!");
-			Assert.IsTrue(discordProvider.Connected, "Discord provider is not connected!");
-
-			// Forcefully close the connection under the provider's nose
-			// This will be detected in real life scenarios
-			DiscordSocketClient socketClient = typeof(DiscordProvider)
-				.GetField("client", BindingFlags.Instance | BindingFlags.NonPublic)
-				?.GetValue(discordProvider)
-				as DiscordSocketClient;
-			Assert.IsNotNull(socketClient, "Reflection unable to read discord socket client!");
-
-			await socketClient.LogoutAsync().ConfigureAwait(false);
-
-			Assert.IsFalse(discordProvider.Connected, "Discord provider is still connected!");
-
-			try
-			{
-				using CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(70));
-				do
-				{
-					var message = await discordProvider.NextMessage(cts.Token).ConfigureAwait(false);
-					if (message == null)
-						break;
-				}
-				while (true);
-
-				// Prevents a deadlock coming from having the NextMessage continuation call Dispose
-				await Task.Yield();
-			}
-			catch (OperationCanceledException)
-			{
-				Assert.Fail("Failed to reconnect within the time period!");
-			}
-
-			Assert.IsTrue(discordProvider.Connected, "Discord provider not connected!");
-		}
-
 		[TestMethod]
 		public async Task TestServerUpdate()
 		{
@@ -162,7 +109,6 @@ namespace Tgstation.Server.Tests
 		[TestMethod]
 		public async Task TestFullStandardOperation()
 		{
-			RequireDiscordToken();
 			using var server = new TestingServer();
 			using var serverCts = new CancellationTokenSource();
 			var cancellationToken = serverCts.Token;

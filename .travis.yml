@@ -12,6 +12,15 @@ branches:
 jobs:
   include:
     - env:
+      - DoxGeneration=true
+      name: "Dox Generation"
+      addons:
+        apt:
+          packages:
+            - doxygen
+            - graphviz
+    - env:
+      - DoxGeneration=false
       - DockerBuild=false
       - DMAPI=true
       - BYOND_MAJOR="513"
@@ -28,6 +37,7 @@ jobs:
             - libc6-i386
             - libstdc++6:i386
     - env:
+      - DoxGeneration=false
       - DockerBuild=false
       - DMAPI=false
       - CONFIG=Debug
@@ -46,6 +56,7 @@ jobs:
             - libc6-i386
             - libstdc++6:i386
     - env:
+      - DoxGeneration=false
       - DockerBuild=false
       - DMAPI=false
       - CONFIG=Release
@@ -64,16 +75,18 @@ jobs:
             - libc6-i386
             - libstdc++6:i386
     - env:
+      - DoxGeneration=false
       - DockerBuild=true
       name: "Docker Build"
       services:
         - docker
 
 install:
-  - if [ $DockerBuild = false ] && [ $DMAPI = true ]; then build/install_byond.sh; fi
-  - if [ $DockerBuild = false ] && [ $DMAPI = false ]; then dotnet restore tgstation-server.sln; fi
+  - if [ $DoxGeneration = false ] && [ $DockerBuild = false ] && [ $DMAPI = true ]; then build/install_byond.sh; fi
+  - if [ $DoxGeneration = false ] && [ $DockerBuild = false ] && [ $DMAPI = false ]; then dotnet restore tgstation-server.sln; fi
 
 script:
-  - if [ $DockerBuild = false ] && [ $DMAPI = true ]; then tests/DMAPI/BasicOperation/build_byond.sh || travis_terminate 1; fi
-  - if [ $DockerBuild = false ] && [ $DMAPI = false ]; then build/test_core.sh; fi
-  - if [ $DockerBuild = true ]; then docker build . -f build/Dockerfile; fi
+  - if [ $DoxGeneration = false ] && [ $DockerBuild = false ] && [ $DMAPI = true ]; then tests/DMAPI/BasicOperation/build_byond.sh || travis_terminate 1; fi
+  - if [ $DoxGeneration = false ] && [ $DockerBuild = false ] && [ $DMAPI = false ]; then build/test_core.sh; fi
+  - if [ $DoxGeneration = false ] && [ $DockerBuild = true ]; then docker build . -f build/Dockerfile; fi
+  - if [ $DoxGeneration = true ]; then build/build_dox.sh; fi
