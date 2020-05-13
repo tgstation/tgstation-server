@@ -4,7 +4,7 @@
 		TGS_ERROR_LOG("API datum already set (\ref[current_api] ([current_api]))! Was TgsNew() called more than once?")
 		return
 
-	if(!(minimum_required_security_level) in list(TGS_SECURITY_ULTRASAFE, TGS_SECURITY_SAFE, TGS_SECURITY_TRUSTED))
+	if(!(minimum_required_security_level in list(TGS_SECURITY_ULTRASAFE, TGS_SECURITY_SAFE, TGS_SECURITY_TRUSTED)))
 		TGS_ERROR_LOG("Invalid minimum_required_security_level: [minimum_required_security_level]!")
 		return
 
