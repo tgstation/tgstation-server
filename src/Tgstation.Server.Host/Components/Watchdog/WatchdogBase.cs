@@ -28,7 +28,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	abstract class WatchdogBase : IWatchdog, ICustomCommandHandler, IRestartHandler
 	{
 		/// <inheritdoc />
-		public bool Running { get; protected set; }
+		public bool Running
+		{
+			get => running;
+			set
+			{
+				running = value;
+				Logger.LogTrace("Running set to {0}", running);
+			}
+		}
 
 		/// <inheritdoc />
 		public abstract bool AlphaIsActive { get; }
@@ -139,6 +147,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// If the servers should be released instead of shutdown
 		/// </summary>
 		bool releaseServers;
+
+		/// <summary>
+		/// Backing field for <see cref="Running"/>.
+		/// </summary>
+		bool running;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="WatchdogBase"/> <see langword="class"/>.
