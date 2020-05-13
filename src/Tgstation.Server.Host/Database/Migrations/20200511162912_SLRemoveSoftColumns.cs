@@ -8,8 +8,6 @@ namespace Tgstation.Server.Host.Database.Migrations
 	/// </summary>
 	public partial class SLRemoveSoftColumns : Migration
 	{
-		const string MigratedColumns = "Id,AllowWebClient,SecurityLevel,PrimaryPort,SecondaryPort,AutoStart,HeartbeatSeconds,StartupTimeout,InstanceId";
-
 		/// <inheritdoc />
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{
@@ -47,7 +45,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 				});
 
 			migrationBuilder.Sql(
-				$"INSERT INTO DreamDaemonSettings SELECT {MigratedColumns} FROM DreamDaemonSettings_up");
+				$"INSERT INTO DreamDaemonSettings SELECT Id,AllowWebClient,SecurityLevel,PrimaryPort,SecondaryPort,AutoStart,HeartbeatSeconds,StartupTimeout,InstanceId FROM DreamDaemonSettings_up");
 
 			migrationBuilder.DropTable(
 				name: "DreamDaemonSettings_up");
