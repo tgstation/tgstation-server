@@ -36,7 +36,7 @@ artifacts:
     name: ServerUpdatePackage
   - path: src/DMAPI
     name: DMAPI
-  - path: C:/swagger.json
+  - path: swagger.json
     name: SwaggerSpec
 cache:
   - ~\.nuget\packages -> **\*.csproj
@@ -79,6 +79,7 @@ test_script:
   - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\tests\Tgstation.Server.Tests\TestResults\results.trx))
   - lint-openapi -p -c build/OpenApiValidationSettings.json C:/swagger.json
 after_test:
+  - ps: Move-Item -path C:/swagger.json swagger.json
   - ps: build/UploadCoverage.ps1
   #host updater
   - dotnet publish src/Tgstation.Server.Host/Tgstation.Server.Host.csproj -o artifacts/ServerHost -c %CONFIGURATION%
