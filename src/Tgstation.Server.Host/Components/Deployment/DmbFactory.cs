@@ -260,7 +260,13 @@ namespace Tgstation.Server.Host.Components.Deployment
 			// find the uids of locked directories
 			await databaseContextFactory.UseContext(async db =>
 			{
-				jobUidsToNotErase = await db.CompileJobs.Where(x => x.Job.Instance.Id == instance.Id && jobIdsToSkip.Contains(x.Id)).Select(x => x.DirectoryName.Value.ToString().ToUpperInvariant()).ToListAsync(cancellationToken).ConfigureAwait(false);
+				jobUidsToNotErase = (await db.CompileJobs.Where(
+					x => x.Job.Instance.Id == instance.Id && jobIdsToSkip.Contains(x.Id))
+					.Select(x => x.DirectoryName.Value)
+					.ToListAsync(cancellationToken)
+					.ConfigureAwait(false))
+					.Select(x => x.ToString())
+					.ToList();
 			}).ConfigureAwait(false);
 
 			// add the other exemption
