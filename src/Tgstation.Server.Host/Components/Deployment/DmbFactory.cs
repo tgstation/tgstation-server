@@ -302,7 +302,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			if (deleting > 0)
 			{
 				logger.LogDebug("Cleaning unused game folders: {0}...", String.Join(", ", directories));
-				await Task.WhenAll().ConfigureAwait(false);
+				await Task.WhenAll(tasks).ConfigureAwait(false);
 			}
 		}
 		#pragma warning restore CA1506
