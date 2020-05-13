@@ -42,7 +42,7 @@ cache:
 services:
   - mssql2017
 install:
-  - choco install doxygen.install codecov graphviz.portable opencover.portable
+  - choco install codecov opencover.portable
   - npm i -g ibm-openapi-validator
   - nuget restore tgstation-server.sln
   - ps: Install-Product node 10
