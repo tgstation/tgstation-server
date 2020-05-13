@@ -415,7 +415,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Attempted to start the watchdog with a corrupted <see cref="CompileJob"/>.
 		/// </summary>
-		[Description("Cannot launch with active compile job as it is corrupted!")]
+		[Description("Cannot launch active compile job as it is missing or corrupted!")]
 		WatchdogCompileJobCorrupted,
 
 		/// <summary>
