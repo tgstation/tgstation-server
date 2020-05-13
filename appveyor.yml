@@ -24,7 +24,6 @@ branches:
 skip_tags: true
 image: Visual Studio 2019
 configuration:
-  - Debug
   - Release
 shallow_clone: true
 artifacts:

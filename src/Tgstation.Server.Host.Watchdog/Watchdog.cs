@@ -78,27 +78,30 @@ namespace Tgstation.Server.Host.Watchdog
 				var rootLocation = Path.GetDirectoryName(executingAssembly.Location);
 
 				var assemblyStoragePath = Path.Combine(rootLocation, "lib"); // always always next to watchdog
-#if DEBUG
-				Directory.CreateDirectory(assemblyStoragePath);
-#endif
+
 				var defaultAssemblyPath = Path.GetFullPath(Path.Combine(assemblyStoragePath, "Default"));
-#if DEBUG
-				// just copy the shit where it belongs
-				Directory.Delete(assemblyStoragePath, true);
-				Directory.CreateDirectory(defaultAssemblyPath);
 
-				var sourcePath = "../../../../Tgstation.Server.Host/bin/Debug/netcoreapp3.1";
-				foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
-					Directory.CreateDirectory(dirPath.Replace(sourcePath, defaultAssemblyPath));
+				if (Debugger.IsAttached)
+				{
+					// VS special tactics
+					// just copy the shit where it belongs
+					Directory.Delete(assemblyStoragePath, true);
+					Directory.CreateDirectory(defaultAssemblyPath);
 
-				foreach (string newPath in Directory.GetFiles(sourcePath, "*.*", SearchOption.AllDirectories))
-					File.Copy(newPath, newPath.Replace(sourcePath, defaultAssemblyPath), true);
+					var sourcePath = "../../../../Tgstation.Server.Host/bin/Debug/netcoreapp3.1";
+					foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
+						Directory.CreateDirectory(dirPath.Replace(sourcePath, defaultAssemblyPath));
 
-				const string AppSettingsJson = "appsettings.json";
-				var rootJson = Path.Combine(rootLocation, AppSettingsJson);
-				File.Delete(rootJson);
-				File.Move(Path.Combine(defaultAssemblyPath, AppSettingsJson), rootJson);
-#endif
+					foreach (string newPath in Directory.GetFiles(sourcePath, "*.*", SearchOption.AllDirectories))
+						File.Copy(newPath, newPath.Replace(sourcePath, defaultAssemblyPath), true);
+
+					const string AppSettingsJson = "appsettings.json";
+					var rootJson = Path.Combine(rootLocation, AppSettingsJson);
+					File.Delete(rootJson);
+					File.Move(Path.Combine(defaultAssemblyPath, AppSettingsJson), rootJson);
+				}
+				else
+					Directory.CreateDirectory(assemblyStoragePath);
 
 				var assemblyName = String.Join(".", nameof(Tgstation), nameof(Server), nameof(Host), "dll");
 				var assemblyPath = Path.Combine(defaultAssemblyPath, assemblyName);
