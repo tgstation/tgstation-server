@@ -44,5 +44,10 @@
 		/// Ping to ensure the server is running.
 		/// </summary>
 		Heartbeat,
+
+		/// <summary>
+		/// Notify the server of a reattach and potentially new version.
+		/// </summary>
+		ServerRestarted
 	}
 }

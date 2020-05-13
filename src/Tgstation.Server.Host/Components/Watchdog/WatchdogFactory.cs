@@ -10,6 +10,7 @@ using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
@@ -42,6 +43,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected IAsyncDelayer AsyncDelayer { get; }
 
 		/// <summary>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="WatchdogFactory"/>
+		/// </summary>
+		protected IAssemblyInformationProvider AssemblyInformationProvider { get; }
+
+		/// <summary>
 		/// The <see cref="Configuration.GeneralConfiguration"/> for the <see cref="WatchdogFactory"/>
 		/// </summary>
 		protected GeneralConfiguration GeneralConfiguration { get; }
@@ -54,6 +60,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="databaseContextFactory">The value of <see cref="DatabaseContextFactory"/></param>
 		/// <param name="jobManager">The value of <see cref="JobManager"/></param>
 		/// <param name="asyncDelayer">The value of <see cref="AsyncDelayer"/></param>
+		/// <param name="assemblyInformationProvider">The value of <see cref="AssemblyInformationProvider"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="GeneralConfiguration"/></param>
 		public WatchdogFactory(
 			IServerControl serverControl,
@@ -61,6 +68,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IDatabaseContextFactory databaseContextFactory,
 			IJobManager jobManager,
 			IAsyncDelayer asyncDelayer,
+			IAssemblyInformationProvider assemblyInformationProvider,
 			IOptions<GeneralConfiguration> generalConfigurationOptions)
 		{
 			ServerControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
@@ -68,6 +76,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			DatabaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			JobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			AsyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
+			AssemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			GeneralConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
@@ -91,6 +100,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					JobManager,
 					ServerControl,
 					AsyncDelayer,
+					AssemblyInformationProvider,
 					LoggerFactory.CreateLogger<ExperimentalWatchdog>(),
 					settings,
 					instance,
@@ -127,6 +137,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				JobManager,
 				ServerControl,
 				AsyncDelayer,
+				AssemblyInformationProvider,
 				LoggerFactory.CreateLogger<BasicWatchdog>(),
 				settings,
 				instance,

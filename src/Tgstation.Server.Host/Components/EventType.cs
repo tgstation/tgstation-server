@@ -78,6 +78,16 @@
 		/// <summary>
 		/// No parameters
 		/// </summary>
-		DeploymentComplete
+		DeploymentComplete,
+
+		/// <summary>
+		/// Before the watchdog shutsdown. Not sent for graceful shutdowns. No parameters.
+		/// </summary>
+		WatchdogShutdown,
+
+		/// <summary>
+		/// Before the watchdog detaches. No parameters.
+		/// </summary>
+		WatchdogDetach,
 	}
 }

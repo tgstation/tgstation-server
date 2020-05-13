@@ -45,6 +45,11 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		public ChatUpdate ChatUpdate { get; }
 
 		/// <summary>
+		/// The new server <see cref="Version"/> after a reattach.
+		/// </summary>
+		public Version NewServerVersion { get; }
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="TopicParameters"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="commandType">The value of <see cref="CommandType"/>.</param>
@@ -112,6 +117,16 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 			: this(TopicCommandType.ChatChannelsUpdate)
 		{
 			ChatUpdate = channelsUpdate ?? throw new ArgumentNullException(nameof(channelsUpdate));
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TopicParameters"/> <see langword="class"/>.
+		/// </summary>
+		/// <param name="newServerVersion">The value of <see cref="NewServerVersion"/>.</param>
+		public TopicParameters(Version newServerVersion)
+			: this(TopicCommandType.ServerRestarted)
+		{
+			NewServerVersion = newServerVersion ?? throw new ArgumentNullException(nameof(newServerVersion));
 		}
 
 		/// <summary>

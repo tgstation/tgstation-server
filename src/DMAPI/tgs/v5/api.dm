@@ -27,6 +27,7 @@
 	access_identifier = world.params[DMAPI5_PARAM_ACCESS_IDENTIFIER]
 
 	var/datum/tgs_version/api_version = ApiVersion()
+	version = null
 	var/list/bridge_response = Bridge(DMAPI5_BRIDGE_COMMAND_STARTUP, list(DMAPI5_BRIDGE_PARAMETER_MINIMUM_SECURITY_LEVEL = minimum_required_security_level, DMAPI5_BRIDGE_PARAMETER_VERSION = api_version.raw_parameter, DMAPI5_BRIDGE_PARAMETER_CUSTOM_COMMANDS = ListCustomCommands()))
 	if(!istype(bridge_response))
 		TGS_ERROR_LOG("Failed initial bridge request!")
@@ -41,9 +42,9 @@
 		TGS_INFO_LOG("DMAPI validation, exiting...")
 		del(world)
 
+	version = new /datum/tgs_version(runtime_information[DMAPI5_RUNTIME_INFORMATION_SERVER_VERSION])
 	security_level = runtime_information[DMAPI5_RUNTIME_INFORMATION_SECURITY_LEVEL]
 	instance_name = runtime_information[DMAPI5_RUNTIME_INFORMATION_INSTANCE_NAME]
-	version = new /datum/tgs_version(runtime_information[DMAPI5_RUNTIME_INFORMATION_SERVER_VERSION])
 
 	var/list/revisionData = runtime_information[DMAPI5_RUNTIME_INFORMATION_REVISION]
 	if(istype(revisionData))
@@ -83,6 +84,10 @@
 	DecodeChannels(runtime_information)
 
 	return TRUE
+
+/datum/tgs_api/v5/proc/RequireInitialBridgeResponse()
+	while(!version)
+		sleep(1)
 
 /datum/tgs_api/v5/OnInitializationComplete()
 	Bridge(DMAPI5_BRIDGE_COMMAND_PRIME)
@@ -199,6 +204,18 @@
 			return TopicResponse()
 		if(DMAPI5_TOPIC_COMMAND_HEARTBEAT)
 			return TopicResponse()
+		if(DMAPI5_TOPIC_COMMAND_WATCHDOG_REATTACH)
+			var/new_version_string = topic_parameters[DMAPI5_TOPIC_PARAMETER_NEW_SERVER_VERSION]
+			if (!istext(new_version_string))
+				return TopicResponse("Invalid or missing [DMAPI5_TOPIC_PARAMETER_NEW_SERVER_VERSION]]")
+
+			var/datum/tgs_version/new_version = new(new_version_string)
+			if (event_handler)
+				event_handler.HandleEvent(TGS_EVENT_WATCHDOG_REATTACH, new_version)
+
+			version = new_version
+
+			return TopicResponse()
 
 	return TopicResponse("Unknown command: [command]")
 
@@ -254,15 +271,18 @@
 		TGS_ERROR_LOG("Unable to set port to [port]!")
 
 /datum/tgs_api/v5/InstanceName()
+	RequireInitialBridgeResponse()
 	return instance_name
 
 /datum/tgs_api/v5/TestMerges()
+	RequireInitialBridgeResponse()
 	return test_merges
 
 /datum/tgs_api/v5/EndProcess()
 	Bridge(DMAPI5_BRIDGE_COMMAND_KILL)
 
 /datum/tgs_api/v5/Revision()
+	RequireInitialBridgeResponse()
 	return revision
 
 /datum/tgs_api/v5/ChatBroadcast(message, list/channels)
@@ -300,6 +320,7 @@
 		Bridge(DMAPI5_BRIDGE_COMMAND_CHAT_SEND, list(DMAPI5_BRIDGE_PARAMETER_CHAT_MESSAGE = message))
 
 /datum/tgs_api/v5/ChatChannelInfo()
+	RequireInitialBridgeResponse()
 	return chat_channels
 
 /datum/tgs_api/v5/proc/DecodeChannels(chat_update_json)
@@ -324,6 +345,7 @@
 	return channel
 
 /datum/tgs_api/v5/SecurityLevel()
+	RequireInitialBridgeResponse()
 	return security_level
 
 /*
