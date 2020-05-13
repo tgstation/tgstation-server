@@ -293,7 +293,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			}).ToList();
 			if (deleting > 0)
 			{
-				logger.LogDebug("Cleaning {0} unused game folders...", deleting);
+				logger.LogDebug("Cleaning unused game folders: {0}...", String.Join(", ", directories));
 				await Task.WhenAll().ConfigureAwait(false);
 			}
 		}
