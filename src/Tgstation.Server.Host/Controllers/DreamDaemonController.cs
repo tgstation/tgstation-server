@@ -12,7 +12,7 @@ using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
-using Tgstation.Server.Host.Components.Watchdog;
+using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
@@ -120,18 +120,19 @@ namespace Tgstation.Server.Host.Controllers
 				var alphaActive = dd.AlphaIsActive;
 				var llp = dd.LastLaunchParameters;
 				var rstate = dd.RebootState;
-				result.AutoStart = settings.AutoStart;
-				result.CurrentPort = alphaActive ? llp?.PrimaryPort : llp?.SecondaryPort;
-				result.CurrentSecurity = llp?.SecurityLevel;
-				result.CurrentAllowWebclient = llp?.AllowWebClient;
-				result.PrimaryPort = settings.PrimaryPort;
-				result.AllowWebClient = settings.AllowWebClient;
+				result.AutoStart = settings.AutoStart.Value;
+				result.CurrentPort = alphaActive ? llp?.PrimaryPort.Value : llp?.SecondaryPort.Value;
+				result.CurrentSecurity = llp?.SecurityLevel.Value;
+				result.CurrentAllowWebclient = llp?.AllowWebClient.Value;
+				result.PrimaryPort = settings.PrimaryPort.Value;
+				result.AllowWebClient = settings.AllowWebClient.Value;
 				result.Running = dd.Running;
-				result.SecondaryPort = settings.SecondaryPort;
-				result.SecurityLevel = settings.SecurityLevel;
+				result.SecondaryPort = settings.SecondaryPort.Value;
+				result.SecurityLevel = settings.SecurityLevel.Value;
 				result.SoftRestart = rstate == RebootState.Restart;
 				result.SoftShutdown = rstate == RebootState.Shutdown;
-				result.StartupTimeout = settings.StartupTimeout;
+				result.StartupTimeout = settings.StartupTimeout.Value;
+				result.HeartbeatSeconds = settings.HeartbeatSeconds.Value;
 			}
 
 			if (revision)
@@ -170,7 +171,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="200">Settings applied successfully.</response>
 		/// <response code="410">Instance no longer available.</response>
 		[HttpPost]
-		[TgsAuthorize(DreamDaemonRights.SetAutoStart | DreamDaemonRights.SetPorts | DreamDaemonRights.SetSecurity | DreamDaemonRights.SetWebClient | DreamDaemonRights.SoftRestart | DreamDaemonRights.SoftShutdown | DreamDaemonRights.Start | DreamDaemonRights.SetStartupTimeout)]
+		[TgsAuthorize(DreamDaemonRights.SetAutoStart | DreamDaemonRights.SetPorts | DreamDaemonRights.SetSecurity | DreamDaemonRights.SetWebClient | DreamDaemonRights.SoftRestart | DreamDaemonRights.SoftShutdown | DreamDaemonRights.Start | DreamDaemonRights.SetStartupTimeout | DreamDaemonRights.SetHeartbeatInterval)]
 		[ProducesResponseType(typeof(DreamDaemon), 200)]
 		[ProducesResponseType(410)]
 		#pragma warning disable CA1502 // TODO: Decomplexify
@@ -185,6 +186,9 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (model.SecondaryPort == 0)
 				throw new InvalidOperationException("Secondary port cannot be 0!");
+
+			if (model.SoftShutdown == true && model.SoftRestart == true)
+				return BadRequest(new ErrorMessage(ErrorCode.DreamDaemonDoubleSoft));
 
 			// alias for changing DD settings
 			var current = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).Select(x => x.DreamDaemonSettings).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
@@ -209,17 +213,21 @@ namespace Tgstation.Server.Host.Controllers
 				return false;
 			}
 
-			var oldSoftRestart = current.SoftRestart;
-			var oldSoftShutdown = current.SoftShutdown;
+			var instance = instanceManager.GetInstance(Instance);
+			var dd = instance.Watchdog;
+			var rebootState = dd.RebootState;
+			var oldSoftRestart = rebootState == RebootState.Restart;
+			var oldSoftShutdown = rebootState == RebootState.Shutdown;
 
 			if (CheckModified(x => x.AllowWebClient, DreamDaemonRights.SetWebClient)
 				|| CheckModified(x => x.AutoStart, DreamDaemonRights.SetAutoStart)
 				|| CheckModified(x => x.PrimaryPort, DreamDaemonRights.SetPorts)
 				|| CheckModified(x => x.SecondaryPort, DreamDaemonRights.SetPorts)
 				|| CheckModified(x => x.SecurityLevel, DreamDaemonRights.SetSecurity)
-				|| CheckModified(x => x.SoftRestart, DreamDaemonRights.SoftRestart)
-				|| CheckModified(x => x.SoftShutdown, DreamDaemonRights.SoftShutdown)
-				|| CheckModified(x => x.StartupTimeout, DreamDaemonRights.SetStartupTimeout))
+				|| (model.SoftRestart.HasValue && !AuthenticationContext.InstanceUser.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftRestart))
+				|| (model.SoftShutdown.HasValue && !AuthenticationContext.InstanceUser.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftShutdown))
+				|| CheckModified(x => x.StartupTimeout, DreamDaemonRights.SetStartupTimeout)
+				|| CheckModified(x => x.HeartbeatSeconds, DreamDaemonRights.SetHeartbeatInterval))
 				return Forbid();
 
 			if (current.PrimaryPort == current.SecondaryPort)
@@ -232,11 +240,11 @@ namespace Tgstation.Server.Host.Controllers
 			// run this second because current may be modified by it
 			await wd.ChangeSettings(current, cancellationToken).ConfigureAwait(false);
 
-			if (!oldSoftRestart.Value && current.SoftRestart.Value)
+			if (!oldSoftRestart && model.SoftRestart == true)
 				await wd.Restart(true, cancellationToken).ConfigureAwait(false);
-			else if (!oldSoftShutdown.Value && current.SoftShutdown.Value)
+			else if (!oldSoftShutdown && model.SoftShutdown == true)
 				await wd.Terminate(true, cancellationToken).ConfigureAwait(false);
-			else if ((oldSoftRestart.Value && !current.SoftRestart.Value) || (oldSoftShutdown.Value && !current.SoftShutdown.Value))
+			else if ((oldSoftRestart && model.SoftRestart == false) || (oldSoftShutdown && model.SoftShutdown == false))
 				await wd.ResetRebootState(cancellationToken).ConfigureAwait(false);
 
 			return await ReadImpl(current, cancellationToken).ConfigureAwait(false);

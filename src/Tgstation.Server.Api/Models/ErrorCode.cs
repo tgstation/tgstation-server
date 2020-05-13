@@ -465,5 +465,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("The new instance's path is not under a white-listed path.")]
 		InstanceNotAtWhitelistedPath,
+
+		/// <summary>
+		/// Attempted to make a DreamDaemon update with both <see cref="DreamDaemon.SoftRestart"/> and <see cref="DreamDaemon.SoftShutdown"/> set.
+		/// </summary>
+		[Description("Cannot set both softShutdown and softReboot at once!")]
+		DreamDaemonDoubleSoft,
 	}
 }

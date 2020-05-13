@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Configuration;
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using Tgstation.Server.Host.Configuration;
 
@@ -76,9 +77,8 @@ namespace Tgstation.Server.Host.Extensions
 
 				builder.AddSerilog(configuration.CreateLogger(), true);
 
-#if DEBUG
-				builder.AddDebug();
-#endif
+				if (Debugger.IsAttached)
+					builder.AddDebug();
 			});
 	}
 }

@@ -193,7 +193,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreEqual(prRevision, final.RevisionInformation.PrimaryTestMerge.PullRequestRevision);
 		}
 
-		public async Task RunPostWatchdog(CancellationToken cancellationToken)
+		public async Task RunPostTest(CancellationToken cancellationToken)
 		{
 
 

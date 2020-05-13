@@ -26,6 +26,11 @@
 		public bool IsUpdatesChannel { get; set; }
 
 		/// <summary>
+		/// If the <see cref="Channel"/> is an admin channel.
+		/// </summary>
+		public bool IsAdminChannel { get; set; }
+
+		/// <summary>
 		/// The <see cref="ChannelRepresentation"/> with the mapped Id.
 		/// </summary>
 		public ChannelRepresentation Channel { get; set; }

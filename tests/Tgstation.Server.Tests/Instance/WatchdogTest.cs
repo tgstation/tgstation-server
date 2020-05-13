@@ -1,11 +1,15 @@
 ﻿using Byond.TopicSender;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.System;
@@ -24,13 +28,22 @@ namespace Tgstation.Server.Tests.Instance
 
 		public async Task Run(CancellationToken cancellationToken)
 		{
-			// Increase startup timeout
+			// Increase startup timeout, disable heartbeats
 			await instanceClient.DreamDaemon.Update(new DreamDaemon
 			{
-				StartupTimeout = 45
+				StartupTimeout = 45,
+				HeartbeatSeconds = 0,
 			}, cancellationToken);
 
+			await ApiAssert.ThrowsException<ApiConflictException>(() => instanceClient.DreamDaemon.Update(new DreamDaemon
+			{
+				SoftShutdown = true,
+				SoftRestart = true
+			}, cancellationToken), ErrorCode.DreamDaemonDoubleSoft);
+
 			await RunBasicTest(cancellationToken);
+			await RunHeartbeatTest(cancellationToken);
+
 			// await RunLongRunningTestThenUpdate(cancellationToken);
 			// await RunLongRunningTestThenUpdateWithByondVersionSwitch(cancellationToken);
 
@@ -62,6 +75,52 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.IsFalse(daemonStatus.Running.Value);
 
 			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken);
+		}
+
+		async Task RunHeartbeatTest(CancellationToken cancellationToken)
+		{
+			// enable heartbeats
+			await instanceClient.DreamDaemon.Update(new DreamDaemon
+			{
+				HeartbeatSeconds = 1,
+			}, cancellationToken);
+
+			var startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
+
+			await WaitForJob(startJob, 10, false, cancellationToken);
+
+			await instanceClient.DreamDaemon.Update(new DreamDaemon
+			{
+				SoftShutdown = true
+			}, cancellationToken);
+
+			// lock on to DD and pause it so it can't heartbeat
+			var ddProcs = System.Diagnostics.Process.GetProcessesByName("DreamDaemon").ToList();
+			if (ddProcs.Count != 1)
+				Assert.Inconclusive($"Incorrect number of DD processes: {ddProcs.Count}");
+
+			var pid = ddProcs.Single().Id;
+			using var ourProcessHandler = new ProcessExecutor(
+				new PlatformIdentifier().IsWindows ? (IProcessSuspender)new WindowsProcessSuspender(Mock.Of<ILogger<WindowsProcessSuspender>>()) : new PosixProcessSuspender(Mock.Of<ILogger<PosixProcessSuspender>>()),
+				Mock.Of<ILogger<ProcessExecutor>>(),
+				LoggerFactory.Create(x => { })).GetProcess(pid);
+			ourProcessHandler.Suspend();
+
+			await Task.WhenAny(ourProcessHandler.Lifetime, Task.Delay(TimeSpan.FromSeconds(20)));
+
+			var timeout = 10;
+			do
+			{
+				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false);
+				var ddStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+				Assert.AreEqual(1U, ddStatus.HeartbeatSeconds.Value);
+				if (!ddStatus.Running.Value)
+					break;
+
+				if (--timeout == 0)
+					Assert.Fail("DreamDaemon didn't shutdown within the timeout!");
+			}
+			while (timeout > 0);
 		}
 
 		async Task RunLongRunningTestThenUpdate(CancellationToken cancellationToken)
@@ -152,8 +211,12 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.IsFalse(daemonStatus.Running.Value);
 		}
 
-		async Task StartAndLeaveRunning(CancellationToken cancellationToken)
+		public async Task StartAndLeaveRunning(CancellationToken cancellationToken)
 		{
+			var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
+			if(dd.ActiveCompileJob == null)
+				await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, cancellationToken);
+
 			var startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
 
 			await WaitForJob(startJob, 40, false, cancellationToken);
@@ -163,8 +226,10 @@ namespace Tgstation.Server.Tests.Instance
 		{
 			var bts = new TopicClient(new SocketParameters
 			{
-				SendTimeout = 5000,
-				ReceiveTimeout = 5000
+				SendTimeout = TimeSpan.FromSeconds(5),
+				ReceiveTimeout = TimeSpan.FromSeconds(5),
+				ConnectTimeout = TimeSpan.FromSeconds(5),
+				DisconnectTimeout = TimeSpan.FromSeconds(5)
 			});
 
 			try

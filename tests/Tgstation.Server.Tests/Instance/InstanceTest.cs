@@ -33,10 +33,6 @@ namespace Tgstation.Server.Tests.Instance
 			await repoTests;
 
 			await new WatchdogTest(instanceClient).Run(cancellationToken);
-
-			var chatShutdown = chatTest.RunPostWatchdog(cancellationToken);
-			await repoTest.RunPostWatchdog(cancellationToken);
-			await chatShutdown;
 		}
 	}
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Tgstation.Server.Host.Components.Watchdog
+namespace Tgstation.Server.Host.Components.Session
 {
 	/// <summary>
 	/// Represents the result of trying to start a DD process

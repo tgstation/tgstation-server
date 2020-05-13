@@ -78,9 +78,9 @@ namespace Tgstation.Server.Host.Database
 		IDatabaseCollection<ReattachInformation> ReattachInformations { get; }
 
 		/// <summary>
-		/// The <see cref="DbSet{TEntity}"/> for <see cref="WatchdogReattachInformation"/>s
+		/// The <see cref="DbSet{TEntity}"/> for <see cref="DualReattachInformation"/>s
 		/// </summary>
-		IDatabaseCollection<WatchdogReattachInformation> WatchdogReattachInformations { get; }
+		IDatabaseCollection<DualReattachInformation> WatchdogReattachInformations { get; }
 
 		/// <summary>
 		/// Saves changes made to the <see cref="IDatabaseContext"/>

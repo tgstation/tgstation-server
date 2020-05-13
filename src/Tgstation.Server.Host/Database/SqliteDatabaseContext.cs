@@ -43,18 +43,19 @@ namespace Tgstation.Server.Host.Database
 			// use the DateTimeOffsetToBinaryConverter
 			// Based on: https://github.com/aspnet/EntityFrameworkCore/issues/10784#issuecomment-415769754
 			// This only supports millisecond precision, but should be sufficient for most use cases.
-			foreach (var entityType in modelBuilder.Model.GetEntityTypes())
-			{
-				var properties = entityType
-					.ClrType
-					.GetProperties()
-					.Where(p => p.PropertyType == typeof(DateTimeOffset) || p.PropertyType == typeof(DateTimeOffset?));
-				foreach (var property in properties)
-					modelBuilder
-						.Entity(entityType.Name)
-						.Property(property.Name)
-						.HasConversion(new DateTimeOffsetToBinaryConverter());
-			}
+			if (!DatabaseConfiguration.DesignTime)
+				foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+				{
+					var properties = entityType
+						.ClrType
+						.GetProperties()
+						.Where(p => p.PropertyType == typeof(DateTimeOffset) || p.PropertyType == typeof(DateTimeOffset?));
+					foreach (var property in properties)
+						modelBuilder
+							.Entity(entityType.Name)
+							.Property(property.Name)
+							.HasConversion(new DateTimeOffsetToBinaryConverter());
+				}
 		}
 
 		/// <inheritdoc />

@@ -3,6 +3,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Host.Components.Session;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
@@ -37,7 +38,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		DreamDaemonLaunchParameters LastLaunchParameters { get; }
 
 		/// <summary>
-		/// The <see cref="Watchdog.RebootState"/> of the active server
+		/// The <see cref="Session.RebootState"/> of the active server
 		/// </summary>
 		RebootState? RebootState { get; }
 

@@ -35,6 +35,11 @@ namespace Tgstation.Server.Host.Configuration
 		public bool DropDatabase { get; set; }
 
 		/// <summary>
+		/// Used to indicate that the database is being loaded to generate migrations. Should not be used in production!
+		/// </summary>
+		public bool DesignTime { get; set; }
+
+		/// <summary>
 		/// The <see cref="string"/> form of the <see cref="global::System.Version"/> of a target MySQL/MariaDB server
 		/// </summary>
 		public string MySqlServerVersion { get; set; }

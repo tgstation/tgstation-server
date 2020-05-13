@@ -3,12 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Net;
-using System.Net.Http;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Api.Models;
-using Tgstation.Server.Client;
 using Tgstation.Server.Host;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
@@ -21,26 +18,33 @@ namespace Tgstation.Server.Tests
 
 		public string Directory { get; }
 
+		public string UpdatePath { get; }
+
 		public string DatabaseType { get; }
 
-		public bool RestartRequested => realServer.Result.RestartRequested;
+		public bool DumpOpenApiSpecpath { get; }
 
-		readonly Task<IServer> realServer;
+		public bool RestartRequested => realServer.RestartRequested;
 
-		readonly IServerClientFactory serverClientFactory;
+		string[] args;
 
-		readonly bool dumpOpenAPISpecpath;
+		IServer realServer;
 
-		public TestingServer(IServerClientFactory serverClientFactory, string updatePath)
+		public TestingServer()
 		{
-			this.serverClientFactory = serverClientFactory;
-
 			Directory = Environment.GetEnvironmentVariable("TGS4_TEST_TEMP_DIRECTORY");
 			if (String.IsNullOrWhiteSpace(Directory))
 			{
-				Directory = Path.GetTempFileName();
-				File.Delete(Directory);
-				Directory = Directory.Replace(".tmp", ".tgs4");
+				Directory = Path.Combine(Path.GetTempPath(), "TGS4_INTEGRATION_TEST");
+				if(System.IO.Directory.Exists(Directory))
+					try
+					{
+						System.IO.Directory.Delete(Directory, true);
+					}
+					catch
+					{
+						Directory = Path.Combine(Directory, Guid.NewGuid().ToString());
+					}
 			}
 
 			System.IO.Directory.CreateDirectory(Directory);
@@ -63,28 +67,30 @@ namespace Tgstation.Server.Tests
 			if (String.IsNullOrEmpty(gitHubAccessToken))
 				Console.WriteLine("WARNING: No GitHub access token configured, test may fail due to rate limits!");
 
-			dumpOpenAPISpecpath = !String.IsNullOrEmpty(dumpOpenAPISpecPathEnvVar);
+			DumpOpenApiSpecpath = !String.IsNullOrEmpty(dumpOpenAPISpecPathEnvVar);
 
 			var args = new List<string>()
 			{
+				String.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", true),
 				String.Format(CultureInfo.InvariantCulture, "Kestrel:EndPoints:Http:Url={0}", UrlString),
 				String.Format(CultureInfo.InvariantCulture, "Database:DatabaseType={0}", DatabaseType),
 				String.Format(CultureInfo.InvariantCulture, "Database:ConnectionString={0}", connectionString),
-				String.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", true),
 				String.Format(CultureInfo.InvariantCulture, "General:SetupWizardMode={0}", SetupWizardMode.Never),
 				String.Format(CultureInfo.InvariantCulture, "General:MinimumPasswordLength={0}", 10),
 				String.Format(CultureInfo.InvariantCulture, "General:InstanceLimit={0}", 11),
 				String.Format(CultureInfo.InvariantCulture, "General:UserLimit={0}", 150),
-				String.Format(CultureInfo.InvariantCulture, "General:ValidInstancePaths:0={0}", Directory)
+				String.Format(CultureInfo.InvariantCulture, "General:ValidInstancePaths:0={0}", Directory),
+				"General:ByondTopicTimeout=3000"
 			};
 
 			if (!String.IsNullOrEmpty(gitHubAccessToken))
 				args.Add(String.Format(CultureInfo.InvariantCulture, "General:GitHubAccessToken={0}", gitHubAccessToken));
 
-			if (dumpOpenAPISpecpath)
+			if (DumpOpenApiSpecpath)
 				Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
 
-			realServer = Application.CreateDefaultServerFactory().CreateServer(args.ToArray(), updatePath, default);
+			UpdatePath = Path.Combine(Directory, Guid.NewGuid().ToString());
+			this.args = args.ToArray();
 		}
 
 		public void Dispose()
@@ -103,45 +109,22 @@ namespace Tgstation.Server.Tests
 
 		public async Task Run(CancellationToken cancellationToken)
 		{
-			var serverInstance = await realServer.ConfigureAwait(false);
-			Task runTask = serverInstance.Run(cancellationToken);
+			var firstRun = realServer == null;
+			realServer = await Application
+				.CreateDefaultServerFactory()
+				.CreateServer(
+					args,
+					UpdatePath,
+					default);
 
-			if (dumpOpenAPISpecpath)
+			if (firstRun)
 			{
-				var giveUpAt = DateTimeOffset.Now.AddSeconds(60);
-				do
-				{
-					try
-					{
-						var client = await serverClientFactory.CreateServerClient(Url, User.AdminName, User.DefaultAdminPassword).ConfigureAwait(false);
-						break;
-					}
-					catch (HttpRequestException)
-					{
-						//migrating, to be expected
-						if (DateTimeOffset.Now > giveUpAt)
-							throw;
-						await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-					}
-					catch (ServiceUnavailableException)
-					{
-						//migrating, to be expected
-						if (DateTimeOffset.Now > giveUpAt)
-							throw;
-						await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-					}
-				} while (true);
-
-				// Dump swagger to disk
-				// This is purely for CI
-				var webRequest = WebRequest.Create(Url.ToString() + "swagger/v1/swagger.json");
-				using var response = webRequest.GetResponse();
-				using var content = response.GetResponseStream();
-				using var output = new FileStream(@"C:\swagger.json", FileMode.Create);
-				await content.CopyToAsync(output);
+				var tmp = args.Skip(1).ToList();
+				tmp.Add(String.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", false));
+				args = tmp.ToArray();
 			}
 
-			await runTask;
+			await realServer.Run(cancellationToken);
 		}
 	}
 }

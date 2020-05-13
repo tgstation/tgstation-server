@@ -1,4 +1,4 @@
-﻿namespace Tgstation.Server.Host.Components.Watchdog
+﻿namespace Tgstation.Server.Host.Components.Session
 {
 	/// <summary>
 	/// Represents the action to take when /world/Reboot() is called

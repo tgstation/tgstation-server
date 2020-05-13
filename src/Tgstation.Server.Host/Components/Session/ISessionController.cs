@@ -5,7 +5,7 @@ using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Interop.Topic;
 using Tgstation.Server.Host.System;
 
-namespace Tgstation.Server.Host.Components.Watchdog
+namespace Tgstation.Server.Host.Components.Session
 {
 	/// <summary>
 	/// Handles communication with a DreamDaemon <see cref="IProcess"/>
@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		bool TerminationWasRequested { get; }
 
 		/// <summary>
-		/// The DMAPI <see cref="Watchdog.ApiValidationStatus"/>
+		/// The DMAPI <see cref="Session.ApiValidationStatus"/>
 		/// </summary>
 		ApiValidationStatus ApiValidationStatus { get; }
 
@@ -63,6 +63,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		Task OnReboot { get; }
 
 		/// <summary>
+		/// A <see cref="Task"/> that completes when the server calls /world/TgsInitializationsComplete()
+		/// </summary>
+		Task OnPrime { get; }
+
+		/// <summary>
 		/// Releases the <see cref="IProcess"/> without terminating it. Also calls <see cref="IDisposable.Dispose"/>
 		/// </summary>
 		/// <returns><see cref="ReattachInformation"/> which can be used to create a new <see cref="ISessionController"/> similar to this one</returns>
@@ -74,7 +79,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="parameters">The <see cref="TopicParameters"/> to send.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="TopicResponse"/> of /world/Topic()</returns>
-		Task<TopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken);
+		Task<CombinedTopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Causes the world to start listening on a <paramref name="newPort"/>

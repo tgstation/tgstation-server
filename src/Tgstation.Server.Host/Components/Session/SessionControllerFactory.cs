@@ -18,7 +18,7 @@ using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.System;
 
-namespace Tgstation.Server.Host.Components.Watchdog
+namespace Tgstation.Server.Host.Components.Session
 {
 	/// <inheritdoc />
 	sealed class SessionControllerFactory : ISessionControllerFactory
@@ -356,9 +356,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			var testMerges = dmbProvider
 				.CompileJob
 				.RevisionInformation
-				.ActiveTestMerges
+				.ActiveTestMerges?
 				.Select(x => x.TestMerge)
-				.Select(x => new TestMergeInformation(x, revisionInfo));
+				.Select(x => new TestMergeInformation(x, revisionInfo))
+				?? Enumerable.Empty<TestMergeInformation>();
 
 			return new RuntimeInformation(
 				assemblyInformationProvider,

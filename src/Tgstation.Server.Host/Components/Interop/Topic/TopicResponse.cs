@@ -10,11 +10,11 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// <summary>
 		/// The text to reply with as the result of a <see cref="TopicCommandType.ChatCommand"/> request, if any.
 		/// </summary>
-		public string CommandResponseMessage { get; set; }
+		public string CommandResponseMessage { get; private set; }
 
 		/// <summary>
 		/// The <see cref="ChatMessage"/>s to send as the result of a <see cref="TopicCommandType.EventNotification"/> request, if any.
 		/// </summary>
-		public ICollection<ChatMessage> ChatResponses { get; set; }
+		public ICollection<ChatMessage> ChatResponses { get; private set; }
 	}
 }

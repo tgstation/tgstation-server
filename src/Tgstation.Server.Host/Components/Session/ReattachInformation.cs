@@ -4,7 +4,7 @@ using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.System;
 
-namespace Tgstation.Server.Host.Components.Watchdog
+namespace Tgstation.Server.Host.Components.Session
 {
 	/// <summary>
 	/// Parameters necessary for duplicating a <see cref="ISessionController"/> session

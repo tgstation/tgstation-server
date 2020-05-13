@@ -443,6 +443,12 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public override Task SendMessage(ulong channelId, string message, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
+			// IRC doesn't allow newlines
+			message = String.Concat(
+				message
+					.Where(x => x != '\r')
+					.Select(x => x == '\n' ? '|' : x));
+
 			var channelName = channelIdMap[channelId];
 			SendType sendType;
 			if (channelName == null)

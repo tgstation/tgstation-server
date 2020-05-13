@@ -14,17 +14,15 @@ namespace Tgstation.Server.Host.Database.Design
 		/// <inheritdoc />
 		public SqliteDatabaseContext CreateDbContext(string[] args)
 		{
-			using (var loggerFactory = new LoggerFactory())
-			{
-				return new SqliteDatabaseContext(
-					new DbContextOptions<SqliteDatabaseContext>(),
-					DesignTimeDbContextFactoryHelpers.GetDbContextOptions(),
-					new DatabaseSeeder(
-						new CryptographySuite(
-							new PasswordHasher<User>()),
-						new PlatformIdentifier()),
-					loggerFactory.CreateLogger<SqliteDatabaseContext>());
-			}
+			using var loggerFactory = new LoggerFactory();
+			return new SqliteDatabaseContext(
+				new DbContextOptions<SqliteDatabaseContext>(),
+				DesignTimeDbContextFactoryHelpers.GetDbContextOptions(),
+				new DatabaseSeeder(
+				new CryptographySuite(
+				new PasswordHasher<User>()),
+				new PlatformIdentifier()),
+				loggerFactory.CreateLogger<SqliteDatabaseContext>());
 		}
 	}
 }

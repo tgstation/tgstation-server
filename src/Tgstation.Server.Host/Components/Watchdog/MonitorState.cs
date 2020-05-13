@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Tgstation.Server.Host.Components.Session;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
@@ -18,7 +19,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public bool InactiveServerCritFail { get; set; }
 
 		/// <summary>
-		/// The next <see cref="MonitorAction"/> to take in <see cref="ExperimentalWatchdog.MonitorLifetimes(global::System.Threading.CancellationToken)"/>
+		/// The next <see cref="MonitorAction"/> to take in <see cref="WatchdogBase.MonitorLifetimes(global::System.Threading.CancellationToken)"/>
 		/// </summary>
 		public MonitorAction NextAction { get; set; }
 
