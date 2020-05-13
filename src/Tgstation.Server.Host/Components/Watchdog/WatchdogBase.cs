@@ -230,9 +230,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var eventTask = HandleEvent(releaseServers ? EventType.WatchdogDetach : EventType.WatchdogShutdown, null, cancellationToken);
 
 				var chatTask = announce ? Chat.SendWatchdogMessage("Shutting down...", false, cancellationToken) : Task.CompletedTask;
-				await StopMonitor().ConfigureAwait(false);
 
 				await eventTask.ConfigureAwait(false);
+
+				await StopMonitor().ConfigureAwait(false);
 
 				DisposeAndNullControllers();
 
@@ -401,6 +402,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			var wasRunning = !monitorTask.IsCompleted;
 			monitorCts.Cancel();
 			await monitorTask.ConfigureAwait(false);
+			Logger.LogTrace("Stopped Monitor");
 			monitorCts.Dispose();
 			monitorTask = null;
 			monitorCts = null;
@@ -717,44 +719,36 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (!Running)
 				return true;
 
-			CombinedTopicResponse result;
-			using (await SemaphoreSlimContext.Lock(Semaphore, cancellationToken).ConfigureAwait(false))
-			{
-				if (!Running)
-					return true;
+			var notification = new EventNotification(eventType, parameters);
 
-				var notification = new EventNotification(eventType, parameters);
+			var activeServer = GetActiveController();
 
-				var activeServer = GetActiveController();
-
-				// Server may have ended
-				if (activeServer == null)
-					return true;
-
-				result = await activeServer.SendCommand(
-					new TopicParameters(notification),
-					cancellationToken)
-					.ConfigureAwait(false);
-			}
-
-			if (result?.InteropResponse?.ChatResponses == null)
+			// Server may have ended
+			if (activeServer == null)
 				return true;
 
-			await Task.WhenAll(
-				result.InteropResponse.ChatResponses.Select(
-					x => Chat.SendMessage(
-						x.Text,
-						x.ChannelIds
-							.Select(channelIdString =>
-							{
-								if (UInt64.TryParse(channelIdString, out var channelId))
-									return (ulong?)channelId;
+			var result = await activeServer.SendCommand(
+				new TopicParameters(notification),
+				cancellationToken)
+				.ConfigureAwait(false);
 
-								return null;
-							})
-							.Where(nullableChannelId => nullableChannelId.HasValue)
-							.Select(nullableChannelId => nullableChannelId.Value),
-						cancellationToken))).ConfigureAwait(false);
+			if (result?.InteropResponse?.ChatResponses != null)
+				await Task.WhenAll(
+					result.InteropResponse.ChatResponses.Select(
+						x => Chat.SendMessage(
+							x.Text,
+							x.ChannelIds
+								.Select(channelIdString =>
+								{
+									if (UInt64.TryParse(channelIdString, out var channelId))
+										return (ulong?)channelId;
+
+									return null;
+								})
+								.Where(nullableChannelId => nullableChannelId.HasValue)
+								.Select(nullableChannelId => nullableChannelId.Value),
+							cancellationToken)))
+					.ConfigureAwait(false);
 
 			return true;
 		}
