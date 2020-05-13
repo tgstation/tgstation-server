@@ -57,6 +57,7 @@ namespace Tgstation.Server.Host.Watchdog
 
 		/// <inheritdoc />
 		#pragma warning disable CA1502 // TODO: Decomplexify
+		#pragma warning disable CA1506
 		public async Task RunAsync(bool runConfigure, string[] args, CancellationToken cancellationToken)
 		{
 			logger.LogInformation("Host watchdog starting...");
@@ -312,5 +313,6 @@ namespace Tgstation.Server.Host.Watchdog
 			}
 		}
 		#pragma warning restore CA1502
+		#pragma warning restore CA1506
 	}
 }
