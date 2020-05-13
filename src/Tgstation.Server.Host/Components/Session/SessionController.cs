@@ -257,6 +257,8 @@ namespace Tgstation.Server.Host.Components.Session
 					StartupTime = process.Startup.IsCompleted ? (TimeSpan?)(DateTimeOffset.Now - startTime) : null
 				};
 
+				logger.LogTrace("Launch result: {0}", result);
+
 				if (!result.ExitCode.HasValue && reattached)
 					using (cts = new CancellationTokenSource())
 						try

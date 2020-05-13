@@ -868,7 +868,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				{
 					Id = instance.Id
 				},
-				Description = "Instance startup watchdog launch",
+				Description = $"Instance startup watchdog {(reattachInfo != null ? "reattach" : "launch")}",
 				CancelRight = (ulong)DreamDaemonRights.Shutdown,
 				CancelRightsType = RightsType.DreamDaemon
 			};

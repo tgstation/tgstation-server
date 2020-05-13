@@ -249,6 +249,16 @@ namespace Tgstation.Server.Tests
 				using (var adminClient = await CreateAdminClient())
 				{
 					var instanceClient = adminClient.Instances.CreateClient(instance);
+
+					// reattach job
+					var jobs = await instanceClient.Jobs.ListActive(cancellationToken);
+					if (jobs.Any())
+					{
+						Assert.AreEqual(1, jobs.Count);
+
+						await new JobsRequiredTest(instanceClient.Jobs).WaitForJob(jobs.Single(), 40, false, cancellationToken);
+					}
+
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 					Assert.IsTrue(dd.Running.Value);
 
@@ -269,6 +279,7 @@ namespace Tgstation.Server.Tests
 				{
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 
+					// launch job
 					var jobs = await instanceClient.Jobs.ListActive(cancellationToken);
 					if (jobs.Any())
 					{
