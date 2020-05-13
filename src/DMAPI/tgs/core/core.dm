@@ -51,12 +51,9 @@
 
 	TGS_INFO_LOG("Activating API for version [version.deprefixed_parameter]")
 
-	if(event_handler)
-		if(istype(event_handler))
-			src.event_handler = event_handler
-		else
-			TGS_ERROR_LOG("Invalid parameter for event_handler: [event_handler]")
-			event_handler = null
+	if(event_handler && !istype(event_handler))
+		TGS_ERROR_LOG("Invalid parameter for event_handler: [event_handler]")
+		event_handler = null
 
 	var/datum/tgs_api/new_api = new api_datum(event_handler, version)
 
