@@ -15,14 +15,10 @@
 	var/datum/tgs_revision_information/revision
 	var/list/chat_channels
 
-	var/datum/tgs_event_handler/event_handler
-
 /datum/tgs_api/v5/ApiVersion()
 	return new /datum/tgs_version("5.1.0")
 
-/datum/tgs_api/v5/OnWorldNew(datum/tgs_event_handler/event_handler, minimum_required_security_level)
-	src.event_handler = event_handler
-
+/datum/tgs_api/v5/OnWorldNew(minimum_required_security_level)
 	server_port = world.params[DMAPI5_PARAM_SERVER_PORT]
 	access_identifier = world.params[DMAPI5_PARAM_ACCESS_IDENTIFIER]
 
