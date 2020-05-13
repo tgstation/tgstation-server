@@ -20,8 +20,34 @@ namespace Tgstation.Server.Host.Database.Migrations
 				name: "DreamDaemonSettings",
 				newName: "DreamDaemonSettings_up");
 
+			migrationBuilder.CreateTable(
+				name: "DreamDaemonSettings",
+				columns: table => new
+				{
+					Id = table.Column<long>(nullable: false)
+						.Annotation("Sqlite:Autoincrement", true),
+					AllowWebClient = table.Column<bool>(nullable: false),
+					SecurityLevel = table.Column<int>(nullable: false),
+					PrimaryPort = table.Column<ushort>(nullable: false),
+					SecondaryPort = table.Column<ushort>(nullable: false),
+					StartupTimeout = table.Column<uint>(nullable: false),
+					HeartbeatSeconds = table.Column<uint>(nullable: false),
+					AutoStart = table.Column<bool>(nullable: false),
+					InstanceId = table.Column<long>(nullable: false)
+				},
+				constraints: table =>
+				{
+					table.PrimaryKey("PK_DreamDaemonSettings", x => x.Id);
+					table.ForeignKey(
+						name: "FK_DreamDaemonSettings_Instances_InstanceId",
+						column: x => x.InstanceId,
+						principalTable: "Instances",
+						principalColumn: "Id",
+						onDelete: ReferentialAction.Cascade);
+				});
+
 			migrationBuilder.Sql(
-				$"CREATE TABLE DreamDaemonSettings AS SELECT {MigratedColumns} FROM DreamDaemonSettings_up");
+				$"INSERT INTO DreamDaemonSettings SELECT {MigratedColumns} FROM DreamDaemonSettings_up");
 
 			migrationBuilder.DropTable(
 				name: "DreamDaemonSettings_up");
