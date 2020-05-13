@@ -35,9 +35,16 @@ namespace Tgstation.Server.Tests
 			Directory = Environment.GetEnvironmentVariable("TGS4_TEST_TEMP_DIRECTORY");
 			if (String.IsNullOrWhiteSpace(Directory))
 			{
-				Directory = Path.GetTempFileName();
-				File.Delete(Directory);
-				Directory = Directory.Replace(".tmp", ".tgs4");
+				Directory = Path.Combine(Path.GetTempPath(), "TGS4_INTEGRATION_TEST");
+				if(System.IO.Directory.Exists(Directory))
+					try
+					{
+						System.IO.Directory.Delete(Directory, true);
+					}
+					catch
+					{
+						Directory = Path.Combine(Directory, Guid.NewGuid().ToString());
+					}
 			}
 
 			System.IO.Directory.CreateDirectory(Directory);
@@ -111,7 +118,11 @@ namespace Tgstation.Server.Tests
 					default);
 
 			if (firstRun)
-				args = args.Skip(1).ToArray();
+			{
+				var tmp = args.Skip(1).ToList();
+				tmp.Add(String.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", false));
+				args = tmp.ToArray();
+			}
 
 			await realServer.Run(cancellationToken);
 		}
