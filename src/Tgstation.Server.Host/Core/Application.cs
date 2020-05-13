@@ -307,6 +307,7 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure</param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="Application"/></param>
 		/// <param name="tokenFactory">The value of <see cref="tokenFactory"/></param>
+		/// <param name="instanceManager">The <see cref="IInstanceManager"/>.</param>
 		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="ControlPanelConfiguration"/> to use</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="GeneralConfiguration"/> to use</param>
 		/// <param name="logger">The <see cref="Microsoft.Extensions.Logging.ILogger"/> for the <see cref="Application"/></param>
@@ -314,6 +315,7 @@ namespace Tgstation.Server.Host.Core
 			IApplicationBuilder applicationBuilder,
 			IServerControl serverControl,
 			ITokenFactory tokenFactory,
+			IInstanceManager instanceManager,
 			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			ILogger<Application> logger)
@@ -350,12 +352,11 @@ namespace Tgstation.Server.Host.Core
 			applicationBuilder.UseServerErrorHandling();
 
 			// 503 requests made while the application is starting
-			applicationBuilder.UseAsyncInitialization<IHostApplicationLifetime>(async (applicationLifetime, cancellationToken) =>
+			applicationBuilder.UseAsyncInitialization(async (cancellationToken) =>
 			{
 				var tcs = new TaskCompletionSource<object>();
 				using (cancellationToken.Register(() => tcs.SetCanceled()))
-				using (applicationLifetime.ApplicationStarted.Register(() => tcs.SetResult(null)))
-					await tcs.Task.ConfigureAwait(false);
+					await Task.WhenAny(tcs.Task, instanceManager.Ready).ConfigureAwait(false);
 			});
 
 			// suppress OperationCancelledExceptions, they are just aborted HTTP requests

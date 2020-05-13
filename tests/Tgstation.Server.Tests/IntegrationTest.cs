@@ -249,8 +249,6 @@ namespace Tgstation.Server.Tests
 				using (var adminClient = await CreateAdminClient())
 				{
 					var instanceClient = adminClient.Instances.CreateClient(instance);
-					await Task.Delay(3000, cancellationToken);
-
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 					Assert.IsTrue(dd.Running.Value);
 
@@ -279,7 +277,6 @@ namespace Tgstation.Server.Tests
 						await new JobsRequiredTest(instanceClient.Jobs).WaitForJob(jobs.Single(), 40, false, cancellationToken);
 					}
 
-					await Task.Delay(3000, cancellationToken);
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 
 					Assert.IsTrue(dd.Running.Value);
