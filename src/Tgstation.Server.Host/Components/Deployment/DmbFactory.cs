@@ -265,13 +265,15 @@ namespace Tgstation.Server.Host.Components.Deployment
 					.Select(x => x.DirectoryName.Value)
 					.ToListAsync(cancellationToken)
 					.ConfigureAwait(false))
-					.Select(x => x.ToString())
+					.Select(x => x.ToString().ToUpperInvariant())
 					.ToList();
 			}).ConfigureAwait(false);
 
 			// add the other exemption
 			if (exceptThisOne != null)
 				jobUidsToNotErase.Add(exceptThisOne.DirectoryName.Value.ToString().ToUpperInvariant());
+
+			logger.LogTrace("We will not clean the following directories: {0}", String.Join(", ", jobUidsToNotErase));
 
 			// cleanup
 			var gameDirectory = ioManager.ResolvePath();
