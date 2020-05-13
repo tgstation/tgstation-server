@@ -136,6 +136,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".vscode", ".vscode", "{14B3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{316141B0-CD21-4769-A013-D53DA9B9EC09}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v5", "v5", "{FAEAD3B5-2EAB-465C-A9C3-E8CB6AAA7131}"
+	ProjectSection(SolutionItems) = preProject
+		src\DMAPI\tgs\v5\_defines.dm = src\DMAPI\tgs\v5\_defines.dm
+		src\DMAPI\tgs\v5\api.dm = src\DMAPI\tgs\v5\api.dm
+		src\DMAPI\tgs\v5\commands.dm = src\DMAPI\tgs\v5\commands.dm
+		src\DMAPI\tgs\v5\undef.dm = src\DMAPI\tgs\v5\undef.dm
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -271,6 +279,7 @@ Global
 		{057FAC33-CC31-4948-91C6-B0977C335890} = {F7765A4B-021C-454E-ABB1-2AB1B85F91B4}
 		{09056964-1C74-445A-96EC-33F6DFC07916} = {316141B0-CD21-4769-A013-D53DA9B9EC09}
 		{5CB51532-55F0-4255-B6E5-69ED5CCD14CD} = {A55C1117-5808-4AB2-BEA6-4D4A3E66A2F2}
+		{FAEAD3B5-2EAB-465C-A9C3-E8CB6AAA7131} = {F7765A4B-021C-454E-ABB1-2AB1B85F91B4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DFD36C95-3E49-41C7-ACDB-86BAF5B18A79}

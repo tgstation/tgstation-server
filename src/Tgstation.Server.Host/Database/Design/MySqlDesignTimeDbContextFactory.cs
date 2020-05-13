@@ -14,17 +14,15 @@ namespace Tgstation.Server.Host.Database.Design
 		/// <inheritdoc />
 		public MySqlDatabaseContext CreateDbContext(string[] args)
 		{
-			using (var loggerFactory = new LoggerFactory())
-			{
-				return new MySqlDatabaseContext(
-					new DbContextOptions<MySqlDatabaseContext>(),
-					DesignTimeDbContextFactoryHelpers.GetDbContextOptions(),
-					new DatabaseSeeder(
-						new CryptographySuite(
-							new PasswordHasher<User>()),
-						new PlatformIdentifier()),
-					loggerFactory.CreateLogger<MySqlDatabaseContext>());
-			}
+			using var loggerFactory = new LoggerFactory();
+			return new MySqlDatabaseContext(
+				new DbContextOptions<MySqlDatabaseContext>(),
+				DesignTimeDbContextFactoryHelpers.GetDbContextOptions(),
+				new DatabaseSeeder(
+				new CryptographySuite(
+				new PasswordHasher<User>()),
+				new PlatformIdentifier()),
+				loggerFactory.CreateLogger<MySqlDatabaseContext>());
 		}
 	}
 }

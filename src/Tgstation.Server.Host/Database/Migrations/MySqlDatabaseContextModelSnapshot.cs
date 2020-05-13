@@ -157,9 +157,6 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.ValueGeneratedOnAdd()
 						.HasColumnType("bigint");
 
-					b.Property<string>("AccessToken")
-						.HasColumnType("longtext CHARACTER SET utf8mb4");
-
 					b.Property<bool?>("AllowWebClient")
 						.IsRequired()
 						.HasColumnType("tinyint(1)");
@@ -168,6 +165,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.IsRequired()
 						.HasColumnType("tinyint(1)");
 
+					b.Property<uint?>("HeartbeatSeconds")
+						.IsRequired()
+						.HasColumnType("int unsigned");
+
 					b.Property<long>("InstanceId")
 						.HasColumnType("bigint");
 
@@ -175,23 +176,12 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.IsRequired()
 						.HasColumnType("smallint unsigned");
 
-					b.Property<int?>("ProcessId")
-						.HasColumnType("int");
-
 					b.Property<ushort?>("SecondaryPort")
 						.IsRequired()
 						.HasColumnType("smallint unsigned");
 
 					b.Property<int>("SecurityLevel")
 						.HasColumnType("int");
-
-					b.Property<bool?>("SoftRestart")
-						.IsRequired()
-						.HasColumnType("tinyint(1)");
-
-					b.Property<bool?>("SoftShutdown")
-						.IsRequired()
-						.HasColumnType("tinyint(1)");
 
 					b.Property<uint?>("StartupTimeout")
 						.IsRequired()

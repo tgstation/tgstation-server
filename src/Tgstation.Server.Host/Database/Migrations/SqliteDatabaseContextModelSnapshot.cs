@@ -156,14 +156,15 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.ValueGeneratedOnAdd()
 						.HasColumnType("INTEGER");
 
-					b.Property<string>("AccessToken")
-						.HasColumnType("TEXT");
-
 					b.Property<bool?>("AllowWebClient")
 						.IsRequired()
 						.HasColumnType("INTEGER");
 
 					b.Property<bool?>("AutoStart")
+						.IsRequired()
+						.HasColumnType("INTEGER");
+
+					b.Property<uint?>("HeartbeatSeconds")
 						.IsRequired()
 						.HasColumnType("INTEGER");
 
@@ -174,22 +175,11 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.IsRequired()
 						.HasColumnType("INTEGER");
 
-					b.Property<int?>("ProcessId")
-						.HasColumnType("INTEGER");
-
 					b.Property<ushort?>("SecondaryPort")
 						.IsRequired()
 						.HasColumnType("INTEGER");
 
 					b.Property<int>("SecurityLevel")
-						.HasColumnType("INTEGER");
-
-					b.Property<bool?>("SoftRestart")
-						.IsRequired()
-						.HasColumnType("INTEGER");
-
-					b.Property<bool?>("SoftShutdown")
-						.IsRequired()
 						.HasColumnType("INTEGER");
 
 					b.Property<uint?>("StartupTimeout")

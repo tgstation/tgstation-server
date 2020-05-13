@@ -20,6 +20,9 @@ namespace Tgstation.Server.Host.Components
 	/// <inheritdoc />
 	sealed class InstanceManager : IInstanceManager, IRestartHandler, IHostedService, IBridgeRegistrar, IDisposable
 	{
+		/// <inheritdoc />
+		public Task Ready => readyTcs.Task;
+
 		/// <summary>
 		/// The <see cref="IInstanceFactory"/> for the <see cref="InstanceManager"/>
 		/// </summary>
@@ -76,6 +79,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IDictionary<string, IBridgeHandler> bridgeHandlers;
 
 		/// <summary>
+		/// The <see cref="TaskCompletionSource{TResult}"/> for <see cref="Ready"/>.
+		/// </summary>
+		readonly TaskCompletionSource<object> readyTcs;
+
+		/// <summary>
 		/// Used in <see cref="StopAsync(CancellationToken)"/> to determine if database downgrades must be made
 		/// </summary>
 		Version downgradeVersion;
@@ -122,6 +130,7 @@ namespace Tgstation.Server.Host.Components
 
 			instances = new Dictionary<long, IInstance>();
 			bridgeHandlers = new Dictionary<string, IBridgeHandler>();
+			readyTcs = new TaskCompletionSource<object>();
 		}
 
 		/// <inheritdoc />
@@ -262,6 +271,7 @@ namespace Tgstation.Server.Host.Components
 				await dbInstances.ForEachAsync(metadata => tasks.Add(metadata.Online.Value ? OnlineInstance(metadata, cancellationToken) : Task.CompletedTask), cancellationToken).ConfigureAwait(false);
 				await Task.WhenAll(tasks).ConfigureAwait(false);
 				logger.LogInformation("Server ready!");
+				readyTcs.SetResult(null);
 			}
 			catch (OperationCanceledException)
 			{

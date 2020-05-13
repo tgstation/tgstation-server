@@ -8,7 +8,7 @@
     <DebugType>Full</DebugType>
     <Version>$(TgsCoreVersion)</Version>
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>7.3</LangVersion>
     <DocumentationFile>bin\Debug\Tgstation.Server.Host.Console.xml</DocumentationFile>
     <IsPackable>false</IsPackable>
   </PropertyGroup>

@@ -1,5 +1,5 @@
 ﻿using System;
-using Tgstation.Server.Host.Components.Watchdog;
+using Tgstation.Server.Host.Components.Session;
 
 namespace Tgstation.Server.Host.Components.Interop.Topic
 {
@@ -43,6 +43,11 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// The <see cref="Interop.ChatUpdate"/> for <see cref="TopicCommandType.ChatChannelsUpdate"/> requests.
 		/// </summary>
 		public ChatUpdate ChatUpdate { get; }
+
+		/// <summary>
+		/// The new server <see cref="Version"/> after a reattach.
+		/// </summary>
+		public Version NewServerVersion { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TopicParameters"/> <see langword="class"/>.
@@ -112,6 +117,25 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 			: this(TopicCommandType.ChatChannelsUpdate)
 		{
 			ChatUpdate = channelsUpdate ?? throw new ArgumentNullException(nameof(channelsUpdate));
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TopicParameters"/> <see langword="class"/>.
+		/// </summary>
+		/// <param name="newServerVersion">The value of <see cref="NewServerVersion"/>.</param>
+		public TopicParameters(Version newServerVersion)
+			: this(TopicCommandType.ServerRestarted)
+		{
+			NewServerVersion = newServerVersion ?? throw new ArgumentNullException(nameof(newServerVersion));
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TopicParameters"/> <see langword="class"/>.
+		/// </summary>
+		/// <remarks>Constructor for <see cref="TopicCommandType.Heartbeat"/>s.</remarks>
+		public TopicParameters()
+			: this(TopicCommandType.Heartbeat)
+		{
 		}
 	}
 }

@@ -9,16 +9,16 @@ using Tgstation.Server.Client.Components;
 
 namespace Tgstation.Server.Tests.Instance
 {
-	abstract class JobsRequiredTest
+	class JobsRequiredTest
 	{
 		protected IJobsClient JobsClient { get; }
 
-		protected JobsRequiredTest(IJobsClient jobsClient)
+		public JobsRequiredTest(IJobsClient jobsClient)
 		{
 			this.JobsClient = jobsClient;
 		}
 
-		protected async Task<Job> WaitForJob(Job originalJob, int timeout, bool expectFailure, CancellationToken cancellationToken)
+		public async Task<Job> WaitForJob(Job originalJob, int timeout, bool expectFailure, CancellationToken cancellationToken)
 		{
 			var job = originalJob;
 			do

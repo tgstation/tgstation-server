@@ -1,4 +1,4 @@
-﻿namespace Tgstation.Server.Host.Components.Watchdog
+﻿namespace Tgstation.Server.Host.Components.Session
 {
 	/// <summary>
 	/// Status of DMAPI validation

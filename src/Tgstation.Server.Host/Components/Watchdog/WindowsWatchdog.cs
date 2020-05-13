@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
@@ -52,6 +54,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="databaseContextFactory">The <see cref="IDatabaseContextFactory"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="WatchdogBase"/>.</param>
+		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/>.</param>
@@ -68,6 +71,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IJobManager jobManager,
 			IServerControl serverControl,
 			IAsyncDelayer asyncDelayer,
+			IAssemblyInformationProvider assemblyInformationProvider,
 			IIOManager ioManager,
 			ISymlinkFactory symlinkFactory,
 			ILogger<WindowsWatchdog> logger,
@@ -82,6 +86,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				jobManager,
 				serverControl,
 				asyncDelayer,
+				assemblyInformationProvider,
 				logger,
 				initialLaunchParameters,
 				instance,

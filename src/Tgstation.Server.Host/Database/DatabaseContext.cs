@@ -83,9 +83,9 @@ namespace Tgstation.Server.Host.Database
 		public DbSet<ReattachInformation> ReattachInformations { get; set; }
 
 		/// <summary>
-		/// The <see cref="WatchdogReattachInformation"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// The <see cref="DualReattachInformation"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
 		/// </summary>
-		public DbSet<WatchdogReattachInformation> WatchdogReattachInformations { get; set; }
+		public DbSet<DualReattachInformation> WatchdogReattachInformations { get; set; }
 
 		/// <summary>
 		/// The <see cref="TestMerge"/>s in the <see cref="DatabaseContext{TParentContext}"/>
@@ -144,7 +144,7 @@ namespace Tgstation.Server.Host.Database
 		IDatabaseCollection<ReattachInformation> IDatabaseContext.ReattachInformations => reattachInformationsCollection;
 
 		/// <inheritdoc />
-		IDatabaseCollection<WatchdogReattachInformation> IDatabaseContext.WatchdogReattachInformations => watchdogReattachInformationsCollection;
+		IDatabaseCollection<DualReattachInformation> IDatabaseContext.WatchdogReattachInformations => watchdogReattachInformationsCollection;
 
 		/// <summary>
 		/// The <see cref="IDatabaseSeeder"/> for the <see cref="DatabaseContext{TParentContext}"/>
@@ -214,7 +214,7 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Backing field for <see cref="IDatabaseContext.WatchdogReattachInformations"/>.
 		/// </summary>
-		readonly IDatabaseCollection<WatchdogReattachInformation> watchdogReattachInformationsCollection;
+		readonly IDatabaseCollection<DualReattachInformation> watchdogReattachInformationsCollection;
 
 		/// <summary>
 		/// Construct a <see cref="DatabaseContext{TParentContext}"/>
@@ -241,7 +241,7 @@ namespace Tgstation.Server.Host.Database
 			revisionInformationsCollection = new DatabaseCollection<RevisionInformation>(RevisionInformations);
 			jobsCollection = new DatabaseCollection<Job>(Jobs);
 			reattachInformationsCollection = new DatabaseCollection<ReattachInformation>(ReattachInformations);
-			watchdogReattachInformationsCollection = new DatabaseCollection<WatchdogReattachInformation>(WatchdogReattachInformations);
+			watchdogReattachInformationsCollection = new DatabaseCollection<DualReattachInformation>(WatchdogReattachInformations);
 		}
 
 		/// <inheritdoc />
@@ -348,30 +348,12 @@ namespace Tgstation.Server.Host.Database
 			if (version < new Version(4, 0))
 				throw new ArgumentOutOfRangeException(nameof(version), version, "Not a valid V4 version!");
 
-			string targetMigration = null;
-
 			// Update this with new migrations as they are made
-			// Always use the MS class
-			if (version < new Version(4, 0, 2))
-			{
-				// Special handling because this is where SQLite was introduced
-				if (DatabaseType == DatabaseType.Sqlite)
-					throw new NotSupportedException("Cannot migrate below version 4.0.2.0 while using Sqlite!");
-
-				targetMigration = nameof(MSReattachCompileJobRequired);
-			}
-
-			// Uncomment once next migration/version step happens
-			/*
-			else if (version < new Version(V_NEXT_MIGRATION))
-			{
-				// Special handling because this is where SQLite was introduced
-				if (DatabaseType == DatabaseType.Sqlite)
-					targetMigration = nameof(SLAddSqlite);
-
-				targetMigration = nameof(V_NEXT_LAST_MIGRATION);
-			}
-			*/
+			string targetMigration = null;
+			if (version < new Version(4, 1, 0))
+				throw new NotSupportedException("Cannot migrate below version 4.1.0!");
+			else if (version < new Version(4, 2, 0))
+				targetMigration = DatabaseType == DatabaseType.Sqlite ? nameof(SLRebuild) : nameof(MSFixCascadingDelete);
 
 			if (targetMigration == null)
 			{

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Interop;
-using Tgstation.Server.Host.Components.Watchdog;
+using Tgstation.Server.Host.Components.Session;
 
 namespace Tgstation.Server.Host.Models
 {
