@@ -1,9 +1,9 @@
 ﻿namespace Tgstation.Server.Host.Models
 {
 	/// <summary>
-	/// Database representation of <see cref="Components.Watchdog.WatchdogReattachInformation"/>
+	/// Database representation of <see cref="Components.Session.DualReattachInformation"/>
 	/// </summary>
-	public sealed class WatchdogReattachInformation : WatchdogReattachInformationBase
+	public sealed class DualReattachInformation : DualReattachInformationBase
 	{
 		/// <summary>
 		/// The row Id
@@ -11,7 +11,7 @@
 		public long Id { get; set; }
 
 		/// <summary>
-		/// The <see cref="Api.Models.Instance.Id"/> of the <see cref="Instance"/> the <see cref="WatchdogReattachInformation"/> belongs to
+		/// The <see cref="Api.Models.Instance.Id"/> of the <see cref="Instance"/> the <see cref="DualReattachInformation"/> belongs to
 		/// </summary>
 		public long InstanceId { get; set; }
 

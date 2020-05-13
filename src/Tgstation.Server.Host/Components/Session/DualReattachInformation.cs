@@ -3,12 +3,12 @@ using System.Globalization;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Models;
 
-namespace Tgstation.Server.Host.Components.Watchdog
+namespace Tgstation.Server.Host.Components.Session
 {
 	/// <summary>
-	/// Reattach information for a <see cref="IWatchdog"/>
+	/// Reattach information for two <see cref="ISessionController"/>
 	/// </summary>
-	public sealed class WatchdogReattachInformation : WatchdogReattachInformationBase
+	public sealed class DualReattachInformation : DualReattachInformationBase
 	{
 		/// <summary>
 		/// <see cref="ReattachInformation"/> for the Alpha session
@@ -21,17 +21,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public ReattachInformation Bravo { get; set; }
 
 		/// <summary>
-		/// Construct a <see cref="WatchdogReattachInformation"/>
+		/// Construct a <see cref="DualReattachInformation"/>
 		/// </summary>
-		public WatchdogReattachInformation() { }
+		public DualReattachInformation() { }
 
 		/// <summary>
-		/// Construct a <see cref="WatchdogReattachInformation"/> from a given <paramref name="copy"/> with a given <paramref name="dmbAlpha"/> and <paramref name="dmbBravo"/>
+		/// Construct a <see cref="DualReattachInformation"/> from a given <paramref name="copy"/> with a given <paramref name="dmbAlpha"/> and <paramref name="dmbBravo"/>
 		/// </summary>
-		/// <param name="copy">The <see cref="WatchdogReattachInformationBase"/> to copy information from</param>
+		/// <param name="copy">The <see cref="DualReattachInformationBase"/> to copy information from</param>
 		/// <param name="dmbAlpha">The <see cref="IDmbProvider"/> used to build <see cref="Alpha"/></param>
 		/// <param name="dmbBravo">The <see cref="IDmbProvider"/> used to build <see cref="Bravo"/></param>
-		public WatchdogReattachInformation(Models.WatchdogReattachInformation copy, IDmbProvider dmbAlpha, IDmbProvider dmbBravo) : base(copy)
+		public DualReattachInformation(Models.DualReattachInformation copy, IDmbProvider dmbAlpha, IDmbProvider dmbBravo) : base(copy)
 		{
 			if (copy.Alpha != null)
 				Alpha = new ReattachInformation(copy.Alpha, dmbAlpha);

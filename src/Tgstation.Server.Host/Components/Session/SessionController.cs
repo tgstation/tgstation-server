@@ -17,7 +17,7 @@ using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Components.Interop.Topic;
 using Tgstation.Server.Host.System;
 
-namespace Tgstation.Server.Host.Components.Watchdog
+namespace Tgstation.Server.Host.Components.Session
 {
 	/// <inheritdoc />
 	sealed class SessionController : ISessionController, IBridgeHandler, IChannelSink

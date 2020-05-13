@@ -5,7 +5,7 @@ using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Interop.Topic;
 using Tgstation.Server.Host.System;
 
-namespace Tgstation.Server.Host.Components.Watchdog
+namespace Tgstation.Server.Host.Components.Session
 {
 	/// <summary>
 	/// Handles communication with a DreamDaemon <see cref="IProcess"/>
@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		bool TerminationWasRequested { get; }
 
 		/// <summary>
-		/// The DMAPI <see cref="Watchdog.ApiValidationStatus"/>
+		/// The DMAPI <see cref="Session.ApiValidationStatus"/>
 		/// </summary>
 		ApiValidationStatus ApiValidationStatus { get; }
 

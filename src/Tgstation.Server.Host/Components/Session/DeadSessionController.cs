@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Interop.Topic;
 
-namespace Tgstation.Server.Host.Components.Watchdog
+namespace Tgstation.Server.Host.Components.Session
 {
 	/// <summary>
 	/// Implements a fake "dead" <see cref="ISessionController"/>

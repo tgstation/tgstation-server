@@ -1,7 +1,7 @@
 ﻿using System;
 using Tgstation.Server.Host.Components.Interop.Topic;
 
-namespace Tgstation.Server.Host.Components.Watchdog
+namespace Tgstation.Server.Host.Components.Session
 {
 	/// <summary>
 	/// Combines a <see cref="global::Byond.TopicSender.TopicResponse"/> with a <see cref="TopicResponse"/>.

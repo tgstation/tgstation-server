@@ -5,11 +5,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Components.Deployment;
-using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Database;
 using Z.EntityFramework.Plus;
 
-namespace Tgstation.Server.Host.Components
+namespace Tgstation.Server.Host.Components.Session
 {
 	/// <inheritdoc />
 	sealed class ReattachInfoHandler : IReattachInfoHandler
@@ -50,7 +49,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public Task Save(WatchdogReattachInformation reattachInformation, CancellationToken cancellationToken) => databaseContextFactory.UseContext(async (db) =>
+		public Task Save(DualReattachInformation reattachInformation, CancellationToken cancellationToken) => databaseContextFactory.UseContext(async (db) =>
 		{
 			if (reattachInformation == null)
 				throw new ArgumentNullException(nameof(reattachInformation));
@@ -78,7 +77,7 @@ namespace Tgstation.Server.Host.Components
 
 			await deleteTask.ConfigureAwait(false);
 
-			db.WatchdogReattachInformations.Add(new Models.WatchdogReattachInformation
+			db.WatchdogReattachInformations.Add(new Models.DualReattachInformation
 			{
 				Alpha = ConvertReattachInfo(reattachInformation.Alpha),
 				Bravo = ConvertReattachInfo(reattachInformation.Bravo),
@@ -89,9 +88,9 @@ namespace Tgstation.Server.Host.Components
 		});
 
 		/// <inheritdoc />
-		public async Task<WatchdogReattachInformation> Load(CancellationToken cancellationToken)
+		public async Task<DualReattachInformation> Load(CancellationToken cancellationToken)
 		{
-			Models.WatchdogReattachInformation result = null;
+			Models.DualReattachInformation result = null;
 			await databaseContextFactory.UseContext(async (db) =>
 			{
 				var instance = await db.Instances.Where(x => x.Id == metadata.Id)
@@ -117,7 +116,7 @@ namespace Tgstation.Server.Host.Components
 				: Task.FromResult<IDmbProvider>(null);
 
 			var bravoDmbTask = GetDmbForReattachInfo(result.Bravo);
-			var info = new WatchdogReattachInformation(result, await GetDmbForReattachInfo(result.Alpha).ConfigureAwait(false), await bravoDmbTask.ConfigureAwait(false));
+			var info = new DualReattachInformation(result, await GetDmbForReattachInfo(result.Alpha).ConfigureAwait(false), await bravoDmbTask.ConfigureAwait(false));
 			logger.LogDebug("Reattach information loaded: {0}", info);
 			return info;
 		}

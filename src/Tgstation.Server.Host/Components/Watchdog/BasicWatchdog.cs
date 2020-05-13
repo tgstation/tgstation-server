@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Jobs;
@@ -107,7 +108,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			{
 				case MonitorActivationReason.ActiveServerCrashed:
 					string exitWord = Server.TerminationWasRequested ? "exited" : "crashed";
-					if (Server.RebootState == Watchdog.RebootState.Shutdown)
+					if (Server.RebootState == Session.RebootState.Shutdown)
 					{
 						// the time for graceful shutdown is now
 						await Chat.SendWatchdogMessage(
@@ -136,10 +137,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					break;
 				case MonitorActivationReason.ActiveServerRebooted:
 					var rebootState = Server.RebootState;
-					if (gracefulRebootRequired && rebootState == Watchdog.RebootState.Normal)
+					if (gracefulRebootRequired && rebootState == Session.RebootState.Normal)
 					{
 						Logger.LogError("Watchdog reached normal reboot state with gracefulRebootRequired set!");
-						rebootState = Watchdog.RebootState.Restart;
+						rebootState = Session.RebootState.Restart;
 					}
 
 					gracefulRebootRequired = false;
@@ -147,13 +148,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 					switch (rebootState)
 					{
-						case Watchdog.RebootState.Normal:
+						case Session.RebootState.Normal:
 							monitorState.NextAction = HandleNormalReboot();
 							break;
-						case Watchdog.RebootState.Restart:
+						case Session.RebootState.Restart:
 							monitorState.NextAction = MonitorAction.Restart;
 							break;
-						case Watchdog.RebootState.Shutdown:
+						case Session.RebootState.Shutdown:
 							// graceful shutdown time
 							await Chat.SendWatchdogMessage(
 								"Active server rebooted! Shutting down due to graceful termination request...",
@@ -168,7 +169,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 					break;
 				case MonitorActivationReason.ActiveLaunchParametersUpdated:
-					await Server.SetRebootState(Watchdog.RebootState.Restart, cancellationToken).ConfigureAwait(false);
+					await Server.SetRebootState(Session.RebootState.Restart, cancellationToken).ConfigureAwait(false);
 					gracefulRebootRequired = true;
 					break;
 				case MonitorActivationReason.NewDmbAvailable:
@@ -185,8 +186,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		protected sealed override WatchdogReattachInformation CreateReattachInformation()
-			=> new WatchdogReattachInformation
+		protected sealed override DualReattachInformation CreateReattachInformation()
+			=> new DualReattachInformation
 			{
 				AlphaIsActive = true,
 				Alpha = Server?.Release()
@@ -205,7 +206,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected sealed override ISessionController GetActiveController() => Server;
 
 		/// <inheritdoc />
-		protected sealed override async Task InitControllers(Action callBeforeRecurse, Task chatTask, WatchdogReattachInformation reattachInfo, CancellationToken cancellationToken)
+		protected sealed override async Task InitControllers(Action callBeforeRecurse, Task chatTask, DualReattachInformation reattachInfo, CancellationToken cancellationToken)
 		{
 			var serverToReattach = reattachInfo?.Alpha ?? reattachInfo?.Bravo;
 			var serverToKill = reattachInfo?.Bravo ?? reattachInfo?.Alpha;
@@ -310,7 +311,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected virtual Task HandleNewDmbAvailable(CancellationToken cancellationToken)
 		{
 			gracefulRebootRequired = true;
-			return Server.SetRebootState(Watchdog.RebootState.Restart, cancellationToken);
+			return Server.SetRebootState(Session.RebootState.Restart, cancellationToken);
 		}
 
 		/// <summary>

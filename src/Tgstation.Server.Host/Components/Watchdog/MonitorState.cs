@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Tgstation.Server.Host.Components.Session;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {

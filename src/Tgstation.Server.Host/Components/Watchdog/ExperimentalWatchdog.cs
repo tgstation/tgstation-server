@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Jobs;
@@ -229,7 +230,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			switch (activationReason)
 			{
 				case MonitorActivationReason.ActiveServerCrashed:
-					if (monitorState.ActiveServer.RebootState == Watchdog.RebootState.Shutdown)
+					if (monitorState.ActiveServer.RebootState == Session.RebootState.Shutdown)
 					{
 						// the time for graceful shutdown is now
 						await Chat.SendWatchdogMessage(
@@ -293,7 +294,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					var rebootState = monitorState.ActiveServer.RebootState;
 					monitorState.ActiveServer.ResetRebootState(); // the DMAPI has already done this internally
 
-					if (FullRestartDeadInactive() && rebootState != Watchdog.RebootState.Shutdown)
+					if (FullRestartDeadInactive() && rebootState != Session.RebootState.Shutdown)
 						break; // full restart if the inactive server is being fucky
 
 					// what matters here is the RebootState
@@ -301,14 +302,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 					switch (rebootState)
 					{
-						case Watchdog.RebootState.Normal:
+						case Session.RebootState.Normal:
 							// life as normal
 							break;
-						case Watchdog.RebootState.Restart:
+						case Session.RebootState.Restart:
 							// reboot the current active server once the inactive one activates
 							restartOnceSwapped = true;
 							break;
-						case Watchdog.RebootState.Shutdown:
+						case Session.RebootState.Shutdown:
 							// graceful shutdown time
 							await Chat.SendWatchdogMessage(
 								"Active server rebooted! Shutting down due to graceful termination request...",
@@ -438,7 +439,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 		/// <inheritdoc />
 		#pragma warning disable CA1502 // TODO: Decomplexify
-		protected override async Task InitControllers(Action callBeforeRecurse, Task chatTask, WatchdogReattachInformation reattachInfo, CancellationToken cancellationToken)
+		protected override async Task InitControllers(Action callBeforeRecurse, Task chatTask, DualReattachInformation reattachInfo, CancellationToken cancellationToken)
 		{
 			Debug.Assert(alphaServer == null && bravoServer == null, "Entered LaunchNoLock with one or more of the servers not being null!");
 
@@ -577,8 +578,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected override ISessionController GetActiveController() => AlphaIsActive ? alphaServer : bravoServer;
 
 		/// <inheritdoc />
-		protected override WatchdogReattachInformation CreateReattachInformation()
-			=> new WatchdogReattachInformation
+		protected override DualReattachInformation CreateReattachInformation()
+			=> new DualReattachInformation
 			{
 				AlphaIsActive = AlphaIsActive,
 				Alpha = alphaServer?.Release(),

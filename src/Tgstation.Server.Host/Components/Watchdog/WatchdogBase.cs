@@ -12,6 +12,7 @@ using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Interop.Topic;
+using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
@@ -104,14 +105,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IRestartRegistration restartRegistration;
 
 		/// <summary>
-		/// If the <see cref="WatchdogBase"/> should <see cref="LaunchImplNoLock(bool, bool, WatchdogReattachInformation, CancellationToken)"/> in <see cref="StartAsync(CancellationToken)"/>
+		/// If the <see cref="WatchdogBase"/> should <see cref="LaunchImplNoLock(bool, bool, DualReattachInformation, CancellationToken)"/> in <see cref="StartAsync(CancellationToken)"/>
 		/// </summary>
 		readonly bool autoStart;
 
 		/// <summary>
 		/// Used when detaching servers.
 		/// </summary>
-		WatchdogReattachInformation releasedReattachInformation;
+		DualReattachInformation releasedReattachInformation;
 
 		/// <summary>
 		/// The <see cref="CancellationTokenSource"/> for the monitor loop
@@ -232,7 +233,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			var toKill = GetActiveController();
 			if (toKill != null)
 			{
-				await toKill.SetRebootState(Watchdog.RebootState.Shutdown, cancellationToken).ConfigureAwait(false);
+				await toKill.SetRebootState(Session.RebootState.Shutdown, cancellationToken).ConfigureAwait(false);
 				Logger.LogTrace("Graceful termination requested");
 			}
 			else
@@ -250,7 +251,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			Logger.LogTrace("Sending heartbeat to active server...");
 			var response = await activeServer.SendCommand(new TopicParameters(), cancellationToken).ConfigureAwait(false);
 
-			var shouldShutdown = activeServer.RebootState == Watchdog.RebootState.Shutdown;
+			var shouldShutdown = activeServer.RebootState == Session.RebootState.Shutdown;
 			if (response == null)
 			{
 				switch (++heartbeatsMissed)
@@ -296,10 +297,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		/// <param name="startMonitor">If <see cref="MonitorLifetimes(CancellationToken)"/> should be started by this function</param>
 		/// <param name="announce">If the launch should be announced to chat by this function</param>
-		/// <param name="reattachInfo"><see cref="WatchdogReattachInformation"/> to use, if any</param>
+		/// <param name="reattachInfo"><see cref="DualReattachInformation"/> to use, if any</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		protected async Task LaunchImplNoLock(bool startMonitor, bool announce, WatchdogReattachInformation reattachInfo, CancellationToken cancellationToken)
+		protected async Task LaunchImplNoLock(bool startMonitor, bool announce, DualReattachInformation reattachInfo, CancellationToken cancellationToken)
 		{
 			Logger.LogTrace("Begin LaunchImplNoLock");
 
@@ -394,7 +395,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <summary>
-		/// Send a chat message and log about a failed reattach operation and attempts another call to <see cref="LaunchImplNoLock(bool, bool, WatchdogReattachInformation, CancellationToken)"/>.
+		/// Send a chat message and log about a failed reattach operation and attempts another call to <see cref="LaunchImplNoLock(bool, bool, DualReattachInformation, CancellationToken)"/>.
 		/// </summary>
 		/// <param name="inactiveReattachSuccess">If the inactive server was reattached successfully.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation/</param>
@@ -445,10 +446,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected abstract ISessionController GetActiveController();
 
 		/// <summary>
-		/// Create the <see cref="WatchdogReattachInformation"/> for the <see cref="ISessionController"/>s.
+		/// Create the <see cref="DualReattachInformation"/> for the <see cref="ISessionController"/>s.
 		/// </summary>
-		/// <returns>A new <see cref="WatchdogReattachInformation"/>.</returns>
-		protected abstract WatchdogReattachInformation CreateReattachInformation();
+		/// <returns>A new <see cref="DualReattachInformation"/>.</returns>
+		protected abstract DualReattachInformation CreateReattachInformation();
 
 		/// <summary>
 		/// Gets the tasks for the following <see cref="MonitorActivationReason"/>s: <see cref="MonitorActivationReason.ActiveServerCrashed"/>, <see cref="MonitorActivationReason.ActiveServerRebooted"/>, <see cref="MonitorActivationReason.InactiveServerCrashed"/>, <see cref="MonitorActivationReason.InactiveServerRebooted"/>, <see cref="MonitorActivationReason.InactiveServerStartupComplete"/>.
@@ -677,12 +678,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// Starts all <see cref="ISessionController"/>s.
 		/// </summary>
-		/// <param name="callBeforeRecurse">An <see cref="Action"/> that must be run before making a recursive call to <see cref="LaunchImplNoLock(bool, bool, WatchdogReattachInformation, CancellationToken)"/>.</param>
+		/// <param name="callBeforeRecurse">An <see cref="Action"/> that must be run before making a recursive call to <see cref="LaunchImplNoLock(bool, bool, DualReattachInformation, CancellationToken)"/>.</param>
 		/// <param name="chatTask">A, possibly active, <see cref="Task"/> for an outgoing chat message.</param>
-		/// <param name="reattachInfo"><see cref="WatchdogReattachInformation"/> to use, if any</param>
+		/// <param name="reattachInfo"><see cref="DualReattachInformation"/> to use, if any</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		protected abstract Task InitControllers(Action callBeforeRecurse, Task chatTask, WatchdogReattachInformation reattachInfo, CancellationToken cancellationToken);
+		protected abstract Task InitControllers(Action callBeforeRecurse, Task chatTask, DualReattachInformation reattachInfo, CancellationToken cancellationToken);
 
 		/// <inheritdoc />
 		public async Task ChangeSettings(DreamDaemonLaunchParameters launchParameters, CancellationToken cancellationToken)
@@ -787,7 +788,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					return;
 				var toClear = GetActiveController();
 				if (toClear != null)
-					await toClear.SetRebootState(Watchdog.RebootState.Normal, cancellationToken).ConfigureAwait(false);
+					await toClear.SetRebootState(Session.RebootState.Normal, cancellationToken).ConfigureAwait(false);
 			}
 		}
 
@@ -814,7 +815,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var toReboot = GetActiveController();
 				if (toReboot != null)
 				{
-					if (!await toReboot.SetRebootState(Watchdog.RebootState.Restart, cancellationToken).ConfigureAwait(false))
+					if (!await toReboot.SetRebootState(Session.RebootState.Restart, cancellationToken).ConfigureAwait(false))
 						Logger.LogWarning("Unable to send reboot state change event!");
 				}
 			}
