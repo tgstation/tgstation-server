@@ -26,6 +26,11 @@
 	world.log << "You really shouldn't be able to read this"
 
 /world/Topic(T, Addr, Master, Keys)
+	world.log << "Topic: [T]"
+	. =  HandleTopic(T)
+	world.log << "Response: [.]"
+
+/world/proc/HandleTopic(T)
 	TGS_TOPIC
 
 /world/Reboot(reason)
