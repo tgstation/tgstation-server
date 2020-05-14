@@ -467,8 +467,8 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					using (cancellationToken.Register(() => script.Terminate()))
 					{
 						var exitCode = await script.Lifetime.ConfigureAwait(false);
-						var scriptOutput = script.GetCombinedOutput();
 						cancellationToken.ThrowIfCancellationRequested();
+						var scriptOutput = script.GetCombinedOutput();
 						if (exitCode != 0)
 							throw new JobException($"Script {I} exited with code {exitCode}:{Environment.NewLine}{scriptOutput}");
 					}
