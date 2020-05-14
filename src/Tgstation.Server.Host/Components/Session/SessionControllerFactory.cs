@@ -213,7 +213,11 @@ namespace Tgstation.Server.Host.Components.Session
 					var noShellExecute = !platformIdentifier.IsWindows;
 
 					// launch dd
-					var process = processExecutor.LaunchProcess(byondLock.DreamDaemonPath, basePath, arguments, noShellExecute: noShellExecute);
+					var process = processExecutor.LaunchProcess(
+						byondLock.DreamDaemonPath,
+						basePath,
+						arguments,
+						noShellExecute: noShellExecute);
 					try
 					{
 						networkPromptReaper.RegisterProcess(process);

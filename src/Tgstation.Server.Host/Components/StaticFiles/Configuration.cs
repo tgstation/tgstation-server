@@ -456,7 +456,11 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				var resolvedScriptsDir = ioManager.ResolvePath(EventScriptsSubdirectory);
 
 				foreach (var I in files.Select(x => ioManager.GetFileName(x)).Where(x => x.StartsWith(scriptName, StringComparison.Ordinal)))
-					using (var script = processExecutor.LaunchProcess(ioManager.ConcatPath(resolvedScriptsDir, I), resolvedScriptsDir, String.Join(' ', parameters), noShellExecute: true))
+					using (var script = processExecutor.LaunchProcess(
+						ioManager.ConcatPath(resolvedScriptsDir, I),
+						resolvedScriptsDir,
+						String.Join(' ', parameters),
+						noShellExecute: true))
 					using (cancellationToken.Register(() => script.Terminate()))
 					{
 						var exitCode = await script.Lifetime.ConfigureAwait(false);

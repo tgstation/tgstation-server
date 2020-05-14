@@ -102,14 +102,23 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public IProcess LaunchProcess(string fileName, string workingDirectory, string arguments, bool readOutput, bool readError, bool noShellExecute)
+		public IProcess LaunchProcess(
+			string fileName,
+			string workingDirectory,
+			string arguments,
+			bool readOutput,
+			bool readError,
+			bool noShellExecute)
 		{
-			if (!noShellExecute && (readOutput || readError))
-			{
-				logger.LogWarning("CODE ERROR: Requesting output/error reading requires noShellExecute to be true! Setting it now...");
+			if (fileName == null)
+				throw new ArgumentNullException(nameof(fileName));
+			if (workingDirectory == null)
+				throw new ArgumentNullException(nameof(workingDirectory));
+			if (arguments == null)
+				throw new ArgumentNullException(nameof(arguments));
 
-				noShellExecute = true;
-			}
+			if (!noShellExecute && (readOutput || readError))
+				throw new InvalidOperationException("Requesting output/error reading requires noShellExecute to be true!");
 
 			logger.LogDebug("{3}aunching process in {0}: {1} {2}", workingDirectory, fileName, arguments, noShellExecute ? "L" : "Shell l");
 			var handle = new global::System.Diagnostics.Process();

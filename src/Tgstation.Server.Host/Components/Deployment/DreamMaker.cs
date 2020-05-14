@@ -244,6 +244,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						ADirectoryName)),
 				$"-clean {job.DmeName}.{DmeExtension}",
 				true,
+				true,
 				true);
 			int exitCode;
 			using (cancellationToken.Register(() => dm.Terminate()))
