@@ -120,7 +120,12 @@ namespace Tgstation.Server.Host.System
 			if (!noShellExecute && (readOutput || readError))
 				throw new InvalidOperationException("Requesting output/error reading requires noShellExecute to be true!");
 
-			logger.LogDebug("{3}aunching process in {0}: {1} {2}", workingDirectory, fileName, arguments, noShellExecute ? "L" : "Shell l");
+			logger.LogDebug(
+				"{0}aunching process in {1}: {2} {3}",
+				noShellExecute ? "L" : "Shell l",
+				workingDirectory,
+				fileName,
+				arguments);
 			var handle = new global::System.Diagnostics.Process();
 			try
 			{
