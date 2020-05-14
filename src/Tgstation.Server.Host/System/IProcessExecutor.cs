@@ -23,5 +23,12 @@
 		/// <param name="id">The <see cref="IProcess.Id"/></param>
 		/// <returns>The <see cref="IProcess"/> represented by <paramref name="id"/> on success, <see langword="null"/> on failure</returns>
 		IProcess GetProcess(int id);
+
+		/// <summary>
+		/// Check if a <see cref="IProcess"/> with a given <paramref name="name"/> is running.
+		/// </summary>
+		/// <param name="name">The name of the process without the extension.</param>
+		/// <returns><see langword="true"/> if the process is running, <see langword="false"/> otherwise.</returns>
+		bool IsProcessWithNameRunning(string name);
 	}
 }

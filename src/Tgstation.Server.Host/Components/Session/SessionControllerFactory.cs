@@ -15,6 +15,7 @@ using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.System;
 
@@ -191,6 +192,8 @@ namespace Tgstation.Server.Host.Components.Session
 				{
 					if (launchParameters.SecurityLevel == DreamDaemonSecurity.Trusted)
 						await byondLock.TrustDmbPath(ioManager.ConcatPath(basePath, dmbProvider.DmbName), cancellationToken).ConfigureAwait(false);
+
+					CheckPagerIsNotRunning();
 
 					var accessIdentifier = cryptographySuite.GetSecureString();
 
@@ -374,6 +377,15 @@ namespace Tgstation.Server.Host.Components.Session
 				revisionInfo,
 				securityLevel,
 				apiValidateOnly);
+		}
+
+		/// <summary>
+		/// Make sure the BYOND pager is not running.
+		/// </summary>
+		void CheckPagerIsNotRunning()
+		{
+			if (platformIdentifier.IsWindows && processExecutor.IsProcessWithNameRunning("byond"))
+				throw new JobException("Cannot start DreamDaemon headless with the BYOND pager running!");
 		}
 	}
 }

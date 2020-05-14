@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -227,6 +228,16 @@ namespace Tgstation.Server.Host.System
 				handle.Dispose();
 				throw;
 			}
+		}
+
+		/// <inheritdoc />
+		public bool IsProcessWithNameRunning(string name)
+		{
+			var procs = global::System.Diagnostics.Process.GetProcessesByName(name);
+			foreach (var proc in procs)
+				proc.Dispose();
+
+			return procs.Any();
 		}
 	}
 }
