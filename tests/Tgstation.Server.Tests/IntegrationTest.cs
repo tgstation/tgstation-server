@@ -106,6 +106,14 @@ namespace Tgstation.Server.Tests
 		[TestMethod]
 		public async Task TestServer()
 		{
+			var procs = System.Diagnostics.Process.GetProcessesByName("byond");
+			if(procs.Any())
+			{
+				foreach (var proc in procs)
+					proc.Dispose();
+				Assert.Inconclusive("Cannot run server test because DreamDaemon will not start headless while the BYOND pager is running!");
+			}	
+
 			using var server = new TestingServer();
 			using var serverCts = new CancellationTokenSource();
 			var cancellationToken = serverCts.Token;
