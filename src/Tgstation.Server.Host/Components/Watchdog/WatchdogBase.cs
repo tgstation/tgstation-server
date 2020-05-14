@@ -727,19 +727,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
+		public async Task HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
 		{
-			if (!Running)
-				return true;
-
-			var notification = new EventNotification(eventType, parameters);
-
 			var activeServer = GetActiveController();
 
 			// Server may have ended
 			if (activeServer == null)
-				return true;
+				return;
 
+			var notification = new EventNotification(eventType, parameters);
 			var result = await activeServer.SendCommand(
 				new TopicParameters(notification),
 				cancellationToken)
@@ -762,8 +758,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								.Select(nullableChannelId => nullableChannelId.Value),
 							cancellationToken)))
 					.ConfigureAwait(false);
-
-			return true;
 		}
 
 		/// <inheritdoc />

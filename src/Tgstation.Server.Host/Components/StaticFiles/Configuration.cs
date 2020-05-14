@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.System;
 
@@ -442,12 +443,12 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		public Task StopAsync(CancellationToken cancellationToken) => EnsureDirectories(cancellationToken);
 
 		/// <inheritdoc />
-		public async Task<bool> HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
+		public async Task HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
 		{
 			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
 
 			if (!EventTypeScriptFileNameMap.TryGetValue(eventType, out var scriptName))
-				return true;
+				return;
 
 			// always execute in serial
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
@@ -467,14 +468,11 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					{
 						var exitCode = await script.Lifetime.ConfigureAwait(false);
 						var scriptOutput = script.GetCombinedOutput();
-						logger.LogInformation("{0} Output:{1}{2}", I, Environment.NewLine, scriptOutput);
 						cancellationToken.ThrowIfCancellationRequested();
 						if (exitCode != 0)
-							return false;
+							throw new JobException($"Script {I} exited with code {exitCode}:{Environment.NewLine}{scriptOutput}");
 					}
 			}
-
-			return true;
 		}
 
 		/// <inheritdoc />
