@@ -1,8 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.IO;
-using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Database.Design
 {
@@ -12,30 +9,20 @@ namespace Tgstation.Server.Host.Database.Design
 	static class DesignTimeDbContextFactoryHelpers
 	{
 		/// <summary>
-		/// Path to the json file to use for migrations configuration
-		/// </summary>
-		const string RootJson = "appsettings.json";
-
-		/// <summary>
-		/// Path to the development json file to use for migrations configuration
-		/// </summary>
-		const string DevJson = "appsettings.Development.json";
-
-		/// <summary>
 		/// Get the <see cref="IOptions{TOptions}"/> for the <see cref="DatabaseConfiguration"/>
 		/// </summary>
+		/// <param name="databaseType">The <see cref="DatabaseConfiguration.DatabaseType"/>.</param>
+		/// <param name="connectionString">The <see cref="DatabaseConfiguration.ConnectionString"/>.</param>
 		/// <returns>The <see cref="IOptions{TOptions}"/> for the <see cref="DatabaseConfiguration"/></returns>
-		public static IOptions<DatabaseConfiguration> GetDbContextOptions()
+		public static IOptions<DatabaseConfiguration> GetDbContextOptions(DatabaseType databaseType, string connectionString)
 		{
-			var builder = new ConfigurationBuilder();
-			var assemblyInfoProvider = new AssemblyInformationProvider();
-			var ioManager = new DefaultIOManager();
-			builder.SetBasePath(ioManager.GetDirectoryName(assemblyInfoProvider.Path));
-			builder.AddJsonFile(RootJson);
-			builder.AddJsonFile(DevJson);
-			var configuration = builder.Build();
-			var dbConfig = configuration.GetSection(DatabaseConfiguration.Section).Get<DatabaseConfiguration>();
-			dbConfig.DesignTime = true;
+			var dbConfig = new DatabaseConfiguration
+			{
+				DesignTime = true,
+				DatabaseType = databaseType,
+				ConnectionString = connectionString
+			};
+
 			return Options.Create(dbConfig);
 		}
 	}
