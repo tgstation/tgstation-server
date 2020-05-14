@@ -32,10 +32,6 @@ namespace Tgstation.Server.Tests
 		public async Task TestUpdateProtocol()
 		{
 			using var server = new TestingServer();
-
-			if (server.DatabaseType == "Sqlite")
-				Assert.Inconclusive("Cannot run this test on SQLite yet!");
-
 			using var serverCts = new CancellationTokenSource();
 			var cancellationToken = serverCts.Token;
 			var serverTask = server.Run(cancellationToken);
@@ -275,7 +271,7 @@ namespace Tgstation.Server.Tests
 
 			using var process = processExecutor.LaunchProcess("test." + platformIdentifier.ScriptFileExtension, ".", String.Empty, true, true, true);
 			using var cts = new CancellationTokenSource();
-			//cts.CancelAfter(3000);
+			cts.CancelAfter(3000);
 			var exitCode = await process.Lifetime.WithToken(cts.Token);
 
 			Assert.AreEqual(0, exitCode);
