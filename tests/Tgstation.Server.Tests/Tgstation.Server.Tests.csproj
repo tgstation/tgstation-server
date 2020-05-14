@@ -26,4 +26,13 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="test.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="test.sh">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

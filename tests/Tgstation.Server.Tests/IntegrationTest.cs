@@ -16,7 +16,8 @@ using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Client;
 using Tgstation.Server.Host;
-using Tgstation.Server.Host.Components.Chat.Providers;
+using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.System;
 using Tgstation.Server.Tests.Instance;
 
 namespace Tgstation.Server.Tests
@@ -28,7 +29,7 @@ namespace Tgstation.Server.Tests
 		readonly IServerClientFactory clientFactory = new ServerClientFactory(new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
 		[TestMethod]
-		public async Task TestServerUpdate()
+		public async Task TestUpdateProtocol()
 		{
 			using var server = new TestingServer();
 
@@ -101,13 +102,13 @@ namespace Tgstation.Server.Tests
 
 		static void TerminateAllDDs()
 		{
-			foreach (var proc in Process.GetProcessesByName("DreamDaemon"))
+			foreach (var proc in System.Diagnostics.Process.GetProcessesByName("DreamDaemon"))
 				using (proc)
 					proc.Kill();
 		}
 
 		[TestMethod]
-		public async Task TestFullStandardOperation()
+		public async Task TestServer()
 		{
 			using var server = new TestingServer();
 			using var serverCts = new CancellationTokenSource();
@@ -261,6 +262,25 @@ namespace Tgstation.Server.Tests
 
 				TerminateAllDDs();
 			}
+		}
+
+		[TestMethod]
+		public async Task TestScriptExecution()
+		{
+			var platformIdentifier = new PlatformIdentifier();
+			var processExecutor = new ProcessExecutor(
+				Mock.Of<IProcessSuspender>(),
+				Mock.Of<ILogger<ProcessExecutor>>(),
+				LoggerFactory.Create(x => { }));
+
+			using var process = processExecutor.LaunchProcess("test." + platformIdentifier.ScriptFileExtension, ".", String.Empty, true, true, true);
+			using var cts = new CancellationTokenSource();
+			//cts.CancelAfter(3000);
+			var exitCode = await process.Lifetime.WithToken(cts.Token);
+
+			Assert.AreEqual(0, exitCode);
+			Assert.AreEqual(String.Empty, process.GetErrorOutput().Trim());
+			Assert.AreEqual("Hello World!", process.GetStandardOutput().Trim());
 		}
 	}
 }
