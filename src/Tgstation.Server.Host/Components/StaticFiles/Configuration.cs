@@ -460,10 +460,14 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 						ioManager.ConcatPath(resolvedScriptsDir, I),
 						resolvedScriptsDir,
 						String.Join(' ', parameters),
-						noShellExecute: true))
+						true,
+						true,
+						true))
 					using (cancellationToken.Register(() => script.Terminate()))
 					{
 						var exitCode = await script.Lifetime.ConfigureAwait(false);
+						var scriptOutput = script.GetCombinedOutput();
+						logger.LogInformation("{0} Output:{1}{2}", I, Environment.NewLine, scriptOutput);
 						cancellationToken.ThrowIfCancellationRequested();
 						if (exitCode != 0)
 							return false;
