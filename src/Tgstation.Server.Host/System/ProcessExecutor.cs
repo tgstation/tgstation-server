@@ -104,7 +104,14 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public IProcess LaunchProcess(string fileName, string workingDirectory, string arguments, bool readOutput, bool readError, bool noShellExecute)
 		{
-			logger.LogDebug("Launching process in {0}: {1} {2}", workingDirectory, fileName, arguments);
+			if (!noShellExecute && (readOutput || readError))
+			{
+				logger.LogWarning("CODE ERROR: Requesting output/error reading requires noShellExecute to be true! Setting it now...");
+
+				noShellExecute = true;
+			}
+
+			logger.LogDebug("{3}aunching process in {0}: {1} {2}", workingDirectory, fileName, arguments, noShellExecute ? "L" : "Shell l");
 			var handle = new global::System.Diagnostics.Process();
 			try
 			{
@@ -112,9 +119,12 @@ namespace Tgstation.Server.Host.System
 				handle.StartInfo.Arguments = arguments;
 				handle.StartInfo.WorkingDirectory = workingDirectory;
 
-				handle.StartInfo.UseShellExecute = !(noShellExecute || readOutput || readError);
+				handle.StartInfo.UseShellExecute = !noShellExecute;
 
 				StringBuilder outputStringBuilder = null, errorStringBuilder = null, combinedStringBuilder = null;
+
+				TaskCompletionSource<object> outputReadTcs = null;
+				TaskCompletionSource<object> errorReadTcs = null;
 				if (readOutput || readError)
 				{
 					combinedStringBuilder = new StringBuilder();
@@ -122,8 +132,15 @@ namespace Tgstation.Server.Host.System
 					{
 						outputStringBuilder = new StringBuilder();
 						handle.StartInfo.RedirectStandardOutput = true;
+						outputReadTcs = new TaskCompletionSource<object>();
 						handle.OutputDataReceived += (sender, e) =>
 						{
+							if (e.Data == null)
+							{
+								outputReadTcs.SetResult(null);
+								return;
+							}
+
 							combinedStringBuilder.Append(Environment.NewLine);
 							combinedStringBuilder.Append(e.Data);
 							outputStringBuilder.Append(Environment.NewLine);
@@ -135,8 +152,15 @@ namespace Tgstation.Server.Host.System
 					{
 						errorStringBuilder = new StringBuilder();
 						handle.StartInfo.RedirectStandardError = true;
+						errorReadTcs = new TaskCompletionSource<object>();
 						handle.ErrorDataReceived += (sender, e) =>
 						{
+							if (e.Data == null)
+							{
+								errorReadTcs.SetResult(null);
+								return;
+							}
+
 							combinedStringBuilder.Append(Environment.NewLine);
 							combinedStringBuilder.Append(e.Data);
 							errorStringBuilder.Append(Environment.NewLine);
@@ -148,16 +172,30 @@ namespace Tgstation.Server.Host.System
 				var lifetimeTask = AttachExitHandler(handle);
 
 				handle.Start();
+
+				static async Task<int> AddToLifetimeTask(Task<int> originalTask, TaskCompletionSource<object> tcs)
+				{
+					var exitCode = await originalTask.ConfigureAwait(false);
+					await tcs.Task.ConfigureAwait(false);
+					return exitCode;
+				}
+
 				try
 				{
 					if (readOutput)
+					{
 						handle.BeginOutputReadLine();
+						lifetimeTask = AddToLifetimeTask(lifetimeTask, outputReadTcs);
+					}
 				}
 				catch (InvalidOperationException) { }
 				try
 				{
 					if (readError)
+					{
 						handle.BeginErrorReadLine();
+						lifetimeTask = AddToLifetimeTask(lifetimeTask, errorReadTcs);
+					}
 				}
 				catch (InvalidOperationException) { }
 
