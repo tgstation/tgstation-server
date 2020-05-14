@@ -522,7 +522,6 @@ namespace Tgstation.Server.Host.Components.Session
 
 			var json = JsonConvert.SerializeObject(parameters, DMApiConstants.SerializerSettings);
 			logger.LogTrace("Topic request: {0}", json);
-			Exception caughtException;
 			try
 			{
 				var commandString = String.Format(CultureInfo.InvariantCulture,
@@ -558,19 +557,15 @@ namespace Tgstation.Server.Host.Components.Session
 
 				return new CombinedTopicResponse(topicResponse, interopResponse);
 			}
-			catch (OperationCanceledException e)
+			catch (OperationCanceledException)
 			{
 				logger.LogTrace("Topic request aborted!");
 				cancellationToken.ThrowIfCancellationRequested();
-				caughtException = e;
 			}
 			catch (Exception e)
 			{
-				caughtException = e;
+				logger.LogWarning("Send command exception:{0}{1}", Environment.NewLine, e);
 			}
-
-			if (caughtException == null)
-				logger.LogWarning("Send command exception:{0}{1}", Environment.NewLine, caughtException.Message);
 
 			return null;
 		}
