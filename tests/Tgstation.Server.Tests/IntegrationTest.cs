@@ -196,19 +196,34 @@ namespace Tgstation.Server.Tests
 				await Task.WhenAny(serverTask, Task.Delay(30000, cancellationToken));
 				Assert.IsTrue(serverTask.IsCompleted);
 
+				var preStartupTime = DateTimeOffset.Now;
+
 				serverTask = server.Run(cancellationToken);
 				using (var adminClient = await CreateAdminClient())
 				{
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 
-					// reattach job
 					var jobs = await instanceClient.Jobs.ListActive(cancellationToken);
-					if (jobs.Any())
+					if (!jobs.Any())
 					{
-						Assert.AreEqual(1, jobs.Count);
+						var entities = await instanceClient.Jobs.List(cancellationToken);
+						var getTasks = entities
+							.Select(e => instanceClient.Jobs.GetId(e, cancellationToken))
+							.ToList();
 
-						await new JobsRequiredTest(instanceClient.Jobs).WaitForJob(jobs.Single(), 40, false, cancellationToken);
+						await Task.WhenAll(getTasks);
+						jobs = getTasks
+							.Select(x => x.Result)
+							.Where(x => x.StartedAt.Value > preStartupTime)
+							.ToList();
 					}
+
+					Assert.AreEqual(1, jobs.Count);
+
+					var reattachJob = jobs.Single();
+					Assert.IsTrue(reattachJob.StartedAt.Value >= preStartupTime);
+
+					await new JobsRequiredTest(instanceClient.Jobs).WaitForJob(reattachJob, 40, false, cancellationToken);
 
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 					Assert.IsTrue(dd.Running.Value);
@@ -225,19 +240,33 @@ namespace Tgstation.Server.Tests
 				await Task.WhenAny(serverTask, Task.Delay(30000, cancellationToken));
 				Assert.IsTrue(serverTask.IsCompleted);
 
+				preStartupTime = DateTimeOffset.Now;
 				serverTask = server.Run(cancellationToken);
 				using (var adminClient = await CreateAdminClient())
 				{
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 
-					// launch job
 					var jobs = await instanceClient.Jobs.ListActive(cancellationToken);
-					if (jobs.Any())
+					if (!jobs.Any())
 					{
-						Assert.AreEqual(1, jobs.Count);
+						var entities = await instanceClient.Jobs.List(cancellationToken);
+						var getTasks = entities
+							.Select(e => instanceClient.Jobs.GetId(e, cancellationToken))
+							.ToList();
 
-						await new JobsRequiredTest(instanceClient.Jobs).WaitForJob(jobs.Single(), 40, false, cancellationToken);
+						await Task.WhenAll(getTasks);
+						jobs = getTasks
+							.Select(x => x.Result)
+							.Where(x => x.StartedAt.Value > preStartupTime)
+							.ToList();
 					}
+
+					Assert.AreEqual(1, jobs.Count);
+
+					var launchJob = jobs.Single();
+					Assert.IsTrue(launchJob.StartedAt.Value >= preStartupTime);
+
+					await new JobsRequiredTest(instanceClient.Jobs).WaitForJob(launchJob, 40, false, cancellationToken);
 
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 

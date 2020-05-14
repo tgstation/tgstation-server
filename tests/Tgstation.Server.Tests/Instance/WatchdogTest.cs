@@ -42,10 +42,14 @@ namespace Tgstation.Server.Tests.Instance
 			}, cancellationToken), ErrorCode.DreamDaemonDoubleSoft);
 
 			await RunBasicTest(cancellationToken);
-			await RunHeartbeatTest(cancellationToken);
 
 			// await RunLongRunningTestThenUpdate(cancellationToken);
 			// await RunLongRunningTestThenUpdateWithByondVersionSwitch(cancellationToken);
+
+			// Remove this deploy when the above tests are reenabled
+			await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, cancellationToken);
+
+			await RunHeartbeatTest(cancellationToken);
 
 			await StartAndLeaveRunning(cancellationToken);
 		}
@@ -95,9 +99,16 @@ namespace Tgstation.Server.Tests.Instance
 				Assert.Inconclusive($"Incorrect number of DD processes: {ddProcs.Count}");
 
 			using var ddProc = ddProcs.Single();
-			
+			using var ourProcessHandler = new ProcessExecutor(
+				new PlatformIdentifier().IsWindows
+					? (IProcessSuspender)new WindowsProcessSuspender(Mock.Of<ILogger<WindowsProcessSuspender>>())
+					: new PosixProcessSuspender(Mock.Of<ILogger<PosixProcessSuspender>>()),
+				Mock.Of<ILogger<ProcessExecutor>>(),
+				LoggerFactory.Create(x => { }))
+				.GetProcess(ddProc.Id);
+
 			// Ensure it's responding to heartbeats
-			await Task.Delay(6000);
+			await Task.WhenAny(Task.Delay(20000), ourProcessHandler.Lifetime);
 			Assert.IsFalse(ddProc.HasExited);
 
 			await instanceClient.DreamDaemon.Update(new DreamDaemon
@@ -105,10 +116,6 @@ namespace Tgstation.Server.Tests.Instance
 				SoftShutdown = true
 			}, cancellationToken);
 
-			using var ourProcessHandler = new ProcessExecutor(
-				new PlatformIdentifier().IsWindows ? (IProcessSuspender)new WindowsProcessSuspender(Mock.Of<ILogger<WindowsProcessSuspender>>()) : new PosixProcessSuspender(Mock.Of<ILogger<PosixProcessSuspender>>()),
-				Mock.Of<ILogger<ProcessExecutor>>(),
-				LoggerFactory.Create(x => { })).GetProcess(ddProc.Id);
 			ourProcessHandler.Suspend();
 
 			await Task.WhenAny(ourProcessHandler.Lifetime, Task.Delay(TimeSpan.FromSeconds(20)));
@@ -126,6 +133,12 @@ namespace Tgstation.Server.Tests.Instance
 					Assert.Fail("DreamDaemon didn't shutdown within the timeout!");
 			}
 			while (timeout > 0);
+
+			// disable heartbeats
+			await instanceClient.DreamDaemon.Update(new DreamDaemon
+			{
+				HeartbeatSeconds = 0,
+			}, cancellationToken);
 		}
 
 		async Task RunLongRunningTestThenUpdate(CancellationToken cancellationToken)
