@@ -35,6 +35,10 @@ namespace ReleaseNotes
 
 			var doNotCloseMilestone = args.Length >= 2 && args[1].ToUpperInvariant() == "--NO-CLOSE";
 
+			string limitComponent = null;
+			if (args.Length > 1 && !doNotCloseMilestone)
+				limitComponent = args[1];
+
 			const string ReleaseNotesEnvVar = "TGS4_RELEASE_NOTES_TOKEN";
 			var githubToken = Environment.GetEnvironmentVariable(ReleaseNotesEnvVar);
 			if (String.IsNullOrWhiteSpace(githubToken) && !doNotCloseMilestone)
@@ -73,7 +77,7 @@ namespace ReleaseNotes
 
 				Task<Milestone> milestoneTask = null;
 				var milestoneTaskLock = new object();
-				var releaseDictionary = new Dictionary<int, List<string>>();
+				var releaseDictionary = new Dictionary<string, List<Tuple<string, int>>>(StringComparer.OrdinalIgnoreCase);
 				var authorizedUsers = new Dictionary<long, Task<bool>>();
 
 				bool postControlPanelMessage = false;
@@ -94,73 +98,83 @@ namespace ReleaseNotes
 						if (milestoneTask == null)
 							milestoneTask = GetMilestone();
 
-					if (!fullPR.Merged)
-						return;
+					// if (!fullPR.Merged)
+						//return;
 
 					async Task BuildNotesFromComment(string comment, User user)
 					{
+						async Task CommitNotes(string component, List<string> notes)
+						{
+							Task<bool> authTask;
+							TaskCompletionSource<bool> ourTcs = null;
+							lock (authorizedUsers)
+							{
+								if (!authorizedUsers.TryGetValue(user.Id, out authTask))
+								{
+									ourTcs = new TaskCompletionSource<bool>();
+									authTask = ourTcs.Task;
+									authorizedUsers.Add(user.Id, authTask);
+								}
+							}
+
+							if (ourTcs != null)
+								try
+								{
+									//check if the user has access
+									var perm = String.IsNullOrWhiteSpace(githubToken)
+										? PermissionLevel.Write
+										: (await client.Repository.Collaborator.ReviewPermission(RepoOwner, RepoName, user.Login).ConfigureAwait(false)).Permission;
+									ourTcs.SetResult(perm == PermissionLevel.Write || perm == PermissionLevel.Admin);
+								}
+								catch
+								{
+									ourTcs.SetResult(false);
+									throw;
+								}
+
+							var authorized = await authTask.ConfigureAwait(false);
+							if (!authorized)
+								return;
+
+							lock (releaseDictionary)
+							{
+								foreach (var I in notes)
+									Console.WriteLine(component + " #" + fullPR.Number + " - " + I + " (@" + user.Login + ")");
+
+								var tupleSelector = notes.Select(note => Tuple.Create(note, fullPR.Number));
+								if (releaseDictionary.TryGetValue(component, out var currentValues))
+									currentValues.AddRange(tupleSelector);
+								else
+									releaseDictionary.Add(component, tupleSelector.ToList());
+							}
+						}
+
 						var commentSplits = comment.Split('\n');
-						var notesOpen = false;
+						string targetComponent = null;
 						var notes = new List<string>();
 						foreach (var line in commentSplits)
 						{
 							var trimmedLine = line.Trim();
-							if (!notesOpen)
+							if (targetComponent == null)
 							{
-								notesOpen = trimmedLine.StartsWith(":cl:", StringComparison.Ordinal);
+								if (trimmedLine.StartsWith(":cl:", StringComparison.Ordinal))
+								{
+									targetComponent = trimmedLine.Substring(4).Trim();
+									if (targetComponent.Length == 0)
+										targetComponent = "Core";
+								}
 								continue;
 							}
 							if (trimmedLine.StartsWith("/:cl:", StringComparison.Ordinal))
 							{
-								notesOpen = false;
+								await CommitNotes(targetComponent, notes);
+								targetComponent = null;
+								notes.Clear();
 								continue;
 							}
 							if (trimmedLine.Length == 0)
 								continue;
 							notes.Add(trimmedLine);
-						}
-						if (notesOpen || notes.Count == 0)
-							return;
-
-						Task<bool> authTask;
-						TaskCompletionSource<bool> ourTcs = null;
-						lock (authorizedUsers)
-						{
-							if (!authorizedUsers.TryGetValue(user.Id, out authTask))
-							{
-								ourTcs = new TaskCompletionSource<bool>();
-								authTask = ourTcs.Task;
-								authorizedUsers.Add(user.Id, authTask);
-							}
-						}
-
-						if (ourTcs != null)
-							try
-							{
-								//check if the user has access
-								var perm = String.IsNullOrWhiteSpace(githubToken)
-									? PermissionLevel.Write
-									: (await client.Repository.Collaborator.ReviewPermission(RepoOwner, RepoName, user.Login).ConfigureAwait(false)).Permission;
-								ourTcs.SetResult(perm == PermissionLevel.Write || perm == PermissionLevel.Admin);
-							}
-							catch
-							{
-								ourTcs.SetResult(false);
-								throw;
-							}
-
-						var authorized = await authTask.ConfigureAwait(false);
-						if (!authorized)
-							return;
-
-						lock (releaseDictionary)
-						{
-							foreach (var I in notes)
-								Console.WriteLine("#" + fullPR.Number + " - " + I + " (@" + user.Login + ")");
-							if (releaseDictionary.TryGetValue(fullPR.Number, out var currentValues))
-								currentValues.AddRange(notes);
-							else
-								releaseDictionary.Add(fullPR.Number, notes);
 						}
 					}
 
@@ -205,7 +219,7 @@ namespace ReleaseNotes
 				//trim away all the lines that don't start with #
 
 				string keepThisRelease;
-				if (version.Build == 0)
+				if (version.Build <= 1)
 					keepThisRelease = "# ";
 				else
 					keepThisRelease = "## ";
@@ -294,17 +308,28 @@ namespace ReleaseNotes
 				}
 
 				foreach (var I in releaseDictionary.OrderBy(kvp => kvp.Key))
-					foreach (var note in I.Value)
+				{
+					if (limitComponent != null && I.Key != limitComponent)
+						continue;
+
+					newNotes.Append(Environment.NewLine);
+					newNotes.Append("#### ");
+					newNotes.Append(I.Key);
+
+
+					foreach (var noteTuple in I.Value)
 					{
 						newNotes.Append(Environment.NewLine);
 						newNotes.Append("- ");
-						newNotes.Append(note);
+						newNotes.Append(noteTuple.Item1);
 						newNotes.Append(" (#");
-						newNotes.Append(I.Key);
+						newNotes.Append(noteTuple.Item2);
 						newNotes.Append(')');
 					}
 
-				newNotes.Append(Environment.NewLine);
+					newNotes.Append(Environment.NewLine);
+				}
+
 				newNotes.Append(Environment.NewLine);
 
 				if (version != new Version(4, 1, 0))
