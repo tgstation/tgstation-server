@@ -471,6 +471,8 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 						var scriptOutput = script.GetCombinedOutput();
 						if (exitCode != 0)
 							throw new JobException($"Script {I} exited with code {exitCode}:{Environment.NewLine}{scriptOutput}");
+						else
+							logger.LogDebug("Script output:{0}{1}", Environment.NewLine, scriptOutput);
 					}
 			}
 		}
