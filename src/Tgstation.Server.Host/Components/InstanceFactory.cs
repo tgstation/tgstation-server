@@ -235,6 +235,7 @@ namespace Tgstation.Server.Host.Components
 						bridgeRegistrar,
 						serverPortProvider,
 						loggerFactory,
+						loggerFactory.CreateLogger<SessionControllerFactory>(),
 						metadata.CloneMetadata());
 
 					var dmbFactory = new DmbFactory(databaseContextFactory, gameIoManager, loggerFactory.CreateLogger<DmbFactory>(), metadata.CloneMetadata());
