@@ -101,8 +101,8 @@ namespace Tgstation.Server.Tests.Instance
 			using var ddProc = ddProcs.Single();
 			using var ourProcessHandler = new ProcessExecutor(
 				new PlatformIdentifier().IsWindows
-					? (IProcessSuspender)new WindowsProcessSuspender(Mock.Of<ILogger<WindowsProcessSuspender>>())
-					: new PosixProcessSuspender(Mock.Of<ILogger<PosixProcessSuspender>>()),
+					? (IProcessFeatures)new WindowsProcessFeatures(Mock.Of<ILogger<WindowsProcessFeatures>>())
+					: new PosixProcessFeatures(Mock.Of<ILogger<PosixProcessFeatures>>()),
 				Mock.Of<ILogger<ProcessExecutor>>(),
 				LoggerFactory.Create(x => { }))
 				.GetProcess(ddProc.Id);
