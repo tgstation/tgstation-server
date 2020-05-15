@@ -57,7 +57,7 @@ namespace Tgstation.Server.Tests.Instance
 			if (new PlatformIdentifier().IsWindows)
 				dreamMaker += ".exe";
 
-			var dreamMakerDir = Path.Combine(metadata.Path, "Byond", "511.1385", "byond", "bin");
+			var dreamMakerDir = Path.Combine(metadata.Path, "Byond", newModel.Version.ToString(), "byond", "bin");
 
 			Assert.IsTrue(Directory.Exists(dreamMakerDir), $"Directory {dreamMakerDir} does not exist!");
 			Assert.IsTrue(File.Exists(Path.Combine(dreamMakerDir, dreamMaker)), $"Missing DreamMaker executable! Dir contents: {String.Join(", ", Directory.GetFileSystemEntries(dreamMakerDir))}");
