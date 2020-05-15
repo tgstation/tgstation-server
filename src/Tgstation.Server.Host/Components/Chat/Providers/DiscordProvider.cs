@@ -225,7 +225,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					return channelModel;
 				}
 
-				Logger.LogWarning("Cound not map channel {0}! Incorrect type: {1}", channelId, discordChannel.GetType());
+				Logger.LogWarning("Cound not map channel {0}! Incorrect type: {1}", channelId, discordChannel?.GetType());
 				return null;
 			}
 
