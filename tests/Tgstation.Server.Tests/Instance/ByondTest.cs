@@ -25,7 +25,7 @@ namespace Tgstation.Server.Tests.Instance
 		public async Task Run(CancellationToken cancellationToken)
 		{
 			await TestNoVersion(cancellationToken).ConfigureAwait(false);
-			await TestInstall511(cancellationToken).ConfigureAwait(false);
+			await TestInstallStable(cancellationToken).ConfigureAwait(false);
 			await TestInstallFakeVersion(cancellationToken).ConfigureAwait(false);
 		}
 
@@ -40,11 +40,11 @@ namespace Tgstation.Server.Tests.Instance
 			await WaitForJob(test.InstallJob, 60, true, cancellationToken).ConfigureAwait(false);
 		}
 
-		async Task TestInstall511(CancellationToken cancellationToken)
+		async Task TestInstallStable(CancellationToken cancellationToken)
 		{
 			var newModel = new Api.Models.Byond
 			{
-				Version = new Version(511, 1385)
+				Version = new Version(513, 1514)
 			};
 			var test = await byondClient.SetActiveVersion(newModel, cancellationToken).ConfigureAwait(false);
 			Assert.IsNotNull(test.InstallJob);
