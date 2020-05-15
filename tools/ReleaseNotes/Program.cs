@@ -1,7 +1,6 @@
 ﻿using Octokit;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -33,11 +32,11 @@ namespace ReleaseNotes
 				return 2;
 			}
 
-			var doNotCloseMilestone = args.Length >= 2 && args[1].ToUpperInvariant() == "--NO-CLOSE";
+			var doNotCloseMilestone = args.Length > 1 && args[1].ToUpperInvariant() == "--NO-CLOSE";
 
-			string limitComponent = null;
+			string propsPath = "../../../../../build/Version.props";
 			if (args.Length > 1 && !doNotCloseMilestone)
-				limitComponent = args[1];
+				propsPath = args[1];
 
 			const string ReleaseNotesEnvVar = "TGS4_RELEASE_NOTES_TOKEN";
 			var githubToken = Environment.GetEnvironmentVariable(ReleaseNotesEnvVar);
@@ -237,7 +236,7 @@ namespace ReleaseNotes
 				switch (releasingSuite)
 				{
 					case 4:
-						var doc = XDocument.Load("../../../../../build/Version.props");
+						var doc = XDocument.Load(propsPath);
 						var project = doc.Root;
 						var xmlNamespace = project.GetDefaultNamespace();
 						var versionsPropertyGroup = project.Elements().First();
@@ -309,9 +308,6 @@ namespace ReleaseNotes
 
 				foreach (var I in releaseDictionary.OrderBy(kvp => kvp.Key))
 				{
-					if (limitComponent != null && I.Key != limitComponent)
-						continue;
-
 					newNotes.Append(Environment.NewLine);
 					newNotes.Append("#### ");
 					newNotes.Append(I.Key);
