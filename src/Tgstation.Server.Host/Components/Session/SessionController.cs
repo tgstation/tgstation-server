@@ -559,7 +559,11 @@ namespace Tgstation.Server.Host.Components.Session
 			}
 			catch (OperationCanceledException)
 			{
-				logger.LogTrace("Topic request aborted!");
+				logger.LogTrace(
+					"Topic request {0}!",
+					cancellationToken.IsCancellationRequested
+						? "aborted"
+						: "timed out");
 				cancellationToken.ThrowIfCancellationRequested();
 			}
 			catch (Exception e)
