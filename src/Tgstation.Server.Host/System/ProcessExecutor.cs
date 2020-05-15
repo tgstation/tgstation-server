@@ -10,9 +10,9 @@ namespace Tgstation.Server.Host.System
 	sealed class ProcessExecutor : IProcessExecutor
 	{
 		/// <summary>
-		/// The <see cref="IProcessSuspender"/> for the <see cref="ProcessExecutor"/>.
+		/// The <see cref="IProcessFeatures"/> for the <see cref="ProcessExecutor"/>.
 		/// </summary>
-		readonly IProcessSuspender processSuspender;
+		readonly IProcessFeatures processFeatures;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="ProcessExecutor"/>
@@ -55,15 +55,15 @@ namespace Tgstation.Server.Host.System
 		/// <summary>
 		/// Construct a <see cref="ProcessExecutor"/>
 		/// </summary>
-		/// <param name="processSuspender">The value of <see cref="processSuspender"/>.</param>
+		/// <param name="processFeatures">The value of <see cref="processFeatures"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
 		public ProcessExecutor(
-			IProcessSuspender processSuspender,
+			IProcessFeatures processFeatures,
 			ILogger<ProcessExecutor> logger,
 			ILoggerFactory loggerFactory)
 		{
-			this.processSuspender = processSuspender ?? throw new ArgumentNullException(nameof(processSuspender));
+			this.processFeatures = processFeatures ?? throw new ArgumentNullException(nameof(processFeatures));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 		}
@@ -86,7 +86,7 @@ namespace Tgstation.Server.Host.System
 			try
 			{
 				return new Process(
-					processSuspender,
+					processFeatures,
 					handle,
 					AttachExitHandler(handle),
 					null,
@@ -215,7 +215,7 @@ namespace Tgstation.Server.Host.System
 				catch (InvalidOperationException) { }
 
 				return new Process(
-					processSuspender,
+					processFeatures,
 					handle,
 					lifetimeTask,
 					outputStringBuilder,

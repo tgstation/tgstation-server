@@ -251,7 +251,7 @@ namespace Tgstation.Server.Host.Core
 				services.AddSingleton<ISymlinkFactory, WindowsSymlinkFactory>();
 				services.AddSingleton<IByondInstaller, WindowsByondInstaller>();
 				services.AddSingleton<IPostWriteHandler, WindowsPostWriteHandler>();
-				services.AddSingleton<IProcessSuspender, WindowsProcessSuspender>();
+				services.AddSingleton<IProcessFeatures, WindowsProcessFeatures>();
 
 				services.AddSingleton<WindowsNetworkPromptReaper>();
 				services.AddSingleton<INetworkPromptReaper>(x => x.GetRequiredService<WindowsNetworkPromptReaper>());
@@ -264,7 +264,7 @@ namespace Tgstation.Server.Host.Core
 				services.AddSingleton<ISymlinkFactory, PosixSymlinkFactory>();
 				services.AddSingleton<IByondInstaller, PosixByondInstaller>();
 				services.AddSingleton<IPostWriteHandler, PosixPostWriteHandler>();
-				services.AddSingleton<IProcessSuspender, PosixProcessSuspender>();
+				services.AddSingleton<IProcessFeatures, PosixProcessFeatures>();
 				services.AddSingleton<INetworkPromptReaper, PosixNetworkPromptReaper>();
 			}
 

@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host.System
@@ -19,9 +20,9 @@ namespace Tgstation.Server.Host.System
 		public Task<int> Lifetime { get; }
 
 		/// <summary>
-		/// The <see cref="IProcessSuspender"/> for the <see cref="Process"/>.
+		/// The <see cref="IProcessFeatures"/> for the <see cref="Process"/>.
 		/// </summary>
-		readonly IProcessSuspender processSuspender;
+		readonly IProcessFeatures processFeatures;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Process"/>
@@ -37,7 +38,7 @@ namespace Tgstation.Server.Host.System
 		/// <summary>
 		/// Construct a <see cref="Process"/>
 		/// </summary>
-		/// <param name="processSuspender">The value of <see cref="processSuspender"/></param>
+		/// <param name="processFeatures">The value of <see cref="processFeatures"/></param>
 		/// <param name="handle">The value of <see cref="handle"/></param>
 		/// <param name="lifetime">The value of <see cref="Lifetime"/></param>
 		/// <param name="outputStringBuilder">The value of <see cref="outputStringBuilder"/></param>
@@ -46,7 +47,7 @@ namespace Tgstation.Server.Host.System
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="preExisting">If <paramref name="handle"/> was NOT just created</param>
 		public Process(
-			IProcessSuspender processSuspender,
+			IProcessFeatures processFeatures,
 			global::System.Diagnostics.Process handle,
 			Task<int> lifetime,
 			StringBuilder outputStringBuilder,
@@ -55,7 +56,7 @@ namespace Tgstation.Server.Host.System
 			ILogger<Process> logger,
 			bool preExisting)
 		{
-			this.processSuspender = processSuspender ?? throw new ArgumentNullException(nameof(processSuspender));
+			this.processFeatures = processFeatures ?? throw new ArgumentNullException(nameof(processFeatures));
 			this.handle = handle ?? throw new ArgumentNullException(nameof(handle));
 
 			this.outputStringBuilder = outputStringBuilder;
@@ -152,9 +153,13 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public void Suspend() => processSuspender.SuspendProcess(handle);
+		public void Suspend() => processFeatures.SuspendProcess(handle);
 
 		/// <inheritdoc />
-		public void Resume() => processSuspender.ResumeProcess(handle);
+		public void Resume() => processFeatures.ResumeProcess(handle);
+
+		/// <inheritdoc />
+		public Task<string> GetExecutingUsername(CancellationToken cancellationToken)
+			=> processFeatures.GetExecutingUsername(handle, cancellationToken);
 	}
 }
