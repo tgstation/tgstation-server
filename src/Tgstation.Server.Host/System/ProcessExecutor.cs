@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -83,23 +82,15 @@ namespace Tgstation.Server.Host.System
 				return null;
 			}
 
-			try
-			{
-				return new Process(
-					processFeatures,
-					handle,
-					AttachExitHandler(handle),
-					null,
-					null,
-					null,
-					loggerFactory.CreateLogger<Process>(),
-					true);
-			}
-			catch
-			{
-				handle.Dispose();
-				throw;
-			}
+			return CreateFromExistingHandle(handle);
+		}
+
+		/// <inheritdoc />
+		public IProcess GetCurrentProcess()
+		{
+			logger.LogTrace("Getting current process...");
+			var handle = global::System.Diagnostics.Process.GetCurrentProcess();
+			return CreateFromExistingHandle(handle);
 		}
 
 		/// <inheritdoc />
@@ -231,13 +222,50 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public bool IsProcessWithNameRunning(string name)
+		public IProcess GetProcessByName(string name)
 		{
+			logger.LogTrace("GetProcessByName: {0}...", name ?? throw new ArgumentNullException(nameof(name)));
 			var procs = global::System.Diagnostics.Process.GetProcessesByName(name);
+			global::System.Diagnostics.Process handle = null;
 			foreach (var proc in procs)
-				proc.Dispose();
+				if (handle == null)
+					handle = proc;
+				else
+				{
+					logger.LogTrace("Disposing extra found PID: {0}", proc.Id);
+					proc.Dispose();
+				}
 
-			return procs.Any();
+			if (handle == null)
+				return null;
+
+			return CreateFromExistingHandle(handle);
+		}
+
+		/// <summary>
+		/// Create a <see cref="IProcess"/> given an existing <paramref name="handle"/>.
+		/// </summary>
+		/// <param name="handle">The <see cref="global::System.Diagnostics.Process"/> to create a <see cref="IProcess"/> from.</param>
+		/// <returns>The <see cref="IProcess"/> based on <paramref name="handle"/>.</returns>
+		private IProcess CreateFromExistingHandle(global::System.Diagnostics.Process handle)
+		{
+			try
+			{
+				return new Process(
+					processFeatures,
+					handle,
+					AttachExitHandler(handle),
+					null,
+					null,
+					null,
+					loggerFactory.CreateLogger<Process>(),
+					true);
+			}
+			catch
+			{
+				handle.Dispose();
+				throw;
+			}
 		}
 	}
 }

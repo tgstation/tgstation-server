@@ -12,6 +12,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
 using Tgstation.Server.Host.Components.Interop;
+using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Tests.Instance
@@ -102,7 +103,7 @@ namespace Tgstation.Server.Tests.Instance
 			using var ourProcessHandler = new ProcessExecutor(
 				new PlatformIdentifier().IsWindows
 					? (IProcessFeatures)new WindowsProcessFeatures(Mock.Of<ILogger<WindowsProcessFeatures>>())
-					: new PosixProcessFeatures(Mock.Of<ILogger<PosixProcessFeatures>>()),
+					: new PosixProcessFeatures(Mock.Of<IIOManager>(), Mock.Of<ILogger<PosixProcessFeatures>>()),
 				Mock.Of<ILogger<ProcessExecutor>>(),
 				LoggerFactory.Create(x => { }))
 				.GetProcess(ddProc.Id);

@@ -201,7 +201,7 @@ namespace Tgstation.Server.Host.Components.Session
 					if (launchParameters.SecurityLevel == DreamDaemonSecurity.Trusted)
 						await byondLock.TrustDmbPath(ioManager.ConcatPath(basePath, dmbProvider.DmbName), cancellationToken).ConfigureAwait(false);
 
-					CheckPagerIsNotRunning();
+					await CheckPagerIsNotRunning(cancellationToken).ConfigureAwait(false);
 
 					var accessIdentifier = cryptographySuite.GetSecureString();
 
@@ -403,10 +403,24 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <summary>
 		/// Make sure the BYOND pager is not running.
 		/// </summary>
-		void CheckPagerIsNotRunning()
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		async Task CheckPagerIsNotRunning(CancellationToken cancellationToken)
 		{
-			if (platformIdentifier.IsWindows && processExecutor.IsProcessWithNameRunning("byond"))
-				throw new JobException("Cannot start DreamDaemon headless with the BYOND pager running!");
+			if (!platformIdentifier.IsWindows)
+				return;
+
+			using var otherProcess = processExecutor.GetProcessByName("byond");
+			if (otherProcess == null)
+				return;
+
+			var otherUsernameTask = otherProcess.GetExecutingUsername(cancellationToken);
+			using var ourProcess = processExecutor.GetCurrentProcess();
+			var ourUserName = await ourProcess.GetExecutingUsername(cancellationToken).ConfigureAwait(false);
+			var otherUserName = await otherUsernameTask.ConfigureAwait(false);
+
+			if(otherUserName.Equals(ourUserName, StringComparison.Ordinal))
+				throw new JobException(ErrorCode.DeploymentPagerRunning);
 		}
 	}
 }
