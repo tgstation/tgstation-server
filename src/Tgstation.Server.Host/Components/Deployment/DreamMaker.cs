@@ -382,7 +382,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			await chatManager.SendUpdateMessage(
 				String.Format(
 					CultureInfo.InvariantCulture,
-					"*Deployment Triggered*{0}Revision: {1}{2}{3}{0} BYOND Version: {4}.{5}",
+					"*Deployment Triggered*{0}Revision: {1}{2}{3}{0}BYOND Version: {4}.{5}",
 					Environment.NewLine,
 					commitInsert,
 					testmergeInsert,
