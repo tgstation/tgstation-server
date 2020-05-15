@@ -15,7 +15,6 @@ using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 
@@ -623,12 +622,7 @@ namespace Tgstation.Server.Host.Components
 			// dependent on so many things, its just safer this way
 			await Watchdog.StartAsync(cancellationToken).ConfigureAwait(false);
 
-			CompileJob latestCompileJob = null;
-			await databaseContextFactory.UseContext(async db =>
-			{
-				latestCompileJob = await db.MostRecentCompletedCompileJobOrDefault(metadata, cancellationToken).ConfigureAwait(false);
-			}).ConfigureAwait(false);
-			await dmbFactory.CleanUnusedCompileJobs(latestCompileJob, cancellationToken).ConfigureAwait(false);
+			await dmbFactory.CleanUnusedCompileJobs(cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
