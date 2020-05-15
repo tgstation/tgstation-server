@@ -118,7 +118,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				if (!jobLockCounts.TryGetValue(job.Id, out var currentVal) || currentVal == 1)
 				{
 					jobLockCounts.Remove(job.Id);
-					logger.LogDebug("Cleaning compile job {0} => {1}", job.Id, job.DirectoryName);
+					logger.LogDebug("Cleaning lock-free compile job {0} => {1}", job.Id, job.DirectoryName);
 					cleanupTask = HandleCleanup();
 				}
 				else
