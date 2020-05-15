@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.System;
 
@@ -442,12 +443,12 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		public Task StopAsync(CancellationToken cancellationToken) => EnsureDirectories(cancellationToken);
 
 		/// <inheritdoc />
-		public async Task<bool> HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
+		public async Task HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
 		{
 			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
 
 			if (!EventTypeScriptFileNameMap.TryGetValue(eventType, out var scriptName))
-				return true;
+				return;
 
 			// always execute in serial
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
@@ -456,17 +457,22 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				var resolvedScriptsDir = ioManager.ResolvePath(EventScriptsSubdirectory);
 
 				foreach (var I in files.Select(x => ioManager.GetFileName(x)).Where(x => x.StartsWith(scriptName, StringComparison.Ordinal)))
-					using (var script = processExecutor.LaunchProcess(ioManager.ConcatPath(resolvedScriptsDir, I), resolvedScriptsDir, String.Join(' ', parameters), noShellExecute: true))
+					using (var script = processExecutor.LaunchProcess(
+						ioManager.ConcatPath(resolvedScriptsDir, I),
+						resolvedScriptsDir,
+						String.Join(' ', parameters),
+						true,
+						true,
+						true))
 					using (cancellationToken.Register(() => script.Terminate()))
 					{
 						var exitCode = await script.Lifetime.ConfigureAwait(false);
 						cancellationToken.ThrowIfCancellationRequested();
+						var scriptOutput = script.GetCombinedOutput();
 						if (exitCode != 0)
-							return false;
+							throw new JobException($"Script {I} exited with code {exitCode}:{Environment.NewLine}{scriptOutput}");
 					}
 			}
-
-			return true;
 		}
 
 		/// <inheritdoc />

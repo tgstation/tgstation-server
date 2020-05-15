@@ -30,14 +30,13 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
+		public async Task HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
 		{
 			if (watchdog == null)
 				throw new InvalidOperationException("EventConsumer used without watchdog set!");
 
-			if (!await configuration.HandleEvent(eventType, parameters, cancellationToken).ConfigureAwait(false))
-				return false;
-			return await watchdog.HandleEvent(eventType, parameters, cancellationToken).ConfigureAwait(false);
+			await configuration.HandleEvent(eventType, parameters, cancellationToken).ConfigureAwait(false);
+			await watchdog.HandleEvent(eventType, parameters, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <summary>

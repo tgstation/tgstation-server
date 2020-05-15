@@ -646,7 +646,8 @@ namespace Tgstation.Server.Host.Components.Chat
 		public async Task StopAsync(CancellationToken cancellationToken)
 		{
 			handlerCts.Cancel();
-			await chatHandler.ConfigureAwait(false);
+			if (chatHandler != null)
+				await chatHandler.ConfigureAwait(false);
 			await Task.WhenAll(providers.Select(x => x.Value).Select(x => x.Disconnect(cancellationToken))).ConfigureAwait(false);
 		}
 

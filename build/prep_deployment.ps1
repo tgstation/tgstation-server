@@ -1,5 +1,7 @@
 $bf = $env:APPVEYOR_BUILD_FOLDER
-[XML]$versionXML = Get-Content "$bf/build/Version.props"
+$propsPath = "$bf/build/Version.props"
+
+[XML]$versionXML = Get-Content $propsPath
 $env:TGSVersion = $versionXML.Project.PropertyGroup.TgsCoreVersion
 $env:APIVersion = $versionXML.Project.PropertyGroup.TgsApiVersion
 $env:DMVersion = $versionXML.Project.PropertyGroup.TgsDmapiVersion
@@ -11,7 +13,7 @@ if (($env:CONFIGURATION -match "Release") -And ($env:APPVEYOR_REPO_BRANCH -match
     $env:TGSDeploy = "Do it." 
 
     Write-Host "Generating release notes..."
-    dotnet run -p "$bf/tools/ReleaseNotes" $env:TGSVersion
+    dotnet run -p "$bf/tools/ReleaseNotes" $env:TGSVersion $propsPath
     $env:TGSDraftNotes = !($?)
     $releaseNotesPath = "$bf/release_notes.md"
     Write-Host "Reading release notes from $releaseNotesPath..."

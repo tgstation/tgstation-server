@@ -1,4 +1,3 @@
-using Discord.WebSocket;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -16,7 +15,8 @@ using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Client;
 using Tgstation.Server.Host;
-using Tgstation.Server.Host.Components.Chat.Providers;
+using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.System;
 using Tgstation.Server.Tests.Instance;
 
 namespace Tgstation.Server.Tests
@@ -28,13 +28,9 @@ namespace Tgstation.Server.Tests
 		readonly IServerClientFactory clientFactory = new ServerClientFactory(new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
 		[TestMethod]
-		public async Task TestServerUpdate()
+		public async Task TestUpdateProtocol()
 		{
 			using var server = new TestingServer();
-
-			if (server.DatabaseType == "Sqlite")
-				Assert.Inconclusive("Cannot run this test on SQLite yet!");
-
 			using var serverCts = new CancellationTokenSource();
 			var cancellationToken = serverCts.Token;
 			var serverTask = server.Run(cancellationToken);
@@ -101,14 +97,22 @@ namespace Tgstation.Server.Tests
 
 		static void TerminateAllDDs()
 		{
-			foreach (var proc in Process.GetProcessesByName("DreamDaemon"))
+			foreach (var proc in System.Diagnostics.Process.GetProcessesByName("DreamDaemon"))
 				using (proc)
 					proc.Kill();
 		}
 
 		[TestMethod]
-		public async Task TestFullStandardOperation()
+		public async Task TestServer()
 		{
+			var procs = System.Diagnostics.Process.GetProcessesByName("byond");
+			if(procs.Any())
+			{
+				foreach (var proc in procs)
+					proc.Dispose();
+				Assert.Inconclusive("Cannot run server test because DreamDaemon will not start headless while the BYOND pager is running!");
+			}	
+
 			using var server = new TestingServer();
 			using var serverCts = new CancellationTokenSource();
 			var cancellationToken = serverCts.Token;
@@ -191,19 +195,34 @@ namespace Tgstation.Server.Tests
 				await Task.WhenAny(serverTask, Task.Delay(30000, cancellationToken));
 				Assert.IsTrue(serverTask.IsCompleted);
 
+				var preStartupTime = DateTimeOffset.Now;
+
 				serverTask = server.Run(cancellationToken);
 				using (var adminClient = await CreateAdminClient())
 				{
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 
-					// reattach job
 					var jobs = await instanceClient.Jobs.ListActive(cancellationToken);
-					if (jobs.Any())
+					if (!jobs.Any())
 					{
-						Assert.AreEqual(1, jobs.Count);
+						var entities = await instanceClient.Jobs.List(cancellationToken);
+						var getTasks = entities
+							.Select(e => instanceClient.Jobs.GetId(e, cancellationToken))
+							.ToList();
 
-						await new JobsRequiredTest(instanceClient.Jobs).WaitForJob(jobs.Single(), 40, false, cancellationToken);
+						await Task.WhenAll(getTasks);
+						jobs = getTasks
+							.Select(x => x.Result)
+							.Where(x => x.StartedAt.Value > preStartupTime)
+							.ToList();
 					}
+
+					Assert.AreEqual(1, jobs.Count);
+
+					var reattachJob = jobs.Single();
+					Assert.IsTrue(reattachJob.StartedAt.Value >= preStartupTime);
+
+					await new JobsRequiredTest(instanceClient.Jobs).WaitForJob(reattachJob, 40, false, cancellationToken);
 
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 					Assert.IsTrue(dd.Running.Value);
@@ -220,19 +239,33 @@ namespace Tgstation.Server.Tests
 				await Task.WhenAny(serverTask, Task.Delay(30000, cancellationToken));
 				Assert.IsTrue(serverTask.IsCompleted);
 
+				preStartupTime = DateTimeOffset.Now;
 				serverTask = server.Run(cancellationToken);
 				using (var adminClient = await CreateAdminClient())
 				{
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 
-					// launch job
 					var jobs = await instanceClient.Jobs.ListActive(cancellationToken);
-					if (jobs.Any())
+					if (!jobs.Any())
 					{
-						Assert.AreEqual(1, jobs.Count);
+						var entities = await instanceClient.Jobs.List(cancellationToken);
+						var getTasks = entities
+							.Select(e => instanceClient.Jobs.GetId(e, cancellationToken))
+							.ToList();
 
-						await new JobsRequiredTest(instanceClient.Jobs).WaitForJob(jobs.Single(), 40, false, cancellationToken);
+						await Task.WhenAll(getTasks);
+						jobs = getTasks
+							.Select(x => x.Result)
+							.Where(x => x.StartedAt.Value > preStartupTime)
+							.ToList();
 					}
+
+					Assert.AreEqual(1, jobs.Count);
+
+					var launchJob = jobs.Single();
+					Assert.IsTrue(launchJob.StartedAt.Value >= preStartupTime);
+
+					await new JobsRequiredTest(instanceClient.Jobs).WaitForJob(launchJob, 40, false, cancellationToken);
 
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 
@@ -261,6 +294,25 @@ namespace Tgstation.Server.Tests
 
 				TerminateAllDDs();
 			}
+		}
+
+		[TestMethod]
+		public async Task TestScriptExecution()
+		{
+			var platformIdentifier = new PlatformIdentifier();
+			var processExecutor = new ProcessExecutor(
+				Mock.Of<IProcessSuspender>(),
+				Mock.Of<ILogger<ProcessExecutor>>(),
+				LoggerFactory.Create(x => { }));
+
+			using var process = processExecutor.LaunchProcess("test." + platformIdentifier.ScriptFileExtension, ".", String.Empty, true, true, true);
+			using var cts = new CancellationTokenSource();
+			cts.CancelAfter(3000);
+			var exitCode = await process.Lifetime.WithToken(cts.Token);
+
+			Assert.AreEqual(0, exitCode);
+			Assert.AreEqual(String.Empty, process.GetErrorOutput().Trim());
+			Assert.AreEqual("Hello World!", process.GetStandardOutput().Trim());
 		}
 	}
 }

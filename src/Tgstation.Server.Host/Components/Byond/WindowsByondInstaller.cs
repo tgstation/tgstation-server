@@ -119,7 +119,10 @@ namespace Tgstation.Server.Host.Components.Byond
 						IProcess directXInstaller;
 						try
 						{
-							directXInstaller = processExecutor.LaunchProcess(IOManager.ConcatPath(rbdx, "DXSETUP.exe"), rbdx, "/silent", noShellExecute: true);
+							directXInstaller = processExecutor.LaunchProcess(
+								IOManager.ConcatPath(rbdx, "DXSETUP.exe"),
+								rbdx, "/silent",
+								noShellExecute: true);
 						}
 						catch (Exception e)
 						{

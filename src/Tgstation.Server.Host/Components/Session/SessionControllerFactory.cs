@@ -15,6 +15,7 @@ using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.System;
 
@@ -84,6 +85,11 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly ILoggerFactory loggerFactory;
 
 		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="SessionControllerFactory"/>
+		/// </summary>
+		readonly ILogger<SessionControllerFactory> logger;
+
+		/// <summary>
 		/// The <see cref="Api.Models.Instance"/> for the <see cref="SessionControllerFactory"/>
 		/// </summary>
 		readonly Api.Models.Instance instance;
@@ -120,6 +126,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="bridgeRegistrar">The value of <see cref="bridgeRegistrar"/>.</param>
 		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
+		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public SessionControllerFactory(
 			IProcessExecutor processExecutor,
 			IByondManager byond,
@@ -133,6 +140,7 @@ namespace Tgstation.Server.Host.Components.Session
 			IBridgeRegistrar bridgeRegistrar,
 			IServerPortProvider serverPortProvider,
 			ILoggerFactory loggerFactory,
+			ILogger<SessionControllerFactory> logger,
 			Api.Models.Instance instance)
 		{
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
@@ -148,6 +156,7 @@ namespace Tgstation.Server.Host.Components.Session
 			this.bridgeRegistrar = bridgeRegistrar ?? throw new ArgumentNullException(nameof(bridgeRegistrar));
 			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
 		/// <inheritdoc />
@@ -192,6 +201,8 @@ namespace Tgstation.Server.Host.Components.Session
 					if (launchParameters.SecurityLevel == DreamDaemonSecurity.Trusted)
 						await byondLock.TrustDmbPath(ioManager.ConcatPath(basePath, dmbProvider.DmbName), cancellationToken).ConfigureAwait(false);
 
+					CheckPagerIsNotRunning();
+
 					var accessIdentifier = cryptographySuite.GetSecureString();
 
 					// set command line options
@@ -213,7 +224,24 @@ namespace Tgstation.Server.Host.Components.Session
 					var noShellExecute = !platformIdentifier.IsWindows;
 
 					// launch dd
-					var process = processExecutor.LaunchProcess(byondLock.DreamDaemonPath, basePath, arguments, noShellExecute: noShellExecute);
+					var process = processExecutor.LaunchProcess(
+						byondLock.DreamDaemonPath,
+						basePath,
+						arguments,
+						noShellExecute,
+						noShellExecute,
+						noShellExecute: noShellExecute);
+
+					if (noShellExecute)
+					{
+						// Log DD output
+						_ = process.Lifetime.ContinueWith(
+								x => logger.LogTrace(
+									"DreamDaemon Output:{0}{1}",
+									Environment.NewLine, process.GetCombinedOutput()),
+								TaskScheduler.Current);
+					}
+
 					try
 					{
 						networkPromptReaper.RegisterProcess(process);
@@ -370,6 +398,15 @@ namespace Tgstation.Server.Host.Components.Session
 				revisionInfo,
 				securityLevel,
 				apiValidateOnly);
+		}
+
+		/// <summary>
+		/// Make sure the BYOND pager is not running.
+		/// </summary>
+		void CheckPagerIsNotRunning()
+		{
+			if (platformIdentifier.IsWindows && processExecutor.IsProcessWithNameRunning("byond"))
+				throw new JobException("Cannot start DreamDaemon headless with the BYOND pager running!");
 		}
 	}
 }

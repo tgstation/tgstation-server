@@ -118,7 +118,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				if (!jobLockCounts.TryGetValue(job.Id, out var currentVal) || currentVal == 1)
 				{
 					jobLockCounts.Remove(job.Id);
-					logger.LogDebug("Cleaning compile job {0} => {1}", job.Id, job.DirectoryName);
+					logger.LogDebug("Cleaning lock-free compile job {0} => {1}", job.Id, job.DirectoryName);
 					cleanupTask = HandleCleanup();
 				}
 				else
@@ -247,7 +247,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 		/// <inheritdoc />
 		#pragma warning disable CA1506 // TODO: Decomplexify
-		public async Task CleanUnusedCompileJobs(CompileJob exceptThisOne, CancellationToken cancellationToken)
+		public async Task CleanUnusedCompileJobs(CancellationToken cancellationToken)
 		{
 			List<long> jobIdsToSkip;
 
@@ -260,12 +260,18 @@ namespace Tgstation.Server.Host.Components.Deployment
 			// find the uids of locked directories
 			await databaseContextFactory.UseContext(async db =>
 			{
-				jobUidsToNotErase = await db.CompileJobs.Where(x => x.Job.Instance.Id == instance.Id && jobIdsToSkip.Contains(x.Id)).Select(x => x.DirectoryName.Value.ToString().ToUpperInvariant()).ToListAsync(cancellationToken).ConfigureAwait(false);
+				jobUidsToNotErase = (await db.CompileJobs.Where(
+					x => x.Job.Instance.Id == instance.Id && jobIdsToSkip.Contains(x.Id))
+					.Select(x => x.DirectoryName.Value)
+					.ToListAsync(cancellationToken)
+					.ConfigureAwait(false))
+					.Select(x => x.ToString())
+					.ToList();
 			}).ConfigureAwait(false);
 
-			// add the other exemption
-			if (exceptThisOne != null)
-				jobUidsToNotErase.Add(exceptThisOne.DirectoryName.Value.ToString().ToUpperInvariant());
+			jobUidsToNotErase.Add(WindowsSwappableDmbProvider.LiveGameDirectory);
+
+			logger.LogTrace("We will not clean the following directories: {0}", String.Join(", ", jobUidsToNotErase));
 
 			// cleanup
 			var gameDirectory = ioManager.ResolvePath();
@@ -275,8 +281,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 			var tasks = directories.Select(async x =>
 			{
 				var nameOnly = ioManager.GetFileName(x);
-				if (jobUidsToNotErase.Contains(nameOnly.ToUpperInvariant()))
+				if (jobUidsToNotErase.Contains(nameOnly))
 					return;
+				logger.LogDebug("Cleaning unused game folder: {0}...", nameOnly);
 				try
 				{
 					++deleting;
@@ -292,10 +299,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				}
 			}).ToList();
 			if (deleting > 0)
-			{
-				logger.LogDebug("Cleaning unused game folders: {0}...", String.Join(", ", directories));
-				await Task.WhenAll().ConfigureAwait(false);
-			}
+				await Task.WhenAll(tasks).ConfigureAwait(false);
 		}
 		#pragma warning restore CA1506
 	}

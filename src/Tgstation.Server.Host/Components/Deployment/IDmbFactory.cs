@@ -37,11 +37,10 @@ namespace Tgstation.Server.Host.Components.Deployment
 		Task<IDmbProvider> FromCompileJob(CompileJob compileJob, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Deletes all compile jobs that are inactive in the Game folder <paramref name="exceptThisOne"/>
+		/// Deletes all compile jobs that are inactive in the Game folder.
 		/// </summary>
-		/// <param name="exceptThisOne">An optional compile job to not delete</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task CleanUnusedCompileJobs(CompileJob exceptThisOne, CancellationToken cancellationToken);
+		Task CleanUnusedCompileJobs(CancellationToken cancellationToken);
 	}
 }

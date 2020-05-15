@@ -163,8 +163,8 @@ namespace Tgstation.Server.Host.Components.Repository
 				if (remote.EndsWith(item, StringComparison.OrdinalIgnoreCase))
 					remote = remote.Substring(0, remote.LastIndexOf(item, StringComparison.OrdinalIgnoreCase));
 			var splits = remote.Split('/');
-			name = splits[splits.Length - 1];
-			owner = splits[splits.Length - 2].Split('.')[0];
+			name = splits.Last();
+			owner = splits[^2].Split('.').First();
 
 			logger.LogTrace("GetRepositoryOwnerName({0}) => {1} / {2}", remote, owner, name);
 		}
@@ -622,18 +622,14 @@ namespace Tgstation.Server.Host.Components.Repository
 			cancellationToken.ThrowIfCancellationRequested();
 			try
 			{
-				if (!await eventConsumer.HandleEvent(
+				await eventConsumer.HandleEvent(
 					EventType.RepoPreSynchronize,
 					new List<string>
 					{
 						ioMananger.ResolvePath()
 					},
 					cancellationToken)
-					.ConfigureAwait(false))
-				{
-					logger.LogDebug("Aborted synchronize due to event handler response!");
-					return false;
-				}
+					.ConfigureAwait(false);
 			}
 			finally
 			{

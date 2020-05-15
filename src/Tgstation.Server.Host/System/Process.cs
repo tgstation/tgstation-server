@@ -117,7 +117,7 @@ namespace Tgstation.Server.Host.System
 		{
 			if (outputStringBuilder == null)
 				throw new InvalidOperationException("Output reading was not enabled!");
-			return errorStringBuilder.ToString().TrimStart(Environment.NewLine.ToCharArray());
+			return outputStringBuilder.ToString().TrimStart(Environment.NewLine.ToCharArray());
 		}
 
 		/// <inheritdoc />

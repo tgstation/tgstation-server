@@ -14,7 +14,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <summary>
 		/// The directory where the <see cref="baseProvider"/> is symlinked to.
 		/// </summary>
-		const string LiveGameDirectory = "Live";
+		public const string LiveGameDirectory = "Live";
 
 		/// <inheritdoc />
 		public string DmbName => baseProvider.DmbName;

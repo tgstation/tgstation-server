@@ -12,6 +12,11 @@
 	world.TgsInitializationComplete()
 
 /world/Topic(T, Addr, Master, Keys)
+	world.log << "Topic: [T]"
+	. =  HandleTopic(T)
+	world.log << "Response: [.]"
+
+/world/proc/HandleTopic(T)
 	TGS_TOPIC
 
 	world.sleep_offline = FALSE
