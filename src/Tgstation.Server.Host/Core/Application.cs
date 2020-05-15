@@ -366,6 +366,7 @@ namespace Tgstation.Server.Host.Core
 			{
 				applicationBuilder.UseSwagger();
 				applicationBuilder.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TGS API V4"));
+				logger.LogTrace("Swagger API generation enabled");
 			}
 
 			// Set up CORS based on configuration if necessary
