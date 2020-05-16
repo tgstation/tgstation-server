@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.System.Tests
 		public async Task TestGetUsername()
 		{
 			var username = await features.GetExecutingUsername(global::System.Diagnostics.Process.GetCurrentProcess(), default);
-			Assert.IsTrue(username.Contains(Environment.UserName));
+			Assert.IsTrue(username.Contains(Environment.UserName), $"Exepcted a string containing \"{Environment.UserName}\", got \"{username}\"");
 		}
 	}
 }
