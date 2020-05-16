@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,9 +9,9 @@ namespace Tgstation.Server.Host.System
 	sealed class ProcessExecutor : IProcessExecutor
 	{
 		/// <summary>
-		/// The <see cref="IProcessSuspender"/> for the <see cref="ProcessExecutor"/>.
+		/// The <see cref="IProcessFeatures"/> for the <see cref="ProcessExecutor"/>.
 		/// </summary>
-		readonly IProcessSuspender processSuspender;
+		readonly IProcessFeatures processFeatures;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="ProcessExecutor"/>
@@ -55,15 +54,15 @@ namespace Tgstation.Server.Host.System
 		/// <summary>
 		/// Construct a <see cref="ProcessExecutor"/>
 		/// </summary>
-		/// <param name="processSuspender">The value of <see cref="processSuspender"/>.</param>
+		/// <param name="processFeatures">The value of <see cref="processFeatures"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
 		public ProcessExecutor(
-			IProcessSuspender processSuspender,
+			IProcessFeatures processFeatures,
 			ILogger<ProcessExecutor> logger,
 			ILoggerFactory loggerFactory)
 		{
-			this.processSuspender = processSuspender ?? throw new ArgumentNullException(nameof(processSuspender));
+			this.processFeatures = processFeatures ?? throw new ArgumentNullException(nameof(processFeatures));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 		}
@@ -83,23 +82,15 @@ namespace Tgstation.Server.Host.System
 				return null;
 			}
 
-			try
-			{
-				return new Process(
-					processSuspender,
-					handle,
-					AttachExitHandler(handle),
-					null,
-					null,
-					null,
-					loggerFactory.CreateLogger<Process>(),
-					true);
-			}
-			catch
-			{
-				handle.Dispose();
-				throw;
-			}
+			return CreateFromExistingHandle(handle);
+		}
+
+		/// <inheritdoc />
+		public IProcess GetCurrentProcess()
+		{
+			logger.LogTrace("Getting current process...");
+			var handle = global::System.Diagnostics.Process.GetCurrentProcess();
+			return CreateFromExistingHandle(handle);
 		}
 
 		/// <inheritdoc />
@@ -215,7 +206,7 @@ namespace Tgstation.Server.Host.System
 				catch (InvalidOperationException) { }
 
 				return new Process(
-					processSuspender,
+					processFeatures,
 					handle,
 					lifetimeTask,
 					outputStringBuilder,
@@ -231,13 +222,50 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public bool IsProcessWithNameRunning(string name)
+		public IProcess GetProcessByName(string name)
 		{
+			logger.LogTrace("GetProcessByName: {0}...", name ?? throw new ArgumentNullException(nameof(name)));
 			var procs = global::System.Diagnostics.Process.GetProcessesByName(name);
+			global::System.Diagnostics.Process handle = null;
 			foreach (var proc in procs)
-				proc.Dispose();
+				if (handle == null)
+					handle = proc;
+				else
+				{
+					logger.LogTrace("Disposing extra found PID: {0}", proc.Id);
+					proc.Dispose();
+				}
 
-			return procs.Any();
+			if (handle == null)
+				return null;
+
+			return CreateFromExistingHandle(handle);
+		}
+
+		/// <summary>
+		/// Create a <see cref="IProcess"/> given an existing <paramref name="handle"/>.
+		/// </summary>
+		/// <param name="handle">The <see cref="global::System.Diagnostics.Process"/> to create a <see cref="IProcess"/> from.</param>
+		/// <returns>The <see cref="IProcess"/> based on <paramref name="handle"/>.</returns>
+		private IProcess CreateFromExistingHandle(global::System.Diagnostics.Process handle)
+		{
+			try
+			{
+				return new Process(
+					processFeatures,
+					handle,
+					AttachExitHandler(handle),
+					null,
+					null,
+					null,
+					loggerFactory.CreateLogger<Process>(),
+					true);
+			}
+			catch
+			{
+				handle.Dispose();
+				throw;
+			}
 		}
 	}
 }
