@@ -251,7 +251,7 @@ namespace Tgstation.Server.Host.Core
 				services.AddSingleton<ISymlinkFactory, WindowsSymlinkFactory>();
 				services.AddSingleton<IByondInstaller, WindowsByondInstaller>();
 				services.AddSingleton<IPostWriteHandler, WindowsPostWriteHandler>();
-				services.AddSingleton<IProcessSuspender, WindowsProcessSuspender>();
+				services.AddSingleton<IProcessFeatures, WindowsProcessFeatures>();
 
 				services.AddSingleton<WindowsNetworkPromptReaper>();
 				services.AddSingleton<INetworkPromptReaper>(x => x.GetRequiredService<WindowsNetworkPromptReaper>());
@@ -264,7 +264,7 @@ namespace Tgstation.Server.Host.Core
 				services.AddSingleton<ISymlinkFactory, PosixSymlinkFactory>();
 				services.AddSingleton<IByondInstaller, PosixByondInstaller>();
 				services.AddSingleton<IPostWriteHandler, PosixPostWriteHandler>();
-				services.AddSingleton<IProcessSuspender, PosixProcessSuspender>();
+				services.AddSingleton<IProcessFeatures, PosixProcessFeatures>();
 				services.AddSingleton<INetworkPromptReaper, PosixNetworkPromptReaper>();
 			}
 
@@ -366,6 +366,7 @@ namespace Tgstation.Server.Host.Core
 			{
 				applicationBuilder.UseSwagger();
 				applicationBuilder.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TGS API V4"));
+				logger.LogTrace("Swagger API generation enabled");
 			}
 
 			// Set up CORS based on configuration if necessary

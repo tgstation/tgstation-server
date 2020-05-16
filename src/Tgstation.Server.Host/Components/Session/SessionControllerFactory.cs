@@ -3,6 +3,8 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -111,6 +113,24 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <summary>
+		/// Check if a given <paramref name="port"/> can be bound to.
+		/// </summary>
+		/// <param name="port">The port number to test.</param>
+		static void PortBindTest(ushort port)
+		{
+			using var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+			try
+			{
+				socket.Bind(new IPEndPoint(IPAddress.Loopback, port));
+			}
+			catch (Exception ex)
+			{
+				throw new JobException(ErrorCode.DreamDaemonPortInUse, ex);
+			}
+		}
+
+		/// <summary>
 		/// Construct a <see cref="SessionControllerFactory"/>
 		/// </summary>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
@@ -201,7 +221,8 @@ namespace Tgstation.Server.Host.Components.Session
 					if (launchParameters.SecurityLevel == DreamDaemonSecurity.Trusted)
 						await byondLock.TrustDmbPath(ioManager.ConcatPath(basePath, dmbProvider.DmbName), cancellationToken).ConfigureAwait(false);
 
-					CheckPagerIsNotRunning();
+					PortBindTest(portToUse.Value);
+					await CheckPagerIsNotRunning(cancellationToken).ConfigureAwait(false);
 
 					var accessIdentifier = cryptographySuite.GetSecureString();
 
@@ -214,7 +235,7 @@ namespace Tgstation.Server.Host.Components.Session
 					// important to run on all ports to allow port changing
 					var arguments = String.Format(CultureInfo.InvariantCulture, "{0} -port {1} -ports 1-65535 {2}-close -{3} -{4} -public -params \"{5}\"",
 						dmbProvider.DmbName,
-						primaryPort ? launchParameters.PrimaryPort : launchParameters.SecondaryPort,
+						portToUse,
 						launchParameters.AllowWebClient.Value ? "-webclient " : String.Empty,
 						SecurityWord(launchParameters.SecurityLevel.Value),
 						visibility,
@@ -403,10 +424,24 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <summary>
 		/// Make sure the BYOND pager is not running.
 		/// </summary>
-		void CheckPagerIsNotRunning()
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		async Task CheckPagerIsNotRunning(CancellationToken cancellationToken)
 		{
-			if (platformIdentifier.IsWindows && processExecutor.IsProcessWithNameRunning("byond"))
-				throw new JobException("Cannot start DreamDaemon headless with the BYOND pager running!");
+			if (!platformIdentifier.IsWindows)
+				return;
+
+			using var otherProcess = processExecutor.GetProcessByName("byond");
+			if (otherProcess == null)
+				return;
+
+			var otherUsernameTask = otherProcess.GetExecutingUsername(cancellationToken);
+			using var ourProcess = processExecutor.GetCurrentProcess();
+			var ourUserName = await ourProcess.GetExecutingUsername(cancellationToken).ConfigureAwait(false);
+			var otherUserName = await otherUsernameTask.ConfigureAwait(false);
+
+			if(otherUserName.Equals(ourUserName, StringComparison.Ordinal))
+				throw new JobException(ErrorCode.DeploymentPagerRunning);
 		}
 	}
 }

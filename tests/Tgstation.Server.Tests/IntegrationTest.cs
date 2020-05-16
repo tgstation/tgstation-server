@@ -301,7 +301,7 @@ namespace Tgstation.Server.Tests
 		{
 			var platformIdentifier = new PlatformIdentifier();
 			var processExecutor = new ProcessExecutor(
-				Mock.Of<IProcessSuspender>(),
+				Mock.Of<IProcessFeatures>(),
 				Mock.Of<ILogger<ProcessExecutor>>(),
 				LoggerFactory.Create(x => { }));
 

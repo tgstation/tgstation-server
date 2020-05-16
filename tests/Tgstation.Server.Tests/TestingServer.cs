@@ -48,7 +48,7 @@ namespace Tgstation.Server.Tests
 			}
 
 			System.IO.Directory.CreateDirectory(Directory);
-			const string UrlString = "http://localhost:5001";
+			const string UrlString = "http://localhost:5010";
 			Url = new Uri(UrlString);
 
 			//so we need a db

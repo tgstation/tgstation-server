@@ -471,5 +471,17 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("Cannot set both softShutdown and softReboot at once!")]
 		DreamDaemonDoubleSoft,
+
+		/// <summary>
+		/// Attempted to launch DreamDaemon on a user account that had the BYOND pager running.
+		/// </summary>
+		[Description("Cannot start DreamDaemon headless with the BYOND pager running!")]
+		DeploymentPagerRunning,
+
+		/// <summary>
+		/// Could not bind to port we wanted to launch DreamDaemon on.
+		/// </summary>
+		[Description("Could not bind to requested DreamDaemon port! Is there another service running on that port?")]
+		DreamDaemonPortInUse,
 	}
 }
