@@ -8,7 +8,7 @@ mkdir TestResults
 source ~/.nvm/nvm.sh && nvm install 10
 
 if [[ ! -z "${TGS4_TEST_CONNECTION_STRING}" ]]; then
-    ./integration_test.sh
+    build/integration_test.sh
     exit
 fi
 
