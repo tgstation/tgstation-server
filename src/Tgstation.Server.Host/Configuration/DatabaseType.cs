@@ -24,5 +24,10 @@
 		/// Use Sqlite
 		/// </summary>
 		Sqlite,
+
+		/// <summary>
+		/// Use PostgresSql
+		/// </summary>
+		PostgresSql,
 	}
 }

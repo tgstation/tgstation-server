@@ -48,14 +48,12 @@ namespace Tgstation.Server.Host.Components.Repository.Tests
 					tempDir,
 					default);
 
-				using (var repo = await TestRepoLoading(tempDir))
-				{
-					var gitObject = repo.Lookup("f636418bf47d238d33b0e4a34f0072b23a8aad0e");
-					Assert.IsNotNull(gitObject);
-					var commit = gitObject.Peel<Commit>();
+				using var repo = await TestRepoLoading(tempDir);
+				var gitObject = repo.Lookup("f636418bf47d238d33b0e4a34f0072b23a8aad0e");
+				Assert.IsNotNull(gitObject);
+				var commit = gitObject.Peel<Commit>();
 
-					Assert.AreEqual("Update Test.md", commit.Message);
-				}
+				Assert.AreEqual("Update Test.md", commit.Message);
 			}
 			finally
 			{
