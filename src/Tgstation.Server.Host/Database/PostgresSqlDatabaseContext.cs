@@ -30,7 +30,7 @@ namespace Tgstation.Server.Host.Database
 		protected override void OnConfiguring(DbContextOptionsBuilder options)
 		{
 			base.OnConfiguring(options);
-			options.UseNpgsql(DatabaseConfiguration.ConnectionString);
+			options.UseNpgsql(DatabaseConfiguration.ConnectionString, x => x.EnableRetryOnFailure());
 		}
 
 		/// <inheritdoc />

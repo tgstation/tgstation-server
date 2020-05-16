@@ -25,7 +25,7 @@ namespace Tgstation.Server.Host.Database
 		protected override void OnConfiguring(DbContextOptionsBuilder options)
 		{
 			base.OnConfiguring(options);
-			options.UseSqlServer(DatabaseConfiguration.ConnectionString);
+			options.UseSqlServer(DatabaseConfiguration.ConnectionString, x => x.EnableRetryOnFailure());
 		}
 
 		/// <inheritdoc />
