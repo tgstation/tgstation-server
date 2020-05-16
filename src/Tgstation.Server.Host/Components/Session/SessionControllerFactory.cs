@@ -113,6 +113,24 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <summary>
+		/// Check if a given <paramref name="port"/> can be bound to.
+		/// </summary>
+		/// <param name="port">The port number to test.</param>
+		static void PortBindTest(ushort port)
+		{
+			using var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+			try
+			{
+				socket.Bind(new IPEndPoint(IPAddress.Loopback, port));
+			}
+			catch (Exception ex)
+			{
+				throw new JobException(ErrorCode.DreamDaemonPortInUse, ex);
+			}
+		}
+
+		/// <summary>
 		/// Construct a <see cref="SessionControllerFactory"/>
 		/// </summary>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
@@ -424,24 +442,6 @@ namespace Tgstation.Server.Host.Components.Session
 
 			if(otherUserName.Equals(ourUserName, StringComparison.Ordinal))
 				throw new JobException(ErrorCode.DeploymentPagerRunning);
-		}
-
-		/// <summary>
-		/// Check if a given <paramref name="port"/> can be bound to.
-		/// </summary>
-		/// <param name="port">The port number to test.</param>
-		static void PortBindTest(ushort port)
-		{
-			using var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
-			try
-			{
-				socket.Bind(new IPEndPoint(IPAddress.Loopback, port));
-			}
-			catch (Exception ex)
-			{
-				throw new JobException(ErrorCode.DreamDaemonPortInUse, ex);
-			}
 		}
 	}
 }
