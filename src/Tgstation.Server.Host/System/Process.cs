@@ -159,7 +159,11 @@ namespace Tgstation.Server.Host.System
 		public void Resume() => processFeatures.ResumeProcess(handle);
 
 		/// <inheritdoc />
-		public Task<string> GetExecutingUsername(CancellationToken cancellationToken)
-			=> processFeatures.GetExecutingUsername(handle, cancellationToken);
+		public async Task<string> GetExecutingUsername(CancellationToken cancellationToken)
+		{
+			var result = await processFeatures.GetExecutingUsername(handle, cancellationToken).ConfigureAwait(false);
+			logger.LogTrace("PID {0} Username: {1}", Id, result);
+			return result;
+		}
 	}
 }
