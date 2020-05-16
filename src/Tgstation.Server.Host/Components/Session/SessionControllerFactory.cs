@@ -430,7 +430,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// Check if a given <paramref name="port"/> can be bound to.
 		/// </summary>
 		/// <param name="port">The port number to test.</param>
-		void PortBindTest(ushort port)
+		static void PortBindTest(ushort port)
 		{
 			using var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
