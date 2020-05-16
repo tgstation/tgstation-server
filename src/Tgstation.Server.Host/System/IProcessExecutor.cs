@@ -18,17 +18,23 @@
 		IProcess LaunchProcess(string fileName, string workingDirectory, string arguments = null, bool readOutput = false, bool readError = false, bool noShellExecute = false);
 
 		/// <summary>
-		/// Get a <see cref="IProcess"/> by <paramref name="id"/>
+		/// Get a <see cref="IProcess"/> representing the running executable.
 		/// </summary>
-		/// <param name="id">The <see cref="IProcess.Id"/></param>
-		/// <returns>The <see cref="IProcess"/> represented by <paramref name="id"/> on success, <see langword="null"/> on failure</returns>
+		/// <returns>The current <see cref="IProcess"/>.</returns>
+		IProcess GetCurrentProcess();
+
+		/// <summary>
+		/// Get a <see cref="IProcess"/> by <paramref name="id"/>.
+		/// </summary>
+		/// <param name="id">The <see cref="IProcess.Id"/>.</param>
+		/// <returns>The <see cref="IProcess"/> represented by <paramref name="id"/> on success, <see langword="null"/> on failure.</returns>
 		IProcess GetProcess(int id);
 
 		/// <summary>
-		/// Check if a <see cref="IProcess"/> with a given <paramref name="name"/> is running.
+		/// Get a <see cref="IProcess"/> with a given <paramref name="name"/>.
 		/// </summary>
-		/// <param name="name">The name of the process without the extension.</param>
-		/// <returns><see langword="true"/> if the process is running, <see langword="false"/> otherwise.</returns>
-		bool IsProcessWithNameRunning(string name);
+		/// <param name="name">The name of the process executable without the extension.</param>
+		/// <returns>The <see cref="IProcess"/> represented by <paramref name="name"/> on success, <see langword="null"/> on failure.</returns>
+		IProcess GetProcessByName(string name);
 	}
 }

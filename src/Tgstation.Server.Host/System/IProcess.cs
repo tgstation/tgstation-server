@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host.System
 {
@@ -39,5 +40,12 @@ namespace Tgstation.Server.Host.System
 		/// Terminates the process
 		/// </summary>
 		void Terminate();
+
+		/// <summary>
+		/// Get the name of the account executing the <see cref="IProcess"/>.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the name of the account executing the <see cref="IProcess"/>.</returns>
+		Task<string> GetExecutingUsername(CancellationToken cancellationToken);
 	}
 }
