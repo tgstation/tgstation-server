@@ -21,6 +21,8 @@ jobs:
       name: "MySql Integration Test"
       language: csharp
       mono: none
+      services:
+        - mysql
       dotnet: 3.1
       cache:
         directories:
