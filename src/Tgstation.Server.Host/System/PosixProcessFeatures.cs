@@ -80,13 +80,8 @@ namespace Tgstation.Server.Host.System
 			// https://unix.stackexchange.com/questions/102676/why-is-uid-information-not-in-proc-x-stat
 			var pid = process.Id;
 			var statusFile = ioManager.ConcatPath("/proc", pid.ToString(CultureInfo.InvariantCulture), "status");
-
-			global::System.Console.WriteLine(statusFile);
 			var statusBytes = await ioManager.ReadAllBytes(statusFile, cancellationToken).ConfigureAwait(false);
 			var statusText = Encoding.UTF8.GetString(statusBytes);
-
-			// OH GOD DONT LET ME FORGET THIS
-			global::System.Console.WriteLine(statusText);
 			var splits = statusText.Split('\n', StringSplitOptions.RemoveEmptyEntries);
 			var entry = splits.FirstOrDefault(x => x.Trim().StartsWith("Uid:", StringComparison.Ordinal));
 			if (entry == default)
