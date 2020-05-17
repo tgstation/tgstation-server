@@ -27,6 +27,11 @@ jobs:
       cache:
         directories:
           - $HOME/.nuget/packages:
+      addons:
+        apt:
+          packages:
+            - libc6-i386
+            - libstdc++6:i386
     - env:
       - DoxGeneration=false
       - DockerBuild=false
@@ -91,11 +96,6 @@ jobs:
       cache:
         directories:
           - $HOME/.nuget/packages:
-      addons:
-        apt:
-          packages:
-            - libc6-i386
-            - libstdc++6:i386
     - env:
       - DoxGeneration=false
       - DockerBuild=true
