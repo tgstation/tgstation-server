@@ -15,7 +15,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 	/// <summary>
 	/// Standard <see cref="IDmbFactory"/>
 	/// </summary>
-	sealed class DmbFactory : IDmbFactory, ICompileJobConsumer
+	sealed class DmbFactory : IDmbFactory, ICompileJobSink
 	{
 		/// <inheritdoc />
 		public Task OnNewerDmb
@@ -302,5 +302,13 @@ namespace Tgstation.Server.Host.Components.Deployment
 				await Task.WhenAll(tasks).ConfigureAwait(false);
 		}
 		#pragma warning restore CA1506
+
+		/// <inheritdoc />
+		public CompileJob LatestCompileJob()
+		{
+			if (!DmbAvailable)
+				return null;
+			return LockNextDmb(0)?.CompileJob;
+		}
 	}
 }

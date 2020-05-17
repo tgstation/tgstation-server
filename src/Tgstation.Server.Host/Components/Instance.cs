@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Octokit;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,7 +11,6 @@ using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
-using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
@@ -39,15 +36,8 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public StaticFiles.IConfiguration Configuration { get; }
 
-		/// <summary>
-		/// The <see cref="IDreamMaker"/> for the <see cref="Instance"/>
-		/// </summary>
-		readonly IDreamMaker dreamMaker;
-
-		/// <summary>
-		/// The <see cref="ICompileJobConsumer"/> for the <see cref="Instance"/>
-		/// </summary>
-		readonly ICompileJobConsumer compileJobConsumer;
+		/// <inheritdoc />
+		public IDreamMaker DreamMaker { get; }
 
 		/// <summary>
 		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="Instance"/>
@@ -68,11 +58,6 @@ namespace Tgstation.Server.Host.Components
 		/// The <see cref="IEventConsumer"/> for the <see cref="Instance"/>
 		/// </summary>
 		readonly IEventConsumer eventConsumer;
-
-		/// <summary>
-		/// The <see cref="IGitHubClientFactory"/> for the <see cref="Instance"/>
-		/// </summary>
-		readonly IGitHubClientFactory gitHubClientFactory;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Instance"/>
@@ -105,16 +90,14 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="metadata">The value of <see cref="metadata"/></param>
 		/// <param name="repositoryManager">The value of <see cref="RepositoryManager"/></param>
 		/// <param name="byondManager">The value of <see cref="ByondManager"/></param>
-		/// <param name="dreamMaker">The value of <see cref="dreamMaker"/></param>
+		/// <param name="dreamMaker">The value of <see cref="DreamMaker"/></param>
 		/// <param name="watchdog">The value of <see cref="Watchdog"/></param>
 		/// <param name="chat">The value of <see cref="Chat"/></param>
 		/// <param name="configuration">The value of <see cref="Configuration"/></param>
-		/// <param name="compileJobConsumer">The value of <see cref="compileJobConsumer"/></param>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="dmbFactory">The value of <see cref="dmbFactory"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
-		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		public Instance(
 			Api.Models.Instance metadata,
@@ -125,27 +108,23 @@ namespace Tgstation.Server.Host.Components
 			IChatManager chat,
 			StaticFiles.IConfiguration
 			configuration,
-			ICompileJobConsumer compileJobConsumer,
 			IDatabaseContextFactory databaseContextFactory,
 			IDmbFactory dmbFactory,
 			IJobManager jobManager,
 			IEventConsumer eventConsumer,
-			IGitHubClientFactory gitHubClientFactory,
 			ILogger<Instance> logger)
 		{
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 			RepositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
 			ByondManager = byondManager ?? throw new ArgumentNullException(nameof(byondManager));
-			this.dreamMaker = dreamMaker ?? throw new ArgumentNullException(nameof(dreamMaker));
+			DreamMaker = dreamMaker ?? throw new ArgumentNullException(nameof(dreamMaker));
 			Watchdog = watchdog ?? throw new ArgumentNullException(nameof(watchdog));
 			Chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-			this.compileJobConsumer = compileJobConsumer ?? throw new ArgumentNullException(nameof(compileJobConsumer));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.dmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
-			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			timerLock = new object();
@@ -155,225 +134,11 @@ namespace Tgstation.Server.Host.Components
 		public void Dispose()
 		{
 			timerCts?.Dispose();
-			compileJobConsumer.Dispose();
 			Configuration.Dispose();
 			Chat.Dispose();
 			Watchdog.Dispose();
+			dmbFactory.Dispose();
 			RepositoryManager.Dispose();
-		}
-
-		/// <inheritdoc />
-		public async Task CompileProcess(Job job, IDatabaseContext databaseContext, Action<int> progressReporter, CancellationToken cancellationToken)
-		{
-#pragma warning disable IDE0016 // Use 'throw' expression
-			if (job == null)
-				throw new ArgumentNullException(nameof(job));
-#pragma warning restore IDE0016 // Use 'throw' expression
-			if (databaseContext == null)
-				throw new ArgumentNullException(nameof(databaseContext));
-			if (progressReporter == null)
-				throw new ArgumentNullException(nameof(progressReporter));
-
-			var ddSettings = await databaseContext.DreamDaemonSettings.Where(x => x.InstanceId == metadata.Id).Select(x => new DreamDaemonSettings
-			{
-				StartupTimeout = x.StartupTimeout,
-			})
-				.FirstOrDefaultAsync(cancellationToken)
-				.ConfigureAwait(false);
-			if (ddSettings == default)
-				throw new JobException(Api.Models.ErrorCode.InstanceMissingDreamDaemonSettings);
-
-			var previousCompileJobs = await databaseContext.CompileJobs
-				.Where(x => x.Job.Instance.Id == metadata.Id)
-				.OrderByDescending(x => x.Job.StoppedAt)
-				.Select(x => new Job
-				{
-					StoppedAt = x.Job.StoppedAt,
-					StartedAt = x.Job.StartedAt
-				})
-				.Take(10)
-				.ToListAsync(cancellationToken)
-				.ConfigureAwait(false);
-
-			var dreamMakerSettings = await databaseContext.DreamMakerSettings.Where(x => x.InstanceId == metadata.Id).FirstAsync(cancellationToken).ConfigureAwait(false);
-			if (dreamMakerSettings == default)
-				throw new JobException(Api.Models.ErrorCode.InstanceMissingDreamMakerSettings);
-
-			RepositorySettings repositorySettings = null;
-			string repoOwner = null;
-			string repoName = null;
-			CompileJob compileJob;
-			RevisionInformation revInfo;
-			using (var repo = await RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
-			{
-				if (repo == null)
-					throw new JobException(Api.Models.ErrorCode.RepoMissing);
-
-				if (repo.IsGitHubRepository)
-				{
-					repoOwner = repo.GitHubOwner;
-					repoName = repo.GitHubRepoName;
-					repositorySettings = await databaseContext
-						.RepositorySettings
-						.Where(x => x.InstanceId == metadata.Id)
-						.Select(x => new RepositorySettings
-						{
-							AccessToken = x.AccessToken,
-							ShowTestMergeCommitters = x.ShowTestMergeCommitters,
-							PushTestMergeCommits = x.PushTestMergeCommits,
-							PostTestMergeComment = x.PostTestMergeComment
-						})
-						.FirstOrDefaultAsync(cancellationToken)
-						.ConfigureAwait(false);
-					if (repositorySettings == default)
-						throw new JobException(Api.Models.ErrorCode.InstanceMissingRepositorySettings);
-				}
-
-				var repoSha = repo.Head;
-				revInfo = await databaseContext.RevisionInformations.Where(x => x.CommitSha == repoSha && x.Instance.Id == metadata.Id).Include(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).ThenInclude(x => x.MergedBy).FirstOrDefaultAsync().ConfigureAwait(false);
-
-				if (revInfo == default)
-				{
-					revInfo = new RevisionInformation
-					{
-						CommitSha = repoSha,
-						OriginCommitSha = repoSha,
-						Instance = new Models.Instance
-						{
-							Id = metadata.Id
-						}
-					};
-					logger.LogWarning(Repository.Repository.OriginTrackingErrorTemplate, repoSha);
-					databaseContext.Instances.Attach(revInfo.Instance);
-				}
-
-				TimeSpan? averageSpan = null;
-				if (previousCompileJobs.Count != 0)
-				{
-					var totalSpan = TimeSpan.Zero;
-					foreach (var I in previousCompileJobs)
-						totalSpan += I.StoppedAt.Value - I.StartedAt.Value;
-					averageSpan = totalSpan / previousCompileJobs.Count;
-				}
-
-				compileJob = await dreamMaker.Compile(revInfo, dreamMakerSettings, ddSettings.StartupTimeout.Value, repo, progressReporter, averageSpan, cancellationToken).ConfigureAwait(false);
-			}
-
-			compileJob.Job = job;
-
-			databaseContext.CompileJobs.Add(compileJob);
-
-			await PostDeploymentComments(compileJob, repositorySettings, repoOwner, repoName).ConfigureAwait(false);
-
-			// The difficulty with compile jobs is they have a two part commit
-			await databaseContext.Save(cancellationToken).ConfigureAwait(false);
-			try
-			{
-				await compileJobConsumer.LoadCompileJob(compileJob, cancellationToken).ConfigureAwait(false);
-			}
-			catch
-			{
-				// So we need to un-commit the compile job if the above throws
-				databaseContext.CompileJobs.Remove(compileJob);
-				await databaseContext.Save(default).ConfigureAwait(false);
-				throw;
-			}
-
-			await eventConsumer.HandleEvent(EventType.DeploymentComplete, null, cancellationToken).ConfigureAwait(false);
-		}
-
-		/// <summary>
-		/// Post deployment GitHub comments.
-		/// </summary>
-		/// <param name="compileJob">The deployed <see cref="CompileJob"/>.</param>
-		/// <param name="repositorySettings">The <see cref="RepositorySettings"/>.</param>
-		/// <param name="repoOwner">The GitHub repostiory owner.</param>
-		/// <param name="repoName">The GitHub repostiory name.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task PostDeploymentComments(
-			CompileJob compileJob,
-			RepositorySettings repositorySettings,
-			string repoOwner,
-			string repoName)
-		{
-			if (repositorySettings?.AccessToken == null)
-				return;
-
-			// potential for commenting on a test merge change
-			var outgoingCompileJob = LatestCompileJob();
-
-			if ((outgoingCompileJob != null && outgoingCompileJob.RevisionInformation.CommitSha == compileJob.RevisionInformation.CommitSha) || !repositorySettings.PostTestMergeComment.Value)
-				return;
-
-			outgoingCompileJob ??= new CompileJob
-			{
-				RevisionInformation = new RevisionInformation
-				{
-					ActiveTestMerges = new List<RevInfoTestMerge>()
-				}
-			};
-
-			var gitHubClient = gitHubClientFactory.CreateClient(repositorySettings.AccessToken);
-
-			async Task CommentOnPR(int prNumber, string comment)
-			{
-				try
-				{
-					await gitHubClient.Issue.Comment.Create(repoOwner, repoName, prNumber, comment).ConfigureAwait(false);
-				}
-				catch (ApiException e)
-				{
-					logger.LogWarning("Error posting GitHub comment! Exception: {0}", e);
-				}
-			}
-
-			var tasks = new List<Task>();
-
-			string FormatTestMerge(TestMerge testMerge, bool updated) => String.Format(CultureInfo.InvariantCulture, "#### Test Merge {4}{0}{0}##### Server Instance{0}{5}{1}{0}{0}##### Revision{0}Origin: {6}{0}Pull Request: {2}{0}Server: {7}{3}",
-				Environment.NewLine,
-				repositorySettings.ShowTestMergeCommitters.Value ? String.Format(CultureInfo.InvariantCulture, "{0}{0}##### Merged By{0}{1}", Environment.NewLine, testMerge.MergedBy.Name) : String.Empty,
-				testMerge.PullRequestRevision,
-				testMerge.Comment != null ? String.Format(CultureInfo.InvariantCulture, "{0}{0}##### Comment{0}{1}", Environment.NewLine, testMerge.Comment) : String.Empty,
-				updated ? "Updated" : "Deployed",
-				metadata.Name,
-				compileJob.RevisionInformation.OriginCommitSha,
-				compileJob.RevisionInformation.CommitSha);
-
-			// added prs
-			foreach (var I in compileJob
-				.RevisionInformation
-				.ActiveTestMerges
-				.Select(x => x.TestMerge)
-				.Where(x => !outgoingCompileJob
-					.RevisionInformation
-					.ActiveTestMerges
-					.Any(y => y.TestMerge.Number == x.Number)))
-				tasks.Add(CommentOnPR(I.Number, FormatTestMerge(I, false)));
-
-			// removed prs
-			foreach (var I in outgoingCompileJob
-				.RevisionInformation
-				.ActiveTestMerges
-				.Select(x => x.TestMerge)
-					.Where(x => !compileJob
-					.RevisionInformation
-					.ActiveTestMerges
-					.Any(y => y.TestMerge.Number == x.Number)))
-				tasks.Add(CommentOnPR(I.Number, "#### Test Merge Removed"));
-
-			// updated prs
-			foreach (var I in compileJob
-				.RevisionInformation
-				.ActiveTestMerges
-				.Select(x => x.TestMerge)
-				.Where(x => outgoingCompileJob
-					.RevisionInformation
-					.ActiveTestMerges
-					.Any(y => y.TestMerge.Number == x.Number)))
-				tasks.Add(CommentOnPR(I.Number, FormatTestMerge(I, true)));
-
-			if (tasks.Any())
-				await Task.WhenAll(tasks).ConfigureAwait(false);
 		}
 
 		/// <summary>
@@ -393,11 +158,11 @@ namespace Tgstation.Server.Host.Components
 					await eventConsumer.HandleEvent(EventType.InstanceAutoUpdateStart, new List<string>(), cancellationToken).ConfigureAwait(false);
 					try
 					{
-						Models.User user = null;
+						User user = null;
 						await databaseContextFactory.UseContext(
 							async (db) => user = await db
 								.Users
-								.Where(x => x.CanonicalName == Models.User.CanonicalizeName(Api.Models.User.AdminName))
+								.Where(x => x.CanonicalName == User.CanonicalizeName(Api.Models.User.AdminName))
 								.FirstAsync(cancellationToken)
 								.ConfigureAwait(false))
 							.ConfigureAwait(false);
@@ -582,7 +347,10 @@ namespace Tgstation.Server.Host.Components
 							CancelRight = (ulong)DreamMakerRights.CancelCompile
 						};
 
-						await jobManager.RegisterOperation(compileProcessJob, CompileProcess, cancellationToken).ConfigureAwait(false);
+						await jobManager.RegisterOperation(
+							compileProcessJob,
+							DreamMaker.DeploymentProcess,
+							cancellationToken).ConfigureAwait(false);
 
 						await jobManager.WaitForJobCompletion(compileProcessJob, user, cancellationToken, default).ConfigureAwait(false);
 					}
@@ -617,7 +385,13 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task StartAsync(CancellationToken cancellationToken)
 		{
-			await Task.WhenAll(SetAutoUpdateInterval(metadata.AutoUpdateInterval.Value), Configuration.StartAsync(cancellationToken), ByondManager.StartAsync(cancellationToken), Chat.StartAsync(cancellationToken), compileJobConsumer.StartAsync(cancellationToken)).ConfigureAwait(false);
+			await Task.WhenAll(
+				SetAutoUpdateInterval(metadata.AutoUpdateInterval.Value),
+				Configuration.StartAsync(cancellationToken),
+				ByondManager.StartAsync(cancellationToken),
+				Chat.StartAsync(cancellationToken),
+				dmbFactory.StartAsync(cancellationToken))
+				.ConfigureAwait(false);
 
 			// dependent on so many things, its just safer this way
 			await Watchdog.StartAsync(cancellationToken).ConfigureAwait(false);
@@ -634,7 +408,7 @@ namespace Tgstation.Server.Host.Components
 				Configuration.StopAsync(cancellationToken),
 				ByondManager.StopAsync(cancellationToken),
 				Chat.StopAsync(cancellationToken),
-				compileJobConsumer.StopAsync(cancellationToken))
+				dmbFactory.StopAsync(cancellationToken))
 				.ConfigureAwait(false);
 		}
 
@@ -668,11 +442,6 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public CompileJob LatestCompileJob()
-		{
-			if (!dmbFactory.DmbAvailable)
-				return null;
-			return dmbFactory.LockNextDmb(0)?.CompileJob;
-		}
+		public CompileJob LatestCompileJob() => dmbFactory.LatestCompileJob();
 	}
 }
