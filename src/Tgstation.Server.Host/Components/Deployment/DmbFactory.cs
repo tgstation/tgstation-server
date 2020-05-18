@@ -202,6 +202,15 @@ namespace Tgstation.Server.Host.Components.Deployment
 				.Include(x => x.RevisionInformation).ThenInclude(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).ThenInclude(x => x.MergedBy)
 				.FirstAsync(cancellationToken).ConfigureAwait(false)).ConfigureAwait(false); // can't wait to see that query
 
+			if (!compileJob.Job.StoppedAt.HasValue)
+			{
+				// This happens if we're told to load the compile job that is currently finished up
+				// It can constitute an API violation if it's returned by the DreamDaemonController so just set it here
+				// Bit of a hack, but it should work out to be the same value
+				logger.LogTrace("Setting missing StoppedAt for CompileJob job...");
+				compileJob.Job.StoppedAt = DateTimeOffset.Now;
+			}
+
 			logger.LogTrace("Loading compile job {0}...", compileJob.Id);
 			var providerSubmitted = false;
 			var newProvider = new DmbProvider(compileJob, ioManager, () =>
