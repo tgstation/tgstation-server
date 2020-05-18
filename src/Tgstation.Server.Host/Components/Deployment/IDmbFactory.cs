@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Hosting;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Models;
@@ -8,7 +9,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 	/// <summary>
 	/// Factory for <see cref="IDmbProvider"/>s
 	/// </summary>
-	public interface IDmbFactory
+	public interface IDmbFactory : ILatestCompileJobProvider, IHostedService, IDisposable
 	{
 		/// <summary>
 		/// Get a <see cref="Task"/> that completes when the result of a call to <see cref="LockNextDmb"/> will be different than the previous call if any

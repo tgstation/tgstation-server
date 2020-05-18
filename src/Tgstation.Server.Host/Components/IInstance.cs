@@ -1,21 +1,19 @@
 ﻿using Microsoft.Extensions.Hosting;
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
+using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.StaticFiles;
 using Tgstation.Server.Host.Components.Watchdog;
-using Tgstation.Server.Host.Database;
-using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components
 {
 	/// <summary>
 	/// For interacting with the instance services
 	/// </summary>
-	public interface IInstance : IHostedService, IDisposable
+	public interface IInstance : ILatestCompileJobProvider, IHostedService, IDisposable
 	{
 		/// <summary>
 		/// The <see cref="IRepositoryManager"/> for the <see cref="IInstance"/>
@@ -26,6 +24,11 @@ namespace Tgstation.Server.Host.Components
 		/// The <see cref="IByondManager"/> for the <see cref="IInstance"/>
 		/// </summary>
 		IByondManager ByondManager { get; }
+
+		/// <summary>
+		/// The <see cref="IDreamMaker"/> for the <see cref="IInstance"/>.
+		/// </summary>
+		IDreamMaker DreamMaker { get; }
 
 		/// <summary>
 		/// The <see cref="IWatchdog"/> for the <see cref="IInstance"/>
@@ -43,12 +46,6 @@ namespace Tgstation.Server.Host.Components
 		IConfiguration Configuration { get; }
 
 		/// <summary>
-		/// The latest staged <see cref="CompileJob"/>
-		/// </summary>
-		/// <returns>The latest <see cref="CompileJob"/> if it exists</returns>
-		CompileJob LatestCompileJob();
-
-		/// <summary>
 		/// Rename the <see cref="IInstance"/>
 		/// </summary>
 		/// <param name="newName">The new name for the <see cref="IInstance"/></param>
@@ -60,15 +57,5 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="newInterval">The new auto update inteval</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task SetAutoUpdateInterval(uint newInterval);
-
-		/// <summary>
-		/// Run the compile job and insert it into the database. Meant to be called by a <see cref="Jobs.IJobManager"/>
-		/// </summary>
-		/// <param name="job">The running <see cref="Job"/></param>
-		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the operation</param>
-		/// <param name="progressReporter">The <see cref="Action{T1}"/> to report compilation progress</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task CompileProcess(Job job, IDatabaseContext databaseContext, Action<int> progressReporter, CancellationToken cancellationToken);
 	}
 }

@@ -254,9 +254,37 @@ namespace Tgstation.Server.Host.Components
 						commandFactory.SetWatchdog(watchdog);
 						try
 						{
-							var dreamMaker = new DreamMaker(byond, gameIoManager, configuration, sessionControllerFactory, eventConsumer, chatManager, processExecutor, watchdog, loggerFactory.CreateLogger<DreamMaker>());
+							Instance instance = null;
+							var dreamMaker = new DreamMaker(
+								byond,
+								gameIoManager,
+								configuration,
+								sessionControllerFactory,
+								eventConsumer,
+								chatManager,
+								processExecutor,
+								watchdog,
+								gitHubClientFactory,
+								dmbFactory,
+								repoManager,
+								loggerFactory.CreateLogger<DreamMaker>(),
+								metadata.CloneMetadata());
 
-							return new Instance(metadata.CloneMetadata(), repoManager, byond, dreamMaker, watchdog, chatManager, configuration, dmbFactory, databaseContextFactory, dmbFactory, jobManager, eventConsumer, gitHubClientFactory, loggerFactory.CreateLogger<Instance>());
+							instance = new Instance(
+								metadata.CloneMetadata(),
+								repoManager,
+								byond,
+								dreamMaker,
+								watchdog,
+								chatManager,
+								configuration,
+								databaseContextFactory,
+								dmbFactory,
+								jobManager,
+								eventConsumer,
+								loggerFactory.CreateLogger<Instance>());
+
+							return instance;
 						}
 						catch
 						{

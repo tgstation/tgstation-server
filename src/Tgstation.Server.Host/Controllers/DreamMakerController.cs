@@ -127,7 +127,13 @@ namespace Tgstation.Server.Host.Controllers
 				CancelRight = (ulong)DreamMakerRights.CancelCompile,
 				Instance = Instance
 			};
-			await jobManager.RegisterOperation(job, instanceManager.GetInstance(Instance).CompileProcess, cancellationToken).ConfigureAwait(false);
+
+			IInstance instance = instanceManager.GetInstance(Instance);
+			await jobManager.RegisterOperation(
+				job,
+				instance.DreamMaker.DeploymentProcess,
+				cancellationToken)
+				.ConfigureAwait(false);
 			return Accepted(job.ToApi());
 		}
 
