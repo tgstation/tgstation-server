@@ -179,6 +179,7 @@ namespace Tgstation.Server.Host.Controllers
 				return Conflict(new ErrorMessage(ErrorCode.RepoBusy));
 
 			using var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(false);
+
 			// clone conflict
 			if (repo != null)
 				return Conflict(new ErrorMessage(ErrorCode.RepoExists));
