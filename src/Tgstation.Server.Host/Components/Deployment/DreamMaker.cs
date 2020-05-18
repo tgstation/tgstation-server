@@ -531,6 +531,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		}
 
 		/// <inheritdoc />
+		#pragma warning disable CA1506
 		public async Task DeploymentProcess(
 			Models.Job job,
 			IDatabaseContext databaseContext,
@@ -670,6 +671,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				cancellationToken)
 				.ConfigureAwait(false);
 		}
+		#pragma warning restore CA1506
 
 		/// <summary>
 		/// Calculate the average length of a deployment using a given <paramref name="databaseContext"/>.
