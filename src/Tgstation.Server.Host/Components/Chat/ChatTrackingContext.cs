@@ -29,13 +29,17 @@ namespace Tgstation.Server.Host.Components.Chat
 		public IEnumerable<CustomCommand> CustomCommands
 		{
 			get => customCommands;
-			set => customCommands = (value ?? throw new InvalidOperationException("value cannot be null!"))
+			set
+			{
+				customCommands = (value ?? throw new InvalidOperationException("value cannot be null!"))
 				.Select(customCommand =>
 				{
 					customCommand.SetHandler(customCommandHandler);
 					return customCommand;
 				})
 				.ToList();
+				logger.LogTrace("Custom commands set.");
+			}
 		}
 
 		/// <summary>
