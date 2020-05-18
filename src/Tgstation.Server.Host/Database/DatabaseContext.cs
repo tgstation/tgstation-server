@@ -247,6 +247,7 @@ namespace Tgstation.Server.Host.Database
 		/// <inheritdoc />
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+			// Setup our more complex database relations
 			Logger.LogTrace("Building entity framework context...");
 			base.OnModelCreating(modelBuilder);
 
