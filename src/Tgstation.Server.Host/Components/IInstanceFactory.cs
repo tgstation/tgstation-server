@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Hosting;
-using Tgstation.Server.Host.Components.Interop;
+using Tgstation.Server.Host.Components.Interop.Bridge;
 
 namespace Tgstation.Server.Host.Components
 {

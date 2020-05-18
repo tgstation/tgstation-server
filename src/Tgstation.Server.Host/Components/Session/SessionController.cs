@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
@@ -194,6 +195,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="bridgeRegistrar">The <see cref="IBridgeRegistrar"/> used to populate <see cref="bridgeRegistration"/>.</param>
 		/// <param name="chat">The value of <see cref="chat"/></param>
 		/// <param name="chatTrackingContext">The value of <see cref="chatTrackingContext"/></param>
+		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> for the <see cref="SessionController"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="startupTimeout">The optional time to wait before failing the <see cref="LaunchResult"/></param>
 		/// <param name="reattached">If this is a reattached session.</param>
@@ -205,6 +207,7 @@ namespace Tgstation.Server.Host.Components.Session
 			IChatTrackingContext chatTrackingContext,
 			IBridgeRegistrar bridgeRegistrar,
 			IChatManager chat,
+			IAssemblyInformationProvider assemblyInformationProvider,
 			ILogger<SessionController> logger,
 			uint? startupTimeout,
 			bool reattached)
@@ -231,55 +234,21 @@ namespace Tgstation.Server.Host.Components.Session
 			synchronizationLock = new object();
 
 			CancellationTokenSource cts = null;
-			Task lifetimeContinuation = null;
-			lifetimeContinuation = process.Lifetime.ContinueWith(
+			_ = process.Lifetime.ContinueWith(
 				x =>
 				{
-					lock (lifetimeContinuation)
-						cts?.Cancel();
+					cts?.Cancel();
 					chatTrackingContext.Active = false;
 				},
 				TaskScheduler.Current);
 
-			async Task<LaunchResult> GetLaunchResult()
-			{
-				var startTime = DateTimeOffset.Now;
-				Task toAwait = process.Startup;
-
-				if (startupTimeout.HasValue)
-					toAwait = Task.WhenAny(process.Startup, Task.Delay(startTime.AddSeconds(startupTimeout.Value) - startTime));
-
-				await toAwait.ConfigureAwait(false);
-
-				var result = new LaunchResult
-				{
-					ExitCode = process.Lifetime.IsCompleted ? (int?)await process.Lifetime.ConfigureAwait(false) : null,
-					StartupTime = process.Startup.IsCompleted ? (TimeSpan?)(DateTimeOffset.Now - startTime) : null
-				};
-
-				logger.LogTrace("Launch result: {0}", result);
-
-				if (!result.ExitCode.HasValue && reattached)
-					using (cts = new CancellationTokenSource())
-						try
-						{
-							await SendCommand(
-								new TopicParameters(
-									reattachInformation.RuntimeInformation.ServerPort,
-									true),
-								cts.Token)
-								.ConfigureAwait(false);
-						}
-						finally
-						{
-							lock (lifetimeContinuation)
-								cts = null;
-						}
-
-				return result;
-			}
-
-			LaunchResult = GetLaunchResult();
+			LaunchResult = GetLaunchResult(
+				assemblyInformationProvider,
+#pragma warning disable CA2000 // Dispose objects before losing scope
+				cts = new CancellationTokenSource(),
+#pragma warning restore CA2000 // Dispose objects before losing scope
+				startupTimeout,
+				reattached);
 
 			logger.LogDebug("Created session controller. Primary: {0}, CommsKey: {1}, Port: {2}", IsPrimary, reattachInformation.AccessIdentifier, Port);
 		}
@@ -333,6 +302,51 @@ namespace Tgstation.Server.Host.Components.Session
 						else if (logger != null)
 							logger.LogCritical("Unable to terminate active DreamDaemon session due to finalizer ordering!");
 				}
+			}
+		}
+
+		async Task<LaunchResult> GetLaunchResult(
+			IAssemblyInformationProvider assemblyInformationProvider,
+			CancellationTokenSource cancellationTokenSource,
+			uint? startupTimeout,
+			bool reattached)
+		{
+			using (cancellationTokenSource)
+			{
+				var startTime = DateTimeOffset.Now;
+				Task toAwait = process.Startup;
+
+				if (startupTimeout.HasValue)
+					toAwait = Task.WhenAny(process.Startup, Task.Delay(startTime.AddSeconds(startupTimeout.Value) - startTime));
+
+				await toAwait.ConfigureAwait(false);
+
+				var result = new LaunchResult
+				{
+					ExitCode = process.Lifetime.IsCompleted ? (int?)await process.Lifetime.ConfigureAwait(false) : null,
+					StartupTime = process.Startup.IsCompleted ? (TimeSpan?)(DateTimeOffset.Now - startTime) : null
+				};
+
+				logger.LogTrace("Launch result: {0}", result);
+
+				if (!result.ExitCode.HasValue && reattached)
+				{
+					var reattachResponse = await SendCommand(
+						new TopicParameters(
+							assemblyInformationProvider.Version,
+							reattachInformation.RuntimeInformation.ServerPort),
+						cancellationTokenSource.Token)
+						.ConfigureAwait(false);
+
+					if (reattachResponse.InteropResponse?.CustomCommands != null)
+						chatTrackingContext.CustomCommands = reattachResponse.InteropResponse.CustomCommands;
+					else if (reattachResponse.InteropResponse != null)
+						logger.LogWarning(
+							"DMAPI v{0} isn't returning the TGS custom commands list. Functionality added in v5.2.0.",
+							Dmb.CompileJob.DMApiVersion.Semver());
+				}
+
+				return result;
 			}
 		}
 
@@ -454,7 +468,7 @@ namespace Tgstation.Server.Host.Components.Session
 					response.RuntimeInformation = reattachInformation.RuntimeInformation;
 
 					// Load custom commands
-					chatTrackingContext.CustomCommands = parameters.CustomCommands.ToList();
+					chatTrackingContext.CustomCommands = parameters.CustomCommands;
 					break;
 				case BridgeCommandType.Reboot:
 					if (ClosePortOnReboot)
@@ -585,7 +599,7 @@ namespace Tgstation.Server.Host.Components.Session
 			async Task<bool> ImmediateTopicPortChange()
 			{
 				var commandResult = await SendCommand(
-					new TopicParameters(port, false),
+					new TopicParameters(port),
 					cancellationToken)
 					.ConfigureAwait(false);
 

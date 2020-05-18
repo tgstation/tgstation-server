@@ -16,5 +16,10 @@ namespace Tgstation.Server.Api.Models
 		/// The <see cref="Api"/> version of the host
 		/// </summary>
 		public Version ApiVersion { get; set; }
+
+		/// <summary>
+		/// The DMAPI version of the host.
+		/// </summary>
+		public Version DMApiVersion { get; set; }
 	}
 }

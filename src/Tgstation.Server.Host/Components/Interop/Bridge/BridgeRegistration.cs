@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Tgstation.Server.Host.Components.Interop
+namespace Tgstation.Server.Host.Components.Interop.Bridge
 {
 	/// <inheritdoc />
 	sealed class BridgeRegistration : IBridgeRegistration
