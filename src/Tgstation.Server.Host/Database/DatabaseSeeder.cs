@@ -69,8 +69,8 @@ namespace Tgstation.Server.Host.Database
 				// Fix the issue with ulong enums
 				// https://github.com/tgstation/tgstation-server/commit/db341d43b3dab74fe3681f5172ca9bfeaafa6b6d#diff-09f06ec4584665cf89bb77b97f5ccfb9R36-R39
 				// https://github.com/JamesNK/Newtonsoft.Json/issues/2301
-				admin.AdministrationRights = admin.AdministrationRights & RightsHelper.AllRights<AdministrationRights>();
-				admin.InstanceManagerRights = admin.InstanceManagerRights & RightsHelper.AllRights<InstanceManagerRights>();
+				admin.AdministrationRights &= RightsHelper.AllRights<AdministrationRights>();
+				admin.InstanceManagerRights &= RightsHelper.AllRights<InstanceManagerRights>();
 			}
 
 			if (platformIdentifier.IsWindows)
