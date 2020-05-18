@@ -234,62 +234,21 @@ namespace Tgstation.Server.Host.Components.Session
 			synchronizationLock = new object();
 
 			CancellationTokenSource cts = null;
-			Task lifetimeContinuation = null;
-			lifetimeContinuation = process.Lifetime.ContinueWith(
+			_ = process.Lifetime.ContinueWith(
 				x =>
 				{
-					lock (lifetimeContinuation)
-						cts?.Cancel();
+					cts?.Cancel();
 					chatTrackingContext.Active = false;
 				},
 				TaskScheduler.Current);
 
-			async Task<LaunchResult> GetLaunchResult()
-			{
-				var startTime = DateTimeOffset.Now;
-				Task toAwait = process.Startup;
-
-				if (startupTimeout.HasValue)
-					toAwait = Task.WhenAny(process.Startup, Task.Delay(startTime.AddSeconds(startupTimeout.Value) - startTime));
-
-				await toAwait.ConfigureAwait(false);
-
-				var result = new LaunchResult
-				{
-					ExitCode = process.Lifetime.IsCompleted ? (int?)await process.Lifetime.ConfigureAwait(false) : null,
-					StartupTime = process.Startup.IsCompleted ? (TimeSpan?)(DateTimeOffset.Now - startTime) : null
-				};
-
-				logger.LogTrace("Launch result: {0}", result);
-
-				if (!result.ExitCode.HasValue && reattached)
-					using (cts = new CancellationTokenSource())
-						try
-						{
-							var reattachResponse = await SendCommand(
-								new TopicParameters(
-									assemblyInformationProvider.Version,
-									reattachInformation.RuntimeInformation.ServerPort),
-								cts.Token)
-								.ConfigureAwait(false);
-
-							if (reattachResponse.InteropResponse?.CustomCommands != null)
-								this.chatTrackingContext.CustomCommands = reattachResponse.InteropResponse.CustomCommands.ToList();
-							else if (reattachResponse.InteropResponse != null)
-								logger.LogWarning(
-									"DMAPI v{0} isn't returning the TGS custom commands list. Functionality added in v5.2.0.",
-									Dmb.CompileJob.DMApiVersion.Semver());
-						}
-						finally
-						{
-							lock (lifetimeContinuation)
-								cts = null;
-						}
-
-				return result;
-			}
-
-			LaunchResult = GetLaunchResult();
+			LaunchResult = GetLaunchResult(
+				assemblyInformationProvider,
+#pragma warning disable CA2000 // Dispose objects before losing scope
+				cts = new CancellationTokenSource(),
+#pragma warning restore CA2000 // Dispose objects before losing scope
+				startupTimeout,
+				reattached);
 
 			logger.LogDebug("Created session controller. Primary: {0}, CommsKey: {1}, Port: {2}", IsPrimary, reattachInformation.AccessIdentifier, Port);
 		}
@@ -343,6 +302,51 @@ namespace Tgstation.Server.Host.Components.Session
 						else if (logger != null)
 							logger.LogCritical("Unable to terminate active DreamDaemon session due to finalizer ordering!");
 				}
+			}
+		}
+
+		async Task<LaunchResult> GetLaunchResult(
+			IAssemblyInformationProvider assemblyInformationProvider,
+			CancellationTokenSource cancellationTokenSource,
+			uint? startupTimeout,
+			bool reattached)
+		{
+			using (cancellationTokenSource)
+			{
+				var startTime = DateTimeOffset.Now;
+				Task toAwait = process.Startup;
+
+				if (startupTimeout.HasValue)
+					toAwait = Task.WhenAny(process.Startup, Task.Delay(startTime.AddSeconds(startupTimeout.Value) - startTime));
+
+				await toAwait.ConfigureAwait(false);
+
+				var result = new LaunchResult
+				{
+					ExitCode = process.Lifetime.IsCompleted ? (int?)await process.Lifetime.ConfigureAwait(false) : null,
+					StartupTime = process.Startup.IsCompleted ? (TimeSpan?)(DateTimeOffset.Now - startTime) : null
+				};
+
+				logger.LogTrace("Launch result: {0}", result);
+
+				if (!result.ExitCode.HasValue && reattached)
+				{
+					var reattachResponse = await SendCommand(
+						new TopicParameters(
+							assemblyInformationProvider.Version,
+							reattachInformation.RuntimeInformation.ServerPort),
+						cancellationTokenSource.Token)
+						.ConfigureAwait(false);
+
+					if (reattachResponse.InteropResponse?.CustomCommands != null)
+						chatTrackingContext.CustomCommands = reattachResponse.InteropResponse.CustomCommands;
+					else if (reattachResponse.InteropResponse != null)
+						logger.LogWarning(
+							"DMAPI v{0} isn't returning the TGS custom commands list. Functionality added in v5.2.0.",
+							Dmb.CompileJob.DMApiVersion.Semver());
+				}
+
+				return result;
 			}
 		}
 
@@ -464,7 +468,7 @@ namespace Tgstation.Server.Host.Components.Session
 					response.RuntimeInformation = reattachInformation.RuntimeInformation;
 
 					// Load custom commands
-					chatTrackingContext.CustomCommands = parameters.CustomCommands.ToList();
+					chatTrackingContext.CustomCommands = parameters.CustomCommands;
 					break;
 				case BridgeCommandType.Reboot:
 					if (ClosePortOnReboot)
