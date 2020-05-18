@@ -1,8 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Host.Components.Interop.Bridge;
 
-namespace Tgstation.Server.Host.Components.Interop
+namespace Tgstation.Server.Host.Components.Interop.Bridge
 {
 	/// <summary>
 	/// Handler for <see cref="BridgeParameters"/>.

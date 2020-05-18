@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace Tgstation.Server.Host.Components.Interop
+namespace Tgstation.Server.Host.Components.Interop.Bridge
 {
 	/// <inheritdoc />
 	interface IBridgeHandler : IBridgeDispatcher
