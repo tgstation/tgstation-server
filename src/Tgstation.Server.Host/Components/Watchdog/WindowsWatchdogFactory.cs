@@ -10,7 +10,6 @@ using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
-using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
@@ -32,7 +31,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="databaseContextFactory">The <see cref="IDatabaseContextFactory"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogFactory"/>.</param>
-		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> for <see cref="GeneralConfiguration"/> for the <see cref="WatchdogFactory"/>.</param>
 		public WindowsWatchdogFactory(
@@ -41,7 +39,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IDatabaseContextFactory databaseContextFactory,
 			IJobManager jobManager,
 			IAsyncDelayer asyncDelayer,
-			IAssemblyInformationProvider assemblyInformationProvider,
 			ISymlinkFactory symlinkFactory,
 			IOptions<GeneralConfiguration> generalConfigurationOptions)
 			: base(
@@ -50,7 +47,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				databaseContextFactory,
 				jobManager,
 				asyncDelayer,
-				assemblyInformationProvider,
 				generalConfigurationOptions)
 		{
 			this.symlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
@@ -74,7 +70,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				JobManager,
 				ServerControl,
 				AsyncDelayer,
-				AssemblyInformationProvider,
 				ioManager,
 				symlinkFactory,
 				LoggerFactory.CreateLogger<WindowsWatchdog>(),

@@ -1,4 +1,4 @@
-﻿namespace Tgstation.Server.Host.Components.Interop
+﻿namespace Tgstation.Server.Host.Components.Interop.Bridge
 {
 	/// <summary>
 	/// Registers <see cref="IBridgeHandler"/>s.

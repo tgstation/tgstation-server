@@ -12,6 +12,7 @@ using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
+using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
@@ -124,6 +125,7 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					Version = assemblyInformationProvider.Version,
 					ApiVersion = ApiHeaders.Version,
+					DMApiVersion = DMApiConstants.Version,
 					MinimumPasswordLength = generalConfiguration.MinimumPasswordLength,
 					InstanceLimit = generalConfiguration.InstanceLimit,
 					UserLimit = generalConfiguration.UserLimit,
