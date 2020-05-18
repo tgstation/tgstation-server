@@ -674,7 +674,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							? "Restarting"
 							: "Shutting down";
 						var chatTask = Chat.SendWatchdogMessage(
-							$"Monitor crashed, this should NEVER happen! Please report this, full details in logs!{nextActionMessage}. Error: {e.Message}",
+							$"Monitor crashed, this should NEVER happen! Please report this, full details in logs! {nextActionMessage}. Error: {e.Message}",
 							false,
 							cancellationToken);
 
