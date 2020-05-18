@@ -148,6 +148,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		bool running;
 
 		/// <summary>
+		/// If the <see cref="WatchdogBase"/> has been <see cref="Dispose"/>d.
+		/// </summary>
+		bool disposed;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="WatchdogBase"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="chat">The value of <see cref="Chat"/></param>
@@ -216,6 +221,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			restartRegistration.Dispose();
 			DisposeAndNullControllers();
 			monitorCts?.Dispose();
+			disposed = true;
 		}
 
 		/// <summary>
@@ -672,7 +678,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							false,
 							cancellationToken);
 
-						if (monitorState.NextAction != MonitorAction.Exit)
+						if (disposed)
+							monitorState.NextAction = MonitorAction.Exit;
+						else if (monitorState.NextAction != MonitorAction.Exit)
 							monitorState = await MonitorRestart(cancellationToken).ConfigureAwait(false);
 
 						await chatTask.ConfigureAwait(false);
