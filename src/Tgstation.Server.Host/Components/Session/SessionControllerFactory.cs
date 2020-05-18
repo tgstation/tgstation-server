@@ -289,6 +289,7 @@ namespace Tgstation.Server.Host.Components.Session
 							chatTrackingContext,
 							bridgeRegistrar,
 							chat,
+							assemblyInformationProvider,
 							loggerFactory.CreateLogger<SessionController>(),
 							launchParameters.StartupTimeout,
 							false);
@@ -353,6 +354,7 @@ namespace Tgstation.Server.Host.Components.Session
 							chatTrackingContext,
 							bridgeRegistrar,
 							chat,
+							assemblyInformationProvider,
 							loggerFactory.CreateLogger<SessionController>(),
 							null,
 							true);

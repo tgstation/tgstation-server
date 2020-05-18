@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
@@ -194,6 +195,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="bridgeRegistrar">The <see cref="IBridgeRegistrar"/> used to populate <see cref="bridgeRegistration"/>.</param>
 		/// <param name="chat">The value of <see cref="chat"/></param>
 		/// <param name="chatTrackingContext">The value of <see cref="chatTrackingContext"/></param>
+		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> for the <see cref="SessionController"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="startupTimeout">The optional time to wait before failing the <see cref="LaunchResult"/></param>
 		/// <param name="reattached">If this is a reattached session.</param>
@@ -205,6 +207,7 @@ namespace Tgstation.Server.Host.Components.Session
 			IChatTrackingContext chatTrackingContext,
 			IBridgeRegistrar bridgeRegistrar,
 			IChatManager chat,
+			IAssemblyInformationProvider assemblyInformationProvider,
 			ILogger<SessionController> logger,
 			uint? startupTimeout,
 			bool reattached)
@@ -263,12 +266,19 @@ namespace Tgstation.Server.Host.Components.Session
 					using (cts = new CancellationTokenSource())
 						try
 						{
-							await SendCommand(
+							var reattachResponse = await SendCommand(
 								new TopicParameters(
-									reattachInformation.RuntimeInformation.ServerPort,
-									true),
+									assemblyInformationProvider.Version,
+									reattachInformation.RuntimeInformation.ServerPort),
 								cts.Token)
 								.ConfigureAwait(false);
+
+							if (reattachResponse.InteropResponse?.CustomCommands != null)
+								this.chatTrackingContext.CustomCommands = reattachResponse.InteropResponse.CustomCommands.ToList();
+							else if (reattachResponse.InteropResponse != null)
+								logger.LogWarning(
+									"DMAPI v{0} isn't returning the TGS custom commands list. Functionality added in v5.2.0.",
+									Dmb.CompileJob.DMApiVersion.Semver());
 						}
 						finally
 						{
@@ -585,7 +595,7 @@ namespace Tgstation.Server.Host.Components.Session
 			async Task<bool> ImmediateTopicPortChange()
 			{
 				var commandResult = await SendCommand(
-					new TopicParameters(port, false),
+					new TopicParameters(port),
 					cancellationToken)
 					.ConfigureAwait(false);
 

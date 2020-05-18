@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Tgstation.Server.Host.Components.Chat.Commands;
 
 namespace Tgstation.Server.Host.Components.Interop.Topic
 {
@@ -16,5 +17,10 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// The <see cref="ChatMessage"/>s to send as the result of a <see cref="TopicCommandType.EventNotification"/> request, if any.
 		/// </summary>
 		public ICollection<ChatMessage> ChatResponses { get; set; }
+
+		/// <summary>
+		/// The DMAPI <see cref="CustomCommand"/>s for <see cref="TopicCommandType.ServerRestarted"/> requests.
+		/// </summary>
+		public ICollection<CustomCommand> CustomCommands { get; set; }
 	}
 }
