@@ -106,6 +106,11 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly ReattachInformation reattachInformation;
 
 		/// <summary>
+		/// A <see cref="CancellationTokenSource"/> used for the topic send operation made on reattaching.
+		/// </summary>
+		readonly CancellationTokenSource reattachTopicCts;
+
+		/// <summary>
 		/// The <see cref="ITopicClient"/> for the <see cref="SessionController"/>
 		/// </summary>
 		readonly ITopicClient byondTopicSender;
@@ -230,23 +235,20 @@ namespace Tgstation.Server.Host.Components.Session
 
 			rebootTcs = new TaskCompletionSource<object>();
 			primeTcs = new TaskCompletionSource<object>();
-
+			reattachTopicCts = new CancellationTokenSource();
 			synchronizationLock = new object();
 
-			CancellationTokenSource cts = null;
 			_ = process.Lifetime.ContinueWith(
 				x =>
 				{
-					cts?.Cancel();
+					if (!disposed)
+						reattachTopicCts.Cancel();
 					chatTrackingContext.Active = false;
 				},
 				TaskScheduler.Current);
 
 			LaunchResult = GetLaunchResult(
 				assemblyInformationProvider,
-#pragma warning disable CA2000 // Dispose objects before losing scope
-				cts = new CancellationTokenSource(),
-#pragma warning restore CA2000 // Dispose objects before losing scope
 				startupTimeout,
 				reattached);
 
@@ -290,6 +292,7 @@ namespace Tgstation.Server.Host.Components.Session
 					bridgeRegistration.Dispose();
 					Dmb?.Dispose(); // will be null when released
 					chatTrackingContext.Dispose();
+					reattachTopicCts.Dispose();
 					disposed = true;
 				}
 				else
@@ -305,49 +308,52 @@ namespace Tgstation.Server.Host.Components.Session
 			}
 		}
 
+		/// <summary>
+		/// The <see cref="Task{TResult}"/> for <see cref="LaunchResult"/>.
+		/// </summary>
+		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/>.</param>
+		/// <param name="startupTimeout">The, optional, startup timeout in seconds.</param>
+		/// <param name="reattached">If DreamDaemon was reattached.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="Session.LaunchResult"/> for the operation.</returns>
 		async Task<LaunchResult> GetLaunchResult(
 			IAssemblyInformationProvider assemblyInformationProvider,
-			CancellationTokenSource cancellationTokenSource,
 			uint? startupTimeout,
 			bool reattached)
 		{
-			using (cancellationTokenSource)
+			var startTime = DateTimeOffset.Now;
+			Task toAwait = process.Startup;
+
+			if (startupTimeout.HasValue)
+				toAwait = Task.WhenAny(process.Startup, Task.Delay(startTime.AddSeconds(startupTimeout.Value) - startTime));
+
+			await toAwait.ConfigureAwait(false);
+
+			var result = new LaunchResult
 			{
-				var startTime = DateTimeOffset.Now;
-				Task toAwait = process.Startup;
+				ExitCode = process.Lifetime.IsCompleted ? (int?)await process.Lifetime.ConfigureAwait(false) : null,
+				StartupTime = process.Startup.IsCompleted ? (TimeSpan?)(DateTimeOffset.Now - startTime) : null
+			};
 
-				if (startupTimeout.HasValue)
-					toAwait = Task.WhenAny(process.Startup, Task.Delay(startTime.AddSeconds(startupTimeout.Value) - startTime));
+			logger.LogTrace("Launch result: {0}", result);
 
-				await toAwait.ConfigureAwait(false);
+			if (!result.ExitCode.HasValue && reattached && !disposed)
+			{
+				var reattachResponse = await SendCommand(
+					new TopicParameters(
+						assemblyInformationProvider.Version,
+						reattachInformation.RuntimeInformation.ServerPort),
+					reattachTopicCts.Token)
+					.ConfigureAwait(false);
 
-				var result = new LaunchResult
-				{
-					ExitCode = process.Lifetime.IsCompleted ? (int?)await process.Lifetime.ConfigureAwait(false) : null,
-					StartupTime = process.Startup.IsCompleted ? (TimeSpan?)(DateTimeOffset.Now - startTime) : null
-				};
-
-				logger.LogTrace("Launch result: {0}", result);
-
-				if (!result.ExitCode.HasValue && reattached)
-				{
-					var reattachResponse = await SendCommand(
-						new TopicParameters(
-							assemblyInformationProvider.Version,
-							reattachInformation.RuntimeInformation.ServerPort),
-						cancellationTokenSource.Token)
-						.ConfigureAwait(false);
-
-					if (reattachResponse.InteropResponse?.CustomCommands != null)
-						chatTrackingContext.CustomCommands = reattachResponse.InteropResponse.CustomCommands;
-					else if (reattachResponse.InteropResponse != null)
-						logger.LogWarning(
-							"DMAPI v{0} isn't returning the TGS custom commands list. Functionality added in v5.2.0.",
-							Dmb.CompileJob.DMApiVersion.Semver());
-				}
-
-				return result;
+				if (reattachResponse.InteropResponse?.CustomCommands != null)
+					chatTrackingContext.CustomCommands = reattachResponse.InteropResponse.CustomCommands;
+				else if (reattachResponse.InteropResponse != null)
+					logger.LogWarning(
+						"DMAPI v{0} isn't returning the TGS custom commands list. Functionality added in v5.2.0.",
+						Dmb.CompileJob.DMApiVersion.Semver());
 			}
+
+			return result;
 		}
 
 		/// <inheritdoc />
