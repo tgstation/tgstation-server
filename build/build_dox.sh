@@ -6,7 +6,7 @@ DOXDIR=~/tgsdox
 
 mkdir -p $DOXDIR
 
-if [ "$TRAVIS_PULL_REQUEST" -eq "$false" ] && [ "$TRAVIS_BRANCH" -eq "master" ]; then
+if [ "$TRAVIS_PULL_REQUEST" = false ] && [ "$TRAVIS_BRANCH" = "master" ]; then
     PUBLISH_DOX=true
 else
     PUBLISH_DOX=false
