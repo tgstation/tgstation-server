@@ -16,7 +16,7 @@ if [ "$PUBLISH_DOX" = true ] ; then
 	GITHUB_URL="github.com/$TRAVIS_PULL_REQUEST_SLUG"
 	echo "Cloning https://git@$GITHUB_URL..."
 	git clone -b gh-pages --single-branch "https://git@$GITHUB_URL" "$DOXDIR" 2> /dev/null
-	rm -r "$DOXDIR\*"
+	rm -r "$DOXDIR/*"
 fi
 
 VERSION=cat "$BUILD_FOLDER/build/Version.props" | grep -oPm1 "(?<=<TgsCoreVersion>)[^<]+"
