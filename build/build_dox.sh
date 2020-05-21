@@ -19,7 +19,7 @@ if [ "$PUBLISH_DOX" = true ] ; then
 	rm -r "$DOXDIR/*"
 fi
 
-VERSION=cat "$BUILD_FOLDER/build/Version.props" | grep -oPm1 "(?<=<TgsCoreVersion>)[^<]+"
+VERSION=$(cat "build/Version.props" | grep -oPm1 "(?<=<TgsCoreVersion>)[^<]+")
 
 echo -e "\nPROJECT_NUMBER = $VERSION\nINPUT = $BUILD_FOLDER\nOUTPUT_DIRECTORY = $DOXDIR\nPROJECT_LOGO = $BUILD_FOLDER/build/tgs.ico\nHAVE_DOT=YES" >> "$BUILD_FOLDER/docs/Doxyfile"
 
@@ -37,7 +37,7 @@ if [ "$PUBLISH_DOX" = true ] ; then
 	echo "" > .nojekyll
 	git add --all
 	git commit -m "Deploy code docs to GitHub Pages for Travis build $TRAVIS_BUILD_NUMBER" -m "Commit: $TRAVIS_COMMIT"
-	git push -f "https://$TGS4_TEST_GITHUB_TOKEN@$GITHUB_URL" 2>&1 | /dev/null
+	git push -f "https://$TGS4_GH_PAGES_TOKEN@$GITHUB_URL" 2>&1 | /dev/null
 	cd "$BUILD_FOLDER"
 	rm -rf "$DOXDIR/.git"
 fi
