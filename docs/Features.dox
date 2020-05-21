@@ -3,7 +3,7 @@
 
 @tableofcontents
 
-@section features_list New in V4
+@section new_features New in V4
 
 - Agnostic HTTP API: The replaces the WCF service calls used in TGS3. This helps avoid Windows vendor lock-in and get away from the SOAP API that literally no one understood (not even me). With it, it's much easier to expose TGS to the internet, all you need is a HTTPS reverse proxy in front of it. A rundown of the new API exists here: https://tgstation.github.io/tgstation-server/api.html.
 - Granular Access Controls: Windows users are no longer (required to be) the basis for authentication to the server. We now have database-backed users as a login option. These use a combined Basic/JWT authentication scheme with industry standard password hashing and salting. Users are fully customizable and can be given granular access to every bit of the server via the new permissions system. From changing the BYOND version, to test merging a PR, to restarting the server, every action may now be granted or revoked on a per user basis.
