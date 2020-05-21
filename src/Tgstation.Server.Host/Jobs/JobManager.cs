@@ -75,50 +75,56 @@ namespace Tgstation.Server.Host.Jobs
 		/// <param name="operation">The operation for the <paramref name="job"/></param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		async Task RunJob(Job job, Func<Job, IDatabaseContext, CancellationToken, Task> operation, CancellationToken cancellationToken)
+		async Task RunJob(Job job, Func<Job, IDatabaseContextFactory, CancellationToken, Task> operation, CancellationToken cancellationToken)
 		{
 			try
 			{
+				void LogRegularException() => logger.LogDebug("Job {0} exited with error! Exception: {1}", job.Id, job.ExceptionDetails);
+				try
+				{
+					var oldJob = job;
+					job = new Job { Id = oldJob.Id };
+
+					await operation(job, databaseContextFactory, cancellationToken).ConfigureAwait(false);
+
+					logger.LogDebug("Job {0} completed!", job.Id);
+				}
+				catch (OperationCanceledException)
+				{
+					logger.LogDebug("Job {0} cancelled!", job.Id);
+					job.Cancelled = true;
+				}
+				catch (JobException e)
+				{
+					job.ErrorCode = e.ErrorCode;
+					job.ExceptionDetails = e.Message;
+					LogRegularException();
+					if (e.InnerException != null)
+						logger.LogDebug(
+							"Inner exception for job {0}: {1}",
+							job.Id,
+							e.InnerException is JobException
+								? e.InnerException.Message
+								: e.InnerException.ToString());
+				}
+				catch (Exception e)
+				{
+					job.ExceptionDetails = e.ToString();
+					LogRegularException();
+				}
+
 				await databaseContextFactory.UseContext(async databaseContext =>
 				{
-					void LogRegularException() => logger.LogDebug("Job {0} exited with error! Exception: {1}", job.Id, job.ExceptionDetails);
-					try
+					var attachedJob = new Job
 					{
-						var oldJob = job;
-						job = new Job { Id = oldJob.Id };
-						databaseContext.Jobs.Attach(job);
+						Id = job.Id
+					};
 
-						await operation(job, databaseContext, cancellationToken).ConfigureAwait(false);
-
-						logger.LogDebug("Job {0} completed!", job.Id);
-					}
-					catch (OperationCanceledException)
-					{
-						logger.LogDebug("Job {0} cancelled!", job.Id);
-						job.Cancelled = true;
-					}
-					catch (JobException e)
-					{
-						job.ErrorCode = e.ErrorCode;
-						job.ExceptionDetails = e.Message;
-						LogRegularException();
-						if (e.InnerException != null)
-							logger.LogDebug(
-								"Inner exception for job {0}: {1}",
-								job.Id,
-								e.InnerException is JobException
-									? e.InnerException.Message
-									: e.InnerException.ToString());
-					}
-					catch (Exception e)
-					{
-						job.ExceptionDetails = e.ToString();
-						LogRegularException();
-					}
-					finally
-					{
-						job.StoppedAt = DateTimeOffset.Now;
-					}
+					databaseContext.Jobs.Attach(attachedJob);
+					attachedJob.StoppedAt = DateTimeOffset.Now;
+					attachedJob.ExceptionDetails = job.ExceptionDetails;
+					attachedJob.ErrorCode = job.ErrorCode;
+					attachedJob.Cancelled = job.Cancelled;
 
 					await databaseContext.Save(default).ConfigureAwait(false);
 				}).ConfigureAwait(false);
@@ -135,7 +141,7 @@ namespace Tgstation.Server.Host.Jobs
 		}
 
 		/// <inheritdoc />
-		public Task RegisterOperation(Job job, Func<Job, IDatabaseContext, Action<int>, CancellationToken, Task> operation, CancellationToken cancellationToken) => databaseContextFactory.UseContext(async databaseContext =>
+		public Task RegisterOperation(Job job, Func<Job, IDatabaseContextFactory, Action<int>, CancellationToken, Task> operation, CancellationToken cancellationToken) => databaseContextFactory.UseContext(async databaseContext =>
 		{
 			if (job == null)
 				throw new ArgumentNullException(nameof(job));

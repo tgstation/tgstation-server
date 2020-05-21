@@ -120,7 +120,7 @@ namespace Tgstation.Server.Host.Controllers
 					CancelRight = (ulong)ByondRights.CancelInstall,
 					Instance = Instance
 				};
-				await jobManager.RegisterOperation(job, (paramJob, databaseContext, progressHandler, ct) => byondManager.ChangeVersion(installingVersion, ct), cancellationToken).ConfigureAwait(false);
+				await jobManager.RegisterOperation(job, (paramJob, databaseContextFactory, progressHandler, ct) => byondManager.ChangeVersion(installingVersion, ct), cancellationToken).ConfigureAwait(false);
 				result.InstallJob = job.ToApi();
 			}
 

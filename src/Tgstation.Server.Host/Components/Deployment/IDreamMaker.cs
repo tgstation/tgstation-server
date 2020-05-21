@@ -15,13 +15,13 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// Create and  a compile job and insert it into the database. Meant to be called by a <see cref="Jobs.IJobManager"/>.
 		/// </summary>
 		/// <param name="job">The running <see cref="Job"/>.</param>
-		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the operation.</param>
+		/// <param name="databaseContextFactory">The <see cref="IDatabaseContextFactory"/> for the operation.</param>
 		/// <param name="progressReporter">The <see cref="Action{T1}"/> to report compilation progress.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		Task DeploymentProcess(
 			Job job,
-			IDatabaseContext databaseContext,
+			IDatabaseContextFactory databaseContextFactory,
 			Action<int> progressReporter,
 			CancellationToken cancellationToken);
 	}

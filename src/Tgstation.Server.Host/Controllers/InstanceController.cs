@@ -505,7 +505,7 @@ namespace Tgstation.Server.Host.Controllers
 					StartedBy = AuthenticationContext.User
 				};
 
-				await jobManager.RegisterOperation(job, (paramJob, databaseContext, progressHandler, ct) => instanceManager.MoveInstance(originalModel, rawPath, ct), cancellationToken).ConfigureAwait(false);
+				await jobManager.RegisterOperation(job, (paramJob, databaseContextFactory, progressHandler, ct) => instanceManager.MoveInstance(originalModel, rawPath, ct), cancellationToken).ConfigureAwait(false);
 				api.MoveJob = job.ToApi();
 			}
 
