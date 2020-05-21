@@ -37,7 +37,7 @@ if [ "$PUBLISH_DOX" = true ] ; then
 	echo "" > .nojekyll
 	git add --all
 	git commit -m "Deploy code docs to GitHub Pages for Travis build $TRAVIS_BUILD_NUMBER" -m "Commit: $TRAVIS_COMMIT"
-	git push -f "https://$TGS4_TEST_GITHUB_TOKEN@$GITHUB_URL" 2>&1 | out-null
+	git push -f "https://$TGS4_TEST_GITHUB_TOKEN@$GITHUB_URL" 2>&1 | /dev/null
 	cd "$BUILD_FOLDER"
 	rm -r "$DOXDIR/.git"
 fi
