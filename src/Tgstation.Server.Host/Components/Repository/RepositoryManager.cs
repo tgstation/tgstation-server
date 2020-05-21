@@ -3,9 +3,10 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.Jobs;
 
 namespace Tgstation.Server.Host.Components.Repository
 {
@@ -49,11 +50,6 @@ namespace Tgstation.Server.Host.Components.Repository
 		readonly ILogger<RepositoryManager> logger;
 
 		/// <summary>
-		/// The <see cref="RepositorySettings"/> for the <see cref="RepositoryManager"/>
-		/// </summary>
-		readonly RepositorySettings repositorySettings;
-
-		/// <summary>
 		/// Used for controlling single access to the <see cref="IRepository"/>
 		/// </summary>
 		readonly SemaphoreSlim semaphore;
@@ -67,15 +63,13 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
 		/// <param name="repositoryLogger">The value of <see cref="repositoryLogger"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		/// <param name="repositorySettings">The value of <see cref="repositorySettings"/></param>
 		public RepositoryManager(
 			ILibGit2RepositoryFactory repositoryFactory,
 			ILibGit2Commands commands,
 			IIOManager ioManager,
 			IEventConsumer eventConsumer,
 			ILogger<Repository> repositoryLogger,
-			ILogger<RepositoryManager> logger,
-			RepositorySettings repositorySettings)
+			ILogger<RepositoryManager> logger)
 		{
 			this.repositoryFactory = repositoryFactory ?? throw new ArgumentNullException(nameof(repositoryFactory));
 			this.commands = commands ?? throw new ArgumentNullException(nameof(commands));
@@ -83,7 +77,6 @@ namespace Tgstation.Server.Host.Components.Repository
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.repositoryLogger = repositoryLogger ?? throw new ArgumentNullException(nameof(repositoryLogger));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			this.repositorySettings = repositorySettings ?? throw new ArgumentNullException(nameof(repositorySettings));
 			semaphore = new SemaphoreSlim(1);
 		}
 
@@ -106,7 +99,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			lock (semaphore)
 			{
 				if (CloneInProgress)
-					throw new InvalidOperationException("The repository is already being cloned!");
+					throw new JobException(ErrorCode.RepoCloning);
 				CloneInProgress = true;
 			}
 
@@ -179,33 +172,33 @@ namespace Tgstation.Server.Host.Components.Repository
 			logger.LogTrace("Begin LoadRepository...");
 			lock (semaphore)
 				if (CloneInProgress)
-					throw new InvalidOperationException("The repository is being cloned!");
-			using (var context = await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
-				try
-				{
-					var libGitRepo = await repositoryFactory.CreateFromPath(ioManager.ResolvePath(), cancellationToken).ConfigureAwait(false);
+					throw new JobException(ErrorCode.RepoCloning);
+			using var context = await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false);
+			try
+			{
+				var libGitRepo = await repositoryFactory.CreateFromPath(ioManager.ResolvePath(), cancellationToken).ConfigureAwait(false);
 
-					if (libGitRepo == null)
-						return null;
-
-					return new Repository(
-						libGitRepo,
-						commands,
-						ioManager,
-						eventConsumer,
-						repositoryFactory,
-						repositoryLogger, () =>
-					{
-						logger.LogTrace("Releasing semaphore due to Repository disposal...");
-						semaphore.Release();
-					});
-				}
-				catch (RepositoryNotFoundException e)
-				{
-					logger.LogDebug("Repository not found!");
-					logger.LogTrace("Exception: {0}", e);
+				if (libGitRepo == null)
 					return null;
-				}
+
+				return new Repository(
+					libGitRepo,
+					commands,
+					ioManager,
+					eventConsumer,
+					repositoryFactory,
+					repositoryLogger, () =>
+				{
+					logger.LogTrace("Releasing semaphore due to Repository disposal...");
+					semaphore.Release();
+				});
+			}
+			catch (RepositoryNotFoundException e)
+			{
+				logger.LogDebug("Repository not found!");
+				logger.LogTrace("Exception: {0}", e);
+				return null;
+			}
 		}
 
 		/// <inheritdoc />

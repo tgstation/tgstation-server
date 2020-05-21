@@ -179,148 +179,156 @@ namespace Tgstation.Server.Host.Components
 						};
 
 						string deploySha = null;
-						await jobManager.RegisterOperation(repositoryUpdateJob, async (paramJob, databaseContext, progressReporter, jobCancellationToken) =>
+						await jobManager.RegisterOperation(repositoryUpdateJob, async (paramJob, databaseContextFactory, progressReporter, jobCancellationToken) =>
 						{
-							var repositorySettingsTask = databaseContext.RepositorySettings.Where(x => x.InstanceId == metadata.Id).FirstAsync(jobCancellationToken);
-
 							// assume 5 steps with synchronize
 							const int ProgressSections = 7;
 							const int ProgressStep = 100 / ProgressSections;
+							string repoHead = null;
 
-							const int NumSteps = 3;
-							var doneSteps = 0;
-
-							Action<int> NextProgressReporter()
-							{
-								var tmpDoneSteps = doneSteps;
-								++doneSteps;
-								return progress => progressReporter((progress + (100 * tmpDoneSteps)) / NumSteps);
-							}
-
-							using var repo = await RepositoryManager.LoadRepository(jobCancellationToken).ConfigureAwait(false);
-							if (repo == null)
-							{
-								logger.LogTrace("Aborting repo update, no repository!");
-								return;
-							}
-
-							var startSha = repo.Head;
-							if (!repo.Tracking)
-							{
-								logger.LogTrace("Aborting repo update, active ref not tracking any remote branch!");
-								deploySha = startSha;
-								return;
-							}
-
-							var repositorySettings = await repositorySettingsTask.ConfigureAwait(false);
-
-							// the main point of auto update is to pull the remote
-							await repo.FetchOrigin(repositorySettings.AccessUser, repositorySettings.AccessToken, NextProgressReporter(), jobCancellationToken).ConfigureAwait(false);
-
-							RevisionInformation currentRevInfo = null;
-							bool hasDbChanges = false;
-
-							Task<RevisionInformation> LoadRevInfo() => databaseContext.RevisionInformations
-									.Where(x => x.CommitSha == startSha && x.Instance.Id == metadata.Id)
-									.Include(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge)
-									.FirstOrDefaultAsync(cancellationToken);
-
-							async Task UpdateRevInfo(string currentHead, bool onOrigin)
-							{
-								if (currentRevInfo == null)
-									currentRevInfo = await LoadRevInfo().ConfigureAwait(false);
-
-								if (currentRevInfo == default)
+							await databaseContextFactory.UseContext(
+								async databaseContext =>
 								{
-									logger.LogWarning(Repository.Repository.OriginTrackingErrorTemplate, currentHead);
-									onOrigin = true;
-								}
+									var repositorySettingsTask = databaseContext.RepositorySettings.Where(x => x.InstanceId == metadata.Id).FirstAsync(jobCancellationToken);
 
-								var attachedInstance = new Models.Instance
-								{
-									Id = metadata.Id
-								};
-								var oldRevInfo = currentRevInfo;
-								currentRevInfo = new RevisionInformation
-								{
-									CommitSha = currentHead,
-									OriginCommitSha = onOrigin ? currentHead : oldRevInfo.OriginCommitSha,
-									Instance = attachedInstance
-								};
-								if (!onOrigin)
-									currentRevInfo.ActiveTestMerges = new List<RevInfoTestMerge>(oldRevInfo.ActiveTestMerges);
+									const int NumSteps = 3;
+									var doneSteps = 0;
 
-								databaseContext.Instances.Attach(attachedInstance);
-								databaseContext.RevisionInformations.Add(currentRevInfo);
-								hasDbChanges = true;
-							}
+									Action<int> NextProgressReporter()
+									{
+										var tmpDoneSteps = doneSteps;
+										++doneSteps;
+										return progress => progressReporter((progress + (100 * tmpDoneSteps)) / NumSteps);
+									}
 
-							// take appropriate auto update actions
-							bool shouldSyncTracked;
-							if (repositorySettings.AutoUpdatesKeepTestMerges.Value)
-							{
-								logger.LogTrace("Preserving test merges...");
+									using var repo = await RepositoryManager.LoadRepository(jobCancellationToken).ConfigureAwait(false);
+									if (repo == null)
+									{
+										logger.LogTrace("Aborting repo update, no repository!");
+										return;
+									}
 
-								var currentRevInfoTask = LoadRevInfo();
+									var startSha = repo.Head;
+									if (!repo.Tracking)
+									{
+										logger.LogTrace("Aborting repo update, active ref not tracking any remote branch!");
+										deploySha = startSha;
+										return;
+									}
 
-								var result = await repo.MergeOrigin(repositorySettings.CommitterName, repositorySettings.CommitterEmail, NextProgressReporter(), jobCancellationToken).ConfigureAwait(false);
+									var repositorySettings = await repositorySettingsTask.ConfigureAwait(false);
 
-								if (!result.HasValue)
-									throw new JobException(Api.Models.ErrorCode.InstanceUpdateTestMergeConflict);
+									// the main point of auto update is to pull the remote
+									await repo.FetchOrigin(repositorySettings.AccessUser, repositorySettings.AccessToken, NextProgressReporter(), jobCancellationToken).ConfigureAwait(false);
 
-								currentRevInfo = await currentRevInfoTask.ConfigureAwait(false);
+									RevisionInformation currentRevInfo = null;
+									bool hasDbChanges = false;
 
-								var lastRevInfoWasOriginCommit = currentRevInfo == default || currentRevInfo.CommitSha == currentRevInfo.OriginCommitSha;
-								var stillOnOrigin = result.Value && lastRevInfoWasOriginCommit;
+									Task<RevisionInformation> LoadRevInfo() => databaseContext.RevisionInformations
+											.Where(x => x.CommitSha == startSha && x.Instance.Id == metadata.Id)
+											.Include(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge)
+											.FirstOrDefaultAsync(cancellationToken);
 
-								var currentHead = repo.Head;
-								if (currentHead != startSha)
-								{
-									await UpdateRevInfo(currentHead, stillOnOrigin).ConfigureAwait(false);
-									shouldSyncTracked = stillOnOrigin;
-								}
-								else
-									shouldSyncTracked = false;
-							}
-							else
-							{
-								logger.LogTrace("Not preserving test merges...");
-								await repo.ResetToOrigin(NextProgressReporter(), jobCancellationToken).ConfigureAwait(false);
+									async Task UpdateRevInfo(string currentHead, bool onOrigin)
+									{
+										if (currentRevInfo == null)
+											currentRevInfo = await LoadRevInfo().ConfigureAwait(false);
 
-								var currentHead = repo.Head;
+										if (currentRevInfo == default)
+										{
+											logger.LogWarning(Repository.Repository.OriginTrackingErrorTemplate, currentHead);
+											onOrigin = true;
+										}
 
-								currentRevInfo = await databaseContext.RevisionInformations
-								.Where(x => x.CommitSha == currentHead && x.Instance.Id == metadata.Id)
-								.FirstOrDefaultAsync(jobCancellationToken).ConfigureAwait(false);
+										var attachedInstance = new Models.Instance
+										{
+											Id = metadata.Id
+										};
+										var oldRevInfo = currentRevInfo;
+										currentRevInfo = new RevisionInformation
+										{
+											CommitSha = currentHead,
+											OriginCommitSha = onOrigin ? currentHead : oldRevInfo.OriginCommitSha,
+											Instance = attachedInstance
+										};
+										if (!onOrigin)
+											currentRevInfo.ActiveTestMerges = new List<RevInfoTestMerge>(oldRevInfo.ActiveTestMerges);
 
-								if (currentHead != startSha && currentRevInfo != default)
-									await UpdateRevInfo(currentHead, true).ConfigureAwait(false);
+										databaseContext.Instances.Attach(attachedInstance);
+										databaseContext.RevisionInformations.Add(currentRevInfo);
+										hasDbChanges = true;
+									}
 
-								shouldSyncTracked = true;
-							}
+									// take appropriate auto update actions
+									bool shouldSyncTracked;
+									if (repositorySettings.AutoUpdatesKeepTestMerges.Value)
+									{
+										logger.LogTrace("Preserving test merges...");
 
-							// synch if necessary
-							if (repositorySettings.AutoUpdatesSynchronize.Value && startSha != repo.Head)
-							{
-								var pushedOrigin = await repo.Sychronize(repositorySettings.AccessUser, repositorySettings.AccessToken, repositorySettings.CommitterName, repositorySettings.CommitterEmail, NextProgressReporter(), shouldSyncTracked, jobCancellationToken).ConfigureAwait(false);
-								var currentHead = repo.Head;
-								if (currentHead != currentRevInfo.CommitSha)
-									await UpdateRevInfo(currentHead, pushedOrigin).ConfigureAwait(false);
-							}
+										var currentRevInfoTask = LoadRevInfo();
 
-							if (hasDbChanges)
-								try
-								{
-									await databaseContext.Save(cancellationToken).ConfigureAwait(false);
-								}
-								catch
-								{
-									await repo.ResetToSha(startSha, progressReporter, default).ConfigureAwait(false);
-									throw;
-								}
+										var result = await repo.MergeOrigin(repositorySettings.CommitterName, repositorySettings.CommitterEmail, NextProgressReporter(), jobCancellationToken).ConfigureAwait(false);
+
+										if (!result.HasValue)
+											throw new JobException(Api.Models.ErrorCode.InstanceUpdateTestMergeConflict);
+
+										currentRevInfo = await currentRevInfoTask.ConfigureAwait(false);
+
+										var lastRevInfoWasOriginCommit = currentRevInfo == default || currentRevInfo.CommitSha == currentRevInfo.OriginCommitSha;
+										var stillOnOrigin = result.Value && lastRevInfoWasOriginCommit;
+
+										var currentHead = repo.Head;
+										if (currentHead != startSha)
+										{
+											await UpdateRevInfo(currentHead, stillOnOrigin).ConfigureAwait(false);
+											shouldSyncTracked = stillOnOrigin;
+										}
+										else
+											shouldSyncTracked = false;
+									}
+									else
+									{
+										logger.LogTrace("Not preserving test merges...");
+										await repo.ResetToOrigin(NextProgressReporter(), jobCancellationToken).ConfigureAwait(false);
+
+										var currentHead = repo.Head;
+
+										currentRevInfo = await databaseContext.RevisionInformations
+										.Where(x => x.CommitSha == currentHead && x.Instance.Id == metadata.Id)
+										.FirstOrDefaultAsync(jobCancellationToken).ConfigureAwait(false);
+
+										if (currentHead != startSha && currentRevInfo != default)
+											await UpdateRevInfo(currentHead, true).ConfigureAwait(false);
+
+										shouldSyncTracked = true;
+									}
+
+									// synch if necessary
+									if (repositorySettings.AutoUpdatesSynchronize.Value && startSha != repo.Head)
+									{
+										var pushedOrigin = await repo.Sychronize(repositorySettings.AccessUser, repositorySettings.AccessToken, repositorySettings.CommitterName, repositorySettings.CommitterEmail, NextProgressReporter(), shouldSyncTracked, jobCancellationToken).ConfigureAwait(false);
+										var currentHead = repo.Head;
+										if (currentHead != currentRevInfo.CommitSha)
+											await UpdateRevInfo(currentHead, pushedOrigin).ConfigureAwait(false);
+									}
+
+									repoHead = repo.Head;
+
+									if (hasDbChanges)
+										try
+										{
+											await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+										}
+										catch
+										{
+											await repo.ResetToSha(startSha, progressReporter, default).ConfigureAwait(false);
+											throw;
+										}
+								})
+							.ConfigureAwait(false);
 
 							progressReporter(5 * ProgressStep);
-							deploySha = repo.Head;
+							deploySha = repoHead;
 						}, cancellationToken).ConfigureAwait(false);
 
 						await jobManager.WaitForJobCompletion(repositoryUpdateJob, user, cancellationToken, default).ConfigureAwait(false);

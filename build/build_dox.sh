@@ -6,20 +6,20 @@ DOXDIR=~/tgsdox
 
 mkdir -p $DOXDIR
 
-if [ "$TRAVIS_PULL_REQUEST" -eq "$false" ] && [ "$TRAVIS_BRANCH" -eq "master" ]; then
+if [ "$TRAVIS_PULL_REQUEST" = false ] && [ "$TRAVIS_BRANCH" = "master" ]; then
     PUBLISH_DOX=true
 else
     PUBLISH_DOX=false
 fi
 
 if [ "$PUBLISH_DOX" = true ] ; then
-	GITHUB_URL="github.com/$TRAVIS_PULL_REQUEST_SLUG"
+	GITHUB_URL="github.com/$TRAVIS_REPO_SLUG"
 	echo "Cloning https://git@$GITHUB_URL..."
 	git clone -b gh-pages --single-branch "https://git@$GITHUB_URL" "$DOXDIR" 2> /dev/null
-	rm -r "$DOXDIR\*"
+	rm -r "$DOXDIR/*"
 fi
 
-VERSION=cat "$BUILD_FOLDER/build/Version.props" | grep -oPm1 "(?<=<TgsCoreVersion>)[^<]+"
+VERSION=$(cat "build/Version.props" | grep -oPm1 "(?<=<TgsCoreVersion>)[^<]+")
 
 echo -e "\nPROJECT_NUMBER = $VERSION\nINPUT = $BUILD_FOLDER\nOUTPUT_DIRECTORY = $DOXDIR\nPROJECT_LOGO = $BUILD_FOLDER/build/tgs.ico\nHAVE_DOT=YES" >> "$BUILD_FOLDER/docs/Doxyfile"
 
@@ -37,9 +37,7 @@ if [ "$PUBLISH_DOX" = true ] ; then
 	echo "" > .nojekyll
 	git add --all
 	git commit -m "Deploy code docs to GitHub Pages for Travis build $TRAVIS_BUILD_NUMBER" -m "Commit: $TRAVIS_COMMIT"
-	git push -f "https://$TGS4_TEST_GITHUB_TOKEN@$GITHUB_URL" 2>&1 | out-null
+	git push -f "https://$TGS4_GH_PAGES_TOKEN@$GITHUB_URL" 2>&1 | /dev/null
 	cd "$BUILD_FOLDER"
-	rm -r "$DOXDIR/.git"
+	rm -rf "$DOXDIR/.git"
 fi
-
-mv $DOXDIR "$BUILD_FOLDER/tgsdox"

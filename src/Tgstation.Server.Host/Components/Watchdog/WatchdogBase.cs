@@ -865,7 +865,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				CancelRight = (ulong)DreamDaemonRights.Shutdown,
 				CancelRightsType = RightsType.DreamDaemon
 			};
-			await jobManager.RegisterOperation(job, async (j, databaseContext, progressFunction, ct) =>
+			await jobManager.RegisterOperation(job, async (j, databaseContextFactory, progressFunction, ct) =>
 			{
 				using (await SemaphoreSlimContext.Lock(Semaphore, ct).ConfigureAwait(false))
 					await LaunchImplNoLock(true, true, reattachInfo, ct).ConfigureAwait(false);
