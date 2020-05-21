@@ -46,6 +46,10 @@ The following environment variables aren't required but enable more tests.
 - `TSG4_TEST_DISCORD_TOKEN`: To a valid discord bot token.
 - `TGS4_TEST_DISCORD_CHANNEL`: To a valid discord channel ID that the above bot can access.
 
+### Know your Code
+
+The `/src` folder at the root of this repository contains a series of `README.md` files useful for helping find your way around the codebase.
+
 ## Specifications
 
 As mentioned before, you are expected to follow these specifications in order to make everyone's lives easier. It'll save both your time and ours, by making sure you don't have to make any changes and we don't have to ask you to. Thank you for reading this section!
