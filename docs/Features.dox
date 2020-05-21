@@ -54,9 +54,9 @@ tgstation-server is a BYOND server managment suite. It includes all the followin
 		- Checking out SHAs and references
 		- Local Merging
 		- Hard resetting to references
-		- Merging GitHub pull requests
-		- Deleting
-		- Pushing commits for GitHub visibility
+		- Merging GitHub pull requests, optionally commenting on them
+		- Optionally pushing commits for GitHub visibility
+		- Can be deleted and changed to a different origin
 	- BYOND version management
 		- Downloading and installing a given BYOND version
 			- Includes DirectX installation on Windows and proper handling of POSIX shared libraries
@@ -74,7 +74,7 @@ tgstation-server is a BYOND server managment suite. It includes all the followin
 		- Automatically handles Windows prompts related to trusted mode
 		- TGS restarts/updates do not interrupt the DreamDaemon process
 	- Chat System
-		- Support multiple chat bots per instance. Current providers
+		- Support multiple chat bots per instance. Current providers:
 			- Discord
 			- IRC
 		- Bots come out of the box with some basic commands like showing the server revision
