@@ -211,8 +211,7 @@ namespace Tgstation.Server.Host.Components
 				repoIoManager,
 				eventConsumer,
 				loggerFactory.CreateLogger<Repository.Repository>(),
-				loggerFactory.CreateLogger<RepositoryManager>(),
-				metadata.RepositorySettings);
+				loggerFactory.CreateLogger<RepositoryManager>());
 			try
 			{
 				var byond = new ByondManager(byondIOManager, byondInstaller, eventConsumer, loggerFactory.CreateLogger<ByondManager>());

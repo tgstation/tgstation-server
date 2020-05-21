@@ -534,7 +534,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		#pragma warning disable CA1506
 		public async Task DeploymentProcess(
 			Models.Job job,
-			IDatabaseContext databaseContext,
+			IDatabaseContextFactory databaseContextFactory,
 			Action<int> progressReporter,
 			CancellationToken cancellationToken)
 		{
@@ -542,44 +542,41 @@ namespace Tgstation.Server.Host.Components.Deployment
 			if (job == null)
 				throw new ArgumentNullException(nameof(job));
 #pragma warning restore IDE0016 // Use 'throw' expression
-			if (databaseContext == null)
-				throw new ArgumentNullException(nameof(databaseContext));
+			if (databaseContextFactory == null)
+				throw new ArgumentNullException(nameof(databaseContextFactory));
 			if (progressReporter == null)
 				throw new ArgumentNullException(nameof(progressReporter));
 
-			var averageSpan = await CalculateExpectedDeploymentTime(databaseContext, cancellationToken).ConfigureAwait(false);
-
-			var ddSettings = await databaseContext
-				.DreamDaemonSettings
-				.Where(x => x.InstanceId == metadata.Id)
-				.Select(x => new Models.DreamDaemonSettings
-				{
-					StartupTimeout = x.StartupTimeout,
-				})
-				.FirstOrDefaultAsync(cancellationToken)
-				.ConfigureAwait(false);
-			if (ddSettings == default)
-				throw new JobException(ErrorCode.InstanceMissingDreamDaemonSettings);
-
-			var dreamMakerSettings = await databaseContext.DreamMakerSettings.Where(x => x.InstanceId == metadata.Id).FirstAsync(cancellationToken).ConfigureAwait(false);
-			if (dreamMakerSettings == default)
-				throw new JobException(ErrorCode.InstanceMissingDreamMakerSettings);
-
-			Models.RepositorySettings repositorySettings = null;
 			string repoOwner = null;
 			string repoName = null;
-			Models.CompileJob compileJob;
-			Models.RevisionInformation revInfo;
-
-			using (var repo = await repositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
-			{
-				if (repo == null)
-					throw new JobException(ErrorCode.RepoMissing);
-
-				if (repo.IsGitHubRepository)
+			TimeSpan? averageSpan = null;
+			Models.RepositorySettings repositorySettings = null;
+			Models.DreamDaemonSettings ddSettings = null;
+			DreamMakerSettings dreamMakerSettings = null;
+			IRepository repo = null;
+			Models.CompileJob compileJob = null;
+			Models.RevisionInformation revInfo = null;
+			await databaseContextFactory.UseContext(
+				async databaseContext =>
 				{
-					repoOwner = repo.GitHubOwner;
-					repoName = repo.GitHubRepoName;
+					averageSpan = await CalculateExpectedDeploymentTime(databaseContext, cancellationToken).ConfigureAwait(false);
+
+					ddSettings = await databaseContext
+						.DreamDaemonSettings
+						.Where(x => x.InstanceId == metadata.Id)
+						.Select(x => new Models.DreamDaemonSettings
+						{
+							StartupTimeout = x.StartupTimeout,
+						})
+						.FirstOrDefaultAsync(cancellationToken)
+						.ConfigureAwait(false);
+					if (ddSettings == default)
+						throw new JobException(ErrorCode.InstanceMissingDreamDaemonSettings);
+
+					dreamMakerSettings = await databaseContext.DreamMakerSettings.Where(x => x.InstanceId == metadata.Id).FirstAsync(cancellationToken).ConfigureAwait(false);
+					if (dreamMakerSettings == default)
+						throw new JobException(ErrorCode.InstanceMissingDreamMakerSettings);
+
 					repositorySettings = await databaseContext
 						.RepositorySettings
 						.Where(x => x.InstanceId == metadata.Id)
@@ -594,34 +591,55 @@ namespace Tgstation.Server.Host.Components.Deployment
 						.ConfigureAwait(false);
 					if (repositorySettings == default)
 						throw new JobException(ErrorCode.InstanceMissingRepositorySettings);
-				}
 
-				var repoSha = repo.Head;
-				revInfo = await databaseContext
-					.RevisionInformations
-					.Where(x => x.CommitSha == repoSha && x.Instance.Id == metadata.Id)
-					.Include(x => x.ActiveTestMerges)
-					.ThenInclude(x => x.TestMerge)
-					.ThenInclude(x => x.MergedBy)
-					.FirstOrDefaultAsync(cancellationToken)
-					.ConfigureAwait(false);
-
-				if (revInfo == default)
-				{
-					revInfo = new Models.RevisionInformation
+					repo = await repositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false);
+					try
 					{
-						CommitSha = repoSha,
-						OriginCommitSha = repoSha,
-						Instance = new Models.Instance
+						if (repo == null)
+							throw new JobException(ErrorCode.RepoMissing);
+
+						if (repo.IsGitHubRepository)
 						{
-							Id = metadata.Id
+							repoOwner = repo.GitHubOwner;
+							repoName = repo.GitHubRepoName;
 						}
-					};
 
-					logger.LogWarning(Repository.Repository.OriginTrackingErrorTemplate, repoSha);
-					databaseContext.Instances.Attach(revInfo.Instance);
-				}
+						var repoSha = repo.Head;
+						revInfo = await databaseContext
+							.RevisionInformations
+							.Where(x => x.CommitSha == repoSha && x.Instance.Id == metadata.Id)
+							.Include(x => x.ActiveTestMerges)
+							.ThenInclude(x => x.TestMerge)
+							.ThenInclude(x => x.MergedBy)
+							.FirstOrDefaultAsync(cancellationToken)
+							.ConfigureAwait(false);
 
+						if (revInfo == default)
+						{
+							revInfo = new Models.RevisionInformation
+							{
+								CommitSha = repoSha,
+								OriginCommitSha = repoSha,
+								Instance = new Models.Instance
+								{
+									Id = metadata.Id
+								}
+							};
+
+							logger.LogWarning(Repository.Repository.OriginTrackingErrorTemplate, repoSha);
+							databaseContext.Instances.Attach(revInfo.Instance);
+							await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+						}
+					}
+					catch
+					{
+						repo.Dispose();
+						throw;
+					}
+				})
+				.ConfigureAwait(false);
+
+			using (repo)
 				compileJob = await Compile(
 					revInfo,
 					dreamMakerSettings,
@@ -632,33 +650,46 @@ namespace Tgstation.Server.Host.Components.Deployment
 					cancellationToken)
 					.ConfigureAwait(false);
 
-				try
-				{
-					compileJob.Job = job;
-
-					databaseContext.CompileJobs.Add(compileJob);
-
-					await PostDeploymentComments(compileJob, repositorySettings, repoOwner, repoName).ConfigureAwait(false);
-
-					// The difficulty with compile jobs is they have a two part commit
-					await databaseContext.Save(cancellationToken).ConfigureAwait(false);
-					try
+			try
+			{
+				await databaseContextFactory.UseContext(
+					async databaseContext =>
 					{
-						await compileJobConsumer.LoadCompileJob(compileJob, cancellationToken).ConfigureAwait(false);
-					}
-					catch
-					{
-						// So we need to un-commit the compile job if the above throws
-						databaseContext.CompileJobs.Remove(compileJob);
-						await databaseContext.Save(default).ConfigureAwait(false);
-						throw;
-					}
-				}
-				catch (Exception ex)
-				{
-					await CleanupFailedCompile(compileJob, ex is OperationCanceledException, default).ConfigureAwait(false);
-					throw;
-				}
+						compileJob.Job = new Models.Job
+						{
+							Id = job.Id
+						};
+						compileJob.RevisionInformation = new Models.RevisionInformation
+						{
+							Id = revInfo.Id
+						};
+
+						databaseContext.RevisionInformations.Attach(compileJob.RevisionInformation);
+						databaseContext.Jobs.Attach(compileJob.Job);
+						databaseContext.CompileJobs.Add(compileJob);
+
+						await PostDeploymentComments(compileJob, repositorySettings, repoOwner, repoName).ConfigureAwait(false);
+
+						// The difficulty with compile jobs is they have a two part commit
+						await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+						try
+						{
+							await compileJobConsumer.LoadCompileJob(compileJob, cancellationToken).ConfigureAwait(false);
+						}
+						catch
+						{
+							// So we need to un-commit the compile job if the above throws
+							databaseContext.CompileJobs.Remove(compileJob);
+							await databaseContext.Save(default).ConfigureAwait(false);
+							throw;
+						}
+					})
+					.ConfigureAwait(false);
+			}
+			catch (Exception ex)
+			{
+				await CleanupFailedCompile(compileJob, ex is OperationCanceledException, default).ConfigureAwait(false);
+				throw;
 			}
 
 			await eventConsumer.HandleEvent(EventType.DeploymentComplete, null, cancellationToken).ConfigureAwait(false);

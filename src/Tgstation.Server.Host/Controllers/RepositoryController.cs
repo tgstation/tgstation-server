@@ -82,7 +82,11 @@ namespace Tgstation.Server.Host.Controllers
 
 			// If the DB doesn't have it, check the local set
 			if (revisionInfo == default)
-				revisionInfo = databaseContext.RevisionInformations.Local.Where(x => x.CommitSha == repoSha && x.Instance.Id == instance.Id).FirstOrDefault();
+				revisionInfo = databaseContext
+					.RevisionInformations
+					.Local
+					.Where(x => x.CommitSha == repoSha && x.Instance.Id == instance.Id)
+					.FirstOrDefault();
 
 			var needsDbUpdate = revisionInfo == default;
 			if (needsDbUpdate)
@@ -193,7 +197,7 @@ namespace Tgstation.Server.Host.Controllers
 				Instance = Instance
 			};
 			var api = currentModel.ToApi();
-			await jobManager.RegisterOperation(job, async (paramJob, databaseContext, progressReporter, ct) =>
+			await jobManager.RegisterOperation(job, async (paramJob, databaseContextFactory, progressReporter, ct) =>
 			{
 				using var repos = await repoManager.CloneRepository(new Uri(origin), cloneBranch, currentModel.AccessUser, currentModel.AccessToken, progressReporter, ct).ConfigureAwait(false);
 				if (repos == null)
@@ -202,9 +206,14 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					Id = Instance.Id
 				};
-				databaseContext.Instances.Attach(instance);
-				if (await PopulateApi(api, repos, databaseContext, instance, ct).ConfigureAwait(false))
-					await databaseContext.Save(ct).ConfigureAwait(false);
+				await databaseContextFactory.UseContext(
+					async databaseContext =>
+					{
+						databaseContext.Instances.Attach(instance);
+						if (await PopulateApi(api, repos, databaseContext, instance, ct).ConfigureAwait(false))
+							await databaseContext.Save(ct).ConfigureAwait(false);
+					})
+					.ConfigureAwait(false);
 			}, cancellationToken).ConfigureAwait(false);
 
 			api.Origin = model.Origin;
@@ -246,7 +255,7 @@ namespace Tgstation.Server.Host.Controllers
 				Instance = Instance
 			};
 			var api = currentModel.ToApi();
-			await jobManager.RegisterOperation(job, (paramJob, databaseContext, progressReporter, ct) => instanceManager.GetInstance(Instance).RepositoryManager.DeleteRepository(cancellationToken), cancellationToken).ConfigureAwait(false);
+			await jobManager.RegisterOperation(job, (paramJob, databaseContextFactory, progressReporter, ct) => instanceManager.GetInstance(Instance).RepositoryManager.DeleteRepository(cancellationToken), cancellationToken).ConfigureAwait(false);
 			api.ActiveJob = job.ToApi();
 			return Accepted(api);
 		}
@@ -435,7 +444,8 @@ namespace Tgstation.Server.Host.Controllers
 				CancelRight = (ulong)RepositoryRights.CancelPendingChanges,
 			};
 
-			await jobManager.RegisterOperation(job, async (paramJob, databaseContext, progressReporter, ct) =>
+			// Time to access git, do it in a job
+			await jobManager.RegisterOperation(job, async (paramJob, databaseContextFactory, progressReporter, ct) =>
 			{
 				using var repo = await repoManager.LoadRepository(ct).ConfigureAwait(false);
 				if (repo == null)
@@ -475,15 +485,57 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					Id = Instance.Id
 				};
-				databaseContext.Instances.Attach(attachedInstance);
 
-				await LoadRevisionInformation(repo, databaseContext, attachedInstance, null, x => lastRevisionInfo = x, ct).ConfigureAwait(false);
+				Task CallLoadRevInfo(Models.TestMerge testMergeToAdd = null, string lastOriginCommitSha = null) => databaseContextFactory
+					.UseContext(
+						async databaseContext =>
+						{
+							databaseContext.Instances.Attach(attachedInstance);
+							var needsUpdate = await LoadRevisionInformation(
+								repo,
+								databaseContext,
+								attachedInstance,
+								lastOriginCommitSha,
+								x => lastRevisionInfo = x,
+								ct)
+								.ConfigureAwait(false);
+
+							if (testMergeToAdd != null)
+							{
+								// rev info may have already loaded the user
+								var mergedBy = databaseContext.Users.Local.FirstOrDefault(x => x.Id == AuthenticationContext.User.Id);
+								if (mergedBy == default)
+								{
+									mergedBy = new Models.User
+									{
+										Id = AuthenticationContext.User.Id
+									};
+
+									databaseContext.Users.Attach(mergedBy);
+								}
+
+								testMergeToAdd.MergedBy = mergedBy;
+
+								lastRevisionInfo.ActiveTestMerges.Add(new RevInfoTestMerge
+								{
+									TestMerge = testMergeToAdd
+								});
+								lastRevisionInfo.PrimaryTestMerge = testMergeToAdd;
+
+								databaseContext.Users.Attach(testMergeToAdd.MergedBy);
+							}
+
+							if (needsUpdate)
+								await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+						});
+
+				await CallLoadRevInfo().ConfigureAwait(false);
 
 				// apply new rev info, tracking applied test merges
-				async Task UpdateRevInfo()
+				async Task UpdateRevInfo(Models.TestMerge testMergeToAdd = null)
 				{
 					var last = lastRevisionInfo;
-					await LoadRevisionInformation(repo, databaseContext, attachedInstance, last.OriginCommitSha, x => lastRevisionInfo = x, ct).ConfigureAwait(false);
+					await CallLoadRevInfo(testMergeToAdd, last.OriginCommitSha).ConfigureAwait(false);
 					lastRevisionInfo.ActiveTestMerges.AddRange(last.ActiveTestMerges);
 				}
 
@@ -531,7 +583,7 @@ namespace Tgstation.Server.Host.Controllers
 								throw new JobException(ErrorCode.RepoSwappedShaOrReference);
 
 							await repo.CheckoutObject(committish, NextProgressReporter(), ct).ConfigureAwait(false);
-							await LoadRevisionInformation(repo, databaseContext, attachedInstance, null, x => lastRevisionInfo = x, ct).ConfigureAwait(false); // we've either seen origin before or what we're checking out is on origin
+							await CallLoadRevInfo().ConfigureAwait(false); // we've either seen origin before or what we're checking out is on origin
 						}
 						else
 							NextProgressReporter()(100);
@@ -542,7 +594,7 @@ namespace Tgstation.Server.Host.Controllers
 								throw new JobException(ErrorCode.RepoReferenceNotTracking);
 							await repo.ResetToOrigin(NextProgressReporter(), ct).ConfigureAwait(false);
 							await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, currentModel.CommitterName, currentModel.CommitterEmail, NextProgressReporter(), true, ct).ConfigureAwait(false);
-							await LoadRevisionInformation(repo, databaseContext, attachedInstance, null, x => lastRevisionInfo = x, ct).ConfigureAwait(false);
+							await CallLoadRevInfo().ConfigureAwait(false);
 
 							// repo head is on origin so force this
 							// will update the db if necessary
@@ -559,10 +611,10 @@ namespace Tgstation.Server.Host.Controllers
 							I.PullRequestRevision = null;
 
 						var gitHubClient = currentModel.AccessToken != null
-						? gitHubClientFactory.CreateClient(currentModel.AccessToken)
-						: (String.IsNullOrEmpty(generalConfiguration.GitHubAccessToken)
-						? gitHubClientFactory.CreateClient()
-						: gitHubClientFactory.CreateClient(generalConfiguration.GitHubAccessToken));
+							? gitHubClientFactory.CreateClient(currentModel.AccessToken)
+							: (String.IsNullOrEmpty(generalConfiguration.GitHubAccessToken)
+								? gitHubClientFactory.CreateClient()
+								: gitHubClientFactory.CreateClient(generalConfiguration.GitHubAccessToken));
 
 						var repoOwner = repo.GitHubOwner;
 						var repoName = repo.GitHubRepoName;
@@ -600,14 +652,20 @@ namespace Tgstation.Server.Host.Controllers
 
 							if (!cantSearch)
 							{
-								var dbPull = await databaseContext.RevisionInformations
-									.Where(x => x.Instance.Id == Instance.Id
-									&& x.OriginCommitSha == lastRevisionInfo.OriginCommitSha
-									&& x.ActiveTestMerges.Count <= model.NewTestMerges.Count
-									&& x.ActiveTestMerges.Count > 0)
-									.Include(x => x.ActiveTestMerges)
-									.ThenInclude(x => x.TestMerge)
-									.ToListAsync(cancellationToken).ConfigureAwait(false);
+								List<Models.RevisionInformation> dbPull = null;
+
+								await databaseContextFactory.UseContext(
+									async databaseContext =>
+										dbPull = await databaseContext.RevisionInformations
+											.Where(x => x.Instance.Id == Instance.Id
+											&& x.OriginCommitSha == lastRevisionInfo.OriginCommitSha
+											&& x.ActiveTestMerges.Count <= model.NewTestMerges.Count
+											&& x.ActiveTestMerges.Count > 0)
+											.Include(x => x.ActiveTestMerges)
+											.ThenInclude(x => x.TestMerge)
+											.ToListAsync(cancellationToken)
+											.ConfigureAwait(false))
+									.ConfigureAwait(false);
 
 								// split here cause this bit has to be done locally
 								revInfoWereLookingFor = dbPull
@@ -619,7 +677,7 @@ namespace Tgstation.Server.Host.Controllers
 									&& (y.Comment?.Trim().ToUpperInvariant() == z.Comment?.Trim().ToUpperInvariant() || z.Comment == null))))
 									.FirstOrDefault();
 
-								if (revInfoWereLookingFor == null && model.NewTestMerges.Count > 1)
+								if (revInfoWereLookingFor == default && model.NewTestMerges.Count > 1)
 								{
 									// okay try to add at least SOME prs we've seen before
 									var search = model.NewTestMerges.ToList();
@@ -669,20 +727,6 @@ namespace Tgstation.Server.Host.Controllers
 
 						if (needToApplyRemainingPrs)
 						{
-							// an invocation of LoadRevisionInformation could have already loaded this user
-							var contextUser = databaseContext.Users.Local.Where(x => x.Id == AuthenticationContext.User.Id).FirstOrDefault();
-							if (contextUser == default)
-							{
-								// No reason to call the DB, just attach it
-								contextUser = new Models.User
-								{
-									Id = AuthenticationContext.User.Id
-								};
-								databaseContext.Users.Attach(contextUser);
-							}
-							else
-								Logger.LogTrace("Skipping attaching the user to the database context as it is already loaded!");
-
 							foreach (var I in model.NewTestMerges)
 							{
 								Octokit.PullRequest pr = null;
@@ -740,8 +784,7 @@ namespace Tgstation.Server.Host.Controllers
 
 								++doneSteps;
 
-								var revInfoUpdateTask = UpdateRevInfo();
-
+								// MergedBy will be set later
 								var tm = new Models.TestMerge
 								{
 									Author = pr?.User.Login ?? errorMessage,
@@ -750,18 +793,11 @@ namespace Tgstation.Server.Host.Controllers
 									TitleAtMerge = pr?.Title ?? errorMessage ?? String.Empty,
 									Comment = I.Comment,
 									Number = I.Number,
-									MergedBy = contextUser,
 									PullRequestRevision = I.PullRequestRevision,
 									Url = pr?.HtmlUrl ?? errorMessage
 								};
 
-								await revInfoUpdateTask.ConfigureAwait(false);
-
-								lastRevisionInfo.PrimaryTestMerge = tm;
-								lastRevisionInfo.ActiveTestMerges.Add(new RevInfoTestMerge
-								{
-									TestMerge = tm
-								});
+								await UpdateRevInfo(tm).ConfigureAwait(false);
 							}
 						}
 					}
@@ -772,8 +808,6 @@ namespace Tgstation.Server.Host.Controllers
 						await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, currentModel.CommitterName, currentModel.CommitterEmail, NextProgressReporter(), false, ct).ConfigureAwait(false);
 						await UpdateRevInfo().ConfigureAwait(false);
 					}
-
-					await databaseContext.Save(ct).ConfigureAwait(false);
 				}
 				catch
 				{
