@@ -1,4 +1,3 @@
 <map id="Tgstation.Server.Host.Database.Design.SqlServerDesignTimeDbContextFactory" name="Tgstation.Server.Host.Database.Design.SqlServerDesignTimeDbContextFactory">
-<area shape="rect" id="node1" title=" " alt="" coords="5,95,256,151"/>
-<area shape="rect" id="node2" href="$class_i_design_time_db_context_factory.html" title=" " alt="" coords="30,5,231,47"/>
+<area shape="rect" id="node2" href="$class_i_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory\l\&lt; SqlServerDatabaseContext \&gt;" alt="" coords="29,5,256,47"/>
 </map>

@@ -1,5 +1,3 @@
 <map id="Tgstation.Server.Tests.Instance.ConfigurationTest" name="Tgstation.Server.Tests.Instance.ConfigurationTest">
-<area shape="rect" id="node1" title=" " alt="" coords="5,109,213,151"/>
-<area shape="rect" id="node2" title=" " alt="" coords="14,13,55,39"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html" title="For managing ConfigurationFile files" alt="" coords="80,5,291,47"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html" title="For managing ConfigurationFile files " alt="" coords="83,5,315,47"/>
 </map>

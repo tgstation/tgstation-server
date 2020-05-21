@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_tests_1_1_test_git_hub_client_factory.html" title=" " alt="" coords="5,5,205,47"/>
+<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html" title="Tgstation.Server.Host.Database.\lDatabaseContext\&lt; MySqlDatabaseContext \&gt;" alt="" coords="5,5,320,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_my_sql_database_context.html" title="DatabaseContext&lt;TParentContext&gt; for MySQL " alt="" coords="368,5,599,47"/>
 </map>

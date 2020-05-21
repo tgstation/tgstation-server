@@ -1,11 +1,8 @@
 <map id="Tgstation.Server.Host.Components.Chat.Commands.ByondCommand" name="Tgstation.Server.Host.Components.Chat.Commands.ByondCommand">
-<area shape="rect" id="node1" title="For displaying the installed Byond version" alt="" coords="535,121,761,162"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots" alt="" coords="242,5,326,32"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html" title="For managing the BYOND installation" alt="" coords="171,122,397,163"/>
-<area shape="rect" id="node4" href="$class_i_hosted_service.html" title=" " alt="" coords="9,89,117,116"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers" alt="" coords="171,57,397,98"/>
-<area shape="rect" id="node5" href="$class_i_disposable.html" title=" " alt="" coords="19,148,108,175"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions" alt="" coords="5,31,121,57"/>
-<area shape="rect" id="node8" title=" " alt="" coords="257,188,311,215"/>
-<area shape="rect" id="node9" title=" " alt="" coords="261,239,307,265"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots " alt="" coords="261,5,353,32"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html" title="For managing the BYOND installation " alt="" coords="181,122,432,163"/>
+<area shape="rect" id="node4" href="$class_i_hosted_service.html" title="IHostedService" alt="" coords="9,89,128,116"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers " alt="" coords="181,57,432,98"/>
+<area shape="rect" id="node5" href="$class_i_disposable.html" title="IDisposable" alt="" coords="21,148,116,175"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions " alt="" coords="5,31,132,57"/>
 </map>

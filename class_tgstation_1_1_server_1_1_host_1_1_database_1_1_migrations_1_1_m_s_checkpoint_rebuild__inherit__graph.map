@@ -1,4 +1,3 @@
 <map id="Tgstation.Server.Host.Database.Migrations.MSCheckpointRebuild" name="Tgstation.Server.Host.Database.Migrations.MSCheckpointRebuild">
-<area shape="rect" id="node1" title="Checkpoint model rebuild for MSSQL." alt="" coords="5,80,220,121"/>
-<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="75,5,150,32"/>
+<area shape="rect" id="node2" href="$class_migration.html" title="Migration" alt="" coords="80,5,161,32"/>
 </map>

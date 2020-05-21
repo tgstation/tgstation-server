@@ -1,8 +1,5 @@
 <map id="Tgstation.Server.Host.Server.ApplyUpdate" name="Tgstation.Server.Host.Server.ApplyUpdate">
-<area shape="rect" id="node1" title="Run a new Host assembly and stop the current one. This will likely trigger all active CancellationTok..." alt="" coords="5,136,196,177"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a5307337e3bb84c45327e8a856b7f425f" title="Throws an InvalidOperationException if the IServerControl cannot be used" alt="" coords="244,5,435,47"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="249,71,430,112"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a20647d9e4dd09b806e407cd5c8a23b9b" title="Downloads a file from url" alt="" coords="255,136,424,177"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#ab2114beab119e090ece99d97ef0ca9c6" title="Restarts the Host" alt="" coords="244,201,435,243"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a839873a83e4a687821fbc3d28619f851" title="Extract a set of zipFileBytes &#160;to a given path" alt="" coords="252,267,427,308"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd. " alt="" coords="263,5,460,47"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a20647d9e4dd09b806e407cd5c8a23b9b" title="Downloads a file from url &#160;" alt="" coords="271,71,451,112"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a839873a83e4a687821fbc3d28619f851" title="Extract a set of zipFileBytes &#160;to a given path &#160;" alt="" coords="267,136,456,177"/>
 </map>

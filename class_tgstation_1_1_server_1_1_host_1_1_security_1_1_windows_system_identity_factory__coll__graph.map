@@ -1,5 +1,3 @@
 <map id="Tgstation.Server.Host.Security.WindowsSystemIdentityFactory" name="Tgstation.Server.Host.Security.WindowsSystemIdentityFactory">
-<area shape="rect" id="node1" title="ISystemIdentityFactory for windows systems. Uses long running tasks due to potential networked domain..." alt="" coords="336,31,543,73"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html" title="Factory for ISystemIdentitys" alt="" coords="49,5,205,32"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,56,248,112"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html" title="Factory for ISystemIdentitys " alt="" coords="51,5,218,32"/>
 </map>

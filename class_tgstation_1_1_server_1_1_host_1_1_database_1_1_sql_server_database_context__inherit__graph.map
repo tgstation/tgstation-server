@@ -1,4 +1,3 @@
 <map id="Tgstation.Server.Host.Database.SqlServerDatabaseContext" name="Tgstation.Server.Host.Database.SqlServerDatabaseContext">
-<area shape="rect" id="node1" title="DatabaseContext&lt;TParentContext&gt; for Sqlserver" alt="" coords="5,95,215,136"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html" title=" " alt="" coords="15,5,205,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html" title="DatabaseContext\&lt; SqlServer\lDatabaseContext \&gt;" alt="" coords="15,5,226,47"/>
 </map>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['tgstation_2dserver_20v4_3a_4573',['tgstation-server v4:',['../index.html',1,'']]]
+  ['server_20architecture',['Server Architecture',['../architecture.html',1,'']]]
 ];

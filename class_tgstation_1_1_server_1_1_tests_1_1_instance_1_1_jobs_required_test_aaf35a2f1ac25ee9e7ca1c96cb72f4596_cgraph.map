@@ -1,6 +1,4 @@
 <map id="Tgstation.Server.Tests.Instance.JobsRequiredTest.WaitForJobProgressThenCancel" name="Tgstation.Server.Tests.Instance.JobsRequiredTest.WaitForJobProgressThenCancel">
-<area shape="rect" id="node1" title=" " alt="" coords="5,43,252,99"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a50456aace539b2c54afc8f8218278c49" title="Cancels a job" alt="" coords="556,5,759,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a1a7399807a0abd4dfaed05c1c0d3adff" title="Get a job" alt="" coords="560,84,755,125"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_jobs_required_test.html#a11c99468369d8d269d2de1377a518c23" title=" " alt="" coords="300,51,508,92"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a50456aace539b2c54afc8f8218278c49" title="Cancels a job &#160;&#160;" alt="" coords="307,5,524,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a1a7399807a0abd4dfaed05c1c0d3adff" title="Get a job &#160;&#160;" alt="" coords="311,71,519,112"/>
 </map>

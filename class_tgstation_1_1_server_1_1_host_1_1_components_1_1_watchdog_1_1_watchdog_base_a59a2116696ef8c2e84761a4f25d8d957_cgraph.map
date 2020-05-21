@@ -1,6 +1,3 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleChatCommand" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleChatCommand">
-<area shape="rect" id="node1" title="Handle a chat command" alt="" coords="5,39,309,80"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a634f53946305b875c65c04dfd1719830" title="Get the active ISessionController." alt="" coords="357,5,647,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a01e4f4e2d775bd2bf0910a1f5c2f24ef" title="Asyncronously locks a semaphore" alt="" coords="407,71,597,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a600d8d0a279d2fe17d1f48c1a1bd17d4" title="Construct a SemaphoreSlimContext" alt="" coords="695,63,949,119"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a01e4f4e2d775bd2bf0910a1f5c2f24ef" title="Asyncronously locks a semaphore &#160;" alt="" coords="381,5,589,47"/>
 </map>

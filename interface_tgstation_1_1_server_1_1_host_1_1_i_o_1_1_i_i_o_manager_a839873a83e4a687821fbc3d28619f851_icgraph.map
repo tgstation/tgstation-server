@@ -1,5 +1,3 @@
 <map id="Tgstation.Server.Host.IO.IIOManager.ZipToDirectory" name="Tgstation.Server.Host.IO.IIOManager.ZipToDirectory">
-<area shape="rect" id="node1" title="Extract a set of zipFileBytes &#160;to a given path" alt="" coords="285,39,460,80"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a38345c5b5fc217b03e0142dc8513e0cd" title="Run a new Host assembly and stop the current one. This will likely trigger all active CancellationTok..." alt="" coords="26,5,217,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a1040d60e5aa5723bfb450c69f5ee02f3" title="Installs a BYOND version &#160;if it isn&#39;t already" alt="" coords="5,71,237,112"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a38345c5b5fc217b03e0142dc8513e0cd" title="Run a new Host assembly and stop the current one. This will likely trigger all active CancellationTok..." alt="" coords="243,5,452,47"/>
 </map>

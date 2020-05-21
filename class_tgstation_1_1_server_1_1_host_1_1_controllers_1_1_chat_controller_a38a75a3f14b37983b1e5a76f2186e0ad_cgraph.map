@@ -1,11 +1,3 @@
 <map id="Tgstation.Server.Host.Controllers.ChatController.Create" name="Tgstation.Server.Host.Controllers.ChatController.Create">
-<area shape="rect" id="node1" title="Create a new chat bot model ." alt="" coords="5,136,221,177"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a30fce4a18499c3c89b4b153b9805ce85" title="Converts api &#160;to a ChatChannel" alt="" coords="269,5,513,47"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#af8941660b12690639e314c4c266e33c4" title="Get the IInstance associated with given metadata" alt="" coords="278,71,505,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a1db346728a09c30c7cf2501c33038490" title="List Api.Models.ChatBots." alt="" coords="283,136,499,177"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#aa86fc5ec52331371d4f924520d3bdcb6" title="Saves changes made to the IDatabaseContext" alt="" coords="287,201,496,243"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a1079cc001cfaf55fa44aae68d9b106f5" title="Perform some basic validation of a given model ." alt="" coords="272,267,511,308"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType" alt="" coords="561,136,767,177"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb" title="Check if a given rightsType &#160;is meant for an Models.Instance" alt="" coords="815,103,1004,144"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c" title="Map a given rightsType &#160;to its respective Enum Type" alt="" coords="818,168,1001,209"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#aa86fc5ec52331371d4f924520d3bdcb6" title="Saves changes made to the IDatabaseContext &#160;" alt="" coords="291,5,521,47"/>
 </map>

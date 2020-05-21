@@ -1,4 +1,3 @@
 <map id="Tgstation.Server.Host.Core.Tests.TestApplication.MockHostApplicationLifetime" name="Tgstation.Server.Host.Core.Tests.TestApplication.MockHostApplicationLifetime">
-<area shape="rect" id="node1" title=" " alt="" coords="5,80,280,136"/>
-<area shape="rect" id="node2" href="$class_i_host_application_lifetime.html" title=" " alt="" coords="62,5,223,32"/>
+<area shape="rect" id="node2" href="$class_i_host_application_lifetime.html" title="IHostApplicationLifetime" alt="" coords="63,5,239,32"/>
 </map>

@@ -1,6 +1,4 @@
 <map id="Tgstation.Server.Host.IO.IPostWriteHandler.HandleWrite" name="Tgstation.Server.Host.IO.IPostWriteHandler.HandleWrite">
-<area shape="rect" id="node1" title="For handling system specific necessities after a write" alt="" coords="307,79,509,120"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html#a91ccfa2ffcfce658cf045b37de2aa153" title="Does actions necessary to get an extracted BYOND installation working" alt="" coords="5,5,259,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_tests_1_1_test_post_write_handler.html#a49252f0ad9761cfdfa3d5380bc85d4e6" title=" " alt="" coords="25,71,239,127"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_tests_1_1_test_post_write_handler.html#af61e7d3fe02505140d16ec569b261758" title=" " alt="" coords="25,151,239,207"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_tests_1_1_test_post_write_handler.html#a49252f0ad9761cfdfa3d5380bc85d4e6" title="Tgstation.Server.Host.IO.\lTests.TestPostWriteHandler.Test\lPostWrite" alt="" coords="267,5,487,61"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_tests_1_1_test_post_write_handler.html#af61e7d3fe02505140d16ec569b261758" title="Tgstation.Server.Host.IO.\lTests.TestPostWriteHandler.Test\lThrowsWithNullArg" alt="" coords="267,85,487,141"/>
 </map>

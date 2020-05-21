@@ -1,4 +1,3 @@
 <map id="Tgstation.Server.Host.Components.Repository.IRepositoryManager" name="Tgstation.Server.Host.Components.Repository.IRepositoryManager">
-<area shape="rect" id="node1" title="Factory for creating and loading IRepositorys" alt="" coords="5,80,232,121"/>
-<area shape="rect" id="node2" href="$class_i_disposable.html" title=" " alt="" coords="74,5,163,32"/>
+<area shape="rect" id="node2" href="$class_i_disposable.html" title="IDisposable" alt="" coords="83,5,178,32"/>
 </map>

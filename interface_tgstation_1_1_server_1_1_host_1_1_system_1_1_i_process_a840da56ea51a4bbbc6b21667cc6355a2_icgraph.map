@@ -1,6 +1,3 @@
 <map id="Tgstation.Server.Host.System.IProcess.Terminate" name="Tgstation.Server.Host.System.IProcess.Terminate">
-<area shape="rect" id="node1" title="Terminates the process" alt="" coords="329,71,528,112"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a8d954bc88514cf9103a552bf2b7bcd6a" title="Implements the IDisposable pattern" alt="" coords="24,5,263,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#a791ef513301c98f21808049b43f6db36" title="Does actions necessary to get an extracted BYOND installation working" alt="" coords="7,71,280,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a85ea60950c240265155f9f93124e72ff" title="Handle a set of bridge parameters ." alt="" coords="5,137,281,193"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#a791ef513301c98f21808049b43f6db36" title="Does actions necessary to get an extracted BYOND installation working &#160;" alt="" coords="271,5,561,47"/>
 </map>
