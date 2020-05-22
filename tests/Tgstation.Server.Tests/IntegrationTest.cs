@@ -311,6 +311,8 @@ namespace Tgstation.Server.Tests
 				catch (OperationCanceledException) { }
 
 				TerminateAllDDs();
+
+				hardTimeoutCancellationToken.ThrowIfCancellationRequested();
 			}
 		}
 
