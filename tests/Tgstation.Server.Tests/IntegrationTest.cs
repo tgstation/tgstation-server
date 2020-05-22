@@ -115,6 +115,7 @@ namespace Tgstation.Server.Tests
 
 			using var server = new TestingServer();
 			using var serverCts = new CancellationTokenSource();
+			serverCts.CancelAfter(TimeSpan.FromMinutes(10));
 			var cancellationToken = serverCts.Token;
 			TerminateAllDDs();
 			var serverTask = server.Run(cancellationToken);
