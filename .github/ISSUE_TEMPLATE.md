@@ -4,6 +4,8 @@ Please include:
 
 - The version of tgstation-server you were using.
 
+- The operating system you are running it from.
+
 - A description of the issue.
 
 - A link to your codebase git (if public)
