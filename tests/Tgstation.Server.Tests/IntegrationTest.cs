@@ -111,12 +111,28 @@ namespace Tgstation.Server.Tests
 				foreach (var proc in procs)
 					proc.Dispose();
 				Assert.Inconclusive("Cannot run server test because DreamDaemon will not start headless while the BYOND pager is running!");
-			}	
+			}
 
 			using var server = new TestingServer();
-			using var serverCts = new CancellationTokenSource();
-			serverCts.CancelAfter(new TimeSpan(0, 9, 30));
+
+			using var hardTimeoutCts = new CancellationTokenSource();
+			hardTimeoutCts.CancelAfter(new TimeSpan(0, 9, 45));
+			var hardTimeoutCancellationToken = hardTimeoutCts.Token;
+			hardTimeoutCancellationToken.Register(() => Console.WriteLine("TEST TIMEOUT HARD!"));
+
+			using var softTimeoutCts = CancellationTokenSource.CreateLinkedTokenSource(hardTimeoutCancellationToken);
+			softTimeoutCts.CancelAfter(new TimeSpan(0, 9, 15));
+			var softTimeoutCancellationToken = softTimeoutCts.Token;
+			bool tooLateForSoftTimeout = false;
+			softTimeoutCancellationToken.Register(() =>
+			{
+				if (!tooLateForSoftTimeout)
+					Console.WriteLine("TEST TIMEOUT SOFT!");
+			});
+
+			using var serverCts = CancellationTokenSource.CreateLinkedTokenSource(softTimeoutCancellationToken);
 			var cancellationToken = serverCts.Token;
+
 			TerminateAllDDs();
 			var serverTask = server.Run(cancellationToken);
 			try
@@ -286,10 +302,11 @@ namespace Tgstation.Server.Tests
 			}
 			finally
 			{
+				tooLateForSoftTimeout = true;
 				serverCts.Cancel();
 				try
 				{
-					await serverTask.ConfigureAwait(false);
+					await serverTask.WithToken(hardTimeoutCancellationToken).ConfigureAwait(false);
 				}
 				catch (OperationCanceledException) { }
 
