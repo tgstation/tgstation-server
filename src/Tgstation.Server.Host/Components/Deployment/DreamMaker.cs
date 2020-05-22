@@ -666,6 +666,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						};
 
 						databaseContext.Jobs.Attach(compileJob.Job);
+						databaseContext.RevisionInformations.Attach(compileJob.RevisionInformation);
 						databaseContext.CompileJobs.Add(compileJob);
 
 						// The difficulty with compile jobs is they have a two part commit
