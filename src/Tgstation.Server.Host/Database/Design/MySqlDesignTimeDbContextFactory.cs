@@ -9,7 +9,9 @@ using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Database.Design
 {
-	/// <inheritdoc />
+	/// <summary>
+	/// <see cref="IDesignTimeDbContextFactory{TContext}"/> for creating <see cref="MySqlDatabaseContext"/>s.
+	/// </summary>
 	sealed class MySqlDesignTimeDbContextFactory : IDesignTimeDbContextFactory<MySqlDatabaseContext>
 	{
 		/// <inheritdoc />

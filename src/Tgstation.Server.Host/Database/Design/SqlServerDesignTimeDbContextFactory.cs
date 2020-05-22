@@ -9,7 +9,9 @@ using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Database.Design
 {
-	/// <inheritdoc />
+	/// <summary>
+	/// <see cref="IDesignTimeDbContextFactory{TContext}"/> for creating <see cref="SqlServerDatabaseContext"/>s.
+	/// </summary>
 	sealed class SqlServerDesignTimeDbContextFactory : IDesignTimeDbContextFactory<SqlServerDatabaseContext>
 	{
 		/// <inheritdoc />

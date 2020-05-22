@@ -8,7 +8,7 @@ using Tgstation.Server.Host.Models;
 namespace Tgstation.Server.Host.Database
 {
 	/// <summary>
-	/// Represents the database
+	/// Represents the database.
 	/// </summary>
 	public interface IDatabaseContext
 	{
