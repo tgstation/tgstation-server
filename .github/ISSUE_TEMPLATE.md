@@ -2,10 +2,16 @@ Note that this repository does not contain any client code (With the exception o
 
 Please include:
 
-- A description of the issue.
-
 - The version of tgstation-server you were using.
 
-- Reproduction steps for the issue if possible (Very helpful).
+- A description of the issue.
 
-- Relevent server logs, request logs, and screenshots if possible.
+- A link to your codebase git (if public)
+    - Include active SHA/test merges if applicable
+
+- The client you we're using (Desktop control panel, web control panel, etc)
+    - Include a version if applicable
+
+- Reproduction steps for the issue if possible from your client.
+
+- The server log of when the event happened (The full file is much more useful than snippets).
