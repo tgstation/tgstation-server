@@ -1,4 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_i_host_application_lifetime.html" title="IHostApplicationLifetime" alt="" coords="5,20,181,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_tests_1_1_test_application_1_1_mock_host_application_lifetime.html" title="Tgstation.Server.Host.Core.\lTests.TestApplication.MockHostApplication\lLifetime" alt="" coords="229,5,520,61"/>
+<area shape="rect" id="node1" href="$class_i_open_api_extension.html" title="IOpenApiExtension" alt="" coords="5,13,147,39"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_open_api_enum_var_names_extension.html" title="Implements the &quot;x&#45;enum&#45;varnames&quot; OpenAPI 3.0 extension. " alt="" coords="195,5,437,47"/>
 </map>

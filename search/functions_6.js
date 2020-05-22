@@ -43,6 +43,5 @@ var searchData=
   ['getuseranddomainname',['GetUserAndDomainName',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity_factory.html#a1cca1b38097ffb81518592e6b967cecf',1,'Tgstation::Server::Host::Security::WindowsSystemIdentityFactory']]],
   ['getwindowtext',['GetWindowText',['../class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#aab504dccd83453d3af13a7e4feceb7a9',1,'Tgstation::Server::Host::NativeMethods']]],
   ['getwindowthreadprocessid',['GetWindowThreadProcessId',['../class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a346862e4a517dcfe04a256ec49e7ecea',1,'Tgstation::Server::Host::NativeMethods']]],
-  ['githubclientfactory',['GitHubClientFactory',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_git_hub_client_factory.html#a72336fa397ae9b38f421d27063479af9',1,'Tgstation::Server::Host::Core::GitHubClientFactory']]],
-  ['gracefulwatchdogshutdown',['GracefulWatchdogShutdown',['../class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_watchdog_test.html#a3c03b26eb3624c7076e438735df0d152',1,'Tgstation::Server::Tests::Instance::WatchdogTest']]]
+  ['githubclientfactory',['GitHubClientFactory',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_git_hub_client_factory.html#a72336fa397ae9b38f421d27063479af9',1,'Tgstation::Server::Host::Core::GitHubClientFactory']]]
 ];

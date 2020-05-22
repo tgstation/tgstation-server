@@ -2,9 +2,6 @@ var searchData=
 [
   ['task',['task',['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a42b697cf8ba09596bd047e4c12f52cc3',1,'Tgstation.Server.Host.Jobs.JobHandler.task()'],['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#a2d1a4fc7b7fee56456ccebfb699ad8ee',1,'Tgstation.Server.Host.Security.IdentityCacheObject.task()']]],
   ['terminationwasrequested',['TerminationWasRequested',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_dead_session_controller.html#a235dd45c8459beb9ef248d9a82fac095',1,'Tgstation::Server::Host::Components::Session::DeadSessionController']]],
-  ['testinstancename',['TestInstanceName',['../class_tgstation_1_1_server_1_1_tests_1_1_instance_manager_test.html#aa95da98000bed9ad252d9b2565f3d276',1,'Tgstation::Server::Tests::InstanceManagerTest']]],
-  ['testrootpath',['testRootPath',['../class_tgstation_1_1_server_1_1_tests_1_1_instance_manager_test.html#aabc2c34fa46079ff3c922be055d30f4a',1,'Tgstation::Server::Tests::InstanceManagerTest']]],
-  ['testtoken1',['testToken1',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_tests_1_1_test_discord_provider.html#ad72eb96b430ebab407c6a72970e60ac5',1,'Tgstation::Server::Host::Components::Chat::Providers::Tests::TestDiscordProvider']]],
   ['timeoutseconds',['TimeoutSeconds',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a6b7d2a57ba6340f51694987653033677',1,'Tgstation::Server::Host::Components::Chat::Providers::IrcProvider']]],
   ['timercts',['timerCts',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#aab6ba11c7820ee9de39771aabbecdfcb',1,'Tgstation::Server::Host::Components::Instance']]],
   ['timerlock',['timerLock',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#af352e8a195c6b95d852ef8873390c3a0',1,'Tgstation::Server::Host::Components::Instance']]],

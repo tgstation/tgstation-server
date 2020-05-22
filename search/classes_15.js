@@ -4,7 +4,6 @@ var searchData=
   ['watchdogbase',['WatchdogBase',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html',1,'Tgstation::Server::Host::Components::Watchdog']]],
   ['watchdogfactory',['WatchdogFactory',['../class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory.html',1,'Tgstation::Server::Host::Watchdog']]],
   ['watchdogfactory',['WatchdogFactory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html',1,'Tgstation::Server::Host::Components::Watchdog']]],
-  ['watchdogtest',['WatchdogTest',['../class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_watchdog_test.html',1,'Tgstation::Server::Tests::Instance']]],
   ['webhostbuilderextensions',['WebHostBuilderExtensions',['../class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_web_host_builder_extensions.html',1,'Tgstation::Server::Host::Extensions']]],
   ['windowsbyondinstaller',['WindowsByondInstaller',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html',1,'Tgstation::Server::Host::Components::Byond']]],
   ['windowsnetworkpromptreaper',['WindowsNetworkPromptReaper',['../class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html',1,'Tgstation::Server::Host::System']]],

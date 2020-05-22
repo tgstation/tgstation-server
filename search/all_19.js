@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['ziptodirectory',['ZipToDirectory',['../class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a8905a0a82326cf61f67ba1ec1eccb0e2',1,'Tgstation.Server.Host.IO.DefaultIOManager.ZipToDirectory()'],['../interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a839873a83e4a687821fbc3d28619f851',1,'Tgstation.Server.Host.IO.IIOManager.ZipToDirectory()']]]
+  ['_7esemaphoreslimcontext',['~SemaphoreSlimContext',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a38494639c16b57de63e6af91f2841a12',1,'Tgstation::Server::Host::Core::SemaphoreSlimContext']]],
+  ['_7esessioncontroller',['~SessionController',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ad3ea85ec2d04ba790b65c0da916cdb83',1,'Tgstation::Server::Host::Components::Session::SessionController']]]
 ];

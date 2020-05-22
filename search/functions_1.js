@@ -11,6 +11,5 @@ var searchData=
   ['byondcontroller',['ByondController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_byond_controller.html#a60fa22db0b488a68e33b3064cacce100',1,'Tgstation::Server::Host::Controllers::ByondController']]],
   ['byondexecutablelock',['ByondExecutableLock',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_executable_lock.html#a44eb282f6424c86b45fd978568f85842',1,'Tgstation::Server::Host::Components::Byond::ByondExecutableLock']]],
   ['byondinstallerbase',['ByondInstallerBase',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html#aafe5655d1dbaa689a3b58f12a6258b13',1,'Tgstation::Server::Host::Components::Byond::ByondInstallerBase']]],
-  ['byondmanager',['ByondManager',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a53f179dd7a1f02a716da371710eec7a3',1,'Tgstation::Server::Host::Components::Byond::ByondManager']]],
-  ['byondtest',['ByondTest',['../class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_byond_test.html#aaef4483a7315dcc07aceedb0ae46c59e',1,'Tgstation::Server::Tests::Instance::ByondTest']]]
+  ['byondmanager',['ByondManager',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a53f179dd7a1f02a716da371710eec7a3',1,'Tgstation::Server::Host::Components::Byond::ByondManager']]]
 ];

@@ -12,6 +12,5 @@ var searchData=
   ['usernameheader',['UsernameHeader',['../class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#aeb78db4fde83cb73bbad383ccb1b71f1',1,'Tgstation::Server::Api::ApiHeaders']]],
   ['userprincipal',['userPrincipal',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html#abf93d22395acd37f9c24aee156691f7a',1,'Tgstation::Server::Host::Security::WindowsSystemIdentity']]],
   ['users',['Users',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a9221f034b8436b35ea5b108d25e90af0',1,'Tgstation::Server::Host::Database::DatabaseContext']]],
-  ['usersclient',['usersClient',['../class_tgstation_1_1_server_1_1_tests_1_1_instance_manager_test.html#a6f986b9ccb61b14f03f793760d89890f',1,'Tgstation::Server::Tests::InstanceManagerTest']]],
   ['userscollection',['usersCollection',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a88480d1ea59c9932d1c4be82b3db3b5d',1,'Tgstation::Server::Host::Database::DatabaseContext']]]
 ];

@@ -5,6 +5,5 @@ var searchData=
   ['jobhandler',['JobHandler',['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a3e19e5f90147b634310d22275588a1af',1,'Tgstation::Server::Host::Jobs::JobHandler']]],
   ['jobmanager',['JobManager',['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#a69853b5e089e507e84c37c2c6007550a',1,'Tgstation::Server::Host::Jobs::JobManager']]],
   ['jobprogress',['JobProgress',['../interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a208facc58e1ed5cc79b8c7856a3cce23',1,'Tgstation.Server.Host.Jobs.IJobManager.JobProgress()'],['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#a411b5226a54541970ca45e653aea1de5',1,'Tgstation.Server.Host.Jobs.JobManager.JobProgress()']]],
-  ['jobsclient',['JobsClient',['../class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a9ffef36f7b69e7c76e31af3958797846',1,'Tgstation::Server::Client::Components::JobsClient']]],
-  ['jobsrequiredtest',['JobsRequiredTest',['../class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_jobs_required_test.html#adc12ded16b68b51760b2ee81697504cb',1,'Tgstation::Server::Tests::Instance::JobsRequiredTest']]]
+  ['jobsclient',['JobsClient',['../class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a9ffef36f7b69e7c76e31af3958797846',1,'Tgstation::Server::Client::Components::JobsClient']]]
 ];

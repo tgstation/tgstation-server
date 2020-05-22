@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Database.DatabaseContext&lt; TParentContext &gt;" name="Tgstation.Server.Host.Database.DatabaseContext&lt; TParentContext &gt;">
 <area shape="rect" id="node2" href="$class_db_context.html" title="DbContext" alt="" coords="129,17,219,44"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database " alt="" coords="105,68,243,95"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database. " alt="" coords="105,68,243,95"/>
 <area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title="Tgstation.Server.Host.Database.\lIDatabaseCollection\&lt; ReattachInformation \&gt;" alt="" coords="20,119,328,161"/>
 <area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title="Tgstation.Server.Host.Database.\lIDatabaseCollection\&lt; InstanceUser \&gt;" alt="" coords="43,185,305,226"/>
 <area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title="Tgstation.Server.Host.Database.\lIDatabaseCollection\&lt; CompileJob \&gt;" alt="" coords="49,250,299,291"/>

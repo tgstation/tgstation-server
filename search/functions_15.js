@@ -1,13 +1,10 @@
 var searchData=
 [
   ['wait',['Wait',['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#aa3f314a623eb4800fbf6cd88685b54d7',1,'Tgstation::Server::Host::Jobs::JobHandler']]],
-  ['waitforjob',['WaitForJob',['../class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_jobs_required_test.html#a11c99468369d8d269d2de1377a518c23',1,'Tgstation::Server::Tests::Instance::JobsRequiredTest']]],
   ['waitforjobcompletion',['WaitForJobCompletion',['../interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a04ad7543ef9c8863c1d8d0b46d17f522',1,'Tgstation.Server.Host.Jobs.IJobManager.WaitForJobCompletion()'],['../class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#a91cb1783409dd1e5cd4ec7670851f05f',1,'Tgstation.Server.Host.Jobs.JobManager.WaitForJobCompletion()']]],
-  ['waitforjobprogressthencancel',['WaitForJobProgressThenCancel',['../class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_jobs_required_test.html#aaf35a2f1ac25ee9e7ca1c96cb72f4596',1,'Tgstation::Server::Tests::Instance::JobsRequiredTest']]],
   ['watchdog',['Watchdog',['../class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html#ada6c36ef01a0cdaf67ea13a350c3f073',1,'Tgstation::Server::Host::Watchdog::Watchdog']]],
   ['watchdogbase',['WatchdogBase',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a78d5f9fe6f32c9aa612317fa76799435',1,'Tgstation::Server::Host::Components::Watchdog::WatchdogBase']]],
   ['watchdogfactory',['WatchdogFactory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#aab0326100c3cf0f68e7345990d30b308',1,'Tgstation::Server::Host::Components::Watchdog::WatchdogFactory']]],
-  ['watchdogtest',['WatchdogTest',['../class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_watchdog_test.html#af938dec9f03fdb10d9f0c43f531611b9',1,'Tgstation::Server::Tests::Instance::WatchdogTest']]],
   ['windowsbyondinstaller',['WindowsByondInstaller',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#a90d405cbc30a94e4f42bb82f1ae70db9',1,'Tgstation::Server::Host::Components::Byond::WindowsByondInstaller']]],
   ['windowsnetworkpromptreaper',['WindowsNetworkPromptReaper',['../class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a48c16d7265c9d7b8c578f20c52601f94',1,'Tgstation::Server::Host::System::WindowsNetworkPromptReaper']]],
   ['windowsprocessfeatures',['WindowsProcessFeatures',['../class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html#a27a19295cb9d9879dbee167e23f5704f',1,'Tgstation::Server::Host::System::WindowsProcessFeatures']]],

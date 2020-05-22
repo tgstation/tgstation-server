@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_monitor_state.html" title="The (absolute) state of the ExperimentalWatchdog " alt="" coords="5,5,256,47"/>
+<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html" title="Tgstation.Server.Host.Database.\lDatabaseContext\&lt; SqliteDatabaseContext \&gt;" alt="" coords="5,5,317,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_sqlite_database_context.html" title="DatabaseContext&lt;TParentContext&gt; for MySQL " alt="" coords="365,5,596,47"/>
 </map>

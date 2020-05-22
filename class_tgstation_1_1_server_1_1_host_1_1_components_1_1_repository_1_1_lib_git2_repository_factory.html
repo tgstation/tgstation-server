@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.2.4</span>
+   &#160;<span id="projectnumber">4.2.5</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -273,21 +273,9 @@ Private Attributes</h2></td></tr>
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#af08df14e3a5e9e63b14a6d65cc47abd6">Tgstation.Server.Host.Components.Repository.ILibGit2RepositoryFactory</a>.</p>
 
 <p>Definition at line <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00030">30</a> of file <a class="el" href="_lib_git2_repository_factory_8cs_source.html">LibGit2RepositoryFactory.cs</a>.</p>
-
-<p>Referenced by <a class="el" href="_test_repository_factory_8cs_source.html#l00029">Tgstation.Server.Host.Components.Repository.Tests.TestRepositoryFactory.TestInMemoryRepoCreation()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        {</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a0459148f90ada2863ee586bb9ff43351">logger</a>.LogTrace(<span class="stringliteral">&quot;Creating in-memory libgit2 repository...&quot;</span>);</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            var repo = <span class="keyword">new</span> <a class="code" href="namespace_lib_git2_sharp.html">LibGit2Sharp</a>.Repository();</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            <span class="keywordflow">try</span></div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            {</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a0459148f90ada2863ee586bb9ff43351">logger</a>.LogTrace(<span class="stringliteral">&quot;Successfully created in-memory libgit2 repository.&quot;</span>);</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                <span class="keywordflow">return</span> repo;</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            }</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            <span class="keywordflow">catch</span></div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            {</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                repo.Dispose();</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                <span class="keywordflow">throw</span>;</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            }</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory_html_a0459148f90ada2863ee586bb9ff43351"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a0459148f90ada2863ee586bb9ff43351">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.logger</a></div><div class="ttdeci">readonly ILogger&lt; LibGit2RepositoryFactory &gt; logger</div><div class="ttdoc">The ILogger for the LibGit2RepositoryFactory. </div><div class="ttdef"><b>Definition:</b> <a href="_lib_git2_repository_factory_8cs_source.html#l00018">LibGit2RepositoryFactory.cs:18</a></div></div>
 <div class="ttc" id="namespace_lib_git2_sharp_html"><div class="ttname"><a href="namespace_lib_git2_sharp.html">LibGit2Sharp</a></div></div>
 </div><!-- fragment -->
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory_ad04e55b87e2ea16c68210ce73a80cebd_icgraph.png" border="0" usemap="#class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory_ad04e55b87e2ea16c68210ce73a80cebd_icgraph" alt=""/></div>
-<map name="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory_ad04e55b87e2ea16c68210ce73a80cebd_icgraph" id="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory_ad04e55b87e2ea16c68210ce73a80cebd_icgraph">
-<area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_tests_1_1_test_repository_factory.html#abfd78fbe4a10f833180ba7149c49d8c1" title="Tgstation.Server.Host.Components.\lRepository.Tests.TestRepositoryFactory.\lTestInMemoryRepoCreation" alt="" coords="304,5,569,61"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="a8690f8be311b5092a11782a2c54b3728"></a>

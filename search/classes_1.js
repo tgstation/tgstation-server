@@ -1,8 +1,5 @@
 var searchData=
 [
-  ['badconfig1',['BadConfig1',['../class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_tests_1_1_test_service_collection_extensions_1_1_bad_config1.html',1,'Tgstation::Server::Host::Extensions::Tests::TestServiceCollectionExtensions']]],
-  ['badconfig2',['BadConfig2',['../class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_tests_1_1_test_service_collection_extensions_1_1_bad_config2.html',1,'Tgstation::Server::Host::Extensions::Tests::TestServiceCollectionExtensions']]],
-  ['badconfig3',['BadConfig3',['../class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_tests_1_1_test_service_collection_extensions_1_1_bad_config3.html',1,'Tgstation::Server::Host::Extensions::Tests::TestServiceCollectionExtensions']]],
   ['basicwatchdog',['BasicWatchdog',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html',1,'Tgstation::Server::Host::Components::Watchdog']]],
   ['boolconverter',['BoolConverter',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_converters_1_1_bool_converter.html',1,'Tgstation::Server::Host::Components::Interop::Converters']]],
   ['bridgecontroller',['BridgeController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_bridge_controller.html',1,'Tgstation::Server::Host::Controllers']]],
@@ -15,6 +12,5 @@ var searchData=
   ['byondcontroller',['ByondController',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_byond_controller.html',1,'Tgstation::Server::Host::Controllers']]],
   ['byondexecutablelock',['ByondExecutableLock',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_executable_lock.html',1,'Tgstation::Server::Host::Components::Byond']]],
   ['byondinstallerbase',['ByondInstallerBase',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html',1,'Tgstation::Server::Host::Components::Byond']]],
-  ['byondmanager',['ByondManager',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html',1,'Tgstation::Server::Host::Components::Byond']]],
-  ['byondtest',['ByondTest',['../class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_byond_test.html',1,'Tgstation::Server::Tests::Instance']]]
+  ['byondmanager',['ByondManager',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html',1,'Tgstation::Server::Host::Components::Byond']]]
 ];

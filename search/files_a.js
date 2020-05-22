@@ -7,6 +7,5 @@ var searchData=
   ['jobexception_2ecs',['JobException.cs',['../_job_exception_8cs.html',1,'']]],
   ['jobhandler_2ecs',['JobHandler.cs',['../_job_handler_8cs.html',1,'']]],
   ['jobmanager_2ecs',['JobManager.cs',['../_job_manager_8cs.html',1,'']]],
-  ['jobsclient_2ecs',['JobsClient.cs',['../_jobs_client_8cs.html',1,'']]],
-  ['jobsrequiredtest_2ecs',['JobsRequiredTest.cs',['../_jobs_required_test_8cs.html',1,'']]]
+  ['jobsclient_2ecs',['JobsClient.cs',['../_jobs_client_8cs.html',1,'']]]
 ];

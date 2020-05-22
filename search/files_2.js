@@ -14,6 +14,5 @@ var searchData=
   ['byondexecutablelock_2ecs',['ByondExecutableLock.cs',['../_byond_executable_lock_8cs.html',1,'']]],
   ['byondinstallerbase_2ecs',['ByondInstallerBase.cs',['../_byond_installer_base_8cs.html',1,'']]],
   ['byondmanager_2ecs',['ByondManager.cs',['../_byond_manager_8cs.html',1,'']]],
-  ['byondrights_2ecs',['ByondRights.cs',['../_byond_rights_8cs.html',1,'']]],
-  ['byondtest_2ecs',['ByondTest.cs',['../_byond_test_8cs.html',1,'']]]
+  ['byondrights_2ecs',['ByondRights.cs',['../_byond_rights_8cs.html',1,'']]]
 ];

@@ -3,7 +3,6 @@ var searchData=
   ['message',['Message',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html',1,'Tgstation::Server::Host::Components::Chat::Providers']]],
   ['methodnotsupportedexception',['MethodNotSupportedException',['../class_tgstation_1_1_server_1_1_client_1_1_method_not_supported_exception.html',1,'Tgstation::Server::Client']]],
   ['migration',['Migration',['../class_migration.html',1,'']]],
-  ['mockhostapplicationlifetime',['MockHostApplicationLifetime',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_tests_1_1_test_application_1_1_mock_host_application_lifetime.html',1,'Tgstation::Server::Host::Core::Tests::TestApplication']]],
   ['modelsnapshot',['ModelSnapshot',['../class_model_snapshot.html',1,'']]],
   ['monitorstate',['MonitorState',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_monitor_state.html',1,'Tgstation::Server::Host::Components::Watchdog']]],
   ['msaddchatbotreconnectioninterval',['MSAddChatBotReconnectionInterval',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_chat_bot_reconnection_interval.html',1,'Tgstation::Server::Host::Database::Migrations']]],
