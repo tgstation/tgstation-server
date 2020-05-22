@@ -623,7 +623,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 								Instance = new Models.Instance
 								{
 									Id = metadata.Id
-								}
+								},
+								ActiveTestMerges = new List<RevInfoTestMerge>()
 							};
 
 							logger.LogWarning(Repository.Repository.OriginTrackingErrorTemplate, repoSha);
@@ -664,11 +665,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 							Id = revInfo.Id
 						};
 
-						databaseContext.RevisionInformations.Attach(compileJob.RevisionInformation);
 						databaseContext.Jobs.Attach(compileJob.Job);
 						databaseContext.CompileJobs.Add(compileJob);
-
-						await PostDeploymentComments(compileJob, repositorySettings, repoOwner, repoName).ConfigureAwait(false);
 
 						// The difficulty with compile jobs is they have a two part commit
 						await databaseContext.Save(cancellationToken).ConfigureAwait(false);
@@ -691,6 +689,10 @@ namespace Tgstation.Server.Host.Components.Deployment
 				await CleanupFailedCompile(compileJob, ex is OperationCanceledException, default).ConfigureAwait(false);
 				throw;
 			}
+
+			// set the compile job revinfo back to the full tree, so that it may be used by this call
+			compileJob.RevisionInformation = revInfo;
+			await PostDeploymentComments(compileJob, repositorySettings, repoOwner, repoName).ConfigureAwait(false);
 
 			await eventConsumer.HandleEvent(EventType.DeploymentComplete, null, cancellationToken).ConfigureAwait(false);
 
@@ -849,13 +851,13 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 			// removed prs
 			foreach (var I in outgoingCompileJob
+			.RevisionInformation
+			.ActiveTestMerges
+			.Select(x => x.TestMerge)
+				.Where(x => !compileJob
 				.RevisionInformation
 				.ActiveTestMerges
-				.Select(x => x.TestMerge)
-					.Where(x => !compileJob
-					.RevisionInformation
-					.ActiveTestMerges
-					.Any(y => y.TestMerge.Number == x.Number)))
+				.Any(y => y.TestMerge.Number == x.Number)))
 				tasks.Add(CommentOnPR(I.Number, "#### Test Merge Removed"));
 
 			// updated prs

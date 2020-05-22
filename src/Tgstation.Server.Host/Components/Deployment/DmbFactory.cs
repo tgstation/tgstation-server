@@ -196,6 +196,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				throw new ArgumentNullException(nameof(compileJob));
 
 			// ensure we have the entire compile job tree
+			logger.LogTrace("Loading compile job {0}...", compileJob.Id);
 			await databaseContextFactory.UseContext(async db => compileJob = await db.CompileJobs.Where(x => x.Id == compileJob.Id)
 				.Include(x => x.Job).ThenInclude(x => x.StartedBy)
 				.Include(x => x.RevisionInformation).ThenInclude(x => x.PrimaryTestMerge).ThenInclude(x => x.MergedBy)
@@ -211,7 +212,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 				compileJob.Job.StoppedAt = DateTimeOffset.Now;
 			}
 
-			logger.LogTrace("Loading compile job {0}...", compileJob.Id);
 			var providerSubmitted = false;
 			var newProvider = new DmbProvider(compileJob, ioManager, () =>
 			{
