@@ -126,9 +126,9 @@ namespace Tgstation.Server.Host.Core
 					var logPath = !String.IsNullOrEmpty(postSetupServices.FileLoggingConfiguration.Directory)
 						? postSetupServices.FileLoggingConfiguration.Directory
 						: IOManager.ConcatPath(
-					Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
-					AssemblyInformationProvider.VersionPrefix,
-					"Logs");
+							Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+							AssemblyInformationProvider.VersionPrefix,
+							"Logs");
 
 					var logEventLevel = ConvertSeriLogLevel(postSetupServices.FileLoggingConfiguration.LogLevel);
 
@@ -141,6 +141,7 @@ namespace Tgstation.Server.Host.Core
 						formatter,
 						logPath,
 						logEventLevel ?? LogEventLevel.Verbose,
+						50 * 1024 * 1024, // 50MB max size
 						flushToDiskInterval: TimeSpan.FromSeconds(2));
 				});
 

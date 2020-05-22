@@ -483,5 +483,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("Could not bind to requested DreamDaemon port! Is there another service running on that port?")]
 		DreamDaemonPortInUse,
+
+		/// <summary>
+		/// Failed to post GitHub comments, send chat message, or send TGS event.
+		/// </summary>
+		[Description("The deployment succeeded but one or more notification events failed!")]
+		PostDeployFailure,
 	}
 }
