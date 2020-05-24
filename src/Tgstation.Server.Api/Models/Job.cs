@@ -8,12 +8,12 @@
 		/// <summary>
 		/// The <see cref="User"/> that started the job
 		/// </summary>
-		public User StartedBy { get; set; }
+		public User? StartedBy { get; set; }
 
 		/// <summary>
 		/// The <see cref="User"/> that cancelled the job
 		/// </summary>
-		public User CancelledBy { get; set; }
+		public User? CancelledBy { get; set; }
 
 		/// <summary>
 		/// Optional progress between 0 and 100 inclusive

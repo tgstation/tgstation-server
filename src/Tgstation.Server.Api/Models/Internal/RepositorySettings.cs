@@ -12,7 +12,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// </summary>
 		[Required]
 		[StringLength(Limits.MaximumStringLength)]
-		public string CommitterName { get; set; }
+		public string? CommitterName { get; set; }
 
 		/// <summary>
 		/// The e-mail of the committer
@@ -20,19 +20,19 @@ namespace Tgstation.Server.Api.Models.Internal
 		[Required]
 		[StringLength(Limits.MaximumStringLength)]
 		[EmailAddress]
-		public string CommitterEmail { get; set; }
+		public string? CommitterEmail { get; set; }
 
 		/// <summary>
 		/// The username to access the git repository with
 		/// </summary>
 		[StringLength(Limits.MaximumStringLength)]
-		public string AccessUser { get; set; }
+		public string? AccessUser { get; set; }
 
 		/// <summary>
 		/// The token/password to access the git repository with
 		/// </summary>
 		[StringLength(Limits.MaximumStringLength)]
-		public string AccessToken { get; set; }
+		public string? AccessToken { get; set; }
 
 		/// <summary>
 		/// If commits created from testmerges are pushed to the remote

@@ -18,7 +18,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// </summary>
 		[Required]
 		[StringLength(Limits.MaximumIndexableStringLength)]
-		public string Name { get; set; }
+		public string? Name { get; set; }
 
 		/// <summary>
 		/// If the connection is enabled
@@ -50,25 +50,22 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// </summary>
 		[Required]
 		[StringLength(Limits.MaximumStringLength)]
-		public string ConnectionString { get; set; }
+		public string? ConnectionString { get; set; }
 
 		/// <summary>
 		/// Get the <see cref="ChatConnectionStringBuilder"/> which maps to the <see cref="ConnectionString"/>.
 		/// </summary>
 		/// <returns>A <see cref="ChatConnectionStringBuilder"/> for the <see cref="ChatBot"/>.</returns>
-		public ChatConnectionStringBuilder CreateConnectionStringBuilder()
+		public ChatConnectionStringBuilder? CreateConnectionStringBuilder()
 		{
 			if (ConnectionString == null)
 				return null;
-			switch (Provider)
+			return Provider switch
 			{
-				case ChatProvider.Discord:
-					return new DiscordConnectionStringBuilder(ConnectionString);
-				case ChatProvider.Irc:
-					return new IrcConnectionStringBuilder(ConnectionString);
-				default:
-					throw new InvalidOperationException("Invalid Provider!");
-			}
+				ChatProvider.Discord => new DiscordConnectionStringBuilder(ConnectionString),
+				ChatProvider.Irc => new IrcConnectionStringBuilder(ConnectionString),
+				_ => throw new InvalidOperationException("Invalid Provider!"),
+			};
 		}
 
 		/// <summary>
@@ -77,7 +74,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <param name="stringBuilder">The optional <see cref="ChatConnectionStringBuilder"/>.</param>
 		public void SetConnectionStringBuilder(ChatConnectionStringBuilder stringBuilder)
 		{
-			ConnectionString = stringBuilder?.ToString();
+			ConnectionString = stringBuilder?.ToString() ?? throw new ArgumentNullException(nameof(stringBuilder));
 		}
 	}
 }

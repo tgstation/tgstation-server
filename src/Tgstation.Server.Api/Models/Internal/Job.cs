@@ -13,7 +13,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// English description of the <see cref="Job"/>
 		/// </summary>
 		[Required]
-		public string Description { get; set; }
+		public string? Description { get; set; }
 
 		/// <summary>
 		/// The <see cref="Models.ErrorCode"/> associated with the <see cref="Job"/> if any.
@@ -23,7 +23,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// Details of any exceptions caught during the <see cref="Job"/>
 		/// </summary>
-		public string ExceptionDetails { get; set; }
+		public string? ExceptionDetails { get; set; }
 
 		/// <summary>
 		/// When the <see cref="Job"/> was started

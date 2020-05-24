@@ -19,7 +19,7 @@ namespace Tgstation.Server.Client
 			set
 			{
 				token = value ?? throw new InvalidOperationException("Cannot set a null Token!");
-				apiClient.Headers = new ApiHeaders(apiClient.Headers.UserAgent, token.Bearer);
+				apiClient.Headers = new ApiHeaders(apiClient.Headers.UserAgent!, token.Bearer!);
 			}
 		}
 

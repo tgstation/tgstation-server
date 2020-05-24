@@ -2,41 +2,34 @@
   <Import Project="../../build/Version.props" />
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <DebugType>Full</DebugType>
     <Version>$(TgsClientVersion)</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Cyberboss</Authors>
     <Company>/tg/station 13</Company>
-    <Product />
     <Description>Client library for tgstation-server</Description>
     <PackageProjectUrl>https://tgstation.github.io/tgstation-server</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/tgstation/tgstation-server</RepositoryUrl>
-    <RepositoryType>Git</RepositoryType>
-    <NeutralLanguage>en-CA</NeutralLanguage>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageIcon>tgs.png</PackageIcon>
+    <RepositoryType>Git</RepositoryType>
+    <RepositoryUrl>https://github.com/tgstation/tgstation-server</RepositoryUrl>
+    <Copyright>2018</Copyright>
     <PackageTags>json web api tgstation-server tgstation ss13 byond client</PackageTags>
-    <PackageReleaseNotes>Updated to API version $(TgsApiVersion)</PackageReleaseNotes>
+    <PackageReleaseNotes>.Net Standard 2.1, allow login requests to be logged.</PackageReleaseNotes>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <Copyright>2018</Copyright>
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
     <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <DocumentationFile>bin\$(Configuration)\netstandard2.1\Tgstation.Server.Client.xml</DocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
-    <DocumentationFile>bin\Release\netstandard2.1\Tgstation.Server.Client.xml</DocumentationFile>
-    <NoWarn>1701;1702</NoWarn>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <NoWarn>1701;1702</NoWarn>
-    <DocumentationFile>bin\Debug\netstandard2.1\Tgstation.Server.Client.xml</DocumentationFile>
-  </PropertyGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
