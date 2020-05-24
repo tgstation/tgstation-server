@@ -12,27 +12,27 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// The title of the pull request
 		/// </summary>
 		[Required]
-		public string TitleAtMerge { get; set; }
+		public string? TitleAtMerge { get; set; }
 
 		/// <summary>
 		/// The body of the pull request
 		/// </summary>
 		[Required]
-		public string BodyAtMerge { get; set; }
+		public string? BodyAtMerge { get; set; }
 
 		/// <summary>
 		/// The URL of the pull request
 		/// </summary>
 		[Required]
 #pragma warning disable CA1056 // Uri properties should not be strings
-		public string Url { get; set; }
+		public string? Url { get; set; }
 #pragma warning restore CA1056 // Uri properties should not be strings
 
 		/// <summary>
 		/// The author of the pull request
 		/// </summary>
 		[Required]
-		public string Author { get; set; }
+		public string? Author { get; set; }
 
 		/// <summary>
 		/// Construct a <see cref="TestMergeBase"/>

@@ -43,7 +43,7 @@ namespace Tgstation.Server.Tests
 				{
 					try
 					{
-						adminClient = await clientFactory.CreateServerClient(server.Url, User.AdminName, User.DefaultAdminPassword).ConfigureAwait(false);
+						adminClient = await clientFactory.CreateFromLogin(server.Url, User.AdminName, User.DefaultAdminPassword).ConfigureAwait(false);
 						break;
 					}
 					catch (HttpRequestException)
@@ -144,7 +144,7 @@ namespace Tgstation.Server.Tests
 					{
 						try
 						{
-							return await clientFactory.CreateServerClient(server.Url, User.AdminName, User.DefaultAdminPassword).ConfigureAwait(false);
+							return await clientFactory.CreateFromLogin(server.Url, User.AdminName, User.DefaultAdminPassword).ConfigureAwait(false);
 						}
 						catch (HttpRequestException)
 						{
@@ -193,7 +193,7 @@ namespace Tgstation.Server.Tests
 						Bearer = adminClient.Token.Bearer + '0'
 					};
 
-					var badClient = clientFactory.CreateServerClient(server.Url, newToken);
+					var badClient = clientFactory.CreateFromToken(server.Url, newToken);
 					await Assert.ThrowsExceptionAsync<UnauthorizedException>(() => badClient.Version(cancellationToken)).ConfigureAwait(false);
 
 					var adminTest = new AdministrationTest(adminClient.Administration).Run(cancellationToken);

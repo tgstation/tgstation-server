@@ -57,7 +57,7 @@ namespace Tgstation.Server.Client
 
 		static void HandleBadResponse(HttpResponseMessage response, string json)
 		{
-			ErrorMessage errorMessage = null;
+			ErrorMessage? errorMessage = null;
 			try
 			{
 				// check if json serializes to an error message
@@ -124,7 +124,7 @@ namespace Tgstation.Server.Client
 		/// <param name="instanceId">The optional <see cref="Instance.Id"/> for the request</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the response on success</returns>
-		async Task<TResult> RunRequest<TResult>(string route, object body, HttpMethod method, long? instanceId, CancellationToken cancellationToken)
+		async Task<TResult> RunRequest<TResult>(string route, object? body, HttpMethod method, long? instanceId, CancellationToken cancellationToken)
 		{
 			if (route == null)
 				throw new ArgumentNullException(nameof(route));
@@ -162,7 +162,7 @@ namespace Tgstation.Server.Client
 
 				try
 				{
-					return JsonConvert.DeserializeObject<TResult>(json, serializerSettings);
+					return JsonConvert.DeserializeObject<TResult>(json, serializerSettings) !;
 				}
 				catch (JsonException)
 				{

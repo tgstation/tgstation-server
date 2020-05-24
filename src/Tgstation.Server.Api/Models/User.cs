@@ -6,16 +6,16 @@
 		/// <summary>
 		/// The name of the default admin user
 		/// </summary>
-		public const string AdminName = "Admin";
+		public static readonly string AdminName = "Admin";
 
 		/// <summary>
 		/// The default admin password
 		/// </summary>
-		public const string DefaultAdminPassword = "ISolemlySwearToDeleteTheDataDirectory";
+		public static readonly string DefaultAdminPassword = "ISolemlySwearToDeleteTheDataDirectory";
 
 		/// <summary>
 		/// The <see cref="User"/> who created this <see cref="User"/>
 		/// </summary>
-		public User CreatedBy { get; set; }
+		public User? CreatedBy { get; set; }
 	}
 }

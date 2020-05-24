@@ -9,18 +9,13 @@
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
     <IsPackable>false</IsPackable>
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
+    <DocumentationFile>bin\$(Configuration)\netcoreapp3.1\Tgstation.Server.Host.xml</DocumentationFile>
+    <NoWarn>API1000</NoWarn>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
-    <DocumentationFile>bin\Release\netcoreapp2.1\Tgstation.Server.Host.xml</DocumentationFile>
-    <NoWarn>API1000</NoWarn>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <NoWarn>API1000</NoWarn>
-    <DocumentationFile>bin\Debug\netcoreapp2.1\Tgstation.Server.Host.xml</DocumentationFile>
   </PropertyGroup>
   
   <PropertyGroup>

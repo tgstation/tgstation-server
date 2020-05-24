@@ -12,13 +12,13 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// </summary>
 		[Required]
 		[StringLength(40)]
-		public string CommitSha { get; set; }
+		public string? CommitSha { get; set; }
 
 		/// <summary>
 		/// The sha of the most recent remote commit
 		/// </summary>
 		[Required]
 		[StringLength(40)]
-		public string OriginCommitSha { get; set; }
+		public string? OriginCommitSha { get; set; }
 	}
 }

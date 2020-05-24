@@ -15,7 +15,7 @@ namespace Tgstation.Server.Api.Models
 		/// The Discord bot token
 		/// </summary>
 		/// <remarks>See https://discordapp.com/developers/docs/topics/oauth2#bots</remarks>
-		public string BotToken { get; set; }
+		public string? BotToken { get; set; }
 
 		/// <summary>
 		/// Construct a <see cref="DiscordConnectionStringBuilder"/>
@@ -32,6 +32,6 @@ namespace Tgstation.Server.Api.Models
 		}
 
 		/// <inheritdoc />
-		public override string ToString() => BotToken;
+		public override string ToString() => BotToken ?? "(null)";
 	}
 }
