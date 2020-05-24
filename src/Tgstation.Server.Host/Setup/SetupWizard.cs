@@ -315,11 +315,13 @@ namespace Tgstation.Server.Host.Setup
 				await console.WriteAsync(
 					String.Format(
 						CultureInfo.InvariantCulture,
-						"Please enter one of {0}, {1}, {2}, {3}, or {4}: ",
+						"Please enter one of {0}, {1}, {2}, or {3}: ",
 						DatabaseType.MariaDB,
 						DatabaseType.MySql,
-						DatabaseType.PostgresSql,
+#pragma warning disable SA1515 // Single-line comment should be preceded by blank line
+						// DatabaseType.PostgresSql,
 						DatabaseType.SqlServer,
+#pragma warning restore SA1515 // Single-line comment should be preceded by blank line
 						DatabaseType.Sqlite),
 					false,
 					cancellationToken)
