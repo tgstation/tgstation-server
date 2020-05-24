@@ -8,7 +8,7 @@ var searchData=
   ['databasetype',['DatabaseType',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a5c74d013d5681ba0c9529380e5a12900',1,'Tgstation::Server::Host::Database::DatabaseContext']]],
   ['dbconnectionfactory',['dbConnectionFactory',['../class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#aa4ea86a1328b845cac9d0fbeb15167fb',1,'Tgstation::Server::Host::Setup::SetupWizard']]],
   ['dbset',['dbSet',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection.html#a9ded40bd536adb9602f0c3733409eef3',1,'Tgstation::Server::Host::Database::DatabaseCollection']]],
-  ['defaultadminpassword',['DefaultAdminPassword',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user.html#a6b47a29b6c75f6a51d8c7d0d4305e210',1,'Tgstation::Server::Api::Models::User']]],
+  ['defaultadminpassword',['DefaultAdminPassword',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user.html#a6d73f12df63e1cea9b3d011da9d9a14a',1,'Tgstation::Server::Api::Models::User']]],
   ['defaultbuffersize',['DefaultBufferSize',['../class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a8d302b2be6862b23b9a18a9412fc7fc9',1,'Tgstation::Server::Host::IO::DefaultIOManager']]],
   ['defaultbyondtopictimeout',['DefaultByondTopicTimeout',['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a51c2f2b2e7faf729aad307050a6d8a6c',1,'Tgstation::Server::Host::Configuration::GeneralConfiguration']]],
   ['defaultchannellimit',['DefaultChannelLimit',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html#a9f693077cc6b7bca387dd46a08014c90',1,'Tgstation::Server::Host::Models::ChatBot']]],

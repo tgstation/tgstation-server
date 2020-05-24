@@ -114,24 +114,24 @@ Inheritance diagram for Tgstation.Server.Client.IServerClientFactory:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aed42fe9280a989ba78b8fd2a830a93a8"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html">IServerClient</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client_factory.html#aed42fe9280a989ba78b8fd2a830a93a8">CreateServerClient</a> (Uri host, string username, string password, TimeSpan timeout=default, CancellationToken cancellationToken=default)</td></tr>
-<tr class="memdesc:aed42fe9280a989ba78b8fd2a830a93a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server ">IServerClient</a>  <a href="#aed42fe9280a989ba78b8fd2a830a93a8">More...</a><br /></td></tr>
-<tr class="separator:aed42fe9280a989ba78b8fd2a830a93a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a58ce916728cfc81f8e143682cd1df5e7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html">IServerClient</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client_factory.html#a58ce916728cfc81f8e143682cd1df5e7">CreateServerClient</a> (Uri host, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_token.html">Token</a> token, TimeSpan timeout=default)</td></tr>
-<tr class="memdesc:a58ce916728cfc81f8e143682cd1df5e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server ">IServerClient</a>  <a href="#a58ce916728cfc81f8e143682cd1df5e7">More...</a><br /></td></tr>
-<tr class="separator:a58ce916728cfc81f8e143682cd1df5e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a861f94dac58c8dbd011dffb92a5b8ffc"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html">IServerClient</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client_factory.html#a861f94dac58c8dbd011dffb92a5b8ffc">CreateFromLogin</a> (Uri host, string username, string password, IEnumerable&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_request_logger.html">IRequestLogger</a> &gt;?requestLoggers=null, TimeSpan?timeout=null, bool attemptLoginRefresh=true, CancellationToken cancellationToken=default)</td></tr>
+<tr class="memdesc:a861f94dac58c8dbd011dffb92a5b8ffc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server ">IServerClient</a>  <a href="#a861f94dac58c8dbd011dffb92a5b8ffc">More...</a><br /></td></tr>
+<tr class="separator:a861f94dac58c8dbd011dffb92a5b8ffc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada7a9fcb461c62ddb534a57e1d3791c7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html">IServerClient</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client_factory.html#ada7a9fcb461c62ddb534a57e1d3791c7">CreateFromToken</a> (Uri host, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_token.html">Token</a> token)</td></tr>
+<tr class="memdesc:ada7a9fcb461c62ddb534a57e1d3791c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server ">IServerClient</a>  <a href="#ada7a9fcb461c62ddb534a57e1d3791c7">More...</a><br /></td></tr>
+<tr class="separator:ada7a9fcb461c62ddb534a57e1d3791c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Factory for creating <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server ">IServerClient</a>s </p>
 
-<p>Definition at line <a class="el" href="_i_server_client_factory_8cs_source.html#l00011">11</a> of file <a class="el" href="_i_server_client_factory_8cs_source.html">IServerClientFactory.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_server_client_factory_8cs_source.html#l00012">12</a> of file <a class="el" href="_i_server_client_factory_8cs_source.html">IServerClientFactory.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="aed42fe9280a989ba78b8fd2a830a93a8"></a>
+<a class="anchor" id="a861f94dac58c8dbd011dffb92a5b8ffc"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt;<a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html">IServerClient</a>&gt; Tgstation.Server.Client.IServerClientFactory.CreateServerClient </td>
+          <td class="memname">Task&lt;<a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html">IServerClient</a>&gt; Tgstation.Server.Client.IServerClientFactory.CreateFromLogin </td>
           <td>(</td>
           <td class="paramtype">Uri&#160;</td>
           <td class="paramname"><em>host</em>, </td>
@@ -151,8 +151,20 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">TimeSpan&#160;</td>
-          <td class="paramname"><em>timeout</em> = <code>default</code>, </td>
+          <td class="paramtype">IEnumerable&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_request_logger.html">IRequestLogger</a> &gt;?&#160;</td>
+          <td class="paramname"><em>requestLoggers</em> = <code>null</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">TimeSpan?&#160;</td>
+          <td class="paramname"><em>timeout</em> = <code>null</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>attemptLoginRefresh</em> = <code>true</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -174,23 +186,25 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramname">host</td><td>The URL to access TGS</td></tr>
     <tr><td class="paramname">username</td><td>The username to for the <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server ">IServerClient</a></td></tr>
     <tr><td class="paramname">password</td><td>The password for the <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server ">IServerClient</a></td></tr>
-    <tr><td class="paramname">timeout</td><td>The TimeSpan representing timeout for the connection</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
+    <tr><td class="paramname">requestLoggers</td><td>Optional initial <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_request_logger.html" title="For logging HTTP requests and responses ">IRequestLogger</a>s to add to the <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server ">IServerClient</a>.</td></tr>
+    <tr><td class="paramname">timeout</td><td>Optional TimeSpan representing timeout for the connection</td></tr>
+    <tr><td class="paramname">attemptLoginRefresh</td><td>Attempt to refresh the received Token when it expires or becomes invalid. <em>username</em>  and <em>password</em>  will be stored in memory if this is .</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>Optional CancellationToken for the operation</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a new <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server ">IServerClient</a></dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a358685d267630347317e476195680cc9">Tgstation.Server.Client.ServerClientFactory</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a10753b8b7dfa6edbd02e117680dba4bd">Tgstation.Server.Client.ServerClientFactory</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a58ce916728cfc81f8e143682cd1df5e7"></a>
+<a class="anchor" id="ada7a9fcb461c62ddb534a57e1d3791c7"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html">IServerClient</a> Tgstation.Server.Client.IServerClientFactory.CreateServerClient </td>
+          <td class="memname"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html">IServerClient</a> Tgstation.Server.Client.IServerClientFactory.CreateFromToken </td>
           <td>(</td>
           <td class="paramtype">Uri&#160;</td>
           <td class="paramname"><em>host</em>, </td>
@@ -199,13 +213,7 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_token.html">Token</a>&#160;</td>
-          <td class="paramname"><em>token</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">TimeSpan&#160;</td>
-          <td class="paramname"><em>timeout</em> = <code>default</code>&#160;</td>
+          <td class="paramname"><em>token</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -220,13 +228,12 @@ Public Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">host</td><td>The URL to access TGS</td></tr>
     <tr><td class="paramname">token</td><td>The Token to access the API with</td></tr>
-    <tr><td class="paramname">timeout</td><td>The TimeSpan representing timeout for the connection</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server ">IServerClient</a></dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#a6c53de0537efa094a9c2c52b681acaa2">Tgstation.Server.Client.ServerClientFactory</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html#abc81fe410ef4bbf999e7531505cac7e1">Tgstation.Server.Client.ServerClientFactory</a>.</p>
 
 </div>
 </div>

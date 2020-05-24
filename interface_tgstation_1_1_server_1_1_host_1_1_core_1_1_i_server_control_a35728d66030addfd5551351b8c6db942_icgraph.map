@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Core.IServerControl.RegisterForRestart" name="Tgstation.Server.Host.Core.IServerControl.RegisterForRestart">
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae0a718f1cae22fe94e31e1c6103ddbed" title="Construct a ChatManager " alt="" coords="301,5,552,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a6a44bb969dab0811a31b9c990c82ffd3" title="Construct an InstanceManager " alt="" coords="301,71,552,112"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a4ce33ffacb174f0ac669e29058854318" title="Construct an InstanceManager " alt="" coords="301,71,552,112"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a78d5f9fe6f32c9aa612317fa76799435" title="Initializes a new instance of the WatchdogBase . " alt="" coords="287,136,567,177"/>
 </map>
