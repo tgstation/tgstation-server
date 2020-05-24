@@ -16,7 +16,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The IP address or URL of the IRC server
 		/// </summary>
-		public string Address { get; set; }
+		public string? Address { get; set; }
 
 		/// <summary>
 		/// The port the server runs on
@@ -26,7 +26,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The nickname for the bot to use
 		/// </summary>
-		public string Nickname { get; set; }
+		public string? Nickname { get; set; }
 
 		/// <summary>
 		/// If the connection should be made using SSL
@@ -41,7 +41,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The optional password to use
 		/// </summary>
-		public string Password { get; set; }
+		public string? Password { get; set; }
 
 		/// <summary>
 		/// Construct an <see cref="IrcConnectionStringBuilder"/>

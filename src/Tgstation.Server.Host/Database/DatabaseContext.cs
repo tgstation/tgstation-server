@@ -15,7 +15,10 @@ using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Database
 {
-	/// <inheritdoc />
+	/// <summary>
+	/// Backend abstract implementation of <see cref="IDatabaseContext"/>
+	/// </summary>
+	/// <typeparam name="TParentContext">The child <see cref="Type"/> used to implement a backend.</typeparam>
 #pragma warning disable CA1506 // TODO: Decomplexify
 	abstract class DatabaseContext<TParentContext> : DbContext, IDatabaseContext where TParentContext : DbContext
 	{

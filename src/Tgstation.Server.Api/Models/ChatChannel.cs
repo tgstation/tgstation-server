@@ -12,7 +12,7 @@ namespace Tgstation.Server.Api.Models
 		/// If multiple copies of the same channel with different keys are added to the server, the one that will be used is undefined.
 		/// </summary>
 		[StringLength(Limits.MaximumIndexableStringLength)]
-		public string IrcChannel { get; set; }
+		public string? IrcChannel { get; set; }
 
 		/// <summary>
 		/// The Discord channel ID
@@ -41,6 +41,6 @@ namespace Tgstation.Server.Api.Models
 		/// A custom tag users can define to group channels together
 		/// </summary>
 		[StringLength(Limits.MaximumStringLength)]
-		public string Tag { get; set; }
+		public string? Tag { get; set; }
 	}
 }

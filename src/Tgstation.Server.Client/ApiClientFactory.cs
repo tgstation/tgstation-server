@@ -7,6 +7,6 @@ namespace Tgstation.Server.Client
 	sealed class ApiClientFactory : IApiClientFactory
 	{
 		/// <inheritdoc />
-		public IApiClient CreateApiClient(Uri url, ApiHeaders apiHeaders) => new ApiClient(new HttpClient(), url, apiHeaders);
+		public IApiClient CreateApiClient(Uri url, ApiHeaders apiHeaders, ApiHeaders? tokenRefreshHeaders) => new ApiClient(new HttpClient(), url, apiHeaders, tokenRefreshHeaders);
 	}
 }

@@ -599,10 +599,7 @@ namespace Tgstation.Server.Host.Setup
 			if (String.IsNullOrWhiteSpace(newGeneralConfiguration.GitHubAccessToken))
 				newGeneralConfiguration.GitHubAccessToken = null;
 
-			newGeneralConfiguration.UseExperimentalWatchdog = await PromptYesNo("Use the experimental watchdog (NOT RECOMMENDED)? (y/n): ", cancellationToken).ConfigureAwait(false);
-
-			newGeneralConfiguration.UseBasicWatchdogOnWindows = true;
-
+			// newGeneralConfiguration.UseExperimentalWatchdog = await PromptYesNo("Use the experimental watchdog (NOT RECOMMENDED)? (y/n): ", cancellationToken).ConfigureAwait(false);
 			return newGeneralConfiguration;
 		}
 

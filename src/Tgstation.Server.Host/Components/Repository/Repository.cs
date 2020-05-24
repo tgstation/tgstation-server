@@ -265,12 +265,12 @@ namespace Tgstation.Server.Host.Components.Repository
 			if (progressReporter == null)
 				throw new ArgumentNullException(nameof(progressReporter));
 
-			logger.LogDebug("Begin AddTestMerge: #{0} at {1} ({4}) by <{2} ({3})>",
+			logger.LogDebug("Begin AddTestMerge: #{0} at {1} ({2}) by <{3} ({4})>",
 				testMergeParameters.Number,
 				testMergeParameters.PullRequestRevision?.Substring(0, 7),
+				testMergeParameters.Comment,
 				committerName,
-				committerEmail,
-				testMergeParameters.Comment);
+				committerEmail);
 
 			if (!IsGitHubRepository)
 				throw new InvalidOperationException("Test merging is only available on GitHub hosted origin repositories!");

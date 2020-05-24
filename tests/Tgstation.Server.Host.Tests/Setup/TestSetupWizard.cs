@@ -86,7 +86,7 @@ namespace Tgstation.Server.Host.Setup.Tests
 			var mockFailCommand = new Mock<DbCommand>();
 			mockFailCommand.Setup(x => x.ExecuteNonQueryAsync(It.IsAny<CancellationToken>())).Throws(new Exception()).Verifiable();
 
-			void SetDbCommandCreator(Mock<DbConnection> mock, Func<DbCommand> creator) => mock.Protected().Setup<DbCommand>("CreateDbCommand").Returns(creator).Verifiable();
+			static void SetDbCommandCreator(Mock<DbConnection> mock, Func<DbCommand> creator) => mock.Protected().Setup<DbCommand>("CreateDbCommand").Returns(creator).Verifiable();
 
 			var mockGoodDbConnection = new Mock<DbConnection>();
 			mockGoodDbConnection.Setup(x => x.OpenAsync(It.IsAny<CancellationToken>())).Returns(Task.CompletedTask).Verifiable();
@@ -144,7 +144,6 @@ namespace Tgstation.Server.Host.Setup.Tests
 				"-27",
 				"5000",
 				"fake token",
-				"y",
 				//logging config
 				"no",
 				//cp config
@@ -167,7 +166,6 @@ namespace Tgstation.Server.Host.Setup.Tests
 				String.Empty,
 				String.Empty,
 				"n",
-				"y",
 				//logging config
 				"y",
 				"not actually verified because lol mocks /../!@#$%^&*()/..///.",
@@ -190,7 +188,6 @@ namespace Tgstation.Server.Host.Setup.Tests
 				String.Empty,
 				String.Empty,
 				String.Empty,
-				"y",
 				"y",
 				"will faile",
 				String.Empty,

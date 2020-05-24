@@ -1,13 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
@@ -79,6 +82,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IDictionary<string, IBridgeHandler> bridgeHandlers;
 
 		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="InstanceManager"/>.
+		/// </summary>
+		readonly GeneralConfiguration generalConfiguration;
+
+		/// <summary>
 		/// The <see cref="TaskCompletionSource{TResult}"/> for <see cref="Ready"/>.
 		/// </summary>
 		readonly TaskCompletionSource<object> readyTcs;
@@ -104,6 +112,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="serverControl">The value of <see cref="serverControl"/></param>
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		public InstanceManager(
 			IInstanceFactory instanceFactory,
@@ -114,6 +123,7 @@ namespace Tgstation.Server.Host.Components
 			IServerControl serverControl,
 			ISystemIdentityFactory systemIdentityFactory,
 			IAsyncDelayer asyncDelayer,
+			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			ILogger<InstanceManager> logger)
 		{
 			this.instanceFactory = instanceFactory ?? throw new ArgumentNullException(nameof(instanceFactory));
@@ -124,6 +134,7 @@ namespace Tgstation.Server.Host.Components
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
+			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			serverControl.RegisterForRestart(this);
@@ -319,6 +330,10 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		private void CheckSystemCompatibility()
 		{
+			if (generalConfiguration.UseExperimentalWatchdog && !Debugger.IsAttached)
+				throw new InvalidOperationException(
+					"The experimental watchdog is currently non-functional! Please disable the '{nameof(generalConfiguration.UseExperimentalWatchdog)}' option in your configuration!");
+
 			using var systemIdentity = systemIdentityFactory.GetCurrent();
 			if (!systemIdentity.CanCreateSymlinks)
 				throw new InvalidOperationException("The user running tgstation-server cannot create symlinks! Please try running as an administrative user!");

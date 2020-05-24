@@ -69,12 +69,12 @@ namespace Tgstation.Server.Api
 		/// <summary>
 		/// The client's user agent as a <see cref="ProductHeaderValue"/> if valid
 		/// </summary>
-		public ProductHeaderValue UserAgent => ProductInfoHeaderValue.TryParse(RawUserAgent, out var userAgent) ? userAgent.Product : null;
+		public ProductHeaderValue? UserAgent => ProductInfoHeaderValue.TryParse(RawUserAgent, out var userAgent) ? userAgent.Product : null;
 
 		/// <summary>
 		/// The client's raw user agent
 		/// </summary>
-		public string RawUserAgent { get; }
+		public string? RawUserAgent { get; }
 
 		/// <summary>
 		/// The client's API version
@@ -84,17 +84,17 @@ namespace Tgstation.Server.Api
 		/// <summary>
 		/// The client's JWT
 		/// </summary>
-		public string Token { get; }
+		public string? Token { get; }
 
 		/// <summary>
 		/// The client's username
 		/// </summary>
-		public string Username { get; }
+		public string? Username { get; }
 
 		/// <summary>
 		/// The client's password
 		/// </summary>
-		public string Password { get; }
+		public string? Password { get; }
 
 		/// <summary>
 		/// If the header uses password or JWT authentication
@@ -236,7 +236,7 @@ namespace Tgstation.Server.Api
 		/// <param name="token">The value of <see cref="Token"/></param>
 		/// <param name="username">The value of <see cref="Username"/></param>
 		/// <param name="password">The value of <see cref="Password"/></param>
-		ApiHeaders(ProductHeaderValue userAgent, string token, string username, string password)
+		ApiHeaders(ProductHeaderValue userAgent, string? token, string? username, string? password)
 		{
 			RawUserAgent = userAgent?.ToString();
 			Token = token;
@@ -274,7 +274,7 @@ namespace Tgstation.Server.Api
 
 			headers.UserAgent.Add(new ProductInfoHeaderValue(UserAgent));
 			headers.Add(ApiVersionHeader, new ProductHeaderValue(AssemblyName.Name, ApiVersion.ToString()).ToString());
-			instanceId = instanceId ?? InstanceId;
+			instanceId ??= InstanceId;
 			if (instanceId.HasValue)
 				headers.Add(InstanceIdHeader, instanceId.ToString());
 		}

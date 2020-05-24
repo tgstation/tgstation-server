@@ -623,7 +623,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 								Instance = new Models.Instance
 								{
 									Id = metadata.Id
-								}
+								},
+								ActiveTestMerges = new List<RevInfoTestMerge>()
 							};
 
 							logger.LogWarning(Repository.Repository.OriginTrackingErrorTemplate, repoSha);
@@ -650,6 +651,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					cancellationToken)
 					.ConfigureAwait(false);
 
+			var activeCompileJob = compileJobConsumer.LatestCompileJob();
 			try
 			{
 				await databaseContextFactory.UseContext(
@@ -664,11 +666,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 							Id = revInfo.Id
 						};
 
-						databaseContext.RevisionInformations.Attach(compileJob.RevisionInformation);
 						databaseContext.Jobs.Attach(compileJob.Job);
+						databaseContext.RevisionInformations.Attach(compileJob.RevisionInformation);
 						databaseContext.CompileJobs.Add(compileJob);
-
-						await PostDeploymentComments(compileJob, repositorySettings, repoOwner, repoName).ConfigureAwait(false);
 
 						// The difficulty with compile jobs is they have a two part commit
 						await databaseContext.Save(cancellationToken).ConfigureAwait(false);
@@ -692,15 +692,30 @@ namespace Tgstation.Server.Host.Components.Deployment
 				throw;
 			}
 
-			await eventConsumer.HandleEvent(EventType.DeploymentComplete, null, cancellationToken).ConfigureAwait(false);
+			var commentsTask = PostDeploymentComments(
+				revInfo,
+				activeCompileJob?.RevisionInformation,
+				repositorySettings,
+				repoOwner,
+				repoName);
 
-			await chatManager.SendUpdateMessage(
+			var eventTask = eventConsumer.HandleEvent(EventType.DeploymentComplete, null, cancellationToken);
+
+			var chatTask = chatManager.SendUpdateMessage(
 				String.Format(
 					CultureInfo.InvariantCulture,
 					"Deployment complete! Changes will be applied when DreamDaemon {0}.",
 					watchdog.Running ? "reboots" : "is launched"),
-				cancellationToken)
-				.ConfigureAwait(false);
+				cancellationToken);
+
+			try
+			{
+				await Task.WhenAll(commentsTask, eventTask, chatTask).ConfigureAwait(false);
+			}
+			catch (Exception ex)
+			{
+				throw new JobException(ErrorCode.PostDeployFailure, ex);
+			}
 		}
 		#pragma warning restore CA1506
 
@@ -782,13 +797,15 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <summary>
 		/// Post deployment GitHub comments.
 		/// </summary>
-		/// <param name="compileJob">The deployed <see cref="CompileJob"/>.</param>
+		/// <param name="deployedRevisionInformation">The deployed <see cref="RevisionInformation"/>.</param>
+		/// <param name="previousRevisionInformation">The <see cref="RevisionInformation"/> of the previous deployment.</param>
 		/// <param name="repositorySettings">The <see cref="RepositorySettings"/>.</param>
 		/// <param name="repoOwner">The GitHub repostiory owner.</param>
 		/// <param name="repoName">The GitHub repostiory name.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task PostDeploymentComments(
-			Models.CompileJob compileJob,
+			Models.RevisionInformation deployedRevisionInformation,
+			Models.RevisionInformation previousRevisionInformation,
 			Models.RepositorySettings repositorySettings,
 			string repoOwner,
 			string repoName)
@@ -796,18 +813,13 @@ namespace Tgstation.Server.Host.Components.Deployment
 			if (repositorySettings?.AccessToken == null)
 				return;
 
-			// potential for commenting on a test merge change
-			var outgoingCompileJob = compileJobConsumer.LatestCompileJob();
-
-			if ((outgoingCompileJob != null && outgoingCompileJob.RevisionInformation.CommitSha == compileJob.RevisionInformation.CommitSha) || !repositorySettings.PostTestMergeComment.Value)
+			if ((previousRevisionInformation != null && previousRevisionInformation.CommitSha == previousRevisionInformation.CommitSha)
+				|| !repositorySettings.PostTestMergeComment.Value)
 				return;
 
-			outgoingCompileJob ??= new Models.CompileJob
+			previousRevisionInformation = new Models.RevisionInformation
 			{
-				RevisionInformation = new Models.RevisionInformation
-				{
-					ActiveTestMerges = new List<RevInfoTestMerge>()
-				}
+				ActiveTestMerges = new List<RevInfoTestMerge>()
 			};
 
 			var gitHubClient = gitHubClientFactory.CreateClient(repositorySettings.AccessToken);
@@ -833,38 +845,32 @@ namespace Tgstation.Server.Host.Components.Deployment
 				testMerge.Comment != null ? String.Format(CultureInfo.InvariantCulture, "{0}{0}##### Comment{0}{1}", Environment.NewLine, testMerge.Comment) : String.Empty,
 				updated ? "Updated" : "Deployed",
 				metadata.Name,
-				compileJob.RevisionInformation.OriginCommitSha,
-				compileJob.RevisionInformation.CommitSha);
+				deployedRevisionInformation.OriginCommitSha,
+				deployedRevisionInformation.CommitSha);
 
 			// added prs
-			foreach (var I in compileJob
-				.RevisionInformation
+			foreach (var I in deployedRevisionInformation
 				.ActiveTestMerges
 				.Select(x => x.TestMerge)
-				.Where(x => !outgoingCompileJob
-					.RevisionInformation
+				.Where(x => !previousRevisionInformation
 					.ActiveTestMerges
 					.Any(y => y.TestMerge.Number == x.Number)))
 				tasks.Add(CommentOnPR(I.Number, FormatTestMerge(I, false)));
 
 			// removed prs
-			foreach (var I in outgoingCompileJob
-				.RevisionInformation
+			foreach (var I in previousRevisionInformation
+			.ActiveTestMerges
+			.Select(x => x.TestMerge)
+				.Where(x => !deployedRevisionInformation
 				.ActiveTestMerges
-				.Select(x => x.TestMerge)
-					.Where(x => !compileJob
-					.RevisionInformation
-					.ActiveTestMerges
-					.Any(y => y.TestMerge.Number == x.Number)))
+				.Any(y => y.TestMerge.Number == x.Number)))
 				tasks.Add(CommentOnPR(I.Number, "#### Test Merge Removed"));
 
 			// updated prs
-			foreach (var I in compileJob
-				.RevisionInformation
+			foreach (var I in deployedRevisionInformation
 				.ActiveTestMerges
 				.Select(x => x.TestMerge)
-				.Where(x => outgoingCompileJob
-					.RevisionInformation
+				.Where(x => previousRevisionInformation
 					.ActiveTestMerges
 					.Any(y => y.TestMerge.Number == x.Number)))
 				tasks.Add(CommentOnPR(I.Number, FormatTestMerge(I, true)));

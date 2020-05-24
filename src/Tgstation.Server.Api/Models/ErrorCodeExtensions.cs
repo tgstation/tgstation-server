@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 
 namespace Tgstation.Server.Api.Models
@@ -13,9 +14,9 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		/// <param name="errorCode">The <see cref="ErrorCode"/> to describe.</param>
 		/// <returns>A description of the <paramref name="errorCode"/> on success, <see langword="null"/> on failure.</returns>
-		public static string Describe(this ErrorCode errorCode)
+		public static string? Describe(this ErrorCode errorCode)
 		{
-			var attributes = (DescriptionAttribute[])typeof(ErrorCode)
+			var attributes = (IEnumerable<DescriptionAttribute>?)typeof(ErrorCode)
 			   .GetField(errorCode.ToString())
 			   ?.GetCustomAttributes(typeof(DescriptionAttribute), false);
 

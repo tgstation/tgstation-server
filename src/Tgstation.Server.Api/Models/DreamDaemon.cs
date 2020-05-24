@@ -11,12 +11,12 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The live revision
 		/// </summary>
-		public CompileJob ActiveCompileJob { get; set; }
+		public CompileJob? ActiveCompileJob { get; set; }
 
 		/// <summary>
 		/// The next revision to go live
 		/// </summary>
-		public CompileJob StagedCompileJob { get; set; }
+		public CompileJob? StagedCompileJob { get; set; }
 
 		/// <summary>
 		/// The current status of <see cref="DreamDaemon"/>

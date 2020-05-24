@@ -35,7 +35,12 @@ namespace Tgstation.Server.Client.Components
 		public Task<InstanceUser> Create(InstanceUser instanceUser, CancellationToken cancellationToken) => apiClient.Create<InstanceUser, InstanceUser>(Routes.InstanceUser, instanceUser ?? throw new ArgumentNullException(nameof(instanceUser)), instance.Id, cancellationToken);
 
 		/// <inheritdoc />
-		public Task Delete(InstanceUser instanceUser, CancellationToken cancellationToken) => apiClient.Delete(Routes.SetID(Routes.InstanceUser, instanceUser.UserId.Value), instance.Id, cancellationToken);
+		public Task Delete(InstanceUser instanceUser, CancellationToken cancellationToken) => apiClient.Delete(
+			Routes.SetID(
+				Routes.InstanceUser,
+				instanceUser.UserId ?? throw new ArgumentException("Missing instanceUser.UserId!", nameof(instanceUser))),
+			instance.Id,
+			cancellationToken);
 
 		/// <inheritdoc />
 		public Task<InstanceUser> Read(CancellationToken cancellationToken) => apiClient.Read<InstanceUser>(Routes.InstanceUser, instance.Id, cancellationToken);

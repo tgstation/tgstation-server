@@ -38,6 +38,7 @@ The following dependencies are required to run tgstation-server on Linux alongsi
 
 - libc6-i386
 - libstdc++6:i386
+- libssl1.0.0
 - gcc-multilib (Only on 64-bit systems)
 
 Note that tgstation-server has only ever been tested on Linux via it's [docker environment](build/Dockerfile#L22). If you are having trouble with something in a native installation, or figure out a required workaround, please contact project maintainers so this documentation may be better updated.
@@ -63,6 +64,8 @@ docker run \
 	tgstation/server:<release version> #replace this with <your tag name> if you built the image locally
 ```
 with any additional options you desire (i.e. You'll have to expose more game ports in order to host more than one instance).
+
+- Important note about port exposure: The internal port used by DreamDaemon _**MUST**_ match the port you want users to connect on. If it doesn't, you'll still be able to have them connect HOWEVER links from the BYOND hub will point at what DreamDaemon thinks the port is.
 
 Note although `/app/lib` is specified as a volume mount point in the `Dockerfile`, unless you REALLY know what you're doing. Do not mount any volumes over this for fear of breaking your container.
 

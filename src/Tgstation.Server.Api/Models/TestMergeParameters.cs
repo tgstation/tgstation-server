@@ -17,12 +17,12 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Required]
 		[StringLength(40)]
-		public string PullRequestRevision { get; set; }
+		public string? PullRequestRevision { get; set; }
 
 		/// <summary>
 		/// Optional comment about the test
 		/// </summary>
 		[StringLength(Limits.MaximumStringLength)]
-		public string Comment { get; set; }
+		public string? Comment { get; set; }
 	}
 }

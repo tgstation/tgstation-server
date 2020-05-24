@@ -217,6 +217,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public void Dispose()
 		{
+			Logger.LogTrace("Disposing...");
 			Semaphore.Dispose();
 			restartRegistration.Dispose();
 			DisposeAndNullControllers();
@@ -558,6 +559,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		private async Task MonitorLifetimes(CancellationToken cancellationToken)
 		{
 			Logger.LogTrace("Entered MonitorLifetimes");
+			using var _ = cancellationToken.Register(() => Logger.LogTrace("Monitor cancellationToken triggered"));
 
 			// this function is responsible for calling HandlerMonitorWakeup when necessary and manitaining the MonitorState
 			var iteration = 1;
@@ -607,6 +609,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							cancellationToken.ThrowIfCancellationRequested();
 						}
 
+						Logger.LogTrace("Monitor activated");
+
 						using (await SemaphoreSlimContext.Lock(Semaphore, cancellationToken).ConfigureAwait(false))
 						{
 							// always run HandleMonitorWakeup from the context of the semaphore lock
@@ -631,24 +635,32 @@ namespace Tgstation.Server.Host.Components.Watchdog
 									return false;
 								}
 
-								if (CheckActivationReason(ref activeServerLifetime, MonitorActivationReason.ActiveServerCrashed)
+								var anyActivation = CheckActivationReason(ref activeServerLifetime, MonitorActivationReason.ActiveServerCrashed)
 									|| CheckActivationReason(ref activeServerReboot, MonitorActivationReason.ActiveServerRebooted)
 									|| CheckActivationReason(ref newDmbAvailable, MonitorActivationReason.NewDmbAvailable)
 									|| CheckActivationReason(ref inactiveServerLifetime, MonitorActivationReason.InactiveServerCrashed)
 									|| CheckActivationReason(ref inactiveServerReboot, MonitorActivationReason.InactiveServerRebooted)
 									|| CheckActivationReason(ref inactiveStartupComplete, MonitorActivationReason.InactiveServerStartupComplete)
-									|| CheckActivationReason(ref activeLaunchParametersChanged, MonitorActivationReason.ActiveLaunchParametersUpdated))
-								{
-									Logger.LogTrace("Monitor activation: {0}", activationReason);
-									await HandleMonitorWakeup(activationReason, monitorState, cancellationToken).ConfigureAwait(false);
-								}
-								else if (CheckActivationReason(ref heartbeat, MonitorActivationReason.Heartbeat))
-								{
-									Logger.LogTrace("Monitor activation: {0}", activationReason);
-									monitorState.NextAction = await HandleHeartbeat(monitorState.ActiveServer, cancellationToken).ConfigureAwait(false);
-								}
-								else
+									|| CheckActivationReason(ref activeLaunchParametersChanged, MonitorActivationReason.ActiveLaunchParametersUpdated)
+									|| CheckActivationReason(ref heartbeat, MonitorActivationReason.Heartbeat);
+
+								if (!anyActivation)
 									moreActivationsToProcess = false;
+								else
+								{
+									Logger.LogTrace("Reason: {0}", activationReason);
+									if (activationReason == MonitorActivationReason.Heartbeat)
+										monitorState.NextAction = await HandleHeartbeat(
+											monitorState.ActiveServer,
+											cancellationToken)
+											.ConfigureAwait(false);
+									else
+										await HandleMonitorWakeup(
+											activationReason,
+											monitorState,
+											cancellationToken)
+											.ConfigureAwait(false);
+								}
 							}
 						}
 

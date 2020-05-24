@@ -43,7 +43,7 @@ namespace Tgstation.Server.Tests
 				{
 					try
 					{
-						adminClient = await clientFactory.CreateServerClient(server.Url, User.AdminName, User.DefaultAdminPassword).ConfigureAwait(false);
+						adminClient = await clientFactory.CreateFromLogin(server.Url, User.AdminName, User.DefaultAdminPassword).ConfigureAwait(false);
 						break;
 					}
 					catch (HttpRequestException)
@@ -111,11 +111,28 @@ namespace Tgstation.Server.Tests
 				foreach (var proc in procs)
 					proc.Dispose();
 				Assert.Inconclusive("Cannot run server test because DreamDaemon will not start headless while the BYOND pager is running!");
-			}	
+			}
 
 			using var server = new TestingServer();
-			using var serverCts = new CancellationTokenSource();
+
+			using var hardTimeoutCts = new CancellationTokenSource();
+			hardTimeoutCts.CancelAfter(new TimeSpan(0, 9, 45));
+			var hardTimeoutCancellationToken = hardTimeoutCts.Token;
+			hardTimeoutCancellationToken.Register(() => Console.WriteLine("TEST TIMEOUT HARD!"));
+
+			using var softTimeoutCts = CancellationTokenSource.CreateLinkedTokenSource(hardTimeoutCancellationToken);
+			softTimeoutCts.CancelAfter(new TimeSpan(0, 9, 15));
+			var softTimeoutCancellationToken = softTimeoutCts.Token;
+			bool tooLateForSoftTimeout = false;
+			softTimeoutCancellationToken.Register(() =>
+			{
+				if (!tooLateForSoftTimeout)
+					Console.WriteLine("TEST TIMEOUT SOFT!");
+			});
+
+			using var serverCts = CancellationTokenSource.CreateLinkedTokenSource(softTimeoutCancellationToken);
 			var cancellationToken = serverCts.Token;
+
 			TerminateAllDDs();
 			var serverTask = server.Run(cancellationToken);
 			try
@@ -127,7 +144,7 @@ namespace Tgstation.Server.Tests
 					{
 						try
 						{
-							return await clientFactory.CreateServerClient(server.Url, User.AdminName, User.DefaultAdminPassword).ConfigureAwait(false);
+							return await clientFactory.CreateFromLogin(server.Url, User.AdminName, User.DefaultAdminPassword, attemptLoginRefresh: false).ConfigureAwait(false);
 						}
 						catch (HttpRequestException)
 						{
@@ -176,7 +193,7 @@ namespace Tgstation.Server.Tests
 						Bearer = adminClient.Token.Bearer + '0'
 					};
 
-					var badClient = clientFactory.CreateServerClient(server.Url, newToken);
+					var badClient = clientFactory.CreateFromToken(server.Url, newToken);
 					await Assert.ThrowsExceptionAsync<UnauthorizedException>(() => badClient.Version(cancellationToken)).ConfigureAwait(false);
 
 					var adminTest = new AdministrationTest(adminClient.Administration).Run(cancellationToken);
@@ -285,14 +302,17 @@ namespace Tgstation.Server.Tests
 			}
 			finally
 			{
+				tooLateForSoftTimeout = true;
 				serverCts.Cancel();
 				try
 				{
-					await serverTask.ConfigureAwait(false);
+					await serverTask.WithToken(hardTimeoutCancellationToken).ConfigureAwait(false);
 				}
 				catch (OperationCanceledException) { }
 
 				TerminateAllDDs();
+
+				hardTimeoutCancellationToken.ThrowIfCancellationRequested();
 			}
 		}
 

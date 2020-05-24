@@ -25,6 +25,6 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// Limits the locations instances may be created or attached from.
 		/// </summary>
-		public ICollection<string> ValidInstancePaths { get; set; }
+		public ICollection<string>? ValidInstancePaths { get; set; }
 	}
 }

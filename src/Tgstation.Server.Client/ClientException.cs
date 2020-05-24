@@ -12,7 +12,7 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// The <see cref="HttpStatusCode"/> of the <see cref="ClientException"/>
 		/// </summary>
-		public HttpResponseMessage ResponseMessage { get; }
+		public HttpResponseMessage? ResponseMessage { get; }
 
 		/// <summary>
 		/// Initialize a new instance of the <see cref="ClientException"/> <see langword="class"/>.
