@@ -491,6 +491,7 @@ namespace Tgstation.Server.Host.Controllers
 						async databaseContext =>
 						{
 							databaseContext.Instances.Attach(attachedInstance);
+							var previousRevInfo = lastRevisionInfo;
 							var needsUpdate = await LoadRevisionInformation(
 								repo,
 								databaseContext,
@@ -516,13 +517,14 @@ namespace Tgstation.Server.Host.Controllers
 
 								testMergeToAdd.MergedBy = mergedBy;
 
+								lastRevisionInfo.ActiveTestMerges.AddRange(previousRevInfo.ActiveTestMerges);
 								lastRevisionInfo.ActiveTestMerges.Add(new RevInfoTestMerge
 								{
 									TestMerge = testMergeToAdd
 								});
 								lastRevisionInfo.PrimaryTestMerge = testMergeToAdd;
 
-								databaseContext.Users.Attach(testMergeToAdd.MergedBy);
+								needsUpdate = true;
 							}
 
 							if (needsUpdate)
@@ -532,12 +534,7 @@ namespace Tgstation.Server.Host.Controllers
 				await CallLoadRevInfo().ConfigureAwait(false);
 
 				// apply new rev info, tracking applied test merges
-				async Task UpdateRevInfo(Models.TestMerge testMergeToAdd = null)
-				{
-					var last = lastRevisionInfo;
-					await CallLoadRevInfo(testMergeToAdd, last.OriginCommitSha).ConfigureAwait(false);
-					lastRevisionInfo.ActiveTestMerges.AddRange(last.ActiveTestMerges);
-				}
+				Task UpdateRevInfo(Models.TestMerge testMergeToAdd = null) => CallLoadRevInfo(testMergeToAdd, lastRevisionInfo.OriginCommitSha);
 
 				try
 				{
@@ -814,7 +811,7 @@ namespace Tgstation.Server.Host.Controllers
 					doneSteps = 0;
 					numSteps = 2;
 
-					// the stuff didn't make it into the db, forget what we've done and abort
+					// Forget what we've done and abort
 					await repo.CheckoutObject(startReference ?? startSha, NextProgressReporter(), default).ConfigureAwait(false);
 					if (startReference != null && repo.Head != startSha)
 						await repo.ResetToSha(startSha, NextProgressReporter(), default).ConfigureAwait(false);
