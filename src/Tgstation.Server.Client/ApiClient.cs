@@ -47,6 +47,16 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// Backing field for <see cref="Headers"/>
 		/// </summary>
+		readonly ApiHeaders? tokenRefreshHeaders;
+
+		/// <summary>
+		/// The <see cref="SemaphoreSlim"/> for <see cref="Token"/> refreshes.
+		/// </summary>
+		readonly SemaphoreSlim semaphoreSlim;
+
+		/// <summary>
+		/// Backing field for <see cref="Headers"/>
+		/// </summary>
 		ApiHeaders headers;
 
 		static JsonSerializerSettings GetSerializerSettings() => new JsonSerializerSettings
@@ -101,18 +111,25 @@ namespace Tgstation.Server.Client
 		/// </summary>
 		/// <param name="httpClient">The value of <see cref="httpClient"/></param>
 		/// <param name="url">The value of <see cref="Url"/></param>
-		/// <param name="apiHeaders">The value of <see cref="ApiHeaders"/></param>
-		public ApiClient(IHttpClient httpClient, Uri url, ApiHeaders apiHeaders)
+		/// <param name="apiHeaders">The value of <see cref="Headers"/></param>
+		/// <param name="tokenRefreshHeaders">The value of <see cref="tokenRefreshHeaders"/></param>
+		public ApiClient(IHttpClient httpClient, Uri url, ApiHeaders apiHeaders, ApiHeaders? tokenRefreshHeaders)
 		{
 			this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
 			Url = url ?? throw new ArgumentNullException(nameof(url));
 			headers = apiHeaders ?? throw new ArgumentNullException(nameof(apiHeaders));
+			this.tokenRefreshHeaders = tokenRefreshHeaders;
 
 			requestLoggers = new List<IRequestLogger>();
+			semaphoreSlim = new SemaphoreSlim(1);
 		}
 
 		/// <inheritdoc />
-		public void Dispose() => httpClient.Dispose();
+		public void Dispose()
+		{
+			httpClient.Dispose();
+			semaphoreSlim.Dispose();
+		}
 
 		/// <summary>
 		/// Main request method
@@ -122,9 +139,10 @@ namespace Tgstation.Server.Client
 		/// <param name="body">The body of the request</param>
 		/// <param name="method">The method of the request</param>
 		/// <param name="instanceId">The optional <see cref="Instance.Id"/> for the request</param>
+		/// <param name="tokenRefresh">If this is a token refresh operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the response on success</returns>
-		async Task<TResult> RunRequest<TResult>(string route, object? body, HttpMethod method, long? instanceId, CancellationToken cancellationToken)
+		async Task<TResult> RunRequest<TResult>(string route, object? body, HttpMethod method, long? instanceId, bool tokenRefresh, CancellationToken cancellationToken)
 		{
 			if (route == null)
 				throw new ArgumentNullException(nameof(route));
@@ -141,11 +159,25 @@ namespace Tgstation.Server.Client
 				if (body != null)
 					request.Content = new StringContent(JsonConvert.SerializeObject(body, serializerSettings), Encoding.UTF8, ApiHeaders.ApplicationJson);
 
-				headers.SetRequestHeaders(request.Headers, instanceId);
+				var headersToUse = tokenRefresh ? tokenRefreshHeaders! : headers;
+				headersToUse.SetRequestHeaders(request.Headers, instanceId);
 
-				await Task.WhenAll(requestLoggers.Select(x => x.LogRequest(request, cancellationToken))).ConfigureAwait(false);
+				// This is meant to be a gate against token refresh operations
+				await semaphoreSlim.WaitAsync(cancellationToken).ConfigureAwait(false);
+				if(!tokenRefresh)
+					semaphoreSlim.Release();
 
-				response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+				try
+				{
+					await Task.WhenAll(requestLoggers.Select(x => x.LogRequest(request, cancellationToken))).ConfigureAwait(false);
+
+					response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+				}
+				finally
+				{
+					if (tokenRefresh)
+						semaphoreSlim.Release();
+				}
 			}
 
 			using (response)
@@ -155,7 +187,13 @@ namespace Tgstation.Server.Client
 				var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
 				if (!response.IsSuccessStatusCode)
+				{
+					if (!tokenRefresh
+						&& response.StatusCode == HttpStatusCode.Unauthorized
+						&& await RefreshToken(cancellationToken).ConfigureAwait(false))
+						return await RunRequest<TResult>(route, body, method, instanceId, false, cancellationToken).ConfigureAwait(false);
 					HandleBadResponse(response, json);
+				}
 
 				if (String.IsNullOrWhiteSpace(json))
 					json = JsonConvert.SerializeObject(new object());
@@ -171,50 +209,68 @@ namespace Tgstation.Server.Client
 			}
 		}
 
-		/// <inheritdoc />
-		public Task<TResult> Create<TResult>(string route, CancellationToken cancellationToken) => RunRequest<TResult>(route, new object(), HttpMethod.Put, null, cancellationToken);
+		async Task<bool> RefreshToken(CancellationToken cancellationToken)
+		{
+			if (tokenRefreshHeaders == null)
+				return false;
+
+			try
+			{
+				var token = await RunRequest<Token>(Routes.Root, null, HttpMethod.Post, null, true, cancellationToken);
+				headers = new ApiHeaders(headers.UserAgent!, token.Bearer!);
+			}
+			catch (ClientException)
+			{
+				return false;
+			}
+
+			return true;
+		}
 
 		/// <inheritdoc />
-		public Task<TResult> Read<TResult>(string route, CancellationToken cancellationToken) => RunRequest<TResult>(route, null, HttpMethod.Get, null, cancellationToken);
+		public Task<TResult> Create<TResult>(string route, CancellationToken cancellationToken) => RunRequest<TResult>(route, new object(), HttpMethod.Put, null, false, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<TResult> Update<TResult>(string route, CancellationToken cancellationToken) => RunRequest<TResult>(route, new object(), HttpMethod.Post, null, cancellationToken);
+		public Task<TResult> Read<TResult>(string route, CancellationToken cancellationToken) => RunRequest<TResult>(route, null, HttpMethod.Get, null, false, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<TResult> Update<TBody, TResult>(string route, TBody body, CancellationToken cancellationToken) => RunRequest<TResult>(route, body, HttpMethod.Post, null, cancellationToken);
+		public Task<TResult> Update<TResult>(string route, CancellationToken cancellationToken) => RunRequest<TResult>(route, new object(), HttpMethod.Post, null, false, cancellationToken);
 
 		/// <inheritdoc />
-		public Task Update<TBody>(string route, TBody body, CancellationToken cancellationToken) => RunRequest<object>(route, body, HttpMethod.Post, null, cancellationToken);
+		public Task<TResult> Update<TBody, TResult>(string route, TBody body, CancellationToken cancellationToken) => RunRequest<TResult>(route, body, HttpMethod.Post, null, false, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<TResult> Create<TBody, TResult>(string route, TBody body, CancellationToken cancellationToken) => RunRequest<TResult>(route, body, HttpMethod.Put, null, cancellationToken);
+		public Task Update<TBody>(string route, TBody body, CancellationToken cancellationToken) => RunRequest<object>(route, body, HttpMethod.Post, null, false, cancellationToken);
 
 		/// <inheritdoc />
-		public Task Delete(string route, CancellationToken cancellationToken) => RunRequest<object>(route, null, HttpMethod.Delete, null, cancellationToken);
+		public Task<TResult> Create<TBody, TResult>(string route, TBody body, CancellationToken cancellationToken) => RunRequest<TResult>(route, body, HttpMethod.Put, null, false, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<TResult> Create<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, body, HttpMethod.Put, instanceId, cancellationToken);
+		public Task Delete(string route, CancellationToken cancellationToken) => RunRequest<object>(route, null, HttpMethod.Delete, null, false, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<TResult> Read<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, null, HttpMethod.Get, instanceId, cancellationToken);
+		public Task<TResult> Create<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, body, HttpMethod.Put, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<TResult> Update<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, body, HttpMethod.Post, instanceId, cancellationToken);
+		public Task<TResult> Read<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, null, HttpMethod.Get, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
-		public Task Delete(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<object>(route, null, HttpMethod.Delete, instanceId, cancellationToken);
+		public Task<TResult> Update<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, body, HttpMethod.Post, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
-		public Task Delete<TBody>(string route, TBody body, long instanceId, CancellationToken cancellationToken) => RunRequest<object>(route, body, HttpMethod.Delete, instanceId, cancellationToken);
+		public Task Delete(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<object>(route, null, HttpMethod.Delete, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<TResult> Delete<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, null, HttpMethod.Delete, instanceId, cancellationToken);
+		public Task Delete<TBody>(string route, TBody body, long instanceId, CancellationToken cancellationToken) => RunRequest<object>(route, body, HttpMethod.Delete, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<TResult> Create<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, new object(), HttpMethod.Put, instanceId, cancellationToken);
+		public Task<TResult> Delete<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, null, HttpMethod.Delete, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<TResult> Patch<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, new object(), new HttpMethod("PATCH"), instanceId, cancellationToken);
+		public Task<TResult> Create<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, new object(), HttpMethod.Put, instanceId, false, cancellationToken);
+
+		/// <inheritdoc />
+		public Task<TResult> Patch<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, new object(), HttpMethod.Patch, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
 		public void AddRequestLogger(IRequestLogger requestLogger) => requestLoggers.Add(requestLogger ?? throw new ArgumentNullException(nameof(requestLogger)));

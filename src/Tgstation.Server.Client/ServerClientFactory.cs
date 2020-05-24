@@ -38,6 +38,7 @@ namespace Tgstation.Server.Client
 			string password,
 			IEnumerable<IRequestLogger>? requestLoggers = null,
 			TimeSpan? timeout = null,
+			bool attemptRefreshLogin = true,
 			CancellationToken cancellationToken = default)
 		{
 			if (host == null)
@@ -50,7 +51,8 @@ namespace Tgstation.Server.Client
 			requestLoggers ??= Enumerable.Empty<IRequestLogger>();
 
 			Token token;
-			using (var api = ApiClientFactory.CreateApiClient(host, new ApiHeaders(productHeaderValue, username, password)))
+			var loginHeaders = new ApiHeaders(productHeaderValue, username, password);
+			using (var api = ApiClientFactory.CreateApiClient(host, loginHeaders, null))
 			{
 				foreach (var requestLogger in requestLoggers)
 					api.AddRequestLogger(requestLogger);
@@ -64,7 +66,9 @@ namespace Tgstation.Server.Client
 			if (timeout.HasValue)
 				client.Timeout = timeout.Value;
 
-			return client;
+			var apiHeaders = new ApiHeaders(productHeaderValue, token.Bearer!);
+
+			return new ServerClient(ApiClientFactory.CreateApiClient(host, apiHeaders, loginHeaders), token);
 		}
 
 		/// <inheritdoc />
@@ -77,7 +81,7 @@ namespace Tgstation.Server.Client
 			if (token.Bearer == null)
 				throw new ArgumentException("token.Bearer should not be null!", nameof(token));
 
-			return new ServerClient(ApiClientFactory.CreateApiClient(host, new ApiHeaders(productHeaderValue, token.Bearer)), token);
+			return new ServerClient(ApiClientFactory.CreateApiClient(host, new ApiHeaders(productHeaderValue, token.Bearer), null), token);
 		}
 	}
 }
