@@ -16,7 +16,7 @@
     <RepositoryUrl>https://github.com/tgstation/tgstation-server</RepositoryUrl>
     <Copyright>2018</Copyright>
     <PackageTags>json web api tgstation-server tgstation ss13 byond client</PackageTags>
-    <PackageReleaseNotes>.Net Standard 2.1, allow login requests to be logged.</PackageReleaseNotes>
+    <PackageReleaseNotes>Fixed automatic refresh erroring internally. Fixed request loggers given to ServerClientFactory not being passed to the IServerClient.</PackageReleaseNotes>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>

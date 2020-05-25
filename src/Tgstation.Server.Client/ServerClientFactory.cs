@@ -62,13 +62,16 @@ namespace Tgstation.Server.Client
 				token = await api.Update<Token>(Routes.Root, cancellationToken).ConfigureAwait(false);
 			}
 
-			var client = CreateFromToken(host, token);
+			var apiHeaders = new ApiHeaders(productHeaderValue, token.Bearer!);
+
+			var client = new ServerClient(ApiClientFactory.CreateApiClient(host, apiHeaders, loginHeaders), token);
 			if (timeout.HasValue)
 				client.Timeout = timeout.Value;
 
-			var apiHeaders = new ApiHeaders(productHeaderValue, token.Bearer!);
+			foreach (var requestLogger in requestLoggers)
+				client.AddRequestLogger(requestLogger);
 
-			return new ServerClient(ApiClientFactory.CreateApiClient(host, apiHeaders, loginHeaders), token);
+			return client;
 		}
 
 		/// <inheritdoc />
