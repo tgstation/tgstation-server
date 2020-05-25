@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -275,34 +276,38 @@ namespace Tgstation.Server.Host.Setup
 		/// <summary>
 		/// Prompt the user for the <see cref="DatabaseType"/>.
 		/// </summary>
+		/// <param name="firstTime">If this is the user's first time here.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the input <see cref="DatabaseType"/>.</returns>
-		async Task<DatabaseType> PromptDatabaseType(CancellationToken cancellationToken)
+		async Task<DatabaseType> PromptDatabaseType(bool firstTime, CancellationToken cancellationToken)
 		{
-			await console.WriteAsync(String.Empty, true, cancellationToken).ConfigureAwait(false);
-			await console.WriteAsync(
-				"NOTE: It is HIGHLY reccommended that TGS runs on a complete relational database, specfically *NOT* Sqlite.",
-				true,
-				cancellationToken)
-				.ConfigureAwait(false);
-			await console.WriteAsync(
-				"Sqlite, by nature cannot perform several DDL operations. Because of this future compatiblility cannot be guaranteed.",
-				true,
-				cancellationToken)
-				.ConfigureAwait(false);
-			await console.WriteAsync(
-				"This means that you may not be able to update to the next minor version of TGS4 without a clean re-installation!",
-				true,
-				cancellationToken)
-				.ConfigureAwait(false);
-			await console.WriteAsync(
-				"Please consider taking the time to set up a relational database if this is meant to be a long-standing server.",
-				true,
-				cancellationToken)
-				.ConfigureAwait(false);
-			await console.WriteAsync(String.Empty, true, cancellationToken).ConfigureAwait(false);
+			if (firstTime)
+			{
+				await console.WriteAsync(String.Empty, true, cancellationToken).ConfigureAwait(false);
+				await console.WriteAsync(
+					"NOTE: It is HIGHLY reccommended that TGS runs on a complete relational database, specfically *NOT* Sqlite.",
+					true,
+					cancellationToken)
+					.ConfigureAwait(false);
+				await console.WriteAsync(
+					"Sqlite, by nature cannot perform several DDL operations. Because of this future compatiblility cannot be guaranteed.",
+					true,
+					cancellationToken)
+					.ConfigureAwait(false);
+				await console.WriteAsync(
+					"This means that you may not be able to update to the next minor version of TGS4 without a clean re-installation!",
+					true,
+					cancellationToken)
+					.ConfigureAwait(false);
+				await console.WriteAsync(
+					"Please consider taking the time to set up a relational database if this is meant to be a long-standing server.",
+					true,
+					cancellationToken)
+					.ConfigureAwait(false);
+				await console.WriteAsync(String.Empty, true, cancellationToken).ConfigureAwait(false);
 
-			await asyncDelayer.Delay(TimeSpan.FromSeconds(3), cancellationToken).ConfigureAwait(false);
+				await asyncDelayer.Delay(TimeSpan.FromSeconds(3), cancellationToken).ConfigureAwait(false);
+			}
 
 			await console.WriteAsync("What SQL database type will you be using?", true, cancellationToken).ConfigureAwait(false);
 			do
@@ -310,10 +315,13 @@ namespace Tgstation.Server.Host.Setup
 				await console.WriteAsync(
 					String.Format(
 						CultureInfo.InvariantCulture,
-						"Please enter one of {0}, {1}, {2} or {3}: ",
+						"Please enter one of {0}, {1}, {2}, or {3}: ",
 						DatabaseType.MariaDB,
 						DatabaseType.MySql,
+#pragma warning disable SA1515 // Single-line comment should be preceded by blank line
+						// DatabaseType.PostgresSql,
 						DatabaseType.SqlServer,
+#pragma warning restore SA1515 // Single-line comment should be preceded by blank line
 						DatabaseType.Sqlite),
 					false,
 					cancellationToken)
@@ -332,19 +340,22 @@ namespace Tgstation.Server.Host.Setup
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="DatabaseConfiguration"/></returns>
+		#pragma warning disable CA1502 // TODO: Decomplexify
 		async Task<DatabaseConfiguration> ConfigureDatabase(CancellationToken cancellationToken)
 		{
+			bool firstTime = true;
 			do
 			{
 				await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 
 				var databaseConfiguration = new DatabaseConfiguration
 				{
-					DatabaseType = await PromptDatabaseType(cancellationToken).ConfigureAwait(false)
+					DatabaseType = await PromptDatabaseType(firstTime, cancellationToken).ConfigureAwait(false)
 				};
+				firstTime = false;
 
 				string serverAddress = null;
-				uint? mySQLServerPort = null;
+				ushort? serverPort = null;
 
 				bool isSqliteDB = databaseConfiguration.DatabaseType == DatabaseType.Sqlite;
 				if (!isSqliteDB)
@@ -353,15 +364,17 @@ namespace Tgstation.Server.Host.Setup
 						await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 						await console.WriteAsync("Enter the server's address and port [<server>:<port> or <server>] (blank for local): ", false, cancellationToken).ConfigureAwait(false);
 						serverAddress = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
-						if (!String.IsNullOrWhiteSpace(serverAddress) && databaseConfiguration.DatabaseType == DatabaseType.SqlServer)
+						if (String.IsNullOrWhiteSpace(serverAddress))
+							serverAddress = null;
+						else if (databaseConfiguration.DatabaseType == DatabaseType.SqlServer)
 						{
 							var match = Regex.Match(serverAddress, @"^(?<server>.+):(?<port>.+)$");
 							if (match.Success)
 							{
 								serverAddress = match.Groups["server"].Value;
 								var portString = match.Groups["port"].Value;
-								if (uint.TryParse(portString, out uint port))
-									mySQLServerPort = port;
+								if (UInt16.TryParse(portString, out var port))
+									serverPort = port;
 								else
 								{
 									await console.WriteAsync($"Failed to parse port \"{portString}\", please try again.", true, cancellationToken).ConfigureAwait(false);
@@ -434,53 +447,84 @@ namespace Tgstation.Server.Host.Setup
 						connectionString,
 						databaseConfiguration.DatabaseType);
 
-				if (databaseConfiguration.DatabaseType == DatabaseType.SqlServer)
+				switch (databaseConfiguration.DatabaseType)
 				{
-					var csb = new SqlConnectionStringBuilder
-					{
-						ApplicationName = assemblyInformationProvider.VersionPrefix,
-						DataSource = serverAddress ?? "(local)"
-					};
+					case DatabaseType.SqlServer:
+						{
+							var csb = new SqlConnectionStringBuilder
+							{
+								ApplicationName = assemblyInformationProvider.VersionPrefix,
+								DataSource = serverAddress ?? "(local)"
+							};
 
-					if (useWinAuth)
-						csb.IntegratedSecurity = true;
-					else
-					{
-						csb.UserID = username;
-						csb.Password = password;
-					}
+							if (useWinAuth)
+								csb.IntegratedSecurity = true;
+							else
+							{
+								csb.UserID = username;
+								csb.Password = password;
+							}
 
-					CreateTestConnection(csb.ConnectionString);
-					csb.InitialCatalog = databaseName;
-					databaseConfiguration.ConnectionString = csb.ConnectionString;
-				}
-				else if(databaseConfiguration.DatabaseType == DatabaseType.Sqlite)
-				{
-					var csb = new SqliteConnectionStringBuilder
-					{
-						DataSource = databaseName,
-						Mode = dbExists ? SqliteOpenMode.ReadOnly : SqliteOpenMode.ReadWriteCreate
-					};
+							CreateTestConnection(csb.ConnectionString);
+							csb.InitialCatalog = databaseName;
+							databaseConfiguration.ConnectionString = csb.ConnectionString;
+						}
 
-					CreateTestConnection(csb.ConnectionString);
-					databaseConfiguration.ConnectionString = csb.ConnectionString;
-				}
-				else
-				{
-					// MySQL/MariaDB
-					var csb = new MySqlConnectionStringBuilder
-					{
-						Server = serverAddress ?? "127.0.0.1",
-						UserID = username,
-						Password = password
-					};
+						break;
+					case DatabaseType.MariaDB:
+					case DatabaseType.MySql:
+						{
+							// MySQL/MariaDB
+							var csb = new MySqlConnectionStringBuilder
+							{
+								Server = serverAddress ?? "127.0.0.1",
+								UserID = username,
+								Password = password
+							};
 
-					if (mySQLServerPort.HasValue)
-						csb.Port = mySQLServerPort.Value;
+							if (serverPort.HasValue)
+								csb.Port = serverPort.Value;
 
-					CreateTestConnection(csb.ConnectionString);
-					csb.Database = databaseName;
-					databaseConfiguration.ConnectionString = csb.ConnectionString;
+							CreateTestConnection(csb.ConnectionString);
+							csb.Database = databaseName;
+							databaseConfiguration.ConnectionString = csb.ConnectionString;
+						}
+
+						break;
+					case DatabaseType.Sqlite:
+						{
+							var csb = new SqliteConnectionStringBuilder
+							{
+								DataSource = databaseName,
+								Mode = dbExists ? SqliteOpenMode.ReadOnly : SqliteOpenMode.ReadWriteCreate
+							};
+
+							CreateTestConnection(csb.ConnectionString);
+							databaseConfiguration.ConnectionString = csb.ConnectionString;
+						}
+
+						break;
+					case DatabaseType.PostgresSql:
+						{
+							var csb = new NpgsqlConnectionStringBuilder
+							{
+								ApplicationName = assemblyInformationProvider.VersionPrefix,
+								Host = serverAddress ?? "127.0.0.1",
+								Password = password,
+								Username = username
+							};
+
+							if (serverPort.HasValue)
+								csb.Port = serverPort.Value;
+
+							CreateTestConnection(csb.ConnectionString);
+							csb.Database = databaseName;
+							databaseConfiguration.ConnectionString = csb.ConnectionString;
+						}
+
+						break;
+					default:
+						throw new InvalidOperationException("Invalid DatabaseType!");
 				}
 
 				try
@@ -502,6 +546,7 @@ namespace Tgstation.Server.Host.Setup
 			}
 			while (true);
 		}
+		#pragma warning restore CA1502
 
 		/// <summary>
 		/// Prompts the user to create a <see cref="GeneralConfiguration"/>

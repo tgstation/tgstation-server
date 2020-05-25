@@ -224,6 +224,9 @@ namespace Tgstation.Server.Host.Core
 				case DatabaseType.Sqlite:
 					AddTypedContext<SqliteDatabaseContext>();
 					break;
+				case DatabaseType.PostgresSql:
+					AddTypedContext<PostgresSqlDatabaseContext>();
+					break;
 				default:
 					throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid {0}: {1}!", nameof(DatabaseType), dbType));
 			}

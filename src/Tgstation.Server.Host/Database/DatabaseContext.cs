@@ -354,9 +354,14 @@ namespace Tgstation.Server.Host.Database
 
 			// Update this with new migrations as they are made
 			string targetMigration = null;
+
+			if (DatabaseType == DatabaseType.PostgresSql && version < new Version(4, 3, 0))
+				throw new NotSupportedException("Cannot migrate below version 4.3.0 with PostgresSql!");
+
 			if (version < new Version(4, 1, 0))
 				throw new NotSupportedException("Cannot migrate below version 4.1.0!");
-			else if (version < new Version(4, 2, 0))
+
+			if (version < new Version(4, 2, 0))
 				targetMigration = DatabaseType == DatabaseType.Sqlite ? nameof(SLRebuild) : nameof(MSFixCascadingDelete);
 
 			if (targetMigration == null)
@@ -378,6 +383,9 @@ namespace Tgstation.Server.Host.Database
 					break;
 				case DatabaseType.Sqlite:
 					migrationSubstitution = "SL{0}";
+					break;
+				case DatabaseType.PostgresSql:
+					migrationSubstitution = "PG{0}";
 					break;
 				default:
 					throw new InvalidOperationException($"Invalid DatabaseType: {DatabaseType}");

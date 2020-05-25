@@ -723,7 +723,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			logger.LogTrace("Begin Compile");
 
 			using var progressCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-			var progressTask = estimatedDuration.HasValue ? ProgressTask(progressReporter, estimatedDuration.Value, cancellationToken) : Task.CompletedTask;
+			var progressTask = estimatedDuration.HasValue ? ProgressTask(progressReporter, estimatedDuration.Value, progressCts.Token) : Task.CompletedTask;
 			try
 			{
 				using var byondLock = await byond.UseExecutables(null, cancellationToken).ConfigureAwait(false);
