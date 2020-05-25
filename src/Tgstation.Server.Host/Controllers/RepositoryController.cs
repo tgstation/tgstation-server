@@ -718,6 +718,7 @@ namespace Tgstation.Server.Host.Controllers
 						if (revInfoWereLookingFor != null)
 						{
 							// goteem
+							Logger.LogDebug("Reusing existing SHA {0}...", revInfoWereLookingFor.CommitSha);
 							await repo.ResetToSha(revInfoWereLookingFor.CommitSha, NextProgressReporter(), cancellationToken).ConfigureAwait(false);
 							lastRevisionInfo = revInfoWereLookingFor;
 						}
