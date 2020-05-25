@@ -56,7 +56,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					return new IrcProvider(assemblyInformationProvider, asyncDelayer, loggerFactory.CreateLogger<IrcProvider>(), ircBuilder.Address, ircBuilder.Port.Value, ircBuilder.Nickname, ircBuilder.Password, ircBuilder.PasswordType, settings.ReconnectionInterval.Value, ircBuilder.UseSsl.Value);
 				case ChatProvider.Discord:
 					var discordBuilder = (DiscordConnectionStringBuilder)builder;
-					return new DiscordProvider(loggerFactory.CreateLogger<DiscordProvider>(), discordBuilder.BotToken, settings.ReconnectionInterval.Value);
+					return new DiscordProvider(
+						assemblyInformationProvider,
+						loggerFactory.CreateLogger<DiscordProvider>(),
+						discordBuilder.BotToken,
+						settings.ReconnectionInterval.Value);
 				default:
 					throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid ChatProvider: {0}", settings.Provider));
 			}

@@ -62,12 +62,24 @@ namespace Tgstation.Server.Host.Components.Chat
 		Task SendWatchdogMessage(string message, bool adminOnly, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Send a chat <paramref name="message"/> to configured update channels
+		/// Send the message for a deployment to configured deployment channels.
 		/// </summary>
-		/// <param name="message">The message being sent</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task SendUpdateMessage(string message, CancellationToken cancellationToken);
+		/// <param name="revisionInformation">The <see cref="RevisionInformation"/> of the deployment.</param>
+		/// <param name="byondVersion">The BYOND <see cref="Version"/> of the deployment.</param>
+		/// <param name="estimatedCompletionTime">The optional <see cref="DateTimeOffset"/> the deployment is expected to be completed at.</param>
+		/// <param name="gitHubOwner">The repository GitHub owner, if any.</param>
+		/// <param name="gitHubRepo">The repository GitHub name, if any.</param>
+		/// <param name="localCommitPushed"><see langword="true"/> if the local deployment commit was pushed to the remote repository.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="Func{T1, T2, TResult}"/> to call to update the message at the deployment's conclusion. Parameters: Error message if any, DreamMaker output if any.</returns>
+		Task<Func<string, string, Task>> SendDeploymentMessage(
+			Models.RevisionInformation revisionInformation,
+			Version byondVersion,
+			DateTimeOffset? estimatedCompletionTime,
+			string gitHubOwner,
+			string gitHubRepo,
+			bool localCommitPushed,
+			CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Start tracking <see cref="Commands.CustomCommand"/>s and <see cref="ChannelRepresentation"/>s.

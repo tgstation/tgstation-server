@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components.Chat.Providers
 {
@@ -180,5 +181,16 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 		/// <inheritdoc />
 		public abstract Task SendMessage(ulong channelId, string message, CancellationToken cancellationToken);
+
+		/// <inheritdoc />
+		public abstract Task<Func<string, string, Task>> SendUpdateMessage(
+			RevisionInformation revisionInformation,
+			Version byondVersion,
+			DateTimeOffset? estimatedCompletionTime,
+			string gitHubOwner,
+			string gitHubRepo,
+			ulong channelId,
+			bool localCommitPushed,
+			CancellationToken cancellationToken);
 	}
 }
