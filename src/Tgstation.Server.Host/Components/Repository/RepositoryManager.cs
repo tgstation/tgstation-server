@@ -173,31 +173,39 @@ namespace Tgstation.Server.Host.Components.Repository
 			lock (semaphore)
 				if (CloneInProgress)
 					throw new JobException(ErrorCode.RepoCloning);
-			using var context = await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false);
+			await semaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
 			try
 			{
-				var libGitRepo = await repositoryFactory.CreateFromPath(ioManager.ResolvePath(), cancellationToken).ConfigureAwait(false);
-
-				if (libGitRepo == null)
-					return null;
-
-				return new Repository(
-					libGitRepo,
-					commands,
-					ioManager,
-					eventConsumer,
-					repositoryFactory,
-					repositoryLogger, () =>
+				try
 				{
-					logger.LogTrace("Releasing semaphore due to Repository disposal...");
-					semaphore.Release();
-				});
+					var libGitRepo = await repositoryFactory.CreateFromPath(ioManager.ResolvePath(), cancellationToken).ConfigureAwait(false);
+
+					if (libGitRepo == null)
+						return null;
+
+					return new Repository(
+						libGitRepo,
+						commands,
+						ioManager,
+						eventConsumer,
+						repositoryFactory,
+						repositoryLogger, () =>
+					{
+						logger.LogTrace("Releasing semaphore due to Repository disposal...");
+						semaphore.Release();
+					});
+				}
+				catch (RepositoryNotFoundException e)
+				{
+					logger.LogDebug("Repository not found!");
+					logger.LogTrace("Exception: {0}", e);
+					return null;
+				}
 			}
-			catch (RepositoryNotFoundException e)
+			catch
 			{
-				logger.LogDebug("Repository not found!");
-				logger.LogTrace("Exception: {0}", e);
-				return null;
+				semaphore.Release();
+				throw;
 			}
 		}
 
