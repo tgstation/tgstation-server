@@ -179,10 +179,6 @@ namespace Tgstation.Server.Host.Components.Repository
 				try
 				{
 					var libGitRepo = await repositoryFactory.CreateFromPath(ioManager.ResolvePath(), cancellationToken).ConfigureAwait(false);
-
-					if (libGitRepo == null)
-						return null;
-
 					return new Repository(
 						libGitRepo,
 						commands,
@@ -195,17 +191,17 @@ namespace Tgstation.Server.Host.Components.Repository
 						semaphore.Release();
 					});
 				}
-				catch (RepositoryNotFoundException e)
+				catch
 				{
-					logger.LogDebug("Repository not found!");
-					logger.LogTrace("Exception: {0}", e);
-					return null;
+					semaphore.Release();
+					throw;
 				}
 			}
-			catch
+			catch (RepositoryNotFoundException e)
 			{
-				semaphore.Release();
-				throw;
+				logger.LogDebug("Repository not found!");
+				logger.LogTrace("Exception: {0}", e);
+				return null;
 			}
 		}
 
