@@ -620,13 +620,61 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public Task SendUpdateMessage(string message, CancellationToken cancellationToken)
+		public async Task<Func<string, string, Task>> SendDeploymentMessage(
+			Models.RevisionInformation revisionInformation,
+			Version byondVersion,
+			DateTimeOffset? estimatedCompletionTime,
+			string gitHubOwner,
+			string gitHubRepo,
+			bool localCommitPushed,
+			CancellationToken cancellationToken)
 		{
 			List<ulong> wdChannels;
-			message = String.Format(CultureInfo.InvariantCulture, "DM: {0}", message);
 			lock (mappedChannels) // so it doesn't change while we're using it
 				wdChannels = mappedChannels.Where(x => x.Value.IsUpdatesChannel).Select(x => x.Key).ToList();
-			return SendMessage(message, wdChannels, cancellationToken);
+
+			logger.LogTrace("Sending deployment message for RevisionInformation: {0}", revisionInformation.Id);
+
+			var callbacks = new List<Func<string, string, Task>>();
+
+			await Task.WhenAll(
+				wdChannels.Select(
+					async x =>
+					{
+						ChannelMapping channelMapping;
+						lock (mappedChannels)
+							if (!mappedChannels.TryGetValue(x, out channelMapping))
+								return;
+						IProvider provider;
+						lock (providers)
+							if (!providers.TryGetValue(channelMapping.ProviderId, out provider))
+								return;
+						try
+						{
+							var callback = await provider.SendUpdateMessage(
+								revisionInformation,
+								byondVersion,
+								estimatedCompletionTime,
+								gitHubOwner,
+								gitHubRepo,
+								channelMapping.ProviderChannelId,
+								localCommitPushed,
+								cancellationToken)
+								.ConfigureAwait(false);
+
+							callbacks.Add(callback);
+						}
+						catch (Exception ex)
+						{
+							logger.LogWarning(
+								"Error sending deploy message to provider {0}! Exception: {1}",
+								channelMapping.ProviderId,
+								ex);
+						}
+					}))
+				.ConfigureAwait(false);
+
+			return (errorMessage, dreamMakerOutput) => Task.WhenAll(callbacks.Select(x => x(errorMessage, dreamMakerOutput)));
 		}
 
 		/// <inheritdoc />

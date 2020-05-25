@@ -262,7 +262,6 @@ namespace Tgstation.Server.Host.Components
 								eventConsumer,
 								chatManager,
 								processExecutor,
-								watchdog,
 								gitHubClientFactory,
 								dmbFactory,
 								repoManager,

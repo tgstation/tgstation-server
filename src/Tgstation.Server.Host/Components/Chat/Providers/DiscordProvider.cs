@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Models;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Chat.Providers
 {
@@ -27,6 +29,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				return NormalizeMentions(client.CurrentUser.Mention);
 			}
 		}
+
+		/// <summary>
+		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="DiscordProvider"/>.
+		/// </summary>
+		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
 		/// The <see cref="DiscordSocketClient"/> for the <see cref="DiscordProvider"/>
@@ -53,12 +60,18 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <summary>
 		/// Construct a <see cref="DiscordProvider"/>
 		/// </summary>
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
 		/// <param name="logger">The value of <see cref="Logger"/></param>
 		/// <param name="botToken">The value of <see cref="botToken"/></param>
 		/// <param name="reconnectInterval">The initial reconnect interval in minutes.</param>
-		public DiscordProvider(ILogger<DiscordProvider> logger, string botToken, uint reconnectInterval)
+		public DiscordProvider(
+			IAssemblyInformationProvider assemblyInformationProvider,
+			ILogger<DiscordProvider> logger,
+			string botToken,
+			uint reconnectInterval)
 			: base(logger, reconnectInterval)
 		{
+			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.botToken = botToken ?? throw new ArgumentNullException(nameof(botToken));
 			client = new DiscordSocketClient();
 			client.MessageReceived += Client_MessageReceived;
@@ -259,6 +272,139 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			{
 				Logger.LogWarning("Error sending discord message: {0}", e);
 			}
+		}
+
+		/// <inheritdoc />
+		public override async Task<Func<string, string, Task>> SendUpdateMessage(
+			RevisionInformation revisionInformation,
+			Version byondVersion,
+			DateTimeOffset? estimatedCompletionTime,
+			string gitHubOwner,
+			string gitHubRepo,
+			ulong channelId,
+			bool localCommitPushed,
+			CancellationToken cancellationToken)
+		{
+			bool gitHub = gitHubOwner != null && gitHubRepo != null;
+
+			localCommitPushed |= revisionInformation.CommitSha == revisionInformation.OriginCommitSha;
+
+			var fields = new List<EmbedFieldBuilder>
+			{
+				new EmbedFieldBuilder
+				{
+					Name = "BYOND Version",
+					Value = $"{byondVersion.Major}.{byondVersion.Minor}",
+					IsInline = true
+				},
+				new EmbedFieldBuilder
+				{
+					Name = "Local Commit",
+					Value = localCommitPushed && gitHub
+						? $"[{revisionInformation.CommitSha.Substring(0, 7)}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{revisionInformation.CommitSha})"
+						: revisionInformation.CommitSha.Substring(0, 7),
+					IsInline = true
+				},
+				new EmbedFieldBuilder
+				{
+					Name = "Branch Commit",
+					Value = gitHub
+						? $"[{revisionInformation.OriginCommitSha.Substring(0, 7)}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{revisionInformation.OriginCommitSha})"
+						: revisionInformation.OriginCommitSha.Substring(0, 7),
+					IsInline = true
+				}
+			};
+
+			fields.AddRange((revisionInformation.ActiveTestMerges ?? Enumerable.Empty<RevInfoTestMerge>())
+				.Select(x => x.TestMerge)
+				.Select(x => new EmbedFieldBuilder
+				{
+					Name = $"#{x.Number}",
+					Value = $"[{x.TitleAtMerge}]({x.Url}) by _[@{x.Author}](https://github.com/{x.Author})_{Environment.NewLine}Commit: [{x.PullRequestRevision.Substring(0, 7)}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{x.PullRequestRevision}){(String.IsNullOrWhiteSpace(x.Comment) ? String.Empty : $"{Environment.NewLine}_**{x.Comment}**_")}"
+				}));
+
+			var builder = new EmbedBuilder
+			{
+				Author = new EmbedAuthorBuilder
+				{
+					Name = assemblyInformationProvider.VersionPrefix,
+					Url = "https://github.com/tgstation/tgstation-server",
+					IconUrl = "https://avatars0.githubusercontent.com/u/1363778?s=280&v=4"
+				},
+				Color = Color.Gold,
+				Description = "TGS has begun deploying active repository code to production.",
+				Fields = fields,
+				Title = "Code Deployment",
+				Footer = new EmbedFooterBuilder
+				{
+					Text = "In progress... ETA"
+				},
+				Timestamp = estimatedCompletionTime
+			};
+
+			Logger.LogTrace("Attempting to post deploy embed to channel {0}...", channelId);
+			if (!(client.GetChannel(channelId) is IMessageChannel channel))
+			{
+				Logger.LogTrace("Channel ID {0} does not exist or is not an IMessageChannel!", channelId);
+				return (errorMessage, dreamMakerOutput) => Task.CompletedTask;
+			}
+
+			var message = await channel.SendMessageAsync(
+				String.Empty,
+				false,
+				builder.Build(),
+				new RequestOptions
+				{
+					CancelToken = cancellationToken
+				})
+				.ConfigureAwait(false);
+
+			return async (errorMessage, dreamMakerOutput) =>
+			{
+				builder.Footer.Text = errorMessage == null ? "Succeeded" : "Failed";
+				builder.Color = errorMessage == null ? Color.Green : Color.Red;
+				builder.Timestamp = DateTimeOffset.Now;
+				builder.Description = errorMessage == null
+					? "The deployment completed successfully and will be available at the next server reboot."
+					: "The deployment failed.";
+
+				if (dreamMakerOutput != null)
+					builder.AddField(new EmbedFieldBuilder
+					{
+						Name = "DreamMaker Output",
+						Value = $"```{Environment.NewLine}{dreamMakerOutput}{Environment.NewLine}```"
+					});
+
+				if (errorMessage != null)
+					builder.AddField(new EmbedFieldBuilder
+					{
+						Name = "Error Message",
+						Value = errorMessage
+					});
+
+				try
+				{
+					await message.ModifyAsync(
+						props => props.Embed = builder.Build())
+						.ConfigureAwait(false);
+				}
+				catch (Exception ex)
+				{
+					Logger.LogWarning("Updating deploy embed {0} failed, attempting new post! Exception: {1}", message.Id, ex);
+					try
+					{
+						await channel.SendMessageAsync(
+							String.Empty,
+							false,
+							builder.Build())
+							.ConfigureAwait(false);
+					}
+					catch (Exception ex2)
+					{
+						Logger.LogWarning("Posting completion deploy embed failed! Exception: {0}", ex2);
+					}
+				}
+			};
 		}
 	}
 }
