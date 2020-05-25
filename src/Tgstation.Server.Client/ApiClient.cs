@@ -216,7 +216,7 @@ namespace Tgstation.Server.Client
 
 			try
 			{
-				var token = await RunRequest<Token>(Routes.Root, null, HttpMethod.Post, null, true, cancellationToken);
+				var token = await RunRequest<Token>(Routes.Root, new object(), HttpMethod.Post, null, true, cancellationToken);
 				headers = new ApiHeaders(headers.UserAgent!, token.Bearer!);
 			}
 			catch (ClientException)
