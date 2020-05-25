@@ -127,7 +127,7 @@ namespace Tgstation.Server.Tests.Instance
 				new ChatChannel
 				{
 					IsAdminChannel = true,
-					IsUpdatesChannel = false,
+					IsUpdatesChannel = true,
 					IsWatchdogChannel = true,
 					Tag = "butt",
 					DiscordChannelId = channelId
@@ -140,7 +140,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.IsNotNull(updatedBot.Channels);
 			Assert.AreEqual(1, updatedBot.Channels.Count);
 			Assert.AreEqual(true, updatedBot.Channels.First().IsAdminChannel);
-			Assert.AreEqual(false, updatedBot.Channels.First().IsUpdatesChannel);
+			Assert.AreEqual(true, updatedBot.Channels.First().IsUpdatesChannel);
 			Assert.AreEqual(true, updatedBot.Channels.First().IsWatchdogChannel);
 			Assert.AreEqual("butt", updatedBot.Channels.First().Tag);
 			Assert.AreEqual(channelId, updatedBot.Channels.First().DiscordChannelId);
