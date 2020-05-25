@@ -141,7 +141,11 @@ namespace Tgstation.Server.Host.Setup
 
 			do
 			{
-				await console.WriteAsync("API Port (leave blank for default): ", false, cancellationToken).ConfigureAwait(false);
+				await console.WriteAsync(
+					$"API Port (leave blank for default of {GeneralConfiguration.DefaultApiPort}): ",
+					false,
+					cancellationToken)
+					.ConfigureAwait(false);
 				var portString = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
 				if (String.IsNullOrWhiteSpace(portString))
 					return null;
@@ -732,6 +736,7 @@ namespace Tgstation.Server.Host.Setup
 		{
 			await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Configuration complete! Saving to {0}", userConfigFileName), true, cancellationToken).ConfigureAwait(false);
 
+			newGeneralConfiguration.ApiPort = hostingPort ?? GeneralConfiguration.DefaultApiPort;
 			var map = new Dictionary<string, object>()
 			{
 				{ DatabaseConfiguration.Section, databaseConfiguration },
@@ -739,18 +744,6 @@ namespace Tgstation.Server.Host.Setup
 				{ FileLoggingConfiguration.Section, fileLoggingConfiguration },
 				{ ControlPanelConfiguration.Section, controlPanelConfiguration }
 			};
-
-			if (hostingPort.HasValue)
-				map.Add("Kestrel", new
-				{
-					EndPoints = new
-					{
-						Http = new
-						{
-							Url = String.Format(CultureInfo.InvariantCulture, "http://0.0.0.0:{0}", hostingPort)
-						}
-					}
-				});
 
 			var json = JsonConvert.SerializeObject(map, Formatting.Indented);
 			var configBytes = Encoding.UTF8.GetBytes(json);
