@@ -3,6 +3,7 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using Microsoft.Data.Sqlite;
 using MySql.Data.MySqlClient;
+using Npgsql;
 using Tgstation.Server.Host.Configuration;
 
 namespace Tgstation.Server.Host.Database
@@ -31,6 +32,11 @@ namespace Tgstation.Server.Host.Database
 					};
 				case DatabaseType.Sqlite:
 					return new SqliteConnection
+					{
+						ConnectionString = connectionString
+					};
+				case DatabaseType.PostgresSql:
+					return new NpgsqlConnection
 					{
 						ConnectionString = connectionString
 					};
