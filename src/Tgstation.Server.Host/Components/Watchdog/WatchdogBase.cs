@@ -664,8 +664,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							}
 						}
 
-						// full reboot required
-						Logger.LogDebug("Next monitor action is to {0}", monitorState.NextAction);
+						Logger.LogTrace("Next monitor action is to {0}", monitorState.NextAction);
 						if (monitorState.NextAction == MonitorAction.Restart)
 							monitorState = await MonitorRestart(cancellationToken).ConfigureAwait(false);
 					}
