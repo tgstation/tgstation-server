@@ -137,12 +137,14 @@ namespace Tgstation.Server.Host.Core
 						null);
 
 					logPath = IOManager.ConcatPath(logPath, "tgs-{Date}.log");
-					var rollingFileConfig = sinkConfig.RollingFile(
+					var rollingFileConfig = sinkConfig.File(
 						formatter,
 						logPath,
 						logEventLevel ?? LogEventLevel.Verbose,
 						50 * 1024 * 1024, // 50MB max size
-						flushToDiskInterval: TimeSpan.FromSeconds(2));
+						flushToDiskInterval: TimeSpan.FromSeconds(2),
+						rollingInterval: RollingInterval.Day,
+						rollOnFileSizeLimit: true);
 				});
 
 			// configure bearer token validation
