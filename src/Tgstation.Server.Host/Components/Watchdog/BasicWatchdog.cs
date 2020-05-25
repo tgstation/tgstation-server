@@ -87,8 +87,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (Server == null)
 				return null;
 
-			Logger.LogDebug("Server compile job ID is {0}", Server.Dmb.CompileJob.Id);
-
 			monitorState.ActiveServer = Server;
 
 			return new Dictionary<MonitorActivationReason, Task>
