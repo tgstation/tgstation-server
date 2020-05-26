@@ -32,6 +32,7 @@
 	return "feck"
 
 /world/Reboot(reason)
+	world.sleep_offline = FALSE
 	TgsChatBroadcast("World Rebooting")
 	TgsReboot()
 
