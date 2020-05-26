@@ -192,7 +192,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			};
 
 		/// <inheritdoc />
-		protected override void DisposeAndNullControllers()
+		protected override void DisposeAndNullControllersImpl()
 		{
 			Server?.Dispose();
 			Server = null;

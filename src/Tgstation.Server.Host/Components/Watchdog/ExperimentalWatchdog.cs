@@ -392,10 +392,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 #pragma warning restore CA1502
 
-		/// <summary>
-		/// Call <see cref="IDisposable.Dispose"/> on <see cref="alphaServer"/> and <see cref="bravoServer"/> and set them to <see langword="null"/>
-		/// </summary>
-		protected override void DisposeAndNullControllers()
+		/// <inheritdoc />
+		protected override void DisposeAndNullControllersImpl()
 		{
 			alphaServer?.Dispose();
 			alphaServer = null;
