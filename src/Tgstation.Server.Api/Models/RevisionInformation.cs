@@ -18,6 +18,6 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The <see cref="CompileJob"/>s made from the <see cref="RevisionInformation"/>
 		/// </summary>
-		public ICollection<CompileJob>? CompileJobs { get; set; }
+		public ICollection<EntityId>? CompileJobs { get; set; }
 	}
 }
