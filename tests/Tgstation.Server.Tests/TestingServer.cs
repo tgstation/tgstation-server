@@ -72,7 +72,7 @@ namespace Tgstation.Server.Tests
 			var args = new List<string>()
 			{
 				String.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", true),
-				String.Format(CultureInfo.InvariantCulture, "Kestrel:EndPoints:Http:Url={0}", UrlString),
+				String.Format(CultureInfo.InvariantCulture, "General:ApiPort={0}", 5010),
 				String.Format(CultureInfo.InvariantCulture, "Database:DatabaseType={0}", DatabaseType),
 				String.Format(CultureInfo.InvariantCulture, "Database:ConnectionString={0}", connectionString),
 				String.Format(CultureInfo.InvariantCulture, "General:SetupWizardMode={0}", SetupWizardMode.Never),

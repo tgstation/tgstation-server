@@ -162,22 +162,9 @@ namespace Tgstation.Server.Client
 				var headersToUse = tokenRefresh ? tokenRefreshHeaders! : headers;
 				headersToUse.SetRequestHeaders(request.Headers, instanceId);
 
-				// This is meant to be a gate against token refresh operations
-				await semaphoreSlim.WaitAsync(cancellationToken).ConfigureAwait(false);
-				if(!tokenRefresh)
-					semaphoreSlim.Release();
+				await Task.WhenAll(requestLoggers.Select(x => x.LogRequest(request, cancellationToken))).ConfigureAwait(false);
 
-				try
-				{
-					await Task.WhenAll(requestLoggers.Select(x => x.LogRequest(request, cancellationToken))).ConfigureAwait(false);
-
-					response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
-				}
-				finally
-				{
-					if (tokenRefresh)
-						semaphoreSlim.Release();
-				}
+				response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
 			}
 
 			using (response)
@@ -214,14 +201,23 @@ namespace Tgstation.Server.Client
 			if (tokenRefreshHeaders == null)
 				return false;
 
+			var startingToken = headers.Token;
+			await semaphoreSlim.WaitAsync(cancellationToken).ConfigureAwait(false);
 			try
 			{
+				if (startingToken != headers.Token)
+					return true;
+
 				var token = await RunRequest<Token>(Routes.Root, new object(), HttpMethod.Post, null, true, cancellationToken);
 				headers = new ApiHeaders(headers.UserAgent!, token.Bearer!);
 			}
 			catch (ClientException)
 			{
 				return false;
+			}
+			finally
+			{
+				semaphoreSlim.Release();
 			}
 
 			return true;

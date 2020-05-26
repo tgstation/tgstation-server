@@ -133,6 +133,14 @@ namespace Tgstation.Server.Host.Core
 			swaggerGenOptions.DocumentFilter<SwaggerConfiguration>();
 			swaggerGenOptions.SchemaFilter<SwaggerConfiguration>();
 
+			swaggerGenOptions.CustomSchemaIds(type =>
+			{
+				if (type == typeof(Api.Models.Internal.User))
+					return "ShallowUser";
+
+				return type.Name;
+			});
+
 			swaggerGenOptions.AddSecurityDefinition(PasswordSecuritySchemeId, new OpenApiSecurityScheme
 			{
 				In = ParameterLocation.Header,
