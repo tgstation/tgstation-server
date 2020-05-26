@@ -16,6 +16,6 @@
 		/// <summary>
 		/// The <see cref="User"/> who created this <see cref="User"/>
 		/// </summary>
-		public User? CreatedBy { get; set; }
+		public Internal.User? CreatedBy { get; set; }
 	}
 }
