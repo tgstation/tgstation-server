@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Database.DatabaseContext.Save" name="Tgstation.Server.Host.Database.DatabaseContext.Save">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_user_controller.html#a3a26d7b7a1b8c8c8c0ade33893f24b09" title="Create am Api.Models.InstanceUser. " alt="" coords="284,5,521,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_user_controller.html#a3a26d7b7a1b8c8c8c0ade33893f24b09" title="Create an Api.Models.InstanceUser. " alt="" coords="284,5,521,47"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a38a75a3f14b37983b1e5a76f2186e0ad" title="Create a new chat bot model . " alt="" coords="284,71,521,112"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a99457477cad4b6adcedbba47d939f005" title="Create a Api.Models.User. " alt="" coords="284,136,521,177"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a8712ba6603139064d68520e16c076901" title="Create or attach an Api.Models.Instance. " alt="" coords="284,201,521,243"/>
