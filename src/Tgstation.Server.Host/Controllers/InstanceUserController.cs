@@ -49,7 +49,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Create am <see cref="Api.Models.InstanceUser"/>.
+		/// Create an <see cref="Api.Models.InstanceUser"/>.
 		/// </summary>
 		/// <param name="model">The <see cref="Api.Models.InstanceUser"/> to create.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
