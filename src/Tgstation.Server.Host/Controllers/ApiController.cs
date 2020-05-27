@@ -57,11 +57,6 @@ namespace Tgstation.Server.Host.Controllers
 		readonly bool requireHeaders;
 
 		/// <summary>
-		/// Logging identifier for requests.
-		/// </summary>
-		ulong requestId;
-
-		/// <summary>
 		/// Construct an <see cref="ApiController"/>
 		/// </summary>
 		/// <param name="databaseContext">The value of <see cref="DatabaseContext"/></param>
@@ -168,8 +163,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (ApiHeaders != null)
 				Logger.LogDebug(
-					"Request #{0} made by User ID {1}. Api version: {2}. User-Agent: {3}. Type: {4}. Route {5}{6} to Instance {7}",
-					++requestId,
+					"Request details: User ID {0}. Api version: {1}. User-Agent: {2}. Type: {3}. Route {4}{5} to Instance {6}",
 					AuthenticationContext?.User.Id.Value.ToString(CultureInfo.InvariantCulture),
 					ApiHeaders.ApiVersion.Semver(),
 					ApiHeaders.RawUserAgent,
@@ -186,11 +180,6 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				Logger.LogDebug("Request cancelled! Exception: {0}", e);
 				throw;
-			}
-			finally
-			{
-				if (ApiHeaders != null)
-					Logger.LogTrace("Request #{0} completed", requestId);
 			}
 		}
 		#pragma warning restore CA1506

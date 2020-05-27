@@ -357,6 +357,8 @@ namespace Tgstation.Server.Host.Core
 			// Final point where we wrap exceptions in a 500 (ErrorMessage) response
 			applicationBuilder.UseServerErrorHandling();
 
+			applicationBuilder.UseRequestCounting();
+
 			// 503 requests made while the application is starting
 			applicationBuilder.UseAsyncInitialization(async (cancellationToken) =>
 			{
