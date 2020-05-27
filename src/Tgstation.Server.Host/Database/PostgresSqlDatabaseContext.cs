@@ -37,9 +37,6 @@ namespace Tgstation.Server.Host.Database
 		/// <inheritdoc />
 		protected override void ValidateDatabaseType()
 		{
-			if (!Debugger.IsAttached)
-				throw new NotImplementedException("PostgresSQL implementation is not complete yet!");
-
 			if (DatabaseType != DatabaseType.PostgresSql)
 				throw new InvalidOperationException("Invalid DatabaseType for SqliteDatabaseContext!");
 		}
