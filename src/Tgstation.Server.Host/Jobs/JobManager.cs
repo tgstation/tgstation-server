@@ -186,7 +186,13 @@ namespace Tgstation.Server.Host.Jobs
 			await databaseContextFactory.UseContext(async databaseContext =>
 			{
 				// mark all jobs as cancelled
-				var badJobs = await databaseContext.Jobs.Where(y => !y.StoppedAt.HasValue).Select(y => y.Id).ToListAsync(cancellationToken).ConfigureAwait(false);
+				var badJobs = await databaseContext
+					.Jobs
+					.AsQueryable()
+					.Where(y => !y.StoppedAt.HasValue)
+					.Select(y => y.Id)
+					.ToListAsync(cancellationToken)
+					.ConfigureAwait(false);
 				if (badJobs.Count > 0)
 				{
 					logger.LogTrace("Cleaning {0} unfinished jobs...", badJobs.Count);

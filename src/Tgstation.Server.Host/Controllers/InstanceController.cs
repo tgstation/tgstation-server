@@ -174,18 +174,25 @@ namespace Tgstation.Server.Host.Controllers
 				var newCancellationToken = cts.Token;
 				try
 				{
-					await DatabaseContext.Instances.ForEachAsync(
-						otherInstance =>
+					await DatabaseContext
+						.Instances
+						.AsQueryable()
+						.Select(x => new Models.Instance
 						{
-							if (++countOfOtherInstances >= generalConfiguration.InstanceLimit)
-								earlyOut ??= Conflict(new ErrorMessage(ErrorCode.InstanceLimitReached));
-							else if (InstanceIsChildOf(otherInstance.Path))
-								earlyOut ??= Conflict(new ErrorMessage(ErrorCode.InstanceAtConflictingPath));
+							Path = x.Path
+						})
+						.ForEachAsync(
+							otherInstance =>
+							{
+								if (++countOfOtherInstances >= generalConfiguration.InstanceLimit)
+									earlyOut ??= Conflict(new ErrorMessage(ErrorCode.InstanceLimitReached));
+								else if (InstanceIsChildOf(otherInstance.Path))
+									earlyOut ??= Conflict(new ErrorMessage(ErrorCode.InstanceAtConflictingPath));
 
-							if (earlyOut != null && !newCancellationToken.IsCancellationRequested)
-								cts.Cancel();
-						},
-						newCancellationToken)
+								if (earlyOut != null && !newCancellationToken.IsCancellationRequested)
+									cts.Cancel();
+							},
+							newCancellationToken)
 						.ConfigureAwait(false);
 				}
 				catch (OperationCanceledException)
@@ -312,7 +319,10 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(410)]
 		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
-			var originalModel = await DatabaseContext.Instances.Where(x => x.Id == id)
+			var originalModel = await DatabaseContext
+				.Instances
+				.AsQueryable()
+				.Where(x => x.Id == id)
 				.Include(x => x.WatchdogReattachInformation)
 				.Include(x => x.WatchdogReattachInformation.Alpha)
 				.Include(x => x.WatchdogReattachInformation.Bravo)
@@ -358,7 +368,10 @@ namespace Tgstation.Server.Host.Controllers
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
-			IQueryable<Models.Instance> InstanceQuery() => DatabaseContext.Instances.Where(x => x.Id == model.Id);
+			IQueryable<Models.Instance> InstanceQuery() => DatabaseContext
+				.Instances
+				.AsQueryable()
+				.Where(x => x.Id == model.Id);
 
 			var moveJob = await InstanceQuery()
 				.SelectMany(x => x.Jobs).
@@ -435,6 +448,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				var countOfExistingChatBots = await DatabaseContext
 					.ChatBots
+					.AsQueryable()
 					.Where(x => x.InstanceId == originalModel.Id)
 					.CountAsync(cancellationToken)
 					.ConfigureAwait(false);
@@ -582,7 +596,10 @@ namespace Tgstation.Server.Host.Controllers
 			var cantList = !AuthenticationContext.User.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List);
 			IQueryable<Models.Instance> QueryForUser()
 			{
-				var query = DatabaseContext.Instances.Where(x => x.Id == id);
+				var query = DatabaseContext
+					.Instances
+					.AsQueryable()
+					.Where(x => x.Id == id);
 
 				if (cantList)
 					query = query.Include(x => x.InstanceUsers);

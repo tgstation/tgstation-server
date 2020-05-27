@@ -506,6 +506,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 						ddSettings = await databaseContext
 							.DreamDaemonSettings
+							.AsQueryable()
 							.Where(x => x.InstanceId == metadata.Id)
 							.Select(x => new Models.DreamDaemonSettings
 							{
@@ -516,12 +517,18 @@ namespace Tgstation.Server.Host.Components.Deployment
 						if (ddSettings == default)
 							throw new JobException(ErrorCode.InstanceMissingDreamDaemonSettings);
 
-						dreamMakerSettings = await databaseContext.DreamMakerSettings.Where(x => x.InstanceId == metadata.Id).FirstAsync(cancellationToken).ConfigureAwait(false);
+						dreamMakerSettings = await databaseContext
+							.DreamMakerSettings
+							.AsQueryable()
+							.Where(x => x.InstanceId == metadata.Id)
+							.FirstAsync(cancellationToken)
+							.ConfigureAwait(false);
 						if (dreamMakerSettings == default)
 							throw new JobException(ErrorCode.InstanceMissingDreamMakerSettings);
 
 						repositorySettings = await databaseContext
 							.RepositorySettings
+							.AsQueryable()
 							.Where(x => x.InstanceId == metadata.Id)
 							.Select(x => new Models.RepositorySettings
 							{
@@ -550,6 +557,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 							var repoSha = repo.Head;
 							revInfo = await databaseContext
 								.RevisionInformations
+								.AsQueryable()
 								.Where(x => x.CommitSha == repoSha && x.Instance.Id == metadata.Id)
 								.Include(x => x.ActiveTestMerges)
 								.ThenInclude(x => x.TestMerge)
@@ -686,7 +694,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the average <see cref="TimeSpan"/> of the 10 previous deployments or <see langword="null"/> if there are none.</returns>
 		async Task<TimeSpan?> CalculateExpectedDeploymentTime(IDatabaseContext databaseContext, CancellationToken cancellationToken)
 		{
-			var previousCompileJobs = await databaseContext.CompileJobs
+			var previousCompileJobs = await databaseContext
+				.CompileJobs
+				.AsQueryable()
 				.Where(x => x.Job.Instance.Id == metadata.Id)
 				.OrderByDescending(x => x.Job.StoppedAt)
 				.Take(10)

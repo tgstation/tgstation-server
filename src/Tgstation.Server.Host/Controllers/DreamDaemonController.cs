@@ -109,7 +109,13 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (settings == null)
 			{
-				settings = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).Select(x => x.DreamDaemonSettings).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+				settings = await DatabaseContext
+					.Instances
+					.AsQueryable()
+					.Where(x => x.Id == Instance.Id)
+					.Select(x => x.DreamDaemonSettings)
+					.FirstOrDefaultAsync(cancellationToken)
+					.ConfigureAwait(false);
 				if (settings == default)
 					return StatusCode((int)HttpStatusCode.Gone);
 			}
@@ -191,7 +197,13 @@ namespace Tgstation.Server.Host.Controllers
 				return BadRequest(new ErrorMessage(ErrorCode.DreamDaemonDoubleSoft));
 
 			// alias for changing DD settings
-			var current = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).Select(x => x.DreamDaemonSettings).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var current = await DatabaseContext
+				.Instances
+				.AsQueryable()
+				.Where(x => x.Id == Instance.Id)
+				.Select(x => x.DreamDaemonSettings)
+				.FirstOrDefaultAsync(cancellationToken)
+				.ConfigureAwait(false);
 
 			if (current == default)
 				return StatusCode((int)HttpStatusCode.Gone);

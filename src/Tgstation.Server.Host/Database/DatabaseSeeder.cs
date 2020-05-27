@@ -76,7 +76,11 @@ namespace Tgstation.Server.Host.Database
 			if (platformIdentifier.IsWindows)
 			{
 				// normalize backslashes to forward slashes
-				var allInstances = await databaseContext.Instances.ToListAsync(cancellationToken).ConfigureAwait(false);
+				var allInstances = await databaseContext
+					.Instances
+					.AsQueryable()
+					.ToListAsync(cancellationToken)
+					.ConfigureAwait(false);
 				foreach (var instance in allInstances)
 					instance.Path = instance.Path.Replace('\\', '/');
 			}
@@ -107,6 +111,7 @@ namespace Tgstation.Server.Host.Database
 		{
 			var admin = await databaseContext
 				.Users
+				.AsQueryable()
 				.Where(x => x.CanonicalName == User.CanonicalizeName(Api.Models.User.AdminName))
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);
