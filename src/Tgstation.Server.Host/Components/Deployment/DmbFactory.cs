@@ -197,11 +197,17 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 			// ensure we have the entire compile job tree
 			logger.LogTrace("Loading compile job {0}...", compileJob.Id);
-			await databaseContextFactory.UseContext(async db => compileJob = await db.CompileJobs.Where(x => x.Id == compileJob.Id)
-				.Include(x => x.Job).ThenInclude(x => x.StartedBy)
-				.Include(x => x.RevisionInformation).ThenInclude(x => x.PrimaryTestMerge).ThenInclude(x => x.MergedBy)
-				.Include(x => x.RevisionInformation).ThenInclude(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).ThenInclude(x => x.MergedBy)
-				.FirstAsync(cancellationToken).ConfigureAwait(false)).ConfigureAwait(false); // can't wait to see that query
+			await databaseContextFactory.UseContext(
+				async db => compileJob = await db
+					.CompileJobs
+					.AsQueryable()
+					.Where(x => x.Id == compileJob.Id)
+					.Include(x => x.Job).ThenInclude(x => x.StartedBy)
+					.Include(x => x.RevisionInformation).ThenInclude(x => x.PrimaryTestMerge).ThenInclude(x => x.MergedBy)
+					.Include(x => x.RevisionInformation).ThenInclude(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).ThenInclude(x => x.MergedBy)
+					.FirstAsync(cancellationToken)
+					.ConfigureAwait(false))
+				.ConfigureAwait(false); // can't wait to see that query
 
 			if (!compileJob.Job.StoppedAt.HasValue)
 			{
@@ -269,8 +275,12 @@ namespace Tgstation.Server.Host.Components.Deployment
 			// find the uids of locked directories
 			await databaseContextFactory.UseContext(async db =>
 			{
-				jobUidsToNotErase = (await db.CompileJobs.Where(
-					x => x.Job.Instance.Id == instance.Id && jobIdsToSkip.Contains(x.Id))
+				jobUidsToNotErase = (await db
+					.CompileJobs
+					.AsQueryable()
+					.Where(
+						x => x.Job.Instance.Id == instance.Id
+						&& jobIdsToSkip.Contains(x.Id))
 					.Select(x => x.DirectoryName.Value)
 					.ToListAsync(cancellationToken)
 					.ConfigureAwait(false))

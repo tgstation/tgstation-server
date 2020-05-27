@@ -49,7 +49,13 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(IEnumerable<Api.Models.Job>), 200)]
 		public async Task<IActionResult> Read(CancellationToken cancellationToken)
 		{
-			var result = await DatabaseContext.Jobs.Where(x => x.Instance.Id == Instance.Id && !x.StoppedAt.HasValue).OrderByDescending(x => x.StartedAt).ToListAsync(cancellationToken).ConfigureAwait(false);
+			var result = await DatabaseContext
+				.Jobs
+				.AsQueryable()
+				.Where(x => x.Instance.Id == Instance.Id && !x.StoppedAt.HasValue)
+				.OrderByDescending(x => x.StartedAt)
+				.ToListAsync(cancellationToken)
+				.ConfigureAwait(false);
 			return Json(result.Select(x => x.ToApi()));
 		}
 
@@ -65,10 +71,17 @@ namespace Tgstation.Server.Host.Controllers
 		public async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
 			// you KNOW this will need pagination eventually right?
-			var jobs = await DatabaseContext.Jobs.Where(x => x.Instance.Id == Instance.Id).OrderByDescending(x => x.StartedAt).Select(x => new Api.Models.EntityId
-			{
-				Id = x.Id
-			}).ToListAsync(cancellationToken).ConfigureAwait(false);
+			var jobs = await DatabaseContext
+				.Jobs
+				.AsQueryable()
+				.Where(x => x.Instance.Id == Instance.Id)
+				.OrderByDescending(x => x.StartedAt)
+				.Select(x => new Api.Models.EntityId
+				{
+					Id = x.Id
+				})
+				.ToListAsync(cancellationToken)
+				.ConfigureAwait(false);
 			return Json(jobs);
 		}
 
@@ -89,7 +102,12 @@ namespace Tgstation.Server.Host.Controllers
 		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
 			// don't care if an instance post or not at this point
-			var job = await DatabaseContext.Jobs.Where(x => x.Id == id && x.Instance.Id == Instance.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var job = await DatabaseContext
+				.Jobs
+				.AsQueryable()
+				.Where(x => x.Id == id && x.Instance.Id == Instance.Id)
+				.FirstOrDefaultAsync(cancellationToken)
+				.ConfigureAwait(false);
 			if (job == default(Job))
 				return NotFound();
 
@@ -119,6 +137,7 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			var job = await DatabaseContext
 				.Jobs
+				.AsQueryable()
 				.Where(x => x.Id == id && x.Instance.Id == Instance.Id)
 				.Include(x => x.StartedBy)
 				.FirstOrDefaultAsync(cancellationToken)

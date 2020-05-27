@@ -80,6 +80,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var countOfExistingBotsInInstance = await DatabaseContext
 				.ChatBots
+				.AsQueryable()
 				.Where(x => x.InstanceId == Instance.Id)
 				.CountAsync(cancellationToken)
 				.ConfigureAwait(false);
@@ -140,7 +141,14 @@ namespace Tgstation.Server.Host.Controllers
 		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
 			var instance = instanceManager.GetInstance(Instance);
-			await Task.WhenAll(instance.Chat.DeleteConnection(id, cancellationToken), DatabaseContext.ChatBots.Where(x => x.Id == id).DeleteAsync(cancellationToken)).ConfigureAwait(false);
+			await Task.WhenAll(
+				instance.Chat.DeleteConnection(id, cancellationToken),
+				DatabaseContext
+					.ChatBots
+					.AsQueryable()
+					.Where(x => x.Id == id)
+					.DeleteAsync(cancellationToken))
+				.ConfigureAwait(false);
 
 			return Ok();
 		}
@@ -156,7 +164,11 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(IEnumerable<Api.Models.ChatBot>), 200)]
 		public async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
-			var query = DatabaseContext.ChatBots.Where(x => x.InstanceId == Instance.Id).Include(x => x.Channels);
+			var query = DatabaseContext
+				.ChatBots
+				.AsQueryable()
+				.Where(x => x.InstanceId == Instance.Id)
+				.Include(x => x.Channels);
 
 			var results = await query.ToListAsync(cancellationToken).ConfigureAwait(false);
 
@@ -183,7 +195,10 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(410)]
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
-			var query = DatabaseContext.ChatBots.Where(x => x.Id == id).Include(x => x.Channels);
+			var query = DatabaseContext.ChatBots
+				.AsQueryable()
+				.Where(x => x.Id == id)
+				.Include(x => x.Channels);
 
 			var results = await query.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (results == default)
@@ -221,7 +236,11 @@ namespace Tgstation.Server.Host.Controllers
 			if (earlyOut != null)
 				return earlyOut;
 
-			var query = DatabaseContext.ChatBots.Where(x => x.InstanceId == Instance.Id && x.Id == model.Id).Include(x => x.Channels);
+			var query = DatabaseContext
+				.ChatBots
+				.AsQueryable()
+				.Where(x => x.InstanceId == Instance.Id && x.Id == model.Id)
+				.Include(x => x.Channels);
 
 			var current = await query.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
