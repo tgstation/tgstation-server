@@ -196,12 +196,12 @@ namespace Tgstation.Server.Host.Controllers
 			using (systemIdentity)
 			{
 				// Get the user from the database
-				IQueryable<User> query;
+				IQueryable<User> query = DatabaseContext.Users.AsQueryable();
 				string canonicalName = Models.User.CanonicalizeName(ApiHeaders.Username);
 				if (systemIdentity == null)
-					query = DatabaseContext.Users.Where(x => x.CanonicalName == canonicalName);
+					query = query.Where(x => x.CanonicalName == canonicalName);
 				else
-					query = DatabaseContext.Users.Where(x => x.CanonicalName == canonicalName || x.SystemIdentifier == systemIdentity.Uid);
+					query = query.Where(x => x.CanonicalName == canonicalName || x.SystemIdentifier == systemIdentity.Uid);
 				var users = await query.Select(x => new User
 				{
 					Id = x.Id,

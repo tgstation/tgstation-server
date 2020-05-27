@@ -156,7 +156,12 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.AccessUser == null ^ model.AccessToken == null)
 				return BadRequest(ErrorCode.RepoMismatchUserAndAccessToken);
 
-			var currentModel = await DatabaseContext.RepositorySettings.Where(x => x.InstanceId == Instance.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var currentModel = await DatabaseContext
+				.RepositorySettings
+				.AsQueryable()
+				.Where(x => x.InstanceId == Instance.Id)
+				.FirstOrDefaultAsync(cancellationToken)
+				.ConfigureAwait(false);
 
 			if (currentModel == default)
 				return StatusCode((int)HttpStatusCode.Gone);
@@ -236,7 +241,12 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(410)]
 		public async Task<IActionResult> Delete(CancellationToken cancellationToken)
 		{
-			var currentModel = await DatabaseContext.RepositorySettings.Where(x => x.InstanceId == Instance.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var currentModel = await DatabaseContext
+				.RepositorySettings
+				.AsQueryable()
+				.Where(x => x.InstanceId == Instance.Id)
+				.FirstOrDefaultAsync(cancellationToken)
+				.ConfigureAwait(false);
 
 			if (currentModel == default)
 				return StatusCode((int)HttpStatusCode.Gone);
@@ -275,7 +285,12 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(410)]
 		public async Task<IActionResult> Read(CancellationToken cancellationToken)
 		{
-			var currentModel = await DatabaseContext.RepositorySettings.Where(x => x.InstanceId == Instance.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var currentModel = await DatabaseContext
+				.RepositorySettings
+				.AsQueryable()
+				.Where(x => x.InstanceId == Instance.Id)
+				.FirstOrDefaultAsync(cancellationToken)
+				.ConfigureAwait(false);
 
 			if (currentModel == default)
 				return StatusCode((int)HttpStatusCode.Gone, new ErrorMessage(ErrorCode.RepoMissing));
@@ -346,6 +361,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var currentModel = await DatabaseContext
 				.RepositorySettings
+				.AsQueryable()
 				.Where(x => x.InstanceId == Instance.Id)
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);
@@ -654,6 +670,7 @@ namespace Tgstation.Server.Host.Controllers
 								await databaseContextFactory.UseContext(
 									async databaseContext =>
 										dbPull = await databaseContext.RevisionInformations
+											.AsQueryable()
 											.Where(x => x.Instance.Id == Instance.Id
 											&& x.OriginCommitSha == lastRevisionInfo.OriginCommitSha
 											&& x.ActiveTestMerges.Count <= model.NewTestMerges.Count

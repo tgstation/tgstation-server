@@ -41,7 +41,7 @@ namespace Tgstation.Server.Host.Database
 				throw new NotImplementedException("PostgresSQL implementation is not complete yet!");
 
 			if (DatabaseType != DatabaseType.PostgresSql)
-				throw new InvalidOperationException("Invalid DatabaseType for SqliteDatabaseContext!");
+				throw new InvalidOperationException("Invalid DatabaseType for PostgresSqlDatabaseContext!");
 		}
 	}
 }

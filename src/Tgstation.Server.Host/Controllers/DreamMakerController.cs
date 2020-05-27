@@ -61,7 +61,12 @@ namespace Tgstation.Server.Host.Controllers
 		public async Task<IActionResult> Read(CancellationToken cancellationToken)
 		{
 			var instance = instanceManager.GetInstance(Instance);
-			var dreamMakerSettings = await DatabaseContext.DreamMakerSettings.Where(x => x.InstanceId == Instance.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var dreamMakerSettings = await DatabaseContext
+				.DreamMakerSettings
+				.AsQueryable()
+				.Where(x => x.InstanceId == Instance.Id)
+				.FirstOrDefaultAsync(cancellationToken)
+				.ConfigureAwait(false);
 			return Json(dreamMakerSettings.ToApi());
 		}
 
@@ -79,7 +84,9 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(404)]
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
-			var compileJob = await DatabaseContext.CompileJobs
+			var compileJob = await DatabaseContext
+				.CompileJobs
+				.AsQueryable()
 				.Where(x => x.Id == id && x.Job.Instance.Id == Instance.Id)
 				.Include(x => x.Job).ThenInclude(x => x.StartedBy)
 				.Include(x => x.RevisionInformation).ThenInclude(x => x.PrimaryTestMerge).ThenInclude(x => x.MergedBy)
@@ -101,10 +108,17 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(List<EntityId>), 200)]
 		public async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
-			var compileJobs = await DatabaseContext.CompileJobs.Where(x => x.Job.Instance.Id == Instance.Id).OrderByDescending(x => x.Job.StoppedAt).Select(x => new EntityId
-			{
-				Id = x.Id
-			}).ToListAsync(cancellationToken).ConfigureAwait(false);
+			var compileJobs = await DatabaseContext
+				.CompileJobs
+				.AsQueryable()
+				.Where(x => x.Job.Instance.Id == Instance.Id)
+				.OrderByDescending(x => x.Job.StoppedAt)
+				.Select(x => new EntityId
+				{
+					Id = x.Id
+				})
+				.ToListAsync(cancellationToken)
+				.ConfigureAwait(false);
 			return Json(compileJobs);
 		}
 
@@ -159,7 +173,12 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.ApiValidationPort == 0)
 				throw new InvalidOperationException("ApiValidationPort cannot be 0!");
 
-			var hostModel = await DatabaseContext.DreamMakerSettings.Where(x => x.InstanceId == Instance.Id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var hostModel = await DatabaseContext
+				.DreamMakerSettings
+				.AsQueryable()
+				.Where(x => x.InstanceId == Instance.Id)
+				.FirstOrDefaultAsync(cancellationToken)
+				.ConfigureAwait(false);
 			if (hostModel == null)
 				return StatusCode((int)HttpStatusCode.Gone);
 

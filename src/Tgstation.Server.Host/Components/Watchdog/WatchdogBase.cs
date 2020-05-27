@@ -857,6 +857,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			await databaseContextFactory.UseContext(
 				async db => adminUserId = await db
 					.Users
+					.AsQueryable()
 					.Where(x => x.CanonicalName == Models.User.CanonicalizeName(Api.Models.User.AdminName))
 					.Select(x => x.Id)
 					.FirstAsync(cancellationToken)

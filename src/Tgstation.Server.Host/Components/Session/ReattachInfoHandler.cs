@@ -56,7 +56,11 @@ namespace Tgstation.Server.Host.Components.Session
 
 			logger.LogDebug("Saving reattach information: {0}...", reattachInformation);
 
-			var deleteTask = db.WatchdogReattachInformations.Where(x => x.InstanceId == metadata.Id).DeleteAsync(cancellationToken);
+			var deleteTask = db
+				.WatchdogReattachInformations
+				.AsQueryable()
+				.Where(x => x.InstanceId == metadata.Id)
+				.DeleteAsync(cancellationToken);
 
 			Models.ReattachInformation ConvertReattachInfo(ReattachInformation wdInfo)
 			{
@@ -93,7 +97,9 @@ namespace Tgstation.Server.Host.Components.Session
 			Models.DualReattachInformation result = null;
 			await databaseContextFactory.UseContext(async (db) =>
 			{
-				var instance = await db.Instances.Where(x => x.Id == metadata.Id)
+				var instance = await db.Instances
+					.AsQueryable()
+					.Where(x => x.Id == metadata.Id)
 					.Include(x => x.WatchdogReattachInformation).ThenInclude(x => x.Alpha).ThenInclude(x => x.CompileJob)
 					.Include(x => x.WatchdogReattachInformation).ThenInclude(x => x.Bravo).ThenInclude(x => x.CompileJob)
 					.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);

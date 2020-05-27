@@ -162,6 +162,7 @@ namespace Tgstation.Server.Host.Components
 						await databaseContextFactory.UseContext(
 							async (db) => user = await db
 								.Users
+								.AsQueryable()
 								.Where(x => x.CanonicalName == User.CanonicalizeName(Api.Models.User.AdminName))
 								.FirstAsync(cancellationToken)
 								.ConfigureAwait(false))
@@ -189,7 +190,11 @@ namespace Tgstation.Server.Host.Components
 							await databaseContextFactory.UseContext(
 								async databaseContext =>
 								{
-									var repositorySettingsTask = databaseContext.RepositorySettings.Where(x => x.InstanceId == metadata.Id).FirstAsync(jobCancellationToken);
+									var repositorySettingsTask = databaseContext
+										.RepositorySettings
+										.AsQueryable()
+										.Where(x => x.InstanceId == metadata.Id)
+										.FirstAsync(jobCancellationToken);
 
 									const int NumSteps = 3;
 									var doneSteps = 0;
@@ -225,6 +230,7 @@ namespace Tgstation.Server.Host.Components
 									bool hasDbChanges = false;
 
 									Task<RevisionInformation> LoadRevInfo() => databaseContext.RevisionInformations
+											.AsQueryable()
 											.Where(x => x.CommitSha == startSha && x.Instance.Id == metadata.Id)
 											.Include(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge)
 											.FirstOrDefaultAsync(cancellationToken);
@@ -294,6 +300,7 @@ namespace Tgstation.Server.Host.Components
 										var currentHead = repo.Head;
 
 										currentRevInfo = await databaseContext.RevisionInformations
+										.AsQueryable()
 										.Where(x => x.CommitSha == currentHead && x.Instance.Id == metadata.Id)
 										.FirstOrDefaultAsync(jobCancellationToken).ConfigureAwait(false);
 

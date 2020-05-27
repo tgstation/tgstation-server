@@ -30,6 +30,7 @@ namespace Tgstation.Server.Host.Extensions
 
 			return databaseContext
 				.CompileJobs
+				.AsQueryable()
 				.Where(x => x.Job.Instance.Id == instance.Id)
 				.OrderByDescending(x => x.Job.StoppedAt)
 				.FirstOrDefaultAsync(cancellationToken);
