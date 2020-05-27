@@ -12,9 +12,9 @@
 	world.TgsInitializationComplete()
 
 /world/Topic(T, Addr, Master, Keys)
-	world.log << "Topic: [T]"
+	log << "Topic: [T]"
 	. =  HandleTopic(T)
-	world.log << "Response: [.]"
+	log << "Response: [.]"
 
 /world/proc/HandleTopic(T)
 	TGS_TOPIC
@@ -40,6 +40,10 @@
 	set waitfor = FALSE
 
 	world.TgsChatBroadcast("Recieved event: [json_encode(args)]")
+
+/world/Export(url)
+	log << "Export: [url]"
+	return ..()
 
 /proc/RebootAsync()
 	set waitfor = FALSE

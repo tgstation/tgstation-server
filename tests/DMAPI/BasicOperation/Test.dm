@@ -25,6 +25,10 @@
 
 	world.log << "You really shouldn't be able to read this"
 
+/world/Export(url)
+	log << "Export: [url]"
+	return ..()
+
 /world/Topic(T, Addr, Master, Keys)
 	world.log << "Topic: [T]"
 	. =  HandleTopic(T)
