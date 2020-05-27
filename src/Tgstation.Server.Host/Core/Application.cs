@@ -202,7 +202,7 @@ namespace Tgstation.Server.Host.Core
 			// CORS conditionally enabled later
 			services.AddCors();
 
-			void AddTypedContext<TContext>() where TContext : DatabaseContext<TContext>
+			void AddTypedContext<TContext>() where TContext : DatabaseContext
 			{
 				services.AddDbContext<TContext>(builder =>
 				{
