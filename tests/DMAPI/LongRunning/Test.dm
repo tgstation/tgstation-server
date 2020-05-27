@@ -49,5 +49,7 @@
 	set waitfor = FALSE
 	world.sleep_offline = FALSE
 	world.TgsChatBroadcast("Rebooting after 3 seconds");
+	world.log << "About to sleep. sleep_offline: [world.sleep_offline]"
 	sleep(30)
+	world.log << "Done sleep, calling Reboot"
 	world.Reboot()
