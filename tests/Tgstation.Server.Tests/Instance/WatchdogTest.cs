@@ -29,6 +29,7 @@ namespace Tgstation.Server.Tests.Instance
 
 		public async Task Run(CancellationToken cancellationToken)
 		{
+			global::System.Console.WriteLine("TEST: START WATCHDOG TESTS");
 			// Increase startup timeout, disable heartbeats
 			await instanceClient.DreamDaemon.Update(new DreamDaemon
 			{
@@ -46,17 +47,18 @@ namespace Tgstation.Server.Tests.Instance
 
 			// await RunLongRunningTestThenUpdate(cancellationToken);
 			// await RunLongRunningTestThenUpdateWithByondVersionSwitch(cancellationToken);
-
 			// Remove this deploy when the above tests are reenabled
 			await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, cancellationToken);
 
 			await RunHeartbeatTest(cancellationToken);
 
 			await StartAndLeaveRunning(cancellationToken);
+			global::System.Console.WriteLine("TEST: END WATCHDOG TESTS");
 		}
 
 		async Task RunBasicTest(CancellationToken cancellationToken)
 		{
+			global::System.Console.WriteLine("TEST: WATCHDOG BASIC TEST");
 			var daemonStatus = await DeployTestDme("BasicOperation/basic_operation_test", DreamDaemonSecurity.Ultrasafe, cancellationToken);
 
 			Assert.IsFalse(daemonStatus.Running.Value);
@@ -84,6 +86,7 @@ namespace Tgstation.Server.Tests.Instance
 
 		async Task RunHeartbeatTest(CancellationToken cancellationToken)
 		{
+			global::System.Console.WriteLine("TEST: WATCHDOG HEARTBEAT TEST");
 			// enable heartbeats
 			await instanceClient.DreamDaemon.Update(new DreamDaemon
 			{
@@ -144,6 +147,7 @@ namespace Tgstation.Server.Tests.Instance
 
 		async Task RunLongRunningTestThenUpdate(CancellationToken cancellationToken)
 		{
+			global::System.Console.WriteLine("TEST: WATCHDOG LONG RUNNING TEST");
 			const string DmeName = "LongRunning/long_running_test";
 
 			var daemonStatus = await DeployTestDme(DmeName, DreamDaemonSecurity.Trusted, cancellationToken);
@@ -184,6 +188,7 @@ namespace Tgstation.Server.Tests.Instance
 
 		async Task RunLongRunningTestThenUpdateWithByondVersionSwitch(CancellationToken cancellationToken)
 		{
+			global::System.Console.WriteLine("TEST: WATCHDOG BYOND VERSION UPDATE TEST");
 			var versionToInstall = new Version(511, 1384, 0);
 			var byondInstallJobTask = instanceClient.Byond.SetActiveVersion(
 				new Api.Models.Byond
@@ -232,6 +237,7 @@ namespace Tgstation.Server.Tests.Instance
 
 		public async Task StartAndLeaveRunning(CancellationToken cancellationToken)
 		{
+			global::System.Console.WriteLine("TEST: WATCHDOG ENDLESS TEST");
 			var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 			if(dd.ActiveCompileJob == null)
 				await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, cancellationToken);
@@ -253,17 +259,15 @@ namespace Tgstation.Server.Tests.Instance
 
 			try
 			{
+				global::System.Console.WriteLine("TEST: Sending world reboot topic...");
 				var result = await bts.SendTopic(IPAddress.Loopback, "tgs_integration_test_special_tactics=1", 1337, cancellationToken);
 				Assert.AreEqual("ack", result.StringData);
 
-				await Task.Delay(7000, cancellationToken);
+				await Task.Delay(10000, cancellationToken);
 			}
 			catch (OperationCanceledException)
 			{
 				throw;
-			}
-			catch
-			{
 			}
 		}
 

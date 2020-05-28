@@ -113,6 +113,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IRestartRegistration restartRegistration;
 
 		/// <summary>
+		/// <see langword="lock"/> <see cref="object"/> used for <see cref="DisposeAndNullControllers"/>.
+		/// </summary>
+		readonly object controllerDisposeLock;
+
+		/// <summary>
 		/// If the <see cref="WatchdogBase"/> should <see cref="LaunchImplNoLock(bool, bool, DualReattachInformation, CancellationToken)"/> in <see cref="StartAsync(CancellationToken)"/>
 		/// </summary>
 		readonly bool autoStart;
@@ -201,6 +206,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			ActiveLaunchParameters = initialLaunchParameters;
 			releaseServers = false;
 			ActiveParametersUpdated = new TaskCompletionSource<object>();
+			controllerDisposeLock = new object();
 
 			restartRegistration = serverControl.RegisterForRestart(this);
 			try
@@ -463,7 +469,16 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// Call <see cref="IDisposable.Dispose"/> and null the fields for all <see cref="ISessionController"/>s and set <see cref="Running"/> to <see langword="false"/>.
 		/// </summary>
-		protected abstract void DisposeAndNullControllers();
+		protected abstract void DisposeAndNullControllersImpl();
+
+		/// <summary>
+		/// Wrapper for <see cref="DisposeAndNullControllersImpl"/> under a locked context.
+		/// </summary>
+		protected void DisposeAndNullControllers()
+		{
+			lock (controllerDisposeLock)
+				DisposeAndNullControllersImpl();
+		}
 
 		/// <summary>
 		/// Get the active <see cref="ISessionController"/>.

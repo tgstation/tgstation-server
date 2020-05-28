@@ -18,95 +18,94 @@ namespace Tgstation.Server.Host.Database
 	/// <summary>
 	/// Backend abstract implementation of <see cref="IDatabaseContext"/>
 	/// </summary>
-	/// <typeparam name="TParentContext">The child <see cref="Type"/> used to implement a backend.</typeparam>
 #pragma warning disable CA1506 // TODO: Decomplexify
-	abstract class DatabaseContext<TParentContext> : DbContext, IDatabaseContext where TParentContext : DbContext
+	abstract class DatabaseContext : DbContext, IDatabaseContext
 	{
 		/// <inheritdoc />
 		public DatabaseType DatabaseType => DatabaseConfiguration.DatabaseType;
 
 		/// <summary>
-		/// The <see cref="User"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// The <see cref="User"/>s in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<User> Users { get; set; }
 
 		/// <summary>
-		/// The <see cref="Instance"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// The <see cref="Instance"/>s in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<Instance> Instances { get; set; }
 
 		/// <summary>
-		/// The <see cref="CompileJob"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// The <see cref="CompileJob"/>s in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<CompileJob> CompileJobs { get; set; }
 
 		/// <summary>
-		/// The <see cref="RevisionInformation"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// The <see cref="RevisionInformation"/>s in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<RevisionInformation> RevisionInformations { get; set; }
 
 		/// <summary>
-		/// The <see cref="Models.DreamMakerSettings"/> in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// The <see cref="Models.DreamMakerSettings"/> in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<DreamMakerSettings> DreamMakerSettings { get; set; }
 
 		/// <summary>
-		/// The <see cref="ChatBot"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// The <see cref="ChatBot"/>s in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<ChatBot> ChatBots { get; set; }
 
 		/// <summary>
-		/// The <see cref="Models.DreamDaemonSettings"/> in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// The <see cref="Models.DreamDaemonSettings"/> in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<DreamDaemonSettings> DreamDaemonSettings { get; set; }
 
 		/// <summary>
-		/// The <see cref="Models.RepositorySettings"/> in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// The <see cref="Models.RepositorySettings"/> in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<RepositorySettings> RepositorySettings { get; set; }
 
 		/// <summary>
-		/// The <see cref="InstanceUser"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// The <see cref="InstanceUser"/>s in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<InstanceUser> InstanceUsers { get; set; }
 
 		/// <summary>
-		/// The <see cref="ChatChannel"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// The <see cref="ChatChannel"/>s in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<ChatChannel> ChatChannels { get; set; }
 
 		/// <summary>
-		/// The <see cref="Job"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// The <see cref="Job"/>s in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<Job> Jobs { get; set; }
 
 		/// <summary>
-		/// The <see cref="ReattachInformation"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// The <see cref="ReattachInformation"/>s in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<ReattachInformation> ReattachInformations { get; set; }
 
 		/// <summary>
-		/// The <see cref="DualReattachInformation"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// The <see cref="DualReattachInformation"/>s in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<DualReattachInformation> WatchdogReattachInformations { get; set; }
 
 		/// <summary>
-		/// The <see cref="TestMerge"/>s in the <see cref="DatabaseContext{TParentContext}"/>
+		/// The <see cref="TestMerge"/>s in the <see cref="DatabaseContext"/>
 		/// </summary>
 		public DbSet<TestMerge> TestMerges { get; set; }
 
 		/// <summary>
-		/// The <see cref="RevInfoTestMerge"/>s om the <see cref="DatabaseContext{TParentContext}"/>
+		/// The <see cref="RevInfoTestMerge"/>s om the <see cref="DatabaseContext"/>
 		/// </summary>
 		public DbSet<RevInfoTestMerge> RevInfoTestMerges { get; set; }
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="DatabaseContext{TParentContext}"/>
+		/// The <see cref="ILogger"/> for the <see cref="DatabaseContext"/>
 		/// </summary>
 		protected ILogger Logger { get; }
 
 		/// <summary>
-		/// The <see cref="DatabaseConfiguration"/> for the <see cref="DatabaseContext{TParentContext}"/>
+		/// The <see cref="DatabaseConfiguration"/> for the <see cref="DatabaseContext"/>
 		/// </summary>
 		protected DatabaseConfiguration DatabaseConfiguration { get; }
 
@@ -150,7 +149,7 @@ namespace Tgstation.Server.Host.Database
 		IDatabaseCollection<DualReattachInformation> IDatabaseContext.WatchdogReattachInformations => watchdogReattachInformationsCollection;
 
 		/// <summary>
-		/// The <see cref="IDatabaseSeeder"/> for the <see cref="DatabaseContext{TParentContext}"/>
+		/// The <see cref="IDatabaseSeeder"/> for the <see cref="DatabaseContext"/>
 		/// </summary>
 		readonly IDatabaseSeeder databaseSeeder;
 
@@ -220,13 +219,13 @@ namespace Tgstation.Server.Host.Database
 		readonly IDatabaseCollection<DualReattachInformation> watchdogReattachInformationsCollection;
 
 		/// <summary>
-		/// Construct a <see cref="DatabaseContext{TParentContext}"/>
+		/// Construct a <see cref="DatabaseContext"/>
 		/// </summary>
-		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TParentContext}"/> for the <see cref="DatabaseContext{TParentContext}"/></param>
+		/// <param name="dbContextOptions">The <see cref="DbContextOptions"/> for the <see cref="DatabaseContext"/>.</param>
 		/// <param name="databaseConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="DatabaseConfiguration"/></param>
 		/// <param name="databaseSeeder">The value of <see cref="databaseSeeder"/></param>
 		/// <param name="logger">The value of <see cref="Logger"/></param>
-		public DatabaseContext(DbContextOptions<TParentContext> dbContextOptions, IOptions<DatabaseConfiguration> databaseConfigurationOptions, IDatabaseSeeder databaseSeeder, ILogger logger) : base(dbContextOptions)
+		public DatabaseContext(DbContextOptions dbContextOptions, IOptions<DatabaseConfiguration> databaseConfigurationOptions, IDatabaseSeeder databaseSeeder, ILogger logger) : base(dbContextOptions)
 		{
 			DatabaseConfiguration = databaseConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(databaseConfigurationOptions));
 			this.databaseSeeder = databaseSeeder ?? throw new ArgumentNullException(nameof(databaseSeeder));
@@ -410,7 +409,7 @@ namespace Tgstation.Server.Host.Database
 		}
 
 		/// <summary>
-		/// Ensure the <see cref="DatabaseType"/> is correct for the <see cref="DatabaseContext{TParentContext}"/>.
+		/// Ensure the <see cref="DatabaseType"/> is correct for the <see cref="DatabaseContext"/>.
 		/// </summary>
 		protected abstract void ValidateDatabaseType();
 	}

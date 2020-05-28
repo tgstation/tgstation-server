@@ -202,7 +202,7 @@ namespace Tgstation.Server.Host.Core
 			// CORS conditionally enabled later
 			services.AddCors();
 
-			void AddTypedContext<TContext>() where TContext : DatabaseContext<TContext>
+			void AddTypedContext<TContext>() where TContext : DatabaseContext
 			{
 				services.AddDbContext<TContext>(builder =>
 				{
@@ -356,6 +356,8 @@ namespace Tgstation.Server.Host.Core
 			// setup the HTTP request pipeline
 			// Final point where we wrap exceptions in a 500 (ErrorMessage) response
 			applicationBuilder.UseServerErrorHandling();
+
+			applicationBuilder.UseRequestCounting();
 
 			// 503 requests made while the application is starting
 			applicationBuilder.UseAsyncInitialization(async (cancellationToken) =>

@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.Database.Design
 			using var loggerFactory = new LoggerFactory();
 			return new MySqlDatabaseContext(
 				new DbContextOptions<MySqlDatabaseContext>(),
-				DesignTimeDbContextFactoryHelpers.GetDbContextOptions(
+				DesignTimeDbContextFactoryHelpers.GetDatabaseConfiguration(
 					DatabaseType.MariaDB,
 					"Server=127.0.0.1;User Id=root;Password=fake;Database=TGS_Design"),
 				new DatabaseSeeder(

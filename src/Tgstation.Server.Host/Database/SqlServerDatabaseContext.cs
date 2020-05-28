@@ -7,17 +7,17 @@ using Tgstation.Server.Host.Configuration;
 namespace Tgstation.Server.Host.Database
 {
 	/// <summary>
-	/// <see cref="DatabaseContext{TParentContext}"/> for Sqlserver
+	/// <see cref="DatabaseContext"/> for Sqlserver
 	/// </summary>
-	sealed class SqlServerDatabaseContext : DatabaseContext<SqlServerDatabaseContext>
+	sealed class SqlServerDatabaseContext : DatabaseContext
 	{
 		/// <summary>
 		/// Construct a <see cref="SqlServerDatabaseContext"/>
 		/// </summary>
-		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TContext}"/> for the <see cref="DatabaseContext{TParentContext}"/></param>
-		/// <param name="databaseConfiguration">The <see cref="IOptions{TOptions}"/> of <see cref="DatabaseConfiguration"/> for the <see cref="DatabaseContext{TParentContext}"/></param>
-		/// <param name="databaseSeeder">The <see cref="IDatabaseSeeder"/> for the <see cref="DatabaseContext{TParentContext}"/></param>
-		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="DatabaseContext{TParentContext}"/></param>
+		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TContext}"/> for the <see cref="DatabaseContext"/></param>
+		/// <param name="databaseConfiguration">The <see cref="IOptions{TOptions}"/> of <see cref="DatabaseConfiguration"/> for the <see cref="DatabaseContext"/></param>
+		/// <param name="databaseSeeder">The <see cref="IDatabaseSeeder"/> for the <see cref="DatabaseContext"/></param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="DatabaseContext"/></param>
 		public SqlServerDatabaseContext(DbContextOptions<SqlServerDatabaseContext> dbContextOptions, IOptions<DatabaseConfiguration> databaseConfiguration, IDatabaseSeeder databaseSeeder, ILogger<SqlServerDatabaseContext> logger) : base(dbContextOptions, databaseConfiguration, databaseSeeder, logger)
 		{ }
 

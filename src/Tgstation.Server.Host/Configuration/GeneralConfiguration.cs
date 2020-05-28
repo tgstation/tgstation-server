@@ -42,7 +42,7 @@ namespace Tgstation.Server.Host.Configuration
 		/// <summary>
 		/// The default value for <see cref="RestartTimeout"/>
 		/// </summary>
-		const int DefaultRestartTimeout = 10000;
+		const int DefaultRestartTimeout = 60000;
 
 		/// <summary>
 		/// The port the TGS API listens on.

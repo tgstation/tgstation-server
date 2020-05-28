@@ -299,7 +299,10 @@ namespace Tgstation.Server.Host
 					{
 						await eventsTask.ConfigureAwait(false);
 					}
-					catch (OperationCanceledException) { }
+					catch (OperationCanceledException)
+					{
+						logger.LogError("Restart timeout hit! Existing DreamDaemon processes will be lost and must be killed manually before being restarted with TGS!");
+					}
 					catch (Exception e)
 					{
 						logger.LogError("Restart handlers error! Exception: {0}", e);

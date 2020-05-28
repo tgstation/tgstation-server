@@ -14,12 +14,12 @@ namespace Tgstation.Server.Host.Database
 	sealed class DatabaseSeeder : IDatabaseSeeder
 	{
 		/// <summary>
-		/// The <see cref="ICryptographySuite"/> for the <see cref="DatabaseContext{TParentContext}"/>
+		/// The <see cref="ICryptographySuite"/> for the <see cref="DatabaseSeeder"/>
 		/// </summary>
 		readonly ICryptographySuite cryptographySuite;
 
 		/// <summary>
-		/// The <see cref="IPlatformIdentifier"/> for the <see cref="DatabaseContext{TParentContext}"/>.
+		/// The <see cref="IPlatformIdentifier"/> for the <see cref="DatabaseSeeder"/>.
 		/// </summary>
 		readonly IPlatformIdentifier platformIdentifier;
 
