@@ -13,8 +13,7 @@
 /proc/Run()
 	sleep(60)
 	world.TgsChatBroadcast("World Initialized")
-	world.TgsInitializationComplete()
-	world.sleep_offline = FALSE
+	// world.TgsInitializationComplete()
 
 /world/Topic(T, Addr, Master, Keys)
 	log << "Topic: [T]"
@@ -24,31 +23,24 @@
 /world/proc/HandleTopic(T)
 	TGS_TOPIC
 
-	world.sleep_offline = FALSE
 	TgsChatBroadcast("Recieved non-tgs topic: [T]")
 
 	var/list/data = params2list(T)
 	var/special_tactics = data["tgs_integration_test_special_tactics"]
 	if(special_tactics)
-		world.sleep_offline = FALSE
 		RebootAsync()
-		world.sleep_offline = FALSE
 		return "ack"
 
-	world.sleep_offline = FALSE
 	TgsChatBroadcast("Not rebooting...")
 	return "feck"
 
 /world/Reboot(reason)
-	world.sleep_offline = FALSE
 	TgsChatBroadcast("World Rebooting")
-	world.sleep_offline = FALSE
 	TgsReboot()
 
 /datum/tgs_event_handler/impl/HandleEvent(event_code, ...)
 	set waitfor = FALSE
 
-	world.sleep_offline = FALSE
 	world.TgsChatBroadcast("Recieved event: [json_encode(args)]")
 
 /world/Export(url)
@@ -57,10 +49,8 @@
 
 /proc/RebootAsync()
 	set waitfor = FALSE
-	world.sleep_offline = FALSE
 	world.TgsChatBroadcast("Rebooting after 3 seconds");
 	world.log << "About to sleep. sleep_offline: [world.sleep_offline]"
-	world.sleep_offline = FALSE
 	sleep(30)
 	world.log << "Done sleep, calling Reboot"
 	world.Reboot()
