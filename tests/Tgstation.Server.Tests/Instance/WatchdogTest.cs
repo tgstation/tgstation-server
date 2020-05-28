@@ -45,8 +45,10 @@ namespace Tgstation.Server.Tests.Instance
 
 			await RunBasicTest(cancellationToken);
 
-			await RunLongRunningTestThenUpdate(cancellationToken);
-			await RunLongRunningTestThenUpdateWithByondVersionSwitch(cancellationToken);
+			// await RunLongRunningTestThenUpdate(cancellationToken);
+			// await RunLongRunningTestThenUpdateWithByondVersionSwitch(cancellationToken);
+			// Remove this deploy when the above tests are reenabled
+			await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, cancellationToken);
 
 			await RunHeartbeatTest(cancellationToken);
 
