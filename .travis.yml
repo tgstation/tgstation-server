@@ -103,6 +103,14 @@ jobs:
       services:
         - docker
     - env:
+      - DoxGeneration=true
+      name: "Dox Generation"
+      addons:
+        apt:
+          packages:
+            - doxygen
+            - graphviz
+    - env:
       - DoxGeneration=false
       - DockerBuild=false
       - DMAPI=true
@@ -118,14 +126,6 @@ jobs:
           packages:
             - libc6-i386
             - libstdc++6:i386
-    - env:
-      - DoxGeneration=true
-      name: "Dox Generation"
-      addons:
-        apt:
-          packages:
-            - doxygen
-            - graphviz
 
 install:
   - if [ $DoxGeneration = false ] && [ $DockerBuild = false ] && [ $DMAPI = true ]; then build/install_byond.sh; fi
