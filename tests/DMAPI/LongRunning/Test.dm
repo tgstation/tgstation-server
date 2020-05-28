@@ -30,9 +30,12 @@
 	var/list/data = params2list(T)
 	var/special_tactics = data["tgs_integration_test_special_tactics"]
 	if(special_tactics)
+		world.sleep_offline = FALSE
 		RebootAsync()
+		world.sleep_offline = FALSE
 		return "ack"
 
+	world.sleep_offline = FALSE
 	TgsChatBroadcast("Not rebooting...")
 	return "feck"
 
