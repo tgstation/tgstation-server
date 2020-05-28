@@ -260,9 +260,6 @@ namespace Tgstation.Server.Tests.Instance
 			{
 				throw;
 			}
-			catch
-			{
-			}
 		}
 
 		async Task<DreamDaemon> DeployTestDme(string dmeName, DreamDaemonSecurity deploymentSecurity, CancellationToken cancellationToken)

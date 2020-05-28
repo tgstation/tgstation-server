@@ -1,4 +1,5 @@
 /world/New()
+	log << "Initial value of sleep_offline: [sleep_offline]"
 	TgsNew(new /datum/tgs_event_handler/impl, TGS_SECURITY_ULTRASAFE)
 	StartAsync()
 

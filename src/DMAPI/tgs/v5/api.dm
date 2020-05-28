@@ -94,6 +94,8 @@
 	sleep(1)
 	if(world.sleep_offline == tgs4_secret_sleep_offline_sauce)	//if not someone changed it
 		world.sleep_offline = old_sleep_offline
+	else
+		TGS_WARNING_LOG("world.sleep_offline unexpectedly changed!")
 
 /datum/tgs_api/v5/proc/TopicResponse(error_message = null)
 	var/list/response = list()
