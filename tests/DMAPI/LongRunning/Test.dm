@@ -14,6 +14,7 @@
 	sleep(60)
 	world.TgsChatBroadcast("World Initialized")
 	world.TgsInitializationComplete()
+	world.sleep_offline = FALSE
 
 /world/Topic(T, Addr, Master, Keys)
 	log << "Topic: [T]"
@@ -38,11 +39,13 @@
 /world/Reboot(reason)
 	world.sleep_offline = FALSE
 	TgsChatBroadcast("World Rebooting")
+	world.sleep_offline = FALSE
 	TgsReboot()
 
 /datum/tgs_event_handler/impl/HandleEvent(event_code, ...)
 	set waitfor = FALSE
 
+	world.sleep_offline = FALSE
 	world.TgsChatBroadcast("Recieved event: [json_encode(args)]")
 
 /world/Export(url)
@@ -54,6 +57,7 @@
 	world.sleep_offline = FALSE
 	world.TgsChatBroadcast("Rebooting after 3 seconds");
 	world.log << "About to sleep. sleep_offline: [world.sleep_offline]"
+	world.sleep_offline = FALSE
 	sleep(30)
 	world.log << "Done sleep, calling Reboot"
 	world.Reboot()
