@@ -118,7 +118,7 @@ namespace Tgstation.Server.Tests
 			using var hardTimeoutCts = new CancellationTokenSource();
 			hardTimeoutCts.CancelAfter(new TimeSpan(0, 9, 45));
 			var hardTimeoutCancellationToken = hardTimeoutCts.Token;
-			hardTimeoutCancellationToken.Register(() => Console.WriteLine("TEST TIMEOUT HARD!"));
+			hardTimeoutCancellationToken.Register(() => Console.WriteLine($"[{DateTimeOffset.Now}] TEST TIMEOUT HARD!"));
 
 			using var softTimeoutCts = CancellationTokenSource.CreateLinkedTokenSource(hardTimeoutCancellationToken);
 			softTimeoutCts.CancelAfter(new TimeSpan(0, 9, 15));
@@ -127,7 +127,7 @@ namespace Tgstation.Server.Tests
 			softTimeoutCancellationToken.Register(() =>
 			{
 				if (!tooLateForSoftTimeout)
-					Console.WriteLine("TEST TIMEOUT SOFT!");
+					Console.WriteLine($"[{DateTimeOffset.Now}] TEST TIMEOUT SOFT!");
 			});
 
 			using var serverCts = CancellationTokenSource.CreateLinkedTokenSource(softTimeoutCancellationToken);
@@ -297,7 +297,7 @@ namespace Tgstation.Server.Tests
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"TEST ERROR: {ex.GetType()} in flight!");
+				Console.WriteLine($"[{DateTimeOffset.Now}] TEST ERROR: {ex}");
 				throw;
 			}
 			finally
