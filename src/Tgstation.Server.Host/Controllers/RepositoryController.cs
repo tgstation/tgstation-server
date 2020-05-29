@@ -184,7 +184,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (repoManager.CloneInProgress)
 				return Conflict(new ErrorMessage(ErrorCode.RepoCloning));
 
-			if(repoManager.InUse)
+			if (repoManager.InUse)
 				return Conflict(new ErrorMessage(ErrorCode.RepoBusy));
 
 			using var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(false);
@@ -329,8 +329,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(Repository), 200)]
 		[ProducesResponseType(typeof(Repository), 202)]
 		[ProducesResponseType(410)]
-		#pragma warning disable CA1502 // TODO: Decomplexify
-		#pragma warning disable CA1505
+		#pragma warning disable CA1502, CA1505 // TODO: Decomplexify
 		public async Task<IActionResult> Update([FromBody]Repository model, CancellationToken cancellationToken)
 		{
 			if (model == null)
@@ -735,6 +734,7 @@ namespace Tgstation.Server.Host.Controllers
 						if (revInfoWereLookingFor != null)
 						{
 							// goteem
+							Logger.LogDebug("Reusing existing SHA {0}...", revInfoWereLookingFor.CommitSha);
 							await repo.ResetToSha(revInfoWereLookingFor.CommitSha, NextProgressReporter(), cancellationToken).ConfigureAwait(false);
 							lastRevisionInfo = revInfoWereLookingFor;
 						}
@@ -841,7 +841,6 @@ namespace Tgstation.Server.Host.Controllers
 			api.ActiveJob = job.ToApi();
 			return Accepted(api);
 		}
-		#pragma warning restore CA1502
-		#pragma warning restore CA1505
+		#pragma warning restore CA1502, CA1505
 	}
 }
