@@ -13,6 +13,9 @@ namespace Tgstation.Server.Host.Database
 	/// </summary>
 	sealed class MySqlDatabaseContext : DatabaseContext
 	{
+		/// <inheritdoc />
+		protected override DeleteBehavior RevInfoCompileJobDeleteBehavior => DeleteBehavior.Cascade;
+
 		/// <summary>
 		/// Construct a <see cref="MySqlDatabaseContext"/>
 		/// </summary>

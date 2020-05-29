@@ -674,7 +674,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.HasOne("Tgstation.Server.Host.Models.RevisionInformation", "RevisionInformation")
 						.WithMany("CompileJobs")
 						.HasForeignKey("RevisionInformationId")
-						.OnDelete(DeleteBehavior.ClientNoAction)
+						.OnDelete(DeleteBehavior.Cascade)
 						.IsRequired();
 				});
 

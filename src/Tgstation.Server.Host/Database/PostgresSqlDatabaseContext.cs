@@ -11,6 +11,9 @@ namespace Tgstation.Server.Host.Database
 	/// </summary>
 	sealed class PostgresSqlDatabaseContext : DatabaseContext
 	{
+		/// <inheritdoc />
+		protected override DeleteBehavior RevInfoCompileJobDeleteBehavior => DeleteBehavior.Cascade;
+
 		/// <summary>
 		/// Construct a <see cref="SqlServerDatabaseContext"/>
 		/// </summary>
