@@ -325,7 +325,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The DMAPI never validated itself
 		/// </summary>
-		[Description("DreamDaemon exited without validating the DMAPI@")]
+		[Description("DreamDaemon exited without validating the DMAPI!")]
 		DreamMakerNeverValidated,
 
 		/// <summary>
