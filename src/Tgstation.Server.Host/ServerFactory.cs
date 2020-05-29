@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Setup;
@@ -58,8 +60,17 @@ namespace Tgstation.Server.Host
 			}
 
 			var hostBuilder = CreateDefaultBuilder()
-				.ConfigureWebHostDefaults(webHostBuilder =>
+				.ConfigureWebHost(webHostBuilder =>
 					webHostBuilder
+						.UseKestrel(kestrelOptions =>
+						{
+							var serverPortProvider = kestrelOptions.ApplicationServices.GetRequiredService<IServerPortProvider>();
+							kestrelOptions.ListenAnyIP(
+								serverPortProvider.HttpApiPort,
+								listenOptions => listenOptions.Protocols = HttpProtocols.Http1AndHttp2);
+						})
+						.UseIIS()
+						.UseIISIntegration()
 						.UseApplication(postSetupServices)
 						.SuppressStatusMessages(true)
 						.UseShutdownTimeout(TimeSpan.FromMinutes(1)));

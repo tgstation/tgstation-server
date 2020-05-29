@@ -192,7 +192,10 @@ namespace Tgstation.Server.Host.Controllers
 
 			var originalUser = passwordEditOnly
 				? AuthenticationContext.User
-				: await DatabaseContext.Users.Where(x => x.Id == model.Id)
+				: await DatabaseContext
+					.Users
+					.AsQueryable()
+					.Where(x => x.Id == model.Id)
 					.Include(x => x.CreatedBy)
 					.FirstOrDefaultAsync(cancellationToken)
 					.ConfigureAwait(false);
@@ -301,6 +304,7 @@ namespace Tgstation.Server.Host.Controllers
 				return Forbid();
 
 			var user = await DatabaseContext.Users
+				.AsQueryable()
 				.Where(x => x.Id == id)
 				.Include(x => x.CreatedBy)
 				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);

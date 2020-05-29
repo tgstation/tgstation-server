@@ -467,5 +467,55 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				Logger.LogWarning("Unable to send to channel: {0}", e);
 			}
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+
+		/// <inheritdoc />
+		public override async Task<Func<string, string, Task>> SendUpdateMessage(
+			Models.RevisionInformation revisionInformation,
+			Version byondVersion,
+			DateTimeOffset? estimatedCompletionTime,
+			string gitHubOwner,
+			string gitHubRepo,
+			ulong channelId,
+			bool localCommitPushed,
+			CancellationToken cancellationToken)
+		{
+			var commitInsert = revisionInformation.CommitSha.Substring(0, 7);
+			string remoteCommitInsert;
+			if (revisionInformation.CommitSha == revisionInformation.OriginCommitSha)
+			{
+				commitInsert = String.Format(CultureInfo.InvariantCulture, localCommitPushed ? "^{0}" : "{0}", commitInsert);
+				remoteCommitInsert = String.Empty;
+			}
+			else
+				remoteCommitInsert = String.Format(CultureInfo.InvariantCulture, ". Remote commit: ^{0}", revisionInformation.OriginCommitSha.Substring(0, 7));
+
+			var testmergeInsert = (revisionInformation.ActiveTestMerges?.Count ?? 0) == 0 ? String.Empty : String.Format(CultureInfo.InvariantCulture, " (Test Merges: {0})",
+				String.Join(", ", revisionInformation.ActiveTestMerges.Select(x => x.TestMerge).Select(x =>
+				{
+					var result = String.Format(CultureInfo.InvariantCulture, "#{0} at {1}", x.Number, x.PullRequestRevision.Substring(0, 7));
+					if (x.Comment != null)
+						result += String.Format(CultureInfo.InvariantCulture, " ({0})", x.Comment);
+					return result;
+				})));
+
+			await SendMessage(
+				channelId,
+				String.Format(
+					CultureInfo.InvariantCulture,
+					"DM: Deploying revision: {0}{1}{2} BYOND Version: {3}{4}",
+					commitInsert,
+					testmergeInsert,
+					remoteCommitInsert,
+					byondVersion,
+					estimatedCompletionTime.HasValue
+						? $" ETA: {estimatedCompletionTime - DateTimeOffset.Now}"
+						: String.Empty),
+				cancellationToken).ConfigureAwait(false);
+
+			return (errorMessage, dreamMakerOutput) => SendMessage(
+				channelId,
+				$"DM: Deployment {(errorMessage == null ? "complete" : "failed")}!",
+				cancellationToken);
+		}
 	}
 }

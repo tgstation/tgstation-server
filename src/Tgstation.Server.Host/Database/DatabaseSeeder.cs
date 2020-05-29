@@ -14,12 +14,12 @@ namespace Tgstation.Server.Host.Database
 	sealed class DatabaseSeeder : IDatabaseSeeder
 	{
 		/// <summary>
-		/// The <see cref="ICryptographySuite"/> for the <see cref="DatabaseContext{TParentContext}"/>
+		/// The <see cref="ICryptographySuite"/> for the <see cref="DatabaseSeeder"/>
 		/// </summary>
 		readonly ICryptographySuite cryptographySuite;
 
 		/// <summary>
-		/// The <see cref="IPlatformIdentifier"/> for the <see cref="DatabaseContext{TParentContext}"/>.
+		/// The <see cref="IPlatformIdentifier"/> for the <see cref="DatabaseSeeder"/>.
 		/// </summary>
 		readonly IPlatformIdentifier platformIdentifier;
 
@@ -76,7 +76,11 @@ namespace Tgstation.Server.Host.Database
 			if (platformIdentifier.IsWindows)
 			{
 				// normalize backslashes to forward slashes
-				var allInstances = await databaseContext.Instances.ToListAsync(cancellationToken).ConfigureAwait(false);
+				var allInstances = await databaseContext
+					.Instances
+					.AsQueryable()
+					.ToListAsync(cancellationToken)
+					.ConfigureAwait(false);
 				foreach (var instance in allInstances)
 					instance.Path = instance.Path.Replace('\\', '/');
 			}
@@ -107,6 +111,7 @@ namespace Tgstation.Server.Host.Database
 		{
 			var admin = await databaseContext
 				.Users
+				.AsQueryable()
 				.Where(x => x.CanonicalName == User.CanonicalizeName(Api.Models.User.AdminName))
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);

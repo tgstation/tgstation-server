@@ -213,10 +213,14 @@ namespace Tgstation.Server.Host.Components
 				var tasks = new List<Task>();
 				await databaseContextFactory.UseContext(async db =>
 				{
-					var jobs = db.Jobs.Where(x => x.Instance.Id == metadata.Id).Select(x => new Models.Job
-					{
-						Id = x.Id
-					}).ToAsyncEnumerable();
+					var jobs = db
+						.Jobs
+						.AsQueryable()
+						.Where(x => x.Instance.Id == metadata.Id)
+						.Select(x => new Models.Job
+						{
+							Id = x.Id
+						});
 					await jobs.ForEachAsync(job =>
 					{
 						lock (tasks)
@@ -271,7 +275,10 @@ namespace Tgstation.Server.Host.Components
 				var factoryStartup = instanceFactory.StartAsync(cancellationToken);
 				await databaseContext.Initialize(cancellationToken).ConfigureAwait(false);
 				await jobManager.StartAsync(cancellationToken).ConfigureAwait(false);
-				var dbInstances = databaseContext.Instances.Where(x => x.Online.Value)
+				var dbInstances = databaseContext
+					.Instances
+					.AsQueryable()
+					.Where(x => x.Online.Value)
 					.Include(x => x.RepositorySettings)
 					.Include(x => x.ChatSettings)
 					.ThenInclude(x => x.Channels)

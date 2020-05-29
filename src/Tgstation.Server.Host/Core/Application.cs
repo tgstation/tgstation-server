@@ -202,7 +202,7 @@ namespace Tgstation.Server.Host.Core
 			// CORS conditionally enabled later
 			services.AddCors();
 
-			void AddTypedContext<TContext>() where TContext : DatabaseContext<TContext>
+			void AddTypedContext<TContext>() where TContext : DatabaseContext
 			{
 				services.AddDbContext<TContext>(builder =>
 				{
@@ -225,6 +225,9 @@ namespace Tgstation.Server.Host.Core
 					break;
 				case DatabaseType.Sqlite:
 					AddTypedContext<SqliteDatabaseContext>();
+					break;
+				case DatabaseType.PostgresSql:
+					AddTypedContext<PostgresSqlDatabaseContext>();
 					break;
 				default:
 					throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid {0}: {1}!", nameof(DatabaseType), dbType));
@@ -353,6 +356,8 @@ namespace Tgstation.Server.Host.Core
 			// setup the HTTP request pipeline
 			// Final point where we wrap exceptions in a 500 (ErrorMessage) response
 			applicationBuilder.UseServerErrorHandling();
+
+			applicationBuilder.UseRequestCounting();
 
 			// 503 requests made while the application is starting
 			applicationBuilder.UseAsyncInitialization(async (cancellationToken) =>

@@ -163,7 +163,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (ApiHeaders != null)
 				Logger.LogDebug(
-					"Request made by User ID {0}. Api version: {1}. User-Agent: {2}. Type: {3}. Route {4}{5} to Instance {6}",
+					"Request details: User ID {0}. Api version: {1}. User-Agent: {2}. Type: {3}. Route {4}{5} to Instance {6}",
 					AuthenticationContext?.User.Id.Value.ToString(CultureInfo.InvariantCulture),
 					ApiHeaders.ApiVersion.Semver(),
 					ApiHeaders.RawUserAgent,

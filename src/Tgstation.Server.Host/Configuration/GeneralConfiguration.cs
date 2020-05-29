@@ -15,6 +15,11 @@ namespace Tgstation.Server.Host.Configuration
 		public const string Section = "General";
 
 		/// <summary>
+		/// The default value of <see cref="ApiPort"/>.
+		/// </summary>
+		public const ushort DefaultApiPort = 5000;
+
+		/// <summary>
 		/// The default value for <see cref="ServerInformation.MinimumPasswordLength"/>.
 		/// </summary>
 		const uint DefaultMinimumPasswordLength = 15;
@@ -37,7 +42,12 @@ namespace Tgstation.Server.Host.Configuration
 		/// <summary>
 		/// The default value for <see cref="RestartTimeout"/>
 		/// </summary>
-		const int DefaultRestartTimeout = 10000;
+		const int DefaultRestartTimeout = 60000;
+
+		/// <summary>
+		/// The port the TGS API listens on.
+		/// </summary>
+		public ushort ApiPort { get; set; }
 
 		/// <summary>
 		/// A GitHub personal access token to use for bypassing rate limits on requests. Requires no scopes

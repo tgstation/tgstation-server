@@ -1,6 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
+using Tgstation.Server.Host.Configuration;
 
 namespace Tgstation.Server.Host.Core
 {
@@ -8,14 +11,25 @@ namespace Tgstation.Server.Host.Core
 	sealed class ServerPortProivder : IServerPortProvider
 	{
 		/// <inheritdoc />
-		public ushort HttpApiPort { get; }
+		public ushort HttpApiPort => generalConfiguration.ApiPort;
+
+		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="ServerPortProivder"/>.
+		/// </summary>
+		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ServerPortProivder"/> <see langword="class"/>.
 		/// </summary>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="configuration">The <see cref="IConfiguration"/> to use.</param>
-		public ServerPortProivder(IConfiguration configuration)
+		/// <param name="logger">The <see cref="ILogger"/> to use.</param>
+		public ServerPortProivder(
+			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			IConfiguration configuration,
+			ILogger<ServerPortProivder> logger)
 		{
+			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			if (configuration == null)
 				throw new ArgumentNullException(nameof(configuration));
 
@@ -26,8 +40,13 @@ namespace Tgstation.Server.Host.Core
 				.GetSection("Url")
 				.Value;
 
-			if (httpEndpoint == null)
-				throw new InvalidOperationException("Missing required configuration option Kestrel:EndPoints:Http:Url!");
+			if (generalConfiguration.ApiPort == default && httpEndpoint == null)
+				throw new InvalidOperationException("Missing required configuration option General:ApiPort!");
+
+			if (generalConfiguration.ApiPort != default)
+				return;
+
+			logger.LogWarning("The \"Kestrel\" configuration section is deprecated! Please set your API port using the \"General:ApiPort\" configuration option!");
 
 			var splits = httpEndpoint.Split(":", StringSplitOptions.RemoveEmptyEntries);
 			var portString = splits.Last();
@@ -36,7 +55,7 @@ namespace Tgstation.Server.Host.Core
 			if (!UInt16.TryParse(portString, out var result))
 				throw new InvalidOperationException($"Failed to parse HTTP EndPoint port: {httpEndpoint}");
 
-			HttpApiPort = result;
+			generalConfiguration.ApiPort = result;
 		}
 	}
 }

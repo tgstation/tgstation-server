@@ -9,25 +9,23 @@ using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Database.Design
 {
-	/// <summary>
-	/// <see cref="IDesignTimeDbContextFactory{TContext}"/> for creating <see cref="SqlServerDatabaseContext"/>s.
-	/// </summary>
-	sealed class SqlServerDesignTimeDbContextFactory : IDesignTimeDbContextFactory<SqlServerDatabaseContext>
+	/// <inheritdoc />
+	sealed class PostgresSqlDesignTimeDbContextFactory : IDesignTimeDbContextFactory<PostgresSqlDatabaseContext>
 	{
 		/// <inheritdoc />
-		public SqlServerDatabaseContext CreateDbContext(string[] args)
+		public PostgresSqlDatabaseContext CreateDbContext(string[] args)
 		{
 			using var loggerFactory = new LoggerFactory();
-			return new SqlServerDatabaseContext(
-				new DbContextOptions<SqlServerDatabaseContext>(),
+			return new PostgresSqlDatabaseContext(
+				new DbContextOptions<PostgresSqlDatabaseContext>(),
 				DesignTimeDbContextFactoryHelpers.GetDatabaseConfiguration(
-					DatabaseType.SqlServer,
-					"Data Source=fake;Initial Catalog=TGS_Design;Integrated Security=True;Application Name=tgstation-server"),
+					DatabaseType.PostgresSql,
+					"Application Name=tgstation-server;Host=127.0.0.1;Password=qCkWimNgLfWwpr7TnUHs;Username=postgres;Database=TGS_Design"),
 				new DatabaseSeeder(
 				new CryptographySuite(
 				new PasswordHasher<User>()),
 				new PlatformIdentifier()),
-				loggerFactory.CreateLogger<SqlServerDatabaseContext>());
+				loggerFactory.CreateLogger<PostgresSqlDatabaseContext>());
 		}
 	}
 }

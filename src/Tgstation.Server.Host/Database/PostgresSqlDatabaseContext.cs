@@ -2,14 +2,15 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
+using System.Diagnostics;
 using Tgstation.Server.Host.Configuration;
 
 namespace Tgstation.Server.Host.Database
 {
 	/// <summary>
-	/// <see cref="DatabaseContext"/> for Sqlserver
+	/// <see cref="DatabaseContext"/> for PostgresSQL.
 	/// </summary>
-	sealed class SqlServerDatabaseContext : DatabaseContext
+	sealed class PostgresSqlDatabaseContext : DatabaseContext
 	{
 		/// <summary>
 		/// Construct a <see cref="SqlServerDatabaseContext"/>
@@ -18,21 +19,29 @@ namespace Tgstation.Server.Host.Database
 		/// <param name="databaseConfiguration">The <see cref="IOptions{TOptions}"/> of <see cref="DatabaseConfiguration"/> for the <see cref="DatabaseContext"/></param>
 		/// <param name="databaseSeeder">The <see cref="IDatabaseSeeder"/> for the <see cref="DatabaseContext"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="DatabaseContext"/></param>
-		public SqlServerDatabaseContext(DbContextOptions<SqlServerDatabaseContext> dbContextOptions, IOptions<DatabaseConfiguration> databaseConfiguration, IDatabaseSeeder databaseSeeder, ILogger<SqlServerDatabaseContext> logger) : base(dbContextOptions, databaseConfiguration, databaseSeeder, logger)
+		public PostgresSqlDatabaseContext(
+			DbContextOptions<PostgresSqlDatabaseContext> dbContextOptions,
+			IOptions<DatabaseConfiguration> databaseConfiguration,
+			IDatabaseSeeder databaseSeeder,
+			ILogger<PostgresSqlDatabaseContext> logger)
+			: base(dbContextOptions, databaseConfiguration, databaseSeeder, logger)
 		{ }
 
 		/// <inheritdoc />
 		protected override void OnConfiguring(DbContextOptionsBuilder options)
 		{
 			base.OnConfiguring(options);
-			options.UseSqlServer(DatabaseConfiguration.ConnectionString, x => x.EnableRetryOnFailure());
+			options.UseNpgsql(DatabaseConfiguration.ConnectionString, x => x.EnableRetryOnFailure());
 		}
 
 		/// <inheritdoc />
 		protected override void ValidateDatabaseType()
 		{
-			if (DatabaseType != DatabaseType.SqlServer)
-				throw new InvalidOperationException("Invalid DatabaseType for SqlServerDatabaseContext!");
+			if (!Debugger.IsAttached)
+				throw new NotImplementedException("PostgresSQL implementation is not complete yet!");
+
+			if (DatabaseType != DatabaseType.PostgresSql)
+				throw new InvalidOperationException("Invalid DatabaseType for PostgresSqlDatabaseContext!");
 		}
 	}
 }

@@ -101,7 +101,14 @@ namespace Tgstation.Server.Host.Controllers
 			if (earlyOut != null)
 				return earlyOut;
 
-			var originalUser = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).SelectMany(x => x.InstanceUsers).Where(x => x.UserId == model.UserId).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var originalUser = await DatabaseContext
+				.Instances
+				.AsQueryable()
+				.Where(x => x.Id == Instance.Id)
+				.SelectMany(x => x.InstanceUsers)
+				.Where(x => x.UserId == model.UserId)
+				.FirstOrDefaultAsync(cancellationToken)
+				.ConfigureAwait(false);
 			if (originalUser == null)
 				return StatusCode((int)HttpStatusCode.Gone);
 
@@ -141,7 +148,13 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(IEnumerable<Api.Models.InstanceUser>), 200)]
 		public async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
-			var users = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).SelectMany(x => x.InstanceUsers).ToListAsync(cancellationToken).ConfigureAwait(false);
+			var users = await DatabaseContext
+				.Instances
+				.AsQueryable()
+				.Where(x => x.Id == Instance.Id)
+				.SelectMany(x => x.InstanceUsers)
+				.ToListAsync(cancellationToken)
+				.ConfigureAwait(false);
 			return Json(users.Select(x => x.ToApi()));
 		}
 
@@ -160,7 +173,14 @@ namespace Tgstation.Server.Host.Controllers
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			// this functions as userId
-			var user = await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).SelectMany(x => x.InstanceUsers).Where(x => x.UserId == id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+			var user = await DatabaseContext
+				.Instances
+				.AsQueryable()
+				.Where(x => x.Id == Instance.Id)
+				.SelectMany(x => x.InstanceUsers)
+				.Where(x => x.UserId == id)
+				.FirstOrDefaultAsync(cancellationToken)
+				.ConfigureAwait(false);
 			if (user == default)
 				return StatusCode((int)HttpStatusCode.Gone);
 			return Json(user.ToApi());
@@ -178,7 +198,14 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(204)]
 		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
-			await DatabaseContext.Instances.Where(x => x.Id == Instance.Id).SelectMany(x => x.InstanceUsers).Where(x => x.UserId == id).DeleteAsync(cancellationToken).ConfigureAwait(false);
+			await DatabaseContext
+				.Instances
+				.AsQueryable()
+				.Where(x => x.Id == Instance.Id)
+				.SelectMany(x => x.InstanceUsers)
+				.Where(x => x.UserId == id)
+				.DeleteAsync(cancellationToken)
+				.ConfigureAwait(false);
 			return NoContent();
 		}
 	}

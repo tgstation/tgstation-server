@@ -1,4 +1,8 @@
+/world
+	sleep_offline = FALSE
+
 /world/New()
+	log << "Initial value of sleep_offline: [sleep_offline]"
 	TgsNew(new /datum/tgs_event_handler/impl, TGS_SECURITY_ULTRASAFE)
 	StartAsync()
 
@@ -9,17 +13,16 @@
 /proc/Run()
 	sleep(60)
 	world.TgsChatBroadcast("World Initialized")
-	world.TgsInitializationComplete()
+	// world.TgsInitializationComplete()
 
 /world/Topic(T, Addr, Master, Keys)
-	world.log << "Topic: [T]"
+	log << "Topic: [T]"
 	. =  HandleTopic(T)
-	world.log << "Response: [.]"
+	log << "Response: [.]"
 
 /world/proc/HandleTopic(T)
 	TGS_TOPIC
 
-	world.sleep_offline = FALSE
 	TgsChatBroadcast("Recieved non-tgs topic: [T]")
 
 	var/list/data = params2list(T)
@@ -40,9 +43,14 @@
 
 	world.TgsChatBroadcast("Recieved event: [json_encode(args)]")
 
+/world/Export(url)
+	log << "Export: [url]"
+	return ..()
+
 /proc/RebootAsync()
 	set waitfor = FALSE
-	world.sleep_offline = FALSE
 	world.TgsChatBroadcast("Rebooting after 3 seconds");
+	world.log << "About to sleep. sleep_offline: [world.sleep_offline]"
 	sleep(30)
+	world.log << "Done sleep, calling Reboot"
 	world.Reboot()
