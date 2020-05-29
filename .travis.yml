@@ -51,27 +51,27 @@ jobs:
           packages:
             - libc6-i386
             - libstdc++6:i386
-#    - env:
-#      - DoxGeneration=false
-#      - DockerBuild=false
-#      - DMAPI=false
-#      - CONFIG=Release
-#      - TGS4_TEST_DATABASE_TYPE=PostgresSql
-#      - TGS4_TEST_CONNECTION_STRING="Application Name=tgstation-server;Host=127.0.0.1;Username=postgres;Password=;Database=TGS_Test"
-#      name: "PostgresSql Integration Test"
-#      language: csharp
-#      mono: none
-#      dotnet: 3.1
-#      services:
-#        - postgresql
-#      cache:
-#        directories:
-#          - $HOME/.nuget/packages:
-#      addons:
-#        apt:
-#          packages:
-#            - libc6-i386
-#            - libstdc++6:i386
+    - env:
+      - DoxGeneration=false
+      - DockerBuild=false
+      - DMAPI=false
+      - CONFIG=Release
+      - TGS4_TEST_DATABASE_TYPE=PostgresSql
+      - TGS4_TEST_CONNECTION_STRING="Application Name=tgstation-server;Host=127.0.0.1;Username=postgres;Password=;Database=TGS_Test"
+      name: "PostgresSql Integration Test"
+      language: csharp
+      mono: none
+      dotnet: 3.1
+      services:
+        - postgresql
+      cache:
+        directories:
+          - $HOME/.nuget/packages:
+      addons:
+        apt:
+          packages:
+            - libc6-i386
+            - libstdc++6:i386
     - env:
       - DoxGeneration=false
       - DockerBuild=false
