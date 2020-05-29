@@ -1,12 +1,12 @@
 <map id="Tgstation.Server.Host.Controllers.HomeController" name="Tgstation.Server.Host.Controllers.HomeController">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="A Controller for API functions " alt="" coords="475,40,579,67"/>
-<area shape="rect" id="node3" href="$class_controller.html" title="Controller" alt="" coords="32,65,116,92"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html" title="For creating Tokens " alt="" coords="417,91,636,133"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html" title="Factory for ISystemIdentitys " alt="" coords="417,157,636,198"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html" title="Contains various cryptographic functions " alt="" coords="417,222,636,263"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options " alt="" coords="400,353,653,394"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information.html" title="Base class for Models.ServerInformation. " alt="" coords="5,409,143,436"/>
-<area shape="rect" id="node16" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html" title="Configuration options for the web control panel " alt="" coords="400,287,653,329"/>
-<area shape="rect" id="node13" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html" title="For caching ISystemIdentitys " alt="" coords="417,418,636,459"/>
-<area shape="rect" id="node14" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location. " alt="" coords="418,483,635,525"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="A Controller for API functions " alt="" coords="475,31,579,57"/>
+<area shape="rect" id="node3" href="$class_controller.html" title="Controller" alt="" coords="32,5,116,32"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html" title="For creating Tokens " alt="" coords="417,82,636,123"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html" title="Factory for ISystemIdentitys " alt="" coords="417,147,636,189"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html" title="Contains various cryptographic functions " alt="" coords="417,213,636,254"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options " alt="" coords="400,278,653,319"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information.html" title="Base class for Models.ServerInformation. " alt="" coords="5,313,143,340"/>
+<area shape="rect" id="node17" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html" title="Configuration options for the web control panel " alt="" coords="400,526,653,567"/>
+<area shape="rect" id="node14" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html" title="For caching ISystemIdentitys " alt="" coords="417,343,636,385"/>
+<area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location. " alt="" coords="418,409,635,450"/>
 </map>

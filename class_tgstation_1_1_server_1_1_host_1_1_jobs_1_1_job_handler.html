@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.2.8</span>
+   &#160;<span id="projectnumber">4.3.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -200,7 +200,7 @@ Private Attributes</h2></td></tr>
 
 <p>Cancels <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a42b697cf8ba09596bd047e4c12f52cc3" title="The Task being run ">task</a> </p>
 
-<p>Referenced by <a class="el" href="_job_manager_8cs_source.html#l00219">Tgstation.Server.Host.Jobs.JobManager.CancelJob()</a>.</p>
+<p>Referenced by <a class="el" href="_job_manager_8cs_source.html#l00225">Tgstation.Server.Host.Jobs.JobManager.CancelJob()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -256,7 +256,7 @@ Here is the caller graph for this function:</div>
 
 <p>Definition at line <a class="el" href="_job_handler_8cs_source.html#l00047">47</a> of file <a class="el" href="_job_handler_8cs_source.html">JobHandler.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_job_manager_8cs_source.html#l00219">Tgstation.Server.Host.Jobs.JobManager.CancelJob()</a>, and <a class="el" href="_job_manager_8cs_source.html#l00268">Tgstation.Server.Host.Jobs.JobManager.WaitForJobCompletion()</a>.</p>
+<p>Referenced by <a class="el" href="_job_manager_8cs_source.html#l00225">Tgstation.Server.Host.Jobs.JobManager.CancelJob()</a>, and <a class="el" href="_job_manager_8cs_source.html#l00274">Tgstation.Server.Host.Jobs.JobManager.WaitForJobCompletion()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        {</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            TaskCompletionSource&lt;object&gt; tcs = <span class="keyword">new</span> TaskCompletionSource&lt;object&gt;();</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            <span class="keyword">using</span> (cancellationToken.Register(() =&gt; tcs.SetCanceled()))</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                await Task.WhenAny(tcs.Task, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a42b697cf8ba09596bd047e4c12f52cc3">task</a>).ConfigureAwait(<span class="keyword">false</span>);</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            cancellationToken.ThrowIfCancellationRequested();</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler_html_a42b697cf8ba09596bd047e4c12f52cc3"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a42b697cf8ba09596bd047e4c12f52cc3">Tgstation.Server.Host.Jobs.JobHandler.task</a></div><div class="ttdeci">readonly Task task</div><div class="ttdoc">The Task being run </div><div class="ttdef"><b>Definition:</b> <a href="_job_handler_8cs_source.html#l00020">JobHandler.cs:20</a></div></div>
 </div><!-- fragment -->
 <p><div class="dynheader">

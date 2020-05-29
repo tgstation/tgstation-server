@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.2.8</span>
+   &#160;<span id="projectnumber">4.3.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -153,7 +153,7 @@ Server Initialization</h2>
 <h3><a class="anchor" id="arch_instinit"></a>
 Instance Manager Initialization</h3>
 <p>Once the web host starts, the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa2bcc92fca46ad404800304ce4bdd781">Tgstation.Server.Host.Components.InstanceManager.StartAsync</a> function is called (due to being registered as a <a class="el" href="class_i_hosted_service.html">IHostedService</a> in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html">Tgstation.Server.Host.Core.Application</a>) this is the only StartAsync implementation that should be called by the framework, others should be called from this to maintain a cohesive initialization order.</p>
-<p>The first thing this function does is call <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a97dc9efffa45ab3c0530554822c414f4">Tgstation.Server.Host.Database.DatabaseContext.Initialize</a> which ensures the database is migrated, seeded, and ready to go. Then the Tgstation.Server.Host.Core.JobManager is started, which cleans up any jobs that are considered "still running" in the database. Finally all instances configured to be online are created in parallel (See <a class="el" href="architecture.html#arch_instance">Instances</a> for onlining process) and the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html">Tgstation.Server.Host.Core.Application</a> is signalled to stop blocking requests with 503 responses before they are processed.</p>
+<p>The first thing this function does is call <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a6b7f32a32a19751f1ce41d4bf8853f6c">Tgstation.Server.Host.Database.DatabaseContext.Initialize</a> which ensures the database is migrated, seeded, and ready to go. Then the Tgstation.Server.Host.Core.JobManager is started, which cleans up any jobs that are considered "still running" in the database. Finally all instances configured to be online are created in parallel (See <a class="el" href="architecture.html#arch_instance">Instances</a> for onlining process) and the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html">Tgstation.Server.Host.Core.Application</a> is signalled to stop blocking requests with 503 responses before they are processed.</p>
 <h1><a class="anchor" id="arch_db"></a>
 Database and Context</h1>
 <p>The database is exposed as a series of DbSet&lt;T&gt; objects through <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html">Tgstation.Server.Host.Database.IDatabaseContext</a> . Queries are performed via async LINQ expressions. Inserts, updates, and deletes are done via modifiying the DbSet&lt;T&gt;s and then calling <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a74e123c6393ad813f997c882a22b228e">Tgstation.Server.Host.Database.IDatabaseContext.Save</a> . Do some reading on Entity Framework Core for a deeper understanding.</p>

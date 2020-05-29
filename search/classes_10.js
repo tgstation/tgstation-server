@@ -17,9 +17,9 @@ var searchData=
   ['restartregistration',['RestartRegistration',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_restart_registration.html',1,'Tgstation::Server::Host::Core']]],
   ['revinfotestmerge',['RevInfoTestMerge',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_rev_info_test_merge.html',1,'Tgstation::Server::Host::Models']]],
   ['revisioncommand',['RevisionCommand',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_revision_command.html',1,'Tgstation::Server::Host::Components::Chat::Commands']]],
-  ['revisioninformation',['RevisionInformation',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html',1,'Tgstation::Server::Api::Models::Internal']]],
-  ['revisioninformation',['RevisionInformation',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html',1,'Tgstation::Server::Host::Models']]],
   ['revisioninformation',['RevisionInformation',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html',1,'Tgstation::Server::Api::Models']]],
+  ['revisioninformation',['RevisionInformation',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html',1,'Tgstation::Server::Host::Models']]],
+  ['revisioninformation',['RevisionInformation',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html',1,'Tgstation::Server::Api::Models::Internal']]],
   ['rightshelper',['RightsHelper',['../class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html',1,'Tgstation::Server::Api::Rights']]],
   ['routes',['Routes',['../class_tgstation_1_1_server_1_1_api_1_1_routes.html',1,'Tgstation::Server::Api']]],
   ['runtimeinformation',['RuntimeInformation',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_runtime_information.html',1,'Tgstation::Server::Host::Components::Interop::Bridge']]]

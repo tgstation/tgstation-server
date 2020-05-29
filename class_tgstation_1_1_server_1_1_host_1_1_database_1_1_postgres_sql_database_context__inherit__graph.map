@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Database.PostgresSqlDatabaseContext" name="Tgstation.Server.Host.Database.PostgresSqlDatabaseContext">
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html" title="Backend abstract implementation of IDatabaseContext " alt="" coords="53,80,188,107"/>
+<area shape="rect" id="node3" href="$class_db_context.html" title="DbContext" alt="" coords="6,5,97,32"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database. " alt="" coords="121,5,259,32"/>
+</map>

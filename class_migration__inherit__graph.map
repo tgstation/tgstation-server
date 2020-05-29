@@ -31,7 +31,8 @@
 <area shape="rect" id="node31" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_remove_soft_columns.html" title="Removes various defunct columns for MYSQL. " alt="" coords="161,1954,404,1995"/>
 <area shape="rect" id="node32" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_toggle_testmerge_comments.html" title="Add the Api.Models.Internal.RepositorySettings.PostTestMergeComment column for MySQL/MariaDB ..." alt="" coords="139,2019,427,2061"/>
 <area shape="rect" id="node33" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_tons_of_validation.html" title="Reduces column sizes and fixes some broken indexes for MYSQL. " alt="" coords="167,2085,398,2126"/>
-<area shape="rect" id="node34" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_heartbeat.html" title="Add heartbeat support for SQLite. " alt="" coords="167,2150,398,2191"/>
-<area shape="rect" id="node35" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_rebuild.html" title="Rebuild of the schema for SQLite. " alt="" coords="167,2215,398,2257"/>
-<area shape="rect" id="node36" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_remove_soft_columns.html" title="Removes various defunct columns for SQLite. " alt="" coords="162,2281,403,2322"/>
+<area shape="rect" id="node34" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_create.html" title="Create initial schema for PostgreSQL. " alt="" coords="167,2150,398,2191"/>
+<area shape="rect" id="node35" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_heartbeat.html" title="Add heartbeat support for SQLite. " alt="" coords="167,2215,398,2257"/>
+<area shape="rect" id="node36" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_rebuild.html" title="Rebuild of the schema for SQLite. " alt="" coords="167,2281,398,2322"/>
+<area shape="rect" id="node37" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_remove_soft_columns.html" title="Removes various defunct columns for SQLite. " alt="" coords="162,2346,403,2387"/>
 </map>

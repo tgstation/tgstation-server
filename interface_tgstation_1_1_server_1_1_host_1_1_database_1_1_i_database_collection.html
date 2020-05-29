@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.2.8</span>
+   &#160;<span id="projectnumber">4.3.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -109,8 +109,9 @@ Inheritance diagram for Tgstation.Server.Host.Database.IDatabaseCollection&lt; T
 <div class="dyncontent">
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection__inherit__graph.png" border="0" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_t_model_01_4_inherit__map" alt="Inheritance graph"/></div>
 <map name="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_t_model_01_4_inherit__map" id="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_t_model_01_4_inherit__map">
-<area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection.html" title="Tgstation::Server::\lHost::Database::DatabaseCollection\l\&lt; TModel \&gt;" alt="" coords="5,169,260,225"/>
-<area shape="rect" id="node2" href="class_i_queryable.html" title="IQueryable\&lt; TModel \&gt;" alt="" coords="50,5,215,32"/>
+<area shape="rect" id="node4" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection.html" title="Tgstation::Server::\lHost::Database::DatabaseCollection\l\&lt; TModel \&gt;" alt="" coords="67,169,322,225"/>
+<area shape="rect" id="node2" href="class_i_queryable.html" title="IQueryable\&lt; TModel \&gt;" alt="" coords="5,5,171,32"/>
+<area shape="rect" id="node3" href="class_i_async_enumerable.html" title="IAsyncEnumerable\&lt; TModel \&gt;" alt="" coords="195,5,410,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -118,7 +119,8 @@ Collaboration diagram for Tgstation.Server.Host.Database.IDatabaseCollection&lt;
 <div class="dyncontent">
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection__coll__graph.png" border="0" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_t_model_01_4_coll__map" alt="Collaboration graph"/></div>
 <map name="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_t_model_01_4_coll__map" id="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_t_model_01_4_coll__map">
-<area shape="rect" id="node2" href="class_i_queryable.html" title="IQueryable\&lt; TModel \&gt;" alt="" coords="38,5,203,32"/>
+<area shape="rect" id="node2" href="class_i_queryable.html" title="IQueryable\&lt; TModel \&gt;" alt="" coords="5,5,171,32"/>
+<area shape="rect" id="node3" href="class_i_async_enumerable.html" title="IAsyncEnumerable\&lt; TModel \&gt;" alt="" coords="195,5,410,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -139,12 +141,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a854a2e25231abb1e54bcff6fc6a8900c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#a854a2e25231abb1e54bcff6fc6a8900c">RemoveRange</a> (IEnumerable&lt; TModel &gt; models)</td></tr>
 <tr class="memdesc:a854a2e25231abb1e54bcff6fc6a8900c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a range of <em>models</em>  from the IDatabaseCollection&lt;TModel&gt;.  <a href="#a854a2e25231abb1e54bcff6fc6a8900c">More...</a><br /></td></tr>
 <tr class="separator:a854a2e25231abb1e54bcff6fc6a8900c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af03a612669a10392cf9f7ba67cbd3ec5"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#af03a612669a10392cf9f7ba67cbd3ec5">ForEachAsync</a> (Action&lt; TModel &gt; action, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:af03a612669a10392cf9f7ba67cbd3ec5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Asyncronously run a given <em>action</em>  on the IDatabaseCollection&lt;TModel&gt;.  <a href="#af03a612669a10392cf9f7ba67cbd3ec5">More...</a><br /></td></tr>
-<tr class="separator:af03a612669a10392cf9f7ba67cbd3ec5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b875dee97183b497dbea5d73675e4b9"><td class="memItemLeft" align="right" valign="top">Task&lt; List&lt; TModel &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#a5b875dee97183b497dbea5d73675e4b9">ToListAsync</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a5b875dee97183b497dbea5d73675e4b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve all the <em>TModel</em> s in the table.  <a href="#a5b875dee97183b497dbea5d73675e4b9">More...</a><br /></td></tr>
-<tr class="separator:a5b875dee97183b497dbea5d73675e4b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
@@ -161,7 +157,7 @@ Properties</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_i_database_collection_8cs_source.html#l00013">13</a> of file <a class="el" href="_i_database_collection_8cs_source.html">IDatabaseCollection.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_database_collection_8cs_source.html#l00010">10</a> of file <a class="el" href="_i_database_collection_8cs_source.html">IDatabaseCollection.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="abd9cab598d35f6af8c789a1f01bba081"></a>
 <div class="memitem">
@@ -254,44 +250,6 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a class="anchor" id="af03a612669a10392cf9f7ba67cbd3ec5"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Task <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html">Tgstation.Server.Host.Database.IDatabaseCollection</a>&lt; TModel &gt;.ForEachAsync </td>
-          <td>(</td>
-          <td class="paramtype">Action&lt; TModel &gt;&#160;</td>
-          <td class="paramname"><em>action</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>cancellationToken</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Asyncronously run a given <em>action</em>  on the IDatabaseCollection&lt;TModel&gt;. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">action</td><td>The Action&lt;T&gt; to run.</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
-
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection.html#a198210b908b36209c2ec840bb5bdbc43">Tgstation.Server.Host.Database.DatabaseCollection&lt; TModel &gt;</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="ad270ec18822a7a90d8fca9a75c23851a"></a>
 <div class="memitem">
 <div class="memproto">
@@ -344,46 +302,6 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a class="anchor" id="a5b875dee97183b497dbea5d73675e4b9"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Task&lt;List&lt;TModel&gt; &gt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html">Tgstation.Server.Host.Database.IDatabaseCollection</a>&lt; TModel &gt;.ToListAsync </td>
-          <td>(</td>
-          <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>cancellationToken</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Retrieve all the <em>TModel</em> s in the table. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a List&lt;T&gt; of all <em>TModel</em>  in the table.</dd></dl>
-
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection.html#a053994226edd2d27e75ea295eedae9f9">Tgstation.Server.Host.Database.DatabaseCollection&lt; TModel &gt;</a>.</p>
-
-<p>Referenced by <a class="el" href="_tgstation_8_server_8_host_2_components_2_deployment_2_dream_maker_8cs_source.html#l00728">Tgstation.Server.Host.Components.Deployment.DreamMaker.CalculateExpectedDeploymentTime()</a>, and <a class="el" href="_database_seeder_8cs_source.html#l00064">Tgstation.Server.Host.Database.DatabaseSeeder.SanitizeDatabase()</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection_a5b875dee97183b497dbea5d73675e4b9_icgraph.png" border="0" usemap="#interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection_a5b875dee97183b497dbea5d73675e4b9_icgraph" alt=""/></div>
-<map name="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection_a5b875dee97183b497dbea5d73675e4b9_icgraph" id="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection_a5b875dee97183b497dbea5d73675e4b9_icgraph">
-<area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a2365f1b05cb4cea83027efaea9580f83" title="Calculate the average length of a deployment using a given databaseContext . " alt="" coords="284,5,592,61"/>
-<area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a1ed443f053ba4e1098f0e4099d23b774" title="Correct invalid database data caused by previous versions. &#160;" alt="" coords="315,85,561,126"/>
-</map>
-</div>
-</p>
-
-</div>
-</div>
 <h2 class="groupheader">Property Documentation</h2>
 <a class="anchor" id="a4df4891c6457a0c2eb6e879ec912945d"></a>
 <div class="memitem">
@@ -405,7 +323,7 @@ Here is the caller graph for this function:</div>
 
 <p>An IEnumerable&lt;T&gt; of <em>TModel</em> s prioritizing in the working set. </p>
 
-<p>Definition at line <a class="el" href="_i_database_collection_8cs_source.html#l00018">18</a> of file <a class="el" href="_i_database_collection_8cs_source.html">IDatabaseCollection.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_database_collection_8cs_source.html#l00015">15</a> of file <a class="el" href="_i_database_collection_8cs_source.html">IDatabaseCollection.cs</a>.</p>
 
 <p>Referenced by <a class="el" href="_repository_controller_8cs_source.html#l00072">Tgstation.Server.Host.Controllers.RepositoryController.LoadRevisionInformation()</a>.</p>
 

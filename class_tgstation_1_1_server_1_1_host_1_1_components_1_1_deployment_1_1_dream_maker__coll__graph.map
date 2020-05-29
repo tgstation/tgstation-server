@@ -1,17 +1,15 @@
 <map id="Tgstation.Server.Host.Components.Deployment.DreamMaker" name="Tgstation.Server.Host.Components.Deployment.DreamMaker">
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dream_maker.html" title="For managing the compiler " alt="" coords="323,9,431,35"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html" title="For managing the BYOND installation " alt="" coords="252,125,503,167"/>
-<area shape="rect" id="node4" href="$class_i_hosted_service.html" title="IHostedService" alt="" coords="40,233,159,259"/>
-<area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers " alt="" coords="252,256,503,297"/>
-<area shape="rect" id="node16" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html" title="For managing connected chat services " alt="" coords="252,191,503,232"/>
-<area shape="rect" id="node5" href="$class_i_disposable.html" title="IDisposable" alt="" coords="52,117,147,143"/>
-<area shape="rect" id="node18" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html" title="Factory for creating and loading IRepositorys " alt="" coords="252,60,503,101"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions " alt="" coords="252,321,503,363"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller_factory.html" title="Factory for ISessionControllers " alt="" coords="252,387,503,428"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems " alt="" coords="287,452,467,493"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_compile_job_sink.html" title="Sink for CompileJobs " alt="" coords="252,517,503,559"/>
-<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html" title="Provides the most recently deployed CompileJob. " alt="" coords="5,525,193,551"/>
-<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html" title="For creating IGitHubClients " alt="" coords="278,583,477,624"/>
-<area shape="rect" id="node13" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions " alt="" coords="36,299,163,326"/>
-<area shape="rect" id="node21" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html" title="For launching IProcess&#39; " alt="" coords="269,903,486,944"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dream_maker.html" title="For managing the compiler " alt="" coords="323,15,431,42"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html" title="For managing the BYOND installation " alt="" coords="252,561,503,602"/>
+<area shape="rect" id="node4" href="$class_i_hosted_service.html" title="IHostedService" alt="" coords="40,662,159,688"/>
+<area shape="rect" id="node14" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html" title="For managing connected chat services " alt="" coords="252,678,503,720"/>
+<area shape="rect" id="node5" href="$class_i_disposable.html" title="IDisposable" alt="" coords="52,568,147,595"/>
+<area shape="rect" id="node16" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html" title="Factory for creating and loading IRepositorys " alt="" coords="252,328,503,369"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions " alt="" coords="252,132,503,173"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller_factory.html" title="Factory for ISessionControllers " alt="" coords="252,197,503,238"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems " alt="" coords="287,262,467,304"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_compile_job_sink.html" title="Sink for CompileJobs " alt="" coords="252,66,503,108"/>
+<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html" title="Provides the most recently deployed CompileJob. " alt="" coords="5,74,193,100"/>
+<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html" title="For creating IGitHubClients " alt="" coords="278,393,477,434"/>
+<area shape="rect" id="node19" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html" title="For launching IProcess&#39; " alt="" coords="269,846,486,888"/>
 </map>

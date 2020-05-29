@@ -69,5 +69,7 @@ var searchData=
   ['20200512181801_5fmsremovesoftcolumns_2ecs',['20200512181801_MSRemoveSoftColumns.cs',['../20200512181801___m_s_remove_soft_columns_8cs.html',1,'']]],
   ['20200512181801_5fmsremovesoftcolumns_2edesigner_2ecs',['20200512181801_MSRemoveSoftColumns.Designer.cs',['../20200512181801___m_s_remove_soft_columns_8_designer_8cs.html',1,'']]],
   ['20200512182535_5fmyremovesoftcolumns_2ecs',['20200512182535_MYRemoveSoftColumns.cs',['../20200512182535___m_y_remove_soft_columns_8cs.html',1,'']]],
-  ['20200512182535_5fmyremovesoftcolumns_2edesigner_2ecs',['20200512182535_MYRemoveSoftColumns.Designer.cs',['../20200512182535___m_y_remove_soft_columns_8_designer_8cs.html',1,'']]]
+  ['20200512182535_5fmyremovesoftcolumns_2edesigner_2ecs',['20200512182535_MYRemoveSoftColumns.Designer.cs',['../20200512182535___m_y_remove_soft_columns_8_designer_8cs.html',1,'']]],
+  ['20200516111712_5fpgcreate_2ecs',['20200516111712_PGCreate.cs',['../20200516111712___p_g_create_8cs.html',1,'']]],
+  ['20200516111712_5fpgcreate_2edesigner_2ecs',['20200516111712_PGCreate.Designer.cs',['../20200516111712___p_g_create_8_designer_8cs.html',1,'']]]
 ];

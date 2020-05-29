@@ -1,24 +1,24 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog" name="Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html" title="A IWatchdog that manages one server. " alt="" coords="1276,123,1395,149"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs. " alt="" coords="822,461,938,488"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers " alt="" coords="349,600,435,627"/>
-<area shape="rect" id="node5" href="$class_i_hosted_service.html" title="IHostedService" alt="" coords="52,512,171,539"/>
-<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs " alt="" coords="295,366,489,407"/>
-<area shape="rect" id="node6" href="$class_i_disposable.html" title="IDisposable" alt="" coords="64,849,159,876"/>
-<area shape="rect" id="node18" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_registration.html" title="Represents the lifetime of a IRestartHandler registration " alt="" coords="293,769,491,810"/>
-<area shape="rect" id="node24" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs " alt="" coords="582,936,690,963"/>
-<area shape="rect" id="node28" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs " alt="" coords="755,870,1005,911"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions " alt="" coords="48,596,175,623"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext " alt="" coords="296,835,488,861"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts " alt="" coords="332,197,452,224"/>
-<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components " alt="" coords="277,249,507,290"/>
-<area shape="rect" id="node14" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_dual_reattach_information.html" title="Reattach information for two ISessionController " alt="" coords="267,651,517,693"/>
-<area shape="rect" id="node15" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dual_reattach_information_base.html" title="Base class for DualReattachInformation " alt="" coords="5,663,217,689"/>
-<area shape="rect" id="node16" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_reattach_info_handler.html" title="Handles saving and loading DualReattachInformation " alt="" coords="267,483,517,525"/>
-<area shape="rect" id="node23" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_windows_swappable_dmb_provider.html" title="A windows IDmbProvider that uses symlinks. " alt="" coords="1180,929,1491,970"/>
-<area shape="rect" id="node25" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems " alt="" coords="790,773,970,814"/>
-<area shape="rect" id="node27" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html" title="For creating filesystem symbolic links " alt="" coords="790,1137,970,1178"/>
-<area shape="rect" id="node29" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html" title="Tgstation.Server.Host.Models.\lCompileJob" alt="" coords="773,1066,987,1107"/>
-<area shape="rect" id="node30" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_compile_job.html" title="Represents a run of DreamMaker " alt="" coords="317,1066,467,1107"/>
-<area shape="rect" id="node31" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of CompileJobs and Jobs. " alt="" coords="77,1073,146,1100"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html" title="A IWatchdog that manages one server. " alt="" coords="1276,455,1395,482"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs. " alt="" coords="822,405,938,431"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers " alt="" coords="349,313,435,339"/>
+<area shape="rect" id="node5" href="$class_i_hosted_service.html" title="IHostedService" alt="" coords="52,239,171,266"/>
+<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs " alt="" coords="295,131,489,172"/>
+<area shape="rect" id="node6" href="$class_i_disposable.html" title="IDisposable" alt="" coords="64,739,159,766"/>
+<area shape="rect" id="node18" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_registration.html" title="Represents the lifetime of a IRestartHandler registration " alt="" coords="293,532,491,573"/>
+<area shape="rect" id="node25" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs " alt="" coords="582,867,690,894"/>
+<area shape="rect" id="node29" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs " alt="" coords="755,727,1005,768"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions " alt="" coords="48,313,175,339"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext " alt="" coords="296,598,488,625"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts " alt="" coords="332,649,452,675"/>
+<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components " alt="" coords="277,700,507,741"/>
+<area shape="rect" id="node14" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_dual_reattach_information.html" title="Reattach information for two ISessionController " alt="" coords="267,364,517,405"/>
+<area shape="rect" id="node15" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dual_reattach_information_base.html" title="Base class for DualReattachInformation " alt="" coords="5,371,217,398"/>
+<area shape="rect" id="node16" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_reattach_info_handler.html" title="Handles saving and loading DualReattachInformation " alt="" coords="267,196,517,237"/>
+<area shape="rect" id="node24" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_windows_swappable_dmb_provider.html" title="A windows IDmbProvider that uses symlinks. " alt="" coords="1180,816,1491,857"/>
+<area shape="rect" id="node26" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems " alt="" coords="790,631,970,672"/>
+<area shape="rect" id="node28" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html" title="For creating filesystem symbolic links " alt="" coords="790,984,970,1025"/>
+<area shape="rect" id="node30" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html" title="Tgstation.Server.Host.Models.\lCompileJob" alt="" coords="773,919,987,960"/>
+<area shape="rect" id="node31" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_compile_job.html" title="Represents a run of DreamMaker " alt="" coords="317,919,467,960"/>
+<area shape="rect" id="node32" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of CompileJobs and Jobs. " alt="" coords="77,926,146,953"/>
 </map>

@@ -1,6 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_i_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory" alt="" coords="5,78,220,105"/>
+<area shape="rect" id="node1" href="$class_i_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory" alt="" coords="5,121,220,147"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_my_sql_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating MySqlDatabaseContexts. " alt="" coords="268,5,565,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_sqlite_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating SqliteDatabaseContexts. " alt="" coords="269,71,564,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_sql_server_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating SqlServerDatabaseContexts. " alt="" coords="279,135,554,191"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_postgres_sql_design_time_db_context_factory.html" title="Tgstation.Server.Host.Database.\lDesign.PostgresSqlDesignTimeDbContext\lFactory" alt="" coords="272,70,561,126"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_sqlite_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating SqliteDatabaseContexts. " alt="" coords="269,149,564,191"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_sql_server_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating SqlServerDatabaseContexts. " alt="" coords="279,214,554,270"/>
 </map>

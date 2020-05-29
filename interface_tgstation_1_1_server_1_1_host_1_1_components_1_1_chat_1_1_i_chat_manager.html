@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.2.8</span>
+   &#160;<span id="projectnumber">4.3.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -143,9 +143,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a084ec3f50264304b5aa437e58a09f313"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a084ec3f50264304b5aa437e58a09f313">SendWatchdogMessage</a> (string message, bool adminOnly, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a084ec3f50264304b5aa437e58a09f313"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a chat <em>message</em>  to configured watchdog channels  <a href="#a084ec3f50264304b5aa437e58a09f313">More...</a><br /></td></tr>
 <tr class="separator:a084ec3f50264304b5aa437e58a09f313"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c677efa2950c69ddf14802d02a2b50d"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a1c677efa2950c69ddf14802d02a2b50d">SendUpdateMessage</a> (string message, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a1c677efa2950c69ddf14802d02a2b50d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a chat <em>message</em>  to configured update channels  <a href="#a1c677efa2950c69ddf14802d02a2b50d">More...</a><br /></td></tr>
-<tr class="separator:a1c677efa2950c69ddf14802d02a2b50d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e69b6222331c4806961397cbfdd10b4"><td class="memItemLeft" align="right" valign="top">Task&lt; Func&lt; string, string, Task &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a9e69b6222331c4806961397cbfdd10b4">SendDeploymentMessage</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a> revisionInformation, Version byondVersion, DateTimeOffset?estimatedCompletionTime, string gitHubOwner, string gitHubRepo, bool localCommitPushed, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a9e69b6222331c4806961397cbfdd10b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send the message for a deployment to configured deployment channels.  <a href="#a9e69b6222331c4806961397cbfdd10b4">More...</a><br /></td></tr>
+<tr class="separator:a9e69b6222331c4806961397cbfdd10b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b3b4e9ab7d03bd8020ee9dfa9bebbbe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_tracking_context.html">IChatTrackingContext</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a5b3b4e9ab7d03bd8020ee9dfa9bebbbe">CreateTrackingContext</a> ()</td></tr>
 <tr class="memdesc:a5b3b4e9ab7d03bd8020ee9dfa9bebbbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start tracking <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html" title="Represents a command made from DM code ">Commands.CustomCommand</a>s and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html" title="Represents a Providers.IProvider channel. ">ChannelRepresentation</a>s.  <a href="#a5b3b4e9ab7d03bd8020ee9dfa9bebbbe">More...</a><br /></td></tr>
 <tr class="separator:a5b3b4e9ab7d03bd8020ee9dfa9bebbbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -320,7 +320,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae1b556bac2bf1a08d0eef0fd76297dc4">Tgstation.Server.Host.Components.Chat.ChatManager</a>.</p>
 
-<p>Referenced by <a class="el" href="_watchdog_base_8cs_source.html#l00170">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.WatchdogBase()</a>.</p>
+<p>Referenced by <a class="el" href="_watchdog_base_8cs_source.html#l00175">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.WatchdogBase()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -331,6 +331,79 @@ Here is the caller graph for this function:</div>
 </map>
 </div>
 </p>
+
+</div>
+</div>
+<a class="anchor" id="a9e69b6222331c4806961397cbfdd10b4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task&lt;Func&lt;string, string, Task&gt; &gt; Tgstation.Server.Host.Components.Chat.IChatManager.SendDeploymentMessage </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a>&#160;</td>
+          <td class="paramname"><em>revisionInformation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Version&#160;</td>
+          <td class="paramname"><em>byondVersion</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">DateTimeOffset?&#160;</td>
+          <td class="paramname"><em>estimatedCompletionTime</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>gitHubOwner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>gitHubRepo</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>localCommitPushed</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Send the message for a deployment to configured deployment channels. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">revisionInformation</td><td>The RevisionInformation of the deployment.</td></tr>
+    <tr><td class="paramname">byondVersion</td><td>The BYOND Version of the deployment.</td></tr>
+    <tr><td class="paramname">estimatedCompletionTime</td><td>The optional DateTimeOffset the deployment is expected to be completed at.</td></tr>
+    <tr><td class="paramname">gitHubOwner</td><td>The repository GitHub owner, if any.</td></tr>
+    <tr><td class="paramname">gitHubRepo</td><td>The repository GitHub name, if any.</td></tr>
+    <tr><td class="paramname">localCommitPushed</td><td>if the local deployment commit was pushed to the remote repository.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a Func&lt;T1, T2, TResult&gt; to call to update the message at the deployment's conclusion. Parameters: Error message if any, DreamMaker output if any.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a9c33df9cea06f557dc98b63b85e8d81d">Tgstation.Server.Host.Components.Chat.ChatManager</a>.</p>
 
 </div>
 </div>
@@ -376,44 +449,6 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation</dd></dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae07221cd9d0d39ce4a0bb1453a221027">Tgstation.Server.Host.Components.Chat.ChatManager</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a1c677efa2950c69ddf14802d02a2b50d"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Task Tgstation.Server.Host.Components.Chat.IChatManager.SendUpdateMessage </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>message</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>cancellationToken</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Send a chat <em>message</em>  to configured update channels </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">message</td><td>The message being sent</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation</dd></dl>
-
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#afda03cb83133e5fc524b75b454d4bb96">Tgstation.Server.Host.Components.Chat.ChatManager</a>.</p>
 
 </div>
 </div>

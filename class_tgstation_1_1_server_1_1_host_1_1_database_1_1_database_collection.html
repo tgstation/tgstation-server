@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.2.8</span>
+   &#160;<span id="projectnumber">4.3.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -111,8 +111,9 @@ Inheritance diagram for Tgstation.Server.Host.Database.DatabaseCollection&lt; TM
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection__inherit__graph.png" border="0" usemap="#_tgstation_8_server_8_host_8_database_8_database_collection_3_01_t_model_01_4_inherit__map" alt="Inheritance graph"/></div>
 <map name="_tgstation_8_server_8_host_8_database_8_database_collection_3_01_t_model_01_4_inherit__map" id="_tgstation_8_server_8_host_8_database_8_database_collection_3_01_t_model_01_4_inherit__map">
-<area shape="rect" id="node2" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title="Represents a database table. " alt="" coords="46,80,195,121"/>
-<area shape="rect" id="node3" href="class_i_queryable.html" title="IQueryable\&lt; TModel \&gt;" alt="" coords="38,5,203,32"/>
+<area shape="rect" id="node2" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title="Represents a database table. " alt="" coords="120,80,269,121"/>
+<area shape="rect" id="node3" href="class_i_queryable.html" title="IQueryable\&lt; TModel \&gt;" alt="" coords="5,5,171,32"/>
+<area shape="rect" id="node4" href="class_i_async_enumerable.html" title="IAsyncEnumerable\&lt; TModel \&gt;" alt="" coords="195,5,410,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -120,8 +121,9 @@ Collaboration diagram for Tgstation.Server.Host.Database.DatabaseCollection&lt; 
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection__coll__graph.png" border="0" usemap="#_tgstation_8_server_8_host_8_database_8_database_collection_3_01_t_model_01_4_coll__map" alt="Collaboration graph"/></div>
 <map name="_tgstation_8_server_8_host_8_database_8_database_collection_3_01_t_model_01_4_coll__map" id="_tgstation_8_server_8_host_8_database_8_database_collection_3_01_t_model_01_4_coll__map">
-<area shape="rect" id="node2" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title="Represents a database table. " alt="" coords="243,5,393,47"/>
-<area shape="rect" id="node3" href="class_i_queryable.html" title="IQueryable\&lt; TModel \&gt;" alt="" coords="5,13,171,39"/>
+<area shape="rect" id="node2" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title="Represents a database table. " alt="" coords="293,23,442,65"/>
+<area shape="rect" id="node3" href="class_i_queryable.html" title="IQueryable\&lt; TModel \&gt;" alt="" coords="30,5,195,32"/>
+<area shape="rect" id="node4" href="class_i_async_enumerable.html" title="IAsyncEnumerable\&lt; TModel \&gt;" alt="" coords="5,56,220,83"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -139,9 +141,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3222695f8bba56c62ced6340ebf14619"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection.html#a3222695f8bba56c62ced6340ebf14619">Attach</a> (TModel model)</td></tr>
 <tr class="memdesc:a3222695f8bba56c62ced6340ebf14619"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attach a given <em>model</em>  to the the working set.   <a href="#a3222695f8bba56c62ced6340ebf14619">More...</a><br /></td></tr>
 <tr class="separator:a3222695f8bba56c62ced6340ebf14619"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a198210b908b36209c2ec840bb5bdbc43"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection.html#a198210b908b36209c2ec840bb5bdbc43">ForEachAsync</a> (Action&lt; TModel &gt; action, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a198210b908b36209c2ec840bb5bdbc43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Asyncronously run a given <em>action</em>  on the IDatabaseCollection&lt;TModel&gt;.   <a href="#a198210b908b36209c2ec840bb5bdbc43">More...</a><br /></td></tr>
-<tr class="separator:a198210b908b36209c2ec840bb5bdbc43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6212ee32986277efe11bff2d46009ca7"><td class="memItemLeft" align="right" valign="top">IAsyncEnumerator&lt; TModel &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection.html#a6212ee32986277efe11bff2d46009ca7">GetAsyncEnumerator</a> (CancellationToken cancellationToken=default)</td></tr>
+<tr class="separator:a6212ee32986277efe11bff2d46009ca7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22760f9ae163fd85e535b867454d718b"><td class="memItemLeft" align="right" valign="top">IEnumerator&lt; TModel &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection.html#a22760f9ae163fd85e535b867454d718b">GetEnumerator</a> ()</td></tr>
 <tr class="separator:a22760f9ae163fd85e535b867454d718b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8244ef4b74e973c7acc1a39a2bd7a4ca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection.html#a8244ef4b74e973c7acc1a39a2bd7a4ca">Remove</a> (TModel model)</td></tr>
@@ -150,9 +151,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a66a0ea60621331e3b5d5e4840e25e811"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection.html#a66a0ea60621331e3b5d5e4840e25e811">RemoveRange</a> (IEnumerable&lt; TModel &gt; models)</td></tr>
 <tr class="memdesc:a66a0ea60621331e3b5d5e4840e25e811"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a range of <em>models</em>  from the IDatabaseCollection&lt;TModel&gt;.   <a href="#a66a0ea60621331e3b5d5e4840e25e811">More...</a><br /></td></tr>
 <tr class="separator:a66a0ea60621331e3b5d5e4840e25e811"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a053994226edd2d27e75ea295eedae9f9"><td class="memItemLeft" align="right" valign="top">Task&lt; List&lt; TModel &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection.html#a053994226edd2d27e75ea295eedae9f9">ToListAsync</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a053994226edd2d27e75ea295eedae9f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve all the <em>TModel</em> s in the table.   <a href="#a053994226edd2d27e75ea295eedae9f9">More...</a><br /></td></tr>
-<tr class="separator:a053994226edd2d27e75ea295eedae9f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -193,7 +191,7 @@ Additional Inherited Members</h2></td></tr>
 </dl>
 </div>
 
-<p>Definition at line <a class="el" href="_database_collection_8cs_source.html#l00013">13</a> of file <a class="el" href="_database_collection_8cs_source.html">DatabaseCollection.cs</a>.</p>
+<p>Definition at line <a class="el" href="_database_collection_8cs_source.html#l00012">12</a> of file <a class="el" href="_database_collection_8cs_source.html">DatabaseCollection.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ab45237330b1543809ec730ad8a5ba3af"></a>
 <div class="memitem">
@@ -217,8 +215,8 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_database_collection_8cs_source.html#l00024">24</a> of file <a class="el" href="_database_collection_8cs_source.html">DatabaseCollection.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        {</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            this.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection.html#a9ded40bd536adb9602f0c3733409eef3">dbSet</a> = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection.html#a9ded40bd536adb9602f0c3733409eef3">dbSet</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection.html#a9ded40bd536adb9602f0c3733409eef3">dbSet</a>));</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection_html_a9ded40bd536adb9602f0c3733409eef3"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection.html#a9ded40bd536adb9602f0c3733409eef3">Tgstation.Server.Host.Database.DatabaseCollection.dbSet</a></div><div class="ttdeci">readonly DbSet&lt; TModel &gt; dbSet</div><div class="ttdoc">The backing DbSet&lt;TEntity&gt;. </div><div class="ttdef"><b>Definition:</b> <a href="_database_collection_8cs_source.html#l00018">DatabaseCollection.cs:18</a></div></div>
+<p>Definition at line <a class="el" href="_database_collection_8cs_source.html#l00023">23</a> of file <a class="el" href="_database_collection_8cs_source.html">DatabaseCollection.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        {</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            this.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection.html#a9ded40bd536adb9602f0c3733409eef3">dbSet</a> = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection.html#a9ded40bd536adb9602f0c3733409eef3">dbSet</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection.html#a9ded40bd536adb9602f0c3733409eef3">dbSet</a>));</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection_html_a9ded40bd536adb9602f0c3733409eef3"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection.html#a9ded40bd536adb9602f0c3733409eef3">Tgstation.Server.Host.Database.DatabaseCollection.dbSet</a></div><div class="ttdeci">readonly DbSet&lt; TModel &gt; dbSet</div><div class="ttdoc">The backing DbSet&lt;TEntity&gt;. </div><div class="ttdef"><b>Definition:</b> <a href="_database_collection_8cs_source.html#l00017">DatabaseCollection.cs:17</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -283,33 +281,21 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a198210b908b36209c2ec840bb5bdbc43"></a>
+<a class="anchor" id="a6212ee32986277efe11bff2d46009ca7"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection.html">Tgstation.Server.Host.Database.DatabaseCollection</a>&lt; TModel &gt;.ForEachAsync </td>
+          <td class="memname">IAsyncEnumerator&lt;TModel&gt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection.html">Tgstation.Server.Host.Database.DatabaseCollection</a>&lt; TModel &gt;.GetAsyncEnumerator </td>
           <td>(</td>
-          <td class="paramtype">Action&lt; TModel &gt;&#160;</td>
-          <td class="paramname"><em>action</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>cancellationToken</em>&#160;</td>
-        </tr>
-        <tr>
+          <td class="paramname"><em>cancellationToken</em> = <code>default</code></td><td>)</td>
           <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Asyncronously run a given <em>action</em>  on the IDatabaseCollection&lt;TModel&gt;.  </p>
-
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#af03a612669a10392cf9f7ba67cbd3ec5">Tgstation.Server.Host.Database.IDatabaseCollection&lt; TModel &gt;</a>.</p>
+<p></p>
 
 </div>
 </div>
@@ -395,26 +381,6 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a053994226edd2d27e75ea295eedae9f9"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Task&lt;List&lt;TModel&gt; &gt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection.html">Tgstation.Server.Host.Database.DatabaseCollection</a>&lt; TModel &gt;.ToListAsync </td>
-          <td>(</td>
-          <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>cancellationToken</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Retrieve all the <em>TModel</em> s in the table.  </p>
-
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#a5b875dee97183b497dbea5d73675e4b9">Tgstation.Server.Host.Database.IDatabaseCollection&lt; TModel &gt;</a>.</p>
-
-</div>
-</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a class="anchor" id="a9ded40bd536adb9602f0c3733409eef3"></a>
 <div class="memitem">
@@ -436,7 +402,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>The backing DbSet&lt;TEntity&gt;. </p>
 
-<p>Definition at line <a class="el" href="_database_collection_8cs_source.html#l00018">18</a> of file <a class="el" href="_database_collection_8cs_source.html">DatabaseCollection.cs</a>.</p>
+<p>Definition at line <a class="el" href="_database_collection_8cs_source.html#l00017">17</a> of file <a class="el" href="_database_collection_8cs_source.html">DatabaseCollection.cs</a>.</p>
 
 </div>
 </div>
@@ -452,7 +418,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p></p>
 
-<p>Definition at line <a class="el" href="_database_collection_8cs_source.html#l00033">33</a> of file <a class="el" href="_database_collection_8cs_source.html">DatabaseCollection.cs</a>.</p>
+<p>Definition at line <a class="el" href="_database_collection_8cs_source.html#l00032">32</a> of file <a class="el" href="_database_collection_8cs_source.html">DatabaseCollection.cs</a>.</p>
 
 </div>
 </div>
@@ -468,7 +434,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p></p>
 
-<p>Definition at line <a class="el" href="_database_collection_8cs_source.html#l00036">36</a> of file <a class="el" href="_database_collection_8cs_source.html">DatabaseCollection.cs</a>.</p>
+<p>Definition at line <a class="el" href="_database_collection_8cs_source.html#l00035">35</a> of file <a class="el" href="_database_collection_8cs_source.html">DatabaseCollection.cs</a>.</p>
 
 </div>
 </div>
@@ -484,7 +450,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p></p>
 
-<p>Definition at line <a class="el" href="_database_collection_8cs_source.html#l00030">30</a> of file <a class="el" href="_database_collection_8cs_source.html">DatabaseCollection.cs</a>.</p>
+<p>Definition at line <a class="el" href="_database_collection_8cs_source.html#l00029">29</a> of file <a class="el" href="_database_collection_8cs_source.html">DatabaseCollection.cs</a>.</p>
 
 </div>
 </div>
@@ -500,7 +466,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p></p>
 
-<p>Definition at line <a class="el" href="_database_collection_8cs_source.html#l00039">39</a> of file <a class="el" href="_database_collection_8cs_source.html">DatabaseCollection.cs</a>.</p>
+<p>Definition at line <a class="el" href="_database_collection_8cs_source.html#l00038">38</a> of file <a class="el" href="_database_collection_8cs_source.html">DatabaseCollection.cs</a>.</p>
 
 </div>
 </div>

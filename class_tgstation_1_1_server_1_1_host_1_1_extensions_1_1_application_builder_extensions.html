@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.2.8</span>
+   &#160;<span id="projectnumber">4.3.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -116,6 +116,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a879c6c603a37c9aebf25174e7aee4b2d"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a879c6c603a37c9aebf25174e7aee4b2d">UseServerErrorHandling</a> (this IApplicationBuilder applicationBuilder)</td></tr>
 <tr class="memdesc:a879c6c603a37c9aebf25174e7aee4b2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Suppress all in flight exceptions with error 500.  <a href="#a879c6c603a37c9aebf25174e7aee4b2d">More...</a><br /></td></tr>
 <tr class="separator:a879c6c603a37c9aebf25174e7aee4b2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a096bd3ec1c710bbff6eb56d52252ed2f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a096bd3ec1c710bbff6eb56d52252ed2f">UseRequestCounting</a> (this IApplicationBuilder applicationBuilder)</td></tr>
+<tr class="memdesc:a096bd3ec1c710bbff6eb56d52252ed2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add middleware for logging the request number.  <a href="#a096bd3ec1c710bbff6eb56d52252ed2f">More...</a><br /></td></tr>
+<tr class="separator:a096bd3ec1c710bbff6eb56d52252ed2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
 Static Private Member Functions</h2></td></tr>
@@ -230,6 +233,41 @@ Static Private Member Functions</h2></td></tr>
 <div class="fragment"><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        {</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            <span class="keywordflow">if</span> (applicationBuilder == null)</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(applicationBuilder));</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            applicationBuilder.Use(async (context, next) =&gt;</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            {</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                var logger = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a9f539001c8a2bbac8addd3505f61a31c">GetLogger</a>(context);</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                <span class="keywordflow">try</span></div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                {</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                    await next().ConfigureAwait(<span class="keyword">false</span>);</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                }</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                <span class="keywordflow">catch</span> (DbUpdateException e)</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                {</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                    logger.LogDebug(<span class="stringliteral">&quot;Database conflict: {0}&quot;</span>, e.Message);</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                    await <span class="keyword">new</span> ConflictObjectResult(<span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_error_message.html">ErrorMessage</a>(<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.DatabaseIntegrityConflict)</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                    {</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                        AdditionalData = String.Format(CultureInfo.InvariantCulture, (e.InnerException ?? e).Message)</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                    }).ExecuteResultAsync(<span class="keyword">new</span> ActionContext</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                    {</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                        HttpContext = context</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                    }).ConfigureAwait(<span class="keyword">false</span>);</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                }</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            });</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        }</div><div class="ttc" id="namespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">Tgstation.Server.Api.Models.ErrorCode</a></div><div class="ttdeci">ErrorCode</div><div class="ttdoc">Types of ErrorMessages that the API may return. </div><div class="ttdef"><b>Definition:</b> <a href="_error_code_8cs_source.html#l00010">ErrorCode.cs:10</a></div></div>
 <div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions_html_a9f539001c8a2bbac8addd3505f61a31c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a9f539001c8a2bbac8addd3505f61a31c">Tgstation.Server.Host.Extensions.ApplicationBuilderExtensions.GetLogger</a></div><div class="ttdeci">static ILogger GetLogger(HttpContext httpContext)</div><div class="ttdoc">Gets a ILogger from a given httpContext  </div></div>
 <div class="ttc" id="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_error_message_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_error_message.html">Tgstation.Server.Api.Models.ErrorMessage</a></div><div class="ttdoc">Represents an error message returned by the server </div><div class="ttdef"><b>Definition:</b> <a href="_error_message_8cs_source.html#l00009">ErrorMessage.cs:9</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="a096bd3ec1c710bbff6eb56d52252ed2f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void Tgstation.Server.Host.Extensions.ApplicationBuilderExtensions.UseRequestCounting </td>
+          <td>(</td>
+          <td class="paramtype">this IApplicationBuilder&#160;</td>
+          <td class="paramname"><em>applicationBuilder</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Add middleware for logging the request number. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">applicationBuilder</td><td>The IApplicationBuilder to configure.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_application_builder_extensions_8cs_source.html#l00115">115</a> of file <a class="el" href="_application_builder_extensions_8cs_source.html">ApplicationBuilderExtensions.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        {</div><div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            <span class="keywordflow">if</span> (applicationBuilder == null)</div><div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(applicationBuilder));</div><div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div><div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            ulong requestCounter = 0;</div><div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;</div><div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            applicationBuilder.Use(async (context, next) =&gt;</div><div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;            {</div><div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                var logger = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a9f539001c8a2bbac8addd3505f61a31c">GetLogger</a>(context);</div><div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                var requestNumber = ++requestCounter;</div><div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                logger.LogTrace(<span class="stringliteral">&quot;Starting request #{0}...&quot;</span>, requestNumber);</div><div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                <span class="keywordflow">try</span></div><div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                {</div><div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                    await next().ConfigureAwait(<span class="keyword">false</span>);</div><div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                }</div><div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                <span class="keywordflow">finally</span></div><div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;                {</div><div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;                    logger.LogTrace(<span class="stringliteral">&quot;Finished request #{0}&quot;</span>, requestNumber);</div><div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;                }</div><div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;            });</div><div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions_html_a9f539001c8a2bbac8addd3505f61a31c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a9f539001c8a2bbac8addd3505f61a31c">Tgstation.Server.Host.Extensions.ApplicationBuilderExtensions.GetLogger</a></div><div class="ttdeci">static ILogger GetLogger(HttpContext httpContext)</div><div class="ttdoc">Gets a ILogger from a given httpContext  </div></div>
 </div><!-- fragment -->
 </div>
 </div>

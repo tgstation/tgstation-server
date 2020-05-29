@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.2.8</span>
+   &#160;<span id="projectnumber">4.3.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -144,6 +144,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae1d70f9b3228d495bfd6d5a77811d84c"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#ae1d70f9b3228d495bfd6d5a77811d84c">SetReconnectInterval</a> (uint reconnectInterval)</td></tr>
 <tr class="memdesc:ae1d70f9b3228d495bfd6d5a77811d84c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the interval at which the provider tries to reconnect.  <a href="#ae1d70f9b3228d495bfd6d5a77811d84c">More...</a><br /></td></tr>
 <tr class="separator:ae1d70f9b3228d495bfd6d5a77811d84c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae964a0f8fdd0c48c2dd8bfd0368b1012"><td class="memItemLeft" align="right" valign="top">Task&lt; Func&lt; string, string, Task &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#ae964a0f8fdd0c48c2dd8bfd0368b1012">SendUpdateMessage</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">RevisionInformation</a> revisionInformation, Version byondVersion, DateTimeOffset?estimatedCompletionTime, string gitHubOwner, string gitHubRepo, ulong channelId, bool localCommitPushed, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ae964a0f8fdd0c48c2dd8bfd0368b1012"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send the message for a deployment.  <a href="#ae964a0f8fdd0c48c2dd8bfd0368b1012">More...</a><br /></td></tr>
+<tr class="separator:ae964a0f8fdd0c48c2dd8bfd0368b1012"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
@@ -157,7 +160,7 @@ Properties</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>For interacting with a chat service </p>
 
-<p>Definition at line <a class="el" href="_i_provider_8cs_source.html#l00011">11</a> of file <a class="el" href="_i_provider_8cs_source.html">IProvider.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_provider_8cs_source.html#l00012">12</a> of file <a class="el" href="_i_provider_8cs_source.html">IProvider.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a78705214e55337f3970869e3fcabb502"></a>
 <div class="memitem">
@@ -223,15 +226,14 @@ Here is the caller graph for this function:</div>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#ad4de9ce051d7d17408902660018fbc0c">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a449b9d2cfad03af62ac00b752f843869">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a09ac5284bd746cd4a6008e5747c31dc9">Tgstation.Server.Host.Components.Chat.Providers.Provider</a>.</p>
 
-<p>Referenced by <a class="el" href="_chat_manager_8cs_source.html#l00494">Tgstation.Server.Host.Components.Chat.ChatManager.ChangeSettings()</a>, and <a class="el" href="_chat_manager_8cs_source.html#l00687">Tgstation.Server.Host.Components.Chat.ChatManager.DeleteConnection()</a>.</p>
+<p>Referenced by <a class="el" href="_chat_manager_8cs_source.html#l00494">Tgstation.Server.Host.Components.Chat.ChatManager.ChangeSettings()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_ae24ff61d2fb16b41675498d0d95b67d8_icgraph.png" border="0" usemap="#interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_ae24ff61d2fb16b41675498d0d95b67d8_icgraph" alt=""/></div>
 <map name="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_ae24ff61d2fb16b41675498d0d95b67d8_icgraph" id="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_ae24ff61d2fb16b41675498d0d95b67d8_icgraph">
-<area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ab92aecc1e67b8057488533089666939c" title="Change chat settings. If the ChatBot.Id is not currently in use, a new connection will be made instea..." alt="" coords="308,5,559,47"/>
-<area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae8f42e9fc59f0aa9d70de26a4b6600b7" title="Disconnects and deletes a given connection &#160;" alt="" coords="304,71,563,112"/>
+<area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ab92aecc1e67b8057488533089666939c" title="Change chat settings. If the ChatBot.Id is not currently in use, a new connection will be made instea..." alt="" coords="304,5,555,47"/>
 </map>
 </div>
 </p>
@@ -361,6 +363,86 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a class="anchor" id="ae964a0f8fdd0c48c2dd8bfd0368b1012"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task&lt;Func&lt;string, string, Task&gt; &gt; Tgstation.Server.Host.Components.Chat.Providers.IProvider.SendUpdateMessage </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">RevisionInformation</a>&#160;</td>
+          <td class="paramname"><em>revisionInformation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Version&#160;</td>
+          <td class="paramname"><em>byondVersion</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">DateTimeOffset?&#160;</td>
+          <td class="paramname"><em>estimatedCompletionTime</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>gitHubOwner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>gitHubRepo</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ulong&#160;</td>
+          <td class="paramname"><em>channelId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>localCommitPushed</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Send the message for a deployment. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">revisionInformation</td><td>The RevisionInformation of the deployment.</td></tr>
+    <tr><td class="paramname">byondVersion</td><td>The BYOND Version of the deployment.</td></tr>
+    <tr><td class="paramname">estimatedCompletionTime</td><td>The optional DateTimeOffset the deployment is expected to be completed at.</td></tr>
+    <tr><td class="paramname">gitHubOwner</td><td>The repository GitHub owner, if any.</td></tr>
+    <tr><td class="paramname">gitHubRepo</td><td>The repository GitHub name, if any.</td></tr>
+    <tr><td class="paramname">channelId</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html#a983af752bfee4125d2a94370dc128c48" title="The Providers.IProvider channel Id. ">ChannelRepresentation.RealId</a> to send to</td></tr>
+    <tr><td class="paramname">localCommitPushed</td><td>if the local deployment commit was pushed to the remote repository.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a Func&lt;T1, T2, TResult&gt; to call to update the message at the deployment's conclusion. Parameters: Error message if any, DreamMaker output if any.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ab157d4064cecc611a6996825395272e0">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a0751984b3eac34b027271d93080ef1b2">Tgstation.Server.Host.Components.Chat.Providers.Provider</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="ae1d70f9b3228d495bfd6d5a77811d84c"></a>
 <div class="memitem">
 <div class="memproto">
@@ -421,7 +503,7 @@ Here is the caller graph for this function:</div>
 
 <p>The string that indicates the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service ">IProvider</a> was mentioned </p>
 
-<p>Definition at line <a class="el" href="_i_provider_8cs_source.html#l00021">21</a> of file <a class="el" href="_i_provider_8cs_source.html">IProvider.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_provider_8cs_source.html#l00022">22</a> of file <a class="el" href="_i_provider_8cs_source.html">IProvider.cs</a>.</p>
 
 <p>Referenced by <a class="el" href="_chat_manager_8cs_source.html#l00206">Tgstation.Server.Host.Components.Chat.ChatManager.ProcessMessage()</a>.</p>
 
@@ -447,7 +529,7 @@ Here is the caller graph for this function:</div>
 
 <p>If the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service ">IProvider</a> </p>
 
-<p>Definition at line <a class="el" href="_i_provider_8cs_source.html#l00016">16</a> of file <a class="el" href="_i_provider_8cs_source.html">IProvider.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_provider_8cs_source.html#l00017">17</a> of file <a class="el" href="_i_provider_8cs_source.html">IProvider.cs</a>.</p>
 
 <p>Referenced by <a class="el" href="_chat_manager_8cs_source.html#l00206">Tgstation.Server.Host.Components.Chat.ChatManager.ProcessMessage()</a>.</p>
 

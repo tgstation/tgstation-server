@@ -22,6 +22,7 @@ var searchData=
   ['interop',['Interop',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop.html',1,'Tgstation::Server::Host::Components']]],
   ['io',['IO',['../namespace_tgstation_1_1_server_1_1_host_1_1_i_o.html',1,'Tgstation::Server::Host']]],
   ['jobs',['Jobs',['../namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html',1,'Tgstation::Server::Host']]],
+  ['migrations',['Migrations',['../namespace_tgstation_1_1_server_1_1_host_1_1_migrations.html',1,'Tgstation::Server::Host']]],
   ['migrations',['Migrations',['../namespace_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations.html',1,'Tgstation::Server::Host::Database']]],
   ['models',['Models',['../namespace_tgstation_1_1_server_1_1_host_1_1_models.html',1,'Tgstation::Server::Host']]],
   ['models',['Models',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html',1,'Tgstation::Server::Api']]],
