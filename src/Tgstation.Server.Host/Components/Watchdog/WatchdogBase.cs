@@ -747,7 +747,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					return;
 				ActiveLaunchParameters = launchParameters;
 				if (Running)
+				{
 					ActiveParametersUpdated.TrySetResult(null); // queue an update
+					ActiveParametersUpdated = new TaskCompletionSource<object>();
+				}
 			}
 		}
 
