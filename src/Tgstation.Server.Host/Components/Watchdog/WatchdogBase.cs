@@ -621,9 +621,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 							// wait for something to happen
 							await toWaitOn.ConfigureAwait(false);
-							cancellationToken.ThrowIfCancellationRequested();
 						}
 
+						cancellationToken.ThrowIfCancellationRequested();
 						Logger.LogTrace("Monitor activated");
 
 						using (await SemaphoreSlimContext.Lock(Semaphore, cancellationToken).ConfigureAwait(false))
@@ -711,17 +711,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 						await chatTask.ConfigureAwait(false);
 					}
-				}
-				catch (OperationCanceledException)
-				{
-					Logger.LogDebug("Monitor cancelled");
+			}
+			catch (OperationCanceledException)
+			{
+				Logger.LogDebug("Monitor cancelled");
 
-					if (releaseServers)
-					{
-						Logger.LogTrace("Detaching servers...");
-						releasedReattachInformation = CreateReattachInformation();
-					}
+				if (releaseServers)
+				{
+					Logger.LogTrace("Detaching servers...");
+					releasedReattachInformation = CreateReattachInformation();
 				}
+			}
 
 			DisposeAndNullControllers();
 
