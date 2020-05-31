@@ -141,8 +141,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 			{
 				nextDmbProvider?.Dispose();
 				nextDmbProvider = newProvider;
-				newerDmbTcs.SetResult(nextDmbProvider);
+
+				// Oh god dammit
+				var temp = newerDmbTcs;
 				newerDmbTcs = new TaskCompletionSource<object>();
+				temp.SetResult(nextDmbProvider);
 			}
 		}
 
