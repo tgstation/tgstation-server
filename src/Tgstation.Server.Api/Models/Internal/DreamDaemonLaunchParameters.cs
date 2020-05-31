@@ -48,7 +48,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		public uint? HeartbeatSeconds { get; set; }
 
 		/// <summary>
-		/// Check if we match a given set of <paramref name="otherParameters"/>
+		/// Check if we match a given set of <paramref name="otherParameters"/>. <see cref="StartupTimeout"/> is excluded.
 		/// </summary>
 		/// <param name="otherParameters">The <see cref="DreamDaemonLaunchParameters"/> to compare against</param>
 		/// <returns><see langword="true"/> if they match, <see langword="false"/> otherwise</returns>
@@ -57,7 +57,6 @@ namespace Tgstation.Server.Api.Models.Internal
 				&& SecurityLevel == otherParameters.SecurityLevel
 				&& PrimaryPort == otherParameters.PrimaryPort
 				&& SecondaryPort == otherParameters.SecondaryPort
-				&& StartupTimeout == otherParameters.StartupTimeout
-				&& HeartbeatSeconds == otherParameters.HeartbeatSeconds;
+				&& HeartbeatSeconds == otherParameters.HeartbeatSeconds; // We intentionally don't check StartupTimeout as it doesn't matter
 	}
 }
