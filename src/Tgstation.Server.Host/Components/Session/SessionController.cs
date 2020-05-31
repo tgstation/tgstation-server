@@ -241,8 +241,9 @@ namespace Tgstation.Server.Host.Components.Session
 			_ = process.Lifetime.ContinueWith(
 				x =>
 				{
-					if (!disposed)
-						reattachTopicCts.Cancel();
+					lock (synchronizationLock)
+						if (!disposed)
+							reattachTopicCts.Cancel();
 					chatTrackingContext.Active = false;
 				},
 				TaskScheduler.Current);
