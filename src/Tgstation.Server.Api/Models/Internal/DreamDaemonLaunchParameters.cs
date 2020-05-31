@@ -52,11 +52,10 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// </summary>
 		/// <param name="otherParameters">The <see cref="DreamDaemonLaunchParameters"/> to compare against</param>
 		/// <returns><see langword="true"/> if they match, <see langword="false"/> otherwise</returns>
-		public bool Match(DreamDaemonLaunchParameters otherParameters) =>
+		public bool CanApplyWithoutReboot(DreamDaemonLaunchParameters otherParameters) =>
 			AllowWebClient == (otherParameters?.AllowWebClient ?? throw new ArgumentNullException(nameof(otherParameters)))
 				&& SecurityLevel == otherParameters.SecurityLevel
 				&& PrimaryPort == otherParameters.PrimaryPort
-				&& SecondaryPort == otherParameters.SecondaryPort
-				&& HeartbeatSeconds == otherParameters.HeartbeatSeconds; // We intentionally don't check StartupTimeout as it doesn't matter
+				&& SecondaryPort == otherParameters.SecondaryPort; // We intentionally don't check StartupTimeout or heartbeat seconds as it doesn't matter in terms of the watchdog
 	}
 }

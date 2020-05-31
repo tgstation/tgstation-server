@@ -743,14 +743,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			using (await SemaphoreSlimContext.Lock(Semaphore, cancellationToken).ConfigureAwait(false))
 			{
-				if (launchParameters.Match(ActiveLaunchParameters))
-					return;
+				bool match = launchParameters.CanApplyWithoutReboot(ActiveLaunchParameters);
 				ActiveLaunchParameters = launchParameters;
-				if (Running)
-				{
-					ActiveParametersUpdated.TrySetResult(null); // queue an update
-					ActiveParametersUpdated = new TaskCompletionSource<object>();
-				}
+				if (match || !Running)
+					return;
+
+				ActiveParametersUpdated.TrySetResult(null); // queue an update
+				ActiveParametersUpdated = new TaskCompletionSource<object>();
 			}
 		}
 
