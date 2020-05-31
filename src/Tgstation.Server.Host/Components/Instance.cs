@@ -301,11 +301,12 @@ namespace Tgstation.Server.Host.Components
 										var currentHead = repo.Head;
 
 										currentRevInfo = await databaseContext.RevisionInformations
-										.AsQueryable()
-										.Where(x => x.CommitSha == currentHead && x.Instance.Id == metadata.Id)
-										.FirstOrDefaultAsync(jobCancellationToken).ConfigureAwait(false);
+											.AsQueryable()
+											.Where(x => x.CommitSha == currentHead && x.Instance.Id == metadata.Id)
+											.FirstOrDefaultAsync(jobCancellationToken)
+											.ConfigureAwait(false);
 
-										if (currentHead != startSha && currentRevInfo != default)
+										if (currentHead != startSha && currentRevInfo == default)
 											await UpdateRevInfo(currentHead, true).ConfigureAwait(false);
 
 										shouldSyncTracked = true;
