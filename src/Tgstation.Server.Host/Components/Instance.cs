@@ -234,7 +234,7 @@ namespace Tgstation.Server.Host.Components
 											.AsQueryable()
 											.Where(x => x.CommitSha == startSha && x.Instance.Id == metadata.Id)
 											.Include(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge)
-											.FirstOrDefaultAsync(cancellationToken);
+											.FirstOrDefaultAsync(jobCancellationToken);
 
 									async Task UpdateRevInfo(string currentHead, bool onOrigin)
 									{
@@ -326,7 +326,7 @@ namespace Tgstation.Server.Host.Components
 									if (hasDbChanges)
 										try
 										{
-											await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+											await databaseContext.Save(jobCancellationToken).ConfigureAwait(false);
 										}
 										catch
 										{
@@ -369,7 +369,7 @@ namespace Tgstation.Server.Host.Components
 							DreamMaker.DeploymentProcess,
 							cancellationToken).ConfigureAwait(false);
 
-						await jobManager.WaitForJobCompletion(compileProcessJob, user, cancellationToken, default).ConfigureAwait(false);
+						await jobManager.WaitForJobCompletion(compileProcessJob, user, default, cancellationToken).ConfigureAwait(false);
 					}
 					catch (OperationCanceledException)
 					{
