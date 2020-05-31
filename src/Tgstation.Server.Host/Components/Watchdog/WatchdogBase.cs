@@ -904,14 +904,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken)
 		{
-			if (releaseServers)
-			{
-				await StopMonitor().ConfigureAwait(false);
-				if (releasedReattachInformation != null)
-					await reattachInfoHandler.Save(releasedReattachInformation, cancellationToken).ConfigureAwait(false);
-			}
-
 			await TerminateNoLock(false, !releaseServers, cancellationToken).ConfigureAwait(false);
+			if (releasedReattachInformation != null)
+				await reattachInfoHandler.Save(releasedReattachInformation, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
