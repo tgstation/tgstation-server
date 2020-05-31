@@ -281,6 +281,8 @@ namespace Tgstation.Server.Host.Components.Session
 			{
 				if (disposed)
 					return;
+				disposed = true;
+				logger.LogTrace("Disposing...");
 				if (disposing)
 				{
 					if (!released)
@@ -294,7 +296,6 @@ namespace Tgstation.Server.Host.Components.Session
 					Dmb?.Dispose(); // will be null when released
 					chatTrackingContext.Dispose();
 					reattachTopicCts.Dispose();
-					disposed = true;
 				}
 				else
 				{
