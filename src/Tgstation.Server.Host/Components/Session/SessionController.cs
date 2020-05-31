@@ -293,7 +293,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 					process.Dispose();
 					bridgeRegistration.Dispose();
-					Dmb?.Dispose(); // will be null when released
+					reattachInformation.Dmb?.Dispose(); // will be null when released
 					chatTrackingContext.Dispose();
 					reattachTopicCts.Dispose();
 				}
