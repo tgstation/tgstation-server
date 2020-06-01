@@ -1,4 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_factory.html" title="Factory for IProviders " alt="" coords="5,5,256,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider_factory.html" title="Tgstation.Server.Host.Components.\lChat.Providers.ProviderFactory" alt="" coords="304,5,555,47"/>
+<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_factory.html" title="For creating IChatManagers " alt="" coords="5,5,256,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_factory.html" title="Tgstation.Server.Host.Components.\lChat.ChatManagerFactory" alt="" coords="304,5,555,47"/>
 </map>

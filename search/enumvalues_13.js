@@ -1,9 +1,9 @@
 var searchData=
 [
   ['watchdogcompilejobcorrupted',['WatchdogCompileJobCorrupted',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a5bf519a63341001be4c5c6c4e940f160',1,'Tgstation::Server::Api::Models']]],
-  ['watchdogdetach',['WatchdogDetach',['../namespace_tgstation_1_1_server_1_1_host_1_1_components.html#a67a04fc5ffb3b43b0f887df8796d6381a3eac9672e6db27cac6717a7a58577359',1,'Tgstation::Server::Host::Components']]],
+  ['watchdogdetach',['WatchdogDetach',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7a3eac9672e6db27cac6717a7a58577359',1,'Tgstation::Server::Host::Components::Events']]],
   ['watchdogrunning',['WatchdogRunning',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a7308ad22f9debf125c2daff8c9dcb4bc',1,'Tgstation::Server::Api::Models']]],
-  ['watchdogshutdown',['WatchdogShutdown',['../namespace_tgstation_1_1_server_1_1_host_1_1_components.html#a67a04fc5ffb3b43b0f887df8796d6381a41008b498ed03646e26e2b4fa7f8ffd8',1,'Tgstation::Server::Host::Components']]],
+  ['watchdogshutdown',['WatchdogShutdown',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7a41008b498ed03646e26e2b4fa7f8ffd8',1,'Tgstation::Server::Host::Components::Events']]],
   ['watchdogstartupfailed',['WatchdogStartupFailed',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8aded687bc590419f813a657d0ab331fb8',1,'Tgstation::Server::Api::Models']]],
   ['watchdogstartuptimeout',['WatchdogStartupTimeout',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8ae81957bf66d058288d7977abc4d02fdf',1,'Tgstation::Server::Api::Models']]],
   ['write',['Write',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0ca1129c0e4d43f2d121652a7302712cff6',1,'Tgstation::Server::Api::Rights']]],

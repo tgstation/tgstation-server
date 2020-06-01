@@ -1,4 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html" title="For managing server administration " alt="" coords="5,5,176,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_administration_client.html" title="Tgstation.Server.Client.\lAdministrationClient" alt="" coords="224,5,395,47"/>
+<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_repository_client.html" title="For managing the Repository " alt="" coords="5,5,219,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_repository_client.html" title="Tgstation.Server.Client.\lComponents.RepositoryClient" alt="" coords="267,5,477,47"/>
 </map>

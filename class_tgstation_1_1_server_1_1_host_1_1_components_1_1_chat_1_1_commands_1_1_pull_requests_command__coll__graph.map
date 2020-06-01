@@ -4,6 +4,6 @@
 <area shape="rect" id="node5" href="$class_i_hosted_service.html" title="IHostedService" alt="" coords="9,113,128,140"/>
 <area shape="rect" id="node6" href="$class_i_disposable.html" title="IDisposable" alt="" coords="21,172,116,199"/>
 <area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html" title="Factory for creating and loading IRepositorys " alt="" coords="181,173,432,214"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions " alt="" coords="5,63,132,89"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions " alt="" coords="5,63,132,89"/>
 <area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components " alt="" coords="191,290,422,331"/>
 </map>

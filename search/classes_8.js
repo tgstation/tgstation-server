@@ -59,7 +59,7 @@ var searchData=
   ['idreamdaemonclient',['IDreamDaemonClient',['../interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_dream_daemon_client.html',1,'Tgstation::Server::Client::Components']]],
   ['idreammaker',['IDreamMaker',['../interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dream_maker.html',1,'Tgstation::Server::Host::Components::Deployment']]],
   ['idreammakerclient',['IDreamMakerClient',['../interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_dream_maker_client.html',1,'Tgstation::Server::Client::Components']]],
-  ['ieventconsumer',['IEventConsumer',['../interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_event_consumer.html',1,'Tgstation::Server::Host::Components']]],
+  ['ieventconsumer',['IEventConsumer',['../interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html',1,'Tgstation::Server::Host::Components::Events']]],
   ['igithubclientfactory',['IGitHubClientFactory',['../interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html',1,'Tgstation::Server::Host::Core']]],
   ['ihostedservice',['IHostedService',['../class_i_hosted_service.html',1,'']]],
   ['ihttpclient',['IHttpClient',['../interface_tgstation_1_1_server_1_1_client_1_1_i_http_client.html',1,'Tgstation::Server::Client']]],

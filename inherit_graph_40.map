@@ -1,4 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_instance_client.html" title="For managing a single Instance " alt="" coords="5,5,207,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_instance_client.html" title="Tgstation.Server.Client.\lComponents.InstanceClient" alt="" coords="255,5,453,47"/>
+<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_dream_maker_client.html" title="For managing the compiler " alt="" coords="5,5,236,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_dream_maker_client.html" title="Tgstation.Server.Client.\lComponents.DreamMakerClient" alt="" coords="284,5,511,47"/>
 </map>

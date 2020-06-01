@@ -2,9 +2,9 @@ var searchData=
 [
   ['channelmapping',['ChannelMapping',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_mapping.html',1,'Tgstation::Server::Host::Components::Chat']]],
   ['channelrepresentation',['ChannelRepresentation',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html',1,'Tgstation::Server::Host::Components::Chat']]],
-  ['chatbot',['ChatBot',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot.html',1,'Tgstation::Server::Api::Models::Internal']]],
-  ['chatbot',['ChatBot',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html',1,'Tgstation::Server::Host::Models']]],
   ['chatbot',['ChatBot',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_bot.html',1,'Tgstation::Server::Api::Models']]],
+  ['chatbot',['ChatBot',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html',1,'Tgstation::Server::Host::Models']]],
+  ['chatbot',['ChatBot',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot.html',1,'Tgstation::Server::Api::Models::Internal']]],
   ['chatbotsclient',['ChatBotsClient',['../class_tgstation_1_1_server_1_1_client_1_1_components_1_1_chat_bots_client.html',1,'Tgstation::Server::Client::Components']]],
   ['chatchannel',['ChatChannel',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html',1,'Tgstation::Server::Api::Models']]],
   ['chatchannel',['ChatChannel',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html',1,'Tgstation::Server::Host::Models']]],

@@ -1,6 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_i_async_enumerable.html" title="IAsyncEnumerable" alt="" coords="5,5,145,32"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title="Represents a database table. " alt="" coords="193,23,424,65"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection.html" title="Tgstation.Server.Host.Database.\lDatabaseCollection\&lt; TModel \&gt;" alt="" coords="472,23,703,65"/>
-<area shape="rect" id="node4" href="$class_i_queryable.html" title="IQueryable" alt="" coords="30,56,121,83"/>
+<area shape="rect" id="node1" href="$class_i_open_api_extension.html" title="IOpenApiExtension" alt="" coords="5,13,147,39"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_open_api_enum_var_names_extension.html" title="Implements the &quot;x&#45;enum&#45;varnames&quot; OpenAPI 3.0 extension. " alt="" coords="195,5,437,47"/>
 </map>

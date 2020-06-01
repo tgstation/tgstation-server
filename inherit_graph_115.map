@@ -1,5 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dual_reattach_information_base.html" title="Base class for DualReattachInformation " alt="" coords="5,39,219,80"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_dual_reattach_information.html" title="Reattach information for two ISessionController " alt="" coords="267,5,517,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dual_reattach_information.html" title="Database representation of Components.Session.DualReattachInformation " alt="" coords="285,71,499,112"/>
+<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_server_factory.html" title="For creating IServers " alt="" coords="5,5,215,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_server_factory.html" title="Implementation of IServerFactory. " alt="" coords="263,5,469,47"/>
 </map>

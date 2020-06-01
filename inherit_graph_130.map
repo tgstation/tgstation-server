@@ -1,4 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html" title="The watchdog for a Host " alt="" coords="5,5,236,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html" title="Tgstation.Server.Host.Watchdog.\lWatchdog" alt="" coords="284,5,515,47"/>
+<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html" title="Abstraction for suspending and resuming processes. " alt="" coords="5,39,223,80"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html" title="Tgstation.Server.Host.System.\lPosixProcessFeatures" alt="" coords="271,5,488,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html" title="Tgstation.Server.Host.System.\lWindowsProcessFeatures" alt="" coords="271,71,488,112"/>
 </map>
