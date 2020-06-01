@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Components.StaticFiles
