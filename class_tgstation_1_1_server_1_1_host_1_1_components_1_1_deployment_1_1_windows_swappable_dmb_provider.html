@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.3.0</span>
+   &#160;<span id="projectnumber">4.3.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -252,7 +252,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p></p>
 
-<p>Referenced by <a class="el" href="_windows_watchdog_8cs_source.html#l00104">Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog.DisposeAndNullControllersImpl()</a>, and <a class="el" href="_windows_watchdog_8cs_source.html#l00136">Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog.HandleNewDmbAvailable()</a>.</p>
+<p>Referenced by <a class="el" href="_windows_watchdog_8cs_source.html#l00104">Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog.DisposeAndNullControllersImpl()</a>, and <a class="el" href="_windows_watchdog_8cs_source.html#l00134">Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog.HandleNewDmbAvailable()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -311,7 +311,7 @@ Here is the caller graph for this function:</div>
 
 <p>Definition at line <a class="el" href="_windows_swappable_dmb_provider_8cs_source.html#l00070">70</a> of file <a class="el" href="_windows_swappable_dmb_provider_8cs_source.html">WindowsSwappableDmbProvider.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_windows_watchdog_8cs_source.html#l00136">Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog.HandleNewDmbAvailable()</a>, and <a class="el" href="_windows_watchdog_8cs_source.html#l00188">Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog.PrepServerForLaunch()</a>.</p>
+<p>Referenced by <a class="el" href="_windows_watchdog_8cs_source.html#l00134">Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog.HandleNewDmbAvailable()</a>, and <a class="el" href="_windows_watchdog_8cs_source.html#l00186">Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog.PrepServerForLaunch()</a>.</p>
 <div class="fragment"><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        {</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            <span class="comment">// Note this comment from TGS3:</span></div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            <span class="comment">// These next two lines should be atomic but this is the best we can do</span></div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_windows_swappable_dmb_provider.html#a6e5daba2b9e3a9fae57d3b89b94675bf">ioManager</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7">DeleteDirectory</a>(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_windows_swappable_dmb_provider.html#ac7fa5dc1d9f1dae5c00e39fcd2767ab1">LiveGameDirectory</a>, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_windows_swappable_dmb_provider.html#a2993c629ac06d9e8ee6545f656fefc0f">symlinkFactory</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html#a35bd8c53ef36c4a655e827750a40699c">CreateSymbolicLink</a>(</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_windows_swappable_dmb_provider.html#a6e5daba2b9e3a9fae57d3b89b94675bf">ioManager</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">ResolvePath</a>(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_windows_swappable_dmb_provider.html#a9aed37f8fd400ab64b8648d62a982772">baseProvider</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html#ad33385283a1bdc077a435793ba21f9a1">PrimaryDirectory</a>),</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_windows_swappable_dmb_provider.html#a6e5daba2b9e3a9fae57d3b89b94675bf">ioManager</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">ResolvePath</a>(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_windows_swappable_dmb_provider.html#ac7fa5dc1d9f1dae5c00e39fcd2767ab1">LiveGameDirectory</a>),</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                cancellationToken)</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                .ConfigureAwait(<span class="keyword">false</span>);</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        }</div><div class="ttc" id="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_ad3e0dda4b7fbad4c77f48ba3b2681dc7"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7">Tgstation.Server.Host.IO.IIOManager.DeleteDirectory</a></div><div class="ttdeci">Task DeleteDirectory(string path, CancellationToken cancellationToken)</div><div class="ttdoc">Recursively delete a directory, removes and does not enter any symlinks encounterd. </div></div>
 <div class="ttc" id="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider_html_ad33385283a1bdc077a435793ba21f9a1"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html#ad33385283a1bdc077a435793ba21f9a1">Tgstation.Server.Host.Components.Deployment.IDmbProvider.PrimaryDirectory</a></div><div class="ttdeci">string PrimaryDirectory</div><div class="ttdoc">The primary game directory with a trailing directory separator </div><div class="ttdef"><b>Definition:</b> <a href="_i_dmb_provider_8cs_source.html#l00019">IDmbProvider.cs:19</a></div></div>
 <div class="ttc" id="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_a18a442b5dff16f5e7a730ec354e81d78"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">Tgstation.Server.Host.IO.IIOManager.ResolvePath</a></div><div class="ttdeci">string ResolvePath()</div><div class="ttdoc">Retrieve the full path of the current working directory. </div></div>
@@ -373,7 +373,7 @@ Here is the caller graph for this function:</div>
 
 <p>Definition at line <a class="el" href="_windows_swappable_dmb_provider_8cs_source.html#l00029">29</a> of file <a class="el" href="_windows_swappable_dmb_provider_8cs_source.html">WindowsSwappableDmbProvider.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_windows_watchdog_8cs_source.html#l00136">Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog.HandleNewDmbAvailable()</a>.</p>
+<p>Referenced by <a class="el" href="_windows_watchdog_8cs_source.html#l00134">Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog.HandleNewDmbAvailable()</a>.</p>
 
 </div>
 </div>
@@ -431,7 +431,7 @@ Here is the caller graph for this function:</div>
 
 <p>Definition at line <a class="el" href="_windows_swappable_dmb_provider_8cs_source.html#l00017">17</a> of file <a class="el" href="_windows_swappable_dmb_provider_8cs_source.html">WindowsSwappableDmbProvider.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_dmb_factory_8cs_source.html#l00265">Tgstation.Server.Host.Components.Deployment.DmbFactory.CleanUnusedCompileJobs()</a>.</p>
+<p>Referenced by <a class="el" href="_dmb_factory_8cs_source.html#l00268">Tgstation.Server.Host.Components.Deployment.DmbFactory.CleanUnusedCompileJobs()</a>.</p>
 
 </div>
 </div>

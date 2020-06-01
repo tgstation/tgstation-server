@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.ChangeSettings" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.ChangeSettings">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a01e4f4e2d775bd2bf0910a1f5c2f24ef" title="Asyncronously locks a semaphore &#160;" alt="" coords="405,5,613,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#acf0f8c66b9e3cfa5af8240d0efac2e36" title="Check if we match a given set of otherParameters &#160;" alt="" coords="341,71,677,112"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#ad1c56d38c1a48c110765c99a72619e13" title="Check if we match a given set of otherParameters . StartupTimeout is excluded. " alt="" coords="341,5,639,61"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a01e4f4e2d775bd2bf0910a1f5c2f24ef" title="Asyncronously locks a semaphore &#160;" alt="" coords="386,85,594,126"/>
 </map>
