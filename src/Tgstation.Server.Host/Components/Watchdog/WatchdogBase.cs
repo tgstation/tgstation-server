@@ -11,6 +11,7 @@ using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Interop.Topic;
 using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Core;

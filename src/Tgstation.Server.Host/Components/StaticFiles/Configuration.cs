@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
@@ -32,12 +33,18 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		const string CodeModificationsHeadFile = "HeadInclude.dm";
 		const string CodeModificationsTailFile = "TailInclude.dm";
 
-		static readonly IReadOnlyDictionary<EventType, string> EventTypeScriptFileNameMap = new Dictionary<EventType, string>
-		{
-			{ EventType.CompileStart, "PreCompile" },
-			{ EventType.CompileComplete, "PostCompile" },
-			{ EventType.RepoPreSynchronize, "PreSynchronize" }
-		};
+		static readonly IReadOnlyDictionary<EventType, string> EventTypeScriptFileNameMap = new Dictionary<EventType, string>(
+			Enum.GetValues(typeof(EventType))
+				.OfType<EventType>()
+				.Select(
+					eventType => new KeyValuePair<EventType, string>(
+						eventType,
+						typeof(EventType)
+							.GetField(eventType.ToString())
+							.GetCustomAttributes(false)
+							.OfType<EventScriptAttribute>()
+							.First()
+							.ScriptName)));
 
 		/// <summary>
 		/// The <see cref="IIOManager"/> for <see cref="Configuration"/>
