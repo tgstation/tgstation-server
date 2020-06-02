@@ -48,6 +48,9 @@ The following environment variables aren't required but enable more tests.
 
 ### Know your Code
 
+- All feature work should be submitted to the `dev` branch for the next minor release.
+- All patch work should be submitted to the `master` branch for the next patch. Changes will be automatically integrated into `dev`
+
 The `/src` folder at the root of this repository contains a series of `README.md` files useful for helping find your way around the codebase.
 
 ## Specifications
