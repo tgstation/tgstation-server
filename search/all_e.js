@@ -25,6 +25,6 @@ var searchData=
   ['normalizeanddelete',['NormalizeAndDelete',['../class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ab0629dee77100aa23cc5f7934efccdb7',1,'Tgstation::Server::Host::IO::DefaultIOManager']]],
   ['normalizementions',['NormalizeMentions',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3cf5b9ba9079d6c9f582f61b5894f7c1',1,'Tgstation::Server::Host::Components::Chat::Providers::DiscordProvider']]],
   ['normalizepath',['NormalizePath',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a8b8a858eef2c16d29e1aff3603f91cce',1,'Tgstation::Server::Host::Controllers::InstanceController']]],
-  ['notifyoffailedreattach',['NotifyOfFailedReattach',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a8b6f38ba84751a83a7db0a28ccef95ae',1,'Tgstation::Server::Host::Components::Watchdog::WatchdogBase']]],
+  ['notifyoffailedreattach',['NotifyOfFailedReattach',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#adbed5ca990c506282fe6e51aa868a449',1,'Tgstation::Server::Host::Components::Watchdog::BasicWatchdog']]],
   ['number',['Number',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a91cb81663a87f96476a47a2628ac1a86',1,'Tgstation::Server::Api::Models::TestMergeParameters']]]
 ];
