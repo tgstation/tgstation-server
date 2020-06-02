@@ -489,5 +489,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("The deployment succeeded but one or more notification events failed!")]
 		PostDeployFailure,
+
+		/// <summary>
+		/// Attempted to restart a stopped watchdog.
+		/// </summary>
+		[Description("Cannot restart the watchdog as it is not running!")]
+		WatchdogNotRunning,
 	}
 }

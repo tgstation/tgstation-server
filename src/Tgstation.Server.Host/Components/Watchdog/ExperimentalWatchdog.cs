@@ -512,7 +512,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						Logger.LogDebug(bothServersDead ? "Also could not reattach to inactive server!" : "Inactive server was reattached successfully!");
 						chatTask = Chat.SendWatchdogMessage(FailReattachMessage, false, cancellationToken);
 						callBeforeRecurse();
-						await LaunchImplNoLock(true, false, null, cancellationToken).ConfigureAwait(false);
+						await LaunchNoLock(true, false, null, cancellationToken).ConfigureAwait(false);
 						await chatTask.ConfigureAwait(false);
 						return;
 					}
