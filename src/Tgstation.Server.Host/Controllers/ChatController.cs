@@ -150,7 +150,7 @@ namespace Tgstation.Server.Host.Controllers
 					.DeleteAsync(cancellationToken))
 				.ConfigureAwait(false);
 
-			return Ok();
+			return NoContent();
 		}
 
 		/// <summary>
@@ -188,11 +188,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Retrieved <see cref="Api.Models.ChatBot"/> successfully.</response>
-		/// <response code="410">Chat bot does not exist.</response>
 		[HttpGet("{id}")]
 		[TgsAuthorize(ChatBotRights.Read)]
 		[ProducesResponseType(typeof(Api.Models.ChatBot), 200)]
-		[ProducesResponseType(410)]
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			var query = DatabaseContext.ChatBots
@@ -202,7 +200,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var results = await query.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (results == default)
-				return StatusCode((int)HttpStatusCode.Gone);
+				return Gone();
 
 			var connectionStrings = (AuthenticationContext.GetRight(RightsType.ChatBots) & (ulong)ChatBotRights.ReadConnectionString) != 0;
 
@@ -223,11 +221,9 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(ChatBotRights.WriteChannels | ChatBotRights.WriteConnectionString | ChatBotRights.WriteEnabled | ChatBotRights.WriteName | ChatBotRights.WriteProvider)]
 		[ProducesResponseType(200)]
 		[ProducesResponseType(typeof(Api.Models.ChatBot), 200)]
-#pragma warning disable CA1502 // TODO: Decomplexify
-#pragma warning disable CA1506
+		#pragma warning disable CA1502, CA1506 // TODO: Decomplexify
 		public async Task<IActionResult> Update([FromBody] Api.Models.ChatBot model, CancellationToken cancellationToken)
-		#pragma warning restore CA1502
-		#pragma warning restore CA1506
+		#pragma warning restore CA1502, CA1506
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
@@ -245,7 +241,7 @@ namespace Tgstation.Server.Host.Controllers
 			var current = await query.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
 			if (current == default)
-				return StatusCode((int)HttpStatusCode.Gone);
+				return Gone();
 
 			if ((model.Channels?.Count ?? current.Channels.Count) > (model.ChannelLimit ?? current.ChannelLimit.Value))
 			{

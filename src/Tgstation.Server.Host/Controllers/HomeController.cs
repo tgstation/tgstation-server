@@ -152,8 +152,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="403">User authenticated but is disabled by an administrator.</response>
 		[HttpPost]
 		[ProducesResponseType(typeof(Api.Models.Token), 200)]
-		[ProducesResponseType(401)]
-		[ProducesResponseType(403)]
 		#pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<IActionResult> CreateToken(CancellationToken cancellationToken)
 		{

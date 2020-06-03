@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Net;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -56,18 +55,16 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="202"><see cref="Api.Models.Job"/> to launch the watchdog started successfully.</response>
-		/// <response code="410">Watchdog already running.</response>
 		[HttpPut]
 		[TgsAuthorize(DreamDaemonRights.Start)]
 		[ProducesResponseType(typeof(Api.Models.Job), 202)]
-		[ProducesResponseType(410)]
 		public async Task<IActionResult> Create(CancellationToken cancellationToken)
 		{
 			// alias for launching DD
 			var instance = instanceManager.GetInstance(Instance);
 
 			if (instance.Watchdog.Running)
-				return StatusCode((int)HttpStatusCode.Gone);
+				return Conflict(new ErrorMessage(ErrorCode.WatchdogRunning));
 
 			var job = new Models.Job
 			{
@@ -90,7 +87,6 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpGet]
 		[TgsAuthorize(DreamDaemonRights.ReadMetadata | DreamDaemonRights.ReadRevision)]
 		[ProducesResponseType(typeof(DreamDaemon), 200)]
-		[ProducesResponseType(410)]
 		public Task<IActionResult> Read(CancellationToken cancellationToken) => ReadImpl(null, cancellationToken);
 
 		/// <summary>
@@ -117,7 +113,7 @@ namespace Tgstation.Server.Host.Controllers
 					.FirstOrDefaultAsync(cancellationToken)
 					.ConfigureAwait(false);
 				if (settings == default)
-					return StatusCode((int)HttpStatusCode.Gone);
+					return Gone();
 			}
 
 			var result = new DreamDaemon();
@@ -175,11 +171,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200">Settings applied successfully.</response>
-		/// <response code="410">Instance no longer available.</response>
 		[HttpPost]
 		[TgsAuthorize(DreamDaemonRights.SetAutoStart | DreamDaemonRights.SetPorts | DreamDaemonRights.SetSecurity | DreamDaemonRights.SetWebClient | DreamDaemonRights.SoftRestart | DreamDaemonRights.SoftShutdown | DreamDaemonRights.Start | DreamDaemonRights.SetStartupTimeout | DreamDaemonRights.SetHeartbeatInterval)]
 		[ProducesResponseType(typeof(DreamDaemon), 200)]
-		[ProducesResponseType(410)]
 		#pragma warning disable CA1502 // TODO: Decomplexify
 		#pragma warning disable CA1506
 		public async Task<IActionResult> Update([FromBody] DreamDaemon model, CancellationToken cancellationToken)
@@ -206,7 +200,7 @@ namespace Tgstation.Server.Host.Controllers
 				.ConfigureAwait(false);
 
 			if (current == default)
-				return StatusCode((int)HttpStatusCode.Gone);
+				return Gone();
 
 			var userRights = (DreamDaemonRights)AuthenticationContext.GetRight(RightsType.DreamDaemon);
 
@@ -285,6 +279,9 @@ namespace Tgstation.Server.Host.Controllers
 			};
 
 			var watchdog = instanceManager.GetInstance(Instance).Watchdog;
+
+			if (!watchdog.Running)
+				return Conflict(new ErrorMessage(ErrorCode.WatchdogNotRunning));
 
 			await jobManager.RegisterOperation(job, (paramJob, databaseContextFactory, progressReporter, ct) => watchdog.Restart(false, ct), cancellationToken).ConfigureAwait(false);
 			return Accepted(job.ToApi());

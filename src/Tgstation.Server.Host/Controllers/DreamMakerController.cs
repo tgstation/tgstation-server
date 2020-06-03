@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -77,11 +76,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200"><see cref="Api.Models.CompileJob"/> retrieved successfully.</response>
-		/// <response code="404">Specified compile job does not exist in this instance.</response>
 		[HttpGet("{id}")]
 		[TgsAuthorize(DreamMakerRights.CompileJobs)]
 		[ProducesResponseType(typeof(Api.Models.CompileJob), 200)]
-		[ProducesResponseType(404)]
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			var compileJob = await DatabaseContext
@@ -159,12 +156,10 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Changes applied successfully. The updated <see cref="DreamMaker"/> settings will be returned.</response>
 		/// <response code="204">Changes applied successfully. The updated <see cref="DreamMaker"/> settings will be not be returned due to permissions.</response>
-		/// <response code="410">Instance no longer available.</response>
 		[HttpPost]
 		[TgsAuthorize(DreamMakerRights.SetDme | DreamMakerRights.SetApiValidationPort | DreamMakerRights.SetApiValidationPort)]
 		[ProducesResponseType(typeof(DreamMaker), 200)]
 		[ProducesResponseType(204)]
-		[ProducesResponseType(410)]
 		public async Task<IActionResult> Update([FromBody] DreamMaker model, CancellationToken cancellationToken)
 		{
 			if (model == null)
@@ -180,7 +175,7 @@ namespace Tgstation.Server.Host.Controllers
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);
 			if (hostModel == null)
-				return StatusCode((int)HttpStatusCode.Gone);
+				return Gone();
 
 			if (model.ProjectName != null)
 			{

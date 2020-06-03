@@ -106,12 +106,12 @@ namespace Tgstation.Server.Host.Controllers
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
-		StatusCodeResult RateLimit(RateLimitExceededException exception)
+		ObjectResult RateLimit(RateLimitExceededException exception)
 		{
 			Logger.LogWarning("Exceeded GitHub rate limit! Exception {0}", exception);
 			var secondsString = Math.Ceiling((exception.Reset - DateTimeOffset.Now).TotalSeconds).ToString(CultureInfo.InvariantCulture);
 			Response.Headers.Add("Retry-After", new StringValues(secondsString));
-			return StatusCode(429);
+			return StatusCode(429, new ErrorMessage(ErrorCode.GitHubApiRateLimit));
 		}
 
 		/// <summary>
@@ -164,7 +164,7 @@ namespace Tgstation.Server.Host.Controllers
 					}); // gtfo of here before all the cancellation tokens fire
 				}
 
-			return StatusCode((int)HttpStatusCode.Gone);
+			return Gone();
 		}
 
 		IGitHubClient GetGitHubClient() => String.IsNullOrEmpty(generalConfiguration.GitHubAccessToken) ? gitHubClientFactory.CreateClient() : gitHubClientFactory.CreateClient(generalConfiguration.GitHubAccessToken);
@@ -179,7 +179,7 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpGet]
 		[TgsAuthorize]
 		[ProducesResponseType(typeof(Administration), 200)]
-		[ProducesResponseType(424)]
+		[ProducesResponseType(typeof(ErrorMessage), 424)]
 		[ProducesResponseType(typeof(ErrorMessage), 429)]
 		public async Task<IActionResult> Read()
 		{
@@ -233,16 +233,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="202">Update has been started successfully.</response>
-		/// <response code="410">The requested version could not be found.</response>
 		/// <response code="422">Upgrade operations are unavailable due to the launch configuration of TGS.</response>
 		/// <response code="424">A GitHub rate limit was encountered.</response>
 		/// <response code="429">A GitHub API error occurred.</response>
 		[HttpPost]
 		[TgsAuthorize(AdministrationRights.ChangeVersion)]
 		[ProducesResponseType(typeof(Administration), 202)]
-		[ProducesResponseType(410)]
 		[ProducesResponseType(typeof(ErrorMessage), 422)]
-		[ProducesResponseType(424)]
+		[ProducesResponseType(typeof(ErrorMessage), 424)]
 		[ProducesResponseType(typeof(ErrorMessage), 429)]
 		public async Task<IActionResult> Update([FromBody] Administration model, CancellationToken cancellationToken)
 		{
