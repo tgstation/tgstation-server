@@ -241,8 +241,9 @@ namespace Tgstation.Server.Host.Components.Session
 			_ = process.Lifetime.ContinueWith(
 				x =>
 				{
-					if (!disposed)
-						reattachTopicCts.Cancel();
+					lock (synchronizationLock)
+						if (!disposed)
+							reattachTopicCts.Cancel();
 					chatTrackingContext.Active = false;
 				},
 				TaskScheduler.Current);
@@ -280,6 +281,8 @@ namespace Tgstation.Server.Host.Components.Session
 			{
 				if (disposed)
 					return;
+				disposed = true;
+				logger.LogTrace("Disposing...");
 				if (disposing)
 				{
 					if (!released)
@@ -290,10 +293,9 @@ namespace Tgstation.Server.Host.Components.Session
 
 					process.Dispose();
 					bridgeRegistration.Dispose();
-					Dmb?.Dispose(); // will be null when released
+					reattachInformation.Dmb?.Dispose(); // will be null when released
 					chatTrackingContext.Dispose();
 					reattachTopicCts.Dispose();
-					disposed = true;
 				}
 				else
 				{

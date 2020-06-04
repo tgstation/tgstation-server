@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -233,12 +234,18 @@ namespace Tgstation.Server.Host.Components.Session
 					var visibility = apiValidate ? "invisible" : "public";
 
 					// important to run on all ports to allow port changing
-					var arguments = String.Format(CultureInfo.InvariantCulture, "{0} -port {1} -ports 1-65535 {2}-close -{3} -{4} -public -params \"{5}\"",
+					Guid? logFileGuid = null;
+					var arguments = String.Format(
+						CultureInfo.InvariantCulture,
+						"{0} -port {1} -ports 1-65535 {2}-close -{3} -{4}{5} -public -params \"{6}\"",
 						dmbProvider.DmbName,
 						portToUse,
 						launchParameters.AllowWebClient.Value ? "-webclient " : String.Empty,
 						SecurityWord(launchParameters.SecurityLevel.Value),
 						visibility,
+						platformIdentifier.IsWindows
+							? $" -log {logFileGuid = Guid.NewGuid()}"
+							: String.Empty, // Just use stdout on linux
 						parameters);
 
 					// See https://github.com/tgstation/tgstation-server/issues/719
@@ -253,15 +260,51 @@ namespace Tgstation.Server.Host.Components.Session
 						noShellExecute,
 						noShellExecute: noShellExecute);
 
-					if (noShellExecute)
+					async Task<string> GetDDOutput()
 					{
-						// Log DD output
-						_ = process.Lifetime.ContinueWith(
-								x => logger.LogTrace(
-									"DreamDaemon Output:{0}{1}",
-									Environment.NewLine, process.GetCombinedOutput()),
-								TaskScheduler.Current);
+						if (!platformIdentifier.IsWindows)
+							return process.GetCombinedOutput();
+
+						var logFilePath = ioManager.ConcatPath(basePath, logFileGuid.ToString());
+						try
+						{
+							var dreamDaemonLogBytes = await ioManager.ReadAllBytes(
+								logFilePath,
+								default)
+								.ConfigureAwait(false);
+
+							return Encoding.UTF8.GetString(dreamDaemonLogBytes);
+						}
+						finally
+						{
+							try
+							{
+								await ioManager.DeleteFile(logFilePath, default).ConfigureAwait(false);
+							}
+							catch (Exception ex)
+							{
+								logger.LogWarning("Failed to delete DreamDaemon log file {0}: {1}", logFilePath, ex);
+							}
+						}
 					}
+
+					// Log DD output
+					_ = process.Lifetime.ContinueWith(
+							async x =>
+							{
+								try
+								{
+									var ddOutput = await GetDDOutput().ConfigureAwait(false);
+									logger.LogTrace(
+										"DreamDaemon Output:{0}{1}",
+										Environment.NewLine, ddOutput);
+								}
+								catch (Exception ex)
+								{
+									logger.LogWarning("Error reading DreamDaemon output: {0}", ex);
+								}
+							},
+							TaskScheduler.Current);
 
 					try
 					{

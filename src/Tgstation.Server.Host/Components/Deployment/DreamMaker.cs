@@ -12,6 +12,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
+using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Core;
@@ -585,7 +586,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						}
 						catch
 						{
-							repo.Dispose();
+							repo?.Dispose();
 							throw;
 						}
 					})

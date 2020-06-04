@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Tgstation.Server.Host.Components
+namespace Tgstation.Server.Host.Components.Events
 {
 	/// <summary>
 	/// Consumes <see cref="EventType"/>s and takes the appropriate actions

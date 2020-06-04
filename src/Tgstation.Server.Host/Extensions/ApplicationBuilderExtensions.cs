@@ -107,32 +107,5 @@ namespace Tgstation.Server.Host.Extensions
 				}
 			});
 		}
-
-		/// <summary>
-		/// Add middleware for logging the request number.
-		/// </summary>
-		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure.</param>
-		public static void UseRequestCounting(this IApplicationBuilder applicationBuilder)
-		{
-			if (applicationBuilder == null)
-				throw new ArgumentNullException(nameof(applicationBuilder));
-
-			ulong requestCounter = 0;
-
-			applicationBuilder.Use(async (context, next) =>
-			{
-				var logger = GetLogger(context);
-				var requestNumber = ++requestCounter;
-				logger.LogTrace("Starting request #{0}...", requestNumber);
-				try
-				{
-					await next().ConfigureAwait(false);
-				}
-				finally
-				{
-					logger.LogTrace("Finished request #{0}", requestNumber);
-				}
-			});
-		}
 	}
 }

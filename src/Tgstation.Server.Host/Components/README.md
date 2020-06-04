@@ -10,6 +10,7 @@ Component code is where the magic and tears of TGS are made. There are six main 
 
 There exist two more namespaces in here that don't directly fit in these 6 components.
 
+- [Events](./Events) deals with the TGS event system.
 - [Interop](./Interop) deals with the bulk of DMAPI communication (Though it's not all contained here).
 - [Session](./Session) contains the classes used for actually executing DreamDaemon, sending topic requests, receiving bridge requests, among other things.
 
@@ -19,4 +20,6 @@ While the database represents stored instance data, in component code an instanc
 
 `IInstance`s are created via the [IInstanceFactory](./IInstanceFactory.cs) ([implementation](./InstanceFactory.cs)) and are generally controlled via the [IInstanceManager](./IInstanceManager.cs) ([implementation](./InstanceManager.cs)).
 
-Many classes in here implement [IHostedService](), `InstanceManager` being the only one that is called by the ASP.NET runtime. In the case of instances `StartAsync()` is called when an `Instance` is being brought online (from server startup or user request). The `Instance` handles calling `StartAsync()` on its various subcomponents that need it. When an `Instance` is being brought offline (from server shutdown/restart/update or user request) the same pattern is followed calling `StopAsync()`.
+Many classes in here implement [IHostedService](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services?view=aspnetcore-3.1&tabs=visual-studio), `InstanceManager` being the only one that is called by the ASP.NET runtime. In the case of instances `StartAsync()` is called when an `Instance` is being brought online (from server startup or user request). The `Instance` handles calling `StartAsync()` on its various subcomponents that need it. When an `Instance` is being brought offline (from server shutdown/restart/update or user request) the same pattern is followed calling `StopAsync()`.
+
+`IInstanceManager` is the sole point where the controllers talk to component code. It also dispatches bridge requests to their relevant instances.

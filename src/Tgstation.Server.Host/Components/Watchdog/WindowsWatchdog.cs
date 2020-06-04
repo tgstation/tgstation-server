@@ -117,8 +117,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		protected override MonitorAction HandleNormalReboot()
 		{
-			if (activeSwappable == null)
-				throw new InvalidOperationException("Expected activeSwappable to not be null!");
 			if (pendingSwappable != null)
 			{
 				Logger.LogTrace("Replacing activeSwappable with pendingSwappable...");

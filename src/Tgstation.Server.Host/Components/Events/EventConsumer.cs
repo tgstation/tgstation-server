@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Host.Components.StaticFiles;
 using Tgstation.Server.Host.Components.Watchdog;
 
-namespace Tgstation.Server.Host.Components
+namespace Tgstation.Server.Host.Components.Events
 {
 	/// <inheritdoc />
 	sealed class EventConsumer : IEventConsumer

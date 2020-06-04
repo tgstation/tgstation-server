@@ -9,6 +9,7 @@ using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Database;
@@ -150,6 +151,7 @@ namespace Tgstation.Server.Host.Components
 		#pragma warning disable CA1502 // TODO: Decomplexify
 		async Task TimerLoop(uint minutes, CancellationToken cancellationToken)
 		{
+			logger.LogTrace("Entering auto-update loop");
 			while (true)
 				try
 				{
@@ -233,7 +235,7 @@ namespace Tgstation.Server.Host.Components
 											.AsQueryable()
 											.Where(x => x.CommitSha == startSha && x.Instance.Id == metadata.Id)
 											.Include(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge)
-											.FirstOrDefaultAsync(cancellationToken);
+											.FirstOrDefaultAsync(jobCancellationToken);
 
 									async Task UpdateRevInfo(string currentHead, bool onOrigin)
 									{
@@ -300,11 +302,12 @@ namespace Tgstation.Server.Host.Components
 										var currentHead = repo.Head;
 
 										currentRevInfo = await databaseContext.RevisionInformations
-										.AsQueryable()
-										.Where(x => x.CommitSha == currentHead && x.Instance.Id == metadata.Id)
-										.FirstOrDefaultAsync(jobCancellationToken).ConfigureAwait(false);
+											.AsQueryable()
+											.Where(x => x.CommitSha == currentHead && x.Instance.Id == metadata.Id)
+											.FirstOrDefaultAsync(jobCancellationToken)
+											.ConfigureAwait(false);
 
-										if (currentHead != startSha && currentRevInfo != default)
+										if (currentHead != startSha && currentRevInfo == default)
 											await UpdateRevInfo(currentHead, true).ConfigureAwait(false);
 
 										shouldSyncTracked = true;
@@ -324,7 +327,7 @@ namespace Tgstation.Server.Host.Components
 									if (hasDbChanges)
 										try
 										{
-											await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+											await databaseContext.Save(jobCancellationToken).ConfigureAwait(false);
 										}
 										catch
 										{
@@ -367,7 +370,7 @@ namespace Tgstation.Server.Host.Components
 							DreamMaker.DeploymentProcess,
 							cancellationToken).ConfigureAwait(false);
 
-						await jobManager.WaitForJobCompletion(compileProcessJob, user, cancellationToken, default).ConfigureAwait(false);
+						await jobManager.WaitForJobCompletion(compileProcessJob, user, default, cancellationToken).ConfigureAwait(false);
 					}
 					catch (OperationCanceledException)
 					{

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Tgstation.Server.Host.Components.Events;
 
 namespace Tgstation.Server.Host.Components.Interop.Topic
 {
