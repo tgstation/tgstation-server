@@ -289,10 +289,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				switch (++heartbeatsMissed)
 				{
 					case 1:
-						Logger.LogDebug("DEFCON 4: Watchdog missed first heartbeat!");
+						Logger.LogDebug("DEFCON 4: DreamDaemon missed first heartbeat!");
 						break;
 					case 2:
-						var message2 = "DEFCON 3: Watchdog has missed 2 heartbeats!";
+						var message2 = "DEFCON 3: DreamDaemon has missed 2 heartbeats!";
 						Logger.LogInformation(message2);
 						await Chat.SendWatchdogMessage(message2, true, cancellationToken).ConfigureAwait(false);
 						break;
@@ -300,7 +300,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						var actionToTake = shouldShutdown
 							? "shutdown"
 							: "be restarted";
-						var message3 = $"DEFCON 2: Watchdog has missed 3 heartbeats! If DreamDaemon does not respond to the next one, the watchdog will {actionToTake}!";
+						var message3 = $"DEFCON 2: DreamDaemon has missed 3 heartbeats! If it does not respond to the next one, the watchdog will {actionToTake}!";
 						Logger.LogWarning(message3);
 						await Chat.SendWatchdogMessage(message3, false, cancellationToken).ConfigureAwait(false);
 						break;
