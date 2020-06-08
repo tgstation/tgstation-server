@@ -321,7 +321,7 @@ DreamDaemon can be finicky and will crash with several high load games or bad DM
 TGS supports creating infinite chat bots for notifying staff or players of things like code deployments and uptime in. Currently the following providers are supported
 
 - Internet Relay Chat (IRC)
-- Discord (Bot requires perms to chat and edit own messages)
+- Discord
 
 More can be added by providing a new implementation of the [IProvider](src/Tgstation.Server.Host/Components/Chat/Providers/IProvider.cs) interface
 
