@@ -55,6 +55,7 @@ jobs:
       - DoxGeneration=false
       - DockerBuild=false
       - DMAPI=false
+      - POSTGRESFIX=true
       - CONFIG=Release
       - TGS4_TEST_DATABASE_TYPE=PostgresSql
       - TGS4_TEST_CONNECTION_STRING="Application Name=tgstation-server;Port=5433;Host=127.0.0.1;Username=postgres;Password=;Database=TGS_Test"
@@ -127,6 +128,11 @@ jobs:
           packages:
             - libc6-i386
             - libstdc++6:i386
+
+before_install:
+  - if [ $POSTGRESFIX = true ]; then sudo sed -i -e '/local.*peer/s/postgres/all/' -e 's/peer\|md5/trust/g' /etc/postgresql/*/main/pg_hba.conf; fi
+  - if [ $POSTGRESFIX = true ]; then sudo service postgresql restart; fi
+  - if [ $POSTGRESFIX = true ]; then sleep 1; fi
 
 install:
   - if [ $DoxGeneration = false ] && [ $DockerBuild = false ] && [ $DMAPI = true ]; then build/install_byond.sh; fi
