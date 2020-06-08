@@ -136,7 +136,7 @@ namespace Tgstation.Server.Host.Core
 						"{Timestamp:o} {RequestId,13} [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}",
 						null);
 
-					logPath = IOManager.ConcatPath(logPath, "tgs-{Date}.log");
+					logPath = IOManager.ConcatPath(logPath, "tgs-.log");
 					var rollingFileConfig = sinkConfig.File(
 						formatter,
 						logPath,
