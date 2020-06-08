@@ -308,7 +308,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Detach an <see cref="Api.Models.Instance"/> with the given <paramref name="id"/>.
 		/// </summary>
-		/// <param name="id">The <see cref="Api.Models.Instance.Id"/> to detach.</param>
+		/// <param name="id">The <see cref="EntityId.Id"/> of the instance to detach.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="204">Instance detatched successfully.</response>
@@ -475,7 +475,7 @@ namespace Tgstation.Server.Host.Controllers
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
 			if (renamed)
-				instanceManager.GetInstance(originalModel).Rename(originalModel.Name);
+				await instanceManager.GetInstance(originalModel).InstanceRenamed(originalModel.Name, cancellationToken).ConfigureAwait(false);
 
 			var oldAutoStart = originalModel.DreamDaemonSettings.AutoStart;
 			try
@@ -582,7 +582,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Get a specific <see cref="Api.Models.Instance"/>.
 		/// </summary>
-		/// <param name="id">The <see cref="Api.Models.Instance.Id"/> to retrieve.</param>
+		/// <param name="id">The instance <see cref="EntityId.Id"/> to retrieve.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Retrieved <see cref="Api.Models.Instance"/> successfully.</response>

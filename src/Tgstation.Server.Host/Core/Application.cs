@@ -133,10 +133,12 @@ namespace Tgstation.Server.Host.Core
 					var logEventLevel = ConvertSeriLogLevel(postSetupServices.FileLoggingConfiguration.LogLevel);
 
 					var formatter = new MessageTemplateTextFormatter(
-						"{Timestamp:o} {RequestId,13} [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}",
+						"{Timestamp:o} "
+						+ ServiceCollectionExtensions.SerilogContextTemplate
+						+ ": [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}",
 						null);
 
-					logPath = IOManager.ConcatPath(logPath, "tgs-{Date}.log");
+					logPath = IOManager.ConcatPath(logPath, "tgs-.log");
 					var rollingFileConfig = sinkConfig.File(
 						formatter,
 						logPath,
@@ -167,6 +169,7 @@ namespace Tgstation.Server.Host.Core
 				};
 			});
 
+			// WARNING: STATIC CODE
 			// fucking prevents converting 'sub' to M$ bs
 			// can't be done in the above lambda, that's too late
 			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();

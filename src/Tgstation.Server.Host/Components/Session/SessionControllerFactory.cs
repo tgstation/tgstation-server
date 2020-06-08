@@ -123,7 +123,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			try
 			{
-				socket.Bind(new IPEndPoint(IPAddress.Loopback, port));
+				socket.Bind(new IPEndPoint(IPAddress.Any, port));
 			}
 			catch (Exception ex)
 			{
@@ -326,6 +326,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 						var sessionController = new SessionController(
 							reattachInformation,
+							instance,
 							process,
 							byondLock,
 							byondTopicSender,
@@ -391,6 +392,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 						var controller = new SessionController(
 							reattachInformation,
+							instance,
 							process,
 							byondLock,
 							byondTopicSender,

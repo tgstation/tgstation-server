@@ -62,7 +62,7 @@ namespace Tgstation.Server.Api
 		public static readonly Version Version = AssemblyName.Version.Semver();
 
 		/// <summary>
-		/// The <see cref="Models.Instance.Id"/> being accessed
+		/// The instance <see cref="Models.EntityId.Id"/> being accessed
 		/// </summary>
 		public long? InstanceId { get; set; }
 
@@ -255,7 +255,7 @@ namespace Tgstation.Server.Api
 		/// Set <see cref="HttpRequestHeaders"/> using the <see cref="ApiHeaders"/>. This initially clears <paramref name="headers"/>
 		/// </summary>
 		/// <param name="headers">The <see cref="HttpRequestHeaders"/> to set</param>
-		/// <param name="instanceId">The <see cref="Models.Instance.Id"/> for the request</param>
+		/// <param name="instanceId">The instance <see cref="Models.EntityId.Id"/> for the request</param>
 		public void SetRequestHeaders(HttpRequestHeaders headers, long? instanceId = null)
 		{
 			if (headers == null)

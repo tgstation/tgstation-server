@@ -13,7 +13,7 @@ namespace Tgstation.Server.Host.Models
 		public const ushort DefaultChannelLimit = 100;
 
 		/// <summary>
-		/// The <see cref="Api.Models.Instance.Id"/>
+		/// The instance <see cref="Api.Models.EntityId.Id"/>
 		/// </summary>
 		public long InstanceId { get; set; }
 

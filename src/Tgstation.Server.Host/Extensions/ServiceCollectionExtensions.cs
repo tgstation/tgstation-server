@@ -16,6 +16,11 @@ namespace Tgstation.Server.Host.Extensions
 	static class ServiceCollectionExtensions
 	{
 		/// <summary>
+		/// Common template used for adding our custom log context to serilog.
+		/// </summary>
+		public const string SerilogContextTemplate = "(Instance:{Instance}|Job:{Job}|Request:{Request}|User:{User}|Monitor:{Monitor}|Bridge:{Bridge}|Chat:{ChatMessage})";
+
+		/// <summary>
 		/// Add a standard <typeparamref name="TConfig"/> binding
 		/// </summary>
 		/// <typeparam name="TConfig">The <see langword="class"/> to bind. Must have a <see langword="public"/> const/static <see cref="string"/> field named "Section"</typeparam>
@@ -67,11 +72,14 @@ namespace Tgstation.Server.Host.Extensions
 				configurationAction?.Invoke(configuration);
 
 				configuration
+					.Enrich.FromLogContext()
 					.WriteTo
 					.Async(sinkConfiguration =>
 					{
 						sinkConfiguration.Console(
-							outputTemplate: "[{Timestamp:HH:mm:ss}] {Level:w3}: {SourceContext:l}{NewLine}    {Message:lj}{NewLine}{Exception}");
+							outputTemplate: "[{Timestamp:HH:mm:ss}] {Level:w3}: {SourceContext:l} "
+								+ SerilogContextTemplate
+								+ "{NewLine}    {Message:lj}{NewLine}{Exception}");
 						sinkConfigurationAction?.Invoke(sinkConfiguration);
 					});
 

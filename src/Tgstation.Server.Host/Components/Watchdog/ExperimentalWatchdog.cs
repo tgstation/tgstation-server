@@ -583,5 +583,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				Alpha = alphaServer?.Release(),
 				Bravo = bravoServer?.Release()
 			};
+
+		/// <inheritdoc />
+		public override Task InstanceRenamed(string newInstanceName, CancellationToken cancellationToken)
+			=> Task.WhenAll(
+				alphaServer?.InstanceRenamed(newInstanceName, cancellationToken) ?? Task.CompletedTask,
+				bravoServer?.InstanceRenamed(newInstanceName, cancellationToken) ?? Task.CompletedTask);
 	}
 }
