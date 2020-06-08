@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Serilog.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -134,12 +135,15 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public void Dispose()
 		{
-			timerCts?.Dispose();
-			Configuration.Dispose();
-			Chat.Dispose();
-			Watchdog.Dispose();
-			dmbFactory.Dispose();
-			RepositoryManager.Dispose();
+			using (LogContext.PushProperty("Instance", metadata.Id))
+			{
+				timerCts?.Dispose();
+				Configuration.Dispose();
+				Chat.Dispose();
+				Watchdog.Dispose();
+				dmbFactory.Dispose();
+				RepositoryManager.Dispose();
+			}
 		}
 
 		/// <summary>
@@ -151,7 +155,7 @@ namespace Tgstation.Server.Host.Components
 		#pragma warning disable CA1502 // TODO: Decomplexify
 		async Task TimerLoop(uint minutes, CancellationToken cancellationToken)
 		{
-			logger.LogTrace("Entering auto-update loop");
+			logger.LogDebug("Entering auto-update loop");
 			while (true)
 				try
 				{
@@ -393,17 +397,20 @@ namespace Tgstation.Server.Host.Components
 		#pragma warning restore CA1502
 
 		/// <inheritdoc />
-		public void Rename(string newName)
+		public Task InstanceRenamed(string newName, CancellationToken cancellationToken)
 		{
 			if (String.IsNullOrWhiteSpace(newName))
 				throw new ArgumentNullException(nameof(newName));
 			metadata.Name = newName;
+			return Watchdog.InstanceRenamed(newName, cancellationToken);
 		}
 
 		/// <inheritdoc />
 		public async Task StartAsync(CancellationToken cancellationToken)
 		{
-			await Task.WhenAll(
+			using (LogContext.PushProperty("Instance", metadata.Id))
+			{
+				await Task.WhenAll(
 				SetAutoUpdateInterval(metadata.AutoUpdateInterval.Value),
 				Configuration.StartAsync(cancellationToken),
 				ByondManager.StartAsync(cancellationToken),
@@ -411,23 +418,27 @@ namespace Tgstation.Server.Host.Components
 				dmbFactory.StartAsync(cancellationToken))
 				.ConfigureAwait(false);
 
-			// dependent on so many things, its just safer this way
-			await Watchdog.StartAsync(cancellationToken).ConfigureAwait(false);
+				// dependent on so many things, its just safer this way
+				await Watchdog.StartAsync(cancellationToken).ConfigureAwait(false);
 
-			await dmbFactory.CleanUnusedCompileJobs(cancellationToken).ConfigureAwait(false);
+				await dmbFactory.CleanUnusedCompileJobs(cancellationToken).ConfigureAwait(false);
+			}
 		}
 
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken)
 		{
-			await SetAutoUpdateInterval(0).ConfigureAwait(false);
-			await Watchdog.StopAsync(cancellationToken).ConfigureAwait(false);
-			await Task.WhenAll(
-				Configuration.StopAsync(cancellationToken),
-				ByondManager.StopAsync(cancellationToken),
-				Chat.StopAsync(cancellationToken),
-				dmbFactory.StopAsync(cancellationToken))
-				.ConfigureAwait(false);
+			using (LogContext.PushProperty("Instance", metadata.Id))
+			{
+				await SetAutoUpdateInterval(0).ConfigureAwait(false);
+				await Watchdog.StopAsync(cancellationToken).ConfigureAwait(false);
+				await Task.WhenAll(
+					Configuration.StopAsync(cancellationToken),
+					ByondManager.StopAsync(cancellationToken),
+					Chat.StopAsync(cancellationToken),
+					dmbFactory.StopAsync(cancellationToken))
+					.ConfigureAwait(false);
+			}
 		}
 
 		/// <inheritdoc />
@@ -438,8 +449,12 @@ namespace Tgstation.Server.Host.Components
 			{
 				if (timerTask != null)
 				{
+					logger.LogTrace("Cancelling auto-update task");
 					timerCts.Cancel();
+					timerCts.Dispose();
 					toWait = timerTask;
+					timerTask = null;
+					timerCts = null;
 				}
 				else
 					toWait = Task.CompletedTask;
@@ -447,13 +462,20 @@ namespace Tgstation.Server.Host.Components
 
 			await toWait.ConfigureAwait(false);
 			if (newInterval == 0)
+			{
+				logger.LogTrace("New auto-update interval is 0. Not starting task.");
 				return;
+			}
+
 			lock (timerLock)
 			{
 				// race condition, just quit
 				if (timerTask != null)
+				{
+					logger.LogDebug("Aborting auto update interval change due to race condition!");
 					return;
-				timerCts?.Dispose();
+				}
+
 				timerCts = new CancellationTokenSource();
 				timerTask = TimerLoop(newInterval, timerCts.Token);
 			}

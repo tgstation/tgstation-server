@@ -68,7 +68,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
     <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.3" />
-    <PackageReference Include="Octokit" Version="0.47.0" />
+    <PackageReference Include="Octokit" Version="0.48.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.1" />
     <!-- If this is updated, be sure to update the reference in the README.md -->
     <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1" />

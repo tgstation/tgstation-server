@@ -346,5 +346,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			await LaunchNoLock(true, false, null, cancellationToken).ConfigureAwait(false);
 			await chatTask.ConfigureAwait(false);
 		}
+
+		/// <inheritdoc />
+		public sealed override Task InstanceRenamed(string newInstanceName, CancellationToken cancellationToken)
+			=> Server?.InstanceRenamed(newInstanceName, cancellationToken) ?? Task.CompletedTask;
 	}
 }

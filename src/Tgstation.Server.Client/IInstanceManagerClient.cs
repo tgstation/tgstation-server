@@ -21,7 +21,7 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// Create or attach an <paramref name="instance"/>
 		/// </summary>
-		/// <param name="instance">The <see cref="Instance"/> to create. <see cref="Instance.Id"/> will be ignored</param>
+		/// <param name="instance">The <see cref="Instance"/> to create. <see cref="EntityId.Id"/> will be ignored</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the created or attached <see cref="Instance"/></returns>
 		Task<Instance> CreateOrAttach(Instance instance, CancellationToken cancellationToken);

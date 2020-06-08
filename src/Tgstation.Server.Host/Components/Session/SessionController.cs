@@ -1,6 +1,7 @@
 ﻿using Byond.TopicSender;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Serilog.Context;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -106,6 +107,11 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly ReattachInformation reattachInformation;
 
 		/// <summary>
+		/// The <see cref="Instance"/> metadata.
+		/// </summary>
+		readonly Api.Models.Instance metadata;
+
+		/// <summary>
 		/// A <see cref="CancellationTokenSource"/> used for the topic send operation made on reattaching.
 		/// </summary>
 		readonly CancellationTokenSource reattachTopicCts;
@@ -194,6 +200,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// Construct a <see cref="SessionController"/>
 		/// </summary>
 		/// <param name="reattachInformation">The value of <see cref="reattachInformation"/></param>
+		/// <param name="metadata">The owning <see cref="Instance"/>.</param>
 		/// <param name="process">The value of <see cref="process"/></param>
 		/// <param name="byondLock">The value of <see cref="byondLock"/></param>
 		/// <param name="byondTopicSender">The value of <see cref="byondTopicSender"/></param>
@@ -206,6 +213,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="reattached">If this is a reattached session.</param>
 		public SessionController(
 			ReattachInformation reattachInformation,
+			Api.Models.Instance metadata,
 			IProcess process,
 			IByondExecutableLock byondLock,
 			ITopicClient byondTopicSender,
@@ -218,6 +226,7 @@ namespace Tgstation.Server.Host.Components.Session
 			bool reattached)
 		{
 			this.reattachInformation = reattachInformation ?? throw new ArgumentNullException(nameof(reattachInformation));
+			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 			this.process = process ?? throw new ArgumentNullException(nameof(process));
 			this.byondLock = byondLock ?? throw new ArgumentNullException(nameof(byondLock));
 			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
@@ -364,141 +373,145 @@ namespace Tgstation.Server.Host.Components.Session
 			if (parameters == null)
 				throw new ArgumentNullException(nameof(parameters));
 
-			var response = new BridgeResponse();
-			switch (parameters.CommandType)
+			using (LogContext.PushProperty("Instance", metadata.Id))
 			{
-				case BridgeCommandType.ChatSend:
-					if (parameters.ChatMessage == null)
-						return new BridgeResponse
-						{
-							ErrorMessage = "Missing chatMessage field!"
-						};
-
-					if (parameters.ChatMessage.ChannelIds == null)
-						return new BridgeResponse
-						{
-							ErrorMessage = "Missing channelIds field in chatMessage!"
-						};
-
-					if(parameters.ChatMessage.ChannelIds.Any(channelIdString => !UInt64.TryParse(channelIdString, out var _)))
-						return new BridgeResponse
-						{
-							ErrorMessage = "Invalid channelIds in chatMessage!"
-						};
-
-					if (parameters.ChatMessage.Text == null)
-						return new BridgeResponse
-						{
-							ErrorMessage = "Missing message field in chatMessage!"
-						};
-
-					await chat.SendMessage(
-						parameters.ChatMessage.Text,
-						parameters.ChatMessage.ChannelIds.Select(UInt64.Parse),
-						cancellationToken).ConfigureAwait(false);
-					break;
-				case BridgeCommandType.Prime:
-					var oldPrimeTcs = primeTcs;
-					primeTcs = new TaskCompletionSource<object>();
-					oldPrimeTcs.SetResult(null);
-					break;
-				case BridgeCommandType.Kill:
-					logger.LogInformation("Bridge requested process termination!");
-					TerminationWasRequested = true;
-					process.Terminate();
-					break;
-				case BridgeCommandType.PortUpdate:
-					lock (synchronizationLock)
-					{
-						if (!parameters.CurrentPort.HasValue)
-						{
-							/////UHHHH
-							logger.LogWarning("DreamDaemon sent new port command without providing it's own!");
+				logger.LogTrace("Handling bridge request...");
+				var response = new BridgeResponse();
+				switch (parameters.CommandType)
+				{
+					case BridgeCommandType.ChatSend:
+						if (parameters.ChatMessage == null)
 							return new BridgeResponse
 							{
-								ErrorMessage = "Missing stringified port as data parameter!"
+								ErrorMessage = "Missing chatMessage field!"
 							};
+
+						if (parameters.ChatMessage.ChannelIds == null)
+							return new BridgeResponse
+							{
+								ErrorMessage = "Missing channelIds field in chatMessage!"
+							};
+
+						if (parameters.ChatMessage.ChannelIds.Any(channelIdString => !UInt64.TryParse(channelIdString, out var _)))
+							return new BridgeResponse
+							{
+								ErrorMessage = "Invalid channelIds in chatMessage!"
+							};
+
+						if (parameters.ChatMessage.Text == null)
+							return new BridgeResponse
+							{
+								ErrorMessage = "Missing message field in chatMessage!"
+							};
+
+						await chat.SendMessage(
+							parameters.ChatMessage.Text,
+							parameters.ChatMessage.ChannelIds.Select(UInt64.Parse),
+							cancellationToken).ConfigureAwait(false);
+						break;
+					case BridgeCommandType.Prime:
+						var oldPrimeTcs = primeTcs;
+						primeTcs = new TaskCompletionSource<object>();
+						oldPrimeTcs.SetResult(null);
+						break;
+					case BridgeCommandType.Kill:
+						logger.LogInformation("Bridge requested process termination!");
+						TerminationWasRequested = true;
+						process.Terminate();
+						break;
+					case BridgeCommandType.PortUpdate:
+						lock (synchronizationLock)
+						{
+							if (!parameters.CurrentPort.HasValue)
+							{
+								/////UHHHH
+								logger.LogWarning("DreamDaemon sent new port command without providing it's own!");
+								return new BridgeResponse
+								{
+									ErrorMessage = "Missing stringified port as data parameter!"
+								};
+							}
+
+							var currentPort = parameters.CurrentPort.Value;
+							if (!nextPort.HasValue)
+								reattachInformation.Port = parameters.CurrentPort.Value; // not ready yet, so what we'll do is accept the random port DD opened on for now and change it later when we decide to
+							else
+							{
+								// nextPort is ready, tell DD to switch to that
+								// if it fails it'll kill itself
+								response.NewPort = nextPort.Value;
+								reattachInformation.Port = nextPort.Value;
+								nextPort = null;
+
+								// we'll also get here from SetPort so complete that task
+								var tmpTcs = portAssignmentTcs;
+								portAssignmentTcs = null;
+								tmpTcs.SetResult(true);
+							}
+
+							portClosedForReboot = false;
 						}
 
-						var currentPort = parameters.CurrentPort.Value;
-						if (!nextPort.HasValue)
-							reattachInformation.Port = parameters.CurrentPort.Value; // not ready yet, so what we'll do is accept the random port DD opened on for now and change it later when we decide to
-						else
-						{
-							// nextPort is ready, tell DD to switch to that
-							// if it fails it'll kill itself
-							response.NewPort = nextPort.Value;
-							reattachInformation.Port = nextPort.Value;
-							nextPort = null;
+						break;
+					case BridgeCommandType.Startup:
+						apiValidationStatus = ApiValidationStatus.BadValidationRequest;
+						if (parameters.Version == null)
+							return new BridgeResponse
+							{
+								ErrorMessage = "Missing dmApiVersion field!"
+							};
 
-							// we'll also get here from SetPort so complete that task
-							var tmpTcs = portAssignmentTcs;
-							portAssignmentTcs = null;
-							tmpTcs.SetResult(true);
+						DMApiVersion = parameters.Version;
+						switch (parameters.MinimumSecurityLevel)
+						{
+							case DreamDaemonSecurity.Ultrasafe:
+								apiValidationStatus = ApiValidationStatus.RequiresUltrasafe;
+								break;
+							case DreamDaemonSecurity.Safe:
+								apiValidationStatus = ApiValidationStatus.RequiresSafe;
+								break;
+							case DreamDaemonSecurity.Trusted:
+								apiValidationStatus = ApiValidationStatus.RequiresTrusted;
+								break;
+							case null:
+								return new BridgeResponse
+								{
+									ErrorMessage = "Missing minimumSecurityLevel field!"
+								};
+							default:
+								return new BridgeResponse
+								{
+									ErrorMessage = "Invalid minimumSecurityLevel!"
+								};
 						}
 
-						portClosedForReboot = false;
-					}
+						response.RuntimeInformation = reattachInformation.RuntimeInformation;
 
-					break;
-				case BridgeCommandType.Startup:
-					apiValidationStatus = ApiValidationStatus.BadValidationRequest;
-					if (parameters.Version == null)
-						return new BridgeResponse
+						// Load custom commands
+						chatTrackingContext.CustomCommands = parameters.CustomCommands;
+						break;
+					case BridgeCommandType.Reboot:
+						if (ClosePortOnReboot)
 						{
-							ErrorMessage = "Missing dmApiVersion field!"
-						};
+							chatTrackingContext.Active = false;
+							response.NewPort = 0;
+							portClosedForReboot = true;
+						}
 
-					DMApiVersion = parameters.Version;
-					switch (parameters.MinimumSecurityLevel)
-					{
-						case DreamDaemonSecurity.Ultrasafe:
-							apiValidationStatus = ApiValidationStatus.RequiresUltrasafe;
-							break;
-						case DreamDaemonSecurity.Safe:
-							apiValidationStatus = ApiValidationStatus.RequiresSafe;
-							break;
-						case DreamDaemonSecurity.Trusted:
-							apiValidationStatus = ApiValidationStatus.RequiresTrusted;
-							break;
-						case null:
-							return new BridgeResponse
-							{
-								ErrorMessage = "Missing minimumSecurityLevel field!"
-							};
-						default:
-							return new BridgeResponse
-							{
-								ErrorMessage = "Invalid minimumSecurityLevel!"
-							};
-					}
+						var oldRebootTcs = rebootTcs;
+						rebootTcs = new TaskCompletionSource<object>();
+						oldRebootTcs.SetResult(null);
+						break;
+					case null:
+						response.ErrorMessage = "Missing commandType!";
+						break;
+					default:
+						response.ErrorMessage = "Requested commandType not supported!";
+						break;
+				}
 
-					response.RuntimeInformation = reattachInformation.RuntimeInformation;
-
-					// Load custom commands
-					chatTrackingContext.CustomCommands = parameters.CustomCommands;
-					break;
-				case BridgeCommandType.Reboot:
-					if (ClosePortOnReboot)
-					{
-						chatTrackingContext.Active = false;
-						response.NewPort = 0;
-						portClosedForReboot = true;
-					}
-
-					var oldRebootTcs = rebootTcs;
-					rebootTcs = new TaskCompletionSource<object>();
-					oldRebootTcs.SetResult(null);
-					break;
-				case null:
-					response.ErrorMessage = "Missing commandType!";
-					break;
-				default:
-					response.ErrorMessage = "Requested commandType not supported!";
-					break;
+				return response;
 			}
-
-			return response;
 		}
 
 		/// <summary>

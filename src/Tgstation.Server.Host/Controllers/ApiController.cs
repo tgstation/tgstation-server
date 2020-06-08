@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
+using Serilog.Context;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -161,25 +162,25 @@ namespace Tgstation.Server.Host.Controllers
 				ModelState.Clear();
 			}
 
-			if (ApiHeaders != null)
-				Logger.LogDebug(
-					"Request details: User ID {0}. Api version: {1}. User-Agent: {2}. Type: {3}. Route {4}{5} to Instance {6}",
-					AuthenticationContext?.User.Id.Value.ToString(CultureInfo.InvariantCulture),
-					ApiHeaders.ApiVersion.Semver(),
-					ApiHeaders.RawUserAgent,
-					Request.Method,
-					Request.Path,
-					Request.QueryString,
-					ApiHeaders.InstanceId);
-
-			try
+			using (ApiHeaders?.InstanceId != null
+				? LogContext.PushProperty("Instance", ApiHeaders.InstanceId)
+				: null)
+			using (AuthenticationContext != null
+				? LogContext.PushProperty("User", AuthenticationContext.User.Id)
+				: null)
+			using (LogContext.PushProperty("Request", $"{Request.Method} {Request.Path}"))
 			{
+				if (ApiHeaders != null)
+					Logger.LogDebug(
+						"Starting API Request: Version: {1}. User-Agent: {2}",
+						AuthenticationContext?.User.Id.Value.ToString(CultureInfo.InvariantCulture),
+						ApiHeaders.ApiVersion.Semver(),
+						ApiHeaders.RawUserAgent,
+						Request.Method,
+						Request.Path,
+						Request.QueryString,
+						ApiHeaders.InstanceId);
 				await base.OnActionExecutionAsync(context, next).ConfigureAwait(false);
-			}
-			catch (OperationCanceledException e)
-			{
-				Logger.LogDebug("Request cancelled! Exception: {0}", e);
-				throw;
 			}
 		}
 		#pragma warning restore CA1506

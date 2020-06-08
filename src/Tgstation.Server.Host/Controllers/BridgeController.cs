@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Serilog.Context;
 using System;
 using System.Net;
 using System.Threading;
@@ -19,6 +21,11 @@ namespace Tgstation.Server.Host.Controllers
 	public class BridgeController : Controller
 	{
 		/// <summary>
+		/// Static counter for the number of requests processed.
+		/// </summary>
+		static long requestsProcessed;
+
+		/// <summary>
 		/// The <see cref="IBridgeDispatcher"/> for the <see cref="BridgeController"/>
 		/// </summary>
 		readonly IBridgeDispatcher bridgeDispatcher;
@@ -32,11 +39,17 @@ namespace Tgstation.Server.Host.Controllers
 		/// Initializes a new instance of the <see cref="BridgeController"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="bridgeDispatcher">The value of <see cref="bridgeDispatcher"/>.</param>
+		/// <param name="applicationLifetime">The <see cref="IHostApplicationLifetime"/> of the server.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		public BridgeController(IBridgeDispatcher bridgeDispatcher, ILogger<BridgeController> logger)
+		public BridgeController(IBridgeDispatcher bridgeDispatcher, IHostApplicationLifetime applicationLifetime, ILogger<BridgeController> logger)
 		{
 			this.bridgeDispatcher = bridgeDispatcher ?? throw new ArgumentNullException(nameof(bridgeDispatcher));
+			if (applicationLifetime == null)
+				throw new ArgumentNullException(nameof(applicationLifetime));
+
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+			applicationLifetime.ApplicationStopped.Register(() => requestsProcessed = 0);
 		}
 
 		/// <summary>
@@ -52,26 +65,29 @@ namespace Tgstation.Server.Host.Controllers
 			if (!IPAddress.IsLoopback(Request.HttpContext.Connection.RemoteIpAddress))
 				return NotFound();
 
-			BridgeParameters request;
-			try
+			using (LogContext.PushProperty("Bridge", Interlocked.Increment(ref requestsProcessed)))
 			{
-				request = JsonConvert.DeserializeObject<BridgeParameters>(data, DMApiConstants.SerializerSettings);
+				BridgeParameters request;
+				try
+				{
+					request = JsonConvert.DeserializeObject<BridgeParameters>(data, DMApiConstants.SerializerSettings);
+				}
+				catch
+				{
+					logger.LogWarning("Error deserializing bridge request: {0}", data);
+					return BadRequest();
+				}
+
+				logger.LogTrace("Bridge Request: {0}", data);
+
+				var response = await bridgeDispatcher.ProcessBridgeRequest(request, cancellationToken).ConfigureAwait(false);
+				if (response == null)
+					Forbid();
+
+				var responseJson = JsonConvert.SerializeObject(response, DMApiConstants.SerializerSettings);
+				logger.LogTrace("Bridge Response: {0}", responseJson);
+				return Content(responseJson, ApiHeaders.ApplicationJson);
 			}
-			catch
-			{
-				logger.LogWarning("Error deserializing bridge request: {0}", data);
-				return BadRequest();
-			}
-
-			logger.LogTrace("Bridge Request: {0}", data);
-
-			var response = await bridgeDispatcher.ProcessBridgeRequest(request, cancellationToken).ConfigureAwait(false);
-			if (response == null)
-				Forbid();
-
-			var responseJson = JsonConvert.SerializeObject(response, DMApiConstants.SerializerSettings);
-			logger.LogTrace("Bridge Response: {0}", responseJson);
-			return Content(responseJson, ApiHeaders.ApplicationJson);
 		}
 	}
 }

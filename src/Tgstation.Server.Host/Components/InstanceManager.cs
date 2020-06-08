@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Configuration;
@@ -72,7 +73,7 @@ namespace Tgstation.Server.Host.Components
 		readonly ILogger<InstanceManager> logger;
 
 		/// <summary>
-		/// Map of <see cref="Api.Models.Instance.Id"/>s to respective <see cref="IInstance"/>s. Also used as a <see langword="lock"/> <see cref="object"/>.
+		/// Map of instance <see cref="EntityId.Id"/>s to respective <see cref="IInstance"/>s. Also used as a <see langword="lock"/> <see cref="object"/>.
 		/// </summary>
 		readonly IDictionary<long, IInstance> instances;
 

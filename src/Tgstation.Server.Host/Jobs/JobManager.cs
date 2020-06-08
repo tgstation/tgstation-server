@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Serilog.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,67 +78,68 @@ namespace Tgstation.Server.Host.Jobs
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task RunJob(Job job, Func<Job, IDatabaseContextFactory, CancellationToken, Task> operation, CancellationToken cancellationToken)
 		{
-			try
-			{
-				void LogRegularException() => logger.LogDebug("Job {0} exited with error! Exception: {1}", job.Id, job.ExceptionDetails);
+			using (LogContext.PushProperty("Job", job.Id))
 				try
 				{
-					var oldJob = job;
-					job = new Job { Id = oldJob.Id };
-
-					await operation(job, databaseContextFactory, cancellationToken).ConfigureAwait(false);
-
-					logger.LogDebug("Job {0} completed!", job.Id);
-				}
-				catch (OperationCanceledException)
-				{
-					logger.LogDebug("Job {0} cancelled!", job.Id);
-					job.Cancelled = true;
-				}
-				catch (JobException e)
-				{
-					job.ErrorCode = e.ErrorCode;
-					job.ExceptionDetails = e.Message;
-					LogRegularException();
-					if (e.InnerException != null)
-						logger.LogDebug(
-							"Inner exception for job {0}: {1}",
-							job.Id,
-							e.InnerException is JobException
-								? e.InnerException.Message
-								: e.InnerException.ToString());
-				}
-				catch (Exception e)
-				{
-					job.ExceptionDetails = e.ToString();
-					LogRegularException();
-				}
-
-				await databaseContextFactory.UseContext(async databaseContext =>
-				{
-					var attachedJob = new Job
+					void LogRegularException() => logger.LogDebug("Job {0} exited with error! Exception: {1}", job.Id, job.ExceptionDetails);
+					try
 					{
-						Id = job.Id
-					};
+						var oldJob = job;
+						job = new Job { Id = oldJob.Id };
 
-					databaseContext.Jobs.Attach(attachedJob);
-					attachedJob.StoppedAt = DateTimeOffset.Now;
-					attachedJob.ExceptionDetails = job.ExceptionDetails;
-					attachedJob.ErrorCode = job.ErrorCode;
-					attachedJob.Cancelled = job.Cancelled;
+						await operation(job, databaseContextFactory, cancellationToken).ConfigureAwait(false);
 
-					await databaseContext.Save(default).ConfigureAwait(false);
-				}).ConfigureAwait(false);
-			}
-			finally
-			{
-				lock (synchronizationLock)
-				{
-					var handler = jobs[job.Id];
-					jobs.Remove(job.Id);
-					handler.Dispose();
+						logger.LogDebug("Job {0} completed!", job.Id);
+					}
+					catch (OperationCanceledException)
+					{
+						logger.LogDebug("Job {0} cancelled!", job.Id);
+						job.Cancelled = true;
+					}
+					catch (JobException e)
+					{
+						job.ErrorCode = e.ErrorCode;
+						job.ExceptionDetails = e.Message;
+						LogRegularException();
+						if (e.InnerException != null)
+							logger.LogDebug(
+								"Inner exception for job {0}: {1}",
+								job.Id,
+								e.InnerException is JobException
+									? e.InnerException.Message
+									: e.InnerException.ToString());
+					}
+					catch (Exception e)
+					{
+						job.ExceptionDetails = e.ToString();
+						LogRegularException();
+					}
+
+					await databaseContextFactory.UseContext(async databaseContext =>
+					{
+						var attachedJob = new Job
+						{
+							Id = job.Id
+						};
+
+						databaseContext.Jobs.Attach(attachedJob);
+						attachedJob.StoppedAt = DateTimeOffset.Now;
+						attachedJob.ExceptionDetails = job.ExceptionDetails;
+						attachedJob.ErrorCode = job.ErrorCode;
+						attachedJob.Cancelled = job.Cancelled;
+
+						await databaseContext.Save(default).ConfigureAwait(false);
+					}).ConfigureAwait(false);
 				}
-			}
+				finally
+				{
+					lock (synchronizationLock)
+					{
+						var handler = jobs[job.Id];
+						jobs.Remove(job.Id);
+						handler.Dispose();
+					}
+				}
 		}
 
 		/// <inheritdoc />
