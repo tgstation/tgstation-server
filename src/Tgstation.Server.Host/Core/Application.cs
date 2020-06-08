@@ -167,6 +167,7 @@ namespace Tgstation.Server.Host.Core
 				};
 			});
 
+			// WARNING: STATIC CODE
 			// fucking prevents converting 'sub' to M$ bs
 			// can't be done in the above lambda, that's too late
 			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
