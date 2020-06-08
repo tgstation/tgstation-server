@@ -58,7 +58,7 @@ jobs:
       - CONFIG=Release
       - TGS4_TEST_DATABASE_TYPE=PostgresSql
       - TGS4_TEST_CONNECTION_STRING="Application Name=tgstation-server;Host=127.0.0.1;Username=postgres;Password=;Database=TGS_Test"
-      - Database__ServerVersion="9.2"
+      - Database__ServerVersion="9.6"
       name: "PostgresSql Integration Test"
       language: csharp
       mono: none
