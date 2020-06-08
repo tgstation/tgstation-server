@@ -1,11 +1,12 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase">
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html" title="A IWatchdog that manages one server. " alt="" coords="719,66,969,107"/>
-<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html" title="A IWatchdog that tries to manage 2 servers at once for maximum uptime. " alt="" coords="719,131,969,173"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers " alt="" coords="233,56,319,83"/>
-<area shape="rect" id="node3" href="$class_i_hosted_service.html" title="IHostedService" alt="" coords="9,5,128,32"/>
-<area shape="rect" id="node4" href="$class_i_disposable.html" title="IDisposable" alt="" coords="21,56,116,83"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions " alt="" coords="5,107,132,133"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext " alt="" coords="180,107,372,133"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts " alt="" coords="216,157,336,184"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html" title="A version of the BasicWatchdog that, instead of killing servers for updates, uses the wonders of syml..." alt="" coords="1017,66,1268,107"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html" title="A IWatchdog that manages one server. " alt="" coords="723,91,973,133"/>
+<area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html" title="A IWatchdog that tries to manage 2 servers at once for maximum uptime. " alt="" coords="723,157,973,198"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers " alt="" coords="237,81,323,108"/>
+<area shape="rect" id="node3" href="$class_i_hosted_service.html" title="IHostedService" alt="" coords="11,5,130,32"/>
+<area shape="rect" id="node4" href="$class_i_disposable.html" title="IDisposable" alt="" coords="23,56,118,83"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions " alt="" coords="7,107,134,133"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed. " alt="" coords="5,157,136,184"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext " alt="" coords="184,132,376,159"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts " alt="" coords="220,183,340,209"/>
+<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html" title="A version of the BasicWatchdog that, instead of killing servers for updates, uses the wonders of syml..." alt="" coords="1021,91,1272,133"/>
 </map>

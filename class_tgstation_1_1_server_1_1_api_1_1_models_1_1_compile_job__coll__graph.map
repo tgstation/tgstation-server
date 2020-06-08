@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Api.Models.CompileJob" name="Tgstation.Server.Api.Models.CompileJob">
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_compile_job.html" title="Represents a run of DreamMaker " alt="" coords="32,80,181,107"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of CompileJobs and Jobs. " alt="" coords="72,5,141,32"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of Instances, CompileJobs, and Jobs. " alt="" coords="72,5,141,32"/>
 </map>

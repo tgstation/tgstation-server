@@ -1,3 +1,4 @@
 <map id="Tgstation.Server.Host.Models.Instance" name="Tgstation.Server.Host.Models.Instance">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance " alt="" coords="33,5,191,32"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance " alt="" coords="33,80,191,107"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of Instances, CompileJobs, and Jobs. " alt="" coords="77,5,147,32"/>
 </map>

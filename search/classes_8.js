@@ -105,6 +105,7 @@ var searchData=
   ['ircconnectionstringbuilder',['IrcConnectionStringBuilder',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html',1,'Tgstation::Server::Api::Models']]],
   ['ircprovider',['IrcProvider',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html',1,'Tgstation::Server::Host::Components::Chat::Providers']]],
   ['ireattachinfohandler',['IReattachInfoHandler',['../interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_reattach_info_handler.html',1,'Tgstation::Server::Host::Components::Session']]],
+  ['irenamenotifyee',['IRenameNotifyee',['../interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html',1,'Tgstation::Server::Host::Components']]],
   ['irepository',['IRepository',['../interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html',1,'Tgstation::Server::Host::Components::Repository']]],
   ['irepositoryclient',['IRepositoryClient',['../interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_repository_client.html',1,'Tgstation::Server::Client::Components']]],
   ['irepositorymanager',['IRepositoryManager',['../interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html',1,'Tgstation::Server::Host::Components::Repository']]],
@@ -126,8 +127,8 @@ var searchData=
   ['isystemidentityfactory',['ISystemIdentityFactory',['../interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html',1,'Tgstation::Server::Host::Security']]],
   ['itokenfactory',['ITokenFactory',['../interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html',1,'Tgstation::Server::Host::Security']]],
   ['iusersclient',['IUsersClient',['../interface_tgstation_1_1_server_1_1_client_1_1_i_users_client.html',1,'Tgstation::Server::Client']]],
-  ['iwatchdog',['IWatchdog',['../interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html',1,'Tgstation::Server::Host::Components::Watchdog']]],
   ['iwatchdog',['IWatchdog',['../interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html',1,'Tgstation::Server::Host::Watchdog']]],
+  ['iwatchdog',['IWatchdog',['../interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html',1,'Tgstation::Server::Host::Components::Watchdog']]],
   ['iwatchdogfactory',['IWatchdogFactory',['../interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory.html',1,'Tgstation::Server::Host::Watchdog']]],
   ['iwatchdogfactory',['IWatchdogFactory',['../interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html',1,'Tgstation::Server::Host::Components::Watchdog']]]
 ];

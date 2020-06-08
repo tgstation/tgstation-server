@@ -1,4 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html" title="For creating Tokens " alt="" coords="5,5,224,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html" title="Tgstation.Server.Host.Security.\lTokenFactory" alt="" coords="272,5,491,47"/>
+<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html" title="Contains the entrypoint for the application " alt="" coords="5,5,220,47"/>
 </map>

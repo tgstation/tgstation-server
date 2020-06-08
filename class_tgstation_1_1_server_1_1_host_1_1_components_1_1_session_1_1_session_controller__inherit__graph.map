@@ -1,8 +1,9 @@
 <map id="Tgstation.Server.Host.Components.Session.SessionController" name="Tgstation.Server.Host.Components.Session.SessionController">
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess " alt="" coords="5,155,143,181"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html" title="Represents process lifetime " alt="" coords="21,80,127,107"/>
-<area shape="rect" id="node4" href="$class_i_disposable.html" title="IDisposable" alt="" coords="27,5,121,32"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_handler.html" title="IBridgeHandler" alt="" coords="167,155,283,181"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters. " alt="" coords="157,80,292,107"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_channel_sink.html" title="Notifyee of when ChannelRepresentations in a IChatTrackingContext are updated. " alt="" coords="307,155,411,181"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess " alt="" coords="142,155,279,181"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed. " alt="" coords="5,80,136,107"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html" title="Represents process lifetime " alt="" coords="160,80,267,107"/>
+<area shape="rect" id="node5" href="$class_i_disposable.html" title="IDisposable" alt="" coords="166,5,261,32"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_handler.html" title="IBridgeHandler" alt="" coords="303,155,419,181"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters. " alt="" coords="294,80,429,107"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_channel_sink.html" title="Notifyee of when ChannelRepresentations in a IChatTrackingContext are updated. " alt="" coords="444,155,548,181"/>
 </map>

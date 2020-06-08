@@ -1,6 +1,7 @@
 <map id="Tgstation.Server.Host.Components.Session.ISessionController" name="Tgstation.Server.Host.Components.Session.ISessionController">
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_dead_session_controller.html" title="Implements a fake &quot;dead&quot; ISessionController " alt="" coords="601,5,852,47"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html" title="Tgstation.Server.Host.Components.\lSession.SessionController" alt="" coords="601,71,852,112"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html" title="Represents process lifetime " alt="" coords="148,46,255,73"/>
-<area shape="rect" id="node3" href="$class_i_disposable.html" title="IDisposable" alt="" coords="5,46,100,73"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_dead_session_controller.html" title="Implements a fake &quot;dead&quot; ISessionController " alt="" coords="625,5,876,47"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html" title="Tgstation.Server.Host.Components.\lSession.SessionController" alt="" coords="625,71,876,112"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed. " alt="" coords="148,21,279,47"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html" title="Represents process lifetime " alt="" coords="160,71,267,98"/>
+<area shape="rect" id="node4" href="$class_i_disposable.html" title="IDisposable" alt="" coords="5,71,100,98"/>
 </map>

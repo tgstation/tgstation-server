@@ -1,9 +1,9 @@
 var searchData=
 [
   ['job',['Job',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html',1,'Tgstation::Server::Host::Models']]],
-  ['job',['Job',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html',1,'Tgstation::Server::Api::Models']]],
-  ['job',['Job',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_compile_job.html#afe93454d04d57732c948c207cc6d21cb',1,'Tgstation.Server.Api.Models.CompileJob.Job()'],['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a0676e94669f8de80f67aa20c72db5b7c',1,'Tgstation.Server.Host.Models.CompileJob.Job()']]],
   ['job',['Job',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html',1,'Tgstation::Server::Api::Models::Internal']]],
+  ['job',['Job',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_compile_job.html#afe93454d04d57732c948c207cc6d21cb',1,'Tgstation.Server.Api.Models.CompileJob.Job()'],['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a0676e94669f8de80f67aa20c72db5b7c',1,'Tgstation.Server.Host.Models.CompileJob.Job()']]],
+  ['job',['Job',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html',1,'Tgstation::Server::Api::Models']]],
   ['job_2ecs',['Job.cs',['../_tgstation_8_server_8_api_2_models_2_internal_2_job_8cs.html',1,'']]],
   ['job_2ecs',['Job.cs',['../_tgstation_8_server_8_api_2_models_2_job_8cs.html',1,'']]],
   ['job_2ecs',['Job.cs',['../_tgstation_8_server_8_host_2_models_2_job_8cs.html',1,'']]],

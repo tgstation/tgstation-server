@@ -1,4 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_byond_client.html" title="For managing the Byond installation " alt="" coords="5,5,192,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html" title="Tgstation.Server.Client.\lComponents.ByondClient" alt="" coords="240,5,424,47"/>
+<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_chat_bots_client.html" title="For managing the chat bots " alt="" coords="5,5,212,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_chat_bots_client.html" title="Tgstation.Server.Client.\lComponents.ChatBotsClient" alt="" coords="260,5,463,47"/>
 </map>

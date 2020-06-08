@@ -1,4 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components " alt="" coords="5,5,236,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory.html" title="Tgstation.Server.Host.Database.\lDatabaseContextFactory" alt="" coords="284,5,515,47"/>
+<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html" title="For initially seeding a database " alt="" coords="5,5,236,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html" title="Tgstation.Server.Host.Database.\lDatabaseSeeder" alt="" coords="284,5,515,47"/>
 </map>

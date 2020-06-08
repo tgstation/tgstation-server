@@ -1,5 +1,6 @@
 <map id="Tgstation.Server.Host.Components.Session.DeadSessionController" name="Tgstation.Server.Host.Components.Session.DeadSessionController">
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess " alt="" coords="5,157,143,184"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html" title="Represents process lifetime " alt="" coords="21,81,127,108"/>
-<area shape="rect" id="node4" href="$class_i_disposable.html" title="IDisposable" alt="" coords="27,5,121,32"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess " alt="" coords="18,157,155,184"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed. " alt="" coords="5,81,136,108"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html" title="Represents process lifetime " alt="" coords="160,81,267,108"/>
+<area shape="rect" id="node5" href="$class_i_disposable.html" title="IDisposable" alt="" coords="166,5,261,32"/>
 </map>

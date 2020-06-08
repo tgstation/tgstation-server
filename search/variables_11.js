@@ -27,6 +27,7 @@ var searchData=
   ['repositorysettings',['RepositorySettings',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a87a0742c91d81f194a5c075862b3a1cd',1,'Tgstation::Server::Host::Database::DatabaseContext']]],
   ['repositorysettingscollection',['repositorySettingsCollection',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a64da1a0898e301c7c64c720588927793',1,'Tgstation::Server::Host::Database::DatabaseContext']]],
   ['requestloggers',['requestLoggers',['../class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a8c0c69d8203c1af593869613dfb1f8cc',1,'Tgstation::Server::Client::ApiClient']]],
+  ['requestsprocessed',['requestsProcessed',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_bridge_controller.html#a0d4ca33235052b49fd927c9df33ae7f3',1,'Tgstation::Server::Host::Controllers::BridgeController']]],
   ['requireheaders',['requireHeaders',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a91c58c31f7a3cc51fff3cfc3b236756d',1,'Tgstation::Server::Host::Controllers::ApiController']]],
   ['requireinstance',['requireInstance',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#afe4f020656eb2d02def6ff389fd33bcb',1,'Tgstation::Server::Host::Controllers::ApiController']]],
   ['restarthandlers',['restartHandlers',['../class_tgstation_1_1_server_1_1_host_1_1_server.html#a6fd99785ffec475ce3d3835c1206505f',1,'Tgstation::Server::Host::Server']]],

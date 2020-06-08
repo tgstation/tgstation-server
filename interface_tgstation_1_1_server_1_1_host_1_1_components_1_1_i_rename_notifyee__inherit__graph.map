@@ -1,0 +1,12 @@
+<map id="Tgstation.Server.Host.Components.IRenameNotifyee" name="Tgstation.Server.Host.Components.IRenameNotifyee">
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="For interacting with the instance services " alt="" coords="304,15,555,56"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess " alt="" coords="304,112,555,153"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers " alt="" coords="304,193,555,235"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html" title="Tgstation.Server.Host.Components.\lInstance" alt="" coords="603,5,853,47"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_dead_session_controller.html" title="Implements a fake &quot;dead&quot; ISessionController " alt="" coords="603,71,853,112"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html" title="Tgstation.Server.Host.Components.\lSession.SessionController" alt="" coords="603,136,853,177"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs. " alt="" coords="603,201,853,243"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html" title="A IWatchdog that manages one server. " alt="" coords="901,168,1152,209"/>
+<area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html" title="A IWatchdog that tries to manage 2 servers at once for maximum uptime. " alt="" coords="901,233,1152,275"/>
+<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html" title="A version of the BasicWatchdog that, instead of killing servers for updates, uses the wonders of syml..." alt="" coords="1200,168,1451,209"/>
+</map>

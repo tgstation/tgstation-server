@@ -1,14 +1,15 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase">
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers " alt="" coords="349,75,435,102"/>
-<area shape="rect" id="node3" href="$class_i_hosted_service.html" title="IHostedService" alt="" coords="52,17,171,43"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs " alt="" coords="295,5,489,47"/>
-<area shape="rect" id="node4" href="$class_i_disposable.html" title="IDisposable" alt="" coords="64,134,159,161"/>
-<area shape="rect" id="node16" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_registration.html" title="Represents the lifetime of a IRestartHandler registration " alt="" coords="293,127,491,168"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions " alt="" coords="48,75,175,102"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext " alt="" coords="296,193,488,219"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts " alt="" coords="332,243,452,270"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components " alt="" coords="277,295,507,336"/>
-<area shape="rect" id="node12" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_dual_reattach_information.html" title="Reattach information for two ISessionController " alt="" coords="267,463,517,504"/>
-<area shape="rect" id="node13" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dual_reattach_information_base.html" title="Base class for DualReattachInformation " alt="" coords="5,470,217,497"/>
-<area shape="rect" id="node14" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_reattach_info_handler.html" title="Handles saving and loading DualReattachInformation " alt="" coords="267,528,517,569"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers " alt="" coords="349,406,435,433"/>
+<area shape="rect" id="node3" href="$class_i_hosted_service.html" title="IHostedService" alt="" coords="52,322,171,349"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs " alt="" coords="295,173,489,215"/>
+<area shape="rect" id="node4" href="$class_i_disposable.html" title="IDisposable" alt="" coords="64,195,159,222"/>
+<area shape="rect" id="node17" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_registration.html" title="Represents the lifetime of a IRestartHandler registration " alt="" coords="293,5,491,47"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions " alt="" coords="48,381,175,407"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed. " alt="" coords="46,431,177,458"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext " alt="" coords="296,71,488,98"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts " alt="" coords="332,122,452,149"/>
+<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components " alt="" coords="277,239,507,280"/>
+<area shape="rect" id="node13" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_dual_reattach_information.html" title="Reattach information for two ISessionController " alt="" coords="267,575,517,616"/>
+<area shape="rect" id="node14" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dual_reattach_information_base.html" title="Base class for DualReattachInformation " alt="" coords="5,582,217,609"/>
+<area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_reattach_info_handler.html" title="Handles saving and loading DualReattachInformation " alt="" coords="267,457,517,499"/>
 </map>
