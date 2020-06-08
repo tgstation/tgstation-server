@@ -151,7 +151,7 @@ namespace Tgstation.Server.Host.Components
 		#pragma warning disable CA1502 // TODO: Decomplexify
 		async Task TimerLoop(uint minutes, CancellationToken cancellationToken)
 		{
-			logger.LogTrace("Entering auto-update loop");
+			logger.LogDebug("Entering auto-update loop");
 			while (true)
 				try
 				{
