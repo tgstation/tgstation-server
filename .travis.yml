@@ -58,21 +58,21 @@ jobs:
       - CONFIG=Release
       - TGS4_TEST_DATABASE_TYPE=PostgresSql
       - TGS4_TEST_CONNECTION_STRING="Application Name=tgstation-server;Port=5433;Host=127.0.0.1;Username=postgres;Password=;Database=TGS_Test"
-      global:
-        PGPORT=5433
+      - PGPORT=5433
       name: "PostgresSql Integration Test"
       language: csharp
       mono: none
       dotnet: 3.1
       cache:
         directories:
-          - $HOME/.nuget/packages:addons:
-      postgresql: "12"
-      apt:
-        packages:
-          - postgresql-12
-          - libc6-i386
-          - libstdc++6:i386
+          - $HOME/.nuget/packages:
+      addons:
+        postgresql: "12"
+        apt:
+          packages:
+            - postgresql-12
+            - libc6-i386
+            - libstdc++6:i386
     - env:
       - DoxGeneration=false
       - DockerBuild=false
