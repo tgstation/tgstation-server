@@ -57,7 +57,9 @@ jobs:
       - DMAPI=false
       - CONFIG=Release
       - TGS4_TEST_DATABASE_TYPE=PostgresSql
-      - TGS4_TEST_CONNECTION_STRING="Application Name=tgstation-server;Host=127.0.0.1;Username=postgres;Password=;Database=TGS_Test"
+      - TGS4_TEST_CONNECTION_STRING="Application Name=tgstation-server;Port=5433;Host=127.0.0.1;Username=postgres;Password=;Database=TGS_Test"
+      global:
+        PGPORT=5433
       name: "PostgresSql Integration Test"
       language: csharp
       mono: none
