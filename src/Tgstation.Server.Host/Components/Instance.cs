@@ -438,8 +438,12 @@ namespace Tgstation.Server.Host.Components
 			{
 				if (timerTask != null)
 				{
+					logger.LogTrace("Cancelling auto-update task");
 					timerCts.Cancel();
+					timerCts.Dispose();
 					toWait = timerTask;
+					timerTask = null;
+					timerCts = null;
 				}
 				else
 					toWait = Task.CompletedTask;
@@ -447,13 +451,20 @@ namespace Tgstation.Server.Host.Components
 
 			await toWait.ConfigureAwait(false);
 			if (newInterval == 0)
+			{
+				logger.LogTrace("New auto-update interval is 0. Not starting task.");
 				return;
+			}
+
 			lock (timerLock)
 			{
 				// race condition, just quit
 				if (timerTask != null)
+				{
+					logger.LogDebug("Aborting auto update interval change due to race condition!");
 					return;
-				timerCts?.Dispose();
+				}
+
 				timerCts = new CancellationTokenSource();
 				timerTask = TimerLoop(newInterval, timerCts.Token);
 			}
