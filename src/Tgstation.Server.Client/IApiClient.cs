@@ -105,7 +105,7 @@ namespace Tgstation.Server.Client
 		/// <typeparam name="TResult">The type of the response body</typeparam>
 		/// <param name="route">The server route to make the request to</param>
 		/// <param name="body">The request body</param>
-		/// <param name="instanceId">The <see cref="Api.Models.Instance.Id"/> to make the request to</param>
+		/// <param name="instanceId">The instance <see cref="Api.Models.EntityId.Id"/> to make the request to</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the response body as a <typeparamref name="TResult"/></returns>
 		Task<TResult> Create<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken);
@@ -115,7 +115,7 @@ namespace Tgstation.Server.Client
 		/// </summary>
 		/// <typeparam name="TResult">The type of the response body</typeparam>
 		/// <param name="route">The server route to make the request to</param>
-		/// <param name="instanceId">The <see cref="Api.Models.Instance.Id"/> to make the request to</param>
+		/// <param name="instanceId">The instance <see cref="Api.Models.EntityId.Id"/> to make the request to</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the response body as a <typeparamref name="TResult"/></returns>
 		Task<TResult> Create<TResult>(string route, long instanceId, CancellationToken cancellationToken);
@@ -125,7 +125,7 @@ namespace Tgstation.Server.Client
 		/// </summary>
 		/// <typeparam name="TResult">The type of the response body</typeparam>
 		/// <param name="route">The server route to make the request to</param>
-		/// <param name="instanceId">The <see cref="Api.Models.Instance.Id"/> to make the request to</param>
+		/// <param name="instanceId">The instance <see cref="Api.Models.EntityId.Id"/> to make the request to</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the response body as a <typeparamref name="TResult"/></returns>
 		Task<TResult> Patch<TResult>(string route, long instanceId, CancellationToken cancellationToken);
@@ -135,7 +135,7 @@ namespace Tgstation.Server.Client
 		/// </summary>
 		/// <typeparam name="TResult">The type of the response body</typeparam>
 		/// <param name="route">The server route to make the request to</param>
-		/// <param name="instanceId">The <see cref="Api.Models.Instance.Id"/> to make the request to</param>
+		/// <param name="instanceId">The instance <see cref="Api.Models.EntityId.Id"/> to make the request to</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the response body as a <typeparamref name="TResult"/></returns>
 		Task<TResult> Read<TResult>(string route, long instanceId, CancellationToken cancellationToken);
@@ -147,7 +147,7 @@ namespace Tgstation.Server.Client
 		/// <typeparam name="TResult">The type of the response body</typeparam>
 		/// <param name="route">The server route to make the request to</param>
 		/// <param name="body">The request body</param>
-		/// <param name="instanceId">The <see cref="Api.Models.Instance.Id"/> to make the request to</param>
+		/// <param name="instanceId">The instance <see cref="Api.Models.EntityId.Id"/> to make the request to</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the response body as a <typeparamref name="TResult"/></returns>
 		Task<TResult> Update<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken);
@@ -156,7 +156,7 @@ namespace Tgstation.Server.Client
 		/// Run an HTTP DELETE request
 		/// </summary>
 		/// <param name="route">The server route to make the request to</param>
-		/// <param name="instanceId">The <see cref="Api.Models.Instance.Id"/> to make the request to</param>
+		/// <param name="instanceId">The instance <see cref="Api.Models.EntityId.Id"/> to make the request to</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task Delete(string route, long instanceId, CancellationToken cancellationToken);
@@ -167,7 +167,7 @@ namespace Tgstation.Server.Client
 		/// <typeparam name="TBody">The type to of the request body</typeparam>
 		/// <param name="route">The server route to make the request to</param>
 		/// <param name="body">The request body</param>
-		/// <param name="instanceId">The <see cref="Api.Models.Instance.Id"/> to make the request to</param>
+		/// <param name="instanceId">The instance <see cref="Api.Models.EntityId.Id"/> to make the request to</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task Delete<TBody>(string route, TBody body, long instanceId, CancellationToken cancellationToken);
@@ -177,7 +177,7 @@ namespace Tgstation.Server.Client
 		/// </summary>
 		/// <typeparam name="TResult">The type of the response body</typeparam>
 		/// <param name="route">The server route to make the request to</param>
-		/// <param name="instanceId">The <see cref="Api.Models.Instance.Id"/> to make the request to</param>
+		/// <param name="instanceId">The instance <see cref="Api.Models.EntityId.Id"/> to make the request to</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the response body as a <typeparamref name="TResult"/></returns>
 		Task<TResult> Delete<TResult>(string route, long instanceId, CancellationToken cancellationToken);

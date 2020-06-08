@@ -138,7 +138,7 @@ namespace Tgstation.Server.Client
 		/// <param name="route">The route to run</param>
 		/// <param name="body">The body of the request</param>
 		/// <param name="method">The method of the request</param>
-		/// <param name="instanceId">The optional <see cref="Instance.Id"/> for the request</param>
+		/// <param name="instanceId">The optional instance <see cref="EntityId.Id"/> for the request</param>
 		/// <param name="tokenRefresh">If this is a token refresh operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the response on success</returns>
