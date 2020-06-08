@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Serilog.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -565,137 +566,138 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			try
 			{
 				for (var monitorState = new MonitorState(); monitorState.NextAction != MonitorAction.Exit; ++iteration)
-					try
-					{
-						Logger.LogDebug("Iteration {0} of monitor loop", iteration);
-
-						// load the activation tasks into local variables
-						var serverTasks = GetMonitoredServerTasks(monitorState);
-						if (serverTasks.Count != 5)
-							throw new InvalidOperationException("Expected 5 monitored server tasks!");
-
-						var activeServerLifetime = serverTasks[MonitorActivationReason.ActiveServerCrashed];
-						var activeServerReboot = serverTasks[MonitorActivationReason.ActiveServerRebooted];
-						var inactiveServerLifetime = serverTasks[MonitorActivationReason.InactiveServerCrashed];
-						var inactiveServerReboot = serverTasks[MonitorActivationReason.InactiveServerRebooted];
-						var inactiveStartupComplete = serverTasks[MonitorActivationReason.InactiveServerStartupComplete];
-
-						Task activeLaunchParametersChanged = ActiveParametersUpdated.Task;
-						var newDmbAvailable = DmbFactory.OnNewerDmb;
-
-						var heartbeatSeconds = ActiveLaunchParameters.HeartbeatSeconds.Value;
-						var heartbeat = heartbeatSeconds == 0
-							? Extensions.TaskExtensions.InfiniteTask()
-							: Task.Delay(TimeSpan.FromSeconds(heartbeatSeconds));
-
-						// cancel waiting if requested
-						var cancelTcs = new TaskCompletionSource<object>();
-						var toWaitOn = Task.WhenAny(
-							activeServerLifetime,
-							activeServerReboot,
-							inactiveServerLifetime,
-							inactiveServerReboot,
-							inactiveStartupComplete,
-							heartbeat,
-							newDmbAvailable,
-							cancelTcs.Task,
-							activeLaunchParametersChanged);
-
-						// wait for something to happen
-						using (cancellationToken.Register(() => cancelTcs.SetCanceled()))
-							await toWaitOn.ConfigureAwait(false);
-
-						cancellationToken.ThrowIfCancellationRequested();
-						Logger.LogTrace("Monitor activated");
-
-						// always run HandleMonitorWakeup from the context of the semaphore lock
-						using (await SemaphoreSlimContext.Lock(Semaphore, cancellationToken).ConfigureAwait(false))
+					using (LogContext.PushProperty("Monitor", iteration))
+						try
 						{
-							// multiple things may have happened, handle them one at a time
-							for (var moreActivationsToProcess = true; moreActivationsToProcess && (monitorState.NextAction == MonitorAction.Continue || monitorState.NextAction == MonitorAction.Skip);)
-							{
-								MonitorActivationReason activationReason = default; // this will always be assigned before being used
+							Logger.LogTrace("Iteration {0} of monitor loop", iteration);
 
-								bool CheckActivationReason(ref Task task, MonitorActivationReason testActivationReason)
+							// load the activation tasks into local variables
+							var serverTasks = GetMonitoredServerTasks(monitorState);
+							if (serverTasks.Count != 5)
+								throw new InvalidOperationException("Expected 5 monitored server tasks!");
+
+							var activeServerLifetime = serverTasks[MonitorActivationReason.ActiveServerCrashed];
+							var activeServerReboot = serverTasks[MonitorActivationReason.ActiveServerRebooted];
+							var inactiveServerLifetime = serverTasks[MonitorActivationReason.InactiveServerCrashed];
+							var inactiveServerReboot = serverTasks[MonitorActivationReason.InactiveServerRebooted];
+							var inactiveStartupComplete = serverTasks[MonitorActivationReason.InactiveServerStartupComplete];
+
+							Task activeLaunchParametersChanged = ActiveParametersUpdated.Task;
+							var newDmbAvailable = DmbFactory.OnNewerDmb;
+
+							var heartbeatSeconds = ActiveLaunchParameters.HeartbeatSeconds.Value;
+							var heartbeat = heartbeatSeconds == 0
+								? Extensions.TaskExtensions.InfiniteTask()
+								: Task.Delay(TimeSpan.FromSeconds(heartbeatSeconds));
+
+							// cancel waiting if requested
+							var cancelTcs = new TaskCompletionSource<object>();
+							var toWaitOn = Task.WhenAny(
+								activeServerLifetime,
+								activeServerReboot,
+								inactiveServerLifetime,
+								inactiveServerReboot,
+								inactiveStartupComplete,
+								heartbeat,
+								newDmbAvailable,
+								cancelTcs.Task,
+								activeLaunchParametersChanged);
+
+							// wait for something to happen
+							using (cancellationToken.Register(() => cancelTcs.SetCanceled()))
+								await toWaitOn.ConfigureAwait(false);
+
+							cancellationToken.ThrowIfCancellationRequested();
+							Logger.LogTrace("Monitor activated");
+
+							// always run HandleMonitorWakeup from the context of the semaphore lock
+							using (await SemaphoreSlimContext.Lock(Semaphore, cancellationToken).ConfigureAwait(false))
+							{
+								// multiple things may have happened, handle them one at a time
+								for (var moreActivationsToProcess = true; moreActivationsToProcess && (monitorState.NextAction == MonitorAction.Continue || monitorState.NextAction == MonitorAction.Skip);)
 								{
-									var taskCompleted = task?.IsCompleted == true;
-									task = null;
-									if (monitorState.NextAction == MonitorAction.Skip)
-										monitorState.NextAction = MonitorAction.Continue;
-									else if (taskCompleted)
+									MonitorActivationReason activationReason = default; // this will always be assigned before being used
+
+									bool CheckActivationReason(ref Task task, MonitorActivationReason testActivationReason)
 									{
-										activationReason = testActivationReason;
-										return true;
+										var taskCompleted = task?.IsCompleted == true;
+										task = null;
+										if (monitorState.NextAction == MonitorAction.Skip)
+											monitorState.NextAction = MonitorAction.Continue;
+										else if (taskCompleted)
+										{
+											activationReason = testActivationReason;
+											return true;
+										}
+
+										return false;
 									}
 
-									return false;
-								}
+									// process the tasks in this order and call HandlerMonitorWakup for each depending on the new monitorState
+									var anyActivation = CheckActivationReason(ref activeServerLifetime, MonitorActivationReason.ActiveServerCrashed)
+										|| CheckActivationReason(ref activeServerReboot, MonitorActivationReason.ActiveServerRebooted)
+										|| CheckActivationReason(ref newDmbAvailable, MonitorActivationReason.NewDmbAvailable)
+										|| CheckActivationReason(ref inactiveServerLifetime, MonitorActivationReason.InactiveServerCrashed)
+										|| CheckActivationReason(ref inactiveServerReboot, MonitorActivationReason.InactiveServerRebooted)
+										|| CheckActivationReason(ref inactiveStartupComplete, MonitorActivationReason.InactiveServerStartupComplete)
+										|| CheckActivationReason(ref activeLaunchParametersChanged, MonitorActivationReason.ActiveLaunchParametersUpdated)
+										|| CheckActivationReason(ref heartbeat, MonitorActivationReason.Heartbeat);
 
-								// process the tasks in this order and call HandlerMonitorWakup for each depending on the new monitorState
-								var anyActivation = CheckActivationReason(ref activeServerLifetime, MonitorActivationReason.ActiveServerCrashed)
-									|| CheckActivationReason(ref activeServerReboot, MonitorActivationReason.ActiveServerRebooted)
-									|| CheckActivationReason(ref newDmbAvailable, MonitorActivationReason.NewDmbAvailable)
-									|| CheckActivationReason(ref inactiveServerLifetime, MonitorActivationReason.InactiveServerCrashed)
-									|| CheckActivationReason(ref inactiveServerReboot, MonitorActivationReason.InactiveServerRebooted)
-									|| CheckActivationReason(ref inactiveStartupComplete, MonitorActivationReason.InactiveServerStartupComplete)
-									|| CheckActivationReason(ref activeLaunchParametersChanged, MonitorActivationReason.ActiveLaunchParametersUpdated)
-									|| CheckActivationReason(ref heartbeat, MonitorActivationReason.Heartbeat);
-
-								if (!anyActivation)
-									moreActivationsToProcess = false;
-								else
-								{
-									Logger.LogTrace("Reason: {0}", activationReason);
-									if (activationReason == MonitorActivationReason.Heartbeat)
-										monitorState.NextAction = await HandleHeartbeat(
-											monitorState.ActiveServer,
-											cancellationToken)
-											.ConfigureAwait(false);
+									if (!anyActivation)
+										moreActivationsToProcess = false;
 									else
-										await HandleMonitorWakeup(
-											activationReason,
-											monitorState,
-											cancellationToken)
-											.ConfigureAwait(false);
+									{
+										Logger.LogTrace("Reason: {0}", activationReason);
+										if (activationReason == MonitorActivationReason.Heartbeat)
+											monitorState.NextAction = await HandleHeartbeat(
+												monitorState.ActiveServer,
+												cancellationToken)
+												.ConfigureAwait(false);
+										else
+											await HandleMonitorWakeup(
+												activationReason,
+												monitorState,
+												cancellationToken)
+												.ConfigureAwait(false);
+									}
 								}
 							}
+
+							Logger.LogTrace("Next monitor action is to {0}", monitorState.NextAction);
+
+							// Restart if requested
+							if (monitorState.NextAction == MonitorAction.Restart)
+								monitorState = await MonitorRestart(cancellationToken).ConfigureAwait(false);
 						}
+						catch (OperationCanceledException)
+						{
+							// let this bubble, other exceptions caught below
+							throw;
+						}
+						catch (Exception e)
+						{
+							// really, this should NEVER happen
+							Logger.LogError(
+								"Monitor crashed! Iteration: {0}, Monitor State: {1}, Exception: {2}",
+								iteration,
+								JsonConvert.SerializeObject(monitorState),
+								e);
 
-						Logger.LogTrace("Next monitor action is to {0}", monitorState.NextAction);
+							var nextActionMessage = monitorState.NextAction != MonitorAction.Exit
+								? "Restarting"
+								: "Shutting down";
+							var chatTask = Chat.SendWatchdogMessage(
+								$"Monitor crashed, this should NEVER happen! Please report this, full details in logs! {nextActionMessage}. Error: {e.Message}",
+								false,
+								cancellationToken);
 
-						// Restart if requested
-						if (monitorState.NextAction == MonitorAction.Restart)
-							monitorState = await MonitorRestart(cancellationToken).ConfigureAwait(false);
-					}
-					catch (OperationCanceledException)
-					{
-						// let this bubble, other exceptions caught below
-						throw;
-					}
-					catch (Exception e)
-					{
-						// really, this should NEVER happen
-						Logger.LogError(
-							"Monitor crashed! Iteration: {0}, Monitor State: {1}, Exception: {2}",
-							iteration,
-							JsonConvert.SerializeObject(monitorState),
-							e);
+							if (disposed)
+								monitorState.NextAction = MonitorAction.Exit;
+							else if (monitorState.NextAction != MonitorAction.Exit)
+								monitorState = await MonitorRestart(cancellationToken).ConfigureAwait(false);
 
-						var nextActionMessage = monitorState.NextAction != MonitorAction.Exit
-							? "Restarting"
-							: "Shutting down";
-						var chatTask = Chat.SendWatchdogMessage(
-							$"Monitor crashed, this should NEVER happen! Please report this, full details in logs! {nextActionMessage}. Error: {e.Message}",
-							false,
-							cancellationToken);
-
-						if (disposed)
-							monitorState.NextAction = MonitorAction.Exit;
-						else if (monitorState.NextAction != MonitorAction.Exit)
-							monitorState = await MonitorRestart(cancellationToken).ConfigureAwait(false);
-
-						await chatTask.ConfigureAwait(false);
-					}
+							await chatTask.ConfigureAwait(false);
+						}
 			}
 			catch (OperationCanceledException)
 			{
@@ -914,5 +916,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (Running)
 				await Chat.SendWatchdogMessage("Detaching...", false, cancellationToken).ConfigureAwait(false);
 		}
+
+		/// <inheritdoc />
+		public abstract Task InstanceRenamed(string newInstanceName, CancellationToken cancellationToken);
 	}
 }

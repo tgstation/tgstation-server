@@ -10,7 +10,7 @@ namespace Tgstation.Server.Host.Components.Session
 	/// <summary>
 	/// Handles communication with a DreamDaemon <see cref="IProcess"/>
 	/// </summary>
-	interface ISessionController : IProcessBase
+	interface ISessionController : IRenameNotifyee, IProcessBase
 	{
 		/// <summary>
 		/// A <see cref="Task"/> that completes when DreamDaemon starts pumping the windows message queue after loading a .dmb or when it crashes

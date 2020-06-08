@@ -11,7 +11,7 @@ namespace Tgstation.Server.Host.Models
 		public long Id { get; set; }
 
 		/// <summary>
-		/// The <see cref="Api.Models.Instance.Id"/> of <see cref="Instance"/>
+		/// The <see cref="Api.Models.EntityId.Id"/> of <see cref="Instance"/>
 		/// </summary>
 		public long InstanceId { get; set; }
 

@@ -133,7 +133,9 @@ namespace Tgstation.Server.Host.Core
 					var logEventLevel = ConvertSeriLogLevel(postSetupServices.FileLoggingConfiguration.LogLevel);
 
 					var formatter = new MessageTemplateTextFormatter(
-						"{Timestamp:o} {RequestId,13} [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}",
+						"{Timestamp:o} "
+						+ ServiceCollectionExtensions.SerilogContextTemplate
+						+ ": [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}",
 						null);
 
 					logPath = IOManager.ConcatPath(logPath, "tgs-.log");
