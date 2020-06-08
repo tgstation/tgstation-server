@@ -33,7 +33,14 @@ namespace Tgstation.Server.Host.Database
 		protected override void OnConfiguring(DbContextOptionsBuilder options)
 		{
 			base.OnConfiguring(options);
-			options.UseNpgsql(DatabaseConfiguration.ConnectionString, x => x.EnableRetryOnFailure());
+			options.UseNpgsql(DatabaseConfiguration.ConnectionString, options =>
+			{
+				options.EnableRetryOnFailure();
+
+				if (!String.IsNullOrEmpty(DatabaseConfiguration.ServerVersion))
+					options.SetPostgresVersion(
+						Version.Parse(DatabaseConfiguration.ServerVersion));
+			});
 		}
 
 		/// <inheritdoc />
