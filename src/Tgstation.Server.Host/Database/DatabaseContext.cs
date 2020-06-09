@@ -109,6 +109,11 @@ namespace Tgstation.Server.Host.Database
 		/// </summary>
 		protected DatabaseConfiguration DatabaseConfiguration { get; }
 
+		/// <summary>
+		/// The <see cref="DeleteBehavior"/> for the <see cref="CompileJob"/>/<see cref="RevisionInformation"/> foreign key.
+		/// </summary>
+		protected virtual DeleteBehavior RevInfoCompileJobDeleteBehavior => DeleteBehavior.ClientNoAction;
+
 		/// <inheritdoc />
 		IDatabaseCollection<User> IDatabaseContext.Users => usersCollection;
 
@@ -271,7 +276,8 @@ namespace Tgstation.Server.Host.Database
 			// rev info takes care of the rest
 			// Break the link here so the db doesn't shit itself complaining about cascading deletes
 			// EF will handle making the right query to destroy everything
-			revInfo.HasMany(x => x.CompileJobs).WithOne(x => x.RevisionInformation).OnDelete(DeleteBehavior.ClientNoAction);
+			// UPDATE: I fuck with this constantly in hopes of eliminating FK issues on instance detack
+			revInfo.HasMany(x => x.CompileJobs).WithOne(x => x.RevisionInformation).OnDelete(RevInfoCompileJobDeleteBehavior);
 
 			// Also break the link between ritm and testmerge so it doesn't cycle in a triangle with rev info
 			modelBuilder.Entity<TestMerge>().HasMany(x => x.RevisonInformations).WithOne(x => x.TestMerge).OnDelete(DeleteBehavior.ClientNoAction);

@@ -346,7 +346,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 						name: "FK_CompileJobs_RevisionInformations_RevisionInformationId",
 						column: x => x.RevisionInformationId,
 						principalTable: "RevisionInformations",
-						principalColumn: "Id");
+						principalColumn: "Id",
+						onDelete: ReferentialAction.Cascade);
 				});
 
 			migrationBuilder.CreateTable(

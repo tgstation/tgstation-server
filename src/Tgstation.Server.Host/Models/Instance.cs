@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.Models
 		public RepositorySettings RepositorySettings { get; set; }
 
 		/// <summary>
-		/// The <see cref="Models.DualReattachInformation"/> for the <see cref="Instance"/>
+		/// The <see cref="DualReattachInformation"/> for the <see cref="Instance"/>
 		/// </summary>
 		public DualReattachInformation WatchdogReattachInformation { get; set; }
 
@@ -48,7 +48,7 @@ namespace Tgstation.Server.Host.Models
 		public List<RevisionInformation> RevisionInformations { get; set; }
 
 		/// <summary>
-		/// The <see cref="Jobs"/> in the <see cref="Instance"/>
+		/// The <see cref="Job"/>s in the <see cref="Instance"/>
 		/// </summary>
 		public List<Job> Jobs { get; set; }
 

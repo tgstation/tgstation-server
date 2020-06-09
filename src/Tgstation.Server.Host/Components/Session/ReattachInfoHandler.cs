@@ -56,11 +56,12 @@ namespace Tgstation.Server.Host.Components.Session
 
 			logger.LogDebug("Saving reattach information: {0}...", reattachInformation);
 
-			var deleteTask = db
+			await db
 				.WatchdogReattachInformations
 				.AsQueryable()
 				.Where(x => x.InstanceId == metadata.Id)
-				.DeleteAsync(cancellationToken);
+				.DeleteAsync(cancellationToken)
+				.ConfigureAwait(false);
 
 			Models.ReattachInformation ConvertReattachInfo(ReattachInformation wdInfo)
 			{
@@ -78,8 +79,6 @@ namespace Tgstation.Server.Host.Components.Session
 					LaunchSecurityLevel = wdInfo.LaunchSecurityLevel
 				};
 			}
-
-			await deleteTask.ConfigureAwait(false);
 
 			db.WatchdogReattachInformations.Add(new Models.DualReattachInformation
 			{

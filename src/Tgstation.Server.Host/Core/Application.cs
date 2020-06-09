@@ -354,7 +354,11 @@ namespace Tgstation.Server.Host.Core
 
 			// attempt to restart the server if the configuration changes
 			if (serverControl.WatchdogPresent)
-				ChangeToken.OnChange(Configuration.GetReloadToken, () => serverControl.Restart());
+				ChangeToken.OnChange(Configuration.GetReloadToken, () =>
+				{
+					logger.LogInformation("Configuration change detected");
+					serverControl.Restart();
+				});
 
 			// setup the HTTP request pipeline
 			// Final point where we wrap exceptions in a 500 (ErrorMessage) response

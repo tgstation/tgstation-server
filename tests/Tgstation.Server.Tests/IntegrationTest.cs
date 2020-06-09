@@ -91,6 +91,11 @@ namespace Tgstation.Server.Tests
 					await serverTask.ConfigureAwait(false);
 				}
 				catch (OperationCanceledException) { }
+				catch (AggregateException ex)
+				{
+					if (ex.InnerException is NotSupportedException notSupportedException)
+						Assert.Inconclusive(notSupportedException.Message);
+				}
 			}
 			Assert.IsTrue(server.RestartRequested, "Server not requesting restart!");
 		}
