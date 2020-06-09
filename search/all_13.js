@@ -69,7 +69,7 @@ var searchData=
   ['serversidemodifications_2ecs',['ServerSideModifications.cs',['../_server_side_modifications_8cs.html',1,'']]],
   ['serverupdateinprogress',['ServerUpdateInProgress',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a7b3644a07defb6b7df279cc44dc46adb',1,'Tgstation::Server::Api::Models']]],
   ['serverupdater',['serverUpdater',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a860fa70ca4b87deb3f9e6f550d57dc72',1,'Tgstation::Server::Host::Controllers::AdministrationController']]],
-  ['serverversion',['ServerVersion',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_runtime_information.html#a58c14ed1399e171958dfe450be84c3cf',1,'Tgstation::Server::Host::Components::Interop::Bridge::RuntimeInformation']]],
+  ['serverversion',['ServerVersion',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_runtime_information.html#a58c14ed1399e171958dfe450be84c3cf',1,'Tgstation.Server.Host.Components.Interop.Bridge.RuntimeInformation.ServerVersion()'],['../class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a37d2a2cb232af1fcc3a5ea4139a052e9',1,'Tgstation.Server.Host.Configuration.DatabaseConfiguration.ServerVersion()']]],
   ['servicebase',['ServiceBase',['../class_service_base.html',1,'']]],
   ['servicecollectionextensions',['ServiceCollectionExtensions',['../class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_service_collection_extensions.html',1,'Tgstation::Server::Host::Extensions']]],
   ['servicecollectionextensions_2ecs',['ServiceCollectionExtensions.cs',['../_service_collection_extensions_8cs.html',1,'']]],

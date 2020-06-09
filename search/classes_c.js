@@ -28,6 +28,7 @@ var searchData=
   ['myaddminimumsecurity',['MYAddMinimumSecurity',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_minimum_security.html',1,'Tgstation::Server::Host::Database::Migrations']]],
   ['mycheckpointrebuild',['MYCheckpointRebuild',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_checkpoint_rebuild.html',1,'Tgstation::Server::Host::Database::Migrations']]],
   ['myfixcascadingdelete',['MYFixCascadingDelete',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_fix_cascading_delete.html',1,'Tgstation::Server::Host::Database::Migrations']]],
+  ['myfixforeignkey',['MYFixForeignKey',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_fix_foreign_key.html',1,'Tgstation::Server::Host::Database::Migrations']]],
   ['myfixrevinfoindex',['MYFixRevInfoIndex',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_fix_rev_info_index.html',1,'Tgstation::Server::Host::Database::Migrations']]],
   ['myinitialcreate',['MYInitialCreate',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_initial_create.html',1,'Tgstation::Server::Host::Database::Migrations']]],
   ['mykilljsonsadddmapiversion',['MYKillJsonsAddDMApiVersion',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_kill_jsons_add_d_m_api_version.html',1,'Tgstation::Server::Host::Database::Migrations']]],
