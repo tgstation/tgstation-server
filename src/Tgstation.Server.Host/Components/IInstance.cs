@@ -13,7 +13,7 @@ namespace Tgstation.Server.Host.Components
 	/// <summary>
 	/// For interacting with the instance services
 	/// </summary>
-	public interface IInstance : ILatestCompileJobProvider, IHostedService, IDisposable
+	public interface IInstance : ILatestCompileJobProvider, IHostedService, IRenameNotifyee, IDisposable
 	{
 		/// <summary>
 		/// The <see cref="IRepositoryManager"/> for the <see cref="IInstance"/>
@@ -44,12 +44,6 @@ namespace Tgstation.Server.Host.Components
 		/// The <see cref="IConfiguration"/> for the <see cref="IInstance"/>
 		/// </summary>
 		IConfiguration Configuration { get; }
-
-		/// <summary>
-		/// Rename the <see cref="IInstance"/>
-		/// </summary>
-		/// <param name="newName">The new name for the <see cref="IInstance"/></param>
-		void Rename(string newName);
 
 		/// <summary>
 		/// Change the <see cref="Api.Models.Instance.AutoUpdateInterval"/> for the <see cref="IInstance"/>

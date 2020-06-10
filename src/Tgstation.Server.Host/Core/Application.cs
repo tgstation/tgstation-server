@@ -133,10 +133,12 @@ namespace Tgstation.Server.Host.Core
 					var logEventLevel = ConvertSeriLogLevel(postSetupServices.FileLoggingConfiguration.LogLevel);
 
 					var formatter = new MessageTemplateTextFormatter(
-						"{Timestamp:o} {RequestId,13} [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}",
+						"{Timestamp:o} "
+						+ ServiceCollectionExtensions.SerilogContextTemplate
+						+ ": [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}",
 						null);
 
-					logPath = IOManager.ConcatPath(logPath, "tgs-{Date}.log");
+					logPath = IOManager.ConcatPath(logPath, "tgs-.log");
 					var rollingFileConfig = sinkConfig.File(
 						formatter,
 						logPath,
@@ -167,6 +169,7 @@ namespace Tgstation.Server.Host.Core
 				};
 			});
 
+			// WARNING: STATIC CODE
 			// fucking prevents converting 'sub' to M$ bs
 			// can't be done in the above lambda, that's too late
 			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -351,7 +354,11 @@ namespace Tgstation.Server.Host.Core
 
 			// attempt to restart the server if the configuration changes
 			if (serverControl.WatchdogPresent)
-				ChangeToken.OnChange(Configuration.GetReloadToken, () => serverControl.Restart());
+				ChangeToken.OnChange(Configuration.GetReloadToken, () =>
+				{
+					logger.LogInformation("Configuration change detected");
+					serverControl.Restart();
+				});
 
 			// setup the HTTP request pipeline
 			// Final point where we wrap exceptions in a 500 (ErrorMessage) response

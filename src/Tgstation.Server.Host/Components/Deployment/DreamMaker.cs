@@ -586,7 +586,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						}
 						catch
 						{
-							repo.Dispose();
+							repo?.Dispose();
 							throw;
 						}
 					})

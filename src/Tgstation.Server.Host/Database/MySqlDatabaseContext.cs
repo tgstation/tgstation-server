@@ -13,6 +13,9 @@ namespace Tgstation.Server.Host.Database
 	/// </summary>
 	sealed class MySqlDatabaseContext : DatabaseContext
 	{
+		/// <inheritdoc />
+		protected override DeleteBehavior RevInfoCompileJobDeleteBehavior => DeleteBehavior.Cascade;
+
 		/// <summary>
 		/// Construct a <see cref="MySqlDatabaseContext"/>
 		/// </summary>
@@ -39,9 +42,9 @@ namespace Tgstation.Server.Host.Database
 				{
 					mySqlOptions.EnableRetryOnFailure();
 
-					if (!String.IsNullOrEmpty(DatabaseConfiguration.MySqlServerVersion))
+					if (!String.IsNullOrEmpty(DatabaseConfiguration.ServerVersion))
 						mySqlOptions.ServerVersion(
-							Version.Parse(DatabaseConfiguration.MySqlServerVersion),
+							Version.Parse(DatabaseConfiguration.ServerVersion),
 							DatabaseConfiguration.DatabaseType == DatabaseType.MariaDB
 								? ServerType.MariaDb
 								: ServerType.MySql);

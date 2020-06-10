@@ -11,7 +11,7 @@
 		public long Id { get; set; }
 
 		/// <summary>
-		/// The <see cref="Api.Models.Instance.Id"/> of the <see cref="Instance"/> the <see cref="DualReattachInformation"/> belongs to
+		/// The <see cref="Api.Models.EntityId.Id"/> of the <see cref="Instance"/> the <see cref="DualReattachInformation"/> belongs to
 		/// </summary>
 		public long InstanceId { get; set; }
 

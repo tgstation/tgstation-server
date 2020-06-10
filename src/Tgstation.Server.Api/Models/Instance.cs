@@ -6,13 +6,8 @@ namespace Tgstation.Server.Api.Models
 	/// <summary>
 	/// Metadata about a server instance
 	/// </summary>
-	public class Instance
+	public class Instance : EntityId
 	{
-		/// <summary>
-		/// The id of the <see cref="Instance"/>. Not modifiable
-		/// </summary>
-		public long Id { get; set; }
-
 		/// <summary>
 		/// The name of the <see cref="Instance"/>
 		/// </summary>

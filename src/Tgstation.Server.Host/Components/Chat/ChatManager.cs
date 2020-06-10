@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Serilog.Context;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -110,6 +111,11 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// Used for remapping <see cref="ChannelRepresentation.RealId"/>s
 		/// </summary>
 		ulong channelIdCounter;
+
+		/// <summary>
+		/// The number of <see cref="Message"/>s processed.
+		/// </summary>
+		long messagesProcessed;
 
 		/// <summary>
 		/// If <see cref="StartAsync(CancellationToken)"/> has been called
@@ -407,7 +413,9 @@ namespace Tgstation.Server.Host.Components.Chat
 					foreach (var I in messageTasks.Where(x => x.Value.IsCompleted).ToList())
 					{
 						var message = await I.Value.ConfigureAwait(false);
-						await ProcessMessage(I.Key, message, cancellationToken).ConfigureAwait(false);
+						var messageNumber = Interlocked.Increment(ref messagesProcessed);
+						using (LogContext.PushProperty("ChatMessage", messageNumber))
+							await ProcessMessage(I.Key, message, cancellationToken).ConfigureAwait(false);
 						messageTasks.Remove(I.Key);
 					}
 				}

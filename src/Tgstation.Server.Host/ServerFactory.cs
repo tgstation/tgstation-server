@@ -73,7 +73,7 @@ namespace Tgstation.Server.Host
 						.UseIISIntegration()
 						.UseApplication(postSetupServices)
 						.SuppressStatusMessages(true)
-						.UseShutdownTimeout(TimeSpan.FromMinutes(1)));
+						.UseShutdownTimeout(TimeSpan.FromMilliseconds(postSetupServices.GeneralConfiguration.RestartTimeout)));
 
 			if (updatePath != null)
 				hostBuilder.UseContentRoot(

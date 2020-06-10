@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
-using System.Diagnostics;
 using Tgstation.Server.Host.Configuration;
 
 namespace Tgstation.Server.Host.Database
@@ -12,6 +11,9 @@ namespace Tgstation.Server.Host.Database
 	/// </summary>
 	sealed class PostgresSqlDatabaseContext : DatabaseContext
 	{
+		/// <inheritdoc />
+		protected override DeleteBehavior RevInfoCompileJobDeleteBehavior => DeleteBehavior.Cascade;
+
 		/// <summary>
 		/// Construct a <see cref="SqlServerDatabaseContext"/>
 		/// </summary>
@@ -31,15 +33,19 @@ namespace Tgstation.Server.Host.Database
 		protected override void OnConfiguring(DbContextOptionsBuilder options)
 		{
 			base.OnConfiguring(options);
-			options.UseNpgsql(DatabaseConfiguration.ConnectionString, x => x.EnableRetryOnFailure());
+			options.UseNpgsql(DatabaseConfiguration.ConnectionString, options =>
+			{
+				options.EnableRetryOnFailure();
+
+				if (!String.IsNullOrEmpty(DatabaseConfiguration.ServerVersion))
+					options.SetPostgresVersion(
+						Version.Parse(DatabaseConfiguration.ServerVersion));
+			});
 		}
 
 		/// <inheritdoc />
 		protected override void ValidateDatabaseType()
 		{
-			if (!Debugger.IsAttached)
-				throw new NotImplementedException("PostgresSQL implementation is not complete yet!");
-
 			if (DatabaseType != DatabaseType.PostgresSql)
 				throw new InvalidOperationException("Invalid DatabaseType for PostgresSqlDatabaseContext!");
 		}

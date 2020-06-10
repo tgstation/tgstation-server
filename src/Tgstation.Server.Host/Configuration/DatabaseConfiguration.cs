@@ -40,8 +40,8 @@ namespace Tgstation.Server.Host.Configuration
 		public bool DesignTime { get; set; }
 
 		/// <summary>
-		/// The <see cref="string"/> form of the <see cref="global::System.Version"/> of a target MySQL/MariaDB server
+		/// The <see cref="string"/> form of the <see cref="global::System.Version"/> of the target server
 		/// </summary>
-		public string MySqlServerVersion { get; set; }
+		public string ServerVersion { get; set; }
 	}
 }

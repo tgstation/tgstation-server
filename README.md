@@ -103,7 +103,7 @@ Create an `appsettings.Production.json` file next to `appsettings.json`. This wi
 
 - `Database:DatabaseType`: Can be one of `SqlServer`, `MariaDB`, `MySql`, or `Sqlite`.
 
-- `Database:MySqlServerVersion`: The version of MySql/MariaDB the database resides on, can be left as null for attempted auto detection. Used by the MySQL/MariaDB provider for selection of [certain features](https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql/blob/2.2.6/src/EFCore.MySql/Storage/Internal/ServerVersion.cs) ignore at your own risk. A string in the form `<major>.<minor>.<patch>`
+- `Database:ServerVersion`: The version of the database server. Used by the MySQL/MariaDB and Postgres providers for selection of certain features, ignore at your own risk. A string in the form `<major>.<minor>.<patch>` for MySQL/MariaDB or `<major>.<minor>` for Postgres.
 
 - `Database:ConnectionString`: Connection string for your database. Click [here](https://www.developerfusion.com/tools/sql-connection-string/) for an SQL Server generator or see [here](https://www.connectionstrings.com/mysql/) for a MySQL guide ([You should probably use '127.0.0.1' instead of 'localhost'](https://stackoverflow.com/questions/19712307/mysql-localhost-127-0-0-1)).
 
