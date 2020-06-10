@@ -140,11 +140,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="201">The <see cref="Repository"/> was created successfully and the <see cref="Api.Models.Job"/> to clone it has begun.</response>
-		/// <response code="410">Instance no longer available.</response>
 		[HttpPut]
 		[TgsAuthorize(RepositoryRights.SetOrigin)]
 		[ProducesResponseType(typeof(Repository), 201)]
-		[ProducesResponseType(410)]
 		public async Task<IActionResult> Create([FromBody] Repository model, CancellationToken cancellationToken)
 		{
 			if (model == null)
@@ -164,7 +162,7 @@ namespace Tgstation.Server.Host.Controllers
 				.ConfigureAwait(false);
 
 			if (currentModel == default)
-				return StatusCode((int)HttpStatusCode.Gone);
+				return Gone();
 
 			// normalize github urls
 			const string BadGitHubUrl = "://www.github.com/";
@@ -234,11 +232,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
 		/// <response code="202">Job to delete the repository created successfully.</response>
-		/// <response code="410">Instance no longer available.</response>
 		[HttpDelete]
 		[TgsAuthorize(RepositoryRights.Delete)]
 		[ProducesResponseType(typeof(Repository), 202)]
-		[ProducesResponseType(410)]
 		public async Task<IActionResult> Delete(CancellationToken cancellationToken)
 		{
 			var currentModel = await DatabaseContext
@@ -249,7 +245,7 @@ namespace Tgstation.Server.Host.Controllers
 				.ConfigureAwait(false);
 
 			if (currentModel == default)
-				return StatusCode((int)HttpStatusCode.Gone);
+				return Gone();
 
 			currentModel.AccessToken = null;
 			currentModel.AccessUser = null;
@@ -277,12 +273,10 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200">Retrieved the <see cref="Repository"/> settings successfully.</response>
 		/// <response code="201">Retrieved the <see cref="Repository"/> settings successfully, though they did not previously exist.</response>
-		/// <response code="410">Instance no longer available.</response>
 		[HttpGet]
 		[TgsAuthorize(RepositoryRights.Read)]
 		[ProducesResponseType(typeof(Repository), 200)]
 		[ProducesResponseType(typeof(Repository), 201)]
-		[ProducesResponseType(410)]
 		public async Task<IActionResult> Read(CancellationToken cancellationToken)
 		{
 			var currentModel = await DatabaseContext
@@ -293,7 +287,7 @@ namespace Tgstation.Server.Host.Controllers
 				.ConfigureAwait(false);
 
 			if (currentModel == default)
-				return StatusCode((int)HttpStatusCode.Gone, new ErrorMessage(ErrorCode.RepoMissing));
+				return Gone();
 
 			var api = currentModel.ToApi();
 			var repoManager = instanceManager.GetInstance(Instance).RepositoryManager;
@@ -323,12 +317,10 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200">Updated the <see cref="Repository"/> settings successfully.</response>
 		/// <response code="202">Updated the <see cref="Repository"/> settings successfully and a <see cref="Api.Models.Job"/> was created to make the requested git changes.</response>
-		/// <response code="410">Instance no longer available.</response>
 		[HttpPost]
 		[TgsAuthorize(RepositoryRights.ChangeAutoUpdateSettings | RepositoryRights.ChangeCommitter | RepositoryRights.ChangeCredentials | RepositoryRights.ChangeTestMergeCommits | RepositoryRights.MergePullRequest | RepositoryRights.SetReference | RepositoryRights.SetSha | RepositoryRights.UpdateBranch)]
 		[ProducesResponseType(typeof(Repository), 200)]
 		[ProducesResponseType(typeof(Repository), 202)]
-		[ProducesResponseType(410)]
 		#pragma warning disable CA1502, CA1505 // TODO: Decomplexify
 		public async Task<IActionResult> Update([FromBody]Repository model, CancellationToken cancellationToken)
 		{
@@ -366,7 +358,7 @@ namespace Tgstation.Server.Host.Controllers
 				.ConfigureAwait(false);
 
 			if (currentModel == default)
-				return StatusCode((int)HttpStatusCode.Gone);
+				return Gone();
 
 			bool CheckModified<T>(Expression<Func<Api.Models.Internal.RepositorySettings, T>> expression, RepositoryRights requiredRight)
 			{

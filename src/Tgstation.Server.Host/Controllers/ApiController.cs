@@ -77,6 +77,24 @@ namespace Tgstation.Server.Host.Controllers
 			this.requireHeaders = requireHeaders;
 		}
 
+		/// <summary>
+		/// Generic 410 response.
+		/// </summary>
+		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.Gone"/>.</returns>
+		protected ObjectResult Gone() => StatusCode((int)HttpStatusCode.Gone, new ErrorMessage(ErrorCode.ResourceNotPresent));
+
+		/// <summary>
+		/// Generic 404 response.
+		/// </summary>
+		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.NotFound"/>.</returns>
+		protected new ObjectResult NotFound() => StatusCode((int)HttpStatusCode.NotFound, new ErrorMessage(ErrorCode.ResourceNeverPresent));
+
+		/// <summary>
+		/// Generic 501 response.
+		/// </summary>
+		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.NotImplemented"/>.</returns>
+		protected ObjectResult RequiresPosixSystemIdentity() => StatusCode((int)HttpStatusCode.NotImplemented, new ErrorMessage(ErrorCode.RequiresPosixSystemIdentity));
+
 		/// <inheritdoc />
 		#pragma warning disable CA1506 // TODO: Decomplexify
 		public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)

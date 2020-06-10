@@ -495,5 +495,29 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("Cannot restart the watchdog as it is not running!")]
 		WatchdogNotRunning,
+
+		/// <summary>
+		/// Attempted to access a resourse that is not (currently) present.
+		/// </summary>
+		[Description("The requested resource is not currently present, but may have been in the past.")]
+		ResourceNotPresent,
+
+		/// <summary>
+		/// Attempted to access a resource that was never present.
+		/// </summary>
+		[Description("The requested resource is not present and never has been.")]
+		ResourceNeverPresent,
+
+		/// <summary>
+		/// A required GitHub API call failed due to rate limiting.
+		/// </summary>
+		[Description("A required GitHub API call failed due to rate limiting.")]
+		GitHubApiRateLimit,
+
+		/// <summary>
+		/// Attempted to cancel a stopped job.
+		/// </summary>
+		[Description("Cannot cancel the job as it is no longer running.")]
+		JobStopped,
 	}
 }

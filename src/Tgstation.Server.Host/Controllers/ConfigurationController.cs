@@ -74,8 +74,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">File updated successfully.</response>
-		/// <response code="200">File created successfully.</response>
-		/// <response code="501">POSIX system impersonation requested but not implemented.</response>
+		/// <response code="201">File created successfully.</response>
 		[HttpPost]
 		[TgsAuthorize(ConfigurationRights.Write)]
 		[ProducesResponseType(typeof(ConfigurationFile), 200)]
@@ -108,7 +107,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch (NotImplementedException)
 			{
-				return StatusCode((int)HttpStatusCode.NotImplemented);
+				return RequiresPosixSystemIdentity();
 			}
 		}
 
@@ -118,12 +117,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="filePath">The path of the file to get</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation</returns>
-		/// <response code="410">File not found on disk.</response>
-		/// <response code="501">POSIX system impersonation requested but not implemented.</response>
 		[HttpGet(Routes.File + "/{*filePath}")]
 		[TgsAuthorize(ConfigurationRights.Read)]
 		[ProducesResponseType(typeof(ConfigurationFile), 200)]
-		[ProducesResponseType(410)]
 		public async Task<IActionResult> File(string filePath, CancellationToken cancellationToken)
 		{
 			if (ForbidDueToModeConflicts(filePath, out var systemIdentity))
@@ -133,7 +129,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				var result = await instanceManager.GetInstance(Instance).Configuration.Read(filePath, systemIdentity, cancellationToken).ConfigureAwait(false);
 				if (result == null)
-					return StatusCode((int)HttpStatusCode.Gone);
+					return Gone();
 
 				return Json(result);
 			}
@@ -147,7 +143,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch (NotImplementedException)
 			{
-				return StatusCode((int)HttpStatusCode.NotImplemented);
+				return RequiresPosixSystemIdentity();
 			}
 		}
 
@@ -157,12 +153,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="directoryPath">The path of the directory to get</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation</returns>
-		/// <response code="410">Directory not found on disk.</response>
-		/// <response code="501">POSIX system impersonation requested but not implemented.</response>
 		[HttpGet(Routes.List + "/{*directoryPath}")]
 		[TgsAuthorize(ConfigurationRights.List)]
 		[ProducesResponseType(typeof(IReadOnlyList<ConfigurationFile>), 200)]
-		[ProducesResponseType(410)]
 		public async Task<IActionResult> Directory(string directoryPath, CancellationToken cancellationToken)
 		{
 			if (ForbidDueToModeConflicts(directoryPath, out var systemIdentity))
@@ -172,13 +165,13 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				var result = await instanceManager.GetInstance(Instance).Configuration.ListDirectory(directoryPath, systemIdentity, cancellationToken).ConfigureAwait(false);
 				if (result == null)
-					return StatusCode((int)HttpStatusCode.Gone);
+					return Gone();
 
 				return Json(result);
 			}
 			catch (NotImplementedException)
 			{
-				return StatusCode((int)HttpStatusCode.NotImplemented);
+				return RequiresPosixSystemIdentity();
 			}
 			catch (UnauthorizedAccessException)
 			{
@@ -191,13 +184,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
-		/// <response code="410">Directory not found on disk.</response>
-		/// <response code="501">POSIX system impersonation requested but not implemented.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(ConfigurationRights.List)]
 		[ProducesResponseType(typeof(IReadOnlyList<ConfigurationFile>), 200)]
-		[ProducesResponseType(410)]
-		[ProducesResponseType(501)]
 		public Task<IActionResult> List(CancellationToken cancellationToken) => Directory(null, cancellationToken);
 
 		/// <summary>
@@ -208,12 +197,10 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Directory already exists.</response>
 		/// <response code="201">Directory created successfully.</response>
-		/// <response code="501">POSIX system impersonation requested but not implemented.</response>
 		[HttpPut]
 		[TgsAuthorize(ConfigurationRights.Write)]
 		[ProducesResponseType(typeof(ConfigurationFile), 200)]
 		[ProducesResponseType(typeof(ConfigurationFile), 201)]
-		[ProducesResponseType(501)]
 		public async Task<IActionResult> Create([FromBody] ConfigurationFile model, CancellationToken cancellationToken)
 		{
 			if (model == null)
@@ -237,7 +224,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch (NotImplementedException)
 			{
-				return StatusCode((int)HttpStatusCode.NotImplemented);
+				return RequiresPosixSystemIdentity();
 			}
 			catch (UnauthorizedAccessException)
 			{
@@ -252,11 +239,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
 		/// <response code="204">Empty directory deleted successfully.</response>
-		/// <response code="501">POSIX system impersonation requested but not implemented.</response>
 		[HttpDelete]
 		[TgsAuthorize(ConfigurationRights.Delete)]
 		[ProducesResponseType(204)]
-		[ProducesResponseType(501)]
 		public async Task<IActionResult> Delete([FromBody] ConfigurationFile directory, CancellationToken cancellationToken)
 		{
 			if (directory == null)
@@ -277,7 +262,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch (NotImplementedException)
 			{
-				return StatusCode((int)HttpStatusCode.NotImplemented);
+				return RequiresPosixSystemIdentity();
 			}
 			catch (UnauthorizedAccessException)
 			{

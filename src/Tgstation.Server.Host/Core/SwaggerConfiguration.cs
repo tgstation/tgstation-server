@@ -76,12 +76,18 @@ namespace Tgstation.Server.Host.Core
 
 			AddDefaultResponse(HttpStatusCode.Unauthorized, new OpenApiResponse
 			{
-				Description = "No/invalid token provided."
+				Description = "Invalid Authentication header."
 			});
 
 			AddDefaultResponse(HttpStatusCode.Forbidden, new OpenApiResponse
 			{
 				Description = "User lacks sufficient permissions for the operation."
+			});
+
+			AddDefaultResponse(HttpStatusCode.NotFound, new OpenApiResponse
+			{
+				Description = ErrorCode.ResourceNeverPresent.Describe(),
+				Content = errorMessageContent
 			});
 
 			AddDefaultResponse(HttpStatusCode.Conflict, new OpenApiResponse
@@ -90,9 +96,15 @@ namespace Tgstation.Server.Host.Core
 				Content = errorMessageContent
 			});
 
+			AddDefaultResponse(HttpStatusCode.Gone, new OpenApiResponse
+			{
+				Description = ErrorCode.ResourceNotPresent.Describe(),
+				Content = errorMessageContent
+			});
+
 			AddDefaultResponse(HttpStatusCode.InternalServerError, new OpenApiResponse
 			{
-				Description = "The server encountered an unhandled error. See error message for details.",
+				Description = ErrorCode.InternalServerError.Describe(),
 				Content = errorMessageContent
 			});
 
@@ -103,7 +115,7 @@ namespace Tgstation.Server.Host.Core
 
 			AddDefaultResponse(HttpStatusCode.NotImplemented, new OpenApiResponse
 			{
-				Description = "This operation requires POSIX system identites to be implemented. See https://github.com/tgstation/tgstation-server/issues/709",
+				Description = ErrorCode.RequiresPosixSystemIdentity.Describe(),
 				Content = errorMessageContent
 			});
 		}
@@ -289,7 +301,7 @@ namespace Tgstation.Server.Host.Core
 			foreach (var path in swaggerDoc.Paths)
 				foreach (var operation in path.Value.Operations.Select(x => x.Value))
 				{
-					if (operation.OperationId.Equals("BridgeController.Process", StringComparison.Ordinal))
+					if (operation.OperationId.Equals($"{nameof(BridgeController)}.{nameof(BridgeController.Process)}", StringComparison.Ordinal))
 					{
 						bridgeOperationPath = path.Key;
 						continue;

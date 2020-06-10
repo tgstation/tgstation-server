@@ -312,11 +312,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="204">Instance detatched successfully.</response>
-		/// <response code="410">Instance not available.</response>
 		[HttpDelete("{id}")]
 		[TgsAuthorize(InstanceManagerRights.Delete)]
 		[ProducesResponseType(204)]
-		[ProducesResponseType(410)]
 		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
 			var originalModel = await DatabaseContext
@@ -328,7 +326,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Include(x => x.WatchdogReattachInformation.Bravo)
 				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (originalModel == default)
-				return StatusCode((int)HttpStatusCode.Gone);
+				return Gone();
 			if (originalModel.Online.Value)
 				return Conflict(new ErrorMessage(ErrorCode.InstanceDetachOnline));
 
@@ -361,7 +359,6 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(InstanceManagerRights.Relocate | InstanceManagerRights.Rename | InstanceManagerRights.SetAutoUpdate | InstanceManagerRights.SetConfiguration | InstanceManagerRights.SetOnline | InstanceManagerRights.SetChatBotLimit)]
 		[ProducesResponseType(typeof(Api.Models.Instance), 200)]
 		[ProducesResponseType(typeof(Api.Models.Instance), 202)]
-		[ProducesResponseType(410)]
 #pragma warning disable CA1502 // TODO: Decomplexify
 		public async Task<IActionResult> Update([FromBody] Api.Models.Instance model, CancellationToken cancellationToken)
 		{
@@ -393,7 +390,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Include(x => x.DreamDaemonSettings) // need these for onlining
 				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (originalModel == default(Models.Instance))
-				return StatusCode((int)HttpStatusCode.Gone);
+				return Gone();
 
 			var userRights = (InstanceManagerRights)AuthenticationContext.GetRight(RightsType.InstanceManager);
 			bool CheckModified<T>(Expression<Func<Api.Models.Instance, T>> expression, InstanceManagerRights requiredRight)
@@ -586,11 +583,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Retrieved <see cref="Api.Models.Instance"/> successfully.</response>
-		/// <response code="410">Instance not available.</response>
 		[HttpGet("{id}")]
 		[TgsAuthorize(InstanceManagerRights.List | InstanceManagerRights.Read)]
 		[ProducesResponseType(typeof(Api.Models.Instance), 200)]
-		[ProducesResponseType(410)]
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			var cantList = !AuthenticationContext.User.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List);
@@ -609,7 +604,7 @@ namespace Tgstation.Server.Host.Controllers
 			var instance = await QueryForUser().FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
 			if (instance == null)
-				return StatusCode((int)HttpStatusCode.Gone);
+				return Gone();
 
 			if (cantList && !instance.InstanceUsers.Any(instanceUser => instanceUser.UserId == AuthenticationContext.User.Id &&
 				(instanceUser.ByondRights != ByondRights.None ||
