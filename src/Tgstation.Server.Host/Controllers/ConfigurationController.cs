@@ -116,10 +116,13 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="filePath">The path of the file to get</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation</returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation</returns>>
+		/// <response code="200">File read successfully.</response>>
+		/// <response code="410">File does not currently exist.</response>
 		[HttpGet(Routes.File + "/{*filePath}")]
 		[TgsAuthorize(ConfigurationRights.Read)]
 		[ProducesResponseType(typeof(ConfigurationFile), 200)]
+		[ProducesResponseType(typeof(ErrorMessage), 410)]
 		public async Task<IActionResult> File(string filePath, CancellationToken cancellationToken)
 		{
 			if (ForbidDueToModeConflicts(filePath, out var systemIdentity))
@@ -153,9 +156,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="directoryPath">The path of the directory to get</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation</returns>
+		/// <response code="200">Directory listed successfully.</response>>
+		/// <response code="410">Directory does not currently exist.</response>
 		[HttpGet(Routes.List + "/{*directoryPath}")]
 		[TgsAuthorize(ConfigurationRights.List)]
 		[ProducesResponseType(typeof(IReadOnlyList<ConfigurationFile>), 200)]
+		[ProducesResponseType(typeof(ErrorMessage), 410)]
 		public async Task<IActionResult> Directory(string directoryPath, CancellationToken cancellationToken)
 		{
 			if (ForbidDueToModeConflicts(directoryPath, out var systemIdentity))

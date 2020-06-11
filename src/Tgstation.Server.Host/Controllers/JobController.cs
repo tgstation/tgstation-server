@@ -93,9 +93,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="202"><see cref="Api.Models.Job"/> cancellation requested successfully.</response>
 		/// <response code="404"><see cref="Api.Models.Job"/> does not exist in this instance.</response>
+		/// <response code="410"><see cref="Api.Models.Job"/> could not be found in the job manager. Has it already completed?</response>
 		[HttpDelete("{id}")]
 		[TgsAuthorize]
 		[ProducesResponseType(typeof(Api.Models.Job), 202)]
+		[ProducesResponseType(typeof(ErrorMessage), 404)]
 		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
 			// don't care if an instance post or not at this point
@@ -129,6 +131,7 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpGet("{id}")]
 		[TgsAuthorize]
 		[ProducesResponseType(typeof(Api.Models.Job), 200)]
+		[ProducesResponseType(typeof(ErrorMessage), 404)]
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			var job = await DatabaseContext

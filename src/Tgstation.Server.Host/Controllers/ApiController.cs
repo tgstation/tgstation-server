@@ -86,7 +86,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// Generic 404 response.
 		/// </summary>
 		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.NotFound"/>.</returns>
-		protected new ObjectResult NotFound() => StatusCode((int)HttpStatusCode.NotFound, new ErrorMessage(ErrorCode.ResourceNeverPresent));
+		protected new ObjectResult NotFound() => NotFound(new ErrorMessage(ErrorCode.ResourceNeverPresent));
 
 		/// <summary>
 		/// Generic 501 response.
