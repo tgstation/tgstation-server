@@ -197,7 +197,7 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			var query = DatabaseContext.ChatBots
 				.AsQueryable()
-				.Where(x => x.Id == id)
+				.Where(x => x.Id == id && x.InstanceId == Instance.Id)
 				.Include(x => x.Channels);
 
 			var results = await query.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
