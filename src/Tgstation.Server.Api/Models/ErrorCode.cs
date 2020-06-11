@@ -18,7 +18,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Indicates an API upgrade was required by the server.
 		/// </summary>
-		[Description("API Mismatch but no current API version provided!")]
+		[Description("API version mismatch!")]
 		ApiMismatch,
 
 		/// <summary>
