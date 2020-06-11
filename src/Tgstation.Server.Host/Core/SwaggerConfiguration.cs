@@ -84,21 +84,9 @@ namespace Tgstation.Server.Host.Core
 				Description = "User lacks sufficient permissions for the operation."
 			});
 
-			AddDefaultResponse(HttpStatusCode.NotFound, new OpenApiResponse
-			{
-				Description = ErrorCode.ResourceNeverPresent.Describe(),
-				Content = errorMessageContent
-			});
-
 			AddDefaultResponse(HttpStatusCode.Conflict, new OpenApiResponse
 			{
 				Description = "A data integrity check failed while performing the operation. See error message for details.",
-				Content = errorMessageContent
-			});
-
-			AddDefaultResponse(HttpStatusCode.Gone, new OpenApiResponse
-			{
-				Description = ErrorCode.ResourceNotPresent.Describe(),
 				Content = errorMessageContent
 			});
 

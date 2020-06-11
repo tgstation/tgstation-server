@@ -233,12 +233,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="202">Update has been started successfully.</response>
+		/// <response code="410">The requested release version could not be found in the target GitHub repository.</response>
 		/// <response code="422">Upgrade operations are unavailable due to the launch configuration of TGS.</response>
 		/// <response code="424">A GitHub rate limit was encountered.</response>
 		/// <response code="429">A GitHub API error occurred.</response>
 		[HttpPost]
 		[TgsAuthorize(AdministrationRights.ChangeVersion)]
 		[ProducesResponseType(typeof(Administration), 202)]
+		[ProducesResponseType(typeof(ErrorMessage), 410)]
 		[ProducesResponseType(typeof(ErrorMessage), 422)]
 		[ProducesResponseType(typeof(ErrorMessage), 424)]
 		[ProducesResponseType(typeof(ErrorMessage), 429)]

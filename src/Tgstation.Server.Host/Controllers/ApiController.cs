@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using Serilog.Context;
 using System;
-using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -87,7 +86,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// Generic 404 response.
 		/// </summary>
 		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.NotFound"/>.</returns>
-		protected new ObjectResult NotFound() => StatusCode((int)HttpStatusCode.NotFound, new ErrorMessage(ErrorCode.ResourceNeverPresent));
+		protected new ObjectResult NotFound() => NotFound(new ErrorMessage(ErrorCode.ResourceNeverPresent));
 
 		/// <summary>
 		/// Generic 501 response.
@@ -190,14 +189,9 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				if (ApiHeaders != null)
 					Logger.LogDebug(
-						"Starting API Request: Version: {1}. User-Agent: {2}",
-						AuthenticationContext?.User.Id.Value.ToString(CultureInfo.InvariantCulture),
+						"Starting API Request: Version: {0}. User-Agent: {1}",
 						ApiHeaders.ApiVersion.Semver(),
-						ApiHeaders.RawUserAgent,
-						Request.Method,
-						Request.Path,
-						Request.QueryString,
-						ApiHeaders.InstanceId);
+						ApiHeaders.RawUserAgent);
 				await base.OnActionExecutionAsync(context, next).ConfigureAwait(false);
 			}
 		}
