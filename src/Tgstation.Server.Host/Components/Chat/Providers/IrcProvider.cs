@@ -346,7 +346,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public override async Task Disconnect(CancellationToken cancellationToken)
+		protected override async Task DisconnectImpl(CancellationToken cancellationToken)
 		{
 			if (!Connected)
 				return;
