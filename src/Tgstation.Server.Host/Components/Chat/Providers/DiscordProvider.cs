@@ -177,7 +177,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public override async Task Disconnect(CancellationToken cancellationToken)
+		protected override async Task DisconnectImpl(CancellationToken cancellationToken)
 		{
 			Logger.LogTrace("Disconnecting...");
 			if (!Connected)

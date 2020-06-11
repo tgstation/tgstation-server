@@ -87,8 +87,19 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public abstract Task<bool> Connect(CancellationToken cancellationToken);
 
+		/// <summary>
+		/// Gracefully disconnects the provider.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		protected abstract Task DisconnectImpl(CancellationToken cancellationToken);
+
 		/// <inheritdoc />
-		public abstract Task Disconnect(CancellationToken cancellationToken);
+		public async Task Disconnect(CancellationToken cancellationToken)
+		{
+			await StopReconnectionTimer().ConfigureAwait(false);
+			await DisconnectImpl(cancellationToken).ConfigureAwait(false);
+		}
 
 		/// <inheritdoc />
 		public abstract Task<IReadOnlyCollection<ChannelRepresentation>> MapChannels(IEnumerable<Api.Models.ChatChannel> channels, CancellationToken cancellationToken);
