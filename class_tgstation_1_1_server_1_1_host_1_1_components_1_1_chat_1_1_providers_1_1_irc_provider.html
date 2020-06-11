@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.3.2</span>
+   &#160;<span id="projectnumber">4.3.3</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -96,6 +96,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider-members.html">List of all members</a>  </div>
@@ -138,9 +139,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5db89afa73a4637471b476a2e534861d"><td class="memItemLeft" align="right" valign="top">override Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a5db89afa73a4637471b476a2e534861d">Connect</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a5db89afa73a4637471b476a2e534861d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to connect the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service ">IProvider</a>   <a href="#a5db89afa73a4637471b476a2e534861d">More...</a><br /></td></tr>
 <tr class="separator:a5db89afa73a4637471b476a2e534861d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad4de9ce051d7d17408902660018fbc0c"><td class="memItemLeft" align="right" valign="top">override async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#ad4de9ce051d7d17408902660018fbc0c">Disconnect</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ad4de9ce051d7d17408902660018fbc0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gracefully disconnects the provider. Implies a call to IDisposable.Dispose   <a href="#ad4de9ce051d7d17408902660018fbc0c">More...</a><br /></td></tr>
-<tr class="separator:ad4de9ce051d7d17408902660018fbc0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11c9e7a1c9b6ec1fdeb711f1ab519713"><td class="memItemLeft" align="right" valign="top">override Task&lt; IReadOnlyCollection&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html">ChannelRepresentation</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a11c9e7a1c9b6ec1fdeb711f1ab519713">MapChannels</a> (IEnumerable&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html">ChatChannel</a> &gt; channels, CancellationToken cancellationToken)</td></tr>
 <tr class="separator:a11c9e7a1c9b6ec1fdeb711f1ab519713"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8bfdc6f40539bde1282c4c8c002ce7e0"><td class="memItemLeft" align="right" valign="top">override Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a8bfdc6f40539bde1282c4c8c002ce7e0">SendMessage</a> (ulong channelId, string message, CancellationToken cancellationToken)</td></tr>
@@ -149,6 +147,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad534cc90b8f14c53b9f0db1f06e97de1"><td class="memItemLeft" align="right" valign="top">override async Task&lt; Func&lt; string, string, Task &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#ad534cc90b8f14c53b9f0db1f06e97de1">SendUpdateMessage</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a> revisionInformation, Version byondVersion, DateTimeOffset?estimatedCompletionTime, string gitHubOwner, string gitHubRepo, ulong channelId, bool localCommitPushed, CancellationToken cancellationToken)</td></tr>
 <tr class="separator:ad534cc90b8f14c53b9f0db1f06e97de1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html">Tgstation.Server.Host.Components.Chat.Providers.Provider</a></td></tr>
+<tr class="memitem:ab77ee1149c17f06af44755f54aa19880 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider"><td class="memItemLeft" align="right" valign="top">async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab77ee1149c17f06af44755f54aa19880">Disconnect</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ab77ee1149c17f06af44755f54aa19880 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gracefully disconnects the provider. Permanently stops the reconnection timer.   <a href="#ab77ee1149c17f06af44755f54aa19880">More...</a><br /></td></tr>
+<tr class="separator:ab77ee1149c17f06af44755f54aa19880 inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac08fc8e6866dc5659c16a28840674cdc inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider"><td class="memItemLeft" align="right" valign="top">abstract Task&lt; IReadOnlyCollection&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html">ChannelRepresentation</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac08fc8e6866dc5659c16a28840674cdc">MapChannels</a> (IEnumerable&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html">Api.Models.ChatChannel</a> &gt; channels, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ac08fc8e6866dc5659c16a28840674cdc inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html" title="Represents a Providers.IProvider channel. ">ChannelRepresentation</a>s for given <em>channels</em>    <a href="#ac08fc8e6866dc5659c16a28840674cdc">More...</a><br /></td></tr>
 <tr class="separator:ac08fc8e6866dc5659c16a28840674cdc inherit pub_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -168,6 +169,19 @@ Public Attributes</h2></td></tr>
 <tr class="separator:aa22564e0346747e2c00dfcab7a48141c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2724c59c69f5edcb6ccd6549a6ce71d6"><td class="memItemLeft" align="right" valign="top">override string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a2724c59c69f5edcb6ccd6549a6ce71d6">BotMention</a> =&gt; client.Nickname</td></tr>
 <tr class="separator:a2724c59c69f5edcb6ccd6549a6ce71d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:ab7dc167a715c37ce3487b14e682a6b46"><td class="memItemLeft" align="right" valign="top">override async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#ab7dc167a715c37ce3487b14e682a6b46">DisconnectImpl</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ab7dc167a715c37ce3487b14e682a6b46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gracefully disconnects the provider.   <a href="#ab7dc167a715c37ce3487b14e682a6b46">More...</a><br /></td></tr>
+<tr class="separator:ab7dc167a715c37ce3487b14e682a6b46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html">Tgstation.Server.Host.Components.Chat.Providers.Provider</a></td></tr>
+<tr class="memitem:a77fbe2534c465310cfcaa603b01ab808 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a77fbe2534c465310cfcaa603b01ab808">Provider</a> (ILogger logger, uint reconnectInterval)</td></tr>
+<tr class="memdesc:a77fbe2534c465310cfcaa603b01ab808 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html">Provider</a>  <a href="#a77fbe2534c465310cfcaa603b01ab808">More...</a><br /></td></tr>
+<tr class="separator:a77fbe2534c465310cfcaa603b01ab808 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac45c189505744c6f1012461193fca877 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac45c189505744c6f1012461193fca877">EnqueueMessage</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html">Message</a> message)</td></tr>
+<tr class="memdesc:ac45c189505744c6f1012461193fca877 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider"><td class="mdescLeft">&#160;</td><td class="mdescRight">Queues a <em>message</em>  for <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a962a3510e617d6754d8e21a237d4b933" title="Get a Task&lt;TResult&gt; resulting in the next Message the IProvider recieves or  on a disconnect  ...">NextMessage(CancellationToken)</a>  <a href="#ac45c189505744c6f1012461193fca877">More...</a><br /></td></tr>
+<tr class="separator:ac45c189505744c6f1012461193fca877 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -224,13 +238,6 @@ Private Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pro_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html">Tgstation.Server.Host.Components.Chat.Providers.Provider</a></td></tr>
-<tr class="memitem:a77fbe2534c465310cfcaa603b01ab808 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a77fbe2534c465310cfcaa603b01ab808">Provider</a> (ILogger logger, uint reconnectInterval)</td></tr>
-<tr class="memdesc:a77fbe2534c465310cfcaa603b01ab808 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html">Provider</a>  <a href="#a77fbe2534c465310cfcaa603b01ab808">More...</a><br /></td></tr>
-<tr class="separator:a77fbe2534c465310cfcaa603b01ab808 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac45c189505744c6f1012461193fca877 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac45c189505744c6f1012461193fca877">EnqueueMessage</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html">Message</a> message)</td></tr>
-<tr class="memdesc:ac45c189505744c6f1012461193fca877 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider"><td class="mdescLeft">&#160;</td><td class="mdescRight">Queues a <em>message</em>  for <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a962a3510e617d6754d8e21a237d4b933" title="Get a Task&lt;TResult&gt; resulting in the next Message the IProvider recieves or  on a disconnect  ...">NextMessage(CancellationToken)</a>  <a href="#ac45c189505744c6f1012461193fca877">More...</a><br /></td></tr>
-<tr class="separator:ac45c189505744c6f1012461193fca877 inherit pro_methods_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header properties_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider"><td colspan="2" onclick="javascript:toggleInherit('properties_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider')"><img src="closed.png" alt="-"/>&#160;Properties inherited from <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html">Tgstation.Server.Host.Components.Chat.Providers.Provider</a></td></tr>
 <tr class="memitem:aad9b7dc9415dbb1751b34994124d36ad inherit properties_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider"><td class="memItemLeft" align="right" valign="top">ILogger&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#aad9b7dc9415dbb1751b34994124d36ad">Logger</a><code> [get]</code></td></tr>
 <tr class="memdesc:aad9b7dc9415dbb1751b34994124d36ad inherit properties_class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider"><td class="mdescLeft">&#160;</td><td class="mdescRight">The ILogger for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html">Provider</a>.  <a href="#aad9b7dc9415dbb1751b34994124d36ad">More...</a><br /></td></tr>
@@ -476,7 +483,7 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ad4de9ce051d7d17408902660018fbc0c"></a>
+<a class="anchor" id="ab7dc167a715c37ce3487b14e682a6b46"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -484,7 +491,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">override async Task Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.Disconnect </td>
+          <td class="memname">override async Task Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.DisconnectImpl </td>
           <td>(</td>
           <td class="paramtype">CancellationToken&#160;</td>
           <td class="paramname"><em>cancellationToken</em></td><td>)</td>
@@ -493,14 +500,14 @@ Additional Inherited Members</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Gracefully disconnects the provider. Implies a call to IDisposable.Dispose  </p>
+<p>Gracefully disconnects the provider.  </p>
 
-<p>Implements <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a09ac5284bd746cd4a6008e5747c31dc9">Tgstation.Server.Host.Components.Chat.Providers.Provider</a>.</p>
+<p>Implements <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a627edd03f216fa53e443b1901cf5599c">Tgstation.Server.Host.Components.Chat.Providers.Provider</a>.</p>
 
 <p>Definition at line <a class="el" href="_irc_provider_8cs_source.html#l00349">349</a> of file <a class="el" href="_irc_provider_8cs_source.html">IrcProvider.cs</a>.</p>
 
