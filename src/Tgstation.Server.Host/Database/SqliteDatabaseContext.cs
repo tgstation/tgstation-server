@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
 using Tgstation.Server.Host.Configuration;
@@ -9,25 +7,38 @@ using Tgstation.Server.Host.Configuration;
 namespace Tgstation.Server.Host.Database
 {
 	/// <summary>
-	/// <see cref="DatabaseContext"/> for MySQL
+	/// <see cref="DatabaseContext"/> for SQLite.
 	/// </summary>
 	sealed class SqliteDatabaseContext : DatabaseContext
 	{
 		/// <summary>
+		/// Static property to receive the configured value of <see cref="DatabaseConfiguration.DesignTime"/>.
+		/// </summary>
+		public static bool DesignTime { get; set; }
+
+		/// <summary>
 		/// Construct a <see cref="MySqlDatabaseContext"/>
 		/// </summary>
 		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TContext}"/> for the <see cref="DatabaseContext"/></param>
-		/// <param name="databaseConfiguration">The <see cref="IOptions{TOptions}"/> of <see cref="DatabaseConfiguration"/> for the <see cref="DatabaseContext"/></param>
-		/// <param name="databaseSeeder">The <see cref="IDatabaseSeeder"/> for the <see cref="DatabaseContext"/></param>
-		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="DatabaseContext"/></param>
-		public SqliteDatabaseContext(DbContextOptions<SqliteDatabaseContext> dbContextOptions, IOptions<DatabaseConfiguration> databaseConfiguration, IDatabaseSeeder databaseSeeder, ILogger<SqliteDatabaseContext> logger) : base(dbContextOptions, databaseConfiguration, databaseSeeder, logger)
+		public SqliteDatabaseContext(DbContextOptions<SqliteDatabaseContext> dbContextOptions) : base(dbContextOptions)
 		{ }
 
-		/// <inheritdoc />
-		protected override void OnConfiguring(DbContextOptionsBuilder options)
+		/// <summary>
+		/// Configure the <see cref="SqliteDatabaseContext"/>.
+		/// </summary>
+		/// <param name="options">The <see cref="DbContextOptionsBuilder"/> to configure.</param>
+		/// <param name="databaseConfiguration">The <see cref="DatabaseConfiguration"/>.</param>
+		public static void ConfigureWith(DbContextOptionsBuilder options, DatabaseConfiguration databaseConfiguration)
 		{
-			base.OnConfiguring(options);
-			options.UseSqlite(DatabaseConfiguration.ConnectionString);
+			if (options == null)
+				throw new ArgumentNullException(nameof(options));
+			if (databaseConfiguration == null)
+				throw new ArgumentNullException(nameof(databaseConfiguration));
+
+			if (databaseConfiguration.DatabaseType != DatabaseType.Sqlite)
+				throw new InvalidOperationException($"Invalid DatabaseType for {nameof(SqliteDatabaseContext)}!");
+
+			options.UseSqlite(databaseConfiguration.ConnectionString);
 		}
 
 		/// <inheritdoc />
@@ -43,7 +54,7 @@ namespace Tgstation.Server.Host.Database
 			// use the DateTimeOffsetToBinaryConverter
 			// Based on: https://github.com/aspnet/EntityFrameworkCore/issues/10784#issuecomment-415769754
 			// This only supports millisecond precision, but should be sufficient for most use cases.
-			if (!DatabaseConfiguration.DesignTime)
+			if (DesignTime)
 				foreach (var entityType in modelBuilder.Model.GetEntityTypes())
 				{
 					var properties = entityType
@@ -56,13 +67,6 @@ namespace Tgstation.Server.Host.Database
 							.Property(property.Name)
 							.HasConversion(new DateTimeOffsetToBinaryConverter());
 				}
-		}
-
-		/// <inheritdoc />
-		protected override void ValidateDatabaseType()
-		{
-			if (DatabaseType != DatabaseType.Sqlite)
-				throw new InvalidOperationException("Invalid DatabaseType for SqliteDatabaseContext!");
 		}
 	}
 }
