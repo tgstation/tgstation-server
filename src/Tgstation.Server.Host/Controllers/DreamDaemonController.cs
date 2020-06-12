@@ -84,9 +84,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200">Read <see cref="DreamDaemon"/> information successfully.</response>
+		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpGet]
 		[TgsAuthorize(DreamDaemonRights.ReadMetadata | DreamDaemonRights.ReadRevision)]
 		[ProducesResponseType(typeof(DreamDaemon), 200)]
+		[ProducesResponseType(typeof(ErrorMessage), 410)]
 		public Task<IActionResult> Read(CancellationToken cancellationToken) => ReadImpl(null, cancellationToken);
 
 		/// <summary>
@@ -171,9 +173,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200">Settings applied successfully.</response>
+		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpPost]
 		[TgsAuthorize(DreamDaemonRights.SetAutoStart | DreamDaemonRights.SetPorts | DreamDaemonRights.SetSecurity | DreamDaemonRights.SetWebClient | DreamDaemonRights.SoftRestart | DreamDaemonRights.SoftShutdown | DreamDaemonRights.Start | DreamDaemonRights.SetStartupTimeout | DreamDaemonRights.SetHeartbeatInterval)]
 		[ProducesResponseType(typeof(DreamDaemon), 200)]
+		[ProducesResponseType(typeof(ErrorMessage), 410)]
 		#pragma warning disable CA1502 // TODO: Decomplexify
 		#pragma warning disable CA1506
 		public async Task<IActionResult> Update([FromBody] DreamDaemon model, CancellationToken cancellationToken)

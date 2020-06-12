@@ -89,9 +89,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200"><see cref="Api.Models.InstanceUser"/> updated successfully.</response>
+		/// <response code="410">The requested <see cref="Api.Models.InstanceUser"/> does not currently exist.</response>
 		[HttpPost]
 		[TgsAuthorize(InstanceUserRights.WriteUsers)]
 		[ProducesResponseType(typeof(Api.Models.InstanceUser), 200)]
+		[ProducesResponseType(typeof(ErrorMessage), 410)]
 		#pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<IActionResult> Update([FromBody] Api.Models.InstanceUser model, CancellationToken cancellationToken)
 		{
@@ -163,9 +165,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Retrieve <see cref="Api.Models.InstanceUser"/> successfully.</response>
+		/// <response code="410">The requested <see cref="Api.Models.InstanceUser"/> does not currently exist.</response>
 		[HttpGet("{id}")]
 		[TgsAuthorize(InstanceUserRights.ReadUsers)]
 		[ProducesResponseType(typeof(Api.Models.InstanceUser), 200)]
+		[ProducesResponseType(typeof(ErrorMessage), 410)]
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			// this functions as userId

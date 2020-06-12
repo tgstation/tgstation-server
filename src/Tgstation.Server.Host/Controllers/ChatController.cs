@@ -188,9 +188,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Retrieved <see cref="Api.Models.ChatBot"/> successfully.</response>
+		/// <response code="410">The <see cref="Api.Models.ChatBot"/> with the given ID does not exist in this instance.</response>
 		[HttpGet("{id}")]
 		[TgsAuthorize(ChatBotRights.Read)]
 		[ProducesResponseType(typeof(Api.Models.ChatBot), 200)]
+		[ProducesResponseType(typeof(ErrorMessage), 410)]
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			var query = DatabaseContext.ChatBots
@@ -216,11 +218,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="model">The <see cref="Api.Models.ChatBot"/> update to apply.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
-		/// <response code="200">Update applied successfully. <see cref="Api.Models.ChatBot"/> may or may not be returned based on user permissions.</response>
+		/// <response code="200">Update applied successfully.</response>
+		/// <response code="204">Update applied successfully. <see cref="Api.Models.ChatBot"/> not returned based on user permissions.</response>
+		/// <response code="410">The <see cref="Api.Models.ChatBot"/> with the given ID does not exist in this instance.</response>
 		[HttpPost]
 		[TgsAuthorize(ChatBotRights.WriteChannels | ChatBotRights.WriteConnectionString | ChatBotRights.WriteEnabled | ChatBotRights.WriteName | ChatBotRights.WriteProvider)]
-		[ProducesResponseType(200)]
 		[ProducesResponseType(typeof(Api.Models.ChatBot), 200)]
+		[ProducesResponseType(204)]
+		[ProducesResponseType(typeof(ErrorMessage), 410)]
 		#pragma warning disable CA1502, CA1506 // TODO: Decomplexify
 		public async Task<IActionResult> Update([FromBody] Api.Models.ChatBot model, CancellationToken cancellationToken)
 		#pragma warning restore CA1502, CA1506
@@ -314,7 +319,7 @@ namespace Tgstation.Server.Host.Controllers
 				return Json(current.ToApi());
 			}
 
-			return Ok();
+			return NoContent();
 		}
 
 		/// <summary>

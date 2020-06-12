@@ -312,9 +312,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="204">Instance detatched successfully.</response>
+		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpDelete("{id}")]
 		[TgsAuthorize(InstanceManagerRights.Delete)]
 		[ProducesResponseType(204)]
+		[ProducesResponseType(typeof(ErrorMessage), 410)]
 		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
 			var originalModel = await DatabaseContext
@@ -355,10 +357,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Instance updated successfully.</response>
 		/// <response code="202">Instance updated successfully and relocation job created.</response>
+		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpPost]
 		[TgsAuthorize(InstanceManagerRights.Relocate | InstanceManagerRights.Rename | InstanceManagerRights.SetAutoUpdate | InstanceManagerRights.SetConfiguration | InstanceManagerRights.SetOnline | InstanceManagerRights.SetChatBotLimit)]
 		[ProducesResponseType(typeof(Api.Models.Instance), 200)]
 		[ProducesResponseType(typeof(Api.Models.Instance), 202)]
+		[ProducesResponseType(typeof(ErrorMessage), 410)]
 #pragma warning disable CA1502 // TODO: Decomplexify
 		public async Task<IActionResult> Update([FromBody] Api.Models.Instance model, CancellationToken cancellationToken)
 		{
@@ -583,9 +587,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Retrieved <see cref="Api.Models.Instance"/> successfully.</response>
+		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpGet("{id}")]
 		[TgsAuthorize(InstanceManagerRights.List | InstanceManagerRights.Read)]
 		[ProducesResponseType(typeof(Api.Models.Instance), 200)]
+		[ProducesResponseType(typeof(ErrorMessage), 410)]
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			var cantList = !AuthenticationContext.User.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List);
