@@ -89,7 +89,14 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async Task<IRepository> CloneRepository(Uri url, string initialBranch, string username, string password, Action<int> progressReporter, CancellationToken cancellationToken)
+		public async Task<IRepository> CloneRepository(
+			Uri url,
+			string initialBranch,
+			string username,
+			string password,
+			Action<int> progressReporter,
+			bool recurseSubmodules,
+			CancellationToken cancellationToken)
 		{
 			if (url == null)
 				throw new ArgumentNullException(nameof(url));
@@ -122,7 +129,7 @@ namespace Tgstation.Server.Host.Components.Repository
 									progressReporter((int)percentage);
 									return !cancellationToken.IsCancellationRequested;
 								},
-								RecurseSubmodules = true,
+								RecurseSubmodules = recurseSubmodules,
 								OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
 								RepositoryOperationStarting = (a) => !cancellationToken.IsCancellationRequested,
 								BranchName = initialBranch,

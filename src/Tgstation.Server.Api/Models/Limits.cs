@@ -14,5 +14,10 @@
 		/// Length limit for <see cref="Internal.ChatBot.Name"/>s.
 		/// </summary>
 		public const int MaximumIndexableStringLength = 100;
+
+		/// <summary>
+		/// Length limit for git commit SHAs.
+		/// </summary>
+		public const int MaximumCommitShaLength = 40;
 	}
 }

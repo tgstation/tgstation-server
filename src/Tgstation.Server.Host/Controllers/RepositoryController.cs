@@ -204,7 +204,15 @@ namespace Tgstation.Server.Host.Controllers
 			var api = currentModel.ToApi();
 			await jobManager.RegisterOperation(job, async (paramJob, databaseContextFactory, progressReporter, ct) =>
 			{
-				using var repos = await repoManager.CloneRepository(new Uri(origin), cloneBranch, currentModel.AccessUser, currentModel.AccessToken, progressReporter, ct).ConfigureAwait(false);
+				using var repos = await repoManager.CloneRepository(
+					new Uri(origin),
+					cloneBranch,
+					currentModel.AccessUser,
+					currentModel.AccessToken,
+					progressReporter,
+					model.RecurseSubmodules ?? true,
+					ct)
+					.ConfigureAwait(false);
 				if (repos == null)
 					throw new JobException(ErrorCode.RepoExists);
 				var instance = new Models.Instance
