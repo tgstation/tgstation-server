@@ -37,7 +37,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		Task<bool> Connect(CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Gracefully disconnects the provider. Implies a call to <see cref="IDisposable.Dispose"/>
+		/// Gracefully disconnects the provider. Permanently stops the reconnection timer.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
