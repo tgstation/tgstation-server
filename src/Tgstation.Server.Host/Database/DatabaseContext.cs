@@ -284,7 +284,7 @@ namespace Tgstation.Server.Host.Database
 		public Task Save(CancellationToken cancellationToken) => SaveChangesAsync(cancellationToken);
 
 		/// <inheritdoc />
-		public Task Drop(CancellationToken cancellationToken) => Database.EnsureCreatedAsync(cancellationToken);
+		public Task Drop(CancellationToken cancellationToken) => Database.EnsureDeletedAsync(cancellationToken);
 
 		/// <inheritdoc />
 		public async Task<bool> Migrate(ILogger<DatabaseContext> logger, CancellationToken cancellationToken)
