@@ -337,7 +337,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				Title = "Code Deployment",
 				Footer = new EmbedFooterBuilder
 				{
-					Text = "In progress... ETA"
+					Text = $"In progress...{(estimatedCompletionTime.HasValue ? " ETA" : String.Empty)}"
 				},
 				Timestamp = estimatedCompletionTime
 			};
