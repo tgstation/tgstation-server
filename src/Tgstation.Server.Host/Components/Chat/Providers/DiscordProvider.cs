@@ -337,7 +337,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				Title = "Code Deployment",
 				Footer = new EmbedFooterBuilder
 				{
-					Text = "In progress... ETA"
+					Text = $"In progress...{(estimatedCompletionTime.HasValue ? " ETA" : String.Empty)}"
 				},
 				Timestamp = estimatedCompletionTime
 			};
@@ -350,7 +350,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 
 			var message = await channel.SendMessageAsync(
-				String.Empty,
+				"DM: Deployment in Progress...",
 				false,
 				builder.Build(),
 				new RequestOptions
@@ -361,7 +361,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			return async (errorMessage, dreamMakerOutput) =>
 			{
-				builder.Footer.Text = errorMessage == null ? "Succeeded" : "Failed";
+				var completionString = errorMessage == null ? "Succeeded" : "Failed";
+				builder.Footer.Text = completionString;
 				builder.Color = errorMessage == null ? Color.Green : Color.Red;
 				builder.Timestamp = DateTimeOffset.Now;
 				builder.Description = errorMessage == null
@@ -394,7 +395,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					try
 					{
 						await channel.SendMessageAsync(
-							String.Empty,
+							$"DM: Deployment {completionString}!",
 							false,
 							builder.Build())
 							.ConfigureAwait(false);
