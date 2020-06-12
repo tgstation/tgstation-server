@@ -93,5 +93,11 @@ namespace Tgstation.Server.Host.System
 				.FirstOrDefault(x => !String.IsNullOrWhiteSpace(x))
 				?? "UNPARSABLE";
 		}
+
+		/// <inheritdoc />
+		public Task CreateDump(global::System.Diagnostics.Process process, string outputFile, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

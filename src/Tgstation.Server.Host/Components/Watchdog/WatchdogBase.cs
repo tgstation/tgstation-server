@@ -18,6 +18,7 @@ using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 
 namespace Tgstation.Server.Host.Components.Watchdog
@@ -113,6 +114,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// The <see cref="IRestartRegistration"/> for the <see cref="WatchdogBase"/>.
 		/// </summary>
 		readonly IRestartRegistration restartRegistration;
+
+		/// <summary>
+		/// The <see cref="IIOManager"/> pointing to the Diagnostics directory.
+		/// </summary>
+		readonly IIOManager diagnosticsIOManager;
 
 		/// <summary>
 		/// <see langword="lock"/> <see cref="object"/> used for <see cref="DisposeAndNullControllers"/>.
@@ -919,5 +925,22 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 		/// <inheritdoc />
 		public abstract Task InstanceRenamed(string newInstanceName, CancellationToken cancellationToken);
+
+		/// <inheritdoc />
+		public async Task CreateDump(CancellationToken cancellationToken)
+		{
+			var session = GetActiveController();
+
+			const string DumpDirectory = "ProcessDumps";
+			await diagnosticsIOManager.CreateDirectory(DumpDirectory, cancellationToken).ConfigureAwait(false);
+
+			var dumpFileName = diagnosticsIOManager.ResolvePath(
+				diagnosticsIOManager.ConcatPath(
+					DumpDirectory,
+					$"DreamDaemon-{DateTimeOffset.Now.ToFileStamp()}.dmp"));
+
+			Logger.LogInformation("Dumping session to {0}...", dumpFileName);
+			await session.CreateDump(dumpFileName, cancellationToken).ConfigureAwait(false);
+		}
 	}
 }

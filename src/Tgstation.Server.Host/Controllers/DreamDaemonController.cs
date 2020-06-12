@@ -290,5 +290,37 @@ namespace Tgstation.Server.Host.Controllers
 			await jobManager.RegisterOperation(job, (paramJob, databaseContextFactory, progressReporter, ct) => watchdog.Restart(false, ct), cancellationToken).ConfigureAwait(false);
 			return Accepted(job.ToApi());
 		}
+
+		/// <summary>
+		/// Creates a <see cref="Api.Models.Job"/> to generate a DreamDaemon process dump.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request</returns>
+		/// <response code="202">Dump <see cref="Api.Models.Job"/> started successfully.</response>
+		[HttpPost(Routes.Diagnostics)]
+		[TgsAuthorize(DreamDaemonRights.CreateDump)]
+		[ProducesResponseType(typeof(Api.Models.Job), 202)]
+		public async Task<IActionResult> CreateDump(CancellationToken cancellationToken)
+		{
+			var job = new Models.Job
+			{
+				Instance = Instance,
+				CancelRightsType = RightsType.DreamDaemon,
+				CancelRight = (ulong)DreamDaemonRights.CreateDump,
+				StartedBy = AuthenticationContext.User,
+				Description = "Create DreamDaemon Process Dump"
+			};
+
+			var watchdog = instanceManager.GetInstance(Instance).Watchdog;
+
+			if (!watchdog.Running)
+				return Conflict(new ErrorMessage(ErrorCode.WatchdogNotRunning));
+
+			await jobManager.RegisterOperation(
+				job,
+				(paramJob, databaseContextFactory, progressReporter, ct) => watchdog.CreateDump(ct), cancellationToken)
+				.ConfigureAwait(false);
+			return Accepted(job.ToApi());
+		}
 	}
 }

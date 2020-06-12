@@ -48,5 +48,10 @@ namespace Tgstation.Server.Api.Models
 		/// If the server is undergoing a soft shutdown
 		/// </summary>
 		public bool? SoftShutdown { get; set; }
+
+		/// <summary>
+		/// If a dump of the active DreamDaemon executable should be created.
+		/// </summary>
+		public bool? CreateDump { get; set; }
 	}
 }
