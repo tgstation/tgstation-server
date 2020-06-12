@@ -38,6 +38,7 @@ namespace Tgstation.Server.Host.Database
 			if (databaseConfiguration.DatabaseType != DatabaseType.Sqlite)
 				throw new InvalidOperationException($"Invalid DatabaseType for {nameof(SqliteDatabaseContext)}!");
 
+			DesignTime = databaseConfiguration.DesignTime;
 			options.UseSqlite(databaseConfiguration.ConnectionString);
 		}
 
