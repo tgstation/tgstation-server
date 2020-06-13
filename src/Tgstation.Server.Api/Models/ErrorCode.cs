@@ -529,7 +529,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Non-zero gcore exit code.
 		/// </summary>
-		[Description("Could not create process as gcore exited with a non-zero exit code!")]
+		[Description("Could not create dump as gcore exited with a non-zero exit code!")]
 		GCoreFailure,
 	}
 }
