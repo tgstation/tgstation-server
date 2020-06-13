@@ -55,7 +55,7 @@ namespace Tgstation.Server.Host.Database
 			// use the DateTimeOffsetToBinaryConverter
 			// Based on: https://github.com/aspnet/EntityFrameworkCore/issues/10784#issuecomment-415769754
 			// This only supports millisecond precision, but should be sufficient for most use cases.
-			if (DesignTime)
+			if (!DesignTime)
 				foreach (var entityType in modelBuilder.Model.GetEntityTypes())
 				{
 					var properties = entityType
