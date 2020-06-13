@@ -13,7 +13,7 @@
 		/// <param name="arguments">The arguments for the <see cref="IProcess"/></param>
 		/// <param name="readOutput">If standard output should be read</param>
 		/// <param name="readError">If standard error should be read</param>
-		/// <param name="noShellExecute">If shell execute should not be used. Ignored if <paramref name="readError"/> or <paramref name="readOutput"/> are set</param>
+		/// <param name="noShellExecute">If shell execute should not be used. Must be set if <paramref name="readError"/> or <paramref name="readOutput"/> are set.</param>
 		/// <returns>A new <see cref="IProcess"/></returns>
 		IProcess LaunchProcess(string fileName, string workingDirectory, string arguments = null, bool readOutput = false, bool readError = false, bool noShellExecute = false);
 

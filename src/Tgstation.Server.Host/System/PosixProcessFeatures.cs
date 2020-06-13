@@ -123,6 +123,7 @@ namespace Tgstation.Server.Host.System
 				Environment.CurrentDirectory,
 				$"-o {outputFile} {process.Id}",
 				true,
+				true,
 				true))
 			{
 				using (cancellationToken.Register(() => gcoreProc.Terminate()))
