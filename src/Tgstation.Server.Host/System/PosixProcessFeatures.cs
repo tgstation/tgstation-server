@@ -106,10 +106,16 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public async Task CreateDump(global::System.Diagnostics.Process process, string outputFile, CancellationToken cancellationToken)
 		{
+			if (process == null)
+				throw new ArgumentNullException(nameof(process));
+			if (outputFile == null)
+				throw new ArgumentNullException(nameof(outputFile));
+
 			const string GCorePath = "/usr/bin/gcore";
 			if (!await ioManager.FileExists(GCorePath, cancellationToken).ConfigureAwait(false))
 				throw new JobException(ErrorCode.MissingGCore);
 
+			var pid = process.Id;
 			string output;
 			int exitCode;
 			using (var gcoreProc = lazyLoadedProcessExecutor.Value.LaunchProcess(
@@ -126,13 +132,15 @@ namespace Tgstation.Server.Host.System
 				logger.LogDebug("gcore output:{0}{1}", Environment.NewLine, output);
 			}
 
-			cancellationToken.ThrowIfCancellationRequested();
-
 			if (exitCode != 0)
 				throw new JobException(
 					ErrorCode.GCoreFailure,
 					new JobException(
 						$"Exit Code: {exitCode}{Environment.NewLine}Output:{Environment.NewLine}{output}"));
+
+			// gcore outputs name.pid so remove the pid part
+			var generatedGCoreFile = $"{outputFile}.{pid}";
+			await ioManager.MoveFile(generatedGCoreFile, outputFile, cancellationToken).ConfigureAwait(false);
 		}
 	}
 }
