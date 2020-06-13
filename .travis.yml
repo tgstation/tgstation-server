@@ -32,6 +32,7 @@ jobs:
           packages:
             - libc6-i386
             - libstdc++6:i386
+            - gdb
     - env:
       - DoxGeneration=false
       - DockerBuild=false
@@ -51,6 +52,7 @@ jobs:
           packages:
             - libc6-i386
             - libstdc++6:i386
+            - gdb
     - env:
       - DoxGeneration=false
       - DockerBuild=false
@@ -74,6 +76,7 @@ jobs:
             - postgresql-12
             - libc6-i386
             - libstdc++6:i386
+            - gdb
     - env:
       - DoxGeneration=false
       - DockerBuild=false

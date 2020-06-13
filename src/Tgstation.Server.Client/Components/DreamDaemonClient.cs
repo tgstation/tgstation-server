@@ -44,5 +44,8 @@ namespace Tgstation.Server.Client.Components
 
 		/// <inheritdoc />
 		public Task<DreamDaemon> Update(DreamDaemon dreamDaemon, CancellationToken cancellationToken) => apiClient.Update<DreamDaemon, DreamDaemon>(Routes.DreamDaemon, dreamDaemon ?? throw new ArgumentNullException(nameof(dreamDaemon)), instance.Id, cancellationToken);
+
+		/// <inheritdoc />
+		public Task<Job> CreateDump(CancellationToken cancellationToken) => apiClient.Patch<Job>(Routes.Diagnostics, instance.Id, cancellationToken);
 	}
 }

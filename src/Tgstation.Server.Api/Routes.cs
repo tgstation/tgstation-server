@@ -44,6 +44,11 @@ namespace Tgstation.Server.Api
 		public const string DreamDaemon = Root + nameof(Models.DreamDaemon);
 
 		/// <summary>
+		/// For accessing DD diagnostics
+		/// </summary>
+		public const string Diagnostics = DreamDaemon + "/Diagnostics";
+
+		/// <summary>
 		/// The <see cref="Models.ConfigurationFile"/> controller
 		/// </summary>
 		public const string Configuration = Root + "Config";

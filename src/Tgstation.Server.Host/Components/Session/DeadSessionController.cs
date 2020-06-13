@@ -123,5 +123,8 @@ namespace Tgstation.Server.Host.Components.Session
 
 		/// <inheritdoc />
 		public Task InstanceRenamed(string newInstanceName, CancellationToken cancellationToken) => Task.CompletedTask;
+
+		/// <inheritdoc />
+		public Task CreateDump(string outputFile, CancellationToken cancellationToken) => throw new NotSupportedException();
 	}
 }
