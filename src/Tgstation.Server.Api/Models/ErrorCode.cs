@@ -525,5 +525,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("Attempted to create a process dump but /usr/bin/gcore could not be located!")]
 		MissingGCore,
+
+		/// <summary>
+		/// Non-zero gcore exit code.
+		/// </summary>
+		[Description("Could not create process as gcore exited with a non-zero exit code!")]
+		GCoreFailure,
 	}
 }

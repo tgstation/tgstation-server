@@ -297,7 +297,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request</returns>
 		/// <response code="202">Dump <see cref="Api.Models.Job"/> started successfully.</response>
-		[HttpPost(Routes.Diagnostics)]
+		[HttpPatch(Routes.Diagnostics)]
 		[TgsAuthorize(DreamDaemonRights.CreateDump)]
 		[ProducesResponseType(typeof(Api.Models.Job), 202)]
 		public async Task<IActionResult> CreateDump(CancellationToken cancellationToken)

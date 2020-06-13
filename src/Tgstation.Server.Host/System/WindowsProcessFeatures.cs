@@ -113,9 +113,8 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public async Task CreateDump(global::System.Diagnostics.Process process, string outputFile, CancellationToken cancellationToken)
-		{
-			await Task.Factory.StartNew(
+		public Task CreateDump(global::System.Diagnostics.Process process, string outputFile, CancellationToken cancellationToken)
+			=> Task.Factory.StartNew(
 				() =>
 				{
 					using var fileStream = new FileStream(outputFile, FileMode.CreateNew);
@@ -123,7 +122,11 @@ namespace Tgstation.Server.Host.System
 						process.Handle,
 						(uint)process.Id,
 						fileStream.SafeFileHandle,
-						NativeMethods.MiniDumpType.Normal,
+						NativeMethods.MiniDumpType.WithDataSegs
+						| NativeMethods.MiniDumpType.WithFullMemory
+						| NativeMethods.MiniDumpType.WithHandleData
+						| NativeMethods.MiniDumpType.WithThreadInfo
+						| NativeMethods.MiniDumpType.WithUnloadedModules,
 						IntPtr.Zero,
 						IntPtr.Zero,
 						IntPtr.Zero))
@@ -131,8 +134,6 @@ namespace Tgstation.Server.Host.System
 				},
 				cancellationToken,
 				TaskCreationOptions.LongRunning,
-				TaskScheduler.Current)
-				.ConfigureAwait(false);
-		}
+				TaskScheduler.Current);
 	}
 }
