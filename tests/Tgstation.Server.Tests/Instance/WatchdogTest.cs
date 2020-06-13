@@ -43,6 +43,9 @@ namespace Tgstation.Server.Tests.Instance
 				SoftRestart = true
 			}, cancellationToken), ErrorCode.DreamDaemonDoubleSoft);
 
+			await ApiAssert.ThrowsException<ConflictException>(() => instanceClient.DreamDaemon.CreateDump(cancellationToken), ErrorCode.WatchdogNotRunning);
+			await ApiAssert.ThrowsException<ConflictException>(() => instanceClient.DreamDaemon.Restart(cancellationToken), ErrorCode.WatchdogNotRunning);
+
 			await RunBasicTest(cancellationToken);
 
 			// await RunLongRunningTestThenUpdate(cancellationToken);
@@ -53,6 +56,15 @@ namespace Tgstation.Server.Tests.Instance
 			await RunHeartbeatTest(cancellationToken);
 
 			await StartAndLeaveRunning(cancellationToken);
+
+			var dumpJob = await instanceClient.DreamDaemon.CreateDump(cancellationToken);
+			await WaitForJob(dumpJob, 3000, false, cancellationToken);
+
+			var dumpFiles = Directory.GetFiles(Path.Combine(
+				instanceClient.Metadata.Path, "Diagnostics", "ProcessDumps"), "*.dmp");
+			Assert.AreEqual(1, dumpFiles.Length);
+			File.Delete(dumpFiles.Single());
+
 			global::System.Console.WriteLine("TEST: END WATCHDOG TESTS");
 		}
 
@@ -103,12 +115,14 @@ namespace Tgstation.Server.Tests.Instance
 				Assert.Inconclusive($"Incorrect number of DD processes: {ddProcs.Count}");
 
 			using var ddProc = ddProcs.Single();
-			using var ourProcessHandler = new ProcessExecutor(
+			IProcessExecutor executor = null;
+			executor = new ProcessExecutor(
 				new PlatformIdentifier().IsWindows
 					? (IProcessFeatures)new WindowsProcessFeatures(Mock.Of<ILogger<WindowsProcessFeatures>>())
-					: new PosixProcessFeatures(Mock.Of<IIOManager>(), Mock.Of<ILogger<PosixProcessFeatures>>()),
+					: new PosixProcessFeatures(new Lazy<IProcessExecutor>(() => executor), Mock.Of<IIOManager>(), Mock.Of<ILogger<PosixProcessFeatures>>()),
 				Mock.Of<ILogger<ProcessExecutor>>(),
-				LoggerFactory.Create(x => { }))
+				LoggerFactory.Create(x => { }));
+			using var ourProcessHandler = executor
 				.GetProcess(ddProc.Id);
 
 			// Ensure it's responding to heartbeats
