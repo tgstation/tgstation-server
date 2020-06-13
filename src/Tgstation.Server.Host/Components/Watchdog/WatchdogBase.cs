@@ -18,6 +18,7 @@ using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 
 namespace Tgstation.Server.Host.Components.Watchdog
@@ -115,6 +116,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IRestartRegistration restartRegistration;
 
 		/// <summary>
+		/// The <see cref="IIOManager"/> pointing to the Diagnostics directory.
+		/// </summary>
+		readonly IIOManager diagnosticsIOManager;
+
+		/// <summary>
 		/// <see langword="lock"/> <see cref="object"/> used for <see cref="DisposeAndNullControllers"/>.
 		/// </summary>
 		readonly object controllerDisposeLock;
@@ -170,6 +176,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> to populate <see cref="restartRegistration"/> with</param>
 		/// <param name="asyncDelayer">The value of <see cref="AsyncDelayer"/>.</param>
+		/// <param name="diagnosticsIOManager">The value of <see cref="diagnosticsIOManager"/>.</param>
 		/// <param name="logger">The value of <see cref="Logger"/></param>
 		/// <param name="initialLaunchParameters">The initial value of <see cref="ActiveLaunchParameters"/>. May be modified</param>
 		/// <param name="instance">The value of <see cref="instance"/></param>
@@ -183,6 +190,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IJobManager jobManager,
 			IServerControl serverControl,
 			IAsyncDelayer asyncDelayer,
+			IIOManager diagnosticsIOManager,
 			ILogger logger,
 			DreamDaemonLaunchParameters initialLaunchParameters,
 			Api.Models.Instance instance,
@@ -195,6 +203,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			AsyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
+			this.diagnosticsIOManager = diagnosticsIOManager ?? throw new ArgumentNullException(nameof(diagnosticsIOManager));
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			ActiveLaunchParameters = initialLaunchParameters ?? throw new ArgumentNullException(nameof(initialLaunchParameters));
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
@@ -919,5 +928,22 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 		/// <inheritdoc />
 		public abstract Task InstanceRenamed(string newInstanceName, CancellationToken cancellationToken);
+
+		/// <inheritdoc />
+		public async Task CreateDump(CancellationToken cancellationToken)
+		{
+			var session = GetActiveController();
+
+			const string DumpDirectory = "ProcessDumps";
+			await diagnosticsIOManager.CreateDirectory(DumpDirectory, cancellationToken).ConfigureAwait(false);
+
+			var dumpFileName = diagnosticsIOManager.ResolvePath(
+				diagnosticsIOManager.ConcatPath(
+					DumpDirectory,
+					$"DreamDaemon-{DateTimeOffset.Now.ToFileStamp()}.dmp"));
+
+			Logger.LogInformation("Dumping session to {0}...", dumpFileName);
+			await session.CreateDump(dumpFileName, cancellationToken).ConfigureAwait(false);
+		}
 	}
 }

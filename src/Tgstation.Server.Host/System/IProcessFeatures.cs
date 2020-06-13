@@ -17,7 +17,7 @@ namespace Tgstation.Server.Host.System
 		Task<string> GetExecutingUsername(global::System.Diagnostics.Process process, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Suspend a given <see cref="Process"/>.
+		/// Suspend a given <paramref name="process"/>.
 		/// </summary>
 		/// <param name="process">The <see cref="Process"/> to suspend.</param>
 		void SuspendProcess(global::System.Diagnostics.Process process);
@@ -27,5 +27,14 @@ namespace Tgstation.Server.Host.System
 		/// </summary>
 		/// <param name="process">The <see cref="Process"/> to susperesumend.</param>
 		void ResumeProcess(global::System.Diagnostics.Process process);
+
+		/// <summary>
+		/// Create a dump file for a given <paramref name="process"/>.
+		/// </summary>
+		/// <param name="process">The <see cref="Process"/> to dump.</param>
+		/// <param name="outputFile">The full path to the output file.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		Task CreateDump(global::System.Diagnostics.Process process, string outputFile, CancellationToken cancellationToken);
 	}
 }

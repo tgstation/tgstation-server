@@ -10,6 +10,7 @@ using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 
 namespace Tgstation.Server.Host.Components.Watchdog
@@ -49,6 +50,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogBase"/>.</param>
+		/// <param name="diagnosticsIOManager">The <see cref="IIOManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="initialLaunchParameters">The <see cref="DreamDaemonLaunchParameters"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="instance">The <see cref="Api.Models.Instance"/> for the <see cref="WatchdogBase"/>.</param>
@@ -62,6 +64,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IJobManager jobManager,
 			IServerControl serverControl,
 			IAsyncDelayer asyncDelayer,
+			IIOManager diagnosticsIOManager,
 			ILogger<BasicWatchdog> logger,
 			DreamDaemonLaunchParameters initialLaunchParameters,
 			Api.Models.Instance instance,
@@ -75,6 +78,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				 jobManager,
 				 serverControl,
 				 asyncDelayer,
+				 diagnosticsIOManager,
 				 logger,
 				 initialLaunchParameters,
 				 instance,

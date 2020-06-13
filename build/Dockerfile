@@ -58,7 +58,8 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-bionic
 #needed for byond
 RUN apt-get update \
 	&& apt-get install -y \
-	gcc-multilib \
+		gcc-multilib \
+		gdb \
 	&& rm -rf /var/lib/apt/lists/*
 	
 EXPOSE 5000

@@ -9,7 +9,7 @@ using Tgstation.Server.Host.Configuration;
 namespace Tgstation.Server.Host.Database
 {
 	/// <summary>
-	/// <see cref="DatabaseContext"/> for MySQL
+	/// <see cref="DatabaseContext"/> for Sqlite.
 	/// </summary>
 	sealed class SqliteDatabaseContext : DatabaseContext
 	{

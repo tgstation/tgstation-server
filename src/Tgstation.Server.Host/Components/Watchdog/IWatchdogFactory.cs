@@ -18,7 +18,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="dmbFactory">The <see cref="IDmbFactory"/> for the <see cref="IWatchdog"/> with</param>
 		/// <param name="reattachInfoHandler">The <see cref="IReattachInfoHandler"/> for the <see cref="IWatchdog"/></param>
 		/// <param name="sessionControllerFactory">The <see cref="ISessionControllerFactory"/> for the <see cref="IWatchdog"/></param>
-		/// <param name="ioManager">The <see cref="IIOManager"/> for the <see cref="IWatchdog"/>.</param>
+		/// <param name="gameIOManager">The <see cref="IIOManager"/> pointing to the Game directory for the <see cref="IWatchdog"/>.</param>
+		/// <param name="diagnosticsIOManager">The <see cref="IIOManager"/> pointing to the Diagnostics directory for the <see cref="IWatchdog"/>.</param>
 		/// <param name="instance">The <see cref="Instance"/> for the <see cref="IWatchdog"/></param>
 		/// <param name="settings">The initial <see cref="DreamDaemonSettings"/> for the <see cref="IWatchdog"/></param>
 		/// <returns>A new <see cref="IWatchdog"/></returns>
@@ -27,7 +28,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IDmbFactory dmbFactory,
 			IReattachInfoHandler reattachInfoHandler,
 			ISessionControllerFactory sessionControllerFactory,
-			IIOManager ioManager,
+			IIOManager gameIOManager,
+			IIOManager diagnosticsIOManager,
 			Api.Models.Instance instance,
 			DreamDaemonSettings settings);
 	}

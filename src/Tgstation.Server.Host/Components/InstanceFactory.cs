@@ -202,6 +202,7 @@ namespace Tgstation.Server.Host.Components
 			var repoIoManager = new ResolvingIOManager(instanceIoManager, "Repository");
 			var byondIOManager = new ResolvingIOManager(instanceIoManager, "Byond");
 			var gameIoManager = new ResolvingIOManager(instanceIoManager, "Game");
+			var diagnosticsIOManager = new ResolvingIOManager(instanceIoManager, "Diagnostics");
 			var configurationIoManager = new ResolvingIOManager(instanceIoManager, "Configuration");
 
 			var configuration = new StaticFiles.Configuration(configurationIoManager, synchronousIOManager, symlinkFactory, processExecutor, postWriteHandler, platformIdentifier, loggerFactory.CreateLogger<StaticFiles.Configuration>());
@@ -248,6 +249,7 @@ namespace Tgstation.Server.Host.Components
 							reattachInfoHandler,
 							sessionControllerFactory,
 							gameIoManager,
+							diagnosticsIOManager,
 							metadata.CloneMetadata(),
 							metadata.DreamDaemonSettings);
 						eventConsumer.SetWatchdog(watchdog);
