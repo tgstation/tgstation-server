@@ -7,13 +7,20 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.Jobs;
 
 namespace Tgstation.Server.Host.System
 {
 	/// <inheritdoc />
 	sealed class PosixProcessFeatures : IProcessFeatures
 	{
+		/// <summary>
+		/// <see cref="Lazy{T}"/> loaded <see cref="IProcessExecutor"/>.
+		/// </summary>
+		readonly Lazy<IProcessExecutor> lazyLoadedProcessExecutor;
+
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="PosixProcessFeatures"/>.
 		/// </summary>
@@ -27,10 +34,12 @@ namespace Tgstation.Server.Host.System
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PosixProcessFeatures"/> <see langword="class"/>.
 		/// </summary>
+		/// <param name="lazyLoadedProcessExecutor">The value of <see cref="lazyLoadedProcessExecutor"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		public PosixProcessFeatures(IIOManager ioManager, ILogger<PosixProcessFeatures> logger)
+		public PosixProcessFeatures(Lazy<IProcessExecutor> lazyLoadedProcessExecutor, IIOManager ioManager, ILogger<PosixProcessFeatures> logger)
 		{
+			this.lazyLoadedProcessExecutor = lazyLoadedProcessExecutor ?? throw new ArgumentNullException(nameof(lazyLoadedProcessExecutor));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
@@ -95,9 +104,35 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public Task CreateDump(global::System.Diagnostics.Process process, string outputFile, CancellationToken cancellationToken)
+		public async Task CreateDump(global::System.Diagnostics.Process process, string outputFile, CancellationToken cancellationToken)
 		{
-			throw new NotImplementedException();
+			const string GCorePath = "/usr/bin/gcore";
+			if (!await ioManager.FileExists(GCorePath, cancellationToken).ConfigureAwait(false))
+				throw new JobException(ErrorCode.MissingGCore);
+
+			string output;
+			int exitCode;
+			using (var gcoreProc = lazyLoadedProcessExecutor.Value.LaunchProcess(
+				GCorePath,
+				Environment.CurrentDirectory,
+				$"-o {outputFile} {process.Id}",
+				true,
+				true))
+			{
+				using (cancellationToken.Register(() => gcoreProc.Terminate()))
+					exitCode = await gcoreProc.Lifetime.ConfigureAwait(false);
+
+				output = gcoreProc.GetCombinedOutput();
+				logger.LogDebug("gcore output:{0}{1}", Environment.NewLine, output);
+			}
+
+			cancellationToken.ThrowIfCancellationRequested();
+
+			if (exitCode != 0)
+				throw new JobException(
+					ErrorCode.GCoreFailure,
+					new JobException(
+						$"Exit Code: {exitCode}{Environment.NewLine}Output:{Environment.NewLine}{output}"));
 		}
 	}
 }
