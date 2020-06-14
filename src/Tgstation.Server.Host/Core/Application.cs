@@ -18,6 +18,7 @@ using Serilog.Formatting.Display;
 using System;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
+using System.Reflection;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
@@ -207,10 +208,23 @@ namespace Tgstation.Server.Host.Core
 
 			void AddTypedContext<TContext>() where TContext : DatabaseContext
 			{
-				services.AddDbContext<TContext>(builder =>
+				// HACK HACK HACK HACK HACK
+				const string ConfigureMethodName = nameof(SqlServerDatabaseContext.ConfigureWith);
+				var configureFunction = typeof(TContext).GetMethod(
+					nameof(SqlServerDatabaseContext.ConfigureWith),
+					BindingFlags.Public | BindingFlags.Static);
+
+				if (configureFunction == null)
+					throw new InvalidOperationException($"Context type {typeof(TContext).FullName} missing static {ConfigureMethodName} function!");
+
+				services.AddDbContextPool<TContext>((serviceProvider, builder) =>
 				{
 					if (hostingEnvironment.IsDevelopment())
 						builder.EnableSensitiveDataLogging();
+
+					var databaseConfigOptions = serviceProvider.GetRequiredService<IOptions<DatabaseConfiguration>>();
+					var databaseConfig = databaseConfigOptions.Value ?? throw new InvalidOperationException("DatabaseConfiguration missing!");
+					configureFunction.Invoke(null, new object[] { builder, databaseConfig });
 				});
 				services.AddScoped<IDatabaseContext>(x => x.GetRequiredService<TContext>());
 			}

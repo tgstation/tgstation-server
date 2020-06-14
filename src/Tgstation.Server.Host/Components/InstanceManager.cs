@@ -68,6 +68,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IAsyncDelayer asyncDelayer;
 
 		/// <summary>
+		/// The <see cref="IDatabaseSeeder"/> for the <see cref="InstanceManager"/>
+		/// </summary>
+		readonly IDatabaseSeeder databaseSeeder;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="InstanceManager"/>
 		/// </summary>
 		readonly ILogger<InstanceManager> logger;
@@ -113,6 +118,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="serverControl">The value of <see cref="serverControl"/></param>
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
+		/// <param name="databaseSeeder">The value of <see cref="databaseSeeder"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		public InstanceManager(
@@ -124,6 +130,7 @@ namespace Tgstation.Server.Host.Components
 			IServerControl serverControl,
 			ISystemIdentityFactory systemIdentityFactory,
 			IAsyncDelayer asyncDelayer,
+			IDatabaseSeeder databaseSeeder,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			ILogger<InstanceManager> logger)
 		{
@@ -135,6 +142,7 @@ namespace Tgstation.Server.Host.Components
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
+			this.databaseSeeder = databaseSeeder ?? throw new ArgumentNullException(nameof(databaseSeeder));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
@@ -274,7 +282,7 @@ namespace Tgstation.Server.Host.Components
 			{
 				CheckSystemCompatibility();
 				var factoryStartup = instanceFactory.StartAsync(cancellationToken);
-				await databaseContext.Initialize(cancellationToken).ConfigureAwait(false);
+				await databaseSeeder.Initialize(databaseContext, cancellationToken).ConfigureAwait(false);
 				await jobManager.StartAsync(cancellationToken).ConfigureAwait(false);
 				var dbInstances = databaseContext
 					.Instances
@@ -323,7 +331,7 @@ namespace Tgstation.Server.Host.Components
 
 			// downgrade the db if necessary
 			if (downgradeVersion != null)
-				await databaseContextFactory.UseContext(db => db.SchemaDowngradeForServerVersion(downgradeVersion, cancellationToken)).ConfigureAwait(false);
+				await databaseContextFactory.UseContext(db => databaseSeeder.Downgrade(db, downgradeVersion, cancellationToken)).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
