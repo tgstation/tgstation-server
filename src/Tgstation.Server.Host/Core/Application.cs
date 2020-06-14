@@ -211,7 +211,7 @@ namespace Tgstation.Server.Host.Core
 				// HACK HACK HACK HACK HACK
 				const string ConfigureMethodName = nameof(SqlServerDatabaseContext.ConfigureWith);
 				var configureFunction = typeof(TContext).GetMethod(
-					nameof(SqlServerDatabaseContext.ConfigureWith),
+					ConfigureMethodName,
 					BindingFlags.Public | BindingFlags.Static);
 
 				if (configureFunction == null)
