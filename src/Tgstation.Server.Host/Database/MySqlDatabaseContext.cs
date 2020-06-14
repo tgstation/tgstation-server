@@ -1,7 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using MySql.Data.MySqlClient;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using System;
 using Tgstation.Server.Host.Configuration;
@@ -20,42 +17,37 @@ namespace Tgstation.Server.Host.Database
 		/// Construct a <see cref="MySqlDatabaseContext"/>
 		/// </summary>
 		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TContext}"/> for the <see cref="DatabaseContext"/></param>
-		/// <param name="databaseConfiguration">The <see cref="IOptions{TOptions}"/> of <see cref="DatabaseConfiguration"/> for the <see cref="DatabaseContext"/></param>
-		/// <param name="databaseSeeder">The <see cref="IDatabaseSeeder"/> for the <see cref="DatabaseContext"/></param>
-		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="DatabaseContext"/></param>
-		public MySqlDatabaseContext(DbContextOptions<MySqlDatabaseContext> dbContextOptions, IOptions<DatabaseConfiguration> databaseConfiguration, IDatabaseSeeder databaseSeeder, ILogger<MySqlDatabaseContext> logger) : base(dbContextOptions, databaseConfiguration, databaseSeeder, logger)
+		public MySqlDatabaseContext(DbContextOptions<MySqlDatabaseContext> dbContextOptions) : base(dbContextOptions)
 		{ }
 
-		/// <inheritdoc />
-		protected override void OnConfiguring(DbContextOptionsBuilder options)
+		/// <summary>
+		/// Configure the <see cref="MySqlDatabaseContext"/>.
+		/// </summary>
+		/// <param name="options">The <see cref="DbContextOptionsBuilder"/> to configure.</param>
+		/// <param name="databaseConfiguration">The <see cref="DatabaseConfiguration"/>.</param>
+		public static void ConfigureWith(DbContextOptionsBuilder options, DatabaseConfiguration databaseConfiguration)
 		{
-			base.OnConfiguring(options);
-			var stringDeconstructor = new MySqlConnectionStringBuilder
-			{
-				ConnectionString = DatabaseConfiguration.ConnectionString
-			};
-			if (stringDeconstructor.Server == "localhost")
-				Logger.LogWarning("MariaDB/MySQL server address is set to 'localhost'! If there are connection issues, try setting it to '127.0.0.1'!");
+			if (options == null)
+				throw new ArgumentNullException(nameof(options));
+			if (databaseConfiguration == null)
+				throw new ArgumentNullException(nameof(databaseConfiguration));
+
+			if (databaseConfiguration.DatabaseType != DatabaseType.MariaDB && databaseConfiguration.DatabaseType != DatabaseType.MySql)
+				throw new InvalidOperationException($"Invalid DatabaseType for {nameof(MySqlDatabaseContext)}!");
+
 			options.UseMySql(
-				DatabaseConfiguration.ConnectionString,
+				databaseConfiguration.ConnectionString,
 				mySqlOptions =>
 				{
 					mySqlOptions.EnableRetryOnFailure();
 
-					if (!String.IsNullOrEmpty(DatabaseConfiguration.ServerVersion))
+					if (!String.IsNullOrEmpty(databaseConfiguration.ServerVersion))
 						mySqlOptions.ServerVersion(
-							Version.Parse(DatabaseConfiguration.ServerVersion),
-							DatabaseConfiguration.DatabaseType == DatabaseType.MariaDB
+							Version.Parse(databaseConfiguration.ServerVersion),
+							databaseConfiguration.DatabaseType == DatabaseType.MariaDB
 								? ServerType.MariaDb
 								: ServerType.MySql);
 				});
-		}
-
-		/// <inheritdoc />
-		protected override void ValidateDatabaseType()
-		{
-			if (DatabaseType != DatabaseType.MariaDB && DatabaseType != DatabaseType.MySql)
-				throw new InvalidOperationException("Invalid DatabaseType for MySqlDatabaseContext!");
 		}
 	}
 }

@@ -58,7 +58,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IDmbFactory dmbFactory,
 			IReattachInfoHandler reattachInfoHandler,
 			ISessionControllerFactory sessionControllerFactory,
-			IIOManager ioManager,
+			IIOManager gameIOManager,
+			IIOManager diagnosticsIOManager,
 			Api.Models.Instance instance,
 			DreamDaemonSettings settings)
 			=> new WindowsWatchdog(
@@ -70,7 +71,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				JobManager,
 				ServerControl,
 				AsyncDelayer,
-				ioManager,
+				diagnosticsIOManager,
+				gameIOManager,
 				symlinkFactory,
 				LoggerFactory.CreateLogger<WindowsWatchdog>(),
 				settings,

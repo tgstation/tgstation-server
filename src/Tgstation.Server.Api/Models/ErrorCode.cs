@@ -519,5 +519,17 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("Cannot cancel the job as it is no longer running.")]
 		JobStopped,
+
+		/// <summary>
+		/// Missing GCore executable.
+		/// </summary>
+		[Description("Attempted to create a process dump but /usr/bin/gcore could not be located!")]
+		MissingGCore,
+
+		/// <summary>
+		/// Non-zero gcore exit code.
+		/// </summary>
+		[Description("Could not create dump as gcore exited with a non-zero exit code!")]
+		GCoreFailure,
 	}
 }

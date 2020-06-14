@@ -44,5 +44,12 @@ namespace Tgstation.Server.Client.Components
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="DreamDaemon"/> information</returns>
 		Task<DreamDaemon> Update(DreamDaemon dreamDaemon, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Start a job to create a process dump of the active DreamDaemon executable.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="Job"/> of the running operation.</returns>
+		Task<Job> CreateDump(CancellationToken cancellationToken);
 	}
 }

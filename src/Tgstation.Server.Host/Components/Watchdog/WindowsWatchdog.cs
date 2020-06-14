@@ -19,9 +19,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	sealed class WindowsWatchdog : BasicWatchdog
 	{
 		/// <summary>
-		/// The <see cref="IIOManager"/> for the <see cref="WindowsWatchdog"/>.
+		/// The <see cref="IIOManager"/> for the <see cref="WindowsWatchdog"/> pointing to the Game directory.
 		/// </summary>
-		readonly IIOManager ioManager;
+		readonly IIOManager gameIOManager;
 
 		/// <summary>
 		/// The <see cref="ISymlinkFactory"/> for the <see cref="WindowsWatchdog"/>.
@@ -54,7 +54,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogBase"/>.</param>
-		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
+		/// <param name="diagnosticsIOManager">The <see cref="IIOManager"/> for the <see cref="WatchdogBase"/>.</param>
+		/// <param name="gameIOManager">The value of <see cref="gameIOManager"/>.</param>
 		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="initialLaunchParameters">The <see cref="DreamDaemonLaunchParameters"/> for the <see cref="WatchdogBase"/>.</param>
@@ -69,7 +70,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IJobManager jobManager,
 			IServerControl serverControl,
 			IAsyncDelayer asyncDelayer,
-			IIOManager ioManager,
+			IIOManager diagnosticsIOManager,
+			IIOManager gameIOManager,
 			ISymlinkFactory symlinkFactory,
 			ILogger<WindowsWatchdog> logger,
 			DreamDaemonLaunchParameters initialLaunchParameters,
@@ -83,6 +85,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				jobManager,
 				serverControl,
 				asyncDelayer,
+				diagnosticsIOManager,
 				logger,
 				initialLaunchParameters,
 				instance,
@@ -90,7 +93,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			try
 			{
-				this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
+				this.gameIOManager = gameIOManager ?? throw new ArgumentNullException(nameof(gameIOManager));
 				this.symlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
 			}
 			catch
@@ -151,7 +154,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			bool suspended = false;
 			try
 			{
-				windowsProvider = new WindowsSwappableDmbProvider(compileJobProvider, ioManager, symlinkFactory);
+				windowsProvider = new WindowsSwappableDmbProvider(compileJobProvider, gameIOManager, symlinkFactory);
 
 				Logger.LogDebug("Swapping to compile job {0}...", windowsProvider.CompileJob.Id);
 				try
@@ -195,7 +198,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			// Add another lock to the startup DMB because it'll be used throughout the lifetime of the watchdog
 			startupDmbProvider = await DmbFactory.FromCompileJob(dmbToUse.CompileJob, cancellationToken).ConfigureAwait(false);
 
-			activeSwappable = pendingSwappable ?? new WindowsSwappableDmbProvider(dmbToUse, ioManager, symlinkFactory);
+			activeSwappable = pendingSwappable ?? new WindowsSwappableDmbProvider(dmbToUse, gameIOManager, symlinkFactory);
 			pendingSwappable = null;
 
 			try

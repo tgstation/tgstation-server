@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Management;
 using System.Threading;
@@ -110,5 +111,29 @@ namespace Tgstation.Server.Host.System
 
 			return Task.FromResult("NO OWNER");
 		}
+
+		/// <inheritdoc />
+		public Task CreateDump(global::System.Diagnostics.Process process, string outputFile, CancellationToken cancellationToken)
+			=> Task.Factory.StartNew(
+				() =>
+				{
+					using var fileStream = new FileStream(outputFile, FileMode.CreateNew);
+					if (!NativeMethods.MiniDumpWriteDump(
+						process.Handle,
+						(uint)process.Id,
+						fileStream.SafeFileHandle,
+						NativeMethods.MiniDumpType.WithDataSegs
+						| NativeMethods.MiniDumpType.WithFullMemory
+						| NativeMethods.MiniDumpType.WithHandleData
+						| NativeMethods.MiniDumpType.WithThreadInfo
+						| NativeMethods.MiniDumpType.WithUnloadedModules,
+						IntPtr.Zero,
+						IntPtr.Zero,
+						IntPtr.Zero))
+						throw new Win32Exception();
+				},
+				cancellationToken,
+				TaskCreationOptions.LongRunning,
+				TaskScheduler.Current);
 	}
 }

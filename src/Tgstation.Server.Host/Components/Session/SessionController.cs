@@ -696,5 +696,8 @@ namespace Tgstation.Server.Host.Components.Session
 				new TopicParameters(
 					new ChatUpdate(newChannels)),
 				cancellationToken);
+
+		/// <inheritdoc />
+		public Task CreateDump(string outputFile, CancellationToken cancellationToken) => process.CreateDump(outputFile, cancellationToken);
 	}
 }
