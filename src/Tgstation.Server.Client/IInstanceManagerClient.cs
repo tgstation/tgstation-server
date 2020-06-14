@@ -51,6 +51,14 @@ namespace Tgstation.Server.Client
 		Task Detach(Instance instance, CancellationToken cancellationToken);
 
 		/// <summary>
+		/// Gives the user full permissions on an <paramref name="instance"/>.
+		/// </summary>
+		/// <param name="instance">The <see cref="Instance"/> to grant permissions on.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		Task GrantPermissions(Instance instance, CancellationToken cancellationToken);
+
+		/// <summary>
 		/// Create an <see cref="IInstanceClient"/> for a given <see cref="Instance"/>
 		/// </summary>
 		/// <param name="instance">The <see cref="Instance"/> to create an <see cref="IInstanceClient"/> for</param>

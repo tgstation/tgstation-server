@@ -48,6 +48,9 @@ namespace Tgstation.Server.Client
 		public Task<Instance> GetId(Instance instance, CancellationToken cancellationToken) => apiClient.Read<Instance>(Routes.SetID(Routes.InstanceManager, instance?.Id ?? throw new ArgumentNullException(nameof(instance))), cancellationToken);
 
 		/// <inheritdoc />
+		public Task GrantPermissions(Instance instance, CancellationToken cancellationToken) => apiClient.Patch(Routes.SetID(Routes.InstanceManager, instance?.Id ?? throw new ArgumentNullException(nameof(instance))), cancellationToken);
+
+		/// <inheritdoc />
 		public IInstanceClient CreateClient(Instance instance)
 		{
 			if (!cachedClients.TryGetValue(instance?.Id ?? throw new ArgumentNullException(nameof(instance)), out var client))

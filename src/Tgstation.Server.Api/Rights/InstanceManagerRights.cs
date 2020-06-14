@@ -61,6 +61,11 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User can change <see cref="Models.Instance.ChatBotLimit"/>.
 		/// </summary>
-		SetChatBotLimit = 512
+		SetChatBotLimit = 512,
+
+		/// <summary>
+		/// User can give themselves full <see cref="Models.InstanceUser"/> rights on instances.
+		/// </summary>
+		GrantPermissions = 1024,
 	}
 }
