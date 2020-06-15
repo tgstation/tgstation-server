@@ -4,6 +4,7 @@ using System;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
@@ -60,6 +61,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			ISessionControllerFactory sessionControllerFactory,
 			IIOManager gameIOManager,
 			IIOManager diagnosticsIOManager,
+			IEventConsumer eventConsumer,
 			Api.Models.Instance instance,
 			DreamDaemonSettings settings)
 			=> new WindowsWatchdog(
@@ -72,6 +74,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				ServerControl,
 				AsyncDelayer,
 				diagnosticsIOManager,
+				eventConsumer,
 				gameIOManager,
 				symlinkFactory,
 				LoggerFactory.CreateLogger<WindowsWatchdog>(),

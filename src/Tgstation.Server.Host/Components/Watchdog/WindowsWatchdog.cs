@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
@@ -55,6 +56,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="diagnosticsIOManager">The <see cref="IIOManager"/> for the <see cref="WatchdogBase"/>.</param>
+		/// <param name="eventConsumer">The <see cref="IEventConsumer"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="gameIOManager">The value of <see cref="gameIOManager"/>.</param>
 		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="WatchdogBase"/>.</param>
@@ -71,6 +73,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IServerControl serverControl,
 			IAsyncDelayer asyncDelayer,
 			IIOManager diagnosticsIOManager,
+			IEventConsumer eventConsumer,
 			IIOManager gameIOManager,
 			ISymlinkFactory symlinkFactory,
 			ILogger<WindowsWatchdog> logger,
@@ -86,6 +89,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				serverControl,
 				asyncDelayer,
 				diagnosticsIOManager,
+				eventConsumer,
 				logger,
 				initialLaunchParameters,
 				instance,
