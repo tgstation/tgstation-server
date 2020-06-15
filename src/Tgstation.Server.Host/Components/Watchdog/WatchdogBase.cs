@@ -361,17 +361,19 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				throw new JobException(ErrorCode.WatchdogCompileJobCorrupted);
 
 			// this is necessary, the monitor could be in it's sleep loop trying to restart, if so cancel THAT monitor and start our own with blackjack and hookers
-			Task chatTask;
+			Task announceTask;
 			if (startMonitor && await StopMonitor().ConfigureAwait(false))
-				chatTask = Chat.SendWatchdogMessage("Automatic retry sequence cancelled by manual launch. Restarting...", false, cancellationToken);
+				announceTask = Chat.SendWatchdogMessage("Automatic retry sequence cancelled by manual launch. Restarting...", false, cancellationToken);
 			else if (announce)
 			{
-				chatTask = Chat.SendWatchdogMessage(reattachInfo == null ? "Launching..." : "Reattaching...", false, cancellationToken); // simple announce
+				announceTask = Chat.SendWatchdogMessage(reattachInfo == null ? "Launching..." : "Reattaching...", false, cancellationToken); // simple announce
 				if (reattachInfo == null)
-					await eventConsumer.HandleEvent(EventType.WatchdogLaunch, Enumerable.Empty<string>(), cancellationToken).ConfigureAwait(false);
+					announceTask = Task.WhenAll(
+						eventConsumer.HandleEvent(EventType.WatchdogLaunch, Enumerable.Empty<string>(), cancellationToken),
+						announceTask);
 			}
 			else
-				chatTask = Task.CompletedTask; // no announce
+				announceTask = Task.CompletedTask; // no announce
 
 			// since neither server is running, this is safe to do
 			LastLaunchParameters = ActiveLaunchParameters;
@@ -381,11 +383,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			var recursiveCallToHappen = false;
 			try
 			{
-				await InitControllers(() => recursiveCallToHappen = true, chatTask, reattachInfo, cancellationToken).ConfigureAwait(false);
+				await InitControllers(() => recursiveCallToHappen = true, announceTask, reattachInfo, cancellationToken).ConfigureAwait(false);
 				if (recursiveCallToHappen)
 					return;
 
-				await chatTask.ConfigureAwait(false);
+				await announceTask.ConfigureAwait(false);
 
 				Logger.LogInformation("Launched servers successfully");
 				Running = true;
@@ -401,14 +403,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				// don't try to send chat tasks or warning logs if were suppressing exceptions or cancelled
 				if (!recursiveCallToHappen && !cancellationToken.IsCancellationRequested)
 				{
-					var originalChatTask = chatTask;
+					var originalChatTask = announceTask;
 					async Task ChainChatTaskWithErrorMessage()
 					{
 						await originalChatTask.ConfigureAwait(false);
 						await Chat.SendWatchdogMessage("Startup failed!", false, cancellationToken).ConfigureAwait(false);
 					}
 
-					chatTask = ChainChatTaskWithErrorMessage();
+					announceTask = ChainChatTaskWithErrorMessage();
 					Logger.LogWarning("Failed to start watchdog: {0}", e.ToString());
 				}
 
@@ -419,9 +421,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				// finish the chat task that's in flight
 				try
 				{
-					await chatTask.ConfigureAwait(false);
+					await announceTask.ConfigureAwait(false);
 				}
-				catch (OperationCanceledException) { }
+				catch (OperationCanceledException)
+				{
+					Logger.LogTrace("Announcement task canceled!");
+				}
 			}
 		}
 
