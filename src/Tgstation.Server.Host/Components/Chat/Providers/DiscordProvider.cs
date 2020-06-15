@@ -383,10 +383,15 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						Value = errorMessage
 					});
 
+				var updatedMessage = $"DM: Deployment {completionString}!";
 				try
 				{
 					await message.ModifyAsync(
-						props => props.Embed = builder.Build())
+						props =>
+						{
+							props.Content = updatedMessage;
+							props.Embed = builder.Build();
+						})
 						.ConfigureAwait(false);
 				}
 				catch (Exception ex)
@@ -395,7 +400,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					try
 					{
 						await channel.SendMessageAsync(
-							$"DM: Deployment {completionString}!",
+							updatedMessage,
 							false,
 							builder.Build())
 							.ConfigureAwait(false);
