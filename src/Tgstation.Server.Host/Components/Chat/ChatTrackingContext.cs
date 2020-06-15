@@ -128,6 +128,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <inheritdoc />
 		public Task UpdateChannels(IEnumerable<ChannelRepresentation> newChannels, CancellationToken cancellationToken)
 		{
+			logger.LogTrace("UpdateChannels...");
 			var completed = newChannels.ToList();
 			Task updateTask;
 			lock (synchronizationLock)
