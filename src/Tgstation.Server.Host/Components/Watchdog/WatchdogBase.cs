@@ -121,6 +121,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IIOManager diagnosticsIOManager;
 
 		/// <summary>
+		/// The <see cref="IEventConsumer"/> that is not the <see cref="WatchdogBase"/>
+		/// </summary>
+		readonly IEventConsumer eventConsumer;
+
+		/// <summary>
 		/// <see langword="lock"/> <see cref="object"/> used for <see cref="DisposeAndNullControllers"/>.
 		/// </summary>
 		readonly object controllerDisposeLock;
@@ -177,6 +182,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="serverControl">The <see cref="IServerControl"/> to populate <see cref="restartRegistration"/> with</param>
 		/// <param name="asyncDelayer">The value of <see cref="AsyncDelayer"/>.</param>
 		/// <param name="diagnosticsIOManager">The value of <see cref="diagnosticsIOManager"/>.</param>
+		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/>.</param>
 		/// <param name="logger">The value of <see cref="Logger"/></param>
 		/// <param name="initialLaunchParameters">The initial value of <see cref="ActiveLaunchParameters"/>. May be modified</param>
 		/// <param name="instance">The value of <see cref="instance"/></param>
@@ -191,6 +197,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IServerControl serverControl,
 			IAsyncDelayer asyncDelayer,
 			IIOManager diagnosticsIOManager,
+			IEventConsumer eventConsumer,
 			ILogger logger,
 			DreamDaemonLaunchParameters initialLaunchParameters,
 			Api.Models.Instance instance,
@@ -204,6 +211,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			AsyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.diagnosticsIOManager = diagnosticsIOManager ?? throw new ArgumentNullException(nameof(diagnosticsIOManager));
+			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			ActiveLaunchParameters = initialLaunchParameters ?? throw new ArgumentNullException(nameof(initialLaunchParameters));
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
@@ -255,7 +263,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return;
 			if (!graceful)
 			{
-				var eventTask = HandleEvent(releaseServers ? EventType.WatchdogDetach : EventType.WatchdogShutdown, null, cancellationToken);
+				var eventTask = eventConsumer.HandleEvent(releaseServers ? EventType.WatchdogDetach : EventType.WatchdogShutdown, null, cancellationToken);
 
 				var chatTask = announce ? Chat.SendWatchdogMessage("Shutting down...", false, cancellationToken) : Task.CompletedTask;
 
@@ -357,7 +365,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (startMonitor && await StopMonitor().ConfigureAwait(false))
 				chatTask = Chat.SendWatchdogMessage("Automatic retry sequence cancelled by manual launch. Restarting...", false, cancellationToken);
 			else if (announce)
+			{
 				chatTask = Chat.SendWatchdogMessage(reattachInfo == null ? "Launching..." : "Reattaching...", false, cancellationToken); // simple announce
+				if (reattachInfo == null)
+					await eventConsumer.HandleEvent(EventType.WatchdogLaunch, Enumerable.Empty<string>(), cancellationToken).ConfigureAwait(false);
+			}
 			else
 				chatTask = Task.CompletedTask; // no announce
 
@@ -751,8 +763,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public async Task HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
+		async Task IEventConsumer.HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
 		{
+			// Method explicitly implemented to prevent accidental calls when this.eventConsumer should be used.
 			var activeServer = GetActiveController();
 
 			// Server may have ended
