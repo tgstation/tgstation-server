@@ -250,6 +250,7 @@ namespace Tgstation.Server.Host.Components
 							sessionControllerFactory,
 							gameIoManager,
 							diagnosticsIOManager,
+							eventConsumer,
 							metadata.CloneMetadata(),
 							metadata.DreamDaemonSettings);
 						eventConsumer.SetWatchdog(watchdog);
