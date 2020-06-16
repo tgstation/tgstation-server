@@ -82,5 +82,10 @@ namespace Tgstation.Server.Api.Rights
 		/// User can create DreamDaemon process dumps.
 		/// </summary>
 		CreateDump = 8192,
+
+		/// <summary>
+		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.TopicRequestTimeout"/>.
+		/// </summary>
+		SetTopicTimeout = 16384,
 	}
 }

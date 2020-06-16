@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Configuration;
@@ -205,6 +206,26 @@ namespace Tgstation.Server.Host.Database
 		readonly IDatabaseCollection<DualReattachInformation> watchdogReattachInformationsCollection;
 
 		/// <summary>
+		/// Gets the configure action for a given <typeparamref name="TDatabaseContext"/>.
+		/// </summary>
+		/// <typeparam name="TDatabaseContext">The <see cref="DatabaseContext"/> parent class to configure with.</typeparam>
+		/// <returns>A configure <see cref="Action{T1, T2}"/>.</returns>
+		public static Action<DbContextOptionsBuilder, DatabaseConfiguration> GetConfigureAction<TDatabaseContext>()
+			where TDatabaseContext : DatabaseContext
+		{
+			// HACK HACK HACK HACK HACK
+			const string ConfigureMethodName = nameof(SqlServerDatabaseContext.ConfigureWith);
+			var configureFunction = typeof(TDatabaseContext).GetMethod(
+				ConfigureMethodName,
+				BindingFlags.Public | BindingFlags.Static);
+
+			if (configureFunction == null)
+				throw new InvalidOperationException($"Context type {typeof(TDatabaseContext).FullName} missing static {ConfigureMethodName} function!");
+
+			return (optionsBuilder, config) => configureFunction.Invoke(null, new object[] { optionsBuilder, config });
+		}
+
+		/// <summary>
 		/// Construct a <see cref="DatabaseContext"/>
 		/// </summary>
 		/// <param name="dbContextOptions">The <see cref="DbContextOptions"/> for the <see cref="DatabaseContext"/>.</param>
@@ -329,6 +350,24 @@ namespace Tgstation.Server.Host.Database
 
 			if (version < new Version(4, 1, 0))
 				throw new NotSupportedException("Cannot migrate below version 4.1.0!");
+
+			if(version < new Version(4, 4, 0))
+				switch (currentDatabaseType)
+				{
+					case DatabaseType.MariaDB:
+					case DatabaseType.MySql:
+						targetMigration = nameof(MYFixForeignKey);
+						break;
+					case DatabaseType.PostgresSql:
+						targetMigration = nameof(PGCreate);
+						break;
+					case DatabaseType.SqlServer:
+					case DatabaseType.Sqlite:
+						targetMigration = nameof(MSRemoveSoftColumns);
+						break;
+					default:
+						throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
+				}
 
 			if (version < new Version(4, 2, 0))
 				targetMigration = currentDatabaseType == DatabaseType.Sqlite ? nameof(SLRebuild) : nameof(MSFixCascadingDelete);

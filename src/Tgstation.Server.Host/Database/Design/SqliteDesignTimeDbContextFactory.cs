@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore.Design;
 using Tgstation.Server.Host.Configuration;
 
 namespace Tgstation.Server.Host.Database.Design
@@ -13,14 +11,11 @@ namespace Tgstation.Server.Host.Database.Design
 		/// <inheritdoc />
 		public SqliteDatabaseContext CreateDbContext(string[] args)
 		{
-			using var loggerFactory = new LoggerFactory();
-			var config =
-				DesignTimeDbContextFactoryHelpers.GetDatabaseConfiguration(
-					DatabaseType.Sqlite,
-					"Data Source=tgs_design.sqlite3;Mode=ReadWriteCreate");
-			SqliteDatabaseContext.DesignTime = config.Value.DesignTime;
+			SqliteDatabaseContext.DesignTime = true;
 			return new SqliteDatabaseContext(
-				new DbContextOptions<SqliteDatabaseContext>());
+				DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions<SqliteDatabaseContext>(
+					DatabaseType.Sqlite,
+					"Data Source=tgs_design.sqlite3;Mode=ReadWriteCreate"));
 		}
 	}
 }

@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Tgstation.Server.Host.Database.Migrations
 {
 	/// <summary>
-	/// Create initial schema for PostgreSQL.
+	/// Create initial schema for PostgresSQL.
 	/// </summary>
 	public partial class PGCreate : Migration
 	{

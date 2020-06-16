@@ -1,5 +1,4 @@
-﻿using Byond.TopicSender;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -38,9 +37,9 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly IByondManager byond;
 
 		/// <summary>
-		/// The <see cref="ITopicClient"/> for the <see cref="SessionControllerFactory"/>
+		/// The <see cref="ITopicClientFactory"/> for the <see cref="SessionControllerFactory"/>
 		/// </summary>
-		readonly ITopicClient byondTopicSender;
+		readonly ITopicClientFactory topicClientFactory;
 
 		/// <summary>
 		/// The <see cref="ICryptographySuite"/> for the <see cref="SessionControllerFactory"/>
@@ -136,7 +135,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// </summary>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
 		/// <param name="byond">The value of <see cref="byond"/></param>
-		/// <param name="byondTopicSender">The value of <see cref="byondTopicSender"/></param>
+		/// <param name="topicClientFactory">The value of <see cref="topicClientFactory"/>.</param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
 		/// <param name="instance">The value of <see cref="instance"/></param>
@@ -151,7 +150,7 @@ namespace Tgstation.Server.Host.Components.Session
 		public SessionControllerFactory(
 			IProcessExecutor processExecutor,
 			IByondManager byond,
-			ITopicClient byondTopicSender,
+			ITopicClientFactory topicClientFactory,
 			ICryptographySuite cryptographySuite,
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IIOManager ioManager,
@@ -166,7 +165,7 @@ namespace Tgstation.Server.Host.Components.Session
 		{
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
-			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
+			this.topicClientFactory = topicClientFactory ?? throw new ArgumentNullException(nameof(topicClientFactory));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
@@ -226,6 +225,10 @@ namespace Tgstation.Server.Host.Components.Session
 					await CheckPagerIsNotRunning(cancellationToken).ConfigureAwait(false);
 
 					var accessIdentifier = cryptographySuite.GetSecureString();
+
+					var byondTopicSender = topicClientFactory.CreateTopicClient(
+						TimeSpan.FromMilliseconds(
+							launchParameters.TopicRequestTimeout.Value));
 
 					// set command line options
 					// more sanitization here cause it uses the same scheme
@@ -365,11 +368,13 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <inheritdoc />
 		public async Task<ISessionController> Reattach(
 			ReattachInformation reattachInformation,
+			TimeSpan topicRequestTimeout,
 			CancellationToken cancellationToken)
 		{
 			if (reattachInformation == null)
 				throw new ArgumentNullException(nameof(reattachInformation));
 
+			var byondTopicSender = topicClientFactory.CreateTopicClient(topicRequestTimeout);
 			var chatTrackingContext = chat.CreateTrackingContext();
 			try
 			{

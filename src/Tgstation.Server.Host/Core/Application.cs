@@ -1,5 +1,4 @@
-﻿using Byond.TopicSender;
-using Cyberboss.AspNetCore.AsyncInitializer;
+﻿using Cyberboss.AspNetCore.AsyncInitializer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
@@ -18,7 +17,6 @@ using Serilog.Formatting.Display;
 using System;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
-using System.Reflection;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
@@ -29,6 +27,7 @@ using Tgstation.Server.Host.Components.Chat.Providers;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Components.Interop.Converters;
 using Tgstation.Server.Host.Components.Repository;
+using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
@@ -208,14 +207,7 @@ namespace Tgstation.Server.Host.Core
 
 			void AddTypedContext<TContext>() where TContext : DatabaseContext
 			{
-				// HACK HACK HACK HACK HACK
-				const string ConfigureMethodName = nameof(SqlServerDatabaseContext.ConfigureWith);
-				var configureFunction = typeof(TContext).GetMethod(
-					ConfigureMethodName,
-					BindingFlags.Public | BindingFlags.Static);
-
-				if (configureFunction == null)
-					throw new InvalidOperationException($"Context type {typeof(TContext).FullName} missing static {ConfigureMethodName} function!");
+				var configureAction = DatabaseContext.GetConfigureAction<TContext>();
 
 				services.AddDbContextPool<TContext>((serviceProvider, builder) =>
 				{
@@ -224,7 +216,7 @@ namespace Tgstation.Server.Host.Core
 
 					var databaseConfigOptions = serviceProvider.GetRequiredService<IOptions<DatabaseConfiguration>>();
 					var databaseConfig = databaseConfigOptions.Value ?? throw new InvalidOperationException("DatabaseConfiguration missing!");
-					configureFunction.Invoke(null, new object[] { builder, databaseConfig });
+					configureAction(builder, databaseConfig);
 				});
 				services.AddScoped<IDatabaseContext>(x => x.GetRequiredService<TContext>());
 			}
@@ -300,14 +292,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
 			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
-			services.AddSingleton<ITopicClient, TopicClient>();
-			services.AddSingleton(new SocketParameters
-			{
-				ReceiveTimeout = TimeSpan.FromMilliseconds(postSetupServices.GeneralConfiguration.ByondTopicTimeout),
-				SendTimeout = TimeSpan.FromMilliseconds(postSetupServices.GeneralConfiguration.ByondTopicTimeout),
-				ConnectTimeout = TimeSpan.FromMilliseconds(postSetupServices.GeneralConfiguration.ByondTopicTimeout),
-				DisconnectTimeout = TimeSpan.FromMilliseconds(postSetupServices.GeneralConfiguration.ByondTopicTimeout)
-			});
+			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
 
 			// configure component services
 			services.AddSingleton<ILibGit2RepositoryFactory, LibGit2RepositoryFactory>();

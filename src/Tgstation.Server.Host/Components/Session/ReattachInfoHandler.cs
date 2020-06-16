@@ -94,11 +94,24 @@ namespace Tgstation.Server.Host.Components.Session
 		public async Task<DualReattachInformation> Load(CancellationToken cancellationToken)
 		{
 			Models.DualReattachInformation result = null;
+			TimeSpan? topicTimeout = null;
 			await databaseContextFactory.UseContext(async (db) =>
 			{
-				var instance = await db.Instances
+				IQueryable<Models.Instance> InstanceQuery() => db.Instances
 					.AsQueryable()
-					.Where(x => x.Id == metadata.Id)
+					.Where(x => x.Id == metadata.Id);
+
+				var timeoutMilliseconds = await InstanceQuery()
+					.Select(x => x.DreamDaemonSettings.TopicRequestTimeout)
+					.FirstOrDefaultAsync(cancellationToken)
+					.ConfigureAwait(false);
+
+				if (timeoutMilliseconds == default)
+					return;
+
+				topicTimeout = TimeSpan.FromMilliseconds(timeoutMilliseconds.Value);
+
+				var instance = await InstanceQuery()
 					.Include(x => x.WatchdogReattachInformation).ThenInclude(x => x.Alpha).ThenInclude(x => x.CompileJob)
 					.Include(x => x.WatchdogReattachInformation).ThenInclude(x => x.Bravo).ThenInclude(x => x.CompileJob)
 					.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
@@ -121,7 +134,14 @@ namespace Tgstation.Server.Host.Components.Session
 				: Task.FromResult<IDmbProvider>(null);
 
 			var bravoDmbTask = GetDmbForReattachInfo(result.Bravo);
-			var info = new DualReattachInformation(result, await GetDmbForReattachInfo(result.Alpha).ConfigureAwait(false), await bravoDmbTask.ConfigureAwait(false));
+			var info = new DualReattachInformation(
+				result,
+				await GetDmbForReattachInfo(result.Alpha).ConfigureAwait(false),
+				await bravoDmbTask.ConfigureAwait(false))
+			{
+				TopicRequestTimeout = topicTimeout.Value
+			};
+
 			logger.LogDebug("Reattach information loaded: {0}", info);
 			return info;
 		}

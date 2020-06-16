@@ -37,12 +37,12 @@ namespace Tgstation.Server.Host.Configuration
 		/// <summary>
 		/// The default value for <see cref="ByondTopicTimeout"/>
 		/// </summary>
-		const int DefaultByondTopicTimeout = 5000;
+		const uint DefaultByondTopicTimeout = 5000;
 
 		/// <summary>
 		/// The default value for <see cref="RestartTimeout"/>
 		/// </summary>
-		const int DefaultRestartTimeout = 60000;
+		const uint DefaultRestartTimeout = 60000;
 
 		/// <summary>
 		/// The port the TGS API listens on.
@@ -63,12 +63,12 @@ namespace Tgstation.Server.Host.Configuration
 		/// <summary>
 		/// The timeout in milliseconds for sending and receiving topics to/from DreamDaemon. Note that a single topic exchange can take up to twice this value
 		/// </summary>
-		public int ByondTopicTimeout { get; set; } = DefaultByondTopicTimeout;
+		public uint ByondTopicTimeout { get; set; } = DefaultByondTopicTimeout;
 
 		/// <summary>
 		/// The timeout milliseconds for restarting the server
 		/// </summary>
-		public int RestartTimeout { get; set; } = DefaultRestartTimeout;
+		public uint RestartTimeout { get; set; } = DefaultRestartTimeout;
 
 		/// <summary>
 		/// If the <see cref="Components.Watchdog.ExperimentalWatchdog"/> should be used.

@@ -253,11 +253,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						cancellationToken);
 				}
 				else
-					serverLaunchTask = SessionControllerFactory.Reattach(serverToReattach, cancellationToken);
+					serverLaunchTask = SessionControllerFactory.Reattach(serverToReattach, reattachInfo.TopicRequestTimeout, cancellationToken);
 
 				bool thereIsAnInactiveServerToKill = serverToKill != null;
 				if (thereIsAnInactiveServerToKill)
-					inactiveReattachTask = SessionControllerFactory.Reattach(serverToKill, cancellationToken);
+					inactiveReattachTask = SessionControllerFactory.Reattach(serverToKill, reattachInfo.TopicRequestTimeout, cancellationToken);
 				else
 					inactiveReattachTask = Task.FromResult<ISessionController>(null);
 

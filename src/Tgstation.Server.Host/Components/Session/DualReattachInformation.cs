@@ -21,6 +21,11 @@ namespace Tgstation.Server.Host.Components.Session
 		public ReattachInformation Bravo { get; set; }
 
 		/// <summary>
+		/// The timeout used for topic request.
+		/// </summary>
+		public TimeSpan TopicRequestTimeout { get; set; }
+
+		/// <summary>
 		/// Construct a <see cref="DualReattachInformation"/>
 		/// </summary>
 		public DualReattachInformation() { }
