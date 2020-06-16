@@ -236,6 +236,9 @@ namespace Tgstation.Server.Client
 		public Task<TResult> Update<TBody, TResult>(string route, TBody body, CancellationToken cancellationToken) => RunRequest<TResult>(route, body, HttpMethod.Post, null, false, cancellationToken);
 
 		/// <inheritdoc />
+		public Task Patch(string route, CancellationToken cancellationToken) => RunRequest<object>(route, null, HttpMethod.Patch, null, false, cancellationToken);
+
+		/// <inheritdoc />
 		public Task Update<TBody>(string route, TBody body, CancellationToken cancellationToken) => RunRequest<object>(route, body, HttpMethod.Post, null, false, cancellationToken);
 
 		/// <inheritdoc />

@@ -274,7 +274,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				committerEmail);
 
 			if (!IsGitHubRepository)
-				throw new InvalidOperationException("Test merging is only available on GitHub hosted origin repositories!");
+				throw new JobException(ErrorCode.RepoTestMergeInvalidRemote);
 
 			var commitMessage = String.Format(
 				CultureInfo.InvariantCulture,

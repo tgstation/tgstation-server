@@ -114,17 +114,22 @@ namespace Tgstation.Server.Host.Controllers
 			return path;
 		}
 
-		Models.InstanceUser InstanceAdminUser() => new Models.InstanceUser
+		Models.InstanceUser InstanceAdminUser(Models.InstanceUser userToModify)
 		{
-			ByondRights = (ByondRights)~0U,
-			ChatBotRights = (ChatBotRights)~0U,
-			ConfigurationRights = (ConfigurationRights)~0U,
-			DreamDaemonRights = (DreamDaemonRights)~0U,
-			DreamMakerRights = (DreamMakerRights)~0U,
-			RepositoryRights = (RepositoryRights)~0U,
-			InstanceUserRights = (InstanceUserRights)~0U,
-			UserId = AuthenticationContext.User.Id
-		};
+			if (userToModify == null)
+				userToModify = new Models.InstanceUser()
+				{
+					UserId = AuthenticationContext.User.Id
+				};
+			userToModify.ByondRights = RightsHelper.AllRights<ByondRights>();
+			userToModify.ChatBotRights = RightsHelper.AllRights<ChatBotRights>();
+			userToModify.ConfigurationRights = RightsHelper.AllRights<ConfigurationRights>();
+			userToModify.DreamDaemonRights = RightsHelper.AllRights<DreamDaemonRights>();
+			userToModify.DreamMakerRights = RightsHelper.AllRights<DreamMakerRights>();
+			userToModify.RepositoryRights = RightsHelper.AllRights<RepositoryRights>();
+			userToModify.InstanceUserRights = RightsHelper.AllRights<InstanceUserRights>();
+			return userToModify;
+		}
 
 		/// <summary>
 		/// Create or attach an <see cref="Api.Models.Instance"/>.
@@ -267,7 +272,7 @@ namespace Tgstation.Server.Host.Controllers
 				},
 				InstanceUsers = new List<Models.InstanceUser> // give this user full privileges on the instance
 				{
-					InstanceAdminUser()
+					InstanceAdminUser(null)
 				}
 			};
 
@@ -458,21 +463,6 @@ namespace Tgstation.Server.Host.Controllers
 					return Conflict(new ErrorMessage(ErrorCode.ChatBotMax));
 			}
 
-			// ensure the current user has write privilege on the instance
-			var usersInstanceUser = await InstanceQuery()
-				.SelectMany(x => x.InstanceUsers)
-				.Where(x => x.UserId == AuthenticationContext.User.Id)
-				.FirstOrDefaultAsync(cancellationToken)
-				.ConfigureAwait(false);
-			if (usersInstanceUser == default)
-			{
-				var instanceAdminUser = InstanceAdminUser();
-				instanceAdminUser.InstanceId = originalModel.Id;
-				DatabaseContext.InstanceUsers.Add(instanceAdminUser);
-			}
-			else
-				usersInstanceUser.InstanceUserRights |= InstanceUserRights.WriteUsers;
-
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
 			if (renamed)
@@ -633,6 +623,41 @@ namespace Tgstation.Server.Host.Controllers
 				.ConfigureAwait(false);
 			api.MoveJob = moveJob?.ToApi();
 			return Json(api);
+		}
+
+		/// <summary>
+		/// Gives the current user full permissions on a given instance <paramref name="id"/>.
+		/// </summary>
+		/// <param name="id">The instance <see cref="EntityId.Id"/> to give permissions on.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="204">Granted permissions successfully.</response>
+		[HttpPatch("{id}")]
+		[TgsAuthorize(InstanceManagerRights.GrantPermissions)]
+		[ProducesResponseType(204)]
+		public async Task<IActionResult> GrantPermissions(long id, CancellationToken cancellationToken)
+		{
+			// ensure the current user has write privilege on the instance
+			var usersInstanceUser = await DatabaseContext
+				.Instances
+				.AsQueryable()
+				.Where(x => x.Id == id)
+				.SelectMany(x => x.InstanceUsers)
+				.Where(x => x.UserId == AuthenticationContext.User.Id)
+				.FirstOrDefaultAsync(cancellationToken)
+				.ConfigureAwait(false);
+			if (usersInstanceUser == default)
+			{
+				var instanceAdminUser = InstanceAdminUser(null);
+				instanceAdminUser.InstanceId = id;
+				DatabaseContext.InstanceUsers.Add(instanceAdminUser);
+			}
+			else
+				InstanceAdminUser(usersInstanceUser);
+
+			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+
+			return NoContent();
 		}
 	}
 }

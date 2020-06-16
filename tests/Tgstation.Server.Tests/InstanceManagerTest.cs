@@ -143,11 +143,13 @@ namespace Tgstation.Server.Tests
 
 			await Assert.ThrowsExceptionAsync<InsufficientPermissionsException>(() => instanceClient.Users.Read(cancellationToken)).ConfigureAwait(false);
 
-			await instanceManagerClient.Update(new Api.Models.Instance
+			await instanceManagerClient.GrantPermissions(new Api.Models.Instance
 			{
 				Id = firstTest.Id
 			}, cancellationToken).ConfigureAwait(false);
 			ourInstanceUser = await instanceClient.Users.Read(cancellationToken).ConfigureAwait(false);
+
+			Assert.AreEqual(RightsHelper.AllRights<DreamDaemonRights>(), ourInstanceUser.DreamDaemonRights.Value);
 
 			//can't detach online instance
 			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.Detach(firstTest, cancellationToken), ErrorCode.InstanceDetachOnline).ConfigureAwait(false);

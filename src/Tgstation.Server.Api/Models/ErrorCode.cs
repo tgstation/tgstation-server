@@ -531,5 +531,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("Could not create dump as gcore exited with a non-zero exit code!")]
 		GCoreFailure,
+
+		/// <summary>
+		/// Attempted to test merge with an invalid remote repository.
+		/// </summary>
+		[Description("Test merging cannot be performed with this remote!")]
+		RepoTestMergeInvalidRemote,
 	}
 }
