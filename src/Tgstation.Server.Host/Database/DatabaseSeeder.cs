@@ -133,15 +133,25 @@ namespace Tgstation.Server.Host.Database
 					instance.Path = instance.Path.Replace('\\', '/');
 			}
 
-			// Update settings from config
-			var rowsUpdated = await databaseContext
+			var ids = await databaseContext
 				.DreamDaemonSettings
 				.AsQueryable()
 				.Where(x => x.TopicRequestTimeout == 0)
-				.UpdateAsync(
-					settings => new DreamDaemonSettings { TopicRequestTimeout = generalConfiguration.ByondTopicTimeout },
-					cancellationToken)
+				.Select(x => x.Id)
+				.ToListAsync(cancellationToken)
 				.ConfigureAwait(false);
+
+			var rowsUpdated = ids.Count;
+			foreach (var id in ids)
+			{
+				var newDDSettings = new DreamDaemonSettings
+				{
+					Id = id
+				};
+
+				databaseContext.DreamDaemonSettings.Attach(newDDSettings);
+				newDDSettings.TopicRequestTimeout = generalConfiguration.ByondTopicTimeout;
+			}
 
 			if (rowsUpdated > 0)
 				logger.LogInformation(
