@@ -52,6 +52,7 @@ namespace Tgstation.Server.Host.Controllers
 			var result = await DatabaseContext
 				.Jobs
 				.AsQueryable()
+				.Include(x => x.StartedBy)
 				.Where(x => x.Instance.Id == Instance.Id && !x.StoppedAt.HasValue)
 				.OrderByDescending(x => x.StartedAt)
 				.ToListAsync(cancellationToken)
