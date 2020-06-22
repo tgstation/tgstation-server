@@ -54,7 +54,7 @@ tgstation-server is a BYOND server managment suite. It includes all the followin
 		- Checking out SHAs and references
 		- Local Merging
 		- Hard resetting to references
-		- Merging GitHub pull requests, optionally commenting on them
+		- Merging GitHub pull requests locally, optionally commenting on them
 		- Optionally pushing commits for GitHub visibility
 		- Can be deleted and changed to a different origin
 	- BYOND version management
@@ -69,10 +69,11 @@ tgstation-server is a BYOND server managment suite. It includes all the followin
 	- The Watchdog, a DreamDaemon uptime monitor
 		- Automatically restarts the server when crashed until told to stop
 		- "Heartbeat" system for checking DreamDaemon isn't hung
-		- Automatic application of new deployments on /world/Reboot
+		- Seamless automatic application of new deployments on /world/Reboot
 		- Automatic startup at server boot time
 		- Automatically handles Windows prompts related to trusted mode
 		- TGS restarts/updates do not interrupt the DreamDaemon process
+		- Raises process priority of DreamDaemon for increased performance
 	- Chat System
 		- Support multiple chat bots per instance. Current providers:
 			- Discord
