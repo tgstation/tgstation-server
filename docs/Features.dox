@@ -77,6 +77,7 @@ tgstation-server is a BYOND server managment suite. It includes all the followin
 	- Chat System
 		- Support multiple chat bots per instance. Current providers:
 			- Discord
+				- Supports rich embeds when deployments occur
 			- IRC
 		- Bots come out of the box with some basic commands like showing the server revision
 		- Support different chat channel types & tags for use in DM code
