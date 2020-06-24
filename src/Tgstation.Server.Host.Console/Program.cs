@@ -24,40 +24,36 @@ namespace Tgstation.Server.Host.Console
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		internal static async Task Main(string[] args)
 		{
-			using (var loggerFactory = new LoggerFactory())
-			{
-				var arguments = new List<string>(args);
-				var trace = arguments.Remove("--trace-host-watchdog");
-				var debug = arguments.Remove("--debug-host-watchdog");
+			using var loggerFactory = new LoggerFactory();
+			var arguments = new List<string>(args);
+			var trace = arguments.Remove("--trace-host-watchdog");
+			var debug = arguments.Remove("--debug-host-watchdog");
 
 #pragma warning disable CS0618 // Type or member is obsolete
-				loggerFactory.AddConsole(trace ? LogLevel.Trace : debug ? LogLevel.Debug : LogLevel.Information, true);
+			loggerFactory.AddConsole();
 #pragma warning restore CS0618 // Type or member is obsolete
 
-				if (trace && debug)
-				{
-					loggerFactory.CreateLogger(nameof(Program)).LogCritical("Please specify only 1 of --trace-host-watchdog or --debug-host-watchdog!");
-					return;
-				}
+			if (trace && debug)
+			{
+				loggerFactory.CreateLogger(nameof(Program)).LogCritical("Please specify only 1 of --trace-host-watchdog or --debug-host-watchdog!");
+				return;
+			}
 
-				using (var cts = new CancellationTokenSource())
+			using var cts = new CancellationTokenSource();
+			void AppDomainHandler(object a, EventArgs b) => cts.Cancel();
+			AppDomain.CurrentDomain.ProcessExit += AppDomainHandler;
+			try
+			{
+				System.Console.CancelKeyPress += (a, b) =>
 				{
-					void AppDomainHandler(object a, EventArgs b) => cts.Cancel();
-					AppDomain.CurrentDomain.ProcessExit += AppDomainHandler;
-					try
-					{
-						System.Console.CancelKeyPress += (a, b) =>
-						{
-							b.Cancel = true;
-							cts.Cancel();
-						};
-						await WatchdogFactory.CreateWatchdog(loggerFactory).RunAsync(false, arguments.ToArray(), cts.Token).ConfigureAwait(false);
-					}
-					finally
-					{
-						AppDomain.CurrentDomain.ProcessExit -= AppDomainHandler;
-					}
-				}
+					b.Cancel = true;
+					cts.Cancel();
+				};
+				await WatchdogFactory.CreateWatchdog(loggerFactory).RunAsync(false, arguments.ToArray(), cts.Token).ConfigureAwait(false);
+			}
+			finally
+			{
+				AppDomain.CurrentDomain.ProcessExit -= AppDomainHandler;
 			}
 		}
 	}
