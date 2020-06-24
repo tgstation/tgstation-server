@@ -470,7 +470,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						false,
 						cancellationToken);
 				else
-					alphaServerTask = SessionControllerFactory.Reattach(reattachInfo.Alpha, cancellationToken);
+					alphaServerTask = SessionControllerFactory.Reattach(reattachInfo.Alpha, reattachInfo.TopicRequestTimeout, cancellationToken);
 
 				// retrieve the session controller
 				var startTime = DateTimeOffset.Now;
@@ -499,7 +499,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						cancellationToken)
 						.ConfigureAwait(false);
 				else
-					bravoServer = await SessionControllerFactory.Reattach(reattachInfo.Bravo, cancellationToken).ConfigureAwait(false);
+					bravoServer = await SessionControllerFactory.Reattach(
+						reattachInfo.Bravo,
+						reattachInfo.TopicRequestTimeout,
+						cancellationToken).ConfigureAwait(false);
 
 				// failed reattaches will return null
 				bravoServer?.SetHighPriority();

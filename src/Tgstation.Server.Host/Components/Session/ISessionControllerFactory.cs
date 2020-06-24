@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Byond;
@@ -35,10 +36,12 @@ namespace Tgstation.Server.Host.Components.Session
 		/// Create a <see cref="ISessionController"/> from an existing DreamDaemon instance
 		/// </summary>
 		/// <param name="reattachInformation">The <see cref="ReattachInformation"/> to use</param>
+		/// <param name="topicRequestTimeout">The timeout for sending topic requests.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="ISessionController"/> on success or <see langword="null"/> on failure to reattach</returns>
 		Task<ISessionController> Reattach(
 			ReattachInformation reattachInformation,
+			TimeSpan topicRequestTimeout,
 			CancellationToken cancellationToken);
 
 		/// <summary>

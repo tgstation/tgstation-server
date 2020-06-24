@@ -137,6 +137,7 @@ namespace Tgstation.Server.Host.Controllers
 				result.SoftShutdown = rstate == RebootState.Shutdown;
 				result.StartupTimeout = settings.StartupTimeout.Value;
 				result.HeartbeatSeconds = settings.HeartbeatSeconds.Value;
+				result.TopicRequestTimeout = settings.TopicRequestTimeout.Value;
 			}
 
 			if (revision)
@@ -175,7 +176,17 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="200">Settings applied successfully.</response>
 		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpPost]
-		[TgsAuthorize(DreamDaemonRights.SetAutoStart | DreamDaemonRights.SetPorts | DreamDaemonRights.SetSecurity | DreamDaemonRights.SetWebClient | DreamDaemonRights.SoftRestart | DreamDaemonRights.SoftShutdown | DreamDaemonRights.Start | DreamDaemonRights.SetStartupTimeout | DreamDaemonRights.SetHeartbeatInterval)]
+		[TgsAuthorize(
+			DreamDaemonRights.SetAutoStart
+			| DreamDaemonRights.SetPorts
+			| DreamDaemonRights.SetSecurity
+			| DreamDaemonRights.SetWebClient
+			| DreamDaemonRights.SoftRestart
+			| DreamDaemonRights.SoftShutdown
+			| DreamDaemonRights.Start
+			| DreamDaemonRights.SetStartupTimeout
+			| DreamDaemonRights.SetHeartbeatInterval
+			| DreamDaemonRights.SetTopicTimeout)]
 		[ProducesResponseType(typeof(DreamDaemon), 200)]
 		[ProducesResponseType(typeof(ErrorMessage), 410)]
 		#pragma warning disable CA1502 // TODO: Decomplexify
@@ -237,7 +248,8 @@ namespace Tgstation.Server.Host.Controllers
 				|| (model.SoftRestart.HasValue && !AuthenticationContext.InstanceUser.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftRestart))
 				|| (model.SoftShutdown.HasValue && !AuthenticationContext.InstanceUser.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftShutdown))
 				|| CheckModified(x => x.StartupTimeout, DreamDaemonRights.SetStartupTimeout)
-				|| CheckModified(x => x.HeartbeatSeconds, DreamDaemonRights.SetHeartbeatInterval))
+				|| CheckModified(x => x.HeartbeatSeconds, DreamDaemonRights.SetHeartbeatInterval)
+				|| CheckModified(x => x.TopicRequestTimeout, DreamDaemonRights.SetTopicTimeout))
 				return Forbid();
 
 			if (current.PrimaryPort == current.SecondaryPort)

@@ -2,50 +2,52 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
-	[DbContext(typeof(PostgresSqlDatabaseContext))]
-	partial class PostgresSqlDatabaseContextModelSnapshot : ModelSnapshot
+	[DbContext(typeof(SqlServerDatabaseContext))]
+	[Migration("20200616175424_MSTopicTimeout")]
+	partial class MSTopicTimeout
 	{
 		/// <inheritdoc />
-		protected override void BuildModel(ModelBuilder modelBuilder)
+		protected override void BuildTargetModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
 				.HasAnnotation("ProductVersion", "3.1.4")
-				.HasAnnotation("Relational:MaxIdentifierLength", 63);
+				.HasAnnotation("Relational:MaxIdentifierLength", 128)
+				.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
 				{
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
 						.HasColumnType("bigint")
-						.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+						.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
 					b.Property<int>("ChannelLimit")
-						.HasColumnType("integer");
+						.HasColumnType("int");
 
 					b.Property<string>("ConnectionString")
 						.IsRequired()
-						.HasColumnType("character varying(10000)")
+						.HasColumnType("nvarchar(max)")
 						.HasMaxLength(10000);
 
 					b.Property<bool?>("Enabled")
-						.HasColumnType("boolean");
+						.HasColumnType("bit");
 
 					b.Property<long>("InstanceId")
 						.HasColumnType("bigint");
 
 					b.Property<string>("Name")
 						.IsRequired()
-						.HasColumnType("character varying(100)")
+						.HasColumnType("nvarchar(100)")
 						.HasMaxLength(100);
 
 					b.Property<int>("Provider")
-						.HasColumnType("integer");
+						.HasColumnType("int");
 
 					b.Property<long>("ReconnectionInterval")
 						.HasColumnType("bigint");
@@ -63,41 +65,43 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
 						.HasColumnType("bigint")
-						.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+						.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
 					b.Property<long>("ChatSettingsId")
 						.HasColumnType("bigint");
 
 					b.Property<decimal?>("DiscordChannelId")
-						.HasColumnType("numeric(20,0)");
+						.HasColumnType("decimal(20,0)");
 
 					b.Property<string>("IrcChannel")
-						.HasColumnType("character varying(100)")
+						.HasColumnType("nvarchar(100)")
 						.HasMaxLength(100);
 
 					b.Property<bool?>("IsAdminChannel")
 						.IsRequired()
-						.HasColumnType("boolean");
+						.HasColumnType("bit");
 
 					b.Property<bool?>("IsUpdatesChannel")
 						.IsRequired()
-						.HasColumnType("boolean");
+						.HasColumnType("bit");
 
 					b.Property<bool?>("IsWatchdogChannel")
 						.IsRequired()
-						.HasColumnType("boolean");
+						.HasColumnType("bit");
 
 					b.Property<string>("Tag")
-						.HasColumnType("character varying(10000)")
+						.HasColumnType("nvarchar(max)")
 						.HasMaxLength(10000);
 
 					b.HasKey("Id");
 
 					b.HasIndex("ChatSettingsId", "DiscordChannelId")
-						.IsUnique();
+						.IsUnique()
+						.HasFilter("[DiscordChannelId] IS NOT NULL");
 
 					b.HasIndex("ChatSettingsId", "IrcChannel")
-						.IsUnique();
+						.IsUnique()
+						.HasFilter("[IrcChannel] IS NOT NULL");
 
 					b.ToTable("ChatChannels");
 				});
@@ -107,38 +111,38 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
 						.HasColumnType("bigint")
-						.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+						.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
 					b.Property<string>("ByondVersion")
 						.IsRequired()
-						.HasColumnType("text");
+						.HasColumnType("nvarchar(max)");
 
 					b.Property<int?>("DMApiMajorVersion")
-						.HasColumnType("integer");
+						.HasColumnType("int");
 
 					b.Property<int?>("DMApiMinorVersion")
-						.HasColumnType("integer");
+						.HasColumnType("int");
 
 					b.Property<int?>("DMApiPatchVersion")
-						.HasColumnType("integer");
+						.HasColumnType("int");
 
 					b.Property<Guid?>("DirectoryName")
 						.IsRequired()
-						.HasColumnType("uuid");
+						.HasColumnType("uniqueidentifier");
 
 					b.Property<string>("DmeName")
 						.IsRequired()
-						.HasColumnType("text");
+						.HasColumnType("nvarchar(max)");
 
 					b.Property<long>("JobId")
 						.HasColumnType("bigint");
 
 					b.Property<int>("MinimumSecurityLevel")
-						.HasColumnType("integer");
+						.HasColumnType("int");
 
 					b.Property<string>("Output")
 						.IsRequired()
-						.HasColumnType("text");
+						.HasColumnType("nvarchar(max)");
 
 					b.Property<long>("RevisionInformationId")
 						.HasColumnType("bigint");
@@ -160,15 +164,15 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
 						.HasColumnType("bigint")
-						.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+						.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
 					b.Property<bool?>("AllowWebClient")
 						.IsRequired()
-						.HasColumnType("boolean");
+						.HasColumnType("bit");
 
 					b.Property<bool?>("AutoStart")
 						.IsRequired()
-						.HasColumnType("boolean");
+						.HasColumnType("bit");
 
 					b.Property<long>("HeartbeatSeconds")
 						.HasColumnType("bigint");
@@ -177,13 +181,13 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.HasColumnType("bigint");
 
 					b.Property<int>("PrimaryPort")
-						.HasColumnType("integer");
+						.HasColumnType("int");
 
 					b.Property<int>("SecondaryPort")
-						.HasColumnType("integer");
+						.HasColumnType("int");
 
 					b.Property<int>("SecurityLevel")
-						.HasColumnType("integer");
+						.HasColumnType("int");
 
 					b.Property<long>("StartupTimeout")
 						.HasColumnType("bigint");
@@ -204,19 +208,19 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
 						.HasColumnType("bigint")
-						.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+						.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
 					b.Property<int>("ApiValidationPort")
-						.HasColumnType("integer");
+						.HasColumnType("int");
 
 					b.Property<int>("ApiValidationSecurityLevel")
-						.HasColumnType("integer");
+						.HasColumnType("int");
 
 					b.Property<long>("InstanceId")
 						.HasColumnType("bigint");
 
 					b.Property<string>("ProjectName")
-						.HasColumnType("character varying(10000)")
+						.HasColumnType("nvarchar(max)")
 						.HasMaxLength(10000);
 
 					b.HasKey("Id");
@@ -232,13 +236,13 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
 						.HasColumnType("bigint")
-						.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+						.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
 					b.Property<long?>("AlphaId")
 						.HasColumnType("bigint");
 
 					b.Property<bool>("AlphaIsActive")
-						.HasColumnType("boolean");
+						.HasColumnType("bit");
 
 					b.Property<long?>("BravoId")
 						.HasColumnType("bigint");
@@ -263,29 +267,29 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
 						.HasColumnType("bigint")
-						.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+						.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
 					b.Property<long>("AutoUpdateInterval")
 						.HasColumnType("bigint");
 
 					b.Property<int>("ChatBotLimit")
-						.HasColumnType("integer");
+						.HasColumnType("int");
 
 					b.Property<int>("ConfigurationType")
-						.HasColumnType("integer");
+						.HasColumnType("int");
 
 					b.Property<string>("Name")
 						.IsRequired()
-						.HasColumnType("character varying(10000)")
+						.HasColumnType("nvarchar(max)")
 						.HasMaxLength(10000);
 
 					b.Property<bool?>("Online")
 						.IsRequired()
-						.HasColumnType("boolean");
+						.HasColumnType("bit");
 
 					b.Property<string>("Path")
 						.IsRequired()
-						.HasColumnType("text");
+						.HasColumnType("nvarchar(450)");
 
 					b.HasKey("Id");
 
@@ -300,31 +304,31 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
 						.HasColumnType("bigint")
-						.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+						.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
 					b.Property<decimal>("ByondRights")
-						.HasColumnType("numeric(20,0)");
+						.HasColumnType("decimal(20,0)");
 
 					b.Property<decimal>("ChatBotRights")
-						.HasColumnType("numeric(20,0)");
+						.HasColumnType("decimal(20,0)");
 
 					b.Property<decimal>("ConfigurationRights")
-						.HasColumnType("numeric(20,0)");
+						.HasColumnType("decimal(20,0)");
 
 					b.Property<decimal>("DreamDaemonRights")
-						.HasColumnType("numeric(20,0)");
+						.HasColumnType("decimal(20,0)");
 
 					b.Property<decimal>("DreamMakerRights")
-						.HasColumnType("numeric(20,0)");
+						.HasColumnType("decimal(20,0)");
 
 					b.Property<long>("InstanceId")
 						.HasColumnType("bigint");
 
 					b.Property<decimal>("InstanceUserRights")
-						.HasColumnType("numeric(20,0)");
+						.HasColumnType("decimal(20,0)");
 
 					b.Property<decimal>("RepositoryRights")
-						.HasColumnType("numeric(20,0)");
+						.HasColumnType("decimal(20,0)");
 
 					b.Property<long?>("UserId")
 						.IsRequired()
@@ -345,43 +349,43 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
 						.HasColumnType("bigint")
-						.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+						.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
 					b.Property<decimal?>("CancelRight")
-						.HasColumnType("numeric(20,0)");
+						.HasColumnType("decimal(20,0)");
 
 					b.Property<decimal?>("CancelRightsType")
-						.HasColumnType("numeric(20,0)");
+						.HasColumnType("decimal(20,0)");
 
 					b.Property<bool?>("Cancelled")
 						.IsRequired()
-						.HasColumnType("boolean");
+						.HasColumnType("bit");
 
 					b.Property<long?>("CancelledById")
 						.HasColumnType("bigint");
 
 					b.Property<string>("Description")
 						.IsRequired()
-						.HasColumnType("text");
+						.HasColumnType("nvarchar(max)");
 
 					b.Property<long?>("ErrorCode")
 						.HasColumnType("bigint");
 
 					b.Property<string>("ExceptionDetails")
-						.HasColumnType("text");
+						.HasColumnType("nvarchar(max)");
 
 					b.Property<long>("InstanceId")
 						.HasColumnType("bigint");
 
 					b.Property<DateTimeOffset?>("StartedAt")
 						.IsRequired()
-						.HasColumnType("timestamp with time zone");
+						.HasColumnType("datetimeoffset");
 
 					b.Property<long>("StartedById")
 						.HasColumnType("bigint");
 
 					b.Property<DateTimeOffset?>("StoppedAt")
-						.HasColumnType("timestamp with time zone");
+						.HasColumnType("datetimeoffset");
 
 					b.HasKey("Id");
 
@@ -399,29 +403,29 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
 						.HasColumnType("bigint")
-						.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+						.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
 					b.Property<string>("AccessIdentifier")
 						.IsRequired()
-						.HasColumnType("text");
+						.HasColumnType("nvarchar(max)");
 
 					b.Property<long>("CompileJobId")
 						.HasColumnType("bigint");
 
 					b.Property<bool>("IsPrimary")
-						.HasColumnType("boolean");
+						.HasColumnType("bit");
 
 					b.Property<int>("LaunchSecurityLevel")
-						.HasColumnType("integer");
+						.HasColumnType("int");
 
 					b.Property<int>("Port")
-						.HasColumnType("integer");
+						.HasColumnType("int");
 
 					b.Property<int>("ProcessId")
-						.HasColumnType("integer");
+						.HasColumnType("int");
 
 					b.Property<int>("RebootState")
-						.HasColumnType("integer");
+						.HasColumnType("int");
 
 					b.HasKey("Id");
 
@@ -435,32 +439,32 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
 						.HasColumnType("bigint")
-						.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+						.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
 					b.Property<string>("AccessToken")
-						.HasColumnType("character varying(10000)")
+						.HasColumnType("nvarchar(max)")
 						.HasMaxLength(10000);
 
 					b.Property<string>("AccessUser")
-						.HasColumnType("character varying(10000)")
+						.HasColumnType("nvarchar(max)")
 						.HasMaxLength(10000);
 
 					b.Property<bool?>("AutoUpdatesKeepTestMerges")
 						.IsRequired()
-						.HasColumnType("boolean");
+						.HasColumnType("bit");
 
 					b.Property<bool?>("AutoUpdatesSynchronize")
 						.IsRequired()
-						.HasColumnType("boolean");
+						.HasColumnType("bit");
 
 					b.Property<string>("CommitterEmail")
 						.IsRequired()
-						.HasColumnType("character varying(10000)")
+						.HasColumnType("nvarchar(max)")
 						.HasMaxLength(10000);
 
 					b.Property<string>("CommitterName")
 						.IsRequired()
-						.HasColumnType("character varying(10000)")
+						.HasColumnType("nvarchar(max)")
 						.HasMaxLength(10000);
 
 					b.Property<long>("InstanceId")
@@ -468,15 +472,15 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 					b.Property<bool?>("PostTestMergeComment")
 						.IsRequired()
-						.HasColumnType("boolean");
+						.HasColumnType("bit");
 
 					b.Property<bool?>("PushTestMergeCommits")
 						.IsRequired()
-						.HasColumnType("boolean");
+						.HasColumnType("bit");
 
 					b.Property<bool?>("ShowTestMergeCommitters")
 						.IsRequired()
-						.HasColumnType("boolean");
+						.HasColumnType("bit");
 
 					b.HasKey("Id");
 
@@ -491,7 +495,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
 						.HasColumnType("bigint")
-						.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+						.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
 					b.Property<long>("RevisionInformationId")
 						.HasColumnType("bigint");
@@ -513,11 +517,11 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
 						.HasColumnType("bigint")
-						.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+						.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
 					b.Property<string>("CommitSha")
 						.IsRequired()
-						.HasColumnType("character varying(40)")
+						.HasColumnType("nvarchar(40)")
 						.HasMaxLength(40);
 
 					b.Property<long>("InstanceId")
@@ -525,7 +529,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 					b.Property<string>("OriginCommitSha")
 						.IsRequired()
-						.HasColumnType("character varying(40)")
+						.HasColumnType("nvarchar(40)")
 						.HasMaxLength(40);
 
 					b.HasKey("Id");
@@ -541,28 +545,28 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
 						.HasColumnType("bigint")
-						.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+						.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
 					b.Property<string>("Author")
 						.IsRequired()
-						.HasColumnType("text");
+						.HasColumnType("nvarchar(max)");
 
 					b.Property<string>("BodyAtMerge")
 						.IsRequired()
-						.HasColumnType("text");
+						.HasColumnType("nvarchar(max)");
 
 					b.Property<string>("Comment")
-						.HasColumnType("character varying(10000)")
+						.HasColumnType("nvarchar(max)")
 						.HasMaxLength(10000);
 
 					b.Property<DateTimeOffset>("MergedAt")
-						.HasColumnType("timestamp with time zone");
+						.HasColumnType("datetimeoffset");
 
 					b.Property<long>("MergedById")
 						.HasColumnType("bigint");
 
 					b.Property<int>("Number")
-						.HasColumnType("integer");
+						.HasColumnType("int");
 
 					b.Property<long?>("PrimaryRevisionInformationId")
 						.IsRequired()
@@ -570,16 +574,16 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 					b.Property<string>("PullRequestRevision")
 						.IsRequired()
-						.HasColumnType("character varying(40)")
+						.HasColumnType("nvarchar(40)")
 						.HasMaxLength(40);
 
 					b.Property<string>("TitleAtMerge")
 						.IsRequired()
-						.HasColumnType("text");
+						.HasColumnType("nvarchar(max)");
 
 					b.Property<string>("Url")
 						.IsRequired()
-						.HasColumnType("text");
+						.HasColumnType("nvarchar(max)");
 
 					b.HasKey("Id");
 
@@ -596,42 +600,42 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<long?>("Id")
 						.ValueGeneratedOnAdd()
 						.HasColumnType("bigint")
-						.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+						.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
 					b.Property<decimal>("AdministrationRights")
-						.HasColumnType("numeric(20,0)");
+						.HasColumnType("decimal(20,0)");
 
 					b.Property<string>("CanonicalName")
 						.IsRequired()
-						.HasColumnType("text");
+						.HasColumnType("nvarchar(450)");
 
 					b.Property<DateTimeOffset?>("CreatedAt")
 						.IsRequired()
-						.HasColumnType("timestamp with time zone");
+						.HasColumnType("datetimeoffset");
 
 					b.Property<long?>("CreatedById")
 						.HasColumnType("bigint");
 
 					b.Property<bool?>("Enabled")
 						.IsRequired()
-						.HasColumnType("boolean");
+						.HasColumnType("bit");
 
 					b.Property<decimal>("InstanceManagerRights")
-						.HasColumnType("numeric(20,0)");
+						.HasColumnType("decimal(20,0)");
 
 					b.Property<DateTimeOffset?>("LastPasswordUpdate")
-						.HasColumnType("timestamp with time zone");
+						.HasColumnType("datetimeoffset");
 
 					b.Property<string>("Name")
 						.IsRequired()
-						.HasColumnType("character varying(10000)")
+						.HasColumnType("nvarchar(max)")
 						.HasMaxLength(10000);
 
 					b.Property<string>("PasswordHash")
-						.HasColumnType("text");
+						.HasColumnType("nvarchar(max)");
 
 					b.Property<string>("SystemIdentifier")
-						.HasColumnType("text");
+						.HasColumnType("nvarchar(450)");
 
 					b.HasKey("Id");
 
@@ -641,7 +645,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.HasIndex("CreatedById");
 
 					b.HasIndex("SystemIdentifier")
-						.IsUnique();
+						.IsUnique()
+						.HasFilter("[SystemIdentifier] IS NOT NULL");
 
 					b.ToTable("Users");
 				});
@@ -675,7 +680,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.HasOne("Tgstation.Server.Host.Models.RevisionInformation", "RevisionInformation")
 						.WithMany("CompileJobs")
 						.HasForeignKey("RevisionInformationId")
-						.OnDelete(DeleteBehavior.Cascade)
+						.OnDelete(DeleteBehavior.ClientNoAction)
 						.IsRequired();
 				});
 

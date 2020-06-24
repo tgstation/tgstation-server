@@ -248,7 +248,8 @@ namespace Tgstation.Server.Host.Controllers
 					SecondaryPort = 1338,
 					SecurityLevel = DreamDaemonSecurity.Safe,
 					StartupTimeout = 60,
-					HeartbeatSeconds = 60
+					HeartbeatSeconds = 60,
+					TopicRequestTimeout = generalConfiguration.ByondTopicTimeout
 				},
 				DreamMakerSettings = new DreamMakerSettings
 				{

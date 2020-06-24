@@ -10,6 +10,7 @@ using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.System;
+using Z.EntityFramework.Plus;
 
 namespace Tgstation.Server.Host.Database
 {
@@ -37,6 +38,11 @@ namespace Tgstation.Server.Host.Database
 		readonly ILogger<DatabaseSeeder> logger;
 
 		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="DatabaseSeeder"/>.
+		/// </summary>
+		readonly GeneralConfiguration generalConfiguration;
+
+		/// <summary>
 		/// The <see cref="DatabaseConfiguration"/> for the <see cref="DatabaseSeeder"/>.
 		/// </summary>
 		readonly DatabaseConfiguration databaseConfiguration;
@@ -46,12 +52,14 @@ namespace Tgstation.Server.Host.Database
 		/// </summary>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="databaseConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="databaseConfiguration"/>.</param>
 		/// <param name="databaseLogger">The value of <see cref="databaseLogger"/></param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public DatabaseSeeder(
 			ICryptographySuite cryptographySuite,
 			IPlatformIdentifier platformIdentifier,
+			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<DatabaseConfiguration> databaseConfigurationOptions,
 			ILogger<DatabaseContext> databaseLogger,
 			ILogger<DatabaseSeeder> logger)
@@ -59,6 +67,7 @@ namespace Tgstation.Server.Host.Database
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			databaseConfiguration = databaseConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(databaseConfigurationOptions));
+			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			this.databaseLogger = databaseLogger ?? throw new ArgumentNullException(nameof(databaseLogger));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
@@ -123,6 +132,32 @@ namespace Tgstation.Server.Host.Database
 				foreach (var instance in allInstances)
 					instance.Path = instance.Path.Replace('\\', '/');
 			}
+
+			var ids = await databaseContext
+				.DreamDaemonSettings
+				.AsQueryable()
+				.Where(x => x.TopicRequestTimeout == 0)
+				.Select(x => x.Id)
+				.ToListAsync(cancellationToken)
+				.ConfigureAwait(false);
+
+			var rowsUpdated = ids.Count;
+			foreach (var id in ids)
+			{
+				var newDDSettings = new DreamDaemonSettings
+				{
+					Id = id
+				};
+
+				databaseContext.DreamDaemonSettings.Attach(newDDSettings);
+				newDDSettings.TopicRequestTimeout = generalConfiguration.ByondTopicTimeout;
+			}
+
+			if (rowsUpdated > 0)
+				logger.LogInformation(
+					"Updated {0} instances to use database backed BYOND topic timeouts from configuration setting of {1}",
+					rowsUpdated,
+					generalConfiguration.ByondTopicTimeout);
 
 			await databaseContext.Save(cancellationToken).ConfigureAwait(false);
 		}

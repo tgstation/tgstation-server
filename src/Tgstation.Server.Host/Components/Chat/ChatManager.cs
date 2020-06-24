@@ -161,6 +161,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <inheritdoc />
 		public void Dispose()
 		{
+			logger.LogTrace("Disposing...");
 			restartRegistration.Dispose();
 			handlerCts.Dispose();
 			foreach (var I in providers)
@@ -176,10 +177,14 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IProvider"/> being removed if it exists, <see langword="null"/> otherwise.</returns>
 		async Task<IProvider> RemoveProvider(long connectionId, bool updateTrackings, CancellationToken cancellationToken)
 		{
+			logger.LogTrace("RemoveProvider {0}...", connectionId);
 			IProvider provider;
 			lock (providers)
 				if (!providers.TryGetValue(connectionId, out provider))
+				{
+					logger.LogTrace("Aborted, no such provider!");
 					return null;
+				}
 
 			Task trackingContextsUpdateTask;
 			lock (mappedChannels)
@@ -215,6 +220,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			// provider reconnected, remap channels.
 			if (message == null)
 			{
+				logger.LogTrace("Remapping channels for provider reconnection...");
 				IEnumerable<Api.Models.ChatChannel> channelsToMap;
 				lock (activeChatBots)
 					channelsToMap = activeChatBots.FirstOrDefault()?.Channels;
@@ -285,24 +291,26 @@ namespace Tgstation.Server.Host.Components.Chat
 			if (!addressed && !message.User.Channel.IsPrivateChannel)
 				return;
 
-			logger.LogTrace("Chat command: {0}. User (True provider Id): {1}", message.Content, JsonConvert.SerializeObject(message.User));
-
-			if (addressed)
-				splits.RemoveAt(0);
-
-			if (splits.Count == 0)
-			{
-				// just a mention
-				await SendMessage("Hi!", new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
-				return;
-			}
-
-			var command = splits[0].ToUpperInvariant();
-			splits.RemoveAt(0);
-			var arguments = String.Join(" ", splits);
-
+			logger.LogTrace(
+				"Start processing command: {0}. User (True provider Id): {1}",
+				message.Content,
+				JsonConvert.SerializeObject(message.User));
 			try
 			{
+				if (addressed)
+					splits.RemoveAt(0);
+
+				if (splits.Count == 0)
+				{
+					// just a mention
+					await SendMessage("Hi!", new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
+					return;
+				}
+
+				var command = splits[0].ToUpperInvariant();
+				splits.RemoveAt(0);
+				var arguments = String.Join(" ", splits);
+
 				ICommand GetCommand(string commandName)
 				{
 					if (!builtinCommands.TryGetValue(commandName, out var handler))
@@ -365,13 +373,22 @@ namespace Tgstation.Server.Host.Components.Chat
 			}
 			catch (OperationCanceledException)
 			{
+				logger.LogTrace("Command processing canceled!");
 				throw;
 			}
 			catch (Exception e)
 			{
 				// error bc custom commands should reply about why it failed
 				logger.LogError("Error processing chat command: {0}", e);
-				await SendMessage("Internal error processing command!", new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
+				await SendMessage(
+					"TGS: Internal error processing command! Check server logs!",
+					new List<ulong> { message.User.Channel.RealId },
+					cancellationToken)
+					.ConfigureAwait(false);
+			}
+			finally
+			{
+				logger.LogTrace("Done processing command.");
 			}
 		}
 
@@ -382,6 +399,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task MonitorMessages(CancellationToken cancellationToken)
 		{
+			logger.LogTrace("Starting processing loop...");
 			var messageTasks = new Dictionary<IProvider, Task<Message>>();
 			try
 			{
@@ -426,8 +444,10 @@ namespace Tgstation.Server.Host.Components.Chat
 			}
 			catch (Exception e)
 			{
-				logger.LogError("Message monitor crashed! Exception: {0}", e);
+				logger.LogError("Message loop crashed! Exception: {0}", e);
 			}
+
+			logger.LogTrace("Leaving message processing loop");
 		}
 
 		/// <inheritdoc />
@@ -435,6 +455,8 @@ namespace Tgstation.Server.Host.Components.Chat
 		{
 			if (newChannels == null)
 				throw new ArgumentNullException(nameof(newChannels));
+
+			logger.LogTrace("ChangeChannels {0}...", connectionId);
 			var provider = await RemoveProvider(connectionId, false, cancellationToken).ConfigureAwait(false);
 			if (provider == null)
 				return;
@@ -503,6 +525,8 @@ namespace Tgstation.Server.Host.Components.Chat
 		{
 			if (newSettings == null)
 				throw new ArgumentNullException(nameof(newSettings));
+
+			logger.LogTrace("ChangeSettings...");
 			IProvider provider;
 
 			async Task DisconnectProvider(IProvider p)

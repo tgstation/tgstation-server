@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Tgstation.Server.Host.Configuration;
 
 namespace Tgstation.Server.Host.Database.Design
@@ -11,10 +12,14 @@ namespace Tgstation.Server.Host.Database.Design
 		/// <summary>
 		/// Get the <see cref="IOptions{TOptions}"/> for the <see cref="DatabaseConfiguration"/>
 		/// </summary>
+		/// <typeparam name="TDatabaseContext">The <see cref="DatabaseContext"/> to create <see cref="DbContextOptions"/> for.</typeparam>
 		/// <param name="databaseType">The <see cref="DatabaseConfiguration.DatabaseType"/>.</param>
 		/// <param name="connectionString">The <see cref="DatabaseConfiguration.ConnectionString"/>.</param>
 		/// <returns>The <see cref="IOptions{TOptions}"/> for the <see cref="DatabaseConfiguration"/></returns>
-		public static IOptions<DatabaseConfiguration> GetDatabaseConfiguration(DatabaseType databaseType, string connectionString)
+		public static DbContextOptions<TDatabaseContext> CreateDatabaseContextOptions<TDatabaseContext>(
+			DatabaseType databaseType,
+			string connectionString)
+			where TDatabaseContext : DatabaseContext
 		{
 			var dbConfig = new DatabaseConfiguration
 			{
@@ -23,7 +28,12 @@ namespace Tgstation.Server.Host.Database.Design
 				ConnectionString = connectionString
 			};
 
-			return Options.Create(dbConfig);
+			var optionsFac = new DbContextOptionsBuilder<TDatabaseContext>();
+			var configureAction = DatabaseContext.GetConfigureAction<TDatabaseContext>();
+
+			configureAction(optionsFac, dbConfig);
+
+			return optionsFac.Options;
 		}
 	}
 }

@@ -8,6 +8,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 	[DbContext(typeof(MySqlDatabaseContext))]
 	partial class MySqlDatabaseContextModelSnapshot : ModelSnapshot
 	{
+		/// <inheritdoc />
 		protected override void BuildModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
@@ -184,6 +185,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.HasColumnType("int");
 
 					b.Property<uint?>("StartupTimeout")
+						.IsRequired()
+						.HasColumnType("int unsigned");
+
+					b.Property<uint?>("TopicRequestTimeout")
 						.IsRequired()
 						.HasColumnType("int unsigned");
 

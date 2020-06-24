@@ -34,7 +34,7 @@ namespace Tgstation.Server.Tests.Instance
 			await instanceClient.DreamDaemon.Update(new DreamDaemon
 			{
 				StartupTimeout = 45,
-				HeartbeatSeconds = 0,
+				HeartbeatSeconds = 0
 			}, cancellationToken);
 
 			await ApiAssert.ThrowsException<ApiConflictException>(() => instanceClient.DreamDaemon.Update(new DreamDaemon

@@ -1,5 +1,4 @@
-﻿using Byond.TopicSender;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -45,9 +44,9 @@ namespace Tgstation.Server.Host.Components
 		readonly ILoggerFactory loggerFactory;
 
 		/// <summary>
-		/// The <see cref="ITopicClient"/> for the <see cref="InstanceFactory"/>
+		/// The <see cref="ITopicClientFactory"/> for the <see cref="InstanceFactory"/>
 		/// </summary>
-		readonly ITopicClient byondTopicSender;
+		readonly ITopicClientFactory topicClientFactory;
 
 		/// <summary>
 		/// The <see cref="ICryptographySuite"/> for the <see cref="InstanceFactory"/>
@@ -131,7 +130,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
-		/// <param name="byondTopicSender">The value of <see cref="byondTopicSender"/></param>
+		/// <param name="topicClientFactory">The value of <see cref="topicClientFactory"/></param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
 		/// <param name="synchronousIOManager">The value of <see cref="synchronousIOManager"/></param>
 		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/></param>
@@ -152,7 +151,7 @@ namespace Tgstation.Server.Host.Components
 			IDatabaseContextFactory databaseContextFactory,
 			IAssemblyInformationProvider assemblyInformationProvider,
 			ILoggerFactory loggerFactory,
-			ITopicClient byondTopicSender,
+			ITopicClientFactory topicClientFactory,
 			ICryptographySuite cryptographySuite,
 			ISynchronousIOManager synchronousIOManager,
 			ISymlinkFactory symlinkFactory,
@@ -173,7 +172,7 @@ namespace Tgstation.Server.Host.Components
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
-			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
+			this.topicClientFactory = topicClientFactory ?? throw new ArgumentNullException(nameof(topicClientFactory));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.synchronousIOManager = synchronousIOManager ?? throw new ArgumentNullException(nameof(synchronousIOManager));
 			this.symlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
@@ -226,7 +225,7 @@ namespace Tgstation.Server.Host.Components
 					var sessionControllerFactory = new SessionControllerFactory(
 						processExecutor,
 						byond,
-						byondTopicSender,
+						topicClientFactory,
 						cryptographySuite,
 						assemblyInformationProvider,
 						gameIoManager,

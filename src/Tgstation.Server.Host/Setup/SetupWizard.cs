@@ -592,11 +592,11 @@ namespace Tgstation.Server.Host.Setup
 			do
 			{
 				await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
-				await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Timeout for sending and receiving BYOND topics (ms, 0 for infinite, leave blank for default of {0}): ", newGeneralConfiguration.ByondTopicTimeout), false, cancellationToken).ConfigureAwait(false);
+				await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Default timeout for sending and receiving BYOND topics (ms, 0 for infinite, leave blank for default of {0}): ", newGeneralConfiguration.ByondTopicTimeout), false, cancellationToken).ConfigureAwait(false);
 				var topicTimeoutString = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
 				if (String.IsNullOrWhiteSpace(topicTimeoutString))
 					break;
-				if (Int32.TryParse(topicTimeoutString, out var topicTimeout) && topicTimeout >= 0)
+				if (UInt32.TryParse(topicTimeoutString, out var topicTimeout) && topicTimeout >= 0)
 				{
 					newGeneralConfiguration.ByondTopicTimeout = topicTimeout;
 					break;

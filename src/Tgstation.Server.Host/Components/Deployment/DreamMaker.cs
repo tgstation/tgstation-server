@@ -208,7 +208,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 				AllowWebClient = false,
 				PrimaryPort = portToUse,
 				SecurityLevel = securityLevel,
-				StartupTimeout = timeout
+				StartupTimeout = timeout,
+				TopicRequestTimeout = 0 // not used
 			};
 
 			var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);

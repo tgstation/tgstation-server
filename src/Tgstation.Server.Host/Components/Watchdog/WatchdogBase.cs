@@ -860,14 +860,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				if (!graceful)
 				{
 					Task chatTask;
-					if (Running)
+					bool hard = Running;
+					if (hard)
 					{
 						chatTask = Chat.SendWatchdogMessage("Manual restart triggered...", false, cancellationToken);
 						await TerminateNoLock(false, false, cancellationToken).ConfigureAwait(false);
 					}
 					else
 						chatTask = Task.CompletedTask;
-					await LaunchNoLock(true, !Running, null, cancellationToken).ConfigureAwait(false);
+					await LaunchNoLock(true, !hard, null, cancellationToken).ConfigureAwait(false);
 					await chatTask.ConfigureAwait(false);
 				}
 
