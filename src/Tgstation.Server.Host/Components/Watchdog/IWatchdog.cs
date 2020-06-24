@@ -2,6 +2,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Session;
@@ -14,9 +15,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	public interface IWatchdog : IHostedService, IDisposable, IEventConsumer, IRenameNotifyee
 	{
 		/// <summary>
-		/// If the watchdog is running
+		/// The current <see cref="WatchdogStatus"/>.
 		/// </summary>
-		bool Running { get; }
+		WatchdogStatus Status { get; }
 
 		/// <summary>
 		/// If the alpha server is the active server
@@ -24,7 +25,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		bool AlphaIsActive { get; }
 
 		/// <summary>
-		/// The <see cref="CompileJob"/> currently running on the server
+		/// The <see cref="Models.CompileJob"/> currently running on the server
 		/// </summary>
 		Models.CompileJob ActiveCompileJob { get; }
 
@@ -51,7 +52,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		Task Launch(CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Changes the <see cref="ActiveLaunchParameters"/>. If currently <see cref="Running"/> triggers a graceful restart
+		/// Changes the <see cref="ActiveLaunchParameters"/>. If currently running, may trigger a graceful restart.
 		/// </summary>
 		/// <param name="launchParameters">The new <see cref="DreamDaemonLaunchParameters"/>. May be modified</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>

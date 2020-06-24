@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Database;
@@ -12,7 +13,7 @@ using Tgstation.Server.Host.Database;
 namespace Tgstation.Server.Host.Components.Chat.Commands
 {
 	/// <summary>
-	/// Command for reading the active <see cref="Api.Models.TestMerge"/>s
+	/// Command for reading the active <see cref="TestMerge"/>s
 	/// </summary>
 	sealed class PullRequestsCommand : ICommand
 	{
@@ -94,7 +95,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 			}
 			else
 			{
-				if (!watchdog.Running)
+				if (watchdog.Status == WatchdogStatus.Offline)
 					return "Server offline!";
 				results = watchdog.ActiveCompileJob?.RevisionInformation.ActiveTestMerges.Select(x => x.TestMerge).ToList() ?? new List<Models.TestMerge>();
 			}

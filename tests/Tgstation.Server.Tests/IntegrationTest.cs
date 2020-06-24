@@ -247,7 +247,7 @@ namespace Tgstation.Server.Tests
 					await new JobsRequiredTest(instanceClient.Jobs).WaitForJob(reattachJob, 40, false, cancellationToken);
 
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
-					Assert.IsTrue(dd.Running.Value);
+					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
 
 					await instanceClient.DreamDaemon.Shutdown(cancellationToken);
 					await instanceClient.DreamDaemon.Update(new DreamDaemon
@@ -291,7 +291,7 @@ namespace Tgstation.Server.Tests
 
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 
-					Assert.IsTrue(dd.Running.Value);
+					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
 
 					var repoTest = new RepositoryTest(instanceClient.Repository, instanceClient.Jobs).RunPostTest(cancellationToken);
 					await new ChatTest(instanceClient.ChatBots, adminClient.Instances, instance).RunPostTest(cancellationToken);
