@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,7 +20,29 @@ namespace Tgstation.Server.Tests
 
 		public async Task Run(CancellationToken cancellationToken)
 		{
+			var logsTest = TestLogs(cancellationToken);
 			await TestRead(cancellationToken).ConfigureAwait(false);
+			await logsTest;
+		}
+
+		async Task TestLogs(CancellationToken cancellationToken)
+		{
+			var logs = await client.ListLogs(cancellationToken);
+			Assert.AreEqual(1, logs.Count);
+			var logFile = logs.Single();
+			Assert.IsNotNull(logFile);
+			Assert.IsFalse(String.IsNullOrWhiteSpace(logFile.Name));
+			Assert.IsNull(logFile.Content);
+
+			var downloaded = await client.GetLog(logFile, cancellationToken);
+			Assert.AreEqual(logFile.Name, downloaded.Name);
+			Assert.IsTrue(logFile.LastModified <= downloaded.LastModified);
+			Assert.IsNull(logFile.Content);
+
+			await ApiAssert.ThrowsException<ConflictException>(() => client.GetLog(new LogFile
+			{
+				Name = "very_fake_path.log"
+			}, cancellationToken), ErrorCode.IOError);
 		}
 
 		async Task TestRead(CancellationToken cancellationToken)

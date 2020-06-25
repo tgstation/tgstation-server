@@ -6,6 +6,7 @@ using Octokit;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -67,6 +68,11 @@ namespace Tgstation.Server.Host.Controllers
 		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
+		/// The <see cref="FileLoggingConfiguration"/> for the <see cref="AdministrationController"/>
+		/// </summary>
+		readonly FileLoggingConfiguration fileLoggingConfiguration;
+
+		/// <summary>
 		/// Construct an <see cref="AdministrationController"/>
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
@@ -79,6 +85,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
 		/// <param name="updatesConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="updatesConfiguration"/></param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="generalConfiguration"/></param>
+		/// <param name="fileLoggingConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="fileLoggingConfiguration"/></param>
 		public AdministrationController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
@@ -89,7 +96,8 @@ namespace Tgstation.Server.Host.Controllers
 			IPlatformIdentifier platformIdentifier,
 			ILogger<AdministrationController> logger,
 			IOptions<UpdatesConfiguration> updatesConfigurationOptions,
-			IOptions<GeneralConfiguration> generalConfigurationOptions)
+			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			IOptions<FileLoggingConfiguration> fileLoggingConfigurationOptions)
 			: base(
 				databaseContext,
 				authenticationContextFactory,
@@ -104,6 +112,7 @@ namespace Tgstation.Server.Host.Controllers
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			updatesConfiguration = updatesConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(updatesConfigurationOptions));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			fileLoggingConfiguration = fileLoggingConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(fileLoggingConfigurationOptions));
 		}
 
 		ObjectResult RateLimit(RateLimitExceededException exception)
@@ -258,7 +267,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.NewVersion.Major != assemblyInformationProvider.Version.Major)
 				return BadRequest(new ErrorMessage(ErrorCode.CannotChangeServerSuite));
 
-			if(!serverUpdater.WatchdogPresent)
+			if (!serverUpdater.WatchdogPresent)
 				return UnprocessableEntity(new ErrorMessage(ErrorCode.MissingHostWatchdog));
 
 			return await CheckReleasesAndApplyUpdate(model.NewVersion, cancellationToken).ConfigureAwait(false);
@@ -290,6 +299,89 @@ namespace Tgstation.Server.Host.Controllers
 			catch (InvalidOperationException)
 			{
 				return StatusCode((int)HttpStatusCode.ServiceUnavailable);
+			}
+		}
+
+		/// <summary>
+		/// List <see cref="LogFile"/>s present.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="200">Listed logs successfully.</response>
+		/// <response code="409">An IO error occurred while listing.</response>
+		[HttpGet(Routes.Logs)]
+		[TgsAuthorize(AdministrationRights.DownloadLogs)]
+		[ProducesResponseType(typeof(List<LogFile>), 200)]
+		[ProducesResponseType(typeof(ErrorMessage), 409)]
+		public async Task<IActionResult> ListLogs(CancellationToken cancellationToken)
+		{
+			var path = fileLoggingConfiguration.GetFullLogDirectory(ioManager, assemblyInformationProvider);
+			try
+			{
+				var files = await ioManager.GetFiles(path, cancellationToken).ConfigureAwait(false);
+				var tasks = files.Select(
+					async file => new LogFile
+					{
+						Name = ioManager.GetFileName(file),
+						LastModified = await ioManager.GetLastModified(
+							ioManager.ConcatPath(path, file),
+							cancellationToken)
+						.ConfigureAwait(false)
+					})
+					.ToList();
+
+				await Task.WhenAll(tasks).ConfigureAwait(false);
+
+				var result = tasks.Select(x => x.Result).ToList();
+
+				return Ok(result);
+			}
+			catch (IOException ex)
+			{
+				return Conflict(new ErrorMessage(ErrorCode.IOError)
+				{
+					AdditionalData = ex.ToString()
+				});
+			}
+		}
+
+		/// <summary>
+		/// Download a <see cref="LogFile"/>.
+		/// </summary>
+		/// <param name="path">The path to download.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="200">Downloaded <see cref="LogFile"/> successfully.</response>
+		/// <response code="409">An IO error occurred while downloading.</response>
+		[HttpGet(Routes.Logs + "/{path}")]
+		[TgsAuthorize(AdministrationRights.DownloadLogs)]
+		[ProducesResponseType(typeof(List<LogFile>), 200)]
+		[ProducesResponseType(typeof(ErrorMessage), 409)]
+		public async Task<IActionResult> GetLog(string path, CancellationToken cancellationToken)
+		{
+			if (path == null)
+				throw new ArgumentNullException(nameof(path));
+
+			var fullPath = ioManager.ConcatPath(
+				fileLoggingConfiguration.GetFullLogDirectory(ioManager, assemblyInformationProvider),
+				path);
+			try
+			{
+				var readTask = ioManager.ReadAllBytes(fullPath, cancellationToken);
+
+				return Ok(new LogFile
+				{
+					Name = path,
+					LastModified = await ioManager.GetLastModified(fullPath, cancellationToken).ConfigureAwait(false),
+					Content = await readTask.ConfigureAwait(false)
+				});
+			}
+			catch (IOException ex)
+			{
+				return Conflict(new ErrorMessage(ErrorCode.IOError)
+				{
+					AdditionalData = ex.ToString()
+				});
 			}
 		}
 	}

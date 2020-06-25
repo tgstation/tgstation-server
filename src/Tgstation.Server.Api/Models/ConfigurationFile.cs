@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
 	/// Represents a game configuration file. Create and delete actions uncerimonuously overwrite/delete files
 	/// </summary>
-	public sealed class ConfigurationFile
+	public sealed class ConfigurationFile : RawData
 	{
 		/// <summary>
 		/// The path to the <see cref="ConfigurationFile"/> file
@@ -27,12 +28,5 @@ namespace Tgstation.Server.Api.Models
 		/// The MD5 hash of the file when last read by the user. If this doesn't match during update actions, the write will be denied with <see cref="System.Net.HttpStatusCode.Conflict"/>
 		/// </summary>
 		public string? LastReadHash { get; set; }
-
-		/// <summary>
-		/// The content of the <see cref="ConfigurationFile"/>. Will be <see langword="null"/> if <see cref="AccessDenied"/> is <see langword="true"/> or during listing and write operations
-		/// </summary>
-#pragma warning disable CA1819, SA1011 // Properties should not return arrays, Closing square bracket should be followed by a space
-		public byte[]? Content { get; set; }
-#pragma warning restore CA1819, SA1011 // Properties should not return arrays, Closing square bracket should be followed by a space
 	}
 }

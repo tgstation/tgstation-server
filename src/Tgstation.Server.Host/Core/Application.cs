@@ -122,13 +122,7 @@ namespace Tgstation.Server.Host.Core
 					if (postSetupServices.FileLoggingConfiguration.Disable)
 						return;
 
-					// common app data is C:/ProgramData on windows, else /usr/share
-					var logPath = !String.IsNullOrEmpty(postSetupServices.FileLoggingConfiguration.Directory)
-						? postSetupServices.FileLoggingConfiguration.Directory
-						: IOManager.ConcatPath(
-							Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
-							AssemblyInformationProvider.VersionPrefix,
-							"Logs");
+					var logPath = postSetupServices.FileLoggingConfiguration.GetFullLogDirectory(IOManager, AssemblyInformationProvider);
 
 					var logEventLevel = ConvertSeriLogLevel(postSetupServices.FileLoggingConfiguration.LogLevel);
 
