@@ -29,7 +29,7 @@ namespace Tgstation.Server.Tests
 		{
 			var logs = await client.ListLogs(cancellationToken);
 			Assert.AreNotEqual(0, logs.Count);
-			var logFile = logs.Single();
+			var logFile = logs.First();
 			Assert.IsNotNull(logFile);
 			Assert.IsFalse(String.IsNullOrWhiteSpace(logFile.Name));
 			Assert.IsNull(logFile.Content);
