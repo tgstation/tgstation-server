@@ -63,7 +63,7 @@ namespace Tgstation.Server.Host.Controllers
 			// alias for launching DD
 			var instance = instanceManager.GetInstance(Instance);
 
-			if (instance.Watchdog.Running)
+			if (instance.Watchdog.Status != WatchdogStatus.Offline)
 				return Conflict(new ErrorMessage(ErrorCode.WatchdogRunning));
 
 			var job = new Models.Job
@@ -130,7 +130,7 @@ namespace Tgstation.Server.Host.Controllers
 				result.CurrentAllowWebclient = llp?.AllowWebClient.Value;
 				result.PrimaryPort = settings.PrimaryPort.Value;
 				result.AllowWebClient = settings.AllowWebClient.Value;
-				result.Running = dd.Running;
+				result.Status = dd.Status;
 				result.SecondaryPort = settings.SecondaryPort.Value;
 				result.SecurityLevel = settings.SecurityLevel.Value;
 				result.SoftRestart = rstate == RebootState.Restart;
@@ -143,7 +143,10 @@ namespace Tgstation.Server.Host.Controllers
 			if (revision)
 			{
 				var latestCompileJob = instance.LatestCompileJob();
-				result.ActiveCompileJob = ((dd.Running ? dd.ActiveCompileJob : latestCompileJob) ?? latestCompileJob)?.ToApi();
+				result.ActiveCompileJob = ((instance.Watchdog.Status == WatchdogStatus.Offline
+					? dd.ActiveCompileJob
+					: latestCompileJob) ?? latestCompileJob)
+					?.ToApi();
 				if (latestCompileJob?.Id != result.ActiveCompileJob?.Id)
 					result.StagedCompileJob = latestCompileJob?.ToApi();
 			}
@@ -296,7 +299,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var watchdog = instanceManager.GetInstance(Instance).Watchdog;
 
-			if (!watchdog.Running)
+			if (watchdog.Status == WatchdogStatus.Offline)
 				return Conflict(new ErrorMessage(ErrorCode.WatchdogNotRunning));
 
 			await jobManager.RegisterOperation(job, (paramJob, databaseContextFactory, progressReporter, ct) => watchdog.Restart(false, ct), cancellationToken).ConfigureAwait(false);
@@ -325,7 +328,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var watchdog = instanceManager.GetInstance(Instance).Watchdog;
 
-			if (!watchdog.Running)
+			if (watchdog.Status == WatchdogStatus.Offline)
 				return Conflict(new ErrorMessage(ErrorCode.WatchdogNotRunning));
 
 			await jobManager.RegisterOperation(

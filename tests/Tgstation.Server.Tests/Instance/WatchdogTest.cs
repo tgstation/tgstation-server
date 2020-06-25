@@ -73,7 +73,7 @@ namespace Tgstation.Server.Tests.Instance
 			global::System.Console.WriteLine("TEST: WATCHDOG BASIC TEST");
 			var daemonStatus = await DeployTestDme("BasicOperation/basic_operation_test", DreamDaemonSecurity.Ultrasafe, cancellationToken);
 
-			Assert.IsFalse(daemonStatus.Running.Value);
+			Assert.AreEqual(WatchdogStatus.Offline, daemonStatus.Status.Value);
 			Assert.IsNotNull(daemonStatus.ActiveCompileJob);
 			Assert.IsNull(daemonStatus.StagedCompileJob);
 			Assert.AreEqual(DMApiConstants.Version, daemonStatus.ActiveCompileJob.DMApiVersion);
@@ -84,14 +84,14 @@ namespace Tgstation.Server.Tests.Instance
 			await WaitForJob(startJob, 10, false, cancellationToken);
 
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
-			Assert.IsTrue(daemonStatus.Running.Value);
+			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
 			Assert.AreEqual(false, daemonStatus.SoftRestart);
 			Assert.AreEqual(false, daemonStatus.SoftShutdown);
 
 			await GracefulWatchdogShutdown(30, cancellationToken);
 
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
-			Assert.IsFalse(daemonStatus.Running.Value);
+			Assert.AreEqual(WatchdogStatus.Offline, daemonStatus.Status.Value);
 
 			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken);
 		}
@@ -112,7 +112,7 @@ namespace Tgstation.Server.Tests.Instance
 			// lock on to DD and pause it so it can't heartbeat
 			var ddProcs = System.Diagnostics.Process.GetProcessesByName("DreamDaemon").ToList();
 			if (ddProcs.Count != 1)
-				Assert.Inconclusive($"Incorrect number of DD processes: {ddProcs.Count}");
+				Assert.Fail($"Incorrect number of DD processes: {ddProcs.Count}");
 
 			using var ddProc = ddProcs.Single();
 			IProcessExecutor executor = null;
@@ -144,7 +144,7 @@ namespace Tgstation.Server.Tests.Instance
 				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false);
 				var ddStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 				Assert.AreEqual(1U, ddStatus.HeartbeatSeconds.Value);
-				if (!ddStatus.Running.Value)
+				if (ddStatus.Status.Value == WatchdogStatus.Offline)
 					break;
 
 				if (--timeout == 0)
@@ -167,7 +167,7 @@ namespace Tgstation.Server.Tests.Instance
 			var daemonStatus = await DeployTestDme(DmeName, DreamDaemonSecurity.Trusted, cancellationToken);
 
 			var initialCompileJob = daemonStatus.ActiveCompileJob;
-			Assert.IsFalse(daemonStatus.Running.Value);
+			Assert.AreEqual(WatchdogStatus.Offline, daemonStatus.Status.Value);
 			Assert.IsNotNull(daemonStatus.ActiveCompileJob);
 			Assert.IsNull(daemonStatus.StagedCompileJob);
 			Assert.AreEqual(DMApiConstants.Version, daemonStatus.ActiveCompileJob.DMApiVersion);
@@ -179,7 +179,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			daemonStatus = await DeployTestDme(DmeName, DreamDaemonSecurity.Safe, cancellationToken);
 
-			Assert.IsTrue(daemonStatus.Running.Value);
+			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
 
 			Assert.AreEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
 			var newerCompileJob = daemonStatus.StagedCompileJob;
@@ -197,7 +197,7 @@ namespace Tgstation.Server.Tests.Instance
 			await instanceClient.DreamDaemon.Shutdown(cancellationToken);
 
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
-			Assert.IsFalse(daemonStatus.Running.Value);
+			Assert.AreEqual(WatchdogStatus.Offline, daemonStatus.Status.Value);
 		}
 
 		async Task RunLongRunningTestThenUpdateWithByondVersionSwitch(CancellationToken cancellationToken)
@@ -226,7 +226,7 @@ namespace Tgstation.Server.Tests.Instance
 			await DeployTestDme(DmeName, DreamDaemonSecurity.Safe, cancellationToken);
 
 			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
-			Assert.IsTrue(daemonStatus.Running.Value);
+			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
 			Assert.IsNotNull(daemonStatus.ActiveCompileJob);
 
 
@@ -246,7 +246,7 @@ namespace Tgstation.Server.Tests.Instance
 			await instanceClient.DreamDaemon.Shutdown(cancellationToken);
 
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
-			Assert.IsFalse(daemonStatus.Running.Value);
+			Assert.AreEqual(WatchdogStatus.Offline, daemonStatus.Status.Value);
 		}
 
 		public async Task StartAndLeaveRunning(CancellationToken cancellationToken)
@@ -259,6 +259,22 @@ namespace Tgstation.Server.Tests.Instance
 			var startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
 
 			await WaitForJob(startJob, 40, false, cancellationToken);
+
+			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
+
+			// Try killing the DD process to ensure it gets set to the restoring state
+			var ddProcs = System.Diagnostics.Process.GetProcessesByName("DreamDaemon").ToList();
+			if (ddProcs.Count != 1)
+				Assert.Fail($"Incorrect number of DD processes: {ddProcs.Count}");
+
+			using var ddProc = ddProcs.Single();
+			ddProc.Kill();
+			ddProc.WaitForExit();
+
+			await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			Assert.AreEqual(WatchdogStatus.Restoring, daemonStatus.Status.Value);
 		}
 
 		async Task TellWorldToReboot(CancellationToken cancellationToken)
@@ -308,13 +324,13 @@ namespace Tgstation.Server.Tests.Instance
 			}, cancellationToken);
 
 			var newStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
-			Assert.IsTrue(newStatus.SoftShutdown.Value || !newStatus.Running.Value);
+			Assert.IsTrue(newStatus.SoftShutdown.Value || (newStatus.Status.Value == WatchdogStatus.Offline));
 
 			do
 			{
 				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false);
 				var ddStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
-				if (!ddStatus.Running.Value)
+				if (ddStatus.Status.Value == WatchdogStatus.Offline)
 					break;
 
 				if (--timeout == 0)

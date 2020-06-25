@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 
@@ -56,7 +57,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 				}
 			else
 			{
-				if (!watchdog.Running)
+				if (watchdog.Status == WatchdogStatus.Offline)
 					return "Server offline!";
 				result = watchdog.ActiveCompileJob?.RevisionInformation.CommitSha;
 			}

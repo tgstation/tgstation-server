@@ -204,7 +204,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			Server?.Dispose();
 			Server = null;
-			Running = false;
 			gracefulRebootRequired = false;
 		}
 
@@ -212,7 +211,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected sealed override ISessionController GetActiveController() => Server;
 
 		/// <inheritdoc />
-		protected sealed override async Task InitControllers(Action callBeforeRecurse, Task chatTask, DualReattachInformation reattachInfo, CancellationToken cancellationToken)
+		protected sealed override async Task InitControllers(
+			Task chatTask,
+			DualReattachInformation reattachInfo,
+			CancellationToken cancellationToken)
 		{
 			var serverToReattach = reattachInfo?.Alpha ?? reattachInfo?.Bravo;
 			var serverToKill = reattachInfo?.Bravo ?? reattachInfo?.Alpha;
@@ -274,8 +276,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				// possiblity of null servers due to failed reattaches
 				if (Server == null)
 				{
-					callBeforeRecurse();
-					await NotifyOfFailedReattach(thereIsAnInactiveServerToKill && !inactiveServerWasKilled, cancellationToken).ConfigureAwait(false);
+					await ReattachFailure(
+						chatTask,
+						thereIsAnInactiveServerToKill && !inactiveServerWasKilled,
+						cancellationToken)
+						.ConfigureAwait(false);
 					return;
 				}
 
@@ -335,24 +340,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return base.ResetRebootState(cancellationToken);
 
 			return Restart(true, cancellationToken);
-		}
-
-		/// <summary>
-		/// Send a chat message and log about a failed reattach operation and attempts another call to <see cref="WatchdogBase.LaunchNoLock(bool, bool, DualReattachInformation, CancellationToken)"/>.
-		/// </summary>
-		/// <param name="inactiveReattachSuccess">If the inactive server was reattached successfully.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation/</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task NotifyOfFailedReattach(bool inactiveReattachSuccess, CancellationToken cancellationToken)
-		{
-			// we lost the server, just restart entirely
-			DisposeAndNullControllers();
-			const string FailReattachMessage = "Unable to properly reattach to server! Restarting...";
-			Logger.LogWarning(FailReattachMessage);
-			Logger.LogDebug(inactiveReattachSuccess ? "Also could not reattach to inactive server!" : "Inactive server was reattached successfully!");
-			Task chatTask = Chat.SendWatchdogMessage(FailReattachMessage, false, cancellationToken);
-			await LaunchNoLock(true, false, null, cancellationToken).ConfigureAwait(false);
-			await chatTask.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />

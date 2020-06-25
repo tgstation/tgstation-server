@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
@@ -34,7 +35,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public override Models.CompileJob ActiveCompileJob => (AlphaIsActive ? alphaServer : bravoServer)?.Dmb.CompileJob;
 
 		/// <inheritdoc />
-		public override RebootState? RebootState => Running ? (AlphaIsActive ? alphaServer?.RebootState : bravoServer?.RebootState) : null;
+		public override RebootState? RebootState => Status != WatchdogStatus.Offline ? (AlphaIsActive ? alphaServer?.RebootState : bravoServer?.RebootState) : null;
 
 		/// <summary>
 		/// Server designation alpha
@@ -407,7 +408,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			alphaServer = null;
 			bravoServer?.Dispose();
 			bravoServer = null;
-			Running = false;
 		}
 
 		/// <inheritdoc />
@@ -445,7 +445,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 		/// <inheritdoc />
 		#pragma warning disable CA1502 // TODO: Decomplexify
-		protected override async Task InitControllers(Action callBeforeRecurse, Task chatTask, DualReattachInformation reattachInfo, CancellationToken cancellationToken)
+		protected override async Task InitControllers(
+			Task chatTask,
+			DualReattachInformation reattachInfo,
+			CancellationToken cancellationToken)
 		{
 			Debug.Assert(alphaServer == null && bravoServer == null, "Entered LaunchNoLock with one or more of the servers not being null!");
 
@@ -517,14 +520,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						|| (bravoServer == null && !reattachInfo.AlphaIsActive))
 					{
 						// we lost the active server, just restart entirely
-						DisposeAndNullControllers();
-						const string FailReattachMessage = "Unable to properly reattach to active server! Restarting...";
-						Logger.LogWarning(FailReattachMessage);
-						Logger.LogDebug(bothServersDead ? "Also could not reattach to inactive server!" : "Inactive server was reattached successfully!");
-						chatTask = Chat.SendWatchdogMessage(FailReattachMessage, false, cancellationToken);
-						callBeforeRecurse();
-						await LaunchNoLock(true, false, null, cancellationToken).ConfigureAwait(false);
-						await chatTask.ConfigureAwait(false);
+						await ReattachFailure(chatTask, !bothServersDead, cancellationToken).ConfigureAwait(false);
 						return;
 					}
 

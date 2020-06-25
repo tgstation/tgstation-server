@@ -34,7 +34,7 @@ namespace Tgstation.Server.Api.Rights
 		SetSecurity = 8,
 
 		/// <summary>
-		/// User can read all ports, <see cref="Models.DreamDaemon.SoftRestart"/>, <see cref="Models.DreamDaemon.SoftShutdown"/>, <see cref="Models.DreamDaemon.Running"/>, <see cref="Models.Internal.DreamDaemonLaunchParameters.AllowWebClient"/>, and <see cref="Models.Internal.DreamDaemonSettings.AutoStart"/>
+		/// User can read all ports, <see cref="Models.DreamDaemon.SoftRestart"/>, <see cref="Models.DreamDaemon.SoftShutdown"/>, <see cref="Models.DreamDaemon.Status"/>, <see cref="Models.Internal.DreamDaemonLaunchParameters.AllowWebClient"/>, and <see cref="Models.Internal.DreamDaemonSettings.AutoStart"/>
 		/// </summary>
 		ReadMetadata = 16,
 

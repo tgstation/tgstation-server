@@ -19,9 +19,10 @@ namespace Tgstation.Server.Api.Models
 		public CompileJob? StagedCompileJob { get; set; }
 
 		/// <summary>
-		/// The current status of <see cref="DreamDaemon"/>
+		/// The current <see cref="WatchdogStatus"/>.
 		/// </summary>
-		public bool? Running { get; set; }
+		[EnumDataType(typeof(WatchdogStatus))]
+		public WatchdogStatus? Status { get; set; }
 
 		/// <summary>
 		/// The current <see cref="DreamDaemonSecurity"/> of <see cref="DreamDaemon"/>. May be downgraded due to requirements of <see cref="ActiveCompileJob"/>
