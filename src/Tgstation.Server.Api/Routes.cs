@@ -19,6 +19,11 @@ namespace Tgstation.Server.Api
 		public const string Administration = Root + nameof(Models.Administration);
 
 		/// <summary>
+		/// The <see cref="Models.Administration"/> controller
+		/// </summary>
+		public const string Logs = Administration + "/Logs";
+
+		/// <summary>
 		/// The <see cref="Models.User"/> controller
 		/// </summary>
 		public const string User = Root + nameof(Models.User);
@@ -102,5 +107,19 @@ namespace Tgstation.Server.Api
 		/// <param name="route">The route</param>
 		/// <returns>The <paramref name="route"/> with /List appended</returns>
 		public static string ListRoute(string route) => String.Format(CultureInfo.InvariantCulture, "{0}/{1}", route, List);
+
+		/// <summary>
+		/// Sanitize a <see cref="Models.Internal.RawData"/> path for use in a GET <see cref="Uri"/>.
+		/// </summary>
+		/// <param name="path">The path to sanitize.</param>
+		/// <returns>The sanitized path.</returns>
+		public static string SanitizeGetPath(string path)
+		{
+			if (path == null)
+				path = String.Empty;
+			if (path.Length == 0 || path[0] != '/')
+				path = '/' + path;
+			return path;
+		}
 	}
 }

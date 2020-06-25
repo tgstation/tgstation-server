@@ -222,7 +222,7 @@ namespace Tgstation.Server.Host.IO
 		public async Task<byte[]> ReadAllBytes(string path, CancellationToken cancellationToken)
 		{
 			path = ResolvePath(path);
-			using var file = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read | FileShare.Delete, DefaultBufferSize, true);
+			using var file = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete, DefaultBufferSize, true);
 			byte[] buf;
 			buf = new byte[file.Length];
 			await file.ReadAsync(buf, 0, (int)file.Length, cancellationToken).ConfigureAwait(false);
@@ -311,5 +311,13 @@ namespace Tgstation.Server.Host.IO
 
 		/// <inheritdoc />
 		public bool PathContainsParentAccess(string path) => path?.Split(new[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }).Any(x => x == "..") ?? throw new ArgumentNullException(nameof(path));
+
+		/// <inheritdoc />
+		public Task<DateTimeOffset> GetLastModified(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		{
+			path = ResolvePath(path ?? throw new ArgumentNullException(nameof(path)));
+			var fileInfo = new FileInfo(path);
+			return new DateTimeOffset(fileInfo.LastWriteTimeUtc);
+		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 	}
 }

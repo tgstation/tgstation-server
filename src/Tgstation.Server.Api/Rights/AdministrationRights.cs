@@ -36,6 +36,11 @@ namespace Tgstation.Server.Api.Rights
 		/// <summary>
 		/// User can read info and rights of other users
 		/// </summary>
-		ReadUsers = 16
+		ReadUsers = 16,
+
+		/// <summary>
+		/// User can list and download <see cref="Models.LogFile"/>s.
+		/// </summary>
+		DownloadLogs = 32,
 	}
 }

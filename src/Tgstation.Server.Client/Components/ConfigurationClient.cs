@@ -21,20 +21,6 @@ namespace Tgstation.Server.Client.Components
 		readonly Instance instance;
 
 		/// <summary>
-		/// Sanitize a <see cref="ConfigurationFile"/> path for use in a GET <see cref="Uri"/>
-		/// </summary>
-		/// <param name="path">The path to sanitize</param>
-		/// <returns>The sanitized path</returns>
-		static string SanitizeGetPath(string path)
-		{
-			if (path == null)
-				path = String.Empty;
-			if (path.Length == 0 || path[0] != '/')
-				path = '/' + path;
-			return path;
-		}
-
-		/// <summary>
 		/// Construct a <see cref="ConfigurationClient"/>
 		/// </summary>
 		/// <param name="apiClient">The value of <see cref="apiClient"/></param>
@@ -52,7 +38,7 @@ namespace Tgstation.Server.Client.Components
 		public Task<ConfigurationFile> CreateDirectory(ConfigurationFile directory, CancellationToken cancellationToken) => apiClient.Create<ConfigurationFile, ConfigurationFile>(Routes.Configuration, directory, instance.Id, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<ConfigurationFile>> List(string directory, CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<ConfigurationFile>>(Routes.ListRoute(Routes.Configuration) + SanitizeGetPath(directory), instance.Id, cancellationToken);
+		public Task<IReadOnlyList<ConfigurationFile>> List(string directory, CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<ConfigurationFile>>(Routes.ListRoute(Routes.Configuration) + Routes.SanitizeGetPath(directory), instance.Id, cancellationToken);
 
 		/// <inheritdoc />
 		public Task<ConfigurationFile> Read(ConfigurationFile file, CancellationToken cancellationToken)
@@ -60,7 +46,7 @@ namespace Tgstation.Server.Client.Components
 			if (file == null)
 				throw new ArgumentNullException(nameof(file));
 			return apiClient.Read<ConfigurationFile>(
-				Routes.ConfigurationFile + SanitizeGetPath(file.Path ?? throw new ArgumentException("file.Path should not be null!", nameof(file))),
+				Routes.ConfigurationFile + Routes.SanitizeGetPath(file.Path ?? throw new ArgumentException("file.Path should not be null!", nameof(file))),
 				instance.Id,
 				cancellationToken);
 		}
