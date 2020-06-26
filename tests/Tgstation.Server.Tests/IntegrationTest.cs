@@ -73,7 +73,7 @@ namespace Tgstation.Server.Tests
 				//wait up to 3 minutes for the dl and install
 				await Task.WhenAny(serverTask, Task.Delay(TimeSpan.FromMinutes(3), cancellationToken)).ConfigureAwait(false);
 
-				Assert.IsTrue(serverTask.IsCompleted, "Sever still running!");
+				Assert.IsTrue(serverTask.IsCompleted, "Server still running!");
 
 				Assert.IsTrue(Directory.Exists(server.UpdatePath), "Update directory not present!");
 

@@ -58,7 +58,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			clone = await repositoryClient.Clone(initalRepo, cancellationToken).ConfigureAwait(false);
 
-			await WaitForJob(clone.ActiveJob, 120, false, cancellationToken).ConfigureAwait(false);
+			await WaitForJob(clone.ActiveJob, 180, false, cancellationToken).ConfigureAwait(false);
 			var cloned = await repositoryClient.Read(cancellationToken);
 
 			Assert.AreEqual(Origin, cloned.Origin);

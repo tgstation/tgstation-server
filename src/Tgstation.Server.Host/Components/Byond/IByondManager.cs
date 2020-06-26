@@ -25,9 +25,10 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// Change the active BYOND version
 		/// </summary>
 		/// <param name="version">The new <see cref="Version"/></param>
+		/// <param name="customVersionBytes">Optional <see cref="byte"/>s of a custom BYOND version zip file.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task ChangeVersion(Version version, CancellationToken cancellationToken);
+		Task ChangeVersion(Version version, byte[] customVersionBytes, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Lock the current installation's location and return a <see cref="IByondExecutableLock"/>
