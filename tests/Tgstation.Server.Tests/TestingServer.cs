@@ -36,17 +36,16 @@ namespace Tgstation.Server.Tests
 			if (String.IsNullOrWhiteSpace(Directory))
 			{
 				Directory = Path.Combine(Path.GetTempPath(), "TGS4_INTEGRATION_TEST");
-				if(System.IO.Directory.Exists(Directory))
+				if (System.IO.Directory.Exists(Directory))
 					try
 					{
 						System.IO.Directory.Delete(Directory, true);
 					}
-					catch
-					{
-						Directory = Path.Combine(Directory, Guid.NewGuid().ToString());
-					}
+					catch { }
+
 			}
 
+			Directory = Path.Combine(Directory, Guid.NewGuid().ToString());
 			System.IO.Directory.CreateDirectory(Directory);
 			const string UrlString = "http://localhost:5010";
 			Url = new Uri(UrlString);
