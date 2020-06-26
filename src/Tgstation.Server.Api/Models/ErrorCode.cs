@@ -537,5 +537,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("Test merging cannot be performed with this remote!")]
 		RepoTestMergeInvalidRemote,
+
+		/// <summary>
+		/// Attempted to switch to a custom BYOND version that does not exist.
+		/// </summary>
+		[Description("Cannot switch to requested custom BYOND version as it is not currently installed.")]
+		ByondNonExistentCustomVersion,
 	}
 }

@@ -68,11 +68,16 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(ByondRights.ListInstalled)]
 		[ProducesResponseType(typeof(IEnumerable<Api.Models.Byond>), 200)]
-		public Task<IActionResult> List() => Task.FromResult<IActionResult>(
-			Json(instanceManager.GetInstance(Instance).ByondManager.InstalledVersions.Select(x => new Api.Models.Byond
-			{
-				Version = x
-			})));
+		public IActionResult List()
+			=> Json(
+				instanceManager
+					.GetInstance(Instance)
+					.ByondManager
+					.InstalledVersions
+					.Select(x => new Api.Models.Byond
+					{
+						Version = x
+					}));
 
 		/// <summary>
 		/// Changes the active BYOND version to the one specified in a given <paramref name="model"/>.
@@ -91,20 +96,33 @@ namespace Tgstation.Server.Host.Controllers
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
+			if (model.Version == null
+				|| model.Version.Revision != -1
+				|| (model.Content != null && model.Version.Build > 0))
+				return BadRequest(new ErrorMessage(ErrorCode.ModelValidationFailure));
+
 			var byondManager = instanceManager.GetInstance(Instance).ByondManager;
 
 			// remove cruff fields
-			var installingVersion = new Version(model.Version.Major, model.Version.Minor);
-
 			var result = new Api.Models.Byond();
 
-			if (byondManager.InstalledVersions.Any(x => x == model.Version))
+			if (model.Content == null && byondManager.InstalledVersions.Any(x => x == model.Version))
 			{
-				Logger.LogInformation("User ID {0} changing instance ID {1} BYOND version to {2}", AuthenticationContext.User.Id, Instance.Id, installingVersion);
-				await byondManager.ChangeVersion(model.Version, cancellationToken).ConfigureAwait(false);
+				Logger.LogInformation(
+					"User ID {0} changing instance ID {1} BYOND version to {2}",
+					AuthenticationContext.User.Id,
+					Instance.Id,
+					model.Version);
+				await byondManager.ChangeVersion(model.Version, null, cancellationToken).ConfigureAwait(false);
 			}
+			else if (model.Version.Build > 0)
+				return BadRequest(new ErrorMessage(ErrorCode.ByondNonExistentCustomVersion));
 			else
 			{
+				var installingVersion = model.Version.Build <= 0
+					? new Version(model.Version.Major, model.Version.Minor)
+					: model.Version;
+
 				Logger.LogInformation(
 					"User ID {0} installing BYOND version to {1} on instance ID {2}",
 					AuthenticationContext.User.Id,
@@ -114,13 +132,20 @@ namespace Tgstation.Server.Host.Controllers
 				// run the install through the job manager
 				var job = new Models.Job
 				{
-					Description = $"Install BYOND version {installingVersion}",
+					Description = $"Install BYOND version {model.Version}",
 					StartedBy = AuthenticationContext.User,
 					CancelRightsType = RightsType.Byond,
 					CancelRight = (ulong)ByondRights.CancelInstall,
 					Instance = Instance
 				};
-				await jobManager.RegisterOperation(job, (paramJob, databaseContextFactory, progressHandler, ct) => byondManager.ChangeVersion(installingVersion, ct), cancellationToken).ConfigureAwait(false);
+				await jobManager.RegisterOperation(
+					job,
+					(paramJob, databaseContextFactory, progressHandler, jobCancellationToken) => byondManager.ChangeVersion(
+						model.Version,
+						model.Content,
+						jobCancellationToken),
+					cancellationToken)
+					.ConfigureAwait(false);
 				result.InstallJob = job.ToApi();
 			}
 

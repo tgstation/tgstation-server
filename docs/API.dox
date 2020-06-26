@@ -265,6 +265,8 @@ To set the active Byond version:
 
 I POST "/Byond" @ref Tgstation.Server.Api.Models.Byond => @ref Tgstation.Server.Api.Models.Byond
 
+This will queue up a job to install the byond version if it doesn't exist which will be returned in the response. The @ref Tgstation.Server.Api.Models.Internal.RawData.Content field can be used to upload custom zip files.
+
 To list all installed Byond versions use the following request:
 
 I GET "/Byond/List" => Array of @ref Tgstation.Server.Api.Models.Byond

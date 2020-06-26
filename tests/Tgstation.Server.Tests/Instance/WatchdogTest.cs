@@ -48,6 +48,12 @@ namespace Tgstation.Server.Tests.Instance
 
 			await RunBasicTest(cancellationToken);
 
+			// That was using the custom BYOND version, let's switch back to a regular one now
+			await instanceClient.Byond.SetActiveVersion(new Api.Models.Byond
+			{
+				Version = ByondTest.TestVersion
+			}, cancellationToken);
+
 			// await RunLongRunningTestThenUpdate(cancellationToken);
 			// await RunLongRunningTestThenUpdateWithByondVersionSwitch(cancellationToken);
 			// Remove this deploy when the above tests are reenabled
