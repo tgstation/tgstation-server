@@ -59,11 +59,12 @@ namespace ReleaseNotes
 
 				var releasesTask = client.Repository.Release.GetAll(RepoOwner, RepoName);
 
-				Console.WriteLine("Getting pull requests in milestone " + versionString + "...");
+				Console.WriteLine("Getting merged pull requests in milestone " + versionString + "...");
 				var milestonePRs = await client.Search.SearchIssues(new SearchIssuesRequest
 				{
 					Milestone = $"v{versionString}",
 					Type = IssueTypeQualifier.PullRequest,
+					State = ItemState.Closed,
 					Repos = { { RepoOwner, RepoName } }
 				}).ConfigureAwait(false);
 
@@ -345,6 +346,46 @@ namespace ReleaseNotes
 					{
 						State = ItemState.Closed
 					}).ConfigureAwait(false);
+
+					// Create the next patch milestone
+					var nextPatchMilestoneName = $"v{version.Major}.{version.Minor}.{version.Build + 1}";
+					Console.WriteLine($"Creating milestone {nextPatchMilestoneName}...");
+					var nextPatchMilestone = await client.Issue.Milestone.Create(RepoOwner, RepoName, new NewMilestone(nextPatchMilestoneName));
+
+					if (version.Build == 0)
+					{
+						// close the patch milestone if it exists
+						var milestones = await client.Issue.Milestone.GetAllForRepository(RepoOwner, RepoName, new MilestoneRequest
+						{
+							State = ItemStateFilter.Open
+						});
+
+						var milestoneToDelete = milestones.FirstOrDefault(x => x.Title.StartsWith($"v{version.Major}.{version.Minor - 1}."));
+						if (milestoneToDelete != null)
+						{
+							Console.WriteLine($"Moving {milestoneToDelete.OpenIssues} open issues and {milestoneToDelete.ClosedIssues} closed issues from unused patch milestone {milestoneToDelete.Title} to upcoming ones and deleting...");
+							if (milestoneToDelete.OpenIssues + milestoneToDelete.ClosedIssues > 0)
+							{
+								var issuesInUnusedMilestone = await client.Search.SearchIssues(new SearchIssuesRequest
+								{
+									Milestone = milestoneToDelete.Title,
+									Repos = { { RepoOwner, RepoName } }
+								});
+
+								foreach(var I in issuesInUnusedMilestone.Items)
+									await client.Issue.Update(RepoOwner, RepoName, I.Number, new IssueUpdate
+									{
+										Milestone = I.State.Value == ItemState.Closed ? milestone.Number : nextPatchMilestone.Number
+									});
+							}
+							await client.Issue.Milestone.Delete(RepoOwner, RepoName, milestoneToDelete.Number).ConfigureAwait(false);
+						}
+
+						// Create the next minor milestone
+						var nextMinorMilestone = $"v{version.Major}.{version.Minor + 1}.0";
+						Console.WriteLine($"Creating milestone {nextMinorMilestone}...");
+						await client.Issue.Milestone.Create(RepoOwner, RepoName, new NewMilestone(nextMinorMilestone));
+					}
 				}
 
 				return 0;
