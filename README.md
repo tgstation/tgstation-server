@@ -351,7 +351,7 @@ Otherwise the files `HeadInclude.dm` and `TailInclude.dm` are searched for and a
 
 #### EventScripts
 
-This folder can contain anything. But, when certain events occur in the instance, TGS will look here for `.bat` or `.sh` files with the same name and run those with corresponding arguments. List of supported events can be found [here](src/Tgstation.Server.Host/Components/StaticFiles/Configuration.cs#L28) (subject to expansion) list of event parameters can be found [here](src/Tgstation.Server.Host/Components/EventType.cs)
+This folder can contain anything. But, when certain events occur in the instance, TGS will look here for `.bat` or `.sh` files with the same name and run those with corresponding arguments. List of supported events can be found [here](src/Tgstation.Server.Host/Components/Events/EventType.cs).
 
 #### GameStaticFiles
 
