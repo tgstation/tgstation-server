@@ -187,7 +187,7 @@ namespace Tgstation.Server.Host.Components.Byond
 					await byondInstaller.InstallByond(extractPath, version, cancellationToken).ConfigureAwait(false);
 
 					// make sure to do this last because this is what tells us we have a valid version in the future
-					await ioManager.WriteAllBytes(ioManager.ConcatPath(versionKey, VersionFileName), Encoding.UTF8.GetBytes(version.ToString()), cancellationToken).ConfigureAwait(false);
+					await ioManager.WriteAllBytes(ioManager.ConcatPath(versionKey, VersionFileName), Encoding.UTF8.GetBytes(versionKey), cancellationToken).ConfigureAwait(false);
 				}
 				catch (WebException e)
 				{
