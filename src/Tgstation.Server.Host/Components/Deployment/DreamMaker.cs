@@ -580,7 +580,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 									ActiveTestMerges = new List<RevInfoTestMerge>()
 								};
 
-								logger.LogWarning(Repository.Repository.OriginTrackingErrorTemplate, repoSha);
+								logger.LogInformation(Repository.Repository.OriginTrackingErrorTemplate, repoSha);
 								databaseContext.Instances.Attach(revInfo.Instance);
 								await databaseContext.Save(cancellationToken).ConfigureAwait(false);
 							}

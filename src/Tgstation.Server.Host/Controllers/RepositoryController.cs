@@ -108,7 +108,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (revisionInfo.OriginCommitSha == null)
 			{
 				revisionInfo.OriginCommitSha = repoSha;
-				Logger.LogWarning(Components.Repository.Repository.OriginTrackingErrorTemplate, repoSha);
+				Logger.LogInformation(Components.Repository.Repository.OriginTrackingErrorTemplate, repoSha);
 			}
 
 			revInfoSink?.Invoke(revisionInfo);
