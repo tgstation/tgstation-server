@@ -250,6 +250,7 @@ namespace ReleaseNotes
 						}
 
 						var apiVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsApiVersion").Value);
+						var configVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsConfigVersion").Value);
 						var dmApiVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsDmapiVersion").Value);
 						var webControlVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsControlPanelVersion").Value);
 						var hostWatchdogVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsHostWatchdogVersion").Value);
@@ -257,7 +258,7 @@ namespace ReleaseNotes
 						if (webControlVersion.Major == 0)
 							postControlPanelMessage = true;
 
-						prefix = $"Please refer to the [README](https://github.com/tgstation/tgstation-server#setup) for setup instructions.{Environment.NewLine}{Environment.NewLine}#### Component Versions\nCore: {coreVersion}\nHTTP API: {apiVersion}\nDreamMaker API: {dmApiVersion}\n[Web Control Panel](https://github.com/tgstation/tgstation-server-control-panel): {webControlVersion}\nHost Watchdog: {hostWatchdogVersion}";
+						prefix = $"Please refer to the [README](https://github.com/tgstation/tgstation-server#setup) for setup instructions.{Environment.NewLine}{Environment.NewLine}#### Component Versions\nCore: {coreVersion}\nConfiguration: {configVersion}\nHTTP API: {apiVersion}\nDreamMaker API: {dmApiVersion}\n[Web Control Panel](https://github.com/tgstation/tgstation-server-control-panel): {webControlVersion}\nHost Watchdog: {hostWatchdogVersion}";
 						break;
 					case 3:
 						prefix = "The /tg/station server suite";

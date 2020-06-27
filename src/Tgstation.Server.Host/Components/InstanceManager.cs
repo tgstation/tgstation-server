@@ -280,6 +280,8 @@ namespace Tgstation.Server.Host.Components
 
 			try
 			{
+				generalConfiguration.CheckCompatibility(logger);
+
 				CheckSystemCompatibility();
 				var factoryStartup = instanceFactory.StartAsync(cancellationToken);
 				await databaseSeeder.Initialize(databaseContext, cancellationToken).ConfigureAwait(false);
