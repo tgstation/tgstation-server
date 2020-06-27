@@ -409,6 +409,8 @@ namespace Tgstation.Server.Host.Core
 			else
 				logger.LogDebug("Web control panel disabled!");
 
+			logger.LogDebug("Starting hosting...");
+
 			// authenticate JWT tokens using our security pipeline if present, returns 401 if bad
 			applicationBuilder.UseAuthentication();
 
