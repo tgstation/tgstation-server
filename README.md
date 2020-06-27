@@ -86,6 +86,8 @@ This wizard will, generally, run whenever the server is launched without detecti
 
 Create an `appsettings.Production.json` file next to `appsettings.json`. This will override the default settings in appsettings.json with your production settings. There are a few keys meant to be changed by hosts. Modifying any config files while the server is running will trigger a safe restart (Keeps DreamDaemon's running). Note these are all case-sensitive: 
 
+- `General:ConfigVersion`: Suppresses warnings about out of date config versions. You should change this after updating TGS to one with a new config version. The current version can be found on the releases page for your server version (This field did not exist before v4.4.0).
+
 - `General:MinimumPasswordLength`: Minimum password length requirement for database users
 
 - `General:ValidInstancePaths`: Array meant to limit the directories in which instances may be created.
