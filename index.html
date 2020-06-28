@@ -183,7 +183,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>Acquire an HTTPS certificate. The easiet free way for Windows is <a href="https://github.com/PKISharp/win-acme">win-acme</a> (requires you to set up the website first)</li>
 <li>Install the <a href="https://www.microsoft.com/web/downloads/platform.aspx">Web Platform Installer</a></li>
 <li>Open the web platform installer in the IIS Manager and install the Application Request Routing 3.0 module</li>
-<li>Create a new website, bind it to HTTPS only with your chosen certificate and exposed port. The physical path won't matter since it won't be used. Use <code>Require Server Name Indication</code> if you want to limit requests to a specific URL prefix.</li>
+<li>Create a new website, bind it to HTTPS only with your chosen certificate and exposed port. The physical path won't matter since it won't be used. Use <code>Require Server Name Indication</code> if you want to limit requests to a specific URL prefix. Do not use the same port as the one TGS is running on.</li>
 <li>Close and reopen the IIS Manager</li>
 </ol>
 <ol type="1">
