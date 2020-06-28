@@ -19,7 +19,7 @@ Older server versions can be found in the V# branches of this repository. Note t
 ### Pre-Requisites
 
 - [ASP .NET Core Runtime (>= v3.1)](https://dotnet.microsoft.com/download/dotnet-core/current/runtime) (Choose the option to `Run Server Apps` for your system) If you plan to install tgstation-server as a Windows service, you should also ensure that your .NET Framework runtime version is >= v4.7.2 (Download can be found on same page). Ensure that the `dotnet` executable file is in your system's `PATH` variable (or that of the user's that will be running the server).
-- A [MariaDB](https://downloads.mariadb.org/), MySQL, or [Microsoft SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=55994) database engine is required
+- A [MariaDB](https://downloads.mariadb.org/), MySQL, [PostgresSQL](https://www.postgresql.org/download/), or [Microsoft SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=55994) database engine is required
 
 ### Installation
 
@@ -104,11 +104,11 @@ Create an `appsettings.Production.json` file next to `appsettings.json`. This wi
 
 - `Kestrel:Endpoints:Http:Url`: The URL (i.e. interface and ports) your application should listen on. General use case should be `http://localhost:<port>` for restricted local connections. See the Remote Access section for configuring public access to the World Wide Web. This doesn't need to be changed using the docker setup and should be mapped with the `-p` option instead
 
-- `Database:DatabaseType`: Can be one of `SqlServer`, `MariaDB`, `MySql`, or `Sqlite`.
+- `Database:DatabaseType`: Can be one of `SqlServer`, `MariaDB`, `MySql`, `PostgresSql`, or `Sqlite`.
 
-- `Database:ServerVersion`: The version of the database server. Used by the MySQL/MariaDB and Postgres providers for selection of certain features, ignore at your own risk. A string in the form `<major>.<minor>.<patch>` for MySQL/MariaDB or `<major>.<minor>` for Postgres.
+- `Database:ServerVersion`: The version of the database server. Used by the MySQL/MariaDB and Postgres providers for selection of certain features, ignore at your own risk. A string in the form `<major>.<minor>.<patch>` for MySQL/MariaDB or `<major>.<minor>` for PostgresSQL.
 
-- `Database:ConnectionString`: Connection string for your database. Click [here](https://www.developerfusion.com/tools/sql-connection-string/) for an SQL Server generator or see [here](https://www.connectionstrings.com/mysql/) for a MySQL guide ([You should probably use '127.0.0.1' instead of 'localhost'](https://stackoverflow.com/questions/19712307/mysql-localhost-127-0-0-1)).
+- `Database:ConnectionString`: Connection string for your database. Click [here](https://www.developerfusion.com/tools/sql-connection-string/) for an SQL Server generator, or see [here](https://www.connectionstrings.com/postgresql/) for a Postgres guide or [here](https://www.connectionstrings.com/mysql/) for a MySQL guide ([You should probably use '127.0.0.1' instead of 'localhost'](https://stackoverflow.com/questions/19712307/mysql-localhost-127-0-0-1)). Sqlite connection strings should be in the format `Data Source=<PATH TO DATABASE FILE>;Mode=ReadWriteCreate`.
 
 - `ControlPanel:Enable`: Enable the javascript based control panel to be served from the server via /index.html
 
