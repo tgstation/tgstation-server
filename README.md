@@ -211,7 +211,7 @@ Once complete, test that your configuration worked by visiting your proxy site f
 1. Acquire an HTTPS certificate. The easiet free way for Windows is [win-acme](https://github.com/PKISharp/win-acme) (requires you to set up the website first)
 2. Install the [Web Platform Installer](https://www.microsoft.com/web/downloads/platform.aspx)
 3. Open the web platform installer in the IIS Manager and install the Application Request Routing 3.0 module
-4. Create a new website, bind it to HTTPS only with your chosen certificate and exposed port. The physical path won't matter since it won't be used. Use `Require Server Name Indication` if you want to limit requests to a specific URL prefix.
+4. Create a new website, bind it to HTTPS only with your chosen certificate and exposed port. The physical path won't matter since it won't be used. Use `Require Server Name Indication` if you want to limit requests to a specific URL prefix. Do not use the same port as the one TGS is running on.
 5. Close and reopen the IIS Manager
 5. Open the site and navigate to the `URL Rewrite` module
 6. In the `Actions` Pane on the right click `Add Rule(s)...`
