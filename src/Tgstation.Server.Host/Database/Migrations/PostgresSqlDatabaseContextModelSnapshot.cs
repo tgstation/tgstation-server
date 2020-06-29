@@ -15,7 +15,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 #pragma warning disable 612, 618
 			modelBuilder
 				.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
-				.HasAnnotation("ProductVersion", "3.1.4")
+				.HasAnnotation("ProductVersion", "3.1.5")
 				.HasAnnotation("Relational:MaxIdentifierLength", 63);
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
@@ -176,10 +176,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<long>("InstanceId")
 						.HasColumnType("bigint");
 
-					b.Property<int>("PrimaryPort")
-						.HasColumnType("integer");
-
-					b.Property<int>("SecondaryPort")
+					b.Property<int>("Port")
 						.HasColumnType("integer");
 
 					b.Property<int>("SecurityLevel")
@@ -225,37 +222,6 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.IsUnique();
 
 					b.ToTable("DreamMakerSettings");
-				});
-
-			modelBuilder.Entity("Tgstation.Server.Host.Models.DualReattachInformation", b =>
-				{
-					b.Property<long>("Id")
-						.ValueGeneratedOnAdd()
-						.HasColumnType("bigint")
-						.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-					b.Property<long?>("AlphaId")
-						.HasColumnType("bigint");
-
-					b.Property<bool>("AlphaIsActive")
-						.HasColumnType("boolean");
-
-					b.Property<long?>("BravoId")
-						.HasColumnType("bigint");
-
-					b.Property<long>("InstanceId")
-						.HasColumnType("bigint");
-
-					b.HasKey("Id");
-
-					b.HasIndex("AlphaId");
-
-					b.HasIndex("BravoId");
-
-					b.HasIndex("InstanceId")
-						.IsUnique();
-
-					b.ToTable("WatchdogReattachInformations");
 				});
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.Instance", b =>
@@ -407,9 +373,6 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 					b.Property<long>("CompileJobId")
 						.HasColumnType("bigint");
-
-					b.Property<bool>("IsPrimary")
-						.HasColumnType("boolean");
 
 					b.Property<int>("LaunchSecurityLevel")
 						.HasColumnType("integer");
@@ -693,23 +656,6 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
 						.WithOne("DreamMakerSettings")
 						.HasForeignKey("Tgstation.Server.Host.Models.DreamMakerSettings", "InstanceId")
-						.OnDelete(DeleteBehavior.Cascade)
-						.IsRequired();
-				});
-
-			modelBuilder.Entity("Tgstation.Server.Host.Models.DualReattachInformation", b =>
-				{
-					b.HasOne("Tgstation.Server.Host.Models.ReattachInformation", "Alpha")
-						.WithMany()
-						.HasForeignKey("AlphaId");
-
-					b.HasOne("Tgstation.Server.Host.Models.ReattachInformation", "Bravo")
-						.WithMany()
-						.HasForeignKey("BravoId");
-
-					b.HasOne("Tgstation.Server.Host.Models.Instance", null)
-						.WithOne("WatchdogReattachInformation")
-						.HasForeignKey("Tgstation.Server.Host.Models.DualReattachInformation", "InstanceId")
 						.OnDelete(DeleteBehavior.Cascade)
 						.IsRequired();
 				});

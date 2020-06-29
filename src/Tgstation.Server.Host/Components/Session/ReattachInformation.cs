@@ -22,6 +22,11 @@ namespace Tgstation.Server.Host.Components.Session
 		public RuntimeInformation RuntimeInformation { get; private set; }
 
 		/// <summary>
+		/// The <see cref="TimeSpan"/> which indicates when topic requests should timeout.
+		/// </summary>
+		public TimeSpan TopicRequestTimeout { get; }
+
+		/// <summary>
 		/// <see langword="lock"/> <see cref="object"/> for accessing <see cref="RuntimeInformation"/>.
 		/// </summary>
 		readonly object runtimeInformationLock;
@@ -34,14 +39,12 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="runtimeInformation">The value of <see cref="RuntimeInformation"/>.</param>
 		/// <param name="accessIdentifier">The value of <see cref="Interop.DMApiParameters.AccessIdentifier"/>.</param>
 		/// <param name="port">The value of <see cref="ReattachInformationBase.Port"/>.</param>
-		/// <param name="isPrimary">The value of <see cref="ReattachInformationBase.IsPrimary"/>.</param>
 		internal ReattachInformation(
 			IDmbProvider dmb,
 			IProcess process,
 			RuntimeInformation runtimeInformation,
 			string accessIdentifier,
-			ushort port,
-			bool isPrimary)
+			ushort port)
 		{
 			Dmb = dmb ?? throw new ArgumentNullException(nameof(dmb));
 			ProcessId = process?.Id ?? throw new ArgumentNullException(nameof(process));
@@ -53,7 +56,6 @@ namespace Tgstation.Server.Host.Components.Session
 
 			LaunchSecurityLevel = runtimeInformation.SecurityLevel.Value;
 			Port = port;
-			IsPrimary = isPrimary;
 
 			runtimeInformationLock = new object();
 		}
@@ -63,9 +65,14 @@ namespace Tgstation.Server.Host.Components.Session
 		/// </summary>
 		/// <param name="copy">The <see cref="Models.ReattachInformation"/> to copy values from</param>
 		/// <param name="dmb">The value of <see cref="Dmb"/></param>
-		public ReattachInformation(Models.ReattachInformation copy, IDmbProvider dmb) : base(copy)
+		/// <param name="topicRequestTimeout">The value of <see cref="TopicRequestTimeout"/>.</param>
+		public ReattachInformation(
+			Models.ReattachInformation copy,
+			IDmbProvider dmb,
+			TimeSpan topicRequestTimeout) : base(copy)
 		{
 			Dmb = dmb ?? throw new ArgumentNullException(nameof(dmb));
+			TopicRequestTimeout = topicRequestTimeout;
 
 			runtimeInformationLock = new object();
 		}

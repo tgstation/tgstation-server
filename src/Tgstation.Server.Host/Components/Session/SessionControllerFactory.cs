@@ -185,17 +185,11 @@ namespace Tgstation.Server.Host.Components.Session
 			IDmbProvider dmbProvider,
 			IByondExecutableLock currentByondLock,
 			DreamDaemonLaunchParameters launchParameters,
-			bool primaryPort,
-			bool primaryDirectory,
 			bool apiValidate,
 			CancellationToken cancellationToken)
 		{
-			var portToUse = primaryPort ? launchParameters.PrimaryPort : launchParameters.SecondaryPort;
-			if (!portToUse.HasValue)
+			if (!launchParameters.Port.HasValue)
 				throw new InvalidOperationException("Given port is null!");
-
-			var basePath = primaryDirectory ? dmbProvider.PrimaryDirectory : dmbProvider.SecondaryDirectory;
-
 			switch (dmbProvider.CompileJob.MinimumSecurityLevel)
 			{
 				case DreamDaemonSecurity.Ultrasafe:
@@ -219,9 +213,9 @@ namespace Tgstation.Server.Host.Components.Session
 				try
 				{
 					if (launchParameters.SecurityLevel == DreamDaemonSecurity.Trusted)
-						await byondLock.TrustDmbPath(ioManager.ConcatPath(basePath, dmbProvider.DmbName), cancellationToken).ConfigureAwait(false);
+						await byondLock.TrustDmbPath(ioManager.ConcatPath(dmbProvider.Directory, dmbProvider.DmbName), cancellationToken).ConfigureAwait(false);
 
-					PortBindTest(portToUse.Value);
+					PortBindTest(launchParameters.Port.Value);
 					await CheckPagerIsNotRunning(cancellationToken).ConfigureAwait(false);
 
 					var accessIdentifier = cryptographySuite.GetSecureString();
@@ -242,7 +236,7 @@ namespace Tgstation.Server.Host.Components.Session
 						CultureInfo.InvariantCulture,
 						"{0} -port {1} -ports 1-65535 {2}-close -{3} -{4}{5} -public -params \"{6}\"",
 						dmbProvider.DmbName,
-						portToUse,
+						launchParameters.Port.Value,
 						launchParameters.AllowWebClient.Value ? "-webclient " : String.Empty,
 						SecurityWord(launchParameters.SecurityLevel.Value),
 						visibility,
@@ -257,7 +251,7 @@ namespace Tgstation.Server.Host.Components.Session
 					// launch dd
 					var process = processExecutor.LaunchProcess(
 						byondLock.DreamDaemonPath,
-						basePath,
+						dmbProvider.Directory,
 						arguments,
 						noShellExecute,
 						noShellExecute,
@@ -268,7 +262,7 @@ namespace Tgstation.Server.Host.Components.Session
 						if (!platformIdentifier.IsWindows)
 							return process.GetCombinedOutput();
 
-						var logFilePath = ioManager.ConcatPath(basePath, logFileGuid.ToString());
+						var logFilePath = ioManager.ConcatPath(dmbProvider.Directory, logFileGuid.ToString());
 						try
 						{
 							var dreamDaemonLogBytes = await ioManager.ReadAllBytes(
@@ -324,8 +318,7 @@ namespace Tgstation.Server.Host.Components.Session
 							process,
 							runtimeInformation,
 							accessIdentifier,
-							portToUse.Value,
-							primaryDirectory);
+							launchParameters.Port.Value);
 
 						var sessionController = new SessionController(
 							reattachInformation,
@@ -368,13 +361,12 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <inheritdoc />
 		public async Task<ISessionController> Reattach(
 			ReattachInformation reattachInformation,
-			TimeSpan topicRequestTimeout,
 			CancellationToken cancellationToken)
 		{
 			if (reattachInformation == null)
 				throw new ArgumentNullException(nameof(reattachInformation));
 
-			var byondTopicSender = topicClientFactory.CreateTopicClient(topicRequestTimeout);
+			var byondTopicSender = topicClientFactory.CreateTopicClient(reattachInformation.TopicRequestTimeout);
 			var chatTrackingContext = chat.CreateTrackingContext();
 			try
 			{

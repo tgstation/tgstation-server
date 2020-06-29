@@ -5,8 +5,7 @@ The watchdog is what keeps DreamDaemon alive and well. It's responsible for star
 There are three main implementations of the interface [IWatchdog](./IWatchdog.cs) that deal with how it handles the last of those jobs.
 
 - The [BasicWatchdog](./BasicWatchdog.cs) kills DreamDaemon when the world reboots and immediately restarts it with the newly compiled .dmb.
-- The [WindowsWatchdog](./WindowsWatchdog.cs) uses a quirk of the interaction of DD with the Windows file system. A symlink to the game folder is created. From here, we launch the game. When a new .dmb is available, this symlink is deleted and then immediately recreated pointing to the new game directory. When DreamDaemon reboots it will load the new game. 
-- The [ExperimentalWatchdog](./ExperimentalWatchdog) starts new servers when the new .dmb comes in. But it uses some, rather invasive, port trickery to reroute traffic from the old game server to the new one. The idea for this is to always have two servers running so one can act as a fallback for if the main one fails. This is currently a big work-in-progress as it has issues with BYOND bugs and static file sharing.
+- The [WindowsWatchdog](./WindowsWatchdog.cs) uses a quirk of the interaction of DD with the Windows file system. A symlink to the game folder is created. From here, we launch the game. When a new .dmb is available, this symlink is deleted and then immediately recreated pointing to the new game directory. When DreamDaemon reboots it will load the new game.
 
 [WatchdogBase](./WatchdogBase.cs) is the parent of all these implementations and contains the bulk of the monitoring code. More on that later.
 
@@ -23,8 +22,7 @@ From the perspective of `WatchdogBase`
 - `InitControllers()` is called, which abstractly creates the `ISessionController`(s) for the watchdog.
     - For the `BasicWatchdog`, the controller is created normally.
     - For the `WindowsWatchdog`, we replace the `IDmbProvider` with a `WindowsSwappableDmbProvider` and setup the symlinking before deferring to the `BasicWatchdog`
-    - For the `ExperimentalWatchdog` we launch two servers in tandem.
-    - For reattaching, all three work similarly in that they use `ISessionControllerFactory` to reattach their sessions. The `ExperimentalWatchdog` will insert a `DeadSessionController` in place of one if only one server could not reattach.
+    - For reattaching, all three work similarly in that they use `ISessionControllerFactory` to reattach their sessions.
 - `MonitorLifetimes()` is called which is the "main loop" of the watchdog.
 
 ## Monitoring

@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -348,10 +347,6 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		private void CheckSystemCompatibility()
 		{
-			if (generalConfiguration.UseExperimentalWatchdog && !Debugger.IsAttached)
-				throw new InvalidOperationException(
-					"The experimental watchdog is currently non-functional! Please disable the '{nameof(generalConfiguration.UseExperimentalWatchdog)}' option in your configuration!");
-
 			using var systemIdentity = systemIdentityFactory.GetCurrent();
 			if (!systemIdentity.CanCreateSymlinks)
 				throw new InvalidOperationException("The user running tgstation-server cannot create symlinks! Please try running as an administrative user!");

@@ -241,7 +241,12 @@ namespace Tgstation.Server.Host.Components
 					var dmbFactory = new DmbFactory(databaseContextFactory, gameIoManager, loggerFactory.CreateLogger<DmbFactory>(), metadata.CloneMetadata());
 					try
 					{
-						var reattachInfoHandler = new ReattachInfoHandler(databaseContextFactory, dmbFactory, loggerFactory.CreateLogger<ReattachInfoHandler>(), metadata.CloneMetadata());
+						var reattachInfoHandler = new ReattachInfoHandler(
+							databaseContextFactory,
+							dmbFactory,
+							processExecutor,
+							loggerFactory.CreateLogger<ReattachInfoHandler>(),
+							metadata.CloneMetadata());
 						var watchdog = watchdogFactory.CreateWatchdog(
 							chatManager,
 							dmbFactory,

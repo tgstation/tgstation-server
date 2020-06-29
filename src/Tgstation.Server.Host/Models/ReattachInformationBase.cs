@@ -18,11 +18,6 @@ namespace Tgstation.Server.Host.Models
 		public int ProcessId { get; set; }
 
 		/// <summary>
-		/// If the <see cref="Components.Deployment.IDmbProvider.PrimaryDirectory"/> of the associated dmb is being used
-		/// </summary>
-		public bool IsPrimary { get; set; }
-
-		/// <summary>
 		/// The port DreamDaemon was last listening on
 		/// </summary>
 		public ushort Port { get; set; }
@@ -52,7 +47,6 @@ namespace Tgstation.Server.Host.Models
 			if (copy == null)
 				throw new ArgumentNullException(nameof(copy));
 			AccessIdentifier = copy.AccessIdentifier;
-			IsPrimary = copy.IsPrimary;
 			Port = copy.Port;
 			ProcessId = copy.ProcessId;
 			RebootState = copy.RebootState;
@@ -60,6 +54,6 @@ namespace Tgstation.Server.Host.Models
 		}
 
 		/// <inheritdoc />
-		public override string ToString() => String.Format(CultureInfo.InvariantCulture, "Process ID: {3}, Access Identifier {4}, Primary: {0}, RebootState: {1}, Port: {2}", IsPrimary, RebootState, Port, ProcessId, AccessIdentifier);
+		public override string ToString() => String.Format(CultureInfo.InvariantCulture, "Process ID: {0}, Access Identifier {1}, RebootState: {2}, Port: {3}", ProcessId, AccessIdentifier, RebootState, Port);
 	}
 }

@@ -2,51 +2,54 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
-	[DbContext(typeof(SqliteDatabaseContext))]
-	partial class SqliteDatabaseContextModelSnapshot : ModelSnapshot
+	[DbContext(typeof(MySqlDatabaseContext))]
+	[Migration("20200629184843_MYRemoveExperimentalWatchdog")]
+	partial class MYRemoveExperimentalWatchdog
 	{
 		/// <inheritdoc />
-		protected override void BuildModel(ModelBuilder modelBuilder)
+		protected override void BuildTargetModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "3.1.5");
+				.HasAnnotation("ProductVersion", "3.1.5")
+				.HasAnnotation("Relational:MaxIdentifierLength", 64);
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
 				{
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<ushort?>("ChannelLimit")
 						.IsRequired()
-						.HasColumnType("INTEGER");
+						.HasColumnType("smallint unsigned");
 
 					b.Property<string>("ConnectionString")
 						.IsRequired()
-						.HasColumnType("TEXT")
+						.HasColumnType("longtext CHARACTER SET utf8mb4")
 						.HasMaxLength(10000);
 
 					b.Property<bool?>("Enabled")
-						.HasColumnType("INTEGER");
+						.HasColumnType("tinyint(1)");
 
 					b.Property<long>("InstanceId")
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<string>("Name")
 						.IsRequired()
-						.HasColumnType("TEXT")
+						.HasColumnType("varchar(100) CHARACTER SET utf8mb4")
 						.HasMaxLength(100);
 
 					b.Property<int>("Provider")
-						.HasColumnType("INTEGER");
+						.HasColumnType("int");
 
 					b.Property<uint?>("ReconnectionInterval")
 						.IsRequired()
-						.HasColumnType("INTEGER");
+						.HasColumnType("int unsigned");
 
 					b.HasKey("Id");
 
@@ -60,32 +63,32 @@ namespace Tgstation.Server.Host.Database.Migrations
 				{
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<long>("ChatSettingsId")
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<ulong?>("DiscordChannelId")
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint unsigned");
 
 					b.Property<string>("IrcChannel")
-						.HasColumnType("TEXT")
+						.HasColumnType("varchar(100) CHARACTER SET utf8mb4")
 						.HasMaxLength(100);
 
 					b.Property<bool?>("IsAdminChannel")
 						.IsRequired()
-						.HasColumnType("INTEGER");
+						.HasColumnType("tinyint(1)");
 
 					b.Property<bool?>("IsUpdatesChannel")
 						.IsRequired()
-						.HasColumnType("INTEGER");
+						.HasColumnType("tinyint(1)");
 
 					b.Property<bool?>("IsWatchdogChannel")
 						.IsRequired()
-						.HasColumnType("INTEGER");
+						.HasColumnType("tinyint(1)");
 
 					b.Property<string>("Tag")
-						.HasColumnType("TEXT")
+						.HasColumnType("longtext CHARACTER SET utf8mb4")
 						.HasMaxLength(10000);
 
 					b.HasKey("Id");
@@ -103,41 +106,41 @@ namespace Tgstation.Server.Host.Database.Migrations
 				{
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<string>("ByondVersion")
 						.IsRequired()
-						.HasColumnType("TEXT");
+						.HasColumnType("longtext CHARACTER SET utf8mb4");
 
 					b.Property<int?>("DMApiMajorVersion")
-						.HasColumnType("INTEGER");
+						.HasColumnType("int");
 
 					b.Property<int?>("DMApiMinorVersion")
-						.HasColumnType("INTEGER");
+						.HasColumnType("int");
 
 					b.Property<int?>("DMApiPatchVersion")
-						.HasColumnType("INTEGER");
+						.HasColumnType("int");
 
 					b.Property<Guid?>("DirectoryName")
 						.IsRequired()
-						.HasColumnType("TEXT");
+						.HasColumnType("char(36)");
 
 					b.Property<string>("DmeName")
 						.IsRequired()
-						.HasColumnType("TEXT");
+						.HasColumnType("longtext CHARACTER SET utf8mb4");
 
 					b.Property<long>("JobId")
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<int>("MinimumSecurityLevel")
-						.HasColumnType("INTEGER");
+						.HasColumnType("int");
 
 					b.Property<string>("Output")
 						.IsRequired()
-						.HasColumnType("TEXT");
+						.HasColumnType("longtext CHARACTER SET utf8mb4");
 
 					b.Property<long>("RevisionInformationId")
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.HasKey("Id");
 
@@ -155,37 +158,37 @@ namespace Tgstation.Server.Host.Database.Migrations
 				{
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<bool?>("AllowWebClient")
 						.IsRequired()
-						.HasColumnType("INTEGER");
+						.HasColumnType("tinyint(1)");
 
 					b.Property<bool?>("AutoStart")
 						.IsRequired()
-						.HasColumnType("INTEGER");
+						.HasColumnType("tinyint(1)");
 
 					b.Property<uint?>("HeartbeatSeconds")
 						.IsRequired()
-						.HasColumnType("INTEGER");
+						.HasColumnType("int unsigned");
 
 					b.Property<long>("InstanceId")
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<ushort?>("Port")
 						.IsRequired()
-						.HasColumnType("INTEGER");
+						.HasColumnType("smallint unsigned");
 
 					b.Property<int>("SecurityLevel")
-						.HasColumnType("INTEGER");
+						.HasColumnType("int");
 
 					b.Property<uint?>("StartupTimeout")
 						.IsRequired()
-						.HasColumnType("INTEGER");
+						.HasColumnType("int unsigned");
 
 					b.Property<uint?>("TopicRequestTimeout")
 						.IsRequired()
-						.HasColumnType("INTEGER");
+						.HasColumnType("int unsigned");
 
 					b.HasKey("Id");
 
@@ -199,20 +202,20 @@ namespace Tgstation.Server.Host.Database.Migrations
 				{
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<ushort?>("ApiValidationPort")
 						.IsRequired()
-						.HasColumnType("INTEGER");
+						.HasColumnType("smallint unsigned");
 
 					b.Property<int>("ApiValidationSecurityLevel")
-						.HasColumnType("INTEGER");
+						.HasColumnType("int");
 
 					b.Property<long>("InstanceId")
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<string>("ProjectName")
-						.HasColumnType("TEXT")
+						.HasColumnType("longtext CHARACTER SET utf8mb4")
 						.HasMaxLength(10000);
 
 					b.HasKey("Id");
@@ -227,31 +230,31 @@ namespace Tgstation.Server.Host.Database.Migrations
 				{
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<uint?>("AutoUpdateInterval")
 						.IsRequired()
-						.HasColumnType("INTEGER");
+						.HasColumnType("int unsigned");
 
 					b.Property<ushort?>("ChatBotLimit")
 						.IsRequired()
-						.HasColumnType("INTEGER");
+						.HasColumnType("smallint unsigned");
 
 					b.Property<int>("ConfigurationType")
-						.HasColumnType("INTEGER");
+						.HasColumnType("int");
 
 					b.Property<string>("Name")
 						.IsRequired()
-						.HasColumnType("TEXT")
+						.HasColumnType("longtext CHARACTER SET utf8mb4")
 						.HasMaxLength(10000);
 
 					b.Property<bool?>("Online")
 						.IsRequired()
-						.HasColumnType("INTEGER");
+						.HasColumnType("tinyint(1)");
 
 					b.Property<string>("Path")
 						.IsRequired()
-						.HasColumnType("TEXT");
+						.HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
 					b.HasKey("Id");
 
@@ -265,35 +268,35 @@ namespace Tgstation.Server.Host.Database.Migrations
 				{
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<ulong>("ByondRights")
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint unsigned");
 
 					b.Property<ulong>("ChatBotRights")
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint unsigned");
 
 					b.Property<ulong>("ConfigurationRights")
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint unsigned");
 
 					b.Property<ulong>("DreamDaemonRights")
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint unsigned");
 
 					b.Property<ulong>("DreamMakerRights")
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint unsigned");
 
 					b.Property<long>("InstanceId")
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<ulong>("InstanceUserRights")
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint unsigned");
 
 					b.Property<ulong>("RepositoryRights")
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint unsigned");
 
 					b.Property<long?>("UserId")
 						.IsRequired()
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.HasKey("Id");
 
@@ -309,43 +312,43 @@ namespace Tgstation.Server.Host.Database.Migrations
 				{
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<ulong?>("CancelRight")
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint unsigned");
 
 					b.Property<ulong?>("CancelRightsType")
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint unsigned");
 
 					b.Property<bool?>("Cancelled")
 						.IsRequired()
-						.HasColumnType("INTEGER");
+						.HasColumnType("tinyint(1)");
 
 					b.Property<long?>("CancelledById")
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<string>("Description")
 						.IsRequired()
-						.HasColumnType("TEXT");
+						.HasColumnType("longtext CHARACTER SET utf8mb4");
 
 					b.Property<uint?>("ErrorCode")
-						.HasColumnType("INTEGER");
+						.HasColumnType("int unsigned");
 
 					b.Property<string>("ExceptionDetails")
-						.HasColumnType("TEXT");
+						.HasColumnType("longtext CHARACTER SET utf8mb4");
 
 					b.Property<long>("InstanceId")
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<DateTimeOffset?>("StartedAt")
 						.IsRequired()
-						.HasColumnType("TEXT");
+						.HasColumnType("datetime(6)");
 
 					b.Property<long>("StartedById")
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<DateTimeOffset?>("StoppedAt")
-						.HasColumnType("TEXT");
+						.HasColumnType("datetime(6)");
 
 					b.HasKey("Id");
 
@@ -362,26 +365,26 @@ namespace Tgstation.Server.Host.Database.Migrations
 				{
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<string>("AccessIdentifier")
 						.IsRequired()
-						.HasColumnType("TEXT");
+						.HasColumnType("longtext CHARACTER SET utf8mb4");
 
 					b.Property<long>("CompileJobId")
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<int>("LaunchSecurityLevel")
-						.HasColumnType("INTEGER");
+						.HasColumnType("int");
 
 					b.Property<ushort>("Port")
-						.HasColumnType("INTEGER");
+						.HasColumnType("smallint unsigned");
 
 					b.Property<int>("ProcessId")
-						.HasColumnType("INTEGER");
+						.HasColumnType("int");
 
 					b.Property<int>("RebootState")
-						.HasColumnType("INTEGER");
+						.HasColumnType("int");
 
 					b.HasKey("Id");
 
@@ -394,48 +397,48 @@ namespace Tgstation.Server.Host.Database.Migrations
 				{
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<string>("AccessToken")
-						.HasColumnType("TEXT")
+						.HasColumnType("longtext CHARACTER SET utf8mb4")
 						.HasMaxLength(10000);
 
 					b.Property<string>("AccessUser")
-						.HasColumnType("TEXT")
+						.HasColumnType("longtext CHARACTER SET utf8mb4")
 						.HasMaxLength(10000);
 
 					b.Property<bool?>("AutoUpdatesKeepTestMerges")
 						.IsRequired()
-						.HasColumnType("INTEGER");
+						.HasColumnType("tinyint(1)");
 
 					b.Property<bool?>("AutoUpdatesSynchronize")
 						.IsRequired()
-						.HasColumnType("INTEGER");
+						.HasColumnType("tinyint(1)");
 
 					b.Property<string>("CommitterEmail")
 						.IsRequired()
-						.HasColumnType("TEXT")
+						.HasColumnType("longtext CHARACTER SET utf8mb4")
 						.HasMaxLength(10000);
 
 					b.Property<string>("CommitterName")
 						.IsRequired()
-						.HasColumnType("TEXT")
+						.HasColumnType("longtext CHARACTER SET utf8mb4")
 						.HasMaxLength(10000);
 
 					b.Property<long>("InstanceId")
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<bool?>("PostTestMergeComment")
 						.IsRequired()
-						.HasColumnType("INTEGER");
+						.HasColumnType("tinyint(1)");
 
 					b.Property<bool?>("PushTestMergeCommits")
 						.IsRequired()
-						.HasColumnType("INTEGER");
+						.HasColumnType("tinyint(1)");
 
 					b.Property<bool?>("ShowTestMergeCommitters")
 						.IsRequired()
-						.HasColumnType("INTEGER");
+						.HasColumnType("tinyint(1)");
 
 					b.HasKey("Id");
 
@@ -449,13 +452,13 @@ namespace Tgstation.Server.Host.Database.Migrations
 				{
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<long>("RevisionInformationId")
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<long>("TestMergeId")
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.HasKey("Id");
 
@@ -470,19 +473,19 @@ namespace Tgstation.Server.Host.Database.Migrations
 				{
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<string>("CommitSha")
 						.IsRequired()
-						.HasColumnType("TEXT")
+						.HasColumnType("varchar(40) CHARACTER SET utf8mb4")
 						.HasMaxLength(40);
 
 					b.Property<long>("InstanceId")
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<string>("OriginCommitSha")
 						.IsRequired()
-						.HasColumnType("TEXT")
+						.HasColumnType("varchar(40) CHARACTER SET utf8mb4")
 						.HasMaxLength(40);
 
 					b.HasKey("Id");
@@ -497,45 +500,45 @@ namespace Tgstation.Server.Host.Database.Migrations
 				{
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<string>("Author")
 						.IsRequired()
-						.HasColumnType("TEXT");
+						.HasColumnType("longtext CHARACTER SET utf8mb4");
 
 					b.Property<string>("BodyAtMerge")
 						.IsRequired()
-						.HasColumnType("TEXT");
+						.HasColumnType("longtext CHARACTER SET utf8mb4");
 
 					b.Property<string>("Comment")
-						.HasColumnType("TEXT")
+						.HasColumnType("longtext CHARACTER SET utf8mb4")
 						.HasMaxLength(10000);
 
 					b.Property<DateTimeOffset>("MergedAt")
-						.HasColumnType("TEXT");
+						.HasColumnType("datetime(6)");
 
 					b.Property<long>("MergedById")
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<int>("Number")
-						.HasColumnType("INTEGER");
+						.HasColumnType("int");
 
 					b.Property<long?>("PrimaryRevisionInformationId")
 						.IsRequired()
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<string>("PullRequestRevision")
 						.IsRequired()
-						.HasColumnType("TEXT")
+						.HasColumnType("varchar(40) CHARACTER SET utf8mb4")
 						.HasMaxLength(40);
 
 					b.Property<string>("TitleAtMerge")
 						.IsRequired()
-						.HasColumnType("TEXT");
+						.HasColumnType("longtext CHARACTER SET utf8mb4");
 
 					b.Property<string>("Url")
 						.IsRequired()
-						.HasColumnType("TEXT");
+						.HasColumnType("longtext CHARACTER SET utf8mb4");
 
 					b.HasKey("Id");
 
@@ -551,42 +554,42 @@ namespace Tgstation.Server.Host.Database.Migrations
 				{
 					b.Property<long?>("Id")
 						.ValueGeneratedOnAdd()
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<ulong>("AdministrationRights")
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint unsigned");
 
 					b.Property<string>("CanonicalName")
 						.IsRequired()
-						.HasColumnType("TEXT");
+						.HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
 					b.Property<DateTimeOffset?>("CreatedAt")
 						.IsRequired()
-						.HasColumnType("TEXT");
+						.HasColumnType("datetime(6)");
 
 					b.Property<long?>("CreatedById")
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint");
 
 					b.Property<bool?>("Enabled")
 						.IsRequired()
-						.HasColumnType("INTEGER");
+						.HasColumnType("tinyint(1)");
 
 					b.Property<ulong>("InstanceManagerRights")
-						.HasColumnType("INTEGER");
+						.HasColumnType("bigint unsigned");
 
 					b.Property<DateTimeOffset?>("LastPasswordUpdate")
-						.HasColumnType("TEXT");
+						.HasColumnType("datetime(6)");
 
 					b.Property<string>("Name")
 						.IsRequired()
-						.HasColumnType("TEXT")
+						.HasColumnType("longtext CHARACTER SET utf8mb4")
 						.HasMaxLength(10000);
 
 					b.Property<string>("PasswordHash")
-						.HasColumnType("TEXT");
+						.HasColumnType("longtext CHARACTER SET utf8mb4");
 
 					b.Property<string>("SystemIdentifier")
-						.HasColumnType("TEXT");
+						.HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
 					b.HasKey("Id");
 
@@ -630,7 +633,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.HasOne("Tgstation.Server.Host.Models.RevisionInformation", "RevisionInformation")
 						.WithMany("CompileJobs")
 						.HasForeignKey("RevisionInformationId")
-						.OnDelete(DeleteBehavior.ClientNoAction)
+						.OnDelete(DeleteBehavior.Cascade)
 						.IsRequired();
 				});
 

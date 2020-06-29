@@ -20,10 +20,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		public string DmbName => baseProvider.DmbName;
 
 		/// <inheritdoc />
-		public string PrimaryDirectory => ioManager.ResolvePath(LiveGameDirectory);
-
-		/// <inheritdoc />
-		public string SecondaryDirectory => throw new NotSupportedException();
+		public string Directory => ioManager.ResolvePath(LiveGameDirectory);
 
 		/// <inheritdoc />
 		public CompileJob CompileJob => baseProvider.CompileJob;
@@ -73,7 +70,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			// These next two lines should be atomic but this is the best we can do
 			await ioManager.DeleteDirectory(LiveGameDirectory, cancellationToken).ConfigureAwait(false);
 			await symlinkFactory.CreateSymbolicLink(
-				ioManager.ResolvePath(baseProvider.PrimaryDirectory),
+				ioManager.ResolvePath(baseProvider.Directory),
 				ioManager.ResolvePath(LiveGameDirectory),
 				cancellationToken)
 				.ConfigureAwait(false);

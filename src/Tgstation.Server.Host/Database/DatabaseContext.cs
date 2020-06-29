@@ -82,11 +82,6 @@ namespace Tgstation.Server.Host.Database
 		public DbSet<ReattachInformation> ReattachInformations { get; set; }
 
 		/// <summary>
-		/// The <see cref="DualReattachInformation"/>s in the <see cref="DatabaseContext"/>.
-		/// </summary>
-		public DbSet<DualReattachInformation> WatchdogReattachInformations { get; set; }
-
-		/// <summary>
 		/// The <see cref="TestMerge"/>s in the <see cref="DatabaseContext"/>
 		/// </summary>
 		public DbSet<TestMerge> TestMerges { get; set; }
@@ -136,9 +131,6 @@ namespace Tgstation.Server.Host.Database
 
 		/// <inheritdoc />
 		IDatabaseCollection<ReattachInformation> IDatabaseContext.ReattachInformations => reattachInformationsCollection;
-
-		/// <inheritdoc />
-		IDatabaseCollection<DualReattachInformation> IDatabaseContext.WatchdogReattachInformations => watchdogReattachInformationsCollection;
 
 		/// <summary>
 		/// Backing field for <see cref="IDatabaseContext.Users"/>.
@@ -201,11 +193,6 @@ namespace Tgstation.Server.Host.Database
 		readonly IDatabaseCollection<ReattachInformation> reattachInformationsCollection;
 
 		/// <summary>
-		/// Backing field for <see cref="IDatabaseContext.WatchdogReattachInformations"/>.
-		/// </summary>
-		readonly IDatabaseCollection<DualReattachInformation> watchdogReattachInformationsCollection;
-
-		/// <summary>
 		/// Gets the configure action for a given <typeparamref name="TDatabaseContext"/>.
 		/// </summary>
 		/// <typeparam name="TDatabaseContext">The <see cref="DatabaseContext"/> parent class to configure with.</typeparam>
@@ -243,7 +230,6 @@ namespace Tgstation.Server.Host.Database
 			revisionInformationsCollection = new DatabaseCollection<RevisionInformation>(RevisionInformations);
 			jobsCollection = new DatabaseCollection<Job>(Jobs);
 			reattachInformationsCollection = new DatabaseCollection<ReattachInformation>(ReattachInformations);
-			watchdogReattachInformationsCollection = new DatabaseCollection<DualReattachInformation>(WatchdogReattachInformations);
 		}
 
 		/// <inheritdoc />
@@ -282,6 +268,8 @@ namespace Tgstation.Server.Host.Database
 			compileJob.HasIndex(x => x.DirectoryName);
 			compileJob.HasOne(x => x.Job).WithOne().OnDelete(DeleteBehavior.Cascade);
 
+			modelBuilder.Entity<ReattachInformation>().HasOne(x => x.CompileJob).WithMany().OnDelete(DeleteBehavior.Cascade);
+
 			var chatChannel = modelBuilder.Entity<ChatChannel>();
 			chatChannel.HasIndex(x => new { x.ChatSettingsId, x.IrcChannel }).IsUnique();
 			chatChannel.HasIndex(x => new { x.ChatSettingsId, x.DiscordChannelId }).IsUnique();
@@ -298,7 +286,6 @@ namespace Tgstation.Server.Host.Database
 			instanceModel.HasMany(x => x.RevisionInformations).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
 			instanceModel.HasMany(x => x.InstanceUsers).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
 			instanceModel.HasMany(x => x.Jobs).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
-			instanceModel.HasOne(x => x.WatchdogReattachInformation).WithOne().OnDelete(DeleteBehavior.Cascade);
 		}
 
 		/// <inheritdoc />
