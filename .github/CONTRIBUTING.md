@@ -182,11 +182,9 @@ We have a script to do this.
 1. Make the code changes for your model.
 1. Open a command prompt in the `/src/Tgstation.Server.Host` directory.
 1. Ensure you have the EntityFrameworkCore migration tools installed with `dotnet tool restore`.
-1. Configure your appsettings.Development.json to connect to a valid SQL Server database.
 1. Run `dotnet ef migrations add MS<NameOfYourMigration> --context SqlServerDatabaseContext`
-1. Configure your appsettings.Development.json to connect to a valid MySQL/MariaDB database.
 1. Run `dotnet ef migrations add MY<NameOfYourMigration> --context MySqlDatabaseContext`
-1. Configure your appsettings.Development.json to connect to a valid SQLite3 database.
+1. Run `dotnet ef migrations add PG<NameOfYourMigration> --context PostgresSqlDatabaseContext`
 1. Run `dotnet ef migrations add SL<NameOfYourMigration> --context SqliteDatabaseContext`.
 1. Follow the above steps.
 
