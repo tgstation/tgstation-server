@@ -2,7 +2,7 @@
 name: Bug Report
 about: Report a problem with the server
 title: ''
-labels: Bug, Reproduction Required, Ready
+labels: Bug, Reproduction Required
 assignees: Cyberboss
 
 ---
@@ -26,6 +26,7 @@ Please include full server logs to help diagnose your problem
 **Server State: (please complete the following information):**
  - OS:
  - Version:
+ - Database Type/Version:
  - BYOND Version Used:
  - git Repository Used:
  - Origin Commit hash Used:
