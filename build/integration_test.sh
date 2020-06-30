@@ -11,10 +11,8 @@ export TGS4_TEST_TEMP_DIRECTORY=~/tgs4_test
 
 cd tests/Tgstation.Server.Tests
 
-dotnet build -c $CONFIG
+dotnet test --collect:"XPlat Code Coverage" -c $CONFIG --settings "../../build/coverlet.runsettings"--logger:"console;noprogress=true" -r .TestResults
 
-sudo $HOME/.dotnet/tools/coverlet bin/$CONFIG/netcoreapp3.1/Tgstation.Server.Tests.dll --target "dotnet" --targetargs "test -c $CONFIG --no-build --logger:\"console;noprogress=true\"" --format opencover --output "../../TestResults/integration_test.xml" --include "[Tgstation.Server*]*" --exclude "[Tgstation.Server.Tests*]*" --exclude "[Tgstation.Server.Host]Tgstation.Server.Host.Database.Migrations.*"
+cd TestResults
 
-cd ../../TestResults
-
-bash <(curl -s https://codecov.io/bash) -f integration_test.xml -F integration
+bash <(curl -s https://codecov.io/bash) -f coverage.opencover.xml -F integration

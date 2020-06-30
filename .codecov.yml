@@ -1,8 +1,12 @@
 codecov:
   strict_yaml_branch: dev
 ignore:
+  - "build"
+  - "src/Tgstation.Server.Host/ClientApp"
   - "src/Tgstation.Server.Host/Database/Migrations"
   - "src/Tgstation.Server.Host/Database/Design"
+  - "test"
+  - "tools"
 coverage:
   status:
     project:

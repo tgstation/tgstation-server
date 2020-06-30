@@ -13,29 +13,24 @@ if [[ ! -z "${TGS4_TEST_CONNECTION_STRING}" ]]; then
 fi
 
 cd tests/Tgstation.Server.Api.Tests
-
-dotnet build -c $CONFIG /p:CopyLocalLockFileAssemblies=true
-$HOME/.dotnet/tools/coverlet bin/$CONFIG/netcoreapp3.1/Tgstation.Server.Api.Tests.dll --target "dotnet" --targetargs "test -c $CONFIG --no-build" --format opencover --output "../../TestResults/api.xml" --include "[Tgstation.Server*]*" --exclude "[Tgstation.Server.Api.Tests*]*"
+dotnet test --collect:"XPlat Code Coverage" -c $CONFIG --settings "../../build/coverlet.runsettings" --logger:"console;noprogress=true" -r ../../TestResults
+mv ../../TestResults/coverage.opencover.xml api.xml
 
 cd ../Tgstation.Server.Client.Tests
-
-dotnet build -c $CONFIG /p:CopyLocalLockFileAssemblies=true
-$HOME/.dotnet/tools/coverlet bin/$CONFIG/netcoreapp3.1/Tgstation.Server.Client.Tests.dll --target "dotnet" --targetargs "test -c $CONFIG --no-build" --format opencover --output "../../TestResults/client.xml" --include "[Tgstation.Server*]*" --exclude "[Tgstation.Server.Client.Tests*]*"
+dotnet test --collect:"XPlat Code Coverage" -c $CONFIG --settings "../../build/coverlet.runsettings"--logger:"console;noprogress=true" -r ../../TestResults
+mv ../../TestResults/coverage.opencover.xml client.xml
 
 cd ../Tgstation.Server.Host.Tests
-
-dotnet build -c $CONFIG /p:CopyLocalLockFileAssemblies=true
-$HOME/.dotnet/tools/coverlet bin/$CONFIG/netcoreapp3.1/Tgstation.Server.Host.Tests.dll --target "dotnet" --targetargs "test -c $CONFIG --no-build" --format opencover --output "../../TestResults/host.xml" --include "[Tgstation.Server*]*" --exclude "[Tgstation.Server.Host.Tests*]*" --exclude "[Tgstation.Server.Host]Tgstation.Server.Host.Database.Migrations.*"
+dotnet test --collect:"XPlat Code Coverage" -c $CONFIG --settings "../../build/coverlet.runsettings"--logger:"console;noprogress=true" -r ../../TestResults
+mv ../../TestResults/coverage.opencover.xml host.xml
 
 cd ../Tgstation.Server.Host.Watchdog.Tests
-
-dotnet build -c $CONFIG /p:CopyLocalLockFileAssemblies=true
-$HOME/.dotnet/tools/coverlet bin/$CONFIG/netcoreapp3.1/Tgstation.Server.Host.Watchdog.Tests.dll --target "dotnet" --targetargs "test -c $CONFIG --no-build" --format opencover --output "../../TestResults/watchdog.xml" --include "[Tgstation.Server*]*" --exclude "[Tgstation.Server.Host.Watchdog.Tests*]*"
+dotnet test --collect:"XPlat Code Coverage" -c $CONFIG --settings "../../build/coverlet.runsettings"--logger:"console;noprogress=true" -r ../../TestResults
+mv ../../TestResults/coverage.opencover.xml watchdog.xml
 
 cd ../Tgstation.Server.Host.Console.Tests
-
-dotnet build -c $CONFIG /p:CopyLocalLockFileAssemblies=true
-$HOME/.dotnet/tools/coverlet bin/$CONFIG/netcoreapp3.1/Tgstation.Server.Host.Console.Tests.dll --target "dotnet" --targetargs "test -c $CONFIG --no-build" --format opencover --output "../../TestResults/console.xml" --include "[Tgstation.Server*]*" --exclude "[Tgstation.Server.Host.Console.Tests*]*"
+dotnet test --collect:"XPlat Code Coverage" -c $CONFIG --settings "../../build/coverlet.runsettings"--logger:"console;noprogress=true" -r ../../TestResults
+mv ../../TestResults/coverage.opencover.xml console.xml
 
 cd ../../TestResults
 

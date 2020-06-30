@@ -42,7 +42,7 @@ cache:
 services:
   - mssql2017
 install:
-  - choco install codecov opencover.portable
+  - choco install codecov
   - npm i -g ibm-openapi-validator
   - nuget restore tgstation-server.sln
   - ps: Install-Product node 10
@@ -54,28 +54,34 @@ build:
   publish_nuget_symbols: true
   use_snupkg_format: true
 test_script:
-  - OpenCover.Console.exe -returntargetcode -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test -c %CONFIGURATION% --logger:trx;LogFileName=results.trx /p:DebugType=full tests/Tgstation.Server.Api.Tests/Tgstation.Server.Api.Tests.csproj" -filter:"+[Tgstation.Server*]* -[Tgstation.Server.Api.Tests*]*" -output:".\api_coverage.xml" -oldstyle
+  - dotnet test --collect:"XPlat Code Coverage" -c %CONFIGURATION% --settings "build/coverlet.runsettings" --logger:trx;LogFileName=results.trx /p:DebugType=full tests/Tgstation.Server.Api.Tests/Tgstation.Server.Api.Tests.csproj
   - ps: $wc = New-Object 'System.Net.WebClient'
   - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\tests\Tgstation.Server.Api.Tests\TestResults\results.trx))
-  - OpenCover.Console.exe -returntargetcode -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test -c %CONFIGURATION% --logger:trx;LogFileName=results.trx /p:DebugType=full tests/Tgstation.Server.Client.Tests/Tgstation.Server.Client.Tests.csproj" -filter:"+[Tgstation.Server*]* -[Tgstation.Server.Client.Tests*]*" -output:".\client_coverage.xml" -oldstyle
+  - ps: Move-Item -path TestResults/coverlet.opencover.xml TestResults/api_coverage.xml
+  - dotnet test --collect:"XPlat Code Coverage" -c %CONFIGURATION% --settings "build/coverlet.runsettings" --logger:trx;LogFileName=results.trx /p:DebugType=full tests/Tgstation.Server.Client.Tests/Tgstation.Server.Client.Tests.csproj
   - ps: $wc = New-Object 'System.Net.WebClient'
   - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\tests\Tgstation.Server.Client.Tests\TestResults\results.trx))
-  - OpenCover.Console.exe -returntargetcode -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test -c %CONFIGURATION% --logger:trx;LogFileName=results.trx /p:DebugType=full tests/Tgstation.Server.Host.Tests/Tgstation.Server.Host.Tests.csproj" -filter:"+[Tgstation.Server*]* -[Tgstation.Server.Host.Tests*]* -[Tgstation.Server.Host]Tgstation.Server.Host.Database.Migrations*" -output:".\host_coverage.xml" -oldstyle
+  - ps: Move-Item -path TestResults/coverlet.opencover.xml TestResults/client_coverage.xml
+  - dotnet test --collect:"XPlat Code Coverage" -c %CONFIGURATION% --settings "build/coverlet.runsettings" --logger:trx;LogFileName=results.trx /p:DebugType=full tests/Tgstation.Server.Host.Tests/Tgstation.Server.Host.Tests.csproj
   - ps: $wc = New-Object 'System.Net.WebClient'
   - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\tests\Tgstation.Server.Host.Tests\TestResults\results.trx))
-  - OpenCover.Console.exe -returntargetcode -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test -c %CONFIGURATION% --logger:trx;LogFileName=results.trx /p:DebugType=full tests/Tgstation.Server.Host.Console.Tests/Tgstation.Server.Host.Console.Tests.csproj" -filter:"+[Tgstation.Server*]* -[Tgstation.Server.Host.Console.Tests*]*" -output:".\console_coverage.xml" -oldstyle
+  - ps: Move-Item -path TestResults/coverlet.opencover.xml TestResults/host_coverage.xml
+  - dotnet test --collect:"XPlat Code Coverage" -c %CONFIGURATION% --settings "build/coverlet.runsettings" --logger:trx;LogFileName=results.trx /p:DebugType=full tests/Tgstation.Server.Host.Console.Tests/Tgstation.Server.Host.Console.Tests.csproj
   - ps: $wc = New-Object 'System.Net.WebClient'
   - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\tests\Tgstation.Server.Host.Console.Tests\TestResults\results.trx))
   - set path=%ProgramFiles(x86)%\Microsoft Visual Studio\2019\TestAgent\Common7\IDE\CommonExtensions\Microsoft\TestWindow;%path%
   - vstest.console /logger:trx;LogFileName=results.trx "tests\Tgstation.Server.Host.Service.Tests\bin\%CONFIGURATION%\net472\Tgstation.Server.Host.Service.Tests.dll" /inIsolation /Platform:x64
   - ps: $wc = New-Object 'System.Net.WebClient'
   - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\TestResults\results.trx))
-  - OpenCover.Console.exe -returntargetcode -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test -c %CONFIGURATION% --logger:trx;LogFileName=results.trx /p:DebugType=full tests/Tgstation.Server.Host.Watchdog.Tests/Tgstation.Server.Host.Watchdog.Tests.csproj" -filter:"+[Tgstation.Server*]* -[Tgstation.Server.Host.Watchdog.Tests*]*" -output:".\watchdog_coverage.xml" -oldstyle
+  - ps: Move-Item -path TestResults/coverlet.opencover.xml TestResults/service_coverage.xml
+  - dotnet test --collect:"XPlat Code Coverage" -c %CONFIGURATION% --settings "build/coverlet.runsettings" --logger:trx;LogFileName=results.trx /p:DebugType=full tests/Tgstation.Server.Host.Watchdog.Tests/Tgstation.Server.Host.Watchdog.Tests.csproj
   - ps: $wc = New-Object 'System.Net.WebClient'
   - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\tests\Tgstation.Server.Host.Watchdog.Tests\TestResults\results.trx))
-  - OpenCover.Console.exe -returntargetcode -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test -c %CONFIGURATION% --logger:trx;LogFileName=results.trx --logger:console;noprogress=true /p:DebugType=full tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj" -filter:"+[Tgstation.Server*]* -[Tgstation.Server.Tests*]* -[Tgstation.Server.Host]Tgstation.Server.Host.Database.Migrations..*" -output:".\server_coverage.xml" -oldstyle
+  - ps: Move-Item -path TestResults/coverlet.opencover.xml TestResults/watchdog_coverage.xml
+  - dotnet test --collect:"XPlat Code Coverage" -c %CONFIGURATION% --settings "build/coverlet.runsettings" --logger:trx;LogFileName=results.trx /p:DebugType=full tests/Tgstation.Server.Tests/Tgstation.Server.Tests.csproj
   - ps: $wc = New-Object 'System.Net.WebClient'
   - ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\tests\Tgstation.Server.Tests\TestResults\results.trx))
+  - ps: Move-Item -path TestResults/coverlet.opencover.xml TestResults/server_coverage.xml
   - lint-openapi -p -c build/OpenApiValidationSettings.json C:/swagger.json
 after_test:
   - ps: Move-Item -path C:/swagger.json swagger.json
