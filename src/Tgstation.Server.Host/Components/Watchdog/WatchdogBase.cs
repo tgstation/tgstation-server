@@ -560,7 +560,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				var retryDelay = Math.Min(
 					Convert.ToInt32(
 						Math.Pow(2, retryAttempts)),
-					TimeSpan.FromHours(1).Seconds); // max of one hour, increasing by a power of 2 each time
+					TimeSpan.FromHours(1).TotalSeconds); // max of one hour, increasing by a power of 2 each time
 
 				chatTask = Chat.SendWatchdogMessage(
 					$"Failed to restart (Attempt: {retryAttempts}), retrying in {retryDelay}",
