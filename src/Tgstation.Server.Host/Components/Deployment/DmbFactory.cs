@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -222,21 +223,51 @@ namespace Tgstation.Server.Host.Components.Deployment
 			}
 
 			var providerSubmitted = false;
-			var newProvider = new DmbProvider(compileJob, ioManager, () =>
+
+			void CleanupAction()
 			{
 				if (providerSubmitted)
 					CleanJob(compileJob);
-			});
+			}
 
+			var newProvider = new DmbProvider(compileJob, ioManager, CleanupAction);
 			try
 			{
-				var primaryCheckTask = ioManager.FileExists(ioManager.ConcatPath(newProvider.PrimaryDirectory, newProvider.DmbName), cancellationToken);
-				var secondaryCheckTask = ioManager.FileExists(ioManager.ConcatPath(newProvider.PrimaryDirectory, newProvider.DmbName), cancellationToken);
+				const string LegacyADirectoryName = "A";
+				const string LegacyBDirectoryName = "B";
 
-				if (!(await primaryCheckTask.ConfigureAwait(false) && await secondaryCheckTask.ConfigureAwait(false)))
+				var dmbExistsAtRoot = await ioManager.FileExists(
+					ioManager.ConcatPath(
+						newProvider.Directory,
+						newProvider.DmbName),
+					cancellationToken)
+					.ConfigureAwait(false);
+
+				if (!dmbExistsAtRoot)
 				{
-					logger.LogWarning("Error loading compile job, .dmb missing!");
-					return null; // omae wa mou shinderu
+					var primaryCheckTask = ioManager.FileExists(
+						ioManager.ConcatPath(
+							newProvider.Directory,
+							LegacyADirectoryName,
+							newProvider.DmbName),
+						cancellationToken);
+					var secondaryCheckTask = ioManager.FileExists(
+						ioManager.ConcatPath(
+							newProvider.Directory,
+							LegacyBDirectoryName,
+							newProvider.DmbName),
+						cancellationToken);
+
+					if (!(await primaryCheckTask.ConfigureAwait(false) && await secondaryCheckTask.ConfigureAwait(false)))
+					{
+						logger.LogWarning("Error loading compile job, .dmb missing!");
+						return null; // omae wa mou shinderu
+					}
+
+					// rebuild the provider because it's using the legacy style directories
+					// Don't dispose it
+					logger.LogDebug("Creating legacy two folder .dmb provider targeting {0} directory...", LegacyADirectoryName);
+					newProvider = new DmbProvider(compileJob, ioManager, CleanupAction, Path.DirectorySeparatorChar + LegacyADirectoryName);
 				}
 
 				lock (jobLockCounts)

@@ -26,14 +26,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// </summary>
 		[Required]
 		[Range(1, UInt16.MaxValue)]
-		public ushort? PrimaryPort { get; set; }
-
-		/// <summary>
-		/// The second port <see cref="DreamDaemon"/> uses
-		/// </summary>
-		[Required]
-		[Range(1, UInt16.MaxValue)]
-		public ushort? SecondaryPort { get; set; }
+		public ushort? Port { get; set; }
 
 		/// <summary>
 		/// The DreamDaemon startup timeout in seconds
@@ -63,8 +56,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		public bool CanApplyWithoutReboot(DreamDaemonLaunchParameters otherParameters) =>
 			AllowWebClient == (otherParameters?.AllowWebClient ?? throw new ArgumentNullException(nameof(otherParameters)))
 				&& SecurityLevel == otherParameters.SecurityLevel
-				&& PrimaryPort == otherParameters.PrimaryPort
-				&& SecondaryPort == otherParameters.SecondaryPort
+				&& Port == otherParameters.Port
 				&& TopicRequestTimeout == otherParameters.TopicRequestTimeout; // We intentionally don't check StartupTimeout or heartbeat seconds as it doesn't matter in terms of the watchdog
 	}
 }

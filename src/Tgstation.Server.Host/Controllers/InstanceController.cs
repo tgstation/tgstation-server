@@ -244,8 +244,7 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					AllowWebClient = false,
 					AutoStart = false,
-					PrimaryPort = 1337,
-					SecondaryPort = 1338,
+					Port = 1337,
 					SecurityLevel = DreamDaemonSecurity.Safe,
 					StartupTimeout = 60,
 					HeartbeatSeconds = 60,
@@ -329,23 +328,11 @@ namespace Tgstation.Server.Host.Controllers
 				.Instances
 				.AsQueryable()
 				.Where(x => x.Id == id)
-				.Include(x => x.WatchdogReattachInformation)
-				.Include(x => x.WatchdogReattachInformation.Alpha)
-				.Include(x => x.WatchdogReattachInformation.Bravo)
 				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (originalModel == default)
 				return Gone();
 			if (originalModel.Online.Value)
 				return Conflict(new ErrorMessage(ErrorCode.InstanceDetachOnline));
-
-			if (originalModel.WatchdogReattachInformation != null)
-			{
-				DatabaseContext.WatchdogReattachInformations.Remove(originalModel.WatchdogReattachInformation);
-				if (originalModel.WatchdogReattachInformation.Alpha != null)
-					DatabaseContext.ReattachInformations.Remove(originalModel.WatchdogReattachInformation.Alpha);
-				if (originalModel.WatchdogReattachInformation.Bravo != null)
-					DatabaseContext.ReattachInformations.Remove(originalModel.WatchdogReattachInformation.Bravo);
-			}
 
 			DatabaseContext.Instances.Remove(originalModel);
 

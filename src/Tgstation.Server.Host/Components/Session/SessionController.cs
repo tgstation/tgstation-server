@@ -28,16 +28,6 @@ namespace Tgstation.Server.Host.Components.Session
 		public DMApiParameters DMApiParameters => reattachInformation;
 
 		/// <inheritdoc />
-		public bool IsPrimary
-		{
-			get
-			{
-				CheckDisposed();
-				return reattachInformation.IsPrimary;
-			}
-		}
-
-		/// <inheritdoc />
 		public ApiValidationStatus ApiValidationStatus
 		{
 			get
@@ -262,7 +252,7 @@ namespace Tgstation.Server.Host.Components.Session
 				startupTimeout,
 				reattached);
 
-			logger.LogDebug("Created session controller. Primary: {0}, CommsKey: {1}, Port: {2}", IsPrimary, reattachInformation.AccessIdentifier, Port);
+			logger.LogDebug("Created session controller. CommsKey: {0}, Port: {1}", reattachInformation.AccessIdentifier, Port);
 		}
 
 		/// <summary>

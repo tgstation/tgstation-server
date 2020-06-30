@@ -15,9 +15,6 @@ namespace Tgstation.Server.Host.Components.Session
 		public Task<LaunchResult> LaunchResult { get; }
 
 		/// <inheritdoc />
-		public bool IsPrimary => false;
-
-		/// <inheritdoc />
 		public bool TerminationWasRequested => false;
 
 		/// <inheritdoc />

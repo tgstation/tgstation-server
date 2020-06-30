@@ -19,9 +19,9 @@ namespace Tgstation.Server.Api.Rights
 		ReadRevision = 1,
 
 		/// <summary>
-		/// User can change both primary and secondary ports
+		/// User can change the port DreamDaemon runs on.
 		/// </summary>
-		SetPorts = 2,
+		SetPort = 2,
 
 		/// <summary>
 		/// User can change <see cref="Models.Internal.DreamDaemonSettings.AutoStart"/>

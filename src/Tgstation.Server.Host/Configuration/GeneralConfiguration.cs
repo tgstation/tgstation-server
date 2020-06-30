@@ -83,11 +83,6 @@ namespace Tgstation.Server.Host.Configuration
 		public uint RestartTimeout { get; set; } = DefaultRestartTimeout;
 
 		/// <summary>
-		/// If the <see cref="Components.Watchdog.ExperimentalWatchdog"/> should be used.
-		/// </summary>
-		public bool UseExperimentalWatchdog { get; set; }
-
-		/// <summary>
 		/// If the <see cref="Components.Watchdog.WindowsWatchdog"/> should not be used if it is available.
 		/// </summary>
 		public bool UseBasicWatchdogOnWindows { get; set; }

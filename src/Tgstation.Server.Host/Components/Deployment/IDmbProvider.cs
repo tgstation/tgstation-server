@@ -16,12 +16,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <summary>
 		/// The primary game directory with a trailing directory separator
 		/// </summary>
-		string PrimaryDirectory { get; }
-
-		/// <summary>
-		/// The secondary game directory with a trailing directory separator
-		/// </summary>
-		string SecondaryDirectory { get; }
+		string Directory { get; }
 
 		/// <summary>
 		/// The <see cref="CompileJob"/> of the .dmb

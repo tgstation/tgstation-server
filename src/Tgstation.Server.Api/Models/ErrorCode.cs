@@ -250,13 +250,14 @@ namespace Tgstation.Server.Api.Models
 		RepoWhitespaceCommitterEmail,
 
 		/// <summary>
-		/// Attempted to set <see cref="Internal.DreamDaemonLaunchParameters.PrimaryPort"/> and <see cref="Internal.DreamDaemonLaunchParameters.SecondaryPort"/> to the same value.
+		/// Deprecated.
 		/// </summary>
-		[Description("Primary and secondary ports cannot be the same!")]
+		[Description("Deprecated error code.")]
+		[Obsolete("With API v7 ", true)]
 		DreamDaemonDuplicatePorts,
 
 		/// <summary>
-		/// <see cref="DreamDaemonSecurity.Ultrasafe"/> was used where it is not supported.
+		/// Deprecated.
 		/// </summary>
 		[Description("Deprecated error code.")]
 		[Obsolete("With DMAPI-5.0.0, ultrasafe security is now supported.", true)]

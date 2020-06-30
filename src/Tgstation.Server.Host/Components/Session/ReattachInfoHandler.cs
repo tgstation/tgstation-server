@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.System;
 using Z.EntityFramework.Plus;
 
 namespace Tgstation.Server.Host.Components.Session
@@ -24,6 +25,11 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly IDmbFactory dmbFactory;
 
 		/// <summary>
+		/// The <see cref="IProcessExecutor"/> for the <see cref="ReattachInfoHandler"/>.
+		/// </summary>
+		readonly IProcessExecutor processExecutor;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="ReattachInfoHandler"/>
 		/// </summary>
 		readonly ILogger<ReattachInfoHandler> logger;
@@ -38,18 +44,25 @@ namespace Tgstation.Server.Host.Components.Session
 		/// </summary>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="dmbFactory">The value of <see cref="dmbFactory"/></param>
+		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="metadata">The value of <see cref="metadata"/></param>
-		public ReattachInfoHandler(IDatabaseContextFactory databaseContextFactory, IDmbFactory dmbFactory, ILogger<ReattachInfoHandler> logger, Api.Models.Instance metadata)
+		public ReattachInfoHandler(
+			IDatabaseContextFactory databaseContextFactory,
+			IDmbFactory dmbFactory,
+			IProcessExecutor processExecutor,
+			ILogger<ReattachInfoHandler> logger,
+			Api.Models.Instance metadata)
 		{
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.dmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
+			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 		}
 
 		/// <inheritdoc />
-		public Task Save(DualReattachInformation reattachInformation, CancellationToken cancellationToken) => databaseContextFactory.UseContext(async (db) =>
+		public Task Save(ReattachInformation reattachInformation, CancellationToken cancellationToken) => databaseContextFactory.UseContext(async (db) =>
 		{
 			if (reattachInformation == null)
 				throw new ArgumentNullException(nameof(reattachInformation));
@@ -57,51 +70,38 @@ namespace Tgstation.Server.Host.Components.Session
 			logger.LogDebug("Saving reattach information: {0}...", reattachInformation);
 
 			await db
-				.WatchdogReattachInformations
+				.ReattachInformations
 				.AsQueryable()
-				.Where(x => x.InstanceId == metadata.Id)
+				.Where(x => x.CompileJob.Job.Instance.Id == metadata.Id)
 				.DeleteAsync(cancellationToken)
 				.ConfigureAwait(false);
 
-			Models.ReattachInformation ConvertReattachInfo(ReattachInformation wdInfo)
+			db.CompileJobs.Attach(reattachInformation.Dmb.CompileJob);
+			var dbReattachInfo = new Models.ReattachInformation
 			{
-				if (wdInfo == null)
-					return null;
-				db.CompileJobs.Attach(wdInfo.Dmb.CompileJob);
-				return new Models.ReattachInformation
-				{
-					AccessIdentifier = wdInfo.AccessIdentifier,
-					CompileJob = wdInfo.Dmb.CompileJob,
-					IsPrimary = wdInfo.IsPrimary,
-					Port = wdInfo.Port,
-					ProcessId = wdInfo.ProcessId,
-					RebootState = wdInfo.RebootState,
-					LaunchSecurityLevel = wdInfo.LaunchSecurityLevel
-				};
-			}
+				AccessIdentifier = reattachInformation.AccessIdentifier,
+				CompileJob = reattachInformation.Dmb.CompileJob,
+				Port = reattachInformation.Port,
+				ProcessId = reattachInformation.ProcessId,
+				RebootState = reattachInformation.RebootState,
+				LaunchSecurityLevel = reattachInformation.LaunchSecurityLevel
+			};
 
-			db.WatchdogReattachInformations.Add(new Models.DualReattachInformation
-			{
-				Alpha = ConvertReattachInfo(reattachInformation.Alpha),
-				Bravo = ConvertReattachInfo(reattachInformation.Bravo),
-				AlphaIsActive = reattachInformation.AlphaIsActive,
-				InstanceId = metadata.Id
-			});
+			db.ReattachInformations.Add(dbReattachInfo);
 			await db.Save(cancellationToken).ConfigureAwait(false);
 		});
 
 		/// <inheritdoc />
-		public async Task<DualReattachInformation> Load(CancellationToken cancellationToken)
+		public async Task<ReattachInformation> Load(CancellationToken cancellationToken)
 		{
-			Models.DualReattachInformation result = null;
+			Models.ReattachInformation result = null;
 			TimeSpan? topicTimeout = null;
 			await databaseContextFactory.UseContext(async (db) =>
 			{
-				IQueryable<Models.Instance> InstanceQuery() => db.Instances
+				var timeoutMilliseconds = await db
+					.Instances
 					.AsQueryable()
-					.Where(x => x.Id == metadata.Id);
-
-				var timeoutMilliseconds = await InstanceQuery()
+					.Where(x => x.Id == metadata.Id)
 					.Select(x => x.DreamDaemonSettings.TopicRequestTimeout)
 					.FirstOrDefaultAsync(cancellationToken)
 					.ConfigureAwait(false);
@@ -111,15 +111,37 @@ namespace Tgstation.Server.Host.Components.Session
 
 				topicTimeout = TimeSpan.FromMilliseconds(timeoutMilliseconds.Value);
 
-				var instance = await InstanceQuery()
-					.Include(x => x.WatchdogReattachInformation).ThenInclude(x => x.Alpha).ThenInclude(x => x.CompileJob)
-					.Include(x => x.WatchdogReattachInformation).ThenInclude(x => x.Bravo).ThenInclude(x => x.CompileJob)
-					.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
-				result = instance.WatchdogReattachInformation;
+				var dbReattachInfos = await db
+					.ReattachInformations
+					.AsQueryable()
+					.Where(x => x.CompileJob.Job.Instance.Id == metadata.Id)
+					.Include(x => x.CompileJob)
+					.ToListAsync(cancellationToken).ConfigureAwait(false);
+				result = dbReattachInfos.FirstOrDefault();
 				if (result == default)
 					return;
-				instance.WatchdogReattachInformation = null;
-				db.WatchdogReattachInformations.Remove(result);
+
+				bool first = true;
+				foreach (var reattachInfo in dbReattachInfos)
+				{
+					if (!first)
+					{
+						logger.LogWarning("Killing PID {0} associated with extra reattach information...", reattachInfo.ProcessId);
+						try
+						{
+							using var process = processExecutor.GetProcess(reattachInfo.ProcessId);
+							process.Terminate();
+						}
+						catch (Exception ex)
+						{
+							logger.LogWarning("Failed to kill process! Exception: {0}", ex);
+						}
+					}
+
+					db.ReattachInformations.Remove(reattachInfo);
+					first = false;
+				}
+
 				await db.Save(cancellationToken).ConfigureAwait(false);
 			}).ConfigureAwait(false);
 
@@ -129,20 +151,13 @@ namespace Tgstation.Server.Host.Components.Session
 				return null;
 			}
 
-			Task<IDmbProvider> GetDmbForReattachInfo(Models.ReattachInformation reattachInformation) => reattachInformation != null
-				? dmbFactory.FromCompileJob(reattachInformation.CompileJob, cancellationToken)
-				: Task.FromResult<IDmbProvider>(null);
-
-			var bravoDmbTask = GetDmbForReattachInfo(result.Bravo);
-			var info = new DualReattachInformation(
+			var info = new ReattachInformation(
 				result,
-				await GetDmbForReattachInfo(result.Alpha).ConfigureAwait(false),
-				await bravoDmbTask.ConfigureAwait(false))
-			{
-				TopicRequestTimeout = topicTimeout.Value
-			};
+				await dmbFactory.FromCompileJob(result.CompileJob, cancellationToken).ConfigureAwait(false),
+				topicTimeout.Value);
 
 			logger.LogDebug("Reattach information loaded: {0}", info);
+
 			return info;
 		}
 	}

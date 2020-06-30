@@ -2,14 +2,16 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
 	[DbContext(typeof(SqliteDatabaseContext))]
-	partial class SqliteDatabaseContextModelSnapshot : ModelSnapshot
+	[Migration("20200629185014_SLRemoveExperimentalWatchdog")]
+	partial class SLRemoveExperimentalWatchdog
 	{
 		/// <inheritdoc />
-		protected override void BuildModel(ModelBuilder modelBuilder)
+		protected override void BuildTargetModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
 			modelBuilder

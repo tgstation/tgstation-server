@@ -18,11 +18,6 @@ namespace Tgstation.Server.Host.Components.Session
 		Task<LaunchResult> LaunchResult { get; }
 
 		/// <summary>
-		/// If the <see cref="IDmbProvider.PrimaryDirectory"/> of <see cref="Dmb"/> is being used
-		/// </summary>
-		bool IsPrimary { get; }
-
-		/// <summary>
 		/// If the DreamDaemon instance sent a
 		/// </summary>
 		bool TerminationWasRequested { get; }

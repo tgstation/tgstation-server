@@ -125,13 +125,12 @@ namespace Tgstation.Server.Host.Controllers
 				var llp = dd.LastLaunchParameters;
 				var rstate = dd.RebootState;
 				result.AutoStart = settings.AutoStart.Value;
-				result.CurrentPort = alphaActive ? llp?.PrimaryPort.Value : llp?.SecondaryPort.Value;
+				result.CurrentPort = llp?.Port.Value;
 				result.CurrentSecurity = llp?.SecurityLevel.Value;
 				result.CurrentAllowWebclient = llp?.AllowWebClient.Value;
-				result.PrimaryPort = settings.PrimaryPort.Value;
+				result.Port = settings.Port.Value;
 				result.AllowWebClient = settings.AllowWebClient.Value;
 				result.Status = dd.Status;
-				result.SecondaryPort = settings.SecondaryPort.Value;
 				result.SecurityLevel = settings.SecurityLevel.Value;
 				result.SoftRestart = rstate == RebootState.Restart;
 				result.SoftShutdown = rstate == RebootState.Shutdown;
@@ -181,7 +180,7 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpPost]
 		[TgsAuthorize(
 			DreamDaemonRights.SetAutoStart
-			| DreamDaemonRights.SetPorts
+			| DreamDaemonRights.SetPort
 			| DreamDaemonRights.SetSecurity
 			| DreamDaemonRights.SetWebClient
 			| DreamDaemonRights.SoftRestart
@@ -198,12 +197,6 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
-
-			if (model.PrimaryPort == 0)
-				throw new InvalidOperationException("Primary port cannot be 0!");
-
-			if (model.SecondaryPort == 0)
-				throw new InvalidOperationException("Secondary port cannot be 0!");
 
 			if (model.SoftShutdown == true && model.SoftRestart == true)
 				return BadRequest(new ErrorMessage(ErrorCode.DreamDaemonDoubleSoft));
@@ -245,8 +238,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (CheckModified(x => x.AllowWebClient, DreamDaemonRights.SetWebClient)
 				|| CheckModified(x => x.AutoStart, DreamDaemonRights.SetAutoStart)
-				|| CheckModified(x => x.PrimaryPort, DreamDaemonRights.SetPorts)
-				|| CheckModified(x => x.SecondaryPort, DreamDaemonRights.SetPorts)
+				|| CheckModified(x => x.Port, DreamDaemonRights.SetPort)
 				|| CheckModified(x => x.SecurityLevel, DreamDaemonRights.SetSecurity)
 				|| (model.SoftRestart.HasValue && !AuthenticationContext.InstanceUser.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftRestart))
 				|| (model.SoftShutdown.HasValue && !AuthenticationContext.InstanceUser.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftShutdown))
@@ -254,9 +246,6 @@ namespace Tgstation.Server.Host.Controllers
 				|| CheckModified(x => x.HeartbeatSeconds, DreamDaemonRights.SetHeartbeatInterval)
 				|| CheckModified(x => x.TopicRequestTimeout, DreamDaemonRights.SetTopicTimeout))
 				return Forbid();
-
-			if (current.PrimaryPort == current.SecondaryPort)
-				return BadRequest(new ErrorMessage(ErrorCode.DreamDaemonDuplicatePorts));
 
 			var wd = instanceManager.GetInstance(Instance).Watchdog;
 

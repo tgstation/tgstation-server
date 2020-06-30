@@ -73,60 +73,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public IWatchdog CreateWatchdog(
-			IChatManager chat,
-			IDmbFactory dmbFactory,
-			IReattachInfoHandler reattachInfoHandler,
-			ISessionControllerFactory sessionControllerFactory,
-			IIOManager gameIOManager,
-			IIOManager diagnosticsIOManager,
-			IEventConsumer eventConsumer,
-			Api.Models.Instance instance,
-			DreamDaemonSettings settings)
-		{
-			if (GeneralConfiguration.UseExperimentalWatchdog)
-				return new ExperimentalWatchdog(
-					chat,
-					sessionControllerFactory,
-					dmbFactory,
-					reattachInfoHandler,
-					DatabaseContextFactory,
-					JobManager,
-					ServerControl,
-					AsyncDelayer,
-					diagnosticsIOManager,
-					eventConsumer,
-					LoggerFactory.CreateLogger<ExperimentalWatchdog>(),
-					settings,
-					instance,
-					settings.AutoStart.Value);
-
-			return CreateNonExperimentalWatchdog(
-				chat,
-				dmbFactory,
-				reattachInfoHandler,
-				sessionControllerFactory,
-				gameIOManager,
-				diagnosticsIOManager,
-				eventConsumer,
-				instance,
-				settings);
-		}
-
-		/// <summary>
-		/// Create a <see cref="IWatchdog"/> that isn't the <see cref="ExperimentalWatchdog"/>.
-		/// </summary>
-		/// <param name="chat">The <see cref="IChatManager"/> for the <see cref="IWatchdog"/></param>
-		/// <param name="dmbFactory">The <see cref="IDmbFactory"/> for the <see cref="IWatchdog"/> with</param>
-		/// <param name="reattachInfoHandler">The <see cref="IReattachInfoHandler"/> for the <see cref="IWatchdog"/></param>
-		/// <param name="sessionControllerFactory">The <see cref="ISessionControllerFactory"/> for the <see cref="IWatchdog"/></param>
-		/// <param name="gameIOManager">The <see cref="IIOManager"/> pointing to the Game directory for the <see cref="IWatchdog"/>.</param>
-		/// <param name="diagnosticsIOManager">The <see cref="IIOManager"/> pointing to the Diagnostics directory for the <see cref="IWatchdog"/>.</param>
-		/// <param name="eventConsumer">The <see cref="IEventConsumer"/> for the <see cref="IWatchdog"/>.</param>
-		/// <param name="instance">The <see cref="Instance"/> for the <see cref="IWatchdog"/></param>
-		/// <param name="settings">The initial <see cref="DreamDaemonSettings"/> for the <see cref="IWatchdog"/></param>
-		/// <returns>A new <see cref="IWatchdog"/></returns>
-		protected virtual IWatchdog CreateNonExperimentalWatchdog(
+		public virtual IWatchdog CreateWatchdog(
 			IChatManager chat,
 			IDmbFactory dmbFactory,
 			IReattachInfoHandler reattachInfoHandler,

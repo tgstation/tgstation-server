@@ -62,7 +62,7 @@ namespace Tgstation.Server.Tests
 					}
 				} while (true);
 
-				var testUpdateVersion = new Version(4, 1, 4);
+				var testUpdateVersion = new Version(4, 3, 0);
 				using (adminClient)
 					//attempt to update to stable
 					await adminClient.Administration.Update(new Administration

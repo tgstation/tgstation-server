@@ -74,11 +74,6 @@ namespace Tgstation.Server.Host.Database
 		IDatabaseCollection<ReattachInformation> ReattachInformations { get; }
 
 		/// <summary>
-		/// The <see cref="DbSet{TEntity}"/> for <see cref="DualReattachInformation"/>s
-		/// </summary>
-		IDatabaseCollection<DualReattachInformation> WatchdogReattachInformations { get; }
-
-		/// <summary>
 		/// Saves changes made to the <see cref="IDatabaseContext"/>
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>

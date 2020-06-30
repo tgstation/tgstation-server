@@ -39,6 +39,11 @@ namespace Tgstation.Server.Tests.Instance
 
 			await ApiAssert.ThrowsException<ApiConflictException>(() => instanceClient.DreamDaemon.Update(new DreamDaemon
 			{
+				Port = 0
+			}, cancellationToken), ErrorCode.ModelValidationFailure);
+
+			await ApiAssert.ThrowsException<ApiConflictException>(() => instanceClient.DreamDaemon.Update(new DreamDaemon
+			{
 				SoftShutdown = true,
 				SoftRestart = true
 			}, cancellationToken), ErrorCode.DreamDaemonDoubleSoft);

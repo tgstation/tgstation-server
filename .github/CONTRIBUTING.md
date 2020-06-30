@@ -170,19 +170,23 @@ There is no strict process when it comes to merging pull requests. Pull requests
 
 Whenever you make a change to a model schema that must be reflected in the database, you'll have to generate and write a migration for it on all supported database types.
 
-1. Ensure you have the EntityFrameworkCore migration tools installed with `dotnet tool install --global dotnet-ef`.
-1. Make the code changes for your model.
-1. Open a command prompt in the `/src/Tgstation.Server.Host` directory.
-1. Configure your appsettings.Development.json to connect to a valid SQL Server database.
-1. Run `dotnet ef migrations add MS<NameOfYourMigration> --context SqlServerDatabaseContext`
-1. Configure your appsettings.Development.json to connect to a valid MySQL/MariaDB database.
-1. Run `dotnet ef migrations add MY<NameOfYourMigration> --context MySqlDatabaseContext`
-1. Configure your appsettings.Development.json to connect to a valid SQLite3 database.
-1. Run `dotnet ef migrations add SL<NameOfYourMigration> --context SqliteDatabaseContext`
-1. Fix compiler warnings in the generated files. Ensure all classes are in the Tgstation.Server.Host.Models.Migrations namespace.
+We have a script to do this. 
+
+1. Run `build/GenerateMigrations.sh NameOfMigration` from the project root.
+1. You should now have MY/MS migration files generated in `/src/Tgstation.Server.Host/Models/Migrations`. Fix compiler warnings in the generated files. Ensure all classes are in the Tgstation.Server.Host.Models.Migrations namespace.
+1. Manually review what each migration does.
 1. Run the server in both configurations to ensure the migrations work.
 
-You should now have MY/MS migration files generated in `/src/Tgstation.Server.Host/Models/Migrations
+### Manual Method
+
+1. Make the code changes for your model.
+1. Open a command prompt in the `/src/Tgstation.Server.Host` directory.
+1. Ensure you have the EntityFrameworkCore migration tools installed with `dotnet tool restore`.
+1. Run `dotnet ef migrations add MS<NameOfYourMigration> --context SqlServerDatabaseContext`
+1. Run `dotnet ef migrations add MY<NameOfYourMigration> --context MySqlDatabaseContext`
+1. Run `dotnet ef migrations add PG<NameOfYourMigration> --context PostgresSqlDatabaseContext`
+1. Run `dotnet ef migrations add SL<NameOfYourMigration> --context SqliteDatabaseContext`.
+1. Follow the above steps.
 
 ### Important Note About the \[Required\] Attribute.
 
