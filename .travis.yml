@@ -18,16 +18,15 @@ jobs:
       - CONFIG=Release
       - TGS4_TEST_DATABASE_TYPE=MySql
       - TGS4_TEST_CONNECTION_STRING="server=127.0.0.1;uid=root;pwd=;database=tgs_test"
-      name: "MySql Integration Test"
+      name: "MariaDB Integration Test"
       language: csharp
       mono: none
-      services:
-        - mysql
       dotnet: 3.1
       cache:
         directories:
           - $HOME/.nuget/packages:
       addons:
+        mariadb: '10.5'
         apt:
           packages:
             - libc6-i386
