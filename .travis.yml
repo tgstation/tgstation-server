@@ -16,6 +16,7 @@ jobs:
       - DockerBuild=false
       - DMAPI=false
       - CONFIG=Release
+      - MARIAFIX=true
       - TGS4_TEST_DATABASE_TYPE=MySql
       - TGS4_TEST_CONNECTION_STRING="server=127.0.0.1;uid=testuser;pwd=password;database=tgs_test"
       name: "MariaDB Integration Test"
@@ -37,7 +38,6 @@ jobs:
       - DockerBuild=false
       - DMAPI=false
       - CONFIG=Release
-      - MARIAFIX=true
       - TGS4_TEST_DATABASE_TYPE=Sqlite
       - TGS4_TEST_CONNECTION_STRING="Data Source=TravisTestDB.sqlite3;Mode=ReadWriteCreate"
       name: "Sqlite Integration Test"
