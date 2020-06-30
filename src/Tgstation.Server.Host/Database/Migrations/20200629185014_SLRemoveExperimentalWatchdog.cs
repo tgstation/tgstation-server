@@ -46,7 +46,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 				});
 
 			migrationBuilder.Sql(
-				$"INSERT INTO ReattachInformations SELECT Id,AccessIdentifier,ProcessId,Port,RebootState,LaunchSecurityLevel,CompileJobId FROM DreamDaemonSettings_up");
+				$"INSERT INTO ReattachInformations SELECT Id,AccessIdentifier,ProcessId,Port,RebootState,LaunchSecurityLevel,CompileJobId FROM ReattachInformations_up");
 
 			migrationBuilder.DropTable(
 				name: "ReattachInformations_up");
