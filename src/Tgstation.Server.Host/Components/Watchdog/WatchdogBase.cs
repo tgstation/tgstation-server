@@ -130,7 +130,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly object controllerDisposeLock;
 
 		/// <summary>
-		/// If the <see cref="WatchdogBase"/> should <see cref="LaunchNoLock(bool, bool, ReattachInformation, CancellationToken)"/> in <see cref="StartAsync(CancellationToken)"/>
+		/// If the <see cref="WatchdogBase"/> should <see cref="LaunchNoLock(bool, bool, bool, ReattachInformation, CancellationToken)"/> in <see cref="StartAsync(CancellationToken)"/>
 		/// </summary>
 		readonly bool autoStart;
 
@@ -346,10 +346,16 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		/// <param name="startMonitor">If <see cref="MonitorLifetimes(CancellationToken)"/> should be started by this function</param>
 		/// <param name="announce">If the launch should be announced to chat by this function</param>
+		/// <param name="announceFailure">If launch failure should be announced to chat by this function.</param>
 		/// <param name="reattachInfo"><see cref="ReattachInformation"/> to use, if any</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		protected async Task LaunchNoLock(bool startMonitor, bool announce, ReattachInformation reattachInfo, CancellationToken cancellationToken)
+		protected async Task LaunchNoLock(
+			bool startMonitor,
+			bool announce,
+			bool announceFailure,
+			ReattachInformation reattachInfo,
+			CancellationToken cancellationToken)
 		{
 			Logger.LogTrace("Begin LaunchImplNoLock");
 
@@ -389,7 +395,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				async Task ChainChatTaskWithErrorMessage()
 				{
 					await originalChatTask.ConfigureAwait(false);
-					await Chat.SendWatchdogMessage("Startup failed!", false, cancellationToken).ConfigureAwait(false);
+					if (announceFailure)
+						await Chat.SendWatchdogMessage("Startup failed!", false, cancellationToken).ConfigureAwait(false);
 				}
 
 				announceTask = ChainChatTaskWithErrorMessage();
@@ -531,7 +538,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					try
 					{
 						// use LaunchImplNoLock without announcements or restarting the monitor
-						await LaunchNoLock(false, false, null, cancellationToken).ConfigureAwait(false);
+						await LaunchNoLock(false, false, false, null, cancellationToken).ConfigureAwait(false);
 						Logger.LogDebug("Relaunch successful, resuming monitor...");
 						return;
 					}
@@ -818,7 +825,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (Status != WatchdogStatus.Offline)
 				throw new JobException(ErrorCode.WatchdogRunning);
 			using (await SemaphoreSlimContext.Lock(Semaphore, cancellationToken).ConfigureAwait(false))
-				await LaunchNoLock(true, true, null, cancellationToken).ConfigureAwait(false);
+				await LaunchNoLock(true, true, true, null, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -847,7 +854,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				{
 					var chatTask = Chat.SendWatchdogMessage("Manual restart triggered...", false, cancellationToken);
 					await TerminateNoLock(false, false, cancellationToken).ConfigureAwait(false);
-					await LaunchNoLock(true, false, null, cancellationToken).ConfigureAwait(false);
+					await LaunchNoLock(true, false, true, null, cancellationToken).ConfigureAwait(false);
 					await chatTask.ConfigureAwait(false);
 					return;
 				}
@@ -894,7 +901,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			await jobManager.RegisterOperation(job, async (j, databaseContextFactory, progressFunction, ct) =>
 			{
 				using (await SemaphoreSlimContext.Lock(Semaphore, ct).ConfigureAwait(false))
-					await LaunchNoLock(true, true, reattachInfo, ct).ConfigureAwait(false);
+					await LaunchNoLock(true, true, true, reattachInfo, ct).ConfigureAwait(false);
 			}, cancellationToken).ConfigureAwait(false);
 		}
 
