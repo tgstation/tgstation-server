@@ -67,7 +67,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 					StartupTimeout = table.Column<uint>(nullable: false),
 					HeartbeatSeconds = table.Column<uint>(nullable: false),
 					AutoStart = table.Column<bool>(nullable: false),
-					InstanceId = table.Column<long>(nullable: false)
+					InstanceId = table.Column<long>(nullable: false),
+					TopicRequestTimeout = table.Column<uint>(nullable: false)
 				},
 				constraints: table =>
 				{
@@ -81,7 +82,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 				});
 
 			migrationBuilder.Sql(
-				$"INSERT INTO DreamDaemonSettings SELECT Id,AllowWebClient,SecurityLevel,PrimaryPort,AutoStart,HeartbeatSeconds,StartupTimeout,InstanceId FROM DreamDaemonSettings_up");
+				$"INSERT INTO DreamDaemonSettings SELECT Id,AllowWebClient,SecurityLevel,PrimaryPort,AutoStart,HeartbeatSeconds,StartupTimeout,InstanceId,TopicRequestTimeout FROM DreamDaemonSettings_up");
 
 			migrationBuilder.DropTable(
 				name: "DreamDaemonSettings_up");
