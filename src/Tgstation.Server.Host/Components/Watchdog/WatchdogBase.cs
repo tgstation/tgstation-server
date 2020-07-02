@@ -608,7 +608,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							var heartbeatSeconds = ActiveLaunchParameters.HeartbeatSeconds.Value;
 							var heartbeat = heartbeatSeconds == 0
 								? Extensions.TaskExtensions.InfiniteTask()
-								: Task.Delay(TimeSpan.FromSeconds(heartbeatSeconds));
+								: Task.Delay(TimeSpan.FromMilliseconds(heartbeatSeconds));
 
 							// cancel waiting if requested
 							var cancelTcs = new TaskCompletionSource<object>();
