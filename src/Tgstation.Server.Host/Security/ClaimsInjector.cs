@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,19 +21,12 @@ namespace Tgstation.Server.Host.Security
 		readonly IAuthenticationContextFactory authenticationContextFactory;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="ClaimsInjector"/>.
-		/// </summary>
-		readonly ILogger<ClaimsInjector> logger;
-
-		/// <summary>
 		/// Construct a <see cref="ClaimsInjector"/>
 		/// </summary>
 		/// <param name="authenticationContextFactory">The value of <see cref="authenticationContextFactory"/></param>
-		/// <param name="logger">The value of <see cref="logger"/></param>
-		public ClaimsInjector(IAuthenticationContextFactory authenticationContextFactory, ILogger<ClaimsInjector> logger)
+		public ClaimsInjector(IAuthenticationContextFactory authenticationContextFactory)
 		{
 			this.authenticationContextFactory = authenticationContextFactory ?? throw new ArgumentNullException(nameof(authenticationContextFactory));
-			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
 		/// <inheritdoc />
@@ -95,7 +86,6 @@ namespace Tgstation.Server.Host.Security
 						claims.Add(new Claim(ClaimTypes.Role, RightsHelper.RoleName(I, J)));
 			}
 
-			logger.LogTrace("User {0} claims: {1}", authenticationContext.User.Id, String.Join(", ", claims.Select(x => x.Value)));
 			tokenValidatedContext.Principal.AddIdentity(new ClaimsIdentity(claims));
 		}
 	}
