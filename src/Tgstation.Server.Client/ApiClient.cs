@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mime;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -157,7 +158,10 @@ namespace Tgstation.Server.Client
 			using (var request = new HttpRequestMessage(method, fullUri))
 			{
 				if (body != null)
-					request.Content = new StringContent(JsonConvert.SerializeObject(body, serializerSettings), Encoding.UTF8, ApiHeaders.ApplicationJson);
+					request.Content = new StringContent(
+						JsonConvert.SerializeObject(body, serializerSettings),
+						Encoding.UTF8,
+						MediaTypeNames.Application.Json);
 
 				var headersToUse = tokenRefresh ? tokenRefreshHeaders! : headers;
 				headersToUse.SetRequestHeaders(request.Headers, instanceId);

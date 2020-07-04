@@ -6,6 +6,7 @@ using Serilog.Context;
 using System;
 using System.Linq;
 using System.Net;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
@@ -17,7 +18,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// A <see cref="Controller"/> for API functions
 	/// </summary>
-	[Produces(ApiHeaders.ApplicationJson)]
+	[Produces(MediaTypeNames.Application.Json)]
 	[ApiController]
 	public abstract class ApiController : Controller
 	{

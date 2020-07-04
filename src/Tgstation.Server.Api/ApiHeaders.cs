@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Net.Mime;
 using System.Reflection;
 using System.Text;
 
@@ -16,11 +17,6 @@ namespace Tgstation.Server.Api
 	/// </summary>
 	public sealed class ApiHeaders
 	{
-		/// <summary>
-		/// TODO: Remove this when we upgrade to .NET Standard 2.1
-		/// </summary>
-		public const string ApplicationJson = "application/json";
-
 		/// <summary>
 		/// The <see cref="ApiVersion"/> header key
 		/// </summary>
@@ -146,9 +142,9 @@ namespace Tgstation.Server.Api
 			if (requestHeaders == null)
 				throw new ArgumentNullException(nameof(requestHeaders));
 
-			var jsonAccept = new Microsoft.Net.Http.Headers.MediaTypeHeaderValue(ApplicationJson);
+			var jsonAccept = new Microsoft.Net.Http.Headers.MediaTypeHeaderValue(MediaTypeNames.Application.Json);
 			if (!requestHeaders.Accept.Any(x => x.MediaType == jsonAccept.MediaType))
-				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Client does not accept {0}!", ApplicationJson));
+				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Client does not accept {0}!", MediaTypeNames.Application.Json));
 
 			if (!requestHeaders.Headers.TryGetValue(HeaderNames.UserAgent, out var userAgentValues) || userAgentValues.Count == 0)
 				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Missing {0} headers!", HeaderNames.UserAgent));
@@ -264,7 +260,7 @@ namespace Tgstation.Server.Api
 				throw new InvalidOperationException("Specified instance ID in constructor and SetRequestHeaders!");
 
 			headers.Clear();
-			headers.Accept.Add(new MediaTypeWithQualityHeaderValue(ApplicationJson));
+			headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
 			if (IsTokenAuthentication)
 				headers.Authorization = new AuthenticationHeaderValue(JwtAuthenticationScheme, Token);
 			else
