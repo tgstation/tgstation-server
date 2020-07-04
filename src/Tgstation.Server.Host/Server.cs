@@ -21,7 +21,12 @@ namespace Tgstation.Server.Host
 		public bool RestartRequested { get; private set; }
 
 		/// <inheritdoc />
-		public bool WatchdogPresent => updatePath != null;
+		public bool WatchdogPresent =>
+#if WATCHDOG_FREE_RESTART
+			true;
+#else
+			updatePath != null;
+#endif
 
 		/// <summary>
 		/// The <see cref="IHostBuilder"/> for the <see cref="Server"/>
