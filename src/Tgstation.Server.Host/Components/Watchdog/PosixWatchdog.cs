@@ -81,8 +81,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		protected override async Task InitialLink(SwappableDmbProvider swappableDmbProvider, CancellationToken cancellationToken)
 		{
-			// Instead of symlinking to begin with we actually rename the directory
+			// The logic to check for an active live directory is in SwappableDmbProvider, so we just do it again here for safety
 			Logger.LogTrace("Hard linking compile job...");
+			await GameIOManager.DeleteDirectory(swappableDmbProvider.Directory, cancellationToken).ConfigureAwait(false);
+
+			// Instead of symlinking to begin with we actually rename the directory
 			await GameIOManager.MoveDirectory(
 				swappableDmbProvider.CompileJob.DirectoryName.ToString(),
 				swappableDmbProvider.Directory,
@@ -114,6 +117,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				}
 			}
 
+			Logger.LogTrace("Symlinking compile job...");
 			await ActiveSwappable.MakeActive(cancellationToken).ConfigureAwait(false);
 			Server.Resume();
 		}
