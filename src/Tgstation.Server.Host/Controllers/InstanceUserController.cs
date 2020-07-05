@@ -29,7 +29,15 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		public InstanceUserController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ILogger<InstanceUserController> logger) : base(databaseContext, authenticationContextFactory, logger, true, true)
+		public InstanceUserController(
+			IDatabaseContext databaseContext,
+			IAuthenticationContextFactory authenticationContextFactory,
+			ILogger<InstanceUserController> logger)
+			: base(
+				  databaseContext,
+				  authenticationContextFactory,
+				  logger,
+				  true)
 		{ }
 
 		/// <summary>

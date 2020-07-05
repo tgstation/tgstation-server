@@ -65,7 +65,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="logger">The value of <see cref="Logger"/></param>
 		/// <param name="requireInstance">The value of <see cref="requireInstance"/></param>
 		/// <param name="requireHeaders">The value of <see cref="requireHeaders"/></param>
-		public ApiController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ILogger logger, bool requireInstance, bool requireHeaders)
+		public ApiController(
+			IDatabaseContext databaseContext,
+			IAuthenticationContextFactory authenticationContextFactory,
+			ILogger logger,
+			bool requireInstance,
+			bool requireHeaders = true)
 		{
 			DatabaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
 			if (authenticationContextFactory == null)
@@ -95,8 +100,39 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.NotImplemented"/>.</returns>
 		protected ObjectResult RequiresPosixSystemIdentity() => StatusCode((int)HttpStatusCode.NotImplemented, new ErrorMessage(ErrorCode.RequiresPosixSystemIdentity));
 
+		/// <summary>
+		/// Response for missing/Invalid headers.
+		/// </summary>
+		/// <returns>The appropriate <see cref="IActionResult"/>.</returns>
+		protected IActionResult HeadersIssue()
+		{
+			HeadersException headersException;
+			try
+			{
+				var _ = new ApiHeaders(Request.GetTypedHeaders());
+				throw new InvalidOperationException("Expected a header parse exception!");
+			}
+			catch (HeadersException ex)
+			{
+				headersException = ex;
+			}
+
+			var errorMessage = new ErrorMessage(ErrorCode.BadHeaders)
+			{
+				AdditionalData = headersException.Message
+			};
+
+			if (headersException.MissingOrMalformedHeaders.HasFlag(HeaderTypes.Accept))
+				return StatusCode((int)HttpStatusCode.NotAcceptable, errorMessage);
+
+			if (headersException.MissingOrMalformedHeaders == HeaderTypes.Authorization)
+				return Unauthorized(errorMessage);
+
+			return BadRequest(errorMessage);
+		}
+
 		/// <inheritdoc />
-		#pragma warning disable CA1506 // TODO: Decomplexify
+#pragma warning disable CA1506 // TODO: Decomplexify
 		public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
 		{
 			// ALL valid token and login requests that match a route go through this function
@@ -139,15 +175,11 @@ namespace Tgstation.Server.Host.Controllers
 					}
 				}
 			}
-			catch (InvalidOperationException e)
+			catch (HeadersException)
 			{
 				if (requireHeaders)
 				{
-					await BadRequest(
-						new ErrorMessage(ErrorCode.BadHeaders)
-						{
-							AdditionalData = e.Message
-						})
+					await HeadersIssue()
 						.ExecuteResultAsync(context)
 						.ConfigureAwait(false);
 					return;

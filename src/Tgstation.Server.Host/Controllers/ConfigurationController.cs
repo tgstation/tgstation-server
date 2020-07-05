@@ -41,7 +41,17 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		public ConfigurationController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, IIOManager ioManager, ILogger<ConfigurationController> logger) : base(databaseContext, authenticationContextFactory, logger, true, true)
+		public ConfigurationController(
+			IDatabaseContext databaseContext,
+			IAuthenticationContextFactory authenticationContextFactory,
+			IInstanceManager instanceManager,
+			IIOManager ioManager,
+			ILogger<ConfigurationController> logger)
+			: base(
+				  databaseContext,
+				  authenticationContextFactory,
+				  logger,
+				  true)
 		{
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));

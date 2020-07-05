@@ -92,7 +92,11 @@ namespace Tgstation.Server.Host.Controllers
 			IPlatformIdentifier platformIdentifier,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			ILogger<InstanceController> logger)
-			: base(databaseContext, authenticationContextFactory, logger, false, true)
+			: base(
+				  databaseContext,
+				  authenticationContextFactory,
+				  logger,
+				  false)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));

@@ -102,8 +102,7 @@ namespace Tgstation.Server.Host.Controllers
 				databaseContext,
 				authenticationContextFactory,
 				logger,
-				false,
-				true)
+				false)
 		{
 			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 			this.serverUpdater = serverUpdater ?? throw new ArgumentNullException(nameof(serverUpdater));
@@ -158,7 +157,11 @@ namespace Tgstation.Server.Host.Controllers
 			Logger.LogTrace("Release query complete!");
 
 			foreach (var release in releases)
-				if (Version.TryParse(release.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal), out var version) && version == newVersion)
+				if (Version.TryParse(
+					release.TagName.Replace(
+						updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal),
+					out var version)
+					&& version == newVersion)
 				{
 					var asset = release.Assets.Where(x => x.Name.Equals(updatesConfiguration.UpdatePackageAssetName, StringComparison.Ordinal)).FirstOrDefault();
 					if (asset == default)
@@ -181,6 +184,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Get <see cref="Administration"/> server information.
 		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Retrieved <see cref="Administration"/> data successfully.</response>
 		/// <response code="424">The GitHub API rate limit was hit. See response header Retry-After.</response>
@@ -190,7 +194,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(Administration), 200)]
 		[ProducesResponseType(typeof(ErrorMessage), 424)]
 		[ProducesResponseType(typeof(ErrorMessage), 429)]
-		public async Task<IActionResult> Read()
+		public async Task<IActionResult> Read(CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -199,8 +203,19 @@ namespace Tgstation.Server.Host.Controllers
 				try
 				{
 					var gitHubClient = GetGitHubClient();
-					var repositoryTask = gitHubClient.Repository.Get(updatesConfiguration.GitHubRepositoryId);
-					var releases = (await gitHubClient.Repository.Release.GetAll(updatesConfiguration.GitHubRepositoryId).ConfigureAwait(false)).Where(x => x.TagName.StartsWith(updatesConfiguration.GitTagPrefix, StringComparison.InvariantCulture));
+					var repositoryTask = gitHubClient
+						.Repository
+						.Get(updatesConfiguration.GitHubRepositoryId)
+						.WithToken(cancellationToken);
+					var releases = (await gitHubClient
+						.Repository
+						.Release
+						.GetAll(updatesConfiguration.GitHubRepositoryId)
+						.WithToken(cancellationToken)
+						.ConfigureAwait(false))
+						.Where(x => x.TagName.StartsWith(
+							updatesConfiguration.GitTagPrefix,
+							StringComparison.InvariantCulture));
 
 					foreach (var I in releases)
 						if (Version.TryParse(I.TagName.Replace(updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal), out var version)
