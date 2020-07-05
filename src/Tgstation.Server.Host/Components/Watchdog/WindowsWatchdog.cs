@@ -141,6 +141,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected override async Task HandleNewDmbAvailable(CancellationToken cancellationToken)
 		{
 			IDmbProvider compileJobProvider = DmbFactory.LockNextDmb(1);
+			bool canSeamlesslySwap = true;
+
 			if (compileJobProvider.CompileJob.ByondVersion != ActiveCompileJob.ByondVersion)
 			{
 				// have to do a graceful restart
@@ -149,6 +151,21 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					compileJobProvider.CompileJob.Id,
 					compileJobProvider.CompileJob.ByondVersion,
 					ActiveCompileJob.ByondVersion);
+				canSeamlesslySwap = false;
+			}
+
+			if (compileJobProvider.CompileJob.DmeName != ActiveCompileJob.DmeName)
+			{
+				Logger.LogDebug(
+					"Not swapping to new compile job {0} as it uses a different .dmb name ({1}) than what is currently active {2}. Queueing graceful restart instead...",
+					compileJobProvider.CompileJob.Id,
+					compileJobProvider.CompileJob.DmeName,
+					ActiveCompileJob.DmeName);
+				canSeamlesslySwap = false;
+			}
+
+			if (!canSeamlesslySwap)
+			{
 				compileJobProvider.Dispose();
 				await base.HandleNewDmbAvailable(cancellationToken).ConfigureAwait(false);
 				return;
@@ -173,7 +190,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 				await windowsProvider.MakeActive(cancellationToken).ConfigureAwait(false);
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				Logger.LogError("Exception while swapping: {0}", ex);
 				IDmbProvider providerToDispose = windowsProvider ?? compileJobProvider;
