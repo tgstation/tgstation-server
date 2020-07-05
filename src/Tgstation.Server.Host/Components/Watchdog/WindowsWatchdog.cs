@@ -15,14 +15,19 @@ using Tgstation.Server.Host.Jobs;
 namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <summary>
-	/// A version of the <see cref="BasicWatchdog"/> that, instead of killing servers for updates, uses the wonders of symlinks to swap out changes without killing DreamDaemon.
+	/// A <see cref="IWatchdog"/> that, instead of killing servers for updates, uses the wonders of symlinks to swap out changes without killing DreamDaemon.
 	/// </summary>
-	sealed class WindowsWatchdog : BasicWatchdog
+	class WindowsWatchdog : BasicWatchdog
 	{
+		/// <summary>
+		/// The <see cref="SwappableDmbProvider"/> for <see cref="WatchdogBase.LastLaunchParameters"/>.
+		/// </summary>
+		protected SwappableDmbProvider ActiveSwappable { get; private set; }
+
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="WindowsWatchdog"/> pointing to the Game directory.
 		/// </summary>
-		readonly IIOManager gameIOManager;
+		protected IIOManager GameIOManager { get; }
 
 		/// <summary>
 		/// The <see cref="ISymlinkFactory"/> for the <see cref="WindowsWatchdog"/>.
@@ -30,14 +35,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly ISymlinkFactory symlinkFactory;
 
 		/// <summary>
-		/// The <see cref="WindowsSwappableDmbProvider"/> for <see cref="WatchdogBase.LastLaunchParameters"/>.
+		/// The active <see cref="SwappableDmbProvider"/> for <see cref="WatchdogBase.ActiveLaunchParameters"/>.
 		/// </summary>
-		WindowsSwappableDmbProvider activeSwappable;
-
-		/// <summary>
-		/// The active <see cref="WindowsSwappableDmbProvider"/> for <see cref="WatchdogBase.ActiveLaunchParameters"/>.
-		/// </summary>
-		WindowsSwappableDmbProvider pendingSwappable;
+		SwappableDmbProvider pendingSwappable;
 
 		/// <summary>
 		/// The <see cref="IDmbProvider"/> the <see cref="WindowsWatchdog"/> was started with.
@@ -57,7 +57,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="diagnosticsIOManager">The <see cref="IIOManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="eventConsumer">The <see cref="IEventConsumer"/> for the <see cref="WatchdogBase"/>.</param>
-		/// <param name="gameIOManager">The value of <see cref="gameIOManager"/>.</param>
+		/// <param name="gameIOManager">The value of <see cref="GameIOManager"/>.</param>
 		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="initialLaunchParameters">The <see cref="DreamDaemonLaunchParameters"/> for the <see cref="WatchdogBase"/>.</param>
@@ -97,7 +97,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			try
 			{
-				this.gameIOManager = gameIOManager ?? throw new ArgumentNullException(nameof(gameIOManager));
+				GameIOManager = gameIOManager ?? throw new ArgumentNullException(nameof(gameIOManager));
 				this.symlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
 			}
 			catch
@@ -113,7 +113,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			base.DisposeAndNullControllersImpl();
 
 			// If we reach this point, we can guarantee PrepServerForLaunch will be called before starting again.
-			activeSwappable = null;
+			ActiveSwappable = null;
 			pendingSwappable?.Dispose();
 			pendingSwappable = null;
 
@@ -128,7 +128,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			{
 				Logger.LogTrace("Replacing activeSwappable with pendingSwappable...");
 				Server.ReplaceDmbProvider(pendingSwappable);
-				activeSwappable = pendingSwappable;
+				ActiveSwappable = pendingSwappable;
 				pendingSwappable = null;
 			}
 			else
@@ -154,11 +154,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return;
 			}
 
-			WindowsSwappableDmbProvider windowsProvider = null;
+			SwappableDmbProvider windowsProvider = null;
 			bool suspended = false;
 			try
 			{
-				windowsProvider = new WindowsSwappableDmbProvider(compileJobProvider, gameIOManager, symlinkFactory);
+				windowsProvider = new SwappableDmbProvider(compileJobProvider, GameIOManager, symlinkFactory);
 
 				Logger.LogDebug("Swapping to compile job {0}...", windowsProvider.CompileJob.Id);
 				try
@@ -190,9 +190,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		protected override async Task<IDmbProvider> PrepServerForLaunch(IDmbProvider dmbToUse, CancellationToken cancellationToken)
+		protected sealed override async Task<IDmbProvider> PrepServerForLaunch(IDmbProvider dmbToUse, CancellationToken cancellationToken)
 		{
-			if(activeSwappable != null)
+			if(ActiveSwappable != null)
 				throw new InvalidOperationException("Expected activeSwappable to be null!");
 			if(startupDmbProvider != null)
 				throw new InvalidOperationException("Expected startupDmbProvider to be null!");
@@ -202,21 +202,30 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			// Add another lock to the startup DMB because it'll be used throughout the lifetime of the watchdog
 			startupDmbProvider = await DmbFactory.FromCompileJob(dmbToUse.CompileJob, cancellationToken).ConfigureAwait(false);
 
-			activeSwappable = pendingSwappable ?? new WindowsSwappableDmbProvider(dmbToUse, gameIOManager, symlinkFactory);
+			ActiveSwappable = pendingSwappable ?? new SwappableDmbProvider(dmbToUse, GameIOManager, symlinkFactory);
 			pendingSwappable = null;
 
 			try
 			{
-				await activeSwappable.MakeActive(cancellationToken).ConfigureAwait(false);
+				await InitialLink(ActiveSwappable, cancellationToken).ConfigureAwait(false);
 			}
 			catch
 			{
 				// We won't worry about disposing activeSwappable here as we can't dispose dmbToUse here.
-				activeSwappable = null;
+				ActiveSwappable = null;
 				throw;
 			}
 
-			return activeSwappable;
+			return ActiveSwappable;
 		}
+
+		/// <summary>
+		/// Create the initial link to the live game directory.
+		/// </summary>
+		/// <param name="swappableDmbProvider">The <see cref="SwappableDmbProvider"/> in use.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		protected virtual Task InitialLink(SwappableDmbProvider swappableDmbProvider, CancellationToken cancellationToken)
+			=> swappableDmbProvider.MakeActive(cancellationToken);
 	}
 }

@@ -236,6 +236,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				restartRegistration.Dispose();
 				throw;
 			}
+
+			Logger.LogTrace("Created watchdog");
 		}
 
 		/// <inheritdoc />

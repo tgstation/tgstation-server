@@ -174,7 +174,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected sealed override ISessionController GetActiveController() => Server;
 
 		/// <inheritdoc />
-		protected sealed override async Task InitControllers(
+		protected override async Task InitControllers(
 			Task chatTask,
 			ReattachInformation reattachInfo,
 			CancellationToken cancellationToken)

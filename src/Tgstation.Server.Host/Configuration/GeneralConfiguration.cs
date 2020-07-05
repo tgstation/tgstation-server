@@ -83,9 +83,9 @@ namespace Tgstation.Server.Host.Configuration
 		public uint RestartTimeout { get; set; } = DefaultRestartTimeout;
 
 		/// <summary>
-		/// If the <see cref="Components.Watchdog.WindowsWatchdog"/> should not be used if it is available.
+		/// If the <see cref="Components.Watchdog.BasicWatchdog"/> should be preferred.
 		/// </summary>
-		public bool UseBasicWatchdogOnWindows { get; set; }
+		public bool UseBasicWatchdog { get; set; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GeneralConfiguration"/> <see langword="class"/>.

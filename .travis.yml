@@ -38,9 +38,10 @@ jobs:
       - DockerBuild=false
       - DMAPI=false
       - CONFIG=Release
+      - General__UseBasicWatchdog=true
       - TGS4_TEST_DATABASE_TYPE=Sqlite
       - TGS4_TEST_CONNECTION_STRING="Data Source=TravisTestDB.sqlite3;Mode=ReadWriteCreate"
-      name: "Sqlite Integration Test"
+      name: "Sqlite & BasicWatchdog Integration Test"
       language: csharp
       mono: none
       dotnet: 3.1

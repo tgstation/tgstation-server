@@ -59,10 +59,8 @@ namespace Tgstation.Server.Tests.Instance
 				Version = ByondTest.TestVersion
 			}, cancellationToken);
 
-			// await RunLongRunningTestThenUpdate(cancellationToken);
-			// await RunLongRunningTestThenUpdateWithByondVersionSwitch(cancellationToken);
-			// Remove this deploy when the above tests are reenabled
-			await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, cancellationToken);
+			await RunLongRunningTestThenUpdate(cancellationToken);
+			await RunLongRunningTestThenUpdateWithByondVersionSwitch(cancellationToken);
 
 			await RunHeartbeatTest(cancellationToken);
 

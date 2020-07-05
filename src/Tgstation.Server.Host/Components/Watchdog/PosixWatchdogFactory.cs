@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
@@ -15,26 +14,21 @@ using Tgstation.Server.Host.Jobs;
 namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <summary>
-	/// <see cref="IWatchdogFactory"/> for creating <see cref="WindowsWatchdog"/>s.
+	/// <see cref="IWatchdogFactory"/> for creating <see cref="PosixWatchdog"/>s.
 	/// </summary>
-	class WindowsWatchdogFactory : WatchdogFactory
+	sealed class PosixWatchdogFactory : WindowsWatchdogFactory
 	{
 		/// <summary>
-		/// The <see cref="ISymlinkFactory"/> for the <see cref="WindowsWatchdogFactory"/>.
-		/// </summary>
-		protected ISymlinkFactory SymlinkFactory { get; }
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="WindowsWatchdogFactory"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="PosixWatchdogFactory"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="loggerFactory">The <see cref="ILoggerFactory"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="databaseContextFactory">The <see cref="IDatabaseContextFactory"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogFactory"/>.</param>
-		/// <param name="symlinkFactory">The value of <see cref="SymlinkFactory"/>.</param>
+		/// <param name="symlinkFactory">The <see cref="ISymlinkFactory"/> for the <see cref="WindowsWatchdogFactory"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> for <see cref="GeneralConfiguration"/> for the <see cref="WatchdogFactory"/>.</param>
-		public WindowsWatchdogFactory(
+		public PosixWatchdogFactory(
 			IServerControl serverControl,
 			ILoggerFactory loggerFactory,
 			IDatabaseContextFactory databaseContextFactory,
@@ -48,10 +42,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				databaseContextFactory,
 				jobManager,
 				asyncDelayer,
+				symlinkFactory,
 				generalConfigurationOptions)
-		{
-			SymlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
-		}
+		{ }
 
 		/// <inheritdoc />
 		public override IWatchdog CreateWatchdog(
@@ -64,7 +57,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IEventConsumer eventConsumer,
 			Api.Models.Instance instance,
 			DreamDaemonSettings settings)
-			=> new WindowsWatchdog(
+			=> new PosixWatchdog(
 				chat,
 				sessionControllerFactory,
 				dmbFactory,
@@ -77,7 +70,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				eventConsumer,
 				gameIOManager,
 				SymlinkFactory,
-				LoggerFactory.CreateLogger<WindowsWatchdog>(),
+				LoggerFactory.CreateLogger<PosixWatchdog>(),
 				settings,
 				instance,
 				settings.AutoStart.Value);

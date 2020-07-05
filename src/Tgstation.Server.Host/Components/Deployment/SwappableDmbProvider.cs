@@ -7,9 +7,9 @@ using Tgstation.Server.Host.Models;
 namespace Tgstation.Server.Host.Components.Deployment
 {
 	/// <summary>
-	/// A windows <see cref="IDmbProvider"/> that uses symlinks.
+	/// A <see cref="IDmbProvider"/> that uses symlinks.
 	/// </summary>
-	sealed class WindowsSwappableDmbProvider : IDmbProvider
+	sealed class SwappableDmbProvider : IDmbProvider
 	{
 		/// <summary>
 		/// The directory where the <see cref="baseProvider"/> is symlinked to.
@@ -41,12 +41,12 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly ISymlinkFactory symlinkFactory;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="WindowsSwappableDmbProvider"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="SwappableDmbProvider"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="baseProvider">The value of <see cref="baseProvider"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/>.</param>
 		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/>.</param>
-		public WindowsSwappableDmbProvider(IDmbProvider baseProvider, IIOManager ioManager, ISymlinkFactory symlinkFactory)
+		public SwappableDmbProvider(IDmbProvider baseProvider, IIOManager ioManager, ISymlinkFactory symlinkFactory)
 		{
 			this.baseProvider = baseProvider ?? throw new ArgumentNullException(nameof(baseProvider));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
@@ -60,7 +60,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		public void KeepAlive() => baseProvider.KeepAlive();
 
 		/// <summary>
-		/// Make the <see cref="WindowsSwappableDmbProvider"/> active by replacing the live link with our <see cref="CompileJob"/>.
+		/// Make the <see cref="SwappableDmbProvider"/> active by replacing the live link with our <see cref="CompileJob"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
