@@ -221,6 +221,8 @@ namespace Tgstation.Server.Tests.Instance
 				},
 				cancellationToken);
 
+			versionToInstall = versionToInstall.Semver();
+
 			var initialStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 
 			var startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
@@ -243,7 +245,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreEqual(initialStatus.ActiveCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
 			var newerCompileJob = daemonStatus.StagedCompileJob;
 			Assert.AreNotEqual(daemonStatus.ActiveCompileJob.ByondVersion, newerCompileJob.ByondVersion);
-			Assert.AreEqual(versionToInstall.Semver(), newerCompileJob.ByondVersion);
+			Assert.AreEqual(versionToInstall, newerCompileJob.ByondVersion);
 
 			Assert.AreEqual(true, daemonStatus.SoftRestart);
 
