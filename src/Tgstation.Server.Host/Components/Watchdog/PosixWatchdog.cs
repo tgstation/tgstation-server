@@ -83,7 +83,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			// The logic to check for an active live directory is in SwappableDmbProvider, so we just do it again here for safety
 			Logger.LogTrace("Hard linking compile job...");
-			await GameIOManager.DeleteDirectory(swappableDmbProvider.Directory, cancellationToken).ConfigureAwait(false);
+
+			// Symlinks are counted as a file sometimes??
+			var dirDeleteTask = GameIOManager.DeleteDirectory(swappableDmbProvider.Directory, cancellationToken);
+			await GameIOManager.DeleteFile(swappableDmbProvider.Directory, cancellationToken).ConfigureAwait(false);
+			await dirDeleteTask.ConfigureAwait(false);
 
 			// Instead of symlinking to begin with we actually rename the directory
 			await GameIOManager.MoveDirectory(
