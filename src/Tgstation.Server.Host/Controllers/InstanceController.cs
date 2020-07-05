@@ -311,7 +311,7 @@ namespace Tgstation.Server.Host.Controllers
 			Logger.LogInformation("{0} {1} instance {2}: {3} ({4})", AuthenticationContext.User.Name, attached ? "attached" : "created", newInstance.Name, newInstance.Id, newInstance.Path);
 
 			var api = newInstance.ToApi();
-			return attached ? (IActionResult)Json(api) : StatusCode((int)HttpStatusCode.Created, api);
+			return attached ? (IActionResult)Json(api) : Created(api);
 		}
 
 		/// <summary>

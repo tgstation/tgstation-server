@@ -86,19 +86,41 @@ namespace Tgstation.Server.Host.Controllers
 		/// Generic 410 response.
 		/// </summary>
 		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.Gone"/>.</returns>
-		protected ObjectResult Gone() => StatusCode((int)HttpStatusCode.Gone, new ErrorMessage(ErrorCode.ResourceNotPresent));
+		protected ObjectResult Gone() => StatusCode(HttpStatusCode.Gone, new ErrorMessage(ErrorCode.ResourceNotPresent));
 
 		/// <summary>
 		/// Generic 404 response.
 		/// </summary>
 		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.NotFound"/>.</returns>
-		protected new ObjectResult NotFound() => NotFound(new ErrorMessage(ErrorCode.ResourceNeverPresent));
+		protected new NotFoundObjectResult NotFound() => NotFound(new ErrorMessage(ErrorCode.ResourceNeverPresent));
 
 		/// <summary>
 		/// Generic 501 response.
 		/// </summary>
 		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.NotImplemented"/>.</returns>
-		protected ObjectResult RequiresPosixSystemIdentity() => StatusCode((int)HttpStatusCode.NotImplemented, new ErrorMessage(ErrorCode.RequiresPosixSystemIdentity));
+		protected ObjectResult RequiresPosixSystemIdentity() => StatusCode(HttpStatusCode.NotImplemented, new ErrorMessage(ErrorCode.RequiresPosixSystemIdentity));
+
+		/// <summary>
+		/// Strongly type calls to <see cref="ControllerBase.StatusCode(int)"/>.
+		/// </summary>
+		/// <param name="statusCode">The <see cref="HttpStatusCode"/>.</param>
+		/// <returns>A <see cref="StatusCodeResult"/> with the given <paramref name="statusCode"/>.</returns>
+		protected StatusCodeResult StatusCode(HttpStatusCode statusCode) => StatusCode((int)statusCode);
+
+		/// <summary>
+		/// Strongly type calls to <see cref="ControllerBase.StatusCode(int, object)"/>.
+		/// </summary>
+		/// <param name="statusCode">The <see cref="HttpStatusCode"/>.</param>
+		/// <param name="errorMessage">The accompanying <see cref="ErrorMessage"/> payload.</param>
+		/// <returns>A <see cref="StatusCodeResult"/> with the given <paramref name="statusCode"/>.</returns>
+		protected ObjectResult StatusCode(HttpStatusCode statusCode, object errorMessage) => StatusCode((int)statusCode, errorMessage);
+
+		/// <summary>
+		/// Generic 201 response with a given <paramref name="payload"/>.
+		/// </summary>
+		/// <param name="payload">The accompanying API payload.</param>
+		/// <returns>A <see cref="HttpStatusCode.Created"/> <see cref="ObjectResult"/> with the given <paramref name="payload"/>.</returns>
+		protected ObjectResult Created(object payload) => StatusCode((int)HttpStatusCode.Created, payload);
 
 		/// <summary>
 		/// Response for missing/Invalid headers.
@@ -123,7 +145,7 @@ namespace Tgstation.Server.Host.Controllers
 			};
 
 			if (headersException.MissingOrMalformedHeaders.HasFlag(HeaderTypes.Accept))
-				return StatusCode((int)HttpStatusCode.NotAcceptable, errorMessage);
+				return StatusCode(HttpStatusCode.NotAcceptable, errorMessage);
 
 			if (headersException.MissingOrMalformedHeaders == HeaderTypes.Authorization)
 				return Unauthorized(errorMessage);
@@ -152,7 +174,7 @@ namespace Tgstation.Server.Host.Controllers
 				if (!ApiHeaders.Compatible())
 				{
 					await StatusCode(
-						(int)HttpStatusCode.UpgradeRequired,
+						HttpStatusCode.UpgradeRequired,
 						new ErrorMessage(ErrorCode.ApiMismatch))
 						.ExecuteResultAsync(context)
 						.ConfigureAwait(false);

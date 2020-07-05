@@ -119,7 +119,7 @@ namespace Tgstation.Server.Host.Controllers
 			Logger.LogWarning("Exceeded GitHub rate limit! Exception {0}", exception);
 			var secondsString = Math.Ceiling((exception.Reset - DateTimeOffset.Now).TotalSeconds).ToString(CultureInfo.InvariantCulture);
 			Response.Headers.Add("Retry-After", new StringValues(secondsString));
-			return StatusCode(429, new ErrorMessage(ErrorCode.GitHubApiRateLimit));
+			return StatusCode(HttpStatusCode.TooManyRequests, new ErrorMessage(ErrorCode.GitHubApiRateLimit));
 		}
 
 		/// <summary>
@@ -149,7 +149,7 @@ namespace Tgstation.Server.Host.Controllers
 			catch (ApiException e)
 			{
 				Logger.LogWarning(OctokitException, e);
-				return StatusCode((int)HttpStatusCode.FailedDependency);
+				return StatusCode(HttpStatusCode.FailedDependency);
 			}
 
 			releases = releases.Where(x => x.TagName.StartsWith(updatesConfiguration.GitTagPrefix, StringComparison.InvariantCulture));
@@ -243,7 +243,7 @@ namespace Tgstation.Server.Host.Controllers
 			catch (ApiException e)
 			{
 				Logger.LogWarning(OctokitException, e);
-				return StatusCode((int)HttpStatusCode.FailedDependency, new ErrorMessage(ErrorCode.GitHubApiError)
+				return StatusCode(HttpStatusCode.FailedDependency, new ErrorMessage(ErrorCode.GitHubApiError)
 				{
 					AdditionalData = e.Message
 				});
@@ -313,7 +313,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch (InvalidOperationException)
 			{
-				return StatusCode((int)HttpStatusCode.ServiceUnavailable);
+				return StatusCode(HttpStatusCode.ServiceUnavailable);
 			}
 		}
 

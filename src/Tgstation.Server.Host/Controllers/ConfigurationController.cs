@@ -105,7 +105,7 @@ namespace Tgstation.Server.Host.Controllers
 
 				newFile.Content = null;
 
-				return model.LastReadHash == null ? (IActionResult)StatusCode((int)HttpStatusCode.Created, newFile) : Json(newFile);
+				return model.LastReadHash == null ? (IActionResult)Created(newFile) : Json(newFile);
 			}
 			catch(IOException e)
 			{
@@ -228,7 +228,13 @@ namespace Tgstation.Server.Host.Controllers
 			try
 			{
 				model.IsDirectory = true;
-				return await instanceManager.GetInstance(Instance).Configuration.CreateDirectory(model.Path, systemIdentity, cancellationToken).ConfigureAwait(false) ? (IActionResult)Json(model) : StatusCode((int)HttpStatusCode.Created, model);
+				return await instanceManager
+					.GetInstance(Instance)
+					.Configuration
+					.CreateDirectory(model.Path, systemIdentity, cancellationToken)
+					.ConfigureAwait(false)
+					? (IActionResult)Json(model)
+					: Created(model);
 			}
 			catch (IOException e)
 			{

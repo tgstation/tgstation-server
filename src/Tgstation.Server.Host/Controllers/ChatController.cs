@@ -134,7 +134,7 @@ namespace Tgstation.Server.Host.Controllers
 				throw;
 			}
 
-			return StatusCode((int)HttpStatusCode.Created, dbModel.ToApi());
+			return StatusCode(HttpStatusCode.Created, dbModel.ToApi());
 		}
 
 		/// <summary>

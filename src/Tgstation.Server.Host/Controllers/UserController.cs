@@ -171,7 +171,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
-			return StatusCode((int)HttpStatusCode.Created, dbUser.ToApi(true));
+			return Created(dbUser.ToApi(true));
 		}
 
 		/// <summary>
