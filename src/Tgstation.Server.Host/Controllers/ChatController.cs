@@ -39,7 +39,16 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		public ChatController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, ILogger<ChatController> logger) : base(databaseContext, authenticationContextFactory, logger, true, true)
+		public ChatController(
+			IDatabaseContext databaseContext,
+			IAuthenticationContextFactory authenticationContextFactory,
+			IInstanceManager instanceManager,
+			ILogger<ChatController> logger)
+			: base(
+				  databaseContext,
+				  authenticationContextFactory,
+				  logger,
+				  true)
 		{
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 		}
@@ -125,7 +134,7 @@ namespace Tgstation.Server.Host.Controllers
 				throw;
 			}
 
-			return StatusCode((int)HttpStatusCode.Created, dbModel.ToApi());
+			return StatusCode(HttpStatusCode.Created, dbModel.ToApi());
 		}
 
 		/// <summary>

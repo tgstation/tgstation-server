@@ -55,7 +55,7 @@ namespace Tgstation.Server.Host.Security
 			{
 				apiHeaders = new ApiHeaders(tokenValidatedContext.HttpContext.Request.GetTypedHeaders());
 			}
-			catch (InvalidOperationException)
+			catch (HeadersException)
 			{
 				// we are not responsible for handling header validation issues
 				return;
@@ -78,9 +78,12 @@ namespace Tgstation.Server.Host.Security
 				// if there's no instance user, do a weird thing and add all the instance roles
 				// we need it so we can get to OnActionExecutionAsync where we can properly decide between BadRequest and Forbid
 				// if user is null that means they got the token with an expired password
-				var rightInt = authenticationContext.User == null || (RightsHelper.IsInstanceRight(I) && authenticationContext.InstanceUser == null) ? ~0U : authenticationContext.GetRight(I);
+				var rightAsULong = authenticationContext.User == null
+					|| (RightsHelper.IsInstanceRight(I) && authenticationContext.InstanceUser == null)
+					? ~0UL
+					: authenticationContext.GetRight(I);
 				var rightEnum = RightsHelper.RightToType(I);
-				var right = (Enum)Enum.ToObject(rightEnum, rightInt);
+				var right = (Enum)Enum.ToObject(rightEnum, rightAsULong);
 				foreach (Enum J in Enum.GetValues(rightEnum))
 					if (right.HasFlag(J))
 						claims.Add(new Claim(ClaimTypes.Role, RightsHelper.RoleName(I, J)));

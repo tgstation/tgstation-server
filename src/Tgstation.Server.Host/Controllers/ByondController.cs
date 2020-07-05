@@ -40,7 +40,17 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		public ByondController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, IJobManager jobManager, ILogger<ByondController> logger) : base(databaseContext, authenticationContextFactory, logger, true, true)
+		public ByondController(
+			IDatabaseContext databaseContext,
+			IAuthenticationContextFactory authenticationContextFactory,
+			IInstanceManager instanceManager,
+			IJobManager jobManager,
+			ILogger<ByondController> logger)
+			: base(
+				  databaseContext,
+				  authenticationContextFactory,
+				  logger,
+				  true)
 		{
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));

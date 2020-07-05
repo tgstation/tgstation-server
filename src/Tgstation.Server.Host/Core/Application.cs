@@ -173,6 +173,8 @@ namespace Tgstation.Server.Host.Core
 				.AddMvc(options =>
 				{
 					options.EnableEndpointRouting = false;
+					options.ReturnHttpNotAcceptable = true;
+					options.RespectBrowserAcceptHeader = true;
 				})
 				.AddNewtonsoftJson(options =>
 				{

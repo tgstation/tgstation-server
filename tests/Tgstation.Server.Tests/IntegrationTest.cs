@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Client;
-using Tgstation.Server.Host;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Tests.Instance;
@@ -36,34 +35,8 @@ namespace Tgstation.Server.Tests
 			var serverTask = server.Run(cancellationToken);
 			try
 			{
-				IServerClient adminClient;
-
-				var giveUpAt = DateTimeOffset.Now.AddSeconds(60);
-				do
-				{
-					try
-					{
-						adminClient = await clientFactory.CreateFromLogin(server.Url, User.AdminName, User.DefaultAdminPassword).ConfigureAwait(false);
-						break;
-					}
-					catch (HttpRequestException)
-					{
-						//migrating, to be expected
-						if (DateTimeOffset.Now > giveUpAt)
-							throw;
-						await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-					}
-					catch (ServiceUnavailableException)
-					{
-						//migrating, to be expected
-						if (DateTimeOffset.Now > giveUpAt)
-							throw;
-						await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-					}
-				} while (true);
-
 				var testUpdateVersion = new Version(4, 3, 0);
-				using (adminClient)
+				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
 					//attempt to update to stable
 					await adminClient.Administration.Update(new Administration
 					{
@@ -107,6 +80,32 @@ namespace Tgstation.Server.Tests
 					proc.Kill();
 		}
 
+		async Task<IServerClient> CreateAdminClient(Uri url, CancellationToken cancellationToken)
+		{
+			var giveUpAt = DateTimeOffset.Now.AddSeconds(60);
+			do
+			{
+				try
+				{
+					return await clientFactory.CreateFromLogin(url, User.AdminName, User.DefaultAdminPassword, attemptLoginRefresh: false).ConfigureAwait(false);
+				}
+				catch (HttpRequestException)
+				{
+					//migrating, to be expected
+					if (DateTimeOffset.Now > giveUpAt)
+						throw;
+					await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+				}
+				catch (ServiceUnavailableException)
+				{
+					// migrating, to be expected
+					if (DateTimeOffset.Now > giveUpAt)
+						throw;
+					await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+				}
+			} while (true);
+		}
+
 		[TestMethod]
 		public async Task TestServer()
 		{
@@ -140,36 +139,11 @@ namespace Tgstation.Server.Tests
 
 			TerminateAllDDs();
 			var serverTask = server.Run(cancellationToken);
+
 			try
 			{
-				async Task<IServerClient> CreateAdminClient()
-				{
-					var giveUpAt = DateTimeOffset.Now.AddSeconds(60);
-					do
-					{
-						try
-						{
-							return await clientFactory.CreateFromLogin(server.Url, User.AdminName, User.DefaultAdminPassword, attemptLoginRefresh: false).ConfigureAwait(false);
-						}
-						catch (HttpRequestException)
-						{
-							//migrating, to be expected
-							if (DateTimeOffset.Now > giveUpAt)
-								throw;
-							await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-						}
-						catch (ServiceUnavailableException)
-						{
-							// migrating, to be expected
-							if (DateTimeOffset.Now > giveUpAt)
-								throw;
-							await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-						}
-					} while (true);
-				}
-
 				Api.Models.Instance instance;
-				using (var adminClient = await CreateAdminClient())
+				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
 				{
 					if (server.DumpOpenApiSpecpath)
 					{
@@ -182,34 +156,34 @@ namespace Tgstation.Server.Tests
 						await content.CopyToAsync(output);
 					}
 
-					var serverInfo = await adminClient.Version(default).ConfigureAwait(false);
-
-					Assert.AreEqual(ApiHeaders.Version, serverInfo.ApiVersion);
-					var assemblyVersion = typeof(IServer).Assembly.GetName().Version.Semver();
-					Assert.AreEqual(assemblyVersion, serverInfo.Version);
-					Assert.AreEqual(10U, serverInfo.MinimumPasswordLength);
-					Assert.AreEqual(11U, serverInfo.InstanceLimit);
-					Assert.AreEqual(150U, serverInfo.UserLimit);
-
-					//check that modifying the token even slightly fucks up the auth
-					var newToken = new Token
+					async Task FailFast(Task task)
 					{
-						ExpiresAt = adminClient.Token.ExpiresAt,
-						Bearer = adminClient.Token.Bearer + '0'
-					};
+						try
+						{
+							await task;
+						}
+						catch (OperationCanceledException)
+						{
+							throw;
+						}
+						catch (Exception ex)
+						{
+							Console.WriteLine($"[{DateTimeOffset.Now}] TEST ERROR: {ex}");
+							serverCts.Cancel();
+							throw;
+						}
+					}
 
-					var badClient = clientFactory.CreateFromToken(server.Url, newToken);
-					await Assert.ThrowsExceptionAsync<UnauthorizedException>(() => badClient.Version(cancellationToken)).ConfigureAwait(false);
-
-					var adminTest = new AdministrationTest(adminClient.Administration).Run(cancellationToken);
-					var usersTest = new UsersTest(adminClient.Users).Run(cancellationToken);
-					instance = await new InstanceManagerTest(adminClient.Instances, adminClient.Users, server.Directory).RunPreInstanceTest(cancellationToken).ConfigureAwait(false);
+					var rootTest = FailFast(new RootTest().Run(clientFactory, adminClient, cancellationToken));
+					var adminTest = FailFast(new AdministrationTest(adminClient.Administration).Run(cancellationToken));
+					var usersTest = FailFast(new UsersTest(adminClient.Users).Run(cancellationToken));
+					instance = await new InstanceManagerTest(adminClient.Instances, adminClient.Users, server.Directory).RunPreInstanceTest(cancellationToken);
 
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 
-					var instanceTests = new InstanceTest(instanceClient, adminClient.Instances).RunTests(cancellationToken);
+					var instanceTests = FailFast(new InstanceTest(instanceClient, adminClient.Instances).RunTests(cancellationToken));
 
-					await Task.WhenAll(adminTest, instanceTests, usersTest);
+					await Task.WhenAll(rootTest, adminTest, instanceTests, usersTest);
 
 					await adminClient.Administration.Restart(cancellationToken);
 				}
@@ -220,7 +194,7 @@ namespace Tgstation.Server.Tests
 				var preStartupTime = DateTimeOffset.Now;
 
 				serverTask = server.Run(cancellationToken);
-				using (var adminClient = await CreateAdminClient())
+				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
 				{
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 
@@ -263,7 +237,7 @@ namespace Tgstation.Server.Tests
 
 				preStartupTime = DateTimeOffset.Now;
 				serverTask = server.Run(cancellationToken);
-				using (var adminClient = await CreateAdminClient())
+				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
 				{
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 

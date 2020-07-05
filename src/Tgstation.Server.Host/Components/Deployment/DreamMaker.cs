@@ -17,6 +17,7 @@ using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
@@ -629,7 +630,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 					activeCompileJob?.RevisionInformation,
 					repositorySettings,
 					repoOwner,
-					repoName);
+					repoName,
+					cancellationToken);
 
 				var eventTask = eventConsumer.HandleEvent(EventType.DeploymentComplete, null, cancellationToken);
 
@@ -755,13 +757,15 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="repositorySettings">The <see cref="RepositorySettings"/>.</param>
 		/// <param name="repoOwner">The GitHub repostiory owner.</param>
 		/// <param name="repoName">The GitHub repostiory name.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task PostDeploymentComments(
 			Models.RevisionInformation deployedRevisionInformation,
 			Models.RevisionInformation previousRevisionInformation,
 			Models.RepositorySettings repositorySettings,
 			string repoOwner,
-			string repoName)
+			string repoName,
+			CancellationToken cancellationToken)
 		{
 			if (repositorySettings?.AccessToken == null)
 				return;
@@ -781,7 +785,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 			{
 				try
 				{
-					await gitHubClient.Issue.Comment.Create(repoOwner, repoName, prNumber, comment).ConfigureAwait(false);
+					await gitHubClient.Issue.Comment.Create(repoOwner, repoName, prNumber, comment)
+						.WithToken(cancellationToken)
+						.ConfigureAwait(false);
 				}
 				catch (ApiException e)
 				{

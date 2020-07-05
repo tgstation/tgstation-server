@@ -64,6 +64,7 @@ namespace Tgstation.Server.Host.Security
 				.ConfigureAwait(false);
 			if (user == default)
 			{
+				logger.LogWarning("Unable to find user with ID {0}!", userId);
 				CurrentAuthenticationContext = new AuthenticationContext();
 				return;
 			}
@@ -75,6 +76,7 @@ namespace Tgstation.Server.Host.Security
 			{
 				if (user.LastPasswordUpdate.HasValue && user.LastPasswordUpdate > validAfter)
 				{
+					logger.LogDebug("Rejecting token for user {0} created before last password update: {1}", userId, user.LastPasswordUpdate.Value);
 					CurrentAuthenticationContext = new AuthenticationContext();
 					return;
 				}
