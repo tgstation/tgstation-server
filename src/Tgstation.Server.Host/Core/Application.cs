@@ -174,6 +174,7 @@ namespace Tgstation.Server.Host.Core
 				{
 					options.EnableEndpointRouting = false;
 					options.ReturnHttpNotAcceptable = true;
+					options.RespectBrowserAcceptHeader = true;
 				})
 				.AddNewtonsoftJson(options =>
 				{

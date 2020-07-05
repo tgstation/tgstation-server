@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Mime;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
@@ -34,7 +35,7 @@ namespace Tgstation.Server.Host.Core
 			var errorMessageContent = new Dictionary<string, OpenApiMediaType>
 			{
 				{
-					ApiHeaders.ApplicationJson,
+					MediaTypeNames.Application.Json,
 					new OpenApiMediaType
 					{
 						Schema = new OpenApiSchema
@@ -87,6 +88,12 @@ namespace Tgstation.Server.Host.Core
 			AddDefaultResponse(HttpStatusCode.Conflict, new OpenApiResponse
 			{
 				Description = "A data integrity check failed while performing the operation. See error message for details.",
+				Content = errorMessageContent
+			});
+
+			AddDefaultResponse(HttpStatusCode.NotAcceptable, new OpenApiResponse
+			{
+				Description = "Invalid Accept header, TGS requires `Accept: application/json`.",
 				Content = errorMessageContent
 			});
 

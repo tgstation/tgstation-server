@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -41,7 +40,17 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		public ConfigurationController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, IIOManager ioManager, ILogger<ConfigurationController> logger) : base(databaseContext, authenticationContextFactory, logger, true, true)
+		public ConfigurationController(
+			IDatabaseContext databaseContext,
+			IAuthenticationContextFactory authenticationContextFactory,
+			IInstanceManager instanceManager,
+			IIOManager ioManager,
+			ILogger<ConfigurationController> logger)
+			: base(
+				  databaseContext,
+				  authenticationContextFactory,
+				  logger,
+				  true)
 		{
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
@@ -95,7 +104,7 @@ namespace Tgstation.Server.Host.Controllers
 
 				newFile.Content = null;
 
-				return model.LastReadHash == null ? (IActionResult)StatusCode((int)HttpStatusCode.Created, newFile) : Json(newFile);
+				return model.LastReadHash == null ? (IActionResult)Created(newFile) : Json(newFile);
 			}
 			catch(IOException e)
 			{
@@ -218,7 +227,13 @@ namespace Tgstation.Server.Host.Controllers
 			try
 			{
 				model.IsDirectory = true;
-				return await instanceManager.GetInstance(Instance).Configuration.CreateDirectory(model.Path, systemIdentity, cancellationToken).ConfigureAwait(false) ? (IActionResult)Json(model) : StatusCode((int)HttpStatusCode.Created, model);
+				return await instanceManager
+					.GetInstance(Instance)
+					.Configuration
+					.CreateDirectory(model.Path, systemIdentity, cancellationToken)
+					.ConfigureAwait(false)
+					? (IActionResult)Json(model)
+					: Created(model);
 			}
 			catch (IOException e)
 			{

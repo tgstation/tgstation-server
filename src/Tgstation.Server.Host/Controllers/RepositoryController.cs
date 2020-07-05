@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Net;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,6 +17,7 @@ using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -61,7 +61,20 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="generalConfiguration"/></param>
-		public RepositoryController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, IGitHubClientFactory gitHubClientFactory, IJobManager jobManager, ILogger<RepositoryController> logger, IOptions<GeneralConfiguration> generalConfigurationOptions) : base(databaseContext, authenticationContextFactory, logger, true, true)
+		public RepositoryController(
+			IDatabaseContext databaseContext,
+			IAuthenticationContextFactory authenticationContextFactory,
+			IInstanceManager instanceManager,
+			IGitHubClientFactory gitHubClientFactory,
+			IJobManager jobManager,
+			ILogger<RepositoryController> logger,
+			IOptions<GeneralConfiguration> generalConfigurationOptions)
+			: base(
+				  databaseContext,
+				  authenticationContextFactory,
+				  logger,
+				  true,
+				  true)
 		{
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
@@ -233,7 +246,7 @@ namespace Tgstation.Server.Host.Controllers
 			api.Reference = model.Reference;
 			api.ActiveJob = job.ToApi();
 
-			return StatusCode((int)HttpStatusCode.Created, api);
+			return Created(api);
 		}
 
 		/// <summary>
@@ -317,7 +330,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				// user may have fucked with the repo manually, do what we can
 				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
-				return StatusCode((int)HttpStatusCode.Created, api);
+				return Created(api);
 			}
 
 			return Json(api);
@@ -659,7 +672,9 @@ namespace Tgstation.Server.Host.Controllers
 									try
 									{
 										// retrieve the latest sha
-										var pr = await gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number).ConfigureAwait(false);
+										var pr = await gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number)
+											.WithToken(ct)
+											.ConfigureAwait(false);
 										prMap.Add(I.Number, pr);
 										I.PullRequestRevision = pr.Head.Sha;
 									}
@@ -762,7 +777,11 @@ namespace Tgstation.Server.Host.Controllers
 								{
 									// load from cache if possible
 									if (prMap == null || !prMap.TryGetValue(I.Number, out pr))
-										pr = await gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number).ConfigureAwait(false);
+										pr = await gitHubClient
+											.PullRequest
+											.Get(repoOwner, repoName, I.Number)
+											.WithToken(ct)
+											.ConfigureAwait(false);
 								}
 								catch (Octokit.RateLimitExceededException ex)
 								{

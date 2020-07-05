@@ -8,7 +8,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Net;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -92,7 +91,11 @@ namespace Tgstation.Server.Host.Controllers
 			IPlatformIdentifier platformIdentifier,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			ILogger<InstanceController> logger)
-			: base(databaseContext, authenticationContextFactory, logger, false, true)
+			: base(
+				  databaseContext,
+				  authenticationContextFactory,
+				  logger,
+				  false)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
@@ -307,7 +310,7 @@ namespace Tgstation.Server.Host.Controllers
 			Logger.LogInformation("{0} {1} instance {2}: {3} ({4})", AuthenticationContext.User.Name, attached ? "attached" : "created", newInstance.Name, newInstance.Id, newInstance.Path);
 
 			var api = newInstance.ToApi();
-			return attached ? (IActionResult)Json(api) : StatusCode((int)HttpStatusCode.Created, api);
+			return attached ? (IActionResult)Json(api) : Created(api);
 		}
 
 		/// <summary>

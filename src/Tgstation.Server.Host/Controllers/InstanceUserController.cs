@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -29,7 +28,15 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		public InstanceUserController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ILogger<InstanceUserController> logger) : base(databaseContext, authenticationContextFactory, logger, true, true)
+		public InstanceUserController(
+			IDatabaseContext databaseContext,
+			IAuthenticationContextFactory authenticationContextFactory,
+			ILogger<InstanceUserController> logger)
+			: base(
+				  databaseContext,
+				  authenticationContextFactory,
+				  logger,
+				  true)
 		{ }
 
 		/// <summary>
@@ -79,7 +86,7 @@ namespace Tgstation.Server.Host.Controllers
 			DatabaseContext.InstanceUsers.Add(dbUser);
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
-			return StatusCode((int)HttpStatusCode.Created, dbUser.ToApi());
+			return Created(dbUser.ToApi());
 		}
 
 		/// <summary>
