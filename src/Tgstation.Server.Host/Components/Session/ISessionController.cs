@@ -63,6 +63,11 @@ namespace Tgstation.Server.Host.Components.Session
 		Task OnPrime { get; }
 
 		/// <summary>
+		/// If the DMAPI may be used this session.
+		/// </summary>
+		bool DMApiAvailable { get; }
+
+		/// <summary>
 		/// Releases the <see cref="IProcess"/> without terminating it. Also calls <see cref="IDisposable.Dispose"/>
 		/// </summary>
 		/// <returns><see cref="ReattachInformation"/> which can be used to create a new <see cref="ISessionController"/> similar to this one</returns>

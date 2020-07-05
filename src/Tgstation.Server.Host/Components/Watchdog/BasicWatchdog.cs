@@ -255,6 +255,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected virtual Task HandleNewDmbAvailable(CancellationToken cancellationToken)
 		{
 			gracefulRebootRequired = true;
+			if (Server.Dmb.CompileJob.DMApiVersion == null)
+				return Chat.SendWatchdogMessage(
+					"A new deployment has been made but cannot be applied automatically as the currently running server has no DMAPI. Please manually reboot the server to apply the update.",
+					true,
+					cancellationToken);
 			return Server.SetRebootState(Session.RebootState.Restart, cancellationToken);
 		}
 

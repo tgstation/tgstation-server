@@ -189,18 +189,27 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="job">The <see cref="CompileJob"/> for the operation</param>
 		/// <param name="byondLock">The current <see cref="IByondExecutableLock"/></param>
 		/// <param name="portToUse">The port to use for API validation</param>
+		/// <param name="requireValidate">If the API validation is required to complete the deployment.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		async Task VerifyApi(uint timeout, DreamDaemonSecurity securityLevel, Models.CompileJob job, IByondExecutableLock byondLock, ushort portToUse, CancellationToken cancellationToken)
+		async Task VerifyApi(
+			uint timeout,
+			DreamDaemonSecurity securityLevel,
+			Models.CompileJob job,
+			IByondExecutableLock byondLock,
+			ushort portToUse,
+			bool requireValidate,
+			CancellationToken cancellationToken)
 		{
-			logger.LogTrace("Verifying DMAPI...");
+			logger.LogTrace("Verifying {0}DMAPI...", requireValidate ? "required " : String.Empty);
 			var launchParameters = new DreamDaemonLaunchParameters
 			{
 				AllowWebClient = false,
 				Port = portToUse,
 				SecurityLevel = securityLevel,
 				StartupTimeout = timeout,
-				TopicRequestTimeout = 0 // not used
+				TopicRequestTimeout = 0, // not used
+				HeartbeatSeconds = 0 // not used
 			};
 
 			job.MinimumSecurityLevel = securityLevel; // needed for the TempDmbProvider
@@ -219,35 +228,41 @@ namespace Tgstation.Server.Host.Components.Deployment
 				cancellationToken.ThrowIfCancellationRequested();
 			}
 
-			if (controller.Lifetime.IsCompleted)
+			if (!controller.Lifetime.IsCompleted)
 			{
-				var validationStatus = controller.ApiValidationStatus;
-				logger.LogTrace("API validation status: {0}", validationStatus);
-
-				job.DMApiVersion = controller.DMApiVersion;
-				switch (validationStatus)
-				{
-					case ApiValidationStatus.RequiresUltrasafe:
-						job.MinimumSecurityLevel = DreamDaemonSecurity.Ultrasafe;
-						return;
-					case ApiValidationStatus.RequiresSafe:
-						job.MinimumSecurityLevel = DreamDaemonSecurity.Safe;
-						return;
-					case ApiValidationStatus.RequiresTrusted:
-						job.MinimumSecurityLevel = DreamDaemonSecurity.Trusted;
-						return;
-					case ApiValidationStatus.NeverValidated:
-						throw new JobException(ErrorCode.DreamMakerNeverValidated);
-					case ApiValidationStatus.BadValidationRequest:
-						throw new JobException(ErrorCode.DreamMakerInvalidValidation);
-					case ApiValidationStatus.UnaskedValidationRequest:
-					default:
-						throw new InvalidOperationException(
-							$"Session controller returned unexpected ApiValidationStatus: {validationStatus}");
-				}
+				if (requireValidate)
+					throw new JobException(ErrorCode.DreamMakerValidationTimeout);
+				controller.Dispose();
 			}
 
-			throw new JobException(ErrorCode.DreamMakerValidationTimeout);
+			var validationStatus = controller.ApiValidationStatus;
+			logger.LogTrace("API validation status: {0}", validationStatus);
+
+			job.DMApiVersion = controller.DMApiVersion;
+			switch (validationStatus)
+			{
+				case ApiValidationStatus.RequiresUltrasafe:
+					job.MinimumSecurityLevel = DreamDaemonSecurity.Ultrasafe;
+					return;
+				case ApiValidationStatus.RequiresSafe:
+					job.MinimumSecurityLevel = DreamDaemonSecurity.Safe;
+					return;
+				case ApiValidationStatus.RequiresTrusted:
+					job.MinimumSecurityLevel = DreamDaemonSecurity.Trusted;
+					return;
+				case ApiValidationStatus.NeverValidated:
+					if (requireValidate)
+						throw new JobException(ErrorCode.DreamMakerNeverValidated);
+					job.MinimumSecurityLevel = DreamDaemonSecurity.Ultrasafe;
+					break;
+				case ApiValidationStatus.BadValidationRequest:
+				case ApiValidationStatus.Incompatible:
+					throw new JobException(ErrorCode.DreamMakerInvalidValidation);
+				case ApiValidationStatus.UnaskedValidationRequest:
+				default:
+					throw new InvalidOperationException(
+						$"Session controller returned unexpected ApiValidationStatus: {validationStatus}");
+			}
 		}
 
 		/// <summary>
@@ -413,7 +428,15 @@ namespace Tgstation.Server.Host.Components.Deployment
 							ErrorCode.DreamMakerExitCode,
 							new JobException($"Exit code: {exitCode}{Environment.NewLine}{Environment.NewLine}{job.Output}"));
 
-					await VerifyApi(apiValidateTimeout, dreamMakerSettings.ApiValidationSecurityLevel.Value, job, byondLock, dreamMakerSettings.ApiValidationPort.Value, cancellationToken).ConfigureAwait(false);
+					await VerifyApi(
+						apiValidateTimeout,
+						dreamMakerSettings.ApiValidationSecurityLevel.Value,
+						job,
+						byondLock,
+						dreamMakerSettings.ApiValidationPort.Value,
+						dreamMakerSettings.RequireDMApiValidation.Value,
+						cancellationToken)
+						.ConfigureAwait(false);
 				}
 				catch (JobException)
 				{

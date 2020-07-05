@@ -91,6 +91,9 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <inheritdoc />
 		public Task OnPrime => primeTcs.Task;
 
+		/// <inheritdoc />
+		public bool DMApiAvailable => reattachInformation.Dmb.CompileJob.DMApiVersion?.Major == DMApiConstants.Version.Major;
+
 		/// <summary>
 		/// The up to date <see cref="ReattachInformation"/>
 		/// </summary>
@@ -201,6 +204,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="startupTimeout">The optional time to wait before failing the <see cref="LaunchResult"/></param>
 		/// <param name="reattached">If this is a reattached session.</param>
+		/// <param name="apiValidate">If this is a DMAPI validation session.</param>
 		public SessionController(
 			ReattachInformation reattachInformation,
 			Api.Models.Instance metadata,
@@ -213,7 +217,8 @@ namespace Tgstation.Server.Host.Components.Session
 			IAssemblyInformationProvider assemblyInformationProvider,
 			ILogger<SessionController> logger,
 			uint? startupTimeout,
-			bool reattached)
+			bool reattached,
+			bool apiValidate)
 		{
 			this.reattachInformation = reattachInformation ?? throw new ArgumentNullException(nameof(reattachInformation));
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
@@ -221,11 +226,22 @@ namespace Tgstation.Server.Host.Components.Session
 			this.byondLock = byondLock ?? throw new ArgumentNullException(nameof(byondLock));
 			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
 			this.chatTrackingContext = chatTrackingContext ?? throw new ArgumentNullException(nameof(chatTrackingContext));
-			bridgeRegistration = bridgeRegistrar?.RegisterHandler(this) ?? throw new ArgumentNullException(nameof(bridgeRegistrar));
+			if (bridgeRegistrar == null)
+				throw new ArgumentNullException(nameof(bridgeRegistrar));
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-			this.chatTrackingContext.SetChannelSink(this);
+			if (apiValidate || DMApiAvailable)
+			{
+				bridgeRegistration = bridgeRegistrar.RegisterHandler(this);
+				this.chatTrackingContext.SetChannelSink(this);
+			}
+			else
+				logger.LogTrace(
+					"Not registering session with {0} DMAPI version for interop!",
+					reattachInformation.Dmb.CompileJob.DMApiVersion == null
+						? "no"
+						: $"incompatible ({reattachInformation.Dmb.CompileJob.DMApiVersion})");
 
 			portClosedForReboot = false;
 			disposed = false;
@@ -291,7 +307,7 @@ namespace Tgstation.Server.Host.Components.Session
 					}
 
 					process.Dispose();
-					bridgeRegistration.Dispose();
+					bridgeRegistration?.Dispose();
 					reattachInformation.Dmb?.Dispose(); // will be null when released
 					chatTrackingContext.Dispose();
 					reattachTopicCts.Dispose();
@@ -452,6 +468,15 @@ namespace Tgstation.Server.Host.Components.Session
 							};
 
 						DMApiVersion = parameters.Version;
+						if (DMApiVersion.Major != DMApiConstants.Version.Major)
+						{
+							apiValidationStatus = ApiValidationStatus.Incompatible;
+							return new BridgeResponse
+							{
+								ErrorMessage = "Incompatible dmApiVersion!"
+							};
+						}
+
 						switch (parameters.MinimumSecurityLevel)
 						{
 							case DreamDaemonSecurity.Ultrasafe:
@@ -514,7 +539,7 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		public void EnableCustomChatCommands() => chatTrackingContext.Active = true;
+		public void EnableCustomChatCommands() => chatTrackingContext.Active = DMApiAvailable;
 
 		/// <inheritdoc />
 		public ReattachInformation Release()
@@ -535,11 +560,20 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <inheritdoc />
 		public async Task<CombinedTopicResponse> SendCommand(TopicParameters parameters, CancellationToken cancellationToken)
 		{
+			if (parameters == null)
+				throw new ArgumentNullException(nameof(parameters));
+
 			if (Lifetime.IsCompleted)
 			{
 				logger.LogWarning(
 					"Attempted to send a command to an inactive SessionController: {0}",
 					parameters.CommandType);
+				return null;
+			}
+
+			if (!DMApiAvailable)
+			{
+				logger.LogTrace("Not sending topic request {0} to server without/with incompatible DMAPI!", parameters.CommandType);
 				return null;
 			}
 

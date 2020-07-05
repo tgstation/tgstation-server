@@ -33,6 +33,11 @@
 		/// <summary>
 		/// Valid API. The game must be run with a minimum security level of <see cref="Api.Models.DreamDaemonSecurity.Ultrasafe"/>
 		/// </summary>
-		RequiresUltrasafe
+		RequiresUltrasafe,
+
+		/// <summary>
+		/// Valid API, but not compatible with the current TGS version.
+		/// </summary>
+		Incompatible,
 	}
 }

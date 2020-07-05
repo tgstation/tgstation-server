@@ -188,6 +188,7 @@ namespace Tgstation.Server.Host.Components.Session
 			bool apiValidate,
 			CancellationToken cancellationToken)
 		{
+			logger.LogTrace("Begin session launch...");
 			if (!launchParameters.Port.HasValue)
 				throw new InvalidOperationException("Given port is null!");
 			switch (dmbProvider.CompileJob.MinimumSecurityLevel)
@@ -212,6 +213,11 @@ namespace Tgstation.Server.Host.Components.Session
 				var byondLock = currentByondLock ?? await byond.UseExecutables(Version.Parse(dmbProvider.CompileJob.ByondVersion), cancellationToken).ConfigureAwait(false);
 				try
 				{
+					logger.LogDebug(
+						"Launching session with CompileJob {0}...",
+						byondLock.Version.Semver(),
+						dmbProvider.CompileJob.Id);
+
 					if (launchParameters.SecurityLevel == DreamDaemonSecurity.Trusted)
 						await byondLock.TrustDmbPath(ioManager.ConcatPath(dmbProvider.Directory, dmbProvider.DmbName), cancellationToken).ConfigureAwait(false);
 
@@ -247,6 +253,9 @@ namespace Tgstation.Server.Host.Components.Session
 
 					// See https://github.com/tgstation/tgstation-server/issues/719
 					var noShellExecute = !platformIdentifier.IsWindows;
+
+					if (!apiValidate && dmbProvider.CompileJob.DMApiVersion == null)
+						logger.LogDebug("Session will have no DMAPI support!");
 
 					// launch dd
 					var process = processExecutor.LaunchProcess(
@@ -332,7 +341,8 @@ namespace Tgstation.Server.Host.Components.Session
 							assemblyInformationProvider,
 							loggerFactory.CreateLogger<SessionController>(),
 							launchParameters.StartupTimeout,
-							false);
+							false,
+							apiValidate);
 
 						return sessionController;
 					}
@@ -366,13 +376,20 @@ namespace Tgstation.Server.Host.Components.Session
 			if (reattachInformation == null)
 				throw new ArgumentNullException(nameof(reattachInformation));
 
+			logger.LogTrace("Begin session reattach...");
 			var byondTopicSender = topicClientFactory.CreateTopicClient(reattachInformation.TopicRequestTimeout);
 			var chatTrackingContext = chat.CreateTrackingContext();
 			try
 			{
 				var byondLock = await byond.UseExecutables(Version.Parse(reattachInformation.Dmb.CompileJob.ByondVersion), cancellationToken).ConfigureAwait(false);
+
 				try
 				{
+					logger.LogDebug(
+						"Attaching to session PID: {0}, CompileJob: {1}...",
+						reattachInformation.ProcessId,
+						reattachInformation.Dmb.CompileJob.Id);
+
 					var process = processExecutor.GetProcess(reattachInformation.ProcessId);
 					if (process == null)
 						return null;
@@ -399,7 +416,8 @@ namespace Tgstation.Server.Host.Components.Session
 							assemblyInformationProvider,
 							loggerFactory.CreateLogger<SessionController>(),
 							null,
-							true);
+							true,
+							false);
 
 						process = null;
 						byondLock = null;
@@ -422,9 +440,6 @@ namespace Tgstation.Server.Host.Components.Session
 				chatTrackingContext?.Dispose();
 			}
 		}
-
-		/// <inheritdoc />
-		public ISessionController CreateDeadSession(IDmbProvider dmbProvider) => new DeadSessionController(dmbProvider);
 
 		/// <summary>
 		/// Create <see cref="RuntimeInformation"/>.

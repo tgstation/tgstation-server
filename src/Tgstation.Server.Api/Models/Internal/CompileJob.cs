@@ -30,7 +30,6 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The minimum <see cref="DreamDaemonSecurity"/> required to run the <see cref="CompileJob"/>'s output
 		/// </summary>
-		[Required]
 		public DreamDaemonSecurity? MinimumSecurityLevel { get; set; }
 
 		/// <summary>

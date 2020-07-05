@@ -609,6 +609,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 							var heartbeatSeconds = ActiveLaunchParameters.HeartbeatSeconds.Value;
 							var heartbeat = heartbeatSeconds == 0
+								|| !controller.DMApiAvailable
 								? Extensions.TaskExtensions.InfiniteTask()
 								: Task.Delay(TimeSpan.FromSeconds(heartbeatSeconds));
 
