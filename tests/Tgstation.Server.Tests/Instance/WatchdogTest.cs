@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
@@ -212,7 +213,7 @@ namespace Tgstation.Server.Tests.Instance
 		async Task RunLongRunningTestThenUpdateWithByondVersionSwitch(CancellationToken cancellationToken)
 		{
 			global::System.Console.WriteLine("TEST: WATCHDOG BYOND VERSION UPDATE TEST");
-			var versionToInstall = new Version(511, 1384, 0);
+			var versionToInstall = ByondTest.TestVersion2;
 			var byondInstallJobTask = instanceClient.Byond.SetActiveVersion(
 				new Api.Models.Byond
 				{
@@ -242,7 +243,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreEqual(initialStatus.ActiveCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
 			var newerCompileJob = daemonStatus.StagedCompileJob;
 			Assert.AreNotEqual(daemonStatus.ActiveCompileJob.ByondVersion, newerCompileJob.ByondVersion);
-			Assert.AreEqual(versionToInstall, newerCompileJob.ByondVersion);
+			Assert.AreEqual(versionToInstall.Semver(), newerCompileJob.ByondVersion);
 
 			Assert.AreEqual(true, daemonStatus.SoftRestart);
 
