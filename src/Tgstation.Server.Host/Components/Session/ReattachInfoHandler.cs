@@ -107,7 +107,10 @@ namespace Tgstation.Server.Host.Components.Session
 					.ConfigureAwait(false);
 
 				if (timeoutMilliseconds == default)
+				{
+					logger.LogCritical("Missing TopicRequestTimeout!");
 					return;
+				}
 
 				topicTimeout = TimeSpan.FromMilliseconds(timeoutMilliseconds.Value);
 
