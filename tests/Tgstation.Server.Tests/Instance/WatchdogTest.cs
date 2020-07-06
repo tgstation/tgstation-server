@@ -54,12 +54,6 @@ namespace Tgstation.Server.Tests.Instance
 
 			await RunBasicTest(cancellationToken);
 
-			// That was using the custom BYOND version, let's switch back to a regular one now
-			await instanceClient.Byond.SetActiveVersion(new Api.Models.Byond
-			{
-				Version = ByondTest.TestVersion
-			}, cancellationToken);
-
 			await TestDMApiFreeDeploy(cancellationToken);
 
 			await RunLongRunningTestThenUpdate(cancellationToken);
@@ -70,6 +64,14 @@ namespace Tgstation.Server.Tests.Instance
 
 			await StartAndLeaveRunning(cancellationToken);
 
+			await DumpTests(cancellationToken);
+
+			System.Console.WriteLine("TEST: END WATCHDOG TESTS");
+		}
+
+		async Task DumpTests(CancellationToken cancellationToken)
+		{
+			System.Console.WriteLine("TEST: WATCHDOG DUMP TESTS");
 			var dumpJob = await instanceClient.DreamDaemon.CreateDump(cancellationToken);
 			await WaitForJob(dumpJob, 3000, false, cancellationToken);
 
@@ -78,7 +80,12 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreEqual(1, dumpFiles.Length);
 			File.Delete(dumpFiles.Single());
 
-			global::System.Console.WriteLine("TEST: END WATCHDOG TESTS");
+			KillDD(true);
+			var dumpTask = instanceClient.DreamDaemon.CreateDump(cancellationToken);
+			while (!dumpTask.IsCompleted)
+				KillDD(false);
+			var result = await WaitForJob(await dumpTask, 5, true, cancellationToken);
+			Assert.AreEqual(ErrorCode.DreamDaemonOffline, result.ErrorCode);
 		}
 
 		async Task TestDMApiFreeDeploy(CancellationToken cancellationToken)
@@ -292,25 +299,27 @@ namespace Tgstation.Server.Tests.Instance
 		async Task RunLongRunningTestThenUpdateWithByondVersionSwitch(CancellationToken cancellationToken)
 		{
 			global::System.Console.WriteLine("TEST: WATCHDOG BYOND VERSION UPDATE TEST");
-			var versionToInstall = ByondTest.TestVersion2;
+			var versionToInstall = ByondTest.TestVersion;
+
+			versionToInstall = versionToInstall.Semver();
+			var currentByondVersion = await instanceClient.Byond.ActiveVersion(cancellationToken);
+			Assert.AreNotEqual(versionToInstall, currentByondVersion.Version);
+
+			var initialStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+
+			var startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
+
+			await WaitForJob(startJob, 40, false, cancellationToken);
+
 			var byondInstallJobTask = instanceClient.Byond.SetActiveVersion(
 				new Api.Models.Byond
 				{
 					Version = versionToInstall
 				},
 				cancellationToken);
-
-			versionToInstall = versionToInstall.Semver();
-
-			var initialStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
-
-			var startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
-
 			var byondInstallJob = await byondInstallJobTask;
 
-			await WaitForJob(startJob, 40, false, cancellationToken);
-
-			await WaitForJob(byondInstallJob.InstallJob, 30, false, cancellationToken);
+			Assert.IsNull(byondInstallJob.InstallJob);
 
 			const string DmeName = "LongRunning/long_running_test";
 
@@ -342,7 +351,7 @@ namespace Tgstation.Server.Tests.Instance
 
 		public async Task StartAndLeaveRunning(CancellationToken cancellationToken)
 		{
-			global::System.Console.WriteLine("TEST: WATCHDOG ENDLESS TEST");
+			global::System.Console.WriteLine("TEST: WATCHDOG STARTING ENDLESS");
 			var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 			if(dd.ActiveCompileJob == null)
 				await DeployTestDme("LongRunning/long_running_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
@@ -355,25 +364,51 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
 
 			// Try killing the DD process to ensure it gets set to the restoring state
+			do
+			{
+				KillDD(true);
+				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+				daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			}
+			while (daemonStatus.Status == WatchdogStatus.Online);
+			Assert.AreEqual(WatchdogStatus.Restoring, daemonStatus.Status.Value);
+
+			// Kill it again
+			do
+			{
+				KillDD(false);
+				daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			}
+			while (daemonStatus.Status == WatchdogStatus.Online || daemonStatus.Status == WatchdogStatus.Restoring);
+			Assert.AreEqual(WatchdogStatus.DelayedRestart, daemonStatus.Status.Value);
+
+			await Task.Delay(TimeSpan.FromSeconds(10), cancellationToken);
+
+			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
+		}
+
+		static bool KillDD(bool require)
+		{
 			var ddProcs = System.Diagnostics.Process.GetProcessesByName("DreamDaemon").ToList();
-			if (ddProcs.Count != 1)
+			if ((require && ddProcs.Count == 0) || ddProcs.Count > 1)
 				Assert.Fail($"Incorrect number of DD processes: {ddProcs.Count}");
 
-			using var ddProc = ddProcs.Single();
-			ddProc.Kill();
-			ddProc.WaitForExit();
-			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
-			Assert.AreEqual(WatchdogStatus.Restoring, daemonStatus.Status.Value);
+			using var ddProc = ddProcs.SingleOrDefault();
+			ddProc?.Kill();
+			ddProc?.WaitForExit();
+
+			return ddProc != null;
 		}
 
 		async Task TellWorldToReboot(CancellationToken cancellationToken)
 		{
 			var bts = new TopicClient(new SocketParameters
 			{
-				SendTimeout = TimeSpan.FromSeconds(5),
-				ReceiveTimeout = TimeSpan.FromSeconds(5),
-				ConnectTimeout = TimeSpan.FromSeconds(5),
-				DisconnectTimeout = TimeSpan.FromSeconds(5)
+				SendTimeout = TimeSpan.FromSeconds(7),
+				ReceiveTimeout = TimeSpan.FromSeconds(7),
+				ConnectTimeout = TimeSpan.FromSeconds(7),
+				DisconnectTimeout = TimeSpan.FromSeconds(7)
 			});
 
 			try

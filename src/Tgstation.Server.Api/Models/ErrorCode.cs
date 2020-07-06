@@ -544,5 +544,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("Cannot switch to requested custom BYOND version as it is not currently installed.")]
 		ByondNonExistentCustomVersion,
+
+		/// <summary>
+		/// Attempted to perform an operation that requires DreamDaemon (not the watchdog) to be running but it wasn't.
+		/// </summary>
+		[Description("Cannot perform this operation as DreamDaemon is not currently running!")]
+		DreamDaemonOffline,
 	}
 }

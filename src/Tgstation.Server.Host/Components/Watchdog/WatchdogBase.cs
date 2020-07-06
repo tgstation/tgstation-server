@@ -567,7 +567,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					TimeSpan.FromHours(1).TotalSeconds); // max of one hour, increasing by a power of 2 each time
 
 				chatTask = Chat.SendWatchdogMessage(
-					$"Failed to restart (Attempt: {retryAttempts}), retrying in {retryDelay}",
+					$"Failed to restart (Attempt: {retryAttempts}), retrying in {retryDelay}s...",
 					false,
 					cancellationToken);
 
@@ -635,6 +635,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							// always run HandleMonitorWakeup from the context of the semaphore lock
 							using (await SemaphoreSlimContext.Lock(Semaphore, cancellationToken).ConfigureAwait(false))
 							{
+								// Set this sooner so chat sends don't hold us up
+								if (activeServerLifetime.IsCompleted)
+									Status = WatchdogStatus.Restoring;
+
 								// multiple things may have happened, handle them one at a time
 								for (var moreActivationsToProcess = true; moreActivationsToProcess && (nextAction == MonitorAction.Continue || nextAction == MonitorAction.Skip);)
 								{
@@ -948,8 +952,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public async Task CreateDump(CancellationToken cancellationToken)
 		{
-			var session = GetActiveController();
-
 			const string DumpDirectory = "ProcessDumps";
 			await diagnosticsIOManager.CreateDirectory(DumpDirectory, cancellationToken).ConfigureAwait(false);
 
@@ -957,6 +959,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				diagnosticsIOManager.ConcatPath(
 					DumpDirectory,
 					$"DreamDaemon-{DateTimeOffset.Now.ToFileStamp()}.dmp"));
+
+			var session = GetActiveController();
+			if (session?.Lifetime.IsCompleted != false)
+				throw new JobException(ErrorCode.DreamDaemonOffline);
 
 			Logger.LogInformation("Dumping session to {0}...", dumpFileName);
 			await session.CreateDump(dumpFileName, cancellationToken).ConfigureAwait(false);
