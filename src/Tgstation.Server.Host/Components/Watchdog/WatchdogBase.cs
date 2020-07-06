@@ -559,6 +559,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					}
 
 				Logger.LogWarning("Failed to automatically restart the watchdog! Attempt: {0}, Exception: {1}", retryAttempts, launchException);
+				Status = WatchdogStatus.DelayedRestart;
 
 				var retryDelay = Math.Min(
 					Convert.ToInt32(
@@ -702,7 +703,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								e);
 
 							var nextActionMessage = nextAction != MonitorAction.Exit
-								? "Restarting"
+								? "Recovering"
 								: "Shutting down";
 							var chatTask = Chat.SendWatchdogMessage(
 								$"Monitor crashed, this should NEVER happen! Please report this, full details in logs! {nextActionMessage}. Error: {e.Message}",
@@ -713,7 +714,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								nextAction = MonitorAction.Exit;
 							else if (nextAction != MonitorAction.Exit)
 							{
-								await MonitorRestart(cancellationToken).ConfigureAwait(false);
+								if (GetActiveController()?.Lifetime.IsCompleted != true)
+									await MonitorRestart(cancellationToken).ConfigureAwait(false);
+								else
+									Logger.LogDebug("Server seems to be okay, not restarting");
 								nextAction = MonitorAction.Continue;
 							}
 
