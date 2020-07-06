@@ -209,7 +209,7 @@ namespace Tgstation.Server.Tests
 						await Task.WhenAll(getTasks);
 						jobs = getTasks
 							.Select(x => x.Result)
-							.Where(x => x.StartedAt.Value > preStartupTime)
+							.Where(x => x.StartedAt.Value >= preStartupTime)
 							.ToList();
 					}
 
