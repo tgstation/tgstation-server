@@ -213,7 +213,7 @@ namespace Tgstation.Server.Tests
 							.ToList();
 					}
 
-					Assert.AreEqual(1, jobs.Count);
+					Assert.AreEqual(1, jobs.Count, $"Why are there multiple active jobs? \"{String.Join("\", \"", jobs.Select(x => x.Description))}\"");
 
 					var reattachJob = jobs.Single();
 					Assert.IsTrue(reattachJob.StartedAt.Value >= preStartupTime);
