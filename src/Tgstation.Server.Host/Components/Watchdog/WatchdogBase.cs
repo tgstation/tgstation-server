@@ -933,6 +933,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			releaseServers = true;
 			if (Status == WatchdogStatus.Online)
 				await Chat.SendWatchdogMessage("Detaching...", false, cancellationToken).ConfigureAwait(false);
+			else
+				Logger.LogTrace("Not sending detach chat message as status is: {0}", Status);
 		}
 
 		/// <inheritdoc />
