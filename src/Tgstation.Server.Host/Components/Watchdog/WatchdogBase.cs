@@ -541,6 +541,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					{
 						// use LaunchImplNoLock without announcements or restarting the monitor
 						await LaunchNoLock(false, false, false, null, cancellationToken).ConfigureAwait(false);
+						Status = WatchdogStatus.Online;
 						Logger.LogDebug("Relaunch successful, resuming monitor...");
 						return;
 					}
