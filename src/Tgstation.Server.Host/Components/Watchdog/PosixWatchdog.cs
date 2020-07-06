@@ -79,22 +79,24 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{ }
 
 		/// <inheritdoc />
-		protected override async Task InitialLink(SwappableDmbProvider swappableDmbProvider, CancellationToken cancellationToken)
+		protected override async Task InitialLink(CancellationToken cancellationToken)
 		{
 			// The logic to check for an active live directory is in SwappableDmbProvider, so we just do it again here for safety
 			Logger.LogTrace("Hard linking compile job...");
 
-			// Symlinks are counted as a file sometimes??
-			var dirDeleteTask = GameIOManager.DeleteDirectory(swappableDmbProvider.Directory, cancellationToken);
-			await GameIOManager.DeleteFile(swappableDmbProvider.Directory, cancellationToken).ConfigureAwait(false);
-			await dirDeleteTask.ConfigureAwait(false);
+			// Symlinks are counted as a file on linux??
+			if (await GameIOManager.DirectoryExists(ActiveSwappable.Directory, cancellationToken).ConfigureAwait(false))
+				await GameIOManager.DeleteDirectory(ActiveSwappable.Directory, cancellationToken).ConfigureAwait(false);
+			else
+				await GameIOManager.DeleteFile(ActiveSwappable.Directory, cancellationToken).ConfigureAwait(false);
 
 			// Instead of symlinking to begin with we actually rename the directory
 			await GameIOManager.MoveDirectory(
-				swappableDmbProvider.CompileJob.DirectoryName.ToString(),
-				swappableDmbProvider.Directory,
+				ActiveSwappable.CompileJob.DirectoryName.ToString(),
+				ActiveSwappable.Directory,
 				cancellationToken)
 				.ConfigureAwait(false);
+
 			directoryHardLinked = true;
 		}
 
@@ -119,6 +121,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						.ConfigureAwait(false);
 					directoryHardLinked = false;
 				}
+			}
+
+			if (reattachInfo != null)
+			{
+				Logger.LogTrace("Skipping symlink due to reattach");
+				return;
 			}
 
 			Logger.LogTrace("Symlinking compile job...");

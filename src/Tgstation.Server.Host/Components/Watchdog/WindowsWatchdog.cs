@@ -224,7 +224,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			try
 			{
-				await InitialLink(ActiveSwappable, cancellationToken).ConfigureAwait(false);
+				await InitialLink(cancellationToken).ConfigureAwait(false);
 			}
 			catch
 			{
@@ -237,15 +237,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <summary>
-		/// Create the initial link to the live game directory.
+		/// Create the initial link to the live game directory using <see cref="ActiveSwappable"/>.
 		/// </summary>
-		/// <param name="swappableDmbProvider">The <see cref="SwappableDmbProvider"/> in use.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected virtual Task InitialLink(SwappableDmbProvider swappableDmbProvider, CancellationToken cancellationToken)
+		protected virtual Task InitialLink(CancellationToken cancellationToken)
 		{
 			Logger.LogTrace("Symlinking compile job...");
-			return swappableDmbProvider.MakeActive(cancellationToken);
+			return ActiveSwappable.MakeActive(cancellationToken);
 		}
 	}
 }
