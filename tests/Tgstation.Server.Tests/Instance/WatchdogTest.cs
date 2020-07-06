@@ -362,8 +362,6 @@ namespace Tgstation.Server.Tests.Instance
 			using var ddProc = ddProcs.Single();
 			ddProc.Kill();
 			ddProc.WaitForExit();
-
-			await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreEqual(WatchdogStatus.Restoring, daemonStatus.Status.Value);
 		}
