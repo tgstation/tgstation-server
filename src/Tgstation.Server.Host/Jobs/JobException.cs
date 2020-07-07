@@ -43,6 +43,7 @@ namespace Tgstation.Server.Host.Jobs
 		/// <param name="errorCode">The associated <see cref="Api.Models.ErrorCode"/>.</param>
 		public JobException(ErrorCode errorCode) : base(errorCode.Describe())
 		{
+			ErrorCode = errorCode;
 		}
 
 		/// <summary>
@@ -52,6 +53,7 @@ namespace Tgstation.Server.Host.Jobs
 		/// <param name="innerException">The inner <see cref="Exception"/> for the nase <see cref="Exception"/></param>
 		public JobException(ErrorCode errorCode, Exception innerException) : base(errorCode.Describe(), innerException)
 		{
+			ErrorCode = errorCode;
 		}
 	}
 }
