@@ -11,7 +11,7 @@ namespace Tgstation.Server.Host.Jobs
 		/// <summary>
 		/// The <see cref="Api.Models.ErrorCode"/> associated with the <see cref="JobException"/>.
 		/// </summary>
-		public ErrorCode? ErrorCode { get; set; }
+		public ErrorCode? ErrorCode { get; }
 
 		/// <summary>
 		/// Construct a <see cref="JobException"/>
