@@ -366,7 +366,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
-			/*
+
 			// Try killing the DD process to ensure it gets set to the restoring state
 			do
 			{
@@ -390,7 +390,6 @@ namespace Tgstation.Server.Tests.Instance
 
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
-			*/
 		}
 
 		static bool KillDD(bool require)
