@@ -274,6 +274,11 @@ namespace Tgstation.Server.Tests
 					await new InstanceManagerTest(adminClient.Instances, adminClient.Users, server.Directory).RunPostTest(cancellationToken);
 				}
 			}
+			catch(ApiException ex)
+			{
+				Console.WriteLine($"[{DateTimeOffset.Now}] TEST ERROR: {ex.ErrorCode}: {ex.Message}\n{ex.AdditionalServerData}");
+				throw;
+			}
 			catch (Exception ex)
 			{
 				Console.WriteLine($"[{DateTimeOffset.Now}] TEST ERROR: {ex}");
