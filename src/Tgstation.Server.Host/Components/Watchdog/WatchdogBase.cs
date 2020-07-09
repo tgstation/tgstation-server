@@ -923,7 +923,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			await TerminateNoLock(false, !releaseServers, cancellationToken).ConfigureAwait(false);
 			if (releasedReattachInformation != null)
 			{
-				await sessionPersistor.Save(releasedReattachInformation, cancellationToken).ConfigureAwait(false);
+				try
+				{
+					await sessionPersistor.Save(releasedReattachInformation, cancellationToken).ConfigureAwait(false);
+				}
+				catch (Exception ex)
+				{
+					Logger.LogCritical(
+						"Failed to persist session reattach information! To repair this, DreamDaemon will need to be manully stopped and then relaunched with TGS. Exception: {0}",
+						ex);
+				}
+
 				releasedReattachInformation = null;
 				releaseServers = false;
 			}
