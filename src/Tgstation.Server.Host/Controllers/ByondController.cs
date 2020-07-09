@@ -98,7 +98,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="200">Switched active version successfully.</response>
 		/// <response code="202">Created <see cref="Api.Models.Job"/> to install and switch active version successfully.</response>
 		[HttpPost]
-		[TgsAuthorize(ByondRights.ChangeVersion)]
+		[TgsAuthorize(ByondRights.InstallOfficialOrChangeActiveVersion | ByondRights.InstallCustomVersion)]
 		[ProducesResponseType(typeof(Api.Models.Byond), 200)]
 		[ProducesResponseType(typeof(Api.Models.Byond), 202)]
 		public async Task<IActionResult> Update([FromBody] Api.Models.Byond model, CancellationToken cancellationToken)
@@ -110,6 +110,11 @@ namespace Tgstation.Server.Host.Controllers
 				|| model.Version.Revision != -1
 				|| (model.Content != null && model.Version.Build > 0))
 				return BadRequest(new ErrorMessage(ErrorCode.ModelValidationFailure));
+
+			var userByondRights = AuthenticationContext.InstanceUser.ByondRights.Value;
+			if ((!userByondRights.HasFlag(ByondRights.InstallOfficialOrChangeActiveVersion) && model.Content == null)
+				|| (!userByondRights.HasFlag(ByondRights.InstallCustomVersion) && model.Content != null))
+				return Forbid();
 
 			var byondManager = instanceManager.GetInstance(Instance).ByondManager;
 
