@@ -675,7 +675,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 			{
 				if (currentChatCallback != null)
 					await currentChatCallback(
-						ex.Message,
+						ex is OperationCanceledException
+							? "The job was cancelled!"
+							: ex.Message,
 						currentDreamMakerOutput)
 						.ConfigureAwait(false);
 
