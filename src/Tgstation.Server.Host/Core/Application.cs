@@ -122,7 +122,10 @@ namespace Tgstation.Server.Host.Core
 					if (postSetupServices.FileLoggingConfiguration.Disable)
 						return;
 
-					var logPath = postSetupServices.FileLoggingConfiguration.GetFullLogDirectory(IOManager, AssemblyInformationProvider);
+					var logPath = postSetupServices.FileLoggingConfiguration.GetFullLogDirectory(
+						IOManager,
+						AssemblyInformationProvider,
+						postSetupServices.PlatformIdentifier);
 
 					var logEventLevel = ConvertSeriLogLevel(postSetupServices.FileLoggingConfiguration.LogLevel);
 
@@ -253,11 +256,7 @@ namespace Tgstation.Server.Host.Core
 			// configure platform specific services
 			if (postSetupServices.PlatformIdentifier.IsWindows)
 			{
-				if (postSetupServices.GeneralConfiguration.UseBasicWatchdogOnWindows)
-					services.AddSingleton<IWatchdogFactory, WatchdogFactory>();
-				else
-					services.AddSingleton<IWatchdogFactory, WindowsWatchdogFactory>();
-
+				AddWatchdog<WindowsWatchdogFactory>(services, postSetupServices);
 				services.AddSingleton<ISystemIdentityFactory, WindowsSystemIdentityFactory>();
 				services.AddSingleton<ISymlinkFactory, WindowsSymlinkFactory>();
 				services.AddSingleton<IByondInstaller, WindowsByondInstaller>();
@@ -270,7 +269,7 @@ namespace Tgstation.Server.Host.Core
 			}
 			else
 			{
-				services.AddSingleton<IWatchdogFactory, WatchdogFactory>();
+				AddWatchdog<PosixWatchdogFactory>(services, postSetupServices);
 				services.AddSingleton<ISystemIdentityFactory, PosixSystemIdentityFactory>();
 				services.AddSingleton<ISymlinkFactory, PosixSymlinkFactory>();
 				services.AddSingleton<IByondInstaller, PosixByondInstaller>();
@@ -303,6 +302,21 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<InstanceManager>();
 			services.AddSingleton<IBridgeDispatcher>(x => x.GetRequiredService<InstanceManager>());
 			services.AddSingleton<IInstanceManager>(x => x.GetRequiredService<InstanceManager>());
+		}
+
+		/// <summary>
+		/// Adds the <see cref="IWatchdogFactory"/> implementation.
+		/// </summary>
+		/// <typeparam name="TSystemWatchdogFactory">The <see cref="WatchdogFactory"/> child <see langword="class"/> for the current system.</typeparam>
+		/// <param name="services">The <see cref="IServiceCollection"/> to configure.</param>
+		/// <param name="postSetupServices">The <see cref="IPostSetupServices"/> to use.</param>
+		static void AddWatchdog<TSystemWatchdogFactory>(IServiceCollection services, IPostSetupServices postSetupServices)
+			where TSystemWatchdogFactory : class, IWatchdogFactory
+		{
+			if (postSetupServices.GeneralConfiguration.UseBasicWatchdog)
+				services.AddSingleton<IWatchdogFactory, WatchdogFactory>();
+			else
+				services.AddSingleton<IWatchdogFactory, TSystemWatchdogFactory>();
 		}
 
 		/// <inheritdoc />

@@ -17,5 +17,10 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		[Required]
 		public CompileJob CompileJob { get; set; }
+
+		/// <summary>
+		/// The <see cref="Api.Models.EntityId.Id"/> of <see cref="CompileJob"/>.
+		/// </summary>
+		public long CompileJobId { get; set; }
 	}
 }

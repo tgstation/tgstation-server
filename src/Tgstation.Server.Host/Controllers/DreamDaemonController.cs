@@ -152,7 +152,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (revision)
 			{
 				var latestCompileJob = instance.LatestCompileJob();
-				result.ActiveCompileJob = ((instance.Watchdog.Status == WatchdogStatus.Offline
+				result.ActiveCompileJob = ((instance.Watchdog.Status != WatchdogStatus.Offline
 					? dd.ActiveCompileJob
 					: latestCompileJob) ?? latestCompileJob)
 					?.ToApi();

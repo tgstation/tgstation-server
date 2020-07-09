@@ -326,7 +326,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The DMAPI never validated itself
 		/// </summary>
-		[Description("DreamDaemon exited without validating the DMAPI!")]
+		[Description("DreamDaemon did not validate the DMAPI!")]
 		DreamMakerNeverValidated,
 
 		/// <summary>
@@ -339,6 +339,7 @@ namespace Tgstation.Server.Api.Models
 		/// DMAPI validation timeout.
 		/// </summary>
 		[Description("The DreamDaemon startup timeout was hit before the DMAPI validated!")]
+		[Obsolete("Deprecated in favor of error code 52", true)]
 		DreamMakerValidationTimeout,
 
 		/// <summary>
@@ -544,5 +545,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("Cannot switch to requested custom BYOND version as it is not currently installed.")]
 		ByondNonExistentCustomVersion,
+
+		/// <summary>
+		/// Attempted to perform an operation that requires DreamDaemon (not the watchdog) to be running but it wasn't.
+		/// </summary>
+		[Description("Cannot perform this operation as DreamDaemon is not currently running!")]
+		DreamDaemonOffline,
 	}
 }

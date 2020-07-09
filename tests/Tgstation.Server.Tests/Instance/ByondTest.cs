@@ -18,7 +18,7 @@ namespace Tgstation.Server.Tests.Instance
 {
 	sealed class ByondTest : JobsRequiredTest
 	{
-		public static readonly Version TestVersion = new Version(513, 1526);
+		public static readonly Version TestVersion = new Version(513, 1527);
 
 		readonly IByondClient byondClient;
 
@@ -47,7 +47,7 @@ namespace Tgstation.Server.Tests.Instance
 			};
 			var test = await byondClient.SetActiveVersion(newModel, cancellationToken).ConfigureAwait(false);
 			Assert.IsNotNull(test.InstallJob);
-			await WaitForJob(test.InstallJob, 60, true, cancellationToken).ConfigureAwait(false);
+			await WaitForJob(test.InstallJob, 60, true, ErrorCode.ByondDownloadFail, cancellationToken).ConfigureAwait(false);
 		}
 
 		async Task TestInstallStable(CancellationToken cancellationToken)
@@ -59,7 +59,7 @@ namespace Tgstation.Server.Tests.Instance
 			var test = await byondClient.SetActiveVersion(newModel, cancellationToken).ConfigureAwait(false);
 			Assert.IsNotNull(test.InstallJob);
 			Assert.IsNull(test.Version);
-			await WaitForJob(test.InstallJob, 60, false, cancellationToken).ConfigureAwait(false);
+			await WaitForJob(test.InstallJob, 60, false, null, cancellationToken).ConfigureAwait(false);
 			var currentShit = await byondClient.ActiveVersion(cancellationToken).ConfigureAwait(false);
 			Assert.AreEqual(newModel.Version.Semver(), currentShit.Version);
 
@@ -105,7 +105,7 @@ namespace Tgstation.Server.Tests.Instance
 			}, cancellationToken).ConfigureAwait(false);
 
 			Assert.IsNotNull(test.InstallJob);
-			await WaitForJob(test.InstallJob, 60, false, cancellationToken).ConfigureAwait(false);
+			await WaitForJob(test.InstallJob, 60, false, null, cancellationToken).ConfigureAwait(false);
 
 			var newSettings = await byondClient.ActiveVersion(cancellationToken);
 			Assert.AreEqual(new Version(TestVersion.Major, TestVersion.Minor, 1), newSettings.Version);

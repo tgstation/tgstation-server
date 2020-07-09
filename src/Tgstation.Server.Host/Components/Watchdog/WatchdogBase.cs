@@ -95,9 +95,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly Api.Models.Instance instance;
 
 		/// <summary>
-		/// The <see cref="IReattachInfoHandler"/> for the <see cref="WatchdogBase"/>
+		/// The <see cref="ISessionPersistor"/> for the <see cref="WatchdogBase"/>
 		/// </summary>
-		readonly IReattachInfoHandler reattachInfoHandler;
+		readonly ISessionPersistor sessionPersistor;
 
 		/// <summary>
 		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="WatchdogBase"/>
@@ -175,7 +175,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="chat">The value of <see cref="Chat"/></param>
 		/// <param name="sessionControllerFactory">The value of <see cref="SessionControllerFactory"/></param>
 		/// <param name="dmbFactory">The value of <see cref="DmbFactory"/></param>
-		/// <param name="reattachInfoHandler">The value of <see cref="reattachInfoHandler"/></param>
+		/// <param name="sessionPersistor">The value of <see cref="sessionPersistor"/></param>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> to populate <see cref="restartRegistration"/> with</param>
@@ -190,7 +190,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IChatManager chat,
 			ISessionControllerFactory sessionControllerFactory,
 			IDmbFactory dmbFactory,
-			IReattachInfoHandler reattachInfoHandler,
+			ISessionPersistor sessionPersistor,
 			IDatabaseContextFactory databaseContextFactory,
 			IJobManager jobManager,
 			IServerControl serverControl,
@@ -205,7 +205,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			Chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			SessionControllerFactory = sessionControllerFactory ?? throw new ArgumentNullException(nameof(sessionControllerFactory));
 			DmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
-			this.reattachInfoHandler = reattachInfoHandler ?? throw new ArgumentNullException(nameof(reattachInfoHandler));
+			this.sessionPersistor = sessionPersistor ?? throw new ArgumentNullException(nameof(sessionPersistor));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			AsyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
@@ -236,6 +236,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				restartRegistration.Dispose();
 				throw;
 			}
+
+			Logger.LogTrace("Created watchdog");
 		}
 
 		/// <inheritdoc />
@@ -539,6 +541,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					{
 						// use LaunchImplNoLock without announcements or restarting the monitor
 						await LaunchNoLock(false, false, false, null, cancellationToken).ConfigureAwait(false);
+						Status = WatchdogStatus.Online;
 						Logger.LogDebug("Relaunch successful, resuming monitor...");
 						return;
 					}
@@ -556,6 +559,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					}
 
 				Logger.LogWarning("Failed to automatically restart the watchdog! Attempt: {0}, Exception: {1}", retryAttempts, launchException);
+				Status = WatchdogStatus.DelayedRestart;
 
 				var retryDelay = Math.Min(
 					Convert.ToInt32(
@@ -563,7 +567,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					TimeSpan.FromHours(1).TotalSeconds); // max of one hour, increasing by a power of 2 each time
 
 				chatTask = Chat.SendWatchdogMessage(
-					$"Failed to restart (Attempt: {retryAttempts}), retrying in {retryDelay}",
+					$"Failed to restart (Attempt: {retryAttempts}), retrying in {retryDelay}s...",
 					false,
 					cancellationToken);
 
@@ -607,6 +611,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 							var heartbeatSeconds = ActiveLaunchParameters.HeartbeatSeconds.Value;
 							var heartbeat = heartbeatSeconds == 0
+								|| !controller.DMApiAvailable
 								? Extensions.TaskExtensions.InfiniteTask()
 								: Task.Delay(TimeSpan.FromSeconds(heartbeatSeconds));
 
@@ -630,6 +635,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							// always run HandleMonitorWakeup from the context of the semaphore lock
 							using (await SemaphoreSlimContext.Lock(Semaphore, cancellationToken).ConfigureAwait(false))
 							{
+								// Set this sooner so chat sends don't hold us up
+								if (activeServerLifetime.IsCompleted)
+									Status = WatchdogStatus.Restoring;
+
 								// multiple things may have happened, handle them one at a time
 								for (var moreActivationsToProcess = true; moreActivationsToProcess && (nextAction == MonitorAction.Continue || nextAction == MonitorAction.Skip);)
 								{
@@ -698,7 +707,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								e);
 
 							var nextActionMessage = nextAction != MonitorAction.Exit
-								? "Restarting"
+								? "Recovering"
 								: "Shutting down";
 							var chatTask = Chat.SendWatchdogMessage(
 								$"Monitor crashed, this should NEVER happen! Please report this, full details in logs! {nextActionMessage}. Error: {e.Message}",
@@ -709,7 +718,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								nextAction = MonitorAction.Exit;
 							else if (nextAction != MonitorAction.Exit)
 							{
-								await MonitorRestart(cancellationToken).ConfigureAwait(false);
+								if (GetActiveController()?.Lifetime.IsCompleted != true)
+									await MonitorRestart(cancellationToken).ConfigureAwait(false);
+								else
+									Logger.LogDebug("Server seems to be okay, not restarting");
 								nextAction = MonitorAction.Continue;
 							}
 
@@ -869,7 +881,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public async Task StartAsync(CancellationToken cancellationToken)
 		{
-			var reattachInfo = await reattachInfoHandler.Load(cancellationToken).ConfigureAwait(false);
+			var reattachInfo = await sessionPersistor.Load(cancellationToken).ConfigureAwait(false);
 			if (!autoStart && reattachInfo == null)
 				return;
 
@@ -911,7 +923,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			await TerminateNoLock(false, !releaseServers, cancellationToken).ConfigureAwait(false);
 			if (releasedReattachInformation != null)
 			{
-				await reattachInfoHandler.Save(releasedReattachInformation, cancellationToken).ConfigureAwait(false);
+				try
+				{
+					await sessionPersistor.Save(releasedReattachInformation, cancellationToken).ConfigureAwait(false);
+				}
+				catch (Exception ex)
+				{
+					Logger.LogCritical(
+						"Failed to persist session reattach information! To repair this, DreamDaemon will need to be manully stopped and then relaunched with TGS. Exception: {0}",
+						ex);
+				}
+
 				releasedReattachInformation = null;
 				releaseServers = false;
 			}
@@ -930,6 +952,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			releaseServers = true;
 			if (Status == WatchdogStatus.Online)
 				await Chat.SendWatchdogMessage("Detaching...", false, cancellationToken).ConfigureAwait(false);
+			else
+				Logger.LogTrace("Not sending detach chat message as status is: {0}", Status);
 		}
 
 		/// <inheritdoc />
@@ -938,8 +962,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public async Task CreateDump(CancellationToken cancellationToken)
 		{
-			var session = GetActiveController();
-
 			const string DumpDirectory = "ProcessDumps";
 			await diagnosticsIOManager.CreateDirectory(DumpDirectory, cancellationToken).ConfigureAwait(false);
 
@@ -947,6 +969,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				diagnosticsIOManager.ConcatPath(
 					DumpDirectory,
 					$"DreamDaemon-{DateTimeOffset.Now.ToFileStamp()}.dmp"));
+
+			var session = GetActiveController();
+			if (session?.Lifetime.IsCompleted != false)
+				throw new JobException(ErrorCode.DreamDaemonOffline);
 
 			Logger.LogInformation("Dumping session to {0}...", dumpFileName);
 			await session.CreateDump(dumpFileName, cancellationToken).ConfigureAwait(false);

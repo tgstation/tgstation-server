@@ -330,7 +330,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ErrorMessage), 409)]
 		public async Task<IActionResult> ListLogs(CancellationToken cancellationToken)
 		{
-			var path = fileLoggingConfiguration.GetFullLogDirectory(ioManager, assemblyInformationProvider);
+			var path = fileLoggingConfiguration.GetFullLogDirectory(ioManager, assemblyInformationProvider, platformIdentifier);
 			try
 			{
 				var files = await ioManager.GetFiles(path, cancellationToken).ConfigureAwait(false);
@@ -378,7 +378,7 @@ namespace Tgstation.Server.Host.Controllers
 				throw new ArgumentNullException(nameof(path));
 
 			var fullPath = ioManager.ConcatPath(
-				fileLoggingConfiguration.GetFullLogDirectory(ioManager, assemblyInformationProvider),
+				fileLoggingConfiguration.GetFullLogDirectory(ioManager, assemblyInformationProvider, platformIdentifier),
 				path);
 			try
 			{

@@ -29,7 +29,8 @@ namespace Tgstation.Server.Host.Models
 		{
 			ProjectName = ProjectName,
 			ApiValidationPort = ApiValidationPort,
-			ApiValidationSecurityLevel = ApiValidationSecurityLevel
+			ApiValidationSecurityLevel = ApiValidationSecurityLevel,
+			RequireDMApiValidation = RequireDMApiValidation
 		};
 	}
 }

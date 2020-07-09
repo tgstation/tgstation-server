@@ -45,7 +45,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="chat">The <see cref="IChatManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="sessionControllerFactory">The <see cref="ISessionControllerFactory"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="dmbFactory">The <see cref="IDmbFactory"/> for the <see cref="WatchdogBase"/>.</param>
-		/// <param name="reattachInfoHandler">The <see cref="IReattachInfoHandler"/> for the <see cref="WatchdogBase"/>.</param>
+		/// <param name="sessionPersistor">The <see cref="ISessionPersistor"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="databaseContextFactory">The <see cref="IDatabaseContextFactory"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="WatchdogBase"/>.</param>
@@ -60,7 +60,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IChatManager chat,
 			ISessionControllerFactory sessionControllerFactory,
 			IDmbFactory dmbFactory,
-			IReattachInfoHandler reattachInfoHandler,
+			ISessionPersistor sessionPersistor,
 			IDatabaseContextFactory databaseContextFactory,
 			IJobManager jobManager,
 			IServerControl serverControl,
@@ -75,7 +75,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				 chat,
 				 sessionControllerFactory,
 				 dmbFactory,
-				 reattachInfoHandler,
+				 sessionPersistor,
 				 databaseContextFactory,
 				 jobManager,
 				 serverControl,
@@ -174,7 +174,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected sealed override ISessionController GetActiveController() => Server;
 
 		/// <inheritdoc />
-		protected sealed override async Task InitControllers(
+		protected override async Task InitControllers(
 			Task chatTask,
 			ReattachInformation reattachInfo,
 			CancellationToken cancellationToken)
@@ -255,6 +255,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected virtual Task HandleNewDmbAvailable(CancellationToken cancellationToken)
 		{
 			gracefulRebootRequired = true;
+			if (Server.Dmb.CompileJob.DMApiVersion == null)
+				return Chat.SendWatchdogMessage(
+					"A new deployment has been made but cannot be applied automatically as the currently running server has no DMAPI. Please manually reboot the server to apply the update.",
+					true,
+					cancellationToken);
 			return Server.SetRebootState(Session.RebootState.Restart, cancellationToken);
 		}
 

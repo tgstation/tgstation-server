@@ -49,7 +49,14 @@ namespace Tgstation.Server.Host.Core
 
 			writer.WriteStartArray();
 			foreach (var enumValue in Enum.GetValues(enumType))
-				writer.WriteValue(enumValue.ToString());
+			{
+				var enumName = enumValue.ToString();
+				var field = enumType.GetField(enumName);
+				if (field.IsDefined(typeof(ObsoleteAttribute), false))
+					enumName = $"DEPRECATED_{enumName}";
+
+				writer.WriteValue(enumName);
+			}
 
 			writer.WriteEndArray();
 		}

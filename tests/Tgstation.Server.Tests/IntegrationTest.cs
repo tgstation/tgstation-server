@@ -209,16 +209,16 @@ namespace Tgstation.Server.Tests
 						await Task.WhenAll(getTasks);
 						jobs = getTasks
 							.Select(x => x.Result)
-							.Where(x => x.StartedAt.Value > preStartupTime)
+							.Where(x => x.StartedAt.Value >= preStartupTime)
 							.ToList();
 					}
 
-					Assert.AreEqual(1, jobs.Count);
+					Assert.AreEqual(1, jobs.Count, $"Why are there multiple active jobs? \"{String.Join("\", \"", jobs.Select(x => x.Description))}\"");
 
 					var reattachJob = jobs.Single();
 					Assert.IsTrue(reattachJob.StartedAt.Value >= preStartupTime);
 
-					await new JobsRequiredTest(instanceClient.Jobs).WaitForJob(reattachJob, 40, false, cancellationToken);
+					await new JobsRequiredTest(instanceClient.Jobs).WaitForJob(reattachJob, 40, false, null, cancellationToken);
 
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
@@ -261,7 +261,7 @@ namespace Tgstation.Server.Tests
 					var launchJob = jobs.Single();
 					Assert.IsTrue(launchJob.StartedAt.Value >= preStartupTime);
 
-					await new JobsRequiredTest(instanceClient.Jobs).WaitForJob(launchJob, 40, false, cancellationToken);
+					await new JobsRequiredTest(instanceClient.Jobs).WaitForJob(launchJob, 40, false, null, cancellationToken);
 
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 
@@ -273,6 +273,11 @@ namespace Tgstation.Server.Tests
 
 					await new InstanceManagerTest(adminClient.Instances, adminClient.Users, server.Directory).RunPostTest(cancellationToken);
 				}
+			}
+			catch(ApiException ex)
+			{
+				Console.WriteLine($"[{DateTimeOffset.Now}] TEST ERROR: {ex.ErrorCode}: {ex.Message}\n{ex.AdditionalServerData}");
+				throw;
 			}
 			catch (Exception ex)
 			{

@@ -135,7 +135,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<long>("JobId")
 						.HasColumnType("bigint");
 
-					b.Property<int>("MinimumSecurityLevel")
+					b.Property<int?>("MinimumSecurityLevel")
 						.HasColumnType("int");
 
 					b.Property<string>("Output")
@@ -217,6 +217,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<string>("ProjectName")
 						.HasColumnType("nvarchar(max)")
 						.HasMaxLength(10000);
+
+					b.Property<bool?>("RequireDMApiValidation")
+						.IsRequired()
+						.HasColumnType("bit");
 
 					b.HasKey("Id");
 

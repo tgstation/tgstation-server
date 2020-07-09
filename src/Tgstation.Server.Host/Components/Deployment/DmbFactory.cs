@@ -7,7 +7,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Database;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
 
@@ -173,7 +172,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 			await databaseContextFactory.UseContext(async (db) =>
 			{
 				cj = await db
-					.MostRecentCompletedCompileJobOrDefault(instance, cancellationToken)
+					.CompileJobs
+					.AsQueryable()
+					.Where(x => x.Job.Instance.Id == instance.Id)
+					.OrderByDescending(x => x.Job.StoppedAt)
+					.FirstOrDefaultAsync(cancellationToken)
 					.ConfigureAwait(false);
 			})
 			.ConfigureAwait(false);
@@ -322,7 +325,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					.ToList();
 			}).ConfigureAwait(false);
 
-			jobUidsToNotErase.Add(WindowsSwappableDmbProvider.LiveGameDirectory);
+			jobUidsToNotErase.Add(SwappableDmbProvider.LiveGameDirectory);
 
 			logger.LogTrace("We will not clean the following directories: {0}", String.Join(", ", jobUidsToNotErase));
 

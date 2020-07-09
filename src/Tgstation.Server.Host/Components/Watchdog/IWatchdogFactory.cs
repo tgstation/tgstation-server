@@ -17,7 +17,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		/// <param name="chat">The <see cref="IChatManager"/> for the <see cref="IWatchdog"/></param>
 		/// <param name="dmbFactory">The <see cref="IDmbFactory"/> for the <see cref="IWatchdog"/> with</param>
-		/// <param name="reattachInfoHandler">The <see cref="IReattachInfoHandler"/> for the <see cref="IWatchdog"/></param>
+		/// <param name="sessionPersistor">The <see cref="ISessionPersistor"/> for the <see cref="IWatchdog"/></param>
 		/// <param name="sessionControllerFactory">The <see cref="ISessionControllerFactory"/> for the <see cref="IWatchdog"/></param>
 		/// <param name="gameIOManager">The <see cref="IIOManager"/> pointing to the Game directory for the <see cref="IWatchdog"/>.</param>
 		/// <param name="diagnosticsIOManager">The <see cref="IIOManager"/> pointing to the Diagnostics directory for the <see cref="IWatchdog"/>.</param>
@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		IWatchdog CreateWatchdog(
 			IChatManager chat,
 			IDmbFactory dmbFactory,
-			IReattachInfoHandler reattachInfoHandler,
+			ISessionPersistor sessionPersistor,
 			ISessionControllerFactory sessionControllerFactory,
 			IIOManager gameIOManager,
 			IIOManager diagnosticsIOManager,

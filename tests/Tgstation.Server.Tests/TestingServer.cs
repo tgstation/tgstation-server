@@ -78,6 +78,7 @@ namespace Tgstation.Server.Tests
 				String.Format(CultureInfo.InvariantCulture, "General:MinimumPasswordLength={0}", 10),
 				String.Format(CultureInfo.InvariantCulture, "General:InstanceLimit={0}", 11),
 				String.Format(CultureInfo.InvariantCulture, "General:UserLimit={0}", 150),
+				"General:UseBasicWatchdog=true",
 				String.Format(CultureInfo.InvariantCulture, "FileLogging:Directory={0}", Path.Combine(Directory, "Logs")),
 				String.Format(CultureInfo.InvariantCulture, "General:ValidInstancePaths:0={0}", Directory),
 				"General:ByondTopicTimeout=3000"

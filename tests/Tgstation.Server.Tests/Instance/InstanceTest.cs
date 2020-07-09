@@ -23,15 +23,17 @@ namespace Tgstation.Server.Tests.Instance
 			var chatTest = new ChatTest(instanceClient.ChatBots, instanceManagerClient, instanceClient.Metadata.CloneMetadata());
 			var configTest = new ConfigurationTest(instanceClient.Configuration, instanceClient.Metadata);
 			var repoTest = new RepositoryTest(instanceClient.Repository, instanceClient.Jobs);
+			var dmTest = new DeploymentTest(instanceClient.DreamMaker, instanceClient.DreamDaemon, instanceClient.Jobs);
 
-			var repoTests = repoTest.RunPreWatchdog(cancellationToken);
 			var byondTests = byondTest.Run(cancellationToken);
+			var repoTests = repoTest.RunPreWatchdog(cancellationToken);
 			var chatTests = chatTest.RunPreWatchdog(cancellationToken);
-			await configTest.Run(cancellationToken).ConfigureAwait(false);
 			await byondTests.ConfigureAwait(false);
+			await dmTest.Run(repoTests, cancellationToken);
+
+			await configTest.Run(cancellationToken).ConfigureAwait(false);
 			await chatTests.ConfigureAwait(false);
 			await repoTests;
-
 			await new WatchdogTest(instanceClient).Run(cancellationToken);
 		}
 	}

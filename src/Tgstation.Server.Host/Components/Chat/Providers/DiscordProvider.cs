@@ -294,7 +294,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				new EmbedFieldBuilder
 				{
 					Name = "BYOND Version",
-					Value = $"{byondVersion.Major}.{byondVersion.Minor}",
+					Value = $"{byondVersion.Major}.{byondVersion.Minor}{(byondVersion.Build > 0 ? $".{byondVersion.Build}" : String.Empty)}",
 					IsInline = true
 				},
 				new EmbedFieldBuilder

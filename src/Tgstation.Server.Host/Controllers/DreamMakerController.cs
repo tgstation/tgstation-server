@@ -170,7 +170,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="204">Changes applied successfully. The updated <see cref="DreamMaker"/> settings will be not be returned due to permissions.</response>
 		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpPost]
-		[TgsAuthorize(DreamMakerRights.SetDme | DreamMakerRights.SetApiValidationPort | DreamMakerRights.SetApiValidationPort)]
+		[TgsAuthorize(
+			DreamMakerRights.SetDme
+			| DreamMakerRights.SetApiValidationPort
+			| DreamMakerRights.SetSecurityLevel
+			| DreamMakerRights.SetApiValidationRequirement)]
 		[ProducesResponseType(typeof(DreamMaker), 200)]
 		[ProducesResponseType(204)]
 		[ProducesResponseType(typeof(ErrorMessage), 410)]
@@ -213,6 +217,13 @@ namespace Tgstation.Server.Host.Controllers
 				if (!AuthenticationContext.InstanceUser.DreamMakerRights.Value.HasFlag(DreamMakerRights.SetSecurityLevel))
 					return Forbid();
 				hostModel.ApiValidationSecurityLevel = model.ApiValidationSecurityLevel;
+			}
+
+			if (model.RequireDMApiValidation.HasValue)
+			{
+				if (!AuthenticationContext.InstanceUser.DreamMakerRights.Value.HasFlag(DreamMakerRights.SetApiValidationRequirement))
+					return Forbid();
+				hostModel.RequireDMApiValidation = model.RequireDMApiValidation;
 			}
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
