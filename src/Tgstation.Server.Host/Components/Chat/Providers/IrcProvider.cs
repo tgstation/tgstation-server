@@ -506,7 +506,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					commitInsert,
 					testmergeInsert,
 					remoteCommitInsert,
-					byondVersion,
+					byondVersion.Build > 0
+						? byondVersion.ToString()
+						: $"{byondVersion.Major}.{byondVersion.Minor}",
 					estimatedCompletionTime.HasValue
 						? $" ETA: {estimatedCompletionTime - DateTimeOffset.Now}"
 						: String.Empty),
