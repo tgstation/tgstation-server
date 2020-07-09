@@ -76,11 +76,14 @@ namespace Tgstation.Server.Host.Components.Session
 				.DeleteAsync(cancellationToken)
 				.ConfigureAwait(false);
 
-			db.CompileJobs.Attach(reattachInformation.Dmb.CompileJob);
+			var compileJob = reattachInformation.Dmb.CompileJob;
+			db.Instances.Attach(compileJob.Job.Instance);
+			db.Jobs.Add(compileJob.Job);
+			db.CompileJobs.Attach(compileJob);
 			var dbReattachInfo = new Models.ReattachInformation
 			{
 				AccessIdentifier = reattachInformation.AccessIdentifier,
-				CompileJob = reattachInformation.Dmb.CompileJob,
+				CompileJob = compileJob,
 				Port = reattachInformation.Port,
 				ProcessId = reattachInformation.ProcessId,
 				RebootState = reattachInformation.RebootState,
@@ -98,6 +101,16 @@ namespace Tgstation.Server.Host.Components.Session
 			TimeSpan? topicTimeout = null;
 			await databaseContextFactory.UseContext(async (db) =>
 			{
+				var dbReattachInfos = await db
+					.ReattachInformations
+					.AsQueryable()
+					.Where(x => x.CompileJob.Job.Instance.Id == metadata.Id)
+					.Include(x => x.CompileJob)
+					.ToListAsync(cancellationToken).ConfigureAwait(false);
+				result = dbReattachInfos.FirstOrDefault();
+				if (result == default)
+					return;
+
 				var timeoutMilliseconds = await db
 					.Instances
 					.AsQueryable()
@@ -113,16 +126,6 @@ namespace Tgstation.Server.Host.Components.Session
 				}
 
 				topicTimeout = TimeSpan.FromMilliseconds(timeoutMilliseconds.Value);
-
-				var dbReattachInfos = await db
-					.ReattachInformations
-					.AsQueryable()
-					.Where(x => x.CompileJob.Job.Instance.Id == metadata.Id)
-					.Include(x => x.CompileJob)
-					.ToListAsync(cancellationToken).ConfigureAwait(false);
-				result = dbReattachInfos.FirstOrDefault();
-				if (result == default)
-					return;
 
 				bool first = true;
 				foreach (var reattachInfo in dbReattachInfos)
@@ -148,7 +151,7 @@ namespace Tgstation.Server.Host.Components.Session
 				await db.Save(cancellationToken).ConfigureAwait(false);
 			}).ConfigureAwait(false);
 
-			if (result == default)
+			if (!topicTimeout.HasValue)
 			{
 				logger.LogDebug("Reattach information not found!");
 				return null;
