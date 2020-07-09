@@ -366,29 +366,33 @@ namespace Tgstation.Server.Tests.Instance
 			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
 
-			// Try killing the DD process to ensure it gets set to the restoring state
-			do
+			// The measure we use to test dream daemon startup doesn't work on linux currently
+			if (new PlatformIdentifier().IsWindows)
 			{
-				KillDD(true);
-				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+				// Try killing the DD process to ensure it gets set to the restoring state
+				do
+				{
+					KillDD(true);
+					await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+					daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+				}
+				while (daemonStatus.Status == WatchdogStatus.Online);
+				Assert.AreEqual(WatchdogStatus.Restoring, daemonStatus.Status.Value);
+
+				// Kill it again
+				do
+				{
+					KillDD(false);
+					daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+				}
+				while (daemonStatus.Status == WatchdogStatus.Online || daemonStatus.Status == WatchdogStatus.Restoring);
+				Assert.AreEqual(WatchdogStatus.DelayedRestart, daemonStatus.Status.Value);
+
+				await Task.Delay(TimeSpan.FromSeconds(10), cancellationToken);
+
 				daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+				Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
 			}
-			while (daemonStatus.Status == WatchdogStatus.Online);
-			Assert.AreEqual(WatchdogStatus.Restoring, daemonStatus.Status.Value);
-
-			// Kill it again
-			do
-			{
-				KillDD(false);
-				daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
-			}
-			while (daemonStatus.Status == WatchdogStatus.Online || daemonStatus.Status == WatchdogStatus.Restoring);
-			Assert.AreEqual(WatchdogStatus.DelayedRestart, daemonStatus.Status.Value);
-
-			await Task.Delay(TimeSpan.FromSeconds(10), cancellationToken);
-
-			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
-			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
 		}
 
 		static bool KillDD(bool require)
