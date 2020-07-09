@@ -76,14 +76,10 @@ namespace Tgstation.Server.Host.Components.Session
 				.DeleteAsync(cancellationToken)
 				.ConfigureAwait(false);
 
-			var compileJob = reattachInformation.Dmb.CompileJob;
-			db.Instances.Attach(compileJob.Job.Instance);
-			db.Jobs.Add(compileJob.Job);
-			db.CompileJobs.Attach(compileJob);
 			var dbReattachInfo = new Models.ReattachInformation
 			{
 				AccessIdentifier = reattachInformation.AccessIdentifier,
-				CompileJob = compileJob,
+				CompileJobId = reattachInformation.Dmb.CompileJob.Id,
 				Port = reattachInformation.Port,
 				ProcessId = reattachInformation.ProcessId,
 				RebootState = reattachInformation.RebootState,
