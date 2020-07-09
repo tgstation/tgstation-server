@@ -34,7 +34,7 @@ namespace Tgstation.Server.Tests.Instance
 			// Increase startup timeout, disable heartbeats
 			var initialSettings = await instanceClient.DreamDaemon.Update(new DreamDaemon
 			{
-				StartupTimeout = 15,
+				StartupTimeout = 30,
 				HeartbeatSeconds = 0
 			}, cancellationToken);
 
