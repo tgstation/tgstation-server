@@ -29,7 +29,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="chat">The <see cref="IChatManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="sessionControllerFactory">The <see cref="ISessionControllerFactory"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="dmbFactory">The <see cref="IDmbFactory"/> for the <see cref="WatchdogBase"/>.</param>
-		/// <param name="reattachInfoHandler">The <see cref="IReattachInfoHandler"/> for the <see cref="WatchdogBase"/>.</param>
+		/// <param name="sessionPersistor">The <see cref="ISessionPersistor"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="databaseContextFactory">The <see cref="IDatabaseContextFactory"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="WatchdogBase"/>.</param>
@@ -46,7 +46,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IChatManager chat,
 			ISessionControllerFactory sessionControllerFactory,
 			IDmbFactory dmbFactory,
-			IReattachInfoHandler reattachInfoHandler,
+			ISessionPersistor sessionPersistor,
 			IDatabaseContextFactory databaseContextFactory,
 			IJobManager jobManager,
 			IServerControl serverControl,
@@ -63,7 +63,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				  chat,
 				  sessionControllerFactory,
 				  dmbFactory,
-				  reattachInfoHandler,
+				  sessionPersistor,
 				  databaseContextFactory,
 				  jobManager,
 				  serverControl,

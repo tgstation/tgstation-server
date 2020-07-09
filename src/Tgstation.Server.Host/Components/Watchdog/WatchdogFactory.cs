@@ -76,7 +76,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public virtual IWatchdog CreateWatchdog(
 			IChatManager chat,
 			IDmbFactory dmbFactory,
-			IReattachInfoHandler reattachInfoHandler,
+			ISessionPersistor sessionPersistor,
 			ISessionControllerFactory sessionControllerFactory,
 			IIOManager gameIOManager,
 			IIOManager diagnosticsIOManager,
@@ -87,7 +87,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				chat,
 				sessionControllerFactory,
 				dmbFactory,
-				reattachInfoHandler,
+				sessionPersistor,
 				DatabaseContextFactory,
 				JobManager,
 				ServerControl,

@@ -95,9 +95,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly Api.Models.Instance instance;
 
 		/// <summary>
-		/// The <see cref="IReattachInfoHandler"/> for the <see cref="WatchdogBase"/>
+		/// The <see cref="ISessionPersistor"/> for the <see cref="WatchdogBase"/>
 		/// </summary>
-		readonly IReattachInfoHandler reattachInfoHandler;
+		readonly ISessionPersistor sessionPersistor;
 
 		/// <summary>
 		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="WatchdogBase"/>
@@ -175,7 +175,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="chat">The value of <see cref="Chat"/></param>
 		/// <param name="sessionControllerFactory">The value of <see cref="SessionControllerFactory"/></param>
 		/// <param name="dmbFactory">The value of <see cref="DmbFactory"/></param>
-		/// <param name="reattachInfoHandler">The value of <see cref="reattachInfoHandler"/></param>
+		/// <param name="sessionPersistor">The value of <see cref="sessionPersistor"/></param>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> to populate <see cref="restartRegistration"/> with</param>
@@ -190,7 +190,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IChatManager chat,
 			ISessionControllerFactory sessionControllerFactory,
 			IDmbFactory dmbFactory,
-			IReattachInfoHandler reattachInfoHandler,
+			ISessionPersistor sessionPersistor,
 			IDatabaseContextFactory databaseContextFactory,
 			IJobManager jobManager,
 			IServerControl serverControl,
@@ -205,7 +205,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			Chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			SessionControllerFactory = sessionControllerFactory ?? throw new ArgumentNullException(nameof(sessionControllerFactory));
 			DmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
-			this.reattachInfoHandler = reattachInfoHandler ?? throw new ArgumentNullException(nameof(reattachInfoHandler));
+			this.sessionPersistor = sessionPersistor ?? throw new ArgumentNullException(nameof(sessionPersistor));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			AsyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
@@ -881,7 +881,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public async Task StartAsync(CancellationToken cancellationToken)
 		{
-			var reattachInfo = await reattachInfoHandler.Load(cancellationToken).ConfigureAwait(false);
+			var reattachInfo = await sessionPersistor.Load(cancellationToken).ConfigureAwait(false);
 			if (!autoStart && reattachInfo == null)
 				return;
 
@@ -923,7 +923,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			await TerminateNoLock(false, !releaseServers, cancellationToken).ConfigureAwait(false);
 			if (releasedReattachInformation != null)
 			{
-				await reattachInfoHandler.Save(releasedReattachInformation, cancellationToken).ConfigureAwait(false);
+				await sessionPersistor.Save(releasedReattachInformation, cancellationToken).ConfigureAwait(false);
 				releasedReattachInformation = null;
 				releaseServers = false;
 			}

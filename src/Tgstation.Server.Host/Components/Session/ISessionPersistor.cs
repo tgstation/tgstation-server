@@ -6,7 +6,7 @@ namespace Tgstation.Server.Host.Components.Session
 	/// <summary>
 	/// Handles saving and loading <see cref="ReattachInformation"/>.
 	/// </summary>
-	public interface IReattachInfoHandler
+	public interface ISessionPersistor
 	{
 		/// <summary>
 		/// Save some <paramref name="reattachInformation"/>

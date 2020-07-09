@@ -12,46 +12,46 @@ using Z.EntityFramework.Plus;
 namespace Tgstation.Server.Host.Components.Session
 {
 	/// <inheritdoc />
-	sealed class ReattachInfoHandler : IReattachInfoHandler
+	sealed class SessionPersistor : ISessionPersistor
 	{
 		/// <summary>
-		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="ReattachInfoHandler"/>
+		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="SessionPersistor"/>
 		/// </summary>
 		readonly IDatabaseContextFactory databaseContextFactory;
 
 		/// <summary>
-		/// The <see cref="IDmbFactory"/> for the <see cref="ReattachInfoHandler"/>
+		/// The <see cref="IDmbFactory"/> for the <see cref="SessionPersistor"/>
 		/// </summary>
 		readonly IDmbFactory dmbFactory;
 
 		/// <summary>
-		/// The <see cref="IProcessExecutor"/> for the <see cref="ReattachInfoHandler"/>.
+		/// The <see cref="IProcessExecutor"/> for the <see cref="SessionPersistor"/>.
 		/// </summary>
 		readonly IProcessExecutor processExecutor;
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="ReattachInfoHandler"/>
+		/// The <see cref="ILogger"/> for the <see cref="SessionPersistor"/>
 		/// </summary>
-		readonly ILogger<ReattachInfoHandler> logger;
+		readonly ILogger<SessionPersistor> logger;
 
 		/// <summary>
-		/// The <see cref="Api.Models.Instance"/> for the <see cref="ReattachInfoHandler"/>
+		/// The <see cref="Api.Models.Instance"/> for the <see cref="SessionPersistor"/>
 		/// </summary>
 		readonly Api.Models.Instance metadata;
 
 		/// <summary>
-		/// Construct a <see cref="ReattachInfoHandler"/>
+		/// Construct a <see cref="SessionPersistor"/>
 		/// </summary>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="dmbFactory">The value of <see cref="dmbFactory"/></param>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="metadata">The value of <see cref="metadata"/></param>
-		public ReattachInfoHandler(
+		public SessionPersistor(
 			IDatabaseContextFactory databaseContextFactory,
 			IDmbFactory dmbFactory,
 			IProcessExecutor processExecutor,
-			ILogger<ReattachInfoHandler> logger,
+			ILogger<SessionPersistor> logger,
 			Api.Models.Instance metadata)
 		{
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
