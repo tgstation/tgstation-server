@@ -22,7 +22,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 				defaultValue: false);
 
 			migrationBuilder.RenameTable(
-				"CompileJobs",
+				name: "CompileJobs",
 				newName: "CompileJobs_up");
 
 			migrationBuilder.CreateTable(
@@ -63,6 +63,15 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 			migrationBuilder.DropTable(
 				name: "CompileJobs_up");
+
+			// SQLite HATES this migration for some reason and thinks CompileJobs_up still exists???
+			migrationBuilder.RenameTable(
+				name: "CompileJobs",
+				newName: "CompileJobs_up");
+
+			migrationBuilder.RenameTable(
+				name: "CompileJobs_up",
+				newName: "CompileJobs");
 		}
 
 		/// <inheritdoc />
@@ -72,7 +81,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 				throw new ArgumentNullException(nameof(migrationBuilder));
 
 			migrationBuilder.RenameTable(
-				"CompileJobs",
+				name: "CompileJobs",
 				newName: "CompileJobs_down");
 
 			migrationBuilder.CreateTable(
@@ -113,6 +122,14 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 			migrationBuilder.DropTable(
 				name: "CompileJobs_down");
+
+			migrationBuilder.RenameTable(
+				name: "CompileJobs",
+				newName: "CompileJobs_down");
+
+			migrationBuilder.RenameTable(
+				name: "CompileJobs_down",
+				newName: "CompileJobs");
 
 			migrationBuilder.DropColumn(
 				name: "RequireDMApiValidation",
