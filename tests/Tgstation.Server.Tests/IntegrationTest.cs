@@ -218,7 +218,7 @@ namespace Tgstation.Server.Tests
 					var reattachJob = jobs.Single();
 					Assert.IsTrue(reattachJob.StartedAt.Value >= preStartupTime);
 
-					await new JobsRequiredTest(instanceClient.Jobs).WaitForJob(reattachJob, 40, false, cancellationToken);
+					await new JobsRequiredTest(instanceClient.Jobs).WaitForJob(reattachJob, 40, false, null, cancellationToken);
 
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
@@ -261,7 +261,7 @@ namespace Tgstation.Server.Tests
 					var launchJob = jobs.Single();
 					Assert.IsTrue(launchJob.StartedAt.Value >= preStartupTime);
 
-					await new JobsRequiredTest(instanceClient.Jobs).WaitForJob(launchJob, 40, false, cancellationToken);
+					await new JobsRequiredTest(instanceClient.Jobs).WaitForJob(launchJob, 40, false, null, cancellationToken);
 
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 

@@ -58,7 +58,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			clone = await repositoryClient.Clone(initalRepo, cancellationToken).ConfigureAwait(false);
 
-			await WaitForJob(clone.ActiveJob, 180, false, cancellationToken).ConfigureAwait(false);
+			await WaitForJob(clone.ActiveJob, 180, false, null, cancellationToken).ConfigureAwait(false);
 			var cloned = await repositoryClient.Read(cancellationToken);
 
 			Assert.AreEqual(Origin, cloned.Origin);
@@ -124,7 +124,7 @@ namespace Tgstation.Server.Tests.Instance
 			var checkingOut = await repositoryClient.Update(updated, cancellationToken);
 			Assert.IsNotNull(checkingOut.ActiveJob);
 
-			await WaitForJob(checkingOut.ActiveJob, 30, expectFailure, cancellationToken);
+			await WaitForJob(checkingOut.ActiveJob, 30, expectFailure, null, cancellationToken);
 			var result = await repositoryClient.Read(cancellationToken);
 			if (!expectFailure)
 				if (isRef)
@@ -153,7 +153,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.IsNotNull(numberOnlyMerging.ActiveJob);
 			Assert.IsTrue(numberOnlyMerging.ActiveJob.Description.Contains(prNumber.ToString()));
 
-			await WaitForJob(numberOnlyMerging.ActiveJob, 20, false, cancellationToken);
+			await WaitForJob(numberOnlyMerging.ActiveJob, 20, false, null,cancellationToken);
 
 			var withMerge = await repositoryClient.Read(cancellationToken);
 			Assert.AreEqual(repository.Reference, withMerge.Reference);
@@ -187,7 +187,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			var mergingAgain = await repositoryClient.Update(withMerge, cancellationToken);
 			Assert.IsNotNull(mergingAgain.ActiveJob);
-			await WaitForJob(mergingAgain.ActiveJob, 30, false, cancellationToken);
+			await WaitForJob(mergingAgain.ActiveJob, 30, false, null, cancellationToken);
 
 			var final = await repositoryClient.Read(cancellationToken);
 			Assert.AreEqual("asdffdsa", final.RevisionInformation.PrimaryTestMerge.Comment);
@@ -202,7 +202,7 @@ namespace Tgstation.Server.Tests.Instance
 			var deleting = await repositoryClient.Delete(cancellationToken);
 			Assert.IsNotNull(deleting.ActiveJob);
 
-			await WaitForJob(deleting.ActiveJob, 60, false, cancellationToken).ConfigureAwait(false);
+			await WaitForJob(deleting.ActiveJob, 60, false, null, cancellationToken).ConfigureAwait(false);
 			var deleted = await repositoryClient.Read(cancellationToken).ConfigureAwait(false);
 
 			Assert.IsNull(deleted.Origin);

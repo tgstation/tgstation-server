@@ -161,6 +161,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BasicOperation", "BasicOper
 		tests\DMAPI\BasicOperation\Test.dm = tests\DMAPI\BasicOperation\Test.dm
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildFail", "BuildFail", "{103C61AB-67D6-46FE-AA47-CC633B88EE0F}"
+	ProjectSection(SolutionItems) = preProject
+		tests\DMAPI\BuildFail\build_fail.dme = tests\DMAPI\BuildFail\build_fail.dme
+		tests\DMAPI\BuildFail\Test.dm = tests\DMAPI\BuildFail\Test.dm
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -300,6 +306,7 @@ Global
 		{EB1DDE8C-CA6F-4BE3-947B-597CA8EABEA5} = {82066812-6C73-4360-943B-B23F2F491261}
 		{7B8FC2AF-1B64-4A89-8480-F0FE360DC9EC} = {82066812-6C73-4360-943B-B23F2F491261}
 		{F32B9514-AAD9-429D-841A-ED810FC2598C} = {82066812-6C73-4360-943B-B23F2F491261}
+		{103C61AB-67D6-46FE-AA47-CC633B88EE0F} = {82066812-6C73-4360-943B-B23F2F491261}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DFD36C95-3E49-41C7-ACDB-86BAF5B18A79}

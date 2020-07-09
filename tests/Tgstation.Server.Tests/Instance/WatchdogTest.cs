@@ -73,7 +73,7 @@ namespace Tgstation.Server.Tests.Instance
 		{
 			System.Console.WriteLine("TEST: WATCHDOG DUMP TESTS");
 			var dumpJob = await instanceClient.DreamDaemon.CreateDump(cancellationToken);
-			await WaitForJob(dumpJob, 3000, false, cancellationToken);
+			await WaitForJob(dumpJob, 3000, false, null, cancellationToken);
 
 			var dumpFiles = Directory.GetFiles(Path.Combine(
 				instanceClient.Metadata.Path, "Diagnostics", "ProcessDumps"), "*.dmp");
@@ -84,8 +84,7 @@ namespace Tgstation.Server.Tests.Instance
 			var dumpTask = instanceClient.DreamDaemon.CreateDump(cancellationToken);
 			while (!dumpTask.IsCompleted)
 				KillDD(false);
-			var result = await WaitForJob(await dumpTask, 5, true, cancellationToken);
-			Assert.AreEqual(ErrorCode.DreamDaemonOffline, result.ErrorCode);
+			await WaitForJob(await dumpTask, 5, true, ErrorCode.DreamDaemonOffline, cancellationToken);
 			await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
 
 			var ddStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
@@ -105,7 +104,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			var startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
 
-			await WaitForJob(startJob, 10, false, cancellationToken);
+			await WaitForJob(startJob, 10, false, null, cancellationToken);
 
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
@@ -140,7 +139,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			var startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
 
-			await WaitForJob(startJob, 10, false, cancellationToken);
+			await WaitForJob(startJob, 10, false, null, cancellationToken);
 
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
@@ -166,7 +165,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			var startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
 
-			await WaitForJob(startJob, 10, false, cancellationToken);
+			await WaitForJob(startJob, 10, false, null, cancellationToken);
 
 			// lock on to DD and pause it so it can't heartbeat
 			var ddProcs = System.Diagnostics.Process.GetProcessesByName("DreamDaemon").ToList();
@@ -234,7 +233,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			var startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
 
-			await WaitForJob(startJob, 10, false, cancellationToken);
+			await WaitForJob(startJob, 10, false, null, cancellationToken);
 
 			daemonStatus = await DeployTestDme(DmeName, DreamDaemonSecurity.Safe, true, cancellationToken);
 
@@ -275,7 +274,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			var startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
 
-			await WaitForJob(startJob, 10, false, cancellationToken);
+			await WaitForJob(startJob, 10, false, null, cancellationToken);
 
 			daemonStatus = await DeployTestDme(DmeName + "_copy", DreamDaemonSecurity.Safe, true, cancellationToken);
 
@@ -313,7 +312,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			var startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
 
-			await WaitForJob(startJob, 40, false, cancellationToken);
+			await WaitForJob(startJob, 40, false, null, cancellationToken);
 
 			var byondInstallJobTask = instanceClient.Byond.SetActiveVersion(
 				new Api.Models.Byond
@@ -362,7 +361,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			var startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
 
-			await WaitForJob(startJob, 40, false, cancellationToken);
+			await WaitForJob(startJob, 40, false, null, cancellationToken);
 
 			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
@@ -443,7 +442,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			var compileJobJob = await instanceClient.DreamMaker.Compile(cancellationToken);
 
-			await WaitForJob(compileJobJob, 90, false, cancellationToken);
+			await WaitForJob(compileJobJob, 90, false, null, cancellationToken);
 
 			return await instanceClient.DreamDaemon.Read(cancellationToken);
 		}

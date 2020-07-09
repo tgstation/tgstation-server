@@ -18,7 +18,7 @@ namespace Tgstation.Server.Tests.Instance
 			this.JobsClient = jobsClient;
 		}
 
-		public async Task<Job> WaitForJob(Job originalJob, int timeout, bool expectFailure, CancellationToken cancellationToken)
+		public async Task<Job> WaitForJob(Job originalJob, int timeout, bool expectFailure, ErrorCode? expectedCode, CancellationToken cancellationToken)
 		{
 			var job = originalJob;
 			do
@@ -37,6 +37,9 @@ namespace Tgstation.Server.Tests.Instance
 
 			if (expectFailure ^ job.ExceptionDetails != null)
 				Assert.Fail(job.ExceptionDetails ?? $"Expected job \"{job.Id}\" \"{job.Description}\" to fail but it didn't");
+
+			if (expectedCode.HasValue)
+				Assert.AreEqual(expectedCode.Value, job.ErrorCode, job.ExceptionDetails);
 
 			return job;
 		}
@@ -62,7 +65,7 @@ namespace Tgstation.Server.Tests.Instance
 				Assert.Fail(job.ExceptionDetails);
 
 			await JobsClient.Cancel(job, cancellationToken);
-			return await WaitForJob(job, timeout, false, cancellationToken).ConfigureAwait(false);
+			return await WaitForJob(job, timeout, false, null, cancellationToken).ConfigureAwait(false);
 		}
 	}
 }
