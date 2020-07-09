@@ -404,7 +404,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						throw new JobException(ErrorCode.DreamMakerNoDme);
 					job.DmeName = foundPath.Substring(
 						resolvedOutputDirectory.Length + 1,
-						foundPath.Length - 1);
+						foundPath.Length - resolvedOutputDirectory.Length - DmeExtension.Length - 2); // +1 for . in extension
 				}
 				else
 				{
