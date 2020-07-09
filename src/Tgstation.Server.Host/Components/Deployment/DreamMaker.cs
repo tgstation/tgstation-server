@@ -231,7 +231,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			if (!controller.Lifetime.IsCompleted)
 			{
 				if (requireValidate)
-					throw new JobException(ErrorCode.DreamMakerValidationTimeout);
+					throw new JobException(ErrorCode.DreamMakerNeverValidated);
 				controller.Dispose();
 			}
 

@@ -339,6 +339,7 @@ namespace Tgstation.Server.Api.Models
 		/// DMAPI validation timeout.
 		/// </summary>
 		[Description("The DreamDaemon startup timeout was hit before the DMAPI validated!")]
+		[Obsolete("Deprecated in favor of error code 52", true)]
 		DreamMakerValidationTimeout,
 
 		/// <summary>
