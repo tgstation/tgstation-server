@@ -54,20 +54,29 @@ namespace Tgstation.Server.Host.Configuration
 		/// </summary>
 		/// <param name="ioManager">The <see cref="IIOManager"/> to use.</param>
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> to use.</param>
+		/// <param name="platformIdentifier">The <see cref="IPlatformIdentifier"/> to use</param>
 		/// <returns>The evaluated log <see cref="Directory"/>.</returns>
-		public string GetFullLogDirectory(IIOManager ioManager, IAssemblyInformationProvider assemblyInformationProvider)
+		public string GetFullLogDirectory(
+			IIOManager ioManager,
+			IAssemblyInformationProvider assemblyInformationProvider,
+			IPlatformIdentifier platformIdentifier)
 		{
 			if (ioManager == null)
 				throw new ArgumentNullException(nameof(ioManager));
 			if (assemblyInformationProvider == null)
 				throw new ArgumentNullException(nameof(assemblyInformationProvider));
+			if (platformIdentifier == null)
+				throw new ArgumentNullException(nameof(platformIdentifier));
+
+			var directoryToUse = platformIdentifier.IsWindows
+				? Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) // C:/ProgramData
+				: "/var/log"; // :pain:
 
 			return !String.IsNullOrEmpty(Directory)
 				? Directory
 				: ioManager.ConcatPath(
-					Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), // common app data is C:/ProgramData on windows, else /usr/share
-					assemblyInformationProvider.VersionPrefix,
-					"Logs");
+					directoryToUse,
+					assemblyInformationProvider.VersionPrefix);
 		}
 	}
 }

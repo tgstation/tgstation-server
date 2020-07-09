@@ -122,7 +122,10 @@ namespace Tgstation.Server.Host.Core
 					if (postSetupServices.FileLoggingConfiguration.Disable)
 						return;
 
-					var logPath = postSetupServices.FileLoggingConfiguration.GetFullLogDirectory(IOManager, AssemblyInformationProvider);
+					var logPath = postSetupServices.FileLoggingConfiguration.GetFullLogDirectory(
+						IOManager,
+						AssemblyInformationProvider,
+						postSetupServices.PlatformIdentifier);
 
 					var logEventLevel = ConvertSeriLogLevel(postSetupServices.FileLoggingConfiguration.LogLevel);
 
