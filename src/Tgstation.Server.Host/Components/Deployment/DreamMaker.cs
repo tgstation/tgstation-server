@@ -398,12 +398,13 @@ namespace Tgstation.Server.Host.Components.Deployment
 				if (job.DmeName == null)
 				{
 					logger.LogTrace("Searching for available .dmes...");
-					var foundPaths = await ioManager.GetFilesWithExtension(outputDirectory, DmeExtension, true, cancellationToken).ConfigureAwait(false);
+					var foundPaths = await ioManager.GetFilesWithExtension(resolvedOutputDirectory, DmeExtension, true, cancellationToken).ConfigureAwait(false);
 					var foundPath = foundPaths.FirstOrDefault();
 					if (foundPath == default)
 						throw new JobException(ErrorCode.DreamMakerNoDme);
-					var dmeWithExtension = ioManager.GetFileName(foundPath);
-					job.DmeName = dmeWithExtension.Substring(0, dmeWithExtension.Length - DmeExtension.Length - 1);
+					job.DmeName = foundPath.Substring(
+						resolvedOutputDirectory.Length + 1,
+						foundPath.Length - 1);
 				}
 				else
 				{
