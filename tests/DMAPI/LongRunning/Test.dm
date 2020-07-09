@@ -1,13 +1,13 @@
 /world
 	sleep_offline = FALSE
-    loop_checks = FALSE
+	loop_checks = FALSE
 
 /world/New()
 	log << "Initial value of sleep_offline: [sleep_offline]"
 
 	// Intentionally slow down startup for testing purposes
-    for(var/i in 1 to 10000000)
-        dab()
+	for(var/i in 1 to 10000000)
+		dab()
 	TgsNew(new /datum/tgs_event_handler/impl, TGS_SECURITY_ULTRASAFE)
 	StartAsync()
 
