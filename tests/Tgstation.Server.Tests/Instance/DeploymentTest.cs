@@ -36,7 +36,7 @@ namespace Tgstation.Server.Tests.Instance
 			{
 				StartupTimeout = 5
 			}, cancellationToken);
-			Assert.AreEqual(5, updatedDD.StartupTimeout);
+			Assert.AreEqual(5U, updatedDD.StartupTimeout);
 			deployJob = await dreamMakerClient.Compile(cancellationToken);
 			await WaitForJob(deployJob, 30, true, ErrorCode.DreamMakerNeverValidated, cancellationToken);
 
