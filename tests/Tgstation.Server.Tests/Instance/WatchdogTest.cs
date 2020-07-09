@@ -86,6 +86,10 @@ namespace Tgstation.Server.Tests.Instance
 				KillDD(false);
 			var result = await WaitForJob(await dumpTask, 5, true, cancellationToken);
 			Assert.AreEqual(ErrorCode.DreamDaemonOffline, result.ErrorCode);
+			await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+
+			var ddStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			Assert.AreEqual(WatchdogStatus.Online, ddStatus.Status.Value);
 		}
 
 		async Task TestDMApiFreeDeploy(CancellationToken cancellationToken)
