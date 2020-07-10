@@ -604,6 +604,9 @@ namespace Tgstation.Server.Host.Controllers
 			if (instance == null)
 				return Gone();
 
+			if (ValidateInstanceOnlineStatus(instance))
+				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+
 			if (cantList && !instance.InstanceUsers.Any(instanceUser => instanceUser.UserId == AuthenticationContext.User.Id &&
 				(instanceUser.ByondRights != ByondRights.None ||
 				instanceUser.ChatBotRights != ChatBotRights.None ||
