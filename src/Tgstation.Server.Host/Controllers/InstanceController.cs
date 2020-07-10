@@ -393,6 +393,9 @@ namespace Tgstation.Server.Host.Controllers
 			if (originalModel == default(Models.Instance))
 				return Gone();
 
+			if (ValidateInstanceOnlineStatus(originalModel))
+				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+
 			var userRights = (InstanceManagerRights)AuthenticationContext.GetRight(RightsType.InstanceManager);
 			bool CheckModified<T>(Expression<Func<Api.Models.Instance, T>> expression, InstanceManagerRights requiredRight)
 			{
@@ -556,6 +559,13 @@ namespace Tgstation.Server.Host.Controllers
 				.ToListAsync(cancellationToken)
 				.ConfigureAwait(false);
 
+			var needsUpdate = false;
+			foreach (var instance in instances)
+				needsUpdate |= ValidateInstanceOnlineStatus(instance);
+
+			if (needsUpdate)
+				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+
 			var apis = instances.Select(x => x.ToApi());
 			foreach(var I in moveJobs)
 				apis.Where(x => x.Id == I.Instance.Id).First().MoveJob = I.ToApi(); // if this .First() fails i will personally murder kevinz000 because I just know he is somehow responsible
@@ -650,6 +660,40 @@ namespace Tgstation.Server.Host.Controllers
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
 			return NoContent();
+		}
+
+		/// <summary>
+		/// Corrects discrepencies between the <see cref="Api.Models.Instance.Online"/> status of <see cref="IInstance"/>s in the database vs the service.
+		/// </summary>
+		/// <param name="metadata">The <see cref="Models.Instance"/> to check.</param>
+		/// <returns><see langword="true"/> if an unsaved DB update was made, <see langword="false"/> otherwise.</returns>
+		bool ValidateInstanceOnlineStatus(Models.Instance metadata)
+		{
+			bool online;
+			try
+			{
+				instanceManager.GetInstance(metadata);
+				online = true;
+			}
+			catch (InvalidOperationException ex)
+			{
+				Logger.LogDebug("Expected instance offline exception: {0}", ex);
+				online = false;
+			}
+
+			if (metadata.Online.Value == online)
+				return false;
+
+			const string OfflineWord = "offline";
+			const string OnlineWord = "online";
+
+			Logger.LogWarning(
+				"Instance {0} is says it's {1} in the database, but it is actually {2} in the service. Updating the database to reflect this...",
+				online ? OfflineWord : OnlineWord,
+				online ? OnlineWord : OfflineWord);
+
+			metadata.Online = online;
+			return true;
 		}
 	}
 }
