@@ -101,7 +101,9 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(ByondRights.InstallOfficialOrChangeActiveVersion | ByondRights.InstallCustomVersion)]
 		[ProducesResponseType(typeof(Api.Models.Byond), 200)]
 		[ProducesResponseType(typeof(Api.Models.Byond), 202)]
+#pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<IActionResult> Update([FromBody] Api.Models.Byond model, CancellationToken cancellationToken)
+#pragma warning restore CA1506
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
@@ -147,7 +149,7 @@ namespace Tgstation.Server.Host.Controllers
 				// run the install through the job manager
 				var job = new Models.Job
 				{
-					Description = $"Install BYOND version {model.Version}",
+					Description = $"Install {(model.Content == null ? String.Empty : "custom ")}BYOND version {model.Version.Major}.{model.Version.Minor}",
 					StartedBy = AuthenticationContext.User,
 					CancelRightsType = RightsType.Byond,
 					CancelRight = (ulong)ByondRights.CancelInstall,
