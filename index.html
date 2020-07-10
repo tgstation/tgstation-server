@@ -166,7 +166,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>For the console version press <code>Ctrl+C</code> or send a SIGQUIT to the ORIGINAL dotnet process</p>
 <p>For the docker version run <code>docker stop &lt;your container name&gt;</code></p>
 <h2>Integrating</h2>
-<p>tgstation-server 4 currently REQUIRES the DMAPI to be integrated into any BYOND codebase which plans on being used by it. The integration process is a fairly simple set of code changes.</p>
+<p>tgstation-server 4 provides the DMAPI which can be be integrated into any BYOND codebase for heavily enhanced functionality. The integration process is a fairly simple set of code changes.</p>
 <ol type="1">
 <li>Copy the <a href="https://github.com/tgstation/tgstation-server/releases">latest release of the DMAPI</a> anywhere in your code base. <code>tgs.dm</code> can be seperated from the <code>tgs</code> folder, but do not modify or move the contents of the <code>tgs</code> folder</li>
 <li>Modify your <code>.dme</code>(s) to include the <code>tgs.dm</code> and <code>tgs/includes.dm</code> files (ORDER OF APPEARANCE IS MANDATORY)</li>
