@@ -19,7 +19,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 				name: "RequireDMApiValidation",
 				table: "DreamMakerSettings",
 				nullable: false,
-				defaultValue: false);
+				defaultValue: true);
 
 			migrationBuilder.RenameTable(
 				name: "CompileJobs",
