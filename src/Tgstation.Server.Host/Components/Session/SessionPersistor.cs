@@ -153,9 +153,16 @@ namespace Tgstation.Server.Host.Components.Session
 				return null;
 			}
 
+			var dmb = await dmbFactory.FromCompileJob(result.CompileJob, cancellationToken).ConfigureAwait(false);
+			if (dmb == null)
+			{
+				logger.LogError("Unable to reattach! Could not load .dmb!");
+				return null;
+			}
+
 			var info = new ReattachInformation(
 				result,
-				await dmbFactory.FromCompileJob(result.CompileJob, cancellationToken).ConfigureAwait(false),
+				dmb,
 				topicTimeout.Value);
 
 			logger.LogDebug("Reattach information loaded: {0}", info);
