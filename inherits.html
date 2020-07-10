@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.3.6</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -131,7 +131,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <map name="_i_design_time_db_context_factory" id="_i_design_time_db_context_factory">
 <area shape="rect" id="node1" href="class_i_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory" alt="" coords="5,121,220,147"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_my_sql_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating MySqlDatabaseContexts. " alt="" coords="268,5,565,47"/>
-<area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_postgres_sql_design_time_db_context_factory.html" title="Tgstation.Server.Host.Database.\lDesign.PostgresSqlDesignTimeDbContext\lFactory" alt="" coords="272,70,561,126"/>
+<area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_postgres_sql_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating PostgresSqlDatabaseContexts. " alt="" coords="272,70,561,126"/>
 <area shape="rect" id="node4" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_sqlite_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating SqliteDatabaseContexts. " alt="" coords="269,149,564,191"/>
 <area shape="rect" id="node5" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_sql_server_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating SqlServerDatabaseContexts. " alt="" coords="279,214,554,270"/>
 </map>
@@ -167,53 +167,65 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </td></tr>
 <tr><td><img src="inherit_graph_8.png" border="0" alt="" usemap="#_migration"/>
 <map name="_migration" id="_migration">
-<area shape="rect" id="node1" href="class_migration.html" title="Migration" alt="" coords="5,1229,87,1256"/>
-<area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_chat_bot_reconnection_interval.html" title="Adds the Api.Models.Internal.ChatBot.ReconnectionInterval property for MSSQL. " alt="" coords="145,5,420,61"/>
-<area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_compile_job_d_m_api_version.html" title="Add fields for the Models.CompileJob.DMApiVersion property for MSSQL. " alt="" coords="135,85,431,126"/>
-<area shape="rect" id="node4" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_heartbeat.html" title="Add heartbeat support for MSSQL. " alt="" coords="167,150,398,191"/>
-<area shape="rect" id="node5" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_job_error_codes.html" title="Adds the Api.Models.Internal.Job.ErrorCode column for MSSQL. " alt="" coords="167,215,398,257"/>
-<area shape="rect" id="node6" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_minimum_security.html" title="Add the Api.Models.Internal.CompileJob.MinimumSecurityLevel and DreamMaker.ApiValidationSecurityLevel..." alt="" coords="159,281,407,322"/>
-<area shape="rect" id="node7" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_checkpoint_rebuild.html" title="Checkpoint model rebuild for MSSQL. " alt="" coords="167,346,398,387"/>
-<area shape="rect" id="node8" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_fix_cascading_delete.html" title="Fix cascading data deletes for Models.Instances on MSSQL. " alt="" coords="165,411,401,453"/>
-<area shape="rect" id="node9" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_fix_rev_info_index.html" title="Make commit shas non&#45;unique per Instance for MSSQL " alt="" coords="167,477,398,518"/>
-<area shape="rect" id="node10" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_initial_create.html" title="The initial database migration for MSSQL " alt="" coords="167,542,398,583"/>
-<area shape="rect" id="node11" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_kill_jsons_add_d_m_api_version.html" title="Drop chat reattach information and add Models.ReattachInformationBase.LaunchSecurityLevel for MSSQL..." alt="" coords="145,607,420,649"/>
-<area shape="rect" id="node12" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_limits_on_chat.html" title="Adds chat limits for MSSQL. " alt="" coords="167,673,398,714"/>
-<area shape="rect" id="node13" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_nullable_and_foreign_key_cleanup.html" title="Cleans up of nullable columns and foreign keys MSSQL " alt="" coords="154,737,411,793"/>
-<area shape="rect" id="node14" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_reattach_compile_job_required.html" title="Marks the Models.CompileJobs of Models.ReattachInformations as non&#45;nullable for MSSQL ..." alt="" coords="135,817,430,858"/>
-<area shape="rect" id="node15" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_remove_soft_columns.html" title="Removes various defunct columns for MSSQL. " alt="" coords="160,882,405,923"/>
-<area shape="rect" id="node16" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_toggle_testmerge_comments.html" title="Add the Api.Models.Internal.RepositorySettings.PostTestMergeComment column for MSSQL ..." alt="" coords="137,947,428,989"/>
-<area shape="rect" id="node17" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_tons_of_validation.html" title="Reduces column sizes and fixes some broken indexes for MSSQL. " alt="" coords="167,1013,398,1054"/>
-<area shape="rect" id="node18" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_chat_bot_reconnection_interval.html" title="Adds the Api.Models.Internal.ChatBot.ReconnectionInterval property for MySQL/MariaDB. " alt="" coords="147,1077,418,1133"/>
-<area shape="rect" id="node19" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_compile_job_d_m_api_version.html" title="Add fields for the Models.CompileJob.DMApiVersion property for MYSQL. " alt="" coords="136,1157,429,1198"/>
-<area shape="rect" id="node20" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_heartbeat.html" title="Add heartbeat support for MYSQL. " alt="" coords="167,1222,398,1263"/>
-<area shape="rect" id="node21" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_job_error_codes.html" title="Adds the Api.Models.Internal.Job.ErrorCode column for MYSQL. " alt="" coords="167,1287,398,1329"/>
-<area shape="rect" id="node22" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_minimum_security.html" title="Add the Api.Models.Internal.CompileJob.MinimumSecurityLevel and DreamMaker.ApiValidationSecurityLevel..." alt="" coords="160,1353,405,1394"/>
-<area shape="rect" id="node23" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_checkpoint_rebuild.html" title="Checkpoint model rebuild for MYSQL. " alt="" coords="167,1418,398,1459"/>
-<area shape="rect" id="node24" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_fix_cascading_delete.html" title="Fix cascading data deletes for Models.Instances on MYSQL. " alt="" coords="165,1483,400,1525"/>
-<area shape="rect" id="node25" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_fix_foreign_key.html" title="Fix the CompileJob/RevisionInformation foreign key for MySQL. " alt="" coords="167,1549,398,1590"/>
-<area shape="rect" id="node26" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_fix_rev_info_index.html" title="Make commit shas non&#45;unique per Instance for MySQL/MariaDB. " alt="" coords="167,1614,398,1655"/>
-<area shape="rect" id="node27" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_initial_create.html" title="The initial database migration for MySQL/MariaDB " alt="" coords="167,1679,398,1721"/>
-<area shape="rect" id="node28" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_kill_jsons_add_d_m_api_version.html" title="Drop chat reattach information and add Models.ReattachInformationBase.LaunchSecurityLevel for MYSQL..." alt="" coords="146,1745,419,1786"/>
-<area shape="rect" id="node29" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_limits_on_chat.html" title="Adds chat limits for MYSQL. " alt="" coords="167,1810,398,1851"/>
-<area shape="rect" id="node30" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_nullable_and_foreign_key_cleanup.html" title="Cleans up of nullable columns and foreign keys MySQL/MariaDB " alt="" coords="155,1875,410,1931"/>
-<area shape="rect" id="node31" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_reattach_compile_job_required.html" title="Marks the Models.CompileJobs of Models.ReattachInformations as non&#45;nullable for MySQL/MariaDB ..." alt="" coords="137,1954,429,1995"/>
-<area shape="rect" id="node32" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_remove_soft_columns.html" title="Removes various defunct columns for MYSQL. " alt="" coords="161,2019,404,2061"/>
-<area shape="rect" id="node33" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_toggle_testmerge_comments.html" title="Add the Api.Models.Internal.RepositorySettings.PostTestMergeComment column for MySQL/MariaDB ..." alt="" coords="139,2085,427,2126"/>
-<area shape="rect" id="node34" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_tons_of_validation.html" title="Reduces column sizes and fixes some broken indexes for MYSQL. " alt="" coords="167,2150,398,2191"/>
-<area shape="rect" id="node35" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_create.html" title="Create initial schema for PostgreSQL. " alt="" coords="167,2215,398,2257"/>
-<area shape="rect" id="node36" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_heartbeat.html" title="Add heartbeat support for SQLite. " alt="" coords="167,2281,398,2322"/>
-<area shape="rect" id="node37" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_rebuild.html" title="Rebuild of the schema for SQLite. " alt="" coords="167,2346,398,2387"/>
-<area shape="rect" id="node38" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_remove_soft_columns.html" title="Removes various defunct columns for SQLite. " alt="" coords="162,2411,403,2453"/>
+<area shape="rect" id="node1" href="class_migration.html" title="Migration" alt="" coords="5,1621,87,1648"/>
+<area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_chat_bot_reconnection_interval.html" title="Adds the Api.Models.Internal.ChatBot.ReconnectionInterval property for MSSQL. " alt="" coords="152,5,427,61"/>
+<area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_compile_job_d_m_api_version.html" title="Add fields for the Models.CompileJob.DMApiVersion property for MSSQL. " alt="" coords="141,85,437,126"/>
+<area shape="rect" id="node4" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_heartbeat.html" title="Add heartbeat support for MSSQL. " alt="" coords="174,150,405,191"/>
+<area shape="rect" id="node5" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_job_error_codes.html" title="Adds the Api.Models.Internal.Job.ErrorCode column for MSSQL. " alt="" coords="174,215,405,257"/>
+<area shape="rect" id="node6" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_minimum_security.html" title="Add the Api.Models.Internal.CompileJob.MinimumSecurityLevel and DreamMaker.ApiValidationSecurityLevel..." alt="" coords="165,281,413,322"/>
+<area shape="rect" id="node7" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_allow_null_d_m_api.html" title="Update models for making the DMAPI optional for MSSQL. " alt="" coords="174,346,405,387"/>
+<area shape="rect" id="node8" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_checkpoint_rebuild.html" title="Checkpoint model rebuild for MSSQL. " alt="" coords="174,411,405,453"/>
+<area shape="rect" id="node9" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_fix_cascading_delete.html" title="Fix cascading data deletes for Models.Instances on MSSQL. " alt="" coords="171,477,407,518"/>
+<area shape="rect" id="node10" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_fix_rev_info_index.html" title="Make commit shas non&#45;unique per Instance for MSSQL " alt="" coords="174,542,405,583"/>
+<area shape="rect" id="node11" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_initial_create.html" title="The initial database migration for MSSQL " alt="" coords="174,607,405,649"/>
+<area shape="rect" id="node12" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_kill_jsons_add_d_m_api_version.html" title="Drop chat reattach information and add Models.ReattachInformationBase.LaunchSecurityLevel for MSSQL..." alt="" coords="152,673,427,714"/>
+<area shape="rect" id="node13" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_limits_on_chat.html" title="Adds chat limits for MSSQL. " alt="" coords="174,738,405,779"/>
+<area shape="rect" id="node14" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_nullable_and_foreign_key_cleanup.html" title="Cleans up of nullable columns and foreign keys MSSQL " alt="" coords="161,803,418,859"/>
+<area shape="rect" id="node15" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_reattach_compile_job_required.html" title="Marks the Models.CompileJobs of Models.ReattachInformations as non&#45;nullable for MSSQL ..." alt="" coords="142,882,437,923"/>
+<area shape="rect" id="node16" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_remove_experimental_watchdog.html" title="Removes the WatchdogReattachInformations table, SecondaryPort column, and renames the primary port co..." alt="" coords="135,947,444,989"/>
+<area shape="rect" id="node17" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_remove_soft_columns.html" title="Removes various defunct columns for MSSQL. " alt="" coords="167,1013,412,1054"/>
+<area shape="rect" id="node18" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_toggle_testmerge_comments.html" title="Add the Api.Models.Internal.RepositorySettings.PostTestMergeComment column for MSSQL ..." alt="" coords="144,1078,435,1119"/>
+<area shape="rect" id="node19" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_tons_of_validation.html" title="Reduces column sizes and fixes some broken indexes for MSSQL. " alt="" coords="174,1143,405,1185"/>
+<area shape="rect" id="node20" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_topic_timeout.html" title="Add BYOND topic timeouts for MSSQL. " alt="" coords="174,1209,405,1250"/>
+<area shape="rect" id="node21" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_chat_bot_reconnection_interval.html" title="Adds the Api.Models.Internal.ChatBot.ReconnectionInterval property for MySQL/MariaDB. " alt="" coords="154,1273,425,1329"/>
+<area shape="rect" id="node22" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_compile_job_d_m_api_version.html" title="Add fields for the Models.CompileJob.DMApiVersion property for MYSQL. " alt="" coords="143,1353,436,1394"/>
+<area shape="rect" id="node23" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_heartbeat.html" title="Add heartbeat support for MYSQL. " alt="" coords="174,1418,405,1459"/>
+<area shape="rect" id="node24" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_job_error_codes.html" title="Adds the Api.Models.Internal.Job.ErrorCode column for MYSQL. " alt="" coords="174,1483,405,1525"/>
+<area shape="rect" id="node25" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_minimum_security.html" title="Add the Api.Models.Internal.CompileJob.MinimumSecurityLevel and DreamMaker.ApiValidationSecurityLevel..." alt="" coords="167,1549,412,1590"/>
+<area shape="rect" id="node26" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_allow_null_d_m_api.html" title="Update models for making the DMAPI optional for MYSQL. " alt="" coords="174,1614,405,1655"/>
+<area shape="rect" id="node27" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_checkpoint_rebuild.html" title="Checkpoint model rebuild for MYSQL. " alt="" coords="174,1679,405,1721"/>
+<area shape="rect" id="node28" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_fix_cascading_delete.html" title="Fix cascading data deletes for Models.Instances on MYSQL. " alt="" coords="172,1745,407,1786"/>
+<area shape="rect" id="node29" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_fix_foreign_key.html" title="Fix the CompileJob/RevisionInformation foreign key for MySQL. " alt="" coords="174,1810,405,1851"/>
+<area shape="rect" id="node30" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_fix_rev_info_index.html" title="Make commit shas non&#45;unique per Instance for MySQL/MariaDB. " alt="" coords="174,1875,405,1917"/>
+<area shape="rect" id="node31" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_initial_create.html" title="The initial database migration for MySQL/MariaDB " alt="" coords="174,1941,405,1982"/>
+<area shape="rect" id="node32" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_kill_jsons_add_d_m_api_version.html" title="Drop chat reattach information and add Models.ReattachInformationBase.LaunchSecurityLevel for MYSQL..." alt="" coords="153,2006,426,2047"/>
+<area shape="rect" id="node33" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_limits_on_chat.html" title="Adds chat limits for MYSQL. " alt="" coords="174,2071,405,2113"/>
+<area shape="rect" id="node34" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_nullable_and_foreign_key_cleanup.html" title="Cleans up of nullable columns and foreign keys MySQL/MariaDB " alt="" coords="162,2136,417,2192"/>
+<area shape="rect" id="node35" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_reattach_compile_job_required.html" title="Marks the Models.CompileJobs of Models.ReattachInformations as non&#45;nullable for MySQL/MariaDB ..." alt="" coords="143,2215,435,2257"/>
+<area shape="rect" id="node36" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_remove_experimental_watchdog.html" title="Removes the WatchdogReattachInformations table, SecondaryPort column, and renames the primary port co..." alt="" coords="136,2281,443,2322"/>
+<area shape="rect" id="node37" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_remove_soft_columns.html" title="Removes various defunct columns for MYSQL. " alt="" coords="168,2346,411,2387"/>
+<area shape="rect" id="node38" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_toggle_testmerge_comments.html" title="Add the Api.Models.Internal.RepositorySettings.PostTestMergeComment column for MySQL/MariaDB ..." alt="" coords="145,2411,433,2453"/>
+<area shape="rect" id="node39" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_tons_of_validation.html" title="Reduces column sizes and fixes some broken indexes for MYSQL. " alt="" coords="174,2477,405,2518"/>
+<area shape="rect" id="node40" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_topic_timeout.html" title="Add BYOND topic timeouts for MYSQL. " alt="" coords="174,2542,405,2583"/>
+<area shape="rect" id="node41" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_allow_null_d_m_api.html" title="Update models for making the DMAPI optional for PostgresSQL. " alt="" coords="174,2607,405,2649"/>
+<area shape="rect" id="node42" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_create.html" title="Create initial schema for PostgresSQL. " alt="" coords="174,2673,405,2714"/>
+<area shape="rect" id="node43" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_remove_experimental_watchdog.html" title="Removes the WatchdogReattachInformations table, SecondaryPort column, and renames the primary port co..." alt="" coords="136,2738,443,2779"/>
+<area shape="rect" id="node44" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_topic_timeout.html" title="Add BYOND topic timeouts for PostgresSQL. " alt="" coords="174,2803,405,2845"/>
+<area shape="rect" id="node45" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_heartbeat.html" title="Add heartbeat support for SQLite. " alt="" coords="174,2869,405,2910"/>
+<area shape="rect" id="node46" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_allow_null_d_m_api.html" title="Update models for making the DMAPI optional for SQLite. " alt="" coords="174,2934,405,2975"/>
+<area shape="rect" id="node47" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_rebuild.html" title="Rebuild of the schema for SQLite. " alt="" coords="174,2999,405,3041"/>
+<area shape="rect" id="node48" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_remove_experimental_watchdog.html" title="Removes the WatchdogReattachInformations table, SecondaryPort column, and renames the primary port co..." alt="" coords="137,3065,442,3106"/>
+<area shape="rect" id="node49" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_remove_soft_columns.html" title="Removes various defunct columns for SQLite. " alt="" coords="169,3130,410,3171"/>
+<area shape="rect" id="node50" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_topic_timeout.html" title="Add BYOND topic timeouts for SQLite. " alt="" coords="174,3195,405,3237"/>
 </map>
 </td></tr>
 <tr><td><img src="inherit_graph_9.png" border="0" alt="" usemap="#_model_snapshot"/>
 <map name="_model_snapshot" id="_model_snapshot">
 <area shape="rect" id="node1" href="class_model_snapshot.html" title="ModelSnapshot" alt="" coords="5,140,127,167"/>
-<area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_my_sql_database_context_model_snapshot.html" title="Tgstation.Server.Host.Database.\lMigrations.MySqlDatabaseContextModel\lSnapshot" alt="" coords="189,5,469,61"/>
-<area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_sqlite_database_context_model_snapshot.html" title="Tgstation.Server.Host.Database.\lMigrations.SqliteDatabaseContextModel\lSnapshot" alt="" coords="190,85,469,141"/>
-<area shape="rect" id="node4" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_sql_server_database_context_model_snapshot.html" title="Tgstation.Server.Host.Database.\lMigrations.SqlServerDatabaseContext\lModelSnapshot" alt="" coords="196,165,463,221"/>
-<area shape="rect" id="node5" href="class_tgstation_1_1_server_1_1_host_1_1_migrations_1_1_postgres_sql_database_context_model_snapshot.html" title="Tgstation.Server.Host.Migrations.\lPostgresSqlDatabaseContextModelSnapshot" alt="" coords="175,245,484,286"/>
+<area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_my_sql_database_context_model_snapshot.html" title="Tgstation.Server.Host.Database.\lMigrations.MySqlDatabaseContextModel\lSnapshot" alt="" coords="175,5,455,61"/>
+<area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_postgres_sql_database_context_model_snapshot.html" title="Tgstation.Server.Host.Database.\lMigrations.PostgresSqlDatabaseContext\lModelSnapshot" alt="" coords="175,85,455,141"/>
+<area shape="rect" id="node4" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_sqlite_database_context_model_snapshot.html" title="Tgstation.Server.Host.Database.\lMigrations.SqliteDatabaseContextModel\lSnapshot" alt="" coords="175,165,454,221"/>
+<area shape="rect" id="node5" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_sql_server_database_context_model_snapshot.html" title="Tgstation.Server.Host.Database.\lMigrations.SqlServerDatabaseContext\lModelSnapshot" alt="" coords="181,245,448,301"/>
 </map>
 </td></tr>
 <tr><td><img src="inherit_graph_10.png" border="0" alt="" usemap="#_service_base"/>
@@ -227,14 +239,28 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html" title="Represents the header that must be present for every server request " alt="" coords="5,5,180,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_12.png" border="0" alt="" usemap="#_tgstation_8_server_8_api_8_models_8_administration"/>
-<map name="_tgstation_8_server_8_api_8_models_8_administration" id="_tgstation_8_server_8_api_8_models_8_administration">
-<area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_administration.html" title="Represents administrative server information " alt="" coords="5,5,208,47"/>
+<tr><td><img src="inherit_graph_12.png" border="0" alt="" usemap="#_tgstation_8_server_8_api_8_headers_exception"/>
+<map name="_tgstation_8_server_8_api_8_headers_exception" id="_tgstation_8_server_8_api_8_headers_exception">
+<area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_api_1_1_headers_exception.html" title="Thrown when trying to generate ApiHeaders from Microsoft.AspNetCore.Http.Headers.RequestHeaders fails..." alt="" coords="137,268,345,309"/>
+<area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_client_1_1_client_exception.html" title="Exceptions thrown by IServerClients " alt="" coords="156,333,327,375"/>
+<area shape="rect" id="node16" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html" title="Operation exceptions thrown from the context of a Models.Job " alt="" coords="144,399,339,440"/>
+<area shape="rect" id="node4" href="class_tgstation_1_1_server_1_1_client_1_1_api_exception.html" title="API related Exceptions. " alt="" coords="425,235,595,276"/>
+<area shape="rect" id="node13" href="class_tgstation_1_1_server_1_1_client_1_1_request_timeout_exception.html" title="Occurs when the client provides invalid credentials " alt="" coords="417,300,603,341"/>
+<area shape="rect" id="node14" href="class_tgstation_1_1_server_1_1_client_1_1_service_unavailable_exception.html" title="Occurs when the client makes a request while the server is starting or stopping " alt="" coords="407,365,613,407"/>
+<area shape="rect" id="node15" href="class_tgstation_1_1_server_1_1_client_1_1_unrecognized_response_exception.html" title="Occurs when a response is received that did not deserialize to one of the expected Api..." alt="" coords="393,431,627,472"/>
+<area shape="rect" id="node5" href="class_tgstation_1_1_server_1_1_client_1_1_api_conflict_exception.html" title="Occurs when the server returns a bad request response if the ApiException.ErrorCode is present..." alt="" coords="704,5,875,47"/>
+<area shape="rect" id="node6" href="class_tgstation_1_1_server_1_1_client_1_1_conflict_exception.html" title="Occurs when the client performs an action that would result in data conflict " alt="" coords="704,71,875,112"/>
+<area shape="rect" id="node7" href="class_tgstation_1_1_server_1_1_client_1_1_insufficient_permissions_exception.html" title="Occurs when the client attempts to perform an action they do not have the rights for ..." alt="" coords="675,136,904,177"/>
+<area shape="rect" id="node8" href="class_tgstation_1_1_server_1_1_client_1_1_method_not_supported_exception.html" title="Occurs when the client tries to use a currently unsupported API " alt="" coords="678,201,901,243"/>
+<area shape="rect" id="node9" href="class_tgstation_1_1_server_1_1_client_1_1_rate_limit_exception.html" title="Occurs when a GitHub rate limit occurs " alt="" coords="704,267,875,308"/>
+<area shape="rect" id="node10" href="class_tgstation_1_1_server_1_1_client_1_1_server_error_exception.html" title="Occurs when an error occurs in the server " alt="" coords="704,332,875,373"/>
+<area shape="rect" id="node11" href="class_tgstation_1_1_server_1_1_client_1_1_unauthorized_exception.html" title="Occurs when the client provides invalid credentials " alt="" coords="704,397,875,439"/>
+<area shape="rect" id="node12" href="class_tgstation_1_1_server_1_1_client_1_1_version_mismatch_exception.html" title="Occurs when the API version of the client is not compatible with the server&#39;s " alt="" coords="693,463,886,504"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_13.png" border="0" alt="" usemap="#_tgstation_8_server_8_api_8_models_8_byond"/>
-<map name="_tgstation_8_server_8_api_8_models_8_byond" id="_tgstation_8_server_8_api_8_models_8_byond">
-<area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html" title="Represents a BYOND installation " alt="" coords="5,5,208,47"/>
+<tr><td><img src="inherit_graph_13.png" border="0" alt="" usemap="#_tgstation_8_server_8_api_8_models_8_administration"/>
+<map name="_tgstation_8_server_8_api_8_models_8_administration" id="_tgstation_8_server_8_api_8_models_8_administration">
+<area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_administration.html" title="Represents administrative server information " alt="" coords="5,5,208,47"/>
 </map>
 </td></tr>
 <tr><td><img src="inherit_graph_14.png" border="0" alt="" usemap="#_tgstation_8_server_8_api_8_models_8_chat_channel"/>
@@ -243,18 +269,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html" title="Tgstation.Server.Host.Models.\lChatChannel" alt="" coords="256,5,469,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_15.png" border="0" alt="" usemap="#_tgstation_8_server_8_api_8_models_8_configuration_file"/>
-<map name="_tgstation_8_server_8_api_8_models_8_configuration_file" id="_tgstation_8_server_8_api_8_models_8_configuration_file">
-<area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html" title="Represents a game configuration file. Create and delete actions uncerimonuously overwrite/delete file..." alt="" coords="5,5,208,47"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_16.png" border="0" alt="" usemap="#_tgstation_8_server_8_api_8_models_8_dream_maker"/>
+<tr><td><img src="inherit_graph_15.png" border="0" alt="" usemap="#_tgstation_8_server_8_api_8_models_8_dream_maker"/>
 <map name="_tgstation_8_server_8_api_8_models_8_dream_maker" id="_tgstation_8_server_8_api_8_models_8_dream_maker">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_dream_maker.html" title="Represents the state of the DreamMaker compiler. Create action starts a new compile. Delete action cancels the current compile " alt="" coords="5,5,208,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dream_maker_settings.html" title="Tgstation.Server.Host.Models.\lDreamMakerSettings" alt="" coords="256,5,469,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_17.png" border="0" alt="" usemap="#_tgstation_8_server_8_api_8_models_8_entity_id"/>
+<tr><td><img src="inherit_graph_16.png" border="0" alt="" usemap="#_tgstation_8_server_8_api_8_models_8_entity_id"/>
 <map name="_tgstation_8_server_8_api_8_models_8_entity_id" id="_tgstation_8_server_8_api_8_models_8_entity_id">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of Instances, CompileJobs, and Jobs. " alt="" coords="5,100,208,141"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance " alt="" coords="256,20,459,61"/>
@@ -267,42 +288,50 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <area shape="rect" id="node9" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html" title="Tgstation.Server.Host.Models.Job" alt="" coords="507,253,739,279"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_18.png" border="0" alt="" usemap="#_tgstation_8_server_8_api_8_models_8_error_code_extensions"/>
+<tr><td><img src="inherit_graph_17.png" border="0" alt="" usemap="#_tgstation_8_server_8_api_8_models_8_error_code_extensions"/>
 <map name="_tgstation_8_server_8_api_8_models_8_error_code_extensions" id="_tgstation_8_server_8_api_8_models_8_error_code_extensions">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_error_code_extensions.html" title="Extension methods for the ErrorCode . " alt="" coords="5,5,208,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_19.png" border="0" alt="" usemap="#_tgstation_8_server_8_api_8_models_8_error_message"/>
+<tr><td><img src="inherit_graph_18.png" border="0" alt="" usemap="#_tgstation_8_server_8_api_8_models_8_error_message"/>
 <map name="_tgstation_8_server_8_api_8_models_8_error_message" id="_tgstation_8_server_8_api_8_models_8_error_message">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_error_message.html" title="Represents an error message returned by the server " alt="" coords="5,5,208,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_20.png" border="0" alt="" usemap="#_tgstation_8_server_8_api_8_models_8_instance_user"/>
+<tr><td><img src="inherit_graph_19.png" border="0" alt="" usemap="#_tgstation_8_server_8_api_8_models_8_instance_user"/>
 <map name="_tgstation_8_server_8_api_8_models_8_instance_user" id="_tgstation_8_server_8_api_8_models_8_instance_user">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_user.html" title="Represents a Users permissions in an Instance " alt="" coords="5,5,208,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_user.html" title="Tgstation.Server.Host.Models.\lInstanceUser" alt="" coords="256,5,469,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_21.png" border="0" alt="" usemap="#_tgstation_8_server_8_api_8_models_8_internal_8_chat_bot"/>
+<tr><td><img src="inherit_graph_20.png" border="0" alt="" usemap="#_tgstation_8_server_8_api_8_models_8_internal_8_chat_bot"/>
 <map name="_tgstation_8_server_8_api_8_models_8_internal_8_chat_bot" id="_tgstation_8_server_8_api_8_models_8_internal_8_chat_bot">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot.html" title="Manage the server chat bots " alt="" coords="5,39,208,80"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_bot.html" title="Tgstation.Server.Api.Models.\lChatBot" alt="" coords="261,5,464,47"/>
 <area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html" title="Tgstation.Server.Host.Models.\lChatBot" alt="" coords="256,71,469,112"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_22.png" border="0" alt="" usemap="#_tgstation_8_server_8_api_8_models_8_internal_8_chat_connection_string_builder"/>
+<tr><td><img src="inherit_graph_21.png" border="0" alt="" usemap="#_tgstation_8_server_8_api_8_models_8_internal_8_chat_connection_string_builder"/>
 <map name="_tgstation_8_server_8_api_8_models_8_internal_8_chat_connection_string_builder" id="_tgstation_8_server_8_api_8_models_8_internal_8_chat_connection_string_builder">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_connection_string_builder.html" title="Helper for building ChatBot.ConnectionStrings " alt="" coords="5,39,264,80"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html" title="ChatConnectionStringBuilder for ChatProvider.Discord " alt="" coords="312,5,536,47"/>
 <area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html" title="ChatConnectionStringBuilder for ChatProvider.Irc " alt="" coords="323,71,525,112"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_23.png" border="0" alt="" usemap="#_tgstation_8_server_8_api_8_models_8_internal_8_dream_daemon_launch_parameters"/>
+<tr><td><img src="inherit_graph_22.png" border="0" alt="" usemap="#_tgstation_8_server_8_api_8_models_8_internal_8_dream_daemon_launch_parameters"/>
 <map name="_tgstation_8_server_8_api_8_models_8_internal_8_dream_daemon_launch_parameters" id="_tgstation_8_server_8_api_8_models_8_internal_8_dream_daemon_launch_parameters">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html" title="Launch settings for DreamDaemon " alt="" coords="5,39,299,80"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_settings.html" title="Configurable settings for DreamDaemon " alt="" coords="347,39,573,80"/>
 <area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_dream_daemon.html" title="Represents an instance of BYOND&#39;s DreamDaemon game server. Create action starts the server..." alt="" coords="627,5,829,47"/>
 <area shape="rect" id="node4" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dream_daemon_settings.html" title="Tgstation.Server.Host.Models.\lDreamDaemonSettings" alt="" coords="621,71,835,112"/>
+</map>
+</td></tr>
+<tr><td><img src="inherit_graph_23.png" border="0" alt="" usemap="#_tgstation_8_server_8_api_8_models_8_internal_8_raw_data"/>
+<map name="_tgstation_8_server_8_api_8_models_8_internal_8_raw_data" id="_tgstation_8_server_8_api_8_models_8_internal_8_raw_data">
+<area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_raw_data.html" title="Represents raw bytes. " alt="" coords="5,71,208,112"/>
+<area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html" title="Represents a BYOND installation. RawData.Content is used to upload custom BYOND version zip files..." alt="" coords="256,5,459,47"/>
+<area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html" title="Represents a game configuration file. Create and delete actions uncerimonuously overwrite/delete file..." alt="" coords="256,71,459,112"/>
+<area shape="rect" id="node4" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html" title="Represents a server log file. " alt="" coords="256,136,459,177"/>
 </map>
 </td></tr>
 <tr><td><img src="inherit_graph_24.png" border="0" alt="" usemap="#_tgstation_8_server_8_api_8_models_8_internal_8_repository_settings"/>
@@ -369,185 +398,167 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_api_1_1_version_extensions.html" title="Extensions for the Version . " alt="" coords="5,5,207,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_34.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_client_exception"/>
-<map name="_tgstation_8_server_8_client_8_client_exception" id="_tgstation_8_server_8_client_8_client_exception">
-<area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_client_1_1_client_exception.html" title="Exceptions thrown by IServerClients " alt="" coords="149,333,320,375"/>
-<area shape="rect" id="node15" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html" title="Operation exceptions thrown from the context of a Models.Job " alt="" coords="137,399,332,440"/>
-<area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_client_1_1_api_exception.html" title="API related Exceptions. " alt="" coords="411,235,582,276"/>
-<area shape="rect" id="node12" href="class_tgstation_1_1_server_1_1_client_1_1_request_timeout_exception.html" title="Occurs when the client provides invalid credentials " alt="" coords="403,300,590,341"/>
-<area shape="rect" id="node13" href="class_tgstation_1_1_server_1_1_client_1_1_service_unavailable_exception.html" title="Occurs when the client makes a request while the server is starting or stopping " alt="" coords="394,365,599,407"/>
-<area shape="rect" id="node14" href="class_tgstation_1_1_server_1_1_client_1_1_unrecognized_response_exception.html" title="Occurs when a response is received that did not deserialize to one of the expected Api..." alt="" coords="380,431,613,472"/>
-<area shape="rect" id="node4" href="class_tgstation_1_1_server_1_1_client_1_1_api_conflict_exception.html" title="Occurs when the server returns a bad request response if the ApiException.ErrorCode is present..." alt="" coords="691,5,861,47"/>
-<area shape="rect" id="node5" href="class_tgstation_1_1_server_1_1_client_1_1_conflict_exception.html" title="Occurs when the client performs an action that would result in data conflict " alt="" coords="691,71,861,112"/>
-<area shape="rect" id="node6" href="class_tgstation_1_1_server_1_1_client_1_1_insufficient_permissions_exception.html" title="Occurs when the client attempts to perform an action they do not have the rights for ..." alt="" coords="661,136,891,177"/>
-<area shape="rect" id="node7" href="class_tgstation_1_1_server_1_1_client_1_1_method_not_supported_exception.html" title="Occurs when the client tries to use a currently unsupported API " alt="" coords="665,201,887,243"/>
-<area shape="rect" id="node8" href="class_tgstation_1_1_server_1_1_client_1_1_rate_limit_exception.html" title="Occurs when a GitHub rate limit occurs " alt="" coords="691,267,861,308"/>
-<area shape="rect" id="node9" href="class_tgstation_1_1_server_1_1_client_1_1_server_error_exception.html" title="Occurs when an error occurs in the server " alt="" coords="691,332,861,373"/>
-<area shape="rect" id="node10" href="class_tgstation_1_1_server_1_1_client_1_1_unauthorized_exception.html" title="Occurs when the client provides invalid credentials " alt="" coords="691,397,861,439"/>
-<area shape="rect" id="node11" href="class_tgstation_1_1_server_1_1_client_1_1_version_mismatch_exception.html" title="Occurs when the API version of the client is not compatible with the server&#39;s " alt="" coords="679,463,873,504"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_35.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_components_8_i_byond_client"/>
+<tr><td><img src="inherit_graph_34.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_components_8_i_byond_client"/>
 <map name="_tgstation_8_server_8_client_8_components_8_i_byond_client" id="_tgstation_8_server_8_client_8_components_8_i_byond_client">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_byond_client.html" title="For managing the Byond installation " alt="" coords="5,5,192,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html" title="Tgstation.Server.Client.\lComponents.ByondClient" alt="" coords="240,5,424,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_36.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_components_8_i_chat_bots_client"/>
+<tr><td><img src="inherit_graph_35.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_components_8_i_chat_bots_client"/>
 <map name="_tgstation_8_server_8_client_8_components_8_i_chat_bots_client" id="_tgstation_8_server_8_client_8_components_8_i_chat_bots_client">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_chat_bots_client.html" title="For managing the chat bots " alt="" coords="5,5,212,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_chat_bots_client.html" title="Tgstation.Server.Client.\lComponents.ChatBotsClient" alt="" coords="260,5,463,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_37.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_components_8_i_configuration_client"/>
+<tr><td><img src="inherit_graph_36.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_components_8_i_configuration_client"/>
 <map name="_tgstation_8_server_8_client_8_components_8_i_configuration_client" id="_tgstation_8_server_8_client_8_components_8_i_configuration_client">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html" title="For managing ConfigurationFile files " alt="" coords="5,5,237,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html" title="Tgstation.Server.Client.\lComponents.ConfigurationClient" alt="" coords="285,5,515,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_38.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_components_8_i_dream_daemon_client"/>
+<tr><td><img src="inherit_graph_37.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_components_8_i_dream_daemon_client"/>
 <map name="_tgstation_8_server_8_client_8_components_8_i_dream_daemon_client" id="_tgstation_8_server_8_client_8_components_8_i_dream_daemon_client">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_dream_daemon_client.html" title="For managing DreamDaemon " alt="" coords="5,5,252,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_dream_daemon_client.html" title="Tgstation.Server.Client.\lComponents.DreamDaemonClient" alt="" coords="300,5,543,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_39.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_components_8_i_dream_maker_client"/>
+<tr><td><img src="inherit_graph_38.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_components_8_i_dream_maker_client"/>
 <map name="_tgstation_8_server_8_client_8_components_8_i_dream_maker_client" id="_tgstation_8_server_8_client_8_components_8_i_dream_maker_client">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_dream_maker_client.html" title="For managing the compiler " alt="" coords="5,5,236,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_dream_maker_client.html" title="Tgstation.Server.Client.\lComponents.DreamMakerClient" alt="" coords="284,5,511,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_40.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_components_8_i_instance_client"/>
+<tr><td><img src="inherit_graph_39.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_components_8_i_instance_client"/>
 <map name="_tgstation_8_server_8_client_8_components_8_i_instance_client" id="_tgstation_8_server_8_client_8_components_8_i_instance_client">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_instance_client.html" title="For managing a single Instance " alt="" coords="5,5,207,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_instance_client.html" title="Tgstation.Server.Client.\lComponents.InstanceClient" alt="" coords="255,5,453,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_41.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_components_8_i_instance_user_client"/>
+<tr><td><img src="inherit_graph_40.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_components_8_i_instance_user_client"/>
 <map name="_tgstation_8_server_8_client_8_components_8_i_instance_user_client" id="_tgstation_8_server_8_client_8_components_8_i_instance_user_client">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_instance_user_client.html" title="For managing InstanceUsers " alt="" coords="5,5,236,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_instance_user_client.html" title="Tgstation.Server.Client.\lComponents.InstanceUserClient" alt="" coords="284,5,512,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_42.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_components_8_i_jobs_client"/>
+<tr><td><img src="inherit_graph_41.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_components_8_i_jobs_client"/>
 <map name="_tgstation_8_server_8_client_8_components_8_i_jobs_client" id="_tgstation_8_server_8_client_8_components_8_i_jobs_client">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_jobs_client.html" title="Access to running jobs " alt="" coords="5,5,179,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html" title="Tgstation.Server.Client.\lComponents.JobsClient" alt="" coords="227,5,397,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_43.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_components_8_i_repository_client"/>
+<tr><td><img src="inherit_graph_42.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_components_8_i_repository_client"/>
 <map name="_tgstation_8_server_8_client_8_components_8_i_repository_client" id="_tgstation_8_server_8_client_8_components_8_i_repository_client">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_repository_client.html" title="For managing the Repository " alt="" coords="5,5,219,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_repository_client.html" title="Tgstation.Server.Client.\lComponents.RepositoryClient" alt="" coords="267,5,477,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_44.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_i_administration_client"/>
+<tr><td><img src="inherit_graph_43.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_i_administration_client"/>
 <map name="_tgstation_8_server_8_client_8_i_administration_client" id="_tgstation_8_server_8_client_8_i_administration_client">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html" title="For managing server administration " alt="" coords="5,5,176,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html" title="Tgstation.Server.Client.\lAdministrationClient" alt="" coords="224,5,395,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_45.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_i_api_client_factory"/>
+<tr><td><img src="inherit_graph_44.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_i_api_client_factory"/>
 <map name="_tgstation_8_server_8_client_8_i_api_client_factory" id="_tgstation_8_server_8_client_8_i_api_client_factory">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client_factory.html" title="For creating IApiClients " alt="" coords="5,5,176,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_client_1_1_api_client_factory.html" title="Tgstation.Server.Client.\lApiClientFactory" alt="" coords="224,5,395,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_46.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_i_instance_manager_client"/>
+<tr><td><img src="inherit_graph_45.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_i_instance_manager_client"/>
 <map name="_tgstation_8_server_8_client_8_i_instance_manager_client" id="_tgstation_8_server_8_client_8_i_instance_manager_client">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html" title="For managing Instances " alt="" coords="5,5,176,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html" title="Tgstation.Server.Client.\lInstanceManagerClient" alt="" coords="224,5,395,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_47.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_i_request_logger"/>
+<tr><td><img src="inherit_graph_46.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_i_request_logger"/>
 <map name="_tgstation_8_server_8_client_8_i_request_logger" id="_tgstation_8_server_8_client_8_i_request_logger">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_client_1_1_i_request_logger.html" title="For logging HTTP requests and responses " alt="" coords="5,5,176,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_48.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_i_server_client_factory"/>
+<tr><td><img src="inherit_graph_47.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_i_server_client_factory"/>
 <map name="_tgstation_8_server_8_client_8_i_server_client_factory" id="_tgstation_8_server_8_client_8_i_server_client_factory">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client_factory.html" title="Factory for creating IServerClients " alt="" coords="5,5,176,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_client_1_1_server_client_factory.html" title="Tgstation.Server.Client.\lServerClientFactory" alt="" coords="224,5,395,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_49.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_i_users_client"/>
+<tr><td><img src="inherit_graph_48.png" border="0" alt="" usemap="#_tgstation_8_server_8_client_8_i_users_client"/>
 <map name="_tgstation_8_server_8_client_8_i_users_client" id="_tgstation_8_server_8_client_8_i_users_client">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_client_1_1_i_users_client.html" title="For managing Users " alt="" coords="5,5,176,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_client_1_1_users_client.html" title="Tgstation.Server.Client.\lUsersClient" alt="" coords="224,5,395,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_50.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_chat_8_channel_mapping"/>
+<tr><td><img src="inherit_graph_49.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_chat_8_channel_mapping"/>
 <map name="_tgstation_8_server_8_host_8_components_8_chat_8_channel_mapping" id="_tgstation_8_server_8_host_8_components_8_chat_8_channel_mapping">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_mapping.html" title="Represents a mapping of a ChannelRepresentation.RealId " alt="" coords="5,5,256,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_51.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_chat_8_channel_representation"/>
+<tr><td><img src="inherit_graph_50.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_chat_8_channel_representation"/>
 <map name="_tgstation_8_server_8_host_8_components_8_chat_8_channel_representation" id="_tgstation_8_server_8_host_8_components_8_chat_8_channel_representation">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html" title="Represents a Providers.IProvider channel. " alt="" coords="5,5,256,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_52.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_chat_8_chat_user"/>
+<tr><td><img src="inherit_graph_51.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_chat_8_chat_user"/>
 <map name="_tgstation_8_server_8_host_8_components_8_chat_8_chat_user" id="_tgstation_8_server_8_host_8_components_8_chat_8_chat_user">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_user.html" title="Represents a tgs_chat_user datum " alt="" coords="5,5,256,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_53.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_chat_8_commands_8_i_command"/>
+<tr><td><img src="inherit_graph_52.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_chat_8_commands_8_i_command"/>
 <map name="_tgstation_8_server_8_host_8_components_8_chat_8_commands_8_i_command" id="_tgstation_8_server_8_host_8_components_8_chat_8_commands_8_i_command">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots " alt="" coords="5,169,256,211"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_byond_command.html" title="For displaying the installed Byond version " alt="" coords="319,5,570,47"/>
 <area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html" title="Represents a command made from DM code " alt="" coords="319,71,570,112"/>
 <area shape="rect" id="node4" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_kek_command.html" title="kek " alt="" coords="319,136,570,177"/>
-<area shape="rect" id="node5" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_pull_requests_command.html" title="Command for reading the active Api.Models.TestMerges " alt="" coords="304,201,585,243"/>
+<area shape="rect" id="node5" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_pull_requests_command.html" title="Command for reading the active TestMerges " alt="" coords="304,201,585,243"/>
 <area shape="rect" id="node6" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_revision_command.html" title="For displaying Api.Models.Internal.RevisionInformation " alt="" coords="319,267,571,308"/>
 <area shape="rect" id="node7" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_version_command.html" title="ICommand to return the IAssemblyInformationProvider.VersionString " alt="" coords="319,332,570,373"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_54.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_chat_8_commands_8_i_command_factory"/>
+<tr><td><img src="inherit_graph_53.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_chat_8_commands_8_i_command_factory"/>
 <map name="_tgstation_8_server_8_host_8_components_8_chat_8_commands_8_i_command_factory" id="_tgstation_8_server_8_host_8_components_8_chat_8_commands_8_i_command_factory">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command_factory.html" title="Factory for built in ICommands " alt="" coords="5,5,256,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_command_factory.html" title="Tgstation.Server.Host.Components.\lChat.Commands.CommandFactory" alt="" coords="304,5,555,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_55.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_chat_8_i_chat_manager_factory"/>
+<tr><td><img src="inherit_graph_54.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_chat_8_i_chat_manager_factory"/>
 <map name="_tgstation_8_server_8_host_8_components_8_chat_8_i_chat_manager_factory" id="_tgstation_8_server_8_host_8_components_8_chat_8_i_chat_manager_factory">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_factory.html" title="For creating IChatManagers " alt="" coords="5,5,256,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_factory.html" title="Tgstation.Server.Host.Components.\lChat.ChatManagerFactory" alt="" coords="304,5,555,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_56.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_chat_8_providers_8_i_provider_factory"/>
+<tr><td><img src="inherit_graph_55.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_chat_8_providers_8_i_provider_factory"/>
 <map name="_tgstation_8_server_8_host_8_components_8_chat_8_providers_8_i_provider_factory" id="_tgstation_8_server_8_host_8_components_8_chat_8_providers_8_i_provider_factory">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_factory.html" title="Factory for IProviders " alt="" coords="5,5,256,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider_factory.html" title="Tgstation.Server.Host.Components.\lChat.Providers.ProviderFactory" alt="" coords="304,5,555,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_57.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_chat_8_providers_8_message"/>
+<tr><td><img src="inherit_graph_56.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_chat_8_providers_8_message"/>
 <map name="_tgstation_8_server_8_host_8_components_8_chat_8_providers_8_message" id="_tgstation_8_server_8_host_8_components_8_chat_8_providers_8_message">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_message.html" title="Represents a message recieved by a IProvider " alt="" coords="5,5,256,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_58.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_deployment_8_i_dream_maker"/>
+<tr><td><img src="inherit_graph_57.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_deployment_8_i_dream_maker"/>
 <map name="_tgstation_8_server_8_host_8_components_8_deployment_8_i_dream_maker" id="_tgstation_8_server_8_host_8_components_8_deployment_8_i_dream_maker">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dream_maker.html" title="For managing the compiler " alt="" coords="5,5,256,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html" title="Tgstation.Server.Host.Components.\lDeployment.DreamMaker" alt="" coords="304,5,555,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_59.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_interop_8_chat_message"/>
+<tr><td><img src="inherit_graph_58.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_interop_8_chat_message"/>
 <map name="_tgstation_8_server_8_host_8_components_8_interop_8_chat_message" id="_tgstation_8_server_8_host_8_components_8_interop_8_chat_message">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_message.html" title="Represents a message to send to one or more Chat.ChannelRepresentations. " alt="" coords="5,5,256,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_60.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_interop_8_chat_update"/>
+<tr><td><img src="inherit_graph_59.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_interop_8_chat_update"/>
 <map name="_tgstation_8_server_8_host_8_components_8_interop_8_chat_update" id="_tgstation_8_server_8_host_8_components_8_interop_8_chat_update">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_chat_update.html" title="Represents an update of ChannelRepresentations. " alt="" coords="5,5,256,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_runtime_information.html" title="Representation of the initial data passed as part of a BridgeCommandType.Startup request. " alt="" coords="304,5,555,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_61.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_interop_8_d_m_api_constants"/>
+<tr><td><img src="inherit_graph_60.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_interop_8_d_m_api_constants"/>
 <map name="_tgstation_8_server_8_host_8_components_8_interop_8_d_m_api_constants" id="_tgstation_8_server_8_host_8_components_8_interop_8_d_m_api_constants">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_constants.html" title="Constants used for communication with the DMAPI " alt="" coords="5,5,256,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_62.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_interop_8_d_m_api_parameters"/>
+<tr><td><img src="inherit_graph_61.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_interop_8_d_m_api_parameters"/>
 <map name="_tgstation_8_server_8_host_8_components_8_interop_8_d_m_api_parameters" id="_tgstation_8_server_8_host_8_components_8_interop_8_d_m_api_parameters">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_parameters.html" title="Common base for interop parameters. " alt="" coords="5,71,256,112"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_parameters.html" title="Parameters for a bridge request. " alt="" coords="304,5,555,47"/>
@@ -557,51 +568,57 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <area shape="rect" id="node6" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_reattach_information.html" title="Database representation of Components.Session.ReattachInformation " alt="" coords="621,168,835,209"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_63.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_interop_8_d_m_api_response"/>
+<tr><td><img src="inherit_graph_62.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_interop_8_d_m_api_response"/>
 <map name="_tgstation_8_server_8_host_8_components_8_interop_8_d_m_api_response" id="_tgstation_8_server_8_host_8_components_8_interop_8_d_m_api_response">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_response.html" title="Common base for interop responses. " alt="" coords="5,39,256,80"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_response.html" title="A response to a bridge request. " alt="" coords="304,5,555,47"/>
 <area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_topic_response.html" title="A response to a topic request. " alt="" coords="304,71,555,112"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_64.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_interop_8_topic_8_chat_command"/>
+<tr><td><img src="inherit_graph_63.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_interop_8_topic_8_chat_command"/>
 <map name="_tgstation_8_server_8_host_8_components_8_interop_8_topic_8_chat_command" id="_tgstation_8_server_8_host_8_components_8_interop_8_topic_8_chat_command">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_chat_command.html" title="Represents a chat command to be handled by DD " alt="" coords="5,5,256,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_65.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_interop_8_topic_8_event_notification"/>
+<tr><td><img src="inherit_graph_64.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_interop_8_topic_8_event_notification"/>
 <map name="_tgstation_8_server_8_host_8_components_8_interop_8_topic_8_event_notification" id="_tgstation_8_server_8_host_8_components_8_interop_8_topic_8_event_notification">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_topic_1_1_event_notification.html" title="Data structure for TopicCommandType.EventNotification requests. " alt="" coords="5,5,256,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_66.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_repository_8_i_credentials_provider"/>
+<tr><td><img src="inherit_graph_65.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_repository_8_i_credentials_provider"/>
 <map name="_tgstation_8_server_8_host_8_components_8_repository_8_i_credentials_provider" id="_tgstation_8_server_8_host_8_components_8_repository_8_i_credentials_provider">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html" title="For generating CredentialsHandlers " alt="" coords="5,5,256,47"/>
 <area shape="rect" id="node2" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html" title="Factory for creating LibGit2Sharp.IRepositorys. " alt="" coords="304,5,555,47"/>
 <area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html" title="Tgstation.Server.Host.Components.\lRepository.LibGit2RepositoryFactory" alt="" coords="603,5,853,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_67.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_repository_8_i_lib_git2_commands"/>
+<tr><td><img src="inherit_graph_66.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_repository_8_i_lib_git2_commands"/>
 <map name="_tgstation_8_server_8_host_8_components_8_repository_8_i_lib_git2_commands" id="_tgstation_8_server_8_host_8_components_8_repository_8_i_lib_git2_commands">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_commands.html" title="For low level interactions with a LibGit2Sharp.IRepository. " alt="" coords="5,5,256,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_commands.html" title="Tgstation.Server.Host.Components.\lRepository.LibGit2Commands" alt="" coords="304,5,555,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_68.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_session_8_combined_topic_response"/>
+<tr><td><img src="inherit_graph_67.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_session_8_combined_topic_response"/>
 <map name="_tgstation_8_server_8_host_8_components_8_session_8_combined_topic_response" id="_tgstation_8_server_8_host_8_components_8_session_8_combined_topic_response">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_combined_topic_response.html" title="Combines a global::Byond.TopicSender.TopicResponse with a TopicResponse. " alt="" coords="5,5,256,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_69.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_session_8_i_reattach_info_handler"/>
-<map name="_tgstation_8_server_8_host_8_components_8_session_8_i_reattach_info_handler" id="_tgstation_8_server_8_host_8_components_8_session_8_i_reattach_info_handler">
-<area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_reattach_info_handler.html" title="Handles saving and loading DualReattachInformation " alt="" coords="5,5,256,47"/>
-<area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_info_handler.html" title="Tgstation.Server.Host.Components.\lSession.ReattachInfoHandler" alt="" coords="304,5,555,47"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_70.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_session_8_i_session_controller_factory"/>
+<tr><td><img src="inherit_graph_68.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_session_8_i_session_controller_factory"/>
 <map name="_tgstation_8_server_8_host_8_components_8_session_8_i_session_controller_factory" id="_tgstation_8_server_8_host_8_components_8_session_8_i_session_controller_factory">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller_factory.html" title="Factory for ISessionControllers " alt="" coords="5,5,256,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html" title="Tgstation.Server.Host.Components.\lSession.SessionControllerFactory" alt="" coords="304,5,555,47"/>
+</map>
+</td></tr>
+<tr><td><img src="inherit_graph_69.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_session_8_i_session_persistor"/>
+<map name="_tgstation_8_server_8_host_8_components_8_session_8_i_session_persistor" id="_tgstation_8_server_8_host_8_components_8_session_8_i_session_persistor">
+<area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor.html" title="Handles saving and loading ReattachInformation. " alt="" coords="5,5,256,47"/>
+<area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html" title="Tgstation.Server.Host.Components.\lSession.SessionPersistor" alt="" coords="304,5,555,47"/>
+</map>
+</td></tr>
+<tr><td><img src="inherit_graph_70.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_session_8_i_topic_client_factory"/>
+<map name="_tgstation_8_server_8_host_8_components_8_session_8_i_topic_client_factory" id="_tgstation_8_server_8_host_8_components_8_session_8_i_topic_client_factory">
+<area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_topic_client_factory.html" title="Factory for ITopicClients " alt="" coords="5,5,256,47"/>
+<area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_topic_client_factory.html" title="Tgstation.Server.Host.Components.\lSession.TopicClientFactory" alt="" coords="304,5,555,47"/>
 </map>
 </td></tr>
 <tr><td><img src="inherit_graph_71.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_session_8_launch_result"/>
@@ -619,419 +636,402 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html" title="For creating IWatchdogs " alt="" coords="5,5,256,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html" title="Tgstation.Server.Host.Components.\lWatchdog.WatchdogFactory" alt="" coords="304,5,555,47"/>
 <area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html" title="IWatchdogFactory for creating WindowsWatchdogs. " alt="" coords="603,5,853,47"/>
+<area shape="rect" id="node4" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_posix_watchdog_factory.html" title="IWatchdogFactory for creating PosixWatchdogs. " alt="" coords="901,5,1152,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_74.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_components_8_watchdog_8_monitor_state"/>
-<map name="_tgstation_8_server_8_host_8_components_8_watchdog_8_monitor_state" id="_tgstation_8_server_8_host_8_components_8_watchdog_8_monitor_state">
-<area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_monitor_state.html" title="The (absolute) state of the ExperimentalWatchdog " alt="" coords="5,5,256,47"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_75.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_configuration_8_control_panel_configuration"/>
+<tr><td><img src="inherit_graph_74.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_configuration_8_control_panel_configuration"/>
 <map name="_tgstation_8_server_8_host_8_configuration_8_control_panel_configuration" id="_tgstation_8_server_8_host_8_configuration_8_control_panel_configuration">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html" title="Configuration options for the web control panel " alt="" coords="5,5,259,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_76.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_configuration_8_database_configuration"/>
+<tr><td><img src="inherit_graph_75.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_configuration_8_database_configuration"/>
 <map name="_tgstation_8_server_8_host_8_configuration_8_database_configuration" id="_tgstation_8_server_8_host_8_configuration_8_database_configuration">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html" title="Configuration options for the Database.DatabaseContext " alt="" coords="5,5,259,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_77.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_configuration_8_file_logging_configuration"/>
+<tr><td><img src="inherit_graph_76.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_configuration_8_file_logging_configuration"/>
 <map name="_tgstation_8_server_8_host_8_configuration_8_file_logging_configuration" id="_tgstation_8_server_8_host_8_configuration_8_file_logging_configuration">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html" title="File logging configuration options " alt="" coords="5,5,259,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_78.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_configuration_8_updates_configuration"/>
+<tr><td><img src="inherit_graph_77.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_configuration_8_updates_configuration"/>
 <map name="_tgstation_8_server_8_host_8_configuration_8_updates_configuration" id="_tgstation_8_server_8_host_8_configuration_8_updates_configuration">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html" title="Configuration for the automatic update system " alt="" coords="5,5,259,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_79.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_console_8_program"/>
+<tr><td><img src="inherit_graph_78.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_console_8_program"/>
 <map name="_tgstation_8_server_8_host_8_console_8_program" id="_tgstation_8_server_8_host_8_console_8_program">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_console_1_1_program.html" title="Contains the entrypoint for the application " alt="" coords="5,5,224,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_80.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_core_8_i_async_delayer"/>
+<tr><td><img src="inherit_graph_79.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_core_8_i_async_delayer"/>
 <map name="_tgstation_8_server_8_host_8_core_8_i_async_delayer" id="_tgstation_8_server_8_host_8_core_8_i_async_delayer">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html" title="For waiting asynchronously " alt="" coords="5,5,204,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_async_delayer.html" title="Tgstation.Server.Host.Core.\lAsyncDelayer" alt="" coords="252,5,451,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_81.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_core_8_i_git_hub_client_factory"/>
+<tr><td><img src="inherit_graph_80.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_core_8_i_git_hub_client_factory"/>
 <map name="_tgstation_8_server_8_host_8_core_8_i_git_hub_client_factory" id="_tgstation_8_server_8_host_8_core_8_i_git_hub_client_factory">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html" title="For creating IGitHubClients " alt="" coords="5,5,204,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_git_hub_client_factory.html" title="Tgstation.Server.Host.Core.\lGitHubClientFactory" alt="" coords="252,5,451,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_82.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_core_8_i_restart_handler"/>
+<tr><td><img src="inherit_graph_81.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_core_8_i_restart_handler"/>
 <map name="_tgstation_8_server_8_host_8_core_8_i_restart_handler" id="_tgstation_8_server_8_host_8_core_8_i_restart_handler">
-<area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html" title="For creating and accessing authentication contexts " alt="" coords="330,1403,549,1444"/>
-<area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html" title="Tgstation.Server.Host.Security.\lAuthenticationContextFactory" alt="" coords="639,1403,857,1444"/>
-<area shape="rect" id="node3" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters. " alt="" coords="314,39,565,80"/>
-<area shape="rect" id="node4" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html" title="For managing IInstances " alt="" coords="623,123,873,164"/>
-<area shape="rect" id="node6" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_handler.html" title="Tgstation.Server.Host.Components.\lInterop.Bridge.IBridgeHandler" alt="" coords="951,5,1202,47"/>
-<area shape="rect" id="node5" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html" title="Tgstation.Server.Host.Components.\lInstanceManager" alt="" coords="951,788,1202,829"/>
-<area shape="rect" id="node7" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html" title="Tgstation.Server.Host.Components.\lSession.SessionController" alt="" coords="1280,64,1531,105"/>
-<area shape="rect" id="node8" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_registrar.html" title="Registers IBridgeHandlers. " alt="" coords="623,763,873,804"/>
-<area shape="rect" id="node9" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html" title="For downloading and installing BYOND extractions for a given system " alt="" coords="5,2845,256,2887"/>
-<area shape="rect" id="node10" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html" title="Tgstation.Server.Host.Components.\lByond.ByondInstallerBase" alt="" coords="314,2845,565,2887"/>
-<area shape="rect" id="node11" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html" title="IByondInstaller for Posix systems " alt="" coords="623,2879,873,2920"/>
-<area shape="rect" id="node12" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html" title="IByondInstaller for windows systems " alt="" coords="623,2813,873,2855"/>
-<area shape="rect" id="node13" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_channel_sink.html" title="Notifyee of when ChannelRepresentations in a IChatTrackingContext are updated. " alt="" coords="314,160,565,201"/>
-<area shape="rect" id="node14" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_tracking_context.html" title="Represents a tracking of dynamic chat json files " alt="" coords="623,188,873,229"/>
-<area shape="rect" id="node15" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html" title="Tgstation.Server.Host.Components.\lChat.ChatTrackingContext" alt="" coords="951,188,1202,229"/>
-<area shape="rect" id="node16" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html" title="Abstraction for global::System.Console " alt="" coords="349,2683,529,2724"/>
-<area shape="rect" id="node17" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html" title="Tgstation.Server.Host.IO.\lConsole" alt="" coords="658,2683,838,2724"/>
-<area shape="rect" id="node18" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext " alt="" coords="623,945,873,987"/>
-<area shape="rect" id="node19" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs. " alt="" coords="951,945,1202,987"/>
-<area shape="rect" id="node20" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html" title="A IWatchdog that manages one server. " alt="" coords="1280,932,1531,973"/>
-<area shape="rect" id="node22" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html" title="A IWatchdog that tries to manage 2 servers at once for maximum uptime. " alt="" coords="1280,997,1531,1039"/>
-<area shape="rect" id="node21" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html" title="A version of the BasicWatchdog that, instead of killing servers for updates, uses the wonders of syml..." alt="" coords="1579,932,1829,973"/>
-<area shape="rect" id="node23" href="class_i_disposable.html" title="IDisposable" alt="" coords="392,1841,487,1867"/>
-<area shape="rect" id="node24" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API " alt="" coords="663,1768,833,1809"/>
-<area shape="rect" id="node26" href="interface_tgstation_1_1_server_1_1_client_1_1_i_http_client.html" title="For sending HTTP requests " alt="" coords="663,1833,833,1875"/>
-<area shape="rect" id="node28" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server " alt="" coords="663,1899,833,1940"/>
-<area shape="rect" id="node30" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_executable_lock.html" title="Represents usage of the two primary BYOND server executables " alt="" coords="623,1964,873,2005"/>
-<area shape="rect" id="node32" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html" title="For managing the BYOND installation " alt="" coords="623,1207,873,1248"/>
-<area shape="rect" id="node34" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html" title="For managing connected chat services " alt="" coords="623,1076,873,1117"/>
-<area shape="rect" id="node36" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service " alt="" coords="623,2029,873,2071"/>
-<area shape="rect" id="node40" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html" title="Factory for IDmbProviders " alt="" coords="623,501,873,543"/>
-<area shape="rect" id="node42" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs " alt="" coords="623,2095,873,2136"/>
+<area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html" title="For creating and accessing authentication contexts " alt="" coords="330,1388,549,1429"/>
+<area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html" title="Tgstation.Server.Host.Security.\lAuthenticationContextFactory" alt="" coords="639,1388,857,1429"/>
+<area shape="rect" id="node3" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters. " alt="" coords="314,996,565,1037"/>
+<area shape="rect" id="node4" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html" title="For managing IInstances " alt="" coords="623,893,873,935"/>
+<area shape="rect" id="node6" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_handler.html" title="Tgstation.Server.Host.Components.\lInterop.Bridge.IBridgeHandler" alt="" coords="924,1076,1175,1117"/>
+<area shape="rect" id="node5" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html" title="Tgstation.Server.Host.Components.\lInstanceManager" alt="" coords="924,828,1175,869"/>
+<area shape="rect" id="node7" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html" title="Tgstation.Server.Host.Components.\lSession.SessionController" alt="" coords="1225,1017,1476,1059"/>
+<area shape="rect" id="node8" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_registrar.html" title="Registers IBridgeHandlers. " alt="" coords="623,828,873,869"/>
+<area shape="rect" id="node9" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html" title="For downloading and installing BYOND extractions for a given system " alt="" coords="5,2829,256,2871"/>
+<area shape="rect" id="node10" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_installer_base.html" title="Tgstation.Server.Host.Components.\lByond.ByondInstallerBase" alt="" coords="314,2829,565,2871"/>
+<area shape="rect" id="node11" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html" title="IByondInstaller for Posix systems " alt="" coords="623,2863,873,2904"/>
+<area shape="rect" id="node12" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html" title="IByondInstaller for windows systems " alt="" coords="623,2797,873,2839"/>
+<area shape="rect" id="node13" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_channel_sink.html" title="Notifyee of when ChannelRepresentations in a IChatTrackingContext are updated. " alt="" coords="314,1091,565,1132"/>
+<area shape="rect" id="node14" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_tracking_context.html" title="Represents a tracking of dynamic chat json files " alt="" coords="623,1323,873,1364"/>
+<area shape="rect" id="node15" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html" title="Tgstation.Server.Host.Components.\lChat.ChatTrackingContext" alt="" coords="924,1323,1175,1364"/>
+<area shape="rect" id="node16" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html" title="Abstraction for global::System.Console " alt="" coords="349,2667,529,2708"/>
+<area shape="rect" id="node17" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html" title="Tgstation.Server.Host.IO.\lConsole" alt="" coords="658,2667,838,2708"/>
+<area shape="rect" id="node18" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext " alt="" coords="623,71,873,112"/>
+<area shape="rect" id="node19" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs. " alt="" coords="924,188,1175,229"/>
+<area shape="rect" id="node20" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html" title="A IWatchdog that manages one server. " alt="" coords="1225,188,1476,229"/>
+<area shape="rect" id="node21" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html" title="A IWatchdog that, instead of killing servers for updates, uses the wonders of symlinks to swap out ch..." alt="" coords="1524,188,1775,229"/>
+<area shape="rect" id="node22" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_posix_watchdog.html" title="A variant of the WindowsWatchdog that works on POSIX systems. " alt="" coords="1823,188,2073,229"/>
+<area shape="rect" id="node23" href="class_i_disposable.html" title="IDisposable" alt="" coords="392,1825,487,1851"/>
+<area shape="rect" id="node24" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API " alt="" coords="663,1817,833,1859"/>
+<area shape="rect" id="node26" href="interface_tgstation_1_1_server_1_1_client_1_1_i_http_client.html" title="For sending HTTP requests " alt="" coords="663,1883,833,1924"/>
+<area shape="rect" id="node28" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server " alt="" coords="663,1948,833,1989"/>
+<area shape="rect" id="node30" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_executable_lock.html" title="Represents usage of the two primary BYOND server executables " alt="" coords="623,2013,873,2055"/>
+<area shape="rect" id="node32" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html" title="For managing the BYOND installation " alt="" coords="623,1127,873,1168"/>
+<area shape="rect" id="node34" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html" title="For managing connected chat services " alt="" coords="623,711,873,752"/>
+<area shape="rect" id="node36" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html" title="For interacting with a chat service " alt="" coords="623,2144,873,2185"/>
+<area shape="rect" id="node40" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html" title="Factory for IDmbProviders " alt="" coords="623,384,873,425"/>
+<area shape="rect" id="node42" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs " alt="" coords="623,2275,873,2316"/>
 <area shape="rect" id="node46" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="For interacting with the instance services " alt="" coords="623,319,873,360"/>
-<area shape="rect" id="node48" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_registration.html" title="Represents a registration of an interop session. " alt="" coords="623,2160,873,2201"/>
-<area shape="rect" id="node50" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on&#45;disk git repository " alt="" coords="623,2225,873,2267"/>
-<area shape="rect" id="node52" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html" title="Factory for creating and loading IRepositorys " alt="" coords="623,2421,873,2463"/>
-<area shape="rect" id="node54" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_i_configuration.html" title="For managing the Configuration directory " alt="" coords="623,697,873,739"/>
-<area shape="rect" id="node56" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers " alt="" coords="623,567,873,608"/>
-<area shape="rect" id="node57" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_registration.html" title="Represents the lifetime of a IRestartHandler registration " alt="" coords="649,2617,847,2659"/>
-<area shape="rect" id="node59" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html" title="Async lock context helper " alt="" coords="649,2291,847,2332"/>
-<area shape="rect" id="node60" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html" title="Class for pairing Tasks with CancellationTokenSources " alt="" coords="651,2356,845,2397"/>
-<area shape="rect" id="node61" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html" title="Tgstation.Server.Host.Jobs.\lJobManager" alt="" coords="979,1141,1174,1183"/>
-<area shape="rect" id="node62" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html" title="Represents the currently authenticated Api.Models.User " alt="" coords="639,1637,857,1679"/>
-<area shape="rect" id="node64" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html" title="Tgstation.Server.Host.Security.\lIdentityCache" alt="" coords="639,2748,857,2789"/>
-<area shape="rect" id="node65" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html" title="For keeping a specific ISystemIdentity alive for a period of time " alt="" coords="639,2487,857,2528"/>
-<area shape="rect" id="node66" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html" title="Represents a user on the current global::System.Runtime.InteropServices.OSPlatform ..." alt="" coords="639,1703,857,1744"/>
-<area shape="rect" id="node69" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html" title="Represents process lifetime " alt="" coords="639,1520,857,1561"/>
-<area shape="rect" id="node74" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_program_shutdown_token_source.html" title="Contains a CancellationToken that triggers when the operating system requests the program shuts down..." alt="" coords="637,2552,859,2593"/>
-<area shape="rect" id="node75" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html" title="Tgstation.Server.Host.System.\lWindowsNetworkPromptReaper" alt="" coords="639,1337,857,1379"/>
-<area shape="rect" id="node25" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html" title="Tgstation.Server.Client.\lApiClient" alt="" coords="991,1768,1162,1809"/>
-<area shape="rect" id="node27" href="class_tgstation_1_1_server_1_1_client_1_1_http_client.html" title="Tgstation.Server.Client.\lHttpClient" alt="" coords="991,1833,1162,1875"/>
-<area shape="rect" id="node29" href="class_tgstation_1_1_server_1_1_client_1_1_server_client.html" title="Tgstation.Server.Client.\lServerClient" alt="" coords="991,1899,1162,1940"/>
-<area shape="rect" id="node31" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_executable_lock.html" title="Tgstation.Server.Host.Components.\lByond.ByondExecutableLock" alt="" coords="951,1964,1202,2005"/>
-<area shape="rect" id="node33" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html" title="Tgstation.Server.Host.Components.\lByond.ByondManager" alt="" coords="951,1207,1202,1248"/>
-<area shape="rect" id="node35" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html" title="Tgstation.Server.Host.Components.\lChat.ChatManager" alt="" coords="951,1044,1202,1085"/>
-<area shape="rect" id="node37" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html" title="Tgstation.Server.Host.Components.\lChat.Providers.Provider" alt="" coords="951,2029,1202,2071"/>
-<area shape="rect" id="node38" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html" title="IProvider for the Discord app " alt="" coords="1280,1996,1531,2037"/>
-<area shape="rect" id="node39" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html" title="IProvider for internet relay chat " alt="" coords="1280,2061,1531,2103"/>
-<area shape="rect" id="node41" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html" title="Standard IDmbFactory " alt="" coords="951,443,1202,484"/>
-<area shape="rect" id="node43" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_provider.html" title="Tgstation.Server.Host.Components.\lDeployment.DmbProvider" alt="" coords="951,2095,1202,2136"/>
-<area shape="rect" id="node44" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_temporary_dmb_provider.html" title="Temporary IDmbProvider " alt="" coords="949,2160,1204,2201"/>
-<area shape="rect" id="node45" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_windows_swappable_dmb_provider.html" title="A windows IDmbProvider that uses symlinks. " alt="" coords="921,2225,1232,2267"/>
-<area shape="rect" id="node47" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html" title="Tgstation.Server.Host.Components.\lInstance" alt="" coords="951,319,1202,360"/>
-<area shape="rect" id="node49" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_registration.html" title="Tgstation.Server.Host.Components.\lInterop.Bridge.BridgeRegistration" alt="" coords="951,2291,1202,2332"/>
-<area shape="rect" id="node51" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html" title="Tgstation.Server.Host.Components.\lRepository.Repository" alt="" coords="951,2356,1202,2397"/>
-<area shape="rect" id="node53" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html" title="Tgstation.Server.Host.Components.\lRepository.RepositoryManager" alt="" coords="951,2421,1202,2463"/>
-<area shape="rect" id="node55" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html" title="Tgstation.Server.Host.Components.\lStaticFiles.Configuration" alt="" coords="951,697,1202,739"/>
-<area shape="rect" id="node58" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_restart_registration.html" title="Tgstation.Server.Host.Core.\lRestartRegistration" alt="" coords="977,2617,1176,2659"/>
-<area shape="rect" id="node63" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html" title="Manages Api.Models.Users for a scope " alt="" coords="967,1572,1186,1613"/>
-<area shape="rect" id="node67" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_posix_system_identity.html" title="ISystemIdentity for POSIX systems. " alt="" coords="967,1637,1186,1679"/>
-<area shape="rect" id="node68" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html" title="ISystemIdentity for windows systems " alt="" coords="967,1703,1186,1744"/>
-<area shape="rect" id="node70" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess " alt="" coords="951,853,1202,895"/>
-<area shape="rect" id="node72" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process " alt="" coords="968,1507,1185,1548"/>
-<area shape="rect" id="node71" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_dead_session_controller.html" title="Implements a fake &quot;dead&quot; ISessionController " alt="" coords="1280,853,1531,895"/>
-<area shape="rect" id="node73" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html" title="Tgstation.Server.Host.System.\lProcess" alt="" coords="1297,1507,1514,1548"/>
-<area shape="rect" id="node76" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions " alt="" coords="314,567,565,608"/>
-<area shape="rect" id="node77" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html" title="Tgstation.Server.Host.Components.\lEvents.EventConsumer" alt="" coords="623,436,873,477"/>
-<area shape="rect" id="node78" href="class_i_hosted_service.html" title="IHostedService" alt="" coords="380,835,499,862"/>
-<area shape="rect" id="node79" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html" title="Factory for creating IInstances " alt="" coords="623,632,873,673"/>
-<area shape="rect" id="node81" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs " alt="" coords="651,1141,845,1183"/>
-<area shape="rect" id="node82" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html" title="Tgstation.Server.Host.Setup.\lSetupWizard" alt="" coords="645,828,851,869"/>
-<area shape="rect" id="node80" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html" title="Tgstation.Server.Host.Components.\lInstanceFactory" alt="" coords="951,632,1202,673"/>
-<area shape="rect" id="node83" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html" title="For caching ISystemIdentitys " alt="" coords="330,2748,549,2789"/>
-<area shape="rect" id="node84" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html" title="Provides the most recently deployed CompileJob. " alt="" coords="304,316,575,357"/>
-<area shape="rect" id="node85" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_compile_job_sink.html" title="Sink for CompileJobs " alt="" coords="623,253,873,295"/>
-<area shape="rect" id="node86" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_network_prompt_reaper.html" title="On Windows, DreamDaemon will show an unskippable prompt when using /world/proc/OpenPort(). This looks out for those prompts and immediately clicks &quot;Yes&quot; if the owning process has registered for it " alt="" coords="331,1305,548,1347"/>
-<area shape="rect" id="node87" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_network_prompt_reaper.html" title="Tgstation.Server.Host.System.\lPosixNetworkPromptReaper" alt="" coords="639,1272,857,1313"/>
-<area shape="rect" id="node88" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed. " alt="" coords="314,381,565,423"/>
-<area shape="rect" id="node89" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts " alt="" coords="649,1011,847,1052"/>
+<area shape="rect" id="node48" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_registration.html" title="Represents a registration of an interop session. " alt="" coords="623,2471,873,2512"/>
+<area shape="rect" id="node50" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on&#45;disk git repository " alt="" coords="623,2536,873,2577"/>
+<area shape="rect" id="node52" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html" title="Factory for creating and loading IRepositorys " alt="" coords="623,2601,873,2643"/>
+<area shape="rect" id="node54" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_i_configuration.html" title="For managing the Configuration directory " alt="" coords="623,580,873,621"/>
+<area shape="rect" id="node56" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers " alt="" coords="623,188,873,229"/>
+<area shape="rect" id="node57" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_registration.html" title="Represents the lifetime of a IRestartHandler registration " alt="" coords="649,1621,847,1663"/>
+<area shape="rect" id="node59" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html" title="Async lock context helper " alt="" coords="649,2079,847,2120"/>
+<area shape="rect" id="node60" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html" title="Class for pairing Tasks with CancellationTokenSources " alt="" coords="651,2209,845,2251"/>
+<area shape="rect" id="node61" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html" title="Tgstation.Server.Host.Jobs.\lJobManager" alt="" coords="952,1232,1147,1273"/>
+<area shape="rect" id="node62" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html" title="Represents the currently authenticated Api.Models.User " alt="" coords="639,1687,857,1728"/>
+<area shape="rect" id="node64" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html" title="Tgstation.Server.Host.Security.\lIdentityCache" alt="" coords="639,2732,857,2773"/>
+<area shape="rect" id="node65" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html" title="For keeping a specific ISystemIdentity alive for a period of time " alt="" coords="639,2340,857,2381"/>
+<area shape="rect" id="node66" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html" title="Represents a user on the current global::System.Runtime.InteropServices.OSPlatform ..." alt="" coords="639,1752,857,1793"/>
+<area shape="rect" id="node69" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html" title="Represents process lifetime " alt="" coords="639,1453,857,1495"/>
+<area shape="rect" id="node73" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_program_shutdown_token_source.html" title="Contains a CancellationToken that triggers when the operating system requests the program shuts down..." alt="" coords="637,2405,859,2447"/>
+<area shape="rect" id="node74" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html" title="Tgstation.Server.Host.System.\lWindowsNetworkPromptReaper" alt="" coords="639,1257,857,1299"/>
+<area shape="rect" id="node25" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html" title="Tgstation.Server.Client.\lApiClient" alt="" coords="964,1817,1135,1859"/>
+<area shape="rect" id="node27" href="class_tgstation_1_1_server_1_1_client_1_1_http_client.html" title="Tgstation.Server.Client.\lHttpClient" alt="" coords="964,1883,1135,1924"/>
+<area shape="rect" id="node29" href="class_tgstation_1_1_server_1_1_client_1_1_server_client.html" title="Tgstation.Server.Client.\lServerClient" alt="" coords="964,1948,1135,1989"/>
+<area shape="rect" id="node31" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_executable_lock.html" title="Tgstation.Server.Host.Components.\lByond.ByondExecutableLock" alt="" coords="924,2013,1175,2055"/>
+<area shape="rect" id="node33" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html" title="Tgstation.Server.Host.Components.\lByond.ByondManager" alt="" coords="924,1141,1175,1183"/>
+<area shape="rect" id="node35" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html" title="Tgstation.Server.Host.Components.\lChat.ChatManager" alt="" coords="924,679,1175,720"/>
+<area shape="rect" id="node37" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html" title="Tgstation.Server.Host.Components.\lChat.Providers.Provider" alt="" coords="924,2144,1175,2185"/>
+<area shape="rect" id="node38" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html" title="IProvider for the Discord app " alt="" coords="1225,2111,1476,2152"/>
+<area shape="rect" id="node39" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html" title="IProvider for internet relay chat " alt="" coords="1225,2176,1476,2217"/>
+<area shape="rect" id="node41" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html" title="Standard IDmbFactory " alt="" coords="924,269,1175,311"/>
+<area shape="rect" id="node43" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_provider.html" title="Tgstation.Server.Host.Components.\lDeployment.DmbProvider" alt="" coords="924,2209,1175,2251"/>
+<area shape="rect" id="node44" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html" title="A IDmbProvider that uses symlinks. " alt="" coords="921,2275,1177,2316"/>
+<area shape="rect" id="node45" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_temporary_dmb_provider.html" title="Temporary IDmbProvider " alt="" coords="922,2340,1177,2381"/>
+<area shape="rect" id="node47" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html" title="Tgstation.Server.Host.Components.\lInstance" alt="" coords="924,432,1175,473"/>
+<area shape="rect" id="node49" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_registration.html" title="Tgstation.Server.Host.Components.\lInterop.Bridge.BridgeRegistration" alt="" coords="924,2471,1175,2512"/>
+<area shape="rect" id="node51" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html" title="Tgstation.Server.Host.Components.\lRepository.Repository" alt="" coords="924,2536,1175,2577"/>
+<area shape="rect" id="node53" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html" title="Tgstation.Server.Host.Components.\lRepository.RepositoryManager" alt="" coords="924,2601,1175,2643"/>
+<area shape="rect" id="node55" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html" title="Tgstation.Server.Host.Components.\lStaticFiles.Configuration" alt="" coords="924,580,1175,621"/>
+<area shape="rect" id="node58" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_restart_registration.html" title="Tgstation.Server.Host.Core.\lRestartRegistration" alt="" coords="950,1556,1149,1597"/>
+<area shape="rect" id="node63" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html" title="Manages Api.Models.Users for a scope " alt="" coords="940,1621,1159,1663"/>
+<area shape="rect" id="node67" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_posix_system_identity.html" title="ISystemIdentity for POSIX systems. " alt="" coords="940,1687,1159,1728"/>
+<area shape="rect" id="node68" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html" title="ISystemIdentity for windows systems " alt="" coords="940,1752,1159,1793"/>
+<area shape="rect" id="node70" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess " alt="" coords="924,367,1175,408"/>
+<area shape="rect" id="node71" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process " alt="" coords="941,1453,1158,1495"/>
+<area shape="rect" id="node72" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html" title="Tgstation.Server.Host.System.\lProcess" alt="" coords="1242,1453,1459,1495"/>
+<area shape="rect" id="node75" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions " alt="" coords="314,224,565,265"/>
+<area shape="rect" id="node76" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_consumer.html" title="Tgstation.Server.Host.Components.\lEvents.EventConsumer" alt="" coords="623,5,873,47"/>
+<area shape="rect" id="node77" href="class_i_hosted_service.html" title="IHostedService" alt="" coords="380,587,499,614"/>
+<area shape="rect" id="node78" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html" title="Factory for creating IInstances " alt="" coords="623,515,873,556"/>
+<area shape="rect" id="node80" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs " alt="" coords="651,959,845,1000"/>
+<area shape="rect" id="node81" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html" title="Tgstation.Server.Host.Setup.\lSetupWizard" alt="" coords="645,449,851,491"/>
+<area shape="rect" id="node79" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html" title="Tgstation.Server.Host.Components.\lInstanceFactory" alt="" coords="924,515,1175,556"/>
+<area shape="rect" id="node82" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html" title="For caching ISystemIdentitys " alt="" coords="330,2732,549,2773"/>
+<area shape="rect" id="node83" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html" title="Provides the most recently deployed CompileJob. " alt="" coords="304,319,575,360"/>
+<area shape="rect" id="node84" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_compile_job_sink.html" title="Sink for CompileJobs " alt="" coords="623,253,873,295"/>
+<area shape="rect" id="node85" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_network_prompt_reaper.html" title="On Windows, DreamDaemon will show an unskippable prompt when using /world/proc/OpenPort(). This looks out for those prompts and immediately clicks &quot;Yes&quot; if the owning process has registered for it " alt="" coords="331,1225,548,1267"/>
+<area shape="rect" id="node86" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_network_prompt_reaper.html" title="Tgstation.Server.Host.System.\lPosixNetworkPromptReaper" alt="" coords="639,1192,857,1233"/>
+<area shape="rect" id="node87" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed. " alt="" coords="314,159,565,200"/>
+<area shape="rect" id="node88" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts " alt="" coords="649,645,847,687"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_83.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_core_8_i_server_control"/>
+<tr><td><img src="inherit_graph_82.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_core_8_i_server_control"/>
 <map name="_tgstation_8_server_8_host_8_core_8_i_server_control" id="_tgstation_8_server_8_host_8_core_8_i_server_control">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server.html" title="Represents the host " alt="" coords="5,5,215,32"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_server.html" title="Tgstation.Server.Host.Server" alt="" coords="263,35,469,61"/>
 <area shape="rect" id="node3" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html" title="Represents a service that may take an updated Host assembly and run it, stopping the current assembly..." alt="" coords="11,57,209,98"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_84.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_core_8_i_server_port_provider"/>
+<tr><td><img src="inherit_graph_83.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_core_8_i_server_port_provider"/>
 <map name="_tgstation_8_server_8_host_8_core_8_i_server_port_provider" id="_tgstation_8_server_8_host_8_core_8_i_server_port_provider">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html" title="Provides access to the server&#39;s HttpApiPort. " alt="" coords="5,5,204,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_port_proivder.html" title="Tgstation.Server.Host.Core.\lServerPortProivder" alt="" coords="252,5,451,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_85.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_design_8_design_time_db_context_factory_helpers"/>
+<tr><td><img src="inherit_graph_84.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_design_8_design_time_db_context_factory_helpers"/>
 <map name="_tgstation_8_server_8_host_8_database_8_design_8_design_time_db_context_factory_helpers" id="_tgstation_8_server_8_host_8_database_8_design_8_design_time_db_context_factory_helpers">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_design_time_db_context_factory_helpers.html" title="Contains helpers for creating design time DatabaseContexts " alt="" coords="5,5,313,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_86.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_chat_bot_01_4"/>
+<tr><td><img src="inherit_graph_85.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_chat_bot_01_4"/>
 <map name="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_chat_bot_01_4" id="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_chat_bot_01_4">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title="Tgstation.Server.Host.Database.\lIDatabaseCollection\&lt; ChatBot \&gt;" alt="" coords="5,5,236,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_87.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_chat_channel_01_4"/>
+<tr><td><img src="inherit_graph_86.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_chat_channel_01_4"/>
 <map name="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_chat_channel_01_4" id="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_chat_channel_01_4">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title="Tgstation.Server.Host.Database.\lIDatabaseCollection\&lt; ChatChannel \&gt;" alt="" coords="5,5,267,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_88.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_compile_job_01_4"/>
+<tr><td><img src="inherit_graph_87.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_compile_job_01_4"/>
 <map name="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_compile_job_01_4" id="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_compile_job_01_4">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title="Tgstation.Server.Host.Database.\lIDatabaseCollection\&lt; CompileJob \&gt;" alt="" coords="5,5,256,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_89.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_dream_daemon_settings_01_4"/>
+<tr><td><img src="inherit_graph_88.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_dream_daemon_settings_01_4"/>
 <map name="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_dream_daemon_settings_01_4" id="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_dream_daemon_settings_01_4">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title="Tgstation.Server.Host.Database.\lIDatabaseCollection\&lt; DreamDaemonSettings \&gt;" alt="" coords="5,5,336,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_90.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_dream_maker_settings_01_4"/>
+<tr><td><img src="inherit_graph_89.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_dream_maker_settings_01_4"/>
 <map name="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_dream_maker_settings_01_4" id="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_dream_maker_settings_01_4">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title="Tgstation.Server.Host.Database.\lIDatabaseCollection\&lt; DreamMakerSettings \&gt;" alt="" coords="5,5,320,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_91.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_dual_reattach_information_01_4"/>
-<map name="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_dual_reattach_information_01_4" id="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_dual_reattach_information_01_4">
-<area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title="Tgstation.Server.Host.Database.\lIDatabaseCollection\&lt; DualReattachInformation \&gt;" alt="" coords="5,5,343,47"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_92.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_instance_01_4"/>
+<tr><td><img src="inherit_graph_90.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_instance_01_4"/>
 <map name="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_instance_01_4" id="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_instance_01_4">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title="Tgstation.Server.Host.Database.\lIDatabaseCollection\&lt; Instance \&gt;" alt="" coords="5,5,239,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_93.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_instance_user_01_4"/>
+<tr><td><img src="inherit_graph_91.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_instance_user_01_4"/>
 <map name="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_instance_user_01_4" id="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_instance_user_01_4">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title="Tgstation.Server.Host.Database.\lIDatabaseCollection\&lt; InstanceUser \&gt;" alt="" coords="5,5,268,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_94.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_job_01_4"/>
+<tr><td><img src="inherit_graph_92.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_job_01_4"/>
 <map name="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_job_01_4" id="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_job_01_4">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title="Tgstation.Server.Host.Database.\lIDatabaseCollection\&lt; Job \&gt;" alt="" coords="5,5,236,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_95.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_reattach_information_01_4"/>
+<tr><td><img src="inherit_graph_93.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_reattach_information_01_4"/>
 <map name="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_reattach_information_01_4" id="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_reattach_information_01_4">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title="Tgstation.Server.Host.Database.\lIDatabaseCollection\&lt; ReattachInformation \&gt;" alt="" coords="5,5,313,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_96.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_repository_settings_01_4"/>
+<tr><td><img src="inherit_graph_94.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_repository_settings_01_4"/>
 <map name="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_repository_settings_01_4" id="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_repository_settings_01_4">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title="Tgstation.Server.Host.Database.\lIDatabaseCollection\&lt; RepositorySettings \&gt;" alt="" coords="5,5,304,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_97.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_revision_information_01_4"/>
+<tr><td><img src="inherit_graph_95.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_revision_information_01_4"/>
 <map name="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_revision_information_01_4" id="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_revision_information_01_4">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title="Tgstation.Server.Host.Database.\lIDatabaseCollection\&lt; RevisionInformation \&gt;" alt="" coords="5,5,308,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_98.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_user_01_4"/>
+<tr><td><img src="inherit_graph_96.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_user_01_4"/>
 <map name="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_user_01_4" id="_tgstation_8_server_8_host_8_database_8_i_database_collection_3_01_user_01_4">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title="Tgstation.Server.Host.Database.\lIDatabaseCollection\&lt; User \&gt;" alt="" coords="5,5,236,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_99.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_connection_factory"/>
+<tr><td><img src="inherit_graph_97.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_connection_factory"/>
 <map name="_tgstation_8_server_8_host_8_database_8_i_database_connection_factory" id="_tgstation_8_server_8_host_8_database_8_i_database_connection_factory">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_connection_factory.html" title="For creating raw DbConnections. " alt="" coords="5,5,236,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_connection_factory.html" title="Tgstation.Server.Host.Database.\lDatabaseConnectionFactory" alt="" coords="284,5,515,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_100.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_context"/>
+<tr><td><img src="inherit_graph_98.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_context"/>
 <map name="_tgstation_8_server_8_host_8_database_8_i_database_context" id="_tgstation_8_server_8_host_8_database_8_i_database_context">
 <area shape="rect" id="node1" href="class_db_context.html" title="DbContext" alt="" coords="75,82,166,109"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html" title="Backend abstract implementation of IDatabaseContext " alt="" coords="284,104,515,145"/>
 <area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_my_sql_database_context.html" title="DatabaseContext for MySQL " alt="" coords="563,5,793,47"/>
 <area shape="rect" id="node4" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_postgres_sql_database_context.html" title="DatabaseContext for PostgresSQL. " alt="" coords="563,71,793,112"/>
-<area shape="rect" id="node5" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_sqlite_database_context.html" title="DatabaseContext for MySQL " alt="" coords="563,136,793,177"/>
+<area shape="rect" id="node5" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_sqlite_database_context.html" title="DatabaseContext for SQLite. " alt="" coords="563,136,793,177"/>
 <area shape="rect" id="node6" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_sql_server_database_context.html" title="DatabaseContext for Sqlserver " alt="" coords="563,201,793,243"/>
 <area shape="rect" id="node7" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database. " alt="" coords="5,133,236,175"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_101.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_context_factory"/>
+<tr><td><img src="inherit_graph_99.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_context_factory"/>
 <map name="_tgstation_8_server_8_host_8_database_8_i_database_context_factory" id="_tgstation_8_server_8_host_8_database_8_i_database_context_factory">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components " alt="" coords="5,5,236,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory.html" title="Tgstation.Server.Host.Database.\lDatabaseContextFactory" alt="" coords="284,5,515,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_102.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_seeder"/>
+<tr><td><img src="inherit_graph_100.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_database_8_i_database_seeder"/>
 <map name="_tgstation_8_server_8_host_8_database_8_i_database_seeder" id="_tgstation_8_server_8_host_8_database_8_i_database_seeder">
-<area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html" title="For initially seeding a database " alt="" coords="5,5,236,47"/>
+<area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html" title="For initially setting up a database. " alt="" coords="5,5,236,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html" title="Tgstation.Server.Host.Database.\lDatabaseSeeder" alt="" coords="284,5,515,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_103.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_extensions_8_application_builder_extensions"/>
+<tr><td><img src="inherit_graph_101.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_extensions_8_application_builder_extensions"/>
 <map name="_tgstation_8_server_8_host_8_extensions_8_application_builder_extensions" id="_tgstation_8_server_8_host_8_extensions_8_application_builder_extensions">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html" title="Extensions for IApplicationBuilder " alt="" coords="5,5,243,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_104.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_extensions_8_chat_channel_extensions"/>
+<tr><td><img src="inherit_graph_102.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_extensions_8_chat_channel_extensions"/>
 <map name="_tgstation_8_server_8_host_8_extensions_8_chat_channel_extensions" id="_tgstation_8_server_8_host_8_extensions_8_chat_channel_extensions">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_chat_channel_extensions.html" title="Extensions for the ChatChannel . " alt="" coords="5,5,243,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_105.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_extensions_8_database_context_extensions"/>
-<map name="_tgstation_8_server_8_host_8_extensions_8_database_context_extensions" id="_tgstation_8_server_8_host_8_extensions_8_database_context_extensions">
-<area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_database_context_extensions.html" title="Extensions for the IDatabaseContext . " alt="" coords="5,5,243,47"/>
+<tr><td><img src="inherit_graph_103.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_extensions_8_date_time_offset_extensions"/>
+<map name="_tgstation_8_server_8_host_8_extensions_8_date_time_offset_extensions" id="_tgstation_8_server_8_host_8_extensions_8_date_time_offset_extensions">
+<area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_date_time_offset_extensions.html" title="Extension methods for the DateTimeOffset . " alt="" coords="5,5,243,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_106.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_extensions_8_host_builder_extensions"/>
+<tr><td><img src="inherit_graph_104.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_extensions_8_host_builder_extensions"/>
 <map name="_tgstation_8_server_8_host_8_extensions_8_host_builder_extensions" id="_tgstation_8_server_8_host_8_extensions_8_host_builder_extensions">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_host_builder_extensions.html" title="Extension methods for the IHostBuilder . " alt="" coords="5,5,243,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_107.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_extensions_8_service_collection_extensions"/>
+<tr><td><img src="inherit_graph_105.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_extensions_8_service_collection_extensions"/>
 <map name="_tgstation_8_server_8_host_8_extensions_8_service_collection_extensions" id="_tgstation_8_server_8_host_8_extensions_8_service_collection_extensions">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_service_collection_extensions.html" title="Extensions for IServiceCollection " alt="" coords="5,5,243,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_108.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_extensions_8_task_extensions"/>
+<tr><td><img src="inherit_graph_106.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_extensions_8_task_extensions"/>
 <map name="_tgstation_8_server_8_host_8_extensions_8_task_extensions" id="_tgstation_8_server_8_host_8_extensions_8_task_extensions">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_task_extensions.html" title="Extensions for the Task . " alt="" coords="5,5,243,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_109.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_extensions_8_web_host_builder_extensions"/>
+<tr><td><img src="inherit_graph_107.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_extensions_8_web_host_builder_extensions"/>
 <map name="_tgstation_8_server_8_host_8_extensions_8_web_host_builder_extensions" id="_tgstation_8_server_8_host_8_extensions_8_web_host_builder_extensions">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_web_host_builder_extensions.html" title="Extension methods for the IWebHostBuilder . " alt="" coords="5,5,243,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_110.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_i_o_8_i_i_o_manager"/>
+<tr><td><img src="inherit_graph_108.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_i_o_8_i_i_o_manager"/>
 <map name="_tgstation_8_server_8_host_8_i_o_8_i_i_o_manager" id="_tgstation_8_server_8_host_8_i_o_8_i_i_o_manager">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems " alt="" coords="5,5,185,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html" title="IIOManager that resolves paths to Environment.CurrentDirectory " alt="" coords="233,5,413,47"/>
 <area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html" title="An IIOManager that resolve relative paths from another IIOManager to a subdirectory of that ..." alt="" coords="461,5,641,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_111.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_i_o_8_i_post_write_handler"/>
+<tr><td><img src="inherit_graph_109.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_i_o_8_i_post_write_handler"/>
 <map name="_tgstation_8_server_8_host_8_i_o_8_i_post_write_handler" id="_tgstation_8_server_8_host_8_i_o_8_i_post_write_handler">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html" title="Handles changing file modes/permissions after writing " alt="" coords="5,39,185,80"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_post_write_handler.html" title="IPostWriteHandler for POSIX systems " alt="" coords="236,5,416,47"/>
 <area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_post_write_handler.html" title="IPostWriteHandler for Windows systems " alt="" coords="233,71,419,112"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_112.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_i_o_8_i_symlink_factory"/>
+<tr><td><img src="inherit_graph_110.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_i_o_8_i_symlink_factory"/>
 <map name="_tgstation_8_server_8_host_8_i_o_8_i_symlink_factory" id="_tgstation_8_server_8_host_8_i_o_8_i_symlink_factory">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html" title="For creating filesystem symbolic links " alt="" coords="5,39,185,80"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_symlink_factory.html" title="ISymlinkFactory for posix systems " alt="" coords="233,5,413,47"/>
 <area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_symlink_factory.html" title="ISymlinkFactory for windows systems " alt="" coords="233,71,413,112"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_113.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_i_o_8_i_synchronous_i_o_manager"/>
+<tr><td><img src="inherit_graph_111.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_i_o_8_i_synchronous_i_o_manager"/>
 <map name="_tgstation_8_server_8_host_8_i_o_8_i_synchronous_i_o_manager" id="_tgstation_8_server_8_host_8_i_o_8_i_synchronous_i_o_manager">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html" title="For accessing the disk in a synchronous manner " alt="" coords="5,5,185,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html" title="Tgstation.Server.Host.IO.\lSynchronousIOManager" alt="" coords="233,5,413,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_114.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_i_server_factory"/>
+<tr><td><img src="inherit_graph_112.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_i_server_factory"/>
 <map name="_tgstation_8_server_8_host_8_i_server_factory" id="_tgstation_8_server_8_host_8_i_server_factory">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server_factory.html" title="For creating IServers " alt="" coords="5,5,215,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html" title="Implementation of IServerFactory. " alt="" coords="263,5,469,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_115.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_models_8_dual_reattach_information_base"/>
-<map name="_tgstation_8_server_8_host_8_models_8_dual_reattach_information_base" id="_tgstation_8_server_8_host_8_models_8_dual_reattach_information_base">
-<area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dual_reattach_information_base.html" title="Base class for DualReattachInformation " alt="" coords="5,39,219,80"/>
-<area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_dual_reattach_information.html" title="Reattach information for two ISessionController " alt="" coords="267,5,517,47"/>
-<area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dual_reattach_information.html" title="Database representation of Components.Session.DualReattachInformation " alt="" coords="285,71,499,112"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_116.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_models_8_rev_info_test_merge"/>
+<tr><td><img src="inherit_graph_113.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_models_8_rev_info_test_merge"/>
 <map name="_tgstation_8_server_8_host_8_models_8_rev_info_test_merge" id="_tgstation_8_server_8_host_8_models_8_rev_info_test_merge">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_rev_info_test_merge.html" title="Many to many relationship for Models.RevisionInformation and Models.TestMerge " alt="" coords="5,5,219,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_117.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_native_methods"/>
+<tr><td><img src="inherit_graph_114.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_native_methods"/>
 <map name="_tgstation_8_server_8_host_8_native_methods" id="_tgstation_8_server_8_host_8_native_methods">
-<area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html" title="Native Windows methods used by the code " alt="" coords="5,5,211,47"/>
+<area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html" title="Native Windows methods used by the code. " alt="" coords="5,5,211,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_118.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_program"/>
+<tr><td><img src="inherit_graph_115.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_program"/>
 <map name="_tgstation_8_server_8_host_8_program" id="_tgstation_8_server_8_host_8_program">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_program.html" title="Entrypoint for the Process " alt="" coords="5,5,224,32"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_119.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_security_8_i_claims_injector"/>
+<tr><td><img src="inherit_graph_116.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_security_8_i_claims_injector"/>
 <map name="_tgstation_8_server_8_host_8_security_8_i_claims_injector" id="_tgstation_8_server_8_host_8_security_8_i_claims_injector">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_claims_injector.html" title="For injecting global::System.Security.Claims.Claims that Controllers.TgsAuthorizeAttribute can look f..." alt="" coords="5,5,224,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_claims_injector.html" title="Tgstation.Server.Host.Security.\lClaimsInjector" alt="" coords="272,5,491,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_120.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_security_8_i_cryptography_suite"/>
+<tr><td><img src="inherit_graph_117.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_security_8_i_cryptography_suite"/>
 <map name="_tgstation_8_server_8_host_8_security_8_i_cryptography_suite" id="_tgstation_8_server_8_host_8_security_8_i_cryptography_suite">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html" title="Contains various cryptographic functions " alt="" coords="5,5,224,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html" title="Tgstation.Server.Host.Security.\lCryptographySuite" alt="" coords="272,5,491,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_121.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_security_8_i_system_identity_factory"/>
+<tr><td><img src="inherit_graph_118.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_security_8_i_system_identity_factory"/>
 <map name="_tgstation_8_server_8_host_8_security_8_i_system_identity_factory" id="_tgstation_8_server_8_host_8_security_8_i_system_identity_factory">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html" title="Factory for ISystemIdentitys " alt="" coords="5,39,224,80"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_posix_system_identity_factory.html" title="ISystemIdentityFactory for posix systems " alt="" coords="272,5,491,47"/>
 <area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity_factory.html" title="ISystemIdentityFactory for windows systems. Uses long running tasks due to potential networked domain..." alt="" coords="272,71,491,112"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_122.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_security_8_i_token_factory"/>
+<tr><td><img src="inherit_graph_119.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_security_8_i_token_factory"/>
 <map name="_tgstation_8_server_8_host_8_security_8_i_token_factory" id="_tgstation_8_server_8_host_8_security_8_i_token_factory">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html" title="For creating Tokens " alt="" coords="5,5,224,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html" title="Tgstation.Server.Host.Security.\lTokenFactory" alt="" coords="272,5,491,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_123.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_service_8_program"/>
+<tr><td><img src="inherit_graph_120.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_service_8_program"/>
 <map name="_tgstation_8_server_8_host_8_service_8_program" id="_tgstation_8_server_8_host_8_service_8_program">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html" title="Contains the entrypoint for the application " alt="" coords="5,5,220,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_124.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_setup_8_i_post_setup_services"/>
+<tr><td><img src="inherit_graph_121.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_setup_8_i_post_setup_services"/>
 <map name="_tgstation_8_server_8_host_8_setup_8_i_post_setup_services" id="_tgstation_8_server_8_host_8_setup_8_i_post_setup_services">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html" title="Set of objects needed to configure an Core.Application. " alt="" coords="5,5,212,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_post_setup_services.html" title="Tgstation.Server.Host.Setup.\lPostSetupServices" alt="" coords="260,5,467,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_125.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_setup_8_setup_application"/>
+<tr><td><img src="inherit_graph_122.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_setup_8_setup_application"/>
 <map name="_tgstation_8_server_8_host_8_setup_8_setup_application" id="_tgstation_8_server_8_host_8_setup_8_setup_application">
 <area shape="rect" id="node1" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_application.html" title="DI root for configuring a SetupWizard. " alt="" coords="5,5,212,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html" title="Sets up dependency injection. " alt="" coords="260,5,459,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_126.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_system_8_i_assembly_information_provider"/>
+<tr><td><img src="inherit_graph_123.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_system_8_i_assembly_information_provider"/>
 <map name="_tgstation_8_server_8_host_8_system_8_i_assembly_information_provider" id="_tgstation_8_server_8_host_8_system_8_i_assembly_information_provider">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location. " alt="" coords="5,5,223,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html" title="Tgstation.Server.Host.System.\lAssemblyInformationProvider" alt="" coords="271,5,488,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_127.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_system_8_i_platform_identifier"/>
+<tr><td><img src="inherit_graph_124.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_system_8_i_platform_identifier"/>
 <map name="_tgstation_8_server_8_host_8_system_8_i_platform_identifier" id="_tgstation_8_server_8_host_8_system_8_i_platform_identifier">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform " alt="" coords="5,5,223,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_platform_identifier.html" title="Tgstation.Server.Host.System.\lPlatformIdentifier" alt="" coords="271,5,488,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_128.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_system_8_i_process_executor"/>
+<tr><td><img src="inherit_graph_125.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_system_8_i_process_executor"/>
 <map name="_tgstation_8_server_8_host_8_system_8_i_process_executor" id="_tgstation_8_server_8_host_8_system_8_i_process_executor">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html" title="For launching IProcess&#39; " alt="" coords="5,5,223,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html" title="Tgstation.Server.Host.System.\lProcessExecutor" alt="" coords="271,5,488,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_129.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_system_8_i_process_features"/>
+<tr><td><img src="inherit_graph_126.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_system_8_i_process_features"/>
 <map name="_tgstation_8_server_8_host_8_system_8_i_process_features" id="_tgstation_8_server_8_host_8_system_8_i_process_features">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html" title="Abstraction for suspending and resuming processes. " alt="" coords="5,39,223,80"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html" title="Tgstation.Server.Host.System.\lPosixProcessFeatures" alt="" coords="271,5,488,47"/>
 <area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html" title="Tgstation.Server.Host.System.\lWindowsProcessFeatures" alt="" coords="271,71,488,112"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_130.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_watchdog_8_i_watchdog"/>
+<tr><td><img src="inherit_graph_127.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_watchdog_8_i_watchdog"/>
 <map name="_tgstation_8_server_8_host_8_watchdog_8_i_watchdog" id="_tgstation_8_server_8_host_8_watchdog_8_i_watchdog">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog.html" title="The watchdog for a Host " alt="" coords="5,5,236,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog.html" title="Tgstation.Server.Host.Watchdog.\lWatchdog" alt="" coords="284,5,515,47"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_131.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_watchdog_8_i_watchdog_factory"/>
+<tr><td><img src="inherit_graph_128.png" border="0" alt="" usemap="#_tgstation_8_server_8_host_8_watchdog_8_i_watchdog_factory"/>
 <map name="_tgstation_8_server_8_host_8_watchdog_8_i_watchdog_factory" id="_tgstation_8_server_8_host_8_watchdog_8_i_watchdog_factory">
 <area shape="rect" id="node1" href="interface_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_i_watchdog_factory.html" title="Factory for creating IWatchdogs " alt="" coords="5,5,236,47"/>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_watchdog_1_1_watchdog_factory.html" title="Tgstation.Server.Host.Watchdog.\lWatchdogFactory" alt="" coords="284,5,515,47"/>

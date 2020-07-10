@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.MonitorRestart" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.MonitorRestart">
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_async_delayer.html#a28ea9fb35caed002bf15a67b03d5e0c7" title="Create a Task that completes after a given timeSpan &#160;&#160;" alt="" coords="337,5,535,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a01e4f4e2d775bd2bf0910a1f5c2f24ef" title="Asyncronously locks a semaphore &#160;" alt="" coords="332,71,540,112"/>
+</map>

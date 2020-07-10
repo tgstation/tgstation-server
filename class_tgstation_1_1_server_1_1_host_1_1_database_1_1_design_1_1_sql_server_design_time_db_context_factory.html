@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.3.6</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -128,7 +128,7 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>IDesignTimeDbContextFactory&lt;TContext&gt; for creating <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_sql_server_database_context.html" title="DatabaseContext for Sqlserver ">SqlServerDatabaseContext</a>s. </p>
 
-<p>Definition at line <a class="el" href="_sql_server_design_time_db_context_factory_8cs_source.html#l00015">15</a> of file <a class="el" href="_sql_server_design_time_db_context_factory_8cs_source.html">SqlServerDesignTimeDbContextFactory.cs</a>.</p>
+<p>Definition at line <a class="el" href="_sql_server_design_time_db_context_factory_8cs_source.html#l00009">9</a> of file <a class="el" href="_sql_server_design_time_db_context_factory_8cs_source.html">SqlServerDesignTimeDbContextFactory.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="aff56794443746e5d8d0c08389d7cd8a5"></a>
 <div class="memitem">
@@ -145,23 +145,6 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p></p>
-
-<p>Definition at line <a class="el" href="_sql_server_design_time_db_context_factory_8cs_source.html#l00018">18</a> of file <a class="el" href="_sql_server_design_time_db_context_factory_8cs_source.html">SqlServerDesignTimeDbContextFactory.cs</a>.</p>
-
-<p>References <a class="el" href="_design_time_db_context_factory_helpers_8cs_source.html#l00017">Tgstation.Server.Host.Database.Design.DesignTimeDbContextFactoryHelpers.GetDatabaseConfiguration()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        {</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            <span class="keyword">using</span> var loggerFactory = <span class="keyword">new</span> LoggerFactory();</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">new</span> SqlServerDatabaseContext(</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                <span class="keyword">new</span> DbContextOptions&lt;SqlServerDatabaseContext&gt;(),</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                DesignTimeDbContextFactoryHelpers.GetDatabaseConfiguration(</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                    <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>.SqlServer,</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                    <span class="stringliteral">&quot;Data Source=fake;Initial Catalog=TGS_Design;Integrated Security=True;Application Name=tgstation-server&quot;</span>),</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                <span class="keyword">new</span> DatabaseSeeder(</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html">CryptographySuite</a>(</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                <span class="keyword">new</span> PasswordHasher&lt;User&gt;()),</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_platform_identifier.html">PlatformIdentifier</a>()),</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                loggerFactory.CreateLogger&lt;SqlServerDatabaseContext&gt;());</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_platform_identifier_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_platform_identifier.html">Tgstation.Server.Host.System.PlatformIdentifier</a></div><div class="ttdef"><b>Definition:</b> <a href="_platform_identifier_8cs_source.html#l00006">PlatformIdentifier.cs:6</a></div></div>
-<div class="ttc" id="namespace_tgstation_1_1_server_1_1_host_1_1_configuration_html_acda8f6ee23a9ee8ac298f7b4a7d5617c"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">Tgstation.Server.Host.Configuration.DatabaseType</a></div><div class="ttdeci">DatabaseType</div><div class="ttdoc">Type of database to user </div><div class="ttdef"><b>Definition:</b> <a href="_database_type_8cs_source.html#l00006">DatabaseType.cs:6</a></div></div>
-<div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html">Tgstation.Server.Host.Security.CryptographySuite</a></div><div class="ttdef"><b>Definition:</b> <a href="_cryptography_suite_8cs_source.html#l00010">CryptographySuite.cs:10</a></div></div>
-</div><!-- fragment -->
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_sql_server_design_time_db_context_factory_aff56794443746e5d8d0c08389d7cd8a5_cgraph.png" border="0" usemap="#class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_sql_server_design_time_db_context_factory_aff56794443746e5d8d0c08389d7cd8a5_cgraph" alt=""/></div>
-<map name="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_sql_server_design_time_db_context_factory_aff56794443746e5d8d0c08389d7cd8a5_cgraph" id="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_sql_server_design_time_db_context_factory_aff56794443746e5d8d0c08389d7cd8a5_cgraph">
-<area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_design_time_db_context_factory_helpers.html#a184ab9cd41e86e8ce83b3cdd8371b251" title="Get the IOptions&lt;TOptions&gt; for the DatabaseConfiguration " alt="" coords="328,5,640,61"/>
-</map>
-</div>
-</p>
 
 </div>
 </div>

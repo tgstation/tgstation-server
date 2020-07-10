@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.3.6</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -139,13 +139,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_task_extensions.html#a81dec7122d90677b97a3b1f2c84440cf">Tgstation.Server.Host.Extensions.TaskExtensions</a>
 </li>
 <li>InitControllers()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a8d07b1dec35b65401a0f31488ed7d6ba">Tgstation.Server.Host.Components.Watchdog.BasicWatchdog</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html#aca11de6335f98af3c29f4eb33ddbaa90">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a52c97555cc3ca1a72131d18e6c540437">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a33718a8a97983fa9fb12c0d27bec8732">Tgstation.Server.Host.Components.Watchdog.BasicWatchdog</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_posix_watchdog.html#a848a86aa5ceb25bdab6d4957494ef166">Tgstation.Server.Host.Components.Watchdog.PosixWatchdog</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a4b0a1532e11c7f7a5695123bac28c0ab">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>
 </li>
 <li>Initialize()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a6b7f32a32a19751f1ce41d4bf8853f6c">Tgstation.Server.Host.Database.DatabaseContext</a>
-, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a199f87338e2136375610f5dac32b268b">Tgstation.Server.Host.Database.IDatabaseContext</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a453f07e4addb58e08b4ce0ddfb84e357">Tgstation.Server.Host.Database.DatabaseSeeder</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html#a62bc67dd82ccf210c92c01966640cb64">Tgstation.Server.Host.Database.IDatabaseSeeder</a>
+</li>
+<li>InitialLink()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_posix_watchdog.html#a4f3509ee8b0e7e47f95c9fba8cce33e3">Tgstation.Server.Host.Components.Watchdog.PosixWatchdog</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a95894cd21ba5de89171ff97a53b7130c">Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog</a>
 </li>
 <li>InjectClaimsIntoContext()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_claims_injector.html#a68b33948ac77f08ab2dc17209ce78314">Tgstation.Server.Host.Security.ClaimsInjector</a>
@@ -162,14 +166,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_byond_client.html#a1538f8488e7866c4986afe7d3b7ef1a0">Tgstation.Server.Client.Components.IByondClient</a>
 </li>
 <li>InstallVersion()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a1040d60e5aa5723bfb450c69f5ee02f3">Tgstation.Server.Host.Components.Byond.ByondManager</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a4bddb77bd7ead9f87e24380a35b4e7e0">Tgstation.Server.Host.Components.Byond.ByondManager</a>
 </li>
 <li>Instance()
 : <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#aae94010ef435d895bb9ba3f364f025bb">Tgstation.Server.Client.InstanceManagerClient</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a2c18ce561bf0c223b821e38b63fea5ec">Tgstation.Server.Host.Components.Instance</a>
 </li>
 <li>InstanceAdminUser()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a501712a48c2962b239aa5fb270c76f82">Tgstation.Server.Host.Controllers.InstanceController</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a5af7adb80dadd03c8e37f196357aa861">Tgstation.Server.Host.Controllers.InstanceController</a>
 </li>
 <li>InstanceClient()
 : <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_instance_client.html#af44767648e0b31f744ea09f0864c70ca">Tgstation.Server.Client.Components.InstanceClient</a>
@@ -178,10 +182,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#addd1307d3fea6368330400f6927ee701">Tgstation.Server.Host.Controllers.InstanceController</a>
 </li>
 <li>InstanceFactory()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a589fcf563d721704843856a9b5f7b0cb">Tgstation.Server.Host.Components.InstanceFactory</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a1beb564d0e8bdeabc017626fea26ea01">Tgstation.Server.Host.Components.InstanceFactory</a>
 </li>
 <li>InstanceManager()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a4ce33ffacb174f0ac669e29058854318">Tgstation.Server.Host.Components.InstanceManager</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ad40daadd8d45a1124a36aa8a918539a5">Tgstation.Server.Host.Components.InstanceManager</a>
 </li>
 <li>InstanceManagerClient()
 : <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a2d6043c1548bc86551fe56f12a78d4cb">Tgstation.Server.Client.InstanceManagerClient</a>
@@ -189,10 +193,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>InstanceRenamed()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a83fd03b9f768637cd654e3aca814d1ee">Tgstation.Server.Host.Components.Instance</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html#a69fed1472e47f53392237645d5d65d7a">Tgstation.Server.Host.Components.IRenameNotifyee</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_dead_session_controller.html#ac24b03a6bcc2ac5944617cb47100a7c2">Tgstation.Server.Host.Components.Session.DeadSessionController</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a903d2a63951a7425699c6936160826d7">Tgstation.Server.Host.Components.Session.SessionController</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#aea63863a921d33b97558500dab1b74e3">Tgstation.Server.Host.Components.Watchdog.BasicWatchdog</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html#a11d48df0e7e2b1dc77de655842f02702">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a3ca371ec92c273cd6b3ab2f6931f8a65">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>
 </li>
 <li>InstanceUser()

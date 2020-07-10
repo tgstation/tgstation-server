@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.3.6</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -109,12 +109,11 @@ Inheritance diagram for Tgstation.Server.Host.System.IProcessBase:</div>
 <div class="dyncontent">
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base__inherit__graph.png" border="0" usemap="#_tgstation_8_server_8_host_8_system_8_i_process_base_inherit__map" alt="Inheritance graph"/></div>
 <map name="_tgstation_8_server_8_host_8_system_8_i_process_base_inherit__map" id="_tgstation_8_server_8_host_8_system_8_i_process_base_inherit__map">
-<area shape="rect" id="node3" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess " alt="" coords="413,71,664,112"/>
-<area shape="rect" id="node6" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process " alt="" coords="430,136,647,177"/>
-<area shape="rect" id="node2" href="class_i_disposable.html" title="IDisposable" alt="" coords="5,111,100,138"/>
-<area shape="rect" id="node4" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_dead_session_controller.html" title="Implements a fake &quot;dead&quot; ISessionController " alt="" coords="712,5,963,47"/>
-<area shape="rect" id="node5" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html" title="Tgstation.Server.Host.Components.\lSession.SessionController" alt="" coords="712,71,963,112"/>
-<area shape="rect" id="node7" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html" title="Tgstation.Server.Host.System.\lProcess" alt="" coords="729,136,946,177"/>
+<area shape="rect" id="node3" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess " alt="" coords="413,5,664,47"/>
+<area shape="rect" id="node5" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process " alt="" coords="430,71,647,112"/>
+<area shape="rect" id="node2" href="class_i_disposable.html" title="IDisposable" alt="" coords="5,46,100,73"/>
+<area shape="rect" id="node4" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html" title="Tgstation.Server.Host.Components.\lSession.SessionController" alt="" coords="712,5,963,47"/>
+<area shape="rect" id="node6" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html" title="Tgstation.Server.Host.System.\lProcess" alt="" coords="729,71,946,112"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -137,6 +136,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a676e4a90946a0ccfbd06bfd231215a87"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#a676e4a90946a0ccfbd06bfd231215a87">Resume</a> ()</td></tr>
 <tr class="memdesc:a676e4a90946a0ccfbd06bfd231215a87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resumes the process.  <a href="#a676e4a90946a0ccfbd06bfd231215a87">More...</a><br /></td></tr>
 <tr class="separator:a676e4a90946a0ccfbd06bfd231215a87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf8d9dfdf49269e33dd78e634b741620"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#acf8d9dfdf49269e33dd78e634b741620">CreateDump</a> (string outputFile, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:acf8d9dfdf49269e33dd78e634b741620"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a dump file of the process.  <a href="#acf8d9dfdf49269e33dd78e634b741620">More...</a><br /></td></tr>
+<tr class="separator:acf8d9dfdf49269e33dd78e634b741620"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
@@ -147,8 +149,46 @@ Properties</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents process lifetime </p>
 
-<p>Definition at line <a class="el" href="_i_process_base_8cs_source.html#l00009">9</a> of file <a class="el" href="_i_process_base_8cs_source.html">IProcessBase.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_process_base_8cs_source.html#l00010">10</a> of file <a class="el" href="_i_process_base_8cs_source.html">IProcessBase.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="acf8d9dfdf49269e33dd78e634b741620"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task Tgstation.Server.Host.System.IProcessBase.CreateDump </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>outputFile</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create a dump file of the process. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">outputFile</td><td>The full path to the output file.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a27cbf6cebc4f18d796bc0e0a77c5d755">Tgstation.Server.Host.Components.Session.SessionController</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#add49679c161683221749ee9962b98f49">Tgstation.Server.Host.System.Process</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a676e4a90946a0ccfbd06bfd231215a87"></a>
 <div class="memitem">
 <div class="memproto">
@@ -164,7 +204,7 @@ Properties</h2></td></tr>
 
 <p>Resumes the process. </p>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#aca14b07bc405fa3d1c61a9007762876d">Tgstation.Server.Host.Components.Session.SessionController</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#ac71f30aab7fc20ad92dc9b1ce8971b55">Tgstation.Server.Host.System.Process</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_dead_session_controller.html#a318c78939985f267c3c34620ab3037a8">Tgstation.Server.Host.Components.Session.DeadSessionController</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#aca14b07bc405fa3d1c61a9007762876d">Tgstation.Server.Host.Components.Session.SessionController</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#ac71f30aab7fc20ad92dc9b1ce8971b55">Tgstation.Server.Host.System.Process</a>.</p>
 
 </div>
 </div>
@@ -183,21 +223,7 @@ Properties</h2></td></tr>
 
 <p>Set's the owned global::System.Diagnostics.Process.PriorityClass to global::System.Diagnostics.ProcessPriorityClass.AboveNormal </p>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a682e5041a73a975a85fa38ea6511d2a6">Tgstation.Server.Host.Components.Session.SessionController</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a60950c5460a2ac65c8040adbe67f711b">Tgstation.Server.Host.System.Process</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_dead_session_controller.html#a918a11df951c6087ab2cb1bc8d2af18a">Tgstation.Server.Host.Components.Session.DeadSessionController</a>.</p>
-
-<p>Referenced by <a class="el" href="_experimental_watchdog_8cs_source.html#l00098">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog.HandleMonitorWakeup()</a>, <a class="el" href="_basic_watchdog_8cs_source.html#l00207">Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.InitControllers()</a>, and <a class="el" href="_experimental_watchdog_8cs_source.html#l00440">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog.InitControllers()</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base_a4c32c6fcf031cd1c996b505e6c58e510_icgraph.png" border="0" usemap="#interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base_a4c32c6fcf031cd1c996b505e6c58e510_icgraph" alt=""/></div>
-<map name="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base_a4c32c6fcf031cd1c996b505e6c58e510_icgraph" id="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base_a4c32c6fcf031cd1c996b505e6c58e510_icgraph">
-<area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html#a5a565163e10719633133b8d2898da47f" title="Handles the actions to take when the monitor has to &quot;wake up&quot; &#160;" alt="" coords="293,5,575,61"/>
-<area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a8d07b1dec35b65401a0f31488ed7d6ba" title="Starts all ISessionControllers. &#160;" alt="" coords="296,85,572,126"/>
-<area shape="rect" id="node4" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html#aca11de6335f98af3c29f4eb33ddbaa90" title="Starts all ISessionControllers. &#160;" alt="" coords="271,150,597,191"/>
-</map>
-</div>
-</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a682e5041a73a975a85fa38ea6511d2a6">Tgstation.Server.Host.Components.Session.SessionController</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a60950c5460a2ac65c8040adbe67f711b">Tgstation.Server.Host.System.Process</a>.</p>
 
 </div>
 </div>
@@ -216,7 +242,7 @@ Here is the caller graph for this function:</div>
 
 <p>Suspends the process. </p>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a0dad64e931bd586e45de09d28027cf50">Tgstation.Server.Host.Components.Session.SessionController</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a639ecf20dfbbd73e72f4b181d0b89243">Tgstation.Server.Host.System.Process</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_dead_session_controller.html#a1894e9180c32a45ad39d1a616a14d975">Tgstation.Server.Host.Components.Session.DeadSessionController</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a0dad64e931bd586e45de09d28027cf50">Tgstation.Server.Host.Components.Session.SessionController</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a639ecf20dfbbd73e72f4b181d0b89243">Tgstation.Server.Host.System.Process</a>.</p>
 
 </div>
 </div>
@@ -241,9 +267,9 @@ Here is the caller graph for this function:</div>
 
 <p>The Task&lt;TResult&gt; resulting in the exit code of the process </p>
 
-<p>Definition at line <a class="el" href="_i_process_base_8cs_source.html#l00014">14</a> of file <a class="el" href="_i_process_base_8cs_source.html">IProcessBase.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_process_base_8cs_source.html#l00015">15</a> of file <a class="el" href="_i_process_base_8cs_source.html">IProcessBase.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_experimental_watchdog_8cs_source.html#l00406">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog.GetMonitoredServerTasks()</a>, <a class="el" href="_windows_byond_installer_8cs_source.html#l00087">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.InstallByond()</a>, <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00188">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.RegisterProcess()</a>, and <a class="el" href="_session_controller_8cs_source.html#l00214">Tgstation.Server.Host.Components.Session.SessionController.SessionController()</a>.</p>
+<p>Referenced by <a class="el" href="_windows_byond_installer_8cs_source.html#l00087">Tgstation.Server.Host.Components.Byond.WindowsByondInstaller.InstallByond()</a>, <a class="el" href="_windows_network_prompt_reaper_8cs_source.html#l00188">Tgstation.Server.Host.System.WindowsNetworkPromptReaper.RegisterProcess()</a>, and <a class="el" href="_session_controller_8cs_source.html#l00208">Tgstation.Server.Host.Components.Session.SessionController.SessionController()</a>.</p>
 
 </div>
 </div>

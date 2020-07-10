@@ -1,4 +1,3 @@
 <map id="Tgstation.Server.Host.Components.Deployment.DmbFactory.FromCompileJob" name="Tgstation.Server.Host.Components.Deployment.DmbFactory.FromCompileJob">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html#a5a565163e10719633133b8d2898da47f" title="Handles the actions to take when the monitor has to &quot;wake up&quot; &#160;" alt="" coords="340,5,623,61"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a60aa38bc3e5b6b41cd5961f2e0ef3584" title="Prepare the server to launch a new instance with the WatchdogBase.ActiveLaunchParameters and a given ..." alt="" coords="342,85,621,141"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#abb0bc53000b1d8c7555e765c9c30ce5d" title="Prepare the server to launch a new instance with the WatchdogBase.ActiveLaunchParameters and a given ..." alt="" coords="340,5,619,61"/>
 </map>

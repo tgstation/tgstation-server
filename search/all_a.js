@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['job',['Job',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html',1,'Tgstation::Server::Api::Models::Internal']]],
   ['job',['Job',['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html',1,'Tgstation::Server::Host::Models']]],
+  ['job',['Job',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html',1,'Tgstation::Server::Api::Models::Internal']]],
   ['job',['Job',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_compile_job.html#afe93454d04d57732c948c207cc6d21cb',1,'Tgstation.Server.Api.Models.CompileJob.Job()'],['../class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a0676e94669f8de80f67aa20c72db5b7c',1,'Tgstation.Server.Host.Models.CompileJob.Job()']]],
   ['job',['Job',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html',1,'Tgstation::Server::Api::Models']]],
   ['job_2ecs',['Job.cs',['../_tgstation_8_server_8_api_2_models_2_internal_2_job_8cs.html',1,'']]],
@@ -27,6 +27,7 @@ var searchData=
   ['jobsclient',['JobsClient',['../class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a9ffef36f7b69e7c76e31af3958797846',1,'Tgstation::Server::Client::Components::JobsClient']]],
   ['jobsclient_2ecs',['JobsClient.cs',['../_jobs_client_8cs.html',1,'']]],
   ['jobscollection',['jobsCollection',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a6d6f982a1c3a6966ac31b5ac2d86f3e2',1,'Tgstation::Server::Host::Database::DatabaseContext']]],
+  ['jobstopped',['JobStopped',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a0bab1b90f15ed627993e94f156641b13',1,'Tgstation::Server::Api::Models']]],
   ['jsonconverter',['JsonConverter',['../class_json_converter.html',1,'']]],
   ['jwtauthenticationscheme',['JwtAuthenticationScheme',['../class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a3d49a18342b81d0427f09e51c29544c2',1,'Tgstation::Server::Api::ApiHeaders']]]
 ];

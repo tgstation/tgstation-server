@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.3.6</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -107,6 +107,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Collaboration diagram for Tgstation.Server.Api.Models.Limits:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_limits__coll__graph.png" border="0" usemap="#_tgstation_8_server_8_api_8_models_8_limits_coll__map" alt="Collaboration graph"/></div>
+<map name="_tgstation_8_server_8_api_8_models_8_limits_coll__map" id="_tgstation_8_server_8_api_8_models_8_limits_coll__map">
+</map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
@@ -117,12 +119,31 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:aefd2529f2213c4bfdc9ba41812ef108b"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_limits.html#aefd2529f2213c4bfdc9ba41812ef108b">MaximumIndexableStringLength</a> = 100</td></tr>
 <tr class="memdesc:aefd2529f2213c4bfdc9ba41812ef108b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Length limit for <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot.html#a5fe1533e33e54183640013c08aebdf2f" title="The name of the connection ">Internal.ChatBot.Name</a>s.  <a href="#aefd2529f2213c4bfdc9ba41812ef108b">More...</a><br /></td></tr>
 <tr class="separator:aefd2529f2213c4bfdc9ba41812ef108b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0c12b57e368c7866383bda0935f7238"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_limits.html#af0c12b57e368c7866383bda0935f7238">MaximumCommitShaLength</a> = 40</td></tr>
+<tr class="memdesc:af0c12b57e368c7866383bda0935f7238"><td class="mdescLeft">&#160;</td><td class="mdescRight">Length limit for git commit SHAs.  <a href="#af0c12b57e368c7866383bda0935f7238">More...</a><br /></td></tr>
+<tr class="separator:af0c12b57e368c7866383bda0935f7238"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Sanity limits to prevent users from overloading </p>
 
 <p>Definition at line <a class="el" href="_limits_8cs_source.html#l00006">6</a> of file <a class="el" href="_limits_8cs_source.html">Limits.cs</a>.</p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="af0c12b57e368c7866383bda0935f7238"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int Tgstation.Server.Api.Models.Limits.MaximumCommitShaLength = 40</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Length limit for git commit SHAs. </p>
+
+<p>Definition at line <a class="el" href="_limits_8cs_source.html#l00021">21</a> of file <a class="el" href="_limits_8cs_source.html">Limits.cs</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="aefd2529f2213c4bfdc9ba41812ef108b"></a>
 <div class="memitem">
 <div class="memproto">
@@ -153,7 +174,7 @@ Public Attributes</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_limits_8cs_source.html#l00011">11</a> of file <a class="el" href="_limits_8cs_source.html">Limits.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_application_8cs_source.html#l00323">Tgstation.Server.Host.Core.Application.Configure()</a>.</p>
+<p>Referenced by <a class="el" href="_application_8cs_source.html#l00336">Tgstation.Server.Host.Core.Application.Configure()</a>.</p>
 
 </div>
 </div>

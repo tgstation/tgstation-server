@@ -1,5 +1,4 @@
 <map id="Tgstation.Server.Host.Components.Session.ReattachInformation.SetRuntimeInformation" name="Tgstation.Server.Host.Components.Session.ReattachInformation.SetRuntimeInformation">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a43661606c528da37b2aea840fe5766ef" title="Create a ISessionController from an existing DreamDaemon instance &#160;" alt="" coords="336,39,628,80"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a8d07b1dec35b65401a0f31488ed7d6ba" title="Starts all ISessionControllers. &#160;" alt="" coords="701,5,977,47"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html#aca11de6335f98af3c29f4eb33ddbaa90" title="Starts all ISessionControllers. &#160;" alt="" coords="676,71,1003,112"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a43661606c528da37b2aea840fe5766ef" title="Create a ISessionController from an existing DreamDaemon instance &#160;" alt="" coords="336,13,628,54"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a33718a8a97983fa9fb12c0d27bec8732" title="Starts all ISessionControllers. &#160;" alt="" coords="676,13,952,54"/>
 </map>

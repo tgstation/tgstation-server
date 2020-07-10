@@ -1,5 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html" title="For creating filesystem symbolic links " alt="" coords="5,39,185,80"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_symlink_factory.html" title="ISymlinkFactory for posix systems " alt="" coords="233,5,413,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_symlink_factory.html" title="ISymlinkFactory for windows systems " alt="" coords="233,71,413,112"/>
+<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_server_factory.html" title="For creating IServers " alt="" coords="5,5,215,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_server_factory.html" title="Implementation of IServerFactory. " alt="" coords="263,5,469,47"/>
 </map>

@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.3.6</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -145,7 +145,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>GetActiveController()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a81f31795e687423e39ed6a9e6dd82454">Tgstation.Server.Host.Components.Watchdog.BasicWatchdog</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html#a4ee975227e7f5550cc584af7e36dfcfd">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a634f53946305b875c65c04dfd1719830">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>
 </li>
 <li>GetAdminUser()
@@ -165,6 +164,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_dream_maker_client.html#aac86150cb373a42b2e6b373a464977ec">Tgstation.Server.Client.Components.DreamMakerClient</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_dream_maker_client.html#a7b5cc5d3b3d5860cec8c9e0b84e5ec83">Tgstation.Server.Client.Components.IDreamMakerClient</a>
 </li>
+<li>GetConfigureAction&lt; TDatabaseContext &gt;()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#aad405596b71424eee16791f412dbd42e">Tgstation.Server.Host.Database.DatabaseContext</a>
+</li>
 <li>GetCurrent()
 : <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a6052301d3f6ed6eb477f74a081e2187e">Tgstation.Server.Host.Security.ISystemIdentityFactory</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_posix_system_identity_factory.html#af2bc1f5b4e9cd8531f44111b8eae71fa">Tgstation.Server.Host.Security.PosixSystemIdentityFactory</a>
@@ -173,9 +175,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>GetCurrentProcess()
 : <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a81eeee7944e490c141d2e7b66f651369">Tgstation.Server.Host.System.IProcessExecutor</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#ac04581cbc596b3a53ef3e17752ca3cfb">Tgstation.Server.Host.System.ProcessExecutor</a>
-</li>
-<li>GetDatabaseConfiguration()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_design_time_db_context_factory_helpers.html#a184ab9cd41e86e8ce83b3cdd8371b251">Tgstation.Server.Host.Database.Design.DesignTimeDbContextFactoryHelpers</a>
 </li>
 <li>GetDirectories()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#acae0255ab165ae1421ece5b1d5fbdf29">Tgstation.Server.Host.IO.DefaultIOManager</a>
@@ -222,6 +221,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a6a40b596effc389caef80b800b74359c">Tgstation.Server.Host.IO.DefaultIOManager</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad4ce6628b1a44e825ae36b75e6b176c2">Tgstation.Server.Host.IO.IIOManager</a>
 </li>
+<li>GetFullLogDirectory()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#a6e9e186a1456017f692358f96bdab2c3">Tgstation.Server.Host.Configuration.FileLoggingConfiguration</a>
+</li>
 <li>GetGitHubClient()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a35af4d06cfa01eea597d3e29e74b0e21">Tgstation.Server.Host.Controllers.AdministrationController</a>
 </li>
@@ -260,16 +262,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_dream_maker_client.html#af654e884ec3b3eded2a180961c7ccfc5">Tgstation.Server.Client.Components.DreamMakerClient</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_dream_maker_client.html#a6dc9b4005f4070fe3c0dc3b5264ded10">Tgstation.Server.Client.Components.IDreamMakerClient</a>
 </li>
+<li>GetLastModified()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a6b4ed943b61e68cc1f38dbb2dd3abc78">Tgstation.Server.Host.IO.DefaultIOManager</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a291d4f10bc7972fbb518125e1331f634">Tgstation.Server.Host.IO.IIOManager</a>
+</li>
 <li>GetLaunchResult()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a6d7f769a67f1b180454d647f0e716fa0">Tgstation.Server.Host.Components.Session.SessionController</a>
 </li>
+<li>GetLog()
+: <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#a4729c542c5e10fc5b7aa0ff8335a455e">Tgstation.Server.Client.AdministrationClient</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#a99c93db202361b69893b54d95aef275d">Tgstation.Server.Client.IAdministrationClient</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a447802145e173d3d60ad702a857d41ff">Tgstation.Server.Host.Controllers.AdministrationController</a>
+</li>
 <li>GetLogger()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a9f539001c8a2bbac8addd3505f61a31c">Tgstation.Server.Host.Extensions.ApplicationBuilderExtensions</a>
-</li>
-<li>GetMonitoredServerTasks()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#ac2d128922ec6b147ed01a238c735473d">Tgstation.Server.Host.Components.Watchdog.BasicWatchdog</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html#aa8d6acb24b604d3f4d4db130f161b8d1">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a5cad425337f2ba3da302a2feee9f7616">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>
 </li>
 <li>GetProcess()
 : <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a5618ee521ada90bb15bf3315440898f3">Tgstation.Server.Host.System.IProcessExecutor</a>
@@ -312,6 +318,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>GitHubClientFactory()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_git_hub_client_factory.html#a72336fa397ae9b38f421d27063479af9">Tgstation.Server.Host.Core.GitHubClientFactory</a>
+</li>
+<li>Gone()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">Tgstation.Server.Host.Controllers.ApiController</a>
+</li>
+<li>GrantPermissions()
+: <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#ac07cba61d66cd0a7ceeb846be2e76885">Tgstation.Server.Client.IInstanceManagerClient</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#ad3adb6fbb920b5ab031e54adadbbd869">Tgstation.Server.Client.InstanceManagerClient</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a360b9539cb9eef92ba62ee6d78e7b161">Tgstation.Server.Host.Controllers.InstanceController</a>
 </li>
 </ul>
 </div><!-- contents -->

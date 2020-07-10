@@ -86,7 +86,6 @@ var searchData=
   ['ircconnectionstringbuilder_2ecs',['IrcConnectionStringBuilder.cs',['../_irc_connection_string_builder_8cs.html',1,'']]],
   ['ircpasswordtype_2ecs',['IrcPasswordType.cs',['../_irc_password_type_8cs.html',1,'']]],
   ['ircprovider_2ecs',['IrcProvider.cs',['../_irc_provider_8cs.html',1,'']]],
-  ['ireattachinfohandler_2ecs',['IReattachInfoHandler.cs',['../_i_reattach_info_handler_8cs.html',1,'']]],
   ['irenamenotifyee_2ecs',['IRenameNotifyee.cs',['../_i_rename_notifyee_8cs.html',1,'']]],
   ['irepository_2ecs',['IRepository.cs',['../_i_repository_8cs.html',1,'']]],
   ['irepositoryclient_2ecs',['IRepositoryClient.cs',['../_i_repository_client_8cs.html',1,'']]],
@@ -102,14 +101,16 @@ var searchData=
   ['iserverportprovider_2ecs',['IServerPortProvider.cs',['../_i_server_port_provider_8cs.html',1,'']]],
   ['isessioncontroller_2ecs',['ISessionController.cs',['../_i_session_controller_8cs.html',1,'']]],
   ['isessioncontrollerfactory_2ecs',['ISessionControllerFactory.cs',['../_i_session_controller_factory_8cs.html',1,'']]],
+  ['isessionpersistor_2ecs',['ISessionPersistor.cs',['../_i_session_persistor_8cs.html',1,'']]],
   ['isymlinkfactory_2ecs',['ISymlinkFactory.cs',['../_i_symlink_factory_8cs.html',1,'']]],
   ['isynchronousiomanager_2ecs',['ISynchronousIOManager.cs',['../_i_synchronous_i_o_manager_8cs.html',1,'']]],
   ['isystemidentity_2ecs',['ISystemIdentity.cs',['../_i_system_identity_8cs.html',1,'']]],
   ['isystemidentityfactory_2ecs',['ISystemIdentityFactory.cs',['../_i_system_identity_factory_8cs.html',1,'']]],
   ['itokenfactory_2ecs',['ITokenFactory.cs',['../_i_token_factory_8cs.html',1,'']]],
+  ['itopicclientfactory_2ecs',['ITopicClientFactory.cs',['../_i_topic_client_factory_8cs.html',1,'']]],
   ['iusersclient_2ecs',['IUsersClient.cs',['../_i_users_client_8cs.html',1,'']]],
-  ['iwatchdog_2ecs',['IWatchdog.cs',['../_components_2_watchdog_2_i_watchdog_8cs.html',1,'']]],
   ['iwatchdog_2ecs',['IWatchdog.cs',['../_watchdog_2_i_watchdog_8cs.html',1,'']]],
-  ['iwatchdogfactory_2ecs',['IWatchdogFactory.cs',['../_watchdog_2_i_watchdog_factory_8cs.html',1,'']]],
-  ['iwatchdogfactory_2ecs',['IWatchdogFactory.cs',['../_components_2_watchdog_2_i_watchdog_factory_8cs.html',1,'']]]
+  ['iwatchdog_2ecs',['IWatchdog.cs',['../_components_2_watchdog_2_i_watchdog_8cs.html',1,'']]],
+  ['iwatchdogfactory_2ecs',['IWatchdogFactory.cs',['../_components_2_watchdog_2_i_watchdog_factory_8cs.html',1,'']]],
+  ['iwatchdogfactory_2ecs',['IWatchdogFactory.cs',['../_watchdog_2_i_watchdog_factory_8cs.html',1,'']]]
 ];

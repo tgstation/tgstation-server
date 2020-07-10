@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.3.6</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -137,6 +137,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a695a17f5dc134c529d21146c1273c58b"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#a695a17f5dc134c529d21146c1273c58b">Restart</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a695a17f5dc134c529d21146c1273c58b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restarts the TGS server   <a href="#a695a17f5dc134c529d21146c1273c58b">More...</a><br /></td></tr>
 <tr class="separator:a695a17f5dc134c529d21146c1273c58b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae9ea74b1fd163a771a6a563fb02ccaa"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyList&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">LogFile</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#aae9ea74b1fd163a771a6a563fb02ccaa">ListLogs</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:aae9ea74b1fd163a771a6a563fb02ccaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lists the log files available for download.   <a href="#aae9ea74b1fd163a771a6a563fb02ccaa">More...</a><br /></td></tr>
+<tr class="separator:aae9ea74b1fd163a771a6a563fb02ccaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4729c542c5e10fc5b7aa0ff8335a455e"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">LogFile</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#a4729c542c5e10fc5b7aa0ff8335a455e">GetLog</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">LogFile</a> logFile, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a4729c542c5e10fc5b7aa0ff8335a455e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Download a given <em>logFile</em> .   <a href="#a4729c542c5e10fc5b7aa0ff8335a455e">More...</a><br /></td></tr>
+<tr class="separator:a4729c542c5e10fc5b7aa0ff8335a455e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -146,7 +152,7 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="_administration_client_8cs_source.html#l00010">10</a> of file <a class="el" href="_administration_client_8cs_source.html">AdministrationClient.cs</a>.</p>
+<p>Definition at line <a class="el" href="_administration_client_8cs_source.html#l00011">11</a> of file <a class="el" href="_administration_client_8cs_source.html">AdministrationClient.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="aa5d48433766cd2f29ee60007767f5387"></a>
 <div class="memitem">
@@ -170,14 +176,74 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_administration_client_8cs_source.html#l00021">21</a> of file <a class="el" href="_administration_client_8cs_source.html">AdministrationClient.cs</a>.</p>
+<p>Definition at line <a class="el" href="_administration_client_8cs_source.html#l00022">22</a> of file <a class="el" href="_administration_client_8cs_source.html">AdministrationClient.cs</a>.</p>
 
-<p>References <a class="el" href="_routes_8cs_source.html#l00019">Tgstation.Server.Api.Routes.Administration</a>.</p>
-<div class="fragment"><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        {</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            this.<a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#aa8fcfafea45fc308cd03fc312b49bbc9">apiClient</a> = <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#aa8fcfafea45fc308cd03fc312b49bbc9">apiClient</a>;</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_client_1_1_administration_client_html_aa8fcfafea45fc308cd03fc312b49bbc9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#aa8fcfafea45fc308cd03fc312b49bbc9">Tgstation.Server.Client.AdministrationClient.apiClient</a></div><div class="ttdeci">readonly IApiClient apiClient</div><div class="ttdoc">The apiClient for the AdministrationClient </div><div class="ttdef"><b>Definition:</b> <a href="_administration_client_8cs_source.html#l00015">AdministrationClient.cs:15</a></div></div>
+<p>References <a class="el" href="_routes_8cs_source.html#l00019">Tgstation.Server.Api.Routes.Administration</a>, <a class="el" href="_routes_8cs_source.html#l00024">Tgstation.Server.Api.Routes.Logs</a>, and <a class="el" href="_routes_8cs_source.html#l00116">Tgstation.Server.Api.Routes.SanitizeGetPath()</a>.</p>
+<div class="fragment"><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        {</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            this.<a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#aa8fcfafea45fc308cd03fc312b49bbc9">apiClient</a> = <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#aa8fcfafea45fc308cd03fc312b49bbc9">apiClient</a>;</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_client_1_1_administration_client_html_aa8fcfafea45fc308cd03fc312b49bbc9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#aa8fcfafea45fc308cd03fc312b49bbc9">Tgstation.Server.Client.AdministrationClient.apiClient</a></div><div class="ttdeci">readonly IApiClient apiClient</div><div class="ttdoc">The apiClient for the AdministrationClient </div><div class="ttdef"><b>Definition:</b> <a href="_administration_client_8cs_source.html#l00016">AdministrationClient.cs:16</a></div></div>
 </div><!-- fragment -->
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_client_1_1_administration_client_aa5d48433766cd2f29ee60007767f5387_cgraph.png" border="0" usemap="#class_tgstation_1_1_server_1_1_client_1_1_administration_client_aa5d48433766cd2f29ee60007767f5387_cgraph" alt=""/></div>
+<map name="class_tgstation_1_1_server_1_1_client_1_1_administration_client_aa5d48433766cd2f29ee60007767f5387_cgraph" id="class_tgstation_1_1_server_1_1_client_1_1_administration_client_aa5d48433766cd2f29ee60007767f5387_cgraph">
+<area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a427423a8a36ba74df914acb74ffb0483" title="Sanitize a Models.Internal.RawData path for use in a GET Uri. " alt="" coords="301,13,503,54"/>
+</map>
+</div>
+</p>
+
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a4729c542c5e10fc5b7aa0ff8335a455e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">LogFile</a>&gt; Tgstation.Server.Client.AdministrationClient.GetLog </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">LogFile</a>&#160;</td>
+          <td class="paramname"><em>logFile</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Download a given <em>logFile</em> .  </p>
+
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#a99c93db202361b69893b54d95aef275d">Tgstation.Server.Client.IAdministrationClient</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aae9ea74b1fd163a771a6a563fb02ccaa"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task&lt;IReadOnlyList&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">LogFile</a>&gt; &gt; Tgstation.Server.Client.AdministrationClient.ListLogs </td>
+          <td>(</td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Lists the log files available for download.  </p>
+
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#a87d1decb897faad52ff2fee928672473">Tgstation.Server.Client.IAdministrationClient</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a90fccaf2e24a3793a1c3892365415d63"></a>
 <div class="memitem">
 <div class="memproto">
@@ -269,7 +335,7 @@ Private Attributes</h2></td></tr>
 
 <p>The <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#aa8fcfafea45fc308cd03fc312b49bbc9" title="The apiClient for the AdministrationClient ">apiClient</a> for the <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html">AdministrationClient</a> </p>
 
-<p>Definition at line <a class="el" href="_administration_client_8cs_source.html#l00015">15</a> of file <a class="el" href="_administration_client_8cs_source.html">AdministrationClient.cs</a>.</p>
+<p>Definition at line <a class="el" href="_administration_client_8cs_source.html#l00016">16</a> of file <a class="el" href="_administration_client_8cs_source.html">AdministrationClient.cs</a>.</p>
 
 </div>
 </div>

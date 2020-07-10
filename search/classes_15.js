@@ -9,7 +9,6 @@ var searchData=
   ['windowsnetworkpromptreaper',['WindowsNetworkPromptReaper',['../class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html',1,'Tgstation::Server::Host::System']]],
   ['windowspostwritehandler',['WindowsPostWriteHandler',['../class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_post_write_handler.html',1,'Tgstation::Server::Host::IO']]],
   ['windowsprocessfeatures',['WindowsProcessFeatures',['../class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html',1,'Tgstation::Server::Host::System']]],
-  ['windowsswappabledmbprovider',['WindowsSwappableDmbProvider',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_windows_swappable_dmb_provider.html',1,'Tgstation::Server::Host::Components::Deployment']]],
   ['windowssymlinkfactory',['WindowsSymlinkFactory',['../class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_symlink_factory.html',1,'Tgstation::Server::Host::IO']]],
   ['windowssystemidentity',['WindowsSystemIdentity',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html',1,'Tgstation::Server::Host::Security']]],
   ['windowssystemidentityfactory',['WindowsSystemIdentityFactory',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity_factory.html',1,'Tgstation::Server::Host::Security']]],

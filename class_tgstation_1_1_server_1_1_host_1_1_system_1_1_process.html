@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.3.6</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -159,6 +159,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8af1df99f5ed8cf15494e230243890e5"><td class="memItemLeft" align="right" valign="top">async Task&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a8af1df99f5ed8cf15494e230243890e5">GetExecutingUsername</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a8af1df99f5ed8cf15494e230243890e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the account executing the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process ">IProcess</a>.   <a href="#a8af1df99f5ed8cf15494e230243890e5">More...</a><br /></td></tr>
 <tr class="separator:a8af1df99f5ed8cf15494e230243890e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add49679c161683221749ee9962b98f49"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#add49679c161683221749ee9962b98f49">CreateDump</a> (string outputFile, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:add49679c161683221749ee9962b98f49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a dump file of the process.   <a href="#add49679c161683221749ee9962b98f49">More...</a><br /></td></tr>
+<tr class="separator:add49679c161683221749ee9962b98f49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
@@ -296,6 +299,43 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="add49679c161683221749ee9962b98f49"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task Tgstation.Server.Host.System.Process.CreateDump </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>outputFile</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create a dump file of the process.  </p>
+
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html#acf8d9dfdf49269e33dd78e634b741620">Tgstation.Server.Host.System.IProcessBase</a>.</p>
+
+<p>Definition at line <a class="el" href="_process_8cs_source.html#l00170">170</a> of file <a class="el" href="_process_8cs_source.html">Process.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        {</div><div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;            <span class="keywordflow">if</span> (outputFile == null)</div><div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(outputFile));</div><div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;</div><div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a781e9616bea46323ba098c782b6fafe4">logger</a>.LogTrace(<span class="stringliteral">&quot;Dumping PID {0} to {1}...&quot;</span>, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a241e3eafb07a2dcd61d530098799432e">Id</a>, outputFile);</div><div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#ab37b740e7d72723a6e5fce40acf040c9">processFeatures</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ad576ba0ef666881ed6059180a0522a09">CreateDump</a>(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a24428698a5b60b858c43dfd5529030e9">handle</a>, outputFile, cancellationToken);</div><div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        }</div><div class="ttc" id="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features_html_ad576ba0ef666881ed6059180a0522a09"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ad576ba0ef666881ed6059180a0522a09">Tgstation.Server.Host.System.IProcessFeatures.CreateDump</a></div><div class="ttdeci">Task CreateDump(global::System.Diagnostics.Process process, string outputFile, CancellationToken cancellationToken)</div><div class="ttdoc">Create a dump file for a given process . </div></div>
+<div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_html_a241e3eafb07a2dcd61d530098799432e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a241e3eafb07a2dcd61d530098799432e">Tgstation.Server.Host.System.Process.Id</a></div><div class="ttdeci">int Id</div><div class="ttdef"><b>Definition:</b> <a href="_process_8cs_source.html#l00014">Process.cs:14</a></div></div>
+<div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_html_ab37b740e7d72723a6e5fce40acf040c9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#ab37b740e7d72723a6e5fce40acf040c9">Tgstation.Server.Host.System.Process.processFeatures</a></div><div class="ttdeci">readonly IProcessFeatures processFeatures</div><div class="ttdoc">The IProcessFeatures for the Process. </div><div class="ttdef"><b>Definition:</b> <a href="_process_8cs_source.html#l00025">Process.cs:25</a></div></div>
+<div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_html_a24428698a5b60b858c43dfd5529030e9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a24428698a5b60b858c43dfd5529030e9">Tgstation.Server.Host.System.Process.handle</a></div><div class="ttdeci">readonly global::System.Diagnostics.Process handle</div><div class="ttdef"><b>Definition:</b> <a href="_process_8cs_source.html#l00032">Process.cs:32</a></div></div>
+<div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_html_a781e9616bea46323ba098c782b6fafe4"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a781e9616bea46323ba098c782b6fafe4">Tgstation.Server.Host.System.Process.logger</a></div><div class="ttdeci">readonly ILogger&lt; Process &gt; logger</div><div class="ttdoc">The ILogger for the Process </div><div class="ttdef"><b>Definition:</b> <a href="_process_8cs_source.html#l00030">Process.cs:30</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
 <a class="anchor" id="a110b26835967f72e89837e6f47f4b1a1"></a>
 <div class="memitem">
 <div class="memproto">

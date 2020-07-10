@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.3.6</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -129,12 +129,42 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9cc6c3e2db7c4491f00ff9347acfe634"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_dream_daemon.html">DreamDaemon</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_dream_daemon_client.html#a9cc6c3e2db7c4491f00ff9347acfe634">Update</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_dream_daemon.html">DreamDaemon</a> dreamDaemon, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a9cc6c3e2db7c4491f00ff9347acfe634"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update DreamDaemon. This may trigger DreamDaemon.SoftRestart  <a href="#a9cc6c3e2db7c4491f00ff9347acfe634">More...</a><br /></td></tr>
 <tr class="separator:a9cc6c3e2db7c4491f00ff9347acfe634"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48394b257252091cbcd25caa49891fa5"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_dream_daemon_client.html#a48394b257252091cbcd25caa49891fa5">CreateDump</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a48394b257252091cbcd25caa49891fa5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start a job to create a process dump of the active DreamDaemon executable.  <a href="#a48394b257252091cbcd25caa49891fa5">More...</a><br /></td></tr>
+<tr class="separator:a48394b257252091cbcd25caa49891fa5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>For managing DreamDaemon </p>
 
 <p>Definition at line <a class="el" href="_i_dream_daemon_client_8cs_source.html#l00010">10</a> of file <a class="el" href="_i_dream_daemon_client_8cs_source.html">IDreamDaemonClient.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a48394b257252091cbcd25caa49891fa5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html">Job</a>&gt; Tgstation.Server.Client.Components.IDreamDaemonClient.CreateDump </td>
+          <td>(</td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Start a job to create a process dump of the active DreamDaemon executable. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the Job of the running operation.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_dream_daemon_client.html#ae3caf6b9a60ad0a3dc2f9019865f0a81">Tgstation.Server.Client.Components.DreamDaemonClient</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a1e6a43558dcadc261304053b63476323"></a>
 <div class="memitem">
 <div class="memproto">

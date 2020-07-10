@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['monitoraction',['MonitorAction',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#a97c1a4a168451bd7e3be23c467aa2812',1,'Tgstation::Server::Host::Components::Watchdog']]],
-  ['monitoractivationreason',['MonitorActivationReason',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#acb2ccc2dc05d01ec3a6448d3d57155c9',1,'Tgstation::Server::Host::Components::Watchdog']]]
+  ['instancemanagerrights',['InstanceManagerRights',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79',1,'Tgstation::Server::Api::Rights']]],
+  ['instanceuserrights',['InstanceUserRights',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a5f1b5a9225190982810802d7a85bb601',1,'Tgstation::Server::Api::Rights']]],
+  ['ircpasswordtype',['IrcPasswordType',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a0a41c646f859c99d437373d8e6e0545b',1,'Tgstation::Server::Api::Models']]]
 ];

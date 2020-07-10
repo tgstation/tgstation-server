@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.3.6</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -101,7 +101,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>For initially seeding a database  
+<p>For initially setting up a database.  
  <a href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html#details">More...</a></p>
 <div class="dynheader">
 Inheritance diagram for Tgstation.Server.Host.Database.IDatabaseSeeder:</div>
@@ -114,30 +114,33 @@ Inheritance diagram for Tgstation.Server.Host.Database.IDatabaseSeeder:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:afbad62130c7423f9de442d6d761d3524"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html#afbad62130c7423f9de442d6d761d3524">SeedDatabase</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html">IDatabaseContext</a> databaseContext, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:afbad62130c7423f9de442d6d761d3524"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initially seed a given <em>databaseContext</em>   <a href="#afbad62130c7423f9de442d6d761d3524">More...</a><br /></td></tr>
-<tr class="separator:afbad62130c7423f9de442d6d761d3524"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a28cbb80c1461f0d7bedffd613da18e3c"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html#a28cbb80c1461f0d7bedffd613da18e3c">SanitizeDatabase</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html">IDatabaseContext</a> databaseContext, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a28cbb80c1461f0d7bedffd613da18e3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Correct invalid database data caused by previous versions.  <a href="#a28cbb80c1461f0d7bedffd613da18e3c">More...</a><br /></td></tr>
-<tr class="separator:a28cbb80c1461f0d7bedffd613da18e3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa97dbc8284be5920728ad3bcf4c20353"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html#aa97dbc8284be5920728ad3bcf4c20353">ResetAdminPassword</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html">IDatabaseContext</a> databaseContext, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:aa97dbc8284be5920728ad3bcf4c20353"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the admin password in <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database. ">IDatabaseContext</a> back to it's default and enables the account  <a href="#aa97dbc8284be5920728ad3bcf4c20353">More...</a><br /></td></tr>
-<tr class="separator:aa97dbc8284be5920728ad3bcf4c20353"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62bc67dd82ccf210c92c01966640cb64"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html#a62bc67dd82ccf210c92c01966640cb64">Initialize</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html">IDatabaseContext</a> databaseContext, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a62bc67dd82ccf210c92c01966640cb64"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_setup.html">Setup</a> up a given <em>databaseContext</em> .  <a href="#a62bc67dd82ccf210c92c01966640cb64">More...</a><br /></td></tr>
+<tr class="separator:a62bc67dd82ccf210c92c01966640cb64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83bee4040049ba8768dcb04ae7f50deb"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html#a83bee4040049ba8768dcb04ae7f50deb">Downgrade</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html">IDatabaseContext</a> databaseContext, Version downgradeVersion, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a83bee4040049ba8768dcb04ae7f50deb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Migrate a given <em>databaseContext</em>  down.  <a href="#a83bee4040049ba8768dcb04ae7f50deb">More...</a><br /></td></tr>
+<tr class="separator:a83bee4040049ba8768dcb04ae7f50deb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>For initially seeding a database </p>
+<div class="textblock"><p>For initially setting up a database. </p>
 
-<p>Definition at line <a class="el" href="_i_database_seeder_8cs_source.html#l00009">9</a> of file <a class="el" href="_i_database_seeder_8cs_source.html">IDatabaseSeeder.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_database_seeder_8cs_source.html#l00010">10</a> of file <a class="el" href="_i_database_seeder_8cs_source.html">IDatabaseSeeder.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="aa97dbc8284be5920728ad3bcf4c20353"></a>
+<a class="anchor" id="a83bee4040049ba8768dcb04ae7f50deb"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task Tgstation.Server.Host.Database.IDatabaseSeeder.ResetAdminPassword </td>
+          <td class="memname">Task Tgstation.Server.Host.Database.IDatabaseSeeder.Downgrade </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html">IDatabaseContext</a>&#160;</td>
           <td class="paramname"><em>databaseContext</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Version&#160;</td>
+          <td class="paramname"><em>downgradeVersion</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -153,64 +156,27 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Changes the admin password in <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database. ">IDatabaseContext</a> back to it's default and enables the account </p>
+<p>Migrate a given <em>databaseContext</em>  down. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">databaseContext</td><td>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database. ">IDatabaseContext</a> to reset the admin password for</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation</dd></dl>
-
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#af844d41153f8a43c071bb6ec67445a1b">Tgstation.Server.Host.Database.DatabaseSeeder</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a28cbb80c1461f0d7bedffd613da18e3c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Task Tgstation.Server.Host.Database.IDatabaseSeeder.SanitizeDatabase </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html">IDatabaseContext</a>&#160;</td>
-          <td class="paramname"><em>databaseContext</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>cancellationToken</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Correct invalid database data caused by previous versions. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">databaseContext</td><td>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database. ">IDatabaseContext</a> to sanitize.</td></tr>
+    <tr><td class="paramname">databaseContext</td><td>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database. ">IDatabaseContext</a> to downgrade.</td></tr>
+    <tr><td class="paramname">downgradeVersion</td><td>The migration Version to downgrade the <em>databaseContext</em>  to.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a1ed443f053ba4e1098f0e4099d23b774">Tgstation.Server.Host.Database.DatabaseSeeder</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ae30cd4eb76ba111b3fcd0e1b3622716d">Tgstation.Server.Host.Database.DatabaseSeeder</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="afbad62130c7423f9de442d6d761d3524"></a>
+<a class="anchor" id="a62bc67dd82ccf210c92c01966640cb64"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task Tgstation.Server.Host.Database.IDatabaseSeeder.SeedDatabase </td>
+          <td class="memname">Task Tgstation.Server.Host.Database.IDatabaseSeeder.Initialize </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html">IDatabaseContext</a>&#160;</td>
           <td class="paramname"><em>databaseContext</em>, </td>
@@ -229,17 +195,17 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Initially seed a given <em>databaseContext</em>  </p>
+<p><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_setup.html">Setup</a> up a given <em>databaseContext</em> . </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">databaseContext</td><td>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database. ">IDatabaseContext</a> to seed</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
+    <tr><td class="paramname">databaseContext</td><td>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database. ">IDatabaseContext</a> to setup.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a09fc7208df756283dd6b475cfe013151">Tgstation.Server.Host.Database.DatabaseSeeder</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a453f07e4addb58e08b4ce0ddfb84e357">Tgstation.Server.Host.Database.DatabaseSeeder</a>.</p>
 
 </div>
 </div>

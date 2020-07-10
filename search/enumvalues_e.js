@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['portupdate',['PortUpdate',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge.html#a50ede689312259c6ba4fe6595f8ad91da07c70f002c020dbbf271b086039983ee',1,'Tgstation::Server::Host::Components::Interop::Bridge']]],
-  ['postdeployfailure',['PostDeployFailure',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8aeefdaf630484c27f44b218cacd77c325',1,'Tgstation::Server::Api::Models']]],
-  ['postgressql',['PostgresSql',['../namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617ca322a60732eb9fd493923ee7e5db231b0',1,'Tgstation::Server::Host::Configuration']]],
-  ['prime',['Prime',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge.html#a50ede689312259c6ba4fe6595f8ad91dabe7938e9a87618a98a7b6b47e12aa44b',1,'Tgstation::Server::Host::Components::Interop::Bridge']]]
+  ['offline',['Offline',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#abcc98739b8feb9dd6744647f287e0683a8d9da4bc0e49a50e09ac9f7e56789d39',1,'Tgstation::Server::Api::Models']]],
+  ['online',['Online',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#abcc98739b8feb9dd6744647f287e0683a54f664c70c22054ea0d8d26fc3997ce7',1,'Tgstation::Server::Api::Models']]],
+  ['only',['Only',['../namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#ac25a13ffb39d53803eca454f2a329fc1a8392461cf759088854e16710b9b75d1a',1,'Tgstation::Server::Host::Configuration']]]
 ];

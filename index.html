@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.3.6</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -115,6 +115,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>libc6-i386</li>
 <li>libstdc++6:i386</li>
 <li>libssl1.0.0</li>
+<li>gdb (for using gcore to create core dumps)</li>
 <li>gcc-multilib (Only on 64-bit systems)</li>
 </ul>
 <p>Note that tgstation-server has only ever been tested on Linux via it's <a href="build/Dockerfile#L22">docker environment</a>. If you are having trouble with something in a native installation, or figure out a required workaround, please contact project maintainers so this documentation may be better updated.</p>
@@ -134,6 +135,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h4>Manual Configuration</h4>
 <p>Create an <code>appsettings.Production.json</code> file next to <code>appsettings.json</code>. This will override the default settings in appsettings.json with your production settings. There are a few keys meant to be changed by hosts. Modifying any config files while the server is running will trigger a safe restart (Keeps DreamDaemon's running). Note these are all case-sensitive:</p>
 <ul>
+<li><code>General:ConfigVersion</code>: Suppresses warnings about out of date config versions. You should change this after updating TGS to one with a new config version. The current version can be found on the releases page for your server version (This field did not exist before v4.4.0).</li>
 <li><code>General:MinimumPasswordLength</code>: Minimum password length requirement for database users</li>
 <li><code>General:ValidInstancePaths</code>: Array meant to limit the directories in which instances may be created.</li>
 <li><code>General:UserLimit</code>: Maximum number of users that may be created</li>

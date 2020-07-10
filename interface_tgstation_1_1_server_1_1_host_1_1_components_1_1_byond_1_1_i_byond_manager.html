@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.3.6</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -126,9 +126,9 @@ Collaboration diagram for Tgstation.Server.Host.Components.Byond.IByondManager:<
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a04ad9b7aeb3bf8b080dd54a396a7911c"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html#a04ad9b7aeb3bf8b080dd54a396a7911c">ChangeVersion</a> (Version version, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a04ad9b7aeb3bf8b080dd54a396a7911c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the active BYOND version  <a href="#a04ad9b7aeb3bf8b080dd54a396a7911c">More...</a><br /></td></tr>
-<tr class="separator:a04ad9b7aeb3bf8b080dd54a396a7911c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3559b76b9c7faff35cd8eadaac75c0b"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html#af3559b76b9c7faff35cd8eadaac75c0b">ChangeVersion</a> (Version version, byte[] customVersionBytes, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:af3559b76b9c7faff35cd8eadaac75c0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the active BYOND version  <a href="#af3559b76b9c7faff35cd8eadaac75c0b">More...</a><br /></td></tr>
+<tr class="separator:af3559b76b9c7faff35cd8eadaac75c0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae897f63dc75160c7378292be017a50b1"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_executable_lock.html">IByondExecutableLock</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html#ae897f63dc75160c7378292be017a50b1">UseExecutables</a> (Version requiredVersion, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ae897f63dc75160c7378292be017a50b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lock the current installation's location and return a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_executable_lock.html" title="Represents usage of the two primary BYOND server executables ">IByondExecutableLock</a>  <a href="#ae897f63dc75160c7378292be017a50b1">More...</a><br /></td></tr>
 <tr class="separator:ae897f63dc75160c7378292be017a50b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -147,7 +147,7 @@ Properties</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_i_byond_manager_8cs_source.html#l00012">12</a> of file <a class="el" href="_i_byond_manager_8cs_source.html">IByondManager.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a04ad9b7aeb3bf8b080dd54a396a7911c"></a>
+<a class="anchor" id="af3559b76b9c7faff35cd8eadaac75c0b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -156,6 +156,12 @@ Properties</h2></td></tr>
           <td>(</td>
           <td class="paramtype">Version&#160;</td>
           <td class="paramname"><em>version</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">byte[]&#160;</td>
+          <td class="paramname"><em>customVersionBytes</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -175,13 +181,14 @@ Properties</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">version</td><td>The new Version</td></tr>
+    <tr><td class="paramname">customVersionBytes</td><td>Optional bytes of a custom BYOND version zip file.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a391255ccc37ff793820297d7939c31a0">Tgstation.Server.Host.Components.Byond.ByondManager</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a431f006cfe5e1d2ab2efb346d6556705">Tgstation.Server.Host.Components.Byond.ByondManager</a>.</p>
 
 </div>
 </div>

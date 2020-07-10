@@ -16,11 +16,15 @@ var searchData=
   ['serviceunavailableexception',['ServiceUnavailableException',['../class_tgstation_1_1_server_1_1_client_1_1_service_unavailable_exception.html',1,'Tgstation::Server::Client']]],
   ['sessioncontroller',['SessionController',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html',1,'Tgstation::Server::Host::Components::Session']]],
   ['sessioncontrollerfactory',['SessionControllerFactory',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html',1,'Tgstation::Server::Host::Components::Session']]],
+  ['sessionpersistor',['SessionPersistor',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html',1,'Tgstation::Server::Host::Components::Session']]],
   ['setupapplication',['SetupApplication',['../class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_application.html',1,'Tgstation::Server::Host::Setup']]],
   ['setupwizard',['SetupWizard',['../class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html',1,'Tgstation::Server::Host::Setup']]],
   ['sladdheartbeat',['SLAddHeartbeat',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_heartbeat.html',1,'Tgstation::Server::Host::Database::Migrations']]],
+  ['slallownulldmapi',['SLAllowNullDMApi',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_allow_null_d_m_api.html',1,'Tgstation::Server::Host::Database::Migrations']]],
   ['slrebuild',['SLRebuild',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_rebuild.html',1,'Tgstation::Server::Host::Database::Migrations']]],
+  ['slremoveexperimentalwatchdog',['SLRemoveExperimentalWatchdog',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_remove_experimental_watchdog.html',1,'Tgstation::Server::Host::Database::Migrations']]],
   ['slremovesoftcolumns',['SLRemoveSoftColumns',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_remove_soft_columns.html',1,'Tgstation::Server::Host::Database::Migrations']]],
+  ['sltopictimeout',['SLTopicTimeout',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_topic_timeout.html',1,'Tgstation::Server::Host::Database::Migrations']]],
   ['sqlitedatabasecontext',['SqliteDatabaseContext',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_sqlite_database_context.html',1,'Tgstation::Server::Host::Database']]],
   ['sqlitedatabasecontextmodelsnapshot',['SqliteDatabaseContextModelSnapshot',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_sqlite_database_context_model_snapshot.html',1,'Tgstation::Server::Host::Database::Migrations']]],
   ['sqlitedesigntimedbcontextfactory',['SqliteDesignTimeDbContextFactory',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_sqlite_design_time_db_context_factory.html',1,'Tgstation::Server::Host::Database::Design']]],
@@ -28,5 +32,6 @@ var searchData=
   ['sqlserverdatabasecontextmodelsnapshot',['SqlServerDatabaseContextModelSnapshot',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_sql_server_database_context_model_snapshot.html',1,'Tgstation::Server::Host::Database::Migrations']]],
   ['sqlserverdesigntimedbcontextfactory',['SqlServerDesignTimeDbContextFactory',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_sql_server_design_time_db_context_factory.html',1,'Tgstation::Server::Host::Database::Design']]],
   ['swaggerconfiguration',['SwaggerConfiguration',['../class_tgstation_1_1_server_1_1_host_1_1_core_1_1_swagger_configuration.html',1,'Tgstation::Server::Host::Core']]],
+  ['swappabledmbprovider',['SwappableDmbProvider',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html',1,'Tgstation::Server::Host::Components::Deployment']]],
   ['synchronousiomanager',['SynchronousIOManager',['../class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html',1,'Tgstation::Server::Host::IO']]]
 ];

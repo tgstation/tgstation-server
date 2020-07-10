@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.3.6</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -129,6 +129,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:abd45f73a94f3e25829be0e477c73caad"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#abd45f73a94f3e25829be0e477c73caad">Detach</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a> instance, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:abd45f73a94f3e25829be0e477c73caad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deletes an <em>instance</em>   <a href="#abd45f73a94f3e25829be0e477c73caad">More...</a><br /></td></tr>
 <tr class="separator:abd45f73a94f3e25829be0e477c73caad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac07cba61d66cd0a7ceeb846be2e76885"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#ac07cba61d66cd0a7ceeb846be2e76885">GrantPermissions</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a> instance, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ac07cba61d66cd0a7ceeb846be2e76885"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gives the user full permissions on an <em>instance</em> .  <a href="#ac07cba61d66cd0a7ceeb846be2e76885">More...</a><br /></td></tr>
+<tr class="separator:ac07cba61d66cd0a7ceeb846be2e76885"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a89d0d8409ead36832135461bb544ad09"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_instance_client.html">IInstanceClient</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a89d0d8409ead36832135461bb544ad09">CreateClient</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a> instance)</td></tr>
 <tr class="memdesc:a89d0d8409ead36832135461bb544ad09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an IInstanceClient for a given Instance  <a href="#a89d0d8409ead36832135461bb544ad09">More...</a><br /></td></tr>
 <tr class="separator:a89d0d8409ead36832135461bb544ad09"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -276,6 +279,44 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the Instance</dd></dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#ac8d222eb11e9fe074119eb2ae6fc9f2f">Tgstation.Server.Client.InstanceManagerClient</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac07cba61d66cd0a7ceeb846be2e76885"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task Tgstation.Server.Client.IInstanceManagerClient.GrantPermissions </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a>&#160;</td>
+          <td class="paramname"><em>instance</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gives the user full permissions on an <em>instance</em> . </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">instance</td><td>The Instance to grant permissions on.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#ad3adb6fbb920b5ab031e54adadbbd869">Tgstation.Server.Client.InstanceManagerClient</a>.</p>
 
 </div>
 </div>

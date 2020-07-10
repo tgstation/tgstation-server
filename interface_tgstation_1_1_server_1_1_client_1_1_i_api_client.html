@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.3.6</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -145,6 +145,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a036ef64cf33e776c9042fa59aecbc9ba"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a036ef64cf33e776c9042fa59aecbc9ba">Update&lt; TBody &gt;</a> (string route, TBody body, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a036ef64cf33e776c9042fa59aecbc9ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run an HTTP POST request  <a href="#a036ef64cf33e776c9042fa59aecbc9ba">More...</a><br /></td></tr>
 <tr class="separator:a036ef64cf33e776c9042fa59aecbc9ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5ddeabc517efcf180f7286ead8158f5"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#ae5ddeabc517efcf180f7286ead8158f5">Patch</a> (string route, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ae5ddeabc517efcf180f7286ead8158f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run an HTTP PATCH request.  <a href="#ae5ddeabc517efcf180f7286ead8158f5">More...</a><br /></td></tr>
+<tr class="separator:ae5ddeabc517efcf180f7286ead8158f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6954d79598a2d4498c99e201481dc6b1"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a6954d79598a2d4498c99e201481dc6b1">Delete</a> (string route, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a6954d79598a2d4498c99e201481dc6b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run an HTTP DELETE request  <a href="#a6954d79598a2d4498c99e201481dc6b1">More...</a><br /></td></tr>
 <tr class="separator:a6954d79598a2d4498c99e201481dc6b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -614,12 +617,50 @@ Properties</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ae5ddeabc517efcf180f7286ead8158f5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task Tgstation.Server.Client.IApiClient.Patch </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>route</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Run an HTTP PATCH request. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">route</td><td>The server route to make the request to.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a74b6a4ca1f94c325e9fbc29296f9d674">Tgstation.Server.Client.ApiClient</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a28294924cb1336289469fbfa5de2f61f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt;TResult&gt; Tgstation.Server.Client.IApiClient.Patch&lt; TResult &gt; </td>
+          <td class="memname">Task&lt;TResult&gt; <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#ae5ddeabc517efcf180f7286ead8158f5">Tgstation.Server.Client.IApiClient.Patch</a>&lt; TResult &gt; </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>route</em>, </td>

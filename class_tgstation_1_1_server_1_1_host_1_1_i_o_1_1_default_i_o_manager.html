@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.3.6</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -195,6 +195,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa2dfcb05f73420f251547ae0108b3222"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#aa2dfcb05f73420f251547ae0108b3222">PathContainsParentAccess</a> (string path)</td></tr>
 <tr class="memdesc:aa2dfcb05f73420f251547ae0108b3222"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a <em>path</em>  contains the '..' parent directory accessor   <a href="#aa2dfcb05f73420f251547ae0108b3222">More...</a><br /></td></tr>
 <tr class="separator:aa2dfcb05f73420f251547ae0108b3222"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b4ed943b61e68cc1f38dbb2dd3abc78"><td class="memItemLeft" align="right" valign="top">Task&lt; DateTimeOffset &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a6b4ed943b61e68cc1f38dbb2dd3abc78">GetLastModified</a> (string path, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a6b4ed943b61e68cc1f38dbb2dd3abc78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the DateTimeOffset of when a given <em>path</em>  was last modified.   <a href="#a6b4ed943b61e68cc1f38dbb2dd3abc78">More...</a><br /></td></tr>
+<tr class="separator:a6b4ed943b61e68cc1f38dbb2dd3abc78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -744,6 +747,36 @@ Static Private Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a6b4ed943b61e68cc1f38dbb2dd3abc78"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task&lt;DateTimeOffset&gt; Tgstation.Server.Host.IO.DefaultIOManager.GetLastModified </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the DateTimeOffset of when a given <em>path</em>  was last modified.  </p>
+
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a291d4f10bc7972fbb518125e1331f634">Tgstation.Server.Host.IO.IIOManager</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a5c7c3fb8d450153922c11e37ea118f62"></a>
 <div class="memitem">
 <div class="memproto">
@@ -945,7 +978,7 @@ Static Private Member Functions</h2></td></tr>
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a6c0856abd25ea8e2096702aae37f2b0c">Tgstation.Server.Host.IO.IIOManager</a>.</p>
 
 <p>Definition at line <a class="el" href="_default_i_o_manager_8cs_source.html#l00222">222</a> of file <a class="el" href="_default_i_o_manager_8cs_source.html">DefaultIOManager.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        {</div><div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            path = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4">ResolvePath</a>(path);</div><div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;            <span class="keyword">using</span> var file = <span class="keyword">new</span> FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read | FileShare.Delete, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a8d302b2be6862b23b9a18a9412fc7fc9">DefaultBufferSize</a>, <span class="keyword">true</span>);</div><div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;            byte[] buf;</div><div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;            buf = <span class="keyword">new</span> byte[file.Length];</div><div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;            await file.ReadAsync(buf, 0, (<span class="keywordtype">int</span>)file.Length, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div><div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;            <span class="keywordflow">return</span> buf;</div><div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_html_a34087ebccffcf9f51173e01fe4a50be4"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4">Tgstation.Server.Host.IO.DefaultIOManager.ResolvePath</a></div><div class="ttdeci">string ResolvePath()</div><div class="ttdoc">Retrieve the full path of the current working directory.  </div></div>
+<div class="fragment"><div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        {</div><div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            path = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4">ResolvePath</a>(path);</div><div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;            <span class="keyword">using</span> var file = <span class="keyword">new</span> FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a8d302b2be6862b23b9a18a9412fc7fc9">DefaultBufferSize</a>, <span class="keyword">true</span>);</div><div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;            byte[] buf;</div><div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;            buf = <span class="keyword">new</span> byte[file.Length];</div><div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;            await file.ReadAsync(buf, 0, (<span class="keywordtype">int</span>)file.Length, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div><div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;            <span class="keywordflow">return</span> buf;</div><div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_html_a34087ebccffcf9f51173e01fe4a50be4"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4">Tgstation.Server.Host.IO.DefaultIOManager.ResolvePath</a></div><div class="ttdeci">string ResolvePath()</div><div class="ttdoc">Retrieve the full path of the current working directory.  </div></div>
 <div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager_html_a8d302b2be6862b23b9a18a9412fc7fc9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a8d302b2be6862b23b9a18a9412fc7fc9">Tgstation.Server.Host.IO.DefaultIOManager.DefaultBufferSize</a></div><div class="ttdeci">const int DefaultBufferSize</div><div class="ttdoc">Default FileStream buffer size used by .NET </div><div class="ttdef"><b>Definition:</b> <a href="_default_i_o_manager_8cs_source.html#l00025">DefaultIOManager.cs:25</a></div></div>
 </div><!-- fragment -->
 </div>
@@ -1090,7 +1123,7 @@ Static Private Member Functions</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_default_i_o_manager_8cs_source.html#l00020">20</a> of file <a class="el" href="_default_i_o_manager_8cs_source.html">DefaultIOManager.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_instance_controller_8cs_source.html#l00141">Tgstation.Server.Host.Controllers.InstanceController.Create()</a>, and <a class="el" href="_configuration_8cs_source.html#l00176">Tgstation.Server.Host.Components.StaticFiles.Configuration.ValidateConfigRelativePath()</a>.</p>
+<p>Referenced by <a class="el" href="_instance_controller_8cs_source.html#l00149">Tgstation.Server.Host.Controllers.InstanceController.Create()</a>, and <a class="el" href="_configuration_8cs_source.html#l00176">Tgstation.Server.Host.Components.StaticFiles.Configuration.ValidateConfigRelativePath()</a>.</p>
 
 </div>
 </div>

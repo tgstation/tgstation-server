@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.3.6</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -109,9 +109,9 @@ Inheritance diagram for Tgstation.Server.Host.Components.Deployment.IDmbProvider
 <div class="dyncontent">
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider__inherit__graph.png" border="0" usemap="#_tgstation_8_server_8_host_8_components_8_deployment_8_i_dmb_provider_inherit__map" alt="Inheritance graph"/></div>
 <map name="_tgstation_8_server_8_host_8_components_8_deployment_8_i_dmb_provider_inherit__map" id="_tgstation_8_server_8_host_8_components_8_deployment_8_i_dmb_provider_inherit__map">
-<area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_provider.html" title="Tgstation.Server.Host.Components.\lDeployment.DmbProvider" alt="" coords="477,5,727,47"/>
-<area shape="rect" id="node4" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_temporary_dmb_provider.html" title="Temporary IDmbProvider " alt="" coords="475,71,729,112"/>
-<area shape="rect" id="node5" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_windows_swappable_dmb_provider.html" title="A windows IDmbProvider that uses symlinks. " alt="" coords="447,136,757,177"/>
+<area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_provider.html" title="Tgstation.Server.Host.Components.\lDeployment.DmbProvider" alt="" coords="449,5,700,47"/>
+<area shape="rect" id="node4" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html" title="A IDmbProvider that uses symlinks. " alt="" coords="447,71,703,112"/>
+<area shape="rect" id="node5" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_temporary_dmb_provider.html" title="Temporary IDmbProvider " alt="" coords="447,136,702,177"/>
 <area shape="rect" id="node2" href="class_i_disposable.html" title="IDisposable" alt="" coords="5,78,100,105"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
@@ -135,12 +135,9 @@ Properties</h2></td></tr>
 <tr class="memitem:a950ac6f5b0cbcb2680546968c79486a1"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html#a950ac6f5b0cbcb2680546968c79486a1">DmbName</a><code> [get]</code></td></tr>
 <tr class="memdesc:a950ac6f5b0cbcb2680546968c79486a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">The file name of the .dmb  <a href="#a950ac6f5b0cbcb2680546968c79486a1">More...</a><br /></td></tr>
 <tr class="separator:a950ac6f5b0cbcb2680546968c79486a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad33385283a1bdc077a435793ba21f9a1"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html#ad33385283a1bdc077a435793ba21f9a1">PrimaryDirectory</a><code> [get]</code></td></tr>
-<tr class="memdesc:ad33385283a1bdc077a435793ba21f9a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">The primary game directory with a trailing directory separator  <a href="#ad33385283a1bdc077a435793ba21f9a1">More...</a><br /></td></tr>
-<tr class="separator:ad33385283a1bdc077a435793ba21f9a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a43efc4e45baf9a65d0646c1350e007d9"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html#a43efc4e45baf9a65d0646c1350e007d9">SecondaryDirectory</a><code> [get]</code></td></tr>
-<tr class="memdesc:a43efc4e45baf9a65d0646c1350e007d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The secondary game directory with a trailing directory separator  <a href="#a43efc4e45baf9a65d0646c1350e007d9">More...</a><br /></td></tr>
-<tr class="separator:a43efc4e45baf9a65d0646c1350e007d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7607fcc4f9d4667337c435fd2b96dc53"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html#a7607fcc4f9d4667337c435fd2b96dc53">Directory</a><code> [get]</code></td></tr>
+<tr class="memdesc:a7607fcc4f9d4667337c435fd2b96dc53"><td class="mdescLeft">&#160;</td><td class="mdescRight">The primary game directory with a trailing directory separator  <a href="#a7607fcc4f9d4667337c435fd2b96dc53">More...</a><br /></td></tr>
+<tr class="separator:a7607fcc4f9d4667337c435fd2b96dc53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa70dea09833e84fe4b5fead42a9067a6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html">CompileJob</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html#aa70dea09833e84fe4b5fead42a9067a6">CompileJob</a><code> [get]</code></td></tr>
 <tr class="memdesc:aa70dea09833e84fe4b5fead42a9067a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html#aa70dea09833e84fe4b5fead42a9067a6" title="The CompileJob of the .dmb ">CompileJob</a> of the .dmb  <a href="#aa70dea09833e84fe4b5fead42a9067a6">More...</a><br /></td></tr>
 <tr class="separator:aa70dea09833e84fe4b5fead42a9067a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -165,7 +162,7 @@ Properties</h2></td></tr>
 
 <p>Disposing the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs ">IDmbProvider</a> won't cause a cleanup of the working directory </p>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_windows_swappable_dmb_provider.html#af8a76ffccb7c4373f71c4b8091bda4ed">Tgstation.Server.Host.Components.Deployment.WindowsSwappableDmbProvider</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_provider.html#a9ce388dd865b9a5748e165a394d71682">Tgstation.Server.Host.Components.Deployment.DmbProvider</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_temporary_dmb_provider.html#a6f2e4158c705ff6e500959c0d68cb89c">Tgstation.Server.Host.Components.Deployment.TemporaryDmbProvider</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a862bd6a1a165d202a6078a955d0f4a4d">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_provider.html#a9ce388dd865b9a5748e165a394d71682">Tgstation.Server.Host.Components.Deployment.DmbProvider</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_temporary_dmb_provider.html#a6f2e4158c705ff6e500959c0d68cb89c">Tgstation.Server.Host.Components.Deployment.TemporaryDmbProvider</a>.</p>
 
 </div>
 </div>
@@ -190,9 +187,35 @@ Properties</h2></td></tr>
 
 <p>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html#aa70dea09833e84fe4b5fead42a9067a6" title="The CompileJob of the .dmb ">CompileJob</a> of the .dmb </p>
 
-<p>Definition at line <a class="el" href="_i_dmb_provider_8cs_source.html#l00029">29</a> of file <a class="el" href="_i_dmb_provider_8cs_source.html">IDmbProvider.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_dmb_provider_8cs_source.html#l00024">24</a> of file <a class="el" href="_i_dmb_provider_8cs_source.html">IDmbProvider.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00440">Tgstation.Server.Host.Components.Session.SessionControllerFactory.CreateRuntimeInformation()</a>, <a class="el" href="_experimental_watchdog_8cs_source.html#l00406">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog.GetMonitoredServerTasks()</a>, <a class="el" href="_experimental_watchdog_8cs_source.html#l00098">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog.HandleMonitorWakeup()</a>, <a class="el" href="_windows_watchdog_8cs_source.html#l00134">Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog.HandleNewDmbAvailable()</a>, <a class="el" href="_session_controller_factory_8cs_source.html#l00185">Tgstation.Server.Host.Components.Session.SessionControllerFactory.LaunchNew()</a>, <a class="el" href="_dmb_factory_8cs_source.html#l00153">Tgstation.Server.Host.Components.Deployment.DmbFactory.LockNextDmb()</a>, <a class="el" href="_windows_watchdog_8cs_source.html#l00186">Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog.PrepServerForLaunch()</a>, <a class="el" href="_session_controller_factory_8cs_source.html#l00366">Tgstation.Server.Host.Components.Session.SessionControllerFactory.Reattach()</a>, and <a class="el" href="_reattach_info_handler_8cs_source.html#l00043">Tgstation.Server.Host.Components.Session.ReattachInfoHandler.ReattachInfoHandler()</a>.</p>
+<p>Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00452">Tgstation.Server.Host.Components.Session.SessionControllerFactory.CreateRuntimeInformation()</a>, <a class="el" href="_windows_watchdog_8cs_source.html#l00141">Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog.HandleNewDmbAvailable()</a>, <a class="el" href="_session_controller_factory_8cs_source.html#l00184">Tgstation.Server.Host.Components.Session.SessionControllerFactory.LaunchNew()</a>, <a class="el" href="_dmb_factory_8cs_source.html#l00153">Tgstation.Server.Host.Components.Deployment.DmbFactory.LockNextDmb()</a>, <a class="el" href="_windows_watchdog_8cs_source.html#l00210">Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog.PrepServerForLaunch()</a>, <a class="el" href="_session_controller_factory_8cs_source.html#l00372">Tgstation.Server.Host.Components.Session.SessionControllerFactory.Reattach()</a>, <a class="el" href="_session_controller_8cs_source.html#l00208">Tgstation.Server.Host.Components.Session.SessionController.SessionController()</a>, and <a class="el" href="_session_persistor_8cs_source.html#l00050">Tgstation.Server.Host.Components.Session.SessionPersistor.SessionPersistor()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7607fcc4f9d4667337c435fd2b96dc53"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Tgstation.Server.Host.Components.Deployment.IDmbProvider.Directory</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The primary game directory with a trailing directory separator </p>
+
+<p>Definition at line <a class="el" href="_i_dmb_provider_8cs_source.html#l00019">19</a> of file <a class="el" href="_i_dmb_provider_8cs_source.html">IDmbProvider.cs</a>.</p>
+
+<p>Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00184">Tgstation.Server.Host.Components.Session.SessionControllerFactory.LaunchNew()</a>.</p>
 
 </div>
 </div>
@@ -218,59 +241,7 @@ Properties</h2></td></tr>
 
 <p>Definition at line <a class="el" href="_i_dmb_provider_8cs_source.html#l00014">14</a> of file <a class="el" href="_i_dmb_provider_8cs_source.html">IDmbProvider.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00185">Tgstation.Server.Host.Components.Session.SessionControllerFactory.LaunchNew()</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad33385283a1bdc077a435793ba21f9a1"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string Tgstation.Server.Host.Components.Deployment.IDmbProvider.PrimaryDirectory</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>The primary game directory with a trailing directory separator </p>
-
-<p>Definition at line <a class="el" href="_i_dmb_provider_8cs_source.html#l00019">19</a> of file <a class="el" href="_i_dmb_provider_8cs_source.html">IDmbProvider.cs</a>.</p>
-
-<p>Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00185">Tgstation.Server.Host.Components.Session.SessionControllerFactory.LaunchNew()</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a43efc4e45baf9a65d0646c1350e007d9"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string Tgstation.Server.Host.Components.Deployment.IDmbProvider.SecondaryDirectory</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>The secondary game directory with a trailing directory separator </p>
-
-<p>Definition at line <a class="el" href="_i_dmb_provider_8cs_source.html#l00024">24</a> of file <a class="el" href="_i_dmb_provider_8cs_source.html">IDmbProvider.cs</a>.</p>
-
-<p>Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00185">Tgstation.Server.Host.Components.Session.SessionControllerFactory.LaunchNew()</a>.</p>
+<p>Referenced by <a class="el" href="_session_controller_factory_8cs_source.html#l00184">Tgstation.Server.Host.Components.Session.SessionControllerFactory.LaunchNew()</a>.</p>
 
 </div>
 </div>

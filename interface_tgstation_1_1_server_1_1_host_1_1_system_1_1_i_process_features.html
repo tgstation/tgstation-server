@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.3.6</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -119,17 +119,65 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:af76f476ae07e3e2d8c060d970897dfe0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the user executing a given <em>process</em> .  <a href="#af76f476ae07e3e2d8c060d970897dfe0">More...</a><br /></td></tr>
 <tr class="separator:af76f476ae07e3e2d8c060d970897dfe0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac6b97694917044ddce0c3ba9c8478246"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ac6b97694917044ddce0c3ba9c8478246">SuspendProcess</a> (global::System.Diagnostics.Process process)</td></tr>
-<tr class="memdesc:ac6b97694917044ddce0c3ba9c8478246"><td class="mdescLeft">&#160;</td><td class="mdescRight">Suspend a given <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html">Process</a>.  <a href="#ac6b97694917044ddce0c3ba9c8478246">More...</a><br /></td></tr>
+<tr class="memdesc:ac6b97694917044ddce0c3ba9c8478246"><td class="mdescLeft">&#160;</td><td class="mdescRight">Suspend a given <em>process</em> .  <a href="#ac6b97694917044ddce0c3ba9c8478246">More...</a><br /></td></tr>
 <tr class="separator:ac6b97694917044ddce0c3ba9c8478246"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7b3670db0f89899889687e13a33f7c6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ad7b3670db0f89899889687e13a33f7c6">ResumeProcess</a> (global::System.Diagnostics.Process process)</td></tr>
 <tr class="memdesc:ad7b3670db0f89899889687e13a33f7c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resume a given suspended <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html">Process</a>.  <a href="#ad7b3670db0f89899889687e13a33f7c6">More...</a><br /></td></tr>
 <tr class="separator:ad7b3670db0f89899889687e13a33f7c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad576ba0ef666881ed6059180a0522a09"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ad576ba0ef666881ed6059180a0522a09">CreateDump</a> (global::System.Diagnostics.Process process, string outputFile, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ad576ba0ef666881ed6059180a0522a09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a dump file for a given <em>process</em> .  <a href="#ad576ba0ef666881ed6059180a0522a09">More...</a><br /></td></tr>
+<tr class="separator:ad576ba0ef666881ed6059180a0522a09"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Abstraction for suspending and resuming processes. </p>
 
 <p>Definition at line <a class="el" href="_i_process_features_8cs_source.html#l00009">9</a> of file <a class="el" href="_i_process_features_8cs_source.html">IProcessFeatures.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="ad576ba0ef666881ed6059180a0522a09"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task Tgstation.Server.Host.System.IProcessFeatures.CreateDump </td>
+          <td>(</td>
+          <td class="paramtype">global::System.Diagnostics.Process&#160;</td>
+          <td class="paramname"><em>process</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>outputFile</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create a dump file for a given <em>process</em> . </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">process</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html">Process</a> to dump.</td></tr>
+    <tr><td class="paramname">outputFile</td><td>The full path to the output file.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html#a1f0c6b3671ac06b34d885c295d1971ee">Tgstation.Server.Host.System.WindowsProcessFeatures</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#adb55624c50c7c2ac7fedb4c64737b0db">Tgstation.Server.Host.System.PosixProcessFeatures</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="af76f476ae07e3e2d8c060d970897dfe0"></a>
 <div class="memitem">
 <div class="memproto">
@@ -208,7 +256,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Suspend a given <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html">Process</a>. </p>
+<p>Suspend a given <em>process</em> . </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">process</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html">Process</a> to suspend.</td></tr>
@@ -216,7 +264,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html#a08d35b105b285a19f77df6c863c5cfeb">Tgstation.Server.Host.System.WindowsProcessFeatures</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1c0faded339a483cc9e2f513ec7d5cee">Tgstation.Server.Host.System.PosixProcessFeatures</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_process_features.html#a1c0faded339a483cc9e2f513ec7d5cee">Tgstation.Server.Host.System.PosixProcessFeatures</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html#a08d35b105b285a19f77df6c863c5cfeb">Tgstation.Server.Host.System.WindowsProcessFeatures</a>.</p>
 
 </div>
 </div>

@@ -1,8 +1,7 @@
 <map id="Tgstation.Server.Host.System.IProcessBase" name="Tgstation.Server.Host.System.IProcessBase">
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess " alt="" coords="413,71,664,112"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process " alt="" coords="430,136,647,177"/>
-<area shape="rect" id="node2" href="$class_i_disposable.html" title="IDisposable" alt="" coords="5,111,100,138"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_dead_session_controller.html" title="Implements a fake &quot;dead&quot; ISessionController " alt="" coords="712,5,963,47"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html" title="Tgstation.Server.Host.Components.\lSession.SessionController" alt="" coords="712,71,963,112"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html" title="Tgstation.Server.Host.System.\lProcess" alt="" coords="729,136,946,177"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess " alt="" coords="413,5,664,47"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process " alt="" coords="430,71,647,112"/>
+<area shape="rect" id="node2" href="$class_i_disposable.html" title="IDisposable" alt="" coords="5,46,100,73"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html" title="Tgstation.Server.Host.Components.\lSession.SessionController" alt="" coords="712,5,963,47"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html" title="Tgstation.Server.Host.System.\lProcess" alt="" coords="729,71,946,112"/>
 </map>

@@ -15,6 +15,7 @@ var searchData=
   ['serviceunavailableexception_2ecs',['ServiceUnavailableException.cs',['../_service_unavailable_exception_8cs.html',1,'']]],
   ['sessioncontroller_2ecs',['SessionController.cs',['../_session_controller_8cs.html',1,'']]],
   ['sessioncontrollerfactory_2ecs',['SessionControllerFactory.cs',['../_session_controller_factory_8cs.html',1,'']]],
+  ['sessionpersistor_2ecs',['SessionPersistor.cs',['../_session_persistor_8cs.html',1,'']]],
   ['setupapplication_2ecs',['SetupApplication.cs',['../_setup_application_8cs.html',1,'']]],
   ['setupwizard_2ecs',['SetupWizard.cs',['../_setup_wizard_8cs.html',1,'']]],
   ['setupwizardmode_2ecs',['SetupWizardMode.cs',['../_setup_wizard_mode_8cs.html',1,'']]],
@@ -25,5 +26,6 @@ var searchData=
   ['sqlserverdatabasecontextmodelsnapshot_2ecs',['SqlServerDatabaseContextModelSnapshot.cs',['../_sql_server_database_context_model_snapshot_8cs.html',1,'']]],
   ['sqlserverdesigntimedbcontextfactory_2ecs',['SqlServerDesignTimeDbContextFactory.cs',['../_sql_server_design_time_db_context_factory_8cs.html',1,'']]],
   ['swaggerconfiguration_2ecs',['SwaggerConfiguration.cs',['../_swagger_configuration_8cs.html',1,'']]],
+  ['swappabledmbprovider_2ecs',['SwappableDmbProvider.cs',['../_swappable_dmb_provider_8cs.html',1,'']]],
   ['synchronousiomanager_2ecs',['SynchronousIOManager.cs',['../_synchronous_i_o_manager_8cs.html',1,'']]]
 ];

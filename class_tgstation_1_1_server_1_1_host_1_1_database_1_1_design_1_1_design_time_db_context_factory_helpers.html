@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.3.6</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -106,16 +106,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a184ab9cd41e86e8ce83b3cdd8371b251"><td class="memItemLeft" align="right" valign="top">static IOptions&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html">DatabaseConfiguration</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_design_time_db_context_factory_helpers.html#a184ab9cd41e86e8ce83b3cdd8371b251">GetDatabaseConfiguration</a> (<a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a> databaseType, string connectionString)</td></tr>
-<tr class="memdesc:a184ab9cd41e86e8ce83b3cdd8371b251"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the IOptions&lt;TOptions&gt; for the DatabaseConfiguration  <a href="#a184ab9cd41e86e8ce83b3cdd8371b251">More...</a><br /></td></tr>
-<tr class="separator:a184ab9cd41e86e8ce83b3cdd8371b251"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97f06b3ddc3e4ad803712d24372ef144"><td class="memItemLeft" align="right" valign="top">static DbContextOptions&lt; TDatabaseContext &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_design_time_db_context_factory_helpers.html#a97f06b3ddc3e4ad803712d24372ef144">CreateDatabaseContextOptions&lt; TDatabaseContext &gt;</a> (<a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a> databaseType, string connectionString)</td></tr>
+<tr class="memdesc:a97f06b3ddc3e4ad803712d24372ef144"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the IOptions&lt;TOptions&gt; for the DatabaseConfiguration  <a href="#a97f06b3ddc3e4ad803712d24372ef144">More...</a><br /></td></tr>
+<tr class="separator:a97f06b3ddc3e4ad803712d24372ef144"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Contains helpers for creating design time <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html" title="Backend abstract implementation of IDatabaseContext ">DatabaseContext</a>s </p>
 
-<p>Definition at line <a class="el" href="_design_time_db_context_factory_helpers_8cs_source.html#l00009">9</a> of file <a class="el" href="_design_time_db_context_factory_helpers_8cs_source.html">DesignTimeDbContextFactoryHelpers.cs</a>.</p>
+<p>Definition at line <a class="el" href="_design_time_db_context_factory_helpers_8cs_source.html#l00010">10</a> of file <a class="el" href="_design_time_db_context_factory_helpers_8cs_source.html">DesignTimeDbContextFactoryHelpers.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a184ab9cd41e86e8ce83b3cdd8371b251"></a>
+<a class="anchor" id="a97f06b3ddc3e4ad803712d24372ef144"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -123,7 +123,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static IOptions&lt;<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html">DatabaseConfiguration</a>&gt; Tgstation.Server.Host.Database.Design.DesignTimeDbContextFactoryHelpers.GetDatabaseConfiguration </td>
+          <td class="memname">static DbContextOptions&lt;TDatabaseContext&gt; Tgstation.Server.Host.Database.Design.DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions&lt; TDatabaseContext &gt; </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>&#160;</td>
           <td class="paramname"><em>databaseType</em>, </td>
@@ -148,6 +148,12 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the IOptions&lt;TOptions&gt; for the DatabaseConfiguration </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TDatabaseContext</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html" title="Backend abstract implementation of IDatabaseContext ">DatabaseContext</a> to create DbContextOptions for.</td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">databaseType</td><td>The DatabaseConfiguration.DatabaseType.</td></tr>
@@ -156,26 +162,19 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The IOptions&lt;TOptions&gt; for the DatabaseConfiguration</dd></dl>
+<div class="typeconstraint">
+<dl><dt><b>Type Constraints</b></dt><dd>
+<table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em>TDatabaseContext</em></td><td>&#160;:</td><td valign="top"><em>DatabaseContext</em></td><td>&#160;</td></tr>
+</table>
+</dd>
+</dl>
+</div>
 
-<p>Definition at line <a class="el" href="_design_time_db_context_factory_helpers_8cs_source.html#l00017">17</a> of file <a class="el" href="_design_time_db_context_factory_helpers_8cs_source.html">DesignTimeDbContextFactoryHelpers.cs</a>.</p>
-
-<p>Referenced by <a class="el" href="_postgres_sql_design_time_db_context_factory_8cs_source.html#l00016">Tgstation.Server.Host.Database.Design.PostgresSqlDesignTimeDbContextFactory.CreateDbContext()</a>, <a class="el" href="_sql_server_design_time_db_context_factory_8cs_source.html#l00018">Tgstation.Server.Host.Database.Design.SqlServerDesignTimeDbContextFactory.CreateDbContext()</a>, <a class="el" href="_sqlite_design_time_db_context_factory_8cs_source.html#l00018">Tgstation.Server.Host.Database.Design.SqliteDesignTimeDbContextFactory.CreateDbContext()</a>, and <a class="el" href="_my_sql_design_time_db_context_factory_8cs_source.html#l00018">Tgstation.Server.Host.Database.Design.MySqlDesignTimeDbContextFactory.CreateDbContext()</a>.</p>
-<div class="fragment"><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        {</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            var dbConfig = <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html">DatabaseConfiguration</a></div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            {</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                DesignTime = <span class="keyword">true</span>,</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a> = databaseType,</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                ConnectionString = connectionString</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            };</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            <span class="keywordflow">return</span> Options.Create(dbConfig);</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html">Tgstation.Server.Host.Configuration.DatabaseConfiguration</a></div><div class="ttdoc">Configuration options for the Database.DatabaseContext </div><div class="ttdef"><b>Definition:</b> <a href="_database_configuration_8cs_source.html#l00009">DatabaseConfiguration.cs:9</a></div></div>
+<p>Definition at line <a class="el" href="_design_time_db_context_factory_helpers_8cs_source.html#l00019">19</a> of file <a class="el" href="_design_time_db_context_factory_helpers_8cs_source.html">DesignTimeDbContextFactoryHelpers.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                                   : DatabaseContext</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        {</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            var dbConfig = <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html">DatabaseConfiguration</a></div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            {</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                DesignTime = <span class="keyword">true</span>,</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a> = databaseType,</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                ConnectionString = connectionString</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            };</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            var optionsFac = <span class="keyword">new</span> DbContextOptionsBuilder&lt;TDatabaseContext&gt;();</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            var configureAction = DatabaseContext.GetConfigureAction&lt;TDatabaseContext&gt;();</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            configureAction(optionsFac, dbConfig);</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            <span class="keywordflow">return</span> optionsFac.Options;</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html">Tgstation.Server.Host.Configuration.DatabaseConfiguration</a></div><div class="ttdoc">Configuration options for the Database.DatabaseContext </div><div class="ttdef"><b>Definition:</b> <a href="_database_configuration_8cs_source.html#l00009">DatabaseConfiguration.cs:9</a></div></div>
 <div class="ttc" id="namespace_tgstation_1_1_server_1_1_host_1_1_configuration_html_acda8f6ee23a9ee8ac298f7b4a7d5617c"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">Tgstation.Server.Host.Configuration.DatabaseType</a></div><div class="ttdeci">DatabaseType</div><div class="ttdoc">Type of database to user </div><div class="ttdef"><b>Definition:</b> <a href="_database_type_8cs_source.html#l00006">DatabaseType.cs:6</a></div></div>
 </div><!-- fragment -->
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_design_time_db_context_factory_helpers_a184ab9cd41e86e8ce83b3cdd8371b251_icgraph.png" border="0" usemap="#class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_design_time_db_context_factory_helpers_a184ab9cd41e86e8ce83b3cdd8371b251_icgraph" alt=""/></div>
-<map name="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_design_time_db_context_factory_helpers_a184ab9cd41e86e8ce83b3cdd8371b251_icgraph" id="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_design_time_db_context_factory_helpers_a184ab9cd41e86e8ce83b3cdd8371b251_icgraph">
-<area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_postgres_sql_design_time_db_context_factory.html#a36ff3f3ef52311c0fa45971cc3156bb1" title="Tgstation.Server.Host.Database.\lDesign.PostgresSqlDesignTimeDbContext\lFactory.CreateDbContext" alt="" coords="370,5,659,61"/>
-<area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_sql_server_design_time_db_context_factory.html#aff56794443746e5d8d0c08389d7cd8a5" title="Tgstation.Server.Host.Database.\lDesign.SqlServerDesignTimeDbContext\lFactory.CreateDbContext" alt="" coords="377,85,652,141"/>
-<area shape="rect" id="node4" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_sqlite_design_time_db_context_factory.html#a88c77d7409d55231d096416130531e93" title="Tgstation.Server.Host.Database.\lDesign.SqliteDesignTimeDbContextFactory.\lCreateDbContext" alt="" coords="366,165,663,221"/>
-<area shape="rect" id="node5" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_my_sql_design_time_db_context_factory.html#a8c2173be2b6fa289a8bfcf8da59de797" title="Tgstation.Server.Host.Database.\lDesign.MySqlDesignTimeDbContextFactory.\lCreateDbContext" alt="" coords="365,245,664,301"/>
-</map>
-</div>
-</p>
-
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>

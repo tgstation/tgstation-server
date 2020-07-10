@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.3.6</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -153,7 +153,7 @@ Server Initialization</h2>
 <h3><a class="anchor" id="arch_instinit"></a>
 Instance Manager Initialization</h3>
 <p>Once the web host starts, the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa2bcc92fca46ad404800304ce4bdd781">Tgstation.Server.Host.Components.InstanceManager.StartAsync</a> function is called (due to being registered as a <a class="el" href="class_i_hosted_service.html">IHostedService</a> in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html">Tgstation.Server.Host.Core.Application</a>) this is the only StartAsync implementation that should be called by the framework, others should be called from this to maintain a cohesive initialization order.</p>
-<p>The first thing this function does is call <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a6b7f32a32a19751f1ce41d4bf8853f6c">Tgstation.Server.Host.Database.DatabaseContext.Initialize</a> which ensures the database is migrated, seeded, and ready to go. Then the Tgstation.Server.Host.Core.JobManager is started, which cleans up any jobs that are considered "still running" in the database. Finally all instances configured to be online are created in parallel (See <a class="el" href="architecture.html#arch_instance">Instances</a> for onlining process) and the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html">Tgstation.Server.Host.Core.Application</a> is signalled to stop blocking requests with 503 responses before they are processed.</p>
+<p>The first thing this function does is call Tgstation.Server.Host.Database.DatabaseContext.Initialize which ensures the database is migrated, seeded, and ready to go. Then the Tgstation.Server.Host.Core.JobManager is started, which cleans up any jobs that are considered "still running" in the database. Finally all instances configured to be online are created in parallel (See <a class="el" href="architecture.html#arch_instance">Instances</a> for onlining process) and the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html">Tgstation.Server.Host.Core.Application</a> is signalled to stop blocking requests with 503 responses before they are processed.</p>
 <h1><a class="anchor" id="arch_db"></a>
 Database and Context</h1>
 <p>The database is exposed as a series of DbSet&lt;T&gt; objects through <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html">Tgstation.Server.Host.Database.IDatabaseContext</a> . Queries are performed via async LINQ expressions. Inserts, updates, and deletes are done via modifiying the DbSet&lt;T&gt;s and then calling <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a74e123c6393ad813f997c882a22b228e">Tgstation.Server.Host.Database.IDatabaseContext.Save</a> . Do some reading on Entity Framework Core for a deeper understanding.</p>
@@ -228,7 +228,7 @@ Launch</h2>
 <h2><a class="anchor" id="arch_wd_monitor"></a>
 The Monitor</h2>
 <p>The monitor is responsible for handling every <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#acb2ccc2dc05d01ec3a6448d3d57155c9">Tgstation.Server.Host.Components.Watchdog.MonitorActivationReason</a> . It sleeps until one of these things happen. If multiple things happen at once, they are processed in their order of declaration.</p>
-<p>The monitor maintains a <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_monitor_state.html">Tgstation.Server.Host.Components.Watchdog.MonitorState</a> which helps it make descisions on how to handle activation reasons. The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_monitor_state.html#a87534d177a8fda685d068f47526b5bad">Tgstation.Server.Host.Components.Watchdog.MonitorState.NextAction</a> determines how multiple simultaneous events are handled in succession.</p>
+<p>The monitor maintains a Tgstation.Server.Host.Components.Watchdog.MonitorState which helps it make descisions on how to handle activation reasons. The Tgstation.Server.Host.Components.Watchdog.MonitorState.NextAction determines how multiple simultaneous events are handled in succession.</p>
 <h3><a class="anchor" id="mar_activecrash"></a>
 Active Server Crashed/Exited</h3>
 <p>If there was a graceful shutdown scheduled, exit the watchdog</p>
@@ -250,7 +250,7 @@ Active Server Rebooted</h3>
 <p>Set the current active server to close it's port on reboot.</p>
 <p>If we didnt kill the now inactive server and got here set it to NOT close it's port on reboot and try and set it's port to be the internal game port (The DMAPI and SessionController have a method for communicating a new port to open on even if it's closed)</p>
 <p>Failing the above case, or if we killed the now inactive server attempt to reboot it with the latest settings and stop processing other activation reasons, failing that, mark it as critfailed</p>
-<p>Otherwise, skip processing the <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#acb2ccc2dc05d01ec3a6448d3d57155c9a511bd67e833172fb4f9a30b92591235b">Tgstation.Server.Host.Components.Watchdog.onitorActivationReason.InactiveServerRebooted</a></p>
+<p>Otherwise, skip processing the Tgstation.Server.Host.Components.Watchdog.onitorActivationReason.InactiveServerRebooted</p>
 <h3><a class="anchor" id="mar_inactivereboot"></a>
 Inactive Server Rebooted</h3>
 <p>Mark the inactive server as rebooting, tell it to NOT close it's port on reboot.</p>
@@ -266,7 +266,7 @@ Reattaching</h2>
 <p>When the instance comes online again it will automatically attempt to reattach if said information is present. The information is deleted as soon as it is loaded.</p>
 <p>If both servers reattached, the montor starts</p>
 <p>If the active server failed to reattach, the watchdog is restarted.</p>
-<p>If only the inactive server failed to reattach, it is mocked with a Tgstation.Server.Host.Components.Watchdog.DeadSessionController. Which will immediately trigger <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#acb2ccc2dc05d01ec3a6448d3d57155c9a55fa500495cf8a547529c30f8d9c6ea5">Tgstation.Server.Host.Components.Watchdog.MonitorActivationReason.InactiveServerCrashed</a> . Then the monitor starts</p>
+<p>If only the inactive server failed to reattach, it is mocked with a Tgstation.Server.Host.Components.Watchdog.DeadSessionController. Which will immediately trigger Tgstation.Server.Host.Components.Watchdog.MonitorActivationReason.InactiveServerCrashed . Then the monitor starts</p>
 <h2><a class="anchor" id="arch_comms"></a>
 Communication</h2>
 <p>TGS =&gt; DM communication is achieved by sending packets which invoke <code>/world/Topic()</code> and DM can respond to those in kind. Tgstation.Server.Host.Components.EventType and other command messages are communicated to the active server via this method.</p>

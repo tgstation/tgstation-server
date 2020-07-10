@@ -1,3 +1,4 @@
 <map id="Tgstation.Server.Client.Components.ConfigurationClient.ConfigurationClient" name="Tgstation.Server.Client.Components.ConfigurationClient.ConfigurationClient">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_routes.html#a21a829d350fad918024f30fc9330a8e2" title="Get the /List postfix for a route &#160;" alt="" coords="287,13,488,54"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_routes.html#a21a829d350fad918024f30fc9330a8e2" title="Get the /List postfix for a route &#160;" alt="" coords="287,5,488,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_routes.html#a427423a8a36ba74df914acb74ffb0483" title="Sanitize a Models.Internal.RawData path for use in a GET Uri. " alt="" coords="287,71,488,112"/>
 </map>

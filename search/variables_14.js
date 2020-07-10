@@ -9,7 +9,6 @@ var searchData=
   ['user',['User',['../class_tgstation_1_1_server_1_1_api_1_1_routes.html#a12784e8b5b7ac25c0684c9d4c7c59178',1,'Tgstation::Server::Api::Routes']]],
   ['useragent',['UserAgent',['../class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a344ee837192b944640d63d1070ba4f2d',1,'Tgstation::Server::Api::ApiHeaders']]],
   ['username',['Username',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_posix_system_identity.html#a278f605efe57bee3e5b4cb45ded040b2',1,'Tgstation.Server.Host.Security.PosixSystemIdentity.Username()'],['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html#a7bbd8a3a43a6a2864b3348ae7f9438b9',1,'Tgstation.Server.Host.Security.WindowsSystemIdentity.Username()']]],
-  ['usernameheader',['UsernameHeader',['../class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#aeb78db4fde83cb73bbad383ccb1b71f1',1,'Tgstation::Server::Api::ApiHeaders']]],
   ['userprincipal',['userPrincipal',['../class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html#abf93d22395acd37f9c24aee156691f7a',1,'Tgstation::Server::Host::Security::WindowsSystemIdentity']]],
   ['users',['Users',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ae38fd9989e134c1d3a621fa56f0d3691',1,'Tgstation::Server::Host::Database::DatabaseContext']]],
   ['userscollection',['usersCollection',['../class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a6ce29a522553d19841a4dd07fcc1a545',1,'Tgstation::Server::Host::Database::DatabaseContext']]]

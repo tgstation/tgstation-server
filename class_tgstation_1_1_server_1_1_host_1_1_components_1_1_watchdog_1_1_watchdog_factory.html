@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.3.6</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -95,7 +95,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#properties">Properties</a> &#124;
 <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -112,6 +111,7 @@ Inheritance diagram for Tgstation.Server.Host.Components.Watchdog.WatchdogFactor
 <map name="_tgstation_8_server_8_host_8_components_8_watchdog_8_watchdog_factory_inherit__map" id="_tgstation_8_server_8_host_8_components_8_watchdog_8_watchdog_factory_inherit__map">
 <area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html" title="IWatchdogFactory for creating WindowsWatchdogs. " alt="" coords="5,169,256,211"/>
 <area shape="rect" id="node2" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html" title="For creating IWatchdogs " alt="" coords="64,5,197,32"/>
+<area shape="rect" id="node4" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_posix_watchdog_factory.html" title="IWatchdogFactory for creating PosixWatchdogs. " alt="" coords="5,259,256,300"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -128,15 +128,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aab0326100c3cf0f68e7345990d30b308"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#aab0326100c3cf0f68e7345990d30b308">WatchdogFactory</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html">IServerControl</a> serverControl, ILoggerFactory loggerFactory, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html">IDatabaseContextFactory</a> databaseContextFactory, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html">IJobManager</a> jobManager, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html">IAsyncDelayer</a> asyncDelayer, IOptions&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a> &gt; generalConfigurationOptions)</td></tr>
 <tr class="memdesc:aab0326100c3cf0f68e7345990d30b308"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html">WatchdogFactory</a>  <a href="#aab0326100c3cf0f68e7345990d30b308">More...</a><br /></td></tr>
 <tr class="separator:aab0326100c3cf0f68e7345990d30b308"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afd02a561fb81a964f00d37711a5ccaf7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html">IWatchdog</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#afd02a561fb81a964f00d37711a5ccaf7">CreateWatchdog</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html">IChatManager</a> chat, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html">IDmbFactory</a> dmbFactory, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_reattach_info_handler.html">IReattachInfoHandler</a> reattachInfoHandler, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller_factory.html">ISessionControllerFactory</a> sessionControllerFactory, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html">IIOManager</a> ioManager, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Api.Models.Instance</a> instance, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_settings.html">DreamDaemonSettings</a> settings)</td></tr>
-<tr class="memdesc:afd02a561fb81a964f00d37711a5ccaf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers ">IWatchdog</a>   <a href="#afd02a561fb81a964f00d37711a5ccaf7">More...</a><br /></td></tr>
-<tr class="separator:afd02a561fb81a964f00d37711a5ccaf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:a46ae6b8af80e6d489c2a7714b71a9900"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html">IWatchdog</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#a46ae6b8af80e6d489c2a7714b71a9900">CreateNonExperimentalWatchdog</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html">IChatManager</a> chat, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html">IDmbFactory</a> dmbFactory, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_reattach_info_handler.html">IReattachInfoHandler</a> reattachInfoHandler, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller_factory.html">ISessionControllerFactory</a> sessionControllerFactory, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html">IIOManager</a> ioManager, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Api.Models.Instance</a> instance, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_settings.html">DreamDaemonSettings</a> settings)</td></tr>
-<tr class="memdesc:a46ae6b8af80e6d489c2a7714b71a9900"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers ">IWatchdog</a> that isn't the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html" title="A IWatchdog that tries to manage 2 servers at once for maximum uptime. ">ExperimentalWatchdog</a>.  <a href="#a46ae6b8af80e6d489c2a7714b71a9900">More...</a><br /></td></tr>
-<tr class="separator:a46ae6b8af80e6d489c2a7714b71a9900"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7417b9b6823272f9c4452dfd818ed804"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html">IWatchdog</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#a7417b9b6823272f9c4452dfd818ed804">CreateWatchdog</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html">IChatManager</a> chat, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html">IDmbFactory</a> dmbFactory, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor.html">ISessionPersistor</a> sessionPersistor, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller_factory.html">ISessionControllerFactory</a> sessionControllerFactory, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html">IIOManager</a> gameIOManager, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html">IIOManager</a> diagnosticsIOManager, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html">IEventConsumer</a> eventConsumer, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Api.Models.Instance</a> instance, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_settings.html">DreamDaemonSettings</a> settings)</td></tr>
+<tr class="memdesc:a7417b9b6823272f9c4452dfd818ed804"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers ">IWatchdog</a>   <a href="#a7417b9b6823272f9c4452dfd818ed804">More...</a><br /></td></tr>
+<tr class="separator:a7417b9b6823272f9c4452dfd818ed804"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
@@ -161,7 +155,7 @@ Properties</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html#l00017">17</a> of file <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html">WatchdogFactory.cs</a>.</p>
+<p>Definition at line <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html#l00018">18</a> of file <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html">WatchdogFactory.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="aab0326100c3cf0f68e7345990d30b308"></a>
 <div class="memitem">
@@ -224,18 +218,20 @@ Properties</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html#l00058">58</a> of file <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html">WatchdogFactory.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        {</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#a83607d97387c92ed33c6640f0cd4ee1a">ServerControl</a> = serverControl ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(serverControl));</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#ac70e6ed4dbb2c805b6fa57122fc82318">LoggerFactory</a> = loggerFactory ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(loggerFactory));</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory.html">DatabaseContextFactory</a> = databaseContextFactory ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(databaseContextFactory));</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html">JobManager</a> = jobManager ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(jobManager));</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_async_delayer.html">AsyncDelayer</a> = asyncDelayer ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(asyncDelayer));</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a> = generalConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(generalConfigurationOptions));</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory_html_ac70e6ed4dbb2c805b6fa57122fc82318"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#ac70e6ed4dbb2c805b6fa57122fc82318">Tgstation.Server.Host.Components.Watchdog.WatchdogFactory.LoggerFactory</a></div><div class="ttdeci">ILoggerFactory LoggerFactory</div><div class="ttdoc">The ILoggerFactory for the WatchdogFactory </div><div class="ttdef"><b>Definition:</b> <a href="_components_2_watchdog_2_watchdog_factory_8cs_source.html#l00027">WatchdogFactory.cs:27</a></div></div>
+<p>Definition at line <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html#l00059">59</a> of file <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html">WatchdogFactory.cs</a>.</p>
+
+<p>References <a class="el" href="_tgstation_8_server_8_api_2_models_2_internal_2_dream_daemon_settings_8cs_source.html#l00014">Tgstation.Server.Api.Models.Internal.DreamDaemonSettings.AutoStart</a>.</p>
+<div class="fragment"><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        {</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#a83607d97387c92ed33c6640f0cd4ee1a">ServerControl</a> = serverControl ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(serverControl));</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#ac70e6ed4dbb2c805b6fa57122fc82318">LoggerFactory</a> = loggerFactory ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(loggerFactory));</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory.html">DatabaseContextFactory</a> = databaseContextFactory ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(databaseContextFactory));</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html">JobManager</a> = jobManager ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(jobManager));</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_async_delayer.html">AsyncDelayer</a> = asyncDelayer ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(asyncDelayer));</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a> = generalConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(generalConfigurationOptions));</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory_html_ac70e6ed4dbb2c805b6fa57122fc82318"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#ac70e6ed4dbb2c805b6fa57122fc82318">Tgstation.Server.Host.Components.Watchdog.WatchdogFactory.LoggerFactory</a></div><div class="ttdeci">ILoggerFactory LoggerFactory</div><div class="ttdoc">The ILoggerFactory for the WatchdogFactory </div><div class="ttdef"><b>Definition:</b> <a href="_components_2_watchdog_2_watchdog_factory_8cs_source.html#l00028">WatchdogFactory.cs:28</a></div></div>
 <div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_async_delayer_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_async_delayer.html">Tgstation.Server.Host.Core.AsyncDelayer</a></div><div class="ttdef"><b>Definition:</b> <a href="_async_delayer_8cs_source.html#l00008">AsyncDelayer.cs:8</a></div></div>
 <div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html">Tgstation.Server.Host.Jobs.JobManager</a></div><div class="ttdef"><b>Definition:</b> <a href="_job_manager_8cs_source.html#l00015">JobManager.cs:15</a></div></div>
 <div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory.html">Tgstation.Server.Host.Database.DatabaseContextFactory</a></div><div class="ttdef"><b>Definition:</b> <a href="_database_context_factory_8cs_source.html#l00008">DatabaseContextFactory.cs:8</a></div></div>
-<div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory_html_a83607d97387c92ed33c6640f0cd4ee1a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#a83607d97387c92ed33c6640f0cd4ee1a">Tgstation.Server.Host.Components.Watchdog.WatchdogFactory.ServerControl</a></div><div class="ttdeci">IServerControl ServerControl</div><div class="ttdoc">The IServerControl for the WatchdogFactory </div><div class="ttdef"><b>Definition:</b> <a href="_components_2_watchdog_2_watchdog_factory_8cs_source.html#l00022">WatchdogFactory.cs:22</a></div></div>
-<div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">Tgstation.Server.Host.Configuration.GeneralConfiguration</a></div><div class="ttdoc">General configuration options </div><div class="ttdef"><b>Definition:</b> <a href="_general_configuration_8cs_source.html#l00010">GeneralConfiguration.cs:10</a></div></div>
+<div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory_html_a83607d97387c92ed33c6640f0cd4ee1a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#a83607d97387c92ed33c6640f0cd4ee1a">Tgstation.Server.Host.Components.Watchdog.WatchdogFactory.ServerControl</a></div><div class="ttdeci">IServerControl ServerControl</div><div class="ttdoc">The IServerControl for the WatchdogFactory </div><div class="ttdef"><b>Definition:</b> <a href="_components_2_watchdog_2_watchdog_factory_8cs_source.html#l00023">WatchdogFactory.cs:23</a></div></div>
+<div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">Tgstation.Server.Host.Configuration.GeneralConfiguration</a></div><div class="ttdoc">General configuration options </div><div class="ttdef"><b>Definition:</b> <a href="_general_configuration_8cs_source.html#l00012">GeneralConfiguration.cs:12</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a46ae6b8af80e6d489c2a7714b71a9900"></a>
+<a class="anchor" id="a7417b9b6823272f9c4452dfd818ed804"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -243,7 +239,7 @@ Properties</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html">IWatchdog</a> Tgstation.Server.Host.Components.Watchdog.WatchdogFactory.CreateNonExperimentalWatchdog </td>
+          <td class="memname">virtual <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html">IWatchdog</a> Tgstation.Server.Host.Components.Watchdog.WatchdogFactory.CreateWatchdog </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html">IChatManager</a>&#160;</td>
           <td class="paramname"><em>chat</em>, </td>
@@ -257,8 +253,8 @@ Properties</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_reattach_info_handler.html">IReattachInfoHandler</a>&#160;</td>
-          <td class="paramname"><em>reattachInfoHandler</em>, </td>
+          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor.html">ISessionPersistor</a>&#160;</td>
+          <td class="paramname"><em>sessionPersistor</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -270,7 +266,19 @@ Properties</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html">IIOManager</a>&#160;</td>
-          <td class="paramname"><em>ioManager</em>, </td>
+          <td class="paramname"><em>gameIOManager</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html">IIOManager</a>&#160;</td>
+          <td class="paramname"><em>diagnosticsIOManager</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html">IEventConsumer</a>&#160;</td>
+          <td class="paramname"><em>eventConsumer</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -292,101 +300,17 @@ Properties</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Create a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers ">IWatchdog</a> that isn't the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html" title="A IWatchdog that tries to manage 2 servers at once for maximum uptime. ">ExperimentalWatchdog</a>. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">chat</td><td>The IChatManager for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers ">IWatchdog</a></td></tr>
-    <tr><td class="paramname">dmbFactory</td><td>The IDmbFactory for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers ">IWatchdog</a> with</td></tr>
-    <tr><td class="paramname">reattachInfoHandler</td><td>The IReattachInfoHandler for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers ">IWatchdog</a></td></tr>
-    <tr><td class="paramname">sessionControllerFactory</td><td>The ISessionControllerFactory for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers ">IWatchdog</a></td></tr>
-    <tr><td class="paramname">ioManager</td><td>The IIOManager for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers ">IWatchdog</a>.</td></tr>
-    <tr><td class="paramname">instance</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html">Instance</a> for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers ">IWatchdog</a></td></tr>
-    <tr><td class="paramname">settings</td><td>The initial DreamDaemonSettings for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers ">IWatchdog</a></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers ">IWatchdog</a></dd></dl>
-
-<p>Reimplemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html#a6a30173c82382567c5aa2dfe472d4683">Tgstation.Server.Host.Components.Watchdog.WindowsWatchdogFactory</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="afd02a561fb81a964f00d37711a5ccaf7"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html">IWatchdog</a> Tgstation.Server.Host.Components.Watchdog.WatchdogFactory.CreateWatchdog </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html">IChatManager</a>&#160;</td>
-          <td class="paramname"><em>chat</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html">IDmbFactory</a>&#160;</td>
-          <td class="paramname"><em>dmbFactory</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_reattach_info_handler.html">IReattachInfoHandler</a>&#160;</td>
-          <td class="paramname"><em>reattachInfoHandler</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller_factory.html">ISessionControllerFactory</a>&#160;</td>
-          <td class="paramname"><em>sessionControllerFactory</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html">IIOManager</a>&#160;</td>
-          <td class="paramname"><em>ioManager</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Api.Models.Instance</a>&#160;</td>
-          <td class="paramname"><em>instance</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_settings.html">DreamDaemonSettings</a>&#160;</td>
-          <td class="paramname"><em>settings</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
 <p>Creates a <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers ">IWatchdog</a>  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html#ae33542d5dc8e241079bcd540867fcfe9">Tgstation.Server.Host.Components.Watchdog.IWatchdogFactory</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html#a4e0ea5f477f968e4f64902e6ad1ae032">Tgstation.Server.Host.Components.Watchdog.IWatchdogFactory</a>.</p>
 
-<p>Definition at line <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html#l00075">75</a> of file <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html">WatchdogFactory.cs</a>.</p>
+<p>Reimplemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html#ac7577c15b657467c12af75e719feccc6">Tgstation.Server.Host.Components.Watchdog.WindowsWatchdogFactory</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_posix_watchdog_factory.html#a55c35d3407232ef352cedfed89dfdda4">Tgstation.Server.Host.Components.Watchdog.PosixWatchdogFactory</a>.</p>
 
-<p>References <a class="el" href="_tgstation_8_server_8_api_2_models_2_internal_2_dream_daemon_settings_8cs_source.html#l00014">Tgstation.Server.Api.Models.Internal.DreamDaemonSettings.AutoStart</a>, and <a class="el" href="_general_configuration_8cs_source.html#l00076">Tgstation.Server.Host.Configuration.GeneralConfiguration.UseExperimentalWatchdog</a>.</p>
-<div class="fragment"><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        {</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">GeneralConfiguration</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#aba344f151bae43f8f48c4c8ca2f483f7">UseExperimentalWatchdog</a>)</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">new</span> ExperimentalWatchdog(</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                    chat,</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                    sessionControllerFactory,</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                    dmbFactory,</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                    reattachInfoHandler,</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory.html">DatabaseContextFactory</a>,</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html">JobManager</a>,</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#a83607d97387c92ed33c6640f0cd4ee1a">ServerControl</a>,</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_async_delayer.html">AsyncDelayer</a>,</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#ac70e6ed4dbb2c805b6fa57122fc82318">LoggerFactory</a>.CreateLogger&lt;ExperimentalWatchdog&gt;(),</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                    settings,</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                    instance,</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                    settings.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_settings.html#abeff5ac1db71468960ffd0e0c4a896fd">AutoStart</a>.Value);</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#a46ae6b8af80e6d489c2a7714b71a9900">CreateNonExperimentalWatchdog</a>(chat, dmbFactory, reattachInfoHandler, sessionControllerFactory, ioManager, instance, settings);</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        }</div><div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory_html_ac70e6ed4dbb2c805b6fa57122fc82318"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#ac70e6ed4dbb2c805b6fa57122fc82318">Tgstation.Server.Host.Components.Watchdog.WatchdogFactory.LoggerFactory</a></div><div class="ttdeci">ILoggerFactory LoggerFactory</div><div class="ttdoc">The ILoggerFactory for the WatchdogFactory </div><div class="ttdef"><b>Definition:</b> <a href="_components_2_watchdog_2_watchdog_factory_8cs_source.html#l00027">WatchdogFactory.cs:27</a></div></div>
-<div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_async_delayer_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_async_delayer.html">Tgstation.Server.Host.Core.AsyncDelayer</a></div><div class="ttdef"><b>Definition:</b> <a href="_async_delayer_8cs_source.html#l00008">AsyncDelayer.cs:8</a></div></div>
-<div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html">Tgstation.Server.Host.Jobs.JobManager</a></div><div class="ttdef"><b>Definition:</b> <a href="_job_manager_8cs_source.html#l00015">JobManager.cs:15</a></div></div>
-<div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory_html_a46ae6b8af80e6d489c2a7714b71a9900"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#a46ae6b8af80e6d489c2a7714b71a9900">Tgstation.Server.Host.Components.Watchdog.WatchdogFactory.CreateNonExperimentalWatchdog</a></div><div class="ttdeci">virtual IWatchdog CreateNonExperimentalWatchdog(IChatManager chat, IDmbFactory dmbFactory, IReattachInfoHandler reattachInfoHandler, ISessionControllerFactory sessionControllerFactory, IIOManager ioManager, Api.Models.Instance instance, DreamDaemonSettings settings)</div><div class="ttdoc">Create a IWatchdog that isn&amp;#39;t the ExperimentalWatchdog. </div></div>
-<div class="ttc" id="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_settings_html_abeff5ac1db71468960ffd0e0c4a896fd"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_settings.html#abeff5ac1db71468960ffd0e0c4a896fd">Tgstation.Server.Api.Models.Internal.DreamDaemonSettings.AutoStart</a></div><div class="ttdeci">bool AutoStart</div><div class="ttdoc">If DreamDaemon starts when it&amp;#39;s Instance starts </div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_internal_2_dream_daemon_settings_8cs_source.html#l00014">DreamDaemonSettings.cs:14</a></div></div>
-<div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_factory.html">Tgstation.Server.Host.Database.DatabaseContextFactory</a></div><div class="ttdef"><b>Definition:</b> <a href="_database_context_factory_8cs_source.html#l00008">DatabaseContextFactory.cs:8</a></div></div>
-<div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html_aba344f151bae43f8f48c4c8ca2f483f7"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#aba344f151bae43f8f48c4c8ca2f483f7">Tgstation.Server.Host.Configuration.GeneralConfiguration.UseExperimentalWatchdog</a></div><div class="ttdeci">bool UseExperimentalWatchdog</div><div class="ttdoc">If the Components.Watchdog.ExperimentalWatchdog should be used. </div><div class="ttdef"><b>Definition:</b> <a href="_general_configuration_8cs_source.html#l00076">GeneralConfiguration.cs:76</a></div></div>
-<div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory_html_a83607d97387c92ed33c6640f0cd4ee1a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#a83607d97387c92ed33c6640f0cd4ee1a">Tgstation.Server.Host.Components.Watchdog.WatchdogFactory.ServerControl</a></div><div class="ttdeci">IServerControl ServerControl</div><div class="ttdoc">The IServerControl for the WatchdogFactory </div><div class="ttdef"><b>Definition:</b> <a href="_components_2_watchdog_2_watchdog_factory_8cs_source.html#l00022">WatchdogFactory.cs:22</a></div></div>
-<div class="ttc" id="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html">Tgstation.Server.Host.Configuration.GeneralConfiguration</a></div><div class="ttdoc">General configuration options </div><div class="ttdef"><b>Definition:</b> <a href="_general_configuration_8cs_source.html#l00010">GeneralConfiguration.cs:10</a></div></div>
-</div><!-- fragment -->
 </div>
 </div>
 <h2 class="groupheader">Property Documentation</h2>
@@ -410,7 +334,7 @@ Properties</h2></td></tr>
 
 <p>The IAsyncDelayer for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html">WatchdogFactory</a> </p>
 
-<p>Definition at line <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html#l00042">42</a> of file <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html">WatchdogFactory.cs</a>.</p>
+<p>Definition at line <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html#l00043">43</a> of file <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html">WatchdogFactory.cs</a>.</p>
 
 </div>
 </div>
@@ -434,7 +358,7 @@ Properties</h2></td></tr>
 
 <p>The IDatabaseContextFactory for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html">WatchdogFactory</a> </p>
 
-<p>Definition at line <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html#l00032">32</a> of file <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html">WatchdogFactory.cs</a>.</p>
+<p>Definition at line <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html#l00033">33</a> of file <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html">WatchdogFactory.cs</a>.</p>
 
 </div>
 </div>
@@ -458,7 +382,7 @@ Properties</h2></td></tr>
 
 <p>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options ">Configuration.GeneralConfiguration</a> for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html">WatchdogFactory</a> </p>
 
-<p>Definition at line <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html#l00047">47</a> of file <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html">WatchdogFactory.cs</a>.</p>
+<p>Definition at line <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html#l00048">48</a> of file <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html">WatchdogFactory.cs</a>.</p>
 
 </div>
 </div>
@@ -482,7 +406,7 @@ Properties</h2></td></tr>
 
 <p>The IJobManager for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html">WatchdogFactory</a> </p>
 
-<p>Definition at line <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html#l00037">37</a> of file <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html">WatchdogFactory.cs</a>.</p>
+<p>Definition at line <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html#l00038">38</a> of file <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html">WatchdogFactory.cs</a>.</p>
 
 </div>
 </div>
@@ -506,7 +430,7 @@ Properties</h2></td></tr>
 
 <p>The ILoggerFactory for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html">WatchdogFactory</a> </p>
 
-<p>Definition at line <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html#l00027">27</a> of file <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html">WatchdogFactory.cs</a>.</p>
+<p>Definition at line <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html#l00028">28</a> of file <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html">WatchdogFactory.cs</a>.</p>
 
 </div>
 </div>
@@ -530,7 +454,7 @@ Properties</h2></td></tr>
 
 <p>The IServerControl for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html">WatchdogFactory</a> </p>
 
-<p>Definition at line <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html#l00022">22</a> of file <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html">WatchdogFactory.cs</a>.</p>
+<p>Definition at line <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html#l00023">23</a> of file <a class="el" href="_components_2_watchdog_2_watchdog_factory_8cs_source.html">WatchdogFactory.cs</a>.</p>
 
 </div>
 </div>

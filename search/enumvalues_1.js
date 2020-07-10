@@ -9,5 +9,6 @@ var searchData=
   ['byonddownloadfail',['ByondDownloadFail',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a80f5b2695c2686d905a8945a15d1e160',1,'Tgstation::Server::Api::Models']]],
   ['byondinstallfail',['ByondInstallFail',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7aa63abc793fbdf14cf7caf28a4812e682',1,'Tgstation::Server::Host::Components::Events']]],
   ['byondinstallstart',['ByondInstallStart',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7a93c1e81c6ae4a9cc3637be6b044211e9',1,'Tgstation::Server::Host::Components::Events']]],
+  ['byondnonexistentcustomversion',['ByondNonExistentCustomVersion',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8aefac06c6376519b5887300325a6fe5ec',1,'Tgstation::Server::Api::Models']]],
   ['byondnoversionsinstalled',['ByondNoVersionsInstalled',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8ae2984e03276657bdd906f1845d8035fa',1,'Tgstation::Server::Api::Models']]]
 ];

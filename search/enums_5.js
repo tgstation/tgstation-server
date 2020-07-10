@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['instancemanagerrights',['InstanceManagerRights',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79',1,'Tgstation::Server::Api::Rights']]],
-  ['instanceuserrights',['InstanceUserRights',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a5f1b5a9225190982810802d7a85bb601',1,'Tgstation::Server::Api::Rights']]],
-  ['ircpasswordtype',['IrcPasswordType',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a0a41c646f859c99d437373d8e6e0545b',1,'Tgstation::Server::Api::Models']]]
+  ['headertypes',['HeaderTypes',['../namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef',1,'Tgstation::Server::Api']]]
 ];

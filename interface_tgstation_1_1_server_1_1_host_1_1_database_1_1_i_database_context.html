@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.3.6</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -112,7 +112,7 @@ Inheritance diagram for Tgstation.Server.Host.Database.IDatabaseContext:</div>
 <area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html" title="Backend abstract implementation of IDatabaseContext " alt="" coords="284,104,515,145"/>
 <area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_my_sql_database_context.html" title="DatabaseContext for MySQL " alt="" coords="563,5,793,47"/>
 <area shape="rect" id="node4" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_postgres_sql_database_context.html" title="DatabaseContext for PostgresSQL. " alt="" coords="563,71,793,112"/>
-<area shape="rect" id="node5" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_sqlite_database_context.html" title="DatabaseContext for MySQL " alt="" coords="563,136,793,177"/>
+<area shape="rect" id="node5" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_sqlite_database_context.html" title="DatabaseContext for SQLite. " alt="" coords="563,136,793,177"/>
 <area shape="rect" id="node6" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_sql_server_database_context.html" title="DatabaseContext for Sqlserver " alt="" coords="563,201,793,243"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
@@ -122,18 +122,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a74e123c6393ad813f997c882a22b228e"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a74e123c6393ad813f997c882a22b228e">Save</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a74e123c6393ad813f997c882a22b228e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saves changes made to the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database. ">IDatabaseContext</a>  <a href="#a74e123c6393ad813f997c882a22b228e">More...</a><br /></td></tr>
 <tr class="separator:a74e123c6393ad813f997c882a22b228e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a199f87338e2136375610f5dac32b268b"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a199f87338e2136375610f5dac32b268b">Initialize</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a199f87338e2136375610f5dac32b268b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates and migrates the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database. ">IDatabaseContext</a>  <a href="#a199f87338e2136375610f5dac32b268b">More...</a><br /></td></tr>
-<tr class="separator:a199f87338e2136375610f5dac32b268b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0859cd037c903cbc4d75a5e8439038c4"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a0859cd037c903cbc4d75a5e8439038c4">SchemaDowngradeForServerVersion</a> (Version version, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a0859cd037c903cbc4d75a5e8439038c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to downgrade the schema to the migration used for a given server <em>version</em>   <a href="#a0859cd037c903cbc4d75a5e8439038c4">More...</a><br /></td></tr>
-<tr class="separator:a0859cd037c903cbc4d75a5e8439038c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6216e8a817ab6700a155699bb8013584"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a6216e8a817ab6700a155699bb8013584">Drop</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a6216e8a817ab6700a155699bb8013584"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempts to delete all tables and drop the database in use.  <a href="#a6216e8a817ab6700a155699bb8013584">More...</a><br /></td></tr>
+<tr class="separator:a6216e8a817ab6700a155699bb8013584"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac03f819c07cb242b5257f5c158235b06"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#ac03f819c07cb242b5257f5c158235b06">Migrate</a> (ILogger&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a> &gt; logger, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ac03f819c07cb242b5257f5c158235b06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates and migrates the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database. ">IDatabaseContext</a>  <a href="#ac03f819c07cb242b5257f5c158235b06">More...</a><br /></td></tr>
+<tr class="separator:ac03f819c07cb242b5257f5c158235b06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac34cc442f544f86aec48f1fe7570b8d2"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#ac34cc442f544f86aec48f1fe7570b8d2">SchemaDowngradeForServerVersion</a> (ILogger&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a> &gt; logger, Version version, <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a> currentDatabaseType, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ac34cc442f544f86aec48f1fe7570b8d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to downgrade the schema to the migration used for a given server <em>version</em>   <a href="#ac34cc442f544f86aec48f1fe7570b8d2">More...</a><br /></td></tr>
+<tr class="separator:ac34cc442f544f86aec48f1fe7570b8d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
-<tr class="memitem:aa939759d0ab9b03154c133c5f2c40037"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#aa939759d0ab9b03154c133c5f2c40037">DatabaseType</a><code> [get]</code></td></tr>
-<tr class="memdesc:aa939759d0ab9b03154c133c5f2c40037"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#aa939759d0ab9b03154c133c5f2c40037" title="The DatabaseType. ">DatabaseType</a>.  <a href="#aa939759d0ab9b03154c133c5f2c40037">More...</a><br /></td></tr>
-<tr class="separator:aa939759d0ab9b03154c133c5f2c40037"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b6cb85c0616ae3076d4837f50a34d95"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html">IDatabaseCollection</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">User</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a9b6cb85c0616ae3076d4837f50a34d95">Users</a><code> [get]</code></td></tr>
 <tr class="memdesc:a9b6cb85c0616ae3076d4837f50a34d95"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Users in the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database. ">IDatabaseContext</a>  <a href="#a9b6cb85c0616ae3076d4837f50a34d95">More...</a><br /></td></tr>
 <tr class="separator:a9b6cb85c0616ae3076d4837f50a34d95"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -170,21 +170,18 @@ Properties</h2></td></tr>
 <tr class="memitem:aa06e331aeed4c0680e33e0aa2bcf81cf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html">IDatabaseCollection</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_reattach_information.html">ReattachInformation</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#aa06e331aeed4c0680e33e0aa2bcf81cf">ReattachInformations</a><code> [get]</code></td></tr>
 <tr class="memdesc:aa06e331aeed4c0680e33e0aa2bcf81cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">The DbSet&lt;TEntity&gt; for ReattachInformations  <a href="#aa06e331aeed4c0680e33e0aa2bcf81cf">More...</a><br /></td></tr>
 <tr class="separator:aa06e331aeed4c0680e33e0aa2bcf81cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf62824a589b959a542f4dd268c223e7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html">IDatabaseCollection</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dual_reattach_information.html">DualReattachInformation</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#adf62824a589b959a542f4dd268c223e7">WatchdogReattachInformations</a><code> [get]</code></td></tr>
-<tr class="memdesc:adf62824a589b959a542f4dd268c223e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The DbSet&lt;TEntity&gt; for DualReattachInformations  <a href="#adf62824a589b959a542f4dd268c223e7">More...</a><br /></td></tr>
-<tr class="separator:adf62824a589b959a542f4dd268c223e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents the database. </p>
 
-<p>Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00013">13</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00014">14</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a199f87338e2136375610f5dac32b268b"></a>
+<a class="anchor" id="a6216e8a817ab6700a155699bb8013584"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task Tgstation.Server.Host.Database.IDatabaseContext.Initialize </td>
+          <td class="memname">Task Tgstation.Server.Host.Database.IDatabaseContext.Drop </td>
           <td>(</td>
           <td class="paramtype">CancellationToken&#160;</td>
           <td class="paramname"><em>cancellationToken</em></td><td>)</td>
@@ -193,16 +190,78 @@ Properties</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Attempts to delete all tables and drop the database in use. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#abd512a5dfbfbc3f64670a963ec808de5">Tgstation.Server.Host.Database.DatabaseContext</a>.</p>
+
+<p>Referenced by <a class="el" href="_database_seeder_8cs_source.html#l00204">Tgstation.Server.Host.Database.DatabaseSeeder.Initialize()</a>.</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_a6216e8a817ab6700a155699bb8013584_icgraph.png" border="0" usemap="#interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_a6216e8a817ab6700a155699bb8013584_icgraph" alt=""/></div>
+<map name="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_a6216e8a817ab6700a155699bb8013584_icgraph" id="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_a6216e8a817ab6700a155699bb8013584_icgraph">
+<area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a453f07e4addb58e08b4ce0ddfb84e357" title="Setup up a given databaseContext . &#160;" alt="" coords="284,5,515,47"/>
+</map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="ac03f819c07cb242b5257f5c158235b06"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task&lt;bool&gt; Tgstation.Server.Host.Database.IDatabaseContext.Migrate </td>
+          <td>(</td>
+          <td class="paramtype">ILogger&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a> &gt;&#160;</td>
+          <td class="paramname"><em>logger</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
 <p>Creates and migrates the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database. ">IDatabaseContext</a> </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">logger</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html" title="Backend abstract implementation of IDatabaseContext ">DatabaseContext</a> ILogger to use.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in  if the database should be seeded,  otherwise.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a6b7f32a32a19751f1ce41d4bf8853f6c">Tgstation.Server.Host.Database.DatabaseContext</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a56bbcd54599c04c0d8c6977fd6908804">Tgstation.Server.Host.Database.DatabaseContext</a>.</p>
+
+<p>Referenced by <a class="el" href="_database_seeder_8cs_source.html#l00204">Tgstation.Server.Host.Database.DatabaseSeeder.Initialize()</a>.</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_ac03f819c07cb242b5257f5c158235b06_icgraph.png" border="0" usemap="#interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_ac03f819c07cb242b5257f5c158235b06_icgraph" alt=""/></div>
+<map name="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_ac03f819c07cb242b5257f5c158235b06_icgraph" id="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_ac03f819c07cb242b5257f5c158235b06_icgraph">
+<area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a453f07e4addb58e08b4ce0ddfb84e357" title="Setup up a given databaseContext . &#160;" alt="" coords="284,5,515,47"/>
+</map>
+</div>
+</p>
 
 </div>
 </div>
@@ -231,31 +290,42 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Tgstation.Server.Host.Database.DatabaseContext</a>.</p>
 
-<p>Referenced by <a class="el" href="_database_seeder_8cs_source.html#l00092">Tgstation.Server.Host.Database.DatabaseSeeder.ResetAdminPassword()</a>, <a class="el" href="_database_seeder_8cs_source.html#l00064">Tgstation.Server.Host.Database.DatabaseSeeder.SanitizeDatabase()</a>, and <a class="el" href="_database_seeder_8cs_source.html#l00057">Tgstation.Server.Host.Database.DatabaseSeeder.SeedDatabase()</a>.</p>
+<p>Referenced by <a class="el" href="_database_seeder_8cs_source.html#l00171">Tgstation.Server.Host.Database.DatabaseSeeder.ResetAdminPassword()</a>, and <a class="el" href="_database_seeder_8cs_source.html#l00100">Tgstation.Server.Host.Database.DatabaseSeeder.SeedDatabase()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_a74e123c6393ad813f997c882a22b228e_icgraph.png" border="0" usemap="#interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_a74e123c6393ad813f997c882a22b228e_icgraph" alt=""/></div>
 <map name="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_a74e123c6393ad813f997c882a22b228e_icgraph" id="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_a74e123c6393ad813f997c882a22b228e_icgraph">
-<area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#af844d41153f8a43c071bb6ec67445a1b" title="Changes the admin password in IDatabaseContext back to it&#39;s default and enables the account &#160;..." alt="" coords="284,5,552,47"/>
-<area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a1ed443f053ba4e1098f0e4099d23b774" title="Correct invalid database data caused by previous versions. &#160;" alt="" coords="295,71,541,112"/>
-<area shape="rect" id="node4" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a09fc7208df756283dd6b475cfe013151" title="Initially seed a given databaseContext &#160;&#160;" alt="" coords="303,136,533,177"/>
+<area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#af844d41153f8a43c071bb6ec67445a1b" title="Changes the admin password in IDatabaseContext back to it&#39;s default and enables the account ..." alt="" coords="284,5,552,47"/>
+<area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a09fc7208df756283dd6b475cfe013151" title="Initially seed a given databaseContext &#160;" alt="" coords="303,71,533,112"/>
 </map>
 </div>
 </p>
 
 </div>
 </div>
-<a class="anchor" id="a0859cd037c903cbc4d75a5e8439038c4"></a>
+<a class="anchor" id="ac34cc442f544f86aec48f1fe7570b8d2"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">Task Tgstation.Server.Host.Database.IDatabaseContext.SchemaDowngradeForServerVersion </td>
           <td>(</td>
+          <td class="paramtype">ILogger&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a> &gt;&#160;</td>
+          <td class="paramname"><em>logger</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">Version&#160;</td>
           <td class="paramname"><em>version</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a>&#160;</td>
+          <td class="paramname"><em>currentDatabaseType</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -274,14 +344,28 @@ Here is the caller graph for this function:</div>
 <p>Attempt to downgrade the schema to the migration used for a given server <em>version</em>  </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">logger</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html" title="Backend abstract implementation of IDatabaseContext ">DatabaseContext</a> ILogger to use.</td></tr>
     <tr><td class="paramname">version</td><td>The tgstation-server Version that the schema should downgrade for</td></tr>
+    <tr><td class="paramname">currentDatabaseType</td><td>The DatabaseType in use.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac62d0065f35696fd7797502e6e8a88ef">Tgstation.Server.Host.Database.DatabaseContext</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a00d005a887ba10b9ed9f0e79af829c20">Tgstation.Server.Host.Database.DatabaseContext</a>.</p>
+
+<p>Referenced by <a class="el" href="_database_seeder_8cs_source.html#l00234">Tgstation.Server.Host.Database.DatabaseSeeder.Downgrade()</a>.</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_ac34cc442f544f86aec48f1fe7570b8d2_icgraph.png" border="0" usemap="#interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_ac34cc442f544f86aec48f1fe7570b8d2_icgraph" alt=""/></div>
+<map name="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_ac34cc442f544f86aec48f1fe7570b8d2_icgraph" id="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_ac34cc442f544f86aec48f1fe7570b8d2_icgraph">
+<area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ae30cd4eb76ba111b3fcd0e1b3622716d" title="Migrate a given databaseContext &#160;down. &#160;" alt="" coords="340,13,571,54"/>
+</map>
+</div>
+</p>
 
 </div>
 </div>
@@ -306,7 +390,7 @@ Here is the caller graph for this function:</div>
 
 <p>The ChatBots in the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database. ">IDatabaseContext</a> </p>
 
-<p>Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00063">63</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00059">59</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
 
 </div>
 </div>
@@ -330,7 +414,7 @@ Here is the caller graph for this function:</div>
 
 <p>The ChatChannel in the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database. ">IDatabaseContext</a> </p>
 
-<p>Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00068">68</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00064">64</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
 
 </div>
 </div>
@@ -354,33 +438,9 @@ Here is the caller graph for this function:</div>
 
 <p>The CompileJobs in the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database. ">IDatabaseContext</a> </p>
 
-<p>Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00043">43</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00039">39</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_tgstation_8_server_8_host_2_components_2_deployment_2_dream_maker_8cs_source.html#l00696">Tgstation.Server.Host.Components.Deployment.DreamMaker.CalculateExpectedDeploymentTime()</a>, and <a class="el" href="_database_context_extensions_8cs_source.html#l00023">Tgstation.Server.Host.Extensions.DatabaseContextExtensions.MostRecentCompletedCompileJobOrDefault()</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aa939759d0ab9b03154c133c5f2c40037"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_configuration.html#acda8f6ee23a9ee8ac298f7b4a7d5617c">DatabaseType</a> Tgstation.Server.Host.Database.IDatabaseContext.DatabaseType</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>The <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#aa939759d0ab9b03154c133c5f2c40037" title="The DatabaseType. ">DatabaseType</a>. </p>
-
-<p>Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00018">18</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
+<p>Referenced by <a class="el" href="_tgstation_8_server_8_host_2_components_2_deployment_2_dream_maker_8cs_source.html#l00699">Tgstation.Server.Host.Components.Deployment.DreamMaker.CalculateExpectedDeploymentTime()</a>.</p>
 
 </div>
 </div>
@@ -404,7 +464,9 @@ Here is the caller graph for this function:</div>
 
 <p>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dream_daemon_settings.html">Models.DreamDaemonSettings</a> in the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database. ">IDatabaseContext</a> </p>
 
-<p>Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00058">58</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00054">54</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
+
+<p>Referenced by <a class="el" href="_database_seeder_8cs_source.html#l00112">Tgstation.Server.Host.Database.DatabaseSeeder.SanitizeDatabase()</a>.</p>
 
 </div>
 </div>
@@ -428,7 +490,7 @@ Here is the caller graph for this function:</div>
 
 <p>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dream_maker_settings.html">Models.DreamMakerSettings</a> in the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database. ">IDatabaseContext</a> </p>
 
-<p>Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00053">53</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00049">49</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
 
 </div>
 </div>
@@ -452,9 +514,9 @@ Here is the caller graph for this function:</div>
 
 <p>The Instances in the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database. ">IDatabaseContext</a> </p>
 
-<p>Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00028">28</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00024">24</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_database_seeder_8cs_source.html#l00064">Tgstation.Server.Host.Database.DatabaseSeeder.SanitizeDatabase()</a>.</p>
+<p>Referenced by <a class="el" href="_database_seeder_8cs_source.html#l00112">Tgstation.Server.Host.Database.DatabaseSeeder.SanitizeDatabase()</a>.</p>
 
 </div>
 </div>
@@ -478,7 +540,7 @@ Here is the caller graph for this function:</div>
 
 <p>The InstanceUsers in the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database. ">IDatabaseContext</a> </p>
 
-<p>Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00033">33</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00029">29</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
 
 </div>
 </div>
@@ -502,7 +564,7 @@ Here is the caller graph for this function:</div>
 
 <p>The Jobs in the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database. ">IDatabaseContext</a> </p>
 
-<p>Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00038">38</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00034">34</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
 
 </div>
 </div>
@@ -526,7 +588,7 @@ Here is the caller graph for this function:</div>
 
 <p>The DbSet&lt;TEntity&gt; for ReattachInformations </p>
 
-<p>Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00078">78</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00074">74</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
 
 </div>
 </div>
@@ -550,7 +612,7 @@ Here is the caller graph for this function:</div>
 
 <p>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_repository_settings.html">Models.RepositorySettings</a> in the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database. ">IDatabaseContext</a> </p>
 
-<p>Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00073">73</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00069">69</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
 
 </div>
 </div>
@@ -574,9 +636,9 @@ Here is the caller graph for this function:</div>
 
 <p>The RevisionInformations in the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database. ">IDatabaseContext</a> </p>
 
-<p>Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00048">48</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00044">44</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_repository_controller_8cs_source.html#l00072">Tgstation.Server.Host.Controllers.RepositoryController.LoadRevisionInformation()</a>.</p>
+<p>Referenced by <a class="el" href="_repository_controller_8cs_source.html#l00085">Tgstation.Server.Host.Controllers.RepositoryController.LoadRevisionInformation()</a>.</p>
 
 </div>
 </div>
@@ -600,33 +662,9 @@ Here is the caller graph for this function:</div>
 
 <p>The Users in the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database. ">IDatabaseContext</a> </p>
 
-<p>Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00023">23</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
+<p>Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00019">19</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
 
-<p>Referenced by <a class="el" href="_database_seeder_8cs_source.html#l00110">Tgstation.Server.Host.Database.DatabaseSeeder.GetAdminUser()</a>, and <a class="el" href="_database_seeder_8cs_source.html#l00041">Tgstation.Server.Host.Database.DatabaseSeeder.SeedAdminUser()</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="adf62824a589b959a542f4dd268c223e7"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html">IDatabaseCollection</a>&lt;<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dual_reattach_information.html">DualReattachInformation</a>&gt; Tgstation.Server.Host.Database.IDatabaseContext.WatchdogReattachInformations</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>The DbSet&lt;TEntity&gt; for DualReattachInformations </p>
-
-<p>Definition at line <a class="el" href="_i_database_context_8cs_source.html#l00083">83</a> of file <a class="el" href="_i_database_context_8cs_source.html">IDatabaseContext.cs</a>.</p>
+<p>Referenced by <a class="el" href="_database_seeder_8cs_source.html#l00189">Tgstation.Server.Host.Database.DatabaseSeeder.GetAdminUser()</a>, and <a class="el" href="_database_seeder_8cs_source.html#l00079">Tgstation.Server.Host.Database.DatabaseSeeder.SeedAdminUser()</a>.</p>
 
 </div>
 </div>

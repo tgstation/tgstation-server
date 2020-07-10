@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.3.6</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -184,6 +184,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a839873a83e4a687821fbc3d28619f851"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a839873a83e4a687821fbc3d28619f851">ZipToDirectory</a> (string path, byte[] zipFileBytes, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a839873a83e4a687821fbc3d28619f851"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract a set of <em>zipFileBytes</em>  to a given <em>path</em>   <a href="#a839873a83e4a687821fbc3d28619f851">More...</a><br /></td></tr>
 <tr class="separator:a839873a83e4a687821fbc3d28619f851"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a291d4f10bc7972fbb518125e1331f634"><td class="memItemLeft" align="right" valign="top">Task&lt; DateTimeOffset &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a291d4f10bc7972fbb518125e1331f634">GetLastModified</a> (string path, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a291d4f10bc7972fbb518125e1331f634"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the DateTimeOffset of when a given <em>path</em>  was last modified.  <a href="#a291d4f10bc7972fbb518125e1331f634">More...</a><br /></td></tr>
+<tr class="separator:a291d4f10bc7972fbb518125e1331f634"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Interface for using filesystems </p>
@@ -214,6 +217,19 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>The combined path</dd></dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#abd68930642dbf40df272b35dc438312e">Tgstation.Server.Host.IO.DefaultIOManager</a>.</p>
+
+<p>Referenced by <a class="el" href="_file_logging_configuration_8cs_source.html#l00059">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.GetFullLogDirectory()</a>.</p>
+
+<p><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_a286f4eb5c679683b7e519847a6c3574e_icgraph.png" border="0" usemap="#interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_a286f4eb5c679683b7e519847a6c3574e_icgraph" alt=""/></div>
+<map name="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_a286f4eb5c679683b7e519847a6c3574e_icgraph" id="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_a286f4eb5c679683b7e519847a6c3574e_icgraph">
+<area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#a6e9e186a1456017f692358f96bdab2c3" title="Gets the evaluated log Directory. " alt="" coords="233,5,539,47"/>
+<area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a2b610f9600937f97857f303dcfe41823" title="Configure the Application&#39;s services. " alt="" coords="587,5,797,47"/>
+</map>
+</div>
+</p>
 
 </div>
 </div>
@@ -388,7 +404,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a1c0202582bb5f80ba212bf7cceb2bd6d">Tgstation.Server.Host.IO.DefaultIOManager</a>.</p>
 
-<p>Referenced by <a class="el" href="_server_8cs_source.html#l00157">Tgstation.Server.Host.Server.ApplyUpdate()</a>.</p>
+<p>Referenced by <a class="el" href="_server_8cs_source.html#l00162">Tgstation.Server.Host.Server.ApplyUpdate()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -514,7 +530,7 @@ Here is the caller graph for this function:</div>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a509e05cc7905cda41869f57bee5c6c58">Tgstation.Server.Host.IO.DefaultIOManager</a>.</p>
 
-<p>Referenced by <a class="el" href="_server_8cs_source.html#l00157">Tgstation.Server.Host.Server.ApplyUpdate()</a>.</p>
+<p>Referenced by <a class="el" href="_server_8cs_source.html#l00162">Tgstation.Server.Host.Server.ApplyUpdate()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -772,6 +788,44 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A Task resulting in a list of paths to files in <em>path</em>  with the given <em>extension</em> </dd></dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a6a40b596effc389caef80b800b74359c">Tgstation.Server.Host.IO.DefaultIOManager</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a291d4f10bc7972fbb518125e1331f634"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task&lt;DateTimeOffset&gt; Tgstation.Server.Host.IO.IIOManager.GetLastModified </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the DateTimeOffset of when a given <em>path</em>  was last modified. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The path to get metadata for.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the DateTimeOffset of when the file was last modified.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a6b4ed943b61e68cc1f38dbb2dd3abc78">Tgstation.Server.Host.IO.DefaultIOManager</a>.</p>
 
 </div>
 </div>
@@ -1077,7 +1131,7 @@ Here is the caller graph for this function:</div>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a8905a0a82326cf61f67ba1ec1eccb0e2">Tgstation.Server.Host.IO.DefaultIOManager</a>.</p>
 
-<p>Referenced by <a class="el" href="_server_8cs_source.html#l00157">Tgstation.Server.Host.Server.ApplyUpdate()</a>.</p>
+<p>Referenced by <a class="el" href="_server_8cs_source.html#l00162">Tgstation.Server.Host.Server.ApplyUpdate()</a>.</p>
 
 <p><div class="dynheader">
 Here is the caller graph for this function:</div>

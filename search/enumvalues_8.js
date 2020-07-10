@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['inactiveservercrashed',['InactiveServerCrashed',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#acb2ccc2dc05d01ec3a6448d3d57155c9a55fa500495cf8a547529c30f8d9c6ea5',1,'Tgstation::Server::Host::Components::Watchdog']]],
-  ['inactiveserverrebooted',['InactiveServerRebooted',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#acb2ccc2dc05d01ec3a6448d3d57155c9a511bd67e833172fb4f9a30b92591235b',1,'Tgstation::Server::Host::Components::Watchdog']]],
-  ['inactiveserverstartupcomplete',['InactiveServerStartupComplete',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog.html#acb2ccc2dc05d01ec3a6448d3d57155c9afaf84ad86619c2ec86111febdc77b60a',1,'Tgstation::Server::Host::Components::Watchdog']]],
+  ['incompatible',['Incompatible',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_session.html#a9dd0e3dfc87080e8c7a91665b79891b3a2a208768bc7995cc26b7f3797d24b0b1',1,'Tgstation::Server::Host::Components::Session']]],
+  ['installcustomversion',['InstallCustomVersion',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a2a217a19e652f117e2324fb79ed838b9aa08f65365d7310334494f45af5e89bfb',1,'Tgstation::Server::Api::Rights']]],
+  ['installofficialorchangeactiveversion',['InstallOfficialOrChangeActiveVersion',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a2a217a19e652f117e2324fb79ed838b9a58ad8910d4292a8890f2c04cf5ddc50e',1,'Tgstation::Server::Api::Rights']]],
   ['instanceatconflictingpath',['InstanceAtConflictingPath',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a92490b862c79e1b5898483fe55fc0c41',1,'Tgstation::Server::Api::Models']]],
   ['instanceatexistingpath',['InstanceAtExistingPath',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a494653f2fb509351b13abef0efe2e0ec',1,'Tgstation::Server::Api::Models']]],
   ['instanceautoupdatestart',['InstanceAutoUpdateStart',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_events.html#ac30c818717e92c8fb65f389adec739b7aefc3f4c097e45227dcc2aee3aadc034f',1,'Tgstation::Server::Host::Components::Events']]],

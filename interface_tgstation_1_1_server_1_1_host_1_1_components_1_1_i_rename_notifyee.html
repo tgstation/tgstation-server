@@ -25,7 +25,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.3.6</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -108,16 +108,15 @@ Inheritance diagram for Tgstation.Server.Host.Components.IRenameNotifyee:</div>
 <div class="dyncontent">
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee__inherit__graph.png" border="0" usemap="#_tgstation_8_server_8_host_8_components_8_i_rename_notifyee_inherit__map" alt="Inheritance graph"/></div>
 <map name="_tgstation_8_server_8_host_8_components_8_i_rename_notifyee_inherit__map" id="_tgstation_8_server_8_host_8_components_8_i_rename_notifyee_inherit__map">
-<area shape="rect" id="node2" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="For interacting with the instance services " alt="" coords="304,15,555,56"/>
-<area shape="rect" id="node4" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess " alt="" coords="304,112,555,153"/>
-<area shape="rect" id="node7" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers " alt="" coords="304,193,555,235"/>
+<area shape="rect" id="node2" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html" title="For interacting with the instance services " alt="" coords="304,5,555,47"/>
+<area shape="rect" id="node4" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess " alt="" coords="304,71,555,112"/>
+<area shape="rect" id="node6" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers " alt="" coords="304,136,555,177"/>
 <area shape="rect" id="node3" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html" title="Tgstation.Server.Host.Components.\lInstance" alt="" coords="603,5,853,47"/>
-<area shape="rect" id="node5" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_dead_session_controller.html" title="Implements a fake &quot;dead&quot; ISessionController " alt="" coords="603,71,853,112"/>
-<area shape="rect" id="node6" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html" title="Tgstation.Server.Host.Components.\lSession.SessionController" alt="" coords="603,136,853,177"/>
-<area shape="rect" id="node8" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs. " alt="" coords="603,201,853,243"/>
-<area shape="rect" id="node9" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html" title="A IWatchdog that manages one server. " alt="" coords="901,168,1152,209"/>
-<area shape="rect" id="node11" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html" title="A IWatchdog that tries to manage 2 servers at once for maximum uptime. " alt="" coords="901,233,1152,275"/>
-<area shape="rect" id="node10" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html" title="A version of the BasicWatchdog that, instead of killing servers for updates, uses the wonders of syml..." alt="" coords="1200,168,1451,209"/>
+<area shape="rect" id="node5" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html" title="Tgstation.Server.Host.Components.\lSession.SessionController" alt="" coords="603,71,853,112"/>
+<area shape="rect" id="node7" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html" title="Base class for IWatchdogs. " alt="" coords="603,136,853,177"/>
+<area shape="rect" id="node8" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html" title="A IWatchdog that manages one server. " alt="" coords="901,136,1152,177"/>
+<area shape="rect" id="node9" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html" title="A IWatchdog that, instead of killing servers for updates, uses the wonders of symlinks to swap out ch..." alt="" coords="1200,136,1451,177"/>
+<area shape="rect" id="node10" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_posix_watchdog.html" title="A variant of the WindowsWatchdog that works on POSIX systems. " alt="" coords="1499,136,1749,177"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -166,19 +165,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a3ca371ec92c273cd6b3ab2f6931f8a65">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a903d2a63951a7425699c6936160826d7">Tgstation.Server.Host.Components.Session.SessionController</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html#a11d48df0e7e2b1dc77de655842f02702">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a83fd03b9f768637cd654e3aca814d1ee">Tgstation.Server.Host.Components.Instance</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#aea63863a921d33b97558500dab1b74e3">Tgstation.Server.Host.Components.Watchdog.BasicWatchdog</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_dead_session_controller.html#ac24b03a6bcc2ac5944617cb47100a7c2">Tgstation.Server.Host.Components.Session.DeadSessionController</a>.</p>
-
-<p>Referenced by <a class="el" href="_experimental_watchdog_8cs_source.html#l00440">Tgstation.Server.Host.Components.Watchdog.ExperimentalWatchdog.InitControllers()</a>.</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee_a69fed1472e47f53392237645d5d65d7a_icgraph.png" border="0" usemap="#interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee_a69fed1472e47f53392237645d5d65d7a_icgraph" alt=""/></div>
-<map name="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee_a69fed1472e47f53392237645d5d65d7a_icgraph" id="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee_a69fed1472e47f53392237645d5d65d7a_icgraph">
-<area shape="rect" id="node2" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html#aca11de6335f98af3c29f4eb33ddbaa90" title="Starts all ISessionControllers. &#160;" alt="" coords="304,5,631,47"/>
-</map>
-</div>
-</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a3ca371ec92c273cd6b3ab2f6931f8a65">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a903d2a63951a7425699c6936160826d7">Tgstation.Server.Host.Components.Session.SessionController</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a83fd03b9f768637cd654e3aca814d1ee">Tgstation.Server.Host.Components.Instance</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#aea63863a921d33b97558500dab1b74e3">Tgstation.Server.Host.Components.Watchdog.BasicWatchdog</a>.</p>
 
 </div>
 </div>
