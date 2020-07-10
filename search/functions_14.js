@@ -1,6 +1,7 @@
 var searchData=
 [
   ['validateconfigrelativepath',['ValidateConfigRelativePath',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a3947ddcc7baa1a6c536a0db65766c7cb',1,'Tgstation::Server::Host::Components::StaticFiles::Configuration']]],
+  ['validateinstanceonlinestatus',['ValidateInstanceOnlineStatus',['../class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a12db9739647e78d82896a6ecf7af10b0',1,'Tgstation::Server::Host::Controllers::InstanceController']]],
   ['validatenonexistantsqlitedbname',['ValidateNonExistantSqliteDBName',['../class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a8a3a9f933ee29e77d67fbd7223fd84ca',1,'Tgstation::Server::Host::Setup::SetupWizard']]],
   ['validateproviderchanneltypes',['ValidateProviderChannelTypes',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_bot.html#a8f3524dcce53f320de9b210334928a06',1,'Tgstation::Server::Api::Models::ChatBot']]],
   ['verifyapi',['VerifyApi',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ab683b1788351899ba9ded6cd284c4177',1,'Tgstation::Server::Host::Components::Deployment::DreamMaker']]],
