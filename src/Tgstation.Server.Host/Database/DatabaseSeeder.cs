@@ -133,31 +133,34 @@ namespace Tgstation.Server.Host.Database
 					instance.Path = instance.Path.Replace('\\', '/');
 			}
 
-			var ids = await databaseContext
-				.DreamDaemonSettings
-				.AsQueryable()
-				.Where(x => x.TopicRequestTimeout == 0)
-				.Select(x => x.Id)
-				.ToListAsync(cancellationToken)
-				.ConfigureAwait(false);
-
-			var rowsUpdated = ids.Count;
-			foreach (var id in ids)
+			if (generalConfiguration.ByondTopicTimeout != 0)
 			{
-				var newDDSettings = new DreamDaemonSettings
+				var ids = await databaseContext
+					.DreamDaemonSettings
+					.AsQueryable()
+					.Where(x => x.TopicRequestTimeout == 0)
+					.Select(x => x.Id)
+					.ToListAsync(cancellationToken)
+					.ConfigureAwait(false);
+
+				var rowsUpdated = ids.Count;
+				foreach (var id in ids)
 				{
-					Id = id
-				};
+					var newDDSettings = new DreamDaemonSettings
+					{
+						Id = id
+					};
 
-				databaseContext.DreamDaemonSettings.Attach(newDDSettings);
-				newDDSettings.TopicRequestTimeout = generalConfiguration.ByondTopicTimeout;
+					databaseContext.DreamDaemonSettings.Attach(newDDSettings);
+					newDDSettings.TopicRequestTimeout = generalConfiguration.ByondTopicTimeout;
+				}
+
+				if (rowsUpdated > 0)
+					logger.LogInformation(
+						"Updated {0} instances to use database backed BYOND topic timeouts from configuration setting of {1}",
+						rowsUpdated,
+						generalConfiguration.ByondTopicTimeout);
 			}
-
-			if (rowsUpdated > 0)
-				logger.LogInformation(
-					"Updated {0} instances to use database backed BYOND topic timeouts from configuration setting of {1}",
-					rowsUpdated,
-					generalConfiguration.ByondTopicTimeout);
 
 			await databaseContext.Save(cancellationToken).ConfigureAwait(false);
 		}

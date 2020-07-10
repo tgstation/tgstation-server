@@ -248,6 +248,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 				if (!dmbExistsAtRoot)
 				{
+					logger.LogTrace("Didn't find .dmb at game directory root, checking A/B dirs...");
 					var primaryCheckTask = ioManager.FileExists(
 						ioManager.ConcatPath(
 							newProvider.Directory,

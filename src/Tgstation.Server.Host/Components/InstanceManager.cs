@@ -285,7 +285,7 @@ namespace Tgstation.Server.Host.Components
 				var factoryStartup = instanceFactory.StartAsync(cancellationToken);
 				await databaseSeeder.Initialize(databaseContext, cancellationToken).ConfigureAwait(false);
 				await jobManager.StartAsync(cancellationToken).ConfigureAwait(false);
-				var dbInstances = databaseContext
+				var dbInstances = await databaseContext
 					.Instances
 					.AsQueryable()
 					.Where(x => x.Online.Value)
@@ -293,10 +293,22 @@ namespace Tgstation.Server.Host.Components
 					.Include(x => x.ChatSettings)
 					.ThenInclude(x => x.Channels)
 					.Include(x => x.DreamDaemonSettings)
-					.ToAsyncEnumerable();
-				var tasks = new List<Task>();
+					.ToListAsync(cancellationToken)
+					.ConfigureAwait(false);
 				await factoryStartup.ConfigureAwait(false);
-				await dbInstances.ForEachAsync(metadata => tasks.Add(metadata.Online.Value ? OnlineInstance(metadata, cancellationToken) : Task.CompletedTask), cancellationToken).ConfigureAwait(false);
+				var tasks = dbInstances.Select(
+					async metadata =>
+					{
+						try
+						{
+							await OnlineInstance(metadata, cancellationToken).ConfigureAwait(false);
+						}
+						catch (Exception ex)
+						{
+							logger.LogError("Failed to online instance {0}! Exception: {0}", ex);
+						}
+					})
+					.ToList();
 				await Task.WhenAll(tasks).ConfigureAwait(false);
 				logger.LogInformation("Server ready!");
 				readyTcs.SetResult(null);
