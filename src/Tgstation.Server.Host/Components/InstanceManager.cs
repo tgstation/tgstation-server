@@ -290,9 +290,9 @@ namespace Tgstation.Server.Host.Components
 					.AsQueryable()
 					.Where(x => x.Online.Value)
 					.Include(x => x.RepositorySettings)
+					.Include(x => x.DreamDaemonSettings)
 					.Include(x => x.ChatSettings)
 					.ThenInclude(x => x.Channels)
-					.Include(x => x.DreamDaemonSettings)
 					.ToAsyncEnumerable();
 				var tasks = new List<Task>();
 				await factoryStartup.ConfigureAwait(false);
