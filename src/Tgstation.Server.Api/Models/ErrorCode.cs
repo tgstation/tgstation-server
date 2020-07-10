@@ -18,7 +18,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Indicates an API upgrade was required by the server.
 		/// </summary>
-		[Description("API Mismatch but no current API version provided!")]
+		[Description("API version mismatch!")]
 		ApiMismatch,
 
 		/// <summary>
@@ -250,13 +250,14 @@ namespace Tgstation.Server.Api.Models
 		RepoWhitespaceCommitterEmail,
 
 		/// <summary>
-		/// Attempted to set <see cref="Internal.DreamDaemonLaunchParameters.PrimaryPort"/> and <see cref="Internal.DreamDaemonLaunchParameters.SecondaryPort"/> to the same value.
+		/// Deprecated.
 		/// </summary>
-		[Description("Primary and secondary ports cannot be the same!")]
+		[Description("Deprecated error code.")]
+		[Obsolete("With API v7 ", true)]
 		DreamDaemonDuplicatePorts,
 
 		/// <summary>
-		/// <see cref="DreamDaemonSecurity.Ultrasafe"/> was used where it is not supported.
+		/// Deprecated.
 		/// </summary>
 		[Description("Deprecated error code.")]
 		[Obsolete("With DMAPI-5.0.0, ultrasafe security is now supported.", true)]
@@ -325,7 +326,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The DMAPI never validated itself
 		/// </summary>
-		[Description("DreamDaemon exited without validating the DMAPI!")]
+		[Description("DreamDaemon did not validate the DMAPI!")]
 		DreamMakerNeverValidated,
 
 		/// <summary>
@@ -338,6 +339,7 @@ namespace Tgstation.Server.Api.Models
 		/// DMAPI validation timeout.
 		/// </summary>
 		[Description("The DreamDaemon startup timeout was hit before the DMAPI validated!")]
+		[Obsolete("Deprecated in favor of error code 52", true)]
 		DreamMakerValidationTimeout,
 
 		/// <summary>
@@ -495,5 +497,59 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("Cannot restart the watchdog as it is not running!")]
 		WatchdogNotRunning,
+
+		/// <summary>
+		/// Attempted to access a resourse that is not (currently) present.
+		/// </summary>
+		[Description("The requested resource is not currently present, but may have been in the past.")]
+		ResourceNotPresent,
+
+		/// <summary>
+		/// Attempted to access a resource that was never present.
+		/// </summary>
+		[Description("The requested resource is not present and never has been.")]
+		ResourceNeverPresent,
+
+		/// <summary>
+		/// A required GitHub API call failed due to rate limiting.
+		/// </summary>
+		[Description("A required GitHub API call failed due to rate limiting.")]
+		GitHubApiRateLimit,
+
+		/// <summary>
+		/// Attempted to cancel a stopped job.
+		/// </summary>
+		[Description("Cannot cancel the job as it is no longer running.")]
+		JobStopped,
+
+		/// <summary>
+		/// Missing GCore executable.
+		/// </summary>
+		[Description("Attempted to create a process dump but /usr/bin/gcore could not be located!")]
+		MissingGCore,
+
+		/// <summary>
+		/// Non-zero gcore exit code.
+		/// </summary>
+		[Description("Could not create dump as gcore exited with a non-zero exit code!")]
+		GCoreFailure,
+
+		/// <summary>
+		/// Attempted to test merge with an invalid remote repository.
+		/// </summary>
+		[Description("Test merging cannot be performed with this remote!")]
+		RepoTestMergeInvalidRemote,
+
+		/// <summary>
+		/// Attempted to switch to a custom BYOND version that does not exist.
+		/// </summary>
+		[Description("Cannot switch to requested custom BYOND version as it is not currently installed.")]
+		ByondNonExistentCustomVersion,
+
+		/// <summary>
+		/// Attempted to perform an operation that requires DreamDaemon (not the watchdog) to be running but it wasn't.
+		/// </summary>
+		[Description("Cannot perform this operation as DreamDaemon is not currently running!")]
+		DreamDaemonOffline,
 	}
 }

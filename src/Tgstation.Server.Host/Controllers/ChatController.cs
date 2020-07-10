@@ -39,7 +39,16 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		public ChatController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, ILogger<ChatController> logger) : base(databaseContext, authenticationContextFactory, logger, true, true)
+		public ChatController(
+			IDatabaseContext databaseContext,
+			IAuthenticationContextFactory authenticationContextFactory,
+			IInstanceManager instanceManager,
+			ILogger<ChatController> logger)
+			: base(
+				  databaseContext,
+				  authenticationContextFactory,
+				  logger,
+				  true)
 		{
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 		}
@@ -125,7 +134,7 @@ namespace Tgstation.Server.Host.Controllers
 				throw;
 			}
 
-			return StatusCode((int)HttpStatusCode.Created, dbModel.ToApi());
+			return StatusCode(HttpStatusCode.Created, dbModel.ToApi());
 		}
 
 		/// <summary>
@@ -150,7 +159,7 @@ namespace Tgstation.Server.Host.Controllers
 					.DeleteAsync(cancellationToken))
 				.ConfigureAwait(false);
 
-			return Ok();
+			return NoContent();
 		}
 
 		/// <summary>
@@ -188,11 +197,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Retrieved <see cref="Api.Models.ChatBot"/> successfully.</response>
-		/// <response code="410">Chat bot does not exist.</response>
+		/// <response code="410">The <see cref="Api.Models.ChatBot"/> with the given ID does not exist in this instance.</response>
 		[HttpGet("{id}")]
 		[TgsAuthorize(ChatBotRights.Read)]
 		[ProducesResponseType(typeof(Api.Models.ChatBot), 200)]
-		[ProducesResponseType(410)]
+		[ProducesResponseType(typeof(ErrorMessage), 410)]
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			var query = DatabaseContext.ChatBots
@@ -202,7 +211,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var results = await query.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (results == default)
-				return StatusCode((int)HttpStatusCode.Gone);
+				return Gone();
 
 			var connectionStrings = (AuthenticationContext.GetRight(RightsType.ChatBots) & (ulong)ChatBotRights.ReadConnectionString) != 0;
 
@@ -218,16 +227,17 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="model">The <see cref="Api.Models.ChatBot"/> update to apply.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
-		/// <response code="200">Update applied successfully. <see cref="Api.Models.ChatBot"/> may or may not be returned based on user permissions.</response>
+		/// <response code="200">Update applied successfully.</response>
+		/// <response code="204">Update applied successfully. <see cref="Api.Models.ChatBot"/> not returned based on user permissions.</response>
+		/// <response code="410">The <see cref="Api.Models.ChatBot"/> with the given ID does not exist in this instance.</response>
 		[HttpPost]
 		[TgsAuthorize(ChatBotRights.WriteChannels | ChatBotRights.WriteConnectionString | ChatBotRights.WriteEnabled | ChatBotRights.WriteName | ChatBotRights.WriteProvider)]
-		[ProducesResponseType(200)]
 		[ProducesResponseType(typeof(Api.Models.ChatBot), 200)]
-#pragma warning disable CA1502 // TODO: Decomplexify
-#pragma warning disable CA1506
+		[ProducesResponseType(204)]
+		[ProducesResponseType(typeof(ErrorMessage), 410)]
+		#pragma warning disable CA1502, CA1506 // TODO: Decomplexify
 		public async Task<IActionResult> Update([FromBody] Api.Models.ChatBot model, CancellationToken cancellationToken)
-		#pragma warning restore CA1502
-		#pragma warning restore CA1506
+		#pragma warning restore CA1502, CA1506
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
@@ -245,7 +255,7 @@ namespace Tgstation.Server.Host.Controllers
 			var current = await query.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
 			if (current == default)
-				return StatusCode((int)HttpStatusCode.Gone);
+				return Gone();
 
 			if ((model.Channels?.Count ?? current.Channels.Count) > (model.ChannelLimit ?? current.ChannelLimit.Value))
 			{
@@ -318,7 +328,7 @@ namespace Tgstation.Server.Host.Controllers
 				return Json(current.ToApi());
 			}
 
-			return Ok();
+			return NoContent();
 		}
 
 		/// <summary>

@@ -1,11 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore.Design;
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.Models;
-using Tgstation.Server.Host.Security;
-using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Database.Design
 {
@@ -17,17 +11,11 @@ namespace Tgstation.Server.Host.Database.Design
 		/// <inheritdoc />
 		public SqliteDatabaseContext CreateDbContext(string[] args)
 		{
-			using var loggerFactory = new LoggerFactory();
+			SqliteDatabaseContext.DesignTime = true;
 			return new SqliteDatabaseContext(
-				new DbContextOptions<SqliteDatabaseContext>(),
-				DesignTimeDbContextFactoryHelpers.GetDatabaseConfiguration(
+				DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions<SqliteDatabaseContext>(
 					DatabaseType.Sqlite,
-					"Data Source=tgs_design.sqlite3;Mode=ReadWriteCreate"),
-				new DatabaseSeeder(
-				new CryptographySuite(
-				new PasswordHasher<User>()),
-				new PlatformIdentifier()),
-				loggerFactory.CreateLogger<SqliteDatabaseContext>());
+					"Data Source=tgs_design.sqlite3;Mode=ReadWriteCreate"));
 		}
 	}
 }

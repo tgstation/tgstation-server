@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Configuration;
@@ -19,11 +19,8 @@ namespace Tgstation.Server.Host.Database
 	/// Backend abstract implementation of <see cref="IDatabaseContext"/>
 	/// </summary>
 #pragma warning disable CA1506 // TODO: Decomplexify
-	abstract class DatabaseContext : DbContext, IDatabaseContext
+	public abstract class DatabaseContext : DbContext, IDatabaseContext
 	{
-		/// <inheritdoc />
-		public DatabaseType DatabaseType => DatabaseConfiguration.DatabaseType;
-
 		/// <summary>
 		/// The <see cref="User"/>s in the <see cref="DatabaseContext"/>.
 		/// </summary>
@@ -85,11 +82,6 @@ namespace Tgstation.Server.Host.Database
 		public DbSet<ReattachInformation> ReattachInformations { get; set; }
 
 		/// <summary>
-		/// The <see cref="DualReattachInformation"/>s in the <see cref="DatabaseContext"/>.
-		/// </summary>
-		public DbSet<DualReattachInformation> WatchdogReattachInformations { get; set; }
-
-		/// <summary>
 		/// The <see cref="TestMerge"/>s in the <see cref="DatabaseContext"/>
 		/// </summary>
 		public DbSet<TestMerge> TestMerges { get; set; }
@@ -98,16 +90,6 @@ namespace Tgstation.Server.Host.Database
 		/// The <see cref="RevInfoTestMerge"/>s om the <see cref="DatabaseContext"/>
 		/// </summary>
 		public DbSet<RevInfoTestMerge> RevInfoTestMerges { get; set; }
-
-		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="DatabaseContext"/>
-		/// </summary>
-		protected ILogger Logger { get; }
-
-		/// <summary>
-		/// The <see cref="DatabaseConfiguration"/> for the <see cref="DatabaseContext"/>
-		/// </summary>
-		protected DatabaseConfiguration DatabaseConfiguration { get; }
 
 		/// <summary>
 		/// The <see cref="DeleteBehavior"/> for the <see cref="CompileJob"/>/<see cref="RevisionInformation"/> foreign key.
@@ -149,14 +131,6 @@ namespace Tgstation.Server.Host.Database
 
 		/// <inheritdoc />
 		IDatabaseCollection<ReattachInformation> IDatabaseContext.ReattachInformations => reattachInformationsCollection;
-
-		/// <inheritdoc />
-		IDatabaseCollection<DualReattachInformation> IDatabaseContext.WatchdogReattachInformations => watchdogReattachInformationsCollection;
-
-		/// <summary>
-		/// The <see cref="IDatabaseSeeder"/> for the <see cref="DatabaseContext"/>
-		/// </summary>
-		readonly IDatabaseSeeder databaseSeeder;
 
 		/// <summary>
 		/// Backing field for <see cref="IDatabaseContext.Users"/>.
@@ -219,23 +193,31 @@ namespace Tgstation.Server.Host.Database
 		readonly IDatabaseCollection<ReattachInformation> reattachInformationsCollection;
 
 		/// <summary>
-		/// Backing field for <see cref="IDatabaseContext.WatchdogReattachInformations"/>.
+		/// Gets the configure action for a given <typeparamref name="TDatabaseContext"/>.
 		/// </summary>
-		readonly IDatabaseCollection<DualReattachInformation> watchdogReattachInformationsCollection;
+		/// <typeparam name="TDatabaseContext">The <see cref="DatabaseContext"/> parent class to configure with.</typeparam>
+		/// <returns>A configure <see cref="Action{T1, T2}"/>.</returns>
+		public static Action<DbContextOptionsBuilder, DatabaseConfiguration> GetConfigureAction<TDatabaseContext>()
+			where TDatabaseContext : DatabaseContext
+		{
+			// HACK HACK HACK HACK HACK
+			const string ConfigureMethodName = nameof(SqlServerDatabaseContext.ConfigureWith);
+			var configureFunction = typeof(TDatabaseContext).GetMethod(
+				ConfigureMethodName,
+				BindingFlags.Public | BindingFlags.Static);
+
+			if (configureFunction == null)
+				throw new InvalidOperationException($"Context type {typeof(TDatabaseContext).FullName} missing static {ConfigureMethodName} function!");
+
+			return (optionsBuilder, config) => configureFunction.Invoke(null, new object[] { optionsBuilder, config });
+		}
 
 		/// <summary>
 		/// Construct a <see cref="DatabaseContext"/>
 		/// </summary>
 		/// <param name="dbContextOptions">The <see cref="DbContextOptions"/> for the <see cref="DatabaseContext"/>.</param>
-		/// <param name="databaseConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="DatabaseConfiguration"/></param>
-		/// <param name="databaseSeeder">The value of <see cref="databaseSeeder"/></param>
-		/// <param name="logger">The value of <see cref="Logger"/></param>
-		public DatabaseContext(DbContextOptions dbContextOptions, IOptions<DatabaseConfiguration> databaseConfigurationOptions, IDatabaseSeeder databaseSeeder, ILogger logger) : base(dbContextOptions)
+		public DatabaseContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
 		{
-			DatabaseConfiguration = databaseConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(databaseConfigurationOptions));
-			this.databaseSeeder = databaseSeeder ?? throw new ArgumentNullException(nameof(databaseSeeder));
-			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
-
 			usersCollection = new DatabaseCollection<User>(Users);
 			instancesCollection = new DatabaseCollection<Instance>(Instances);
 			instanceUsersCollection = new DatabaseCollection<InstanceUser>(InstanceUsers);
@@ -248,14 +230,14 @@ namespace Tgstation.Server.Host.Database
 			revisionInformationsCollection = new DatabaseCollection<RevisionInformation>(RevisionInformations);
 			jobsCollection = new DatabaseCollection<Job>(Jobs);
 			reattachInformationsCollection = new DatabaseCollection<ReattachInformation>(ReattachInformations);
-			watchdogReattachInformationsCollection = new DatabaseCollection<DualReattachInformation>(WatchdogReattachInformations);
 		}
 
 		/// <inheritdoc />
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			// Setup our more complex database relations
-			Logger.LogTrace("Building entity framework context...");
+			if (modelBuilder == null)
+				throw new ArgumentNullException(nameof(modelBuilder));
+
 			base.OnModelCreating(modelBuilder);
 
 			var userModel = modelBuilder.Entity<User>();
@@ -286,6 +268,8 @@ namespace Tgstation.Server.Host.Database
 			compileJob.HasIndex(x => x.DirectoryName);
 			compileJob.HasOne(x => x.Job).WithOne().OnDelete(DeleteBehavior.Cascade);
 
+			modelBuilder.Entity<ReattachInformation>().HasOne(x => x.CompileJob).WithMany().OnDelete(DeleteBehavior.Cascade);
+
 			var chatChannel = modelBuilder.Entity<ChatChannel>();
 			chatChannel.HasIndex(x => new { x.ChatSettingsId, x.IrcChannel }).IsUnique();
 			chatChannel.HasIndex(x => new { x.ChatSettingsId, x.DiscordChannelId }).IsUnique();
@@ -302,56 +286,44 @@ namespace Tgstation.Server.Host.Database
 			instanceModel.HasMany(x => x.RevisionInformations).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
 			instanceModel.HasMany(x => x.InstanceUsers).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
 			instanceModel.HasMany(x => x.Jobs).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
-			instanceModel.HasOne(x => x.WatchdogReattachInformation).WithOne().OnDelete(DeleteBehavior.Cascade);
-		}
-
-		/// <inheritdoc />
-		public async Task Initialize(CancellationToken cancellationToken)
-		{
-			ValidateDatabaseType();
-
-			if (DatabaseConfiguration.DropDatabase)
-			{
-				Logger.LogCritical("DropDatabase configuration option set! Dropping any existing database...");
-				await Database.EnsureDeletedAsync(cancellationToken).ConfigureAwait(false);
-			}
-
-			var migrations = await Database.GetAppliedMigrationsAsync(cancellationToken).ConfigureAwait(false);
-			var wasEmpty = !migrations.Any();
-
-			if (wasEmpty || (await Database.GetPendingMigrationsAsync(cancellationToken).ConfigureAwait(false)).Any())
-			{
-				Logger.LogInformation("Migrating database...");
-				await Database.MigrateAsync(cancellationToken).ConfigureAwait(false);
-			}
-			else
-				Logger.LogDebug("No migrations to apply.");
-
-			wasEmpty |= (await Users.AsQueryable().CountAsync(cancellationToken).ConfigureAwait(false)) == 0;
-
-			if (wasEmpty)
-			{
-				Logger.LogInformation("Seeding database...");
-				await databaseSeeder.SeedDatabase(this, cancellationToken).ConfigureAwait(false);
-			}
-			else
-			{
-				if (DatabaseConfiguration.ResetAdminPassword)
-				{
-					Logger.LogWarning("Enabling and resetting admin password due to configuration!");
-					await databaseSeeder.ResetAdminPassword(this, cancellationToken).ConfigureAwait(false);
-				}
-
-				await databaseSeeder.SanitizeDatabase(this, cancellationToken).ConfigureAwait(false);
-			}
 		}
 
 		/// <inheritdoc />
 		public Task Save(CancellationToken cancellationToken) => SaveChangesAsync(cancellationToken);
 
 		/// <inheritdoc />
-		public async Task SchemaDowngradeForServerVersion(Version version, CancellationToken cancellationToken)
+		public Task Drop(CancellationToken cancellationToken) => Database.EnsureDeletedAsync(cancellationToken);
+
+		/// <inheritdoc />
+		public async Task<bool> Migrate(ILogger<DatabaseContext> logger, CancellationToken cancellationToken)
 		{
+			if (logger == null)
+				throw new ArgumentNullException(nameof(logger));
+			var migrations = await Database.GetAppliedMigrationsAsync(cancellationToken).ConfigureAwait(false);
+			var wasEmpty = !migrations.Any();
+
+			if (wasEmpty || (await Database.GetPendingMigrationsAsync(cancellationToken).ConfigureAwait(false)).Any())
+			{
+				logger.LogInformation("Migrating database...");
+				await Database.MigrateAsync(cancellationToken).ConfigureAwait(false);
+			}
+			else
+				logger.LogDebug("No migrations to apply");
+
+			wasEmpty |= (await Users.AsQueryable().CountAsync(cancellationToken).ConfigureAwait(false)) == 0;
+
+			return wasEmpty;
+		}
+
+		/// <inheritdoc />
+		public async Task SchemaDowngradeForServerVersion(
+			ILogger<DatabaseContext> logger,
+			Version version,
+			DatabaseType currentDatabaseType,
+			CancellationToken cancellationToken)
+		{
+			if(logger == null)
+				throw new ArgumentNullException(nameof(logger));
 			if (version == null)
 				throw new ArgumentNullException(nameof(version));
 			if (version < new Version(4, 0))
@@ -360,23 +332,41 @@ namespace Tgstation.Server.Host.Database
 			// Update this with new migrations as they are made
 			string targetMigration = null;
 
-			if (DatabaseType == DatabaseType.PostgresSql && version < new Version(4, 3, 0))
+			if (currentDatabaseType == DatabaseType.PostgresSql && version < new Version(4, 3, 0))
 				throw new NotSupportedException("Cannot migrate below version 4.3.0 with PostgresSql!");
 
 			if (version < new Version(4, 1, 0))
 				throw new NotSupportedException("Cannot migrate below version 4.1.0!");
 
+			if(version < new Version(4, 4, 0))
+				switch (currentDatabaseType)
+				{
+					case DatabaseType.MariaDB:
+					case DatabaseType.MySql:
+						targetMigration = nameof(MYFixForeignKey);
+						break;
+					case DatabaseType.PostgresSql:
+						targetMigration = nameof(PGCreate);
+						break;
+					case DatabaseType.SqlServer:
+					case DatabaseType.Sqlite:
+						targetMigration = nameof(MSRemoveSoftColumns);
+						break;
+					default:
+						throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
+				}
+
 			if (version < new Version(4, 2, 0))
-				targetMigration = DatabaseType == DatabaseType.Sqlite ? nameof(SLRebuild) : nameof(MSFixCascadingDelete);
+				targetMigration = currentDatabaseType == DatabaseType.Sqlite ? nameof(SLRebuild) : nameof(MSFixCascadingDelete);
 
 			if (targetMigration == null)
 			{
-				Logger.LogDebug("No down migration required.");
+				logger.LogDebug("No down migration required.");
 				return;
 			}
 
 			string migrationSubstitution;
-			switch (DatabaseType)
+			switch (currentDatabaseType)
 			{
 				case DatabaseType.SqlServer:
 					// already setup
@@ -393,7 +383,7 @@ namespace Tgstation.Server.Host.Database
 					migrationSubstitution = "PG{0}";
 					break;
 				default:
-					throw new InvalidOperationException($"Invalid DatabaseType: {DatabaseType}");
+					throw new InvalidOperationException($"Invalid DatabaseType: {currentDatabaseType}");
 			}
 
 			if (migrationSubstitution != null)
@@ -403,20 +393,15 @@ namespace Tgstation.Server.Host.Database
 			var dbServiceProvider = ((IInfrastructure<IServiceProvider>)Database).Instance;
 			var migrator = dbServiceProvider.GetRequiredService<IMigrator>();
 
-			Logger.LogInformation("Migrating down to version {0}. Target: {1}", version, targetMigration);
+			logger.LogInformation("Migrating down to version {0}. Target: {1}", version, targetMigration);
 			try
 			{
 				await migrator.MigrateAsync(targetMigration, cancellationToken).ConfigureAwait(false);
 			}
 			catch (Exception e)
 			{
-				Logger.LogCritical("Failed to migrate! Exception: {0}", e);
+				logger.LogCritical("Failed to migrate! Exception: {0}", e);
 			}
 		}
-
-		/// <summary>
-		/// Ensure the <see cref="DatabaseType"/> is correct for the <see cref="DatabaseContext"/>.
-		/// </summary>
-		protected abstract void ValidateDatabaseType();
 	}
 }

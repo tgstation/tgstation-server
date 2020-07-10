@@ -2,11 +2,11 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Database;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
 
@@ -172,7 +172,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 			await databaseContextFactory.UseContext(async (db) =>
 			{
 				cj = await db
-					.MostRecentCompletedCompileJobOrDefault(instance, cancellationToken)
+					.CompileJobs
+					.AsQueryable()
+					.Where(x => x.Job.Instance.Id == instance.Id)
+					.OrderByDescending(x => x.Job.StoppedAt)
+					.FirstOrDefaultAsync(cancellationToken)
 					.ConfigureAwait(false);
 			})
 			.ConfigureAwait(false);
@@ -222,21 +226,51 @@ namespace Tgstation.Server.Host.Components.Deployment
 			}
 
 			var providerSubmitted = false;
-			var newProvider = new DmbProvider(compileJob, ioManager, () =>
+
+			void CleanupAction()
 			{
 				if (providerSubmitted)
 					CleanJob(compileJob);
-			});
+			}
 
+			var newProvider = new DmbProvider(compileJob, ioManager, CleanupAction);
 			try
 			{
-				var primaryCheckTask = ioManager.FileExists(ioManager.ConcatPath(newProvider.PrimaryDirectory, newProvider.DmbName), cancellationToken);
-				var secondaryCheckTask = ioManager.FileExists(ioManager.ConcatPath(newProvider.PrimaryDirectory, newProvider.DmbName), cancellationToken);
+				const string LegacyADirectoryName = "A";
+				const string LegacyBDirectoryName = "B";
 
-				if (!(await primaryCheckTask.ConfigureAwait(false) && await secondaryCheckTask.ConfigureAwait(false)))
+				var dmbExistsAtRoot = await ioManager.FileExists(
+					ioManager.ConcatPath(
+						newProvider.Directory,
+						newProvider.DmbName),
+					cancellationToken)
+					.ConfigureAwait(false);
+
+				if (!dmbExistsAtRoot)
 				{
-					logger.LogWarning("Error loading compile job, .dmb missing!");
-					return null; // omae wa mou shinderu
+					var primaryCheckTask = ioManager.FileExists(
+						ioManager.ConcatPath(
+							newProvider.Directory,
+							LegacyADirectoryName,
+							newProvider.DmbName),
+						cancellationToken);
+					var secondaryCheckTask = ioManager.FileExists(
+						ioManager.ConcatPath(
+							newProvider.Directory,
+							LegacyBDirectoryName,
+							newProvider.DmbName),
+						cancellationToken);
+
+					if (!(await primaryCheckTask.ConfigureAwait(false) && await secondaryCheckTask.ConfigureAwait(false)))
+					{
+						logger.LogWarning("Error loading compile job, .dmb missing!");
+						return null; // omae wa mou shinderu
+					}
+
+					// rebuild the provider because it's using the legacy style directories
+					// Don't dispose it
+					logger.LogDebug("Creating legacy two folder .dmb provider targeting {0} directory...", LegacyADirectoryName);
+					newProvider = new DmbProvider(compileJob, ioManager, CleanupAction, Path.DirectorySeparatorChar + LegacyADirectoryName);
 				}
 
 				lock (jobLockCounts)
@@ -291,7 +325,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					.ToList();
 			}).ConfigureAwait(false);
 
-			jobUidsToNotErase.Add(WindowsSwappableDmbProvider.LiveGameDirectory);
+			jobUidsToNotErase.Add(SwappableDmbProvider.LiveGameDirectory);
 
 			logger.LogTrace("We will not clean the following directories: {0}", String.Join(", ", jobUidsToNotErase));
 

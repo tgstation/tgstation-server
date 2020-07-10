@@ -1,12 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Rights;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.System;
+using Z.EntityFramework.Plus;
 
 namespace Tgstation.Server.Host.Database
 {
@@ -24,14 +28,48 @@ namespace Tgstation.Server.Host.Database
 		readonly IPlatformIdentifier platformIdentifier;
 
 		/// <summary>
+		/// The <see cref="ILogger"/> used for <see cref="IDatabaseContext"/>s.
+		/// </summary>
+		readonly ILogger<DatabaseContext> databaseLogger;
+
+		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="DatabaseSeeder"/>.
+		/// </summary>
+		readonly ILogger<DatabaseSeeder> logger;
+
+		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="DatabaseSeeder"/>.
+		/// </summary>
+		readonly GeneralConfiguration generalConfiguration;
+
+		/// <summary>
+		/// The <see cref="DatabaseConfiguration"/> for the <see cref="DatabaseSeeder"/>.
+		/// </summary>
+		readonly DatabaseConfiguration databaseConfiguration;
+
+		/// <summary>
 		/// Construct a <see cref="DatabaseSeeder"/>
 		/// </summary>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
-		public DatabaseSeeder(ICryptographySuite cryptographySuite, IPlatformIdentifier platformIdentifier)
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
+		/// <param name="databaseConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="databaseConfiguration"/>.</param>
+		/// <param name="databaseLogger">The value of <see cref="databaseLogger"/></param>
+		/// <param name="logger">The value of <see cref="logger"/>.</param>
+		public DatabaseSeeder(
+			ICryptographySuite cryptographySuite,
+			IPlatformIdentifier platformIdentifier,
+			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			IOptions<DatabaseConfiguration> databaseConfigurationOptions,
+			ILogger<DatabaseContext> databaseLogger,
+			ILogger<DatabaseSeeder> logger)
 		{
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
+			databaseConfiguration = databaseConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(databaseConfigurationOptions));
+			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			this.databaseLogger = databaseLogger ?? throw new ArgumentNullException(nameof(databaseLogger));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
 		/// <summary>
@@ -53,15 +91,25 @@ namespace Tgstation.Server.Host.Database
 			databaseContext.Users.Add(admin);
 		}
 
-		/// <inheritdoc />
-		public async Task SeedDatabase(IDatabaseContext databaseContext, CancellationToken cancellationToken)
+		/// <summary>
+		/// Initially seed a given <paramref name="databaseContext"/>
+		/// </summary>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to seed</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		async Task SeedDatabase(IDatabaseContext databaseContext, CancellationToken cancellationToken)
 		{
 			SeedAdminUser(databaseContext);
 			await databaseContext.Save(cancellationToken).ConfigureAwait(false);
 		}
 
-		/// <inheritdoc />
-		public async Task SanitizeDatabase(IDatabaseContext databaseContext, CancellationToken cancellationToken)
+		/// <summary>
+		/// Correct invalid database data caused by previous versions.
+		/// </summary>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to sanitize.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		async Task SanitizeDatabase(IDatabaseContext databaseContext, CancellationToken cancellationToken)
 		{
 			var admin = await GetAdminUser(databaseContext, cancellationToken).ConfigureAwait(false);
 			if (admin != null)
@@ -85,11 +133,42 @@ namespace Tgstation.Server.Host.Database
 					instance.Path = instance.Path.Replace('\\', '/');
 			}
 
+			var ids = await databaseContext
+				.DreamDaemonSettings
+				.AsQueryable()
+				.Where(x => x.TopicRequestTimeout == 0)
+				.Select(x => x.Id)
+				.ToListAsync(cancellationToken)
+				.ConfigureAwait(false);
+
+			var rowsUpdated = ids.Count;
+			foreach (var id in ids)
+			{
+				var newDDSettings = new DreamDaemonSettings
+				{
+					Id = id
+				};
+
+				databaseContext.DreamDaemonSettings.Attach(newDDSettings);
+				newDDSettings.TopicRequestTimeout = generalConfiguration.ByondTopicTimeout;
+			}
+
+			if (rowsUpdated > 0)
+				logger.LogInformation(
+					"Updated {0} instances to use database backed BYOND topic timeouts from configuration setting of {1}",
+					rowsUpdated,
+					generalConfiguration.ByondTopicTimeout);
+
 			await databaseContext.Save(cancellationToken).ConfigureAwait(false);
 		}
 
-		/// <inheritdoc />
-		public async Task ResetAdminPassword(IDatabaseContext databaseContext, CancellationToken cancellationToken)
+		/// <summary>
+		/// Changes the admin password in <see cref="IDatabaseContext"/> back to it's default and enables the account
+		/// </summary>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to reset the admin password for</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
+		/// <returns>A <see cref="Task"/> representing the running operation</returns>
+		async Task ResetAdminPassword(IDatabaseContext databaseContext, CancellationToken cancellationToken)
 		{
 			var admin = await GetAdminUser(databaseContext, cancellationToken).ConfigureAwait(false);
 			if (admin != null)
@@ -119,6 +198,47 @@ namespace Tgstation.Server.Host.Database
 				SeedAdminUser(databaseContext);
 
 			return admin;
+		}
+
+		/// <inheritdoc />
+		public async Task Initialize(IDatabaseContext databaseContext, CancellationToken cancellationToken)
+		{
+			if (databaseContext == null)
+				throw new ArgumentNullException(nameof(databaseContext));
+
+			if (databaseConfiguration.DropDatabase)
+			{
+				logger.LogCritical("DropDatabase configuration option set! Dropping any existing database...");
+				await databaseContext.Drop(cancellationToken).ConfigureAwait(false);
+			}
+
+			var wasEmpty = await databaseContext.Migrate(databaseLogger, cancellationToken).ConfigureAwait(false);
+			if (wasEmpty)
+			{
+				logger.LogInformation("Seeding database...");
+				await SeedDatabase(databaseContext, cancellationToken).ConfigureAwait(false);
+			}
+			else
+			{
+				if (databaseConfiguration.ResetAdminPassword)
+				{
+					logger.LogWarning("Enabling and resetting admin password due to configuration!");
+					await ResetAdminPassword(databaseContext, cancellationToken).ConfigureAwait(false);
+				}
+
+				await SanitizeDatabase(databaseContext, cancellationToken).ConfigureAwait(false);
+			}
+		}
+
+		/// <inheritdoc />
+		public Task Downgrade(IDatabaseContext databaseContext, Version downgradeVersion, CancellationToken cancellationToken)
+		{
+			if (databaseContext == null)
+				throw new ArgumentNullException(nameof(databaseContext));
+			if (downgradeVersion == null)
+				throw new ArgumentNullException(nameof(downgradeVersion));
+
+			return databaseContext.SchemaDowngradeForServerVersion(databaseLogger, downgradeVersion, databaseConfiguration.DatabaseType, cancellationToken);
 		}
 	}
 }

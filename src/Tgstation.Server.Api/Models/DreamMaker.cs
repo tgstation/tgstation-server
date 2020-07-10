@@ -25,5 +25,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Required]
 		public DreamDaemonSecurity? ApiValidationSecurityLevel { get; set; }
+
+		/// <summary>
+		/// If API validation should be required for a deployment to succeed.
+		/// </summary>
+		[Required]
+		public bool? RequireDMApiValidation { get; set; }
 	}
 }

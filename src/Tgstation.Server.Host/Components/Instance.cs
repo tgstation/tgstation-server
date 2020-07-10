@@ -248,7 +248,7 @@ namespace Tgstation.Server.Host.Components
 
 										if (currentRevInfo == default)
 										{
-											logger.LogWarning(Repository.Repository.OriginTrackingErrorTemplate, currentHead);
+											logger.LogInformation(Repository.Repository.OriginTrackingErrorTemplate, currentHead);
 											onOrigin = true;
 										}
 

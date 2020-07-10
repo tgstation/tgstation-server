@@ -19,9 +19,10 @@ namespace Tgstation.Server.Api.Models
 		public CompileJob? StagedCompileJob { get; set; }
 
 		/// <summary>
-		/// The current status of <see cref="DreamDaemon"/>
+		/// The current <see cref="WatchdogStatus"/>.
 		/// </summary>
-		public bool? Running { get; set; }
+		[EnumDataType(typeof(WatchdogStatus))]
+		public WatchdogStatus? Status { get; set; }
 
 		/// <summary>
 		/// The current <see cref="DreamDaemonSecurity"/> of <see cref="DreamDaemon"/>. May be downgraded due to requirements of <see cref="ActiveCompileJob"/>
@@ -48,5 +49,10 @@ namespace Tgstation.Server.Api.Models
 		/// If the server is undergoing a soft shutdown
 		/// </summary>
 		public bool? SoftShutdown { get; set; }
+
+		/// <summary>
+		/// If a dump of the active DreamDaemon executable should be created.
+		/// </summary>
+		public bool? CreateDump { get; set; }
 	}
 }

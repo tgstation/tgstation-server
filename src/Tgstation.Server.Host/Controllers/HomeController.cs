@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -12,6 +11,7 @@ using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
@@ -95,14 +95,20 @@ namespace Tgstation.Server.Host.Controllers
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions,
 			ILogger<HomeController> logger)
-			: base(databaseContext, authenticationContextFactory, logger, false, false)
+			: base(
+				  databaseContext,
+				  authenticationContextFactory,
+				  logger,
+				  false,
+				  (browserResolver ?? throw new ArgumentNullException(nameof(browserResolver))).Browser.Type != BrowserType.Generic
+				  && (controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions))).Enable)
 		{
 			this.tokenFactory = tokenFactory ?? throw new ArgumentNullException(nameof(tokenFactory));
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.identityCache = identityCache ?? throw new ArgumentNullException(nameof(identityCache));
-			this.browserResolver = browserResolver ?? throw new ArgumentNullException(nameof(browserResolver));
+			this.browserResolver = browserResolver;
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions));
 		}
@@ -111,17 +117,17 @@ namespace Tgstation.Server.Host.Controllers
 		/// Main page of the <see cref="Application"/>
 		/// </summary>
 		/// <returns>
-		/// The <see cref="Api.Models.ServerInformation"/> of the <see cref="Application"/> if a properly authenticated API request, the web control panel if on a browser and enabled, <see cref="UnauthorizedResult"/> otherwise.
+		/// The <see cref="ServerInformation"/> of the <see cref="Application"/> if a properly authenticated API request, the web control panel if on a browser and enabled, <see cref="UnauthorizedResult"/> otherwise.
 		/// </returns>
-		/// <response code="200"><see cref="Api.Models.ServerInformation"/> retrieved successfully.</response>
+		/// <response code="200"><see cref="ServerInformation"/> retrieved successfully.</response>
 		[HttpGet]
 		[TgsAuthorize]
 		[AllowAnonymous]
-		[ProducesResponseType(typeof(Api.Models.ServerInformation), 200)]
+		[ProducesResponseType(typeof(ServerInformation), 200)]
 		public IActionResult Home()
 		{
 			if (AuthenticationContext != null)
-				return Json(new Api.Models.ServerInformation
+				return Json(new ServerInformation
 				{
 					Version = assemblyInformationProvider.Version,
 					ApiVersion = ApiHeaders.Version,
@@ -139,7 +145,7 @@ namespace Tgstation.Server.Host.Controllers
 				return File("~/index.html", MediaTypeNames.Text.Html);
 			}
 
-			return Unauthorized();
+			return ApiHeaders == null ? HeadersIssue() : Unauthorized();
 		}
 
 		/// <summary>
@@ -147,40 +153,22 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
-		/// <response code="200">User logged in and <see cref="Api.Models.Token"/> generated successfully.</response>
+		/// <response code="200">User logged in and <see cref="Token"/> generated successfully.</response>
 		/// <response code="401">User authentication failed.</response>
 		/// <response code="403">User authenticated but is disabled by an administrator.</response>
 		[HttpPost]
-		[ProducesResponseType(typeof(Api.Models.Token), 200)]
-		[ProducesResponseType(401)]
-		[ProducesResponseType(403)]
+		[ProducesResponseType(typeof(Token), 200)]
 		#pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<IActionResult> CreateToken(CancellationToken cancellationToken)
 		{
 			if (ApiHeaders == null)
 			{
-				// Get the exact error
-				var errorMessage = "Missing API headers!";
-				try
-				{
-					var _ = new ApiHeaders(Request.GetTypedHeaders());
-				}
-				catch (InvalidOperationException ex)
-				{
-					errorMessage = ex.Message;
-				}
-
 				Response.Headers.Add(HeaderNames.WWWAuthenticate, new StringValues("basic realm=\"Create TGS4 bearer token\""));
-
-				return BadRequest(
-					new Api.Models.ErrorMessage(Api.Models.ErrorCode.BadHeaders)
-					{
-						AdditionalData = errorMessage
-					});
+				return HeadersIssue();
 			}
 
 			if (ApiHeaders.IsTokenAuthentication)
-				return BadRequest(new Api.Models.ErrorMessage(Api.Models.ErrorCode.TokenWithToken));
+				return BadRequest(new ErrorMessage(ErrorCode.TokenWithToken));
 
 			ISystemIdentity systemIdentity;
 			try
@@ -196,13 +184,13 @@ namespace Tgstation.Server.Host.Controllers
 			using (systemIdentity)
 			{
 				// Get the user from the database
-				IQueryable<User> query = DatabaseContext.Users.AsQueryable();
+				IQueryable<Models.User> query = DatabaseContext.Users.AsQueryable();
 				string canonicalName = Models.User.CanonicalizeName(ApiHeaders.Username);
 				if (systemIdentity == null)
 					query = query.Where(x => x.CanonicalName == canonicalName);
 				else
 					query = query.Where(x => x.CanonicalName == canonicalName || x.SystemIdentifier == systemIdentity.Uid);
-				var users = await query.Select(x => new User
+				var users = await query.Select(x => new Models.User
 				{
 					Id = x.Id,
 					PasswordHash = x.PasswordHash,
@@ -235,7 +223,7 @@ namespace Tgstation.Server.Host.Controllers
 					if (user.PasswordHash != originalHash)
 					{
 						Logger.LogDebug("User ID {0}'s password hash needs a refresh, updating database.", user.Id);
-						var updatedUser = new User
+						var updatedUser = new Models.User
 						{
 							Id = user.Id
 						};

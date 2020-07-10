@@ -106,5 +106,11 @@
 		/// </summary>
 		[EventScript("WatchdogDetach")]
 		WatchdogDetach,
+
+		/// <summary>
+		/// Before the watchdog launches. No parameters.
+		/// </summary>
+		[EventScript("WatchdogLaunch")]
+		WatchdogLaunch
 	}
 }

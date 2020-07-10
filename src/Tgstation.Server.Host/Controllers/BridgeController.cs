@@ -5,9 +5,9 @@ using Newtonsoft.Json;
 using Serilog.Context;
 using System;
 using System.Net;
+using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Api;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 
@@ -17,7 +17,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <see cref="Controller"/> for recieving DMAPI requests from DreamDaemon.
 	/// </summary>
 	[Route("Bridge")]
-	[Produces(ApiHeaders.ApplicationJson)]
+	[Produces(MediaTypeNames.Application.Json)]
 	public class BridgeController : Controller
 	{
 		/// <summary>
@@ -86,7 +86,7 @@ namespace Tgstation.Server.Host.Controllers
 
 				var responseJson = JsonConvert.SerializeObject(response, DMApiConstants.SerializerSettings);
 				logger.LogTrace("Bridge Response: {0}", responseJson);
-				return Content(responseJson, ApiHeaders.ApplicationJson);
+				return Content(responseJson, MediaTypeNames.Application.Json);
 			}
 		}
 	}

@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Net;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,6 +17,7 @@ using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -61,7 +61,20 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="generalConfiguration"/></param>
-		public RepositoryController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IInstanceManager instanceManager, IGitHubClientFactory gitHubClientFactory, IJobManager jobManager, ILogger<RepositoryController> logger, IOptions<GeneralConfiguration> generalConfigurationOptions) : base(databaseContext, authenticationContextFactory, logger, true, true)
+		public RepositoryController(
+			IDatabaseContext databaseContext,
+			IAuthenticationContextFactory authenticationContextFactory,
+			IInstanceManager instanceManager,
+			IGitHubClientFactory gitHubClientFactory,
+			IJobManager jobManager,
+			ILogger<RepositoryController> logger,
+			IOptions<GeneralConfiguration> generalConfigurationOptions)
+			: base(
+				  databaseContext,
+				  authenticationContextFactory,
+				  logger,
+				  true,
+				  true)
 		{
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
@@ -108,7 +121,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (revisionInfo.OriginCommitSha == null)
 			{
 				revisionInfo.OriginCommitSha = repoSha;
-				Logger.LogWarning(Components.Repository.Repository.OriginTrackingErrorTemplate, repoSha);
+				Logger.LogInformation(Components.Repository.Repository.OriginTrackingErrorTemplate, repoSha);
 			}
 
 			revInfoSink?.Invoke(revisionInfo);
@@ -140,11 +153,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="201">The <see cref="Repository"/> was created successfully and the <see cref="Api.Models.Job"/> to clone it has begun.</response>
-		/// <response code="410">Instance no longer available.</response>
+		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpPut]
 		[TgsAuthorize(RepositoryRights.SetOrigin)]
 		[ProducesResponseType(typeof(Repository), 201)]
-		[ProducesResponseType(410)]
+		[ProducesResponseType(typeof(ErrorMessage), 410)]
 		public async Task<IActionResult> Create([FromBody] Repository model, CancellationToken cancellationToken)
 		{
 			if (model == null)
@@ -164,7 +177,7 @@ namespace Tgstation.Server.Host.Controllers
 				.ConfigureAwait(false);
 
 			if (currentModel == default)
-				return StatusCode((int)HttpStatusCode.Gone);
+				return Gone();
 
 			// normalize github urls
 			const string BadGitHubUrl = "://www.github.com/";
@@ -204,7 +217,15 @@ namespace Tgstation.Server.Host.Controllers
 			var api = currentModel.ToApi();
 			await jobManager.RegisterOperation(job, async (paramJob, databaseContextFactory, progressReporter, ct) =>
 			{
-				using var repos = await repoManager.CloneRepository(new Uri(origin), cloneBranch, currentModel.AccessUser, currentModel.AccessToken, progressReporter, ct).ConfigureAwait(false);
+				using var repos = await repoManager.CloneRepository(
+					new Uri(origin),
+					cloneBranch,
+					currentModel.AccessUser,
+					currentModel.AccessToken,
+					progressReporter,
+					model.RecurseSubmodules ?? true,
+					ct)
+					.ConfigureAwait(false);
 				if (repos == null)
 					throw new JobException(ErrorCode.RepoExists);
 				var instance = new Models.Instance
@@ -225,7 +246,7 @@ namespace Tgstation.Server.Host.Controllers
 			api.Reference = model.Reference;
 			api.ActiveJob = job.ToApi();
 
-			return StatusCode((int)HttpStatusCode.Created, api);
+			return Created(api);
 		}
 
 		/// <summary>
@@ -234,11 +255,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
 		/// <response code="202">Job to delete the repository created successfully.</response>
-		/// <response code="410">Instance no longer available.</response>
+		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpDelete]
 		[TgsAuthorize(RepositoryRights.Delete)]
 		[ProducesResponseType(typeof(Repository), 202)]
-		[ProducesResponseType(410)]
+		[ProducesResponseType(typeof(ErrorMessage), 410)]
 		public async Task<IActionResult> Delete(CancellationToken cancellationToken)
 		{
 			var currentModel = await DatabaseContext
@@ -249,7 +270,7 @@ namespace Tgstation.Server.Host.Controllers
 				.ConfigureAwait(false);
 
 			if (currentModel == default)
-				return StatusCode((int)HttpStatusCode.Gone);
+				return Gone();
 
 			currentModel.AccessToken = null;
 			currentModel.AccessUser = null;
@@ -277,12 +298,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200">Retrieved the <see cref="Repository"/> settings successfully.</response>
 		/// <response code="201">Retrieved the <see cref="Repository"/> settings successfully, though they did not previously exist.</response>
-		/// <response code="410">Instance no longer available.</response>
+		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpGet]
 		[TgsAuthorize(RepositoryRights.Read)]
 		[ProducesResponseType(typeof(Repository), 200)]
 		[ProducesResponseType(typeof(Repository), 201)]
-		[ProducesResponseType(410)]
+		[ProducesResponseType(typeof(ErrorMessage), 410)]
 		public async Task<IActionResult> Read(CancellationToken cancellationToken)
 		{
 			var currentModel = await DatabaseContext
@@ -293,7 +314,7 @@ namespace Tgstation.Server.Host.Controllers
 				.ConfigureAwait(false);
 
 			if (currentModel == default)
-				return StatusCode((int)HttpStatusCode.Gone, new ErrorMessage(ErrorCode.RepoMissing));
+				return Gone();
 
 			var api = currentModel.ToApi();
 			var repoManager = instanceManager.GetInstance(Instance).RepositoryManager;
@@ -309,7 +330,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				// user may have fucked with the repo manually, do what we can
 				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
-				return StatusCode((int)HttpStatusCode.Created, api);
+				return Created(api);
 			}
 
 			return Json(api);
@@ -323,12 +344,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200">Updated the <see cref="Repository"/> settings successfully.</response>
 		/// <response code="202">Updated the <see cref="Repository"/> settings successfully and a <see cref="Api.Models.Job"/> was created to make the requested git changes.</response>
-		/// <response code="410">Instance no longer available.</response>
+		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpPost]
 		[TgsAuthorize(RepositoryRights.ChangeAutoUpdateSettings | RepositoryRights.ChangeCommitter | RepositoryRights.ChangeCredentials | RepositoryRights.ChangeTestMergeCommits | RepositoryRights.MergePullRequest | RepositoryRights.SetReference | RepositoryRights.SetSha | RepositoryRights.UpdateBranch)]
 		[ProducesResponseType(typeof(Repository), 200)]
 		[ProducesResponseType(typeof(Repository), 202)]
-		[ProducesResponseType(410)]
+		[ProducesResponseType(typeof(ErrorMessage), 410)]
 		#pragma warning disable CA1502, CA1505 // TODO: Decomplexify
 		public async Task<IActionResult> Update([FromBody]Repository model, CancellationToken cancellationToken)
 		{
@@ -366,7 +387,7 @@ namespace Tgstation.Server.Host.Controllers
 				.ConfigureAwait(false);
 
 			if (currentModel == default)
-				return StatusCode((int)HttpStatusCode.Gone);
+				return Gone();
 
 			bool CheckModified<T>(Expression<Func<Api.Models.Internal.RepositorySettings, T>> expression, RepositoryRights requiredRight)
 			{
@@ -651,7 +672,9 @@ namespace Tgstation.Server.Host.Controllers
 									try
 									{
 										// retrieve the latest sha
-										var pr = await gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number).ConfigureAwait(false);
+										var pr = await gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number)
+											.WithToken(ct)
+											.ConfigureAwait(false);
 										prMap.Add(I.Number, pr);
 										I.PullRequestRevision = pr.Head.Sha;
 									}
@@ -754,7 +777,11 @@ namespace Tgstation.Server.Host.Controllers
 								{
 									// load from cache if possible
 									if (prMap == null || !prMap.TryGetValue(I.Number, out pr))
-										pr = await gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number).ConfigureAwait(false);
+										pr = await gitHubClient
+											.PullRequest
+											.Get(repoOwner, repoName, I.Number)
+											.WithToken(ct)
+											.ConfigureAwait(false);
 								}
 								catch (Octokit.RateLimitExceededException ex)
 								{

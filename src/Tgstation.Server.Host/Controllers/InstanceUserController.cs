@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -29,7 +28,15 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		public InstanceUserController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ILogger<InstanceUserController> logger) : base(databaseContext, authenticationContextFactory, logger, true, true)
+		public InstanceUserController(
+			IDatabaseContext databaseContext,
+			IAuthenticationContextFactory authenticationContextFactory,
+			ILogger<InstanceUserController> logger)
+			: base(
+				  databaseContext,
+				  authenticationContextFactory,
+				  logger,
+				  true)
 		{ }
 
 		/// <summary>
@@ -79,7 +86,7 @@ namespace Tgstation.Server.Host.Controllers
 			DatabaseContext.InstanceUsers.Add(dbUser);
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
-			return StatusCode((int)HttpStatusCode.Created, dbUser.ToApi());
+			return Created(dbUser.ToApi());
 		}
 
 		/// <summary>
@@ -89,11 +96,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200"><see cref="Api.Models.InstanceUser"/> updated successfully.</response>
-		/// <response code="410">Instance user unavailable.</response>
+		/// <response code="410">The requested <see cref="Api.Models.InstanceUser"/> does not currently exist.</response>
 		[HttpPost]
 		[TgsAuthorize(InstanceUserRights.WriteUsers)]
 		[ProducesResponseType(typeof(Api.Models.InstanceUser), 200)]
-		[ProducesResponseType(410)]
+		[ProducesResponseType(typeof(ErrorMessage), 410)]
 		#pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<IActionResult> Update([FromBody] Api.Models.InstanceUser model, CancellationToken cancellationToken)
 		{
@@ -110,7 +117,7 @@ namespace Tgstation.Server.Host.Controllers
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);
 			if (originalUser == null)
-				return StatusCode((int)HttpStatusCode.Gone);
+				return Gone();
 
 			originalUser.ByondRights = RightsHelper.Clamp(model.ByondRights ?? originalUser.ByondRights.Value);
 			originalUser.RepositoryRights = RightsHelper.Clamp(model.RepositoryRights ?? originalUser.RepositoryRights.Value);
@@ -165,11 +172,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Retrieve <see cref="Api.Models.InstanceUser"/> successfully.</response>
-		/// <response code="410">Instance user unavailable.</response>
+		/// <response code="410">The requested <see cref="Api.Models.InstanceUser"/> does not currently exist.</response>
 		[HttpGet("{id}")]
 		[TgsAuthorize(InstanceUserRights.ReadUsers)]
 		[ProducesResponseType(typeof(Api.Models.InstanceUser), 200)]
-		[ProducesResponseType(410)]
+		[ProducesResponseType(typeof(ErrorMessage), 410)]
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			// this functions as userId
@@ -182,7 +189,7 @@ namespace Tgstation.Server.Host.Controllers
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);
 			if (user == default)
-				return StatusCode((int)HttpStatusCode.Gone);
+				return Gone();
 			return Json(user.ToApi());
 		}
 

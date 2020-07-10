@@ -5,7 +5,6 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -48,7 +47,18 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/></param>
-		public UserController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ISystemIdentityFactory systemIdentityFactory, ICryptographySuite cryptographySuite, ILogger<UserController> logger, IOptions<GeneralConfiguration> generalConfigurationOptions) : base(databaseContext, authenticationContextFactory, logger, false, true)
+		public UserController(
+			IDatabaseContext databaseContext,
+			IAuthenticationContextFactory authenticationContextFactory,
+			ISystemIdentityFactory systemIdentityFactory,
+			ICryptographySuite cryptographySuite,
+			ILogger<UserController> logger,
+			IOptions<GeneralConfiguration> generalConfigurationOptions)
+			: base(
+				  databaseContext,
+				  authenticationContextFactory,
+				  logger,
+				  false)
 		{
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
@@ -99,12 +109,10 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="201"><see cref="Api.Models.User"/> created successfully.</response>
-		/// <response code="410">The <see cref="Api.Models.Internal.User.SystemIdentifier"/> requested could not be loaded.</response>
-		/// <response code="501">A system user was requested but this is not implemented on POSIX.</response>
+		/// <response code="410">The requested system identifier could not be found.</response>
 		[HttpPut]
 		[TgsAuthorize(AdministrationRights.WriteUsers)]
 		[ProducesResponseType(typeof(Api.Models.User), 201)]
-		[ProducesResponseType(410)]
 		public async Task<IActionResult> Create([FromBody] UserUpdate model, CancellationToken cancellationToken)
 		{
 			if (model == null)
@@ -141,13 +149,13 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					using var sysIdentity = await systemIdentityFactory.CreateSystemIdentity(dbUser, cancellationToken).ConfigureAwait(false);
 					if (sysIdentity == null)
-						return StatusCode((int)HttpStatusCode.Gone);
+						return Gone();
 					dbUser.Name = sysIdentity.Username;
 					dbUser.SystemIdentifier = sysIdentity.Uid;
 				}
 				catch (NotImplementedException)
 				{
-					return StatusCode((int)HttpStatusCode.NotImplemented, new ErrorMessage(ErrorCode.RequiresPosixSystemIdentity));
+					return RequiresPosixSystemIdentity();
 				}
 			else
 			{
@@ -162,7 +170,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
-			return StatusCode((int)HttpStatusCode.Created, dbUser.ToApi(true));
+			return Created(dbUser.ToApi(true));
 		}
 
 		/// <summary>
@@ -176,7 +184,7 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpPost]
 		[TgsAuthorize(AdministrationRights.WriteUsers | AdministrationRights.EditOwnPassword)]
 		[ProducesResponseType(typeof(Api.Models.User), 200)]
-		[ProducesResponseType(404)]
+		[ProducesResponseType(typeof(ErrorMessage), 404)]
 		#pragma warning disable CA1502 // TODO: Decomplexify
 		#pragma warning disable CA1506
 		public async Task<IActionResult> Update([FromBody] UserUpdate model, CancellationToken cancellationToken)
@@ -294,7 +302,7 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpGet("{id}")]
 		[TgsAuthorize]
 		[ProducesResponseType(typeof(Api.Models.User), 200)]
-		[ProducesResponseType(404)]
+		[ProducesResponseType(typeof(ErrorMessage), 404)]
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			if (id == AuthenticationContext.User.Id)

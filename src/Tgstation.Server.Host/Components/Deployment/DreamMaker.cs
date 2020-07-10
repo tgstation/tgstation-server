@@ -17,6 +17,7 @@ using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
@@ -27,16 +28,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 	/// <inheritdoc />
 	sealed class DreamMaker : IDreamMaker
 	{
-		/// <summary>
-		/// Name of the primary directory used for compilation
-		/// </summary>
-		public const string ADirectoryName = "A";
-
-		/// <summary>
-		/// Name of the secondary directory used for compilation
-		/// </summary>
-		public const string BDirectoryName = "B";
-
 		/// <summary>
 		/// Extension for .dmbs
 		/// </summary>
@@ -198,26 +189,34 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="job">The <see cref="CompileJob"/> for the operation</param>
 		/// <param name="byondLock">The current <see cref="IByondExecutableLock"/></param>
 		/// <param name="portToUse">The port to use for API validation</param>
+		/// <param name="requireValidate">If the API validation is required to complete the deployment.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		async Task VerifyApi(uint timeout, DreamDaemonSecurity securityLevel, Models.CompileJob job, IByondExecutableLock byondLock, ushort portToUse, CancellationToken cancellationToken)
+		async Task VerifyApi(
+			uint timeout,
+			DreamDaemonSecurity securityLevel,
+			Models.CompileJob job,
+			IByondExecutableLock byondLock,
+			ushort portToUse,
+			bool requireValidate,
+			CancellationToken cancellationToken)
 		{
-			logger.LogTrace("Verifying DMAPI...");
+			logger.LogTrace("Verifying {0}DMAPI...", requireValidate ? "required " : String.Empty);
 			var launchParameters = new DreamDaemonLaunchParameters
 			{
 				AllowWebClient = false,
-				PrimaryPort = portToUse,
+				Port = portToUse,
 				SecurityLevel = securityLevel,
-				StartupTimeout = timeout
+				StartupTimeout = timeout,
+				TopicRequestTimeout = 0, // not used
+				HeartbeatSeconds = 0 // not used
 			};
-
-			var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
 
 			job.MinimumSecurityLevel = securityLevel; // needed for the TempDmbProvider
 			var timeoutAt = DateTimeOffset.Now.AddSeconds(timeout);
 
-			using var provider = new TemporaryDmbProvider(ioManager.ResolvePath(dirA), String.Concat(job.DmeName, DmbExtension), job);
-			using var controller = await sessionControllerFactory.LaunchNew(provider, byondLock, launchParameters, true, true, true, cancellationToken).ConfigureAwait(false);
+			using var provider = new TemporaryDmbProvider(ioManager.ResolvePath(job.DirectoryName.ToString()), String.Concat(job.DmeName, DmbExtension), job);
+			using var controller = await sessionControllerFactory.LaunchNew(provider, byondLock, launchParameters, true, cancellationToken).ConfigureAwait(false);
 			var launchResult = await controller.LaunchResult.ConfigureAwait(false);
 
 			var now = DateTimeOffset.Now;
@@ -229,35 +228,41 @@ namespace Tgstation.Server.Host.Components.Deployment
 				cancellationToken.ThrowIfCancellationRequested();
 			}
 
-			if (controller.Lifetime.IsCompleted)
+			if (!controller.Lifetime.IsCompleted)
 			{
-				var validationStatus = controller.ApiValidationStatus;
-				logger.LogTrace("API validation status: {0}", validationStatus);
-
-				job.DMApiVersion = controller.DMApiVersion;
-				switch (validationStatus)
-				{
-					case ApiValidationStatus.RequiresUltrasafe:
-						job.MinimumSecurityLevel = DreamDaemonSecurity.Ultrasafe;
-						return;
-					case ApiValidationStatus.RequiresSafe:
-						job.MinimumSecurityLevel = DreamDaemonSecurity.Safe;
-						return;
-					case ApiValidationStatus.RequiresTrusted:
-						job.MinimumSecurityLevel = DreamDaemonSecurity.Trusted;
-						return;
-					case ApiValidationStatus.NeverValidated:
-						throw new JobException(ErrorCode.DreamMakerNeverValidated);
-					case ApiValidationStatus.BadValidationRequest:
-						throw new JobException(ErrorCode.DreamMakerInvalidValidation);
-					case ApiValidationStatus.UnaskedValidationRequest:
-					default:
-						throw new InvalidOperationException(
-							$"Session controller returned unexpected ApiValidationStatus: {validationStatus}");
-				}
+				if (requireValidate)
+					throw new JobException(ErrorCode.DreamMakerNeverValidated);
+				controller.Dispose();
 			}
 
-			throw new JobException(ErrorCode.DreamMakerValidationTimeout);
+			var validationStatus = controller.ApiValidationStatus;
+			logger.LogTrace("API validation status: {0}", validationStatus);
+
+			job.DMApiVersion = controller.DMApiVersion;
+			switch (validationStatus)
+			{
+				case ApiValidationStatus.RequiresUltrasafe:
+					job.MinimumSecurityLevel = DreamDaemonSecurity.Ultrasafe;
+					return;
+				case ApiValidationStatus.RequiresSafe:
+					job.MinimumSecurityLevel = DreamDaemonSecurity.Safe;
+					return;
+				case ApiValidationStatus.RequiresTrusted:
+					job.MinimumSecurityLevel = DreamDaemonSecurity.Trusted;
+					return;
+				case ApiValidationStatus.NeverValidated:
+					if (requireValidate)
+						throw new JobException(ErrorCode.DreamMakerNeverValidated);
+					job.MinimumSecurityLevel = DreamDaemonSecurity.Ultrasafe;
+					break;
+				case ApiValidationStatus.BadValidationRequest:
+				case ApiValidationStatus.Incompatible:
+					throw new JobException(ErrorCode.DreamMakerInvalidValidation);
+				case ApiValidationStatus.UnaskedValidationRequest:
+				default:
+					throw new InvalidOperationException(
+						$"Session controller returned unexpected ApiValidationStatus: {validationStatus}");
+			}
 		}
 
 		/// <summary>
@@ -272,9 +277,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			using var dm = processExecutor.LaunchProcess(
 				dreamMakerPath,
 				ioManager.ResolvePath(
-					ioManager.ConcatPath(
-						job.DirectoryName.ToString(),
-						ADirectoryName)),
+					job.DirectoryName.ToString()),
 				$"-clean {job.DmeName}.{DmeExtension}",
 				true,
 				true,
@@ -298,12 +301,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task ModifyDme(Models.CompileJob job, CancellationToken cancellationToken)
 		{
-			var dirA = ioManager.ConcatPath(job.DirectoryName.ToString(), ADirectoryName);
 			var dmeFileName = String.Join('.', job.DmeName, DmeExtension);
-			var dmePath = ioManager.ConcatPath(dirA, dmeFileName);
+			var dmePath = ioManager.ConcatPath(job.DirectoryName.ToString(), dmeFileName);
 			var dmeReadTask = ioManager.ReadAllBytes(dmePath, cancellationToken);
 
-			var dmeModificationsTask = configuration.CopyDMFilesTo(dmeFileName, ioManager.ResolvePath(dirA), cancellationToken);
+			var dmeModificationsTask = configuration.CopyDMFilesTo(dmeFileName, ioManager.ResolvePath(job.DirectoryName.ToString()), cancellationToken);
 
 			var dmeBytes = await dmeReadTask.ConfigureAwait(false);
 			var dme = Encoding.UTF8.GetString(dmeBytes);
@@ -375,40 +377,38 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task RunCompileJob(Models.CompileJob job, Api.Models.DreamMaker dreamMakerSettings, IByondExecutableLock byondLock, IRepository repository, uint apiValidateTimeout, CancellationToken cancellationToken)
 		{
-			var jobPath = job.DirectoryName.ToString();
-			logger.LogTrace("Compile output GUID: {0}", jobPath);
+			var outputDirectory = job.DirectoryName.ToString();
+			logger.LogTrace("Compile output GUID: {0}", outputDirectory);
 
 			try
 			{
-				var dirA = ioManager.ConcatPath(jobPath, ADirectoryName);
-				var dirB = ioManager.ConcatPath(jobPath, BDirectoryName);
-
 				// copy the repository
 				logger.LogTrace("Copying repository to game directory...");
-				var resolvedADirectory = ioManager.ResolvePath(dirA);
+				var resolvedOutputDirectory = ioManager.ResolvePath(outputDirectory);
 				var repoOrigin = repository.Origin;
 				using (repository)
-					await repository.CopyTo(resolvedADirectory, cancellationToken).ConfigureAwait(false);
+					await repository.CopyTo(resolvedOutputDirectory, cancellationToken).ConfigureAwait(false);
 
 				// repository closed now
 
 				// run precompile scripts
-				await eventConsumer.HandleEvent(EventType.CompileStart, new List<string> { resolvedADirectory, repoOrigin }, cancellationToken).ConfigureAwait(false);
+				await eventConsumer.HandleEvent(EventType.CompileStart, new List<string> { resolvedOutputDirectory, repoOrigin }, cancellationToken).ConfigureAwait(false);
 
 				// determine the dme
 				if (job.DmeName == null)
 				{
 					logger.LogTrace("Searching for available .dmes...");
-					var foundPaths = await ioManager.GetFilesWithExtension(dirA, DmeExtension, true, cancellationToken).ConfigureAwait(false);
+					var foundPaths = await ioManager.GetFilesWithExtension(resolvedOutputDirectory, DmeExtension, true, cancellationToken).ConfigureAwait(false);
 					var foundPath = foundPaths.FirstOrDefault();
 					if (foundPath == default)
 						throw new JobException(ErrorCode.DreamMakerNoDme);
-					var dmeWithExtension = ioManager.GetFileName(foundPath);
-					job.DmeName = dmeWithExtension.Substring(0, dmeWithExtension.Length - DmeExtension.Length - 1);
+					job.DmeName = foundPath.Substring(
+						resolvedOutputDirectory.Length + 1,
+						foundPath.Length - resolvedOutputDirectory.Length - DmeExtension.Length - 2); // +1 for . in extension
 				}
 				else
 				{
-					var targetDme = ioManager.ConcatPath(dirA, String.Join('.', job.DmeName, DmeExtension));
+					var targetDme = ioManager.ConcatPath(outputDirectory, String.Join('.', job.DmeName, DmeExtension));
 					var targetDmeExists = await ioManager.FileExists(targetDme, cancellationToken).ConfigureAwait(false);
 					if (!targetDmeExists)
 						throw new JobException(ErrorCode.DreamMakerMissingDme);
@@ -429,30 +429,30 @@ namespace Tgstation.Server.Host.Components.Deployment
 							ErrorCode.DreamMakerExitCode,
 							new JobException($"Exit code: {exitCode}{Environment.NewLine}{Environment.NewLine}{job.Output}"));
 
-					await VerifyApi(apiValidateTimeout, dreamMakerSettings.ApiValidationSecurityLevel.Value, job, byondLock, dreamMakerSettings.ApiValidationPort.Value, cancellationToken).ConfigureAwait(false);
+					await VerifyApi(
+						apiValidateTimeout,
+						dreamMakerSettings.ApiValidationSecurityLevel.Value,
+						job,
+						byondLock,
+						dreamMakerSettings.ApiValidationPort.Value,
+						dreamMakerSettings.RequireDMApiValidation.Value,
+						cancellationToken)
+						.ConfigureAwait(false);
 				}
 				catch (JobException)
 				{
 					// DD never validated or compile failed
-					await eventConsumer.HandleEvent(EventType.CompileFailure, new List<string> { resolvedADirectory, exitCode == 0 ? "1" : "0" }, cancellationToken).ConfigureAwait(false);
+					await eventConsumer.HandleEvent(EventType.CompileFailure, new List<string> { resolvedOutputDirectory, exitCode == 0 ? "1" : "0" }, cancellationToken).ConfigureAwait(false);
 					throw;
 				}
 
 				logger.LogTrace("Running post compile event...");
-				await eventConsumer.HandleEvent(EventType.CompileComplete, new List<string> { resolvedADirectory }, cancellationToken).ConfigureAwait(false);
-
-				logger.LogTrace("Duplicating compiled game...");
-
-				// duplicate the dmb et al
-				await ioManager.CopyDirectory(dirA, dirB, null, cancellationToken).ConfigureAwait(false);
+				await eventConsumer.HandleEvent(EventType.CompileComplete, new List<string> { resolvedOutputDirectory }, cancellationToken).ConfigureAwait(false);
 
 				logger.LogTrace("Applying static game file symlinks...");
 
 				// symlink in the static data
-				var symATask = configuration.SymlinkStaticFilesTo(resolvedADirectory, cancellationToken);
-				var symBTask = configuration.SymlinkStaticFilesTo(ioManager.ResolvePath(dirB), cancellationToken);
-
-				await Task.WhenAll(symATask, symBTask).ConfigureAwait(false);
+				await configuration.SymlinkStaticFilesTo(resolvedOutputDirectory, cancellationToken).ConfigureAwait(false);
 
 				logger.LogDebug("Compile complete!");
 			}
@@ -579,7 +579,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 									ActiveTestMerges = new List<RevInfoTestMerge>()
 								};
 
-								logger.LogWarning(Repository.Repository.OriginTrackingErrorTemplate, repoSha);
+								logger.LogInformation(Repository.Repository.OriginTrackingErrorTemplate, repoSha);
 								databaseContext.Instances.Attach(revInfo.Instance);
 								await databaseContext.Save(cancellationToken).ConfigureAwait(false);
 							}
@@ -654,7 +654,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 					activeCompileJob?.RevisionInformation,
 					repositorySettings,
 					repoOwner,
-					repoName);
+					repoName,
+					cancellationToken);
 
 				var eventTask = eventConsumer.HandleEvent(EventType.DeploymentComplete, null, cancellationToken);
 
@@ -674,7 +675,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 			{
 				if (currentChatCallback != null)
 					await currentChatCallback(
-						ex.Message,
+						ex is OperationCanceledException
+							? "The job was cancelled!"
+							: ex.Message,
 						currentDreamMakerOutput)
 						.ConfigureAwait(false);
 
@@ -780,13 +783,15 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="repositorySettings">The <see cref="RepositorySettings"/>.</param>
 		/// <param name="repoOwner">The GitHub repostiory owner.</param>
 		/// <param name="repoName">The GitHub repostiory name.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task PostDeploymentComments(
 			Models.RevisionInformation deployedRevisionInformation,
 			Models.RevisionInformation previousRevisionInformation,
 			Models.RepositorySettings repositorySettings,
 			string repoOwner,
-			string repoName)
+			string repoName,
+			CancellationToken cancellationToken)
 		{
 			if (repositorySettings?.AccessToken == null)
 				return;
@@ -806,7 +811,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 			{
 				try
 				{
-					await gitHubClient.Issue.Comment.Create(repoOwner, repoName, prNumber, comment).ConfigureAwait(false);
+					await gitHubClient.Issue.Comment.Create(repoOwner, repoName, prNumber, comment)
+						.WithToken(cancellationToken)
+						.ConfigureAwait(false);
 				}
 				catch (ApiException e)
 				{

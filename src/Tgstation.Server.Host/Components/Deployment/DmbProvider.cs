@@ -11,10 +11,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		public string DmbName => String.Concat(CompileJob.DmeName, DreamMaker.DmbExtension);
 
 		/// <inheritdoc />
-		public string PrimaryDirectory => ioManager.ResolvePath(ioManager.ConcatPath(CompileJob.DirectoryName.ToString(), DreamMaker.ADirectoryName));
-
-		/// <inheritdoc />
-		public string SecondaryDirectory => ioManager.ResolvePath(ioManager.ConcatPath(CompileJob.DirectoryName.ToString(), DreamMaker.BDirectoryName));
+		public string Directory => ioManager.ResolvePath(CompileJob.DirectoryName.ToString() + directoryAppend);
 
 		/// <summary>
 		/// The <see cref="CompileJob"/> for the <see cref="DmbProvider"/>
@@ -27,6 +24,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly IIOManager ioManager;
 
 		/// <summary>
+		/// Extra path to add to the end of <see cref="Api.Models.Internal.CompileJob.DirectoryName"/>
+		/// </summary>
+		readonly string directoryAppend;
+
+		/// <summary>
 		/// The <see cref="Action"/> to run when <see cref="Dispose"/> is called
 		/// </summary>
 		Action onDispose;
@@ -37,11 +39,13 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="compileJob">The value of <see cref="CompileJob"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="onDispose">The value of <see cref="onDispose"/></param>
-		public DmbProvider(CompileJob compileJob, IIOManager ioManager, Action onDispose)
+		/// <param name="directoryAppend">The optional value of <see cref="directoryAppend"/></param>
+		public DmbProvider(CompileJob compileJob, IIOManager ioManager, Action onDispose, string directoryAppend = null)
 		{
 			CompileJob = compileJob ?? throw new ArgumentNullException(nameof(compileJob));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.onDispose = onDispose ?? throw new ArgumentNullException(nameof(onDispose));
+			this.directoryAppend = directoryAppend ?? String.Empty;
 		}
 
 		/// <inheritdoc />

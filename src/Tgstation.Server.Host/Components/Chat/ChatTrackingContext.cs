@@ -17,6 +17,8 @@ namespace Tgstation.Server.Host.Components.Chat
 			get => active;
 			set
 			{
+				if (active == value)
+					return;
 				logger.LogTrace(value ? "Activated" : "Deactivated");
 				active = value;
 			}

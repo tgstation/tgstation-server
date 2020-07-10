@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Mime;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
@@ -34,7 +35,7 @@ namespace Tgstation.Server.Host.Core
 			var errorMessageContent = new Dictionary<string, OpenApiMediaType>
 			{
 				{
-					ApiHeaders.ApplicationJson,
+					MediaTypeNames.Application.Json,
 					new OpenApiMediaType
 					{
 						Schema = new OpenApiSchema
@@ -76,7 +77,7 @@ namespace Tgstation.Server.Host.Core
 
 			AddDefaultResponse(HttpStatusCode.Unauthorized, new OpenApiResponse
 			{
-				Description = "No/invalid token provided."
+				Description = "Invalid Authentication header."
 			});
 
 			AddDefaultResponse(HttpStatusCode.Forbidden, new OpenApiResponse
@@ -90,9 +91,15 @@ namespace Tgstation.Server.Host.Core
 				Content = errorMessageContent
 			});
 
+			AddDefaultResponse(HttpStatusCode.NotAcceptable, new OpenApiResponse
+			{
+				Description = "Invalid Accept header, TGS requires `Accept: application/json`.",
+				Content = errorMessageContent
+			});
+
 			AddDefaultResponse(HttpStatusCode.InternalServerError, new OpenApiResponse
 			{
-				Description = "The server encountered an unhandled error. See error message for details.",
+				Description = ErrorCode.InternalServerError.Describe(),
 				Content = errorMessageContent
 			});
 
@@ -103,7 +110,7 @@ namespace Tgstation.Server.Host.Core
 
 			AddDefaultResponse(HttpStatusCode.NotImplemented, new OpenApiResponse
 			{
-				Description = "This operation requires POSIX system identites to be implemented. See https://github.com/tgstation/tgstation-server/issues/709",
+				Description = ErrorCode.RequiresPosixSystemIdentity.Describe(),
 				Content = errorMessageContent
 			});
 		}
@@ -289,7 +296,7 @@ namespace Tgstation.Server.Host.Core
 			foreach (var path in swaggerDoc.Paths)
 				foreach (var operation in path.Value.Operations.Select(x => x.Value))
 				{
-					if (operation.OperationId.Equals("BridgeController.Process", StringComparison.Ordinal))
+					if (operation.OperationId.Equals($"{nameof(BridgeController)}.{nameof(BridgeController.Process)}", StringComparison.Ordinal))
 					{
 						bridgeOperationPath = path.Key;
 						continue;

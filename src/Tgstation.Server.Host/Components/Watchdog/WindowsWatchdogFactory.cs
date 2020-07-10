@@ -4,6 +4,7 @@ using System;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
@@ -16,12 +17,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	/// <summary>
 	/// <see cref="IWatchdogFactory"/> for creating <see cref="WindowsWatchdog"/>s.
 	/// </summary>
-	sealed class WindowsWatchdogFactory : WatchdogFactory
+	class WindowsWatchdogFactory : WatchdogFactory
 	{
 		/// <summary>
 		/// The <see cref="ISymlinkFactory"/> for the <see cref="WindowsWatchdogFactory"/>.
 		/// </summary>
-		readonly ISymlinkFactory symlinkFactory;
+		protected ISymlinkFactory SymlinkFactory { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="WindowsWatchdogFactory"/> <see langword="class"/>.
@@ -31,7 +32,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="databaseContextFactory">The <see cref="IDatabaseContextFactory"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogFactory"/>.</param>
-		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/>.</param>
+		/// <param name="symlinkFactory">The value of <see cref="SymlinkFactory"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> for <see cref="GeneralConfiguration"/> for the <see cref="WatchdogFactory"/>.</param>
 		public WindowsWatchdogFactory(
 			IServerControl serverControl,
@@ -49,29 +50,33 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				asyncDelayer,
 				generalConfigurationOptions)
 		{
-			this.symlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
+			SymlinkFactory = symlinkFactory ?? throw new ArgumentNullException(nameof(symlinkFactory));
 		}
 
 		/// <inheritdoc />
-		protected override IWatchdog CreateNonExperimentalWatchdog(
+		public override IWatchdog CreateWatchdog(
 			IChatManager chat,
 			IDmbFactory dmbFactory,
-			IReattachInfoHandler reattachInfoHandler,
+			ISessionPersistor sessionPersistor,
 			ISessionControllerFactory sessionControllerFactory,
-			IIOManager ioManager,
+			IIOManager gameIOManager,
+			IIOManager diagnosticsIOManager,
+			IEventConsumer eventConsumer,
 			Api.Models.Instance instance,
 			DreamDaemonSettings settings)
 			=> new WindowsWatchdog(
 				chat,
 				sessionControllerFactory,
 				dmbFactory,
-				reattachInfoHandler,
+				sessionPersistor,
 				DatabaseContextFactory,
 				JobManager,
 				ServerControl,
 				AsyncDelayer,
-				ioManager,
-				symlinkFactory,
+				diagnosticsIOManager,
+				eventConsumer,
+				gameIOManager,
+				SymlinkFactory,
 				LoggerFactory.CreateLogger<WindowsWatchdog>(),
 				settings,
 				instance,

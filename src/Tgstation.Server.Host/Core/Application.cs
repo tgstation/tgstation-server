@@ -1,5 +1,4 @@
-﻿using Byond.TopicSender;
-using Cyberboss.AspNetCore.AsyncInitializer;
+﻿using Cyberboss.AspNetCore.AsyncInitializer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
@@ -28,6 +27,7 @@ using Tgstation.Server.Host.Components.Chat.Providers;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Components.Interop.Converters;
 using Tgstation.Server.Host.Components.Repository;
+using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
@@ -122,13 +122,10 @@ namespace Tgstation.Server.Host.Core
 					if (postSetupServices.FileLoggingConfiguration.Disable)
 						return;
 
-					// common app data is C:/ProgramData on windows, else /usr/share
-					var logPath = !String.IsNullOrEmpty(postSetupServices.FileLoggingConfiguration.Directory)
-						? postSetupServices.FileLoggingConfiguration.Directory
-						: IOManager.ConcatPath(
-							Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
-							AssemblyInformationProvider.VersionPrefix,
-							"Logs");
+					var logPath = postSetupServices.FileLoggingConfiguration.GetFullLogDirectory(
+						IOManager,
+						AssemblyInformationProvider,
+						postSetupServices.PlatformIdentifier);
 
 					var logEventLevel = ConvertSeriLogLevel(postSetupServices.FileLoggingConfiguration.LogLevel);
 
@@ -179,6 +176,8 @@ namespace Tgstation.Server.Host.Core
 				.AddMvc(options =>
 				{
 					options.EnableEndpointRouting = false;
+					options.ReturnHttpNotAcceptable = true;
+					options.RespectBrowserAcceptHeader = true;
 				})
 				.AddNewtonsoftJson(options =>
 				{
@@ -207,10 +206,16 @@ namespace Tgstation.Server.Host.Core
 
 			void AddTypedContext<TContext>() where TContext : DatabaseContext
 			{
-				services.AddDbContext<TContext>(builder =>
+				var configureAction = DatabaseContext.GetConfigureAction<TContext>();
+
+				services.AddDbContextPool<TContext>((serviceProvider, builder) =>
 				{
 					if (hostingEnvironment.IsDevelopment())
 						builder.EnableSensitiveDataLogging();
+
+					var databaseConfigOptions = serviceProvider.GetRequiredService<IOptions<DatabaseConfiguration>>();
+					var databaseConfig = databaseConfigOptions.Value ?? throw new InvalidOperationException("DatabaseConfiguration missing!");
+					configureAction(builder, databaseConfig);
 				});
 				services.AddScoped<IDatabaseContext>(x => x.GetRequiredService<TContext>());
 			}
@@ -251,11 +256,7 @@ namespace Tgstation.Server.Host.Core
 			// configure platform specific services
 			if (postSetupServices.PlatformIdentifier.IsWindows)
 			{
-				if (postSetupServices.GeneralConfiguration.UseBasicWatchdogOnWindows)
-					services.AddSingleton<IWatchdogFactory, WatchdogFactory>();
-				else
-					services.AddSingleton<IWatchdogFactory, WindowsWatchdogFactory>();
-
+				AddWatchdog<WindowsWatchdogFactory>(services, postSetupServices);
 				services.AddSingleton<ISystemIdentityFactory, WindowsSystemIdentityFactory>();
 				services.AddSingleton<ISymlinkFactory, WindowsSymlinkFactory>();
 				services.AddSingleton<IByondInstaller, WindowsByondInstaller>();
@@ -268,12 +269,16 @@ namespace Tgstation.Server.Host.Core
 			}
 			else
 			{
-				services.AddSingleton<IWatchdogFactory, WatchdogFactory>();
+				AddWatchdog<PosixWatchdogFactory>(services, postSetupServices);
 				services.AddSingleton<ISystemIdentityFactory, PosixSystemIdentityFactory>();
 				services.AddSingleton<ISymlinkFactory, PosixSymlinkFactory>();
 				services.AddSingleton<IByondInstaller, PosixByondInstaller>();
 				services.AddSingleton<IPostWriteHandler, PosixPostWriteHandler>();
+
 				services.AddSingleton<IProcessFeatures, PosixProcessFeatures>();
+
+				// PosixProcessFeatures also needs a IProcessExecutor for gcore
+				services.AddSingleton(x => new Lazy<IProcessExecutor>(() => x.GetRequiredService<IProcessExecutor>(), true));
 				services.AddSingleton<INetworkPromptReaper, PosixNetworkPromptReaper>();
 			}
 
@@ -282,14 +287,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
 			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
-			services.AddSingleton<ITopicClient, TopicClient>();
-			services.AddSingleton(new SocketParameters
-			{
-				ReceiveTimeout = TimeSpan.FromMilliseconds(postSetupServices.GeneralConfiguration.ByondTopicTimeout),
-				SendTimeout = TimeSpan.FromMilliseconds(postSetupServices.GeneralConfiguration.ByondTopicTimeout),
-				ConnectTimeout = TimeSpan.FromMilliseconds(postSetupServices.GeneralConfiguration.ByondTopicTimeout),
-				DisconnectTimeout = TimeSpan.FromMilliseconds(postSetupServices.GeneralConfiguration.ByondTopicTimeout)
-			});
+			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
 
 			// configure component services
 			services.AddSingleton<ILibGit2RepositoryFactory, LibGit2RepositoryFactory>();
@@ -304,6 +302,21 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<InstanceManager>();
 			services.AddSingleton<IBridgeDispatcher>(x => x.GetRequiredService<InstanceManager>());
 			services.AddSingleton<IInstanceManager>(x => x.GetRequiredService<InstanceManager>());
+		}
+
+		/// <summary>
+		/// Adds the <see cref="IWatchdogFactory"/> implementation.
+		/// </summary>
+		/// <typeparam name="TSystemWatchdogFactory">The <see cref="WatchdogFactory"/> child <see langword="class"/> for the current system.</typeparam>
+		/// <param name="services">The <see cref="IServiceCollection"/> to configure.</param>
+		/// <param name="postSetupServices">The <see cref="IPostSetupServices"/> to use.</param>
+		static void AddWatchdog<TSystemWatchdogFactory>(IServiceCollection services, IPostSetupServices postSetupServices)
+			where TSystemWatchdogFactory : class, IWatchdogFactory
+		{
+			if (postSetupServices.GeneralConfiguration.UseBasicWatchdog)
+				services.AddSingleton<IWatchdogFactory, WatchdogFactory>();
+			else
+				services.AddSingleton<IWatchdogFactory, TSystemWatchdogFactory>();
 		}
 
 		/// <inheritdoc />
@@ -411,6 +424,8 @@ namespace Tgstation.Server.Host.Core
 			}
 			else
 				logger.LogDebug("Web control panel disabled!");
+
+			logger.LogDebug("Starting hosting...");
 
 			// authenticate JWT tokens using our security pipeline if present, returns 401 if bad
 			applicationBuilder.UseAuthentication();

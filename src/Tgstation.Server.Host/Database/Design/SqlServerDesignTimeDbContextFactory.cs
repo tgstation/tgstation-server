@@ -1,11 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore.Design;
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.Models;
-using Tgstation.Server.Host.Security;
-using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Database.Design
 {
@@ -16,18 +10,9 @@ namespace Tgstation.Server.Host.Database.Design
 	{
 		/// <inheritdoc />
 		public SqlServerDatabaseContext CreateDbContext(string[] args)
-		{
-			using var loggerFactory = new LoggerFactory();
-			return new SqlServerDatabaseContext(
-				new DbContextOptions<SqlServerDatabaseContext>(),
-				DesignTimeDbContextFactoryHelpers.GetDatabaseConfiguration(
+			=> new SqlServerDatabaseContext(
+				DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions<SqlServerDatabaseContext>(
 					DatabaseType.SqlServer,
-					"Data Source=fake;Initial Catalog=TGS_Design;Integrated Security=True;Application Name=tgstation-server"),
-				new DatabaseSeeder(
-				new CryptographySuite(
-				new PasswordHasher<User>()),
-				new PlatformIdentifier()),
-				loggerFactory.CreateLogger<SqlServerDatabaseContext>());
-		}
+					"Data Source=fake;Initial Catalog=TGS_Design;Integrated Security=True;Application Name=tgstation-server"));
 	}
 }

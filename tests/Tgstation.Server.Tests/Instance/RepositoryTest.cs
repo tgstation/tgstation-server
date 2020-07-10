@@ -58,7 +58,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			clone = await repositoryClient.Clone(initalRepo, cancellationToken).ConfigureAwait(false);
 
-			await WaitForJob(clone.ActiveJob, 120, false, cancellationToken).ConfigureAwait(false);
+			await WaitForJob(clone.ActiveJob, 180, false, null, cancellationToken).ConfigureAwait(false);
 			var cloned = await repositoryClient.Read(cancellationToken);
 
 			Assert.AreEqual(Origin, cloned.Origin);
@@ -80,26 +80,26 @@ namespace Tgstation.Server.Tests.Instance
 
 			// checkout V3 and back
 			cloned.Reference = "V3";
-			var updated = await Checkout(cloned, false, true, true, cancellationToken);
+			var updated = await Checkout(cloned, false, true, cancellationToken);
 
 			// Specific SHA
 			updated.CheckoutSha = "f43f5bd";
-			await ApiAssert.ThrowsException<ApiConflictException>(() => Checkout(updated, false, false, false, cancellationToken), ErrorCode.RepoMismatchShaAndReference);
+			await ApiAssert.ThrowsException<ApiConflictException>(() => Checkout(updated, false, false, cancellationToken), ErrorCode.RepoMismatchShaAndReference);
 			updated.Reference = null;
-			updated = await Checkout(updated, false, false, false, cancellationToken);
+			updated = await Checkout(updated, false, false, cancellationToken);
 
 			// Fake SHA
 			updated.Reference = null;
 			updated.CheckoutSha = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-			updated = await Checkout(updated, true, false, false, cancellationToken);
+			updated = await Checkout(updated, true, false, cancellationToken);
 
 			// Fake ref
 			updated.Reference = "Tgs4IntegrationTestFakeBranchNeverNameABranchThis";
-			updated = await Checkout(updated, true, true, false, cancellationToken);
+			updated = await Checkout(updated, true, true, cancellationToken);
 
 			// Back
 			updated.Reference = workingBranch;
-			updated = await Checkout(updated, false, true, false, cancellationToken);
+			updated = await Checkout(updated, false, true, cancellationToken);
 
 			var testPRString = Environment.GetEnvironmentVariable("TGS4_TEST_PULL_REQUEST_NUMBER");
 			if (String.IsNullOrWhiteSpace(testPRString))
@@ -118,15 +118,13 @@ namespace Tgstation.Server.Tests.Instance
 			await TestMergeTests(updated, prNumber, cancellationToken);
 		}
 
-		async Task<Repository> Checkout(Repository updated, bool expectFailure, bool isRef, bool checkBusy, CancellationToken cancellationToken)
+		async Task<Repository> Checkout(Repository updated, bool expectFailure, bool isRef, CancellationToken cancellationToken)
 		{
 			var newRef = isRef ? updated.Reference : updated.CheckoutSha;
 			var checkingOut = await repositoryClient.Update(updated, cancellationToken);
 			Assert.IsNotNull(checkingOut.ActiveJob);
-			if(checkBusy)
-				await ApiAssert.ThrowsException<ConflictException>(() => repositoryClient.Read(cancellationToken), ErrorCode.RepoBusy);
 
-			await WaitForJob(checkingOut.ActiveJob, 30, expectFailure, cancellationToken);
+			await WaitForJob(checkingOut.ActiveJob, 30, expectFailure, null, cancellationToken);
 			var result = await repositoryClient.Read(cancellationToken);
 			if (!expectFailure)
 				if (isRef)
@@ -155,7 +153,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.IsNotNull(numberOnlyMerging.ActiveJob);
 			Assert.IsTrue(numberOnlyMerging.ActiveJob.Description.Contains(prNumber.ToString()));
 
-			await WaitForJob(numberOnlyMerging.ActiveJob, 20, false, cancellationToken);
+			await WaitForJob(numberOnlyMerging.ActiveJob, 20, false, null,cancellationToken);
 
 			var withMerge = await repositoryClient.Read(cancellationToken);
 			Assert.AreEqual(repository.Reference, withMerge.Reference);
@@ -189,7 +187,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			var mergingAgain = await repositoryClient.Update(withMerge, cancellationToken);
 			Assert.IsNotNull(mergingAgain.ActiveJob);
-			await WaitForJob(mergingAgain.ActiveJob, 30, false, cancellationToken);
+			await WaitForJob(mergingAgain.ActiveJob, 30, false, null, cancellationToken);
 
 			var final = await repositoryClient.Read(cancellationToken);
 			Assert.AreEqual("asdffdsa", final.RevisionInformation.PrimaryTestMerge.Comment);
@@ -204,7 +202,7 @@ namespace Tgstation.Server.Tests.Instance
 			var deleting = await repositoryClient.Delete(cancellationToken);
 			Assert.IsNotNull(deleting.ActiveJob);
 
-			await WaitForJob(deleting.ActiveJob, 60, false, cancellationToken).ConfigureAwait(false);
+			await WaitForJob(deleting.ActiveJob, 60, false, null, cancellationToken).ConfigureAwait(false);
 			var deleted = await repositoryClient.Read(cancellationToken).ConfigureAwait(false);
 
 			Assert.IsNull(deleted.Origin);

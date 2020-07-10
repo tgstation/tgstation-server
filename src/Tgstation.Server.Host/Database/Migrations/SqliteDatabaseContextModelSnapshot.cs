@@ -8,11 +8,12 @@ namespace Tgstation.Server.Host.Database.Migrations
 	[DbContext(typeof(SqliteDatabaseContext))]
 	partial class SqliteDatabaseContextModelSnapshot : ModelSnapshot
 	{
+		/// <inheritdoc />
 		protected override void BuildModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "3.1.3");
+				.HasAnnotation("ProductVersion", "3.1.5");
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
 				{
@@ -128,7 +129,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<long>("JobId")
 						.HasColumnType("INTEGER");
 
-					b.Property<int>("MinimumSecurityLevel")
+					b.Property<int?>("MinimumSecurityLevel")
 						.HasColumnType("INTEGER");
 
 					b.Property<string>("Output")
@@ -171,11 +172,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<long>("InstanceId")
 						.HasColumnType("INTEGER");
 
-					b.Property<ushort?>("PrimaryPort")
-						.IsRequired()
-						.HasColumnType("INTEGER");
-
-					b.Property<ushort?>("SecondaryPort")
+					b.Property<ushort?>("Port")
 						.IsRequired()
 						.HasColumnType("INTEGER");
 
@@ -183,6 +180,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.HasColumnType("INTEGER");
 
 					b.Property<uint?>("StartupTimeout")
+						.IsRequired()
+						.HasColumnType("INTEGER");
+
+					b.Property<uint?>("TopicRequestTimeout")
 						.IsRequired()
 						.HasColumnType("INTEGER");
 
@@ -213,6 +214,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<string>("ProjectName")
 						.HasColumnType("TEXT")
 						.HasMaxLength(10000);
+
+					b.Property<bool?>("RequireDMApiValidation")
+						.IsRequired()
+						.HasColumnType("INTEGER");
 
 					b.HasKey("Id");
 
@@ -368,9 +373,6 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.HasColumnType("TEXT");
 
 					b.Property<long>("CompileJobId")
-						.HasColumnType("INTEGER");
-
-					b.Property<bool>("IsPrimary")
 						.HasColumnType("INTEGER");
 
 					b.Property<int>("LaunchSecurityLevel")
@@ -603,36 +605,6 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.ToTable("Users");
 				});
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.WatchdogReattachInformation", b =>
-				{
-					b.Property<long>("Id")
-						.ValueGeneratedOnAdd()
-						.HasColumnType("INTEGER");
-
-					b.Property<long?>("AlphaId")
-						.HasColumnType("INTEGER");
-
-					b.Property<bool>("AlphaIsActive")
-						.HasColumnType("INTEGER");
-
-					b.Property<long?>("BravoId")
-						.HasColumnType("INTEGER");
-
-					b.Property<long>("InstanceId")
-						.HasColumnType("INTEGER");
-
-					b.HasKey("Id");
-
-					b.HasIndex("AlphaId");
-
-					b.HasIndex("BravoId");
-
-					b.HasIndex("InstanceId")
-						.IsUnique();
-
-					b.ToTable("WatchdogReattachInformations");
-				});
-
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
 				{
 					b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
@@ -780,23 +752,6 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.HasOne("Tgstation.Server.Host.Models.User", "CreatedBy")
 						.WithMany("CreatedUsers")
 						.HasForeignKey("CreatedById");
-				});
-
-			modelBuilder.Entity("Tgstation.Server.Host.Models.WatchdogReattachInformation", b =>
-				{
-					b.HasOne("Tgstation.Server.Host.Models.ReattachInformation", "Alpha")
-						.WithMany()
-						.HasForeignKey("AlphaId");
-
-					b.HasOne("Tgstation.Server.Host.Models.ReattachInformation", "Bravo")
-						.WithMany()
-						.HasForeignKey("BravoId");
-
-					b.HasOne("Tgstation.Server.Host.Models.Instance", null)
-						.WithOne("WatchdogReattachInformation")
-						.HasForeignKey("Tgstation.Server.Host.Models.WatchdogReattachInformation", "InstanceId")
-						.OnDelete(DeleteBehavior.Cascade)
-						.IsRequired();
 				});
 #pragma warning restore 612, 618
 		}

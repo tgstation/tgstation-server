@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using System;
 using Tgstation.Server.Host.Configuration;
 
@@ -18,36 +16,34 @@ namespace Tgstation.Server.Host.Database
 		/// Construct a <see cref="SqlServerDatabaseContext"/>
 		/// </summary>
 		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TContext}"/> for the <see cref="DatabaseContext"/></param>
-		/// <param name="databaseConfiguration">The <see cref="IOptions{TOptions}"/> of <see cref="DatabaseConfiguration"/> for the <see cref="DatabaseContext"/></param>
-		/// <param name="databaseSeeder">The <see cref="IDatabaseSeeder"/> for the <see cref="DatabaseContext"/></param>
-		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="DatabaseContext"/></param>
 		public PostgresSqlDatabaseContext(
-			DbContextOptions<PostgresSqlDatabaseContext> dbContextOptions,
-			IOptions<DatabaseConfiguration> databaseConfiguration,
-			IDatabaseSeeder databaseSeeder,
-			ILogger<PostgresSqlDatabaseContext> logger)
-			: base(dbContextOptions, databaseConfiguration, databaseSeeder, logger)
+			DbContextOptions<PostgresSqlDatabaseContext> dbContextOptions)
+			: base(dbContextOptions)
 		{ }
 
-		/// <inheritdoc />
-		protected override void OnConfiguring(DbContextOptionsBuilder options)
+		/// <summary>
+		/// Configure the <see cref="PostgresSqlDatabaseContext"/>.
+		/// </summary>
+		/// <param name="options">The <see cref="DbContextOptionsBuilder"/> to configure.</param>
+		/// <param name="databaseConfiguration">The <see cref="DatabaseConfiguration"/>.</param>
+		public static void ConfigureWith(DbContextOptionsBuilder options, DatabaseConfiguration databaseConfiguration)
 		{
-			base.OnConfiguring(options);
-			options.UseNpgsql(DatabaseConfiguration.ConnectionString, options =>
+			if (options == null)
+				throw new ArgumentNullException(nameof(options));
+			if (databaseConfiguration == null)
+				throw new ArgumentNullException(nameof(databaseConfiguration));
+
+			if (databaseConfiguration.DatabaseType != DatabaseType.PostgresSql)
+				throw new InvalidOperationException($"Invalid DatabaseType for {nameof(PostgresSqlDatabaseContext)}!");
+
+			options.UseNpgsql(databaseConfiguration.ConnectionString, options =>
 			{
 				options.EnableRetryOnFailure();
 
-				if (!String.IsNullOrEmpty(DatabaseConfiguration.ServerVersion))
+				if (!String.IsNullOrEmpty(databaseConfiguration.ServerVersion))
 					options.SetPostgresVersion(
-						Version.Parse(DatabaseConfiguration.ServerVersion));
+						Version.Parse(databaseConfiguration.ServerVersion));
 			});
-		}
-
-		/// <inheritdoc />
-		protected override void ValidateDatabaseType()
-		{
-			if (DatabaseType != DatabaseType.PostgresSql)
-				throw new InvalidOperationException("Invalid DatabaseType for PostgresSqlDatabaseContext!");
 		}
 	}
 }

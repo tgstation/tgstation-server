@@ -6,7 +6,7 @@ namespace Tgstation.Server.Host.Configuration
 	/// <summary>
 	/// Configuration options for the <see cref="Database.DatabaseContext"/>
 	/// </summary>
-	sealed class DatabaseConfiguration
+	public sealed class DatabaseConfiguration
 	{
 		/// <summary>
 		/// The key for the <see cref="Microsoft.Extensions.Configuration.IConfigurationSection"/> the <see cref="DatabaseConfiguration"/> resides in

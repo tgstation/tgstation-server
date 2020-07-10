@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mime;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -157,7 +158,10 @@ namespace Tgstation.Server.Client
 			using (var request = new HttpRequestMessage(method, fullUri))
 			{
 				if (body != null)
-					request.Content = new StringContent(JsonConvert.SerializeObject(body, serializerSettings), Encoding.UTF8, ApiHeaders.ApplicationJson);
+					request.Content = new StringContent(
+						JsonConvert.SerializeObject(body, serializerSettings),
+						Encoding.UTF8,
+						MediaTypeNames.Application.Json);
 
 				var headersToUse = tokenRefresh ? tokenRefreshHeaders! : headers;
 				headersToUse.SetRequestHeaders(request.Headers, instanceId);
@@ -234,6 +238,9 @@ namespace Tgstation.Server.Client
 
 		/// <inheritdoc />
 		public Task<TResult> Update<TBody, TResult>(string route, TBody body, CancellationToken cancellationToken) => RunRequest<TResult>(route, body, HttpMethod.Post, null, false, cancellationToken);
+
+		/// <inheritdoc />
+		public Task Patch(string route, CancellationToken cancellationToken) => RunRequest<object>(route, null, HttpMethod.Patch, null, false, cancellationToken);
 
 		/// <inheritdoc />
 		public Task Update<TBody>(string route, TBody body, CancellationToken cancellationToken) => RunRequest<object>(route, body, HttpMethod.Post, null, false, cancellationToken);

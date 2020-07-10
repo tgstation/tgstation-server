@@ -4,10 +4,10 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
@@ -33,7 +33,16 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		public JobController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager, ILogger<JobController> logger) : base(databaseContext, authenticationContextFactory, logger, true, true)
+		public JobController(
+			IDatabaseContext databaseContext,
+			IAuthenticationContextFactory authenticationContextFactory,
+			IJobManager jobManager,
+			ILogger<JobController> logger)
+			: base(
+				  databaseContext,
+				  authenticationContextFactory,
+				  logger,
+				  true)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 		}
@@ -61,14 +70,14 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// List all <see cref="Api.Models.Job"/> <see cref="Api.Models.EntityId"/>s for the instance in reverse creation order.
+		/// List all <see cref="Api.Models.Job"/> <see cref="EntityId"/>s for the instance in reverse creation order.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
-		/// <response code="200">Retrieved <see cref="Api.Models.Job"/> <see cref="Api.Models.EntityId"/>s successfully.</response>
+		/// <response code="200">Retrieved <see cref="Api.Models.Job"/> <see cref="EntityId"/>s successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize]
-		[ProducesResponseType(typeof(List<Api.Models.EntityId>), 200)]
+		[ProducesResponseType(typeof(List<EntityId>), 200)]
 		public async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
 			// you KNOW this will need pagination eventually right?
@@ -77,7 +86,7 @@ namespace Tgstation.Server.Host.Controllers
 				.AsQueryable()
 				.Where(x => x.Instance.Id == Instance.Id)
 				.OrderByDescending(x => x.StartedAt)
-				.Select(x => new Api.Models.EntityId
+				.Select(x => new EntityId
 				{
 					Id = x.Id
 				})
@@ -89,17 +98,16 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Cancel a running <see cref="Api.Models.Job"/>.
 		/// </summary>
-		/// <param name="id">The <see cref="Api.Models.EntityId.Id"/> of the <see cref="Api.Models.Job"/> to cancel.</param>
+		/// <param name="id">The <see cref="EntityId.Id"/> of the <see cref="Api.Models.Job"/> to cancel.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="202"><see cref="Api.Models.Job"/> cancellation requested successfully.</response>
 		/// <response code="404"><see cref="Api.Models.Job"/> does not exist in this instance.</response>
-		/// <response code="410"><see cref="Api.Models.Job"/> already cancelled or completed.</response>
+		/// <response code="410"><see cref="Api.Models.Job"/> could not be found in the job manager. Has it already completed?</response>
 		[HttpDelete("{id}")]
 		[TgsAuthorize]
 		[ProducesResponseType(typeof(Api.Models.Job), 202)]
-		[ProducesResponseType(404)]
-		[ProducesResponseType(410)]
+		[ProducesResponseType(typeof(ErrorMessage), 404)]
 		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
 			// don't care if an instance post or not at this point
@@ -109,23 +117,23 @@ namespace Tgstation.Server.Host.Controllers
 				.Where(x => x.Id == id && x.Instance.Id == Instance.Id)
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);
-			if (job == default(Job))
+			if (job == default)
 				return NotFound();
 
 			if (job.StoppedAt != null)
-				return StatusCode((int)HttpStatusCode.Gone);
+				return Conflict(new ErrorMessage(ErrorCode.JobStopped));
 
 			if (job.CancelRight.HasValue && job.CancelRightsType.HasValue && (AuthenticationContext.GetRight(job.CancelRightsType.Value) & job.CancelRight.Value) == 0)
 				return Forbid();
 
 			var updatedJob = await jobManager.CancelJob(job, AuthenticationContext.User, false, cancellationToken).ConfigureAwait(false);
-			return updatedJob != null ? (IActionResult)Accepted(updatedJob.ToApi()) : StatusCode((int)HttpStatusCode.Gone);
+			return updatedJob != null ? Accepted(updatedJob.ToApi()) : Gone();
 		}
 
 		/// <summary>
 		/// Get a specific <see cref="Api.Models.Job"/>.
 		/// </summary>
-		/// <param name="id">The <see cref="Api.Models.EntityId.Id"/> of the <see cref="Api.Models.Job"/> to retrieve.</param>
+		/// <param name="id">The <see cref="EntityId.Id"/> of the <see cref="Api.Models.Job"/> to retrieve.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Retrieved <see cref="Api.Models.Job"/> successfully.</response>
@@ -133,7 +141,7 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpGet("{id}")]
 		[TgsAuthorize]
 		[ProducesResponseType(typeof(Api.Models.Job), 200)]
-		[ProducesResponseType(404)]
+		[ProducesResponseType(typeof(ErrorMessage), 404)]
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			var job = await DatabaseContext

@@ -40,6 +40,12 @@ namespace Tgstation.Server.Host.Extensions
 				}
 				catch (DbUpdateException e)
 				{
+					if (e.InnerException is OperationCanceledException)
+					{
+						logger.LogTrace("Rethrowing DbUpdateException as OperationCanceledException: {0}", e);
+						throw e.InnerException;
+					}
+
 					logger.LogDebug("Database conflict: {0}", e.Message);
 					await new ConflictObjectResult(new ErrorMessage(ErrorCode.DatabaseIntegrityConflict)
 					{

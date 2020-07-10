@@ -16,30 +16,32 @@ jobs:
       - DockerBuild=false
       - DMAPI=false
       - CONFIG=Release
+      - MARIAFIX=true
       - TGS4_TEST_DATABASE_TYPE=MySql
-      - TGS4_TEST_CONNECTION_STRING="server=127.0.0.1;uid=root;pwd=;database=tgs_test"
-      name: "MySql Integration Test"
+      - TGS4_TEST_CONNECTION_STRING="server=127.0.0.1;uid=testuser;pwd=password;database=tgs_test"
+      name: "MariaDB Integration Test"
       language: csharp
       mono: none
-      services:
-        - mysql
       dotnet: 3.1
       cache:
         directories:
           - $HOME/.nuget/packages:
       addons:
+        mariadb: '10.5'
         apt:
           packages:
             - libc6-i386
             - libstdc++6:i386
+            - gdb
     - env:
       - DoxGeneration=false
       - DockerBuild=false
       - DMAPI=false
       - CONFIG=Release
+      - General__UseBasicWatchdog=true
       - TGS4_TEST_DATABASE_TYPE=Sqlite
       - TGS4_TEST_CONNECTION_STRING="Data Source=TravisTestDB.sqlite3;Mode=ReadWriteCreate"
-      name: "Sqlite Integration Test"
+      name: "Sqlite & BasicWatchdog Integration Test"
       language: csharp
       mono: none
       dotnet: 3.1
@@ -51,6 +53,7 @@ jobs:
           packages:
             - libc6-i386
             - libstdc++6:i386
+            - gdb
     - env:
       - DoxGeneration=false
       - DockerBuild=false
@@ -74,6 +77,7 @@ jobs:
             - postgresql-12
             - libc6-i386
             - libstdc++6:i386
+            - gdb
     - env:
       - DoxGeneration=false
       - DockerBuild=false
@@ -132,6 +136,7 @@ jobs:
 before_install:
   - if [ $POSTGRESFIX = true ]; then sudo -u postgres psql -c "CREATE USER testuser WITH PASSWORD 'password'"; fi
   - if [ $POSTGRESFIX = true ]; then sudo -u postgres psql -c "ALTER ROLE testuser SUPERUSER"; fi
+  - if [ $MARIAFIX = true ]; then sudo mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'testuser'@'localhost' IDENTIFIED BY 'password';"; fi
 
 install:
   - if [ $DoxGeneration = false ] && [ $DockerBuild = false ] && [ $DMAPI = true ]; then build/install_byond.sh; fi

@@ -91,6 +91,14 @@ namespace Tgstation.Server.Client
 		Task Update<TBody>(string route, TBody body, CancellationToken cancellationToken);
 
 		/// <summary>
+		/// Run an HTTP PATCH request.
+		/// </summary>
+		/// <param name="route">The server route to make the request to.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		Task Patch(string route, CancellationToken cancellationToken);
+
+		/// <summary>
 		/// Run an HTTP DELETE request
 		/// </summary>
 		/// <param name="route">The server route to make the request to</param>

@@ -592,11 +592,11 @@ namespace Tgstation.Server.Host.Setup
 			do
 			{
 				await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
-				await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Timeout for sending and receiving BYOND topics (ms, 0 for infinite, leave blank for default of {0}): ", newGeneralConfiguration.ByondTopicTimeout), false, cancellationToken).ConfigureAwait(false);
+				await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Default timeout for sending and receiving BYOND topics (ms, 0 for infinite, leave blank for default of {0}): ", newGeneralConfiguration.ByondTopicTimeout), false, cancellationToken).ConfigureAwait(false);
 				var topicTimeoutString = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
 				if (String.IsNullOrWhiteSpace(topicTimeoutString))
 					break;
-				if (Int32.TryParse(topicTimeoutString, out var topicTimeout) && topicTimeout >= 0)
+				if (UInt32.TryParse(topicTimeoutString, out var topicTimeout) && topicTimeout >= 0)
 				{
 					newGeneralConfiguration.ByondTopicTimeout = topicTimeout;
 					break;
@@ -613,7 +613,6 @@ namespace Tgstation.Server.Host.Setup
 			if (String.IsNullOrWhiteSpace(newGeneralConfiguration.GitHubAccessToken))
 				newGeneralConfiguration.GitHubAccessToken = null;
 
-			// newGeneralConfiguration.UseExperimentalWatchdog = await PromptYesNo("Use the experimental watchdog (NOT RECOMMENDED)? (y/n): ", cancellationToken).ConfigureAwait(false);
 			return newGeneralConfiguration;
 		}
 
@@ -745,6 +744,7 @@ namespace Tgstation.Server.Host.Setup
 			await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Configuration complete! Saving to {0}", userConfigFileName), true, cancellationToken).ConfigureAwait(false);
 
 			newGeneralConfiguration.ApiPort = hostingPort ?? GeneralConfiguration.DefaultApiPort;
+			newGeneralConfiguration.ConfigVersion = GeneralConfiguration.CurrentConfigVersion;
 			var map = new Dictionary<string, object>()
 			{
 				{ DatabaseConfiguration.Section, databaseConfiguration },

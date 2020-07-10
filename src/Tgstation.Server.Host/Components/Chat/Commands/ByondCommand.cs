@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Watchdog;
 
@@ -48,7 +49,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		{
 			if (arguments.Split(' ').Any(x => x.ToUpperInvariant() == "--ACTIVE"))
 				return Task.FromResult(byondManager.ActiveVersion == null ? "None!" : String.Format(CultureInfo.InvariantCulture, "{0}.{1}", byondManager.ActiveVersion.Major, byondManager.ActiveVersion.Minor));
-			if (!watchdog.Running)
+			if (watchdog.Status == WatchdogStatus.Offline)
 				return Task.FromResult("Server offline!");
 			return Task.FromResult(watchdog.ActiveCompileJob.ByondVersion);
 		}

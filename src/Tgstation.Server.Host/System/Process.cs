@@ -165,5 +165,15 @@ namespace Tgstation.Server.Host.System
 			logger.LogTrace("PID {0} Username: {1}", Id, result);
 			return result;
 		}
+
+		/// <inheritdoc />
+		public Task CreateDump(string outputFile, CancellationToken cancellationToken)
+		{
+			if (outputFile == null)
+				throw new ArgumentNullException(nameof(outputFile));
+
+			logger.LogTrace("Dumping PID {0} to {1}...", Id, outputFile);
+			return processFeatures.CreateDump(handle, outputFile, cancellationToken);
+		}
 	}
 }

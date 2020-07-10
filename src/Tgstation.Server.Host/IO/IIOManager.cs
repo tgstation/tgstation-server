@@ -194,5 +194,13 @@ namespace Tgstation.Server.Host.IO
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task ZipToDirectory(string path, byte[] zipFileBytes, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Get the <see cref="DateTimeOffset"/> of when a given <paramref name="path"/> was last modified.
+		/// </summary>
+		/// <param name="path">The path to get metadata for.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="DateTimeOffset"/> of when the file was last modified.</returns>
+		Task<DateTimeOffset> GetLastModified(string path, CancellationToken cancellationToken);
 	}
 }

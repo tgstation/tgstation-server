@@ -1,5 +1,4 @@
-﻿using Byond.TopicSender;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -38,9 +37,9 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly IByondManager byond;
 
 		/// <summary>
-		/// The <see cref="ITopicClient"/> for the <see cref="SessionControllerFactory"/>
+		/// The <see cref="ITopicClientFactory"/> for the <see cref="SessionControllerFactory"/>
 		/// </summary>
-		readonly ITopicClient byondTopicSender;
+		readonly ITopicClientFactory topicClientFactory;
 
 		/// <summary>
 		/// The <see cref="ICryptographySuite"/> for the <see cref="SessionControllerFactory"/>
@@ -136,7 +135,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// </summary>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
 		/// <param name="byond">The value of <see cref="byond"/></param>
-		/// <param name="byondTopicSender">The value of <see cref="byondTopicSender"/></param>
+		/// <param name="topicClientFactory">The value of <see cref="topicClientFactory"/>.</param>
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
 		/// <param name="instance">The value of <see cref="instance"/></param>
@@ -151,7 +150,7 @@ namespace Tgstation.Server.Host.Components.Session
 		public SessionControllerFactory(
 			IProcessExecutor processExecutor,
 			IByondManager byond,
-			ITopicClient byondTopicSender,
+			ITopicClientFactory topicClientFactory,
 			ICryptographySuite cryptographySuite,
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IIOManager ioManager,
@@ -166,7 +165,7 @@ namespace Tgstation.Server.Host.Components.Session
 		{
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
-			this.byondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
+			this.topicClientFactory = topicClientFactory ?? throw new ArgumentNullException(nameof(topicClientFactory));
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
@@ -186,17 +185,12 @@ namespace Tgstation.Server.Host.Components.Session
 			IDmbProvider dmbProvider,
 			IByondExecutableLock currentByondLock,
 			DreamDaemonLaunchParameters launchParameters,
-			bool primaryPort,
-			bool primaryDirectory,
 			bool apiValidate,
 			CancellationToken cancellationToken)
 		{
-			var portToUse = primaryPort ? launchParameters.PrimaryPort : launchParameters.SecondaryPort;
-			if (!portToUse.HasValue)
+			logger.LogTrace("Begin session launch...");
+			if (!launchParameters.Port.HasValue)
 				throw new InvalidOperationException("Given port is null!");
-
-			var basePath = primaryDirectory ? dmbProvider.PrimaryDirectory : dmbProvider.SecondaryDirectory;
-
 			switch (dmbProvider.CompileJob.MinimumSecurityLevel)
 			{
 				case DreamDaemonSecurity.Ultrasafe:
@@ -219,13 +213,22 @@ namespace Tgstation.Server.Host.Components.Session
 				var byondLock = currentByondLock ?? await byond.UseExecutables(Version.Parse(dmbProvider.CompileJob.ByondVersion), cancellationToken).ConfigureAwait(false);
 				try
 				{
-					if (launchParameters.SecurityLevel == DreamDaemonSecurity.Trusted)
-						await byondLock.TrustDmbPath(ioManager.ConcatPath(basePath, dmbProvider.DmbName), cancellationToken).ConfigureAwait(false);
+					logger.LogDebug(
+						"Launching session with CompileJob {0}...",
+						byondLock.Version.Semver(),
+						dmbProvider.CompileJob.Id);
 
-					PortBindTest(portToUse.Value);
+					if (launchParameters.SecurityLevel == DreamDaemonSecurity.Trusted)
+						await byondLock.TrustDmbPath(ioManager.ConcatPath(dmbProvider.Directory, dmbProvider.DmbName), cancellationToken).ConfigureAwait(false);
+
+					PortBindTest(launchParameters.Port.Value);
 					await CheckPagerIsNotRunning(cancellationToken).ConfigureAwait(false);
 
 					var accessIdentifier = cryptographySuite.GetSecureString();
+
+					var byondTopicSender = topicClientFactory.CreateTopicClient(
+						TimeSpan.FromMilliseconds(
+							launchParameters.TopicRequestTimeout.Value));
 
 					// set command line options
 					// more sanitization here cause it uses the same scheme
@@ -239,7 +242,7 @@ namespace Tgstation.Server.Host.Components.Session
 						CultureInfo.InvariantCulture,
 						"{0} -port {1} -ports 1-65535 {2}-close -{3} -{4}{5} -public -params \"{6}\"",
 						dmbProvider.DmbName,
-						portToUse,
+						launchParameters.Port.Value,
 						launchParameters.AllowWebClient.Value ? "-webclient " : String.Empty,
 						SecurityWord(launchParameters.SecurityLevel.Value),
 						visibility,
@@ -251,10 +254,13 @@ namespace Tgstation.Server.Host.Components.Session
 					// See https://github.com/tgstation/tgstation-server/issues/719
 					var noShellExecute = !platformIdentifier.IsWindows;
 
+					if (!apiValidate && dmbProvider.CompileJob.DMApiVersion == null)
+						logger.LogDebug("Session will have no DMAPI support!");
+
 					// launch dd
 					var process = processExecutor.LaunchProcess(
 						byondLock.DreamDaemonPath,
-						basePath,
+						dmbProvider.Directory,
 						arguments,
 						noShellExecute,
 						noShellExecute,
@@ -265,7 +271,7 @@ namespace Tgstation.Server.Host.Components.Session
 						if (!platformIdentifier.IsWindows)
 							return process.GetCombinedOutput();
 
-						var logFilePath = ioManager.ConcatPath(basePath, logFileGuid.ToString());
+						var logFilePath = ioManager.ConcatPath(dmbProvider.Directory, logFileGuid.ToString());
 						try
 						{
 							var dreamDaemonLogBytes = await ioManager.ReadAllBytes(
@@ -321,8 +327,7 @@ namespace Tgstation.Server.Host.Components.Session
 							process,
 							runtimeInformation,
 							accessIdentifier,
-							portToUse.Value,
-							primaryDirectory);
+							launchParameters.Port.Value);
 
 						var sessionController = new SessionController(
 							reattachInformation,
@@ -336,7 +341,8 @@ namespace Tgstation.Server.Host.Components.Session
 							assemblyInformationProvider,
 							loggerFactory.CreateLogger<SessionController>(),
 							launchParameters.StartupTimeout,
-							false);
+							false,
+							apiValidate);
 
 						return sessionController;
 					}
@@ -370,12 +376,20 @@ namespace Tgstation.Server.Host.Components.Session
 			if (reattachInformation == null)
 				throw new ArgumentNullException(nameof(reattachInformation));
 
+			logger.LogTrace("Begin session reattach...");
+			var byondTopicSender = topicClientFactory.CreateTopicClient(reattachInformation.TopicRequestTimeout);
 			var chatTrackingContext = chat.CreateTrackingContext();
 			try
 			{
 				var byondLock = await byond.UseExecutables(Version.Parse(reattachInformation.Dmb.CompileJob.ByondVersion), cancellationToken).ConfigureAwait(false);
+
 				try
 				{
+					logger.LogDebug(
+						"Attaching to session PID: {0}, CompileJob: {1}...",
+						reattachInformation.ProcessId,
+						reattachInformation.Dmb.CompileJob.Id);
+
 					var process = processExecutor.GetProcess(reattachInformation.ProcessId);
 					if (process == null)
 						return null;
@@ -402,7 +416,8 @@ namespace Tgstation.Server.Host.Components.Session
 							assemblyInformationProvider,
 							loggerFactory.CreateLogger<SessionController>(),
 							null,
-							true);
+							true,
+							false);
 
 						process = null;
 						byondLock = null;
@@ -425,9 +440,6 @@ namespace Tgstation.Server.Host.Components.Session
 				chatTrackingContext?.Dispose();
 			}
 		}
-
-		/// <inheritdoc />
-		public ISessionController CreateDeadSession(IDmbProvider dmbProvider) => new DeadSessionController(dmbProvider);
 
 		/// <summary>
 		/// Create <see cref="RuntimeInformation"/>.

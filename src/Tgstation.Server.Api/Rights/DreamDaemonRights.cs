@@ -19,9 +19,9 @@ namespace Tgstation.Server.Api.Rights
 		ReadRevision = 1,
 
 		/// <summary>
-		/// User can change both primary and secondary ports
+		/// User can change the port DreamDaemon runs on.
 		/// </summary>
-		SetPorts = 2,
+		SetPort = 2,
 
 		/// <summary>
 		/// User can change <see cref="Models.Internal.DreamDaemonSettings.AutoStart"/>
@@ -34,7 +34,7 @@ namespace Tgstation.Server.Api.Rights
 		SetSecurity = 8,
 
 		/// <summary>
-		/// User can read all ports, <see cref="Models.DreamDaemon.SoftRestart"/>, <see cref="Models.DreamDaemon.SoftShutdown"/>, <see cref="Models.DreamDaemon.Running"/>, <see cref="Models.Internal.DreamDaemonLaunchParameters.AllowWebClient"/>, and <see cref="Models.Internal.DreamDaemonSettings.AutoStart"/>
+		/// User can read all ports, <see cref="Models.DreamDaemon.SoftRestart"/>, <see cref="Models.DreamDaemon.SoftShutdown"/>, <see cref="Models.DreamDaemon.Status"/>, <see cref="Models.Internal.DreamDaemonLaunchParameters.AllowWebClient"/>, and <see cref="Models.Internal.DreamDaemonSettings.AutoStart"/>
 		/// </summary>
 		ReadMetadata = 16,
 
@@ -77,5 +77,15 @@ namespace Tgstation.Server.Api.Rights
 		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.HeartbeatSeconds"/>
 		/// </summary>
 		SetHeartbeatInterval = 4096,
+
+		/// <summary>
+		/// User can create DreamDaemon process dumps.
+		/// </summary>
+		CreateDump = 8192,
+
+		/// <summary>
+		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.TopicRequestTimeout"/>.
+		/// </summary>
+		SetTopicTimeout = 16384,
 	}
 }

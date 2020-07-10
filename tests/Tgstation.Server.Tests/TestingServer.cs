@@ -36,17 +36,16 @@ namespace Tgstation.Server.Tests
 			if (String.IsNullOrWhiteSpace(Directory))
 			{
 				Directory = Path.Combine(Path.GetTempPath(), "TGS4_INTEGRATION_TEST");
-				if(System.IO.Directory.Exists(Directory))
+				if (System.IO.Directory.Exists(Directory))
 					try
 					{
 						System.IO.Directory.Delete(Directory, true);
 					}
-					catch
-					{
-						Directory = Path.Combine(Directory, Guid.NewGuid().ToString());
-					}
+					catch { }
+
 			}
 
+			Directory = Path.Combine(Directory, Guid.NewGuid().ToString());
 			System.IO.Directory.CreateDirectory(Directory);
 			const string UrlString = "http://localhost:5010";
 			Url = new Uri(UrlString);
@@ -79,6 +78,7 @@ namespace Tgstation.Server.Tests
 				String.Format(CultureInfo.InvariantCulture, "General:MinimumPasswordLength={0}", 10),
 				String.Format(CultureInfo.InvariantCulture, "General:InstanceLimit={0}", 11),
 				String.Format(CultureInfo.InvariantCulture, "General:UserLimit={0}", 150),
+				String.Format(CultureInfo.InvariantCulture, "FileLogging:Directory={0}", Path.Combine(Directory, "Logs")),
 				String.Format(CultureInfo.InvariantCulture, "General:ValidInstancePaths:0={0}", Directory),
 				"General:ByondTopicTimeout=3000"
 			};

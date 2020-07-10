@@ -9,6 +9,7 @@ using Tgstation.Server.Client;
 using Tgstation.Server.Host;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Watchdog;
+using Tgstation.Server.Host.Configuration;
 
 namespace Tgstation.Server.Tests
 {
@@ -37,6 +38,16 @@ namespace Tgstation.Server.Tests
 			Assert.IsNotNull(versionString);
 			Assert.IsTrue(Version.TryParse(versionString, out var expected));
 			var actual = typeof(Program).Assembly.GetName().Version;
+			Assert.AreEqual(expected, actual);
+		}
+
+		[TestMethod]
+		public void TestConfigVersion()
+		{
+			var versionString = versionsPropertyGroup.Element(xmlNamespace + "TgsConfigVersion").Value;
+			Assert.IsNotNull(versionString);
+			Assert.IsTrue(Version.TryParse(versionString, out var expected));
+			var actual = GeneralConfiguration.CurrentConfigVersion;
 			Assert.AreEqual(expected, actual);
 		}
 

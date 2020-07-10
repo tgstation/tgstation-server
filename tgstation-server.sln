@@ -27,6 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{6FF654E6
 		build\analyzers.ruleset = build\analyzers.ruleset
 		build\BuildDox.ps1 = build\BuildDox.ps1
 		build\Dockerfile = build\Dockerfile
+		build\GenerateMigrations.sh = build\GenerateMigrations.sh
 		build\install_byond.sh = build\install_byond.sh
 		build\InstallCodeCoverage.ps1 = build\InstallCodeCoverage.ps1
 		build\OpenApiValidationSettings.json = build\OpenApiValidationSettings.json
@@ -88,12 +89,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3BB10856-AA0
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{82066812-6C73-4360-943B-B23F2F491261}"
-	ProjectSection(SolutionItems) = preProject
-		tests\DMAPI\Config.dm = tests\DMAPI\Config.dm
-		tests\DMAPI\install_byond.sh = tests\DMAPI\install_byond.sh
-		tests\DMAPI\Test.dm = tests\DMAPI\Test.dm
-		tests\DMAPI\travistester.dme = tests\DMAPI\travistester.dme
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v4", "v4", "{057FAC33-CC31-4948-91C6-B0977C335890}"
 	ProjectSection(SolutionItems) = preProject
@@ -142,6 +137,34 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v5", "v5", "{FAEAD3B5-2EAB-
 		src\DMAPI\tgs\v5\api.dm = src\DMAPI\tgs\v5\api.dm
 		src\DMAPI\tgs\v5\commands.dm = src\DMAPI\tgs\v5\commands.dm
 		src\DMAPI\tgs\v5\undef.dm = src\DMAPI\tgs\v5\undef.dm
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LongRunning", "LongRunning", "{EB1DDE8C-CA6F-4BE3-947B-597CA8EABEA5}"
+	ProjectSection(SolutionItems) = preProject
+		tests\DMAPI\LongRunning\Config.dm = tests\DMAPI\LongRunning\Config.dm
+		tests\DMAPI\LongRunning\long_running_test.dme = tests\DMAPI\LongRunning\long_running_test.dme
+		tests\DMAPI\LongRunning\long_running_test_copy.dme = tests\DMAPI\LongRunning\long_running_test_copy.dme
+		tests\DMAPI\LongRunning\Test.dm = tests\DMAPI\LongRunning\Test.dm
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiFree", "ApiFree", "{7B8FC2AF-1B64-4A89-8480-F0FE360DC9EC}"
+	ProjectSection(SolutionItems) = preProject
+		tests\DMAPI\ApiFree\api_free.dme = tests\DMAPI\ApiFree\api_free.dme
+		tests\DMAPI\ApiFree\Test.dm = tests\DMAPI\ApiFree\Test.dm
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BasicOperation", "BasicOperation", "{F32B9514-AAD9-429D-841A-ED810FC2598C}"
+	ProjectSection(SolutionItems) = preProject
+		tests\DMAPI\BasicOperation\basic_operation_test.dme = tests\DMAPI\BasicOperation\basic_operation_test.dme
+		tests\DMAPI\BasicOperation\build_byond.sh = tests\DMAPI\BasicOperation\build_byond.sh
+		tests\DMAPI\BasicOperation\Config.dm = tests\DMAPI\BasicOperation\Config.dm
+		tests\DMAPI\BasicOperation\Test.dm = tests\DMAPI\BasicOperation\Test.dm
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildFail", "BuildFail", "{103C61AB-67D6-46FE-AA47-CC633B88EE0F}"
+	ProjectSection(SolutionItems) = preProject
+		tests\DMAPI\BuildFail\build_fail.dme = tests\DMAPI\BuildFail\build_fail.dme
+		tests\DMAPI\BuildFail\Test.dm = tests\DMAPI\BuildFail\Test.dm
 	EndProjectSection
 EndProject
 Global
@@ -280,6 +303,10 @@ Global
 		{09056964-1C74-445A-96EC-33F6DFC07916} = {316141B0-CD21-4769-A013-D53DA9B9EC09}
 		{5CB51532-55F0-4255-B6E5-69ED5CCD14CD} = {A55C1117-5808-4AB2-BEA6-4D4A3E66A2F2}
 		{FAEAD3B5-2EAB-465C-A9C3-E8CB6AAA7131} = {F7765A4B-021C-454E-ABB1-2AB1B85F91B4}
+		{EB1DDE8C-CA6F-4BE3-947B-597CA8EABEA5} = {82066812-6C73-4360-943B-B23F2F491261}
+		{7B8FC2AF-1B64-4A89-8480-F0FE360DC9EC} = {82066812-6C73-4360-943B-B23F2F491261}
+		{F32B9514-AAD9-429D-841A-ED810FC2598C} = {82066812-6C73-4360-943B-B23F2F491261}
+		{103C61AB-67D6-46FE-AA47-CC633B88EE0F} = {82066812-6C73-4360-943B-B23F2F491261}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DFD36C95-3E49-41C7-ACDB-86BAF5B18A79}

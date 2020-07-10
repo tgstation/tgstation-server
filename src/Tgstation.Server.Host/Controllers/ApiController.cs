@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using Serilog.Context;
 using System;
-using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
@@ -18,7 +18,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// A <see cref="Controller"/> for API functions
 	/// </summary>
-	[Produces(ApiHeaders.ApplicationJson)]
+	[Produces(MediaTypeNames.Application.Json)]
 	[ApiController]
 	public abstract class ApiController : Controller
 	{
@@ -65,7 +65,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="logger">The value of <see cref="Logger"/></param>
 		/// <param name="requireInstance">The value of <see cref="requireInstance"/></param>
 		/// <param name="requireHeaders">The value of <see cref="requireHeaders"/></param>
-		public ApiController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, ILogger logger, bool requireInstance, bool requireHeaders)
+		public ApiController(
+			IDatabaseContext databaseContext,
+			IAuthenticationContextFactory authenticationContextFactory,
+			ILogger logger,
+			bool requireInstance,
+			bool requireHeaders = true)
 		{
 			DatabaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
 			if (authenticationContextFactory == null)
@@ -77,8 +82,79 @@ namespace Tgstation.Server.Host.Controllers
 			this.requireHeaders = requireHeaders;
 		}
 
+		/// <summary>
+		/// Generic 410 response.
+		/// </summary>
+		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.Gone"/>.</returns>
+		protected ObjectResult Gone() => StatusCode(HttpStatusCode.Gone, new ErrorMessage(ErrorCode.ResourceNotPresent));
+
+		/// <summary>
+		/// Generic 404 response.
+		/// </summary>
+		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.NotFound"/>.</returns>
+		protected new NotFoundObjectResult NotFound() => NotFound(new ErrorMessage(ErrorCode.ResourceNeverPresent));
+
+		/// <summary>
+		/// Generic 501 response.
+		/// </summary>
+		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.NotImplemented"/>.</returns>
+		protected ObjectResult RequiresPosixSystemIdentity() => StatusCode(HttpStatusCode.NotImplemented, new ErrorMessage(ErrorCode.RequiresPosixSystemIdentity));
+
+		/// <summary>
+		/// Strongly type calls to <see cref="ControllerBase.StatusCode(int)"/>.
+		/// </summary>
+		/// <param name="statusCode">The <see cref="HttpStatusCode"/>.</param>
+		/// <returns>A <see cref="StatusCodeResult"/> with the given <paramref name="statusCode"/>.</returns>
+		protected StatusCodeResult StatusCode(HttpStatusCode statusCode) => StatusCode((int)statusCode);
+
+		/// <summary>
+		/// Strongly type calls to <see cref="ControllerBase.StatusCode(int, object)"/>.
+		/// </summary>
+		/// <param name="statusCode">The <see cref="HttpStatusCode"/>.</param>
+		/// <param name="errorMessage">The accompanying <see cref="ErrorMessage"/> payload.</param>
+		/// <returns>A <see cref="StatusCodeResult"/> with the given <paramref name="statusCode"/>.</returns>
+		protected ObjectResult StatusCode(HttpStatusCode statusCode, object errorMessage) => StatusCode((int)statusCode, errorMessage);
+
+		/// <summary>
+		/// Generic 201 response with a given <paramref name="payload"/>.
+		/// </summary>
+		/// <param name="payload">The accompanying API payload.</param>
+		/// <returns>A <see cref="HttpStatusCode.Created"/> <see cref="ObjectResult"/> with the given <paramref name="payload"/>.</returns>
+		protected ObjectResult Created(object payload) => StatusCode((int)HttpStatusCode.Created, payload);
+
+		/// <summary>
+		/// Response for missing/Invalid headers.
+		/// </summary>
+		/// <returns>The appropriate <see cref="IActionResult"/>.</returns>
+		protected IActionResult HeadersIssue()
+		{
+			HeadersException headersException;
+			try
+			{
+				var _ = new ApiHeaders(Request.GetTypedHeaders());
+				throw new InvalidOperationException("Expected a header parse exception!");
+			}
+			catch (HeadersException ex)
+			{
+				headersException = ex;
+			}
+
+			var errorMessage = new ErrorMessage(ErrorCode.BadHeaders)
+			{
+				AdditionalData = headersException.Message
+			};
+
+			if (headersException.MissingOrMalformedHeaders.HasFlag(HeaderTypes.Accept))
+				return StatusCode(HttpStatusCode.NotAcceptable, errorMessage);
+
+			if (headersException.MissingOrMalformedHeaders == HeaderTypes.Authorization)
+				return Unauthorized(errorMessage);
+
+			return BadRequest(errorMessage);
+		}
+
 		/// <inheritdoc />
-		#pragma warning disable CA1506 // TODO: Decomplexify
+#pragma warning disable CA1506 // TODO: Decomplexify
 		public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
 		{
 			// ALL valid token and login requests that match a route go through this function
@@ -98,7 +174,7 @@ namespace Tgstation.Server.Host.Controllers
 				if (!ApiHeaders.Compatible())
 				{
 					await StatusCode(
-						(int)HttpStatusCode.UpgradeRequired,
+						HttpStatusCode.UpgradeRequired,
 						new ErrorMessage(ErrorCode.ApiMismatch))
 						.ExecuteResultAsync(context)
 						.ConfigureAwait(false);
@@ -121,15 +197,11 @@ namespace Tgstation.Server.Host.Controllers
 					}
 				}
 			}
-			catch (InvalidOperationException e)
+			catch (HeadersException)
 			{
 				if (requireHeaders)
 				{
-					await BadRequest(
-						new ErrorMessage(ErrorCode.BadHeaders)
-						{
-							AdditionalData = e.Message
-						})
+					await HeadersIssue()
 						.ExecuteResultAsync(context)
 						.ConfigureAwait(false);
 					return;
@@ -172,14 +244,9 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				if (ApiHeaders != null)
 					Logger.LogDebug(
-						"Starting API Request: Version: {1}. User-Agent: {2}",
-						AuthenticationContext?.User.Id.Value.ToString(CultureInfo.InvariantCulture),
+						"Starting API Request: Version: {0}. User-Agent: {1}",
 						ApiHeaders.ApiVersion.Semver(),
-						ApiHeaders.RawUserAgent,
-						Request.Method,
-						Request.Path,
-						Request.QueryString,
-						ApiHeaders.InstanceId);
+						ApiHeaders.RawUserAgent);
 				await base.OnActionExecutionAsync(context, next).ConfigureAwait(false);
 			}
 		}

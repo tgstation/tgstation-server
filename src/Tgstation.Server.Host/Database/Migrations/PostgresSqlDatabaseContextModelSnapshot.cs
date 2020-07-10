@@ -3,19 +3,19 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Tgstation.Server.Host.Database;
 
-namespace Tgstation.Server.Host.Migrations
+namespace Tgstation.Server.Host.Database.Migrations
 {
 	[DbContext(typeof(PostgresSqlDatabaseContext))]
 	partial class PostgresSqlDatabaseContextModelSnapshot : ModelSnapshot
 	{
+		/// <inheritdoc />
 		protected override void BuildModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
 			modelBuilder
 				.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
-				.HasAnnotation("ProductVersion", "3.1.4")
+				.HasAnnotation("ProductVersion", "3.1.5")
 				.HasAnnotation("Relational:MaxIdentifierLength", 63);
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
@@ -133,7 +133,7 @@ namespace Tgstation.Server.Host.Migrations
 					b.Property<long>("JobId")
 						.HasColumnType("bigint");
 
-					b.Property<int>("MinimumSecurityLevel")
+					b.Property<int?>("MinimumSecurityLevel")
 						.HasColumnType("integer");
 
 					b.Property<string>("Output")
@@ -176,16 +176,16 @@ namespace Tgstation.Server.Host.Migrations
 					b.Property<long>("InstanceId")
 						.HasColumnType("bigint");
 
-					b.Property<int>("PrimaryPort")
-						.HasColumnType("integer");
-
-					b.Property<int>("SecondaryPort")
+					b.Property<int>("Port")
 						.HasColumnType("integer");
 
 					b.Property<int>("SecurityLevel")
 						.HasColumnType("integer");
 
 					b.Property<long>("StartupTimeout")
+						.HasColumnType("bigint");
+
+					b.Property<long>("TopicRequestTimeout")
 						.HasColumnType("bigint");
 
 					b.HasKey("Id");
@@ -216,43 +216,16 @@ namespace Tgstation.Server.Host.Migrations
 						.HasColumnType("character varying(10000)")
 						.HasMaxLength(10000);
 
+					b.Property<bool?>("RequireDMApiValidation")
+						.IsRequired()
+						.HasColumnType("boolean");
+
 					b.HasKey("Id");
 
 					b.HasIndex("InstanceId")
 						.IsUnique();
 
 					b.ToTable("DreamMakerSettings");
-				});
-
-			modelBuilder.Entity("Tgstation.Server.Host.Models.DualReattachInformation", b =>
-				{
-					b.Property<long>("Id")
-						.ValueGeneratedOnAdd()
-						.HasColumnType("bigint")
-						.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-					b.Property<long?>("AlphaId")
-						.HasColumnType("bigint");
-
-					b.Property<bool>("AlphaIsActive")
-						.HasColumnType("boolean");
-
-					b.Property<long?>("BravoId")
-						.HasColumnType("bigint");
-
-					b.Property<long>("InstanceId")
-						.HasColumnType("bigint");
-
-					b.HasKey("Id");
-
-					b.HasIndex("AlphaId");
-
-					b.HasIndex("BravoId");
-
-					b.HasIndex("InstanceId")
-						.IsUnique();
-
-					b.ToTable("WatchdogReattachInformations");
 				});
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.Instance", b =>
@@ -404,9 +377,6 @@ namespace Tgstation.Server.Host.Migrations
 
 					b.Property<long>("CompileJobId")
 						.HasColumnType("bigint");
-
-					b.Property<bool>("IsPrimary")
-						.HasColumnType("boolean");
 
 					b.Property<int>("LaunchSecurityLevel")
 						.HasColumnType("integer");
@@ -690,23 +660,6 @@ namespace Tgstation.Server.Host.Migrations
 					b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
 						.WithOne("DreamMakerSettings")
 						.HasForeignKey("Tgstation.Server.Host.Models.DreamMakerSettings", "InstanceId")
-						.OnDelete(DeleteBehavior.Cascade)
-						.IsRequired();
-				});
-
-			modelBuilder.Entity("Tgstation.Server.Host.Models.DualReattachInformation", b =>
-				{
-					b.HasOne("Tgstation.Server.Host.Models.ReattachInformation", "Alpha")
-						.WithMany()
-						.HasForeignKey("AlphaId");
-
-					b.HasOne("Tgstation.Server.Host.Models.ReattachInformation", "Bravo")
-						.WithMany()
-						.HasForeignKey("BravoId");
-
-					b.HasOne("Tgstation.Server.Host.Models.Instance", null)
-						.WithOne("WatchdogReattachInformation")
-						.HasForeignKey("Tgstation.Server.Host.Models.DualReattachInformation", "InstanceId")
 						.OnDelete(DeleteBehavior.Cascade)
 						.IsRequired();
 				});

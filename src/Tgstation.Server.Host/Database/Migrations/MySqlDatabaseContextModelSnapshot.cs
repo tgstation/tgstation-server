@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
+	/// <inheritdoc />
 	[DbContext(typeof(MySqlDatabaseContext))]
 	partial class MySqlDatabaseContextModelSnapshot : ModelSnapshot
 	{
@@ -12,7 +13,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "3.1.4")
+				.HasAnnotation("ProductVersion", "3.1.5")
 				.HasAnnotation("Relational:MaxIdentifierLength", 64);
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
@@ -129,7 +130,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<long>("JobId")
 						.HasColumnType("bigint");
 
-					b.Property<int>("MinimumSecurityLevel")
+					b.Property<int?>("MinimumSecurityLevel")
 						.HasColumnType("int");
 
 					b.Property<string>("Output")
@@ -172,11 +173,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<long>("InstanceId")
 						.HasColumnType("bigint");
 
-					b.Property<ushort?>("PrimaryPort")
-						.IsRequired()
-						.HasColumnType("smallint unsigned");
-
-					b.Property<ushort?>("SecondaryPort")
+					b.Property<ushort?>("Port")
 						.IsRequired()
 						.HasColumnType("smallint unsigned");
 
@@ -184,6 +181,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.HasColumnType("int");
 
 					b.Property<uint?>("StartupTimeout")
+						.IsRequired()
+						.HasColumnType("int unsigned");
+
+					b.Property<uint?>("TopicRequestTimeout")
 						.IsRequired()
 						.HasColumnType("int unsigned");
 
@@ -215,42 +216,16 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.HasColumnType("longtext CHARACTER SET utf8mb4")
 						.HasMaxLength(10000);
 
+					b.Property<bool?>("RequireDMApiValidation")
+						.IsRequired()
+						.HasColumnType("tinyint(1)");
+
 					b.HasKey("Id");
 
 					b.HasIndex("InstanceId")
 						.IsUnique();
 
 					b.ToTable("DreamMakerSettings");
-				});
-
-			modelBuilder.Entity("Tgstation.Server.Host.Models.DualReattachInformation", b =>
-				{
-					b.Property<long>("Id")
-						.ValueGeneratedOnAdd()
-						.HasColumnType("bigint");
-
-					b.Property<long?>("AlphaId")
-						.HasColumnType("bigint");
-
-					b.Property<bool>("AlphaIsActive")
-						.HasColumnType("tinyint(1)");
-
-					b.Property<long?>("BravoId")
-						.HasColumnType("bigint");
-
-					b.Property<long>("InstanceId")
-						.HasColumnType("bigint");
-
-					b.HasKey("Id");
-
-					b.HasIndex("AlphaId");
-
-					b.HasIndex("BravoId");
-
-					b.HasIndex("InstanceId")
-						.IsUnique();
-
-					b.ToTable("WatchdogReattachInformations");
 				});
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.Instance", b =>
@@ -400,9 +375,6 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 					b.Property<long>("CompileJobId")
 						.HasColumnType("bigint");
-
-					b.Property<bool>("IsPrimary")
-						.HasColumnType("tinyint(1)");
 
 					b.Property<int>("LaunchSecurityLevel")
 						.HasColumnType("int");
@@ -681,23 +653,6 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
 						.WithOne("DreamMakerSettings")
 						.HasForeignKey("Tgstation.Server.Host.Models.DreamMakerSettings", "InstanceId")
-						.OnDelete(DeleteBehavior.Cascade)
-						.IsRequired();
-				});
-
-			modelBuilder.Entity("Tgstation.Server.Host.Models.DualReattachInformation", b =>
-				{
-					b.HasOne("Tgstation.Server.Host.Models.ReattachInformation", "Alpha")
-						.WithMany()
-						.HasForeignKey("AlphaId");
-
-					b.HasOne("Tgstation.Server.Host.Models.ReattachInformation", "Bravo")
-						.WithMany()
-						.HasForeignKey("BravoId");
-
-					b.HasOne("Tgstation.Server.Host.Models.Instance", null)
-						.WithOne("WatchdogReattachInformation")
-						.HasForeignKey("Tgstation.Server.Host.Models.DualReattachInformation", "InstanceId")
 						.OnDelete(DeleteBehavior.Cascade)
 						.IsRequired();
 				});

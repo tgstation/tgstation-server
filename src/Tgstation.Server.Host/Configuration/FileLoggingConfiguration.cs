@@ -1,13 +1,16 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System;
+using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Configuration
 {
 	/// <summary>
 	/// File logging configuration options
 	/// </summary>
-	sealed class FileLoggingConfiguration
+	public sealed class FileLoggingConfiguration
 	{
 		/// <summary>
 		/// The key for the <see cref="Microsoft.Extensions.Configuration.IConfigurationSection"/> the <see cref="FileLoggingConfiguration"/> resides in
@@ -45,5 +48,35 @@ namespace Tgstation.Server.Host.Configuration
 		/// </summary>
 		[JsonConverter(typeof(StringEnumConverter))]
 		public LogLevel MicrosoftLogLevel { get; set; } = DefaultMicrosoftLogLevel;
+
+		/// <summary>
+		/// Gets the evaluated log <see cref="Directory"/>.
+		/// </summary>
+		/// <param name="ioManager">The <see cref="IIOManager"/> to use.</param>
+		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> to use.</param>
+		/// <param name="platformIdentifier">The <see cref="IPlatformIdentifier"/> to use</param>
+		/// <returns>The evaluated log <see cref="Directory"/>.</returns>
+		public string GetFullLogDirectory(
+			IIOManager ioManager,
+			IAssemblyInformationProvider assemblyInformationProvider,
+			IPlatformIdentifier platformIdentifier)
+		{
+			if (ioManager == null)
+				throw new ArgumentNullException(nameof(ioManager));
+			if (assemblyInformationProvider == null)
+				throw new ArgumentNullException(nameof(assemblyInformationProvider));
+			if (platformIdentifier == null)
+				throw new ArgumentNullException(nameof(platformIdentifier));
+
+			var directoryToUse = platformIdentifier.IsWindows
+				? Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) // C:/ProgramData
+				: "/var/log"; // :pain:
+
+			return !String.IsNullOrEmpty(Directory)
+				? Directory
+				: ioManager.ConcatPath(
+					directoryToUse,
+					assemblyInformationProvider.VersionPrefix);
+		}
 	}
 }

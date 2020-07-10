@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -43,7 +42,17 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		public DreamMakerController(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory, IJobManager jobManager, IInstanceManager instanceManager, ILogger<DreamMakerController> logger) : base(databaseContext, authenticationContextFactory, logger, true, true)
+		public DreamMakerController(
+			IDatabaseContext databaseContext,
+			IAuthenticationContextFactory authenticationContextFactory,
+			IJobManager jobManager,
+			IInstanceManager instanceManager,
+			ILogger<DreamMakerController> logger)
+			: base(
+				  databaseContext,
+				  authenticationContextFactory,
+				  logger,
+				  true)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
@@ -77,11 +86,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200"><see cref="Api.Models.CompileJob"/> retrieved successfully.</response>
-		/// <response code="404">Specified compile job does not exist in this instance.</response>
+		/// <response code="404">Specified <see cref="Api.Models.CompileJob"/> ID does not exist in this instance.</response>
 		[HttpGet("{id}")]
 		[TgsAuthorize(DreamMakerRights.CompileJobs)]
 		[ProducesResponseType(typeof(Api.Models.CompileJob), 200)]
-		[ProducesResponseType(404)]
+		[ProducesResponseType(typeof(ErrorMessage), 404)]
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			var compileJob = await DatabaseContext
@@ -159,12 +168,16 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Changes applied successfully. The updated <see cref="DreamMaker"/> settings will be returned.</response>
 		/// <response code="204">Changes applied successfully. The updated <see cref="DreamMaker"/> settings will be not be returned due to permissions.</response>
-		/// <response code="410">Instance no longer available.</response>
+		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpPost]
-		[TgsAuthorize(DreamMakerRights.SetDme | DreamMakerRights.SetApiValidationPort | DreamMakerRights.SetApiValidationPort)]
+		[TgsAuthorize(
+			DreamMakerRights.SetDme
+			| DreamMakerRights.SetApiValidationPort
+			| DreamMakerRights.SetSecurityLevel
+			| DreamMakerRights.SetApiValidationRequirement)]
 		[ProducesResponseType(typeof(DreamMaker), 200)]
 		[ProducesResponseType(204)]
-		[ProducesResponseType(410)]
+		[ProducesResponseType(typeof(ErrorMessage), 410)]
 		public async Task<IActionResult> Update([FromBody] DreamMaker model, CancellationToken cancellationToken)
 		{
 			if (model == null)
@@ -180,7 +193,7 @@ namespace Tgstation.Server.Host.Controllers
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);
 			if (hostModel == null)
-				return StatusCode((int)HttpStatusCode.Gone);
+				return Gone();
 
 			if (model.ProjectName != null)
 			{
@@ -204,6 +217,13 @@ namespace Tgstation.Server.Host.Controllers
 				if (!AuthenticationContext.InstanceUser.DreamMakerRights.Value.HasFlag(DreamMakerRights.SetSecurityLevel))
 					return Forbid();
 				hostModel.ApiValidationSecurityLevel = model.ApiValidationSecurityLevel;
+			}
+
+			if (model.RequireDMApiValidation.HasValue)
+			{
+				if (!AuthenticationContext.InstanceUser.DreamMakerRights.Value.HasFlag(DreamMakerRights.SetApiValidationRequirement))
+					return Forbid();
+				hostModel.RequireDMApiValidation = model.RequireDMApiValidation;
 			}
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);

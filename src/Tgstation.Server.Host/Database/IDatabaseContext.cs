@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,11 +13,6 @@ namespace Tgstation.Server.Host.Database
 	/// </summary>
 	public interface IDatabaseContext
 	{
-		/// <summary>
-		/// The <see cref="DatabaseType"/>.
-		/// </summary>
-		DatabaseType DatabaseType { get; }
-
 		/// <summary>
 		/// The <see cref="User"/>s in the <see cref="IDatabaseContext"/>
 		/// </summary>
@@ -78,11 +74,6 @@ namespace Tgstation.Server.Host.Database
 		IDatabaseCollection<ReattachInformation> ReattachInformations { get; }
 
 		/// <summary>
-		/// The <see cref="DbSet{TEntity}"/> for <see cref="DualReattachInformation"/>s
-		/// </summary>
-		IDatabaseCollection<DualReattachInformation> WatchdogReattachInformations { get; }
-
-		/// <summary>
 		/// Saves changes made to the <see cref="IDatabaseContext"/>
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
@@ -90,18 +81,32 @@ namespace Tgstation.Server.Host.Database
 		Task Save(CancellationToken cancellationToken);
 
 		/// <summary>
+		/// Attempts to delete all tables and drop the database in use.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		Task Drop(CancellationToken cancellationToken);
+
+		/// <summary>
 		/// Creates and migrates the <see cref="IDatabaseContext"/>
 		/// </summary>
+		/// <param name="logger">The <see cref="DatabaseContext"/> <see cref="ILogger"/> to use.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task Initialize(CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if the database should be seeded, <see langword="false"/> otherwise.</returns>
+		Task<bool> Migrate(ILogger<DatabaseContext> logger, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Attempt to downgrade the schema to the migration used for a given server <paramref name="version"/>
 		/// </summary>
+		/// <param name="logger">The <see cref="DatabaseContext"/> <see cref="ILogger"/> to use.</param>
 		/// <param name="version">The tgstation-server <see cref="Version"/> that the schema should downgrade for</param>
+		/// <param name="currentDatabaseType">The <see cref="DatabaseType"/> in use.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task SchemaDowngradeForServerVersion(Version version, CancellationToken cancellationToken);
+		Task SchemaDowngradeForServerVersion(
+			ILogger<DatabaseContext> logger,
+			Version version,
+			DatabaseType currentDatabaseType,
+			CancellationToken cancellationToken);
 	}
 }

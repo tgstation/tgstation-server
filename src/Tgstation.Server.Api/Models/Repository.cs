@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models
 {
@@ -13,8 +14,14 @@ namespace Tgstation.Server.Api.Models
 		public string? Origin { get; set; }
 
 		/// <summary>
+		/// If submodules should be recursively cloned.
+		/// </summary>
+		public bool? RecurseSubmodules { get; set; }
+
+		/// <summary>
 		/// The commit HEAD should point to. Not populated in responses, use <see cref="RevisionInformation"/> instead for retrieval
 		/// </summary>
+		[StringLength(Limits.MaximumCommitShaLength)]
 		public string? CheckoutSha { get; set; }
 
 		/// <summary>
@@ -45,6 +52,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The branch or tag HEAD points to
 		/// </summary>
+		[StringLength(Limits.MaximumStringLength)]
 		public string? Reference { get; set; }
 
 		/// <summary>

@@ -18,11 +18,6 @@ namespace Tgstation.Server.Host.Components.Session
 		Task<LaunchResult> LaunchResult { get; }
 
 		/// <summary>
-		/// If the <see cref="IDmbProvider.PrimaryDirectory"/> of <see cref="Dmb"/> is being used
-		/// </summary>
-		bool IsPrimary { get; }
-
-		/// <summary>
 		/// If the DreamDaemon instance sent a
 		/// </summary>
 		bool TerminationWasRequested { get; }
@@ -66,6 +61,11 @@ namespace Tgstation.Server.Host.Components.Session
 		/// A <see cref="Task"/> that completes when the server calls /world/TgsInitializationsComplete()
 		/// </summary>
 		Task OnPrime { get; }
+
+		/// <summary>
+		/// If the DMAPI may be used this session.
+		/// </summary>
+		bool DMApiAvailable { get; }
 
 		/// <summary>
 		/// Releases the <see cref="IProcess"/> without terminating it. Also calls <see cref="IDisposable.Dispose"/>

@@ -8,7 +8,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Net;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -92,7 +91,11 @@ namespace Tgstation.Server.Host.Controllers
 			IPlatformIdentifier platformIdentifier,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			ILogger<InstanceController> logger)
-			: base(databaseContext, authenticationContextFactory, logger, false, true)
+			: base(
+				  databaseContext,
+				  authenticationContextFactory,
+				  logger,
+				  false)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
@@ -114,17 +117,22 @@ namespace Tgstation.Server.Host.Controllers
 			return path;
 		}
 
-		Models.InstanceUser InstanceAdminUser() => new Models.InstanceUser
+		Models.InstanceUser InstanceAdminUser(Models.InstanceUser userToModify)
 		{
-			ByondRights = (ByondRights)~0U,
-			ChatBotRights = (ChatBotRights)~0U,
-			ConfigurationRights = (ConfigurationRights)~0U,
-			DreamDaemonRights = (DreamDaemonRights)~0U,
-			DreamMakerRights = (DreamMakerRights)~0U,
-			RepositoryRights = (RepositoryRights)~0U,
-			InstanceUserRights = (InstanceUserRights)~0U,
-			UserId = AuthenticationContext.User.Id
-		};
+			if (userToModify == null)
+				userToModify = new Models.InstanceUser()
+				{
+					UserId = AuthenticationContext.User.Id
+				};
+			userToModify.ByondRights = RightsHelper.AllRights<ByondRights>();
+			userToModify.ChatBotRights = RightsHelper.AllRights<ChatBotRights>();
+			userToModify.ConfigurationRights = RightsHelper.AllRights<ConfigurationRights>();
+			userToModify.DreamDaemonRights = RightsHelper.AllRights<DreamDaemonRights>();
+			userToModify.DreamMakerRights = RightsHelper.AllRights<DreamMakerRights>();
+			userToModify.RepositoryRights = RightsHelper.AllRights<RepositoryRights>();
+			userToModify.InstanceUserRights = RightsHelper.AllRights<InstanceUserRights>();
+			return userToModify;
+		}
 
 		/// <summary>
 		/// Create or attach an <see cref="Api.Models.Instance"/>.
@@ -239,16 +247,17 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					AllowWebClient = false,
 					AutoStart = false,
-					PrimaryPort = 1337,
-					SecondaryPort = 1338,
+					Port = 1337,
 					SecurityLevel = DreamDaemonSecurity.Safe,
 					StartupTimeout = 60,
-					HeartbeatSeconds = 60
+					HeartbeatSeconds = 60,
+					TopicRequestTimeout = generalConfiguration.ByondTopicTimeout
 				},
 				DreamMakerSettings = new DreamMakerSettings
 				{
 					ApiValidationPort = 1339,
-					ApiValidationSecurityLevel = DreamDaemonSecurity.Safe
+					ApiValidationSecurityLevel = DreamDaemonSecurity.Safe,
+					RequireDMApiValidation = true
 				},
 				Name = model.Name,
 				Online = false,
@@ -267,7 +276,7 @@ namespace Tgstation.Server.Host.Controllers
 				},
 				InstanceUsers = new List<Models.InstanceUser> // give this user full privileges on the instance
 				{
-					InstanceAdminUser()
+					InstanceAdminUser(null)
 				}
 			};
 
@@ -302,7 +311,7 @@ namespace Tgstation.Server.Host.Controllers
 			Logger.LogInformation("{0} {1} instance {2}: {3} ({4})", AuthenticationContext.User.Name, attached ? "attached" : "created", newInstance.Name, newInstance.Id, newInstance.Path);
 
 			var api = newInstance.ToApi();
-			return attached ? (IActionResult)Json(api) : StatusCode((int)HttpStatusCode.Created, api);
+			return attached ? (IActionResult)Json(api) : Created(api);
 		}
 
 		/// <summary>
@@ -312,34 +321,22 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="204">Instance detatched successfully.</response>
-		/// <response code="410">Instance not available.</response>
+		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpDelete("{id}")]
 		[TgsAuthorize(InstanceManagerRights.Delete)]
 		[ProducesResponseType(204)]
-		[ProducesResponseType(410)]
+		[ProducesResponseType(typeof(ErrorMessage), 410)]
 		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
 			var originalModel = await DatabaseContext
 				.Instances
 				.AsQueryable()
 				.Where(x => x.Id == id)
-				.Include(x => x.WatchdogReattachInformation)
-				.Include(x => x.WatchdogReattachInformation.Alpha)
-				.Include(x => x.WatchdogReattachInformation.Bravo)
 				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (originalModel == default)
-				return StatusCode((int)HttpStatusCode.Gone);
+				return Gone();
 			if (originalModel.Online.Value)
 				return Conflict(new ErrorMessage(ErrorCode.InstanceDetachOnline));
-
-			if (originalModel.WatchdogReattachInformation != null)
-			{
-				DatabaseContext.WatchdogReattachInformations.Remove(originalModel.WatchdogReattachInformation);
-				if (originalModel.WatchdogReattachInformation.Alpha != null)
-					DatabaseContext.ReattachInformations.Remove(originalModel.WatchdogReattachInformation.Alpha);
-				if (originalModel.WatchdogReattachInformation.Bravo != null)
-					DatabaseContext.ReattachInformations.Remove(originalModel.WatchdogReattachInformation.Bravo);
-			}
 
 			DatabaseContext.Instances.Remove(originalModel);
 
@@ -357,11 +354,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Instance updated successfully.</response>
 		/// <response code="202">Instance updated successfully and relocation job created.</response>
+		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpPost]
 		[TgsAuthorize(InstanceManagerRights.Relocate | InstanceManagerRights.Rename | InstanceManagerRights.SetAutoUpdate | InstanceManagerRights.SetConfiguration | InstanceManagerRights.SetOnline | InstanceManagerRights.SetChatBotLimit)]
 		[ProducesResponseType(typeof(Api.Models.Instance), 200)]
 		[ProducesResponseType(typeof(Api.Models.Instance), 202)]
-		[ProducesResponseType(410)]
+		[ProducesResponseType(typeof(ErrorMessage), 410)]
 #pragma warning disable CA1502 // TODO: Decomplexify
 		public async Task<IActionResult> Update([FromBody] Api.Models.Instance model, CancellationToken cancellationToken)
 		{
@@ -393,7 +391,7 @@ namespace Tgstation.Server.Host.Controllers
 				.Include(x => x.DreamDaemonSettings) // need these for onlining
 				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (originalModel == default(Models.Instance))
-				return StatusCode((int)HttpStatusCode.Gone);
+				return Gone();
 
 			var userRights = (InstanceManagerRights)AuthenticationContext.GetRight(RightsType.InstanceManager);
 			bool CheckModified<T>(Expression<Func<Api.Models.Instance, T>> expression, InstanceManagerRights requiredRight)
@@ -456,21 +454,6 @@ namespace Tgstation.Server.Host.Controllers
 				if (countOfExistingChatBots > model.ChatBotLimit.Value)
 					return Conflict(new ErrorMessage(ErrorCode.ChatBotMax));
 			}
-
-			// ensure the current user has write privilege on the instance
-			var usersInstanceUser = await InstanceQuery()
-				.SelectMany(x => x.InstanceUsers)
-				.Where(x => x.UserId == AuthenticationContext.User.Id)
-				.FirstOrDefaultAsync(cancellationToken)
-				.ConfigureAwait(false);
-			if (usersInstanceUser == default)
-			{
-				var instanceAdminUser = InstanceAdminUser();
-				instanceAdminUser.InstanceId = originalModel.Id;
-				DatabaseContext.InstanceUsers.Add(instanceAdminUser);
-			}
-			else
-				usersInstanceUser.InstanceUserRights |= InstanceUserRights.WriteUsers;
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
@@ -586,11 +569,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Retrieved <see cref="Api.Models.Instance"/> successfully.</response>
-		/// <response code="410">Instance not available.</response>
+		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpGet("{id}")]
 		[TgsAuthorize(InstanceManagerRights.List | InstanceManagerRights.Read)]
 		[ProducesResponseType(typeof(Api.Models.Instance), 200)]
-		[ProducesResponseType(410)]
+		[ProducesResponseType(typeof(ErrorMessage), 410)]
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			var cantList = !AuthenticationContext.User.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List);
@@ -609,7 +592,7 @@ namespace Tgstation.Server.Host.Controllers
 			var instance = await QueryForUser().FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
 			if (instance == null)
-				return StatusCode((int)HttpStatusCode.Gone);
+				return Gone();
 
 			if (cantList && !instance.InstanceUsers.Any(instanceUser => instanceUser.UserId == AuthenticationContext.User.Id &&
 				(instanceUser.ByondRights != ByondRights.None ||
@@ -632,6 +615,41 @@ namespace Tgstation.Server.Host.Controllers
 				.ConfigureAwait(false);
 			api.MoveJob = moveJob?.ToApi();
 			return Json(api);
+		}
+
+		/// <summary>
+		/// Gives the current user full permissions on a given instance <paramref name="id"/>.
+		/// </summary>
+		/// <param name="id">The instance <see cref="EntityId.Id"/> to give permissions on.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
+		/// <response code="204">Granted permissions successfully.</response>
+		[HttpPatch("{id}")]
+		[TgsAuthorize(InstanceManagerRights.GrantPermissions)]
+		[ProducesResponseType(204)]
+		public async Task<IActionResult> GrantPermissions(long id, CancellationToken cancellationToken)
+		{
+			// ensure the current user has write privilege on the instance
+			var usersInstanceUser = await DatabaseContext
+				.Instances
+				.AsQueryable()
+				.Where(x => x.Id == id)
+				.SelectMany(x => x.InstanceUsers)
+				.Where(x => x.UserId == AuthenticationContext.User.Id)
+				.FirstOrDefaultAsync(cancellationToken)
+				.ConfigureAwait(false);
+			if (usersInstanceUser == default)
+			{
+				var instanceAdminUser = InstanceAdminUser(null);
+				instanceAdminUser.InstanceId = id;
+				DatabaseContext.InstanceUsers.Add(instanceAdminUser);
+			}
+			else
+				InstanceAdminUser(usersInstanceUser);
+
+			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+
+			return NoContent();
 		}
 	}
 }
