@@ -286,7 +286,7 @@ namespace Tgstation.Server.Host
 				}
 
 				RestartRequested = true;
-				propagatedException = exception;
+				propagatedException ??= exception;
 			}
 
 			if (exception == null)
