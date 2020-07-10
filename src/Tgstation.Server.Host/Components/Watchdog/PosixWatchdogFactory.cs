@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
@@ -73,6 +74,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				LoggerFactory.CreateLogger<PosixWatchdog>(),
 				settings,
 				instance,
-				settings.AutoStart.Value);
+				settings.AutoStart ?? throw new ArgumentNullException(nameof(settings)));
 	}
 }

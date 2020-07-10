@@ -97,6 +97,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				LoggerFactory.CreateLogger<BasicWatchdog>(),
 				settings,
 				instance,
-				settings.AutoStart.Value);
+				settings.AutoStart ?? throw new ArgumentNullException(nameof(settings)));
 	}
 }
