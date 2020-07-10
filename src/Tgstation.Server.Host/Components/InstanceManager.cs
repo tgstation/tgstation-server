@@ -296,7 +296,20 @@ namespace Tgstation.Server.Host.Components
 					.ToAsyncEnumerable();
 				var tasks = new List<Task>();
 				await factoryStartup.ConfigureAwait(false);
-				await dbInstances.ForEachAsync(metadata => tasks.Add(metadata.Online.Value ? OnlineInstance(metadata, cancellationToken) : Task.CompletedTask), cancellationToken).ConfigureAwait(false);
+				await dbInstances.ForEachAsync(
+					async metadata =>
+					{
+						try
+						{
+							await OnlineInstance(metadata, cancellationToken).ConfigureAwait(false);
+						}
+						catch (Exception ex)
+						{
+							logger.LogError("Failed to online instance {0}! Exception: {0}", ex);
+						}
+					},
+					cancellationToken)
+					.ConfigureAwait(false);
 				await Task.WhenAll(tasks).ConfigureAwait(false);
 				logger.LogInformation("Server ready!");
 				readyTcs.SetResult(null);
