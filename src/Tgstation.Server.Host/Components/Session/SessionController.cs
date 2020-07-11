@@ -339,12 +339,15 @@ namespace Tgstation.Server.Host.Components.Session
 					reattachTopicCts.Token)
 					.ConfigureAwait(false);
 
-				if (reattachResponse.InteropResponse?.CustomCommands != null)
-					chatTrackingContext.CustomCommands = reattachResponse.InteropResponse.CustomCommands;
-				else if (reattachResponse.InteropResponse != null)
-					logger.LogWarning(
-						"DMAPI v{0} isn't returning the TGS custom commands list. Functionality added in v5.2.0.",
-						Dmb.CompileJob.DMApiVersion.Semver());
+				if (reattachResponse != null)
+				{
+					if (reattachResponse.InteropResponse?.CustomCommands != null)
+						chatTrackingContext.CustomCommands = reattachResponse.InteropResponse.CustomCommands;
+					else if (reattachResponse.InteropResponse != null)
+						logger.LogWarning(
+							"DMAPI v{0} isn't returning the TGS custom commands list. Functionality added in v5.2.0.",
+							Dmb.CompileJob.DMApiVersion.Semver());
+				}
 			}
 
 			return result;
