@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -137,7 +138,16 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreEqual(DMApiConstants.Version, daemonStatus.ActiveCompileJob.DMApiVersion);
 			Assert.AreEqual(DreamDaemonSecurity.Safe, daemonStatus.ActiveCompileJob.MinimumSecurityLevel);
 
-			var startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
+			Job startJob;
+			using (var blockSocket = new Socket(SocketType.Stream, ProtocolType.Tcp))
+			{
+				blockSocket.Bind(new IPEndPoint(IPAddress.Any, 1337));
+				startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
+
+				await WaitForJob(startJob, 10, true, ErrorCode.DreamDaemonPortInUse, cancellationToken);
+			}
+
+			startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
 
 			await WaitForJob(startJob, 10, false, null, cancellationToken);
 
