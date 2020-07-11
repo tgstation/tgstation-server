@@ -124,8 +124,10 @@ namespace Tgstation.Server.Host.Components.Session
 			{
 				socket.Bind(new IPEndPoint(IPAddress.Any, port));
 			}
-			catch (Exception ex)
+			catch (SocketException ex)
 			{
+				if(ex.SocketErrorCode != SocketError.AddressAlreadyInUse)
+					throw;
 				throw new JobException(ErrorCode.DreamDaemonPortInUse, ex);
 			}
 		}
