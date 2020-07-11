@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Sockets;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -186,6 +187,24 @@ namespace Tgstation.Server.Tests
 					await Task.WhenAll(rootTest, adminTest, instanceTests, usersTest);
 
 					await adminClient.Administration.Restart(cancellationToken);
+				}
+
+				await Task.WhenAny(serverTask, Task.Delay(30000, cancellationToken));
+				Assert.IsTrue(serverTask.IsCompleted);
+
+				// http bind test https://github.com/tgstation/tgstation-server/issues/1065
+				using (var blockingSocket = new Socket(SocketType.Stream, ProtocolType.Tcp))
+				{
+					blockingSocket.Bind(new IPEndPoint(IPAddress.Any, server.Url.Port));
+					try
+					{
+						await server.Run(cancellationToken);
+						Assert.Fail("Expected server task to end with a SocketException");
+					}
+					catch (SocketException ex)
+					{
+						Assert.AreEqual(ex.SocketErrorCode, SocketError.AddressAlreadyInUse);
+					}
 				}
 
 				await Task.WhenAny(serverTask, Task.Delay(30000, cancellationToken));
