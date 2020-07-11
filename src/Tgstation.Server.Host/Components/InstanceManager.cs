@@ -29,6 +29,11 @@ namespace Tgstation.Server.Host.Components
 		public Task Ready => readyTcs.Task;
 
 		/// <summary>
+		/// The <see cref="Lazy{T}"/> <see cref="IRestartRegistration"/> for the <see cref="InstanceManager"/>;
+		/// </summary>
+		readonly Lazy<IRestartRegistration> lazyRestartRegistration;
+
+		/// <summary>
 		/// The <see cref="IInstanceFactory"/> for the <see cref="InstanceManager"/>
 		/// </summary>
 		readonly IInstanceFactory instanceFactory;
@@ -155,7 +160,7 @@ namespace Tgstation.Server.Host.Components
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-			serverControl.RegisterForRestart(this);
+			lazyRestartRegistration = new Lazy<IRestartRegistration>(() => serverControl.RegisterForRestart(this));
 
 			instances = new Dictionary<long, IInstance>();
 			bridgeHandlers = new Dictionary<string, IBridgeHandler>();
@@ -174,6 +179,10 @@ namespace Tgstation.Server.Host.Components
 
 			foreach (var I in instances)
 				I.Value.Dispose();
+
+			lazyRestartRegistration.Value.Dispose();
+
+			logger.LogInformation("Server shutdown");
 		}
 
 		/// <inheritdoc />
@@ -286,6 +295,10 @@ namespace Tgstation.Server.Host.Components
 		public Task StartAsync(CancellationToken cancellationToken) => databaseContextFactory.UseContext(async databaseContext =>
 		{
 			logger.LogInformation(assemblyInformationProvider.VersionString);
+
+			// we do this here because making the restart registration triggers a trace log message
+			// The above log message should be the first one one startup
+			var _ = lazyRestartRegistration.Value;
 
 			try
 			{
