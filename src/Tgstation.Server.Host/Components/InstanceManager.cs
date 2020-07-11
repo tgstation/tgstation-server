@@ -5,6 +5,8 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -72,6 +74,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IDatabaseSeeder databaseSeeder;
 
 		/// <summary>
+		/// The <see cref="IServerPortProvider"/> for the <see cref="InstanceManager"/>
+		/// </summary>
+		readonly IServerPortProvider serverPortProvider;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="InstanceManager"/>
 		/// </summary>
 		readonly ILogger<InstanceManager> logger;
@@ -118,6 +125,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="systemIdentityFactory">The value of <see cref="systemIdentityFactory"/>.</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/>.</param>
 		/// <param name="databaseSeeder">The value of <see cref="databaseSeeder"/>.</param>
+		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		public InstanceManager(
@@ -130,6 +138,7 @@ namespace Tgstation.Server.Host.Components
 			ISystemIdentityFactory systemIdentityFactory,
 			IAsyncDelayer asyncDelayer,
 			IDatabaseSeeder databaseSeeder,
+			IServerPortProvider serverPortProvider,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			ILogger<InstanceManager> logger)
 		{
@@ -142,6 +151,7 @@ namespace Tgstation.Server.Host.Components
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.databaseSeeder = databaseSeeder ?? throw new ArgumentNullException(nameof(databaseSeeder));
+			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
@@ -359,9 +369,16 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		private void CheckSystemCompatibility()
 		{
-			using var systemIdentity = systemIdentityFactory.GetCurrent();
-			if (!systemIdentity.CanCreateSymlinks)
-				throw new InvalidOperationException("The user running tgstation-server cannot create symlinks! Please try running as an administrative user!");
+			using (var systemIdentity = systemIdentityFactory.GetCurrent())
+			{
+				if (!systemIdentity.CanCreateSymlinks)
+					throw new InvalidOperationException("The user running tgstation-server cannot create symlinks! Please try running as an administrative user!");
+			}
+
+			// This runs before the real socket is opened, ensures we don't perform reattaches unless we're fairly certain the bind won't fail
+			// If it does fail, DD will be killed.
+			using var hostingSocket = new Socket(SocketType.Stream, ProtocolType.Tcp);
+			hostingSocket.Bind(new IPEndPoint(IPAddress.Any, serverPortProvider.HttpApiPort));
 		}
 
 		/// <inheritdoc />
