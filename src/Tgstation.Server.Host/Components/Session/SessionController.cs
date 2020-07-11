@@ -295,8 +295,11 @@ namespace Tgstation.Server.Host.Components.Session
 				reattachTopicCts.Dispose();
 			}
 
-			// finish the async callback
-			await Lifetime.ConfigureAwait(false);
+			if (!released)
+			{
+				// finish the async callback
+				await Lifetime.ConfigureAwait(false);
+			}
 		}
 
 		/// <summary>
