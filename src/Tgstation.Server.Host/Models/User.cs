@@ -8,6 +8,11 @@ namespace Tgstation.Server.Host.Models
 	public sealed class User : Api.Models.Internal.User
 	{
 		/// <summary>
+		/// Username used when creating jobs automatically.
+		/// </summary>
+		public const string TgsSystemUserName = "TGS";
+
+		/// <summary>
 		/// The hash of the user's password
 		/// </summary>
 		public string PasswordHash { get; set; }

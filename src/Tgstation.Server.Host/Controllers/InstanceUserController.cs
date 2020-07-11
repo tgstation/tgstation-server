@@ -40,22 +40,6 @@ namespace Tgstation.Server.Host.Controllers
 		{ }
 
 		/// <summary>
-		/// Checks a <paramref name="model"/> for errors.
-		/// </summary>
-		/// <param name="model">The <see cref="Api.Models.InstanceUser"/> to check</param>
-		/// <returns>The <see cref="IActionResult"/> to take if this is not a new <see cref="Api.Models.InstanceUser"/></returns>
-		IActionResult StandardModelChecks(Api.Models.InstanceUser model)
-		{
-			if (model == null)
-				throw new ArgumentNullException(nameof(model));
-
-			if (!model.UserId.HasValue)
-				return BadRequest(new ErrorMessage(ErrorCode.UserMissingId));
-
-			return null;
-		}
-
-		/// <summary>
 		/// Create an <see cref="Api.Models.InstanceUser"/>.
 		/// </summary>
 		/// <param name="model">The <see cref="Api.Models.InstanceUser"/> to create.</param>
@@ -67,8 +51,22 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(Api.Models.InstanceUser), 201)]
 		public async Task<IActionResult> Create([FromBody] Api.Models.InstanceUser model, CancellationToken cancellationToken)
 		{
-			// Don't check the result as how can a new user have an ID
-			StandardModelChecks(model);
+			if (model == null)
+				throw new ArgumentNullException(nameof(model));
+
+			var userCanonicalName = await DatabaseContext
+				.Users
+				.AsQueryable()
+				.Where(x => x.Id == model.UserId)
+				.Select(x => x.CanonicalName)
+				.FirstOrDefaultAsync(cancellationToken)
+				.ConfigureAwait(false);
+
+			if (userCanonicalName == default)
+				return BadRequest(new ErrorMessage(ErrorCode.ModelValidationFailure));
+
+			if (userCanonicalName == Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
+				return Forbid();
 
 			var dbUser = new Models.InstanceUser
 			{
@@ -104,9 +102,8 @@ namespace Tgstation.Server.Host.Controllers
 		#pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<IActionResult> Update([FromBody] Api.Models.InstanceUser model, CancellationToken cancellationToken)
 		{
-			var earlyOut = StandardModelChecks(model);
-			if (earlyOut != null)
-				return earlyOut;
+			if (model == null)
+				throw new ArgumentNullException(nameof(model));
 
 			var originalUser = await DatabaseContext
 				.Instances

@@ -73,10 +73,37 @@ namespace Tgstation.Server.Host.Database
 		}
 
 		/// <summary>
+		/// Add a default system <see cref="User"/> to a given <paramref name="databaseContext"/>
+		/// </summary>
+		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to add a system <see cref="User"/> to</param>
+		/// <param name="tgsUser">An existing <see cref="User"/>, if any.</param>
+		/// <returns>The created system <see cref="User"/>.</returns>
+		static User SeedSystemUser(IDatabaseContext databaseContext, User tgsUser = null)
+		{
+			bool alreadyExists = tgsUser != null;
+			tgsUser ??= new User()
+			{
+				CreatedAt = DateTimeOffset.Now,
+				CanonicalName = User.CanonicalizeName(User.TgsSystemUserName),
+			};
+
+			tgsUser.Name = User.TgsSystemUserName;
+			tgsUser.PasswordHash = "_"; // This can't be hashed
+			tgsUser.Enabled = false;
+			tgsUser.InstanceManagerRights = InstanceManagerRights.None;
+			tgsUser.AdministrationRights = AdministrationRights.None;
+
+			if (!alreadyExists)
+				databaseContext.Users.Add(tgsUser);
+			return tgsUser;
+		}
+
+		/// <summary>
 		/// Add a default admin <see cref="User"/> to a given <paramref name="databaseContext"/>
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to add an admin <see cref="User"/> to</param>
-		void SeedAdminUser(IDatabaseContext databaseContext)
+		/// <returns>The created admin <see cref="User"/>.</returns>
+		User SeedAdminUser(IDatabaseContext databaseContext)
 		{
 			var admin = new User
 			{
@@ -89,6 +116,7 @@ namespace Tgstation.Server.Host.Database
 			};
 			cryptographySuite.SetUserPassword(admin, Api.Models.User.DefaultAdminPassword, true);
 			databaseContext.Users.Add(admin);
+			return admin;
 		}
 
 		/// <summary>
@@ -99,7 +127,14 @@ namespace Tgstation.Server.Host.Database
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task SeedDatabase(IDatabaseContext databaseContext, CancellationToken cancellationToken)
 		{
-			SeedAdminUser(databaseContext);
+			var adminUser = SeedAdminUser(databaseContext);
+
+			// Save here because we want admin to have the first DB Id
+			// The system user isn't shown in the API except by references in the admin user and jobs
+			await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+			var tgsUser = SeedSystemUser(databaseContext);
+			adminUser.CreatedBy = tgsUser;
+
 			await databaseContext.Save(cancellationToken).ConfigureAwait(false);
 		}
 
@@ -119,6 +154,25 @@ namespace Tgstation.Server.Host.Database
 				// https://github.com/JamesNK/Newtonsoft.Json/issues/2301
 				admin.AdministrationRights &= RightsHelper.AllRights<AdministrationRights>();
 				admin.InstanceManagerRights &= RightsHelper.AllRights<InstanceManagerRights>();
+
+				if (admin.CreatedBy == null)
+				{
+					var tgsUser = await databaseContext
+						.Users
+						.AsQueryable()
+						.Where(x => x.CanonicalName == User.CanonicalizeName(User.TgsSystemUserName))
+						.FirstOrDefaultAsync(cancellationToken)
+						.ConfigureAwait(false);
+
+					if (tgsUser != null)
+					{
+						logger.LogError(
+							"A user named TGS (Canonically) exists but isn't marked as the admin's creator. This may be because it was created manually. This user is going to be adapted to use as the starter of system jobs.");
+					}
+
+					tgsUser = SeedSystemUser(databaseContext, tgsUser);
+					admin.CreatedBy = tgsUser;
+				}
 			}
 
 			if (platformIdentifier.IsWindows)

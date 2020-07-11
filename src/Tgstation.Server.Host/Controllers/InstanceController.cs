@@ -122,7 +122,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (userToModify == null)
 				userToModify = new Models.InstanceUser()
 				{
-					UserId = AuthenticationContext.User.Id
+					UserId = AuthenticationContext.User.Id.Value
 				};
 			userToModify.ByondRights = RightsHelper.AllRights<ByondRights>();
 			userToModify.ChatBotRights = RightsHelper.AllRights<ChatBotRights>();

@@ -892,23 +892,18 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (!autoStart && reattachInfo == null)
 				return;
 
-			long? adminUserId = null;
-
+			Models.User systemUser = null;
 			await databaseContextFactory.UseContext(
-				async db => adminUserId = await db
+				async db => systemUser = await db
 					.Users
 					.AsQueryable()
-					.Where(x => x.CanonicalName == Models.User.CanonicalizeName(Api.Models.User.AdminName))
-					.Select(x => x.Id)
+					.Where(x => x.CanonicalName == Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
 					.FirstAsync(cancellationToken)
 					.ConfigureAwait(false))
 				.ConfigureAwait(false);
 			var job = new Models.Job
 			{
-				StartedBy = new Models.User
-				{
-					Id = adminUserId.Value
-				},
+				StartedBy = systemUser,
 				Instance = new Models.Instance
 				{
 					Id = instance.Id

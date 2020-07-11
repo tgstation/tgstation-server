@@ -164,12 +164,12 @@ namespace Tgstation.Server.Host.Components
 					await eventConsumer.HandleEvent(EventType.InstanceAutoUpdateStart, new List<string>(), cancellationToken).ConfigureAwait(false);
 					try
 					{
-						User user = null;
+						User systemUser = null;
 						await databaseContextFactory.UseContext(
-							async (db) => user = await db
+							async (db) => systemUser = await db
 								.Users
 								.AsQueryable()
-								.Where(x => x.CanonicalName == User.CanonicalizeName(Api.Models.User.AdminName))
+								.Where(x => x.CanonicalName == User.CanonicalizeName(User.TgsSystemUserName))
 								.FirstAsync(cancellationToken)
 								.ConfigureAwait(false))
 							.ConfigureAwait(false);
@@ -182,7 +182,7 @@ namespace Tgstation.Server.Host.Components
 							Description = "Scheduled repository update",
 							CancelRightsType = RightsType.Repository,
 							CancelRight = (ulong)RepositoryRights.CancelPendingChanges,
-							StartedBy = user
+							StartedBy = systemUser
 						};
 
 						string deploySha = null;
@@ -347,7 +347,7 @@ namespace Tgstation.Server.Host.Components
 						}, cancellationToken).ConfigureAwait(false);
 
 						// DCT: First token will cancel the job, second is for cancelling the cancellation, unwanted
-						await jobManager.WaitForJobCompletion(repositoryUpdateJob, user, cancellationToken, default).ConfigureAwait(false);
+						await jobManager.WaitForJobCompletion(repositoryUpdateJob, systemUser, cancellationToken, default).ConfigureAwait(false);
 
 						if (deploySha == null)
 						{
@@ -364,7 +364,7 @@ namespace Tgstation.Server.Host.Components
 						// finally set up the job
 						var compileProcessJob = new Job
 						{
-							StartedBy = user,
+							StartedBy = systemUser,
 							Instance = repositoryUpdateJob.Instance,
 							Description = "Scheduled code deployment",
 							CancelRightsType = RightsType.DreamMaker,
@@ -376,7 +376,7 @@ namespace Tgstation.Server.Host.Components
 							DreamMaker.DeploymentProcess,
 							cancellationToken).ConfigureAwait(false);
 
-						await jobManager.WaitForJobCompletion(compileProcessJob, user, default, cancellationToken).ConfigureAwait(false);
+						await jobManager.WaitForJobCompletion(compileProcessJob, systemUser, default, cancellationToken).ConfigureAwait(false);
 					}
 					catch (OperationCanceledException)
 					{

@@ -291,6 +291,7 @@ namespace Tgstation.Server.Api.Models
 		/// Attempted to update a <see cref="User"/> or <see cref="InstanceUser"/> without its ID.
 		/// </summary>
 		[Description("Missing user ID!")]
+		[Obsolete("Deprecated in favor of code 2", true)]
 		UserMissingId,
 
 		/// <summary>

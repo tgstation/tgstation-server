@@ -193,7 +193,7 @@ namespace Tgstation.Server.Host.Controllers
 				throw new ArgumentNullException(nameof(model));
 
 			if (!model.Id.HasValue)
-				return BadRequest(new ErrorMessage(ErrorCode.UserMissingId));
+				return BadRequest(new ErrorMessage(ErrorCode.ModelValidationFailure));
 
 			var callerAdministrationRights = (AdministrationRights)AuthenticationContext.GetRight(RightsType.Administration);
 			var passwordEditOnly = !callerAdministrationRights.HasFlag(AdministrationRights.WriteUsers);
@@ -210,6 +210,9 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (originalUser == default)
 				return NotFound();
+
+			if (originalUser.CanonicalName == Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
+				return Forbid();
 
 			// Ensure they are only trying to edit password (system identity change will trigger a bad request)
 			if (passwordEditOnly
@@ -285,7 +288,10 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(IEnumerable<Api.Models.User>), 200)]
 		public async Task<IActionResult> List(CancellationToken cancellationToken)
 		{
-			var users = await DatabaseContext.Users
+			var users = await DatabaseContext
+				.Users
+				.AsQueryable()
+				.Where(x => x.CanonicalName != Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
 				.Include(x => x.CreatedBy)
 				.ToListAsync(cancellationToken).ConfigureAwait(false);
 			return Json(users.Select(x => x.ToApi(true)));
@@ -318,6 +324,10 @@ namespace Tgstation.Server.Host.Controllers
 				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (user == default)
 				return NotFound();
+
+			if (user.CanonicalName == Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
+				return Forbid();
+
 			return Json(user.ToApi(true));
 		}
 	}
