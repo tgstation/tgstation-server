@@ -12,7 +12,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	/// <summary>
 	/// Runs and monitors the twin server controllers
 	/// </summary>
-	public interface IWatchdog : IHostedService, IDisposable, IEventConsumer, IRenameNotifyee
+	public interface IWatchdog : IHostedService, IAsyncDisposable, IEventConsumer, IRenameNotifyee
 	{
 		/// <summary>
 		/// The current <see cref="WatchdogStatus"/>.

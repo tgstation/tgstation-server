@@ -13,7 +13,7 @@ namespace Tgstation.Server.Host.Components
 	/// <summary>
 	/// For interacting with the instance services
 	/// </summary>
-	public interface IInstance : ILatestCompileJobProvider, IHostedService, IRenameNotifyee, IDisposable
+	public interface IInstance : ILatestCompileJobProvider, IHostedService, IRenameNotifyee, IAsyncDisposable
 	{
 		/// <summary>
 		/// The <see cref="IRepositoryManager"/> for the <see cref="IInstance"/>

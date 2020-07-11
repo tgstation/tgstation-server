@@ -215,30 +215,34 @@ namespace Tgstation.Server.Host.Components.Deployment
 			job.MinimumSecurityLevel = securityLevel; // needed for the TempDmbProvider
 			var timeoutAt = DateTimeOffset.Now.AddSeconds(timeout);
 
-			using var provider = new TemporaryDmbProvider(ioManager.ResolvePath(job.DirectoryName.ToString()), String.Concat(job.DmeName, DmbExtension), job);
-			using var controller = await sessionControllerFactory.LaunchNew(provider, byondLock, launchParameters, true, cancellationToken).ConfigureAwait(false);
-			var launchResult = await controller.LaunchResult.ConfigureAwait(false);
-
-			var now = DateTimeOffset.Now;
-			if (now < timeoutAt && launchResult.StartupTime.HasValue)
+			ApiValidationStatus validationStatus;
+			using (var provider = new TemporaryDmbProvider(ioManager.ResolvePath(job.DirectoryName.ToString()), String.Concat(job.DmeName, DmbExtension), job))
+			await using (var controller = await sessionControllerFactory.LaunchNew(provider, byondLock, launchParameters, true, cancellationToken).ConfigureAwait(false))
 			{
-				var timeoutTask = Task.Delay(timeoutAt - now, cancellationToken);
+				var launchResult = await controller.LaunchResult.ConfigureAwait(false);
 
-				await Task.WhenAny(controller.Lifetime, timeoutTask).ConfigureAwait(false);
-				cancellationToken.ThrowIfCancellationRequested();
+				var now = DateTimeOffset.Now;
+				if (now < timeoutAt && launchResult.StartupTime.HasValue)
+				{
+					var timeoutTask = Task.Delay(timeoutAt - now, cancellationToken);
+
+					await Task.WhenAny(controller.Lifetime, timeoutTask).ConfigureAwait(false);
+					cancellationToken.ThrowIfCancellationRequested();
+				}
+
+				if (!controller.Lifetime.IsCompleted)
+				{
+					if (requireValidate)
+						throw new JobException(ErrorCode.DreamMakerNeverValidated);
+					await controller.DisposeAsync().ConfigureAwait(false);
+				}
+
+				validationStatus = controller.ApiValidationStatus;
+				logger.LogTrace("API validation status: {0}", validationStatus);
+
+				job.DMApiVersion = controller.DMApiVersion;
 			}
 
-			if (!controller.Lifetime.IsCompleted)
-			{
-				if (requireValidate)
-					throw new JobException(ErrorCode.DreamMakerNeverValidated);
-				controller.Dispose();
-			}
-
-			var validationStatus = controller.ApiValidationStatus;
-			logger.LogTrace("API validation status: {0}", validationStatus);
-
-			job.DMApiVersion = controller.DMApiVersion;
 			switch (validationStatus)
 			{
 				case ApiValidationStatus.RequiresUltrasafe:

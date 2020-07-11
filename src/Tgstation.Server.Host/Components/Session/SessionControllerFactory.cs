@@ -297,22 +297,20 @@ namespace Tgstation.Server.Host.Components.Session
 					}
 
 					// Log DD output
-					_ = process.Lifetime.ContinueWith(
-							async x =>
-							{
-								try
-								{
-									var ddOutput = await GetDDOutput().ConfigureAwait(false);
-									logger.LogTrace(
-										"DreamDaemon Output:{0}{1}",
-										Environment.NewLine, ddOutput);
-								}
-								catch (Exception ex)
-								{
-									logger.LogWarning("Error reading DreamDaemon output: {0}", ex);
-								}
-							},
-							TaskScheduler.Current);
+					async Task PostLifetime()
+					{
+						try
+						{
+							var ddOutput = await GetDDOutput().ConfigureAwait(false);
+							logger.LogTrace(
+								"DreamDaemon Output:{0}{1}",
+								Environment.NewLine, ddOutput);
+						}
+						catch (Exception ex)
+						{
+							logger.LogWarning("Error reading DreamDaemon output: {0}", ex);
+						}
+					}
 
 					try
 					{
@@ -342,6 +340,7 @@ namespace Tgstation.Server.Host.Components.Session
 							chat,
 							assemblyInformationProvider,
 							loggerFactory.CreateLogger<SessionController>(),
+							PostLifetime,
 							launchParameters.StartupTimeout,
 							false,
 							apiValidate);
@@ -417,6 +416,7 @@ namespace Tgstation.Server.Host.Components.Session
 							chat,
 							assemblyInformationProvider,
 							loggerFactory.CreateLogger<SessionController>(),
+							() => Task.CompletedTask,
 							null,
 							true,
 							false);

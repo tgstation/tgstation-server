@@ -60,11 +60,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected TaskCompletionSource<object> ActiveParametersUpdated { get; set; }
 
 		/// <summary>
-		/// The <see cref="SemaphoreSlim"/> for the <see cref="WatchdogBase"/>.
-		/// </summary>
-		protected SemaphoreSlim Semaphore { get; }
-
-		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="WatchdogBase"/>.
 		/// </summary>
 		protected ILogger Logger { get; }
@@ -95,6 +90,16 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly Api.Models.Instance instance;
 
 		/// <summary>
+		/// The <see cref="SemaphoreSlim"/> for the <see cref="WatchdogBase"/>.
+		/// </summary>
+		readonly SemaphoreSlim synchronizationSemaphore;
+
+		/// <summary>
+		/// <see cref="SemaphoreSlim"/> used for <see cref="DisposeAndNullControllers"/>.
+		/// </summary>
+		readonly SemaphoreSlim controllerDisposeSemaphore;
+
+		/// <summary>
 		/// The <see cref="ISessionPersistor"/> for the <see cref="WatchdogBase"/>
 		/// </summary>
 		readonly ISessionPersistor sessionPersistor;
@@ -123,11 +128,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// The <see cref="IEventConsumer"/> that is not the <see cref="WatchdogBase"/>
 		/// </summary>
 		readonly IEventConsumer eventConsumer;
-
-		/// <summary>
-		/// <see langword="lock"/> <see cref="object"/> used for <see cref="DisposeAndNullControllers"/>.
-		/// </summary>
-		readonly object controllerDisposeLock;
 
 		/// <summary>
 		/// If the <see cref="WatchdogBase"/> should <see cref="LaunchNoLock(bool, bool, bool, ReattachInformation, CancellationToken)"/> in <see cref="StartAsync(CancellationToken)"/>
@@ -165,7 +165,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		bool releaseServers;
 
 		/// <summary>
-		/// If the <see cref="WatchdogBase"/> has been <see cref="Dispose"/>d.
+		/// If the <see cref="WatchdogBase"/> has been <see cref="DisposeAsync"/>'d.
 		/// </summary>
 		bool disposed;
 
@@ -224,16 +224,17 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			ActiveLaunchParameters = initialLaunchParameters;
 			releaseServers = false;
 			ActiveParametersUpdated = new TaskCompletionSource<object>();
-			controllerDisposeLock = new object();
 
 			restartRegistration = serverControl.RegisterForRestart(this);
 			try
 			{
-				Semaphore = new SemaphoreSlim(1);
+				synchronizationSemaphore = new SemaphoreSlim(1);
+				controllerDisposeSemaphore = new SemaphoreSlim(1);
 			}
 			catch
 			{
 				restartRegistration.Dispose();
+				synchronizationSemaphore?.Dispose();
 				throw;
 			}
 
@@ -241,18 +242,19 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		public void Dispose()
+		public async ValueTask DisposeAsync()
 		{
 			Logger.LogTrace("Disposing...");
-			Semaphore.Dispose();
+			synchronizationSemaphore.Dispose();
 			restartRegistration.Dispose();
-			DisposeAndNullControllers();
+			await DisposeAndNullControllers(default).ConfigureAwait(false);
+			controllerDisposeSemaphore.Dispose();
 			monitorCts?.Dispose();
 			disposed = true;
 		}
 
 		/// <summary>
-		/// Implementation of <see cref="Terminate(bool, CancellationToken)"/>. Does not lock <see cref="Semaphore"/>
+		/// Implementation of <see cref="Terminate(bool, CancellationToken)"/>. Does not lock <see cref="synchronizationSemaphore"/>
 		/// </summary>
 		/// <param name="graceful">If <see langword="true"/> the termination will be delayed until a reboot is detected in the active server's DMAPI and this function will return immediately</param>
 		/// <param name="announce">If <see langword="true"/> the termination will be announced using <see cref="Chat"/></param>
@@ -271,8 +273,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				await eventTask.ConfigureAwait(false);
 
 				await StopMonitor().ConfigureAwait(false);
-
-				DisposeAndNullControllers();
 
 				LastLaunchParameters = null;
 
@@ -330,7 +330,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						var message4 = $"DEFCON 1: Four heartbeats have been missed! {actionTaken}...";
 						Logger.LogWarning(message4);
 						await Chat.SendWatchdogMessage(message4, false, cancellationToken).ConfigureAwait(false);
-						DisposeAndNullControllers();
+						await DisposeAndNullControllers(cancellationToken).ConfigureAwait(false);
 						return shouldShutdown ? MonitorAction.Exit : MonitorAction.Restart;
 					default:
 						Logger.LogError("Invalid heartbeats missed count: {0}", heartbeatsMissed);
@@ -477,7 +477,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected async Task ReattachFailure(Task chatTask, CancellationToken cancellationToken)
 		{
 			// we lost the server, just restart entirely
-			DisposeAndNullControllers();
+			await DisposeAndNullControllers(default).ConfigureAwait(false);
 			const string FailReattachMessage = "Unable to properly reattach to server! Restarting watchdog...";
 			Logger.LogWarning(FailReattachMessage);
 
@@ -493,16 +493,19 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// Call <see cref="IDisposable.Dispose"/> and null the fields for all <see cref="ISessionController"/>s.
 		/// </summary>
-		protected abstract void DisposeAndNullControllersImpl();
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		protected abstract Task DisposeAndNullControllersImpl();
 
 		/// <summary>
 		/// Wrapper for <see cref="DisposeAndNullControllersImpl"/> under a locked context.
 		/// </summary>
-		protected void DisposeAndNullControllers()
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		protected async Task DisposeAndNullControllers(CancellationToken cancellationToken)
 		{
 			Logger.LogTrace("DisposeAndNullControllers");
-			lock (controllerDisposeLock)
-				DisposeAndNullControllersImpl();
+			using (await SemaphoreSlimContext.Lock(controllerDisposeSemaphore, cancellationToken).ConfigureAwait(false))
+				await DisposeAndNullControllersImpl().ConfigureAwait(false);
 		}
 
 		/// <summary>
@@ -529,14 +532,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		private async Task MonitorRestart(CancellationToken cancellationToken)
 		{
 			Logger.LogTrace("Monitor restart!");
-			DisposeAndNullControllers();
+			await DisposeAndNullControllers(cancellationToken).ConfigureAwait(false);
 
 			var chatTask = Task.CompletedTask;
 			for (var retryAttempts = 1; ; ++retryAttempts)
 			{
 				Status = WatchdogStatus.Restoring;
 				Exception launchException;
-				using (await SemaphoreSlimContext.Lock(Semaphore, cancellationToken).ConfigureAwait(false))
+				using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken).ConfigureAwait(false))
 					try
 					{
 						// use LaunchImplNoLock without announcements or restarting the monitor
@@ -633,7 +636,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							Logger.LogTrace("Monitor activated");
 
 							// always run HandleMonitorWakeup from the context of the semaphore lock
-							using (await SemaphoreSlimContext.Lock(Semaphore, cancellationToken).ConfigureAwait(false))
+							using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken).ConfigureAwait(false))
 							{
 								// Set this sooner so chat sends don't hold us up
 								if (activeServerLifetime.IsCompleted)
@@ -736,11 +739,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				if (releaseServers)
 				{
 					Logger.LogTrace("Detaching servers...");
-					releasedReattachInformation = GetActiveController().Release();
+					releasedReattachInformation = await GetActiveController().Release().ConfigureAwait(false);
 				}
 			}
 
-			DisposeAndNullControllers();
+			await DisposeAndNullControllers(default).ConfigureAwait(false);
 			Status = WatchdogStatus.Offline;
 
 			Logger.LogTrace("Monitor exiting...");
@@ -758,7 +761,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public async Task ChangeSettings(DreamDaemonLaunchParameters launchParameters, CancellationToken cancellationToken)
 		{
-			using (await SemaphoreSlimContext.Lock(Semaphore, cancellationToken).ConfigureAwait(false))
+			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken).ConfigureAwait(false))
 			{
 				bool match = launchParameters.CanApplyWithoutReboot(ActiveLaunchParameters);
 				ActiveLaunchParameters = launchParameters;
@@ -808,7 +811,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public async Task<string> HandleChatCommand(string commandName, string arguments, ChatUser sender, CancellationToken cancellationToken)
 		{
-			using (await SemaphoreSlimContext.Lock(Semaphore, cancellationToken).ConfigureAwait(false))
+			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken).ConfigureAwait(false))
 			{
 				if (Status == WatchdogStatus.Offline)
 					return "TGS: Server offline!";
@@ -836,14 +839,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			if (Status != WatchdogStatus.Offline)
 				throw new JobException(ErrorCode.WatchdogRunning);
-			using (await SemaphoreSlimContext.Lock(Semaphore, cancellationToken).ConfigureAwait(false))
+			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken).ConfigureAwait(false))
 				await LaunchNoLock(true, true, true, null, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		public virtual async Task ResetRebootState(CancellationToken cancellationToken)
 		{
-			using (await SemaphoreSlimContext.Lock(Semaphore, cancellationToken).ConfigureAwait(false))
+			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken).ConfigureAwait(false))
 			{
 				if (Status == WatchdogStatus.Offline)
 					return;
@@ -860,7 +863,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				throw new JobException(ErrorCode.WatchdogNotRunning);
 
 			Logger.LogTrace("Begin Restart. Graceful: {0}", graceful);
-			using (await SemaphoreSlimContext.Lock(Semaphore, cancellationToken).ConfigureAwait(false))
+			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken).ConfigureAwait(false))
 			{
 				if (!graceful)
 				{
@@ -912,7 +915,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			};
 			await jobManager.RegisterOperation(job, async (j, databaseContextFactory, progressFunction, ct) =>
 			{
-				using (await SemaphoreSlimContext.Lock(Semaphore, ct).ConfigureAwait(false))
+				using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, ct).ConfigureAwait(false))
 					await LaunchNoLock(true, true, true, reattachInfo, ct).ConfigureAwait(false);
 			}, cancellationToken).ConfigureAwait(false);
 		}
@@ -942,7 +945,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		public async Task Terminate(bool graceful, CancellationToken cancellationToken)
 		{
-			using (await SemaphoreSlimContext.Lock(Semaphore, cancellationToken).ConfigureAwait(false))
+			using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, cancellationToken).ConfigureAwait(false))
 				await TerminateNoLock(graceful, !releaseServers, cancellationToken).ConfigureAwait(false);
 		}
 

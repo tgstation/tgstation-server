@@ -23,7 +23,7 @@ using Tgstation.Server.Host.System;
 namespace Tgstation.Server.Host.Components
 {
 	/// <inheritdoc />
-	sealed class InstanceManager : IInstanceManager, IRestartHandler, IHostedService, IBridgeRegistrar, IDisposable
+	sealed class InstanceManager : IInstanceManager, IRestartHandler, IHostedService, IBridgeRegistrar, IAsyncDisposable
 	{
 		/// <inheritdoc />
 		public Task Ready => readyTcs.Task;
@@ -114,7 +114,7 @@ namespace Tgstation.Server.Host.Components
 		Version downgradeVersion;
 
 		/// <summary>
-		/// If the <see cref="InstanceManager"/> has been <see cref="Dispose"/>d
+		/// If the <see cref="InstanceManager"/> has been <see cref="DisposeAsync"/>'d
 		/// </summary>
 		bool disposed;
 
@@ -168,7 +168,7 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public void Dispose()
+		public async ValueTask DisposeAsync()
 		{
 			lock (instances)
 			{
@@ -178,7 +178,7 @@ namespace Tgstation.Server.Host.Components
 			}
 
 			foreach (var I in instances)
-				I.Value.Dispose();
+				await I.Value.DisposeAsync().ConfigureAwait(false);
 
 			lazyRestartRegistration.Value.Dispose();
 
@@ -261,7 +261,7 @@ namespace Tgstation.Server.Host.Components
 			}
 			finally
 			{
-				instance.Dispose();
+				await instance.DisposeAsync().ConfigureAwait(false);
 			}
 		}
 
@@ -271,7 +271,7 @@ namespace Tgstation.Server.Host.Components
 			if (metadata == null)
 				throw new ArgumentNullException(nameof(metadata));
 			logger.LogInformation("Onlining instance ID {0} ({1}) at {2}", metadata.Id, metadata.Name, metadata.Path);
-			var instance = instanceFactory.CreateInstance(this, metadata);
+			var instance = await instanceFactory.CreateInstance(this, metadata).ConfigureAwait(false);
 			try
 			{
 				lock (instances)
@@ -283,7 +283,7 @@ namespace Tgstation.Server.Host.Components
 			}
 			catch
 			{
-				instance.Dispose();
+				await instance.DisposeAsync().ConfigureAwait(false);
 				throw;
 			}
 

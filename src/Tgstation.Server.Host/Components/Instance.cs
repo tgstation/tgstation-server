@@ -133,14 +133,14 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public void Dispose()
+		public async ValueTask DisposeAsync()
 		{
 			using (LogContext.PushProperty("Instance", metadata.Id))
 			{
 				timerCts?.Dispose();
 				Configuration.Dispose();
 				Chat.Dispose();
-				Watchdog.Dispose();
+				await Watchdog.DisposeAsync().ConfigureAwait(false);
 				dmbFactory.Dispose();
 				RepositoryManager.Dispose();
 			}

@@ -102,15 +102,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			}
 			catch
 			{
-				Dispose();
+				var _ = DisposeAsync();
 				throw;
 			}
 		}
 
 		/// <inheritdoc />
-		protected override void DisposeAndNullControllersImpl()
+		protected override async Task DisposeAndNullControllersImpl()
 		{
-			base.DisposeAndNullControllersImpl();
+			await base.DisposeAndNullControllersImpl().ConfigureAwait(false);
 
 			// If we reach this point, we can guarantee PrepServerForLaunch will be called before starting again.
 			ActiveSwappable = null;

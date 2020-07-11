@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host.System
@@ -6,7 +7,7 @@ namespace Tgstation.Server.Host.System
 	/// <summary>
 	/// Abstraction over a <see cref="global::System.Diagnostics.Process"/>
 	/// </summary>
-	interface IProcess : IProcessBase
+	interface IProcess : IProcessBase, IDisposable
 	{
 		/// <summary>
 		/// The <see cref="IProcess"/>' ID

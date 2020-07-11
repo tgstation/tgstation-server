@@ -163,9 +163,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		}
 
 		/// <inheritdoc />
-		protected override void DisposeAndNullControllersImpl()
+		protected override async Task DisposeAndNullControllersImpl()
 		{
-			Server?.Dispose();
+			var disposeTask = Server?.DisposeAsync();
+			if (!disposeTask.HasValue)
+				return;
+
+			await disposeTask.Value.ConfigureAwait(false);
 			Server = null;
 			gracefulRebootRequired = false;
 		}
@@ -227,7 +231,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			{
 				// kill the controllers
 				bool serverWasActive = Server != null;
-				DisposeAndNullControllers();
+				await DisposeAndNullControllers(default).ConfigureAwait(false);
 
 				// server didn't get control of this dmb
 				if (dmbToUse != null && !serverWasActive)

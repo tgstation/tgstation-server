@@ -192,7 +192,7 @@ namespace Tgstation.Server.Host.Components
 
 		/// <inheritdoc />
 #pragma warning disable CA1506 // TODO: Decomplexify
-		public IInstance CreateInstance(IBridgeRegistrar bridgeRegistrar, Models.Instance metadata)
+		public async Task<IInstance> CreateInstance(IBridgeRegistrar bridgeRegistrar, Models.Instance metadata)
 		{
 			// Create the ioManager for the instance
 			var instanceIoManager = new ResolvingIOManager(ioManager, metadata.Path);
@@ -294,7 +294,7 @@ namespace Tgstation.Server.Host.Components
 						}
 						catch
 						{
-							watchdog.Dispose();
+							await watchdog.DisposeAsync().ConfigureAwait(false);
 							throw;
 						}
 					}

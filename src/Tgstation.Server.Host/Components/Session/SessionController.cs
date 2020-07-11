@@ -83,7 +83,7 @@ namespace Tgstation.Server.Host.Components.Session
 		public Task<LaunchResult> LaunchResult { get; }
 
 		/// <inheritdoc />
-		public Task<int> Lifetime => process.Lifetime;
+		public Task<int> Lifetime { get; }
 
 		/// <inheritdoc />
 		public Task OnReboot => rebootTcs.Task;
@@ -202,6 +202,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="chatTrackingContext">The value of <see cref="chatTrackingContext"/></param>
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> for the <see cref="SessionController"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
+		/// <param name="postLifetimeCallback">The <see cref="Func{TResult}"/> returning a <see cref="Task"/> to be run after the <paramref name="process"/> ends.</param>
 		/// <param name="startupTimeout">The optional time to wait before failing the <see cref="LaunchResult"/></param>
 		/// <param name="reattached">If this is a reattached session.</param>
 		/// <param name="apiValidate">If this is a DMAPI validation session.</param>
@@ -216,6 +217,7 @@ namespace Tgstation.Server.Host.Components.Session
 			IChatManager chat,
 			IAssemblyInformationProvider assemblyInformationProvider,
 			ILogger<SessionController> logger,
+			Func<Task> postLifetimeCallback,
 			uint? startupTimeout,
 			bool reattached,
 			bool apiValidate)
@@ -253,15 +255,14 @@ namespace Tgstation.Server.Host.Components.Session
 			reattachTopicCts = new CancellationTokenSource();
 			synchronizationLock = new object();
 
-			_ = process.Lifetime.ContinueWith(
-				x =>
-				{
-					lock (synchronizationLock)
-						if (!disposed)
-							reattachTopicCts.Cancel();
-					chatTrackingContext.Active = false;
-				},
-				TaskScheduler.Current);
+			async Task<int> WrapLifetime()
+			{
+				var exitCode = await process.Lifetime.ConfigureAwait(false);
+				await postLifetimeCallback().ConfigureAwait(false);
+				return exitCode;
+			}
+
+			Lifetime = WrapLifetime();
 
 			LaunchResult = GetLaunchResult(
 				assemblyInformationProvider,
@@ -271,58 +272,31 @@ namespace Tgstation.Server.Host.Components.Session
 			logger.LogDebug("Created session controller. CommsKey: {0}, Port: {1}", reattachInformation.AccessIdentifier, Port);
 		}
 
-		/// <summary>
-		/// Finalizes an instance of the <see cref="SessionController"/> class.
-		/// </summary>
-		/// <remarks>The finalizer dispose pattern is necessary so we don't accidentally leak the executable</remarks>
-#pragma warning disable CA1821 // Remove empty Finalizers TODO: remove this when https://github.com/dotnet/roslyn-analyzers/issues/1241 is fixed
-		~SessionController() => Dispose(false);
-#pragma warning restore CA1821 // Remove empty Finalizers
-
 		/// <inheritdoc />
-		public void Dispose()
-		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
-		}
-
-		/// <summary>
-		/// Implements the <see cref="IDisposable"/> pattern
-		/// </summary>
-		/// <param name="disposing">If this function was NOT called by the finalizer</param>
-		void Dispose(bool disposing)
+		public async ValueTask DisposeAsync()
 		{
 			lock (synchronizationLock)
 			{
 				if (disposed)
 					return;
 				disposed = true;
-				logger.LogTrace("Disposing...");
-				if (disposing)
-				{
-					if (!released)
-					{
-						process.Terminate();
-						byondLock.Dispose();
-					}
 
-					process.Dispose();
-					bridgeRegistration?.Dispose();
-					reattachInformation.Dmb?.Dispose(); // will be null when released
-					chatTrackingContext.Dispose();
-					reattachTopicCts.Dispose();
-				}
-				else
+				logger.LogTrace("Disposing...");
+				if (!released)
 				{
-					if (logger != null)
-						logger.LogError("Being disposed via finalizer!");
-					if (!released)
-						if (process != null)
-							process.Terminate();
-						else if (logger != null)
-							logger.LogCritical("Unable to terminate active DreamDaemon session due to finalizer ordering!");
+					process.Terminate();
+					byondLock.Dispose();
 				}
+
+				process.Dispose();
+				bridgeRegistration?.Dispose();
+				reattachInformation.Dmb?.Dispose(); // will be null when released
+				chatTrackingContext.Dispose();
+				reattachTopicCts.Dispose();
 			}
+
+			// finish the async callback
+			await Lifetime.ConfigureAwait(false);
 		}
 
 		/// <summary>
@@ -530,7 +504,7 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <summary>
-		/// Throws an <see cref="ObjectDisposedException"/> if <see cref="Dispose(bool)"/> has been called
+		/// Throws an <see cref="ObjectDisposedException"/> if <see cref="DisposeAsync"/> has been called
 		/// </summary>
 		void CheckDisposed()
 		{
@@ -542,7 +516,7 @@ namespace Tgstation.Server.Host.Components.Session
 		public void EnableCustomChatCommands() => chatTrackingContext.Active = DMApiAvailable;
 
 		/// <inheritdoc />
-		public ReattachInformation Release()
+		public async Task<ReattachInformation> Release()
 		{
 			CheckDisposed();
 
@@ -550,7 +524,7 @@ namespace Tgstation.Server.Host.Components.Session
 			var tmpProvider = reattachInformation.Dmb;
 			reattachInformation.Dmb = null;
 			released = true;
-			Dispose();
+			await DisposeAsync().ConfigureAwait(false);
 			byondLock.DoNotDeleteThisSession();
 			tmpProvider.KeepAlive();
 			reattachInformation.Dmb = tmpProvider;

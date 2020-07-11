@@ -10,7 +10,7 @@ namespace Tgstation.Server.Host.Components.Session
 	/// <summary>
 	/// Handles communication with a DreamDaemon <see cref="IProcess"/>
 	/// </summary>
-	interface ISessionController : IRenameNotifyee, IProcessBase
+	interface ISessionController : IProcessBase, IRenameNotifyee, IAsyncDisposable
 	{
 		/// <summary>
 		/// A <see cref="Task"/> that completes when DreamDaemon starts pumping the windows message queue after loading a .dmb or when it crashes
@@ -70,8 +70,8 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <summary>
 		/// Releases the <see cref="IProcess"/> without terminating it. Also calls <see cref="IDisposable.Dispose"/>
 		/// </summary>
-		/// <returns><see cref="ReattachInformation"/> which can be used to create a new <see cref="ISessionController"/> similar to this one</returns>
-		ReattachInformation Release();
+		/// <returns>A <see cref="Task{TResult}"/> resulting in <see cref="ReattachInformation"/> which can be used to create a new <see cref="ISessionController"/>.</returns>
+		Task<ReattachInformation> Release();
 
 		/// <summary>
 		/// Sends a command to DreamDaemon through /world/Topic()
