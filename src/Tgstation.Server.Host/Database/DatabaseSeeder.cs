@@ -104,7 +104,7 @@ namespace Tgstation.Server.Host.Database
 		}
 
 		/// <summary>
-		/// Correct invalid database data caused by previous versions.
+		/// Correct invalid database data caused by previous versions (NOT user fuckery).
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to sanitize.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
