@@ -287,6 +287,7 @@ namespace Tgstation.Server.Host.Components.Session
 						{
 							try
 							{
+								// DCT: No token available
 								await ioManager.DeleteFile(logFilePath, default).ConfigureAwait(false);
 							}
 							catch (Exception ex)

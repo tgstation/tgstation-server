@@ -335,6 +335,7 @@ namespace Tgstation.Server.Host.Components
 										}
 										catch
 										{
+											// DCT: Cancellation token is for job, operation must run regardless
 											await repo.ResetToSha(startSha, progressReporter, default).ConfigureAwait(false);
 											throw;
 										}
@@ -345,6 +346,7 @@ namespace Tgstation.Server.Host.Components
 							deploySha = repoHead;
 						}, cancellationToken).ConfigureAwait(false);
 
+						// DCT: First token will cancel the job, second is for cancelling the cancellation, unwanted
 						await jobManager.WaitForJobCompletion(repositoryUpdateJob, user, cancellationToken, default).ConfigureAwait(false);
 
 						if (deploySha == null)

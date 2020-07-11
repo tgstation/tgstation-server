@@ -231,6 +231,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			{
 				// kill the controllers
 				bool serverWasActive = Server != null;
+
+				// DCT: Operation must always run
 				await DisposeAndNullControllers(default).ConfigureAwait(false);
 
 				// server didn't get control of this dmb

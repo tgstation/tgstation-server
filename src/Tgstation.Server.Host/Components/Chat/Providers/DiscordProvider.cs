@@ -104,6 +104,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				if (mentionedUs)
 				{
 					Logger.LogTrace("Ignoring mention from {0} ({1}) by {2} ({3}). Channel not mapped!", e.Channel.Id, e.Channel.Name, e.Author.Id, e.Author.Username);
+
+					// DCT: None available
 					await SendMessage(e.Channel.Id, "I do not respond to this channel!", default).ConfigureAwait(false);
 				}
 

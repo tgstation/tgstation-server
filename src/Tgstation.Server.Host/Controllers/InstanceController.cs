@@ -296,6 +296,7 @@ namespace Tgstation.Server.Host.Controllers
 					// oh shit delete the model
 					DatabaseContext.Instances.Remove(newInstance);
 
+					// DCT: Operation must always run
 					await DatabaseContext.Save(default).ConfigureAwait(false);
 					throw;
 				}
@@ -341,7 +342,7 @@ namespace Tgstation.Server.Host.Controllers
 			DatabaseContext.Instances.Remove(originalModel);
 
 			var attachFileName = ioManager.ConcatPath(originalModel.Path, InstanceAttachFileName);
-			await ioManager.WriteAllBytes(attachFileName, Array.Empty<byte>(), default).ConfigureAwait(false);
+			await ioManager.WriteAllBytes(attachFileName, Array.Empty<byte>(), cancellationToken).ConfigureAwait(false);
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false); // cascades everything
 			return NoContent();
 		}
@@ -484,6 +485,8 @@ namespace Tgstation.Server.Host.Controllers
 				originalModel.DreamDaemonSettings.AutoStart = oldAutoStart;
 				if (originalModelPath != null)
 					originalModel.Path = originalModelPath;
+
+				// DCT: Operation must always run
 				await DatabaseContext.Save(default).ConfigureAwait(false);
 				throw;
 			}

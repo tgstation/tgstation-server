@@ -247,6 +247,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			Logger.LogTrace("Disposing...");
 			synchronizationSemaphore.Dispose();
 			restartRegistration.Dispose();
+
+			// DCT: None available, Operation must always run
 			await DisposeAndNullControllers(default).ConfigureAwait(false);
 			controllerDisposeSemaphore.Dispose();
 			monitorCts?.Dispose();
@@ -477,6 +479,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected async Task ReattachFailure(Task chatTask, CancellationToken cancellationToken)
 		{
 			// we lost the server, just restart entirely
+			// DCT: Operation must always run
 			await DisposeAndNullControllers(default).ConfigureAwait(false);
 			const string FailReattachMessage = "Unable to properly reattach to server! Restarting watchdog...";
 			Logger.LogWarning(FailReattachMessage);
@@ -743,6 +746,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				}
 			}
 
+			// DCT: Operation must always run
 			await DisposeAndNullControllers(default).ConfigureAwait(false);
 			Status = WatchdogStatus.Offline;
 

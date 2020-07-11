@@ -128,6 +128,7 @@ namespace Tgstation.Server.Host.Jobs
 						attachedJob.ErrorCode = job.ErrorCode;
 						attachedJob.Cancelled = job.Cancelled;
 
+						// DCT: Cancellation token is for job, operation should always run
 						await databaseContext.Save(default).ConfigureAwait(false);
 					}).ConfigureAwait(false);
 				}

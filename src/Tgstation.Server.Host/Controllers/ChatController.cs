@@ -129,8 +129,10 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				// undo the add
 				DatabaseContext.ChatBots.Remove(dbModel);
+
+				// DCTx2: Operations must always run
 				await DatabaseContext.Save(default).ConfigureAwait(false);
-				await instance.Chat.DeleteConnection(dbModel.Id, cancellationToken).ConfigureAwait(false);
+				await instance.Chat.DeleteConnection(dbModel.Id, default).ConfigureAwait(false);
 				throw;
 			}
 

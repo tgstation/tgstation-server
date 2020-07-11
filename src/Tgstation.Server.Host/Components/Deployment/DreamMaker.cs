@@ -641,6 +641,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 							{
 								// So we need to un-commit the compile job if the above throws
 								databaseContext.CompileJobs.Remove(compileJob);
+
+								// DCT: Cancellation token is for job, operation must run regardless
 								await databaseContext.Save(default).ConfigureAwait(false);
 								throw;
 							}
@@ -769,6 +771,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			}
 			catch (OperationCanceledException)
 			{
+				// DCT: Cancellation token is for job, delaying here is fine
 				await eventConsumer.HandleEvent(EventType.CompileCancelled, null, default).ConfigureAwait(false);
 				throw;
 			}

@@ -856,6 +856,7 @@ namespace Tgstation.Server.Host.Controllers
 					numSteps = 2;
 
 					// Forget what we've done and abort
+					// DCTx2: Cancellation token is for job, operations should always run
 					await repo.CheckoutObject(startReference ?? startSha, NextProgressReporter(), default).ConfigureAwait(false);
 					if (startReference != null && repo.Head != startSha)
 						await repo.ResetToSha(startSha, NextProgressReporter(), default).ConfigureAwait(false);
