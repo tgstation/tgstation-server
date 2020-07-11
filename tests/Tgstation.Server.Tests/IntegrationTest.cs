@@ -123,7 +123,10 @@ namespace Tgstation.Server.Tests
 			using var hardTimeoutCts = new CancellationTokenSource();
 			hardTimeoutCts.CancelAfter(new TimeSpan(0, 9, 45));
 			var hardTimeoutCancellationToken = hardTimeoutCts.Token;
-			hardTimeoutCancellationToken.Register(() => Console.WriteLine($"[{DateTimeOffset.Now}] TEST TIMEOUT HARD!"));
+			hardTimeoutCancellationToken.Register(() =>
+			{
+				Console.WriteLine($"[{DateTimeOffset.Now}] TEST TIMEOUT HARD!");
+			});
 
 			using var softTimeoutCts = CancellationTokenSource.CreateLinkedTokenSource(hardTimeoutCancellationToken);
 			softTimeoutCts.CancelAfter(new TimeSpan(0, 9, 15));
