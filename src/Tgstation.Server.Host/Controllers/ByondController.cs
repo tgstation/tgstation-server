@@ -20,13 +20,8 @@ namespace Tgstation.Server.Host.Controllers
 	/// Controller for managing <see cref="Api.Models.Byond.Version"/>s
 	/// </summary>
 	[Route(Routes.Byond)]
-	public sealed class ByondController : ApiController
+	public sealed class ByondController : InstanceRequiredController
 	{
-		/// <summary>
-		/// The <see cref="IInstanceManager"/> for the <see cref="ByondController"/>
-		/// </summary>
-		readonly IInstanceManager instanceManager;
-
 		/// <summary>
 		/// The <see cref="IJobManager"/> for the <see cref="ByondController"/>
 		/// </summary>
@@ -37,7 +32,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
-		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
+		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
 		public ByondController(
@@ -47,12 +42,11 @@ namespace Tgstation.Server.Host.Controllers
 			IJobManager jobManager,
 			ILogger<ByondController> logger)
 			: base(
+				  instanceManager,
 				  databaseContext,
 				  authenticationContextFactory,
-				  logger,
-				  true)
+				  logger)
 		{
-			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 		}
 
@@ -64,11 +58,13 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpGet]
 		[TgsAuthorize(ByondRights.ReadActive)]
 		[ProducesResponseType(typeof(Api.Models.Byond), 200)]
-		public Task<IActionResult> Read() => Task.FromResult<IActionResult>(
-			Json(new Api.Models.Byond
-			{
-				Version = instanceManager.GetInstance(Instance).ByondManager.ActiveVersion
-			}));
+		public Task<IActionResult> Read()
+			=> WithComponentInstance(instance =>
+				Task.FromResult<IActionResult>(
+					Json(new Api.Models.Byond
+					{
+						Version = instance.ByondManager.ActiveVersion
+					})));
 
 		/// <summary>
 		/// Lists installed <see cref="Api.Models.Byond"/> versions.
@@ -78,16 +74,16 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(ByondRights.ListInstalled)]
 		[ProducesResponseType(typeof(IEnumerable<Api.Models.Byond>), 200)]
-		public IActionResult List()
-			=> Json(
-				instanceManager
-					.GetInstance(Instance)
-					.ByondManager
-					.InstalledVersions
-					.Select(x => new Api.Models.Byond
-					{
-						Version = x
-					}));
+		public Task<IActionResult> List()
+			=> WithComponentInstance(instance =>
+				Task.FromResult<IActionResult>(
+					Json(instance
+						.ByondManager
+						.InstalledVersions
+						.Select(x => new Api.Models.Byond
+						{
+							Version = x
+						}))));
 
 		/// <summary>
 		/// Changes the active BYOND version to the one specified in a given <paramref name="model"/>.
@@ -118,57 +114,60 @@ namespace Tgstation.Server.Host.Controllers
 				|| (!userByondRights.HasFlag(ByondRights.InstallCustomVersion) && model.Content != null))
 				return Forbid();
 
-			var byondManager = instanceManager.GetInstance(Instance).ByondManager;
-
 			// remove cruff fields
 			var result = new Api.Models.Byond();
-
-			if (model.Content == null && byondManager.InstalledVersions.Any(x => x == model.Version))
-			{
-				Logger.LogInformation(
-					"User ID {0} changing instance ID {1} BYOND version to {2}",
-					AuthenticationContext.User.Id,
-					Instance.Id,
-					model.Version);
-				await byondManager.ChangeVersion(model.Version, null, cancellationToken).ConfigureAwait(false);
-			}
-			else if (model.Version.Build > 0)
-				return BadRequest(new ErrorMessage(ErrorCode.ByondNonExistentCustomVersion));
-			else
-			{
-				var installingVersion = model.Version.Build <= 0
-					? new Version(model.Version.Major, model.Version.Minor)
-					: model.Version;
-
-				Logger.LogInformation(
-					"User ID {0} installing BYOND version to {1} on instance ID {2}",
-					AuthenticationContext.User.Id,
-					installingVersion,
-					Instance.Id);
-
-				// run the install through the job manager
-				var job = new Models.Job
+			return await WithComponentInstance(
+				async instance =>
 				{
-					Description = $"Install {(model.Content == null ? String.Empty : "custom ")}BYOND version {model.Version.Major}.{model.Version.Minor}",
-					StartedBy = AuthenticationContext.User,
-					CancelRightsType = RightsType.Byond,
-					CancelRight = (ulong)ByondRights.CancelInstall,
-					Instance = Instance
-				};
-				await jobManager.RegisterOperation(
-					job,
-					(paramJob, databaseContextFactory, progressHandler, jobCancellationToken) => byondManager.ChangeVersion(
-						model.Version,
-						model.Content,
-						jobCancellationToken),
-					cancellationToken)
-					.ConfigureAwait(false);
-				result.InstallJob = job.ToApi();
-			}
+					var byondManager = instance.ByondManager;
+					if (model.Content == null && byondManager.InstalledVersions.Any(x => x == model.Version))
+					{
+						Logger.LogInformation(
+							"User ID {0} changing instance ID {1} BYOND version to {2}",
+							AuthenticationContext.User.Id,
+							Instance.Id,
+							model.Version);
+						await byondManager.ChangeVersion(model.Version, null, cancellationToken).ConfigureAwait(false);
+					}
+					else if (model.Version.Build > 0)
+						return BadRequest(new ErrorMessage(ErrorCode.ByondNonExistentCustomVersion));
+					else
+					{
+						var installingVersion = model.Version.Build <= 0
+							? new Version(model.Version.Major, model.Version.Minor)
+							: model.Version;
 
-			if ((AuthenticationContext.GetRight(RightsType.Byond) & (ulong)ByondRights.ReadActive) != 0)
-				result.Version = byondManager.ActiveVersion;
-			return result.InstallJob != null ? (IActionResult)Accepted(result) : Json(result);
+						Logger.LogInformation(
+							"User ID {0} installing BYOND version to {1} on instance ID {2}",
+							AuthenticationContext.User.Id,
+							installingVersion,
+							Instance.Id);
+
+						// run the install through the job manager
+						var job = new Models.Job
+						{
+							Description = $"Install {(model.Content == null ? String.Empty : "custom ")}BYOND version {model.Version.Major}.{model.Version.Minor}",
+							StartedBy = AuthenticationContext.User,
+							CancelRightsType = RightsType.Byond,
+							CancelRight = (ulong)ByondRights.CancelInstall,
+							Instance = Instance
+						};
+						await jobManager.RegisterOperation(
+							job,
+							(paramJob, databaseContextFactory, progressHandler, jobCancellationToken) => byondManager.ChangeVersion(
+								model.Version,
+								model.Content,
+								jobCancellationToken),
+							cancellationToken)
+							.ConfigureAwait(false);
+						result.InstallJob = job.ToApi();
+					}
+
+					if ((AuthenticationContext.GetRight(RightsType.Byond) & (ulong)ByondRights.ReadActive) != 0)
+						result.Version = byondManager.ActiveVersion;
+					return result.InstallJob != null ? (IActionResult)Accepted(result) : Json(result);
+				})
+				.ConfigureAwait(false);
 		}
 	}
 }

@@ -45,6 +45,9 @@ namespace Tgstation.Server.Tests
 			//check it exists
 			Assert.IsTrue(Directory.Exists(firstTest.Path));
 
+			var firstClient = instanceManagerClient.CreateClient(firstTest);
+			await ApiAssert.ThrowsException<ConflictException>(() => firstClient.DreamDaemon.Start(cancellationToken), ErrorCode.InstanceOffline);
+
 			//cant create instances in existent directories
 			var testNonEmpty = Path.Combine(testRootPath, Guid.NewGuid().ToString());
 			Directory.CreateDirectory(testNonEmpty);
@@ -65,6 +68,7 @@ namespace Tgstation.Server.Tests
 			}, cancellationToken).ConfigureAwait(false);
 
 			await Assert.ThrowsExceptionAsync<ConflictException>(() => instanceManagerClient.CreateOrAttach(firstTest, cancellationToken)).ConfigureAwait(false);
+			Assert.IsTrue(Directory.Exists(firstTest.Path));
 
 			//can't create instances in installation directory
 			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.CreateOrAttach(new Api.Models.Instance
@@ -79,6 +83,7 @@ namespace Tgstation.Server.Tests
 				Path = Path.Combine(firstTest.Path, "subdir"),
 				Name = "NoOtherInstanceDirTest"
 			}, cancellationToken), ErrorCode.InstanceAtConflictingPath).ConfigureAwait(false);
+			Assert.IsTrue(Directory.Exists(firstTest.Path));
 
 			//can't move to existent directories
 			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.Update(new Api.Models.Instance
@@ -112,7 +117,7 @@ namespace Tgstation.Server.Tests
 				firstTest = await instanceManagerClient.GetId(firstTest, cancellationToken).ConfigureAwait(false);
 				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false);
 			} while (firstTest.MoveJob != null);
-
+			Assert.IsTrue(Directory.Exists(firstTest.Path));
 
 			//online it for real for component tests
 			firstTest.Online = true;
@@ -120,6 +125,7 @@ namespace Tgstation.Server.Tests
 			firstTest = await instanceManagerClient.Update(firstTest, cancellationToken).ConfigureAwait(false);
 			Assert.AreEqual(true, firstTest.Online);
 			Assert.AreEqual(ConfigurationType.HostWrite, firstTest.ConfigurationType);
+			Assert.IsTrue(Directory.Exists(firstTest.Path));
 
 			//can't move online instance
 			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.Update(new Api.Models.Instance
@@ -127,6 +133,7 @@ namespace Tgstation.Server.Tests
 				Id = firstTest.Id,
 				Path = initialPath
 			}, cancellationToken), ErrorCode.InstanceRelocateOnline).ConfigureAwait(false);
+			Assert.IsTrue(Directory.Exists(firstTest.Path));
 
 			return firstTest;
 		}
@@ -159,8 +166,7 @@ namespace Tgstation.Server.Tests
 
 			await instanceManagerClient.Detach(firstTest, cancellationToken).ConfigureAwait(false);
 
-			var instanceAttachFileName = (string)typeof(InstanceController).GetField("InstanceAttachFileName", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
-			var attachPath = Path.Combine(firstTest.Path, instanceAttachFileName);
+			var attachPath = Path.Combine(firstTest.Path, InstanceController.InstanceAttachFileName);
 			Assert.IsTrue(File.Exists(attachPath));
 
 			//can recreate detached instance

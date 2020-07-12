@@ -29,13 +29,8 @@ namespace Tgstation.Server.Host.Controllers
 	/// </summary>
 	[Route(Routes.Repository)]
 	#pragma warning disable CA1506 // TODO: Decomplexify
-	public sealed class RepositoryController : ApiController
+	public sealed class RepositoryController : InstanceRequiredController
 	{
-		/// <summary>
-		/// The <see cref="IInstanceManager"/> for the <see cref="RepositoryController"/>
-		/// </summary>
-		readonly IInstanceManager instanceManager;
-
 		/// <summary>
 		/// The <see cref="IGitHubClientFactory"/> for the <see cref="RepositoryController"/>
 		/// </summary>
@@ -56,7 +51,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
-		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
+		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
@@ -70,13 +65,11 @@ namespace Tgstation.Server.Host.Controllers
 			ILogger<RepositoryController> logger,
 			IOptions<GeneralConfiguration> generalConfigurationOptions)
 			: base(
+				  instanceManager,
 				  databaseContext,
 				  authenticationContextFactory,
-				  logger,
-				  true,
-				  true)
+				  logger)
 		{
-			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
@@ -192,61 +185,66 @@ namespace Tgstation.Server.Host.Controllers
 			var cloneBranch = model.Reference;
 			var origin = model.Origin;
 
-			var repoManager = instanceManager.GetInstance(Instance).RepositoryManager;
-
-			if (repoManager.CloneInProgress)
-				return Conflict(new ErrorMessage(ErrorCode.RepoCloning));
-
-			if (repoManager.InUse)
-				return Conflict(new ErrorMessage(ErrorCode.RepoBusy));
-
-			using var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(false);
-
-			// clone conflict
-			if (repo != null)
-				return Conflict(new ErrorMessage(ErrorCode.RepoExists));
-
-			var job = new Models.Job
-			{
-				Description = String.Format(CultureInfo.InvariantCulture, "Clone branch {1} of repository {0}", origin, cloneBranch ?? "master"),
-				StartedBy = AuthenticationContext.User,
-				CancelRightsType = RightsType.Repository,
-				CancelRight = (ulong)RepositoryRights.CancelClone,
-				Instance = Instance
-			};
-			var api = currentModel.ToApi();
-			await jobManager.RegisterOperation(job, async (paramJob, databaseContextFactory, progressReporter, ct) =>
-			{
-				using var repos = await repoManager.CloneRepository(
-					new Uri(origin),
-					cloneBranch,
-					currentModel.AccessUser,
-					currentModel.AccessToken,
-					progressReporter,
-					model.RecurseSubmodules ?? true,
-					ct)
-					.ConfigureAwait(false);
-				if (repos == null)
-					throw new JobException(ErrorCode.RepoExists);
-				var instance = new Models.Instance
+			return await WithComponentInstance(
+				async instance =>
 				{
-					Id = Instance.Id
-				};
-				await databaseContextFactory.UseContext(
-					async databaseContext =>
+					var repoManager = instance.RepositoryManager;
+
+					if (repoManager.CloneInProgress)
+						return Conflict(new ErrorMessage(ErrorCode.RepoCloning));
+
+					if (repoManager.InUse)
+						return Conflict(new ErrorMessage(ErrorCode.RepoBusy));
+
+					using var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(false);
+
+					// clone conflict
+					if (repo != null)
+						return Conflict(new ErrorMessage(ErrorCode.RepoExists));
+
+					var job = new Models.Job
 					{
-						databaseContext.Instances.Attach(instance);
-						if (await PopulateApi(api, repos, databaseContext, instance, ct).ConfigureAwait(false))
-							await databaseContext.Save(ct).ConfigureAwait(false);
-					})
-					.ConfigureAwait(false);
-			}, cancellationToken).ConfigureAwait(false);
+						Description = String.Format(CultureInfo.InvariantCulture, "Clone branch {1} of repository {0}", origin, cloneBranch ?? "master"),
+						StartedBy = AuthenticationContext.User,
+						CancelRightsType = RightsType.Repository,
+						CancelRight = (ulong)RepositoryRights.CancelClone,
+						Instance = Instance
+					};
+					var api = currentModel.ToApi();
+					await jobManager.RegisterOperation(job, async (paramJob, databaseContextFactory, progressReporter, ct) =>
+					{
+						using var repos = await repoManager.CloneRepository(
+							new Uri(origin),
+							cloneBranch,
+							currentModel.AccessUser,
+							currentModel.AccessToken,
+							progressReporter,
+							model.RecurseSubmodules ?? true,
+							ct)
+							.ConfigureAwait(false);
+						if (repos == null)
+							throw new JobException(ErrorCode.RepoExists);
+						var instance = new Models.Instance
+						{
+							Id = Instance.Id
+						};
+						await databaseContextFactory.UseContext(
+							async databaseContext =>
+							{
+								databaseContext.Instances.Attach(instance);
+								if (await PopulateApi(api, repos, databaseContext, instance, ct).ConfigureAwait(false))
+									await databaseContext.Save(ct).ConfigureAwait(false);
+							})
+							.ConfigureAwait(false);
+					}, cancellationToken).ConfigureAwait(false);
 
-			api.Origin = model.Origin;
-			api.Reference = model.Reference;
-			api.ActiveJob = job.ToApi();
+					api.Origin = model.Origin;
+					api.Reference = model.Reference;
+					api.ActiveJob = job.ToApi();
 
-			return Created(api);
+					return Created(api);
+				})
+				.ConfigureAwait(false);
 		}
 
 		/// <summary>
@@ -286,9 +284,18 @@ namespace Tgstation.Server.Host.Controllers
 				Instance = Instance
 			};
 			var api = currentModel.ToApi();
-			await jobManager.RegisterOperation(job, (paramJob, databaseContextFactory, progressReporter, ct) => instanceManager.GetInstance(Instance).RepositoryManager.DeleteRepository(cancellationToken), cancellationToken).ConfigureAwait(false);
-			api.ActiveJob = job.ToApi();
-			return Accepted(api);
+			return await WithComponentInstance(
+				async instance =>
+				{
+					await jobManager.RegisterOperation(
+						job,
+						(paramJob, databaseContextFactory, progressReporter, ct) => instance.RepositoryManager.DeleteRepository(ct),
+						cancellationToken)
+					.ConfigureAwait(false);
+					api.ActiveJob = job.ToApi();
+					return Accepted(api);
+				})
+				.ConfigureAwait(false);
 		}
 
 		/// <summary>
@@ -317,23 +324,29 @@ namespace Tgstation.Server.Host.Controllers
 				return Gone();
 
 			var api = currentModel.ToApi();
-			var repoManager = instanceManager.GetInstance(Instance).RepositoryManager;
 
-			if (repoManager.CloneInProgress)
-				return Conflict(new ErrorMessage(ErrorCode.RepoCloning));
+			return await WithComponentInstance(
+				async instance =>
+				{
+					var repoManager = instance.RepositoryManager;
 
-			if (repoManager.InUse)
-				return Conflict(new ErrorMessage(ErrorCode.RepoBusy));
+					if (repoManager.CloneInProgress)
+						return Conflict(new ErrorMessage(ErrorCode.RepoCloning));
 
-			using var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(false);
-			if (repo != null && await PopulateApi(api, repo, DatabaseContext, Instance, cancellationToken).ConfigureAwait(false))
-			{
-				// user may have fucked with the repo manually, do what we can
-				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
-				return Created(api);
-			}
+					if (repoManager.InUse)
+						return Conflict(new ErrorMessage(ErrorCode.RepoBusy));
 
-			return Json(api);
+					using var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(false);
+					if (repo != null && await PopulateApi(api, repo, DatabaseContext, Instance, cancellationToken).ConfigureAwait(false))
+					{
+						// user may have fucked with the repo manually, do what we can
+						await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+						return Created(api);
+					}
+
+					return Json(api);
+				})
+				.ConfigureAwait(false);
 		}
 
 		/// <summary>
@@ -426,23 +439,32 @@ namespace Tgstation.Server.Host.Controllers
 			var canRead = userRights.HasFlag(RepositoryRights.Read);
 
 			var api = canRead ? currentModel.ToApi() : new Repository();
-			var repoManager = instanceManager.GetInstance(Instance).RepositoryManager;
-
 			if (canRead)
 			{
-				if (repoManager.CloneInProgress)
-					return Conflict(new ErrorMessage(ErrorCode.RepoCloning));
+				var earlyOut = await WithComponentInstance(
+				async instance =>
+				{
+					var repoManager = instance.RepositoryManager;
+					if (repoManager.CloneInProgress)
+						return Conflict(new ErrorMessage(ErrorCode.RepoCloning));
 
-				if (repoManager.InUse)
-					return Conflict(new ErrorMessage(ErrorCode.RepoBusy));
+					if (repoManager.InUse)
+						return Conflict(new ErrorMessage(ErrorCode.RepoBusy));
 
-				using var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(false);
-				if (repo == null)
-					return Conflict(new ErrorMessage(ErrorCode.RepoMissing));
-				await PopulateApi(api, repo, DatabaseContext, Instance, cancellationToken).ConfigureAwait(false);
+					using var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(false);
+					if (repo == null)
+						return Conflict(new ErrorMessage(ErrorCode.RepoMissing));
+					await PopulateApi(api, repo, DatabaseContext, Instance, cancellationToken).ConfigureAwait(false);
 
-				if (model.Origin != null && model.Origin != repo.Origin)
-					return BadRequest(new ErrorMessage(ErrorCode.RepoCantChangeOrigin));
+					if (model.Origin != null && model.Origin != repo.Origin)
+						return BadRequest(new ErrorMessage(ErrorCode.RepoCantChangeOrigin));
+
+					return null;
+				})
+				.ConfigureAwait(false);
+
+				if (earlyOut != null)
+					return earlyOut;
 			}
 
 			// this is just db stuf so stow it away
@@ -471,18 +493,13 @@ namespace Tgstation.Server.Host.Controllers
 			if (description == null)
 				return Json(api); // no git changes
 
-			var job = new Models.Job
+			async Task<IActionResult> UpdateCallbackThatDesperatelyNeedsRefactoring(
+				IInstance instance,
+				IDatabaseContextFactory databaseContextFactory,
+				Action<int> progressReporter,
+				CancellationToken ct)
 			{
-				Description = description,
-				StartedBy = AuthenticationContext.User,
-				Instance = Instance,
-				CancelRightsType = RightsType.Repository,
-				CancelRight = (ulong)RepositoryRights.CancelPendingChanges,
-			};
-
-			// Time to access git, do it in a job
-			await jobManager.RegisterOperation(job, async (paramJob, databaseContextFactory, progressReporter, ct) =>
-			{
+				var repoManager = instance.RepositoryManager;
 				using var repo = await repoManager.LoadRepository(ct).ConfigureAwait(false);
 				if (repo == null)
 					throw new JobException(ErrorCode.RepoMissing);
@@ -849,6 +866,8 @@ namespace Tgstation.Server.Host.Controllers
 						await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, currentModel.CommitterName, currentModel.CommitterEmail, NextProgressReporter(), false, ct).ConfigureAwait(false);
 						await UpdateRevInfo().ConfigureAwait(false);
 					}
+
+					return null;
 				}
 				catch
 				{
@@ -864,7 +883,29 @@ namespace Tgstation.Server.Host.Controllers
 						progressReporter(100);
 					throw;
 				}
-			}, cancellationToken).ConfigureAwait(false);
+			}
+
+			var job = new Models.Job
+			{
+				Description = description,
+				StartedBy = AuthenticationContext.User,
+				Instance = Instance,
+				CancelRightsType = RightsType.Repository,
+				CancelRight = (ulong)RepositoryRights.CancelPendingChanges,
+			};
+
+			// Time to access git, do it in a job
+			await jobManager.RegisterOperation(
+				job,
+				(paramJob, databaseContextFactory, progressReporter, ct)
+					=> WithComponentInstance( // Will never fail in the context of a job
+						instance => UpdateCallbackThatDesperatelyNeedsRefactoring(
+							instance,
+							databaseContextFactory,
+							progressReporter,
+							ct)),
+				cancellationToken)
+				.ConfigureAwait(false);
 
 			api.ActiveJob = job.ToApi();
 			return Accepted(api);

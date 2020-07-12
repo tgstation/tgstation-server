@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
+using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -20,23 +21,25 @@ namespace Tgstation.Server.Host.Controllers
 	/// <see cref="ApiController"/> for managing <see cref="InstanceUser"/>s.
 	/// </summary>
 	[Route(Routes.InstanceUser)]
-	public sealed class InstanceUserController : ApiController
+	public sealed class InstanceUserController : InstanceRequiredController
 	{
 		/// <summary>
 		/// Construct a <see cref="UserController"/>
 		/// </summary>
+		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
 		public InstanceUserController(
+			IInstanceManager instanceManager,
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
 			ILogger<InstanceUserController> logger)
 			: base(
+				  instanceManager,
 				  databaseContext,
 				  authenticationContextFactory,
-				  logger,
-				  true)
+				  logger)
 		{ }
 
 		/// <summary>

@@ -20,13 +20,8 @@ namespace Tgstation.Server.Host.Controllers
 	/// The <see cref="ApiController"/> for <see cref="ConfigurationFile"/>s
 	/// </summary>
 	[Route(Routes.Configuration)]
-	public sealed class ConfigurationController : ApiController
+	public sealed class ConfigurationController : InstanceRequiredController
 	{
-		/// <summary>
-		/// The <see cref="IInstanceManager"/> for the <see cref="ConfigurationController"/>
-		/// </summary>
-		readonly IInstanceManager instanceManager;
-
 		/// <summary>
 		/// The <see cref="IIOManager"/> for the <see cref="ConfigurationController"/>
 		/// </summary>
@@ -37,7 +32,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
-		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
+		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
 		public ConfigurationController(
@@ -47,12 +42,11 @@ namespace Tgstation.Server.Host.Controllers
 			IIOManager ioManager,
 			ILogger<ConfigurationController> logger)
 			: base(
+				  instanceManager,
 				  databaseContext,
 				  authenticationContextFactory,
-				  logger,
-				  true)
+				  logger)
 		{
-			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 		}
 
@@ -95,16 +89,28 @@ namespace Tgstation.Server.Host.Controllers
 			if (ForbidDueToModeConflicts(model.Path, out var systemIdentity))
 				return Forbid();
 
-			var config = instanceManager.GetInstance(Instance).Configuration;
 			try
 			{
-				var newFile = await config.Write(model.Path, systemIdentity, model.Content, model.LastReadHash, cancellationToken).ConfigureAwait(false);
-				if (newFile == null)
-					return Conflict(new ErrorMessage(ErrorCode.ConfigurationFileUpdated));
+				return await WithComponentInstance(
+					async instance =>
+					{
+						var newFile = await instance
+							.Configuration
+							.Write(
+								model.Path,
+								systemIdentity,
+								model.Content,
+								model.LastReadHash,
+								cancellationToken)
+							.ConfigureAwait(false);
+						if (newFile == null)
+							return Conflict(new ErrorMessage(ErrorCode.ConfigurationFileUpdated));
 
-				newFile.Content = null;
+						newFile.Content = null;
 
-				return model.LastReadHash == null ? (IActionResult)Created(newFile) : Json(newFile);
+						return model.LastReadHash == null ? (IActionResult)Created(newFile) : Json(newFile);
+					})
+					.ConfigureAwait(false);
 			}
 			catch(IOException e)
 			{
@@ -139,11 +145,19 @@ namespace Tgstation.Server.Host.Controllers
 
 			try
 			{
-				var result = await instanceManager.GetInstance(Instance).Configuration.Read(filePath, systemIdentity, cancellationToken).ConfigureAwait(false);
-				if (result == null)
-					return Gone();
+				return await WithComponentInstance(
+					async instance =>
+					{
+						var result = await instance
+							.Configuration
+							.Read(filePath, systemIdentity, cancellationToken)
+							.ConfigureAwait(false);
+						if (result == null)
+							return Gone();
 
-				return Json(result);
+						return Json(result);
+					})
+					.ConfigureAwait(false);
 			}
 			catch (IOException e)
 			{
@@ -178,11 +192,19 @@ namespace Tgstation.Server.Host.Controllers
 
 			try
 			{
-				var result = await instanceManager.GetInstance(Instance).Configuration.ListDirectory(directoryPath, systemIdentity, cancellationToken).ConfigureAwait(false);
-				if (result == null)
-					return Gone();
+				return await WithComponentInstance(
+					async instance =>
+					{
+						var result = await instance
+							.Configuration
+							.ListDirectory(directoryPath, systemIdentity, cancellationToken)
+							.ConfigureAwait(false);
+						if (result == null)
+							return Gone();
 
-				return Json(result);
+						return Json(result);
+					})
+					.ConfigureAwait(false);
 			}
 			catch (NotImplementedException)
 			{
@@ -227,13 +249,14 @@ namespace Tgstation.Server.Host.Controllers
 			try
 			{
 				model.IsDirectory = true;
-				return await instanceManager
-					.GetInstance(Instance)
+				return await WithComponentInstance(
+					async instance => await instance
 					.Configuration
 					.CreateDirectory(model.Path, systemIdentity, cancellationToken)
 					.ConfigureAwait(false)
 					? (IActionResult)Json(model)
-					: Created(model);
+					: Created(model))
+					.ConfigureAwait(false);
 			}
 			catch (IOException e)
 			{
@@ -273,13 +296,14 @@ namespace Tgstation.Server.Host.Controllers
 
 			try
 			{
-				return await instanceManager
-					.GetInstance(Instance)
+				return await WithComponentInstance(
+					async instance => await instance
 					.Configuration
 					.DeleteDirectory(directory.Path, systemIdentity, cancellationToken)
 					.ConfigureAwait(false)
 					? (IActionResult)NoContent()
-					: Conflict(new ErrorMessage(ErrorCode.ConfigurationDirectoryNotEmpty));
+					: Conflict(new ErrorMessage(ErrorCode.ConfigurationDirectoryNotEmpty)))
+					.ConfigureAwait(false);
 			}
 			catch (NotImplementedException)
 			{

@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
@@ -19,7 +20,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <see cref="ApiController"/> for <see cref="Api.Models.Job"/>s
 	/// </summary>
 	[Route(Routes.Jobs)]
-	public sealed class JobController : ApiController
+	public sealed class JobController : InstanceRequiredController
 	{
 		/// <summary>
 		/// The <see cref="IJobManager"/> for the <see cref="JobController"/>
@@ -29,20 +30,22 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Construct a <see cref="HomeController"/>
 		/// </summary>
+		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
 		public JobController(
+			IInstanceManager instanceManager,
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
 			IJobManager jobManager,
 			ILogger<JobController> logger)
 			: base(
+				  instanceManager,
 				  databaseContext,
 				  authenticationContextFactory,
-				  logger,
-				  true)
+				  logger)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 		}

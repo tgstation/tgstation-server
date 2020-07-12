@@ -13,6 +13,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
@@ -192,32 +193,74 @@ namespace Tgstation.Server.Host.Components
 				throw new ArgumentNullException(nameof(metadata));
 			lock (instances)
 			{
-				if (!instances.TryGetValue(metadata.Id, out IInstance instance))
-					throw new InvalidOperationException("Instance not online!");
-				return instance;
+				instances.TryGetValue(metadata.Id, out IInstance instance);
+				return instance; // null if above is false
 			}
 		}
 
 		/// <inheritdoc />
-		public async Task MoveInstance(Models.Instance instance, string newPath, CancellationToken cancellationToken)
+		public async Task MoveInstance(Models.Instance instance, string oldPath, CancellationToken cancellationToken)
 		{
-			if (newPath == null)
-				throw new ArgumentNullException(nameof(newPath));
-			if (instance.Online.Value)
+			if (oldPath == null)
+				throw new ArgumentNullException(nameof(oldPath));
+			if (GetInstance(instance) != null)
 				throw new InvalidOperationException("Cannot move an online instance!");
-			var oldPath = instance.Path;
-			await ioManager.CopyDirectory(oldPath, newPath, null, cancellationToken).ConfigureAwait(false);
-			await databaseContextFactory.UseContext(db =>
+			var newPath = instance.Path;
+			try
 			{
-				var targetInstance = new Models.Instance
+				await ioManager.MoveDirectory(oldPath, newPath, cancellationToken).ConfigureAwait(false);
+			}
+			catch (Exception ex)
+			{
+				logger.LogError(
+					"Error moving instance {0}! Exception: {2}",
+					instance.Id,
+					ex);
+				try
 				{
-					Id = instance.Id
-				};
-				db.Instances.Attach(targetInstance);
-				targetInstance.Path = newPath;
-				return db.Save(cancellationToken);
-			}).ConfigureAwait(false);
-			await ioManager.DeleteDirectory(oldPath, cancellationToken).ConfigureAwait(false);
+					logger.LogDebug("Reverting instance {0}'s path to {1} in the DB...", instance.Id, oldPath);
+
+					// DCT: Operation must always run
+					await databaseContextFactory.UseContext(db =>
+					{
+						var targetInstance = new Models.Instance
+						{
+							Id = instance.Id
+						};
+						db.Instances.Attach(targetInstance);
+						targetInstance.Path = oldPath;
+						return db.Save(default);
+					}).ConfigureAwait(false);
+				}
+				catch (Exception innerEx)
+				{
+					logger.LogCritical(
+						"Error reverting database after failing to move instance {0}! Attempting to detach. Exception: {1}",
+						ex);
+
+					try
+					{
+						// DCT: Operation must always run
+						await ioManager.WriteAllBytes(
+							ioManager.ConcatPath(oldPath, InstanceController.InstanceAttachFileName),
+							Array.Empty<byte>(),
+							default)
+							.ConfigureAwait(false);
+					}
+					catch (Exception tripleEx)
+					{
+						logger.LogCritical(
+							"Okay, what gamma radiation are you under? Failed to write instance attach file! Exception: {0}",
+							tripleEx);
+
+						throw new AggregateException(tripleEx, innerEx, ex);
+					}
+
+					throw new AggregateException(ex, innerEx);
+				}
+
+				throw;
+			}
 		}
 
 		/// <inheritdoc />

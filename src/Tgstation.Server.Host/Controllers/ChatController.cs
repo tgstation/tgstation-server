@@ -25,19 +25,14 @@ namespace Tgstation.Server.Host.Controllers
 	/// </summary>
 	[Route(Routes.Chat)]
 	#pragma warning disable CA1506 // TODO: Decomplexify
-	public sealed class ChatController : ApiController
+	public sealed class ChatController : InstanceRequiredController
 	{
-		/// <summary>
-		/// The <see cref="IInstanceManager"/> for the <see cref="ChatController"/>
-		/// </summary>
-		readonly IInstanceManager instanceManager;
-
 		/// <summary>
 		/// Construct a <see cref="ChatController"/>
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
-		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
+		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
 		public ChatController(
 			IDatabaseContext databaseContext,
@@ -45,12 +40,11 @@ namespace Tgstation.Server.Host.Controllers
 			IInstanceManager instanceManager,
 			ILogger<ChatController> logger)
 			: base(
+				  instanceManager,
 				  databaseContext,
 				  authenticationContextFactory,
-				  logger,
-				  true)
+				  logger)
 		{
-			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 		}
 
 		/// <summary>
@@ -116,27 +110,32 @@ namespace Tgstation.Server.Host.Controllers
 			DatabaseContext.ChatBots.Add(dbModel);
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
-			var instance = instanceManager.GetInstance(Instance);
-			try
-			{
-				// try to create it
-				await instance.Chat.ChangeSettings(dbModel, cancellationToken).ConfigureAwait(false);
+			return await WithComponentInstance(
+				async instance =>
+				{
+					try
+					{
+						// try to create it
+						await instance.Chat.ChangeSettings(dbModel, cancellationToken).ConfigureAwait(false);
 
-				if (dbModel.Channels.Count > 0)
-					await instance.Chat.ChangeChannels(dbModel.Id, dbModel.Channels, cancellationToken).ConfigureAwait(false);
-			}
-			catch
-			{
-				// undo the add
-				DatabaseContext.ChatBots.Remove(dbModel);
+						if (dbModel.Channels.Count > 0)
+							await instance.Chat.ChangeChannels(dbModel.Id, dbModel.Channels, cancellationToken).ConfigureAwait(false);
+					}
+					catch
+					{
+						// undo the add
+						DatabaseContext.ChatBots.Remove(dbModel);
 
-				// DCTx2: Operations must always run
-				await DatabaseContext.Save(default).ConfigureAwait(false);
-				await instance.Chat.DeleteConnection(dbModel.Id, default).ConfigureAwait(false);
-				throw;
-			}
+						// DCTx2: Operations must always run
+						await DatabaseContext.Save(default).ConfigureAwait(false);
+						await instance.Chat.DeleteConnection(dbModel.Id, default).ConfigureAwait(false);
+						throw;
+					}
 
-			return StatusCode(HttpStatusCode.Created, dbModel.ToApi());
+					return null;
+				})
+				.ConfigureAwait(false)
+				?? StatusCode(HttpStatusCode.Created, dbModel.ToApi());
 		}
 
 		/// <summary>
@@ -150,19 +149,21 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(ChatBotRights.Delete)]
 		[ProducesResponseType(204)]
 		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
-		{
-			var instance = instanceManager.GetInstance(Instance);
-			await Task.WhenAll(
-				instance.Chat.DeleteConnection(id, cancellationToken),
-				DatabaseContext
-					.ChatBots
-					.AsQueryable()
-					.Where(x => x.Id == id)
-					.DeleteAsync(cancellationToken))
-				.ConfigureAwait(false);
-
-			return NoContent();
-		}
+			=> await WithComponentInstance(
+				async instance =>
+				{
+					await Task.WhenAll(
+						instance.Chat.DeleteConnection(id, cancellationToken),
+						DatabaseContext
+							.ChatBots
+							.AsQueryable()
+							.Where(x => x.Id == id)
+							.DeleteAsync(cancellationToken))
+						.ConfigureAwait(false);
+					return null;
+				})
+				.ConfigureAwait(false)
+				?? NoContent();
 
 		/// <summary>
 		/// List <see cref="Api.Models.ChatBot"/>s.
@@ -315,13 +316,21 @@ namespace Tgstation.Server.Host.Controllers
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
-			var chat = instanceManager.GetInstance(Instance).Chat;
+			earlyOut = await WithComponentInstance(
+				async instance =>
+				{
+					var chat = instance.Chat;
+					if (anySettingsModified)
+						await chat.ChangeSettings(current, cancellationToken).ConfigureAwait(false); // have to rebuild the thing first
 
-			if (anySettingsModified)
-				await chat.ChangeSettings(current, cancellationToken).ConfigureAwait(false); // have to rebuild the thing first
+					if (model.Channels != null || anySettingsModified)
+						await chat.ChangeChannels(current.Id, current.Channels, cancellationToken).ConfigureAwait(false);
 
-			if (model.Channels != null || anySettingsModified)
-				await chat.ChangeChannels(current.Id, current.Channels, cancellationToken).ConfigureAwait(false);
+					return null;
+				})
+				.ConfigureAwait(false);
+			if (earlyOut != null)
+				return earlyOut;
 
 			if (userRights.HasFlag(ChatBotRights.Read))
 			{

@@ -23,7 +23,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// <see cref="ApiController"/> for managing the <see cref="DreamDaemon"/>
 	/// </summary>
 	[Route(Routes.DreamDaemon)]
-	public sealed class DreamDaemonController : ApiController
+	public sealed class DreamDaemonController : InstanceRequiredController
 	{
 		/// <summary>
 		/// The <see cref="IJobManager"/> for the <see cref="DreamMakerController"/>
@@ -31,17 +31,12 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IJobManager jobManager;
 
 		/// <summary>
-		/// The <see cref="IInstanceManager"/> for the <see cref="DreamMakerController"/>
-		/// </summary>
-		readonly IInstanceManager instanceManager;
-
-		/// <summary>
 		/// Construct a <see cref="DreamDaemonController"/>
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
-		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
+		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
 		public DreamDaemonController(
 			IDatabaseContext databaseContext,
@@ -50,13 +45,12 @@ namespace Tgstation.Server.Host.Controllers
 			IInstanceManager instanceManager,
 			ILogger<DreamDaemonController> logger)
 			: base(
+				  instanceManager,
 				  databaseContext,
 				  authenticationContextFactory,
-				  logger,
-				  true)
+				  logger)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
-			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 		}
 
 		/// <summary>
@@ -68,25 +62,27 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpPut]
 		[TgsAuthorize(DreamDaemonRights.Start)]
 		[ProducesResponseType(typeof(Api.Models.Job), 202)]
-		public async Task<IActionResult> Create(CancellationToken cancellationToken)
-		{
-			// alias for launching DD
-			var instance = instanceManager.GetInstance(Instance);
-
-			if (instance.Watchdog.Status != WatchdogStatus.Offline)
-				return Conflict(new ErrorMessage(ErrorCode.WatchdogRunning));
-
-			var job = new Models.Job
+		public Task<IActionResult> Create(CancellationToken cancellationToken)
+			=> WithComponentInstance(async instance =>
 			{
-				Description = "Launch DreamDaemon",
-				CancelRight = (ulong)DreamDaemonRights.Shutdown,
-				CancelRightsType = RightsType.DreamDaemon,
-				Instance = Instance,
-				StartedBy = AuthenticationContext.User
-			};
-			await jobManager.RegisterOperation(job, (paramJob, databaseContextFactory, progressHandler, innerCt) => instance.Watchdog.Launch(innerCt), cancellationToken).ConfigureAwait(false);
-			return Accepted(job.ToApi());
-		}
+				if (instance.Watchdog.Status != WatchdogStatus.Offline)
+					return Conflict(new ErrorMessage(ErrorCode.WatchdogRunning));
+
+				var job = new Models.Job
+				{
+					Description = "Launch DreamDaemon",
+					CancelRight = (ulong)DreamDaemonRights.Shutdown,
+					CancelRightsType = RightsType.DreamDaemon,
+					Instance = Instance,
+					StartedBy = AuthenticationContext.User
+				};
+				await jobManager.RegisterOperation(
+					job,
+					(paramJob, databaseContextFactory, progressHandler, innerCt) => instance.Watchdog.Launch(innerCt),
+					cancellationToken)
+					.ConfigureAwait(false);
+				return Accepted(job.ToApi());
+			});
 
 		/// <summary>
 		/// Get the watchdog status.
@@ -107,61 +103,61 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="settings">The <see cref="DreamDaemonSettings"/> to operate on if any</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
-		async Task<IActionResult> ReadImpl(DreamDaemonSettings settings, CancellationToken cancellationToken)
-		{
-			var instance = instanceManager.GetInstance(Instance);
-			var dd = instance.Watchdog;
-
-			var metadata = (AuthenticationContext.GetRight(RightsType.DreamDaemon) & (ulong)DreamDaemonRights.ReadMetadata) != 0;
-			var revision = (AuthenticationContext.GetRight(RightsType.DreamDaemon) & (ulong)DreamDaemonRights.ReadRevision) != 0;
-
-			if (settings == null)
+		Task<IActionResult> ReadImpl(DreamDaemonSettings settings, CancellationToken cancellationToken)
+			=> WithComponentInstance(async instance =>
 			{
-				settings = await DatabaseContext
-					.Instances
-					.AsQueryable()
-					.Where(x => x.Id == Instance.Id)
-					.Select(x => x.DreamDaemonSettings)
-					.FirstOrDefaultAsync(cancellationToken)
-					.ConfigureAwait(false);
-				if (settings == default)
-					return Gone();
-			}
+				var dd = instance.Watchdog;
 
-			var result = new DreamDaemon();
-			if (metadata)
-			{
-				var alphaActive = dd.AlphaIsActive;
-				var llp = dd.LastLaunchParameters;
-				var rstate = dd.RebootState;
-				result.AutoStart = settings.AutoStart.Value;
-				result.CurrentPort = llp?.Port.Value;
-				result.CurrentSecurity = llp?.SecurityLevel.Value;
-				result.CurrentAllowWebclient = llp?.AllowWebClient.Value;
-				result.Port = settings.Port.Value;
-				result.AllowWebClient = settings.AllowWebClient.Value;
-				result.Status = dd.Status;
-				result.SecurityLevel = settings.SecurityLevel.Value;
-				result.SoftRestart = rstate == RebootState.Restart;
-				result.SoftShutdown = rstate == RebootState.Shutdown;
-				result.StartupTimeout = settings.StartupTimeout.Value;
-				result.HeartbeatSeconds = settings.HeartbeatSeconds.Value;
-				result.TopicRequestTimeout = settings.TopicRequestTimeout.Value;
-			}
+				var metadata = (AuthenticationContext.GetRight(RightsType.DreamDaemon) & (ulong)DreamDaemonRights.ReadMetadata) != 0;
+				var revision = (AuthenticationContext.GetRight(RightsType.DreamDaemon) & (ulong)DreamDaemonRights.ReadRevision) != 0;
 
-			if (revision)
-			{
-				var latestCompileJob = instance.LatestCompileJob();
-				result.ActiveCompileJob = ((instance.Watchdog.Status != WatchdogStatus.Offline
-					? dd.ActiveCompileJob
-					: latestCompileJob) ?? latestCompileJob)
-					?.ToApi();
-				if (latestCompileJob?.Id != result.ActiveCompileJob?.Id)
-					result.StagedCompileJob = latestCompileJob?.ToApi();
-			}
+				if (settings == null)
+				{
+					settings = await DatabaseContext
+						.Instances
+						.AsQueryable()
+						.Where(x => x.Id == Instance.Id)
+						.Select(x => x.DreamDaemonSettings)
+						.FirstOrDefaultAsync(cancellationToken)
+						.ConfigureAwait(false);
+					if (settings == default)
+						return Gone();
+				}
 
-			return Json(result);
-		}
+				var result = new DreamDaemon();
+				if (metadata)
+				{
+					var alphaActive = dd.AlphaIsActive;
+					var llp = dd.LastLaunchParameters;
+					var rstate = dd.RebootState;
+					result.AutoStart = settings.AutoStart.Value;
+					result.CurrentPort = llp?.Port.Value;
+					result.CurrentSecurity = llp?.SecurityLevel.Value;
+					result.CurrentAllowWebclient = llp?.AllowWebClient.Value;
+					result.Port = settings.Port.Value;
+					result.AllowWebClient = settings.AllowWebClient.Value;
+					result.Status = dd.Status;
+					result.SecurityLevel = settings.SecurityLevel.Value;
+					result.SoftRestart = rstate == RebootState.Restart;
+					result.SoftShutdown = rstate == RebootState.Shutdown;
+					result.StartupTimeout = settings.StartupTimeout.Value;
+					result.HeartbeatSeconds = settings.HeartbeatSeconds.Value;
+					result.TopicRequestTimeout = settings.TopicRequestTimeout.Value;
+				}
+
+				if (revision)
+				{
+					var latestCompileJob = instance.LatestCompileJob();
+					result.ActiveCompileJob = ((instance.Watchdog.Status != WatchdogStatus.Offline
+						? dd.ActiveCompileJob
+						: latestCompileJob) ?? latestCompileJob)
+						?.ToApi();
+					if (latestCompileJob?.Id != result.ActiveCompileJob?.Id)
+						result.StagedCompileJob = latestCompileJob?.ToApi();
+				}
+
+				return Json(result);
+			});
 
 		/// <summary>
 		/// Stops the Watchdog if it's running.
@@ -172,12 +168,12 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpDelete]
 		[TgsAuthorize(DreamDaemonRights.Shutdown)]
 		[ProducesResponseType(204)]
-		public async Task<IActionResult> Delete(CancellationToken cancellationToken)
-		{
-			var instance = instanceManager.GetInstance(Instance);
-			await instance.Watchdog.Terminate(false, cancellationToken).ConfigureAwait(false);
-			return NoContent();
-		}
+		public Task<IActionResult> Delete(CancellationToken cancellationToken)
+			=> WithComponentInstance(async instance =>
+			{
+				await instance.Watchdog.Terminate(false, cancellationToken).ConfigureAwait(false);
+				return NoContent();
+			});
 
 		/// <summary>
 		/// Update watchdog settings to be applied at next server reboot.
@@ -240,41 +236,43 @@ namespace Tgstation.Server.Host.Controllers
 				return false;
 			}
 
-			var instance = instanceManager.GetInstance(Instance);
-			var dd = instance.Watchdog;
-			var rebootState = dd.RebootState;
-			var oldSoftRestart = rebootState == RebootState.Restart;
-			var oldSoftShutdown = rebootState == RebootState.Shutdown;
+			return await WithComponentInstance(
+				async instance =>
+				{
+					var watchdog = instance.Watchdog;
+					var rebootState = watchdog.RebootState;
+					var oldSoftRestart = rebootState == RebootState.Restart;
+					var oldSoftShutdown = rebootState == RebootState.Shutdown;
 
-			if (CheckModified(x => x.AllowWebClient, DreamDaemonRights.SetWebClient)
-				|| CheckModified(x => x.AutoStart, DreamDaemonRights.SetAutoStart)
-				|| CheckModified(x => x.Port, DreamDaemonRights.SetPort)
-				|| CheckModified(x => x.SecurityLevel, DreamDaemonRights.SetSecurity)
-				|| (model.SoftRestart.HasValue && !AuthenticationContext.InstanceUser.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftRestart))
-				|| (model.SoftShutdown.HasValue && !AuthenticationContext.InstanceUser.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftShutdown))
-				|| CheckModified(x => x.StartupTimeout, DreamDaemonRights.SetStartupTimeout)
-				|| CheckModified(x => x.HeartbeatSeconds, DreamDaemonRights.SetHeartbeatInterval)
-				|| CheckModified(x => x.TopicRequestTimeout, DreamDaemonRights.SetTopicTimeout))
-				return Forbid();
+					if (CheckModified(x => x.AllowWebClient, DreamDaemonRights.SetWebClient)
+						|| CheckModified(x => x.AutoStart, DreamDaemonRights.SetAutoStart)
+						|| CheckModified(x => x.Port, DreamDaemonRights.SetPort)
+						|| CheckModified(x => x.SecurityLevel, DreamDaemonRights.SetSecurity)
+						|| (model.SoftRestart.HasValue && !AuthenticationContext.InstanceUser.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftRestart))
+						|| (model.SoftShutdown.HasValue && !AuthenticationContext.InstanceUser.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftShutdown))
+						|| CheckModified(x => x.StartupTimeout, DreamDaemonRights.SetStartupTimeout)
+						|| CheckModified(x => x.HeartbeatSeconds, DreamDaemonRights.SetHeartbeatInterval)
+						|| CheckModified(x => x.TopicRequestTimeout, DreamDaemonRights.SetTopicTimeout))
+						return Forbid();
 
-			var wd = instanceManager.GetInstance(Instance).Watchdog;
+					await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
-			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+					// run this second because current may be modified by it
+					await watchdog.ChangeSettings(current, cancellationToken).ConfigureAwait(false);
 
-			// run this second because current may be modified by it
-			await wd.ChangeSettings(current, cancellationToken).ConfigureAwait(false);
+					if (!oldSoftRestart && model.SoftRestart == true)
+						await watchdog.Restart(true, cancellationToken).ConfigureAwait(false);
+					else if (!oldSoftShutdown && model.SoftShutdown == true)
+						await watchdog.Terminate(true, cancellationToken).ConfigureAwait(false);
+					else if ((oldSoftRestart && model.SoftRestart == false) || (oldSoftShutdown && model.SoftShutdown == false))
+						await watchdog.ResetRebootState(cancellationToken).ConfigureAwait(false);
 
-			if (!oldSoftRestart && model.SoftRestart == true)
-				await wd.Restart(true, cancellationToken).ConfigureAwait(false);
-			else if (!oldSoftShutdown && model.SoftShutdown == true)
-				await wd.Terminate(true, cancellationToken).ConfigureAwait(false);
-			else if ((oldSoftRestart && model.SoftRestart == false) || (oldSoftShutdown && model.SoftShutdown == false))
-				await wd.ResetRebootState(cancellationToken).ConfigureAwait(false);
-
-			return await ReadImpl(current, cancellationToken).ConfigureAwait(false);
+					return await ReadImpl(current, cancellationToken).ConfigureAwait(false);
+				})
+				.ConfigureAwait(false);
 		}
-		#pragma warning restore CA1506
-		#pragma warning restore CA1502
+#pragma warning restore CA1506
+#pragma warning restore CA1502
 
 		/// <summary>
 		/// Creates a <see cref="Api.Models.Job"/> to restart the Watchdog. It will start if it wasn't already running.
@@ -285,25 +283,30 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpPatch]
 		[TgsAuthorize(DreamDaemonRights.Restart)]
 		[ProducesResponseType(typeof(Api.Models.Job), 202)]
-		public async Task<IActionResult> Restart(CancellationToken cancellationToken)
-		{
-			var job = new Models.Job
+		public Task<IActionResult> Restart(CancellationToken cancellationToken)
+			=> WithComponentInstance(async instance =>
 			{
-				Instance = Instance,
-				CancelRightsType = RightsType.DreamDaemon,
-				CancelRight = (ulong)DreamDaemonRights.Shutdown,
-				StartedBy = AuthenticationContext.User,
-				Description = "Restart Watchdog"
-			};
+				var job = new Models.Job
+				{
+					Instance = Instance,
+					CancelRightsType = RightsType.DreamDaemon,
+					CancelRight = (ulong)DreamDaemonRights.Shutdown,
+					StartedBy = AuthenticationContext.User,
+					Description = "Restart Watchdog"
+				};
 
-			var watchdog = instanceManager.GetInstance(Instance).Watchdog;
+				var watchdog = instance.Watchdog;
 
-			if (watchdog.Status == WatchdogStatus.Offline)
-				return Conflict(new ErrorMessage(ErrorCode.WatchdogNotRunning));
+				if (watchdog.Status == WatchdogStatus.Offline)
+					return Conflict(new ErrorMessage(ErrorCode.WatchdogNotRunning));
 
-			await jobManager.RegisterOperation(job, (paramJob, databaseContextFactory, progressReporter, ct) => watchdog.Restart(false, ct), cancellationToken).ConfigureAwait(false);
-			return Accepted(job.ToApi());
-		}
+				await jobManager.RegisterOperation(
+					job,
+					(paramJob, databaseContextFactory, progressReporter, ct) => watchdog.Restart(false, ct),
+					cancellationToken)
+					.ConfigureAwait(false);
+				return Accepted(job.ToApi());
+			});
 
 		/// <summary>
 		/// Creates a <see cref="Api.Models.Job"/> to generate a DreamDaemon process dump.
@@ -314,27 +317,28 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpPatch(Routes.Diagnostics)]
 		[TgsAuthorize(DreamDaemonRights.CreateDump)]
 		[ProducesResponseType(typeof(Api.Models.Job), 202)]
-		public async Task<IActionResult> CreateDump(CancellationToken cancellationToken)
-		{
-			var job = new Models.Job
+		public Task<IActionResult> CreateDump(CancellationToken cancellationToken)
+			=> WithComponentInstance(async instance =>
 			{
-				Instance = Instance,
-				CancelRightsType = RightsType.DreamDaemon,
-				CancelRight = (ulong)DreamDaemonRights.CreateDump,
-				StartedBy = AuthenticationContext.User,
-				Description = "Create DreamDaemon Process Dump"
-			};
+				var job = new Models.Job
+				{
+					Instance = Instance,
+					CancelRightsType = RightsType.DreamDaemon,
+					CancelRight = (ulong)DreamDaemonRights.CreateDump,
+					StartedBy = AuthenticationContext.User,
+					Description = "Create DreamDaemon Process Dump"
+				};
 
-			var watchdog = instanceManager.GetInstance(Instance).Watchdog;
+				var watchdog = instance.Watchdog;
 
-			if (watchdog.Status == WatchdogStatus.Offline)
-				return Conflict(new ErrorMessage(ErrorCode.WatchdogNotRunning));
+				if (watchdog.Status == WatchdogStatus.Offline)
+					return Conflict(new ErrorMessage(ErrorCode.WatchdogNotRunning));
 
-			await jobManager.RegisterOperation(
-				job,
-				(paramJob, databaseContextFactory, progressReporter, ct) => watchdog.CreateDump(ct), cancellationToken)
-				.ConfigureAwait(false);
-			return Accepted(job.ToApi());
-		}
+				await jobManager.RegisterOperation(
+					job,
+					(paramJob, databaseContextFactory, progressReporter, ct) => watchdog.CreateDump(ct), cancellationToken)
+					.ConfigureAwait(false);
+				return Accepted(job.ToApi());
+			});
 	}
 }

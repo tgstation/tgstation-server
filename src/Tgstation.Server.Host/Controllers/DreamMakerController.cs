@@ -22,7 +22,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// </summary>
 	[Route(Routes.DreamMaker)]
 	#pragma warning disable CA1506 // TODO: Decomplexify
-	public sealed class DreamMakerController : ApiController
+	public sealed class DreamMakerController : InstanceRequiredController
 	{
 		/// <summary>
 		/// The <see cref="IJobManager"/> for the <see cref="DreamMakerController"/>
@@ -30,17 +30,12 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IJobManager jobManager;
 
 		/// <summary>
-		/// The <see cref="IInstanceManager"/> for the <see cref="DreamMakerController"/>
-		/// </summary>
-		readonly IInstanceManager instanceManager;
-
-		/// <summary>
 		/// Construct a <see cref="DreamMakerController"/>
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
-		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
+		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
 		public DreamMakerController(
 			IDatabaseContext databaseContext,
@@ -49,13 +44,12 @@ namespace Tgstation.Server.Host.Controllers
 			IInstanceManager instanceManager,
 			ILogger<DreamMakerController> logger)
 			: base(
+				  instanceManager,
 				  databaseContext,
 				  authenticationContextFactory,
-				  logger,
-				  true)
+				  logger)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
-			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 		}
 
 		/// <summary>
@@ -69,7 +63,6 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(DreamMaker), 200)]
 		public async Task<IActionResult> Read(CancellationToken cancellationToken)
 		{
-			var instance = instanceManager.GetInstance(Instance);
 			var dreamMakerSettings = await DatabaseContext
 				.DreamMakerSettings
 				.AsQueryable()
@@ -140,25 +133,26 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpPut]
 		[TgsAuthorize(DreamMakerRights.Compile)]
 		[ProducesResponseType(typeof(Api.Models.Job), 202)]
-		public async Task<IActionResult> Create(CancellationToken cancellationToken)
-		{
-			var job = new Models.Job
-			{
-				Description = "Compile active repository code",
-				StartedBy = AuthenticationContext.User,
-				CancelRightsType = RightsType.DreamMaker,
-				CancelRight = (ulong)DreamMakerRights.CancelCompile,
-				Instance = Instance
-			};
+		public Task<IActionResult> Create(CancellationToken cancellationToken)
+			=> WithComponentInstance(
+				async instance =>
+				{
+					var job = new Models.Job
+					{
+						Description = "Compile active repository code",
+						StartedBy = AuthenticationContext.User,
+						CancelRightsType = RightsType.DreamMaker,
+						CancelRight = (ulong)DreamMakerRights.CancelCompile,
+						Instance = Instance
+					};
 
-			IInstance instance = instanceManager.GetInstance(Instance);
-			await jobManager.RegisterOperation(
-				job,
-				instance.DreamMaker.DeploymentProcess,
-				cancellationToken)
-				.ConfigureAwait(false);
-			return Accepted(job.ToApi());
-		}
+					await jobManager.RegisterOperation(
+						job,
+						instance.DreamMaker.DeploymentProcess,
+						cancellationToken)
+						.ConfigureAwait(false);
+					return Accepted(job.ToApi());
+				});
 
 		/// <summary>
 		/// Update deployment settings.

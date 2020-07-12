@@ -552,5 +552,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("Cannot perform this operation as DreamDaemon is not currently running!")]
 		DreamDaemonOffline,
+
+		/// <summary>
+		/// Attempted to perform an instance operation with an offline instance.
+		/// </summary>
+		[Description("The instance associated with the operation is currently offline!")]
+		InstanceOffline
 	}
 }

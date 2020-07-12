@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -33,10 +32,13 @@ namespace Tgstation.Server.Host.Controllers
 	public sealed class InstanceController : ApiController
 	{
 		/// <summary>
-		/// File name to allow attaching instances
+		/// File name to allow attaching instances.
 		/// </summary>
-		const string InstanceAttachFileName = "TGS4_ALLOW_INSTANCE_ATTACH";
+		public const string InstanceAttachFileName = "TGS4_ALLOW_INSTANCE_ATTACH";
 
+		/// <summary>
+		/// Prefix for move <see cref="Api.Models.Job"/>s.
+		/// </summary>
 		const string MoveInstanceJobPrefix = "Move instance ID ";
 
 		/// <summary>
@@ -154,7 +156,8 @@ namespace Tgstation.Server.Host.Controllers
 			if (String.IsNullOrWhiteSpace(model.Name))
 				return BadRequest(new ErrorMessage(ErrorCode.InstanceWhitespaceName));
 
-			var targetInstancePath = NormalizePath(model.Path);
+			var unNormalizedPath = model.Path;
+			var targetInstancePath = NormalizePath(unNormalizedPath);
 			model.Path = targetInstancePath;
 
 			var installationDirectoryPath = NormalizePath(DefaultIOManager.CurrentDirectory);
@@ -288,7 +291,7 @@ namespace Tgstation.Server.Host.Controllers
 				try
 				{
 					// actually reserve it now
-					await ioManager.CreateDirectory(targetInstancePath, cancellationToken).ConfigureAwait(false);
+					await ioManager.CreateDirectory(unNormalizedPath, cancellationToken).ConfigureAwait(false);
 					await ioManager.DeleteFile(ioManager.ConcatPath(targetInstancePath, InstanceAttachFileName), cancellationToken).ConfigureAwait(false);
 				}
 				catch
@@ -342,7 +345,17 @@ namespace Tgstation.Server.Host.Controllers
 			DatabaseContext.Instances.Remove(originalModel);
 
 			var attachFileName = ioManager.ConcatPath(originalModel.Path, InstanceAttachFileName);
-			await ioManager.WriteAllBytes(attachFileName, Array.Empty<byte>(), cancellationToken).ConfigureAwait(false);
+			try
+			{
+				await ioManager.WriteAllBytes(attachFileName, Array.Empty<byte>(), cancellationToken).ConfigureAwait(false);
+			}
+			catch (OperationCanceledException)
+			{
+				// DCT: Operation must always run
+				await ioManager.DeleteFile(attachFileName, default).ConfigureAwait(false);
+				throw;
+			}
+
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false); // cascades everything
 			return NoContent();
 		}
@@ -383,7 +396,12 @@ namespace Tgstation.Server.Host.Controllers
 				}).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
 			if (moveJob != default)
+			{
+				// don't allow them to cancel it if they can't start it.
+				if (!AuthenticationContext.User.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.Relocate))
+					return Forbid();
 				await jobManager.CancelJob(moveJob, AuthenticationContext.User, true, cancellationToken).ConfigureAwait(false); // cancel it now
+			}
 
 			var originalModel = await InstanceQuery()
 				.Include(x => x.RepositorySettings)
@@ -394,7 +412,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (originalModel == default(Models.Instance))
 				return Gone();
 
-			if (ValidateInstanceOnlineStatus(originalModel))
+			if (InstanceRequiredController.ValidateInstanceOnlineStatus(instanceManager, Logger, originalModel))
 				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
 			var userRights = (InstanceManagerRights)AuthenticationContext.GetRight(RightsType.InstanceManager);
@@ -419,7 +437,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				rawPath = NormalizePath(model.Path);
 
-				if (model.Path != originalModel.Path)
+				if (rawPath != originalModel.Path)
 				{
 					if (!userRights.HasFlag(InstanceManagerRights.Relocate))
 						return Forbid();
@@ -431,7 +449,7 @@ namespace Tgstation.Server.Host.Controllers
 						return Conflict(new ErrorMessage(ErrorCode.InstanceAtExistingPath));
 
 					originalModelPath = originalModel.Path;
-					originalModel.Path = model.Path;
+					originalModel.Path = rawPath;
 				}
 			}
 
@@ -462,7 +480,11 @@ namespace Tgstation.Server.Host.Controllers
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
 			if (renamed)
-				await instanceManager.GetInstance(originalModel).InstanceRenamed(originalModel.Name, cancellationToken).ConfigureAwait(false);
+			{
+				var componentInstance = instanceManager.GetInstance(originalModel);
+				if (componentInstance != null)
+					await componentInstance.InstanceRenamed(originalModel.Name, cancellationToken).ConfigureAwait(false);
+			}
 
 			var oldAutoStart = originalModel.DreamDaemonSettings.AutoStart;
 			try
@@ -501,19 +523,27 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				var job = new Models.Job
 				{
-					Description = String.Format(CultureInfo.InvariantCulture, MoveInstanceJobPrefix + "{0} from {1} to {2}", originalModel.Id, originalModel.Path, rawPath),
+					Description = $"{MoveInstanceJobPrefix}{originalModel.Id} from {originalModelPath} to {rawPath}",
 					Instance = originalModel,
 					CancelRightsType = RightsType.InstanceManager,
 					CancelRight = (ulong)InstanceManagerRights.Relocate,
 					StartedBy = AuthenticationContext.User
 				};
 
-				await jobManager.RegisterOperation(job, (paramJob, databaseContextFactory, progressHandler, ct) => instanceManager.MoveInstance(originalModel, rawPath, ct), cancellationToken).ConfigureAwait(false);
+				await jobManager.RegisterOperation(
+					job,
+					(paramJob, databaseContextFactory, progressHandler, ct) => instanceManager.MoveInstance(originalModel, originalModelPath, ct),
+					cancellationToken)
+					.ConfigureAwait(false);
 				api.MoveJob = job.ToApi();
 			}
 
-			if (originalModel.Online.Value && model.AutoUpdateInterval.HasValue && oldAutoUpdateInterval != model.AutoUpdateInterval)
-				await instanceManager.GetInstance(originalModel).SetAutoUpdateInterval(model.AutoUpdateInterval.Value).ConfigureAwait(false);
+			if (model.AutoUpdateInterval.HasValue && oldAutoUpdateInterval != model.AutoUpdateInterval)
+			{
+				var componentInstance = instanceManager.GetInstance(originalModel);
+				if (componentInstance != null)
+					await componentInstance.SetAutoUpdateInterval(model.AutoUpdateInterval.Value).ConfigureAwait(false);
+			}
 
 			return moving ? (IActionResult)Accepted(api) : Json(api);
 		}
@@ -564,7 +594,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var needsUpdate = false;
 			foreach (var instance in instances)
-				needsUpdate |= ValidateInstanceOnlineStatus(instance);
+				needsUpdate |= InstanceRequiredController.ValidateInstanceOnlineStatus(instanceManager, Logger, instance);
 
 			if (needsUpdate)
 				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
@@ -607,7 +637,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (instance == null)
 				return Gone();
 
-			if (ValidateInstanceOnlineStatus(instance))
+			if (InstanceRequiredController.ValidateInstanceOnlineStatus(instanceManager, Logger, instance))
 				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
 			if (cantList && !instance.InstanceUsers.Any(instanceUser => instanceUser.UserId == AuthenticationContext.User.Id &&
@@ -666,40 +696,6 @@ namespace Tgstation.Server.Host.Controllers
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
 			return NoContent();
-		}
-
-		/// <summary>
-		/// Corrects discrepencies between the <see cref="Api.Models.Instance.Online"/> status of <see cref="IInstance"/>s in the database vs the service.
-		/// </summary>
-		/// <param name="metadata">The <see cref="Models.Instance"/> to check.</param>
-		/// <returns><see langword="true"/> if an unsaved DB update was made, <see langword="false"/> otherwise.</returns>
-		bool ValidateInstanceOnlineStatus(Models.Instance metadata)
-		{
-			bool online;
-			try
-			{
-				instanceManager.GetInstance(metadata);
-				online = true;
-			}
-			catch (InvalidOperationException ex)
-			{
-				Logger.LogDebug("Expected instance offline exception: {0}", ex);
-				online = false;
-			}
-
-			if (metadata.Online.Value == online)
-				return false;
-
-			const string OfflineWord = "offline";
-			const string OnlineWord = "online";
-
-			Logger.LogWarning(
-				"Instance {0} is says it's {1} in the database, but it is actually {2} in the service. Updating the database to reflect this...",
-				online ? OfflineWord : OnlineWord,
-				online ? OnlineWord : OfflineWord);
-
-			metadata.Online = online;
-			return true;
 		}
 	}
 }
