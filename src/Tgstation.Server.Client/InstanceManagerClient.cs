@@ -17,19 +17,12 @@ namespace Tgstation.Server.Client
 		readonly IApiClient apiClient;
 
 		/// <summary>
-		/// Map of already created <see cref="IInstanceClient"/>s
-		/// </summary>
-		readonly Dictionary<long, IInstanceClient> cachedClients;
-
-		/// <summary>
 		/// Construct an <see cref="InstanceManagerClient"/>
 		/// </summary>
 		/// <param name="apiClient">The value of <see cref="apiClient"/></param>
 		public InstanceManagerClient(IApiClient apiClient)
 		{
 			this.apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
-
-			cachedClients = new Dictionary<long, IInstanceClient>();
 		}
 
 		/// <inheritdoc />
@@ -51,15 +44,6 @@ namespace Tgstation.Server.Client
 		public Task GrantPermissions(Instance instance, CancellationToken cancellationToken) => apiClient.Patch(Routes.SetID(Routes.InstanceManager, instance?.Id ?? throw new ArgumentNullException(nameof(instance))), cancellationToken);
 
 		/// <inheritdoc />
-		public IInstanceClient CreateClient(Instance instance)
-		{
-			if (!cachedClients.TryGetValue(instance?.Id ?? throw new ArgumentNullException(nameof(instance)), out var client))
-			{
-				client = new InstanceClient(apiClient, instance);
-				cachedClients.Add(instance.Id, client);
-			}
-
-			return client;
-		}
+		public IInstanceClient CreateClient(Instance instance) => new InstanceClient(apiClient, instance);
 	}
 }
