@@ -595,7 +595,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			Logger.LogTrace("Entered MonitorLifetimes");
 			Status = WatchdogStatus.Online;
-			using var _ = cancellationToken.Register(() => Logger.LogTrace("Monitor cancellationToken triggered"));
+			using var cancellationTokenLoggingRegistration = cancellationToken.Register(() => Logger.LogTrace("Monitor cancellationToken triggered"));
 
 			// this function is responsible for calling HandlerMonitorWakeup when necessary and manitaining the MonitorState
 			try
