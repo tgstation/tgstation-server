@@ -154,7 +154,7 @@ namespace Tgstation.Server.Host.Controllers
 						};
 						await jobManager.RegisterOperation(
 							job,
-							(paramJob, databaseContextFactory, progressHandler, jobCancellationToken) => byondManager.ChangeVersion(
+							(core, databaseContextFactory, paramJob, progressHandler, jobCancellationToken) => core.ByondManager.ChangeVersion(
 								model.Version,
 								model.Content,
 								jobCancellationToken),

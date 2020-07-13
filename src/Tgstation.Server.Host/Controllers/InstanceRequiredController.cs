@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Serilog.Context;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -48,7 +49,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (ValidateInstanceOnlineStatus(instanceManager, Logger, Instance))
 				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
-			if (instanceManager.GetInstance(Instance) == null)
+			if (instanceManager.GetInstanceReference(Instance) == null)
 				return Conflict(new ErrorMessage(ErrorCode.InstanceOffline));
 			return null;
 		}
@@ -59,15 +60,18 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="action">A <see cref="Func{T, TResult}"/> accepting the <see cref="IInstance"/> and returning a <see cref="Task{TResult}"/> with the <see cref="IActionResult"/>.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> that should be returned.</returns>
 		/// <remarks>The context of <paramref name="action"/> should be as small as possinle so as to avoid race conditions.</remarks>
-		protected async Task<IActionResult> WithComponentInstance(Func<IInstance, Task<IActionResult>> action)
+		protected async Task<IActionResult> WithComponentInstance(Func<IInstanceCore, Task<IActionResult>> action)
 		{
 			if (action == null)
 				throw new ArgumentNullException(nameof(action));
 
-			var componentInstance = instanceManager.GetInstance(Instance);
-			if (componentInstance == null)
-				return Conflict(new ErrorMessage(ErrorCode.InstanceOffline));
-			return await action(componentInstance).ConfigureAwait(false);
+			using var instanceReference = instanceManager.GetInstanceReference(Instance);
+			using (LogContext.PushProperty("InstanceReference", instanceReference.Uid))
+			{
+				if (instanceReference == null)
+					return Conflict(new ErrorMessage(ErrorCode.InstanceOffline));
+				return await action(instanceReference).ConfigureAwait(false);
+			}
 		}
 
 		/// <summary>
@@ -84,7 +88,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (metadata == null)
 				throw new ArgumentNullException(nameof(metadata));
 
-			var online = instanceManager.GetInstance(metadata) != null;
+			var online = instanceManager.GetInstanceReference(metadata) != null;
 
 			if (metadata.Online.Value == online)
 				return false;

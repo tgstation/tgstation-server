@@ -132,7 +132,7 @@ namespace Tgstation.Server.Host.Core
 					var formatter = new MessageTemplateTextFormatter(
 						"{Timestamp:o} "
 						+ ServiceCollectionExtensions.SerilogContextTemplate
-						+ ": [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}",
+						+ "|IR:{InstanceReference}){): [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}",
 						null);
 
 					logPath = IOManager.ConcatPath(logPath, "tgs-.log");
@@ -301,6 +301,7 @@ namespace Tgstation.Server.Host.Core
 
 			services.AddSingleton<InstanceManager>();
 			services.AddSingleton<IBridgeDispatcher>(x => x.GetRequiredService<InstanceManager>());
+			services.AddSingleton(x => new Lazy<IInstanceCoreProvider>(() => x.GetRequiredService<InstanceManager>()));
 			services.AddSingleton<IInstanceManager>(x => x.GetRequiredService<InstanceManager>());
 		}
 

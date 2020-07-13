@@ -15,20 +15,23 @@ namespace Tgstation.Server.Host.Jobs
 		readonly CancellationTokenSource cancellationTokenSource;
 
 		/// <summary>
+		/// A <see cref="Func{T, TResult}"/> taking a <see cref="CancellationToken"/> and returning a <see cref="Task"/> that the <see cref="JobHandler"/> will wrap
+		/// </summary>
+		readonly Func<CancellationToken, Task> jobActivator;
+
+		/// <summary>
 		/// The <see cref="Task"/> being run
 		/// </summary>
-		readonly Task task;
+		Task task;
 
 		/// <summary>
 		/// Construct a <see cref="JobHandler"/>
 		/// </summary>
-		/// <param name="job">A <see cref="Func{T, TResult}"/> taking a <see cref="CancellationToken"/> and returning a <see cref="Task"/> that the <see cref="JobHandler"/> will wrap</param>
-		public JobHandler(Func<CancellationToken, Task> job)
+		/// <param name="jobActivator">The value of <see cref="jobActivator"/>.</param>
+		public JobHandler(Func<CancellationToken, Task> jobActivator)
 		{
-			if (job == null)
-				throw new ArgumentNullException(nameof(job));
+			this.jobActivator = jobActivator ?? throw new ArgumentNullException(nameof(jobActivator));
 			cancellationTokenSource = new CancellationTokenSource();
-			task = job(cancellationTokenSource.Token);
 		}
 
 		/// <inheritdoc />
@@ -46,6 +49,9 @@ namespace Tgstation.Server.Host.Jobs
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		public async Task Wait(CancellationToken cancellationToken)
 		{
+			if (task == null)
+				throw new InvalidOperationException("Job not started!");
+
 			TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
 			using (cancellationToken.Register(() => tcs.SetCanceled()))
 				await Task.WhenAny(tcs.Task, task).ConfigureAwait(false);
@@ -56,5 +62,18 @@ namespace Tgstation.Server.Host.Jobs
 		/// Cancels <see cref="task"/>
 		/// </summary>
 		public void Cancel() => cancellationTokenSource.Cancel();
+
+		/// <summary>
+		/// Starts the job.
+		/// </summary>
+		public void Start()
+		{
+			lock (cancellationTokenSource)
+			{
+				if (task != null)
+					throw new InvalidOperationException("Job already started");
+				task = jobActivator(cancellationTokenSource.Token);
+			}
+		}
 	}
 }

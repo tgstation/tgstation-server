@@ -912,11 +912,16 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				CancelRight = (ulong)DreamDaemonRights.Shutdown,
 				CancelRightsType = RightsType.DreamDaemon
 			};
-			await jobManager.RegisterOperation(job, async (j, databaseContextFactory, progressFunction, ct) =>
-			{
-				using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, ct).ConfigureAwait(false))
-					await LaunchNoLock(true, true, true, reattachInfo, ct).ConfigureAwait(false);
-			}, cancellationToken).ConfigureAwait(false);
+			await jobManager.RegisterOperation(
+				job,
+				async (core, databaseContextFactory, paramJob, progressFunction, ct) =>
+				{
+					// core will certainly be null here since jobs started before the instance is onlined can't provide one
+					using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, ct).ConfigureAwait(false))
+						await LaunchNoLock(true, true, true, reattachInfo, ct).ConfigureAwait(false);
+				},
+				cancellationToken)
+				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />

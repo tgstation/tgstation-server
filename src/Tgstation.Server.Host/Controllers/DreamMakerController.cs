@@ -133,26 +133,25 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpPut]
 		[TgsAuthorize(DreamMakerRights.Compile)]
 		[ProducesResponseType(typeof(Api.Models.Job), 202)]
-		public Task<IActionResult> Create(CancellationToken cancellationToken)
-			=> WithComponentInstance(
-				async instance =>
-				{
-					var job = new Models.Job
-					{
-						Description = "Compile active repository code",
-						StartedBy = AuthenticationContext.User,
-						CancelRightsType = RightsType.DreamMaker,
-						CancelRight = (ulong)DreamMakerRights.CancelCompile,
-						Instance = Instance
-					};
+		public async Task<IActionResult> Create(CancellationToken cancellationToken)
+		{
+			var job = new Models.Job
+			{
+				Description = "Compile active repository code",
+				StartedBy = AuthenticationContext.User,
+				CancelRightsType = RightsType.DreamMaker,
+				CancelRight = (ulong)DreamMakerRights.CancelCompile,
+				Instance = Instance
+			};
 
-					await jobManager.RegisterOperation(
-						job,
-						instance.DreamMaker.DeploymentProcess,
-						cancellationToken)
-						.ConfigureAwait(false);
-					return Accepted(job.ToApi());
-				});
+			await jobManager.RegisterOperation(
+				job,
+				(core, databaseContextFactory, paramJob, progressReporter, jobCancellationToken)
+					=> core.DreamMaker.DeploymentProcess(paramJob, databaseContextFactory, progressReporter, jobCancellationToken),
+				cancellationToken)
+				.ConfigureAwait(false);
+			return Accepted(job.ToApi());
+		}
 
 		/// <summary>
 		/// Update deployment settings.

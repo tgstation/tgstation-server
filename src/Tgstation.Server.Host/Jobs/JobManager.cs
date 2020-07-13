@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Models;
 
@@ -25,6 +26,11 @@ namespace Tgstation.Server.Host.Jobs
 		readonly ILogger<JobManager> logger;
 
 		/// <summary>
+		/// The <see cref="IInstanceCoreProvider"/> for the <see cref="JobManager"/>.
+		/// </summary>
+		readonly Lazy<IInstanceCoreProvider> instanceCoreProvider;
+
+		/// <summary>
 		/// <see cref="Dictionary{TKey, TValue}"/> of <see cref="Job"/> <see cref="Api.Models.EntityId.Id"/>s to running <see cref="JobHandler"/>s
 		/// </summary>
 		readonly Dictionary<long, JobHandler> jobs;
@@ -38,10 +44,12 @@ namespace Tgstation.Server.Host.Jobs
 		/// Construct a <see cref="JobManager"/>
 		/// </summary>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
+		/// <param name="instanceCoreProvider">The value of <see cref="instanceCoreProvider"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		public JobManager(IDatabaseContextFactory databaseContextFactory, ILogger<JobManager> logger)
+		public JobManager(IDatabaseContextFactory databaseContextFactory, Lazy<IInstanceCoreProvider> instanceCoreProvider, ILogger<JobManager> logger)
 		{
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
+			this.instanceCoreProvider = instanceCoreProvider ?? throw new ArgumentNullException(nameof(instanceCoreProvider));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			jobs = new Dictionary<long, JobHandler>();
 			synchronizationLock = new object();
@@ -73,10 +81,10 @@ namespace Tgstation.Server.Host.Jobs
 		/// Runner for <see cref="JobHandler"/>s
 		/// </summary>
 		/// <param name="job">The <see cref="Job"/> being run</param>
-		/// <param name="operation">The operation for the <paramref name="job"/></param>
+		/// <param name="operation">The <see cref="JobEntrypoint"/> for the <paramref name="job"/></param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		async Task RunJob(Job job, Func<Job, IDatabaseContextFactory, CancellationToken, Task> operation, CancellationToken cancellationToken)
+		async Task RunJob(Job job, JobEntrypoint operation, CancellationToken cancellationToken)
 		{
 			using (LogContext.PushProperty("Job", job.Id))
 				try
@@ -87,7 +95,20 @@ namespace Tgstation.Server.Host.Jobs
 						var oldJob = job;
 						job = new Job { Id = oldJob.Id };
 
-						await operation(job, databaseContextFactory, cancellationToken).ConfigureAwait(false);
+						void UpdateProgress(int progress)
+						{
+							lock (synchronizationLock)
+								if (jobs.TryGetValue(oldJob.Id, out var handler))
+									handler.Progress = progress;
+						}
+
+						await operation(
+							instanceCoreProvider.Value.GetInstance(oldJob.Instance),
+							databaseContextFactory,
+							job,
+							UpdateProgress,
+							cancellationToken)
+							.ConfigureAwait(false);
 
 						logger.LogDebug("Job {0} completed!", job.Id);
 					}
@@ -144,43 +165,50 @@ namespace Tgstation.Server.Host.Jobs
 		}
 
 		/// <inheritdoc />
-		public Task RegisterOperation(Job job, Func<Job, IDatabaseContextFactory, Action<int>, CancellationToken, Task> operation, CancellationToken cancellationToken) => databaseContextFactory.UseContext(async databaseContext =>
-		{
-			if (job == null)
-				throw new ArgumentNullException(nameof(job));
-			if (operation == null)
-				throw new ArgumentNullException(nameof(operation));
+		public Task RegisterOperation(Job job, JobEntrypoint operation, CancellationToken cancellationToken)
+			=> databaseContextFactory.UseContext(
+				async databaseContext =>
+				{
+					if (job == null)
+						throw new ArgumentNullException(nameof(job));
+					if (operation == null)
+						throw new ArgumentNullException(nameof(operation));
 
-			job.StartedAt = DateTimeOffset.Now;
-			job.Cancelled = false;
+					job.StartedAt = DateTimeOffset.Now;
+					job.Cancelled = false;
 
-			job.Instance = new Instance
-			{
-				Id = job.Instance.Id
-			};
-			databaseContext.Instances.Attach(job.Instance);
+					job.Instance = new Models.Instance
+					{
+						Id = job.Instance.Id
+					};
+					databaseContext.Instances.Attach(job.Instance);
 
-			job.StartedBy = new User
-			{
-				Id = job.StartedBy.Id
-			};
-			databaseContext.Users.Attach(job.StartedBy);
+					job.StartedBy = new User
+					{
+						Id = job.StartedBy.Id
+					};
+					databaseContext.Users.Attach(job.StartedBy);
 
-			databaseContext.Jobs.Add(job);
+					databaseContext.Jobs.Add(job);
 
-			await databaseContext.Save(cancellationToken).ConfigureAwait(false);
-			logger.LogDebug("Starting job {0}: {1}...", job.Id, job.Description);
-			var jobHandler = new JobHandler(x => RunJob(job, (jobParam, serviceProvider, ct) =>
-			operation(jobParam, serviceProvider, y =>
-			{
-				lock (synchronizationLock)
-					if (jobs.TryGetValue(job.Id, out var handler))
-						handler.Progress = y;
-			}, ct),
-			x));
-			lock (synchronizationLock)
-				jobs.Add(job.Id, jobHandler);
-		});
+					await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+
+					logger.LogDebug("Starting job {0}: {1}...", job.Id, job.Description);
+					var jobHandler = new JobHandler(jobCancellationToken => RunJob(job, operation, jobCancellationToken));
+					try
+					{
+						lock (synchronizationLock)
+						{
+							jobs.Add(job.Id, jobHandler);
+							jobHandler.Start();
+						}
+					}
+					catch
+					{
+						jobHandler.Dispose();
+						throw;
+					}
+				});
 
 		/// <inheritdoc />
 		public async Task StartAsync(CancellationToken cancellationToken)

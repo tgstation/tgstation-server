@@ -481,7 +481,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (renamed)
 			{
-				var componentInstance = instanceManager.GetInstance(originalModel);
+				var componentInstance = instanceManager.GetInstanceReference(originalModel);
 				if (componentInstance != null)
 					await componentInstance.InstanceRenamed(originalModel.Name, cancellationToken).ConfigureAwait(false);
 			}
@@ -532,7 +532,8 @@ namespace Tgstation.Server.Host.Controllers
 
 				await jobManager.RegisterOperation(
 					job,
-					(paramJob, databaseContextFactory, progressHandler, ct) => instanceManager.MoveInstance(originalModel, originalModelPath, ct),
+					(core, databaseContextFactory, paramJob, progressHandler, ct) // core will be null here since the instance is offline
+						=> instanceManager.MoveInstance(originalModel, originalModelPath, ct),
 					cancellationToken)
 					.ConfigureAwait(false);
 				api.MoveJob = job.ToApi();
@@ -540,7 +541,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (model.AutoUpdateInterval.HasValue && oldAutoUpdateInterval != model.AutoUpdateInterval)
 			{
-				var componentInstance = instanceManager.GetInstance(originalModel);
+				var componentInstance = instanceManager.GetInstanceReference(originalModel);
 				if (componentInstance != null)
 					await componentInstance.SetAutoUpdateInterval(model.AutoUpdateInterval.Value).ConfigureAwait(false);
 			}

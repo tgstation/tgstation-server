@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.Hosting;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Jobs
@@ -23,10 +21,10 @@ namespace Tgstation.Server.Host.Jobs
 		/// Registers a given <see cref="Job"/> and begins running it
 		/// </summary>
 		/// <param name="job">The <see cref="Job"/></param>
-		/// <param name="operation">The operation to run taking the started <see cref="Job"/>, a <see cref="IDatabaseContextFactory"/>, progress reporter <see cref="Action{T1}"/> and a <see cref="CancellationToken"/></param>
+		/// <param name="operation">The <see cref="JobEntrypoint"/> for the <paramref name="job"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing a running operation</returns>
-		Task RegisterOperation(Job job, Func<Job, IDatabaseContextFactory, Action<int>, CancellationToken, Task> operation, CancellationToken cancellationToken);
+		Task RegisterOperation(Job job, JobEntrypoint operation, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Wait for a given <paramref name="job"/> to complete

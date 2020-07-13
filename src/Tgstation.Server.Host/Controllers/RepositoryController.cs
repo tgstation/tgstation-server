@@ -211,8 +211,9 @@ namespace Tgstation.Server.Host.Controllers
 						Instance = Instance
 					};
 					var api = currentModel.ToApi();
-					await jobManager.RegisterOperation(job, async (paramJob, databaseContextFactory, progressReporter, ct) =>
+					await jobManager.RegisterOperation(job, async (core, databaseContextFactory, paramJob, progressReporter, ct) =>
 					{
+						var repoManager = core.RepositoryManager;
 						using var repos = await repoManager.CloneRepository(
 							new Uri(origin),
 							cloneBranch,
@@ -284,18 +285,13 @@ namespace Tgstation.Server.Host.Controllers
 				Instance = Instance
 			};
 			var api = currentModel.ToApi();
-			return await WithComponentInstance(
-				async instance =>
-				{
-					await jobManager.RegisterOperation(
-						job,
-						(paramJob, databaseContextFactory, progressReporter, ct) => instance.RepositoryManager.DeleteRepository(ct),
-						cancellationToken)
-					.ConfigureAwait(false);
-					api.ActiveJob = job.ToApi();
-					return Accepted(api);
-				})
-				.ConfigureAwait(false);
+			await jobManager.RegisterOperation(
+				job,
+				(core, databaseContextFactory, paramJob, progressReporter, ct) => core.RepositoryManager.DeleteRepository(ct),
+				cancellationToken)
+			.ConfigureAwait(false);
+			api.ActiveJob = job.ToApi();
+			return Accepted(api);
 		}
 
 		/// <summary>
@@ -363,8 +359,8 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(Repository), 200)]
 		[ProducesResponseType(typeof(Repository), 202)]
 		[ProducesResponseType(typeof(ErrorMessage), 410)]
-		#pragma warning disable CA1502, CA1505 // TODO: Decomplexify
-		public async Task<IActionResult> Update([FromBody]Repository model, CancellationToken cancellationToken)
+#pragma warning disable CA1502, CA1505 // TODO: Decomplexify
+		public async Task<IActionResult> Update([FromBody] Repository model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
@@ -494,7 +490,7 @@ namespace Tgstation.Server.Host.Controllers
 				return Json(api); // no git changes
 
 			async Task<IActionResult> UpdateCallbackThatDesperatelyNeedsRefactoring(
-				IInstance instance,
+				IInstanceCore instance,
 				IDatabaseContextFactory databaseContextFactory,
 				Action<int> progressReporter,
 				CancellationToken ct)
@@ -897,13 +893,12 @@ namespace Tgstation.Server.Host.Controllers
 			// Time to access git, do it in a job
 			await jobManager.RegisterOperation(
 				job,
-				(paramJob, databaseContextFactory, progressReporter, ct)
-					=> WithComponentInstance( // Will never fail in the context of a job
-						instance => UpdateCallbackThatDesperatelyNeedsRefactoring(
-							instance,
-							databaseContextFactory,
-							progressReporter,
-							ct)),
+				(core, databaseContextFactory, paramJob, progressReporter, ct) =>
+					UpdateCallbackThatDesperatelyNeedsRefactoring(
+						core,
+						databaseContextFactory,
+						progressReporter,
+						ct),
 				cancellationToken)
 				.ConfigureAwait(false);
 

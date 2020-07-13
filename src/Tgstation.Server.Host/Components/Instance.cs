@@ -23,6 +23,11 @@ namespace Tgstation.Server.Host.Components
 	#pragma warning disable CA1506 // TODO: Decomplexify
 	sealed class Instance : IInstance
 	{
+		/// <summary>
+		/// Message for the <see cref="InvalidOperationException"/> if ever a job starts on a different <see cref="IInstanceCore"/> than the one that queued it.
+		/// </summary>
+		public const string DifferentCoreExceptionMessage = "Job started on different instance core!";
+
 		/// <inheritdoc />
 		public IRepositoryManager RepositoryManager { get; }
 
@@ -186,8 +191,11 @@ namespace Tgstation.Server.Host.Components
 						};
 
 						string deploySha = null;
-						await jobManager.RegisterOperation(repositoryUpdateJob, async (paramJob, databaseContextFactory, progressReporter, jobCancellationToken) =>
+						await jobManager.RegisterOperation(repositoryUpdateJob, async (core, databaseContextFactory, paramJob, progressReporter, jobCancellationToken) =>
 						{
+							if (core != this)
+								throw new InvalidOperationException(DifferentCoreExceptionMessage);
+
 							// assume 5 steps with synchronize
 							const int ProgressSections = 7;
 							const int ProgressStep = 100 / ProgressSections;
@@ -373,7 +381,16 @@ namespace Tgstation.Server.Host.Components
 
 						await jobManager.RegisterOperation(
 							compileProcessJob,
-							DreamMaker.DeploymentProcess,
+							(core, databaseContextFactory, job, progressReporter, jobCancellationToken) =>
+							{
+								if (core != this)
+									throw new InvalidOperationException(DifferentCoreExceptionMessage);
+								return DreamMaker.DeploymentProcess(
+									job,
+									databaseContextFactory,
+									progressReporter,
+									jobCancellationToken);
+							},
 							cancellationToken).ConfigureAwait(false);
 
 						await jobManager.WaitForJobCompletion(compileProcessJob, systemUser, default, cancellationToken).ConfigureAwait(false);

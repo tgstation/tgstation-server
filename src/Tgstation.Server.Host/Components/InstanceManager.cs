@@ -24,7 +24,13 @@ using Tgstation.Server.Host.System;
 namespace Tgstation.Server.Host.Components
 {
 	/// <inheritdoc />
-	sealed class InstanceManager : IInstanceManager, IRestartHandler, IHostedService, IBridgeRegistrar, IAsyncDisposable
+	sealed class InstanceManager :
+		IInstanceManager,
+		IInstanceCoreProvider,
+		IRestartHandler,
+		IHostedService,
+		IBridgeRegistrar,
+		IAsyncDisposable
 	{
 		/// <inheritdoc />
 		public Task Ready => readyTcs.Task;
@@ -90,14 +96,19 @@ namespace Tgstation.Server.Host.Components
 		readonly ILogger<InstanceManager> logger;
 
 		/// <summary>
-		/// Map of instance <see cref="EntityId.Id"/>s to respective <see cref="IInstance"/>s. Also used as a <see langword="lock"/> <see cref="object"/>.
+		/// Map of instance <see cref="EntityId.Id"/>s to respective <see cref="InstanceContainer"/>s. Also used as a <see langword="lock"/> <see cref="object"/>.
 		/// </summary>
-		readonly IDictionary<long, IInstance> instances;
+		readonly IDictionary<long, InstanceContainer> instances;
 
 		/// <summary>
 		/// Map of <see cref="DMApiParameters.AccessIdentifier"/>s to their respective <see cref="IBridgeHandler"/>s.
 		/// </summary>
 		readonly IDictionary<string, IBridgeHandler> bridgeHandlers;
+
+		/// <summary>
+		/// <see cref="SemaphoreSlim"/> used to guard calls to <see cref="OnlineInstance(Models.Instance, CancellationToken)"/> and <see cref="OfflineInstance(Models.Instance, Models.User, CancellationToken)"/>.
+		/// </summary>
+		readonly SemaphoreSlim instanceStateChangeSemaphore;
 
 		/// <summary>
 		/// The <see cref="GeneralConfiguration"/> for the <see cref="InstanceManager"/>.
@@ -163,9 +174,10 @@ namespace Tgstation.Server.Host.Components
 
 			lazyRestartRegistration = new Lazy<IRestartRegistration>(() => serverControl.RegisterForRestart(this));
 
-			instances = new Dictionary<long, IInstance>();
+			instances = new Dictionary<long, InstanceContainer>();
 			bridgeHandlers = new Dictionary<string, IBridgeHandler>();
 			readyTcs = new TaskCompletionSource<object>();
+			instanceStateChangeSemaphore = new SemaphoreSlim(1);
 		}
 
 		/// <inheritdoc />
@@ -179,22 +191,29 @@ namespace Tgstation.Server.Host.Components
 			}
 
 			foreach (var I in instances)
-				await I.Value.DisposeAsync().ConfigureAwait(false);
+				await I.Value.Instance.DisposeAsync().ConfigureAwait(false);
 
 			lazyRestartRegistration.Value.Dispose();
+			instanceStateChangeSemaphore.Dispose();
 
 			logger.LogInformation("Server shutdown");
 		}
 
 		/// <inheritdoc />
-		public IInstance GetInstance(Models.Instance metadata)
+		public IInstanceReference GetInstanceReference(Models.Instance metadata)
 		{
 			if (metadata == null)
 				throw new ArgumentNullException(nameof(metadata));
+
 			lock (instances)
 			{
-				instances.TryGetValue(metadata.Id, out IInstance instance);
-				return instance; // null if above is false
+				if (!instances.TryGetValue(metadata.Id, out var instance))
+				{
+					logger.LogTrace("Cannot reference instance {0} as it is not online!", metadata.Id);
+					return null;
+				}
+
+				return instance.AddReference();
 			}
 		}
 
@@ -203,7 +222,7 @@ namespace Tgstation.Server.Host.Components
 		{
 			if (oldPath == null)
 				throw new ArgumentNullException(nameof(oldPath));
-			if (GetInstance(instance) != null)
+			if (GetInstanceReference(instance) != null)
 				throw new InvalidOperationException("Cannot move an online instance!");
 			var newPath = instance.Path;
 			try
@@ -268,17 +287,26 @@ namespace Tgstation.Server.Host.Components
 		{
 			if (metadata == null)
 				throw new ArgumentNullException(nameof(metadata));
+
+			using var _ = await SemaphoreSlimContext.Lock(instanceStateChangeSemaphore, cancellationToken).ConfigureAwait(false);
+
 			logger.LogInformation("Offlining instance ID {0}", metadata.Id);
-			IInstance instance;
+			InstanceContainer container;
 			lock (instances)
 			{
-				if (!instances.TryGetValue(metadata.Id, out instance))
-					throw new InvalidOperationException("Instance not online!");
+				if (!instances.TryGetValue(metadata.Id, out container))
+				{
+					logger.LogDebug("Not offlining removed instance {0}", metadata.Id);
+					return;
+				}
+
 				instances.Remove(metadata.Id);
 			}
 
 			try
 			{
+				await container.OnZeroReferences.ConfigureAwait(false);
+
 				// we are the one responsible for cancelling his jobs
 				var tasks = new List<Task>();
 				await databaseContextFactory.UseContext(async db =>
@@ -300,11 +328,11 @@ namespace Tgstation.Server.Host.Components
 
 				await Task.WhenAll(tasks).ConfigureAwait(false);
 
-				await instance.StopAsync(cancellationToken).ConfigureAwait(false);
+				await container.Instance.StopAsync(cancellationToken).ConfigureAwait(false);
 			}
 			finally
 			{
-				await instance.DisposeAsync().ConfigureAwait(false);
+				await container.Instance.DisposeAsync().ConfigureAwait(false);
 			}
 		}
 
@@ -313,15 +341,37 @@ namespace Tgstation.Server.Host.Components
 		{
 			if (metadata == null)
 				throw new ArgumentNullException(nameof(metadata));
+
+			using var _ = await SemaphoreSlimContext.Lock(instanceStateChangeSemaphore, cancellationToken).ConfigureAwait(false);
+			lock (instances)
+				if (instances.ContainsKey(metadata.Id))
+				{
+					logger.LogDebug("Aborting instance creation due to it seemingly already being online");
+					return;
+				}
+
 			logger.LogInformation("Onlining instance ID {0} ({1}) at {2}", metadata.Id, metadata.Name, metadata.Path);
 			var instance = await instanceFactory.CreateInstance(this, metadata).ConfigureAwait(false);
 			try
 			{
-				lock (instances)
+				await instance.StartAsync(cancellationToken).ConfigureAwait(false);
+
+				try
 				{
-					if (instances.ContainsKey(metadata.Id))
-						throw new InvalidOperationException("Instance already online!");
-					instances.Add(metadata.Id, instance);
+					lock (instances)
+						instances.Add(metadata.Id, new InstanceContainer(instance));
+				}
+				catch (Exception ex)
+				{
+					logger.LogError("Unable to commit onlined instance {0} into service, offlining!", metadata.Id);
+					try
+					{
+						await instance.StopAsync(default).ConfigureAwait(false);
+					}
+					catch (Exception innerEx)
+					{
+						throw new AggregateException(innerEx, ex);
+					}
 				}
 			}
 			catch
@@ -329,8 +379,6 @@ namespace Tgstation.Server.Host.Components
 				await instance.DisposeAsync().ConfigureAwait(false);
 				throw;
 			}
-
-			await instance.StartAsync(cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -405,7 +453,7 @@ namespace Tgstation.Server.Host.Components
 		public async Task StopAsync(CancellationToken cancellationToken)
 		{
 			await jobManager.StopAsync(cancellationToken).ConfigureAwait(false);
-			await Task.WhenAll(instances.Select(x => x.Value.StopAsync(cancellationToken))).ConfigureAwait(false);
+			await Task.WhenAll(instances.Select(x => x.Value.Instance.StopAsync(cancellationToken))).ConfigureAwait(false);
 			await instanceFactory.StopAsync(cancellationToken).ConfigureAwait(false);
 
 			// downgrade the db if necessary
@@ -488,6 +536,16 @@ namespace Tgstation.Server.Host.Components
 					logger.LogTrace("Unregistered bridge handler: {0}", accessIdentifier);
 				}
 			});
+		}
+
+		/// <inheritdoc />
+		public IInstanceCore GetInstance(Models.Instance metadata)
+		{
+			lock (instances)
+			{
+				instances.TryGetValue(metadata.Id, out var container);
+				return container?.Instance;
+			}
 		}
 	}
 }

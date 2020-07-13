@@ -16,11 +16,11 @@ namespace Tgstation.Server.Host.Components
 		Task Ready { get; }
 
 		/// <summary>
-		/// Get the <see cref="IInstance"/> associated with given <paramref name="metadata"/>
+		/// Get the <see cref="IInstanceReference"/> associated with given <paramref name="metadata"/>
 		/// </summary>
 		/// <param name="metadata">The <see cref="Models.Instance"/> of the desired <see cref="IInstance"/></param>
 		/// <returns>The <see cref="IInstance"/> associated with the given <paramref name="metadata"/> if it is online, <see langword="null"/> otherwise.</returns>
-		IInstance GetInstance(Models.Instance metadata);
+		IInstanceReference GetInstanceReference(Models.Instance metadata);
 
 		/// <summary>
 		/// Online an <see cref="IInstance"/>
