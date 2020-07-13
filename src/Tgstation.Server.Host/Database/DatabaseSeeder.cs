@@ -249,6 +249,7 @@ namespace Tgstation.Server.Host.Database
 				.Users
 				.AsQueryable()
 				.Where(x => x.CanonicalName == User.CanonicalizeName(Api.Models.User.AdminName))
+				.Include(x => x.CreatedBy)
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);
 			if (admin == default)
