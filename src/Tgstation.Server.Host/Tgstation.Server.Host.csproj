@@ -86,7 +86,7 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.7.1" />
     <PackageReference Include="System.Management" Version="4.7.0" />
     <PackageReference Include="Wangkanai.Detection.Browser" Version="2.0.0" />
-    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="3.0.52" />
+    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="3.0.54" />
   </ItemGroup>
 
   <ItemGroup>
