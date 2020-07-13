@@ -566,7 +566,9 @@ namespace Tgstation.Server.Host.Controllers
 
 								testMergeToAdd.MergedBy = mergedBy;
 
-								lastRevisionInfo.ActiveTestMerges.AddRange(previousRevInfo.ActiveTestMerges);
+								foreach (var activeTestMerge in previousRevInfo.ActiveTestMerges)
+									lastRevisionInfo.ActiveTestMerges.Add(activeTestMerge);
+
 								lastRevisionInfo.ActiveTestMerges.Add(new RevInfoTestMerge
 								{
 									TestMerge = testMergeToAdd

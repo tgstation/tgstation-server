@@ -96,12 +96,17 @@ namespace Tgstation.Server.Host.IO
 
 				var tasks = new List<Task>();
 
-				await dir.EnumerateFiles().ToAsyncEnumerable().ForEachAsync(fileInfo =>
-				{
-					if (ignore != null && ignore.Contains(fileInfo.Name))
-						return;
-					tasks.Add(CopyFile(fileInfo.FullName, Path.Combine(dest, fileInfo.Name), cancellationToken));
-				}).ConfigureAwait(false);
+				await dir.EnumerateFiles()
+					.ToAsyncEnumerable()
+					.ForEachAsync(
+					fileInfo =>
+					{
+						if (ignore != null && ignore.Contains(fileInfo.Name))
+							return;
+						tasks.Add(CopyFile(fileInfo.FullName, Path.Combine(dest, fileInfo.Name), cancellationToken));
+					},
+					cancellationToken)
+					.ConfigureAwait(false);
 
 				await Task.WhenAll(tasks).ConfigureAwait(false);
 			}
@@ -225,7 +230,7 @@ namespace Tgstation.Server.Host.IO
 			using var file = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete, DefaultBufferSize, true);
 			byte[] buf;
 			buf = new byte[file.Length];
-			await file.ReadAsync(buf, 0, (int)file.Length, cancellationToken).ConfigureAwait(false);
+			await file.ReadAsync(buf, cancellationToken).ConfigureAwait(false);
 			return buf;
 		}
 
@@ -240,7 +245,7 @@ namespace Tgstation.Server.Host.IO
 		{
 			path = ResolvePath(path);
 			using var file = OpenWriteStream(path);
-			await file.WriteAsync(contents, 0, contents.Length, cancellationToken).ConfigureAwait(false);
+			await file.WriteAsync(contents, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />

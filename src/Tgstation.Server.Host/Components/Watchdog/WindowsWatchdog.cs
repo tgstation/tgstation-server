@@ -219,7 +219,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			// Add another lock to the startup DMB because it'll be used throughout the lifetime of the watchdog
 			startupDmbProvider = await DmbFactory.FromCompileJob(dmbToUse.CompileJob, cancellationToken).ConfigureAwait(false);
 
-			ActiveSwappable = pendingSwappable ?? new SwappableDmbProvider(dmbToUse, GameIOManager, symlinkFactory);
+			pendingSwappable ??= new SwappableDmbProvider(dmbToUse, GameIOManager, symlinkFactory);
+			ActiveSwappable = pendingSwappable;
 			pendingSwappable = null;
 
 			try

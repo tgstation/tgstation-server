@@ -619,7 +619,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							var heartbeat = heartbeatSeconds == 0
 								|| !controller.DMApiAvailable
 								? Extensions.TaskExtensions.InfiniteTask()
-								: Task.Delay(TimeSpan.FromSeconds(heartbeatSeconds));
+								: Task.Delay(TimeSpan.FromSeconds(heartbeatSeconds), cancellationToken);
 
 							// cancel waiting if requested
 							var cancelTcs = new TaskCompletionSource<object>();

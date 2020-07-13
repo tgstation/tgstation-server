@@ -36,17 +36,17 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// <see cref="User"/>s created by this <see cref="User"/>
 		/// </summary>
-		public List<User> CreatedUsers { get; set; }
+		public ICollection<User> CreatedUsers { get; set; }
 
 		/// <summary>
 		/// The <see cref="InstanceUser"/>s for the <see cref="User"/>
 		/// </summary>
-		public List<InstanceUser> InstanceUsers { get; set; }
+		public ICollection<InstanceUser> InstanceUsers { get; set; }
 
 		/// <summary>
 		/// The <see cref="TestMerge"/>s made by the <see cref="User"/>
 		/// </summary>
-		public List<TestMerge> TestMerges { get; set; }
+		public ICollection<TestMerge> TestMerges { get; set; }
 
 		/// <summary>
 		/// Change a <see cref="Api.Models.Internal.User.Name"/> into a <see cref="CanonicalName"/>.
