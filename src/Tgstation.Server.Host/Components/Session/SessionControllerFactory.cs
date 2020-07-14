@@ -120,7 +120,7 @@ namespace Tgstation.Server.Host.Components.Session
 		{
 			try
 			{
-				SocketExtensions.BindTest(port);
+				SocketExtensions.BindTest(port, false);
 			}
 			catch (SocketException ex) when (ex.SocketErrorCode == SocketError.AddressAlreadyInUse)
 			{

@@ -481,7 +481,7 @@ namespace Tgstation.Server.Host.Components
 
 			// This runs before the real socket is opened, ensures we don't perform reattaches unless we're fairly certain the bind won't fail
 			// If it does fail, DD will be killed.
-			SocketExtensions.BindTest(serverPortProvider.HttpApiPort);
+			SocketExtensions.BindTest(serverPortProvider.HttpApiPort, true);
 		}
 
 		/// <inheritdoc />
