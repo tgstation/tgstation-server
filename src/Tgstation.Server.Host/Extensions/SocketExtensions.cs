@@ -15,7 +15,12 @@ namespace Tgstation.Server.Host.Extensions
 		/// <param name="includeIPv6">If IPV6 should be tested as well.</param>
 		public static void BindTest(ushort port, bool includeIPv6)
 		{
-			using var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+			using var socket = new Socket(
+				includeIPv6
+					? AddressFamily.InterNetworkV6
+					: AddressFamily.InterNetwork,
+				SocketType.Stream,
+				ProtocolType.Tcp);
 			socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ExclusiveAddressUse, true);
 			socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, false);
 			if (includeIPv6)
