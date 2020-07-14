@@ -1,3 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -15,6 +19,9 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Client;
+using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Database.Migrations;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Tests.Instance;
@@ -106,6 +113,54 @@ namespace Tgstation.Server.Tests
 				}
 			} while (true);
 		}
+
+#if DEBUG
+		[TestMethod]
+		public async Task TestDownMigrations()
+		{
+			var connectionString = Environment.GetEnvironmentVariable("TGS4_TEST_CONNECTION_STRING");
+
+			if (String.IsNullOrEmpty(connectionString))
+				Assert.Inconclusive("No connection string configured in env var TGS4_TEST_CONNECTION_STRING!");
+
+			var databaseTypeString = Environment.GetEnvironmentVariable("TGS4_TEST_DATABASE_TYPE");
+			if (!Enum.TryParse<DatabaseType>(databaseTypeString, out var databaseType))
+				Assert.Inconclusive("No/invalid database type configured in env var TGS4_TEST_DATABASE_TYPE!");
+
+			string migrationName = null;
+			DbContext CreateContext()
+			{
+				switch (databaseType)
+				{
+					case DatabaseType.MySql:
+					case DatabaseType.MariaDB:
+						migrationName = nameof(MYInitialCreate);
+						return new MySqlDatabaseContext(Host.Database.Design.DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions<MySqlDatabaseContext>(databaseType, connectionString));
+					case DatabaseType.PostgresSql:
+						migrationName = nameof(PGCreate);
+						return new PostgresSqlDatabaseContext(Host.Database.Design.DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions<PostgresSqlDatabaseContext>(databaseType, connectionString));
+					case DatabaseType.SqlServer:
+						migrationName = nameof(MSInitialCreate);
+						return new SqlServerDatabaseContext(Host.Database.Design.DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions<SqlServerDatabaseContext>(databaseType, connectionString));
+					case DatabaseType.Sqlite:
+						migrationName = nameof(SLRebuild);
+						return new SqliteDatabaseContext(Host.Database.Design.DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions<SqliteDatabaseContext>(databaseType, connectionString));
+				}
+
+				return null;
+			}
+
+			Task Delete(DbContext context) => databaseType == DatabaseType.Sqlite ? Task.CompletedTask : context.Database.EnsureCreatedAsync();
+
+			using var context = CreateContext();
+			await Delete(context);
+			await context.Database.MigrateAsync(default);
+			var dbServiceProvider = ((IInfrastructure<IServiceProvider>)context.Database).Instance;
+			var migrator = dbServiceProvider.GetRequiredService<IMigrator>();
+			await migrator.MigrateAsync(migrationName, default);
+			await Delete(context);
+		}
+#endif
 
 		[TestMethod]
 		public async Task TestServer()
