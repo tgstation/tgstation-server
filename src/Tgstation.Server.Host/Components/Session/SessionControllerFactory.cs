@@ -122,10 +122,8 @@ namespace Tgstation.Server.Host.Components.Session
 			{
 				SocketExtensions.BindTest(port);
 			}
-			catch (SocketException ex)
+			catch (SocketException ex) when (ex.SocketErrorCode == SocketError.AddressAlreadyInUse)
 			{
-				if(ex.SocketErrorCode != SocketError.AddressAlreadyInUse)
-					throw;
 				throw new JobException(ErrorCode.DreamDaemonPortInUse, ex);
 			}
 		}
