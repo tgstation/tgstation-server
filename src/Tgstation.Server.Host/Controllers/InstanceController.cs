@@ -481,7 +481,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (renamed)
 			{
-				var componentInstance = instanceManager.GetInstanceReference(originalModel);
+				using var componentInstance = instanceManager.GetInstanceReference(originalModel);
 				if (componentInstance != null)
 					await componentInstance.InstanceRenamed(originalModel.Name, cancellationToken).ConfigureAwait(false);
 			}
@@ -541,7 +541,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (model.AutoUpdateInterval.HasValue && oldAutoUpdateInterval != model.AutoUpdateInterval)
 			{
-				var componentInstance = instanceManager.GetInstanceReference(originalModel);
+				using var componentInstance = instanceManager.GetInstanceReference(originalModel);
 				if (componentInstance != null)
 					await componentInstance.SetAutoUpdateInterval(model.AutoUpdateInterval.Value).ConfigureAwait(false);
 			}

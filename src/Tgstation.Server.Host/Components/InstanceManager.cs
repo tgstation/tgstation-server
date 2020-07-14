@@ -222,7 +222,8 @@ namespace Tgstation.Server.Host.Components
 		{
 			if (oldPath == null)
 				throw new ArgumentNullException(nameof(oldPath));
-			if (GetInstanceReference(instance) != null)
+			using var instanceReferenceCheck = GetInstanceReference(instance);
+			if (instanceReferenceCheck != null)
 				throw new InvalidOperationException("Cannot move an online instance!");
 			var newPath = instance.Path;
 			try

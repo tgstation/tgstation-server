@@ -49,7 +49,8 @@ namespace Tgstation.Server.Host.Controllers
 			if (ValidateInstanceOnlineStatus(instanceManager, Logger, Instance))
 				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
-			if (instanceManager.GetInstanceReference(Instance) == null)
+			using var instanceReferenceCheck = instanceManager.GetInstanceReference(Instance);
+			if (instanceReferenceCheck == null)
 				return Conflict(new ErrorMessage(ErrorCode.InstanceOffline));
 			return null;
 		}
@@ -88,7 +89,9 @@ namespace Tgstation.Server.Host.Controllers
 			if (metadata == null)
 				throw new ArgumentNullException(nameof(metadata));
 
-			var online = instanceManager.GetInstanceReference(metadata) != null;
+			bool online;
+			using (var instanceReferenceCheck = instanceManager.GetInstanceReference(metadata))
+				online = instanceReferenceCheck != null;
 
 			if (metadata.Online.Value == online)
 				return false;

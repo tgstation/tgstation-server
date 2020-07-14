@@ -2,15 +2,12 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Client;
-using Tgstation.Server.Client.Components;
 using Tgstation.Server.Host.Controllers;
-using Tgstation.Server.Tests.Instance;
 
 namespace Tgstation.Server.Tests
 {
