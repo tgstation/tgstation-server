@@ -109,6 +109,7 @@ namespace Tgstation.Server.Tests
 
 		public async Task Run(CancellationToken cancellationToken)
 		{
+			Console.WriteLine("TEST SERVER START");
 			var firstRun = realServer == null;
 			realServer = await Application
 				.CreateDefaultServerFactory()
@@ -125,6 +126,7 @@ namespace Tgstation.Server.Tests
 			}
 
 			await realServer.Run(cancellationToken);
+			Console.WriteLine("TEST SERVER END");
 		}
 	}
 }
