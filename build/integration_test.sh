@@ -11,7 +11,8 @@ export TGS4_TEST_TEMP_DIRECTORY=~/tgs4_test
 
 cd tests/Tgstation.Server.Tests
 
+#npm will bitch if sudo'd
 dotnet build -c $CONFIG
-sudo dotnet test Tgstation.Server.Tests.csproj -l "console;verbosity=detailed" --no-build -c $CONFIG /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput='./integration_test.xml'
+sudo dotnet test Tgstation.Server.Tests.csproj -l "console;verbosity=detailed;noprogress=true" --no-build -c $CONFIG /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput='./integration_test.xml'
 
 bash <(curl -s https://codecov.io/bash) -f integration_test.xml -F integration
