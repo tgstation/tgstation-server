@@ -139,15 +139,16 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreEqual(DreamDaemonSecurity.Safe, daemonStatus.ActiveCompileJob.MinimumSecurityLevel);
 
 			Job startJob;
-			using (var blockSocket = new Socket(SocketType.Stream, ProtocolType.Tcp))
-			{
-				blockSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ExclusiveAddressUse, true);
-				blockSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, false);
-				blockSocket.Bind(new IPEndPoint(IPAddress.Any, 1337));
-				startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
+			if (new PlatformIdentifier().IsWindows) // Can't get address reuse to trigger on linux for some reason
+				using (var blockSocket = new Socket(SocketType.Stream, ProtocolType.Tcp))
+				{
+					blockSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ExclusiveAddressUse, true);
+					blockSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, false);
+					blockSocket.Bind(new IPEndPoint(IPAddress.Any, 1337));
+					startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
 
-				await WaitForJob(startJob, 10, true, ErrorCode.DreamDaemonPortInUse, cancellationToken);
-			}
+					await WaitForJob(startJob, 10, true, ErrorCode.DreamDaemonPortInUse, cancellationToken);
+				}
 
 			startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
 
