@@ -12,9 +12,6 @@ export TGS4_TEST_TEMP_DIRECTORY=~/tgs4_test
 cd tests/Tgstation.Server.Tests
 
 dotnet build -c $CONFIG
-
-sudo $HOME/.dotnet/tools/coverlet bin/$CONFIG/netcoreapp3.1/Tgstation.Server.Tests.dll --target "dotnet" --targetargs "test -c $CONFIG --no-build --logger:\"console;noprogress=true\"" --format opencover --output "../../TestResults/integration_test.xml" --include "[Tgstation.Server*]*" --exclude "[Tgstation.Server.Tests*]*" --exclude "[Tgstation.Server.Host]Tgstation.Server.Host.Database.Migrations.*"
-
-cd ../../TestResults
+sudo dotnet test Tgstation.Server.Tests.csproj -l "console;verbosity=detailed" --no-build -c $CONFIG /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput='./integration_test.xml'
 
 bash <(curl -s https://codecov.io/bash) -f integration_test.xml -F integration
