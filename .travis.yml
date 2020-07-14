@@ -82,8 +82,8 @@ jobs:
       - DoxGeneration=false
       - DockerBuild=false
       - DMAPI=false
-      - CONFIG=Debug
-      name: "Debug Unit Tests"
+      - CONFIG=Release
+      name: "Release Unit Tests"
       language: csharp
       mono: none
       dotnet: 3.1
@@ -94,8 +94,8 @@ jobs:
       - DoxGeneration=false
       - DockerBuild=false
       - DMAPI=false
-      - CONFIG=Release
-      name: "Release Unit Tests"
+      - CONFIG=Debug
+      name: "Debug Unit Tests"
       language: csharp
       mono: none
       dotnet: 3.1
