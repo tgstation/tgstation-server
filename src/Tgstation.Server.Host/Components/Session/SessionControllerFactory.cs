@@ -2,7 +2,6 @@
 using System;
 using System.Globalization;
 using System.Linq;
-using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -16,6 +15,7 @@ using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Security;
@@ -118,11 +118,9 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="port">The port number to test.</param>
 		static void PortBindTest(ushort port)
 		{
-			using var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
 			try
 			{
-				socket.Bind(new IPEndPoint(IPAddress.Any, port));
+				SocketExtensions.BindTest(port);
 			}
 			catch (SocketException ex)
 			{

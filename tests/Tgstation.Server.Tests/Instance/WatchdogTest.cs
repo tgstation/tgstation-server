@@ -141,6 +141,8 @@ namespace Tgstation.Server.Tests.Instance
 			Job startJob;
 			using (var blockSocket = new Socket(SocketType.Stream, ProtocolType.Tcp))
 			{
+				blockSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ExclusiveAddressUse, true);
+				blockSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, false);
 				blockSocket.Bind(new IPEndPoint(IPAddress.Any, 1337));
 				startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
 

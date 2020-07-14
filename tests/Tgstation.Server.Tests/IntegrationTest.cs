@@ -200,6 +200,8 @@ namespace Tgstation.Server.Tests
 				// http bind test https://github.com/tgstation/tgstation-server/issues/1065
 				using (var blockingSocket = new Socket(SocketType.Stream, ProtocolType.Tcp))
 				{
+					blockingSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ExclusiveAddressUse, true);
+					blockingSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, false);
 					blockingSocket.Bind(new IPEndPoint(IPAddress.Any, server.Url.Port));
 					try
 					{

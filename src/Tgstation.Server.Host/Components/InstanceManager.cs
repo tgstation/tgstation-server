@@ -5,8 +5,6 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -16,6 +14,7 @@ using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Security;
@@ -482,8 +481,7 @@ namespace Tgstation.Server.Host.Components
 
 			// This runs before the real socket is opened, ensures we don't perform reattaches unless we're fairly certain the bind won't fail
 			// If it does fail, DD will be killed.
-			using var hostingSocket = new Socket(SocketType.Stream, ProtocolType.Tcp);
-			hostingSocket.Bind(new IPEndPoint(IPAddress.Any, serverPortProvider.HttpApiPort));
+			SocketExtensions.BindTest(serverPortProvider.HttpApiPort);
 		}
 
 		/// <inheritdoc />
