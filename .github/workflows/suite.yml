@@ -1,0 +1,232 @@
+name: 'Test Suite'
+
+on:
+  push:
+    branches:
+    - dev
+    - master
+  pull_request:
+    branches:
+    - dev
+    - master
+
+jobs:
+  server-unit-tests:
+    name: Build Server and Run Unit Tests
+    strategy:
+      matrix:
+        dotnet: [ '3.1.x' ]
+        node: [ '12.x' ]
+        configuration: [ 'Debug', 'Release' ]
+    env:
+      TGS4_TEST_DISCORD_CHANNEL: ${{ secrets.DISCORD_CHANNEL_ID }}
+      TGS4_TEST_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+      TGS4_TEST_IRC_CHANNEL: ${{ secrets.IRC_CHANNEL }}
+      TGS4_TEST_IRC_CONNECTION_STRING: ${{ secrets.IRC_CONNECTION_STRING }}
+      TGS4_TEST_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node }}
+
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ matrix.dotnet }}
+
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Build
+      run: dotnet build -c ${{ matrix.configuration }}
+
+    - name: Run Unit Tests
+      run: sudo dotnet test tgstation-server.sln --no-build --filter FullyQualifiedName!~IntegrationTests -l "console;verbosity=detailed;noprogress=true" -c ${{ matrix.configuration }} /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput="./unit_tests.xml"
+
+    - name: Publish Integration Test Artifacts
+      run: |
+        cd tests/Tgstation.Server.tests
+        dotnet publish -c ${{ matrix.configuration }} -o Artifacts --no-build
+
+    - name: Store Integration Test Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: integration-test-bins
+        path: tests/Tgstation.Server.Tests/Artifacts/
+
+    - name: Upload Code Coverage
+      uses: codecov/codecov-action@v1
+      with:
+        file: ./unit_tests.xml
+        flags: unittests
+        fail_ci_if_error: true
+
+  integration-tests:
+    name: Integration Tests
+    needs: [server-unit-tests, dmapi-build]
+    services: # We start all dbs here so we can just code the stuff once
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      mariadb:
+        image: mariadb
+        env:
+          MYSQL_ROOT_PASSWORD: mariadb
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=5s
+          --health-timeout=2s
+          --health-retries=3
+      mysql:
+        image: mysql:5.7.31
+        env:
+          MYSQL_ROOT_PASSWORD: mysql
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+    strategy:
+      matrix:
+        database-type: [ 'Sqlite', 'PostgresSql', 'MariaDB', 'MySql' ]
+        basic-watchdog: [ 'yes', 'no' ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Native Dependencies
+        run: |
+          sudo dpkg add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y libc6-i386 libstdc++6:i386 gdb
+
+      - name: Disable ptrace_scope
+        run: echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ matrix.dotnet }}
+
+      - name: Set Sqlite Connection Info
+        if: ${{ matrix.database-type == 'Sqlite' }}
+        run: |
+          echo "::set-env name=TGS4_TEST_DATABASE_TYPE::Sqlite"
+          echo "::set-env name=TGS4_TEST_CONNECTION_STRING::Data Source=TravisTestDB.sqlite3;Mode=ReadWriteCreate"
+
+      - name: Set PostgresSql Connection Info
+        if: ${{ matrix.database-type == 'PostgresSql' }}
+        run: |
+          echo "::set-env name=TGS4_TEST_DATABASE_TYPE::PostgresSql"
+          echo "::set-env name=TGS4_TEST_CONNECTION_STRING::Application Name=tgstation-server;Port=5432;Host=postgres;Username=postgres;Password=postgres;Database=TGS_Test"
+
+      - name: Set MariaDB Connection Info
+        if: ${{ matrix.database-type == 'MariaDB' }}
+        run: |
+          echo "::set-env name=TGS4_TEST_DATABASE_TYPE::MariaDB"
+          echo "::set-env name=TGS4_TEST_CONNECTION_STRING::server=mariadb;uid=root;pwd=mariadb;database=tgs_test"
+
+      - name: Set MySQL Connection Info
+        if: ${{ matrix.database-type == 'MySql' }}
+        run: |
+          echo "::set-env name=TGS4_TEST_DATABASE_TYPE::MySql"
+          echo "::set-env name=TGS4_TEST_CONNECTION_STRING::server=mysql;uid=root;pwd=mysql;database=tgs_test"
+          echo "::set-env name=Database__ServerVersion::5.7.31"
+
+      - name: Set General__UseBasicWatchdog
+        if: ${{ matrix.basic-watchdog == 'yes' }}
+        run: echo "::set-env name=General__UseBasicWatchdog::true"
+
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Set TGS4_TEST_PULL_REQUEST_NUMBER
+        if: ${{ github.event_name == 'pull_request' }}
+        run: echo "::set-env name=TGS4_TEST_PULL_REQUEST_NUMBER::${{ github.event.issue.number }}"
+
+      - name: Retrieve Integration Test Artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: integration-test-bins
+          path: tests/Tgstation.Server.Tests/Artifacts
+
+      - name: Run Integration Test
+        run: |
+          cd tests/Tgstation.Server.Tests
+          dotnet test Artifacts/Tgstation.Server.Tests.dll -l "console;verbosity=detailed;noprogress=true" -c ${{ matrix.configuration }} /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput="./integration_tests.xml"
+
+      - name: Upload Code Coverage
+        uses: codecov/codecov-action@v1
+        with:
+          file: ./integration_tests.xml
+          flags: integration
+          fail_ci_if_error: true
+
+  docker-build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Build Docker Image
+        uses: docker build . -f build/Dockerfile
+
+  dmapi-build:
+    name: Build DMAPI
+    env:
+      BYOND_MAJOR: 513
+      BYOND_MINOR: 1527
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install x86 libc Dependencies
+        run: |
+          sudo dpkg add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y libc6-i386 libstdc++6:i386
+
+      - name: Cache BYOND
+        id: cache-byond
+        uses: actions/cache@v2
+        with:
+          path: byond
+          key: ${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}
+
+      - name: Install BYOND
+        if: steps.cache-byond.outputs.cache-hit != 'true'
+        run: |
+          echo "Setting up BYOND."
+          mkdir -p "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
+          cd "$HOME/BYOND-${BYOND_MAJOR}.${BYOND_MINOR}"
+          curl "http://www.byond.com/download/build/${{ env.BYOND_MAJOR }}/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}_byond_linux.zip" -o byond.zip
+          unzip byond.zip
+          cd byond
+          make here
+          cd ~/
+          exit 0
+
+      - name: Build DMAPI Test Project
+        run: |
+          set -e
+          retval=1
+          source $HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}/byond/bin/byondsetup
+
+          if hash DreamMaker 2>/dev/null
+          then
+            DreamMaker $DMEName 2>&1 | tee result.log
+            retval=$?
+            if ! grep '\- 0 errors, 0 warnings' result.log
+            then
+              retval=1
+            fi
+          else
+            echo "Couldn't find the DreamMaker executable, aborting."
+            retval=2
+          fi
+          exit $retval
