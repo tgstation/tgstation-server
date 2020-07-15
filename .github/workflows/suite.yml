@@ -176,7 +176,7 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Build Docker Image
-        uses: docker build . -f build/Dockerfile
+        run: docker build . -f build/Dockerfile
 
   dmapi-build:
     name: Build DMAPI
