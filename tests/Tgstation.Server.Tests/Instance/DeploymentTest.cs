@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Client.Components;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Tests.Instance
 {
@@ -32,6 +33,12 @@ namespace Tgstation.Server.Tests.Instance
 			await repositoryTask;
 
 			// by alphabetization rules, it should discover api_free here
+			if (!new PlatformIdentifier().IsWindows)
+				await dreamMakerClient.Update(new DreamMaker
+				{
+					ProjectName = "tests/DMAPI/ApiFree/api_free"
+				}, cancellationToken);
+
 			var updatedDD = await dreamDaemonClient.Update(new DreamDaemon
 			{
 				StartupTimeout = 5

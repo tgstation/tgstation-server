@@ -1,4 +1,4 @@
-﻿using Byond.TopicSender;
+using Byond.TopicSender;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -437,7 +437,7 @@ namespace Tgstation.Server.Tests.Instance
 				var result = await bts.SendTopic(IPAddress.Loopback, "tgs_integration_test_special_tactics=1", 1337, cancellationToken);
 				Assert.AreEqual("ack", result.StringData);
 
-				await Task.Delay(10000, cancellationToken);
+				await Task.Delay(20000, cancellationToken);
 			}
 			catch (OperationCanceledException)
 			{

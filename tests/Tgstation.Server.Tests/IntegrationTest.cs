@@ -176,7 +176,10 @@ namespace Tgstation.Server.Tests
 			using var server = new TestingServer();
 
 			using var hardTimeoutCts = new CancellationTokenSource();
-			hardTimeoutCts.CancelAfter(new TimeSpan(0, 9, 45));
+
+			var maximumTestDuration = new TimeSpan(0, 12, 0);
+
+			hardTimeoutCts.CancelAfter(maximumTestDuration - new TimeSpan(0, 0, 15));
 			var hardTimeoutCancellationToken = hardTimeoutCts.Token;
 			hardTimeoutCancellationToken.Register(() =>
 			{
@@ -184,7 +187,7 @@ namespace Tgstation.Server.Tests
 			});
 
 			using var softTimeoutCts = CancellationTokenSource.CreateLinkedTokenSource(hardTimeoutCancellationToken);
-			softTimeoutCts.CancelAfter(new TimeSpan(0, 9, 15));
+			softTimeoutCts.CancelAfter(maximumTestDuration - new TimeSpan(0, 0, 45));
 			var softTimeoutCancellationToken = softTimeoutCts.Token;
 			bool tooLateForSoftTimeout = false;
 			softTimeoutCancellationToken.Register(() =>

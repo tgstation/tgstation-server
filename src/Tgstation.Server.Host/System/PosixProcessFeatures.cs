@@ -1,10 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Mono.Unix;
 using Mono.Unix.Native;
 using System;
-using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -79,29 +76,8 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public async Task<string> GetExecutingUsername(global::System.Diagnostics.Process process, CancellationToken cancellationToken)
-		{
-			if (process == null)
-				throw new ArgumentNullException(nameof(process));
-
-			// Need to read /proc/[pid]/status
-			// http://man7.org/linux/man-pages/man5/proc.5.html
-			// https://unix.stackexchange.com/questions/102676/why-is-uid-information-not-in-proc-x-stat
-			var pid = process.Id;
-			var statusFile = ioManager.ConcatPath("/proc", pid.ToString(CultureInfo.InvariantCulture), "status");
-			var statusBytes = await ioManager.ReadAllBytes(statusFile, cancellationToken).ConfigureAwait(false);
-			var statusText = Encoding.UTF8.GetString(statusBytes);
-			var splits = statusText.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-			var entry = splits.FirstOrDefault(x => x.Trim().StartsWith("Uid:", StringComparison.Ordinal));
-			if (entry == default)
-				return "UNKNOWN";
-
-			return entry
-				.Substring(4)
-				.Split(' ', StringSplitOptions.RemoveEmptyEntries)
-				.FirstOrDefault(x => !String.IsNullOrWhiteSpace(x))
-				?? "UNPARSABLE";
-		}
+		public Task<string> GetExecutingUsername(global::System.Diagnostics.Process process, CancellationToken cancellationToken)
+			=> throw new NotSupportedException();
 
 		/// <inheritdoc />
 		public async Task CreateDump(global::System.Diagnostics.Process process, string outputFile, CancellationToken cancellationToken)

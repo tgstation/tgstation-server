@@ -10,31 +10,111 @@ on:
     - dev
     - master
 
+env:
+  TGS4_TEST_DISCORD_CHANNEL: ${{ secrets.DISCORD_CHANNEL_ID }}
+  TGS4_TEST_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+  TGS4_TEST_IRC_CHANNEL: ${{ secrets.IRC_CHANNEL }}
+  TGS4_TEST_IRC_CONNECTION_STRING: ${{ secrets.IRC_CONNECTION_STRING }}
+  TGS4_TEST_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
-  server-unit-tests:
-    name: Build Server and Run Unit Tests
-    strategy:
-      matrix:
-        dotnet: [ '3.1.x' ]
-        node: [ '12.x' ]
-        configuration: [ 'Debug', 'Release' ]
+  dmapi-build:
+    name: Build DMAPI
     env:
-      TGS4_TEST_DISCORD_CHANNEL: ${{ secrets.DISCORD_CHANNEL_ID }}
-      TGS4_TEST_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
-      TGS4_TEST_IRC_CHANNEL: ${{ secrets.IRC_CHANNEL }}
-      TGS4_TEST_IRC_CONNECTION_STRING: ${{ secrets.IRC_CONNECTION_STRING }}
-      TGS4_TEST_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      BYOND_MAJOR: 513
+      BYOND_MINOR: 1527
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node }}
+    - name: Install x86 libc Dependencies
+      run: |
+        sudo dpkg --add-architecture i386
+        sudo apt-get update
+        sudo apt-get install -y libc6-i386 libstdc++6:i386
 
-    - name: Setup dotnet
+    - name: Install BYOND
+      if: steps.cache-byond.outputs.cache-hit != 'true'
+      run: |
+        echo "Setting up BYOND."
+        mkdir -p "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
+        cd "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
+        curl "http://www.byond.com/download/build/${{ env.BYOND_MAJOR }}/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}_byond_linux.zip" -o byond.zip
+        unzip byond.zip
+        cd byond
+        make here
+        exit 0
+
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Build DMAPI Test Project
+      run: |
+        set -e
+        retval=1
+        source $HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}/byond/bin/byondsetup
+
+        if hash DreamMaker 2>/dev/null
+        then
+          DreamMaker tests/DMAPI/BasicOperation/basic_operation_test.dme 2>&1 | tee result.log
+          retval=$?
+          if ! grep '\- 0 errors, 0 warnings' result.log
+          then
+            retval=1
+          fi
+        else
+          echo "Couldn't find the DreamMaker executable, aborting."
+          retval=2
+        fi
+        exit $retval
+
+  docker-build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Build Docker Image
+      run: docker build . -f build/Dockerfile
+
+  linux-unit-tests:
+    name: Linux Unit Tests
+    strategy:
+      matrix:
+        configuration: [ 'Debug', 'Release' ]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Node 12.X
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+
+    - name: Setup dotnet 3.1.X
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: ${{ matrix.dotnet }}
+        dotnet-version: 3.1.x
 
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Build
+      run: dotnet build -c ${{ matrix.configuration }}NoService
+
+    - name: Run Unit Tests
+      run: sudo dotnet test tgstation-server.sln --no-build --filter FullyQualifiedName!~IntegrationTest -l "console;verbosity=detailed;noprogress=true" -c ${{ matrix.configuration }}NoService --collect:"XPlat Code Coverage" --settings build/coverlet.runsettings -r ./TestResults
+
+    - name: Store Code Coverage
+      uses: actions/upload-artifact@v2
+      with:
+        name: linux-unit-test-coverage-${{ matrix.configuration }}
+        path: ./TestResults/
+
+  windows-unit-tests:
+    name: Windows Unit Tests
+    strategy:
+      matrix:
+        configuration: [ 'Debug', 'Release' ]
+    runs-on: windows-latest
+    steps:
     - name: Checkout
       uses: actions/checkout@v1
 
@@ -42,32 +122,22 @@ jobs:
       run: dotnet build -c ${{ matrix.configuration }}
 
     - name: Run Unit Tests
-      run: sudo dotnet test tgstation-server.sln --no-build --filter FullyQualifiedName!~IntegrationTests -l "console;verbosity=detailed;noprogress=true" -c ${{ matrix.configuration }} /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput="./unit_tests.xml"
+      run: dotnet test tgstation-server.sln --no-build --filter FullyQualifiedName!~IntegrationTest -l "console;verbosity=detailed;noprogress=true" -c ${{ matrix.configuration }} --collect:"XPlat Code Coverage" --settings build/coverlet.runsettings -r ./TestResults
 
-    - name: Publish Integration Test Artifacts
-      run: |
-        cd tests/Tgstation.Server.tests
-        dotnet publish -c ${{ matrix.configuration }} -o Artifacts --no-build
-
-    - name: Store Integration Test Artifacts
+    - name: Store Code Coverage
       uses: actions/upload-artifact@v2
       with:
-        name: integration-test-bins
-        path: tests/Tgstation.Server.Tests/Artifacts/
+        name: windows-unit-test-coverage-${{ matrix.configuration }}
+        path: ./TestResults/
 
-    - name: Upload Code Coverage
-      uses: codecov/codecov-action@v1
-      with:
-        file: ./unit_tests.xml
-        flags: unittests
-        fail_ci_if_error: true
-
-  integration-tests:
-    name: Integration Tests
-    needs: [server-unit-tests, dmapi-build]
+  linux-integration-tests:
+    name: Linux Integration Tests
+    needs: dmapi-build
     services: # We start all dbs here so we can just code the stuff once
       postgres:
         image: postgres
+        ports:
+          - 5432:5432
         env:
           POSTGRES_PASSWORD: postgres
         # Set health checks to wait until postgres has started
@@ -78,6 +148,8 @@ jobs:
           --health-retries 5
       mariadb:
         image: mariadb
+        ports:
+          - 3306:3306
         env:
           MYSQL_ROOT_PASSWORD: mariadb
         options: >-
@@ -87,6 +159,8 @@ jobs:
           --health-retries=3
       mysql:
         image: mysql:5.7.31
+        ports:
+          - 3307:3306
         env:
           MYSQL_ROOT_PASSWORD: mysql
         options: >-
@@ -97,136 +171,329 @@ jobs:
     strategy:
       matrix:
         database-type: [ 'Sqlite', 'PostgresSql', 'MariaDB', 'MySql' ]
-        basic-watchdog: [ 'yes', 'no' ]
+        watchdog-type: [ 'Basic', 'System' ]
+        configuration: [ 'Debug', 'Release' ]
     runs-on: ubuntu-latest
     steps:
-      - name: Install Native Dependencies
-        run: |
-          sudo dpkg add-architecture i386
-          sudo apt-get update
-          sudo apt-get install -y libc6-i386 libstdc++6:i386 gdb
+    - name: Disable ptrace_scope
+      run: echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
 
-      - name: Disable ptrace_scope
-        run: echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
+    - name: Install Native Dependencies
+      run: |
+        sudo dpkg --add-architecture i386
+        sudo apt-get update
+        sudo apt-get install -y libc6-i386 libstdc++6:i386 gdb
 
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: ${{ matrix.dotnet }}
+    - name: Install Node 12.X
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
 
-      - name: Set Sqlite Connection Info
-        if: ${{ matrix.database-type == 'Sqlite' }}
-        run: |
-          echo "::set-env name=TGS4_TEST_DATABASE_TYPE::Sqlite"
-          echo "::set-env name=TGS4_TEST_CONNECTION_STRING::Data Source=TravisTestDB.sqlite3;Mode=ReadWriteCreate"
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ matrix.dotnet }}
 
-      - name: Set PostgresSql Connection Info
-        if: ${{ matrix.database-type == 'PostgresSql' }}
-        run: |
-          echo "::set-env name=TGS4_TEST_DATABASE_TYPE::PostgresSql"
-          echo "::set-env name=TGS4_TEST_CONNECTION_STRING::Application Name=tgstation-server;Port=5432;Host=postgres;Username=postgres;Password=postgres;Database=TGS_Test"
+    - name: Set Sqlite Connection Info
+      if: ${{ matrix.database-type == 'Sqlite' }}
+      run: |
+        echo "::set-env name=TGS4_TEST_DATABASE_TYPE::Sqlite"
+        echo "::set-env name=TGS4_TEST_CONNECTION_STRING::Data Source=TravisTestDB.sqlite3;Mode=ReadWriteCreate"
 
-      - name: Set MariaDB Connection Info
-        if: ${{ matrix.database-type == 'MariaDB' }}
-        run: |
-          echo "::set-env name=TGS4_TEST_DATABASE_TYPE::MariaDB"
-          echo "::set-env name=TGS4_TEST_CONNECTION_STRING::server=mariadb;uid=root;pwd=mariadb;database=tgs_test"
+    - name: Set PostgresSql Connection Info
+      if: ${{ matrix.database-type == 'PostgresSql' }}
+      run: |
+        echo "::set-env name=TGS4_TEST_DATABASE_TYPE::PostgresSql"
+        echo "::set-env name=TGS4_TEST_CONNECTION_STRING::Application Name=tgstation-server;Host=127.0.0.1;Username=postgres;Password=postgres;Database=TGS_Test"
 
-      - name: Set MySQL Connection Info
-        if: ${{ matrix.database-type == 'MySql' }}
-        run: |
-          echo "::set-env name=TGS4_TEST_DATABASE_TYPE::MySql"
-          echo "::set-env name=TGS4_TEST_CONNECTION_STRING::server=mysql;uid=root;pwd=mysql;database=tgs_test"
-          echo "::set-env name=Database__ServerVersion::5.7.31"
+    - name: Set MariaDB Connection Info
+      if: ${{ matrix.database-type == 'MariaDB' }}
+      run: |
+        echo "::set-env name=TGS4_TEST_DATABASE_TYPE::MariaDB"
+        echo "::set-env name=TGS4_TEST_CONNECTION_STRING::Server=127.0.0.1;uid=root;pwd=mariadb;database=tgs_test"
 
-      - name: Set General__UseBasicWatchdog
-        if: ${{ matrix.basic-watchdog == 'yes' }}
-        run: echo "::set-env name=General__UseBasicWatchdog::true"
+    - name: Set MySQL Connection Info
+      if: ${{ matrix.database-type == 'MySql' }}
+      run: |
+        echo "::set-env name=TGS4_TEST_DATABASE_TYPE::MySql"
+        echo "::set-env name=TGS4_TEST_CONNECTION_STRING::Server=127.0.0.1;Port=3307;uid=root;pwd=mysql;database=tgs_test"
+        echo "::set-env name=Database__ServerVersion::5.7.31"
 
-      - name: Checkout
-        uses: actions/checkout@v1
+    - name: Set General__UseBasicWatchdog
+      if: ${{ matrix.watchdog-type == 'Basic' }}
+      run: echo "::set-env name=General__UseBasicWatchdog::true"
 
-      - name: Set TGS4_TEST_PULL_REQUEST_NUMBER
-        if: ${{ github.event_name == 'pull_request' }}
-        run: echo "::set-env name=TGS4_TEST_PULL_REQUEST_NUMBER::${{ github.event.issue.number }}"
+    - name: Checkout
+      uses: actions/checkout@v1
 
-      - name: Retrieve Integration Test Artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: integration-test-bins
-          path: tests/Tgstation.Server.Tests/Artifacts
+    - name: Set TGS4_TEST_PULL_REQUEST_NUMBER
+      if: ${{ github.event_name == 'pull_request' }}
+      run: echo "::set-env name=TGS4_TEST_PULL_REQUEST_NUMBER::${{ github.event.number }}"
 
-      - name: Run Integration Test
-        run: |
-          cd tests/Tgstation.Server.Tests
-          dotnet test Artifacts/Tgstation.Server.Tests.dll -l "console;verbosity=detailed;noprogress=true" -c ${{ matrix.configuration }} /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput="./integration_tests.xml"
+    - name: Run Integration Test
+      run: |
+        cd tests/Tgstation.Server.Tests
+        sleep 10
+        dotnet test -c ${{ matrix.configuration }} -l "console;verbosity=detailed;noprogress=true" --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings -r ./TestResults
 
-      - name: Upload Code Coverage
-        uses: codecov/codecov-action@v1
-        with:
-          file: ./integration_tests.xml
-          flags: integration
-          fail_ci_if_error: true
+    - name: Store Code Coverage
+      uses: actions/upload-artifact@v2
+      with:
+        name: linux-integration-test-coverage-${{ matrix.configuration }}-${{ matrix.watchdog-type }}-${{ matrix.database-type }}
+        path: tests/Tgstation.Server.Tests/TestResults/
 
-  docker-build:
-    name: Build Docker Image
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v1
+    - name: Package Server Console
+      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'MariaDB' }}
+      run: |
+        cd src/Tgstation.Server.Host.Console
+        dotnet publish -c ${{ matrix.configuration }} -o ../../Artifacts/Console
+        cd ../Tgstation.Server.Host
+        dotnet publish -c ${{ matrix.configuration }} --no-build -o ../../Artifacts/Console/lib/Default
 
-      - name: Build Docker Image
-        run: docker build . -f build/Dockerfile
+    - name: Store Server Console
+      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'MariaDB' }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: ServerConsole
+        path: Artifacts/Console/
 
-  dmapi-build:
-    name: Build DMAPI
+  windows-integration-test:
+    name: Windows Integration Test
+    needs: dmapi-build
     env:
-      BYOND_MAJOR: 513
-      BYOND_MINOR: 1527
+      TGS4_TEST_CONNECTION_STRING: Server=(localdb)\MSSQLLocalDB;Integrated Security=true;Initial Catalog=TGS_Test;Application Name=tgstation-server
+      TGS4_TEST_DATABASE_TYPE: SqlServer
+      TGS4_TEST_DUMP_API_SPEC: yes
+    strategy:
+      matrix:
+        watchdog-type: [ 'Basic', 'System' ]
+        configuration: [ 'Debug', 'Release' ]
+    runs-on: windows-latest
+    steps:
+    - name: Set General__UseBasicWatchdog
+      if: ${{ matrix.watchdog-type == 'Basic' }}
+      run: echo "::set-env name=General__UseBasicWatchdog::true"
+
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Set TGS4_TEST_PULL_REQUEST_NUMBER
+      if: ${{ github.event_name == 'pull_request' }}
+      run: echo "::set-env name=TGS4_TEST_PULL_REQUEST_NUMBER::${{ github.event.number }}"
+
+    - name: Run Integration Test
+      run: |
+        cd tests/Tgstation.Server.Tests
+        Start-Sleep -Seconds 10
+        dotnet test -c ${{ matrix.configuration }} -l "console;verbosity=detailed;noprogress=true" --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings -r ./TestResults
+
+    - name: Store Code Coverage
+      uses: actions/upload-artifact@v2
+      with:
+        name: windows-integration-test-coverage-${{ matrix.configuration }}-${{ matrix.watchdog-type }}
+        path: tests/Tgstation.Server.Tests/TestResults/
+
+    - name: Store OpenAPI Spec
+      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: openapi-spec
+        path: C:/swagger.json
+
+    - name: Package Server Console
+      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' }}
+      run: |
+        cd src/Tgstation.Server.Host.Service
+        dotnet publish -c ${{ matrix.configuration }} -o ../../Artifacts/Service
+        cd ../Tgstation.Server.Host
+        dotnet publish -c ${{ matrix.configuration }} --no-build -o ../../Artifacts/Service/lib/Default
+
+    - name: Store Server Service
+      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: ServerService
+        path: Artifacts/Service/
+
+  validate-openapi-spec:
+    name: OpenAPI Spec Validation
+    needs: windows-integration-test
+    runs-on: windows-latest
+    steps:
+    - name: Install IBM OpenAPI Validator
+      run: npm i -g ibm-openapi-validator
+
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Retrieve OpenAPI Spec
+      uses: actions/download-artifact@v2
+      with:
+        name: openapi-spec
+        path: ./swagger.json
+
+    - name: Lint OpenAPI Spec
+      run: npx lint-openapi -p -c build/OpenApiValidationSettings.json ./swagger.json
+
+  upload-code-coverage:
+    name: Upload Code Coverage
+    needs: [linux-unit-tests, linux-integration-tests, windows-unit-tests, windows-integration-test]
     runs-on: ubuntu-latest
     steps:
-      - name: Install x86 libc Dependencies
-        run: |
-          sudo dpkg add-architecture i386
-          sudo apt-get update
-          sudo apt-get install -y libc6-i386 libstdc++6:i386
+    - name: Retrieve Linux Unit Test Coverage (Debug)
+      uses: actions/download-artifact@v2
+      with:
+        name: linux-unit-test-coverage-Debug
+        path: ./code_coverage/unit_tests/linux_unit_tests_debug
 
-      - name: Cache BYOND
-        id: cache-byond
-        uses: actions/cache@v2
-        with:
-          path: byond
-          key: ${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}
+    - name: Retrieve Linux Unit Test Coverage (Release)
+      uses: actions/download-artifact@v2
+      with:
+        name: linux-unit-test-coverage-Release
+        path: ./code_coverage/unit_tests/linux_unit_tests_release
 
-      - name: Install BYOND
-        if: steps.cache-byond.outputs.cache-hit != 'true'
-        run: |
-          echo "Setting up BYOND."
-          mkdir -p "$HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}"
-          cd "$HOME/BYOND-${BYOND_MAJOR}.${BYOND_MINOR}"
-          curl "http://www.byond.com/download/build/${{ env.BYOND_MAJOR }}/${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}_byond_linux.zip" -o byond.zip
-          unzip byond.zip
-          cd byond
-          make here
-          cd ~/
-          exit 0
+    - name: Retrieve Linux Integration Test Coverage (Debug, Basic, Sqlite)
+      uses: actions/download-artifact@v2
+      with:
+        name: linux-integration-test-coverage-Debug-Basic-Sqlite
+        path: ./code_coverage/integration_tests/linux_integration_tests_debug_basic_sqlite
 
-      - name: Build DMAPI Test Project
-        run: |
-          set -e
-          retval=1
-          source $HOME/BYOND-${{ env.BYOND_MAJOR }}.${{ env.BYOND_MINOR }}/byond/bin/byondsetup
+    - name: Retrieve Linux Integration Test Coverage (Release, Basic, Sqlite)
+      uses: actions/download-artifact@v2
+      with:
+        name: linux-integration-test-coverage-Release-Basic-Sqlite
+        path: ./code_coverage/integration_tests/linux_integration_tests_release_basic_sqlite
 
-          if hash DreamMaker 2>/dev/null
-          then
-            DreamMaker $DMEName 2>&1 | tee result.log
-            retval=$?
-            if ! grep '\- 0 errors, 0 warnings' result.log
-            then
-              retval=1
-            fi
-          else
-            echo "Couldn't find the DreamMaker executable, aborting."
-            retval=2
-          fi
-          exit $retval
+    - name: Retrieve Linux Integration Test Coverage (Debug, System, Sqlite)
+      uses: actions/download-artifact@v2
+      with:
+        name: linux-integration-test-coverage-Debug-System-Sqlite
+        path: ./code_coverage/integration_tests/linux_integration_tests_debug_system_sqlite
+
+    - name: Retrieve Linux Integration Test Coverage (Release, System, Sqlite)
+      uses: actions/download-artifact@v2
+      with:
+        name: linux-integration-test-coverage-Release-System-Sqlite
+        path: ./code_coverage/integration_tests/linux_integration_tests_release_system_sqlite
+
+    - name: Retrieve Linux Integration Test Coverage (Debug, Basic, PostgresSql)
+      uses: actions/download-artifact@v2
+      with:
+        name: linux-integration-test-coverage-Debug-Basic-PostgresSql
+        path: ./code_coverage/integration_tests/linux_integration_tests_debug_basic_postgressql
+
+    - name: Retrieve Linux Integration Test Coverage (Release, Basic, PostgresSql)
+      uses: actions/download-artifact@v2
+      with:
+        name: linux-integration-test-coverage-Release-Basic-PostgresSql
+        path: ./code_coverage/integration_tests/linux_integration_tests_release_basic_postgressql
+
+    - name: Retrieve Linux Integration Test Coverage (Debug, System, PostgresSql)
+      uses: actions/download-artifact@v2
+      with:
+        name: linux-integration-test-coverage-Debug-System-PostgresSql
+        path: ./code_coverage/integration_tests/linux_integration_tests_debug_system_postgressql
+
+    - name: Retrieve Linux Integration Test Coverage (Release, System, PostgresSql)
+      uses: actions/download-artifact@v2
+      with:
+        name: linux-integration-test-coverage-Release-System-PostgresSql
+        path: ./code_coverage/integration_tests/linux_integration_tests_release_system_mariadb
+
+    - name: Retrieve Linux Integration Test Coverage (Debug, Basic, MariaDB)
+      uses: actions/download-artifact@v2
+      with:
+        name: linux-integration-test-coverage-Debug-Basic-MariaDB
+        path: ./code_coverage/integration_tests/linux_integration_tests_debug_basic_mariadb
+
+    - name: Retrieve Linux Integration Test Coverage (Release, Basic, MariaDB)
+      uses: actions/download-artifact@v2
+      with:
+        name: linux-integration-test-coverage-Release-Basic-MariaDB
+        path: ./code_coverage/integration_tests/linux_integration_tests_release_basic_mariadb
+
+    - name: Retrieve Linux Integration Test Coverage (Debug, System, MariaDB)
+      uses: actions/download-artifact@v2
+      with:
+        name: linux-integration-test-coverage-Debug-System-MariaDB
+        path: ./code_coverage/integration_tests/linux_integration_tests_debug_system_mariadb
+
+    - name: Retrieve Linux Integration Test Coverage (Release, System, MariaDB)
+      uses: actions/download-artifact@v2
+      with:
+        name: linux-integration-test-coverage-Release-System-MariaDB
+        path: ./code_coverage/integration_tests/linux_integration_tests_release_system_mysql
+
+    - name: Retrieve Linux Integration Test Coverage (Debug, Basic, MySql)
+      uses: actions/download-artifact@v2
+      with:
+        name: linux-integration-test-coverage-Debug-Basic-MySql
+        path: ./code_coverage/integration_tests/linux_integration_tests_debug_basic_mysql
+
+    - name: Retrieve Linux Integration Test Coverage (Release, Basic, MySql)
+      uses: actions/download-artifact@v2
+      with:
+        name: linux-integration-test-coverage-Release-Basic-MySql
+        path: ./code_coverage/integration_tests/linux_integration_tests_release_basic_mysql
+
+    - name: Retrieve Linux Integration Test Coverage (Debug, System, MySql)
+      uses: actions/download-artifact@v2
+      with:
+        name: linux-integration-test-coverage-Debug-System-MySql
+        path: ./code_coverage/integration_tests/linux_integration_tests_debug_system_mysql
+
+    - name: Retrieve Linux Integration Test Coverage (Release, System, MySql)
+      uses: actions/download-artifact@v2
+      with:
+        name: linux-integration-test-coverage-Release-System-MySql
+        path: ./code_coverage/integration_tests/linux_integration_tests_release_system_mysql
+
+    - name: Retrieve Windows Unit Test Coverage (Debug)
+      uses: actions/download-artifact@v2
+      with:
+        name: windows-unit-test-coverage-Debug
+        path: ./code_coverage/unit_tests/windows_unit_tests_debug
+
+    - name: Retrieve Windows Unit Test Coverage (Release)
+      uses: actions/download-artifact@v2
+      with:
+        name: windows-unit-test-coverage-Release
+        path: ./code_coverage/unit_tests/windows_unit_tests_release
+
+    - name: Retrieve Windows Integration Test Coverage (Debug, Basic)
+      uses: actions/download-artifact@v2
+      with:
+        name: windows-integration-test-coverage-Debug-Basic
+        path: ./code_coverage/integration_tests/windows_integration_tests_debug_basic
+
+    - name: Retrieve Windows Integration Test Coverage (Release, Basic)
+      uses: actions/download-artifact@v2
+      with:
+        name: windows-integration-test-coverage-Release-Basic
+        path: ./code_coverage/integration_tests/windows_integration_tests_release_basic
+
+    - name: Retrieve Windows Integration Test Coverage (Debug, System)
+      uses: actions/download-artifact@v2
+      with:
+        name: windows-integration-test-coverage-Debug-System
+        path: ./code_coverage/integration_tests/windows_integration_tests_debug_system
+
+    - name: Retrieve Windows Integration Test Coverage (Release, System)
+      uses: actions/download-artifact@v2
+      with:
+        name: windows-integration-test-coverage-Release-System
+        path: ./code_coverage/integration_tests/windows_integration_tests_release_system
+
+    - name: Upload Unit Test Coverage to CodeCov
+      uses: codecov/codecov-action@v1
+      with:
+        directory: ./code_coverage/unit_tests
+        flags: unittests
+        fail_ci_if_error: true
+
+    - name: Upload Integration Test Coverage to CodeCov
+      uses: codecov/codecov-action@v1
+      with:
+        directory: ./code_coverage/integration_tests
+        flags: integration
+        fail_ci_if_error: true
