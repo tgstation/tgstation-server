@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using Tgstation.Server.Api.Models.Internal;
@@ -8,7 +8,6 @@ using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
-using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 
@@ -26,11 +25,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// The <see cref="ILoggerFactory"/> for the <see cref="WatchdogFactory"/>
 		/// </summary>
 		protected ILoggerFactory LoggerFactory { get; }
-
-		/// <summary>
-		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="WatchdogFactory"/>
-		/// </summary>
-		protected IDatabaseContextFactory DatabaseContextFactory { get; }
 
 		/// <summary>
 		/// The <see cref="IJobManager"/> for the <see cref="WatchdogFactory"/>
@@ -52,21 +46,18 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		/// <param name="serverControl">The value of <see cref="ServerControl"/></param>
 		/// <param name="loggerFactory">The value of <see cref="LoggerFactory"/></param>
-		/// <param name="databaseContextFactory">The value of <see cref="DatabaseContextFactory"/></param>
 		/// <param name="jobManager">The value of <see cref="JobManager"/></param>
 		/// <param name="asyncDelayer">The value of <see cref="AsyncDelayer"/></param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="GeneralConfiguration"/></param>
 		public WatchdogFactory(
 			IServerControl serverControl,
 			ILoggerFactory loggerFactory,
-			IDatabaseContextFactory databaseContextFactory,
 			IJobManager jobManager,
 			IAsyncDelayer asyncDelayer,
 			IOptions<GeneralConfiguration> generalConfigurationOptions)
 		{
 			ServerControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
 			LoggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
-			DatabaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			JobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			AsyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			GeneralConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
@@ -88,7 +79,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				sessionControllerFactory,
 				dmbFactory,
 				sessionPersistor,
-				DatabaseContextFactory,
 				JobManager,
 				ServerControl,
 				AsyncDelayer,

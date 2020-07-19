@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api.Rights;
+using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components.Chat.Providers
@@ -11,9 +13,19 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 	abstract class Provider : IProvider
 	{
 		/// <summary>
+		/// The <see cref="ChatBot"/> the <see cref="Provider"/> is for.
+		/// </summary>
+		protected ChatBot ChatBot { get; }
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Provider"/>.
 		/// </summary>
-		protected ILogger Logger { get; }
+		protected ILogger<Provider> Logger { get; }
+
+		/// <summary>
+		/// The <see cref="IJobManager"/> for the <see cref="Provider"/>.
+		/// </summary>
+		readonly IJobManager jobManager;
 
 		/// <summary>
 		/// <see cref="Queue{T}"/> of received <see cref="Message"/>s
@@ -43,18 +55,20 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <summary>
 		/// Construct a <see cref="Provider"/>
 		/// </summary>
+		/// <param name="jobManager">The value of <see cref="jobManager"/>.</param>
 		/// <param name="logger">The value of <see cref="Logger"/>.</param>
-		/// <param name="reconnectInterval">The initial reconnection interval.</param>
-		protected Provider(ILogger logger, uint reconnectInterval)
+		/// <param name="chatBot">The value of <paramref name="chatBot"/>.</param>
+		protected Provider(IJobManager jobManager, ILogger<Provider> logger, ChatBot chatBot)
 		{
+			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
+			ChatBot = chatBot ?? throw new ArgumentNullException(nameof(chatBot));
 
 			messageQueue = new Queue<Message>();
 			nextMessage = new TaskCompletionSource<object>();
 
 			reconnectTaskLock = new object();
 
-			SetReconnectInterval(reconnectInterval).GetAwaiter().GetResult();
 			logger.LogTrace("Created.");
 		}
 
@@ -63,6 +77,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 		/// <inheritdoc />
 		public abstract string BotMention { get; }
+
+		/// <inheritdoc />
+		public bool Disposed { get; private set; }
 
 		/// <summary>
 		/// Queues a <paramref name="message"/> for <see cref="NextMessage(CancellationToken)"/>
@@ -78,14 +95,19 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public virtual void Dispose()
+		public virtual async ValueTask DisposeAsync()
 		{
-			StopReconnectionTimer().GetAwaiter().GetResult();
+			Disposed = true;
+			await StopReconnectionTimer().ConfigureAwait(false);
 			Logger.LogTrace("Disposed");
 		}
 
-		/// <inheritdoc />
-		public abstract Task<bool> Connect(CancellationToken cancellationToken);
+		/// <summary>
+		/// Attempt to connect the <see cref="Provider"/>.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		protected abstract Task Connect(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Gracefully disconnects the provider.
@@ -97,8 +119,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public async Task Disconnect(CancellationToken cancellationToken)
 		{
+			if(Connected)
+				await DisconnectImpl(cancellationToken).ConfigureAwait(false);
 			await StopReconnectionTimer().ConfigureAwait(false);
-			await DisconnectImpl(cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -141,7 +164,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public Task SetReconnectInterval(uint reconnectInterval)
+		public Task SetReconnectInterval(uint reconnectInterval, bool connectNow)
 		{
 			if (reconnectInterval == 0)
 				throw new ArgumentOutOfRangeException(nameof(reconnectInterval), reconnectInterval, "Reconnect interval cannot be zero!");
@@ -151,7 +174,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			{
 				stopOldTimerTask = StopReconnectionTimer();
 				reconnectCts = new CancellationTokenSource();
-				reconnectTask = ReconnectionLoop(reconnectInterval, reconnectCts.Token);
+				reconnectTask = ReconnectionLoop(reconnectInterval, connectNow, reconnectCts.Token);
 			}
 
 			return stopOldTimerTask;
@@ -161,21 +184,42 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// Creates a <see cref="Task"/> that will attempt to reconnect the <see cref="Provider"/> every <paramref name="reconnectInterval"/> minutes.
 		/// </summary>
 		/// <param name="reconnectInterval">The amount of minutes to wait between reconnection attempts.</param>
+		/// <param name="connectNow">If a connection attempt should be immediately made.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task ReconnectionLoop(uint reconnectInterval, CancellationToken cancellationToken)
+		async Task ReconnectionLoop(uint reconnectInterval, bool connectNow, CancellationToken cancellationToken)
 		{
 			do
 			{
 				try
 				{
-					await Task.Delay(TimeSpan.FromMinutes(reconnectInterval), cancellationToken).ConfigureAwait(false);
+					if (!connectNow)
+						await Task.Delay(TimeSpan.FromMinutes(reconnectInterval), cancellationToken).ConfigureAwait(false);
+					else
+						connectNow = false;
 					if (!Connected)
 					{
-						Logger.LogInformation("Attempting to reconnect provider...");
-						await Disconnect(cancellationToken).ConfigureAwait(false);
-						if (await Connect(cancellationToken).ConfigureAwait(false))
-							EnqueueMessage(null);
+						var job = new Job
+						{
+							Description = $"Reconnect chat bot: {ChatBot.Name}",
+							CancelRight = (ulong)ChatBotRights.WriteEnabled,
+							CancelRightsType = RightsType.ChatBots,
+							Instance = ChatBot.Instance
+						};
+
+						await jobManager.RegisterOperation(
+							job,
+							async (core, databaseContextFactory, paramJob, progressReporter, jobCancellationToken) =>
+							{
+								await DisconnectImpl(jobCancellationToken).ConfigureAwait(false);
+								await Connect(jobCancellationToken).ConfigureAwait(false);
+								EnqueueMessage(null);
+							},
+							cancellationToken)
+							.ConfigureAwait(false);
+
+						// DCT: Always wait for the job to complete here
+						await jobManager.WaitForJobCompletion(job, null, cancellationToken, default).ConfigureAwait(false);
 					}
 				}
 				catch (OperationCanceledException)

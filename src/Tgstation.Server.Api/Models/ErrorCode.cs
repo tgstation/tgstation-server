@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 
 namespace Tgstation.Server.Api.Models
@@ -557,6 +557,12 @@ namespace Tgstation.Server.Api.Models
 		/// Attempted to perform an instance operation with an offline instance.
 		/// </summary>
 		[Description("The instance associated with the operation is currently offline!")]
-		InstanceOffline
+		InstanceOffline,
+
+		/// <summary>
+		/// An attempt to connect a chat bot failed.
+		/// </summary>
+		[Description("Failed to connect chat bot!")]
+		ChatCannotConnectProvider
 	}
 }

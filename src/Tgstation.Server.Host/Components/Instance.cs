@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Serilog.Context;
 using System;
@@ -13,7 +13,6 @@ using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
-using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 
@@ -45,11 +44,6 @@ namespace Tgstation.Server.Host.Components
 
 		/// <inheritdoc />
 		public IDreamMaker DreamMaker { get; }
-
-		/// <summary>
-		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="Instance"/>
-		/// </summary>
-		readonly IDatabaseContextFactory databaseContextFactory;
 
 		/// <summary>
 		/// The <see cref="IDmbFactory"/> for the <see cref="Instance"/>
@@ -101,7 +95,6 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="watchdog">The value of <see cref="Watchdog"/></param>
 		/// <param name="chat">The value of <see cref="Chat"/></param>
 		/// <param name="configuration">The value of <see cref="Configuration"/></param>
-		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="dmbFactory">The value of <see cref="dmbFactory"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
@@ -115,7 +108,6 @@ namespace Tgstation.Server.Host.Components
 			IChatManager chat,
 			StaticFiles.IConfiguration
 			configuration,
-			IDatabaseContextFactory databaseContextFactory,
 			IDmbFactory dmbFactory,
 			IJobManager jobManager,
 			IEventConsumer eventConsumer,
@@ -128,7 +120,6 @@ namespace Tgstation.Server.Host.Components
 			Watchdog = watchdog ?? throw new ArgumentNullException(nameof(watchdog));
 			Chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.dmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
@@ -144,7 +135,7 @@ namespace Tgstation.Server.Host.Components
 			{
 				timerCts?.Dispose();
 				Configuration.Dispose();
-				Chat.Dispose();
+				await Chat.DisposeAsync().ConfigureAwait(false);
 				await Watchdog.DisposeAsync().ConfigureAwait(false);
 				dmbFactory.Dispose();
 				RepositoryManager.Dispose();
@@ -169,15 +160,6 @@ namespace Tgstation.Server.Host.Components
 					await eventConsumer.HandleEvent(EventType.InstanceAutoUpdateStart, new List<string>(), cancellationToken).ConfigureAwait(false);
 					try
 					{
-						User systemUser = null;
-						await databaseContextFactory.UseContext(
-							async (db) => systemUser = await db
-								.Users
-								.AsQueryable()
-								.Where(x => x.CanonicalName == User.CanonicalizeName(User.TgsSystemUserName))
-								.FirstAsync(cancellationToken)
-								.ConfigureAwait(false))
-							.ConfigureAwait(false);
 						var repositoryUpdateJob = new Job
 						{
 							Instance = new Models.Instance
@@ -186,8 +168,7 @@ namespace Tgstation.Server.Host.Components
 							},
 							Description = "Scheduled repository update",
 							CancelRightsType = RightsType.Repository,
-							CancelRight = (ulong)RepositoryRights.CancelPendingChanges,
-							StartedBy = systemUser
+							CancelRight = (ulong)RepositoryRights.CancelPendingChanges
 						};
 
 						string deploySha = null;
@@ -355,7 +336,7 @@ namespace Tgstation.Server.Host.Components
 						}, cancellationToken).ConfigureAwait(false);
 
 						// DCT: First token will cancel the job, second is for cancelling the cancellation, unwanted
-						await jobManager.WaitForJobCompletion(repositoryUpdateJob, systemUser, cancellationToken, default).ConfigureAwait(false);
+						await jobManager.WaitForJobCompletion(repositoryUpdateJob, null, cancellationToken, default).ConfigureAwait(false);
 
 						if (deploySha == null)
 						{
@@ -372,7 +353,6 @@ namespace Tgstation.Server.Host.Components
 						// finally set up the job
 						var compileProcessJob = new Job
 						{
-							StartedBy = systemUser,
 							Instance = repositoryUpdateJob.Instance,
 							Description = "Scheduled code deployment",
 							CancelRightsType = RightsType.DreamMaker,
@@ -393,7 +373,7 @@ namespace Tgstation.Server.Host.Components
 							},
 							cancellationToken).ConfigureAwait(false);
 
-						await jobManager.WaitForJobCompletion(compileProcessJob, systemUser, default, cancellationToken).ConfigureAwait(false);
+						await jobManager.WaitForJobCompletion(compileProcessJob, null, default, cancellationToken).ConfigureAwait(false);
 					}
 					catch (OperationCanceledException)
 					{

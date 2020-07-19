@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -284,7 +284,6 @@ namespace Tgstation.Server.Host.Components
 								watchdog,
 								chatManager,
 								configuration,
-								databaseContextFactory,
 								dmbFactory,
 								jobManager,
 								eventConsumer,
@@ -306,7 +305,7 @@ namespace Tgstation.Server.Host.Components
 				}
 				catch
 				{
-					chatManager.Dispose();
+					await chatManager.DisposeAsync().ConfigureAwait(false);
 					throw;
 				}
 			}

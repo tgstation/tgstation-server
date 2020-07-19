@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,12 +9,17 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 	/// <summary>
 	/// For interacting with a chat service
 	/// </summary>
-	interface IProvider : IDisposable
+	interface IProvider : IAsyncDisposable
 	{
 		/// <summary>
-		/// If the <see cref="IProvider"/>
+		/// If the <see cref="IProvider"/> is currently connected.
 		/// </summary>
 		bool Connected { get; }
+
+		/// <summary>
+		/// If the <see cref="IProvider"/> was disposed.
+		/// </summary>
+		bool Disposed { get; }
 
 		/// <summary>
 		/// The <see cref="string"/> that indicates the <see cref="IProvider"/> was mentioned
@@ -28,13 +33,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the next available <see cref="Message"/> or <see langword="null"/> if the <see cref="IProvider"/> needed to reconnect.</returns>
 		/// <remarks>Note that private messages will come in the form of <see cref="ChannelRepresentation"/>s not returned in <see cref="MapChannels(IEnumerable{Api.Models.ChatChannel}, CancellationToken)"/>. Do not <see cref="IDisposable.Dispose"/> the <see cref="IProvider"/> on continuations run from the returned <see cref="Task"/>.</remarks>
 		Task<Message> NextMessage(CancellationToken cancellationToken);
-
-		/// <summary>
-		/// Attempt to connect the <see cref="IProvider"/>
-		/// </summary>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> on success, <see langword="false"/> otherwise</returns>
-		Task<bool> Connect(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Gracefully disconnects the provider. Permanently stops the reconnection timer.
@@ -61,11 +59,12 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		Task SendMessage(ulong channelId, string message, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Set the interval at which the provider tries to reconnect.
+		/// Set the interval at which the provider starts jobs to try to reconnect.
 		/// </summary>
 		/// <param name="reconnectInterval">The reconnection interval in minutes.</param>
+		/// <param name="connectNow">If a connection attempt should be made now.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task SetReconnectInterval(uint reconnectInterval);
+		Task SetReconnectInterval(uint reconnectInterval, bool connectNow);
 
 		/// <summary>
 		/// Send the message for a deployment.

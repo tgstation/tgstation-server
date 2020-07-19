@@ -1,4 +1,4 @@
-﻿using Meebey.SmartIrc4net;
+using Meebey.SmartIrc4net;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Chat.Providers
@@ -90,45 +91,33 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <summary>
 		/// Construct an <see cref="IrcProvider"/>
 		/// </summary>
+		/// <param name="jobManager">The <see cref="IJobManager"/> for the provider.</param>
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> to get the <see cref="IAssemblyInformationProvider.VersionString"/> from</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
-		/// <param name="logger">The value of logger</param>
-		/// <param name="address">The value of <see cref="address"/></param>
-		/// <param name="port">The value of <see cref="port"/></param>
-		/// <param name="nickname">The value of <see cref="nickname"/></param>
-		/// <param name="password">The value of <see cref="password"/></param>
-		/// <param name="passwordType">The value of <see cref="passwordType"/></param>
-		/// <param name="reconnectInterval">The initial reconnect interval in minutes.</param>
-		/// <param name="useSsl">If <see cref="IrcConnection.UseSsl"/> should be used</param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="Provider"/>.</param>
+		/// <param name="chatBot">The <see cref="Models.ChatBot"/> for the <see cref="Provider"/>.</param>
 		public IrcProvider(
+			IJobManager jobManager,
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IAsyncDelayer asyncDelayer,
 			ILogger<IrcProvider> logger,
-			string address,
-			ushort port,
-			string nickname,
-			string password,
-			IrcPasswordType? passwordType,
-			uint reconnectInterval,
-			bool useSsl)
-			: base(logger, reconnectInterval)
+			Models.ChatBot chatBot)
+			: base(jobManager, logger, chatBot)
 		{
 			if (assemblyInformationProvider == null)
 				throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 
-			this.address = address ?? throw new ArgumentNullException(nameof(address));
-			this.port = port;
-			this.nickname = nickname ?? throw new ArgumentNullException(nameof(nickname));
+			var builder = chatBot.CreateConnectionStringBuilder();
+			if (builder == null || !builder.Valid || !(builder is IrcConnectionStringBuilder ircBuilder))
+				throw new InvalidOperationException("Invalid ChatConnectionStringBuilder!");
 
-			if (passwordType.HasValue && password == null)
-				throw new ArgumentNullException(nameof(password));
+			address = ircBuilder.Address;
+			port = ircBuilder.Port.Value;
+			nickname = ircBuilder.Nickname;
 
-			if (password != null && !passwordType.HasValue)
-				throw new ArgumentNullException(nameof(passwordType));
-
-			this.password = password;
-			this.passwordType = passwordType;
+			password = ircBuilder.Password;
+			passwordType = ircBuilder.PasswordType.Value;
 
 			client = new IrcFeatures
 			{
@@ -143,9 +132,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				ActiveChannelSyncing = true,
 				AutoNickHandling = true,
 				CtcpVersion = assemblyInformationProvider.VersionString,
-				UseSsl = useSsl
+				UseSsl = ircBuilder.UseSsl.Value
 			};
-			if (useSsl)
+			if (ircBuilder.UseSsl.Value)
 				client.ValidateServerCertificate = true; // dunno if it defaults to that or what
 
 			client.OnChannelMessage += Client_OnChannelMessage;
@@ -154,19 +143,13 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			channelIdMap = new Dictionary<ulong, string>();
 			queryChannelIdMap = new Dictionary<ulong, string>();
 			channelIdCounter = 1;
-			disconnecting = false;
 		}
 
 		/// <inheritdoc />
-		public override void Dispose()
+		public override async ValueTask DisposeAsync()
 		{
-			if (Connected)
-			{
-				disconnecting = true;
-				client.Disconnect(); // just closes the socket
-			}
-
-			base.Dispose();
+			await base.DisposeAsync().ConfigureAwait(false);
+			await HardDisconnect().ConfigureAwait(false);
 		}
 
 		/// <summary>
@@ -247,7 +230,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		void Client_OnChannelMessage(object sender, IrcEventArgs e) => HandleMessage(e, false);
 
 		/// <inheritdoc />
-		public override Task<bool> Connect(CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		protected override Task Connect(CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
 			disconnecting = false;
 			lock (client)
@@ -338,11 +321,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				}
 				catch (Exception e)
 				{
-					Logger.LogWarning("Unable to connect to IRC: {0}", e);
-					return false;
+					throw new JobException(ErrorCode.ChatCannotConnectProvider, e);
 				}
-
-			return true;
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
 		/// <inheritdoc />
@@ -363,8 +343,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						Logger.LogWarning("Error quitting IRC: {0}", e);
 					}
 				}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
-				Dispose();
-				await listenTask.ConfigureAwait(false);
+				await HardDisconnect().ConfigureAwait(false);
 			}
 			catch (OperationCanceledException)
 			{
@@ -374,6 +353,16 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			{
 				Logger.LogWarning("Error disconnecting from IRC! Exception: {0}", e);
 			}
+		}
+
+		async Task HardDisconnect()
+		{
+			if (!Connected)
+				return;
+
+			disconnecting = true;
+			client.Disconnect();
+			await listenTask.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />

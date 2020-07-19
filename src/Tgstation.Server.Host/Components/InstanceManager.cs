@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -424,6 +424,9 @@ namespace Tgstation.Server.Host.Components
 					})
 					.ToList();
 				await Task.WhenAll(tasks).ConfigureAwait(false);
+
+				jobManager.Activate();
+
 				logger.LogInformation("Server ready!");
 				readyTcs.SetResult(null);
 			}

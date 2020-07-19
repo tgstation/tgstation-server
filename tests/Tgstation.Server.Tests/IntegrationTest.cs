@@ -95,7 +95,13 @@ namespace Tgstation.Server.Tests
 			{
 				try
 				{
-					return await clientFactory.CreateFromLogin(url, User.AdminName, User.DefaultAdminPassword, attemptLoginRefresh: false).ConfigureAwait(false);
+					return await clientFactory.CreateFromLogin(
+						url,
+						User.AdminName,
+						User.DefaultAdminPassword,
+						attemptLoginRefresh: false,
+						cancellationToken: cancellationToken)
+						.ConfigureAwait(false);
 				}
 				catch (HttpRequestException)
 				{

@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Interop.Topic;
+using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Session
@@ -33,9 +34,9 @@ namespace Tgstation.Server.Host.Components.Session
 		Version DMApiVersion { get; }
 
 		/// <summary>
-		/// The <see cref="IDmbProvider"/> being used
+		/// Gets the <see cref="CompileJob"/> associated with the <see cref="ISessionController"/>.
 		/// </summary>
-		IDmbProvider Dmb { get; }
+		CompileJob CompileJob { get; }
 
 		/// <summary>
 		/// The current port DreamDaemon is listening on
@@ -108,7 +109,7 @@ namespace Tgstation.Server.Host.Components.Session
 		void EnableCustomChatCommands();
 
 		/// <summary>
-		/// Replace <see cref="Dmb"/> with a given <paramref name="newProvider"/>, disposing the old one.
+		/// Replace the <see cref="IDmbProvider"/> in use with a given <paramref name="newProvider"/>, disposing the old one.
 		/// </summary>
 		/// <param name="newProvider">The new <see cref="IDmbProvider"/>.</param>
 		void ReplaceDmbProvider(IDmbProvider newProvider);

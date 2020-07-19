@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Serilog.Context;
 using System;
@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Jobs
@@ -36,6 +37,11 @@ namespace Tgstation.Server.Host.Jobs
 		readonly Dictionary<long, JobHandler> jobs;
 
 		/// <summary>
+		/// <see cref="TaskCompletionSource{TResult}"/> to delay starting jobs until the server is ready.
+		/// </summary>
+		readonly TaskCompletionSource<object> activationTcs;
+
+		/// <summary>
 		/// <see langword="lock"/> <see cref="object"/> for various operations.
 		/// </summary>
 		readonly object synchronizationLock;
@@ -52,6 +58,7 @@ namespace Tgstation.Server.Host.Jobs
 			this.instanceCoreProvider = instanceCoreProvider ?? throw new ArgumentNullException(nameof(instanceCoreProvider));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			jobs = new Dictionary<long, JobHandler>();
+			activationTcs = new TaskCompletionSource<object>();
 			synchronizationLock = new object();
 		}
 
@@ -89,7 +96,7 @@ namespace Tgstation.Server.Host.Jobs
 			using (LogContext.PushProperty("Job", job.Id))
 				try
 				{
-					void LogRegularException() => logger.LogDebug("Job {0} exited with error! Exception: {1}", job.Id, job.ExceptionDetails);
+					void LogException() => logger.LogDebug("Job {0} exited with error! Exception: {1}", job.Id, job.ExceptionDetails);
 					try
 					{
 						var oldJob = job;
@@ -101,6 +108,8 @@ namespace Tgstation.Server.Host.Jobs
 								if (jobs.TryGetValue(oldJob.Id, out var handler))
 									handler.Progress = progress;
 						}
+
+						await activationTcs.Task.WithToken(cancellationToken).ConfigureAwait(false);
 
 						await operation(
 							instanceCoreProvider.Value.GetInstance(oldJob.Instance),
@@ -120,20 +129,13 @@ namespace Tgstation.Server.Host.Jobs
 					catch (JobException e)
 					{
 						job.ErrorCode = e.ErrorCode;
-						job.ExceptionDetails = e.Message;
-						LogRegularException();
-						if (e.InnerException != null)
-							logger.LogDebug(
-								"Inner exception for job {0}: {1}",
-								job.Id,
-								e.InnerException is JobException
-									? e.InnerException.Message
-									: e.InnerException.ToString());
+						job.ExceptionDetails = String.IsNullOrWhiteSpace(e.Message) ? e.InnerException?.Message : e.Message;
+						LogException();
 					}
 					catch (Exception e)
 					{
 						job.ExceptionDetails = e.ToString();
-						LogRegularException();
+						LogException();
 					}
 
 					await databaseContextFactory.UseContext(async databaseContext =>
@@ -183,10 +185,16 @@ namespace Tgstation.Server.Host.Jobs
 					};
 					databaseContext.Instances.Attach(job.Instance);
 
-					job.StartedBy = new User
-					{
-						Id = job.StartedBy.Id
-					};
+					if (job.StartedBy == null)
+						job.StartedBy = await databaseContext
+							.Users
+							.GetTgsUser(cancellationToken)
+							.ConfigureAwait(false);
+					else
+						job.StartedBy = new User
+						{
+							Id = job.StartedBy.Id
+						};
 					databaseContext.Users.Attach(job.StartedBy);
 
 					databaseContext.Jobs.Add(job);
@@ -244,11 +252,14 @@ namespace Tgstation.Server.Host.Jobs
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken)
 		{
-			var joinTasks = jobs.Select(x =>
-			{
-				x.Value.Cancel();
-				return x.Value.Wait(cancellationToken);
-			});
+			var joinTasks = jobs.Select(x => CancelJob(
+				new Job
+				{
+					Id = x.Key,
+				},
+				null,
+				true,
+				cancellationToken));
 			await Task.WhenAll(joinTasks).ConfigureAwait(false);
 		}
 
@@ -257,8 +268,6 @@ namespace Tgstation.Server.Host.Jobs
 		{
 			if (job == null)
 				throw new ArgumentNullException(nameof(job));
-			if (user == null)
-				throw new ArgumentNullException(nameof(user));
 			JobHandler handler;
 			try
 			{
@@ -273,6 +282,12 @@ namespace Tgstation.Server.Host.Jobs
 			handler.Cancel(); // this will ensure the db update is only done once
 			await databaseContextFactory.UseContext(async databaseContext =>
 			{
+				if (user == null)
+				{
+					user = await databaseContext.Users.GetTgsUser(cancellationToken).ConfigureAwait(false);
+					databaseContext.Users.Attach(user);
+				}
+
 				var updatedJob = new Job { Id = job.Id };
 				databaseContext.Jobs.Attach(job);
 				var attachedUser = new User { Id = user.Id };
@@ -321,6 +336,13 @@ namespace Tgstation.Server.Host.Jobs
 
 			if (cancelTask != null)
 				await cancelTask.ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		public void Activate()
+		{
+			logger.LogTrace("Activating job manager...");
+			activationTcs.SetResult(null);
 		}
 	}
 }

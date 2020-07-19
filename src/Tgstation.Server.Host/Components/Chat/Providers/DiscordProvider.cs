@@ -1,4 +1,4 @@
-﻿using Discord;
+using Discord;
 using Discord.WebSocket;
 using Microsoft.Extensions.Logging;
 using System;
@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.System;
 
@@ -31,6 +33,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <summary>
+		/// Gets the Discord bot token.
+		/// </summary>
+		string BotToken => ChatBot.ConnectionString;
+
+		/// <summary>
 		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="DiscordProvider"/>.
 		/// </summary>
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
@@ -39,11 +46,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// The <see cref="DiscordSocketClient"/> for the <see cref="DiscordProvider"/>
 		/// </summary>
 		readonly DiscordSocketClient client;
-
-		/// <summary>
-		/// The token used for connecting to discord
-		/// </summary>
-		readonly string botToken;
 
 		/// <summary>
 		/// <see cref="List{T}"/> of mapped <see cref="ITextChannel"/> <see cref="IEntity{TId}.Id"/>s
@@ -60,30 +62,28 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <summary>
 		/// Construct a <see cref="DiscordProvider"/>
 		/// </summary>
+		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="Provider"/>.</param>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
-		/// <param name="logger">The value of <see cref="Logger"/></param>
-		/// <param name="botToken">The value of <see cref="botToken"/></param>
-		/// <param name="reconnectInterval">The initial reconnect interval in minutes.</param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="Provider"/>.</param>
+		/// <param name="chatBot">The <see cref="ChatBot"/> for the <see cref="Provider"/>.</param>
 		public DiscordProvider(
+			IJobManager jobManager,
 			IAssemblyInformationProvider assemblyInformationProvider,
 			ILogger<DiscordProvider> logger,
-			string botToken,
-			uint reconnectInterval)
-			: base(logger, reconnectInterval)
+			Models.ChatBot chatBot)
+			: base(jobManager, logger, chatBot)
 		{
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
-			this.botToken = botToken ?? throw new ArgumentNullException(nameof(botToken));
 			client = new DiscordSocketClient();
 			client.MessageReceived += Client_MessageReceived;
 			mappedChannels = new List<ulong>();
 		}
 
 		/// <inheritdoc />
-		public override void Dispose()
+		public override async ValueTask DisposeAsync()
 		{
+			await base.DisposeAsync().ConfigureAwait(false);
 			client.Dispose();
-
-			base.Dispose();
 		}
 
 		/// <summary>
@@ -135,18 +135,12 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <inheritdoc />
-		public override async Task<bool> Connect(CancellationToken cancellationToken)
+		protected override async Task Connect(CancellationToken cancellationToken)
 		{
 			Logger.LogTrace("Connecting...");
-			if (Connected)
-			{
-				Logger.LogTrace("Already connected not doing connection attempt!");
-				return true;
-			}
-
 			try
 			{
-				await client.LoginAsync(TokenType.Bot, botToken, true).ConfigureAwait(false);
+				await client.LoginAsync(TokenType.Bot, BotToken, true).ConfigureAwait(false);
 
 				Logger.LogTrace("Logged in.");
 				cancellationToken.ThrowIfCancellationRequested();
@@ -171,11 +165,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 			catch (Exception e)
 			{
-				Logger.LogWarning("Error connecting to Discord: {0}", e);
-				return false;
+				throw new JobException(ErrorCode.ChatCannotConnectProvider, e);
 			}
-
-			return true;
 		}
 
 		/// <inheritdoc />
@@ -190,9 +181,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			try
 			{
+				cancellationToken.ThrowIfCancellationRequested();
 				await client.StopAsync().ConfigureAwait(false);
 				Logger.LogTrace("Stopped.");
-				cancellationToken.ThrowIfCancellationRequested();
 				await client.LogoutAsync().ConfigureAwait(false);
 				Logger.LogDebug("Disconnected!");
 			}
@@ -278,7 +269,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 		/// <inheritdoc />
 		public override async Task<Func<string, string, Task>> SendUpdateMessage(
-			RevisionInformation revisionInformation,
+			Models.RevisionInformation revisionInformation,
 			Version byondVersion,
 			DateTimeOffset? estimatedCompletionTime,
 			string gitHubOwner,

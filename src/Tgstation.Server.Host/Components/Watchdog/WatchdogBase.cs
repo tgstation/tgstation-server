@@ -1,4 +1,3 @@
-﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Serilog.Context;
 using System;
@@ -15,7 +14,6 @@ using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Interop.Topic;
 using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Core;
-using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
@@ -43,13 +41,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public abstract bool AlphaIsActive { get; }
 
 		/// <inheritdoc />
-		public abstract Models.CompileJob ActiveCompileJob { get; }
-
-		/// <inheritdoc />
 		public DreamDaemonLaunchParameters ActiveLaunchParameters { get; protected set; }
 
 		/// <inheritdoc />
 		public DreamDaemonLaunchParameters LastLaunchParameters { get; protected set; }
+
+		/// <inheritdoc />
+		public Models.CompileJob ActiveCompileJob => GetActiveController()?.CompileJob;
 
 		/// <inheritdoc />
 		public abstract RebootState? RebootState { get; }
@@ -103,11 +101,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// The <see cref="ISessionPersistor"/> for the <see cref="WatchdogBase"/>
 		/// </summary>
 		readonly ISessionPersistor sessionPersistor;
-
-		/// <summary>
-		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="WatchdogBase"/>
-		/// </summary>
-		readonly IDatabaseContextFactory databaseContextFactory;
 
 		/// <summary>
 		/// The <see cref="IJobManager"/> for the <see cref="WatchdogBase"/>.
@@ -176,7 +169,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="sessionControllerFactory">The value of <see cref="SessionControllerFactory"/></param>
 		/// <param name="dmbFactory">The value of <see cref="DmbFactory"/></param>
 		/// <param name="sessionPersistor">The value of <see cref="sessionPersistor"/></param>
-		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> to populate <see cref="restartRegistration"/> with</param>
 		/// <param name="asyncDelayer">The value of <see cref="AsyncDelayer"/>.</param>
@@ -191,7 +183,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			ISessionControllerFactory sessionControllerFactory,
 			IDmbFactory dmbFactory,
 			ISessionPersistor sessionPersistor,
-			IDatabaseContextFactory databaseContextFactory,
 			IJobManager jobManager,
 			IServerControl serverControl,
 			IAsyncDelayer asyncDelayer,
@@ -206,7 +197,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			SessionControllerFactory = sessionControllerFactory ?? throw new ArgumentNullException(nameof(sessionControllerFactory));
 			DmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
 			this.sessionPersistor = sessionPersistor ?? throw new ArgumentNullException(nameof(sessionPersistor));
-			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			AsyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.diagnosticsIOManager = diagnosticsIOManager ?? throw new ArgumentNullException(nameof(diagnosticsIOManager));
@@ -892,18 +882,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (!autoStart && reattachInfo == null)
 				return;
 
-			Models.User systemUser = null;
-			await databaseContextFactory.UseContext(
-				async db => systemUser = await db
-					.Users
-					.AsQueryable()
-					.Where(x => x.CanonicalName == Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
-					.FirstAsync(cancellationToken)
-					.ConfigureAwait(false))
-				.ConfigureAwait(false);
 			var job = new Models.Job
 			{
-				StartedBy = systemUser,
 				Instance = new Models.Instance
 				{
 					Id = instance.Id

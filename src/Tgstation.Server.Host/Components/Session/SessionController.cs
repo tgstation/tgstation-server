@@ -1,4 +1,4 @@
-﻿using Byond.TopicSender;
+using Byond.TopicSender;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Serilog.Context;
@@ -39,14 +39,7 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		public IDmbProvider Dmb
-		{
-			get
-			{
-				CheckDisposed();
-				return reattachInformation.Dmb;
-			}
-		}
+		public Models.CompileJob CompileJob => reattachInformation.Dmb.CompileJob;
 
 		/// <inheritdoc />
 		public ushort? Port
@@ -346,7 +339,7 @@ namespace Tgstation.Server.Host.Components.Session
 					else if (reattachResponse.InteropResponse != null)
 						logger.LogWarning(
 							"DMAPI v{0} isn't returning the TGS custom commands list. Functionality added in v5.2.0.",
-							Dmb.CompileJob.DMApiVersion.Semver());
+							CompileJob.DMApiVersion.Semver());
 				}
 			}
 
