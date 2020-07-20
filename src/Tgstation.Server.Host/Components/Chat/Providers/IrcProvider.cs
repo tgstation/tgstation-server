@@ -230,100 +230,131 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		void Client_OnChannelMessage(object sender, IrcEventArgs e) => HandleMessage(e, false);
 
 		/// <inheritdoc />
-		protected override Task Connect(CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		protected override async Task Connect(CancellationToken cancellationToken)
 		{
 			disconnecting = false;
-			lock (client)
-				try
+			try
+			{
+				client.Connect(address, port);
+
+				cancellationToken.ThrowIfCancellationRequested();
+
+				switch (passwordType)
 				{
-					client.Connect(address, port);
-
-					cancellationToken.ThrowIfCancellationRequested();
-
-					if (passwordType == IrcPasswordType.Server)
+					case IrcPasswordType.Server:
 						client.Login(nickname, nickname, 0, nickname, password);
-					else
-					{
-						if (passwordType == IrcPasswordType.Sasl)
-						{
-							client.WriteLine("CAP REQ :sasl", Priority.Critical); // needs to be put in the buffer before anything else
-							cancellationToken.ThrowIfCancellationRequested();
-						}
-
+						break;
+					case IrcPasswordType.NickServ:
 						client.Login(nickname, nickname, 0, nickname);
-					}
-
-					if (passwordType == IrcPasswordType.NickServ)
-					{
 						cancellationToken.ThrowIfCancellationRequested();
 						client.SendMessage(SendType.Message, "NickServ", String.Format(CultureInfo.InvariantCulture, "IDENTIFY {0}", password));
-					}
-					else if (passwordType == IrcPasswordType.Sasl)
+						break;
+					case IrcPasswordType.Sasl:
+						await SaslAuthenticate(cancellationToken).ConfigureAwait(false);
+						break;
+					case null:
+						break;
+					default:
+						throw new InvalidOperationException($"Invalid IrcPasswordType: {passwordType.Value}");
+				}
+
+				cancellationToken.ThrowIfCancellationRequested();
+				client.Listen(false);
+
+				listenTask = Task.Factory.StartNew(() =>
+				{
+					while (!disconnecting && client.IsConnected && client.Nickname != nickname)
 					{
-						// wait for the sasl ack or timeout
-						var recievedAck = false;
-						var recievedPlus = false;
-						client.OnReadLine += (sender, e) =>
-						{
-							if (e.Line.Contains("ACK :sasl", StringComparison.Ordinal))
-								recievedAck = true;
-							else if (e.Line.Contains("AUTHENTICATE +", StringComparison.Ordinal))
-								recievedPlus = true;
-						};
+						client.ListenOnce(true);
+						if (disconnecting || !client.IsConnected)
+							break;
+						client.Listen(false);
 
-						var startTime = DateTimeOffset.Now;
-						var endTime = DateTimeOffset.Now.AddSeconds(TimeoutSeconds);
-						cancellationToken.ThrowIfCancellationRequested();
-
-						var listenTimeSpan = TimeSpan.FromMilliseconds(10);
-						for (; !recievedAck && DateTimeOffset.Now <= endTime; asyncDelayer.Delay(listenTimeSpan, cancellationToken).GetAwaiter().GetResult())
-							client.Listen(false);
-
-						client.WriteLine("AUTHENTICATE PLAIN", Priority.Critical);
-						cancellationToken.ThrowIfCancellationRequested();
-
-						for (; !recievedPlus && DateTimeOffset.Now <= endTime; asyncDelayer.Delay(listenTimeSpan, cancellationToken).GetAwaiter().GetResult())
-							client.Listen(false);
-
-						// Stolen! https://github.com/znc/znc/blob/1e697580155d5a38f8b5a377f3b1d94aaa979539/modules/sasl.cpp#L196
-						var authString = String.Format(CultureInfo.InvariantCulture, "{0}{1}{0}{1}{2}", nickname, '\0', password);
-						var b64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(authString));
-						var authLine = String.Format(CultureInfo.InvariantCulture, "AUTHENTICATE {0}", b64);
-						var chars = authLine.ToCharArray();
-						client.WriteLine(authLine, Priority.Critical);
-
-						cancellationToken.ThrowIfCancellationRequested();
-						client.WriteLine("CAP END", Priority.Critical);
+						// ensure we have the correct nick
+						if (client.GetIrcUser(nickname) == null)
+							client.RfcNick(nickname);
 					}
 
-					client.Listen(false);
+					client.Listen();
+				}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+			}
+			catch (OperationCanceledException)
+			{
+				throw;
+			}
+			catch (Exception e)
+			{
+				throw new JobException(ErrorCode.ChatCannotConnectProvider, e);
+			}
+		}
 
-					listenTask = Task.Factory.StartNew(() =>
-					{
-						while (!disconnecting && client.IsConnected && client.Nickname != nickname)
-						{
-							client.ListenOnce(true);
-							if (disconnecting || !client.IsConnected)
-								break;
-							client.Listen(false);
+		/// <summary>
+		/// Run SASL authentication on <see cref="client"/>.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		async Task SaslAuthenticate(CancellationToken cancellationToken)
+		{
+			client.WriteLine("CAP REQ :sasl", Priority.Critical); // needs to be put in the buffer before anything else
+			cancellationToken.ThrowIfCancellationRequested();
+			client.Login(nickname, nickname, 0, nickname);
+			cancellationToken.ThrowIfCancellationRequested();
 
-							// ensure we have the correct nick
-							if (client.GetIrcUser(nickname) == null)
-								client.RfcNick(nickname);
-						}
+			// wait for the sasl ack or timeout
+			var recievedAck = false;
+			var recievedPlus = false;
 
-						client.Listen();
-					}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
-				}
-				catch (OperationCanceledException)
+			void AuthenticationDelegate(object sender, ReadLineEventArgs e)
+			{
+				if (e.Line.Contains("ACK :sasl", StringComparison.Ordinal))
+					recievedAck = true;
+				else if (e.Line.Contains("AUTHENTICATE +", StringComparison.Ordinal))
+					recievedPlus = true;
+			}
+
+			client.OnReadLine += AuthenticationDelegate;
+
+			try
+			{
+				using (var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
 				{
-					throw;
+					timeoutCts.CancelAfter(TimeSpan.FromSeconds(TimeoutSeconds));
+					var timeoutToken = timeoutCts.Token;
+
+					var listenTimeSpan = TimeSpan.FromMilliseconds(10);
+					for (; !recievedAck;
+						await asyncDelayer.Delay(listenTimeSpan, timeoutToken).ConfigureAwait(false))
+						client.Listen(false);
+
+					client.WriteLine("AUTHENTICATE PLAIN", Priority.Critical);
+					timeoutToken.ThrowIfCancellationRequested();
+
+					for (; !recievedPlus;
+						await asyncDelayer.Delay(listenTimeSpan, timeoutToken).ConfigureAwait(false))
+						client.Listen(false);
 				}
-				catch (Exception e)
-				{
-					throw new JobException(ErrorCode.ChatCannotConnectProvider, e);
-				}
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+
+				cancellationToken.ThrowIfCancellationRequested();
+
+				// Stolen! https://github.com/znc/znc/blob/1e697580155d5a38f8b5a377f3b1d94aaa979539/modules/sasl.cpp#L196
+				var authString = String.Format(
+					CultureInfo.InvariantCulture,
+					"{0}{1}{0}{1}{2}",
+					nickname,
+					'\0',
+					password);
+				var b64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(authString));
+				var authLine = $"AUTHENTICATE {b64}";
+				client.WriteLine(authLine, Priority.Critical);
+
+				cancellationToken.ThrowIfCancellationRequested();
+				client.WriteLine("CAP END", Priority.Critical);
+			}
+			finally
+			{
+				client.OnReadLine -= AuthenticationDelegate;
+			}
+		}
 
 		/// <inheritdoc />
 		protected override async Task DisconnectImpl(CancellationToken cancellationToken)
@@ -362,7 +393,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			disconnecting = true;
 			client.Disconnect();
-			await listenTask.ConfigureAwait(false);
+
+			if(listenTask != null)
+				await listenTask.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
