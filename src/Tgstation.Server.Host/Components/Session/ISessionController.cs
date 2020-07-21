@@ -39,11 +39,6 @@ namespace Tgstation.Server.Host.Components.Session
 		CompileJob CompileJob { get; }
 
 		/// <summary>
-		/// The current port DreamDaemon is listening on
-		/// </summary>
-		ushort? Port { get; }
-
-		/// <summary>
 		/// If the port should be rotated off when the world reboots
 		/// </summary>
 		bool ClosePortOnReboot { get; set; }

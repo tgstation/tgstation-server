@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Extensions;
 
 namespace Tgstation.Server.Host.Jobs
 {
@@ -47,15 +48,12 @@ namespace Tgstation.Server.Host.Jobs
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		public async Task Wait(CancellationToken cancellationToken)
+		public Task Wait(CancellationToken cancellationToken)
 		{
 			if (task == null)
 				throw new InvalidOperationException("Job not started!");
 
-			TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
-			using (cancellationToken.Register(() => tcs.SetCanceled()))
-				await Task.WhenAny(tcs.Task, task).ConfigureAwait(false);
-			cancellationToken.ThrowIfCancellationRequested();
+			return task.WithToken(cancellationToken);
 		}
 
 		/// <summary>

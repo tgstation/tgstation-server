@@ -42,26 +42,7 @@ namespace Tgstation.Server.Host.Components.Session
 		public Models.CompileJob CompileJob => reattachInformation.Dmb.CompileJob;
 
 		/// <inheritdoc />
-		public ushort? Port
-		{
-			get
-			{
-				CheckDisposed();
-				if (portClosedForReboot)
-					return null;
-				return reattachInformation.Port;
-			}
-		}
-
-		/// <inheritdoc />
-		public RebootState RebootState
-		{
-			get
-			{
-				CheckDisposed();
-				return reattachInformation.RebootState;
-			}
-		}
+		public RebootState RebootState => reattachInformation.RebootState;
 
 		/// <inheritdoc />
 		public Version DMApiVersion { get; private set; }
@@ -262,7 +243,10 @@ namespace Tgstation.Server.Host.Components.Session
 				startupTimeout,
 				reattached);
 
-			logger.LogDebug("Created session controller. CommsKey: {0}, Port: {1}", reattachInformation.AccessIdentifier, Port);
+			logger.LogDebug(
+				"Created session controller. CommsKey: {0}, Port: {1}",
+				reattachInformation.AccessIdentifier,
+				reattachInformation.Port);
 		}
 
 		/// <inheritdoc />

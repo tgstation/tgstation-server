@@ -298,8 +298,14 @@ namespace Tgstation.Server.Host.Jobs
 				await databaseContext.Save(cancellationToken).ConfigureAwait(false);
 				job.CancelledBy = user;
 			}).ConfigureAwait(false);
+
 			if (blocking)
+			{
+				logger.LogTrace("Waiting on cancelled job #{0}...", job.Id);
 				await handler.Wait(cancellationToken).ConfigureAwait(false);
+				logger.LogTrace("Done waiting on job #{0}...", job.Id);
+			}
+
 			return job;
 		}
 
@@ -321,8 +327,6 @@ namespace Tgstation.Server.Host.Jobs
 		{
 			if (job == null)
 				throw new ArgumentNullException(nameof(job));
-			if (canceller == null)
-				throw new ArgumentNullException(nameof(canceller));
 			JobHandler handler;
 			lock (synchronizationLock)
 			{

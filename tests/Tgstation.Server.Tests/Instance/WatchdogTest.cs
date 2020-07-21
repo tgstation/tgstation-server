@@ -85,8 +85,9 @@ namespace Tgstation.Server.Tests.Instance
 			var dumpTask = instanceClient.DreamDaemon.CreateDump(cancellationToken);
 			while (!dumpTask.IsCompleted)
 				KillDD(false);
-			await WaitForJob(await dumpTask, 5, true, ErrorCode.DreamDaemonOffline, cancellationToken);
-			await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+			var job = await WaitForJob(await dumpTask, 10, true, null, cancellationToken);
+			Assert.IsTrue(job.ErrorCode == ErrorCode.DreamDaemonOffline || job.ErrorCode == ErrorCode.GCoreFailure);
+			await Task.Delay(TimeSpan.FromSeconds(10), cancellationToken);
 
 			var ddStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreEqual(WatchdogStatus.Online, ddStatus.Status.Value);
@@ -105,7 +106,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			var startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
 
-			await WaitForJob(startJob, 10, false, null, cancellationToken);
+			await WaitForJob(startJob, 20, false, null, cancellationToken);
 
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
@@ -147,12 +148,12 @@ namespace Tgstation.Server.Tests.Instance
 					blockSocket.Bind(new IPEndPoint(IPAddress.Any, 1337));
 					startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
 
-					await WaitForJob(startJob, 10, true, ErrorCode.DreamDaemonPortInUse, cancellationToken);
+					await WaitForJob(startJob, 20, true, ErrorCode.DreamDaemonPortInUse, cancellationToken);
 				}
 
 			startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
 
-			await WaitForJob(startJob, 10, false, null, cancellationToken);
+			await WaitForJob(startJob, 20, false, null, cancellationToken);
 
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
@@ -178,7 +179,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			var startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
 
-			await WaitForJob(startJob, 10, false, null, cancellationToken);
+			await WaitForJob(startJob, 20, false, null, cancellationToken);
 
 			// lock on to DD and pause it so it can't heartbeat
 			var ddProcs = System.Diagnostics.Process.GetProcessesByName("DreamDaemon").ToList();
@@ -246,7 +247,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			var startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
 
-			await WaitForJob(startJob, 10, false, null, cancellationToken);
+			await WaitForJob(startJob, 20, false, null, cancellationToken);
 
 			daemonStatus = await DeployTestDme(DmeName, DreamDaemonSecurity.Safe, true, cancellationToken);
 
@@ -287,7 +288,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			var startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
 
-			await WaitForJob(startJob, 10, false, null, cancellationToken);
+			await WaitForJob(startJob, 20, false, null, cancellationToken);
 
 			daemonStatus = await DeployTestDme(DmeName + "_copy", DreamDaemonSecurity.Safe, true, cancellationToken);
 
@@ -425,10 +426,10 @@ namespace Tgstation.Server.Tests.Instance
 		{
 			var bts = new TopicClient(new SocketParameters
 			{
-				SendTimeout = TimeSpan.FromSeconds(7),
-				ReceiveTimeout = TimeSpan.FromSeconds(7),
-				ConnectTimeout = TimeSpan.FromSeconds(7),
-				DisconnectTimeout = TimeSpan.FromSeconds(7)
+				SendTimeout = TimeSpan.FromSeconds(15),
+				ReceiveTimeout = TimeSpan.FromSeconds(15),
+				ConnectTimeout = TimeSpan.FromSeconds(15),
+				DisconnectTimeout = TimeSpan.FromSeconds(15)
 			});
 
 			try

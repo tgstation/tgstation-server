@@ -455,13 +455,20 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken)
 		{
-			await jobManager.StopAsync(cancellationToken).ConfigureAwait(false);
-			await Task.WhenAll(instances.Select(x => x.Value.Instance.StopAsync(cancellationToken))).ConfigureAwait(false);
-			await instanceFactory.StopAsync(cancellationToken).ConfigureAwait(false);
+			try
+			{
+				await jobManager.StopAsync(cancellationToken).ConfigureAwait(false);
+				await Task.WhenAll(instances.Select(x => x.Value.Instance.StopAsync(cancellationToken))).ConfigureAwait(false);
+				await instanceFactory.StopAsync(cancellationToken).ConfigureAwait(false);
 
-			// downgrade the db if necessary
-			if (downgradeVersion != null)
-				await databaseContextFactory.UseContext(db => databaseSeeder.Downgrade(db, downgradeVersion, cancellationToken)).ConfigureAwait(false);
+				// downgrade the db if necessary
+				if (downgradeVersion != null)
+					await databaseContextFactory.UseContext(db => databaseSeeder.Downgrade(db, downgradeVersion, cancellationToken)).ConfigureAwait(false);
+			}
+			catch (Exception ex)
+			{
+				logger.LogError("Instance manager stop exception: {0}", ex);
+			}
 		}
 
 		/// <inheritdoc />

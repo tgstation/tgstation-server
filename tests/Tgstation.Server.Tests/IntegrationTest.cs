@@ -136,21 +136,40 @@ namespace Tgstation.Server.Tests
 			string migrationName = null;
 			DbContext CreateContext()
 			{
+				string serverVersion = Environment.GetEnvironmentVariable($"{DatabaseConfiguration.Section}__{nameof(DatabaseConfiguration.ServerVersion)}");
+				if (String.IsNullOrWhiteSpace(serverVersion))
+					serverVersion = null;
 				switch (databaseType)
 				{
 					case DatabaseType.MySql:
 					case DatabaseType.MariaDB:
 						migrationName = nameof(MYInitialCreate);
-						return new MySqlDatabaseContext(Host.Database.Design.DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions<MySqlDatabaseContext>(databaseType, connectionString));
+						return new MySqlDatabaseContext(
+							Host.Database.Design.DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions<MySqlDatabaseContext>(
+								databaseType,
+								connectionString,
+								serverVersion));
 					case DatabaseType.PostgresSql:
 						migrationName = nameof(PGCreate);
-						return new PostgresSqlDatabaseContext(Host.Database.Design.DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions<PostgresSqlDatabaseContext>(databaseType, connectionString));
+						return new PostgresSqlDatabaseContext(
+							Host.Database.Design.DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions<PostgresSqlDatabaseContext>(
+								databaseType,
+								connectionString,
+								serverVersion));
 					case DatabaseType.SqlServer:
 						migrationName = nameof(MSInitialCreate);
-						return new SqlServerDatabaseContext(Host.Database.Design.DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions<SqlServerDatabaseContext>(databaseType, connectionString));
+						return new SqlServerDatabaseContext(
+							Host.Database.Design.DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions<SqlServerDatabaseContext>(
+								databaseType,
+								connectionString,
+								serverVersion));
 					case DatabaseType.Sqlite:
 						migrationName = nameof(SLRebuild);
-						return new SqliteDatabaseContext(Host.Database.Design.DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions<SqliteDatabaseContext>(databaseType, connectionString));
+						return new SqliteDatabaseContext(
+							Host.Database.Design.DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions<SqliteDatabaseContext>(
+								databaseType,
+								connectionString,
+								serverVersion));
 				}
 
 				return null;
@@ -180,29 +199,7 @@ namespace Tgstation.Server.Tests
 			}
 
 			using var server = new TestingServer();
-
-			using var hardTimeoutCts = new CancellationTokenSource();
-
-			var maximumTestDuration = new TimeSpan(0, 12, 0);
-
-			hardTimeoutCts.CancelAfter(maximumTestDuration - new TimeSpan(0, 0, 15));
-			var hardTimeoutCancellationToken = hardTimeoutCts.Token;
-			hardTimeoutCancellationToken.Register(() =>
-			{
-				Console.WriteLine($"[{DateTimeOffset.Now}] TEST TIMEOUT HARD!");
-			});
-
-			using var softTimeoutCts = CancellationTokenSource.CreateLinkedTokenSource(hardTimeoutCancellationToken);
-			softTimeoutCts.CancelAfter(maximumTestDuration - new TimeSpan(0, 0, 45));
-			var softTimeoutCancellationToken = softTimeoutCts.Token;
-			bool tooLateForSoftTimeout = false;
-			softTimeoutCancellationToken.Register(() =>
-			{
-				if (!tooLateForSoftTimeout)
-					Console.WriteLine($"[{DateTimeOffset.Now}] TEST TIMEOUT SOFT!");
-			});
-
-			using var serverCts = CancellationTokenSource.CreateLinkedTokenSource(softTimeoutCancellationToken);
+			using var serverCts = new CancellationTokenSource();
 			var cancellationToken = serverCts.Token;
 
 			TerminateAllDDs();
@@ -258,7 +255,7 @@ namespace Tgstation.Server.Tests
 					await adminClient.Administration.Restart(cancellationToken);
 				}
 
-				await Task.WhenAny(serverTask, Task.Delay(30000, cancellationToken));
+				await Task.WhenAny(serverTask, Task.Delay(TimeSpan.FromMinutes(1), cancellationToken));
 				Assert.IsTrue(serverTask.IsCompleted);
 
 				// http bind test https://github.com/tgstation/tgstation-server/issues/1065
@@ -278,7 +275,7 @@ namespace Tgstation.Server.Tests
 					}
 				}
 
-				await Task.WhenAny(serverTask, Task.Delay(30000, cancellationToken));
+				await Task.WhenAny(serverTask, Task.Delay(TimeSpan.FromMinutes(1), cancellationToken));
 				Assert.IsTrue(serverTask.IsCompleted);
 
 				var preStartupTime = DateTimeOffset.Now;
@@ -303,12 +300,12 @@ namespace Tgstation.Server.Tests
 							.ToList();
 					}
 
-					Assert.AreEqual(1, jobs.Count, $"Why are there multiple active jobs? \"{String.Join("\", \"", jobs.Select(x => x.Description))}\"");
-
-					var reattachJob = jobs.Single();
-					Assert.IsTrue(reattachJob.StartedAt.Value >= preStartupTime);
-
-					await new JobsRequiredTest(instanceClient.Jobs).WaitForJob(reattachJob, 40, false, null, cancellationToken);
+					var jrt = new JobsRequiredTest(instanceClient.Jobs);
+					foreach (var job in jobs)
+					{
+						Assert.IsTrue(job.StartedAt.Value >= preStartupTime);
+						await jrt.WaitForJob(job, 40, false, null, cancellationToken);
+					}
 
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
@@ -322,7 +319,7 @@ namespace Tgstation.Server.Tests
 					await adminClient.Administration.Restart(cancellationToken);
 				}
 
-				await Task.WhenAny(serverTask, Task.Delay(30000, cancellationToken));
+				await Task.WhenAny(serverTask, Task.Delay(TimeSpan.FromMinutes(1), cancellationToken));
 				Assert.IsTrue(serverTask.IsCompleted);
 
 				preStartupTime = DateTimeOffset.Now;
@@ -376,18 +373,21 @@ namespace Tgstation.Server.Tests
 			}
 			finally
 			{
-				tooLateForSoftTimeout = true;
 				serverCts.Cancel();
+
+				// Give the test 1 minute to cleanup
+				using var hardTimeoutCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(1));
 				try
 				{
-					await serverTask.WithToken(hardTimeoutCancellationToken).ConfigureAwait(false);
+					await serverTask.WithToken(hardTimeoutCancellationTokenSource.Token).ConfigureAwait(false);
 				}
 				catch (OperationCanceledException) { }
 
 				TerminateAllDDs();
-
-				hardTimeoutCancellationToken.ThrowIfCancellationRequested();
 			}
+
+			Assert.IsTrue(serverTask.IsCompleted);
+			await serverTask;
 		}
 
 		[TestMethod]
