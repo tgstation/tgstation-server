@@ -1,4 +1,4 @@
-name: 'Test Suite'
+name: 'CI'
 
 on:
   push:
@@ -250,12 +250,25 @@ jobs:
         cd ../Tgstation.Server.Host
         dotnet publish -c ${{ matrix.configuration }} --no-build -o ../../Artifacts/Console/lib/Default
 
+    - name: Package Server Update Package
+      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'PostgresSql' }}
+      run: |
+        cd ../Tgstation.Server.Host
+        dotnet publish -c ${{ matrix.configuration }} --no-build -o ../../Artifacts/ServerUpdate
+
     - name: Store Server Console
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'MariaDB' }}
       uses: actions/upload-artifact@v2
       with:
         name: ServerConsole
         path: Artifacts/Console/
+
+    - name: Store Server Update Package
+      if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'PostgresSql' }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: ServerUpdatePackage
+        path: Artifacts/ServerUpdate/
 
   windows-integration-test:
     name: Windows Integration Test
@@ -497,3 +510,228 @@ jobs:
         directory: ./code_coverage/integration_tests
         flags: integration
         fail_ci_if_error: true
+
+  deploy-http:
+    name: Deploy HTTP API
+    needs: [linux-unit-tests, linux-integration-tests, windows-unit-tests, windows-integration-test]
+    runs-on: windows-latest
+    if: github.event_name == 'push' && github.ref == 'master' && contains(github.event.head_commit.message, '[APIDeploy]')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Parse API version
+        shell: powershell
+        run: |
+          [XML]$versionXML = Get-Content build/Version.props
+          $apiVersion = $versionXML.Project.PropertyGroup.TgsApiVersion
+          Write-Host "::set-env name=TGS_API_VERSION::$apiVersion"
+
+      - name: Retrieve OpenAPI Spec
+        uses: actions/download-artifact@v2
+        with:
+          name: openapi-spec
+          path: swagger.json
+
+      - name: Create GitHub Release
+        uses: juitnow/github-action-create-release@v1
+        id: create_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: api-v${{ env.TGS_API_VERSION }}
+          release_name: tgstation-server 4 API v${{ env.TGS_API_VERSION }}
+          body: The TGS HTTP API
+          committish: ${{ github.event.after }}
+
+      - name: Upload OpenApi Spec
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./swagger.json
+          asset_name: swagger.json
+          asset_content_type: application/json
+
+  deploy-dm:
+    name: Deploy DreamMaker API
+    needs: [linux-unit-tests, linux-integration-tests, windows-unit-tests, windows-integration-test]
+    runs-on: windows-latest
+    if: github.event_name == 'push' && github.ref == 'master' && contains(github.event.head_commit.message, '[DMDeploy]')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Parse DMAPI version
+        shell: powershell
+        run: |
+          [XML]$versionXML = Get-Content build/Version.props
+          $dmVersion = $versionXML.Project.PropertyGroup.TgsDmapiVersion
+          Write-Host "::set-env name=TGS_DM_VERSION::$dmVersion"
+
+      - name: Zip DMAPI
+        shell: powershell
+        run: Compress-Archive -Path src/DMAPI -DestinationPath DMAPI.zip
+
+      - name: Create GitHub Release
+        uses: juitnow/github-action-create-release@v1
+        id: create_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: dmapi-v${{ env.TGS_DM_VERSION }}
+          release_name: tgstation-server 4 DMAPI v${{ env.TGS_DM_VERSION }}
+          body: The TGS DMAPI
+          committish: ${{ github.event.after }}
+
+      - name: Upload DMAPI Artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./DMAPI.zip
+          asset_name: my-artifact.zip
+          asset_content_type: application/zip
+
+  deploy-client:
+    name: Deploy Nuget Packages
+    needs: [linux-unit-tests, linux-integration-tests, windows-unit-tests, windows-integration-test]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'master' && contains(github.event.head_commit.message, '[NugetDeploy]')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Publish API to NuGet
+        uses: rohith/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: src/Tgstation.Server.Api/Tgstation.Server.Api.csproj
+          TAG_COMMIT: false
+          INCLUDE_SYMBOLS: true
+          NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
+
+      - name: Publish Client to NuGet
+        uses: rohith/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: src/Tgstation.Server.Client/Tgstation.Server.Client.csproj
+          TAG_COMMIT: false
+          INCLUDE_SYMBOLS: true
+          NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
+
+  deploy-tgs:
+    name: Deploy tgstation-server
+    needs: [deploy-dm, deploy-http, deploy-client]
+    runs-on: windows-latest
+    if: github.event_name == 'push' && github.ref == 'master' && contains(github.event.head_commit.message, '[TGSDeploy]')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Parse TGS version
+        shell: powershell
+        run: |
+          [XML]$versionXML = Get-Content build/Version.props
+          $tgsVersion = $versionXML.Project.PropertyGroup.TgsCoreVersion
+          Write-Host "::set-env name=TGS_VERSION::$tgsVersion"
+
+      - name: Retrieve Server Service
+        uses: actions/download-artifact@v2
+        with:
+          name: ServerService
+          path: ServerService
+
+      - name: Retrieve Server Console
+        uses: actions/download-artifact@v2
+        with:
+          name: ServerConsole
+          path: ServerConsole
+
+      - name: Retrieve Server Update Package
+        uses: actions/download-artifact@v2
+        with:
+          name: ServerUpdatePackage
+          path: ServerUpdatePackage
+
+      - name: Retrieve OpenAPI Spec
+        uses: actions/download-artifact@v2
+        with:
+          name: openapi-spec
+          path: swagger.json
+
+      - name: Zip Artifacts
+        shell: powershell
+        run: |
+          Compress-Archive -Path src/DMAPI -DestinationPath DMAPI.zip
+          Compress-Archive -Path ServerService -DestinationPath ServerService.zip
+          Compress-Archive -Path ServerConsole -DestinationPath ServerConsole.zip
+          Compress-Archive -Path ServerUpdatePackage -DestinationPath ServerUpdatePackage.zip
+
+      - name: Generate Release Notes
+        shell: powershell
+        run: |
+          dotnet run -c Release -p tools/ReleaseNotes ${{ env.TGS_VERSION }} build/Version.props
+          $releaseNotes = [IO.File]::ReadAllText("release_notes.md")
+          Write-Host "::set-env name=TGS_RELEASE_NOTES::$releaseNotes"
+
+      - name: Create GitHub Release
+        uses: juitnow/github-action-create-release@v1
+        id: create_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: tgstation-server-v${{ env.TGS_VERSION }}
+          release_name: tgstation-server 4 DMAPI v${{ env.TGS_VERSION }}
+          body: ${{ env.TGS_RELEASE_NOTES }}
+          committish: ${{ github.event.after }}
+
+      - name: Upload Server Console Artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./ServerConsole.zip
+          asset_name: ServerConsole.zip
+          asset_content_type: application/zip
+
+      - name: Upload Server Service Artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./ServerService.zip
+          asset_name: ServerService.zip
+          asset_content_type: application/zip
+
+      - name: Upload DMAPI Artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./DMAPI.zip
+          asset_name: DMAPI.zip
+          asset_content_type: application/zip
+
+      - name: Upload OpenApi Spec Artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./swagger.json
+          asset_name: swagger.json
+          asset_content_type: application/json
+
+      - name: Upload Server Update Package Artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./ServerUpdatePackage.zip
+          asset_name: ServerUpdatePackage.zip
+          asset_content_type: application/zip
