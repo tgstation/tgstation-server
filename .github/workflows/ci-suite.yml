@@ -513,7 +513,7 @@ jobs:
 
   deploy-http:
     name: Deploy HTTP API
-    needs: [linux-unit-tests, linux-integration-tests, windows-unit-tests, windows-integration-test]
+    needs: [upload-code-coverage, validate-openapi-spec]
     runs-on: windows-latest
     if: github.event_name == 'push' && github.ref == 'master' && contains(github.event.head_commit.message, '[APIDeploy]')
     steps:
@@ -556,7 +556,7 @@ jobs:
 
   deploy-dm:
     name: Deploy DreamMaker API
-    needs: [linux-unit-tests, linux-integration-tests, windows-unit-tests, windows-integration-test]
+    needs: [upload-code-coverage, validate-openapi-spec]
     runs-on: windows-latest
     if: github.event_name == 'push' && github.ref == 'master' && contains(github.event.head_commit.message, '[DMDeploy]')
     steps:
@@ -597,7 +597,7 @@ jobs:
 
   deploy-client:
     name: Deploy Nuget Packages
-    needs: [linux-unit-tests, linux-integration-tests, windows-unit-tests, windows-integration-test]
+    needs: [upload-code-coverage, validate-openapi-spec]
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'master' && contains(github.event.head_commit.message, '[NugetDeploy]')
     steps:

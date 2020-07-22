@@ -36,7 +36,8 @@ namespace Tgstation.Server.Tests.Instance
 			var initialSettings = await instanceClient.DreamDaemon.Update(new DreamDaemon
 			{
 				StartupTimeout = 30,
-				HeartbeatSeconds = 0
+				HeartbeatSeconds = 0,
+				Port = IntegrationTest.DDPort
 			}, cancellationToken);
 
 			await ApiAssert.ThrowsException<ApiConflictException>(() => instanceClient.DreamDaemon.Update(new DreamDaemon
@@ -87,7 +88,7 @@ namespace Tgstation.Server.Tests.Instance
 				KillDD(false);
 			var job = await WaitForJob(await dumpTask, 10, true, null, cancellationToken);
 			Assert.IsTrue(job.ErrorCode == ErrorCode.DreamDaemonOffline || job.ErrorCode == ErrorCode.GCoreFailure);
-			await Task.Delay(TimeSpan.FromSeconds(10), cancellationToken);
+			await Task.Delay(TimeSpan.FromSeconds(20), cancellationToken);
 
 			var ddStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreEqual(WatchdogStatus.Online, ddStatus.Status.Value);
@@ -145,7 +146,7 @@ namespace Tgstation.Server.Tests.Instance
 				{
 					blockSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ExclusiveAddressUse, true);
 					blockSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, false);
-					blockSocket.Bind(new IPEndPoint(IPAddress.Any, 1337));
+					blockSocket.Bind(new IPEndPoint(IPAddress.Any, IntegrationTest.DDPort));
 					startJob = await instanceClient.DreamDaemon.Start(cancellationToken).ConfigureAwait(false);
 
 					await WaitForJob(startJob, 20, true, ErrorCode.DreamDaemonPortInUse, cancellationToken);
@@ -160,7 +161,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreEqual(false, daemonStatus.SoftRestart);
 			Assert.AreEqual(false, daemonStatus.SoftShutdown);
 
-			await GracefulWatchdogShutdown(30, cancellationToken);
+			await GracefulWatchdogShutdown(60, cancellationToken);
 
 			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreEqual(WatchdogStatus.Offline, daemonStatus.Status.Value);
@@ -170,7 +171,7 @@ namespace Tgstation.Server.Tests.Instance
 
 		async Task RunHeartbeatTest(CancellationToken cancellationToken)
 		{
-			global::System.Console.WriteLine("TEST: WATCHDOG HEARTBEAT TEST");
+			System.Console.WriteLine("TEST: WATCHDOG HEARTBEAT TEST");
 			// enable heartbeats
 			await instanceClient.DreamDaemon.Update(new DreamDaemon
 			{
@@ -210,7 +211,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			await Task.WhenAny(ourProcessHandler.Lifetime, Task.Delay(TimeSpan.FromSeconds(20)));
 
-			var timeout = 10;
+			var timeout = 20;
 			do
 			{
 				await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false);
@@ -260,9 +261,8 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreNotEqual(initialCompileJob.Id, newerCompileJob.Id);
 			Assert.AreEqual(DreamDaemonSecurity.Ultrasafe, newerCompileJob.MinimumSecurityLevel);
 
-			await TellWorldToReboot(cancellationToken);
+			daemonStatus = await TellWorldToReboot(cancellationToken);
 
-			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreNotEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
 			Assert.IsNull(daemonStatus.StagedCompileJob);
 
@@ -301,9 +301,8 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreNotEqual(initialCompileJob.Id, newerCompileJob.Id);
 			Assert.AreEqual(DreamDaemonSecurity.Ultrasafe, newerCompileJob.MinimumSecurityLevel);
 
-			await TellWorldToReboot(cancellationToken);
+			daemonStatus = await TellWorldToReboot(cancellationToken);
 
-			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreNotEqual(initialCompileJob.Id, daemonStatus.ActiveCompileJob.Id);
 			Assert.IsNull(daemonStatus.StagedCompileJob);
 
@@ -354,9 +353,8 @@ namespace Tgstation.Server.Tests.Instance
 
 			Assert.AreEqual(true, daemonStatus.SoftRestart);
 
-			await TellWorldToReboot(cancellationToken);
+			daemonStatus = await TellWorldToReboot(cancellationToken);
 
-			daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreEqual(versionToInstall, daemonStatus.ActiveCompileJob.ByondVersion);
 			Assert.IsNull(daemonStatus.StagedCompileJob);
 
@@ -379,6 +377,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
+			Assert.AreEqual(IntegrationTest.DDPort, daemonStatus.CurrentPort);
 
 			// The measure we use to test dream daemon startup doesn't work on linux currently
 			if (new PlatformIdentifier().IsWindows)
@@ -422,28 +421,45 @@ namespace Tgstation.Server.Tests.Instance
 			return ddProc != null;
 		}
 
-		async Task TellWorldToReboot(CancellationToken cancellationToken)
+		async Task<DreamDaemon> TellWorldToReboot(CancellationToken cancellationToken)
 		{
+			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+			var initialCompileJob = daemonStatus.ActiveCompileJob;
+
 			var bts = new TopicClient(new SocketParameters
 			{
-				SendTimeout = TimeSpan.FromSeconds(15),
-				ReceiveTimeout = TimeSpan.FromSeconds(15),
-				ConnectTimeout = TimeSpan.FromSeconds(15),
-				DisconnectTimeout = TimeSpan.FromSeconds(15)
+				SendTimeout = TimeSpan.FromSeconds(30),
+				ReceiveTimeout = TimeSpan.FromSeconds(30),
+				ConnectTimeout = TimeSpan.FromSeconds(30),
+				DisconnectTimeout = TimeSpan.FromSeconds(30)
 			});
 
 			try
 			{
-				global::System.Console.WriteLine("TEST: Sending world reboot topic...");
-				var result = await bts.SendTopic(IPAddress.Loopback, "tgs_integration_test_special_tactics=1", 1337, cancellationToken);
+				System.Console.WriteLine("TEST: Sending world reboot topic...");
+				var result = await bts.SendTopic(IPAddress.Loopback, "tgs_integration_test_special_tactics=1", IntegrationTest.DDPort, cancellationToken);
 				Assert.AreEqual("ack", result.StringData);
 
-				await Task.Delay(20000, cancellationToken);
+				using (var tempCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
+				using (tempCts.Token.Register(() => System.Console.WriteLine("TEST ERROR: Timeout in TellWorldToReboot!")))
+				{
+					tempCts.CancelAfter(TimeSpan.FromMinutes(1));
+					var tempToken = tempCts.Token;
+
+					do
+					{
+						await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false);
+						daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
+					}
+					while (initialCompileJob.Id == daemonStatus.ActiveCompileJob.Id && !tempToken.IsCancellationRequested);
+				}
 			}
 			catch (OperationCanceledException)
 			{
 				throw;
 			}
+
+			return daemonStatus;
 		}
 
 		async Task<DreamDaemon> DeployTestDme(string dmeName, DreamDaemonSecurity deploymentSecurity, bool requireApi, CancellationToken cancellationToken)

@@ -131,13 +131,13 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					Mention = NormalizeMentions(e.Author.Mention)
 				}
 			};
+
 			EnqueueMessage(result);
 		}
 
 		/// <inheritdoc />
 		protected override async Task Connect(CancellationToken cancellationToken)
 		{
-			Logger.LogTrace("Connecting...");
 			try
 			{
 				await client.LoginAsync(TokenType.Bot, BotToken, true).ConfigureAwait(false);
@@ -150,14 +150,22 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				Logger.LogTrace("Started.");
 
 				var channelsAvailable = new TaskCompletionSource<object>();
-				client.Ready += () =>
+				Task ReadyCallback()
 				{
 					channelsAvailable.TrySetResult(null);
 					return Task.CompletedTask;
-				};
-				using (cancellationToken.Register(() => channelsAvailable.SetCanceled()))
-					await channelsAvailable.Task.ConfigureAwait(false);
-				Logger.LogDebug("Connection established!");
+				}
+
+				client.Ready += ReadyCallback;
+				try
+				{
+					using (cancellationToken.Register(() => channelsAvailable.SetCanceled()))
+						await channelsAvailable.Task.ConfigureAwait(false);
+				}
+				finally
+				{
+					client.Ready -= ReadyCallback;
+				}
 			}
 			catch (OperationCanceledException)
 			{
@@ -172,13 +180,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		protected override async Task DisconnectImpl(CancellationToken cancellationToken)
 		{
-			Logger.LogTrace("Disconnecting...");
-			if (!Connected)
-			{
-				Logger.LogTrace("Already disconnected not doing disconnection attempt!");
-				return;
-			}
-
 			try
 			{
 				cancellationToken.ThrowIfCancellationRequested();
@@ -254,7 +255,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				var channel = client.GetChannel(channelId) as IMessageChannel;
 				await (channel?.SendMessageAsync(message, false, null, new RequestOptions
 				{
-					CancelToken = cancellationToken
+					CancelToken = cancellationToken,
+					Timeout = 10000 // prevent stupid long hold ups from this
 				}) ?? Task.CompletedTask).ConfigureAwait(false);
 			}
 			catch (OperationCanceledException)

@@ -1,4 +1,4 @@
-﻿using Cyberboss.AspNetCore.AsyncInitializer;
+using Cyberboss.AspNetCore.AsyncInitializer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
@@ -97,6 +97,10 @@ namespace Tgstation.Server.Host.Core
 
 			// enable options which give us config reloading
 			services.AddOptions();
+
+			// Set the timeout for IHostedService.StopAsync
+			services.Configure<HostOptions>(
+				opts => opts.ShutdownTimeout = TimeSpan.FromMilliseconds(postSetupServices.GeneralConfiguration.RestartTimeout));
 
 			static LogEventLevel? ConvertSeriLogLevel(LogLevel logLevel) =>
 				logLevel switch

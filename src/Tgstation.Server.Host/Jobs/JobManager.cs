@@ -111,6 +111,7 @@ namespace Tgstation.Server.Host.Jobs
 
 						await activationTcs.Task.WithToken(cancellationToken).ConfigureAwait(false);
 
+						logger.LogTrace("Starting job...");
 						await operation(
 							instanceCoreProvider.Value.GetInstance(oldJob.Instance),
 							databaseContextFactory,
@@ -201,7 +202,7 @@ namespace Tgstation.Server.Host.Jobs
 
 					await databaseContext.Save(cancellationToken).ConfigureAwait(false);
 
-					logger.LogDebug("Starting job {0}: {1}...", job.Id, job.Description);
+					logger.LogDebug("Registering job {0}: {1}...", job.Id, job.Description);
 					var jobHandler = new JobHandler(jobCancellationToken => RunJob(job, operation, jobCancellationToken));
 					try
 					{
@@ -283,15 +284,12 @@ namespace Tgstation.Server.Host.Jobs
 			await databaseContextFactory.UseContext(async databaseContext =>
 			{
 				if (user == null)
-				{
 					user = await databaseContext.Users.GetTgsUser(cancellationToken).ConfigureAwait(false);
-					databaseContext.Users.Attach(user);
-				}
 
 				var updatedJob = new Job { Id = job.Id };
-				databaseContext.Jobs.Attach(job);
+				databaseContext.Jobs.Attach(updatedJob);
 				var attachedUser = new User { Id = user.Id };
-				databaseContext.Users.Attach(user);
+				databaseContext.Users.Attach(attachedUser);
 				updatedJob.CancelledBy = attachedUser;
 
 				// let either startup or cancellation set job.cancelled

@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -290,29 +290,29 @@ namespace Tgstation.Server.Host
 			}
 
 			if (exception == null)
-				using (var cts = new CancellationTokenSource())
-				{
-					logger.LogInformation("Restarting server...");
-					var cancellationToken = cts.Token;
-					var eventsTask = Task.WhenAll(restartHandlers.Select(x => x.HandleRestart(newVersion, cancellationToken)).ToList());
+			{
+				logger.LogInformation("Restarting server...");
+				using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(generalConfiguration.RestartTimeout));
+				var cancellationToken = cts.Token;
+				var eventsTask = Task.WhenAll(
+					restartHandlers.Select(
+						x => x.HandleRestart(newVersion, cancellationToken))
+					.ToList());
 
-					var expiryTask = Task.Delay(TimeSpan.FromMilliseconds(generalConfiguration.RestartTimeout));
-					await Task.WhenAny(eventsTask, expiryTask).ConfigureAwait(false);
-					logger.LogTrace("Joining restart handlers...");
-					cts.Cancel();
-					try
-					{
-						await eventsTask.ConfigureAwait(false);
-					}
-					catch (OperationCanceledException)
-					{
-						logger.LogError("Restart timeout hit! Existing DreamDaemon processes will be lost and must be killed manually before being restarted with TGS!");
-					}
-					catch (Exception e)
-					{
-						logger.LogError("Restart handlers error! Exception: {0}", e);
-					}
+				logger.LogTrace("Joining restart handlers...");
+				try
+				{
+					await eventsTask.ConfigureAwait(false);
 				}
+				catch (OperationCanceledException)
+				{
+					logger.LogError("Restart timeout hit! Existing DreamDaemon processes will be lost and must be killed manually before being restarted with TGS!");
+				}
+				catch (Exception e)
+				{
+					logger.LogError("Restart handlers error! Exception: {0}", e);
+				}
+			}
 
 			logger.LogTrace("Stopping host...");
 			cancellationTokenSource.Cancel();

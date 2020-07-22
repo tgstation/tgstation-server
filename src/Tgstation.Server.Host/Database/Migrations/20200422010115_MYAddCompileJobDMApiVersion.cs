@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 
 namespace Tgstation.Server.Host.Database.Migrations
@@ -55,8 +55,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 			migrationBuilder.AddColumn<string>(
 				name: "ServerCommandsJson",
 				table: "ReattachInformations",
-				nullable: false,
-				defaultValue: "server_commands.tgs.json");
+				nullable: false);
 		}
 	}
 }

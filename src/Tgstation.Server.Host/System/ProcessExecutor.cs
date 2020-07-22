@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.System
 		/// </summary>
 		/// <param name="handle">The <see cref="global::System.Diagnostics.Process"/> to attach the <see cref="Task{TResult}"/> for</param>
 		/// <returns>A new <see cref="Task{TResult}"/> resulting in the exit code of <paramref name="handle"/></returns>
-		static Task<int> AttachExitHandler(global::System.Diagnostics.Process handle)
+		Task<int> AttachExitHandler(global::System.Diagnostics.Process handle)
 		{
 			handle.EnableRaisingEvents = true;
 			var tcs = new TaskCompletionSource<int>();
@@ -45,7 +45,8 @@ namespace Tgstation.Server.Host.System
 				}
 
 				// Try because this can be invoked twice for weird reasons
-				tcs.TrySetResult(exitCode);
+				if (tcs.TrySetResult(exitCode))
+					logger.LogTrace("Process exit event completed");
 			};
 
 			return tcs.Task;

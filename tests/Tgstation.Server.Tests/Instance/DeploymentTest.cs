@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -36,7 +36,8 @@ namespace Tgstation.Server.Tests.Instance
 			if (!new PlatformIdentifier().IsWindows)
 				await dreamMakerClient.Update(new DreamMaker
 				{
-					ProjectName = "tests/DMAPI/ApiFree/api_free"
+					ProjectName = "tests/DMAPI/ApiFree/api_free",
+					ApiValidationPort = IntegrationTest.DMPort
 				}, cancellationToken);
 
 			var updatedDD = await dreamDaemonClient.Update(new DreamDaemon

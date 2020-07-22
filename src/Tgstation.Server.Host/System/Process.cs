@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
 using System.Text;
@@ -10,6 +10,11 @@ namespace Tgstation.Server.Host.System
 	/// <inheritdoc />
 	sealed class Process : IProcess
 	{
+		/// <summary>
+		/// Maximum time to wait in a call to <see cref="global::System.Diagnostics.Process.WaitForExit(int)"/>.
+		/// </summary>
+		const int MaximumWaitMilliseconds = 30000;
+
 		/// <inheritdoc />
 		public int Id { get; }
 
@@ -30,6 +35,11 @@ namespace Tgstation.Server.Host.System
 		readonly ILogger<Process> logger;
 
 		readonly global::System.Diagnostics.Process handle;
+
+		/// <summary>
+		/// A <see cref="TaskCompletionSource{TResult}"/> so that we can complete <see cref="Lifetime"/> if the <see cref="handle"/> becomes unresponsive.
+		/// </summary>
+		readonly TaskCompletionSource<object> emergencyLifetimeTcs;
 
 		readonly StringBuilder outputStringBuilder;
 		readonly StringBuilder errorStringBuilder;
@@ -65,6 +75,7 @@ namespace Tgstation.Server.Host.System
 
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
+			emergencyLifetimeTcs = new TaskCompletionSource<object>();
 			Lifetime = WrapLifetimeTask(lifetime ?? throw new ArgumentNullException(nameof(lifetime)));
 
 			Id = handle.Id;
@@ -92,9 +103,12 @@ namespace Tgstation.Server.Host.System
 
 		async Task<int> WrapLifetimeTask(Task<int> lifetimeTask)
 		{
-			var result = await lifetimeTask.ConfigureAwait(false);
-			logger.LogTrace("PID {0} ended with code {1}", Id, result);
-			return result;
+			await Task.WhenAny(lifetimeTask, emergencyLifetimeTcs.Task).ConfigureAwait(false);
+			if (lifetimeTask.IsCompleted)
+				return await lifetimeTask.ConfigureAwait(false);
+
+			logger.LogTrace("Using exit code -1 for hung PID {0}.", Id);
+			return -1;
 		}
 
 		/// <inheritdoc />
@@ -130,7 +144,15 @@ namespace Tgstation.Server.Host.System
 			{
 				logger.LogTrace("Terminating PID {0}...", Id);
 				handle.Kill();
-				handle.WaitForExit();
+				if (!handle.WaitForExit(MaximumWaitMilliseconds))
+				{
+					logger.LogError(
+						"PID {0} hasn't exited in {1} seconds! This may cause issues with port reuse.",
+						Id,
+						TimeSpan.FromMilliseconds(MaximumWaitMilliseconds).TotalSeconds);
+
+					emergencyLifetimeTcs.TrySetResult(null);
+				}
 			}
 			catch (Exception e)
 			{

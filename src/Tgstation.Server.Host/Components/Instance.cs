@@ -471,7 +471,7 @@ namespace Tgstation.Server.Host.Components
 				// race condition, just quit
 				if (timerTask != null)
 				{
-					logger.LogDebug("Aborting auto update interval change due to race condition!");
+					logger.LogWarning("Aborting auto update interval change due to race condition!");
 					return;
 				}
 

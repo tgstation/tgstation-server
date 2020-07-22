@@ -20,6 +20,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 	/// </summary>
 	sealed class IrcProvider : Provider
 	{
+		/// <summary>
+		/// Number of seconds used for several IRC related timeouts.
+		/// </summary>
 		const int TimeoutSeconds = 5;
 
 		/// <inheritdoc />
@@ -149,7 +152,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		public override async ValueTask DisposeAsync()
 		{
 			await base.DisposeAsync().ConfigureAwait(false);
-			await HardDisconnect().ConfigureAwait(false);
+
+			// DCT: None available
+			await HardDisconnect(default).ConfigureAwait(false);
 		}
 
 		/// <summary>
@@ -239,6 +244,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 				cancellationToken.ThrowIfCancellationRequested();
 
+				Logger.LogTrace("Authenticating ({0})...", passwordType);
 				switch (passwordType)
 				{
 					case IrcPasswordType.Server:
@@ -259,24 +265,50 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				}
 
 				cancellationToken.ThrowIfCancellationRequested();
-				client.Listen(false);
+				Logger.LogTrace("Processing initial messages...");
+				await NonBlockingListen(cancellationToken).ConfigureAwait(false);
 
-				listenTask = Task.Factory.StartNew(() =>
+				var nickCheckCompleteTcs = new TaskCompletionSource<object>();
+				using (cancellationToken.Register(() => nickCheckCompleteTcs.TrySetCanceled()))
 				{
-					while (!disconnecting && client.IsConnected && client.Nickname != nickname)
+					listenTask = Task.Factory.StartNew(
+					async () =>
 					{
-						client.ListenOnce(true);
-						if (disconnecting || !client.IsConnected)
-							break;
-						client.Listen(false);
+						Logger.LogTrace("Entering nick check loop");
+						while (!disconnecting && client.IsConnected && client.Nickname != nickname)
+						{
+							client.ListenOnce(true);
+							if (disconnecting || !client.IsConnected)
+								break;
+							await NonBlockingListen(cancellationToken).ConfigureAwait(false);
 
-						// ensure we have the correct nick
-						if (client.GetIrcUser(nickname) == null)
-							client.RfcNick(nickname);
-					}
+							// ensure we have the correct nick
+							if (client.GetIrcUser(nickname) == null)
+								client.RfcNick(nickname);
+						}
 
-					client.Listen();
-				}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+						nickCheckCompleteTcs.TrySetResult(null);
+
+						Logger.LogTrace("Starting blocking listen...");
+						try
+						{
+							client.Listen();
+						}
+						catch (Exception ex)
+						{
+							Logger.LogWarning("IRC Listen Error: {0}", ex);
+						}
+
+						Logger.LogTrace("Exiting listening task...");
+					},
+					cancellationToken,
+					TaskCreationOptions.LongRunning,
+					TaskScheduler.Current);
+
+					await nickCheckCompleteTcs.Task.ConfigureAwait(false);
+				}
+
+				Logger.LogTrace("Connection established!");
 			}
 			catch (OperationCanceledException)
 			{
@@ -289,6 +321,28 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <summary>
+		/// Perform a non-blocking <see cref="IrcConnection.Listen(bool)"/>.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		Task NonBlockingListen(CancellationToken cancellationToken) => Task.Factory.StartNew(
+			() =>
+			{
+				try
+				{
+					client.Listen(false);
+				}
+				catch (Exception ex)
+				{
+					Logger.LogWarning("IRC Listen Error: {0}", ex);
+				}
+			},
+			cancellationToken,
+			TaskCreationOptions.None,
+			TaskScheduler.Current)
+			.WithToken(cancellationToken);
+
+		/// <summary>
 		/// Run SASL authentication on <see cref="client"/>.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
@@ -297,6 +351,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		{
 			client.WriteLine("CAP REQ :sasl", Priority.Critical); // needs to be put in the buffer before anything else
 			cancellationToken.ThrowIfCancellationRequested();
+
+			Logger.LogTrace("Logging in...");
 			client.Login(nickname, nickname, 0, nickname);
 			cancellationToken.ThrowIfCancellationRequested();
 
@@ -312,69 +368,72 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					recievedPlus = true;
 			}
 
+			Logger.LogTrace("Performing handshake...");
 			client.OnReadLine += AuthenticationDelegate;
-
 			try
 			{
-				using (var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
-				{
-					timeoutCts.CancelAfter(TimeSpan.FromSeconds(TimeoutSeconds));
-					var timeoutToken = timeoutCts.Token;
+				using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+				timeoutCts.CancelAfter(TimeSpan.FromSeconds(TimeoutSeconds));
+				var timeoutToken = timeoutCts.Token;
 
-					var listenTimeSpan = TimeSpan.FromMilliseconds(10);
-					for (; !recievedAck;
-						await asyncDelayer.Delay(listenTimeSpan, timeoutToken).ConfigureAwait(false))
-						client.Listen(false);
+				var listenTimeSpan = TimeSpan.FromMilliseconds(10);
+				for (; !recievedAck;
+					await asyncDelayer.Delay(listenTimeSpan, timeoutToken).ConfigureAwait(false))
+					await NonBlockingListen(cancellationToken).ConfigureAwait(false);
 
-					client.WriteLine("AUTHENTICATE PLAIN", Priority.Critical);
-					timeoutToken.ThrowIfCancellationRequested();
+				client.WriteLine("AUTHENTICATE PLAIN", Priority.Critical);
+				timeoutToken.ThrowIfCancellationRequested();
 
-					for (; !recievedPlus;
-						await asyncDelayer.Delay(listenTimeSpan, timeoutToken).ConfigureAwait(false))
-						client.Listen(false);
-				}
-
-				cancellationToken.ThrowIfCancellationRequested();
-
-				// Stolen! https://github.com/znc/znc/blob/1e697580155d5a38f8b5a377f3b1d94aaa979539/modules/sasl.cpp#L196
-				var authString = String.Format(
-					CultureInfo.InvariantCulture,
-					"{0}{1}{0}{1}{2}",
-					nickname,
-					'\0',
-					password);
-				var b64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(authString));
-				var authLine = $"AUTHENTICATE {b64}";
-				client.WriteLine(authLine, Priority.Critical);
-
-				cancellationToken.ThrowIfCancellationRequested();
-				client.WriteLine("CAP END", Priority.Critical);
+				for (; !recievedPlus;
+					await asyncDelayer.Delay(listenTimeSpan, timeoutToken).ConfigureAwait(false))
+					await NonBlockingListen(cancellationToken).ConfigureAwait(false);
 			}
 			finally
 			{
 				client.OnReadLine -= AuthenticationDelegate;
 			}
+
+			cancellationToken.ThrowIfCancellationRequested();
+
+			// Stolen! https://github.com/znc/znc/blob/1e697580155d5a38f8b5a377f3b1d94aaa979539/modules/sasl.cpp#L196
+			Logger.LogTrace("Sending credentials...");
+			var authString = String.Format(
+				CultureInfo.InvariantCulture,
+				"{0}{1}{0}{1}{2}",
+				nickname,
+				'\0',
+				password);
+			var b64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(authString));
+			var authLine = $"AUTHENTICATE {b64}";
+			client.WriteLine(authLine, Priority.Critical);
+			cancellationToken.ThrowIfCancellationRequested();
+
+			Logger.LogTrace("Finishing authentication...");
+			client.WriteLine("CAP END", Priority.Critical);
 		}
 
 		/// <inheritdoc />
 		protected override async Task DisconnectImpl(CancellationToken cancellationToken)
 		{
-			if (!Connected)
-				return;
 			try
 			{
-				await Task.Factory.StartNew(() =>
-				{
-					try
+				await Task.Factory.StartNew(
+					() =>
 					{
-						client.RfcQuit("Mr. Stark, I don't feel so good...", Priority.Critical); // priocritical otherwise it wont go through
-					}
-					catch (Exception e)
-					{
-						Logger.LogWarning("Error quitting IRC: {0}", e);
-					}
-				}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
-				await HardDisconnect().ConfigureAwait(false);
+						try
+						{
+							client.RfcQuit("Mr. Stark, I don't feel so good...", Priority.Critical); // priocritical otherwise it wont go through
+						}
+						catch (Exception e)
+						{
+							Logger.LogWarning("Error quitting IRC: {0}", e);
+						}
+					},
+					cancellationToken,
+					TaskCreationOptions.LongRunning,
+					TaskScheduler.Current)
+					.ConfigureAwait(false);
+				await HardDisconnect(cancellationToken).ConfigureAwait(false);
 			}
 			catch (OperationCanceledException)
 			{
@@ -386,16 +445,42 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 		}
 
-		async Task HardDisconnect()
+		async Task HardDisconnect(CancellationToken cancellationToken)
 		{
 			if (!Connected)
+			{
+				Logger.LogTrace("Not hard disconnecting, already offline");
 				return;
+			}
+
+			Logger.LogTrace("Hard disconnect");
 
 			disconnecting = true;
-			client.Disconnect();
 
-			if(listenTask != null)
-				await listenTask.ConfigureAwait(false);
+			// This call blocks permanently randomly sometimes
+			// Frankly I don't give a shit
+			var disconnectTask = Task.Factory.StartNew(
+				() =>
+				{
+					try
+					{
+						client.Disconnect();
+					}
+					catch (Exception e)
+					{
+						Logger.LogWarning("Error disconnecting IRC: {0}", e);
+					}
+				},
+				cancellationToken,
+				TaskCreationOptions.None,
+				TaskScheduler.Current);
+
+			await Task.WhenAny(
+				Task.WhenAll(
+					disconnectTask,
+					listenTask ?? Task.CompletedTask),
+				asyncDelayer.Delay(TimeSpan.FromSeconds(TimeoutSeconds), cancellationToken))
+				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />

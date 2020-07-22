@@ -199,7 +199,11 @@ namespace Tgstation.Server.Tests
 			}
 
 			using var server = new TestingServer();
-			using var serverCts = new CancellationTokenSource();
+
+			const int MaximumTestMinutes = 20;
+			using var hardTimeoutCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(MaximumTestMinutes));
+			var hardCancellationToken = hardTimeoutCancellationTokenSource.Token;
+			using var serverCts = CancellationTokenSource.CreateLinkedTokenSource(hardCancellationToken);
 			var cancellationToken = serverCts.Token;
 
 			TerminateAllDDs();
@@ -259,8 +263,9 @@ namespace Tgstation.Server.Tests
 				Assert.IsTrue(serverTask.IsCompleted);
 
 				// http bind test https://github.com/tgstation/tgstation-server/issues/1065
-				using (var blockingSocket = new Socket(SocketType.Stream, ProtocolType.Tcp))
+				if (new PlatformIdentifier().IsWindows)
 				{
+					using var blockingSocket = new Socket(SocketType.Stream, ProtocolType.Tcp);
 					blockingSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ExclusiveAddressUse, true);
 					blockingSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, false);
 					blockingSocket.Bind(new IPEndPoint(IPAddress.Any, server.Url.Port));
@@ -343,12 +348,12 @@ namespace Tgstation.Server.Tests
 							.ToList();
 					}
 
-					Assert.AreEqual(1, jobs.Count);
-
-					var launchJob = jobs.Single();
-					Assert.IsTrue(launchJob.StartedAt.Value >= preStartupTime);
-
-					await new JobsRequiredTest(instanceClient.Jobs).WaitForJob(launchJob, 40, false, null, cancellationToken);
+					var jrt = new JobsRequiredTest(instanceClient.Jobs);
+					foreach (var job in jobs)
+					{
+						Assert.IsTrue(job.StartedAt.Value >= preStartupTime);
+						await jrt.WaitForJob(job, 40, false, null, cancellationToken);
+					}
 
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 
@@ -374,12 +379,9 @@ namespace Tgstation.Server.Tests
 			finally
 			{
 				serverCts.Cancel();
-
-				// Give the test 1 minute to cleanup
-				using var hardTimeoutCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(1));
 				try
 				{
-					await serverTask.WithToken(hardTimeoutCancellationTokenSource.Token).ConfigureAwait(false);
+					await serverTask.WithToken(hardCancellationToken).ConfigureAwait(false);
 				}
 				catch (OperationCanceledException) { }
 
@@ -388,6 +390,33 @@ namespace Tgstation.Server.Tests
 
 			Assert.IsTrue(serverTask.IsCompleted);
 			await serverTask;
+		}
+
+		public static ushort DDPort = FreeTcpPort();
+		public static ushort DMPort = GetDMPort();
+
+		static ushort GetDMPort()
+		{
+			ushort result;
+			do
+			{
+				result = FreeTcpPort();
+			} while (result == DDPort);
+			return result;
+		}
+
+		static ushort FreeTcpPort()
+		{
+			var l = new TcpListener(IPAddress.Loopback, 0);
+			l.Start();
+			try
+			{
+				return (ushort)((IPEndPoint)l.LocalEndpoint).Port;
+			}
+			finally
+			{
+				l.Stop();
+			}
 		}
 
 		[TestMethod]

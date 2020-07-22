@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -57,11 +57,6 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IIOManager ioManager;
 
 		/// <summary>
-		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="InstanceController"/>
-		/// </summary>
-		readonly IAssemblyInformationProvider assemblyInformationProvider;
-
-		/// <summary>
 		/// The <see cref="IPlatformIdentifier"/> for the <see cref="InstanceController"/>
 		/// </summary>
 		readonly IPlatformIdentifier platformIdentifier;
@@ -79,7 +74,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
-		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
@@ -89,7 +83,6 @@ namespace Tgstation.Server.Host.Controllers
 			IJobManager jobManager,
 			IInstanceManager instanceManager,
 			IIOManager ioManager,
-			IAssemblyInformationProvider assemblyInformationProvider,
 			IPlatformIdentifier platformIdentifier,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			ILogger<InstanceController> logger)
@@ -102,10 +95,50 @@ namespace Tgstation.Server.Host.Controllers
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
-			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
+
+		Models.Instance CreateDefaultInstance(Api.Models.Instance initialSettings)
+			=> new Models.Instance
+			{
+				ConfigurationType = initialSettings.ConfigurationType ?? ConfigurationType.Disallowed,
+				DreamDaemonSettings = new DreamDaemonSettings
+				{
+					AllowWebClient = false,
+					AutoStart = false,
+					Port = 1337,
+					SecurityLevel = DreamDaemonSecurity.Safe,
+					StartupTimeout = 60,
+					HeartbeatSeconds = 60,
+					TopicRequestTimeout = generalConfiguration.ByondTopicTimeout
+				},
+				DreamMakerSettings = new DreamMakerSettings
+				{
+					ApiValidationPort = 1339,
+					ApiValidationSecurityLevel = DreamDaemonSecurity.Safe,
+					RequireDMApiValidation = true
+				},
+				Name = initialSettings.Name,
+				Online = false,
+				Path = initialSettings.Path,
+				AutoUpdateInterval = initialSettings.AutoUpdateInterval ?? 0,
+				ChatBotLimit = initialSettings.ChatBotLimit ?? Models.Instance.DefaultChatBotLimit,
+				RepositorySettings = new RepositorySettings
+				{
+					CommitterEmail = "tgstation-server@users.noreply.github.com",
+					CommitterName = "tgstation-server",
+					PushTestMergeCommits = false,
+					ShowTestMergeCommitters = false,
+					AutoUpdatesKeepTestMerges = false,
+					AutoUpdatesSynchronize = false,
+					PostTestMergeComment = false
+				},
+				InstanceUsers = new List<Models.InstanceUser> // give this user full privileges on the instance
+				{
+					InstanceAdminUser(null)
+				}
+			};
 
 		string NormalizePath(string path)
 		{
@@ -243,45 +276,7 @@ namespace Tgstation.Server.Host.Controllers
 				else
 					attached = true;
 
-			var newInstance = new Models.Instance
-			{
-				ConfigurationType = model.ConfigurationType ?? ConfigurationType.Disallowed,
-				DreamDaemonSettings = new DreamDaemonSettings
-				{
-					AllowWebClient = false,
-					AutoStart = false,
-					Port = 1337,
-					SecurityLevel = DreamDaemonSecurity.Safe,
-					StartupTimeout = 60,
-					HeartbeatSeconds = 60,
-					TopicRequestTimeout = generalConfiguration.ByondTopicTimeout
-				},
-				DreamMakerSettings = new DreamMakerSettings
-				{
-					ApiValidationPort = 1339,
-					ApiValidationSecurityLevel = DreamDaemonSecurity.Safe,
-					RequireDMApiValidation = true
-				},
-				Name = model.Name,
-				Online = false,
-				Path = model.Path,
-				AutoUpdateInterval = model.AutoUpdateInterval ?? 0,
-				ChatBotLimit = model.ChatBotLimit ?? Models.Instance.DefaultChatBotLimit,
-				RepositorySettings = new RepositorySettings
-				{
-					CommitterEmail = "tgstation-server@users.noreply.github.com",
-					CommitterName = assemblyInformationProvider.VersionPrefix,
-					PushTestMergeCommits = false,
-					ShowTestMergeCommitters = false,
-					AutoUpdatesKeepTestMerges = false,
-					AutoUpdatesSynchronize = false,
-					PostTestMergeComment = false
-				},
-				InstanceUsers = new List<Models.InstanceUser> // give this user full privileges on the instance
-				{
-					InstanceAdminUser(null)
-				}
-			};
+			var newInstance = CreateDefaultInstance(model);
 
 			DatabaseContext.Instances.Add(newInstance);
 			try

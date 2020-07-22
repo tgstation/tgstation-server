@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Rights;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 
@@ -119,8 +120,12 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public async Task Disconnect(CancellationToken cancellationToken)
 		{
-			if(Connected)
+			if (Connected)
+			{
 				await DisconnectImpl(cancellationToken).ConfigureAwait(false);
+				Logger.LogTrace("Disconnected");
+			}
+
 			await StopReconnectionTimer().ConfigureAwait(false);
 		}
 
@@ -130,16 +135,17 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public async Task<Message> NextMessage(CancellationToken cancellationToken)
 		{
-			var cancelTcs = new TaskCompletionSource<object>();
-			using (cancellationToken.Register(() => cancelTcs.SetCanceled()))
-				await Task.WhenAny(nextMessage.Task, cancelTcs.Task).ConfigureAwait(false);
-			cancellationToken.ThrowIfCancellationRequested();
-			lock (messageQueue)
+			while (true)
 			{
-				var result = messageQueue.Dequeue();
-				if (messageQueue.Count == 0)
-					nextMessage = new TaskCompletionSource<object>();
-				return result;
+				await nextMessage.Task.WithToken(cancellationToken).ConfigureAwait(false);
+				lock (messageQueue)
+					if (messageQueue.Count > 0)
+					{
+						var result = messageQueue.Dequeue();
+						if (messageQueue.Count == 0)
+							nextMessage = new TaskCompletionSource<object>();
+						return result;
+					}
 			}
 		}
 
@@ -211,8 +217,17 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 							job,
 							async (core, databaseContextFactory, paramJob, progressReporter, jobCancellationToken) =>
 							{
-								await DisconnectImpl(jobCancellationToken).ConfigureAwait(false);
+								if (Connected)
+								{
+									Logger.LogTrace("Disconnecting...");
+									await DisconnectImpl(jobCancellationToken).ConfigureAwait(false);
+								}
+								else
+									Logger.LogTrace("Already disconnected not doing disconnection attempt!");
+
+								Logger.LogTrace("Connecting...");
 								await Connect(jobCancellationToken).ConfigureAwait(false);
+								Logger.LogTrace("Connected successfully");
 								EnqueueMessage(null);
 							},
 							cancellationToken)

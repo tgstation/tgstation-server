@@ -159,12 +159,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected override async Task DisposeAndNullControllersImpl()
 		{
 			var disposeTask = Server?.DisposeAsync();
+			gracefulRebootRequired = false;
 			if (!disposeTask.HasValue)
 				return;
 
 			await disposeTask.Value.ConfigureAwait(false);
 			Server = null;
-			gracefulRebootRequired = false;
 		}
 
 		/// <inheritdoc />

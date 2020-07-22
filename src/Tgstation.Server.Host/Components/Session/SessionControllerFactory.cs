@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -116,10 +116,11 @@ namespace Tgstation.Server.Host.Components.Session
 		/// Check if a given <paramref name="port"/> can be bound to.
 		/// </summary>
 		/// <param name="port">The port number to test.</param>
-		static void PortBindTest(ushort port)
+		void PortBindTest(ushort port)
 		{
 			try
 			{
+				logger.LogTrace("Bind test: {0}", port);
 				SocketExtensions.BindTest(port, false);
 			}
 			catch (SocketException ex) when (ex.SocketErrorCode == SocketError.AddressAlreadyInUse)
