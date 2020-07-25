@@ -225,7 +225,7 @@ namespace Tgstation.Server.Host
 				}
 				catch (Exception e)
 				{
-					logger.LogError("Error updating server! Exception: {0}", e);
+					logger.LogError(e, "Error updating server!");
 				}
 				finally
 				{
@@ -304,13 +304,15 @@ namespace Tgstation.Server.Host
 				{
 					await eventsTask.ConfigureAwait(false);
 				}
-				catch (OperationCanceledException)
+				catch (OperationCanceledException ex)
 				{
-					logger.LogError("Restart timeout hit! Existing DreamDaemon processes will be lost and must be killed manually before being restarted with TGS!");
+					logger.LogError(
+						ex,
+						"Restart timeout hit! Existing DreamDaemon processes will be lost and must be killed manually before being restarted with TGS!");
 				}
 				catch (Exception e)
 				{
-					logger.LogError("Restart handlers error! Exception: {0}", e);
+					logger.LogError(e, "Restart handlers error!");
 				}
 			}
 

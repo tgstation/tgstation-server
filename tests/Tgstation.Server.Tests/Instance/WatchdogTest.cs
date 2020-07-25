@@ -191,7 +191,7 @@ namespace Tgstation.Server.Tests.Instance
 			IProcessExecutor executor = null;
 			executor = new ProcessExecutor(
 				new PlatformIdentifier().IsWindows
-					? (IProcessFeatures)new WindowsProcessFeatures(Mock.Of<ILogger<WindowsProcessFeatures>>())
+					? (IProcessFeatures)new WindowsProcessFeatures()
 					: new PosixProcessFeatures(new Lazy<IProcessExecutor>(() => executor), Mock.Of<IIOManager>(), Mock.Of<ILogger<PosixProcessFeatures>>()),
 				Mock.Of<ILogger<ProcessExecutor>>(),
 				LoggerFactory.Create(x => { }));

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
@@ -30,7 +30,7 @@ namespace Tgstation.Server.Host.Controllers
 	[Route(Routes.Administration)]
 	public sealed class AdministrationController : ApiController
 	{
-		const string OctokitException = "Bad GitHub API response, check configuration! Exception: {0}";
+		const string OctokitException = "Bad GitHub API response, check configuration!";
 
 		/// <summary>
 		/// The <see cref="IGitHubClientFactory"/> for the <see cref="AdministrationController"/>
@@ -116,7 +116,7 @@ namespace Tgstation.Server.Host.Controllers
 
 		ObjectResult RateLimit(RateLimitExceededException exception)
 		{
-			Logger.LogWarning("Exceeded GitHub rate limit! Exception {0}", exception);
+			Logger.LogWarning(exception, "Exceeded GitHub rate limit!");
 			var secondsString = Math.Ceiling((exception.Reset - DateTimeOffset.Now).TotalSeconds).ToString(CultureInfo.InvariantCulture);
 			Response.Headers.Add("Retry-After", new StringValues(secondsString));
 			return StatusCode(HttpStatusCode.TooManyRequests, new ErrorMessage(ErrorCode.GitHubApiRateLimit));
@@ -148,7 +148,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch (ApiException e)
 			{
-				Logger.LogWarning(OctokitException, e);
+				Logger.LogWarning(e, OctokitException);
 				return StatusCode(HttpStatusCode.FailedDependency);
 			}
 
@@ -226,7 +226,7 @@ namespace Tgstation.Server.Host.Controllers
 				}
 				catch (NotFoundException e)
 				{
-					Logger.LogWarning("Not found exception while retrieving upstream repository info: {0}", e);
+					Logger.LogWarning(e, "Not found exception while retrieving upstream repository info!");
 				}
 
 				return Json(new Administration
@@ -242,7 +242,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch (ApiException e)
 			{
-				Logger.LogWarning(OctokitException, e);
+				Logger.LogWarning(e, OctokitException);
 				return StatusCode(HttpStatusCode.FailedDependency, new ErrorMessage(ErrorCode.GitHubApiError)
 				{
 					AdditionalData = e.Message

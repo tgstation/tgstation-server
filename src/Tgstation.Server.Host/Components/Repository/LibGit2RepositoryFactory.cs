@@ -1,4 +1,4 @@
-﻿using LibGit2Sharp;
+using LibGit2Sharp;
 using LibGit2Sharp.Handlers;
 using Microsoft.Extensions.Logging;
 using System;
@@ -30,17 +30,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		public LibGit2Sharp.IRepository CreateInMemory()
 		{
 			logger.LogTrace("Creating in-memory libgit2 repository...");
-			var repo = new LibGit2Sharp.Repository();
-			try
-			{
-				logger.LogTrace("Successfully created in-memory libgit2 repository.");
-				return repo;
-			}
-			catch
-			{
-				repo.Dispose();
-				throw;
-			}
+			return new LibGit2Sharp.Repository();
 		}
 
 		/// <inheritdoc />
@@ -70,7 +60,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			}
 			catch (UserCancelledException ex)
 			{
-				logger.LogTrace("Suppressing clone cancellation exception: {0}", ex);
+				logger.LogTrace(ex, "Suppressing clone cancellation exception");
 				cancellationToken.ThrowIfCancellationRequested();
 			}
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);

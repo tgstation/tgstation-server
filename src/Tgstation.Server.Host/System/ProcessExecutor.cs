@@ -77,9 +77,9 @@ namespace Tgstation.Server.Host.System
 			{
 				handle = global::System.Diagnostics.Process.GetProcessById(id);
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
-				logger.LogDebug("Unable to get process {0}! Exception: {1}", id, e);
+				logger.LogDebug(e, "Unable to get process {0}!", id);
 				return null;
 			}
 
@@ -233,7 +233,7 @@ namespace Tgstation.Server.Host.System
 					handle = proc;
 				else
 				{
-					logger.LogTrace("Disposing extra found PID: {0}", proc.Id);
+					logger.LogTrace("Disposing extra found PID: {0}...", proc.Id);
 					proc.Dispose();
 				}
 

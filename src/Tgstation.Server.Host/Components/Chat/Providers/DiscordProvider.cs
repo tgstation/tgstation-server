@@ -194,7 +194,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 			catch (Exception e)
 			{
-				Logger.LogWarning("Error disconnecting from discord: {0}", e);
+				Logger.LogWarning(e, "Error disconnecting from discord!");
 			}
 		}
 
@@ -265,7 +265,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 			catch (Exception e)
 			{
-				Logger.LogWarning("Error sending discord message: {0}", e);
+				Logger.LogWarning(e, "Error sending discord message!");
 			}
 		}
 
@@ -391,7 +391,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				}
 				catch (Exception ex)
 				{
-					Logger.LogWarning("Updating deploy embed {0} failed, attempting new post! Exception: {1}", message.Id, ex);
+					Logger.LogWarning(ex, "Updating deploy embed {0} failed, attempting new post!", message.Id);
 					try
 					{
 						await channel.SendMessageAsync(
@@ -402,7 +402,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					}
 					catch (Exception ex2)
 					{
-						Logger.LogWarning("Posting completion deploy embed failed! Exception: {0}", ex2);
+						Logger.LogWarning(ex2, "Posting completion deploy embed failed!");
 					}
 				}
 			};

@@ -289,7 +289,7 @@ namespace Tgstation.Server.Host.Components.Session
 							}
 							catch (Exception ex)
 							{
-								logger.LogWarning("Failed to delete DreamDaemon log file {0}: {1}", logFilePath, ex);
+								logger.LogWarning(ex, "Failed to delete DreamDaemon log file {0}!", logFilePath);
 							}
 						}
 					}
@@ -306,7 +306,7 @@ namespace Tgstation.Server.Host.Components.Session
 						}
 						catch (Exception ex)
 						{
-							logger.LogWarning("Error reading DreamDaemon output: {0}", ex);
+							logger.LogWarning(ex, "Error reading DreamDaemon output!");
 						}
 					}
 

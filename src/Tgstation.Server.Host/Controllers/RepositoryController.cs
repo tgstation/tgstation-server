@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -817,7 +817,7 @@ namespace Tgstation.Server.Host.Controllers
 								}
 
 								if (exception != null)
-									Logger.LogWarning("Error retrieving pull request metadata: {0}", exception);
+									Logger.LogWarning(exception, "Error retrieving pull request metadata!");
 
 								// we want to take the earliest truth possible to prevent RCEs, if this fails AddTestMerge will set it
 								if (I.PullRequestRevision == null && pr != null)

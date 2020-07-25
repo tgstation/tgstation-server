@@ -1,4 +1,4 @@
-﻿using LibGit2Sharp;
+using LibGit2Sharp;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
@@ -154,7 +154,7 @@ namespace Tgstation.Server.Host.Components.Repository
 							}
 							catch (Exception e)
 							{
-								logger.LogDebug("Error deleting partially cloned repository! Exception: {0}", e);
+								logger.LogDebug(e, "Error deleting partially cloned repository!");
 							}
 
 							throw;
@@ -209,8 +209,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			}
 			catch (RepositoryNotFoundException e)
 			{
-				logger.LogDebug("Repository not found!");
-				logger.LogTrace("Exception: {0}", e);
+				logger.LogTrace(e, "Repository not found!");
 				return null;
 			}
 		}

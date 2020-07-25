@@ -382,7 +382,7 @@ namespace Tgstation.Server.Host.Components
 					}
 					catch (Exception e)
 					{
-						logger.LogWarning("Error in auto update loop! Exception: {0}", e);
+						logger.LogWarning(e, "Error in auto update loop!");
 						continue;
 					}
 				}

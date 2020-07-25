@@ -232,9 +232,9 @@ namespace Tgstation.Server.Host.Components
 			catch (Exception ex)
 			{
 				logger.LogError(
-					"Error moving instance {0}! Exception: {2}",
-					instance.Id,
-					ex);
+					ex,
+					"Error moving instance {0}!",
+					instance.Id);
 				try
 				{
 					logger.LogDebug("Reverting instance {0}'s path to {1} in the DB...", instance.Id, oldPath);
@@ -254,8 +254,8 @@ namespace Tgstation.Server.Host.Components
 				catch (Exception innerEx)
 				{
 					logger.LogCritical(
-						"Error reverting database after failing to move instance {0}! Attempting to detach. Exception: {1}",
-						ex);
+						innerEx,
+						"Error reverting database after failing to move instance {0}! Attempting to detach...");
 
 					try
 					{
@@ -269,8 +269,8 @@ namespace Tgstation.Server.Host.Components
 					catch (Exception tripleEx)
 					{
 						logger.LogCritical(
-							"Okay, what gamma radiation are you under? Failed to write instance attach file! Exception: {0}",
-							tripleEx);
+							tripleEx,
+							"Okay, what gamma radiation are you under? Failed to write instance attach file!");
 
 						throw new AggregateException(tripleEx, innerEx, ex);
 					}
@@ -366,12 +366,15 @@ namespace Tgstation.Server.Host.Components
 					logger.LogError("Unable to commit onlined instance {0} into service, offlining!", metadata.Id);
 					try
 					{
+						// DCT: Must always run
 						await instance.StopAsync(default).ConfigureAwait(false);
 					}
 					catch (Exception innerEx)
 					{
 						throw new AggregateException(innerEx, ex);
 					}
+
+					throw;
 				}
 			}
 			catch
@@ -419,7 +422,7 @@ namespace Tgstation.Server.Host.Components
 						}
 						catch (Exception ex)
 						{
-							logger.LogError("Failed to online instance {0}! Exception: {0}", ex);
+							logger.LogError(ex, "Failed to online instance {0}!");
 						}
 					})
 					.ToList();
@@ -436,7 +439,7 @@ namespace Tgstation.Server.Host.Components
 			}
 			catch (Exception e)
 			{
-				logger.LogCritical("Instance manager startup error! Exception: {0}", e);
+				logger.LogCritical(e, "Instance manager startup error!");
 				try
 				{
 					await serverControl.Die(e).ConfigureAwait(false);
@@ -444,7 +447,7 @@ namespace Tgstation.Server.Host.Components
 				}
 				catch (Exception e2)
 				{
-					logger.LogCritical("Failed to kill server! Exception: {0}", e2);
+					logger.LogCritical(e2, "Failed to kill server!");
 				}
 
 				throw;
@@ -467,7 +470,7 @@ namespace Tgstation.Server.Host.Components
 			}
 			catch (Exception ex)
 			{
-				logger.LogError("Instance manager stop exception: {0}", ex);
+				logger.LogError(ex, "Instance manager stop exception!");
 			}
 		}
 

@@ -44,35 +44,17 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public void ResumeProcess(global::System.Diagnostics.Process process)
 		{
-			try
-			{
-				var result = Syscall.kill(process.Id, Signum.SIGCONT);
-				if (result != 0)
-					throw new UnixIOException(result);
-				logger.LogTrace("Resumed PID {0}", process.Id);
-			}
-			catch (Exception e)
-			{
-				logger.LogError(e, "Failed to resume PID {0}!", process.Id);
-				throw;
-			}
+			var result = Syscall.kill(process.Id, Signum.SIGCONT);
+			if (result != 0)
+				throw new UnixIOException(result);
 		}
 
 		/// <inheritdoc />
 		public void SuspendProcess(global::System.Diagnostics.Process process)
 		{
-			try
-			{
-				var result = Syscall.kill(process.Id, Signum.SIGSTOP);
-				if (result != 0)
-					throw new UnixIOException(result);
-				logger.LogTrace("Resumed PID {0}", process.Id);
-			}
-			catch (Exception e)
-			{
-				logger.LogError(e, "Failed to suspend PID {0}!", process.Id);
-				throw;
-			}
+			var result = Syscall.kill(process.Id, Signum.SIGSTOP);
+			if (result != 0)
+				throw new UnixIOException(result);
 		}
 
 		/// <inheritdoc />

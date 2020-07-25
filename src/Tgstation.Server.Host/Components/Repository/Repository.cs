@@ -1,4 +1,4 @@
-﻿using LibGit2Sharp;
+using LibGit2Sharp;
 using LibGit2Sharp.Handlers;
 using Microsoft.Extensions.Logging;
 using System;
@@ -475,7 +475,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				}
 				catch(LibGit2SharpException e)
 				{
-					logger.LogWarning("Unable to push to temporary branch! Exception: {0}", e);
+					logger.LogWarning(e, "Unable to push to temporary branch!");
 				}
 			}
 			finally
@@ -683,7 +683,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				}
 				catch (LibGit2SharpException e)
 				{
-					logger.LogWarning("Unable to make synchronization push! Exception: {0}", e);
+					logger.LogWarning(e, "Unable to make synchronization push!");
 					return false;
 				}
 			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);

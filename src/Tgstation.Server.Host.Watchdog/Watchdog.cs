@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -231,7 +231,7 @@ namespace Tgstation.Server.Host.Watchdog
 									}
 									catch (Exception e)
 									{
-										logger.LogWarning("Unable to delete exception dump file at {0}! Exception: {1}", updateDirectory, e);
+										logger.LogWarning(e, "Unable to delete exception dump file at {0}!", updateDirectory);
 									}
 
 #pragma warning disable CA2201 // Do not raise reserved exception types
@@ -277,12 +277,12 @@ namespace Tgstation.Server.Host.Watchdog
 									}
 									catch (Exception e)
 									{
-										logger.LogWarning("Error deleting old server at {0}! Exception: {1}", tempPath, e);
+										logger.LogWarning(e, "Error deleting old server at {0}!", tempPath);
 									}
 								}
 								catch (Exception e)
 								{
-									logger.LogError("Error moving updated server directory, attempting revert! Exception: {0}", e);
+									logger.LogError(e, "Error moving updated server directory, attempting revert!");
 									Directory.Delete(defaultAssemblyPath, true);
 									Directory.Move(tempPath, defaultAssemblyPath);
 									logger.LogInformation("Revert successful!");
@@ -290,22 +290,22 @@ namespace Tgstation.Server.Host.Watchdog
 							}
 							catch (Exception e)
 							{
-								logger.LogWarning("Failed to move out active host assembly! Exception: {0}", e);
+								logger.LogWarning(e, "Failed to move out active host assembly!");
 							}
 						}
 					}
 			}
-			catch (OperationCanceledException)
+			catch (OperationCanceledException ex)
 			{
-				logger.LogDebug("Exiting due to cancellation...");
+				logger.LogDebug(ex, "Exiting due to cancellation...");
 				if (!Directory.Exists(updateDirectory))
 					File.Delete(updateDirectory);
 				else
 					Directory.Delete(updateDirectory, true);
 			}
-			catch (Exception e)
+			catch (Exception ex)
 			{
-				logger.LogCritical("Watchdog error! Exception: {0}", e);
+				logger.LogCritical(ex, "Host watchdog error!");
 			}
 			finally
 			{

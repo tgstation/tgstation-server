@@ -358,7 +358,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				}
 				catch (Exception e)
 				{
-					logger.LogWarning("Error deleting directory {0}! Exception: {1}", x, e);
+					logger.LogWarning(e, "Error deleting directory {0}!", x);
 				}
 			}).ToList();
 			if (deleting > 0)

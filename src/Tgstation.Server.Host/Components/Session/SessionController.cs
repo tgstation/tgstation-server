@@ -566,16 +566,17 @@ namespace Tgstation.Server.Host.Components.Session
 
 						logger.LogTrace("Interop response: {0}", topicReturn);
 					}
-					catch
+					catch(Exception ex)
 					{
-						logger.LogWarning("Invalid interop response: {0}", topicReturn);
+						logger.LogWarning(ex, "Invalid interop response: {0}", topicReturn);
 					}
 
 				return new CombinedTopicResponse(topicResponse, interopResponse);
 			}
-			catch (OperationCanceledException)
+			catch (OperationCanceledException ex)
 			{
 				logger.LogTrace(
+					ex,
 					"Topic request {0}!",
 					cancellationToken.IsCancellationRequested
 						? "aborted"
@@ -584,7 +585,7 @@ namespace Tgstation.Server.Host.Components.Session
 			}
 			catch (Exception e)
 			{
-				logger.LogWarning("Send command exception:{0}{1}", Environment.NewLine, e);
+				logger.LogWarning(e, "Send command exception!");
 			}
 
 			return null;

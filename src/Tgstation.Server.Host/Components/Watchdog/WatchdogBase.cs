@@ -384,7 +384,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			}
 			catch (Exception e)
 			{
-				// don't try to send chat tasks or warning logs if were suppressing exceptions or cancelled
+				Logger.LogWarning(e, "Failed to start watchdog!");
 				var originalChatTask = announceTask;
 				async Task ChainChatTaskWithErrorMessage()
 				{
@@ -394,7 +394,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				}
 
 				announceTask = ChainChatTaskWithErrorMessage();
-				Logger.LogWarning("Failed to start watchdog: {0}", e.ToString());
 				throw;
 			}
 			finally
@@ -404,9 +403,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				{
 					await announceTask.ConfigureAwait(false);
 				}
-				catch (OperationCanceledException)
+				catch (OperationCanceledException ex)
 				{
-					Logger.LogTrace("Announcement task canceled!");
+					Logger.LogTrace(ex, "Announcement task canceled!");
 				}
 			}
 
@@ -554,7 +553,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						await chatTask.ConfigureAwait(false);
 					}
 
-				Logger.LogWarning("Failed to automatically restart the watchdog! Attempt: {0}, Exception: {1}", retryAttempts, launchException);
+				Logger.LogWarning(launchException, "Failed to automatically restart the watchdog! Attempt: {0}", retryAttempts);
 				Status = WatchdogStatus.DelayedRestart;
 
 				var retryDelay = Math.Min(
@@ -698,9 +697,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						{
 							// really, this should NEVER happen
 							Logger.LogError(
-								"Monitor crashed! Iteration: {0}, Exception: {1}",
-								iteration,
-								e);
+								e,
+								"Monitor crashed! Iteration: {0}",
+								iteration);
 
 							var nextActionMessage = nextAction != MonitorAction.Exit
 								? "Recovering"
@@ -917,8 +916,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				catch (Exception ex)
 				{
 					Logger.LogCritical(
-						"Failed to persist session reattach information! To repair this, DreamDaemon will need to be manully stopped and then relaunched with TGS. Exception: {0}",
-						ex);
+						ex,
+						"Failed to persist session reattach information! To repair this, DreamDaemon will need to be manully stopped and then relaunched with TGS.");
 				}
 
 				releasedReattachInformation = null;

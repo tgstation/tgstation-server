@@ -365,7 +365,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			}
 			catch (Exception e)
 			{
-				logger.LogWarning("Error cleaning up compile directory {0}! Exception: {1}", ioManager.ResolvePath(jobPath), e);
+				logger.LogWarning(e, "Error cleaning up compile directory {0}!", ioManager.ResolvePath(jobPath));
 			}
 		}
 
@@ -825,7 +825,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				}
 				catch (ApiException e)
 				{
-					logger.LogWarning("Error posting GitHub comment! Exception: {0}", e);
+					logger.LogWarning(e, "Error posting GitHub comment!");
 				}
 			}
 

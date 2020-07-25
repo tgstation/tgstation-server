@@ -296,7 +296,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						}
 						catch (Exception ex)
 						{
-							Logger.LogWarning("IRC Listen Error: {0}", ex);
+							Logger.LogWarning(ex, "IRC Main Listen Exception!");
 						}
 
 						Logger.LogTrace("Exiting listening task...");
@@ -334,7 +334,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				}
 				catch (Exception ex)
 				{
-					Logger.LogWarning("IRC Listen Error: {0}", ex);
+					Logger.LogWarning(ex, "IRC Non-Blocking Listen Exception!");
 				}
 			},
 			cancellationToken,
@@ -426,7 +426,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						}
 						catch (Exception e)
 						{
-							Logger.LogWarning("Error quitting IRC: {0}", e);
+							Logger.LogWarning(e, "Error quitting IRC!");
 						}
 					},
 					cancellationToken,
@@ -441,7 +441,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 			catch (Exception e)
 			{
-				Logger.LogWarning("Error disconnecting from IRC! Exception: {0}", e);
+				Logger.LogWarning(e, "Error disconnecting from IRC!");
 			}
 		}
 
@@ -468,7 +468,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					}
 					catch (Exception e)
 					{
-						Logger.LogWarning("Error disconnecting IRC: {0}", e);
+						Logger.LogWarning(e, "Error disconnecting IRC!");
 					}
 				},
 				cancellationToken,
@@ -571,7 +571,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 			catch (Exception e)
 			{
-				Logger.LogWarning("Unable to send to channel: {0}", e);
+				Logger.LogWarning(e, "Unable to send to channel {0}!", channelName);
 			}
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 

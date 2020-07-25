@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
@@ -165,10 +165,8 @@ namespace Tgstation.Server.Host.Database
 						.ConfigureAwait(false);
 
 					if (tgsUser != null)
-					{
 						logger.LogError(
 							"A user named TGS (Canonically) exists but isn't marked as the admin's creator. This may be because it was created manually. This user is going to be adapted to use as the starter of system jobs.");
-					}
 
 					tgsUser = SeedSystemUser(databaseContext, tgsUser);
 					admin.CreatedBy = tgsUser;

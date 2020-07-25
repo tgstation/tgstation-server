@@ -1,4 +1,4 @@
-﻿using BetterWin32Errors;
+using BetterWin32Errors;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -134,7 +134,7 @@ namespace Tgstation.Server.Host.System
 
 						if (NativeMethods.GetWindowText(I, stringBuilder, MaxLength) == 0)
 						{
-							logger.LogWarning("Error calling GetWindowText! Exception: {0}", new Win32Exception());
+							logger.LogWarning(new Win32Exception(), "Error calling GetWindowText!");
 							continue;
 						}
 
@@ -158,9 +158,9 @@ namespace Tgstation.Server.Host.System
 						logger.LogDebug("Unable to find \"Yes\" button for \"Network Accessibility\" window in owned process {0}!", processId);
 				}
 			}
-			catch (OperationCanceledException)
+			catch (OperationCanceledException ex)
 			{
-				logger.LogTrace("Cancelled!");
+				logger.LogTrace(ex, "Cancelled!");
 			}
 			finally
 			{

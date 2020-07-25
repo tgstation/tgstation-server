@@ -211,7 +211,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				}
 				catch (IOException e)
 				{
-					logger.LogDebug("IOException while writing {0}: {1}", path, e);
+					logger.LogDebug(e, "IOException while writing {0}!", path);
 					result = null;
 					return;
 				}

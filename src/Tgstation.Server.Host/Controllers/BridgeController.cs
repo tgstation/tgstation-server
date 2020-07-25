@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -62,8 +62,12 @@ namespace Tgstation.Server.Host.Controllers
 		public async Task<IActionResult> Process([FromQuery]string data, CancellationToken cancellationToken)
 		{
 			// Nothing to see here
-			if (!IPAddress.IsLoopback(Request.HttpContext.Connection.RemoteIpAddress))
+			var remoteIP = Request.HttpContext.Connection.RemoteIpAddress;
+			if (!IPAddress.IsLoopback(remoteIP))
+			{
+				logger.LogTrace("Ignoring remote bridge request from {0}", remoteIP);
 				return NotFound();
+			}
 
 			using (LogContext.PushProperty("Bridge", Interlocked.Increment(ref requestsProcessed)))
 			{
@@ -72,9 +76,9 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					request = JsonConvert.DeserializeObject<BridgeParameters>(data, DMApiConstants.SerializerSettings);
 				}
-				catch
+				catch (Exception ex)
 				{
-					logger.LogWarning("Error deserializing bridge request: {0}", data);
+					logger.LogWarning(ex, "Error deserializing bridge request: {0}", data);
 					return BadRequest();
 				}
 

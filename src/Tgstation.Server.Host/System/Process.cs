@@ -105,7 +105,11 @@ namespace Tgstation.Server.Host.System
 		{
 			await Task.WhenAny(lifetimeTask, emergencyLifetimeTcs.Task).ConfigureAwait(false);
 			if (lifetimeTask.IsCompleted)
-				return await lifetimeTask.ConfigureAwait(false);
+			{
+				var exitCode = await lifetimeTask.ConfigureAwait(false);
+				logger.LogTrace("PID {0} exited with code {1}", Id, exitCode);
+				return exitCode;
+			}
 
 			logger.LogTrace("Using exit code -1 for hung PID {0}.", Id);
 			return -1;
@@ -156,7 +160,7 @@ namespace Tgstation.Server.Host.System
 			}
 			catch (Exception e)
 			{
-				logger.LogDebug("Process termination exception: {0}", e);
+				logger.LogDebug(e, "Process termination exception!");
 			}
 		}
 
@@ -170,17 +174,41 @@ namespace Tgstation.Server.Host.System
 			}
 			catch (Exception e)
 			{
-				logger.LogWarning("Unable to raise process priority for PID {0}! Exception: {1}", Id, e);
+				logger.LogWarning(e, "Unable to raise process priority for PID {0}!", Id);
 			}
 		}
 
 		/// <inheritdoc />
-		public void Suspend() => processFeatures.SuspendProcess(handle);
+		public void Suspend()
+		{
+			try
+			{
+				processFeatures.SuspendProcess(handle);
+				logger.LogTrace("Suspended PID {0}", Id);
+			}
+			catch (Exception e)
+			{
+				logger.LogError(e, "Failed to suspend PID {0}!", Id);
+				throw;
+			}
+		}
 
 		/// <inheritdoc />
-		public void Resume() => processFeatures.ResumeProcess(handle);
+		public void Resume()
+		{
+			try
+			{
+				processFeatures.ResumeProcess(handle);
+				logger.LogTrace("Resumed PID {0}", Id);
+			}
+			catch (Exception e)
+			{
+				logger.LogError(e, "Failed to resume PID {0}!", Id);
+				throw;
+			}
+		}
 
-		/// <inheritdoc />
+			/// <inheritdoc />
 		public async Task<string> GetExecutingUsername(CancellationToken cancellationToken)
 		{
 			var result = await processFeatures.GetExecutingUsername(handle, cancellationToken).ConfigureAwait(false);

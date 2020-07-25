@@ -181,14 +181,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				}
 				catch (Exception ex)
 				{
-					Logger.LogWarning("Exception while suspending server: {0}", ex);
+					Logger.LogWarning(ex, "Exception while suspending server!");
 				}
 
 				await windowsProvider.MakeActive(cancellationToken).ConfigureAwait(false);
 			}
 			catch (Exception ex)
 			{
-				Logger.LogError("Exception while swapping: {0}", ex);
+				Logger.LogError(ex, "Exception while swapping");
 				IDmbProvider providerToDispose = windowsProvider ?? compileJobProvider;
 				providerToDispose.Dispose();
 				throw;

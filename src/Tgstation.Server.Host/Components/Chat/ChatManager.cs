@@ -373,15 +373,15 @@ namespace Tgstation.Server.Host.Components.Chat
 				if (result != null)
 					await SendMessage(result, new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
 			}
-			catch (OperationCanceledException)
+			catch (OperationCanceledException ex)
 			{
-				logger.LogTrace("Command processing canceled!");
+				logger.LogTrace(ex, "Command processing canceled!");
 				throw;
 			}
 			catch (Exception e)
 			{
 				// error bc custom commands should reply about why it failed
-				logger.LogError("Error processing chat command: {0}", e);
+				logger.LogError(e, "Error processing chat command");
 				await SendMessage(
 					"TGS: Internal error processing command! Check server logs!",
 					new List<ulong> { message.User.Channel.RealId },
@@ -440,13 +440,13 @@ namespace Tgstation.Server.Host.Components.Chat
 					}
 				}
 			}
-			catch (OperationCanceledException)
+			catch (OperationCanceledException ex)
 			{
-				logger.LogTrace("Message processing loop cancelled!");
+				logger.LogTrace(ex, "Message processing loop cancelled!");
 			}
 			catch (Exception e)
 			{
-				logger.LogError("Message loop crashed! Exception: {0}", e);
+				logger.LogError(e, "Message loop crashed!");
 			}
 
 			logger.LogTrace("Leaving message processing loop");
@@ -694,9 +694,9 @@ namespace Tgstation.Server.Host.Components.Chat
 						catch (Exception ex)
 						{
 							logger.LogWarning(
-								"Error sending deploy message to provider {0}! Exception: {1}",
-								channelMapping.ProviderId,
-								ex);
+								ex,
+								"Error sending deploy message to provider {0}!",
+								channelMapping.ProviderId);
 						}
 					}))
 				.ConfigureAwait(false);

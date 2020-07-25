@@ -96,7 +96,7 @@ namespace Tgstation.Server.Host.Jobs
 			using (LogContext.PushProperty("Job", job.Id))
 				try
 				{
-					void LogException() => logger.LogDebug("Job {0} exited with error! Exception: {1}", job.Id, job.ExceptionDetails);
+					void LogException(Exception ex) => logger.LogDebug(ex, "Job {0} exited with error!", job.Id);
 					try
 					{
 						var oldJob = job;
@@ -122,21 +122,21 @@ namespace Tgstation.Server.Host.Jobs
 
 						logger.LogDebug("Job {0} completed!", job.Id);
 					}
-					catch (OperationCanceledException)
+					catch (OperationCanceledException ex)
 					{
-						logger.LogDebug("Job {0} cancelled!", job.Id);
+						logger.LogDebug(ex, "Job {0} cancelled!", job.Id);
 						job.Cancelled = true;
 					}
 					catch (JobException e)
 					{
 						job.ErrorCode = e.ErrorCode;
 						job.ExceptionDetails = String.IsNullOrWhiteSpace(e.Message) ? e.InnerException?.Message : e.Message;
-						LogException();
+						LogException(e);
 					}
 					catch (Exception e)
 					{
 						job.ExceptionDetails = e.ToString();
-						LogException();
+						LogException(e);
 					}
 
 					await databaseContextFactory.UseContext(async databaseContext =>
@@ -220,10 +220,8 @@ namespace Tgstation.Server.Host.Jobs
 				});
 
 		/// <inheritdoc />
-		public async Task StartAsync(CancellationToken cancellationToken)
-		{
-			logger.LogTrace("Starting job manager...");
-			await databaseContextFactory.UseContext(async databaseContext =>
+		public Task StartAsync(CancellationToken cancellationToken)
+			=> databaseContextFactory.UseContext(async databaseContext =>
 			{
 				// mark all jobs as cancelled
 				var badJobs = await databaseContext
@@ -246,9 +244,7 @@ namespace Tgstation.Server.Host.Jobs
 
 					await databaseContext.Save(cancellationToken).ConfigureAwait(false);
 				}
-			}).ConfigureAwait(false);
-			logger.LogDebug("Job manager started!");
-		}
+			});
 
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken)

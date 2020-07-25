@@ -1,4 +1,4 @@
-﻿using Castle.Core.Logging;
+using Castle.Core.Logging;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.System.Tests
 		public void Init()
 		{
 			features = new PlatformIdentifier().IsWindows
-				? (IProcessFeatures)new WindowsProcessFeatures(Mock.Of<ILogger<WindowsProcessFeatures>>())
+				? (IProcessFeatures)new WindowsProcessFeatures()
 				: new PosixProcessFeatures(new Lazy<IProcessExecutor>(() => null), new DefaultIOManager(), Mock.Of<ILogger<PosixProcessFeatures>>());
 		}
 
