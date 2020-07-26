@@ -292,7 +292,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 			cancellationToken.ThrowIfCancellationRequested();
 
 			logger.LogDebug("DreamMaker exit code: {0}", exitCode);
-			currentDreamMakerOutput = job.Output = dm.GetCombinedOutput();
+			job.Output = await dm.GetCombinedOutput(cancellationToken).ConfigureAwait(false);
+			currentDreamMakerOutput = job.Output;
 			logger.LogDebug("DreamMaker output: {0}{1}", Environment.NewLine, job.Output);
 			return exitCode;
 		}

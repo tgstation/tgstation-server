@@ -257,20 +257,20 @@ namespace Tgstation.Server.Host.Components.Session
 				if (disposed)
 					return;
 				disposed = true;
-
-				logger.LogTrace("Disposing...");
-				if (!released)
-				{
-					process.Terminate();
-					byondLock.Dispose();
-				}
-
-				process.Dispose();
-				bridgeRegistration?.Dispose();
-				reattachInformation.Dmb?.Dispose(); // will be null when released
-				chatTrackingContext.Dispose();
-				reattachTopicCts.Dispose();
 			}
+
+			logger.LogTrace("Disposing...");
+			if (!released)
+			{
+				process.Terminate();
+				byondLock.Dispose();
+			}
+
+			process.Dispose();
+			bridgeRegistration?.Dispose();
+			reattachInformation.Dmb?.Dispose(); // will be null when released
+			chatTrackingContext.Dispose();
+			reattachTopicCts.Dispose();
 
 			if (!released)
 			{

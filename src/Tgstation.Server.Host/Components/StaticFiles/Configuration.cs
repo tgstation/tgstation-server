@@ -488,7 +488,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					{
 						var exitCode = await script.Lifetime.ConfigureAwait(false);
 						cancellationToken.ThrowIfCancellationRequested();
-						var scriptOutput = script.GetCombinedOutput();
+						var scriptOutput = await script.GetCombinedOutput(cancellationToken).ConfigureAwait(false);
 						if (exitCode != 0)
 							throw new JobException($"Script {I} exited with code {exitCode}:{Environment.NewLine}{scriptOutput}");
 						else

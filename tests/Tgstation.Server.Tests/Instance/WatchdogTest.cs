@@ -87,7 +87,7 @@ namespace Tgstation.Server.Tests.Instance
 			while (!dumpTask.IsCompleted)
 				KillDD(false);
 			var job = await WaitForJob(await dumpTask, 10, true, null, cancellationToken);
-			Assert.IsTrue(job.ErrorCode == ErrorCode.DreamDaemonOffline || job.ErrorCode == ErrorCode.GCoreFailure);
+			Assert.IsTrue(job.ErrorCode == ErrorCode.DreamDaemonOffline || job.ErrorCode == ErrorCode.GCoreFailure, $"{job.ErrorCode}: {job.ExceptionDetails}");
 			await Task.Delay(TimeSpan.FromSeconds(20), cancellationToken);
 
 			var ddStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
@@ -209,7 +209,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			ourProcessHandler.Suspend();
 
-			await Task.WhenAny(ourProcessHandler.Lifetime, Task.Delay(TimeSpan.FromSeconds(20)));
+			await Task.WhenAny(ourProcessHandler.Lifetime, Task.Delay(TimeSpan.FromMinutes(1)));
 
 			var timeout = 20;
 			do

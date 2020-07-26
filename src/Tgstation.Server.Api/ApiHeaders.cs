@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.Headers;
+using Microsoft.AspNetCore.Http.Headers;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 using System;
@@ -138,7 +138,7 @@ namespace Tgstation.Server.Api
 			void AddError(HeaderTypes headerType, string message)
 			{
 				if (badHeaders != HeaderTypes.None)
-					errorBuilder.Append(Environment.NewLine);
+					errorBuilder.AppendLine();
 				badHeaders |= headerType;
 				errorBuilder.Append(message);
 			}

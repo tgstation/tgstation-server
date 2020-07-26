@@ -434,8 +434,8 @@ namespace Tgstation.Server.Tests
 			var exitCode = await process.Lifetime.WithToken(cts.Token);
 
 			Assert.AreEqual(0, exitCode);
-			Assert.AreEqual(String.Empty, process.GetErrorOutput().Trim());
-			Assert.AreEqual("Hello World!", process.GetStandardOutput().Trim());
+			Assert.AreEqual(String.Empty, (await process.GetErrorOutput(default)).Trim());
+			Assert.AreEqual("Hello World!", (await process.GetStandardOutput(default)).Trim());
 		}
 	}
 }

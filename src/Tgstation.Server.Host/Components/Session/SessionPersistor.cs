@@ -133,6 +133,7 @@ namespace Tgstation.Server.Host.Components.Session
 						{
 							using var process = processExecutor.GetProcess(reattachInfo.ProcessId);
 							process.Terminate();
+							await process.Lifetime.ConfigureAwait(false);
 						}
 						catch (Exception ex)
 						{

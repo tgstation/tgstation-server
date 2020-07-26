@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,24 +22,28 @@ namespace Tgstation.Server.Host.System
 		/// <summary>
 		/// Get the stderr output of the <see cref="IProcess"/>
 		/// </summary>
-		/// <returns>The stderr output of the <see cref="IProcess"/></returns>
-		string GetErrorOutput();
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the stderr output of the <see cref="IProcess"/></returns>
+		Task<string> GetErrorOutput(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Get the stdout output of the <see cref="IProcess"/>
 		/// </summary>
-		/// <returns>The stdout output of the <see cref="IProcess"/></returns>
-		string GetStandardOutput();
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the stdout output of the <see cref="IProcess"/></returns>
+		Task<string> GetStandardOutput(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Get the stderr and stdout output of the <see cref="IProcess"/>
 		/// </summary>
-		/// <returns>The stderr and stdout output of the <see cref="IProcess"/></returns>
-		string GetCombinedOutput();
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the stderr and stdout output of the <see cref="IProcess"/></returns>
+		Task<string> GetCombinedOutput(CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Terminates the process
+		/// Asycnhronously terminates the process.
 		/// </summary>
+		/// <remarks>To ensure the <see cref="IProcess"/> has ended, use the <see cref="IProcessBase.Lifetime"/> <see cref="Task{TResult}"/>.</remarks>
 		void Terminate();
 
 		/// <summary>

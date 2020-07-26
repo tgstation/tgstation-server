@@ -6,6 +6,8 @@ using System.Linq;
 using System.Management;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.Jobs;
 
 namespace Tgstation.Server.Host.System
 {
@@ -91,6 +93,9 @@ namespace Tgstation.Server.Host.System
 			=> Task.Factory.StartNew(
 				() =>
 				{
+					if (process.HasExited)
+						throw new JobException(ErrorCode.DreamDaemonOffline);
+
 					using var fileStream = new FileStream(outputFile, FileMode.CreateNew);
 					if (!NativeMethods.MiniDumpWriteDump(
 						process.Handle,

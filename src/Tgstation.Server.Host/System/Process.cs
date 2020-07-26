@@ -4,17 +4,13 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Extensions;
 
 namespace Tgstation.Server.Host.System
 {
 	/// <inheritdoc />
 	sealed class Process : IProcess
 	{
-		/// <summary>
-		/// Maximum time to wait in a call to <see cref="global::System.Diagnostics.Process.WaitForExit(int)"/>.
-		/// </summary>
-		const int MaximumWaitMilliseconds = 30000;
-
 		/// <inheritdoc />
 		public int Id { get; }
 
@@ -36,13 +32,8 @@ namespace Tgstation.Server.Host.System
 
 		readonly global::System.Diagnostics.Process handle;
 
-		/// <summary>
-		/// A <see cref="TaskCompletionSource{TResult}"/> so that we can complete <see cref="Lifetime"/> if the <see cref="handle"/> becomes unresponsive.
-		/// </summary>
-		readonly TaskCompletionSource<object> emergencyLifetimeTcs;
-
-		readonly StringBuilder outputStringBuilder;
-		readonly StringBuilder errorStringBuilder;
+		readonly Task<string> standardOutputTask;
+		readonly Task<string> standardErrorTask;
 		readonly StringBuilder combinedStringBuilder;
 
 		/// <summary>
@@ -51,8 +42,8 @@ namespace Tgstation.Server.Host.System
 		/// <param name="processFeatures">The value of <see cref="processFeatures"/></param>
 		/// <param name="handle">The value of <see cref="handle"/></param>
 		/// <param name="lifetime">The value of <see cref="Lifetime"/></param>
-		/// <param name="outputStringBuilder">The value of <see cref="outputStringBuilder"/></param>
-		/// <param name="errorStringBuilder">The value of <see cref="errorStringBuilder"/></param>
+		/// <param name="standardOutputTask">The value of <see cref="standardOutputTask"/></param>
+		/// <param name="standardErrorTask">The value of <see cref="standardErrorTask"/></param>
 		/// <param name="combinedStringBuilder">The value of <see cref="combinedStringBuilder"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="preExisting">If <paramref name="handle"/> was NOT just created</param>
@@ -60,25 +51,26 @@ namespace Tgstation.Server.Host.System
 			IProcessFeatures processFeatures,
 			global::System.Diagnostics.Process handle,
 			Task<int> lifetime,
-			StringBuilder outputStringBuilder,
-			StringBuilder errorStringBuilder,
+			Task<string> standardOutputTask,
+			Task<string> standardErrorTask,
 			StringBuilder combinedStringBuilder,
 			ILogger<Process> logger,
 			bool preExisting)
 		{
-			this.processFeatures = processFeatures ?? throw new ArgumentNullException(nameof(processFeatures));
 			this.handle = handle ?? throw new ArgumentNullException(nameof(handle));
 
-			this.outputStringBuilder = outputStringBuilder;
-			this.errorStringBuilder = errorStringBuilder;
+			// Do this fast because the runtime will bitch if we try to access it after it ends
+			Id = handle.Id;
+
+			this.processFeatures = processFeatures ?? throw new ArgumentNullException(nameof(processFeatures));
+
+			this.standardOutputTask = standardOutputTask;
+			this.standardErrorTask = standardErrorTask;
 			this.combinedStringBuilder = combinedStringBuilder;
 
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-			emergencyLifetimeTcs = new TaskCompletionSource<object>();
 			Lifetime = WrapLifetimeTask(lifetime ?? throw new ArgumentNullException(nameof(lifetime)));
-
-			Id = handle.Id;
 
 			if (preExisting)
 			{
@@ -86,14 +78,21 @@ namespace Tgstation.Server.Host.System
 				return;
 			}
 
-			Startup = Task.Factory.StartNew(() =>
-			{
-				try
+			Startup = Task.Factory.StartNew(
+				() =>
 				{
-					handle.WaitForInputIdle();
-				}
-				catch (InvalidOperationException) { }
-			}, default, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+					try
+					{
+						handle.WaitForInputIdle();
+					}
+					catch (InvalidOperationException ex)
+					{
+						logger.LogDebug(ex, "Error on WaitForInputIdle()!");
+					}
+				},
+				default, // DCT: None available
+				TaskCreationOptions.LongRunning,
+				TaskScheduler.Current);
 
 			logger.LogTrace("Created process ID: {0}", Id);
 		}
@@ -103,60 +102,48 @@ namespace Tgstation.Server.Host.System
 
 		async Task<int> WrapLifetimeTask(Task<int> lifetimeTask)
 		{
-			await Task.WhenAny(lifetimeTask, emergencyLifetimeTcs.Task).ConfigureAwait(false);
-			if (lifetimeTask.IsCompleted)
-			{
-				var exitCode = await lifetimeTask.ConfigureAwait(false);
-				logger.LogTrace("PID {0} exited with code {1}", Id, exitCode);
-				return exitCode;
-			}
-
-			logger.LogTrace("Using exit code -1 for hung PID {0}.", Id);
-			return -1;
+			// relevant: https://stackoverflow.com/a/26722542
+			var exitCode = await lifetimeTask.ConfigureAwait(false);
+			logger.LogTrace("PID {0} exited with code {1}", Id, exitCode);
+			return exitCode;
 		}
 
 		/// <inheritdoc />
-		public string GetCombinedOutput()
+		public async Task<string> GetCombinedOutput(CancellationToken cancellationToken)
 		{
 			if (combinedStringBuilder == null)
-				throw new InvalidOperationException("Output/Error reading was not enabled!");
+				throw new InvalidOperationException("Output/Error stream reading was not enabled!");
+			await Task.WhenAll(standardOutputTask, standardErrorTask).WithToken(cancellationToken).ConfigureAwait(false);
 			return combinedStringBuilder.ToString().TrimStart(Environment.NewLine.ToCharArray());
 		}
 
 		/// <inheritdoc />
-		public string GetErrorOutput()
+		public Task<string> GetErrorOutput(CancellationToken cancellationToken)
 		{
-			if (errorStringBuilder == null)
-				throw new InvalidOperationException("Error reading was not enabled!");
-			return errorStringBuilder.ToString().TrimStart(Environment.NewLine.ToCharArray());
+			if (standardErrorTask == null)
+				throw new InvalidOperationException("Error stream reading was not enabled!");
+			return standardErrorTask.WithToken(cancellationToken);
 		}
 
 		/// <inheritdoc />
-		public string GetStandardOutput()
+		public Task<string> GetStandardOutput(CancellationToken cancellationToken)
 		{
-			if (outputStringBuilder == null)
-				throw new InvalidOperationException("Output reading was not enabled!");
-			return outputStringBuilder.ToString().TrimStart(Environment.NewLine.ToCharArray());
+			if (standardOutputTask == null)
+				throw new InvalidOperationException("Output stream reading was not enabled!");
+			return standardOutputTask.WithToken(cancellationToken);
 		}
 
 		/// <inheritdoc />
 		public void Terminate()
 		{
-			if (handle.HasExited)
+			if (Lifetime.IsCompleted)
 				return;
 			try
 			{
 				logger.LogTrace("Terminating PID {0}...", Id);
 				handle.Kill();
-				if (!handle.WaitForExit(MaximumWaitMilliseconds))
-				{
-					logger.LogError(
-						"PID {0} hasn't exited in {1} seconds! This may cause issues with port reuse.",
-						Id,
-						TimeSpan.FromMilliseconds(MaximumWaitMilliseconds).TotalSeconds);
 
-					emergencyLifetimeTcs.TrySetResult(null);
-				}
+				// DO NOT USE WaitForExit! https://stackoverflow.com/a/26722542
 			}
 			catch (Exception e)
 			{

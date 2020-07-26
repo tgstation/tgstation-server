@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using System;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,19 +35,36 @@ namespace Tgstation.Server.Host.System
 			var tcs = new TaskCompletionSource<int>();
 			handle.Exited += (a, b) =>
 			{
-				int exitCode;
 				try
 				{
-					exitCode = handle.ExitCode;
-				}
-				catch (InvalidOperationException)
-				{
-					return;
-				}
+					if (tcs.Task.IsCompleted)
+					{
+						logger.LogTrace("Skipping process exit handler as the TaskCompletionSource is already set");
+						return;
+					}
 
-				// Try because this can be invoked twice for weird reasons
-				if (tcs.TrySetResult(exitCode))
-					logger.LogTrace("Process exit event completed");
+					try
+					{
+						var exitCode = handle.ExitCode;
+
+						// Try because this can be invoked twice for weird reasons
+						if (tcs.TrySetResult(exitCode))
+							logger.LogTrace("Process termination event completed");
+						else
+							logger.LogTrace("Ignoring duplicate process termination event");
+					}
+					catch (InvalidOperationException ex)
+					{
+						if (!tcs.Task.IsCompleted)
+							throw;
+
+						logger.LogTrace(ex, "Ignoring expected exception!");
+					}
+				}
+				catch(Exception ex)
+				{
+					logger.LogError(ex, "Process exit handler exception!");
+				}
 			};
 
 			return tcs.Task;
@@ -128,92 +146,72 @@ namespace Tgstation.Server.Host.System
 
 				handle.StartInfo.UseShellExecute = !noShellExecute;
 
-				StringBuilder outputStringBuilder = null, errorStringBuilder = null, combinedStringBuilder = null;
+				StringBuilder combinedStringBuilder = null;
 
-				TaskCompletionSource<object> outputReadTcs = null;
-				TaskCompletionSource<object> errorReadTcs = null;
+				Task<string> outputTask = null;
+				Task<string> errorTask = null;
+				TaskCompletionSource<object> processStartTcs = null;
 				if (readOutput || readError)
 				{
 					combinedStringBuilder = new StringBuilder();
+					processStartTcs = new TaskCompletionSource<object>();
+
+					async Task<string> ConsumeReader(Func<TextReader> readerFunc)
+					{
+						var stringBuilder = new StringBuilder();
+						string text;
+
+						await processStartTcs.Task.ConfigureAwait(false);
+
+						var reader = readerFunc();
+						while ((text = await reader.ReadLineAsync().ConfigureAwait(false)) != null)
+						{
+							combinedStringBuilder.AppendLine();
+							combinedStringBuilder.Append(text);
+							stringBuilder.AppendLine();
+							stringBuilder.Append(text);
+						}
+
+						return stringBuilder.ToString();
+					}
+
 					if (readOutput)
 					{
-						outputStringBuilder = new StringBuilder();
+						outputTask = ConsumeReader(() => handle.StandardOutput);
 						handle.StartInfo.RedirectStandardOutput = true;
-						outputReadTcs = new TaskCompletionSource<object>();
-						handle.OutputDataReceived += (sender, e) =>
-						{
-							if (e.Data == null)
-							{
-								outputReadTcs.SetResult(null);
-								return;
-							}
-
-							combinedStringBuilder.Append(Environment.NewLine);
-							combinedStringBuilder.Append(e.Data);
-							outputStringBuilder.Append(Environment.NewLine);
-							outputStringBuilder.Append(e.Data);
-						};
 					}
 
 					if (readError)
 					{
-						errorStringBuilder = new StringBuilder();
+						errorTask = ConsumeReader(() => handle.StandardError);
 						handle.StartInfo.RedirectStandardError = true;
-						errorReadTcs = new TaskCompletionSource<object>();
-						handle.ErrorDataReceived += (sender, e) =>
-						{
-							if (e.Data == null)
-							{
-								errorReadTcs.SetResult(null);
-								return;
-							}
-
-							combinedStringBuilder.Append(Environment.NewLine);
-							combinedStringBuilder.Append(e.Data);
-							errorStringBuilder.Append(Environment.NewLine);
-							errorStringBuilder.Append(e.Data);
-						};
 					}
 				}
 
 				var lifetimeTask = AttachExitHandler(handle);
 
-				handle.Start();
-
-				static async Task<int> AddToLifetimeTask(Task<int> originalTask, TaskCompletionSource<object> tcs)
-				{
-					var exitCode = await originalTask.ConfigureAwait(false);
-					await tcs.Task.ConfigureAwait(false);
-					return exitCode;
-				}
-
 				try
 				{
-					if (readOutput)
-					{
-						handle.BeginOutputReadLine();
-						lifetimeTask = AddToLifetimeTask(lifetimeTask, outputReadTcs);
-					}
-				}
-				catch (InvalidOperationException) { }
-				try
-				{
-					if (readError)
-					{
-						handle.BeginErrorReadLine();
-						lifetimeTask = AddToLifetimeTask(lifetimeTask, errorReadTcs);
-					}
-				}
-				catch (InvalidOperationException) { }
+					handle.Start();
 
-				return new Process(
-					processFeatures,
-					handle,
-					lifetimeTask,
-					outputStringBuilder,
-					errorStringBuilder,
-					combinedStringBuilder,
-					loggerFactory.CreateLogger<Process>(), false);
+					var process = new Process(
+						processFeatures,
+						handle,
+						lifetimeTask,
+						outputTask,
+						errorTask,
+						combinedStringBuilder,
+						loggerFactory.CreateLogger<Process>(), false);
+
+					processStartTcs?.SetResult(null);
+
+					return process;
+				}
+				catch (Exception ex)
+				{
+					processStartTcs?.SetException(ex);
+					throw;
+				}
 			}
 			catch
 			{

@@ -267,8 +267,9 @@ namespace Tgstation.Server.Host.Components.Session
 
 					async Task<string> GetDDOutput()
 					{
+						// DCT x2: None available
 						if (!platformIdentifier.IsWindows)
-							return process.GetCombinedOutput();
+							return await process.GetCombinedOutput(default).ConfigureAwait(false);
 
 						var logFilePath = ioManager.ConcatPath(dmbProvider.Directory, logFileGuid.ToString());
 						try
@@ -347,9 +348,12 @@ namespace Tgstation.Server.Host.Components.Session
 					}
 					catch
 					{
-						process.Terminate();
-						process.Dispose();
-						throw;
+						using (process)
+						{
+							process.Terminate();
+							await process.Lifetime.ConfigureAwait(false);
+							throw;
+						}
 					}
 				}
 				catch

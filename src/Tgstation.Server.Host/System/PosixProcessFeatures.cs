@@ -73,6 +73,9 @@ namespace Tgstation.Server.Host.System
 			if (!await ioManager.FileExists(GCorePath, cancellationToken).ConfigureAwait(false))
 				throw new JobException(ErrorCode.MissingGCore);
 
+			if(process.HasExited)
+				throw new JobException(ErrorCode.DreamDaemonOffline);
+
 			var pid = process.Id;
 			string output;
 			int exitCode;
@@ -87,7 +90,7 @@ namespace Tgstation.Server.Host.System
 				using (cancellationToken.Register(() => gcoreProc.Terminate()))
 					exitCode = await gcoreProc.Lifetime.ConfigureAwait(false);
 
-				output = gcoreProc.GetCombinedOutput();
+				output = await gcoreProc.GetCombinedOutput(cancellationToken).ConfigureAwait(false);
 				logger.LogDebug("gcore output:{0}{1}", Environment.NewLine, output);
 			}
 
