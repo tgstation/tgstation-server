@@ -377,6 +377,11 @@ namespace Tgstation.Server.Host.Controllers
 			if (path == null)
 				throw new ArgumentNullException(nameof(path));
 
+			// guard against directory navigation
+			var sanitizedPath = ioManager.GetFileName(path);
+			if (path != sanitizedPath)
+				return Forbid();
+
 			var fullPath = ioManager.ConcatPath(
 				fileLoggingConfiguration.GetFullLogDirectory(ioManager, assemblyInformationProvider, platformIdentifier),
 				path);
