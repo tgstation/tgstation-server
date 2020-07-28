@@ -24,22 +24,27 @@ namespace Tgstation.Server.Host.System
 		/// </summary>
 		readonly ILoggerFactory loggerFactory;
 
-		/// <summary>
-		/// Create a <see cref="Task{TResult}"/> resulting in the exit code of a given <paramref name="handle"/>
-		/// </summary>
-		/// <param name="handle">The <see cref="global::System.Diagnostics.Process"/> to attach the <see cref="Task{TResult}"/> for</param>
-		/// <returns>A new <see cref="Task{TResult}"/> resulting in the exit code of <paramref name="handle"/></returns>
-		Task<int> AttachExitHandler(global::System.Diagnostics.Process handle)
+		async Task<Task<int>> AttachExitHandlerBeforeLaunch(global::System.Diagnostics.Process handle, Task startupTask)
+		{
+			var id = -1;
+			var result = AttachExitHandler(handle, () => id);
+			await startupTask.ConfigureAwait(false);
+			return result;
+		}
+
+		Task<int> AttachExitHandler(global::System.Diagnostics.Process handle, Func<int> idProvider)
 		{
 			handle.EnableRaisingEvents = true;
+
 			var tcs = new TaskCompletionSource<int>();
-			handle.Exited += (a, b) =>
+			void ExitHandler(object sender, EventArgs args)
 			{
+				var id = idProvider();
 				try
 				{
 					if (tcs.Task.IsCompleted)
 					{
-						logger.LogTrace("Skipping process exit handler as the TaskCompletionSource is already set");
+						logger.LogTrace("Skipping PID {0} exit handler as the TaskCompletionSource is already set", id);
 						return;
 					}
 
@@ -49,23 +54,25 @@ namespace Tgstation.Server.Host.System
 
 						// Try because this can be invoked twice for weird reasons
 						if (tcs.TrySetResult(exitCode))
-							logger.LogTrace("Process termination event completed");
+							logger.LogTrace("PID {0} termination event completed", id);
 						else
-							logger.LogTrace("Ignoring duplicate process termination event");
+							logger.LogTrace("Ignoring duplicate PID {0} termination event", id);
 					}
 					catch (InvalidOperationException ex)
 					{
 						if (!tcs.Task.IsCompleted)
 							throw;
 
-						logger.LogTrace(ex, "Ignoring expected exception!");
+						logger.LogTrace(ex, "Ignoring expected PID {0} exit handler exception!", id);
 					}
 				}
-				catch(Exception ex)
+				catch (Exception ex)
 				{
-					logger.LogError(ex, "Process exit handler exception!");
+					logger.LogError(ex, "PID {0} exit handler exception!", id);
 				}
-			};
+			}
+
+			handle.Exited += ExitHandler;
 
 			return tcs.Task;
 		}
@@ -150,11 +157,10 @@ namespace Tgstation.Server.Host.System
 
 				Task<string> outputTask = null;
 				Task<string> errorTask = null;
-				TaskCompletionSource<object> processStartTcs = null;
+				var processStartTcs = new TaskCompletionSource<object>();
 				if (readOutput || readError)
 				{
 					combinedStringBuilder = new StringBuilder();
-					processStartTcs = new TaskCompletionSource<object>();
 
 					async Task<string> ConsumeReader(Func<TextReader> readerFunc)
 					{
@@ -188,30 +194,30 @@ namespace Tgstation.Server.Host.System
 					}
 				}
 
-				var lifetimeTask = AttachExitHandler(handle);
+				var lifetimeTaskTask = AttachExitHandlerBeforeLaunch(handle, processStartTcs.Task);
 
 				try
 				{
 					handle.Start();
 
-					var process = new Process(
-						processFeatures,
-						handle,
-						lifetimeTask,
-						outputTask,
-						errorTask,
-						combinedStringBuilder,
-						loggerFactory.CreateLogger<Process>(), false);
-
-					processStartTcs?.SetResult(null);
-
-					return process;
+					processStartTcs.SetResult(null);
 				}
 				catch (Exception ex)
 				{
-					processStartTcs?.SetException(ex);
+					processStartTcs.SetException(ex);
 					throw;
 				}
+
+				var process = new Process(
+					processFeatures,
+					handle,
+					lifetimeTaskTask.GetAwaiter().GetResult(), // won't block
+					outputTask,
+					errorTask,
+					combinedStringBuilder,
+					loggerFactory.CreateLogger<Process>(), false);
+
+				return process;
 			}
 			catch
 			{
@@ -250,10 +256,11 @@ namespace Tgstation.Server.Host.System
 		{
 			try
 			{
+				var pid = handle.Id;
 				return new Process(
 					processFeatures,
 					handle,
-					AttachExitHandler(handle),
+					AttachExitHandler(handle, () => pid),
 					null,
 					null,
 					null,

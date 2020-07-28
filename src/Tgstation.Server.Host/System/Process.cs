@@ -85,7 +85,7 @@ namespace Tgstation.Server.Host.System
 					{
 						handle.WaitForInputIdle();
 					}
-					catch (InvalidOperationException ex)
+					catch (Exception ex)
 					{
 						logger.LogDebug(ex, "Error on WaitForInputIdle()!");
 					}
@@ -102,7 +102,6 @@ namespace Tgstation.Server.Host.System
 
 		async Task<int> WrapLifetimeTask(Task<int> lifetimeTask)
 		{
-			// relevant: https://stackoverflow.com/a/26722542
 			var exitCode = await lifetimeTask.ConfigureAwait(false);
 			logger.LogTrace("PID {0} exited with code {1}", Id, exitCode);
 			return exitCode;
@@ -136,18 +135,22 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public void Terminate()
 		{
-			if (Lifetime.IsCompleted)
+			if (handle.HasExited)
+			{
+				logger.LogTrace("PID {0} already exited", Id);
 				return;
+			}
+
 			try
 			{
 				logger.LogTrace("Terminating PID {0}...", Id);
 				handle.Kill();
-
-				// DO NOT USE WaitForExit! https://stackoverflow.com/a/26722542
+				if (!handle.WaitForExit(5000))
+					logger.LogWarning("WaitForExit() on PID {0} timed out!", Id);
 			}
 			catch (Exception e)
 			{
-				logger.LogDebug(e, "Process termination exception!");
+				logger.LogDebug(e, "PID {0} termination exception!", Id);
 			}
 		}
 
@@ -195,7 +198,7 @@ namespace Tgstation.Server.Host.System
 			}
 		}
 
-			/// <inheritdoc />
+		/// <inheritdoc />
 		public async Task<string> GetExecutingUsername(CancellationToken cancellationToken)
 		{
 			var result = await processFeatures.GetExecutingUsername(handle, cancellationToken).ConfigureAwait(false);
