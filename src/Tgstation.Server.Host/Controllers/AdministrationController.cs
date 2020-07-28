@@ -11,6 +11,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
@@ -368,7 +369,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Downloaded <see cref="LogFile"/> successfully.</response>
 		/// <response code="409">An IO error occurred while downloading.</response>
-		[HttpGet(Routes.Logs + "/{path}")]
+		[HttpGet(Routes.Logs + "/{*path}")]
 		[TgsAuthorize(AdministrationRights.DownloadLogs)]
 		[ProducesResponseType(typeof(List<LogFile>), 200)]
 		[ProducesResponseType(typeof(ErrorMessage), 409)]
@@ -376,6 +377,8 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			if (path == null)
 				throw new ArgumentNullException(nameof(path));
+
+			path = HttpUtility.UrlDecode(path);
 
 			// guard against directory navigation
 			var sanitizedPath = ioManager.GetFileName(path);
