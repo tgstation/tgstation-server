@@ -23,6 +23,16 @@ namespace Tgstation.Server.Host.Components.Repository
 		public const string GitHubUrl = "://github.com/";
 
 		/// <summary>
+		/// The default username for committers.
+		/// </summary>
+		public const string DefaultCommitterName = "tgstation-server";
+
+		/// <summary>
+		/// The default password for committers.
+		/// </summary>
+		public const string DefaultCommitterEmail = "tgstation-server@users.noreply.github.com";
+
+		/// <summary>
 		/// Template error message for when tracking of the most recent origin commit fails
 		/// </summary>
 		public const string OriginTrackingErrorTemplate = "Unable to determine most recent origin commit of {0}. Marking it as an origin commit. This may result in invalid git metadata until the next hard reset to an origin reference.";
@@ -554,7 +564,7 @@ namespace Tgstation.Server.Host.Components.Repository
 
 				trackedBranch = libGitRepo.Head.TrackedBranch;
 				logger.LogDebug("Merge origin/{2}: <{0} ({1})>", committerName, committerEmail, trackedBranch.FriendlyName);
-				result = libGitRepo.Merge(trackedBranch, new Signature(new Identity(committerName, committerEmail), DateTimeOffset.Now), new MergeOptions
+				result = libGitRepo.Merge(trackedBranch, new Signature(committerName, committerEmail, DateTimeOffset.Now), new MergeOptions
 				{
 					CommitOnSuccess = true,
 					FailOnConflict = true,
@@ -706,6 +716,44 @@ namespace Tgstation.Server.Host.Components.Repository
 			// err on the side of references, if we can't look it up, assume its a reference
 			if (libGitRepo.Lookup<Commit>(committish) != null)
 				return true;
+			return false;
+		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+
+		/// <inheritdoc />
+		public Task<bool> ShaIsParent(string sha, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		{
+			var targetCommit = libGitRepo.Lookup<Commit>(sha);
+			if(targetCommit == null)
+			{
+				logger.LogTrace("Commit {0} not found in repository", sha);
+				return false;
+			}
+
+			cancellationToken.ThrowIfCancellationRequested();
+			var startSha = Head;
+			var mergeResult = libGitRepo.Merge(
+				targetCommit,
+				new Signature(
+					DefaultCommitterName,
+					DefaultCommitterEmail,
+					DateTimeOffset.Now),
+				new MergeOptions
+				{
+					FastForwardStrategy = FastForwardStrategy.FastForwardOnly,
+					FailOnConflict = true
+				});
+
+			if (mergeResult.Status == MergeStatus.UpToDate)
+				return true;
+
+			commands.Checkout(
+				libGitRepo,
+				new CheckoutOptions
+				{
+					CheckoutModifiers = CheckoutModifiers.Force
+				},
+				startSha);
+
 			return false;
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 	}

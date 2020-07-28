@@ -19,6 +19,8 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Client;
+using Tgstation.Server.Host.Components.Events;
+using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Database.Migrations;
@@ -436,6 +438,31 @@ namespace Tgstation.Server.Tests
 			Assert.AreEqual(0, exitCode);
 			Assert.AreEqual(String.Empty, (await process.GetErrorOutput(default)).Trim());
 			Assert.AreEqual("Hello World!", (await process.GetStandardOutput(default)).Trim());
+		}
+
+		[TestMethod]
+		public async Task TestRepoParentLookup()
+		{
+			using var testingServer = new TestingServer();
+			LibGit2Sharp.Repository.Clone("https://github.com/Cyberboss/test", testingServer.Directory);
+			var libGit2Repo = new LibGit2Sharp.Repository(testingServer.Directory);
+			using var repo = new Host.Components.Repository.Repository(
+				libGit2Repo,
+				new LibGit2Commands(),
+				Mock.Of<Host.IO.IIOManager>(),
+				Mock.Of<IEventConsumer>(),
+				Mock.Of<ICredentialsProvider>(),
+				Mock.Of<ILogger<Host.Components.Repository.Repository>>(),
+				() => { });
+
+			const string StartSha = "af4da8beb9f9b374b04a3cc4d65acca662e8cc1a";
+			await repo.CheckoutObject(StartSha, progress => { }, default);
+			var result = await repo.ShaIsParent("2f8588a3ca0f6b027704a2a04381215619de3412", default);
+			Assert.IsTrue(result);
+			Assert.AreEqual(StartSha, repo.Head);
+			result = await repo.ShaIsParent("f636418bf47d238d33b0e4a34f0072b23a8aad0e", default);
+			Assert.IsFalse(result); ;
+			Assert.AreEqual(StartSha, repo.Head);
 		}
 	}
 }

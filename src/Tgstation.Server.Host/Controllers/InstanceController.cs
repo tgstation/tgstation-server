@@ -126,8 +126,8 @@ namespace Tgstation.Server.Host.Controllers
 				ChatBotLimit = initialSettings.ChatBotLimit ?? Models.Instance.DefaultChatBotLimit,
 				RepositorySettings = new RepositorySettings
 				{
-					CommitterEmail = "tgstation-server@users.noreply.github.com",
-					CommitterName = "tgstation-server",
+					CommitterEmail = Components.Repository.Repository.DefaultCommitterEmail,
+					CommitterName = Components.Repository.Repository.DefaultCommitterName,
 					PushTestMergeCommits = false,
 					ShowTestMergeCommitters = false,
 					AutoUpdatesKeepTestMerges = false,
