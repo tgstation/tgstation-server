@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using Microsoft.Win32.SafeHandles;
 using System;
 using System.Diagnostics;
 using System.Text;
@@ -32,6 +33,8 @@ namespace Tgstation.Server.Host.System
 
 		readonly global::System.Diagnostics.Process handle;
 
+		readonly SafeProcessHandle safeHandle;
+
 		readonly Task<string> standardOutputTask;
 		readonly Task<string> standardErrorTask;
 		readonly StringBuilder combinedStringBuilder;
@@ -61,6 +64,9 @@ namespace Tgstation.Server.Host.System
 
 			// Do this fast because the runtime will bitch if we try to access it after it ends
 			Id = handle.Id;
+
+			// https://stackoverflow.com/a/47656845
+			safeHandle = handle.SafeHandle;
 
 			this.processFeatures = processFeatures ?? throw new ArgumentNullException(nameof(processFeatures));
 
@@ -98,7 +104,11 @@ namespace Tgstation.Server.Host.System
 		}
 
 		/// <inheritdoc />
-		public void Dispose() => handle.Dispose();
+		public void Dispose()
+		{
+			safeHandle.Dispose();
+			handle.Dispose();
+		}
 
 		async Task<int> WrapLifetimeTask(Task<int> lifetimeTask)
 		{
