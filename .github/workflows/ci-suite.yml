@@ -72,9 +72,6 @@ jobs:
     env:
       DOXDIR: ~/tgsdox
     steps:
-      - name: Install Graphviz
-        run: apt-get install graphviz
-
       - name: Checkout
         uses: actions/checkout@v1
 
