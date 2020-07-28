@@ -214,7 +214,6 @@ namespace Tgstation.Server.Host.Components.Session
 				{
 					logger.LogDebug(
 						"Launching session with CompileJob {0}...",
-						byondLock.Version.Semver(),
 						dmbProvider.CompileJob.Id);
 
 					if (launchParameters.SecurityLevel == DreamDaemonSecurity.Trusted)
