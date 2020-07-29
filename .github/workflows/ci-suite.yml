@@ -398,6 +398,9 @@ jobs:
     needs: [linux-unit-tests, linux-integration-tests, windows-unit-tests, windows-integration-test]
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout for .codecov.yml
+      uses: actions/checkout@v1
+
     - name: Retrieve Linux Unit Test Coverage (Debug)
       uses: actions/download-artifact@v2
       with:
