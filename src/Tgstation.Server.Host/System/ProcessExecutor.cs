@@ -29,6 +29,7 @@ namespace Tgstation.Server.Host.System
 			var id = -1;
 			var result = AttachExitHandler(handle, () => id);
 			await startupTask.ConfigureAwait(false);
+			id = handle.Id;
 			return result;
 		}
 
