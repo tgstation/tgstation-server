@@ -447,11 +447,18 @@ namespace Tgstation.Server.Host.Components.Deployment
 				catch (JobException)
 				{
 					// DD never validated or compile failed
-					await eventConsumer.HandleEvent(EventType.CompileFailure, new List<string> { resolvedOutputDirectory, exitCode == 0 ? "1" : "0" }, cancellationToken).ConfigureAwait(false);
+					await eventConsumer.HandleEvent(
+						EventType.CompileFailure,
+						new List<string>
+						{
+							resolvedOutputDirectory,
+							exitCode == 0 ? "1" : "0"
+						},
+						cancellationToken)
+						.ConfigureAwait(false);
 					throw;
 				}
 
-				logger.LogTrace("Running post compile event...");
 				await eventConsumer.HandleEvent(EventType.CompileComplete, new List<string> { resolvedOutputDirectory }, cancellationToken).ConfigureAwait(false);
 
 				logger.LogTrace("Applying static game file symlinks...");
