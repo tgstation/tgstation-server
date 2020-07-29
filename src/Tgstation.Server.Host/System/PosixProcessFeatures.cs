@@ -73,10 +73,19 @@ namespace Tgstation.Server.Host.System
 			if (!await ioManager.FileExists(GCorePath, cancellationToken).ConfigureAwait(false))
 				throw new JobException(ErrorCode.MissingGCore);
 
-			if(process.HasExited)
-				throw new JobException(ErrorCode.DreamDaemonOffline);
+			int pid;
+			try
+			{
+				if (process.HasExited)
+					throw new JobException(ErrorCode.DreamDaemonOffline);
 
-			var pid = process.Id;
+				pid = process.Id;
+			}
+			catch (InvalidOperationException ex)
+			{
+				throw new JobException(ErrorCode.DreamDaemonOffline, ex);
+			}
+
 			string output;
 			int exitCode;
 			using (var gcoreProc = lazyLoadedProcessExecutor.Value.LaunchProcess(

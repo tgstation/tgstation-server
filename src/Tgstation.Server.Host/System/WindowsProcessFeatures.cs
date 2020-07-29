@@ -93,8 +93,15 @@ namespace Tgstation.Server.Host.System
 			=> Task.Factory.StartNew(
 				() =>
 				{
-					if (process.HasExited)
-						throw new JobException(ErrorCode.DreamDaemonOffline);
+					try
+					{
+						if (process.HasExited)
+							throw new JobException(ErrorCode.DreamDaemonOffline);
+					}
+					catch (InvalidOperationException ex)
+					{
+						throw new JobException(ErrorCode.DreamDaemonOffline, ex);
+					}
 
 					using var fileStream = new FileStream(outputFile, FileMode.CreateNew);
 					if (!NativeMethods.MiniDumpWriteDump(
