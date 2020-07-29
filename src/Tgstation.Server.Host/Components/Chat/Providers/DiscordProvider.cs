@@ -259,12 +259,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					Timeout = 10000 // prevent stupid long hold ups from this
 				}) ?? Task.CompletedTask).ConfigureAwait(false);
 			}
-			catch (OperationCanceledException)
-			{
-				throw;
-			}
 			catch (Exception e)
 			{
+				if (e is OperationCanceledException)
+					cancellationToken.ThrowIfCancellationRequested();
 				Logger.LogWarning(e, "Error sending discord message!");
 			}
 		}
