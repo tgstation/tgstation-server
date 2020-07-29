@@ -358,7 +358,7 @@ jobs:
         name: openapi-spec
         path: C:/swagger.json
 
-    - name: Package Server Console
+    - name: Package Server Service
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'Basic' }}
       run: |
         cd src/Tgstation.Server.Host.Service
