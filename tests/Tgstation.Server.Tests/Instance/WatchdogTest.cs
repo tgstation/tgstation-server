@@ -477,7 +477,7 @@ namespace Tgstation.Server.Tests.Instance
 				using (var tempCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
 				using (tempCts.Token.Register(() => System.Console.WriteLine("TEST ERROR: Timeout in TellWorldToReboot!")))
 				{
-					tempCts.CancelAfter(TimeSpan.FromMinutes(1));
+					tempCts.CancelAfter(TimeSpan.FromMinutes(2));
 					var tempToken = tempCts.Token;
 
 					do
