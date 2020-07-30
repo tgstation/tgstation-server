@@ -108,7 +108,7 @@ jobs:
           echo "" > .nojekyll
           git add --all
           git commit -m "Deploy code docs to GitHub Pages for workflow run ${{ github.run_number }}" -m "Commit: ${{ github.event.head_commit.id }}"
-          git push -f "https://${{ secrets.GITHUB_TOKEN }}}@github.com/tgstation/tgstation-server" 2>&1 | /dev/null
+          git push -f "https://${{ secrets.GITHUB_TOKEN }}@github.com/tgstation/tgstation-server" 2>&1 | /dev/null
 
   docker-build:
     name: Build Docker Image
