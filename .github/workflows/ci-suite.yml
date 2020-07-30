@@ -81,7 +81,6 @@ jobs:
           echo -e "\nPROJECT_NUMBER = $VERSION\nINPUT = .\nOUTPUT_DIRECTORY = $DOXDIR\nPROJECT_LOGO = ./build/tgs.ico\nHAVE_DOT=YES" >> "docs/Doxyfile"
 
       - name: Create DOXDIR
-        if: github.event_name != 'push' || github.event.ref != 'refs/heads/dev'
         run: mkdir -p $DOXDIR
 
       - name: Prep gh-pages Repository
@@ -393,10 +392,10 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: openapi-spec
-        path: ./swagger.json
+        path: ./swagger
 
     - name: Lint OpenAPI Spec
-      run: npx lint-openapi -p -c build/OpenApiValidationSettings.json swagger.json
+      run: npx lint-openapi -p -c build/OpenApiValidationSettings.json ./swagger/swagger.json
 
   upload-code-coverage:
     name: Upload Code Coverage
@@ -595,7 +594,7 @@ jobs:
           tag_name: api-v${{ env.TGS_API_VERSION }}
           release_name: tgstation-server 4 API v${{ env.TGS_API_VERSION }}
           body: The TGS HTTP API
-          committish: ${{ github.event.after }}
+          commitish: ${{ github.event.head_commit.id }}
 
       - name: Upload OpenApi Spec
         uses: actions/upload-release-asset@v1
@@ -603,7 +602,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./swagger.json
+          asset_path: ./swagger/swagger.json
           asset_name: swagger.json
           asset_content_type: application/json
 
@@ -636,7 +635,7 @@ jobs:
           tag_name: dmapi-v${{ env.TGS_DM_VERSION }}
           release_name: tgstation-server 4 DMAPI v${{ env.TGS_DM_VERSION }}
           body: The TGS DMAPI
-          committish: ${{ github.event.after }}
+          commitish: ${{ github.event.head_commit.id }}
 
       - name: Upload DMAPI Artifact
         uses: actions/upload-release-asset@v1
@@ -645,7 +644,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./DMAPI.zip
-          asset_name: my-artifact.zip
+          asset_name: DMAPI.zip
           asset_content_type: application/zip
 
   deploy-client:
@@ -711,7 +710,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: openapi-spec
-          path: swagger.json
+          path: swagger
 
       - name: Zip Artifacts
         shell: powershell
@@ -737,7 +736,7 @@ jobs:
           tag_name: tgstation-server-v${{ env.TGS_VERSION }}
           release_name: tgstation-server 4 DMAPI v${{ env.TGS_VERSION }}
           body: ${{ env.TGS_RELEASE_NOTES }}
-          committish: ${{ github.event.after }}
+          commitish: ${{ github.event.head_commit.id }}
 
       - name: Upload Server Console Artifact
         uses: actions/upload-release-asset@v1
@@ -775,7 +774,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./swagger.json
+          asset_path: ./swagger/swagger.json
           asset_name: swagger.json
           asset_content_type: application/json
 
