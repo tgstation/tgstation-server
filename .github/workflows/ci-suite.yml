@@ -85,8 +85,9 @@ jobs:
       - name: Prep gh-pages Repository
         if: github.event_name == 'push' && github.event.ref == 'refs/heads/dev'
         run: |
-          git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" "$HOME/tgsdox"
-          rm -r "$HOME/tgsdox/*"
+          git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" $HOME/tgsdox
+          cd $HOME/tgsdox
+          rm -r *
 
       - name: Doxygen Build
         uses: mattnotmitt/doxygen-action@v1
@@ -582,7 +583,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: openapi-spec
-          path: swagger.json
+          path: swagger
 
       - name: Create GitHub Release
         uses: juitnow/github-action-create-release@v1
@@ -623,7 +624,7 @@ jobs:
 
       - name: Zip DMAPI
         shell: powershell
-        run: Compress-Archive -Path src/DMAPI -DestinationPath DMAPI.zip
+        run: Compress-Archive -Path src/DMAPI/* -DestinationPath DMAPI.zip
 
       - name: Create GitHub Release
         uses: juitnow/github-action-create-release@v1
@@ -714,10 +715,10 @@ jobs:
       - name: Zip Artifacts
         shell: powershell
         run: |
-          Compress-Archive -Path src/DMAPI -DestinationPath DMAPI.zip
-          Compress-Archive -Path ServerService -DestinationPath ServerService.zip
-          Compress-Archive -Path ServerConsole -DestinationPath ServerConsole.zip
-          Compress-Archive -Path ServerUpdatePackage -DestinationPath ServerUpdatePackage.zip
+          Compress-Archive -Path src/DMAPI/* -DestinationPath DMAPI.zip
+          Compress-Archive -Path ServerService/* -DestinationPath ServerService.zip
+          Compress-Archive -Path ServerConsole/* -DestinationPath ServerConsole.zip
+          Compress-Archive -Path ServerUpdatePackage/* -DestinationPath ServerUpdatePackage.zip
 
       - name: Generate Release Notes
         shell: powershell
