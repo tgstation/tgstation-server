@@ -69,8 +69,6 @@ jobs:
   dox-build:
     name: Build Doxygen Site
     runs-on: ubuntu-latest
-    env:
-      DOXDIR: ~/tgsdox
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -81,13 +79,14 @@ jobs:
           echo -e "\nPROJECT_NUMBER = $VERSION\nINPUT = .\nOUTPUT_DIRECTORY = $DOXDIR\nPROJECT_LOGO = ./build/tgs.ico\nHAVE_DOT=YES" >> "docs/Doxyfile"
 
       - name: Create DOXDIR
-        run: mkdir -p $DOXDIR
+        if: github.event_name != 'push' || github.event.ref != 'refs/heads/dev'
+        run: mkdir -p $HOME/tgsdox
 
       - name: Prep gh-pages Repository
         if: github.event_name == 'push' && github.event.ref == 'refs/heads/dev'
         run: |
-          git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" "$DOXDIR"
-          rm -r "$DOXDIR/*"
+          git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" "$HOME/tgsdox"
+          rm -r "$HOME/tgsdox/*"
 
       - name: Doxygen Build
         uses: mattnotmitt/doxygen-action@v1
@@ -97,7 +96,7 @@ jobs:
       - name: gh-pages push
         if: github.event_name == 'push' && github.event.ref == 'refs/heads/dev'
         run: |
-          cd $DOXDIR
+          cd $HOME/tgsdox
           git config --global push.default simple
           git config user.name "tgstation-server"
           git config user.email "tgstation-server@tgstation13.org"
@@ -107,8 +106,8 @@ jobs:
           # to be seen on the gh-pages site. Therefore creating an empty .nojekyll file.
           echo "" > .nojekyll
           git add --all
-          git commit -m "Deploy code docs to GitHub Pages for Travis build $TRAVIS_BUILD_NUMBER" -m "Commit: $TRAVIS_COMMIT"
-          git push -f "https://${{ secrets.GITHUB_TOKEN }}}@$GITHUB_URL" 2>&1 | /dev/null
+          git commit -m "Deploy code docs to GitHub Pages for workflow run ${{ github.run_number }}" -m "Commit: ${{ github.event.head_commit.id }}"
+          git push -f "https://${{ secrets.GITHUB_TOKEN }}}@github.com/tgstation/tgstation-server" 2>&1 | /dev/null
 
   docker-build:
     name: Build Docker Image
@@ -237,7 +236,8 @@ jobs:
     needs: dmapi-build
     services: # We start all dbs here so we can just code the stuff once
       postgres:
-        image: postgres
+        image: postgres:10.3-alpine
+        command: postgres -c 'max_connections=200'
         ports:
           - 5432:5432
         env:
