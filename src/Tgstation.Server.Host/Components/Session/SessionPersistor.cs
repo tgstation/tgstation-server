@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
@@ -133,10 +133,11 @@ namespace Tgstation.Server.Host.Components.Session
 						{
 							using var process = processExecutor.GetProcess(reattachInfo.ProcessId);
 							process.Terminate();
+							await process.Lifetime.ConfigureAwait(false);
 						}
 						catch (Exception ex)
 						{
-							logger.LogWarning("Failed to kill process! Exception: {0}", ex);
+							logger.LogWarning(ex, "Failed to kill process!");
 						}
 					}
 

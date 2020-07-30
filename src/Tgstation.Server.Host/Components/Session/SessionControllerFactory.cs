@@ -1,8 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Globalization;
 using System.Linq;
-using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -16,6 +15,7 @@ using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Security;
@@ -116,15 +116,14 @@ namespace Tgstation.Server.Host.Components.Session
 		/// Check if a given <paramref name="port"/> can be bound to.
 		/// </summary>
 		/// <param name="port">The port number to test.</param>
-		static void PortBindTest(ushort port)
+		void PortBindTest(ushort port)
 		{
-			using var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
 			try
 			{
-				socket.Bind(new IPEndPoint(IPAddress.Any, port));
+				logger.LogTrace("Bind test: {0}", port);
+				SocketExtensions.BindTest(port, false);
 			}
-			catch (Exception ex)
+			catch (SocketException ex) when (ex.SocketErrorCode == SocketError.AddressAlreadyInUse)
 			{
 				throw new JobException(ErrorCode.DreamDaemonPortInUse, ex);
 			}
@@ -215,7 +214,6 @@ namespace Tgstation.Server.Host.Components.Session
 				{
 					logger.LogDebug(
 						"Launching session with CompileJob {0}...",
-						byondLock.Version.Semver(),
 						dmbProvider.CompileJob.Id);
 
 					if (launchParameters.SecurityLevel == DreamDaemonSecurity.Trusted)
@@ -268,8 +266,9 @@ namespace Tgstation.Server.Host.Components.Session
 
 					async Task<string> GetDDOutput()
 					{
+						// DCT x2: None available
 						if (!platformIdentifier.IsWindows)
-							return process.GetCombinedOutput();
+							return await process.GetCombinedOutput(default).ConfigureAwait(false);
 
 						var logFilePath = ioManager.ConcatPath(dmbProvider.Directory, logFileGuid.ToString());
 						try
@@ -285,32 +284,31 @@ namespace Tgstation.Server.Host.Components.Session
 						{
 							try
 							{
+								// DCT: No token available
 								await ioManager.DeleteFile(logFilePath, default).ConfigureAwait(false);
 							}
 							catch (Exception ex)
 							{
-								logger.LogWarning("Failed to delete DreamDaemon log file {0}: {1}", logFilePath, ex);
+								logger.LogWarning(ex, "Failed to delete DreamDaemon log file {0}!", logFilePath);
 							}
 						}
 					}
 
 					// Log DD output
-					_ = process.Lifetime.ContinueWith(
-							async x =>
-							{
-								try
-								{
-									var ddOutput = await GetDDOutput().ConfigureAwait(false);
-									logger.LogTrace(
-										"DreamDaemon Output:{0}{1}",
-										Environment.NewLine, ddOutput);
-								}
-								catch (Exception ex)
-								{
-									logger.LogWarning("Error reading DreamDaemon output: {0}", ex);
-								}
-							},
-							TaskScheduler.Current);
+					async Task PostLifetime()
+					{
+						try
+						{
+							var ddOutput = await GetDDOutput().ConfigureAwait(false);
+							logger.LogTrace(
+								"DreamDaemon Output:{0}{1}",
+								Environment.NewLine, ddOutput);
+						}
+						catch (Exception ex)
+						{
+							logger.LogWarning(ex, "Error reading DreamDaemon output!");
+						}
+					}
 
 					try
 					{
@@ -340,6 +338,7 @@ namespace Tgstation.Server.Host.Components.Session
 							chat,
 							assemblyInformationProvider,
 							loggerFactory.CreateLogger<SessionController>(),
+							PostLifetime,
 							launchParameters.StartupTimeout,
 							false,
 							apiValidate);
@@ -348,9 +347,12 @@ namespace Tgstation.Server.Host.Components.Session
 					}
 					catch
 					{
-						process.Terminate();
-						process.Dispose();
-						throw;
+						using (process)
+						{
+							process.Terminate();
+							await process.Lifetime.ConfigureAwait(false);
+							throw;
+						}
 					}
 				}
 				catch
@@ -415,6 +417,7 @@ namespace Tgstation.Server.Host.Components.Session
 							chat,
 							assemblyInformationProvider,
 							loggerFactory.CreateLogger<SessionController>(),
+							() => Task.CompletedTask,
 							null,
 							true,
 							false);

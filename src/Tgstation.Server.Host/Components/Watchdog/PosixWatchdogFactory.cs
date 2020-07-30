@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using Tgstation.Server.Api.Models.Internal;
@@ -8,7 +8,6 @@ using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
-using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 
@@ -24,7 +23,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="loggerFactory">The <see cref="ILoggerFactory"/> for the <see cref="WatchdogFactory"/>.</param>
-		/// <param name="databaseContextFactory">The <see cref="IDatabaseContextFactory"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogFactory"/>.</param>
 		/// <param name="symlinkFactory">The <see cref="ISymlinkFactory"/> for the <see cref="WindowsWatchdogFactory"/>.</param>
@@ -32,7 +30,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		public PosixWatchdogFactory(
 			IServerControl serverControl,
 			ILoggerFactory loggerFactory,
-			IDatabaseContextFactory databaseContextFactory,
 			IJobManager jobManager,
 			IAsyncDelayer asyncDelayer,
 			ISymlinkFactory symlinkFactory,
@@ -40,7 +37,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			: base(
 				serverControl,
 				loggerFactory,
-				databaseContextFactory,
 				jobManager,
 				asyncDelayer,
 				symlinkFactory,
@@ -63,7 +59,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				sessionControllerFactory,
 				dmbFactory,
 				sessionPersistor,
-				DatabaseContextFactory,
 				JobManager,
 				ServerControl,
 				AsyncDelayer,

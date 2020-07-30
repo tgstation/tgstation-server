@@ -21,18 +21,34 @@ namespace Tgstation.Server.Tests
 
 		public async Task Run(CancellationToken cancellationToken)
 		{
-			await TestRetrieveCurrentUser(cancellationToken).ConfigureAwait(false);
-			await TestCreateSysUser(cancellationToken);
-			await TestSpamCreation(cancellationToken).ConfigureAwait(false);
+			await Task.WhenAll(
+				BasicTests(cancellationToken),
+				TestCreateSysUser(cancellationToken),
+				TestSpamCreation(cancellationToken)).ConfigureAwait(false);
 		}
 
-		async Task TestRetrieveCurrentUser(CancellationToken cancellationToken)
+		async Task BasicTests(CancellationToken cancellationToken)
 		{
 			var user = await this.client.Read(cancellationToken).ConfigureAwait(false);
 			Assert.IsNotNull(user);
 			Assert.AreEqual("Admin", user.Name);
 			Assert.IsNull(user.SystemIdentifier);
 			Assert.AreEqual(true, user.Enabled);
+
+			var systemUser = user.CreatedBy;
+			Assert.IsNotNull(systemUser);
+			Assert.AreEqual("TGS", systemUser.Name);
+			Assert.AreEqual(false, systemUser.Enabled);
+
+			var users = await client.List(cancellationToken);
+			Assert.IsTrue(users.Count > 0);
+			Assert.IsFalse(users.Any(x => x.Id == systemUser.Id));
+
+			await ApiAssert.ThrowsException<InsufficientPermissionsException>(() => client.GetId(systemUser, cancellationToken), null);
+			await ApiAssert.ThrowsException<InsufficientPermissionsException>(() => client.Update(new UserUpdate
+			{
+				Id = systemUser.Id
+			}, cancellationToken), null);
 		}
 
 		async Task TestCreateSysUser(CancellationToken cancellationToken)

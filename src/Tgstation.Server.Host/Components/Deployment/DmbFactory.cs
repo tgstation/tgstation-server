@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -202,26 +202,32 @@ namespace Tgstation.Server.Host.Components.Deployment
 			if (compileJob == null)
 				throw new ArgumentNullException(nameof(compileJob));
 
-			// ensure we have the entire compile job tree
+			// ensure we have the entire metadata tree
 			logger.LogTrace("Loading compile job {0}...", compileJob.Id);
 			await databaseContextFactory.UseContext(
 				async db => compileJob = await db
 					.CompileJobs
 					.AsQueryable()
 					.Where(x => x.Id == compileJob.Id)
-					.Include(x => x.Job).ThenInclude(x => x.StartedBy)
-					.Include(x => x.RevisionInformation).ThenInclude(x => x.PrimaryTestMerge).ThenInclude(x => x.MergedBy)
-					.Include(x => x.RevisionInformation).ThenInclude(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).ThenInclude(x => x.MergedBy)
+					.Include(x => x.Job)
+						.ThenInclude(x => x.StartedBy)
+					.Include(x => x.RevisionInformation)
+						.ThenInclude(x => x.PrimaryTestMerge)
+						.ThenInclude(x => x.MergedBy)
+					.Include(x => x.RevisionInformation)
+						.ThenInclude(x => x.ActiveTestMerges)
+						.ThenInclude(x => x.TestMerge)
+						.ThenInclude(x => x.MergedBy)
 					.FirstAsync(cancellationToken)
 					.ConfigureAwait(false))
 				.ConfigureAwait(false); // can't wait to see that query
 
 			if (!compileJob.Job.StoppedAt.HasValue)
 			{
-				// This happens if we're told to load the compile job that is currently finished up
-				// It can constitute an API violation if it's returned by the DreamDaemonController so just set it here
-				// Bit of a hack, but it should work out to be the same value
-				logger.LogTrace("Setting missing StoppedAt for CompileJob job...");
+				// This happens when we're told to load the compile job that is currently finished up
+				// It constitutes an API violation if it's returned by the DreamDaemonController so just set it here
+				// Bit of a hack, but it works out to be nearly if not the same value that's put in the DB
+				logger.LogTrace("Setting missing StoppedAt for CompileJob.Job #{0}...", compileJob.Job.Id);
 				compileJob.Job.StoppedAt = DateTimeOffset.Now;
 			}
 
@@ -284,9 +290,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 					else
 						jobLockCounts[compileJob.Id] = ++value;
 
-					logger.LogTrace("Compile job {0} lock count now: {1}", compileJob.Id, value);
-
 					providerSubmitted = true;
+
+					logger.LogTrace("Compile job {0} lock count now: {1}", compileJob.Id, value);
 					return newProvider;
 				}
 			}
@@ -352,7 +358,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				}
 				catch (Exception e)
 				{
-					logger.LogWarning("Error deleting directory {0}! Exception: {1}", x, e);
+					logger.LogWarning(e, "Error deleting directory {0}!", x);
 				}
 			}).ToList();
 			if (deleting > 0)

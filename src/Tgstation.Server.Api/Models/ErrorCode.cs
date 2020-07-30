@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 
 namespace Tgstation.Server.Api.Models
@@ -291,6 +291,7 @@ namespace Tgstation.Server.Api.Models
 		/// Attempted to update a <see cref="User"/> or <see cref="InstanceUser"/> without its ID.
 		/// </summary>
 		[Description("Missing user ID!")]
+		[Obsolete("Deprecated in favor of code 2", true)]
 		UserMissingId,
 
 		/// <summary>
@@ -551,5 +552,17 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("Cannot perform this operation as DreamDaemon is not currently running!")]
 		DreamDaemonOffline,
+
+		/// <summary>
+		/// Attempted to perform an instance operation with an offline instance.
+		/// </summary>
+		[Description("The instance associated with the operation is currently offline!")]
+		InstanceOffline,
+
+		/// <summary>
+		/// An attempt to connect a chat bot failed.
+		/// </summary>
+		[Description("Failed to connect chat bot!")]
+		ChatCannotConnectProvider
 	}
 }

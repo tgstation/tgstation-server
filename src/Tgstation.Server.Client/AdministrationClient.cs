@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 
@@ -39,7 +40,8 @@ namespace Tgstation.Server.Client
 		/// <inheritdoc />
 		public Task<LogFile> GetLog(LogFile logFile, CancellationToken cancellationToken) => apiClient.Read<LogFile>(
 			Routes.Logs + Routes.SanitizeGetPath(
-				logFile?.Name ?? throw new ArgumentNullException(nameof(logFile))),
+				HttpUtility.UrlEncode(
+					logFile?.Name ?? throw new ArgumentNullException(nameof(logFile)))),
 			cancellationToken);
 	}
 }

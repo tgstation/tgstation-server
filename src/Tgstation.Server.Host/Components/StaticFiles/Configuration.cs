@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -211,7 +211,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				}
 				catch (IOException e)
 				{
-					logger.LogDebug("IOException while writing {0}: {1}", path, e);
+					logger.LogDebug(e, "IOException while writing {0}!", path);
 					result = null;
 					return;
 				}
@@ -463,7 +463,20 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				var files = await ioManager.GetFilesWithExtension(EventScriptsSubdirectory, platformIdentifier.ScriptFileExtension, false, cancellationToken).ConfigureAwait(false);
 				var resolvedScriptsDir = ioManager.ResolvePath(EventScriptsSubdirectory);
 
-				foreach (var I in files.Select(x => ioManager.GetFileName(x)).Where(x => x.StartsWith(scriptName, StringComparison.Ordinal)))
+				var scriptFiles = files
+					.Select(x => ioManager.GetFileName(x))
+					.Where(x => x.StartsWith(scriptName, StringComparison.Ordinal))
+					.ToList();
+
+				if (!scriptFiles.Any())
+				{
+					logger.LogTrace("No event scripts starting with \"{0}\" detected", scriptName);
+					return;
+				}
+
+				foreach (var I in scriptFiles)
+				{
+					logger.LogTrace("Running event script {0}...", I);
 					using (var script = processExecutor.LaunchProcess(
 						ioManager.ConcatPath(resolvedScriptsDir, I),
 						resolvedScriptsDir,
@@ -475,12 +488,13 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					{
 						var exitCode = await script.Lifetime.ConfigureAwait(false);
 						cancellationToken.ThrowIfCancellationRequested();
-						var scriptOutput = script.GetCombinedOutput();
+						var scriptOutput = await script.GetCombinedOutput(cancellationToken).ConfigureAwait(false);
 						if (exitCode != 0)
 							throw new JobException($"Script {I} exited with code {exitCode}:{Environment.NewLine}{scriptOutput}");
 						else
 							logger.LogDebug("Script output:{0}{1}", Environment.NewLine, scriptOutput);
 					}
+				}
 			}
 		}
 

@@ -31,12 +31,12 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.RevisionInformation.ActiveTestMerges"/>
 		/// </summary>
-		public List<RevInfoTestMerge> ActiveTestMerges { get; set; }
+		public ICollection<RevInfoTestMerge> ActiveTestMerges { get; set; }
 
 		/// <summary>
 		/// See <see cref="CompileJob"/>s made from this <see cref="RevisionInformation"/>
 		/// </summary>
-		public List<CompileJob> CompileJobs { get; set; }
+		public ICollection<CompileJob> CompileJobs { get; set; }
 
 		/// <summary>
 		/// Convert the <see cref="RevisionInformation"/> to it's API form

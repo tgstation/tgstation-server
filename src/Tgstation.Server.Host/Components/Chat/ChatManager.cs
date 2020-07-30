@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Serilog.Context;
 using System;
@@ -118,11 +118,6 @@ namespace Tgstation.Server.Host.Components.Chat
 		long messagesProcessed;
 
 		/// <summary>
-		/// If <see cref="StartAsync(CancellationToken)"/> has been called
-		/// </summary>
-		bool started;
-
-		/// <summary>
 		/// Construct a <see cref="ChatManager"/>
 		/// </summary>
 		/// <param name="providerFactory">The value of <see cref="providerFactory"/></param>
@@ -159,13 +154,13 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public void Dispose()
+		public async ValueTask DisposeAsync()
 		{
 			logger.LogTrace("Disposing...");
 			restartRegistration.Dispose();
 			handlerCts.Dispose();
 			foreach (var I in providers)
-				I.Value.Dispose();
+				await I.Value.DisposeAsync().ConfigureAwait(false);
 		}
 
 		/// <summary>
@@ -206,6 +201,21 @@ namespace Tgstation.Server.Host.Components.Chat
 			return provider;
 		}
 
+		async Task RemapProvider(IProvider provider, CancellationToken cancellationToken)
+		{
+			logger.LogTrace("Remapping channels for provider reconnection...");
+			IEnumerable<Api.Models.ChatChannel> channelsToMap;
+			long providerId;
+			lock (providers)
+				providerId = providers.Where(x => x.Value == provider).Select(x => x.Key).First();
+
+			lock (activeChatBots)
+				channelsToMap = activeChatBots.FirstOrDefault(x => x.Id == providerId)?.Channels;
+
+			if (channelsToMap?.Any() ?? false)
+				await ChangeChannels(providerId, channelsToMap, cancellationToken).ConfigureAwait(false);
+		}
+
 		/// <summary>
 		/// Processes a <paramref name="message"/>
 		/// </summary>
@@ -213,26 +223,20 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <param name="message">The <see cref="Message"/> to process. If <see langword="null"/>, this indicates the provider reconnected.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		#pragma warning disable CA1502
+#pragma warning disable CA1502
 		async Task ProcessMessage(IProvider provider, Message message, CancellationToken cancellationToken)
-		#pragma warning restore CA1502
+#pragma warning restore CA1502
 		{
+			if (!provider.Connected)
+			{
+				logger.LogTrace("Abort message processing because provider is disconnected!");
+				return;
+			}
+
 			// provider reconnected, remap channels.
 			if (message == null)
 			{
-				logger.LogTrace("Remapping channels for provider reconnection...");
-				IEnumerable<Api.Models.ChatChannel> channelsToMap;
-				lock (activeChatBots)
-					channelsToMap = activeChatBots.FirstOrDefault()?.Channels;
-
-				if (channelsToMap?.Any() ?? false)
-				{
-					long providerId;
-					lock (providers)
-						providerId = providers.Where(x => x.Value == provider).Select(x => x.Key).First();
-					await ChangeChannels(providerId, channelsToMap, cancellationToken).ConfigureAwait(false);
-				}
-
+				await RemapProvider(provider, cancellationToken).ConfigureAwait(false);
 				return;
 			}
 
@@ -243,9 +247,6 @@ namespace Tgstation.Server.Host.Components.Chat
 				var enumerable = mappedChannels.Where(x => x.Value.ProviderId == providerId && x.Value.ProviderChannelId == message.User.Channel.RealId);
 				if (message.User.Channel.IsPrivateChannel)
 					lock (mappedChannels)
-					{
-						if (!provider.Connected)
-							return;
 						if (!enumerable.Any())
 						{
 							ulong newId;
@@ -267,7 +268,6 @@ namespace Tgstation.Server.Host.Components.Chat
 						}
 						else
 							message.User.Channel.RealId = enumerable.First().Key;
-					}
 				else
 				{
 					// need to add tag and isAdminChannel
@@ -285,7 +285,9 @@ namespace Tgstation.Server.Host.Components.Chat
 
 			address = address.ToUpperInvariant();
 
-			var addressed = address == CommonMention.ToUpperInvariant() || address == provider.BotMention.ToUpperInvariant();
+			var addressed =
+				address == CommonMention.ToUpperInvariant()
+				|| address == provider.BotMention.ToUpperInvariant();
 
 			// no mention
 			if (!addressed && !message.User.Channel.IsPrivateChannel)
@@ -371,15 +373,15 @@ namespace Tgstation.Server.Host.Components.Chat
 				if (result != null)
 					await SendMessage(result, new List<ulong> { message.User.Channel.RealId }, cancellationToken).ConfigureAwait(false);
 			}
-			catch (OperationCanceledException)
+			catch (OperationCanceledException ex)
 			{
-				logger.LogTrace("Command processing canceled!");
+				logger.LogTrace(ex, "Command processing canceled!");
 				throw;
 			}
 			catch (Exception e)
 			{
 				// error bc custom commands should reply about why it failed
-				logger.LogError("Error processing chat command: {0}", e);
+				logger.LogError(e, "Error processing chat command");
 				await SendMessage(
 					"TGS: Internal error processing command! Check server logs!",
 					new List<ulong> { message.User.Channel.RealId },
@@ -406,7 +408,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				while (!cancellationToken.IsCancellationRequested)
 				{
 					// prune disconnected providers
-					foreach (var I in messageTasks.Where(x => !x.Key.Connected).ToList())
+					foreach (var I in messageTasks.Where(x => !x.Key.Disposed).ToList())
 						messageTasks.Remove(I.Key);
 
 					// add new ones
@@ -415,7 +417,7 @@ namespace Tgstation.Server.Host.Components.Chat
 						updatedTask = connectionsUpdated.Task;
 					lock (providers)
 						foreach (var I in providers)
-							if (I.Value.Connected && !messageTasks.ContainsKey(I.Value))
+							if (!messageTasks.ContainsKey(I.Value))
 								messageTasks.Add(I.Value, I.Value.NextMessage(cancellationToken));
 
 					if (messageTasks.Count == 0)
@@ -438,13 +440,13 @@ namespace Tgstation.Server.Host.Components.Chat
 					}
 				}
 			}
-			catch (OperationCanceledException)
+			catch (OperationCanceledException ex)
 			{
-				logger.LogTrace("Message processing loop cancelled!");
+				logger.LogTrace(ex, "Message processing loop cancelled!");
 			}
 			catch (Exception e)
 			{
-				logger.LogError("Message loop crashed! Exception: {0}", e);
+				logger.LogError(e, "Message loop crashed!");
 			}
 
 			logger.LogTrace("Leaving message processing loop");
@@ -521,7 +523,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public async Task ChangeSettings(ChatBot newSettings, CancellationToken cancellationToken)
+		public async Task ChangeSettings(Models.ChatBot newSettings, CancellationToken cancellationToken)
 		{
 			if (newSettings == null)
 				throw new ArgumentNullException(nameof(newSettings));
@@ -537,7 +539,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				}
 				finally
 				{
-					p.Dispose();
+					await p.DisposeAsync().ConfigureAwait(false);
 				}
 			}
 
@@ -565,30 +567,23 @@ namespace Tgstation.Server.Host.Components.Chat
 
 			await disconnectTask.ConfigureAwait(false);
 
-			if (started)
+			lock (synchronizationLock)
 			{
-				if (newSettings.Enabled.Value)
-					await provider.Connect(cancellationToken).ConfigureAwait(false);
-				lock (synchronizationLock)
-				{
-					// same thread shennanigans
-					var oldOne = connectionsUpdated;
-					connectionsUpdated = new TaskCompletionSource<object>();
-					oldOne.SetResult(null);
-				}
+				// same thread shennanigans
+				var oldOne = connectionsUpdated;
+				connectionsUpdated = new TaskCompletionSource<object>();
+				oldOne.SetResult(null);
 			}
 
-			Task reconnectionUpdateTask = Task.CompletedTask;
+			var reconnectionUpdateTask = provider?.SetReconnectInterval(
+				newSettings.ReconnectionInterval.Value,
+				newSettings.Enabled.Value)
+				?? Task.CompletedTask;
 			lock (activeChatBots)
 			{
 				var originalChatBot = activeChatBots.FirstOrDefault(bot => bot.Id == newSettings.Id);
 				if (originalChatBot != null)
-				{
-					if (originalChatBot.ReconnectionInterval != newSettings.ReconnectionInterval)
-						reconnectionUpdateTask = provider.SetReconnectInterval(newSettings.ReconnectionInterval.Value);
-
 					activeChatBots.Remove(originalChatBot);
-				}
 
 				activeChatBots.Add(new Models.ChatBot
 				{
@@ -699,9 +694,9 @@ namespace Tgstation.Server.Host.Components.Chat
 						catch (Exception ex)
 						{
 							logger.LogWarning(
-								"Error sending deploy message to provider {0}! Exception: {1}",
-								channelMapping.ProviderId,
-								ex);
+								ex,
+								"Error sending deploy message to provider {0}!",
+								channelMapping.ProviderId);
 						}
 					}))
 				.ConfigureAwait(false);
@@ -716,10 +711,8 @@ namespace Tgstation.Server.Host.Components.Chat
 				builtinCommands.Add(I.Name.ToUpperInvariant(), I);
 			var initialChatBots = activeChatBots.ToList();
 			await Task.WhenAll(initialChatBots.Select(x => ChangeSettings(x, cancellationToken))).ConfigureAwait(false);
-			await Task.WhenAll(providers.Select(x => x.Value).Select(x => x.Connect(cancellationToken))).ConfigureAwait(false);
 			await Task.WhenAll(initialChatBots.Select(x => ChangeChannels(x.Id, x.Channels, cancellationToken))).ConfigureAwait(false);
 			chatHandler = MonitorMessages(handlerCts.Token);
-			started = true;
 		}
 
 		/// <inheritdoc />
@@ -774,7 +767,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				}
 				finally
 				{
-					provider.Dispose();
+					await provider.DisposeAsync().ConfigureAwait(false);
 				}
 		}
 

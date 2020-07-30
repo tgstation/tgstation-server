@@ -91,7 +91,7 @@ namespace Tgstation.Server.Host.Security
 				{
 					instanceUser = await databaseContext.InstanceUsers
 						.AsQueryable()
-						.Where(x => x.UserId == userId && x.InstanceId == instanceId && x.Instance.Online.Value)
+						.Where(x => x.UserId == userId && x.InstanceId == instanceId)
 						.Include(x => x.Instance)
 						.FirstOrDefaultAsync(cancellationToken)
 						.ConfigureAwait(false);

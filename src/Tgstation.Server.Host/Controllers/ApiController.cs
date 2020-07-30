@@ -7,6 +7,7 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Net.Mime;
+using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
@@ -40,7 +41,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="ApiController"/>
 		/// </summary>
-		protected ILogger Logger { get; }
+		protected ILogger<ApiController> Logger { get; }
 
 		/// <summary>
 		/// The <see cref="Instance"/> for the operation
@@ -68,7 +69,7 @@ namespace Tgstation.Server.Host.Controllers
 		public ApiController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
-			ILogger logger,
+			ILogger<ApiController> logger,
 			bool requireInstance,
 			bool requireHeaders = true)
 		{
@@ -123,6 +124,14 @@ namespace Tgstation.Server.Host.Controllers
 		protected ObjectResult Created(object payload) => StatusCode((int)HttpStatusCode.Created, payload);
 
 		/// <summary>
+		/// Performs validation steps for an instance request.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in an appropriate <see cref="IActionResult"/> on validation failure, <see langword="null"/> otherwise.</returns>
+		protected virtual Task<IActionResult> ValidateInstanceRequest(CancellationToken cancellationToken)
+			=> Task.FromResult<IActionResult>(null);
+
+		/// <summary>
 		/// Response for missing/Invalid headers.
 		/// </summary>
 		/// <returns>The appropriate <see cref="IActionResult"/>.</returns>
@@ -157,6 +166,9 @@ namespace Tgstation.Server.Host.Controllers
 #pragma warning disable CA1506 // TODO: Decomplexify
 		public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
 		{
+			if (context == null)
+				throw new ArgumentNullException(nameof(context));
+
 			// ALL valid token and login requests that match a route go through this function
 			// 404 is returned before
 			if (AuthenticationContext != null && AuthenticationContext.User == null)
@@ -183,16 +195,16 @@ namespace Tgstation.Server.Host.Controllers
 
 				if (requireInstance)
 				{
+					IActionResult errorCase = null;
 					if (!ApiHeaders.InstanceId.HasValue)
-					{
-						await BadRequest(new ErrorMessage(ErrorCode.InstanceHeaderRequired)).ExecuteResultAsync(context).ConfigureAwait(false);
-						return;
-					}
+						errorCase = BadRequest(new ErrorMessage(ErrorCode.InstanceHeaderRequired));
+					else if (AuthenticationContext.InstanceUser == null)
+						errorCase = Forbid();
 
-					if (AuthenticationContext.InstanceUser == null)
+					errorCase ??= await ValidateInstanceRequest(context.HttpContext.RequestAborted).ConfigureAwait(false);
+					if (errorCase != null)
 					{
-						// accessing an instance they don't have access to or one that's disabled
-						await Forbid().ExecuteResultAsync(context).ConfigureAwait(false);
+						await errorCase.ExecuteResultAsync(context).ConfigureAwait(false);
 						return;
 					}
 				}

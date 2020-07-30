@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,7 +12,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 	/// <summary>
 	/// Runs and monitors the twin server controllers
 	/// </summary>
-	public interface IWatchdog : IHostedService, IDisposable, IEventConsumer, IRenameNotifyee
+	public interface IWatchdog : IHostedService, IAsyncDisposable, IEventConsumer, IRenameNotifyee
 	{
 		/// <summary>
 		/// The current <see cref="WatchdogStatus"/>.
@@ -25,7 +25,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		bool AlphaIsActive { get; }
 
 		/// <summary>
-		/// The <see cref="Models.CompileJob"/> currently running on the server
+		/// Retrieves the <see cref="Models.CompileJob"/> currently running on the server
 		/// </summary>
 		Models.CompileJob ActiveCompileJob { get; }
 

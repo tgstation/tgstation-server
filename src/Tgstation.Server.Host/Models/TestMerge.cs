@@ -26,7 +26,7 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// All the <see cref="RevInfoTestMerge"/> for the <see cref="TestMerge"/>
 		/// </summary>
-		public List<RevInfoTestMerge> RevisonInformations { get; set; }
+		public ICollection<RevInfoTestMerge> RevisonInformations { get; set; }
 
 		/// <summary>
 		/// Convert the <see cref="TestMerge"/> to it's API form

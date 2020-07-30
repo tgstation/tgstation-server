@@ -828,6 +828,7 @@ namespace Tgstation.Server.Host.Setup
 
 			async Task HandleSetupCancel()
 			{
+				// DCTx2: Operation should always run
 				await console.WriteAsync(String.Empty, true, default).ConfigureAwait(false);
 				await console.WriteAsync("Aborting setup!", true, default).ConfigureAwait(false);
 			}

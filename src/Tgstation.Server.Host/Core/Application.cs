@@ -1,4 +1,4 @@
-﻿using Cyberboss.AspNetCore.AsyncInitializer;
+using Cyberboss.AspNetCore.AsyncInitializer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
@@ -17,6 +17,7 @@ using Serilog.Formatting.Display;
 using System;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
@@ -97,6 +98,10 @@ namespace Tgstation.Server.Host.Core
 			// enable options which give us config reloading
 			services.AddOptions();
 
+			// Set the timeout for IHostedService.StopAsync
+			services.Configure<HostOptions>(
+				opts => opts.ShutdownTimeout = TimeSpan.FromMilliseconds(postSetupServices.GeneralConfiguration.RestartTimeout));
+
 			static LogEventLevel? ConvertSeriLogLevel(LogLevel logLevel) =>
 				logLevel switch
 				{
@@ -132,7 +137,7 @@ namespace Tgstation.Server.Host.Core
 					var formatter = new MessageTemplateTextFormatter(
 						"{Timestamp:o} "
 						+ ServiceCollectionExtensions.SerilogContextTemplate
-						+ ": [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}",
+						+ "|IR:{InstanceReference}){): [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}",
 						null);
 
 					logPath = IOManager.ConcatPath(logPath, "tgs-.log");
@@ -301,6 +306,7 @@ namespace Tgstation.Server.Host.Core
 
 			services.AddSingleton<InstanceManager>();
 			services.AddSingleton<IBridgeDispatcher>(x => x.GetRequiredService<InstanceManager>());
+			services.AddSingleton(x => new Lazy<IInstanceCoreProvider>(() => x.GetRequiredService<InstanceManager>()));
 			services.AddSingleton<IInstanceManager>(x => x.GetRequiredService<InstanceManager>());
 		}
 

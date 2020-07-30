@@ -30,22 +30,22 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// The <see cref="InstanceUser"/>s in the <see cref="Instance"/>
 		/// </summary>
-		public List<InstanceUser> InstanceUsers { get; set; }
+		public ICollection<InstanceUser> InstanceUsers { get; set; }
 
 		/// <summary>
 		/// The <see cref="ChatBot"/>s for the <see cref="Instance"/>
 		/// </summary>
-		public List<ChatBot> ChatSettings { get; set; }
+		public ICollection<ChatBot> ChatSettings { get; set; }
 
 		/// <summary>
 		/// The <see cref="RevisionInformation"/>s in the <see cref="Instance"/>
 		/// </summary>
-		public List<RevisionInformation> RevisionInformations { get; set; }
+		public ICollection<RevisionInformation> RevisionInformations { get; set; }
 
 		/// <summary>
 		/// The <see cref="Job"/>s in the <see cref="Instance"/>
 		/// </summary>
-		public List<Job> Jobs { get; set; }
+		public ICollection<Job> Jobs { get; set; }
 
 		/// <summary>
 		/// Convert the <see cref="Instance"/> to it's API form

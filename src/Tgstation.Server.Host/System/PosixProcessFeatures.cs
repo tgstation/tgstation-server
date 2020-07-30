@@ -1,10 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Mono.Unix;
 using Mono.Unix.Native;
 using System;
-using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -47,61 +44,22 @@ namespace Tgstation.Server.Host.System
 		/// <inheritdoc />
 		public void ResumeProcess(global::System.Diagnostics.Process process)
 		{
-			try
-			{
-				var result = Syscall.kill(process.Id, Signum.SIGCONT);
-				if (result != 0)
-					throw new UnixIOException(result);
-				logger.LogTrace("Resumed PID {0}", process.Id);
-			}
-			catch (Exception e)
-			{
-				logger.LogError(e, "Failed to resume PID {0}!", process.Id);
-				throw;
-			}
+			var result = Syscall.kill(process.Id, Signum.SIGCONT);
+			if (result != 0)
+				throw new UnixIOException(result);
 		}
 
 		/// <inheritdoc />
 		public void SuspendProcess(global::System.Diagnostics.Process process)
 		{
-			try
-			{
-				var result = Syscall.kill(process.Id, Signum.SIGSTOP);
-				if (result != 0)
-					throw new UnixIOException(result);
-				logger.LogTrace("Resumed PID {0}", process.Id);
-			}
-			catch (Exception e)
-			{
-				logger.LogError(e, "Failed to suspend PID {0}!", process.Id);
-				throw;
-			}
+			var result = Syscall.kill(process.Id, Signum.SIGSTOP);
+			if (result != 0)
+				throw new UnixIOException(result);
 		}
 
 		/// <inheritdoc />
-		public async Task<string> GetExecutingUsername(global::System.Diagnostics.Process process, CancellationToken cancellationToken)
-		{
-			if (process == null)
-				throw new ArgumentNullException(nameof(process));
-
-			// Need to read /proc/[pid]/status
-			// http://man7.org/linux/man-pages/man5/proc.5.html
-			// https://unix.stackexchange.com/questions/102676/why-is-uid-information-not-in-proc-x-stat
-			var pid = process.Id;
-			var statusFile = ioManager.ConcatPath("/proc", pid.ToString(CultureInfo.InvariantCulture), "status");
-			var statusBytes = await ioManager.ReadAllBytes(statusFile, cancellationToken).ConfigureAwait(false);
-			var statusText = Encoding.UTF8.GetString(statusBytes);
-			var splits = statusText.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-			var entry = splits.FirstOrDefault(x => x.Trim().StartsWith("Uid:", StringComparison.Ordinal));
-			if (entry == default)
-				return "UNKNOWN";
-
-			return entry
-				.Substring(4)
-				.Split(' ', StringSplitOptions.RemoveEmptyEntries)
-				.FirstOrDefault(x => !String.IsNullOrWhiteSpace(x))
-				?? "UNPARSABLE";
-		}
+		public Task<string> GetExecutingUsername(global::System.Diagnostics.Process process, CancellationToken cancellationToken)
+			=> throw new NotSupportedException();
 
 		/// <inheritdoc />
 		public async Task CreateDump(global::System.Diagnostics.Process process, string outputFile, CancellationToken cancellationToken)
@@ -115,7 +73,19 @@ namespace Tgstation.Server.Host.System
 			if (!await ioManager.FileExists(GCorePath, cancellationToken).ConfigureAwait(false))
 				throw new JobException(ErrorCode.MissingGCore);
 
-			var pid = process.Id;
+			int pid;
+			try
+			{
+				if (process.HasExited)
+					throw new JobException(ErrorCode.DreamDaemonOffline);
+
+				pid = process.Id;
+			}
+			catch (InvalidOperationException ex)
+			{
+				throw new JobException(ErrorCode.DreamDaemonOffline, ex);
+			}
+
 			string output;
 			int exitCode;
 			using (var gcoreProc = lazyLoadedProcessExecutor.Value.LaunchProcess(
@@ -129,7 +99,7 @@ namespace Tgstation.Server.Host.System
 				using (cancellationToken.Register(() => gcoreProc.Terminate()))
 					exitCode = await gcoreProc.Lifetime.ConfigureAwait(false);
 
-				output = gcoreProc.GetCombinedOutput();
+				output = await gcoreProc.GetCombinedOutput(cancellationToken).ConfigureAwait(false);
 				logger.LogDebug("gcore output:{0}{1}", Environment.NewLine, output);
 			}
 

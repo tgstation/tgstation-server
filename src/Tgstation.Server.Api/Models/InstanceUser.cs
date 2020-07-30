@@ -11,8 +11,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The <see cref="Internal.User.Id"/> of the <see cref="User"/> the <see cref="InstanceUser"/> belongs to
 		/// </summary>
-		[Required]
-		public long? UserId { get; set; }
+		public long UserId { get; set; }
 
 		/// <summary>
 		/// The <see cref="Rights.InstanceUserRights"/> of the <see cref="InstanceUser"/>

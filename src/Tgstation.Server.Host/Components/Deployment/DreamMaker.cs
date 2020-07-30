@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Octokit;
 using System;
@@ -215,30 +215,34 @@ namespace Tgstation.Server.Host.Components.Deployment
 			job.MinimumSecurityLevel = securityLevel; // needed for the TempDmbProvider
 			var timeoutAt = DateTimeOffset.Now.AddSeconds(timeout);
 
-			using var provider = new TemporaryDmbProvider(ioManager.ResolvePath(job.DirectoryName.ToString()), String.Concat(job.DmeName, DmbExtension), job);
-			using var controller = await sessionControllerFactory.LaunchNew(provider, byondLock, launchParameters, true, cancellationToken).ConfigureAwait(false);
-			var launchResult = await controller.LaunchResult.ConfigureAwait(false);
-
-			var now = DateTimeOffset.Now;
-			if (now < timeoutAt && launchResult.StartupTime.HasValue)
+			ApiValidationStatus validationStatus;
+			using (var provider = new TemporaryDmbProvider(ioManager.ResolvePath(job.DirectoryName.ToString()), String.Concat(job.DmeName, DmbExtension), job))
+			await using (var controller = await sessionControllerFactory.LaunchNew(provider, byondLock, launchParameters, true, cancellationToken).ConfigureAwait(false))
 			{
-				var timeoutTask = Task.Delay(timeoutAt - now, cancellationToken);
+				var launchResult = await controller.LaunchResult.ConfigureAwait(false);
 
-				await Task.WhenAny(controller.Lifetime, timeoutTask).ConfigureAwait(false);
-				cancellationToken.ThrowIfCancellationRequested();
+				var now = DateTimeOffset.Now;
+				if (now < timeoutAt && launchResult.StartupTime.HasValue)
+				{
+					var timeoutTask = Task.Delay(timeoutAt - now, cancellationToken);
+
+					await Task.WhenAny(controller.Lifetime, timeoutTask).ConfigureAwait(false);
+					cancellationToken.ThrowIfCancellationRequested();
+				}
+
+				if (!controller.Lifetime.IsCompleted)
+				{
+					if (requireValidate)
+						throw new JobException(ErrorCode.DreamMakerNeverValidated);
+					await controller.DisposeAsync().ConfigureAwait(false);
+				}
+
+				validationStatus = controller.ApiValidationStatus;
+				logger.LogTrace("API validation status: {0}", validationStatus);
+
+				job.DMApiVersion = controller.DMApiVersion;
 			}
 
-			if (!controller.Lifetime.IsCompleted)
-			{
-				if (requireValidate)
-					throw new JobException(ErrorCode.DreamMakerNeverValidated);
-				controller.Dispose();
-			}
-
-			var validationStatus = controller.ApiValidationStatus;
-			logger.LogTrace("API validation status: {0}", validationStatus);
-
-			job.DMApiVersion = controller.DMApiVersion;
 			switch (validationStatus)
 			{
 				case ApiValidationStatus.RequiresUltrasafe:
@@ -288,7 +292,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 			cancellationToken.ThrowIfCancellationRequested();
 
 			logger.LogDebug("DreamMaker exit code: {0}", exitCode);
-			currentDreamMakerOutput = job.Output = dm.GetCombinedOutput();
+			job.Output = await dm.GetCombinedOutput(cancellationToken).ConfigureAwait(false);
+			currentDreamMakerOutput = job.Output;
 			logger.LogDebug("DreamMaker output: {0}{1}", Environment.NewLine, job.Output);
 			return exitCode;
 		}
@@ -361,7 +366,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			}
 			catch (Exception e)
 			{
-				logger.LogWarning("Error cleaning up compile directory {0}! Exception: {1}", ioManager.ResolvePath(jobPath), e);
+				logger.LogWarning(e, "Error cleaning up compile directory {0}!", ioManager.ResolvePath(jobPath));
 			}
 		}
 
@@ -442,11 +447,18 @@ namespace Tgstation.Server.Host.Components.Deployment
 				catch (JobException)
 				{
 					// DD never validated or compile failed
-					await eventConsumer.HandleEvent(EventType.CompileFailure, new List<string> { resolvedOutputDirectory, exitCode == 0 ? "1" : "0" }, cancellationToken).ConfigureAwait(false);
+					await eventConsumer.HandleEvent(
+						EventType.CompileFailure,
+						new List<string>
+						{
+							resolvedOutputDirectory,
+							exitCode == 0 ? "1" : "0"
+						},
+						cancellationToken)
+						.ConfigureAwait(false);
 					throw;
 				}
 
-				logger.LogTrace("Running post compile event...");
 				await eventConsumer.HandleEvent(EventType.CompileComplete, new List<string> { resolvedOutputDirectory }, cancellationToken).ConfigureAwait(false);
 
 				logger.LogTrace("Applying static game file symlinks...");
@@ -629,6 +641,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 							// The difficulty with compile jobs is they have a two part commit
 							await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+							logger.LogTrace("Created CompileJob {0}", compileJob.Id);
 							try
 							{
 								await compileJobConsumer.LoadCompileJob(compileJob, cancellationToken).ConfigureAwait(false);
@@ -637,6 +650,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 							{
 								// So we need to un-commit the compile job if the above throws
 								databaseContext.CompileJobs.Remove(compileJob);
+
+								// DCT: Cancellation token is for job, operation must run regardless
 								await databaseContext.Save(default).ConfigureAwait(false);
 								throw;
 							}
@@ -765,6 +780,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			}
 			catch (OperationCanceledException)
 			{
+				// DCT: Cancellation token is for job, delaying here is fine
 				await eventConsumer.HandleEvent(EventType.CompileCancelled, null, default).ConfigureAwait(false);
 				throw;
 			}
@@ -817,7 +833,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				}
 				catch (ApiException e)
 				{
-					logger.LogWarning("Error posting GitHub comment! Exception: {0}", e);
+					logger.LogWarning(e, "Error posting GitHub comment!");
 				}
 			}
 

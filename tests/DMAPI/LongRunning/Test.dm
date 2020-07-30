@@ -31,15 +31,14 @@
 /world/proc/HandleTopic(T)
 	TGS_TOPIC
 
-	TgsChatBroadcast("Recieved non-tgs topic: [T]")
-
 	var/list/data = params2list(T)
 	var/special_tactics = data["tgs_integration_test_special_tactics"]
 	if(special_tactics)
 		RebootAsync()
 		return "ack"
 
-	TgsChatBroadcast("Not rebooting...")
+	TgsChatBroadcast("Recieved non-tgs topic: [T]")
+
 	return "feck"
 
 /world/Reboot(reason)

@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -257,7 +257,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			var versionKey = VersionKey(versionToUse, true);
 			var binPathForVersion = ioManager.ConcatPath(versionKey, BinPath);
 
-			logger.LogTrace("Creating ByondExecutableLock lock for version {0}", requiredVersion);
+			logger.LogTrace("Creating ByondExecutableLock lock for version {0}", versionToUse);
 			return new ByondExecutableLock(
 				ioManager,
 				semaphore,

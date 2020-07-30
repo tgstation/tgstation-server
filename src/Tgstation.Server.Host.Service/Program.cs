@@ -150,7 +150,10 @@ namespace Tgstation.Server.Host.Service
 						ServiceBase.Run(service);
 
 				if (Configure)
+				{
+					// DCT: None available
 					await WatchdogFactory.CreateWatchdog(loggerFactory).RunAsync(true, Array.Empty<string>(), default).ConfigureAwait(false);
+				}
 			}
 		}
 	}

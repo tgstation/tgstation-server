@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -18,7 +18,7 @@ namespace Tgstation.Server.Host.Extensions
 		/// <summary>
 		/// Common template used for adding our custom log context to serilog.
 		/// </summary>
-		public const string SerilogContextTemplate = "(Instance:{Instance}|Job:{Job}|Request:{Request}|User:{User}|Monitor:{Monitor}|Bridge:{Bridge}|Chat:{ChatMessage})";
+		public const string SerilogContextTemplate = "(Instance:{Instance}|Job:{Job}|Request:{Request}|User:{User}|Monitor:{Monitor}|Bridge:{Bridge}|Chat:{ChatMessage}";
 
 		/// <summary>
 		/// Add a standard <typeparamref name="TConfig"/> binding
@@ -79,7 +79,7 @@ namespace Tgstation.Server.Host.Extensions
 						sinkConfiguration.Console(
 							outputTemplate: "[{Timestamp:HH:mm:ss}] {Level:w3}: {SourceContext:l} "
 								+ SerilogContextTemplate
-								+ "{NewLine}    {Message:lj}{NewLine}{Exception}");
+								+ "|IR:{InstanceReference}){NewLine}    {Message:lj}{NewLine}{Exception}");
 						sinkConfigurationAction?.Invoke(sinkConfiguration);
 					});
 
