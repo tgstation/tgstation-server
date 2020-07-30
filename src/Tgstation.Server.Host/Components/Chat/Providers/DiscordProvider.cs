@@ -252,17 +252,22 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		{
 			try
 			{
-				var channel = client.GetChannel(channelId) as IMessageChannel;
-				await (channel?.SendMessageAsync(message, false, null, new RequestOptions
-				{
-					CancelToken = cancellationToken,
-					Timeout = 10000 // prevent stupid long hold ups from this
-				}) ?? Task.CompletedTask).ConfigureAwait(false);
+				if (!(client.GetChannel(channelId) is IMessageChannel channel))
+					return;
+
+				await channel.SendMessageAsync(
+					message,
+					false,
+					null,
+					new RequestOptions
+					{
+						CancelToken = cancellationToken,
+						Timeout = 10000 // prevent stupid long hold ups from this
+					})
+					.ConfigureAwait(false);
 			}
-			catch (Exception e)
+			catch (Exception e) when (!(e is OperationCanceledException))
 			{
-				if (e is OperationCanceledException)
-					cancellationToken.ThrowIfCancellationRequested();
 				Logger.LogWarning(e, "Error sending discord message!");
 			}
 		}
