@@ -435,7 +435,7 @@ namespace Tgstation.Server.Tests.Instance
 				while (daemonStatus.Status == WatchdogStatus.Online || daemonStatus.Status == WatchdogStatus.Restoring);
 				Assert.AreEqual(WatchdogStatus.DelayedRestart, daemonStatus.Status.Value);
 
-				await Task.Delay(TimeSpan.FromSeconds(10), cancellationToken);
+				await Task.Delay(TimeSpan.FromSeconds(15), cancellationToken);
 
 				daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 				Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
