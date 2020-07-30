@@ -106,9 +106,12 @@ jobs:
           # Need to create a .nojekyll file to allow filenames starting with an underscore
           # to be seen on the gh-pages site. Therefore creating an empty .nojekyll file.
           echo "" > .nojekyll
+          echo "Adding files..."
           git add --all
+          echo "Committing..."
           git commit -m "Deploy code docs to GitHub Pages for workflow run ${{ github.run_number }}" -m "Commit: ${{ github.event.head_commit.id }}"
-          git push -f "https://${{ secrets.GITHUB_TOKEN }}@github.com/tgstation/tgstation-server" 2>&1 | /dev/null
+          echo "Pushing..."
+          git push -f "https://${{ secrets.GITHUB_TOKEN }}@github.com/tgstation/tgstation-server" 2>&1
 
   docker-build:
     name: Build Docker Image
@@ -178,7 +181,6 @@ jobs:
     name: Windows Integration Test
     needs: dmapi-build
     env:
-      TGS4_TEST_CONNECTION_STRING: Server=(localdb)\MSSQLLocalDB;Integrated Security=true;Initial Catalog=TGS_Test;Application Name=tgstation-server
       TGS4_TEST_DATABASE_TYPE: SqlServer
       TGS4_TEST_DUMP_API_SPEC: yes
     strategy:
@@ -190,6 +192,9 @@ jobs:
     - name: Set General__UseBasicWatchdog
       if: ${{ matrix.watchdog-type == 'Basic' }}
       run: echo "::set-env name=General__UseBasicWatchdog::true"
+
+    - name: Set TGS4_TEST_CONNECTION_STRING
+      run: echo "::set-env name=TGS4_TEST_CONNECTION_STRING::Server=(localdb)\MSSQLLocalDB;Integrated Security=true;Initial Catalog=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }};Application Name=tgstation-server"
 
     - name: Checkout
       uses: actions/checkout@v1
@@ -300,25 +305,25 @@ jobs:
       if: ${{ matrix.database-type == 'Sqlite' }}
       run: |
         echo "::set-env name=TGS4_TEST_DATABASE_TYPE::Sqlite"
-        echo "::set-env name=TGS4_TEST_CONNECTION_STRING::Data Source=TravisTestDB.sqlite3;Mode=ReadWriteCreate"
+        echo "::set-env name=TGS4_TEST_CONNECTION_STRING::Data Source=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }}.sqlite3;Mode=ReadWriteCreate"
 
     - name: Set PostgresSql Connection Info
       if: ${{ matrix.database-type == 'PostgresSql' }}
       run: |
         echo "::set-env name=TGS4_TEST_DATABASE_TYPE::PostgresSql"
-        echo "::set-env name=TGS4_TEST_CONNECTION_STRING::Application Name=tgstation-server;Host=127.0.0.1;Username=postgres;Password=postgres;Database=TGS_Test"
+        echo "::set-env name=TGS4_TEST_CONNECTION_STRING::Application Name=tgstation-server;Host=127.0.0.1;Username=postgres;Password=postgres;Database=TGS__${{ matrix.watchdog-type }}_${{ matrix.configuration }}"
 
     - name: Set MariaDB Connection Info
       if: ${{ matrix.database-type == 'MariaDB' }}
       run: |
         echo "::set-env name=TGS4_TEST_DATABASE_TYPE::MariaDB"
-        echo "::set-env name=TGS4_TEST_CONNECTION_STRING::Server=127.0.0.1;uid=root;pwd=mariadb;database=tgs_test"
+        echo "::set-env name=TGS4_TEST_CONNECTION_STRING::Server=127.0.0.1;uid=root;pwd=mariadb;database=tgs__${{ matrix.watchdog-type }}_${{ matrix.configuration }}"
 
     - name: Set MySQL Connection Info
       if: ${{ matrix.database-type == 'MySql' }}
       run: |
         echo "::set-env name=TGS4_TEST_DATABASE_TYPE::MySql"
-        echo "::set-env name=TGS4_TEST_CONNECTION_STRING::Server=127.0.0.1;Port=3307;uid=root;pwd=mysql;database=tgs_test"
+        echo "::set-env name=TGS4_TEST_CONNECTION_STRING::Server=127.0.0.1;Port=3307;uid=root;pwd=mysql;database=tgs__${{ matrix.watchdog-type }}_${{ matrix.configuration }}"
         echo "::set-env name=Database__ServerVersion::5.7.31"
 
     - name: Set General__UseBasicWatchdog
