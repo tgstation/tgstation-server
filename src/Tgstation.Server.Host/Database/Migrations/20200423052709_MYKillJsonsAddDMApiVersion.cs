@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 
 namespace Tgstation.Server.Host.Database.Migrations
@@ -39,19 +39,18 @@ namespace Tgstation.Server.Host.Database.Migrations
 				name: "LaunchSecurityLevel",
 				table: "ReattachInformations");
 
+			// No default values b/c lol mysql
 			migrationBuilder.AddColumn<string>(
 				name: "ChatChannelsJson",
 				table: "ReattachInformations",
 				type: "longtext CHARACTER SET utf8mb4",
-				nullable: false,
-				defaultValue: "chat_channels.tgs.json");
+				nullable: false);
 
 			migrationBuilder.AddColumn<string>(
 				name: "ChatCommandsJson",
 				table: "ReattachInformations",
 				type: "longtext CHARACTER SET utf8mb4",
-				nullable: false,
-				defaultValue: "chat_commands.tgs.json");
+				nullable: false);
 		}
 	}
 }

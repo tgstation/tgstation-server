@@ -1,4 +1,4 @@
-﻿namespace Tgstation.Server.Host.System
+namespace Tgstation.Server.Host.System
 {
 	/// <summary>
 	/// For launching <see cref="IProcess"/>'
@@ -15,7 +15,13 @@
 		/// <param name="readError">If standard error should be read</param>
 		/// <param name="noShellExecute">If shell execute should not be used. Must be set if <paramref name="readError"/> or <paramref name="readOutput"/> are set.</param>
 		/// <returns>A new <see cref="IProcess"/></returns>
-		IProcess LaunchProcess(string fileName, string workingDirectory, string arguments = null, bool readOutput = false, bool readError = false, bool noShellExecute = false);
+		IProcess LaunchProcess(
+			string fileName,
+			string workingDirectory,
+			string arguments = null,
+			bool readOutput = false,
+			bool readError = false,
+			bool noShellExecute = false);
 
 		/// <summary>
 		/// Get a <see cref="IProcess"/> representing the running executable.

@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,7 +8,6 @@ using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Core;
-using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 
@@ -51,7 +50,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="sessionControllerFactory">The <see cref="ISessionControllerFactory"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="dmbFactory">The <see cref="IDmbFactory"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="sessionPersistor">The <see cref="ISessionPersistor"/> for the <see cref="WatchdogBase"/>.</param>
-		/// <param name="databaseContextFactory">The <see cref="IDatabaseContextFactory"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogBase"/>.</param>
@@ -68,7 +66,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			ISessionControllerFactory sessionControllerFactory,
 			IDmbFactory dmbFactory,
 			ISessionPersistor sessionPersistor,
-			IDatabaseContextFactory databaseContextFactory,
 			IJobManager jobManager,
 			IServerControl serverControl,
 			IAsyncDelayer asyncDelayer,
@@ -84,7 +81,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				sessionControllerFactory,
 				dmbFactory,
 				sessionPersistor,
-				databaseContextFactory,
 				jobManager,
 				serverControl,
 				asyncDelayer,
@@ -102,15 +98,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			}
 			catch
 			{
-				Dispose();
+				var _ = DisposeAsync();
 				throw;
 			}
 		}
 
 		/// <inheritdoc />
-		protected override void DisposeAndNullControllersImpl()
+		protected override async Task DisposeAndNullControllersImpl()
 		{
-			base.DisposeAndNullControllersImpl();
+			await base.DisposeAndNullControllersImpl().ConfigureAwait(false);
 
 			// If we reach this point, we can guarantee PrepServerForLaunch will be called before starting again.
 			ActiveSwappable = null;
@@ -185,14 +181,14 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				}
 				catch (Exception ex)
 				{
-					Logger.LogWarning("Exception while suspending server: {0}", ex);
+					Logger.LogWarning(ex, "Exception while suspending server!");
 				}
 
 				await windowsProvider.MakeActive(cancellationToken).ConfigureAwait(false);
 			}
 			catch (Exception ex)
 			{
-				Logger.LogError("Exception while swapping: {0}", ex);
+				Logger.LogError(ex, "Exception while swapping");
 				IDmbProvider providerToDispose = windowsProvider ?? compileJobProvider;
 				providerToDispose.Dispose();
 				throw;
@@ -219,7 +215,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			// Add another lock to the startup DMB because it'll be used throughout the lifetime of the watchdog
 			startupDmbProvider = await DmbFactory.FromCompileJob(dmbToUse.CompileJob, cancellationToken).ConfigureAwait(false);
 
-			ActiveSwappable = pendingSwappable ?? new SwappableDmbProvider(dmbToUse, GameIOManager, symlinkFactory);
+			pendingSwappable ??= new SwappableDmbProvider(dmbToUse, GameIOManager, symlinkFactory);
+			ActiveSwappable = pendingSwappable;
 			pendingSwappable = null;
 
 			try

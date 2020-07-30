@@ -26,7 +26,7 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.ChatBot.Channels"/>
 		/// </summary>
-		public List<ChatChannel> Channels { get; set; }
+		public ICollection<ChatChannel> Channels { get; set; }
 
 		/// <summary>
 		/// Convert the <see cref="ChatBot"/> to it's API form

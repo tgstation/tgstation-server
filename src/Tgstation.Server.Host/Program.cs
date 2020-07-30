@@ -82,6 +82,7 @@ namespace Tgstation.Server.Host
 			{
 				if (updatePath != null)
 				{
+					// DCT: None available, operation should always run
 					await ServerFactory.IOManager.WriteAllBytes(updatePath, Encoding.UTF8.GetBytes(e.ToString()), default).ConfigureAwait(false);
 					return 2;
 				}

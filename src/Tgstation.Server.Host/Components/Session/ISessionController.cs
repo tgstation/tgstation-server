@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.Components.Interop.Topic;
+using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Session
@@ -10,7 +11,7 @@ namespace Tgstation.Server.Host.Components.Session
 	/// <summary>
 	/// Handles communication with a DreamDaemon <see cref="IProcess"/>
 	/// </summary>
-	interface ISessionController : IRenameNotifyee, IProcessBase
+	interface ISessionController : IProcessBase, IRenameNotifyee, IAsyncDisposable
 	{
 		/// <summary>
 		/// A <see cref="Task"/> that completes when DreamDaemon starts pumping the windows message queue after loading a .dmb or when it crashes
@@ -33,14 +34,9 @@ namespace Tgstation.Server.Host.Components.Session
 		Version DMApiVersion { get; }
 
 		/// <summary>
-		/// The <see cref="IDmbProvider"/> being used
+		/// Gets the <see cref="CompileJob"/> associated with the <see cref="ISessionController"/>.
 		/// </summary>
-		IDmbProvider Dmb { get; }
-
-		/// <summary>
-		/// The current port DreamDaemon is listening on
-		/// </summary>
-		ushort? Port { get; }
+		CompileJob CompileJob { get; }
 
 		/// <summary>
 		/// If the port should be rotated off when the world reboots
@@ -70,8 +66,8 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <summary>
 		/// Releases the <see cref="IProcess"/> without terminating it. Also calls <see cref="IDisposable.Dispose"/>
 		/// </summary>
-		/// <returns><see cref="ReattachInformation"/> which can be used to create a new <see cref="ISessionController"/> similar to this one</returns>
-		ReattachInformation Release();
+		/// <returns>A <see cref="Task{TResult}"/> resulting in <see cref="ReattachInformation"/> which can be used to create a new <see cref="ISessionController"/>.</returns>
+		Task<ReattachInformation> Release();
 
 		/// <summary>
 		/// Sends a command to DreamDaemon through /world/Topic()
@@ -108,7 +104,7 @@ namespace Tgstation.Server.Host.Components.Session
 		void EnableCustomChatCommands();
 
 		/// <summary>
-		/// Replace <see cref="Dmb"/> with a given <paramref name="newProvider"/>, disposing the old one.
+		/// Replace the <see cref="IDmbProvider"/> in use with a given <paramref name="newProvider"/>, disposing the old one.
 		/// </summary>
 		/// <param name="newProvider">The new <see cref="IDmbProvider"/>.</param>
 		void ReplaceDmbProvider(IDmbProvider newProvider);

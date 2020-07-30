@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
@@ -11,6 +11,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
@@ -30,7 +31,7 @@ namespace Tgstation.Server.Host.Controllers
 	[Route(Routes.Administration)]
 	public sealed class AdministrationController : ApiController
 	{
-		const string OctokitException = "Bad GitHub API response, check configuration! Exception: {0}";
+		const string OctokitException = "Bad GitHub API response, check configuration!";
 
 		/// <summary>
 		/// The <see cref="IGitHubClientFactory"/> for the <see cref="AdministrationController"/>
@@ -116,7 +117,7 @@ namespace Tgstation.Server.Host.Controllers
 
 		ObjectResult RateLimit(RateLimitExceededException exception)
 		{
-			Logger.LogWarning("Exceeded GitHub rate limit! Exception {0}", exception);
+			Logger.LogWarning(exception, "Exceeded GitHub rate limit!");
 			var secondsString = Math.Ceiling((exception.Reset - DateTimeOffset.Now).TotalSeconds).ToString(CultureInfo.InvariantCulture);
 			Response.Headers.Add("Retry-After", new StringValues(secondsString));
 			return StatusCode(HttpStatusCode.TooManyRequests, new ErrorMessage(ErrorCode.GitHubApiRateLimit));
@@ -148,7 +149,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch (ApiException e)
 			{
-				Logger.LogWarning(OctokitException, e);
+				Logger.LogWarning(e, OctokitException);
 				return StatusCode(HttpStatusCode.FailedDependency);
 			}
 
@@ -226,7 +227,7 @@ namespace Tgstation.Server.Host.Controllers
 				}
 				catch (NotFoundException e)
 				{
-					Logger.LogWarning("Not found exception while retrieving upstream repository info: {0}", e);
+					Logger.LogWarning(e, "Not found exception while retrieving upstream repository info!");
 				}
 
 				return Json(new Administration
@@ -242,7 +243,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch (ApiException e)
 			{
-				Logger.LogWarning(OctokitException, e);
+				Logger.LogWarning(e, OctokitException);
 				return StatusCode(HttpStatusCode.FailedDependency, new ErrorMessage(ErrorCode.GitHubApiError)
 				{
 					AdditionalData = e.Message
@@ -368,7 +369,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Downloaded <see cref="LogFile"/> successfully.</response>
 		/// <response code="409">An IO error occurred while downloading.</response>
-		[HttpGet(Routes.Logs + "/{path}")]
+		[HttpGet(Routes.Logs + "/{*path}")]
 		[TgsAuthorize(AdministrationRights.DownloadLogs)]
 		[ProducesResponseType(typeof(List<LogFile>), 200)]
 		[ProducesResponseType(typeof(ErrorMessage), 409)]
@@ -376,6 +377,13 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			if (path == null)
 				throw new ArgumentNullException(nameof(path));
+
+			path = HttpUtility.UrlDecode(path);
+
+			// guard against directory navigation
+			var sanitizedPath = ioManager.GetFileName(path);
+			if (path != sanitizedPath)
+				return Forbid();
 
 			var fullPath = ioManager.ConcatPath(
 				fileLoggingConfiguration.GetFullLogDirectory(ioManager, assemblyInformationProvider, platformIdentifier),

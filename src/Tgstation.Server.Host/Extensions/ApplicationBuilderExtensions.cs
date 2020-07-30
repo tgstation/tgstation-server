@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -42,11 +42,11 @@ namespace Tgstation.Server.Host.Extensions
 				{
 					if (e.InnerException is OperationCanceledException)
 					{
-						logger.LogTrace("Rethrowing DbUpdateException as OperationCanceledException: {0}", e);
+						logger.LogTrace(e, "Rethrowing DbUpdateException as OperationCanceledException");
 						throw e.InnerException;
 					}
 
-					logger.LogDebug("Database conflict: {0}", e.Message);
+					logger.LogDebug(e, "Database conflict!");
 					await new ConflictObjectResult(new ErrorMessage(ErrorCode.DatabaseIntegrityConflict)
 					{
 						AdditionalData = String.Format(CultureInfo.InvariantCulture, (e.InnerException ?? e).Message)
@@ -73,9 +73,9 @@ namespace Tgstation.Server.Host.Extensions
 				{
 					await next().ConfigureAwait(false);
 				}
-				catch (OperationCanceledException)
+				catch (OperationCanceledException ex)
 				{
-					logger.LogDebug("Request cancelled!");
+					logger.LogDebug(ex, "Request cancelled!");
 				}
 			});
 		}
@@ -97,7 +97,7 @@ namespace Tgstation.Server.Host.Extensions
 				}
 				catch (Exception e)
 				{
-					logger.LogError("Failed request: {0}", e);
+					logger.LogError(e, "Failed request!");
 					await new ObjectResult(
 						new ErrorMessage(ErrorCode.InternalServerError)
 						{

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host.System
@@ -7,7 +6,7 @@ namespace Tgstation.Server.Host.System
 	/// <summary>
 	/// Represents process lifetime
 	/// </summary>
-	interface IProcessBase : IDisposable
+	interface IProcessBase
 	{
 		/// <summary>
 		/// The <see cref="Task{TResult}"/> resulting in the exit code of the process

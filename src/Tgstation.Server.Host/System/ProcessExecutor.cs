@@ -1,5 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using System;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,30 +24,56 @@ namespace Tgstation.Server.Host.System
 		/// </summary>
 		readonly ILoggerFactory loggerFactory;
 
-		/// <summary>
-		/// Create a <see cref="Task{TResult}"/> resulting in the exit code of a given <paramref name="handle"/>
-		/// </summary>
-		/// <param name="handle">The <see cref="global::System.Diagnostics.Process"/> to attach the <see cref="Task{TResult}"/> for</param>
-		/// <returns>A new <see cref="Task{TResult}"/> resulting in the exit code of <paramref name="handle"/></returns>
-		static Task<int> AttachExitHandler(global::System.Diagnostics.Process handle)
+		async Task<Task<int>> AttachExitHandlerBeforeLaunch(global::System.Diagnostics.Process handle, Task startupTask)
+		{
+			var id = -1;
+			var result = AttachExitHandler(handle, () => id);
+			await startupTask.ConfigureAwait(false);
+			id = handle.Id;
+			return result;
+		}
+
+		Task<int> AttachExitHandler(global::System.Diagnostics.Process handle, Func<int> idProvider)
 		{
 			handle.EnableRaisingEvents = true;
+
 			var tcs = new TaskCompletionSource<int>();
-			handle.Exited += (a, b) =>
+			void ExitHandler(object sender, EventArgs args)
 			{
-				int exitCode;
+				var id = idProvider();
 				try
 				{
-					exitCode = handle.ExitCode;
-				}
-				catch (InvalidOperationException)
-				{
-					return;
-				}
+					if (tcs.Task.IsCompleted)
+					{
+						logger.LogTrace("Skipping PID {0} exit handler as the TaskCompletionSource is already set", id);
+						return;
+					}
 
-				// Try because this can be invoked twice for weird reasons
-				tcs.TrySetResult(exitCode);
-			};
+					try
+					{
+						var exitCode = handle.ExitCode;
+
+						// Try because this can be invoked twice for weird reasons
+						if (tcs.TrySetResult(exitCode))
+							logger.LogTrace("PID {0} termination event completed", id);
+						else
+							logger.LogTrace("Ignoring duplicate PID {0} termination event", id);
+					}
+					catch (InvalidOperationException ex)
+					{
+						if (!tcs.Task.IsCompleted)
+							throw;
+
+						logger.LogTrace(ex, "Ignoring expected PID {0} exit handler exception!", id);
+					}
+				}
+				catch (Exception ex)
+				{
+					logger.LogError(ex, "PID {0} exit handler exception!", id);
+				}
+			}
+
+			handle.Exited += ExitHandler;
 
 			return tcs.Task;
 		}
@@ -76,9 +103,9 @@ namespace Tgstation.Server.Host.System
 			{
 				handle = global::System.Diagnostics.Process.GetProcessById(id);
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
-				logger.LogDebug("Unable to get process {0}! Exception: {1}", id, e);
+				logger.LogDebug(e, "Unable to get process {0}!", id);
 				return null;
 			}
 
@@ -127,92 +154,71 @@ namespace Tgstation.Server.Host.System
 
 				handle.StartInfo.UseShellExecute = !noShellExecute;
 
-				StringBuilder outputStringBuilder = null, errorStringBuilder = null, combinedStringBuilder = null;
+				StringBuilder combinedStringBuilder = null;
 
-				TaskCompletionSource<object> outputReadTcs = null;
-				TaskCompletionSource<object> errorReadTcs = null;
+				Task<string> outputTask = null;
+				Task<string> errorTask = null;
+				var processStartTcs = new TaskCompletionSource<object>();
 				if (readOutput || readError)
 				{
 					combinedStringBuilder = new StringBuilder();
+
+					async Task<string> ConsumeReader(Func<TextReader> readerFunc)
+					{
+						var stringBuilder = new StringBuilder();
+						string text;
+
+						await processStartTcs.Task.ConfigureAwait(false);
+
+						var reader = readerFunc();
+						while ((text = await reader.ReadLineAsync().ConfigureAwait(false)) != null)
+						{
+							combinedStringBuilder.AppendLine();
+							combinedStringBuilder.Append(text);
+							stringBuilder.AppendLine();
+							stringBuilder.Append(text);
+						}
+
+						return stringBuilder.ToString();
+					}
+
 					if (readOutput)
 					{
-						outputStringBuilder = new StringBuilder();
+						outputTask = ConsumeReader(() => handle.StandardOutput);
 						handle.StartInfo.RedirectStandardOutput = true;
-						outputReadTcs = new TaskCompletionSource<object>();
-						handle.OutputDataReceived += (sender, e) =>
-						{
-							if (e.Data == null)
-							{
-								outputReadTcs.SetResult(null);
-								return;
-							}
-
-							combinedStringBuilder.Append(Environment.NewLine);
-							combinedStringBuilder.Append(e.Data);
-							outputStringBuilder.Append(Environment.NewLine);
-							outputStringBuilder.Append(e.Data);
-						};
 					}
 
 					if (readError)
 					{
-						errorStringBuilder = new StringBuilder();
+						errorTask = ConsumeReader(() => handle.StandardError);
 						handle.StartInfo.RedirectStandardError = true;
-						errorReadTcs = new TaskCompletionSource<object>();
-						handle.ErrorDataReceived += (sender, e) =>
-						{
-							if (e.Data == null)
-							{
-								errorReadTcs.SetResult(null);
-								return;
-							}
-
-							combinedStringBuilder.Append(Environment.NewLine);
-							combinedStringBuilder.Append(e.Data);
-							errorStringBuilder.Append(Environment.NewLine);
-							errorStringBuilder.Append(e.Data);
-						};
 					}
 				}
 
-				var lifetimeTask = AttachExitHandler(handle);
-
-				handle.Start();
-
-				static async Task<int> AddToLifetimeTask(Task<int> originalTask, TaskCompletionSource<object> tcs)
-				{
-					var exitCode = await originalTask.ConfigureAwait(false);
-					await tcs.Task.ConfigureAwait(false);
-					return exitCode;
-				}
+				var lifetimeTaskTask = AttachExitHandlerBeforeLaunch(handle, processStartTcs.Task);
 
 				try
 				{
-					if (readOutput)
-					{
-						handle.BeginOutputReadLine();
-						lifetimeTask = AddToLifetimeTask(lifetimeTask, outputReadTcs);
-					}
-				}
-				catch (InvalidOperationException) { }
-				try
-				{
-					if (readError)
-					{
-						handle.BeginErrorReadLine();
-						lifetimeTask = AddToLifetimeTask(lifetimeTask, errorReadTcs);
-					}
-				}
-				catch (InvalidOperationException) { }
+					handle.Start();
 
-				return new Process(
+					processStartTcs.SetResult(null);
+				}
+				catch (Exception ex)
+				{
+					processStartTcs.SetException(ex);
+					throw;
+				}
+
+				var process = new Process(
 					processFeatures,
 					handle,
-					lifetimeTask,
-					outputStringBuilder,
-					errorStringBuilder,
+					lifetimeTaskTask.GetAwaiter().GetResult(), // won't block
+					outputTask,
+					errorTask,
 					combinedStringBuilder,
 					loggerFactory.CreateLogger<Process>(), false);
+
+				return process;
 			}
 			catch
 			{
@@ -232,7 +238,7 @@ namespace Tgstation.Server.Host.System
 					handle = proc;
 				else
 				{
-					logger.LogTrace("Disposing extra found PID: {0}", proc.Id);
+					logger.LogTrace("Disposing extra found PID: {0}...", proc.Id);
 					proc.Dispose();
 				}
 
@@ -251,10 +257,11 @@ namespace Tgstation.Server.Host.System
 		{
 			try
 			{
+				var pid = handle.Id;
 				return new Process(
 					processFeatures,
 					handle,
-					AttachExitHandler(handle),
+					AttachExitHandler(handle, () => pid),
 					null,
 					null,
 					null,

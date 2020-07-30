@@ -1,4 +1,4 @@
-﻿using Discord;
+using Discord;
 using Discord.WebSocket;
 using Microsoft.Extensions.Logging;
 using System;
@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.System;
 
@@ -31,6 +33,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <summary>
+		/// Gets the Discord bot token.
+		/// </summary>
+		string BotToken => ChatBot.ConnectionString;
+
+		/// <summary>
 		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="DiscordProvider"/>.
 		/// </summary>
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
@@ -39,11 +46,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// The <see cref="DiscordSocketClient"/> for the <see cref="DiscordProvider"/>
 		/// </summary>
 		readonly DiscordSocketClient client;
-
-		/// <summary>
-		/// The token used for connecting to discord
-		/// </summary>
-		readonly string botToken;
 
 		/// <summary>
 		/// <see cref="List{T}"/> of mapped <see cref="ITextChannel"/> <see cref="IEntity{TId}.Id"/>s
@@ -60,30 +62,28 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <summary>
 		/// Construct a <see cref="DiscordProvider"/>
 		/// </summary>
+		/// <param name="jobManager">The <see cref="IJobManager"/> for the <see cref="Provider"/>.</param>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
-		/// <param name="logger">The value of <see cref="Logger"/></param>
-		/// <param name="botToken">The value of <see cref="botToken"/></param>
-		/// <param name="reconnectInterval">The initial reconnect interval in minutes.</param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="Provider"/>.</param>
+		/// <param name="chatBot">The <see cref="ChatBot"/> for the <see cref="Provider"/>.</param>
 		public DiscordProvider(
+			IJobManager jobManager,
 			IAssemblyInformationProvider assemblyInformationProvider,
 			ILogger<DiscordProvider> logger,
-			string botToken,
-			uint reconnectInterval)
-			: base(logger, reconnectInterval)
+			Models.ChatBot chatBot)
+			: base(jobManager, logger, chatBot)
 		{
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
-			this.botToken = botToken ?? throw new ArgumentNullException(nameof(botToken));
 			client = new DiscordSocketClient();
 			client.MessageReceived += Client_MessageReceived;
 			mappedChannels = new List<ulong>();
 		}
 
 		/// <inheritdoc />
-		public override void Dispose()
+		public override async ValueTask DisposeAsync()
 		{
+			await base.DisposeAsync().ConfigureAwait(false);
 			client.Dispose();
-
-			base.Dispose();
 		}
 
 		/// <summary>
@@ -104,6 +104,8 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				if (mentionedUs)
 				{
 					Logger.LogTrace("Ignoring mention from {0} ({1}) by {2} ({3}). Channel not mapped!", e.Channel.Id, e.Channel.Name, e.Author.Id, e.Author.Username);
+
+					// DCT: None available
 					await SendMessage(e.Channel.Id, "I do not respond to this channel!", default).ConfigureAwait(false);
 				}
 
@@ -129,22 +131,16 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					Mention = NormalizeMentions(e.Author.Mention)
 				}
 			};
+
 			EnqueueMessage(result);
 		}
 
 		/// <inheritdoc />
-		public override async Task<bool> Connect(CancellationToken cancellationToken)
+		protected override async Task Connect(CancellationToken cancellationToken)
 		{
-			Logger.LogTrace("Connecting...");
-			if (Connected)
-			{
-				Logger.LogTrace("Already connected not doing connection attempt!");
-				return true;
-			}
-
 			try
 			{
-				await client.LoginAsync(TokenType.Bot, botToken, true).ConfigureAwait(false);
+				await client.LoginAsync(TokenType.Bot, BotToken, true).ConfigureAwait(false);
 
 				Logger.LogTrace("Logged in.");
 				cancellationToken.ThrowIfCancellationRequested();
@@ -154,14 +150,22 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				Logger.LogTrace("Started.");
 
 				var channelsAvailable = new TaskCompletionSource<object>();
-				client.Ready += () =>
+				Task ReadyCallback()
 				{
 					channelsAvailable.TrySetResult(null);
 					return Task.CompletedTask;
-				};
-				using (cancellationToken.Register(() => channelsAvailable.SetCanceled()))
-					await channelsAvailable.Task.ConfigureAwait(false);
-				Logger.LogDebug("Connection established!");
+				}
+
+				client.Ready += ReadyCallback;
+				try
+				{
+					using (cancellationToken.Register(() => channelsAvailable.SetCanceled()))
+						await channelsAvailable.Task.ConfigureAwait(false);
+				}
+				finally
+				{
+					client.Ready -= ReadyCallback;
+				}
 			}
 			catch (OperationCanceledException)
 			{
@@ -169,28 +173,18 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 			catch (Exception e)
 			{
-				Logger.LogWarning("Error connecting to Discord: {0}", e);
-				return false;
+				throw new JobException(ErrorCode.ChatCannotConnectProvider, e);
 			}
-
-			return true;
 		}
 
 		/// <inheritdoc />
 		protected override async Task DisconnectImpl(CancellationToken cancellationToken)
 		{
-			Logger.LogTrace("Disconnecting...");
-			if (!Connected)
-			{
-				Logger.LogTrace("Already disconnected not doing disconnection attempt!");
-				return;
-			}
-
 			try
 			{
+				cancellationToken.ThrowIfCancellationRequested();
 				await client.StopAsync().ConfigureAwait(false);
 				Logger.LogTrace("Stopped.");
-				cancellationToken.ThrowIfCancellationRequested();
 				await client.LogoutAsync().ConfigureAwait(false);
 				Logger.LogDebug("Disconnected!");
 			}
@@ -200,7 +194,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 			catch (Exception e)
 			{
-				Logger.LogWarning("Error disconnecting from discord: {0}", e);
+				Logger.LogWarning(e, "Error disconnecting from discord!");
 			}
 		}
 
@@ -258,25 +252,29 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		{
 			try
 			{
-				var channel = client.GetChannel(channelId) as IMessageChannel;
-				await (channel?.SendMessageAsync(message, false, null, new RequestOptions
-				{
-					CancelToken = cancellationToken
-				}) ?? Task.CompletedTask).ConfigureAwait(false);
+				if (!(client.GetChannel(channelId) is IMessageChannel channel))
+					return;
+
+				await channel.SendMessageAsync(
+					message,
+					false,
+					null,
+					new RequestOptions
+					{
+						CancelToken = cancellationToken,
+						Timeout = 10000 // prevent stupid long hold ups from this
+					})
+					.ConfigureAwait(false);
 			}
-			catch (OperationCanceledException)
+			catch (Exception e) when (!(e is OperationCanceledException))
 			{
-				throw;
-			}
-			catch (Exception e)
-			{
-				Logger.LogWarning("Error sending discord message: {0}", e);
+				Logger.LogWarning(e, "Error sending discord message!");
 			}
 		}
 
 		/// <inheritdoc />
 		public override async Task<Func<string, string, Task>> SendUpdateMessage(
-			RevisionInformation revisionInformation,
+			Models.RevisionInformation revisionInformation,
 			Version byondVersion,
 			DateTimeOffset? estimatedCompletionTime,
 			string gitHubOwner,
@@ -396,7 +394,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				}
 				catch (Exception ex)
 				{
-					Logger.LogWarning("Updating deploy embed {0} failed, attempting new post! Exception: {1}", message.Id, ex);
+					Logger.LogWarning(ex, "Updating deploy embed {0} failed, attempting new post!", message.Id);
 					try
 					{
 						await channel.SendMessageAsync(
@@ -407,7 +405,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					}
 					catch (Exception ex2)
 					{
-						Logger.LogWarning("Posting completion deploy embed failed! Exception: {0}", ex2);
+						Logger.LogWarning(ex2, "Posting completion deploy embed failed!");
 					}
 				}
 			};

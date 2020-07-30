@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -43,6 +43,11 @@ namespace Tgstation.Server.Tests
 			{
 				Name = "very_fake_path.log"
 			}, cancellationToken), ErrorCode.IOError);
+
+			await Assert.ThrowsExceptionAsync<InsufficientPermissionsException>(() => client.GetLog(new LogFile
+			{
+				Name = "../out_of_bounds.file"
+			}, cancellationToken));
 		}
 
 		async Task TestRead(CancellationToken cancellationToken)

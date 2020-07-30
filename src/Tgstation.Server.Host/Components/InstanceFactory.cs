@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Components.Watchdog;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
@@ -124,6 +126,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IServerPortProvider serverPortProvider;
 
 		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="InstanceFactory"/>.
+		/// </summary>
+		readonly GeneralConfiguration generalConfiguration;
+
+		/// <summary>
 		/// Construct an <see cref="InstanceFactory"/>
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
@@ -146,6 +153,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="repositoryFactory">The value of <see cref="repositoryFactory"/>.</param>
 		/// <param name="repositoryCommands">The value of <see cref="repositoryCommands"/>.</param>
 		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		public InstanceFactory(
 			IIOManager ioManager,
 			IDatabaseContextFactory databaseContextFactory,
@@ -166,7 +174,8 @@ namespace Tgstation.Server.Host.Components
 			IPlatformIdentifier platformIdentifier,
 			ILibGit2RepositoryFactory repositoryFactory,
 			ILibGit2Commands repositoryCommands,
-			IServerPortProvider serverPortProvider)
+			IServerPortProvider serverPortProvider,
+			IOptions<GeneralConfiguration> generalConfigurationOptions)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
@@ -188,11 +197,12 @@ namespace Tgstation.Server.Host.Components
 			this.repositoryFactory = repositoryFactory ?? throw new ArgumentNullException(nameof(repositoryFactory));
 			this.repositoryCommands = repositoryCommands ?? throw new ArgumentNullException(nameof(repositoryCommands));
 			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
+			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
 		/// <inheritdoc />
 #pragma warning disable CA1506 // TODO: Decomplexify
-		public IInstance CreateInstance(IBridgeRegistrar bridgeRegistrar, Models.Instance metadata)
+		public async Task<IInstance> CreateInstance(IBridgeRegistrar bridgeRegistrar, Models.Instance metadata)
 		{
 			// Create the ioManager for the instance
 			var instanceIoManager = new ResolvingIOManager(ioManager, metadata.Path);
@@ -284,17 +294,18 @@ namespace Tgstation.Server.Host.Components
 								watchdog,
 								chatManager,
 								configuration,
-								databaseContextFactory,
 								dmbFactory,
 								jobManager,
 								eventConsumer,
-								loggerFactory.CreateLogger<Instance>());
+								gitHubClientFactory,
+								loggerFactory.CreateLogger<Instance>(),
+								generalConfiguration);
 
 							return instance;
 						}
 						catch
 						{
-							watchdog.Dispose();
+							await watchdog.DisposeAsync().ConfigureAwait(false);
 							throw;
 						}
 					}
@@ -306,7 +317,7 @@ namespace Tgstation.Server.Host.Components
 				}
 				catch
 				{
-					chatManager.Dispose();
+					await chatManager.DisposeAsync().ConfigureAwait(false);
 					throw;
 				}
 			}

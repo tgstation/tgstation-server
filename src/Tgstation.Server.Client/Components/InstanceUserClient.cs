@@ -38,7 +38,7 @@ namespace Tgstation.Server.Client.Components
 		public Task Delete(InstanceUser instanceUser, CancellationToken cancellationToken) => apiClient.Delete(
 			Routes.SetID(
 				Routes.InstanceUser,
-				instanceUser.UserId ?? throw new ArgumentException("Missing instanceUser.UserId!", nameof(instanceUser))),
+				instanceUser.UserId),
 			instance.Id,
 			cancellationToken);
 

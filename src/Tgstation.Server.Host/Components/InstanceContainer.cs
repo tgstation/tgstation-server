@@ -1,0 +1,86 @@
+﻿using System;
+using System.Threading.Tasks;
+
+namespace Tgstation.Server.Host.Components
+{
+	/// <summary>
+	/// Wrapper for managing <see cref="IInstance"/>s
+	/// </summary>
+	sealed class InstanceContainer
+	{
+		/// <summary>
+		/// The <see cref="IInstance"/>.
+		/// </summary>
+		public IInstance Instance { get; }
+
+		/// <summary>
+		/// A <see cref="Task"/> that completes when there are no <see cref="IInstanceReference"/>s active for the <see cref="Instance"/>.
+		/// </summary>
+		public Task OnZeroReferences
+		{
+			get
+			{
+				lock (referenceCountLock)
+				{
+					if (referenceCount == 0)
+						return Task.CompletedTask;
+					return onZeroReferencesTcs.Task;
+				}
+			}
+		}
+
+		/// <summary>
+		/// <see langword="lock"/> <see cref="object"/> for <see cref="referenceCount"/>.
+		/// </summary>
+		readonly object referenceCountLock;
+
+		/// <summary>
+		/// Backing <see cref="TaskCompletionSource{TResult}"/> for <see cref="OnZeroReferences"/>.
+		/// </summary>
+		TaskCompletionSource<object> onZeroReferencesTcs;
+
+		/// <summary>
+		/// Count of active <see cref="IInstanceReference"/>s.
+		/// </summary>
+		ulong referenceCount;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="InstanceContainer"/> <see langword="class"/>.
+		/// </summary>
+		/// <param name="instance">The value of <see cref="Instance"/>.</param>
+		public InstanceContainer(IInstance instance)
+		{
+			Instance = instance ?? throw new ArgumentNullException(nameof(instance));
+
+			referenceCountLock = new object();
+		}
+
+		/// <summary>
+		/// Create a new <see cref="IInstanceReference"/>.
+		/// </summary>
+		/// <returns>A new <see cref="IInstanceReference"/>.</returns>
+		public IInstanceReference AddReference()
+		{
+			lock (referenceCountLock)
+			{
+				if (referenceCount++ == 0)
+					onZeroReferencesTcs = new TaskCompletionSource<object>();
+
+				try
+				{
+					return new InstanceWrapper(Instance, () =>
+					{
+						lock (referenceCountLock)
+							if (--referenceCount == 0)
+								onZeroReferencesTcs.SetResult(null);
+					});
+				}
+				catch
+				{
+					--referenceCount;
+					throw;
+				}
+			}
+		}
+	}
+}

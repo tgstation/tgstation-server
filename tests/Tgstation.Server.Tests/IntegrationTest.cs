@@ -1,3 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -8,12 +12,18 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Sockets;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Client;
+using Tgstation.Server.Host.Components.Events;
+using Tgstation.Server.Host.Components.Repository;
+using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Database.Migrations;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Tests.Instance;
@@ -87,7 +97,13 @@ namespace Tgstation.Server.Tests
 			{
 				try
 				{
-					return await clientFactory.CreateFromLogin(url, User.AdminName, User.DefaultAdminPassword, attemptLoginRefresh: false).ConfigureAwait(false);
+					return await clientFactory.CreateFromLogin(
+						url,
+						User.AdminName,
+						User.DefaultAdminPassword,
+						attemptLoginRefresh: false,
+						cancellationToken: cancellationToken)
+						.ConfigureAwait(false);
 				}
 				catch (HttpRequestException)
 				{
@@ -106,6 +122,73 @@ namespace Tgstation.Server.Tests
 			} while (true);
 		}
 
+#if DEBUG
+		[TestMethod]
+		public async Task TestDownMigrations()
+		{
+			var connectionString = Environment.GetEnvironmentVariable("TGS4_TEST_CONNECTION_STRING");
+
+			if (String.IsNullOrEmpty(connectionString))
+				Assert.Inconclusive("No connection string configured in env var TGS4_TEST_CONNECTION_STRING!");
+
+			var databaseTypeString = Environment.GetEnvironmentVariable("TGS4_TEST_DATABASE_TYPE");
+			if (!Enum.TryParse<DatabaseType>(databaseTypeString, out var databaseType))
+				Assert.Inconclusive("No/invalid database type configured in env var TGS4_TEST_DATABASE_TYPE!");
+
+			string migrationName = null;
+			DbContext CreateContext()
+			{
+				string serverVersion = Environment.GetEnvironmentVariable($"{DatabaseConfiguration.Section}__{nameof(DatabaseConfiguration.ServerVersion)}");
+				if (String.IsNullOrWhiteSpace(serverVersion))
+					serverVersion = null;
+				switch (databaseType)
+				{
+					case DatabaseType.MySql:
+					case DatabaseType.MariaDB:
+						migrationName = nameof(MYInitialCreate);
+						return new MySqlDatabaseContext(
+							Host.Database.Design.DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions<MySqlDatabaseContext>(
+								databaseType,
+								connectionString,
+								serverVersion));
+					case DatabaseType.PostgresSql:
+						migrationName = nameof(PGCreate);
+						return new PostgresSqlDatabaseContext(
+							Host.Database.Design.DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions<PostgresSqlDatabaseContext>(
+								databaseType,
+								connectionString,
+								serverVersion));
+					case DatabaseType.SqlServer:
+						migrationName = nameof(MSInitialCreate);
+						return new SqlServerDatabaseContext(
+							Host.Database.Design.DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions<SqlServerDatabaseContext>(
+								databaseType,
+								connectionString,
+								serverVersion));
+					case DatabaseType.Sqlite:
+						migrationName = nameof(SLRebuild);
+						return new SqliteDatabaseContext(
+							Host.Database.Design.DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions<SqliteDatabaseContext>(
+								databaseType,
+								connectionString,
+								serverVersion));
+				}
+
+				return null;
+			}
+
+			Task Delete(DbContext context) => databaseType == DatabaseType.Sqlite ? Task.CompletedTask : context.Database.EnsureCreatedAsync();
+
+			using var context = CreateContext();
+			await Delete(context);
+			await context.Database.MigrateAsync(default);
+			var dbServiceProvider = ((IInfrastructure<IServiceProvider>)context.Database).Instance;
+			var migrator = dbServiceProvider.GetRequiredService<IMigrator>();
+			await migrator.MigrateAsync(migrationName, default);
+			await Delete(context);
+		}
+#endif
+
 		[TestMethod]
 		public async Task TestServer()
 		{
@@ -119,22 +202,10 @@ namespace Tgstation.Server.Tests
 
 			using var server = new TestingServer();
 
-			using var hardTimeoutCts = new CancellationTokenSource();
-			hardTimeoutCts.CancelAfter(new TimeSpan(0, 9, 45));
-			var hardTimeoutCancellationToken = hardTimeoutCts.Token;
-			hardTimeoutCancellationToken.Register(() => Console.WriteLine($"[{DateTimeOffset.Now}] TEST TIMEOUT HARD!"));
-
-			using var softTimeoutCts = CancellationTokenSource.CreateLinkedTokenSource(hardTimeoutCancellationToken);
-			softTimeoutCts.CancelAfter(new TimeSpan(0, 9, 15));
-			var softTimeoutCancellationToken = softTimeoutCts.Token;
-			bool tooLateForSoftTimeout = false;
-			softTimeoutCancellationToken.Register(() =>
-			{
-				if (!tooLateForSoftTimeout)
-					Console.WriteLine($"[{DateTimeOffset.Now}] TEST TIMEOUT SOFT!");
-			});
-
-			using var serverCts = CancellationTokenSource.CreateLinkedTokenSource(softTimeoutCancellationToken);
+			const int MaximumTestMinutes = 20;
+			using var hardTimeoutCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(MaximumTestMinutes));
+			var hardCancellationToken = hardTimeoutCancellationTokenSource.Token;
+			using var serverCts = CancellationTokenSource.CreateLinkedTokenSource(hardCancellationToken);
 			var cancellationToken = serverCts.Token;
 
 			TerminateAllDDs();
@@ -179,7 +250,9 @@ namespace Tgstation.Server.Tests
 					var usersTest = FailFast(new UsersTest(adminClient.Users).Run(cancellationToken));
 					instance = await new InstanceManagerTest(adminClient.Instances, adminClient.Users, server.Directory).RunPreInstanceTest(cancellationToken);
 
+					Assert.IsTrue(Directory.Exists(instance.Path));
 					var instanceClient = adminClient.Instances.CreateClient(instance);
+					Assert.IsTrue(Directory.Exists(instanceClient.Metadata.Path));
 
 					var instanceTests = FailFast(new InstanceTest(instanceClient, adminClient.Instances).RunTests(cancellationToken));
 
@@ -188,7 +261,28 @@ namespace Tgstation.Server.Tests
 					await adminClient.Administration.Restart(cancellationToken);
 				}
 
-				await Task.WhenAny(serverTask, Task.Delay(30000, cancellationToken));
+				await Task.WhenAny(serverTask, Task.Delay(TimeSpan.FromMinutes(1), cancellationToken));
+				Assert.IsTrue(serverTask.IsCompleted);
+
+				// http bind test https://github.com/tgstation/tgstation-server/issues/1065
+				if (new PlatformIdentifier().IsWindows)
+				{
+					using var blockingSocket = new Socket(SocketType.Stream, ProtocolType.Tcp);
+					blockingSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ExclusiveAddressUse, true);
+					blockingSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, false);
+					blockingSocket.Bind(new IPEndPoint(IPAddress.Any, server.Url.Port));
+					try
+					{
+						await server.Run(cancellationToken);
+						Assert.Fail("Expected server task to end with a SocketException");
+					}
+					catch (SocketException ex)
+					{
+						Assert.AreEqual(ex.SocketErrorCode, SocketError.AddressAlreadyInUse);
+					}
+				}
+
+				await Task.WhenAny(serverTask, Task.Delay(TimeSpan.FromMinutes(1), cancellationToken));
 				Assert.IsTrue(serverTask.IsCompleted);
 
 				var preStartupTime = DateTimeOffset.Now;
@@ -213,12 +307,12 @@ namespace Tgstation.Server.Tests
 							.ToList();
 					}
 
-					Assert.AreEqual(1, jobs.Count, $"Why are there multiple active jobs? \"{String.Join("\", \"", jobs.Select(x => x.Description))}\"");
-
-					var reattachJob = jobs.Single();
-					Assert.IsTrue(reattachJob.StartedAt.Value >= preStartupTime);
-
-					await new JobsRequiredTest(instanceClient.Jobs).WaitForJob(reattachJob, 40, false, null, cancellationToken);
+					var jrt = new JobsRequiredTest(instanceClient.Jobs);
+					foreach (var job in jobs)
+					{
+						Assert.IsTrue(job.StartedAt.Value >= preStartupTime);
+						await jrt.WaitForJob(job, 40, false, null, cancellationToken);
+					}
 
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
@@ -232,7 +326,7 @@ namespace Tgstation.Server.Tests
 					await adminClient.Administration.Restart(cancellationToken);
 				}
 
-				await Task.WhenAny(serverTask, Task.Delay(30000, cancellationToken));
+				await Task.WhenAny(serverTask, Task.Delay(TimeSpan.FromMinutes(1), cancellationToken));
 				Assert.IsTrue(serverTask.IsCompleted);
 
 				preStartupTime = DateTimeOffset.Now;
@@ -256,12 +350,12 @@ namespace Tgstation.Server.Tests
 							.ToList();
 					}
 
-					Assert.AreEqual(1, jobs.Count);
-
-					var launchJob = jobs.Single();
-					Assert.IsTrue(launchJob.StartedAt.Value >= preStartupTime);
-
-					await new JobsRequiredTest(instanceClient.Jobs).WaitForJob(launchJob, 40, false, null, cancellationToken);
+					var jrt = new JobsRequiredTest(instanceClient.Jobs);
+					foreach (var job in jobs)
+					{
+						Assert.IsTrue(job.StartedAt.Value >= preStartupTime);
+						await jrt.WaitForJob(job, 40, false, null, cancellationToken);
+					}
 
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
 
@@ -286,17 +380,44 @@ namespace Tgstation.Server.Tests
 			}
 			finally
 			{
-				tooLateForSoftTimeout = true;
 				serverCts.Cancel();
 				try
 				{
-					await serverTask.WithToken(hardTimeoutCancellationToken).ConfigureAwait(false);
+					await serverTask.WithToken(hardCancellationToken).ConfigureAwait(false);
 				}
 				catch (OperationCanceledException) { }
 
 				TerminateAllDDs();
+			}
 
-				hardTimeoutCancellationToken.ThrowIfCancellationRequested();
+			Assert.IsTrue(serverTask.IsCompleted);
+			await serverTask;
+		}
+
+		public static ushort DDPort = FreeTcpPort();
+		public static ushort DMPort = GetDMPort();
+
+		static ushort GetDMPort()
+		{
+			ushort result;
+			do
+			{
+				result = FreeTcpPort();
+			} while (result == DDPort);
+			return result;
+		}
+
+		static ushort FreeTcpPort()
+		{
+			var l = new TcpListener(IPAddress.Loopback, 0);
+			l.Start();
+			try
+			{
+				return (ushort)((IPEndPoint)l.LocalEndpoint).Port;
+			}
+			finally
+			{
+				l.Stop();
 			}
 		}
 
@@ -315,8 +436,33 @@ namespace Tgstation.Server.Tests
 			var exitCode = await process.Lifetime.WithToken(cts.Token);
 
 			Assert.AreEqual(0, exitCode);
-			Assert.AreEqual(String.Empty, process.GetErrorOutput().Trim());
-			Assert.AreEqual("Hello World!", process.GetStandardOutput().Trim());
+			Assert.AreEqual(String.Empty, (await process.GetErrorOutput(default)).Trim());
+			Assert.AreEqual("Hello World!", (await process.GetStandardOutput(default)).Trim());
+		}
+
+		[TestMethod]
+		public async Task TestRepoParentLookup()
+		{
+			using var testingServer = new TestingServer();
+			LibGit2Sharp.Repository.Clone("https://github.com/Cyberboss/test", testingServer.Directory);
+			var libGit2Repo = new LibGit2Sharp.Repository(testingServer.Directory);
+			using var repo = new Host.Components.Repository.Repository(
+				libGit2Repo,
+				new LibGit2Commands(),
+				Mock.Of<Host.IO.IIOManager>(),
+				Mock.Of<IEventConsumer>(),
+				Mock.Of<ICredentialsProvider>(),
+				Mock.Of<ILogger<Host.Components.Repository.Repository>>(),
+				() => { });
+
+			const string StartSha = "af4da8beb9f9b374b04a3cc4d65acca662e8cc1a";
+			await repo.CheckoutObject(StartSha, progress => { }, default);
+			var result = await repo.ShaIsParent("2f8588a3ca0f6b027704a2a04381215619de3412", default);
+			Assert.IsTrue(result);
+			Assert.AreEqual(StartSha, repo.Head);
+			result = await repo.ShaIsParent("f636418bf47d238d33b0e4a34f0072b23a8aad0e", default);
+			Assert.IsFalse(result); ;
+			Assert.AreEqual(StartSha, repo.Head);
 		}
 	}
 }

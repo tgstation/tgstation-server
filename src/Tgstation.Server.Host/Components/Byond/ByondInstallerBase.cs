@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Globalization;
 using System.Threading;
@@ -69,7 +69,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			}
 			catch (Exception e)
 			{
-				Logger.LogWarning("Error deleting BYOND cache! Exception: {0}", e);
+				Logger.LogWarning(e, "Error deleting BYOND cache!");
 			}
 		}
 

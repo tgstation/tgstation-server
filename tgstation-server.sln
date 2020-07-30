@@ -156,7 +156,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BasicOperation", "BasicOperation", "{F32B9514-AAD9-429D-841A-ED810FC2598C}"
 	ProjectSection(SolutionItems) = preProject
 		tests\DMAPI\BasicOperation\basic_operation_test.dme = tests\DMAPI\BasicOperation\basic_operation_test.dme
-		tests\DMAPI\BasicOperation\build_byond.sh = tests\DMAPI\BasicOperation\build_byond.sh
 		tests\DMAPI\BasicOperation\Config.dm = tests\DMAPI\BasicOperation\Config.dm
 		tests\DMAPI\BasicOperation\Test.dm = tests\DMAPI\BasicOperation\Test.dm
 	EndProjectSection

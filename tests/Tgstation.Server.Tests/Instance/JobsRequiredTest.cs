@@ -36,7 +36,8 @@ namespace Tgstation.Server.Tests.Instance
 			}
 
 			if (expectFailure ^ job.ExceptionDetails != null)
-				Assert.Fail(job.ExceptionDetails ?? $"Expected job \"{job.Id}\" \"{job.Description}\" to fail but it didn't");
+				Assert.Fail(job.ExceptionDetails
+					?? $"Expected job \"{job.Id}\" \"{job.Description}\" to fail {(expectedCode.HasValue ? $"with ErrorCode \"{expectedCode.Value}\" " : String.Empty)}but it didn't");
 
 			if (expectedCode.HasValue)
 				Assert.AreEqual(expectedCode.Value, job.ErrorCode, job.ExceptionDetails);

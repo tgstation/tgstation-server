@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.DependencyInjection;
@@ -400,7 +400,7 @@ namespace Tgstation.Server.Host.Database
 			}
 			catch (Exception e)
 			{
-				logger.LogCritical("Failed to migrate! Exception: {0}", e);
+				logger.LogCritical(e, "Failed to migrate!");
 			}
 		}
 	}

@@ -1,6 +1,6 @@
 # tgstation-server v4:
 
-[![Build status](https://ci.appveyor.com/api/projects/status/7t1h7bvuha0p9j5f/branch/master?svg=true)](https://ci.appveyor.com/project/Cyberboss/tgstation-server-tools/branch/master) [![Build Status](https://travis-ci.org/tgstation/tgstation-server.svg?branch=master)](https://travis-ci.org/tgstation/tgstation-server) [![codecov](https://codecov.io/gh/tgstation/tgstation-server/branch/master/graph/badge.svg)](https://codecov.io/gh/tgstation/tgstation-server)
+![CI](https://github.com/tgstation/tgstation-server/workflows/CI/badge.svg) [![Build Status](https://travis-ci.org/tgstation/tgstation-server.svg?branch=master)](https://travis-ci.org/tgstation/tgstation-server) [![codecov](https://codecov.io/gh/tgstation/tgstation-server/branch/master/graph/badge.svg)](https://codecov.io/gh/tgstation/tgstation-server)
 
 [![GitHub license](https://img.shields.io/github/license/tgstation/tgstation-server.svg)](LICENSE) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/tgstation/tgstation-server.svg)](http://isitmaintained.com/project/tgstation/tgstation-server "Average time to resolve an issue") [![NuGet version](https://img.shields.io/nuget/v/Tgstation.Server.Api.svg)](https://www.nuget.org/packages/Tgstation.Server.Api) [![NuGet version](https://img.shields.io/nuget/v/Tgstation.Server.Client.svg)](https://www.nuget.org/packages/Tgstation.Server.Client)
 
@@ -8,7 +8,7 @@
 
 [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com) [![forthebadge](http://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)](http://forthebadge.com)
 
-This is a toolset to manage production BYOND servers. It includes the ability to update the server without having to stop or shutdown the server (the update will take effect on a "reboot" of the server) the ability start the server and restart it if it crashes, as well as systems for managing code and game files, and merging GitHub Pull Requests for test deployments.  
+This is a toolset to manage production BYOND servers. It includes the ability to update the server without having to stop or shutdown the server (the update will take effect on a "reboot" of the server) the ability start the server and restart it if it crashes, as well as systems for managing code and game files, and merging GitHub Pull Requests for test deployments.
 
 ### Legacy Servers
 
@@ -78,13 +78,13 @@ If using manual configuration, before starting your container make sure the afor
 
 ### Configuring
 
-The first time you run TGS4 you should be prompted with a configuration wizard which will guide you through setting up your appsettings.Production.json 
+The first time you run TGS4 you should be prompted with a configuration wizard which will guide you through setting up your appsettings.Production.json
 
 This wizard will, generally, run whenever the server is launched without detecting the config json. Follow the instructions below to perform this process manually.
 
 #### Manual Configuration
 
-Create an `appsettings.Production.json` file next to `appsettings.json`. This will override the default settings in appsettings.json with your production settings. There are a few keys meant to be changed by hosts. Modifying any config files while the server is running will trigger a safe restart (Keeps DreamDaemon's running). Note these are all case-sensitive: 
+Create an `appsettings.Production.json` file next to `appsettings.json`. This will override the default settings in appsettings.json with your production settings. There are a few keys meant to be changed by hosts. Modifying any config files while the server is running will trigger a safe restart (Keeps DreamDaemon's running). Note these are all case-sensitive:
 
 - `General:ConfigVersion`: Suppresses warnings about out of date config versions. You should change this after updating TGS to one with a new config version. The current version can be found on the releases page for your server version (This field did not exist before v4.4.0).
 
@@ -250,7 +250,7 @@ See https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/
 
 ### Apache
 
-1. Ensure the `mod_proxy` extension is installed. 
+1. Ensure the `mod_proxy` extension is installed.
 2. Setup a basic website configuration. Instructions on how to do so are out of scope.
 3. Acquire an HTTPS certificate, likely via Let's Encrypt, and configure Apache to use it.
 4. Under a VirtualHost entry, setup the following (replace 8080 with the port TGS is hosted on):
@@ -283,7 +283,7 @@ tgstation-server v4 is controlled via a RESTful HTTP json API. Documentation on 
 
 ### Users
 
-All actions apart from logging in must be taken by a user. TGS installs with one default user whose credentials can be found [here](src/Tgstation.Server.Api/Models/User.cs). It is recommended to disable this user ASAP as it is used to create Jobs that are started by the server itself. If access to all users is lost, the default user can be reset using the `Database:ResetAdminPassword` configuration setting. 
+All actions apart from logging in must be taken by a user. TGS installs with one default user whose credentials can be found [here](src/Tgstation.Server.Api/Models/User.cs). It is recommended to disable this user ASAP as it is used to create Jobs that are started by the server itself. If access to all users is lost, the default user can be reset using the `Database:ResetAdminPassword` configuration setting.
 
 Users can be enabled/disabled and have a very granular set of rights associated to them that determine the actions they are allowed to take (i.e. Modify the user list or create instances). Users can be _database based_ or _system based_. Database users are your standard web users with a username and password. System users, on the otherhand, are authenticated with the host OS. These users cannot have their password or names changed by TGS as they are managed by the system (and in reverse, login tokens don't expire when their password changes). The benefit to having these users is it allows the use of system ACLs for static file control. More on that later.
 
@@ -295,7 +295,7 @@ An instance is stored in a single folder anywhere on a system and is made up of 
 
 ##### Instance Users
 
-All users with access to an instance have an InstanceUser object associated with the two that defines more rights specific to that instance (i.e. Deploy code, modify bots, edit other InstanceUsers). 
+All users with access to an instance have an InstanceUser object associated with the two that defines more rights specific to that instance (i.e. Deploy code, modify bots, edit other InstanceUsers).
 
 #### Repository
 

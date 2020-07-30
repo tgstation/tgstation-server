@@ -25,6 +25,6 @@ namespace Tgstation.Server.Host.Configuration
 		/// <summary>
 		/// Origins allowed for CORS requests
 		/// </summary>
-		public List<string> AllowedOrigins { get; set; }
+		public ICollection<string> AllowedOrigins { get; set; }
 	}
 }

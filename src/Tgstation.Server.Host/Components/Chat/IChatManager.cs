@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -10,7 +10,7 @@ namespace Tgstation.Server.Host.Components.Chat
 	/// <summary>
 	/// For managing connected chat services
 	/// </summary>
-	public interface IChatManager : IHostedService, IDisposable
+	public interface IChatManager : IHostedService, IAsyncDisposable
 	{
 		/// <summary>
 		/// Registers a <paramref name="customCommandHandler"/> to use
@@ -21,10 +21,10 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// Change chat settings. If the <see cref="ChatBot.Id"/> is not currently in use, a new connection will be made instead
 		/// </summary>
-		/// <param name="newSettings">The new <see cref="ChatBot"/></param>
+		/// <param name="newSettings">The new <see cref="Models.ChatBot"/></param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation. Will complete immediately if the <see cref="ChatBot.Enabled"/> property of <paramref name="newSettings"/> is <see langword="false"/></returns>
-		Task ChangeSettings(ChatBot newSettings, CancellationToken cancellationToken);
+		Task ChangeSettings(Models.ChatBot newSettings, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Disconnects and deletes a given connection

@@ -1,9 +1,11 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
+using Microsoft.Win32.SafeHandles;
 using System;
 using System.Diagnostics;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Extensions;
 
 namespace Tgstation.Server.Host.System
 {
@@ -31,8 +33,10 @@ namespace Tgstation.Server.Host.System
 
 		readonly global::System.Diagnostics.Process handle;
 
-		readonly StringBuilder outputStringBuilder;
-		readonly StringBuilder errorStringBuilder;
+		readonly SafeProcessHandle safeHandle;
+
+		readonly Task<string> standardOutputTask;
+		readonly Task<string> standardErrorTask;
 		readonly StringBuilder combinedStringBuilder;
 
 		/// <summary>
@@ -41,8 +45,8 @@ namespace Tgstation.Server.Host.System
 		/// <param name="processFeatures">The value of <see cref="processFeatures"/></param>
 		/// <param name="handle">The value of <see cref="handle"/></param>
 		/// <param name="lifetime">The value of <see cref="Lifetime"/></param>
-		/// <param name="outputStringBuilder">The value of <see cref="outputStringBuilder"/></param>
-		/// <param name="errorStringBuilder">The value of <see cref="errorStringBuilder"/></param>
+		/// <param name="standardOutputTask">The value of <see cref="standardOutputTask"/></param>
+		/// <param name="standardErrorTask">The value of <see cref="standardErrorTask"/></param>
 		/// <param name="combinedStringBuilder">The value of <see cref="combinedStringBuilder"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="preExisting">If <paramref name="handle"/> was NOT just created</param>
@@ -50,24 +54,29 @@ namespace Tgstation.Server.Host.System
 			IProcessFeatures processFeatures,
 			global::System.Diagnostics.Process handle,
 			Task<int> lifetime,
-			StringBuilder outputStringBuilder,
-			StringBuilder errorStringBuilder,
+			Task<string> standardOutputTask,
+			Task<string> standardErrorTask,
 			StringBuilder combinedStringBuilder,
 			ILogger<Process> logger,
 			bool preExisting)
 		{
-			this.processFeatures = processFeatures ?? throw new ArgumentNullException(nameof(processFeatures));
 			this.handle = handle ?? throw new ArgumentNullException(nameof(handle));
 
-			this.outputStringBuilder = outputStringBuilder;
-			this.errorStringBuilder = errorStringBuilder;
+			// Do this fast because the runtime will bitch if we try to access it after it ends
+			Id = handle.Id;
+
+			// https://stackoverflow.com/a/47656845
+			safeHandle = handle.SafeHandle;
+
+			this.processFeatures = processFeatures ?? throw new ArgumentNullException(nameof(processFeatures));
+
+			this.standardOutputTask = standardOutputTask;
+			this.standardErrorTask = standardErrorTask;
 			this.combinedStringBuilder = combinedStringBuilder;
 
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			Lifetime = WrapLifetimeTask(lifetime ?? throw new ArgumentNullException(nameof(lifetime)));
-
-			Id = handle.Id;
 
 			if (preExisting)
 			{
@@ -75,66 +84,83 @@ namespace Tgstation.Server.Host.System
 				return;
 			}
 
-			Startup = Task.Factory.StartNew(() =>
-			{
-				try
+			Startup = Task.Factory.StartNew(
+				() =>
 				{
-					handle.WaitForInputIdle();
-				}
-				catch (InvalidOperationException) { }
-			}, default, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+					try
+					{
+						handle.WaitForInputIdle();
+					}
+					catch (Exception ex)
+					{
+						logger.LogDebug(ex, "Error on WaitForInputIdle()!");
+					}
+				},
+				default, // DCT: None available
+				TaskCreationOptions.LongRunning,
+				TaskScheduler.Current);
 
 			logger.LogTrace("Created process ID: {0}", Id);
 		}
 
 		/// <inheritdoc />
-		public void Dispose() => handle.Dispose();
+		public void Dispose()
+		{
+			safeHandle.Dispose();
+			handle.Dispose();
+		}
 
 		async Task<int> WrapLifetimeTask(Task<int> lifetimeTask)
 		{
-			var result = await lifetimeTask.ConfigureAwait(false);
-			logger.LogTrace("PID {0} ended with code {1}", Id, result);
-			return result;
+			var exitCode = await lifetimeTask.ConfigureAwait(false);
+			logger.LogTrace("PID {0} exited with code {1}", Id, exitCode);
+			return exitCode;
 		}
 
 		/// <inheritdoc />
-		public string GetCombinedOutput()
+		public async Task<string> GetCombinedOutput(CancellationToken cancellationToken)
 		{
 			if (combinedStringBuilder == null)
-				throw new InvalidOperationException("Output/Error reading was not enabled!");
+				throw new InvalidOperationException("Output/Error stream reading was not enabled!");
+			await Task.WhenAll(standardOutputTask, standardErrorTask).WithToken(cancellationToken).ConfigureAwait(false);
 			return combinedStringBuilder.ToString().TrimStart(Environment.NewLine.ToCharArray());
 		}
 
 		/// <inheritdoc />
-		public string GetErrorOutput()
+		public Task<string> GetErrorOutput(CancellationToken cancellationToken)
 		{
-			if (errorStringBuilder == null)
-				throw new InvalidOperationException("Error reading was not enabled!");
-			return errorStringBuilder.ToString().TrimStart(Environment.NewLine.ToCharArray());
+			if (standardErrorTask == null)
+				throw new InvalidOperationException("Error stream reading was not enabled!");
+			return standardErrorTask.WithToken(cancellationToken);
 		}
 
 		/// <inheritdoc />
-		public string GetStandardOutput()
+		public Task<string> GetStandardOutput(CancellationToken cancellationToken)
 		{
-			if (outputStringBuilder == null)
-				throw new InvalidOperationException("Output reading was not enabled!");
-			return outputStringBuilder.ToString().TrimStart(Environment.NewLine.ToCharArray());
+			if (standardOutputTask == null)
+				throw new InvalidOperationException("Output stream reading was not enabled!");
+			return standardOutputTask.WithToken(cancellationToken);
 		}
 
 		/// <inheritdoc />
 		public void Terminate()
 		{
 			if (handle.HasExited)
+			{
+				logger.LogTrace("PID {0} already exited", Id);
 				return;
+			}
+
 			try
 			{
 				logger.LogTrace("Terminating PID {0}...", Id);
 				handle.Kill();
-				handle.WaitForExit();
+				if (!handle.WaitForExit(5000))
+					logger.LogWarning("WaitForExit() on PID {0} timed out!", Id);
 			}
 			catch (Exception e)
 			{
-				logger.LogDebug("Process termination exception: {0}", e);
+				logger.LogDebug(e, "PID {0} termination exception!", Id);
 			}
 		}
 
@@ -148,15 +174,39 @@ namespace Tgstation.Server.Host.System
 			}
 			catch (Exception e)
 			{
-				logger.LogWarning("Unable to raise process priority for PID {0}! Exception: {1}", Id, e);
+				logger.LogWarning(e, "Unable to raise process priority for PID {0}!", Id);
 			}
 		}
 
 		/// <inheritdoc />
-		public void Suspend() => processFeatures.SuspendProcess(handle);
+		public void Suspend()
+		{
+			try
+			{
+				processFeatures.SuspendProcess(handle);
+				logger.LogTrace("Suspended PID {0}", Id);
+			}
+			catch (Exception e)
+			{
+				logger.LogError(e, "Failed to suspend PID {0}!", Id);
+				throw;
+			}
+		}
 
 		/// <inheritdoc />
-		public void Resume() => processFeatures.ResumeProcess(handle);
+		public void Resume()
+		{
+			try
+			{
+				processFeatures.ResumeProcess(handle);
+				logger.LogTrace("Resumed PID {0}", Id);
+			}
+			catch (Exception e)
+			{
+				logger.LogError(e, "Failed to resume PID {0}!", Id);
+				throw;
+			}
+		}
 
 		/// <inheritdoc />
 		public async Task<string> GetExecutingUsername(CancellationToken cancellationToken)

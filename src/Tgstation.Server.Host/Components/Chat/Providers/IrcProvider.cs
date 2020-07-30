@@ -1,4 +1,4 @@
-﻿using Meebey.SmartIrc4net;
+using Meebey.SmartIrc4net;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Chat.Providers
@@ -19,6 +20,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 	/// </summary>
 	sealed class IrcProvider : Provider
 	{
+		/// <summary>
+		/// Number of seconds used for several IRC related timeouts.
+		/// </summary>
 		const int TimeoutSeconds = 5;
 
 		/// <inheritdoc />
@@ -90,45 +94,33 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <summary>
 		/// Construct an <see cref="IrcProvider"/>
 		/// </summary>
+		/// <param name="jobManager">The <see cref="IJobManager"/> for the provider.</param>
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> to get the <see cref="IAssemblyInformationProvider.VersionString"/> from</param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
-		/// <param name="logger">The value of logger</param>
-		/// <param name="address">The value of <see cref="address"/></param>
-		/// <param name="port">The value of <see cref="port"/></param>
-		/// <param name="nickname">The value of <see cref="nickname"/></param>
-		/// <param name="password">The value of <see cref="password"/></param>
-		/// <param name="passwordType">The value of <see cref="passwordType"/></param>
-		/// <param name="reconnectInterval">The initial reconnect interval in minutes.</param>
-		/// <param name="useSsl">If <see cref="IrcConnection.UseSsl"/> should be used</param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="Provider"/>.</param>
+		/// <param name="chatBot">The <see cref="Models.ChatBot"/> for the <see cref="Provider"/>.</param>
 		public IrcProvider(
+			IJobManager jobManager,
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IAsyncDelayer asyncDelayer,
 			ILogger<IrcProvider> logger,
-			string address,
-			ushort port,
-			string nickname,
-			string password,
-			IrcPasswordType? passwordType,
-			uint reconnectInterval,
-			bool useSsl)
-			: base(logger, reconnectInterval)
+			Models.ChatBot chatBot)
+			: base(jobManager, logger, chatBot)
 		{
 			if (assemblyInformationProvider == null)
 				throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 
-			this.address = address ?? throw new ArgumentNullException(nameof(address));
-			this.port = port;
-			this.nickname = nickname ?? throw new ArgumentNullException(nameof(nickname));
+			var builder = chatBot.CreateConnectionStringBuilder();
+			if (builder == null || !builder.Valid || !(builder is IrcConnectionStringBuilder ircBuilder))
+				throw new InvalidOperationException("Invalid ChatConnectionStringBuilder!");
 
-			if (passwordType.HasValue && password == null)
-				throw new ArgumentNullException(nameof(password));
+			address = ircBuilder.Address;
+			port = ircBuilder.Port.Value;
+			nickname = ircBuilder.Nickname;
 
-			if (password != null && !passwordType.HasValue)
-				throw new ArgumentNullException(nameof(passwordType));
-
-			this.password = password;
-			this.passwordType = passwordType;
+			password = ircBuilder.Password;
+			passwordType = ircBuilder.PasswordType.Value;
 
 			client = new IrcFeatures
 			{
@@ -143,9 +135,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				ActiveChannelSyncing = true,
 				AutoNickHandling = true,
 				CtcpVersion = assemblyInformationProvider.VersionString,
-				UseSsl = useSsl
+				UseSsl = ircBuilder.UseSsl.Value
 			};
-			if (useSsl)
+			if (ircBuilder.UseSsl.Value)
 				client.ValidateServerCertificate = true; // dunno if it defaults to that or what
 
 			client.OnChannelMessage += Client_OnChannelMessage;
@@ -154,19 +146,15 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			channelIdMap = new Dictionary<ulong, string>();
 			queryChannelIdMap = new Dictionary<ulong, string>();
 			channelIdCounter = 1;
-			disconnecting = false;
 		}
 
 		/// <inheritdoc />
-		public override void Dispose()
+		public override async ValueTask DisposeAsync()
 		{
-			if (Connected)
-			{
-				disconnecting = true;
-				client.Disconnect(); // just closes the socket
-			}
+			await base.DisposeAsync().ConfigureAwait(false);
 
-			base.Dispose();
+			// DCT: None available
+			await HardDisconnect(default).ConfigureAwait(false);
 		}
 
 		/// <summary>
@@ -247,124 +235,80 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		void Client_OnChannelMessage(object sender, IrcEventArgs e) => HandleMessage(e, false);
 
 		/// <inheritdoc />
-		public override Task<bool> Connect(CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		protected override async Task Connect(CancellationToken cancellationToken)
 		{
 			disconnecting = false;
-			lock (client)
-				try
+			try
+			{
+				client.Connect(address, port);
+
+				cancellationToken.ThrowIfCancellationRequested();
+
+				Logger.LogTrace("Authenticating ({0})...", passwordType);
+				switch (passwordType)
 				{
-					client.Connect(address, port);
-
-					cancellationToken.ThrowIfCancellationRequested();
-
-					if (passwordType == IrcPasswordType.Server)
+					case IrcPasswordType.Server:
 						client.Login(nickname, nickname, 0, nickname, password);
-					else
-					{
-						if (passwordType == IrcPasswordType.Sasl)
-						{
-							client.WriteLine("CAP REQ :sasl", Priority.Critical); // needs to be put in the buffer before anything else
-							cancellationToken.ThrowIfCancellationRequested();
-						}
-
+						break;
+					case IrcPasswordType.NickServ:
 						client.Login(nickname, nickname, 0, nickname);
-					}
-
-					if (passwordType == IrcPasswordType.NickServ)
-					{
 						cancellationToken.ThrowIfCancellationRequested();
 						client.SendMessage(SendType.Message, "NickServ", String.Format(CultureInfo.InvariantCulture, "IDENTIFY {0}", password));
-					}
-					else if (passwordType == IrcPasswordType.Sasl)
+						break;
+					case IrcPasswordType.Sasl:
+						await SaslAuthenticate(cancellationToken).ConfigureAwait(false);
+						break;
+					case null:
+						break;
+					default:
+						throw new InvalidOperationException($"Invalid IrcPasswordType: {passwordType.Value}");
+				}
+
+				cancellationToken.ThrowIfCancellationRequested();
+				Logger.LogTrace("Processing initial messages...");
+				await NonBlockingListen(cancellationToken).ConfigureAwait(false);
+
+				var nickCheckCompleteTcs = new TaskCompletionSource<object>();
+				using (cancellationToken.Register(() => nickCheckCompleteTcs.TrySetCanceled()))
+				{
+					listenTask = Task.Factory.StartNew(
+					async () =>
 					{
-						// wait for the sasl ack or timeout
-						var recievedAck = false;
-						var recievedPlus = false;
-						client.OnReadLine += (sender, e) =>
-						{
-							if (e.Line.Contains("ACK :sasl", StringComparison.Ordinal))
-								recievedAck = true;
-							else if (e.Line.Contains("AUTHENTICATE +", StringComparison.Ordinal))
-								recievedPlus = true;
-						};
-
-						var startTime = DateTimeOffset.Now;
-						var endTime = DateTimeOffset.Now.AddSeconds(TimeoutSeconds);
-						cancellationToken.ThrowIfCancellationRequested();
-
-						var listenTimeSpan = TimeSpan.FromMilliseconds(10);
-						for (; !recievedAck && DateTimeOffset.Now <= endTime; asyncDelayer.Delay(listenTimeSpan, cancellationToken).GetAwaiter().GetResult())
-							client.Listen(false);
-
-						client.WriteLine("AUTHENTICATE PLAIN", Priority.Critical);
-						cancellationToken.ThrowIfCancellationRequested();
-
-						for (; !recievedPlus && DateTimeOffset.Now <= endTime; asyncDelayer.Delay(listenTimeSpan, cancellationToken).GetAwaiter().GetResult())
-							client.Listen(false);
-
-						// Stolen! https://github.com/znc/znc/blob/1e697580155d5a38f8b5a377f3b1d94aaa979539/modules/sasl.cpp#L196
-						var authString = String.Format(CultureInfo.InvariantCulture, "{0}{1}{0}{1}{2}", nickname, '\0', password);
-						var b64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(authString));
-						var authLine = String.Format(CultureInfo.InvariantCulture, "AUTHENTICATE {0}", b64);
-						var chars = authLine.ToCharArray();
-						client.WriteLine(authLine, Priority.Critical);
-
-						cancellationToken.ThrowIfCancellationRequested();
-						client.WriteLine("CAP END", Priority.Critical);
-					}
-
-					client.Listen(false);
-
-					listenTask = Task.Factory.StartNew(() =>
-					{
+						Logger.LogTrace("Entering nick check loop");
 						while (!disconnecting && client.IsConnected && client.Nickname != nickname)
 						{
 							client.ListenOnce(true);
 							if (disconnecting || !client.IsConnected)
 								break;
-							client.Listen(false);
+							await NonBlockingListen(cancellationToken).ConfigureAwait(false);
 
 							// ensure we have the correct nick
 							if (client.GetIrcUser(nickname) == null)
 								client.RfcNick(nickname);
 						}
 
-						client.Listen();
-					}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
-				}
-				catch (OperationCanceledException)
-				{
-					throw;
-				}
-				catch (Exception e)
-				{
-					Logger.LogWarning("Unable to connect to IRC: {0}", e);
-					return false;
+						nickCheckCompleteTcs.TrySetResult(null);
+
+						Logger.LogTrace("Starting blocking listen...");
+						try
+						{
+							client.Listen();
+						}
+						catch (Exception ex)
+						{
+							Logger.LogWarning(ex, "IRC Main Listen Exception!");
+						}
+
+						Logger.LogTrace("Exiting listening task...");
+					},
+					cancellationToken,
+					TaskCreationOptions.LongRunning,
+					TaskScheduler.Current);
+
+					await nickCheckCompleteTcs.Task.ConfigureAwait(false);
 				}
 
-			return true;
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
-
-		/// <inheritdoc />
-		protected override async Task DisconnectImpl(CancellationToken cancellationToken)
-		{
-			if (!Connected)
-				return;
-			try
-			{
-				await Task.Factory.StartNew(() =>
-				{
-					try
-					{
-						client.RfcQuit("Mr. Stark, I don't feel so good...", Priority.Critical); // priocritical otherwise it wont go through
-					}
-					catch (Exception e)
-					{
-						Logger.LogWarning("Error quitting IRC: {0}", e);
-					}
-				}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
-				Dispose();
-				await listenTask.ConfigureAwait(false);
+				Logger.LogTrace("Connection established!");
 			}
 			catch (OperationCanceledException)
 			{
@@ -372,8 +316,171 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 			catch (Exception e)
 			{
-				Logger.LogWarning("Error disconnecting from IRC! Exception: {0}", e);
+				throw new JobException(ErrorCode.ChatCannotConnectProvider, e);
 			}
+		}
+
+		/// <summary>
+		/// Perform a non-blocking <see cref="IrcConnection.Listen(bool)"/>.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		Task NonBlockingListen(CancellationToken cancellationToken) => Task.Factory.StartNew(
+			() =>
+			{
+				try
+				{
+					client.Listen(false);
+				}
+				catch (Exception ex)
+				{
+					Logger.LogWarning(ex, "IRC Non-Blocking Listen Exception!");
+				}
+			},
+			cancellationToken,
+			TaskCreationOptions.None,
+			TaskScheduler.Current)
+			.WithToken(cancellationToken);
+
+		/// <summary>
+		/// Run SASL authentication on <see cref="client"/>.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		async Task SaslAuthenticate(CancellationToken cancellationToken)
+		{
+			client.WriteLine("CAP REQ :sasl", Priority.Critical); // needs to be put in the buffer before anything else
+			cancellationToken.ThrowIfCancellationRequested();
+
+			Logger.LogTrace("Logging in...");
+			client.Login(nickname, nickname, 0, nickname);
+			cancellationToken.ThrowIfCancellationRequested();
+
+			// wait for the sasl ack or timeout
+			var recievedAck = false;
+			var recievedPlus = false;
+
+			void AuthenticationDelegate(object sender, ReadLineEventArgs e)
+			{
+				if (e.Line.Contains("ACK :sasl", StringComparison.Ordinal))
+					recievedAck = true;
+				else if (e.Line.Contains("AUTHENTICATE +", StringComparison.Ordinal))
+					recievedPlus = true;
+			}
+
+			Logger.LogTrace("Performing handshake...");
+			client.OnReadLine += AuthenticationDelegate;
+			try
+			{
+				using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+				timeoutCts.CancelAfter(TimeSpan.FromSeconds(TimeoutSeconds));
+				var timeoutToken = timeoutCts.Token;
+
+				var listenTimeSpan = TimeSpan.FromMilliseconds(10);
+				for (; !recievedAck;
+					await asyncDelayer.Delay(listenTimeSpan, timeoutToken).ConfigureAwait(false))
+					await NonBlockingListen(cancellationToken).ConfigureAwait(false);
+
+				client.WriteLine("AUTHENTICATE PLAIN", Priority.Critical);
+				timeoutToken.ThrowIfCancellationRequested();
+
+				for (; !recievedPlus;
+					await asyncDelayer.Delay(listenTimeSpan, timeoutToken).ConfigureAwait(false))
+					await NonBlockingListen(cancellationToken).ConfigureAwait(false);
+			}
+			finally
+			{
+				client.OnReadLine -= AuthenticationDelegate;
+			}
+
+			cancellationToken.ThrowIfCancellationRequested();
+
+			// Stolen! https://github.com/znc/znc/blob/1e697580155d5a38f8b5a377f3b1d94aaa979539/modules/sasl.cpp#L196
+			Logger.LogTrace("Sending credentials...");
+			var authString = String.Format(
+				CultureInfo.InvariantCulture,
+				"{0}{1}{0}{1}{2}",
+				nickname,
+				'\0',
+				password);
+			var b64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(authString));
+			var authLine = $"AUTHENTICATE {b64}";
+			client.WriteLine(authLine, Priority.Critical);
+			cancellationToken.ThrowIfCancellationRequested();
+
+			Logger.LogTrace("Finishing authentication...");
+			client.WriteLine("CAP END", Priority.Critical);
+		}
+
+		/// <inheritdoc />
+		protected override async Task DisconnectImpl(CancellationToken cancellationToken)
+		{
+			try
+			{
+				await Task.Factory.StartNew(
+					() =>
+					{
+						try
+						{
+							client.RfcQuit("Mr. Stark, I don't feel so good...", Priority.Critical); // priocritical otherwise it wont go through
+						}
+						catch (Exception e)
+						{
+							Logger.LogWarning(e, "Error quitting IRC!");
+						}
+					},
+					cancellationToken,
+					TaskCreationOptions.LongRunning,
+					TaskScheduler.Current)
+					.ConfigureAwait(false);
+				await HardDisconnect(cancellationToken).ConfigureAwait(false);
+			}
+			catch (OperationCanceledException)
+			{
+				throw;
+			}
+			catch (Exception e)
+			{
+				Logger.LogWarning(e, "Error disconnecting from IRC!");
+			}
+		}
+
+		async Task HardDisconnect(CancellationToken cancellationToken)
+		{
+			if (!Connected)
+			{
+				Logger.LogTrace("Not hard disconnecting, already offline");
+				return;
+			}
+
+			Logger.LogTrace("Hard disconnect");
+
+			disconnecting = true;
+
+			// This call blocks permanently randomly sometimes
+			// Frankly I don't give a shit
+			var disconnectTask = Task.Factory.StartNew(
+				() =>
+				{
+					try
+					{
+						client.Disconnect();
+					}
+					catch (Exception e)
+					{
+						Logger.LogWarning(e, "Error disconnecting IRC!");
+					}
+				},
+				cancellationToken,
+				TaskCreationOptions.None,
+				TaskScheduler.Current);
+
+			await Task.WhenAny(
+				Task.WhenAll(
+					disconnectTask,
+					listenTask ?? Task.CompletedTask),
+				asyncDelayer.Delay(TimeSpan.FromSeconds(TimeoutSeconds), cancellationToken))
+				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -464,7 +571,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 			catch (Exception e)
 			{
-				Logger.LogWarning("Unable to send to channel: {0}", e);
+				Logger.LogWarning(e, "Unable to send to channel {0}!", channelName);
 			}
 		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
