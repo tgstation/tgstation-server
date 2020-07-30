@@ -376,8 +376,13 @@ jobs:
   validate-openapi-spec:
     name: OpenAPI Spec Validation
     needs: windows-integration-test
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
+    - name: Install Node 12.X
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+
     - name: Install IBM OpenAPI Validator
       run: npm i -g ibm-openapi-validator
 
@@ -391,7 +396,7 @@ jobs:
         path: ./swagger.json
 
     - name: Lint OpenAPI Spec
-      run: npx lint-openapi -p -c build/OpenApiValidationSettings.json ./swagger.json
+      run: npx lint-openapi -p -c build/OpenApiValidationSettings.json swagger.json
 
   upload-code-coverage:
     name: Upload Code Coverage
