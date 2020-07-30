@@ -370,7 +370,8 @@ namespace Tgstation.Server.Host.Components.Session
 						await chat.SendMessage(
 							parameters.ChatMessage.Text,
 							parameters.ChatMessage.ChannelIds.Select(UInt64.Parse),
-							cancellationToken).ConfigureAwait(false);
+							cancellationToken)
+							.ConfigureAwait(false);
 						break;
 					case BridgeCommandType.Prime:
 						var oldPrimeTcs = primeTcs;

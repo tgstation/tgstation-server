@@ -266,8 +266,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					})
 					.ConfigureAwait(false);
 			}
-			catch (Exception e) when (!(e is OperationCanceledException))
+			catch (Exception e)
 			{
+				if (e is OperationCanceledException)
+					cancellationToken.ThrowIfCancellationRequested();
 				Logger.LogWarning(e, "Error sending discord message!");
 			}
 		}

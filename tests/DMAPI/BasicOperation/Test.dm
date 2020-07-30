@@ -1,5 +1,6 @@
 /world/New()
 	log << "About to call TgsNew()"
+	sleep_offline = FALSE
 	TgsNew(minimum_required_security_level = TGS_SECURITY_SAFE)
 	log << "About to call StartAsync()"
 	StartAsync()
