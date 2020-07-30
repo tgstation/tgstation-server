@@ -563,7 +563,7 @@ jobs:
     name: Deploy HTTP API
     needs: [upload-code-coverage, validate-openapi-spec]
     runs-on: windows-latest
-    if: github.event_name == 'push' && github.ref == 'master' && contains(github.event.head_commit.message, '[APIDeploy]')
+    if: github.event_name == 'push' && github.event.ref == 'master' && contains(github.event.commit.message, '[APIDeploy]')
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -606,7 +606,7 @@ jobs:
     name: Deploy DreamMaker API
     needs: [upload-code-coverage, validate-openapi-spec]
     runs-on: windows-latest
-    if: github.event_name == 'push' && github.ref == 'master' && contains(github.event.head_commit.message, '[DMDeploy]')
+    if: github.event_name == 'push' && github.event.ref == 'master' && contains(github.event.commit.message, '[DMDeploy]')
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -647,7 +647,7 @@ jobs:
     name: Deploy Nuget Packages
     needs: [upload-code-coverage, validate-openapi-spec]
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'master' && contains(github.event.head_commit.message, '[NugetDeploy]')
+    if: github.event_name == 'push' && github.event.ref == 'master' && contains(github.event.commit.message, '[NugetDeploy]')
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -672,7 +672,7 @@ jobs:
     name: Deploy tgstation-server
     needs: [deploy-dm, deploy-http, deploy-client]
     runs-on: windows-latest
-    if: github.event_name == 'push' && github.ref == 'master' && contains(github.event.head_commit.message, '[TGSDeploy]')
+    if: github.event_name == 'push' && github.event.ref == 'master' && contains(github.event.commit.message, '[TGSDeploy]')
     steps:
       - name: Checkout
         uses: actions/checkout@v1
