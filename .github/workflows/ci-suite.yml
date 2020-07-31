@@ -613,6 +613,10 @@ jobs:
     runs-on: windows-latest
     if: github.event_name == 'push' && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[DMDeploy]')
     steps:
+      - name: Install 7Zip PS Module
+        shell: powershell
+        steps: Install-Module -Name 7Zip4PowerShell -Verbose
+
       - name: Checkout
         uses: actions/checkout@v1
 
@@ -625,7 +629,7 @@ jobs:
 
       - name: Zip DMAPI
         shell: powershell
-        run: Compress-Archive -Path src/DMAPI/* -DestinationPath DMAPI.zip
+        run: Compress-7Zip -Path src/DMAPI/* -ArchiveFileName DMAPI.zip -Format Zip
 
       - name: Create GitHub Release
         uses: juitnow/github-action-create-release@v1
@@ -679,6 +683,10 @@ jobs:
     runs-on: windows-latest
     if: github.event_name == 'push' && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]')
     steps:
+      - name: Install 7Zip PS Module
+        shell: powershell
+        steps: Install-Module -Name 7Zip4PowerShell -Verbose
+
       - name: Checkout
         uses: actions/checkout@v1
 
@@ -716,10 +724,10 @@ jobs:
       - name: Zip Artifacts
         shell: powershell
         run: |
-          Compress-Archive -Path src/DMAPI/* -DestinationPath DMAPI.zip
-          Compress-Archive -Path ServerService/* -DestinationPath ServerService.zip
-          Compress-Archive -Path ServerConsole/* -DestinationPath ServerConsole.zip
-          Compress-Archive -Path ServerUpdatePackage/* -DestinationPath ServerUpdatePackage.zip
+          Compress-7Zip -Path src/DMAPI/* -ArchiveFileName DMAPI.zip -Format Zip
+          Compress-7Zip -Path ServerService/* -ArchiveFileName ServerService.zip -Format Zip
+          Compress-7Zip -Path ServerConsole/* -ArchiveFileName ServerConsole.zip -Format Zip
+          Compress-7Zip -Path ServerUpdatePackage/* -ArchiveFileName ServerUpdatePackage.zip -Format Zip
 
       - name: Generate Release Notes
         shell: powershell
