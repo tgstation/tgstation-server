@@ -89,7 +89,7 @@ jobs:
       - name: gh-pages push
         if: github.event_name == 'push' && github.event.ref == 'refs/heads/dev'
         run: |
-        git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" $HOME/tgsdox
+          git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" $HOME/tgsdox
           cd $HOME/tgsdox
           rm -r *
           mv $HOME/tgsdoxout/* ./
