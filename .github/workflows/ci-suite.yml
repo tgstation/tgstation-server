@@ -629,7 +629,9 @@ jobs:
 
       - name: Zip DMAPI
         shell: powershell
-        run: Compress-7Zip -Path src/DMAPI/* -ArchiveFileName DMAPI.zip -Format Zip
+        run: |
+          Install-Module -Name 7Zip4PowerShell -Verbose
+          Compress-7Zip -Path src/DMAPI/* -ArchiveFileName DMAPI.zip -Format Zip
 
       - name: Create GitHub Release
         uses: juitnow/github-action-create-release@v1
@@ -683,10 +685,6 @@ jobs:
     runs-on: windows-latest
     if: github.event_name == 'push' && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]')
     steps:
-      - name: Install 7Zip PS Module
-        shell: powershell
-        run: Install-Module -Name 7Zip4PowerShell -Verbose
-
       - name: Checkout
         uses: actions/checkout@v1
 
@@ -724,6 +722,7 @@ jobs:
       - name: Zip Artifacts
         shell: powershell
         run: |
+          Install-Module -Name 7Zip4PowerShell -Verbose
           Compress-7Zip -Path src/DMAPI/* -ArchiveFileName DMAPI.zip -Format Zip
           Compress-7Zip -Path ServerService/* -ArchiveFileName ServerService.zip -Format Zip
           Compress-7Zip -Path ServerConsole/* -ArchiveFileName ServerConsole.zip -Format Zip
