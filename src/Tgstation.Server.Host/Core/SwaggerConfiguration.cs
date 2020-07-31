@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
@@ -93,7 +93,7 @@ namespace Tgstation.Server.Host.Core
 
 			AddDefaultResponse(HttpStatusCode.NotAcceptable, new OpenApiResponse
 			{
-				Description = "Invalid Accept header, TGS requires `Accept: application/json`.",
+				Description = $"Invalid Accept header, TGS requires `{HeaderNames.Accept}: {MediaTypeNames.Application.Json}`.",
 				Content = errorMessageContent
 			});
 

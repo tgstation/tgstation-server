@@ -111,7 +111,7 @@ jobs:
           echo "Committing..."
           git commit -m "Deploy code docs to GitHub Pages for workflow run ${{ github.run_number }}" -m "Commit: ${{ github.event.head_commit.id }}"
           echo "Pushing..."
-          git push -f "https://${{ secrets.GITHUB_TOKEN }}@github.com/tgstation/tgstation-server" 2>&1
+          git push -f "https://${{ secrets.DEV_PUSH_TOKEN }}@github.com/tgstation/tgstation-server" 2>&1
 
   docker-build:
     name: Build Docker Image
