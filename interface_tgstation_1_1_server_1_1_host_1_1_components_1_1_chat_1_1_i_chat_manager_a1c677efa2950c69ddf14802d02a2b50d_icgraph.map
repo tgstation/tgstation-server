@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Chat.IChatManager.SendUpdateMessage" name="Tgstation.Server.Host.Components.Chat.IChatManager.SendUpdateMessage">
-<area shape="rect" id="node1" title="Send a chat message &#160;to configured update channels" alt="" coords="325,86,587,127"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a4e8166679a6dda46561e4ec3b5fc7443" title="Cleans up a failed compile job" alt="" coords="14,5,269,61"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a90c81ec6a44a188164e5ae50e6430a7d" title="Executes and populate a given job" alt="" coords="10,86,273,127"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a4608eb0c972301a60f77d7d0f16e3ed6" title="Send a message to chatManager about a deployment" alt="" coords="5,152,277,208"/>
-</map>

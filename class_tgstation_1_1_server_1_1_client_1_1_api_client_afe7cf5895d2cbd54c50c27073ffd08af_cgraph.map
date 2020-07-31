@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Client.ApiClient.RunRequest&lt; TResult &gt;" name="Tgstation.Server.Client.ApiClient.RunRequest&lt; TResult &gt;">
-<area shape="rect" id="node1" title="Main request method" alt="" coords="5,61,163,117"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#aed28ea7a7fff4be99f3c65a8dcd0a47e" title=" " alt="" coords="457,5,659,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a7b81831316898d1d92a5103d3ecf145b" title=" " alt="" coords="211,35,409,76"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_http_client.html#a7c73a8c52b38c69ed369036d186192de" title="Send an HTTP request" alt="" coords="232,100,388,141"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a5f9f37923fe9811ceb4556af0ebfc8aa" title="Set HttpRequestHeaders using the ApiHeaders. This initially clears headers" alt="" coords="215,165,405,207"/>
-</map>

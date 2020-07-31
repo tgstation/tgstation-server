@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Client.IAdministrationClient.Read" name="Tgstation.Server.Client.IAdministrationClient.Read">
-<area shape="rect" id="node1" title="Get the Administration represented by the IAdministrationClient" alt="" coords="841,5,1016,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_tests_1_1_administration_test.html#ae81f60b9e196bd90598f294dd45621f2" title=" " alt="" coords="555,5,793,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_tests_1_1_administration_test.html#aa41c1e37002472723f7ecf389377db65" title=" " alt="" coords="268,5,507,47"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_tests_1_1_integration_test.html#a30a2c73a360c77b3c5c26800e17fa5e0" title=" " alt="" coords="5,5,220,47"/>
-</map>

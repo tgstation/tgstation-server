@@ -1,9 +1,0 @@
-<map id="Tgstation.Server.Host.IO.IIOManager.ReadAllBytes" name="Tgstation.Server.Host.IO.IIOManager.ReadAllBytes">
-<area shape="rect" id="node1" title="Returns all the contents of a file at path &#160;as a byte array" alt="" coords="644,108,815,149"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a3b92be081e2beac876e749532a6d1d87" title="Check if it should and run the SetupWizard if necessary." alt="" coords="355,5,557,47"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a1f48709bfdc0a2d5f675a2a2862755aa" title="Adds server side includes to the .dme being compiled" alt="" coords="337,71,575,112"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#af7ad93cfb1c7c7718a3b1ffe3e12d42d" title="Symlinks all directories in the GameData directory to destination" alt="" coords="332,137,580,193"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_executable_lock.html#aaefbc3a18632926c53945415b70b33fc" title="Add a given fullDmbPath &#160;to the trusted DMBs list in BYOND&#39;s config." alt="" coords="316,217,596,259"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#ae78c3f7bde77d9470e413adba88d2ae4" title=" " alt="" coords="43,5,231,47"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a90c81ec6a44a188164e5ae50e6430a7d" title="Executes and populate a given job" alt="" coords="5,71,268,112"/>
-</map>

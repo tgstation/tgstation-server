@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.System.INetworkPromptReaper" name="Tgstation.Server.Host.System.INetworkPromptReaper">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_posix_network_prompt_reaper.html" title="Tgstation.Server.Host.System.\lPosixNetworkPromptReaper" alt="" coords="271,5,489,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html" title="Tgstation.Server.Host.System.\lWindowsNetworkPromptReaper" alt="" coords="271,71,489,112"/>
-</map>

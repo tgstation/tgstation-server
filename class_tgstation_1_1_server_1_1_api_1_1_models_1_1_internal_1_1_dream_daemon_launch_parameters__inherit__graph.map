@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters" name="Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_settings.html" title="Configurable settings for DreamDaemon " alt="" coords="347,39,573,80"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_dream_daemon.html" title="Represents an instance of BYOND&#39;s DreamDaemon game server. Create action starts the server..." alt="" coords="627,5,829,47"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dream_daemon_settings.html" title="Tgstation.Server.Host.Models.\lDreamDaemonSettings" alt="" coords="621,71,835,112"/>
-</map>

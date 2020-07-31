@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.SessionController.Release" name="Tgstation.Server.Host.Components.Watchdog.SessionController.Release">
-<area shape="rect" id="node1" title="Releases the IProcess without terminating it. Also calls IDisposable.Dispose" alt="" coords="5,71,244,112"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#ab0dfcae37e616a35d85fce7af3e432d8" title="Throws an ObjectDisposedException if Dispose(bool) has been called" alt="" coords="292,5,575,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a38c78aee4660c3fb696fe2ea5396cd21" title=" " alt="" coords="314,71,553,112"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_executable_lock.html#aefcf67dd06a656e319e6d6e42a2aef81" title="Call if, during a detach, this version should not be deleted" alt="" coords="297,137,570,193"/>
-</map>

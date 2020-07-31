@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Controllers.DreamDaemonController.Delete" name="Tgstation.Server.Host.Controllers.DreamDaemonController.Delete">
-<area shape="rect" id="node1" title="Stops the Watchdog if it&#39;s running." alt="" coords="5,39,221,80"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#af8941660b12690639e314c4c266e33c4" title="Get the IInstance associated with given metadata" alt="" coords="269,5,496,47"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html#a7fded5c4b8aeb291ad5b1797a25eee14" title="Stops the watchdog" alt="" coords="269,71,496,112"/>
-</map>

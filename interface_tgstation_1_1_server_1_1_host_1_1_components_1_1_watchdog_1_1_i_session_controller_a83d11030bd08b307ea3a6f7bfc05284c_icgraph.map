@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.ISessionController.SetPort" name="Tgstation.Server.Host.Components.Watchdog.ISessionController.SetPort">
-<area shape="rect" id="node1" title="Causes the world to start listening on a newPort" alt="" coords="636,13,875,54"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html#a8b1f961ac1d7bc6c815d01b9bccad487" title="Handles the actions to take when the monitor has to &quot;wake up&quot;" alt="" coords="320,5,588,61"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html#a8d676609895840ea192fabcbdb385707" title="The loop that watches the watchdog" alt="" coords="5,5,272,61"/>
-</map>

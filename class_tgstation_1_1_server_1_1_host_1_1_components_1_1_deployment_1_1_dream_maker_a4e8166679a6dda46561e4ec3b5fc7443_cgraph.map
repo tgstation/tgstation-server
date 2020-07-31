@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Deployment.DreamMaker.CleanupFailedCompile" name="Tgstation.Server.Host.Components.Deployment.DreamMaker.CleanupFailedCompile">
-<area shape="rect" id="node1" title="Cleans up a failed compile job" alt="" coords="5,63,260,119"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="348,5,529,47"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="355,71,522,112"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a1c677efa2950c69ddf14802d02a2b50d" title="Send a chat message &#160;to configured update channels" alt="" coords="308,136,569,177"/>
-</map>

@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Api.Models.TestMergeParameters" name="Tgstation.Server.Api.Models.TestMergeParameters">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_test_merge_base.html" title="Layer of test merge data required internally " alt="" coords="256,71,459,112"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_test_merge.html" title="Represents a merge of a GitHub pull request " alt="" coords="533,37,735,79"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_test_merge_information.html" title="This model mirrors /datum/tgs_revision_information/test_merge " alt="" coords="507,103,761,144"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge.html" title="Tgstation.Server.Api.Models.\lTestMerge" alt="" coords="815,5,1017,47"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html" title="Tgstation.Server.Host.Models.\lTestMerge" alt="" coords="809,71,1023,112"/>
-</map>

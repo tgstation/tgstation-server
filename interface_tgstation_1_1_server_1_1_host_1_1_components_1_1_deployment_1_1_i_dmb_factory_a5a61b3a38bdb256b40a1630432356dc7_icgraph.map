@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Deployment.IDmbFactory.FromCompileJob" name="Tgstation.Server.Host.Components.Deployment.IDmbFactory.FromCompileJob">
-<area shape="rect" id="node1" title="Gets a IDmbProvider for a given CompileJob" alt="" coords="280,5,551,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_reattach_info_handler.html#a061b19ede4db939c9eaa44760dc71296" title="Load a saved WatchdogReattachInformation" alt="" coords="5,5,232,47"/>
-</map>

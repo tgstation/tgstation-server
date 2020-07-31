@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.ReattachInformation.SetRuntimeInformation" name="Tgstation.Server.Host.Components.Watchdog.ReattachInformation.SetRuntimeInformation">
-<area shape="rect" id="node1" title="Set the RuntimeInformation post construction." alt="" coords="691,31,963,87"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller_factory.html#afc88772088200c0924fdfb2373a5a6c8" title="Create a ISessionController from an existing DreamDaemon instance" alt="" coords="356,39,643,80"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#ac137b30b2ab5355806d0394f7411f736" title="Starts all ISessionControllers." alt="" coords="27,5,287,47"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html#a0d42fb1f490a6ca44712dd236bceca92" title="Starts all ISessionControllers." alt="" coords="5,71,308,112"/>
-</map>

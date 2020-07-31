@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Chat.ChatTrackingContext" name="Tgstation.Server.Host.Components.Chat.ChatTrackingContext">
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_tracking_context.html" title="Represents a tracking of dynamic chat json files " alt="" coords="206,31,362,57"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_channel_sink.html" title="Notifyee of when ChannelRepresentations in a IChatTrackingContext are updated. " alt="" coords="5,5,109,32"/>
-<area shape="rect" id="node4" href="$class_i_disposable.html" title="IDisposable" alt="" coords="10,56,105,83"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext " alt="" coords="159,278,409,319"/>
-<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_channel_sink.html" title="Notifyee of when ChannelRepresentations in a IChatTrackingContext are updated. " alt="" coords="159,446,409,487"/>
-</map>

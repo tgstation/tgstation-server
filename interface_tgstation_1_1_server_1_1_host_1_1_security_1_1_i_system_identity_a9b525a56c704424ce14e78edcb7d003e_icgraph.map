@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Host.Security.ISystemIdentity.RunImpersonated" name="Tgstation.Server.Host.Security.ISystemIdentity.RunImpersonated">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a9e6d3a7af0e253142f6ea1fe932f6002" title="Create an empty directory at configurationRelativePath &#160;&#160;" alt="" coords="288,5,568,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a79f673d1a6c8868b648c0c3393e34d27" title="Attempt to delete an empty directory at configurationRelativePath &#160;&#160;" alt="" coords="289,71,567,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a345e802c3d53374b244c935d2ae0047b" title="Get ConfigurationFile for all items in a given configurationRelativePath &#160;&#160;" alt="" coords="299,136,557,177"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ad62e7c4dde34d7c7d1039bcbf03c5b72" title="Reads a given configurationRelativePath &#160;&#160;" alt="" coords="303,201,553,243"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ac6f986527806a782c0bea1ab51d7f0ad" title="Writes to a given configurationRelativePath &#160;&#160;" alt="" coords="303,267,553,308"/>
-</map>

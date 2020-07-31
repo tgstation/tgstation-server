@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.Tests.TestExperimentalWatchdog.TestConstruction" name="Tgstation.Server.Host.Components.Watchdog.Tests.TestExperimentalWatchdog.TestConstruction">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,291,61"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a674ad9d3fd9d5716186fdb65b99d40ab" title=" " alt="" coords="339,13,565,54"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ad03dbc1b36b5c42f944d93f13f6260af" title="Call IDisposable.Dispose and null the fields for all ISessionControllers and set Running to false." alt="" coords="613,5,884,61"/>
-</map>

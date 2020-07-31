@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog.HandleNewDmbAvailable" name="Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog.HandleNewDmbAvailable">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a7750549dee1e98a8d5a2299fcf8fbd87" title="Tgstation.Server.Host.Components.\lDeployment.SwappableDmbProvider.Dispose" alt="" coords="375,5,685,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#aa5ae13811ef0862a54741653dc058783" title="Gets the next IDmbProvider &#160;" alt="" coords="393,71,667,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#aad43d92c91213a21064a18f0006a310b" title="Make the SwappableDmbProvider active by replacing the live link with our CompileJob. " alt="" coords="364,136,696,177"/>
-</map>

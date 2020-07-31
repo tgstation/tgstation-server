@@ -1,9 +1,0 @@
-<map id="Tgstation.Server.Tests.Instance.WatchdogTest.DeployTestDme" name="Tgstation.Server.Tests.Instance.WatchdogTest.DeployTestDme">
-<area shape="rect" id="node1" title=" " alt="" coords="5,123,213,165"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_dream_maker_client.html#a548a8f4daed30ab49f77a23b1c125078" title="Compile the current repository revision" alt="" coords="282,5,495,61"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_dream_daemon_client.html#a1e6a43558dcadc261304053b63476323" title="Get the DreamDaemon represented by the IDreamDaemonClient" alt="" coords="261,86,516,127"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_dream_maker_client.html#a328b3fb9bebf37474ab554894b43eb54" title="Updates the DreamMaker setttings" alt="" coords="282,152,495,208"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_jobs_required_test.html#a11c99468369d8d269d2de1377a518c23" title=" " alt="" coords="285,233,493,274"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a50456aace539b2c54afc8f8218278c49" title="Cancels a job" alt="" coords="564,199,767,241"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a1a7399807a0abd4dfaed05c1c0d3adff" title="Get a job" alt="" coords="568,265,763,306"/>
-</map>

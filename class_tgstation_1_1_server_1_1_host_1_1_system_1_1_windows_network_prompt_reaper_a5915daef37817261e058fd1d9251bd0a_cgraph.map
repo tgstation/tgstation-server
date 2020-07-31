@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.System.WindowsNetworkPromptReaper.Run" name="Tgstation.Server.Host.System.WindowsNetworkPromptReaper.Run">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#aaff201757860dd95c1ab3047ac6e2ec8" title="See https://docs.microsoft.com/en&#45;us/windows/desktop/api/winuser/nf&#45;winuser&#45;findwindoww ..." alt="" coords="324,5,529,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#aab504dccd83453d3af13a7e4feceb7a9" title="See https://docs.microsoft.com/en&#45;us/windows/desktop/api/winuser/nf&#45;winuser&#45;getwindowtextw ..." alt="" coords="324,71,529,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a346862e4a517dcfe04a256ec49e7ecea" title="See https://docs.microsoft.com/en&#45;us/windows/desktop/api/winuser/nf&#45;winuser&#45;getwindowthreadprocessid ..." alt="" coords="299,136,555,177"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a23bd1ebb88ecd7ec9ae0ae7b867a05e7" title="See https://docs.microsoft.com/en&#45;us/windows/desktop/api/winuser/nf&#45;winuser&#45;sendmessage ..." alt="" coords="324,201,529,243"/>
-</map>

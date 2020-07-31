@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.System.Process" name="Tgstation.Server.Host.System.Process">
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process " alt="" coords="377,5,452,32"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html" title="Represents process lifetime " alt="" coords="149,5,256,32"/>
-<area shape="rect" id="node4" href="$class_i_disposable.html" title="IDisposable" alt="" coords="5,5,100,32"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html" title="Abstraction for suspending and resuming processes. " alt="" coords="306,57,523,98"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Interop.IBridgeRegistrar.RegisterHandler" name="Tgstation.Server.Host.Components.Interop.IBridgeRegistrar.RegisterHandler">
-<area shape="rect" id="node1" title="Register a given bridgeHandler ." alt="" coords="347,5,600,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a43a54be6176defee0a8efb3f4bf96ca3" title="Construct a SessionController" alt="" coords="5,5,299,47"/>
-</map>

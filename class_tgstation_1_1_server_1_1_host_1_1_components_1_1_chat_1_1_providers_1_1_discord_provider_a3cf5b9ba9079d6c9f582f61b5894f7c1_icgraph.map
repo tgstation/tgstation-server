@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.NormalizeMentions" name="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.NormalizeMentions">
-<area shape="rect" id="node1" title="Normalize a discord mention string" alt="" coords="587,5,849,61"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3866a830f4cedcfdc6b2d1ca7e87ab4d" title="Handle a message recieved from Discord" alt="" coords="301,5,539,61"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a8b7a115b697a54940a0f18bfb14ed3bf" title="Construct a DiscordProvider" alt="" coords="5,5,253,61"/>
-</map>

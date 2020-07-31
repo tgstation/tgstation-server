@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Deployment.DmbProvider.Dispose" name="Tgstation.Server.Host.Components.Deployment.DmbProvider.Dispose">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#af0268d30e70a14c2cff65d09e6ca6df5" title="Gets a IDmbProvider for a given CompileJob &#160;" alt="" coords="304,53,591,94"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html#a5a565163e10719633133b8d2898da47f" title="Handles the actions to take when the monitor has to &quot;wake up&quot; &#160;" alt="" coords="639,5,921,61"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a60aa38bc3e5b6b41cd5961f2e0ef3584" title="Prepare the server to launch a new instance with the WatchdogBase.ActiveLaunchParameters and a given ..." alt="" coords="641,85,919,141"/>
-</map>

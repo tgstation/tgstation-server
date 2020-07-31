@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Models.User.CanonicalizeName" name="Tgstation.Server.Host.Models.User.CanonicalizeName">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a1eed27ad5d706f6f3f4c691704205f67" title="Get or create the admin User. " alt="" coords="277,5,507,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a196c86026367b0e221d580ef36d97c83" title="Add a default admin User to a given databaseContext &#160;" alt="" coords="273,71,511,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afb736b47a7400fb861186b8dad1c4c4c" title="Pull the repository and compile for every set of given minutes &#160;" alt="" coords="267,136,517,177"/>
-</map>

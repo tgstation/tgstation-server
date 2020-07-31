@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Client.InstanceManagerClient" name="Tgstation.Server.Client.InstanceManagerClient">
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html" title="For managing Instances " alt="" coords="154,5,325,32"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API " alt="" coords="154,57,325,98"/>
-<area shape="rect" id="node4" href="$class_i_disposable.html" title="IDisposable" alt="" coords="5,64,100,91"/>
-</map>

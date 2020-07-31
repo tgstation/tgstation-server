@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.SessionController.ResetRebootState" name="Tgstation.Server.Host.Components.Watchdog.SessionController.ResetRebootState">
-<area shape="rect" id="node1" title="Changes RebootState to RebootState.Normal without telling the DMAPI" alt="" coords="5,5,303,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#ab0dfcae37e616a35d85fce7af3e432d8" title="Throws an ObjectDisposedException if Dispose(bool) has been called" alt="" coords="351,5,633,47"/>
-</map>

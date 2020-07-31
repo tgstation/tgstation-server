@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Core.Application.CreateDefaultServerFactory" name="Tgstation.Server.Host.Core.Application.CreateDefaultServerFactory">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_tests_1_1_testing_server.html#a7d19098a2596440ddea199ecb21cb3dc" title="Runs the IServer " alt="" coords="298,5,509,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_tests_1_1_test_server_factory.html#a955264eb92a8410e9d602bc7bb9d83c0" title="Tgstation.Server.Host.Tests.\lTestServerFactory.TestWorksWithout\lUpdatePath" alt="" coords="280,70,527,126"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_tests_1_1_test_server_factory.html#a254cc08651440beca3a79ef177f017f6" title="Tgstation.Server.Host.Tests.\lTestServerFactory.TestWorksWith\lUpdatePath" alt="" coords="290,150,517,206"/>
-</map>

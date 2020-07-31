@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.InitControllers" name="Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.InitControllers">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a2e3fbaee5882bbf0cae1b195808aa2d8" title="Create a ISessionController from a freshly launch DreamDaemon instance &#160;" alt="" coords="329,5,639,47"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#aa5ae13811ef0862a54741653dc058783" title="Gets the next IDmbProvider &#160;" alt="" coords="347,71,621,112"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a43661606c528da37b2aea840fe5766ef" title="Create a ISessionController from an existing DreamDaemon instance &#160;" alt="" coords="338,136,630,177"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_executable_lock.html#a1c0099bbd7870ed77fb8a579621efdd8" title="Add a given fullDmbPath &#160;to the trusted DMBs list in BYOND&#39;s config. " alt="" coords="687,5,988,47"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html#a56616a95d65e523becb086f2042d8a93" title="Set the RuntimeInformation post construction. " alt="" coords="696,129,979,185"/>
-</map>

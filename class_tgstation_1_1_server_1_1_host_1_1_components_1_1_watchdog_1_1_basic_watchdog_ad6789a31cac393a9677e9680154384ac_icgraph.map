@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.HandleNewDmbAvailable" name="Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.HandleNewDmbAvailable">
-<area shape="rect" id="node1" title="Handler for MonitorActivationReason.NewDmbAvailable." alt="" coords="689,5,963,61"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a734af406522508a40b77fe6044194a90" title=" " alt="" coords="329,13,641,54"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#ad271dced7fa954ea965dd60794e9755a" title="The loop that watches the watchdog" alt="" coords="5,13,281,54"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.IO.DefaultIOManager.ConcatPath" name="Tgstation.Server.Host.IO.DefaultIOManager.ConcatPath">
-<area shape="rect" id="node1" title="Combines an array of strings into a path" alt="" coords="316,39,513,80"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html#a50b2302533637090939afbb9dee042ee" title="Retrieve the full path of some path &#160;given a relative path. Must be used before passing relative path..." alt="" coords="29,5,245,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html#a4e9c20b01d6d66f04eb106365f9d7a1a" title="Construct a ResolvingIOManager" alt="" coords="5,71,268,112"/>
-</map>

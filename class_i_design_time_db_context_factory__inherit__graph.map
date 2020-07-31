@@ -1,6 +1,0 @@
-<map id="IDesignTimeDbContextFactory" name="IDesignTimeDbContextFactory">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_my_sql_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating MySqlDatabaseContexts. " alt="" coords="283,5,540,76"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_postgres_sql_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating PostgresSqlDatabaseContexts. " alt="" coords="268,100,555,171"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_sqlite_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating SqliteDatabaseContexts. " alt="" coords="284,195,539,265"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_sql_server_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating SqlServerDatabaseContexts. " alt="" coords="275,289,547,360"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.System.IProcess" name="Tgstation.Server.Host.System.IProcess">
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html" title="Tgstation.Server.Host.System.\lProcess" alt="" coords="5,244,223,285"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html" title="Represents process lifetime " alt="" coords="61,80,167,107"/>
-<area shape="rect" id="node3" href="$class_i_disposable.html" title="IDisposable" alt="" coords="67,5,161,32"/>
-</map>

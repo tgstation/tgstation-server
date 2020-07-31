@@ -1,6 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_i_async_enumerable.html" title="IAsyncEnumerable" alt="" coords="5,5,145,32"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title="Represents a database table. " alt="" coords="193,23,424,65"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_collection.html" title="Tgstation.Server.Host.Database.\lDatabaseCollection\&lt; TModel \&gt;" alt="" coords="472,23,703,65"/>
-<area shape="rect" id="node4" href="$class_i_queryable.html" title="IQueryable" alt="" coords="30,56,121,83"/>
-</map>

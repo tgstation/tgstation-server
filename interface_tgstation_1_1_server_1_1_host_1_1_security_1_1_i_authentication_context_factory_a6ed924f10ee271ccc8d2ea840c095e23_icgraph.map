@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Security.IAuthenticationContextFactory.CreateAuthenticationContext" name="Tgstation.Server.Host.Security.IAuthenticationContextFactory.CreateAuthenticationContext">
-<area shape="rect" id="node1" title="Create an IAuthenticationContext to populate CurrentAuthenticationContext" alt="" coords="299,5,537,61"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_claims_injector.html#a68b33948ac77f08ab2dc17209ce78314" title="Setup the global::System.Security.Claims.Claims for a given tokenValidatedContext" alt="" coords="5,13,251,54"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.IO.ResolvingIOManager" name="Tgstation.Server.Host.IO.ResolvingIOManager">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html" title="IIOManager that resolves paths to Environment.CurrentDirectory " alt="" coords="27,80,164,107"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems " alt="" coords="48,5,143,32"/>
-</map>

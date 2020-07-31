@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Client.Components.JobsClient.Cancel" name="Tgstation.Server.Client.Components.JobsClient.Cancel">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_jobs_required_test.html#a11c99468369d8d269d2de1377a518c23" title="Tgstation.Server.Tests.Instance.\lJobsRequiredTest.WaitForJob" alt="" coords="285,5,509,47"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_jobs_required_test.html#aaf35a2f1ac25ee9e7ca1c96cb72f4596" title="Tgstation.Server.Tests.Instance.\lJobsRequiredTest.WaitForJobProgress\lThenCancel" alt="" coords="271,70,524,126"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_tests_1_1_integration_test.html#aa3c65821e5a7c1150fdcbc91c638dc5c" title="Tgstation.Server.Tests.Integration\lTest.TestServer" alt="" coords="572,5,807,47"/>
-</map>

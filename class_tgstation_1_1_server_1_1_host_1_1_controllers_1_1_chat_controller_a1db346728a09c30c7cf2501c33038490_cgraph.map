@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Controllers.ChatController.List" name="Tgstation.Server.Host.Controllers.ChatController.List">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType &#160;&#160;" alt="" coords="291,39,515,80"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb" title="Check if a given rightsType &#160;is meant for an Models.Instance " alt="" coords="563,5,765,47"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c" title="Map a given rightsType &#160;to its respective Enum Type " alt="" coords="565,71,763,112"/>
-</map>

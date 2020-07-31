@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.IWatchdogFactory.CreateWatchdog" name="Tgstation.Server.Host.Components.Watchdog.IWatchdogFactory.CreateWatchdog">
-<area shape="rect" id="node1" title="Creates a IWatchdog" alt="" coords="280,5,572,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#ac02a0bbbf943e2b7db0d57398283b497" title="Create an IInstance" alt="" coords="5,5,232,47"/>
-</map>

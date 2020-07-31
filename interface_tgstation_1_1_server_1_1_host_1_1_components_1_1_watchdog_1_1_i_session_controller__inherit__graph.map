@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.ISessionController" name="Tgstation.Server.Host.Components.Watchdog.ISessionController">
-<area shape="rect" id="node1" title="Handles communication with a DreamDaemon IProcess" alt="" coords="293,39,520,80"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_dead_session_controller.html" title="Implements a fake &quot;dead&quot; ISessionController" alt="" coords="568,5,795,47"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html" title=" " alt="" coords="568,71,795,112"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html" title="Represents process lifetime" alt="" coords="143,46,245,73"/>
-<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="5,46,95,73"/>
-</map>

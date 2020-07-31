@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Deployment.WindowsSwappableDmbProvider" name="Tgstation.Server.Host.Components.Deployment.WindowsSwappableDmbProvider">
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs " alt="" coords="107,80,215,107"/>
-<area shape="rect" id="node3" href="$class_i_disposable.html" title="IDisposable" alt="" coords="113,5,208,32"/>
-</map>

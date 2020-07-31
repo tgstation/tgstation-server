@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Tests.TestProgram.TestStandardRunWithRestart" name="Tgstation.Server.Host.Tests.TestProgram.TestStandardRunWithRestart">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_program.html#ad9df0f26f38c75cf0c376910caef770c" title="Entrypoint for the Program " alt="" coords="293,42,547,69"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_server_factory.html#a063542cb78195a507feb3c0e6921b01b" title="Create a IServer " alt="" coords="607,5,817,47"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_server.html#a2b5c3521d783dd9eee7a3e4f2e03fc9f" title="Runs the IServer " alt="" coords="595,71,829,98"/>
-</map>

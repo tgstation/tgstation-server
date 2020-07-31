@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Database.DatabaseCollection&lt; TModel &gt;" name="Tgstation.Server.Host.Database.DatabaseCollection&lt; TModel &gt;">
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html" title="Represents a database table. " alt="" coords="120,80,269,121"/>
-<area shape="rect" id="node3" href="$class_i_queryable.html" title="IQueryable\&lt; TModel \&gt;" alt="" coords="5,5,171,32"/>
-<area shape="rect" id="node4" href="$class_i_async_enumerable.html" title="IAsyncEnumerable\&lt; TModel \&gt;" alt="" coords="195,5,410,32"/>
-</map>

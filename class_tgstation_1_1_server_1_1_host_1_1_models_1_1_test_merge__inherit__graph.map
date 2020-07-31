@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Models.TestMerge" name="Tgstation.Server.Host.Models.TestMerge">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_test_merge.html" title="Represents a merge of a GitHub pull request " alt="" coords="37,155,187,196"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_test_merge_base.html" title="Layer of test merge data required internally " alt="" coords="53,80,171,107"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html" title="Parameters for creating a TestMerge " alt="" coords="31,5,193,32"/>
-</map>

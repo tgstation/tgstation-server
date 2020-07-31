@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Controllers.DreamMakerController.Read" name="Tgstation.Server.Host.Controllers.DreamMakerController.Read">
-<area shape="rect" id="node1" title="Read current DreamMaker status." alt="" coords="5,5,221,47"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#af8941660b12690639e314c4c266e33c4" title="Get the IInstance associated with given metadata" alt="" coords="269,5,496,47"/>
-</map>

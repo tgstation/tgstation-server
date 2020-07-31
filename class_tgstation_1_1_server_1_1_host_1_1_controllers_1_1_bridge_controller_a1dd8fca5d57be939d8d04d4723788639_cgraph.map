@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Controllers.BridgeController.Process" name="Tgstation.Server.Host.Controllers.BridgeController.Process">
-<area shape="rect" id="node1" title="Processes a bridge request." alt="" coords="5,13,221,54"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_i_bridge_dispatcher.html#a3e0ae88b89276bbe42895baaab1eabe1" title="Handle a set of bridge parameters ." alt="" coords="269,5,525,61"/>
-</map>

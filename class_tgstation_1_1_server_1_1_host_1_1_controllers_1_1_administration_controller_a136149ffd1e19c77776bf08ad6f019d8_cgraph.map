@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Controllers.AdministrationController.CheckReleasesAndApplyUpdate" name="Tgstation.Server.Host.Controllers.AdministrationController.CheckReleasesAndApplyUpdate">
-<area shape="rect" id="node1" title="Try to download and apply an update with a given newVersion ." alt="" coords="5,63,260,119"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a08e0b784b8a22398a183e759446bf5f3" title="Run a new Host assembly and stop the current one. This will likely trigger all active CancellationTok..." alt="" coords="347,5,528,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a35af4d06cfa01eea597d3e29e74b0e21" title=" " alt="" coords="308,71,567,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#ae04b510fcc8e0f4cc9e380b3995e2f21" title=" " alt="" coords="328,136,547,177"/>
-</map>

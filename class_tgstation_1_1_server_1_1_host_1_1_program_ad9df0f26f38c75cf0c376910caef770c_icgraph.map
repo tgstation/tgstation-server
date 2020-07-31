@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Host.Program.Main" name="Tgstation.Server.Host.Program.Main">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_tests_1_1_test_program.html#a57fc12003b3c917a239edb73c46f876e" title="Tgstation.Server.Host.Tests.\lTestProgram.TestIncompatibleWatchdog" alt="" coords="307,5,581,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_tests_1_1_test_program.html#ac30c37dba3594bc812faef356ee4ff3a" title="Tgstation.Server.Host.Tests.\lTestProgram.TestStandardRun" alt="" coords="337,71,551,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_tests_1_1_test_program.html#a5d1a26f8193fa5f8c8bb5c7548704aa3" title="Tgstation.Server.Host.Tests.\lTestProgram.TestStandardRunWith\lException" alt="" coords="324,135,564,191"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_tests_1_1_test_program.html#ab4c5266c27fe1210841e02e740f04bb0" title="Tgstation.Server.Host.Tests.\lTestProgram.TestStandardRunWith\lExceptionAndWatchdog" alt="" coords="324,215,564,271"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_tests_1_1_test_program.html#aae5a6ab936dca9e0b1ea5714a2f95f96" title="Tgstation.Server.Host.Tests.\lTestProgram.TestStandardRunWith\lRestart" alt="" coords="324,295,564,351"/>
-</map>

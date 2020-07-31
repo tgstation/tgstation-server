@@ -1,8 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.LaunchImplNoLock" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.LaunchImplNoLock">
-<area shape="rect" id="node1" title="Launches the watchdog." alt="" coords="5,104,293,145"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a37ced913cc4105a8df8250579bace8f8" title="Starts all ISessionControllers." alt="" coords="352,5,609,47"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#afd05b7393661f33ea421cc169b621cea" title="Send a chat message &#160;to configured watchdog channels" alt="" coords="341,71,620,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a4a2930b2a0a2ae99537024bb3cd4c397" title="Call MonitorLifetimes(CancellationToken) and setup monitorCts and monitorTask." alt="" coords="356,136,605,177"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a565b987a394c375c75b3fe14ca3f75e1" title="Stops MonitorLifetimes(CancellationToken). Doesn&#39;t kill the servers" alt="" coords="357,201,605,243"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a4863be0a433eff6e496eb03230759fc5" title="The loop that watches the watchdog" alt="" coords="668,136,941,177"/>
-</map>

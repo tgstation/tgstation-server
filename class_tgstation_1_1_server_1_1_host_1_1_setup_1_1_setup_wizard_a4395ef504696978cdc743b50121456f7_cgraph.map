@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Setup.SetupWizard.ConfigureControlPanel" name="Tgstation.Server.Host.Setup.SetupWizard.ConfigureControlPanel">
-<area shape="rect" id="node1" title="Prompts the user to create a ControlPanelConfiguration" alt="" coords="5,51,235,92"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a2b5172f9969a8c21d0f5c98bf362f610" title="A prompt for a yes or no value" alt="" coords="283,51,471,92"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#a5bdc0f5d449d520355dccb0f01cc0694" title="Read a line from the IConsole" alt="" coords="519,5,685,47"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_console.html#af9dd7697e9f6a0f4a62567e28cd6c470" title="Write some text &#160;to the IConsole" alt="" coords="519,84,685,125"/>
-</map>

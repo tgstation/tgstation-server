@@ -1,8 +1,0 @@
-<map id="Tgstation.Server.Host.Components.ReattachInfoHandler" name="Tgstation.Server.Host.Components.ReattachInfoHandler">
-<area shape="rect" id="node1" title=" " alt="" coords="427,107,653,149"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_reattach_info_handler.html" title="Handles saving and loading WatchdogReattachInformation" alt="" coords="48,5,189,32"/>
-<area shape="rect" id="node3" title=" " alt="" coords="98,56,139,83"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components" alt="" coords="14,107,223,149"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html" title="Factory for IDmbProviders" alt="" coords="5,173,232,214"/>
-<area shape="rect" id="node6" title=" " alt="" coords="7,239,230,295"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.SessionController.SessionController" name="Tgstation.Server.Host.Components.Watchdog.SessionController.SessionController">
-<area shape="rect" id="node1" title="Construct a SessionController" alt="" coords="5,71,299,112"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_i_bridge_registrar.html#ad815f7303414c9690a89a52376cc65eb" title="Register a given bridgeHandler ." alt="" coords="360,5,613,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#aadd038fbffde831297ba7de89bc023ae" title="Sends a command to DreamDaemon through /world/Topic()" alt="" coords="347,71,627,112"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_tracking_context.html#affd4bf60a56058a56804994741cceff5" title="Sets the channelSink &#160;for the IChatTrackingContext." alt="" coords="349,136,624,177"/>
-</map>

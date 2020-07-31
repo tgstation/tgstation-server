@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Components.InstanceManager.MoveInstance" name="Tgstation.Server.Host.Components.InstanceManager.MoveInstance">
-<area shape="rect" id="node1" title="Move an IInstance" alt="" coords="5,71,232,112"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#aab4ec78e2b2d66ad39642ed92a66250c" title="Copies a directory from src &#160;to dest" alt="" coords="313,5,488,47"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="310,71,491,112"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42" title="Run an operation &#160;in the scope of an IDatabaseContext" alt="" coords="280,136,521,177"/>
-</map>

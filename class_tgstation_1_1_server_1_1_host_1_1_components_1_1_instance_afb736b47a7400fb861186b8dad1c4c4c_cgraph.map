@@ -1,8 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Instance.TimerLoop" name="Tgstation.Server.Host.Components.Instance.TimerLoop">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16" title="Change a Api.Models.Internal.User.Name into a CanonicalName. " alt="" coords="357,5,570,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ab03690c5e8fd15c8d3f7c746a36a9f37" title="Tgstation.Server.Host.Components.\lDeployment.DreamMaker.DeploymentProcess" alt="" coords="304,71,623,112"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a2c18ce561bf0c223b821e38b63fea5ec" title="Construct an Instance " alt="" coords="675,129,926,171"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#afcab0cdc52ae45ecd0dfba5c7630e303" title="Attempt to load the IRepository from the default location &#160;" alt="" coords="307,188,619,229"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#ad2118970749039c0d44a9eb4698d97e1" title="Construct a Repository " alt="" coords="338,253,589,295"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42" title="Run an operation &#160;in the scope of an IDatabaseContext " alt="" coords="671,64,931,105"/>
-</map>

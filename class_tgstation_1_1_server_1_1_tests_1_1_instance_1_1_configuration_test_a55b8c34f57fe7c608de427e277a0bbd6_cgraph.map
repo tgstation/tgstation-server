@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Tests.Instance.ConfigurationTest.Run" name="Tgstation.Server.Tests.Instance.ConfigurationTest.Run">
-<area shape="rect" id="node1" title=" " alt="" coords="5,86,213,127"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_configuration_test.html#ae45683361822c5c2bec81a98f5efcfd4" title=" " alt="" coords="261,86,501,127"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#ab64268e03bd3451604bf4c4bdbbec2ba" title="Delete an empty directory" alt="" coords="565,5,779,61"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_configuration_test.html#a829c327d0e5cbc853d13fdc174403d2e" title=" " alt="" coords="568,86,776,127"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#ae72948a1a0f52e1a84b0e430c1984e4b" title="Overwrite a ConfigurationFile file" alt="" coords="549,151,795,193"/>
-</map>

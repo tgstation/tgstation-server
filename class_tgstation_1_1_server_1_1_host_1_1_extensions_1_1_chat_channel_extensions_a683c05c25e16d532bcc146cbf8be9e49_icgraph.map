@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Extensions.ChatChannelExtensions.GetIrcChannelSplits" name="Tgstation.Server.Host.Extensions.ChatChannelExtensions.GetIrcChannelSplits">
-<area shape="rect" id="node1" title="Split a given chatChannel &#39;s ChatChannel.IrcChannel." alt="" coords="324,5,604,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_chat_channel_extensions.html#acd8563e260bd596d20e0b7cfc0636e54" title="Gets the IRC channel key from a given chatChannel ." alt="" coords="5,5,276,47"/>
-</map>

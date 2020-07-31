@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Chat.IChannelSink" name="Tgstation.Server.Host.Components.Chat.IChannelSink">
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_tracking_context.html" title="Represents a tracking of dynamic chat json files " alt="" coords="304,5,555,47"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html" title="Tgstation.Server.Host.Components.\lSession.SessionController" alt="" coords="304,71,555,112"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html" title="Tgstation.Server.Host.Components.\lChat.ChatTrackingContext" alt="" coords="603,5,853,47"/>
-</map>

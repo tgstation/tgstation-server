@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Client.ServerClientFactory.CreateServerClient" name="Tgstation.Server.Client.ServerClientFactory.CreateServerClient">
-<area shape="rect" id="node1" title="Create a IServerClient" alt="" coords="5,5,219,61"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client_factory.html#af1210c7eddf5533d80c0618d99fc6b4d" title="Create an IApiClient" alt="" coords="267,13,479,54"/>
-</map>

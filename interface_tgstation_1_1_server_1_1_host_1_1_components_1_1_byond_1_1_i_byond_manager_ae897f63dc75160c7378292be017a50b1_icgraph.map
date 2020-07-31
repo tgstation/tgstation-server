@@ -1,9 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Byond.IByondManager.UseExecutables" name="Tgstation.Server.Host.Components.Byond.IByondManager.UseExecutables">
-<area shape="rect" id="node1" title="Lock the current installation&#39;s location and return a IByondExecutableLock" alt="" coords="1021,119,1273,161"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller_factory.html#ab0e2cd81474953630d8fc651365a482b" title="Create a ISessionController from a freshly launch DreamDaemon instance" alt="" coords="671,86,973,127"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller_factory.html#afc88772088200c0924fdfb2373a5a6c8" title="Create a ISessionController from an existing DreamDaemon instance" alt="" coords="679,151,965,193"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html#a8b1f961ac1d7bc6c815d01b9bccad487" title="Handles the actions to take when the monitor has to &quot;wake up&quot;" alt="" coords="337,5,605,61"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#ac137b30b2ab5355806d0394f7411f736" title="Starts all ISessionControllers." alt="" coords="341,151,601,193"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html#a0d42fb1f490a6ca44712dd236bceca92" title="Starts all ISessionControllers." alt="" coords="320,86,623,127"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html#a8d676609895840ea192fabcbdb385707" title="The loop that watches the watchdog" alt="" coords="5,5,272,61"/>
-</map>

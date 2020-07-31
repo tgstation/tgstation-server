@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.IO.DefaultIOManager.ReadAllBytes" name="Tgstation.Server.Host.IO.DefaultIOManager.ReadAllBytes">
-<area shape="rect" id="node1" title="Returns all the contents of a file at path &#160;as a byte array" alt="" coords="5,5,213,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4" title="Retrieve the full path of the current working directory." alt="" coords="261,5,463,47"/>
-</map>

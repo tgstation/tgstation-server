@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.DisposeAndNullControllers" name="Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.DisposeAndNullControllers">
-<area shape="rect" id="node1" title="Call IDisposable.Dispose and null the fields for all ISessionControllers and set Running to false." alt="" coords="689,57,963,113"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a734af406522508a40b77fe6044194a90" title=" " alt="" coords="329,5,641,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#ad271dced7fa954ea965dd60794e9755a" title="The loop that watches the watchdog" alt="" coords="5,35,281,76"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#ac137b30b2ab5355806d0394f7411f736" title="Starts all ISessionControllers." alt="" coords="355,123,615,164"/>
-</map>

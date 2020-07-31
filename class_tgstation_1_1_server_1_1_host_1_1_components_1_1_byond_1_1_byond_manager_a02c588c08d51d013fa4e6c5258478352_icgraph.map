@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Byond.ByondManager.VersionKey" name="Tgstation.Server.Host.Components.Byond.ByondManager.VersionKey">
-<area shape="rect" id="node1" title="Converts a BYOND version &#160;to a string" alt="" coords="285,5,512,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a1040d60e5aa5723bfb450c69f5ee02f3" title="Installs a BYOND version &#160;if it isn&#39;t already" alt="" coords="5,5,237,47"/>
-</map>

@@ -1,8 +1,0 @@
-<map id="Tgstation.Server.Tests.Instance.ByondTest.TestInstall511" name="Tgstation.Server.Tests.Instance.ByondTest.TestInstall511">
-<area shape="rect" id="node1" title=" " alt="" coords="5,93,213,134"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_byond_client.html#a98f0743e5c383c7d301a4b436d298c72" title="Get the Byond active System.Version information" alt="" coords="271,5,482,61"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_byond_client.html#a76a30723a9370f391d4ca12fb31e5c71" title="Updates the Byond information" alt="" coords="261,85,492,141"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_jobs_required_test.html#a11c99468369d8d269d2de1377a518c23" title=" " alt="" coords="273,166,481,207"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a50456aace539b2c54afc8f8218278c49" title="Cancels a job" alt="" coords="540,133,743,174"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a1a7399807a0abd4dfaed05c1c0d3adff" title="Get a job" alt="" coords="544,198,739,239"/>
-</map>

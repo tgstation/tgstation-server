@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.SessionController.SendCommand" name="Tgstation.Server.Host.Components.Watchdog.SessionController.SendCommand">
-<area shape="rect" id="node1" title="Sends a command to DreamDaemon through /world/Topic()" alt="" coords="347,71,627,112"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a43a54be6176defee0a8efb3f4bf96ca3" title="Construct a SessionController" alt="" coords="5,5,299,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a25f0b56359996842163f348a227734b9" title="Causes the world to start listening on a newPort" alt="" coords="35,71,269,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a1076b12f9e7bfa7b7bf89f97d20c6c4e" title="Attempts to change the current RebootState to newRebootState" alt="" coords="11,136,293,177"/>
-</map>

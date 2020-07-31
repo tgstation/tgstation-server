@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.TerminateNoLock" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.TerminateNoLock">
-<area shape="rect" id="node1" title="Implementation of Terminate(bool, CancellationToken). Does not lock Semaphore" alt="" coords="579,39,857,80"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a39d65944835fca058d4a4be46eaf81bd" title="Restarts the watchdog" alt="" coords="300,5,527,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a49a9acdffdc9e7cd176f803b23e97ff4" title="Stops the watchdog" alt="" coords="296,71,531,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#aec4f16b34fe08499a4aaff0235ecdc76" title=" " alt="" coords="5,71,248,112"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Components.IInstance.CompileProcess" name="Tgstation.Server.Host.Components.IInstance.CompileProcess">
-<area shape="rect" id="node1" title="Run the compile job and insert it into the database. Meant to be called by a Jobs...." alt="" coords="269,5,496,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html#a7231f4980bd98c9a033e805c90e92c95" title="Begin deploying repository code." alt="" coords="5,5,221,47"/>
-</map>

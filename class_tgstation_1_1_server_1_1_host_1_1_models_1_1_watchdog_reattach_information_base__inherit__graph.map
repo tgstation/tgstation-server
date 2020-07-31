@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Models.WatchdogReattachInformationBase" name="Tgstation.Server.Host.Models.WatchdogReattachInformationBase">
-<area shape="rect" id="node1" title="Base class for WatchdogReattachInformation" alt="" coords="5,39,232,80"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_reattach_information.html" title="Reattach information for a IWatchdog" alt="" coords="280,5,539,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_watchdog_reattach_information.html" title="Database representation of Components.Watchdog.WatchdogReattachInformation" alt="" coords="311,71,507,112"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Api.Routes.SanitizeGetPath" name="Tgstation.Server.Api.Routes.SanitizeGetPath">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#aa5d48433766cd2f29ee60007767f5387" title="Construct an AdministrationClient " alt="" coords="263,5,511,61"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#aed092908af675dfdec16528492815010" title="Construct a ConfigurationClient " alt="" coords="270,85,503,141"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#adb77f8fd7a46572e3c1d6bd90e3e300c" title="Read a ConfigurationFile file &#160;" alt="" coords="255,165,519,206"/>
-</map>

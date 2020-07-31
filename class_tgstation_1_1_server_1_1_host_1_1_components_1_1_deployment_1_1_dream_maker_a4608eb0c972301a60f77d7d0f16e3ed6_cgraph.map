@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Deployment.DreamMaker.SendDeploymentMessage" name="Tgstation.Server.Host.Components.Deployment.DreamMaker.SendDeploymentMessage">
-<area shape="rect" id="node1" title="Send a message to chatManager about a deployment" alt="" coords="5,5,277,61"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a1c677efa2950c69ddf14802d02a2b50d" title="Send a chat message &#160;to configured update channels" alt="" coords="325,13,587,54"/>
-</map>

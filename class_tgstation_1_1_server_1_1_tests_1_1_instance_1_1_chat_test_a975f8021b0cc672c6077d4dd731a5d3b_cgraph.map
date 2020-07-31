@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Tests.Instance.ChatTest.RunDiscord" name="Tgstation.Server.Tests.Instance.ChatTest.RunDiscord">
-<area shape="rect" id="node1" title=" " alt="" coords="5,104,213,145"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_chat_bots_client.html#a781f11da2fc0bc852e57544872e2f47e" title="Create a ChatBot" alt="" coords="263,5,494,47"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_chat_bots_client.html#af3ce02a1214ddb80ef5021683fa1c778" title="Get a ChatBot&#39;s setttings" alt="" coords="267,71,491,112"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_chat_bots_client.html#ad482caafbf4b09fcd950b2121c384803" title="List the ChatBots" alt="" coords="271,136,486,177"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_chat_bots_client.html#ab2356151d04b5f17d797b22dc82c6354" title="Updates a ChatBot&#39;s setttings" alt="" coords="261,201,496,243"/>
-</map>

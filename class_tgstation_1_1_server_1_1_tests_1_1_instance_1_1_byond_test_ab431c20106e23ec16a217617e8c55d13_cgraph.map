@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Tests.Instance.ByondTest.TestNoVersion" name="Tgstation.Server.Tests.Instance.ByondTest.TestNoVersion">
-<area shape="rect" id="node1" title=" " alt="" coords="5,53,213,94"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_byond_client.html#a98f0743e5c383c7d301a4b436d298c72" title="Get the Byond active System.Version information" alt="" coords="268,5,479,61"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_byond_client.html#a1538f8488e7866c4986afe7d3b7ef1a0" title="Get all installed Byond System.Versions" alt="" coords="261,85,485,141"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Jobs.JobManager" name="Tgstation.Server.Host.Jobs.JobManager">
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs " alt="" coords="239,5,339,32"/>
-<area shape="rect" id="node3" href="$class_i_hosted_service.html" title="IHostedService" alt="" coords="5,5,124,32"/>
-<area shape="rect" id="node4" href="$class_i_disposable.html" title="IDisposable" alt="" coords="241,56,336,83"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components " alt="" coords="173,107,404,149"/>
-</map>

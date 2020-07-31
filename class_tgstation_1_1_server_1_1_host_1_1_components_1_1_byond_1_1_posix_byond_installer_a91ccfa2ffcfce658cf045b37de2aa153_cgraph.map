@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Byond.PosixByondInstaller.InstallByond" name="Tgstation.Server.Host.Components.Byond.PosixByondInstaller.InstallByond">
-<area shape="rect" id="node1" title="Does actions necessary to get an extracted BYOND installation working" alt="" coords="5,104,259,145"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path" alt="" coords="325,5,491,47"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_post_write_handler.html#a977c03596e21a07e06d7bc3735c6884f" title="For handling system specific necessities after a write" alt="" coords="307,71,509,112"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="325,136,491,177"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af3e7a63cedbe826cfd27f1a2a411103e" title="Writes some contents &#160;to a file at path &#160;overwriting previous content" alt="" coords="322,201,494,243"/>
-</map>

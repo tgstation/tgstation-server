@@ -1,9 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.SessionController" name="Tgstation.Server.Host.Components.Watchdog.SessionController">
-<area shape="rect" id="node1" title=" " alt="" coords="97,229,323,271"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_session_controller.html" title="Handles communication with a DreamDaemon IProcess" alt="" coords="5,155,132,181"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_base.html" title="Represents process lifetime" alt="" coords="17,80,120,107"/>
-<area shape="rect" id="node4" href="$class_i_disposable.html" title=" " alt="" coords="24,5,113,32"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_i_bridge_handler.html" title=" " alt="" coords="157,155,263,181"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters." alt="" coords="148,80,272,107"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_channel_sink.html" title="Notifyee of when ChannelRepresentations in a IChatTrackingContext are updated." alt="" coords="287,155,386,181"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Jobs.IJobManager.CancelJob" name="Tgstation.Server.Host.Jobs.IJobManager.CancelJob">
-<area shape="rect" id="node1" title="Cancels a give job" alt="" coords="269,39,451,80"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#a1442deb8a2f3296b5125bb385aa3caf2" title="Cancel a running Api.Models.Job." alt="" coords="5,5,221,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#ad31a819fbeeca3ebd71d35892ce10b19" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="5,71,221,112"/>
-</map>

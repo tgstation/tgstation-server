@@ -1,8 +1,0 @@
-<map id="Tgstation.Server.Host.Controllers.RepositoryController.Create" name="Tgstation.Server.Host.Controllers.RepositoryController.Create">
-<area shape="rect" id="node1" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="5,71,221,112"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#af8941660b12690639e314c4c266e33c4" title="Get the IInstance associated with given metadata" alt="" coords="269,5,496,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a169541f29e0361eaba0bf8ba85624f10" title=" " alt="" coords="275,71,491,112"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#ad13e45f48187be1d93f98f7dc60597d2" title="Registers a given Job and begins running it" alt="" coords="281,136,484,177"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#aa50a2c5f9429a3b52acd47e157f93e47" title=" " alt="" coords="544,71,827,112"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_collection.html#abd9cab598d35f6af8c789a1f01bba081" title="Add a given model &#160;to the the working set." alt="" coords="875,71,1084,112"/>
-</map>

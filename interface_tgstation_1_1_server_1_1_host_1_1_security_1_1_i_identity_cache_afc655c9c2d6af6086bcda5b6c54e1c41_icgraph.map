@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Security.IIdentityCache.LoadCachedIdentity" name="Tgstation.Server.Host.Security.IIdentityCache.LoadCachedIdentity">
-<area shape="rect" id="node1" title="Attempt to load a cached ISystemIdentity" alt="" coords="289,13,512,54"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#a2d25109494770497244333f385bd5d7e" title="Create an IAuthenticationContext to populate CurrentAuthenticationContext" alt="" coords="5,5,241,61"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.IO.ISynchronousIOManager.GetFiles" name="Tgstation.Server.Host.IO.ISynchronousIOManager.GetFiles">
-<area shape="rect" id="node1" title="Enumerate files in a given path" alt="" coords="293,5,511,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a345e802c3d53374b244c935d2ae0047b" title="Get ConfigurationFile for all items in a given configurationRelativePath" alt="" coords="5,5,245,47"/>
-</map>

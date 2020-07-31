@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Chat.Providers.IProviderFactory.CreateProvider" name="Tgstation.Server.Host.Components.Chat.Providers.IProviderFactory.CreateProvider">
-<area shape="rect" id="node1" title="Create a IProvider" alt="" coords="555,5,800,61"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ab92aecc1e67b8057488533089666939c" title="Change chat settings. If the ChatBot.Id is not currently in use, a new connection will be made instea..." alt="" coords="280,13,507,54"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae189d33da50a0791f4caf35fa3eb2567" title=" " alt="" coords="5,13,232,54"/>
-</map>

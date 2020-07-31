@@ -1,8 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Chat.Providers.Provider.SetReconnectInterval" name="Tgstation.Server.Host.Components.Chat.Providers.Provider.SetReconnectInterval">
-<area shape="rect" id="node1" title="Set the interval at which the provider tries to reconnect." alt="" coords="5,97,248,153"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a1c80c77a01d4ec41339f00c5f87c9692" title="Creates a Task that will attempt to reconnect the Provider every reconnectInterval &#160;minutes." alt="" coords="312,71,579,112"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a19cca90f9904a5d3535cd27c3e3fe3fe" title="Stops and awaits the reconnectTask." alt="" coords="296,136,595,177"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#affce280626a132f2e2a2731946e39a0c" title="Attempt to connect the IProvider" alt="" coords="661,5,888,47"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a09ac5284bd746cd4a6008e5747c31dc9" title="Gracefully disconnects the provider. Implies a call to IDisposable.Dispose" alt="" coords="661,71,888,112"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac45c189505744c6f1012461193fca877" title="Queues a message &#160;for NextMessage(CancellationToken)" alt="" coords="643,136,907,177"/>
-</map>

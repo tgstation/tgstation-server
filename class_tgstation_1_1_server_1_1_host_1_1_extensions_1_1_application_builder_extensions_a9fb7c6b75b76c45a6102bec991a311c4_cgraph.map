@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Extensions.ApplicationBuilderExtensions.UseDbConflictHandling" name="Tgstation.Server.Host.Extensions.ApplicationBuilderExtensions.UseDbConflictHandling">
-<area shape="rect" id="node1" title="Return a ConflictObjectResult for DbUpdateExceptions" alt="" coords="5,5,283,61"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a9f539001c8a2bbac8addd3505f61a31c" title="Gets a ILogger from a given httpContext" alt="" coords="331,13,585,54"/>
-</map>

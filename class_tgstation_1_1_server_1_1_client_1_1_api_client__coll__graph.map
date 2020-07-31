@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Client.ApiClient" name="Tgstation.Server.Client.ApiClient">
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API " alt="" coords="525,5,607,32"/>
-<area shape="rect" id="node3" href="$class_i_disposable.html" title="IDisposable" alt="" coords="69,13,163,40"/>
-<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_http_client.html" title="For sending HTTP requests " alt="" coords="481,65,651,106"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html" title="Represents the header that must be present for every server request " alt="" coords="479,146,653,187"/>
-</map>

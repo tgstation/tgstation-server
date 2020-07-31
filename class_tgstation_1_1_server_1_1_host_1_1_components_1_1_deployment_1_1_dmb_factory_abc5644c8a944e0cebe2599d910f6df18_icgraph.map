@@ -1,9 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Deployment.DmbFactory.CleanJob" name="Tgstation.Server.Host.Components.Deployment.DmbFactory.CleanJob">
-<area shape="rect" id="node1" title="Delete the Api.Models.Internal.CompileJob.DirectoryName of job" alt="" coords="951,86,1177,127"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#af0268d30e70a14c2cff65d09e6ca6df5" title="Gets a IDmbProvider for a given CompileJob" alt="" coords="636,86,903,127"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html#a8b1f961ac1d7bc6c815d01b9bccad487" title="Handles the actions to take when the monitor has to &quot;wake up&quot;" alt="" coords="320,5,588,61"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#aa48032d06fd0ad559ab3b6a02e6bf2f7" title="Load a new job &#160;into the ICompileJobConsumer" alt="" coords="321,86,587,127"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a60aa38bc3e5b6b41cd5961f2e0ef3584" title="Prepare the server to launch a new instance with the WatchdogBase.ActiveLaunchParameters and a given ..." alt="" coords="322,152,586,208"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html#a8d676609895840ea192fabcbdb385707" title="The loop that watches the watchdog" alt="" coords="5,5,272,61"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#ae898120e96809cdb6bbd582072bcff71" title=" " alt="" coords="21,86,256,127"/>
-</map>

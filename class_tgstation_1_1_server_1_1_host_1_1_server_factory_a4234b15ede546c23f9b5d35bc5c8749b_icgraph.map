@@ -1,9 +1,0 @@
-<map id="Tgstation.Server.Host.ServerFactory.CreateServer" name="Tgstation.Server.Host.ServerFactory.CreateServer">
-<area shape="rect" id="node1" title="Create a IServer" alt="" coords="589,144,776,185"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_program.html#ad9df0f26f38c75cf0c376910caef770c" title="Entrypoint for the Program" alt="" coords="311,151,541,178"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_tests_1_1_test_program.html#a57fc12003b3c917a239edb73c46f876e" title=" " alt="" coords="5,5,263,47"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_tests_1_1_test_program.html#ac30c37dba3594bc812faef356ee4ff3a" title=" " alt="" coords="34,71,234,112"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_tests_1_1_test_program.html#a5d1a26f8193fa5f8c8bb5c7548704aa3" title=" " alt="" coords="21,137,247,193"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_tests_1_1_test_program.html#ab4c5266c27fe1210841e02e740f04bb0" title=" " alt="" coords="21,217,247,273"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_tests_1_1_test_program.html#aae5a6ab936dca9e0b1ea5714a2f95f96" title=" " alt="" coords="21,297,247,353"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Core.GitHubClientFactory.CreateClient" name="Tgstation.Server.Host.Core.GitHubClientFactory.CreateClient">
-<area shape="rect" id="node1" title="Create a client with authentication using a personal access token" alt="" coords="5,5,220,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_git_hub_client_factory.html#a0d2033f1157b71089477c1383ed77e09" title="Create a GitHubClient" alt="" coords="268,5,512,47"/>
-</map>

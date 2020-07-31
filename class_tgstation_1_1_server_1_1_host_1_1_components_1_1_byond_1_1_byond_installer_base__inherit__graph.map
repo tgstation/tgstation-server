@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Byond.ByondInstallerBase" name="Tgstation.Server.Host.Components.Byond.ByondInstallerBase">
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_posix_byond_installer.html" title="IByondInstaller for Posix systems " alt="" coords="467,5,717,47"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html" title="IByondInstaller for windows systems " alt="" coords="467,71,717,112"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html" title="For downloading and installing BYOND extractions for a given system " alt="" coords="5,46,120,73"/>
-</map>

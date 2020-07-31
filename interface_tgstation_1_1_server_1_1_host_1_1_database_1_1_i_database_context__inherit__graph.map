@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Host.Database.IDatabaseContext" name="Tgstation.Server.Host.Database.IDatabaseContext">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html" title="Backend abstract implementation of IDatabaseContext " alt="" coords="284,104,515,145"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_my_sql_database_context.html" title="DatabaseContext for MySQL " alt="" coords="563,5,793,47"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_postgres_sql_database_context.html" title="DatabaseContext for PostgresSQL. " alt="" coords="563,71,793,112"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_sqlite_database_context.html" title="DatabaseContext for SQLite. " alt="" coords="563,136,793,177"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_sql_server_database_context.html" title="DatabaseContext for Sqlserver " alt="" coords="563,201,793,243"/>
-</map>

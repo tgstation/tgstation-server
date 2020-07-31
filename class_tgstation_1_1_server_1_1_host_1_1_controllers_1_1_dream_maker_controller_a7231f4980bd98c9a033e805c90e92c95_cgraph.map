@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Controllers.DreamMakerController.Create" name="Tgstation.Server.Host.Controllers.DreamMakerController.Create">
-<area shape="rect" id="node1" title="Begin deploying repository code." alt="" coords="5,71,221,112"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance.html#abf2c616c3ac6205bdfea350d2bbea222" title="Run the compile job and insert it into the database. Meant to be called by a Jobs...." alt="" coords="269,5,496,47"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#af8941660b12690639e314c4c266e33c4" title="Get the IInstance associated with given metadata" alt="" coords="269,71,496,112"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#ad13e45f48187be1d93f98f7dc60597d2" title="Registers a given Job and begins running it" alt="" coords="281,136,484,177"/>
-</map>

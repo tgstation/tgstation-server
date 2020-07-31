@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Controllers.UserController.CheckValidName" name="Tgstation.Server.Host.Controllers.UserController.CheckValidName">
-<area shape="rect" id="node1" title="Check if a given model &#160;has a valid Api.Models.Internal.User.Name specified." alt="" coords="269,39,485,80"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a99457477cad4b6adcedbba47d939f005" title="Create a Api.Models.User." alt="" coords="5,5,221,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a7f795d4042188f30317c6134b75afc70" title="Update a Api.Models.User." alt="" coords="5,71,221,112"/>
-</map>

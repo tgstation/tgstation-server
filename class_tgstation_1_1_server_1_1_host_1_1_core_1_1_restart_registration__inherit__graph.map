@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Core.RestartRegistration" name="Tgstation.Server.Host.Core.RestartRegistration">
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_registration.html" title="Represents the lifetime of a IRestartHandler registration " alt="" coords="32,80,177,107"/>
-<area shape="rect" id="node3" href="$class_i_disposable.html" title="IDisposable" alt="" coords="57,5,152,32"/>
-</map>

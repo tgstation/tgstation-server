@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.System.ProcessExecutor.GetProcess" name="Tgstation.Server.Host.System.ProcessExecutor.GetProcess">
-<area shape="rect" id="node1" title="Get a IProcess by id" alt="" coords="5,5,204,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html#a9b6e6ef90bec3cb8f21c1bb275c9e674" title="Create a Task&lt;TResult&gt; resulting in the exit code of a given handle" alt="" coords="252,5,483,47"/>
-</map>

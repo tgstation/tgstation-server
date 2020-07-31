@@ -1,9 +1,0 @@
-<map id="Tgstation.Server.Client.Components.IDreamDaemonClient.Start" name="Tgstation.Server.Client.Components.IDreamDaemonClient.Start">
-<area shape="rect" id="node1" title="Start DreamDaemon" alt="" coords="868,108,1121,149"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_watchdog_test.html#a6259ace9a3b690794353a681c06bcb5f" title=" " alt="" coords="565,5,773,47"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_watchdog_test.html#aafba06ad8c783402acb1ebf3fb446a86" title=" " alt="" coords="517,71,820,112"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_watchdog_test.html#a69e8be4bba7e084632da5a50a1787bd5" title=" " alt="" coords="538,137,799,193"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_watchdog_test.html#ae70fe869e08b14ff7a504c51857eba1d" title=" " alt="" coords="548,217,789,259"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_watchdog_test.html#aa2301c08a5e1154b6bb4211bfa0fa41f" title=" " alt="" coords="261,112,469,153"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_instance_test.html#a0f9a172faa4a92e6e50186fe1e2f77fd" title=" " alt="" coords="5,112,213,153"/>
-</map>

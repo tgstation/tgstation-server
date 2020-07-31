@@ -1,8 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Byond.ByondManager" name="Tgstation.Server.Host.Components.Byond.ByondManager">
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html" title="For managing the BYOND installation " alt="" coords="248,31,369,57"/>
-<area shape="rect" id="node3" href="$class_i_hosted_service.html" title="IHostedService" alt="" coords="5,5,124,32"/>
-<area shape="rect" id="node4" href="$class_i_disposable.html" title="IDisposable" alt="" coords="17,56,112,83"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems " alt="" coords="219,82,399,123"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions " alt="" coords="183,147,434,189"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html" title="For downloading and installing BYOND extractions for a given system " alt="" coords="183,286,434,327"/>
-</map>

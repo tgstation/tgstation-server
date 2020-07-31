@@ -1,9 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Repository.RepositoryManager" name="Tgstation.Server.Host.Components.Repository.RepositoryManager">
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html" title="Factory for creating and loading IRepositorys " alt="" coords="258,5,405,32"/>
-<area shape="rect" id="node3" href="$class_i_disposable.html" title="IDisposable" alt="" coords="33,5,127,32"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems " alt="" coords="241,57,421,98"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions " alt="" coords="206,122,457,163"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_commands.html" title="For low level interactions with a LibGit2Sharp.IRepository. " alt="" coords="206,187,457,229"/>
-<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html" title="Factory for creating LibGit2Sharp.IRepositorys. " alt="" coords="206,434,457,475"/>
-<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html" title="For generating CredentialsHandlers " alt="" coords="5,441,155,468"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.Dispose" name="Tgstation.Server.Host.Components.Chat.Providers.IrcProvider.Dispose">
-<area shape="rect" id="node1" title=" " alt="" coords="292,5,519,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#ad4de9ce051d7d17408902660018fbc0c" title="Gracefully disconnects the provider. Implies a call to IDisposable.Dispose" alt="" coords="5,5,244,47"/>
-</map>

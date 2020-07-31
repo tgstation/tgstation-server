@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Deployment.DreamMaker.DeploymentProcess" name="Tgstation.Server.Host.Components.Deployment.DreamMaker.DeploymentProcess">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a2c18ce561bf0c223b821e38b63fea5ec" title="Construct an Instance " alt="" coords="377,5,627,47"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42" title="Run an operation &#160;in the scope of an IDatabaseContext " alt="" coords="372,71,632,112"/>
-</map>

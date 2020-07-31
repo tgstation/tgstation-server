@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Session.ReattachInformation.SetRuntimeInformation" name="Tgstation.Server.Host.Components.Session.ReattachInformation.SetRuntimeInformation">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a43661606c528da37b2aea840fe5766ef" title="Create a ISessionController from an existing DreamDaemon instance &#160;" alt="" coords="336,13,628,54"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a33718a8a97983fa9fb12c0d27bec8732" title="Starts all ISessionControllers. &#160;" alt="" coords="676,13,952,54"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Repository.IRepositoryManager.LoadRepository" name="Tgstation.Server.Host.Components.Repository.IRepositoryManager.LoadRepository">
-<area shape="rect" id="node1" title="Attempt to load the IRepository from the default location" alt="" coords="352,39,649,80"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_revision_command.html#ab92179ae88df722d697ebc27d9b70d7d" title="Invoke the ICommand" alt="" coords="19,5,290,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_pull_requests_command.html#aa2acf1a5c23b69b03518dff1249a8d7f" title="Invoke the ICommand" alt="" coords="5,71,304,112"/>
-</map>

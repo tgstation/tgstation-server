@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.WatchdogFactory.CreateWatchdog" name="Tgstation.Server.Host.Components.Watchdog.WatchdogFactory.CreateWatchdog">
-<area shape="rect" id="node1" title="Creates a IWatchdog" alt="" coords="5,13,295,54"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#a46ae6b8af80e6d489c2a7714b71a9900" title="Create a IWatchdog that isn&#39;t the ExperimentalWatchdog." alt="" coords="343,5,672,61"/>
-</map>

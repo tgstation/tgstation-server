@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Security.ClaimsInjector" name="Tgstation.Server.Host.Security.ClaimsInjector">
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_claims_injector.html" title="For injecting global::System.Security.Claims.Claims that Controllers.TgsAuthorizeAttribute can look f..." alt="" coords="5,13,120,39"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html" title="For creating and accessing authentication contexts " alt="" coords="144,5,363,47"/>
-</map>

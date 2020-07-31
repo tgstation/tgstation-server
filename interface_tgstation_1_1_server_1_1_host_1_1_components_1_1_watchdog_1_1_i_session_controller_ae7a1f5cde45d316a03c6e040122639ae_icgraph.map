@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.ISessionController.EnableCustomChatCommands" name="Tgstation.Server.Host.Components.Watchdog.ISessionController.EnableCustomChatCommands">
-<area shape="rect" id="node1" title="Enables the reading of custom chat commands from the ISessionController" alt="" coords="671,43,949,99"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html#a8b1f961ac1d7bc6c815d01b9bccad487" title="Handles the actions to take when the monitor has to &quot;wake up&quot;" alt="" coords="337,5,605,61"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html#a0d42fb1f490a6ca44712dd236bceca92" title="Starts all ISessionControllers." alt="" coords="320,86,623,127"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_experimental_watchdog.html#a8d676609895840ea192fabcbdb385707" title="The loop that watches the watchdog" alt="" coords="5,5,272,61"/>
-</map>

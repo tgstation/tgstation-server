@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.IO.DefaultIOManager" name="Tgstation.Server.Host.IO.DefaultIOManager">
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_resolving_i_o_manager.html" title="An IIOManager that resolve relative paths from another IIOManager to a subdirectory of that ..." alt="" coords="5,169,185,211"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems " alt="" coords="48,5,143,32"/>
-</map>

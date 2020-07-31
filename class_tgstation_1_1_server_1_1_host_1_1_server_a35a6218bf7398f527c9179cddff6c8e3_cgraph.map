@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Server.Restart" name="Tgstation.Server.Host.Server.Restart">
-<area shape="rect" id="node1" title="Implements Restart()" alt="" coords="5,5,196,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a5307337e3bb84c45327e8a856b7f425f" title="Throws an InvalidOperationException if the IServerControl cannot be used" alt="" coords="244,5,435,47"/>
-</map>

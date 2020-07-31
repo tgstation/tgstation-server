@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Client.UsersClient" name="Tgstation.Server.Client.UsersClient">
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_users_client.html" title="For managing Users " alt="" coords="5,89,104,115"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API " alt="" coords="128,81,299,123"/>
-<area shape="rect" id="node4" href="$class_i_disposable.html" title="IDisposable" alt="" coords="166,5,261,32"/>
-</map>

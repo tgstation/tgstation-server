@@ -1,8 +1,0 @@
-<map id="Tgstation.Server.Tests.Instance.RepositoryTest.RunPostWatchdog" name="Tgstation.Server.Tests.Instance.RepositoryTest.RunPostWatchdog">
-<area shape="rect" id="node1" title=" " alt="" coords="5,86,228,127"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_repository_client.html#a542817cc102394601ab78412d37f82ba" title="Deletes the Repository" alt="" coords="291,5,492,61"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_repository_client.html#a5ec2d45a88691381a86f02d6a941f912" title="Get the Repository represented by the IRepositoryClient" alt="" coords="276,86,507,127"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_jobs_required_test.html#a11c99468369d8d269d2de1377a518c23" title=" " alt="" coords="287,151,495,193"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a50456aace539b2c54afc8f8218278c49" title="Cancels a job" alt="" coords="555,118,757,159"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a1a7399807a0abd4dfaed05c1c0d3adff" title="Get a job" alt="" coords="559,183,753,225"/>
-</map>

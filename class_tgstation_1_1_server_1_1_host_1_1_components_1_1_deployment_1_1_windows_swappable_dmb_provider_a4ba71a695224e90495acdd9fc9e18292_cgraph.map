@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Deployment.WindowsSwappableDmbProvider.MakeActive" name="Tgstation.Server.Host.Components.Deployment.WindowsSwappableDmbProvider.MakeActive">
-<area shape="rect" id="node1" title="Make the WindowsSwappableDmbProvider active by replacing the live link with our CompileJob." alt="" coords="5,63,293,119"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_symlink_factory.html#a35bd8c53ef36c4a655e827750a40699c" title="Create a symbolic link" alt="" coords="341,5,577,47"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="369,71,550,112"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="376,136,543,177"/>
-</map>

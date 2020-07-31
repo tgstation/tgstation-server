@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.StartMonitor" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.StartMonitor">
-<area shape="rect" id="node1" title="Call MonitorLifetimes(CancellationToken) and setup monitorCts and monitorTask." alt="" coords="5,5,255,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a4863be0a433eff6e496eb03230759fc5" title="The loop that watches the watchdog" alt="" coords="303,5,576,47"/>
-</map>

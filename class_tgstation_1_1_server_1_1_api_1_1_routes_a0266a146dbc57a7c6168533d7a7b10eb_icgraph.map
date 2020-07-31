@@ -1,8 +1,0 @@
-<map id="Tgstation.Server.Api.Routes.SetID" name="Tgstation.Server.Api.Routes.SetID">
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_chat_bots_client.html#a322c40d10b0b8b65802c71a899a555d9" title="Construct a ChatBotsClient " alt="" coords="255,5,492,61"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_dream_maker_client.html#a04dd94462a3bb8aad7469c84d53f78a9" title="Construct a DreamMakerClient " alt="" coords="258,85,489,141"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a2d6043c1548bc86551fe56f12a78d4cb" title="Construct an InstanceManagerClient " alt="" coords="260,165,487,221"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_instance_user_client.html#a2ae6151c326432db1eaba0373f73733f" title="Construct an InstanceUserClient " alt="" coords="257,245,489,301"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a9ffef36f7b69e7c76e31af3958797846" title="Construct a JobsClient " alt="" coords="255,325,491,366"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_client_1_1_users_client.html#aa7e771fad86b68de8483944e9f34a88e" title="Construct an UsersClient " alt="" coords="287,390,459,431"/>
-</map>

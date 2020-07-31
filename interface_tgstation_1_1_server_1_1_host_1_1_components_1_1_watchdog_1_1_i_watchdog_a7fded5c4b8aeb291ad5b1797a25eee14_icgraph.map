@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.IWatchdog.Terminate" name="Tgstation.Server.Host.Components.Watchdog.IWatchdog.Terminate">
-<area shape="rect" id="node1" title="Stops the watchdog" alt="" coords="269,5,496,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a014b1924b2ff406c5d064307c9b69f7f" title="Stops the Watchdog if it&#39;s running." alt="" coords="5,5,221,47"/>
-</map>

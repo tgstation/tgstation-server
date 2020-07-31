@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Controllers.AdministrationController.GetGitHubClient" name="Tgstation.Server.Host.Controllers.AdministrationController.GetGitHubClient">
-<area shape="rect" id="node1" title=" " alt="" coords="572,50,831,91"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a136149ffd1e19c77776bf08ad6f019d8" title="Try to download and apply an update with a given newVersion ." alt="" coords="269,5,524,61"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a21c2643c3151e9e65a6b6240a79e35c6" title="Get Administration server information." alt="" coords="289,86,505,127"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#afbf7a02a0808b463ea298c43a03e0e99" title="Attempt to perform a server upgrade." alt="" coords="5,13,221,54"/>
-</map>

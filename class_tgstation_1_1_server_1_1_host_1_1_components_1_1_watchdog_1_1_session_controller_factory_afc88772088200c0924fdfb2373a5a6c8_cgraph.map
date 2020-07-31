@@ -1,9 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.SessionControllerFactory.Reattach" name="Tgstation.Server.Host.Components.Watchdog.SessionControllerFactory.Reattach">
-<area shape="rect" id="node1" title="Create a ISessionController from an existing DreamDaemon instance" alt="" coords="5,185,292,226"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller_factory.html#ad0acaf3c654562967bf013a6f131790a" title="Create RuntimeInformation." alt="" coords="340,5,613,61"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a5b3b4e9ab7d03bd8020ee9dfa9bebbbe" title="Start tracking Commands.CustomCommands and ChannelRepresentations." alt="" coords="342,86,611,127"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a5618ee521ada90bb15bf3315440898f3" title="Get a IProcess by id" alt="" coords="377,151,576,193"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_network_prompt_reaper.html#a3493714e50b54482ee2739479cf02d56" title="Register a given process &#160;for network prompt reaping" alt="" coords="349,217,604,258"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_reattach_information.html#ae9da3c7b8667ad090d8b24a842e1a21c" title="Set the RuntimeInformation post construction." alt="" coords="341,283,613,339"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html#ae897f63dc75160c7378292be017a50b1" title="Lock the current installation&#39;s location and return a IByondExecutableLock" alt="" coords="351,363,603,405"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Chat.IChatManager.SendMessage" name="Tgstation.Server.Host.Components.Chat.IChatManager.SendMessage">
-<area shape="rect" id="node1" title="Send a chat message &#160;to a given set of channelIds" alt="" coords="329,43,556,84"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a4b9550b3cd36106ca8a4510730db2060" title="Handle a given eventType" alt="" coords="18,5,269,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a85ea60950c240265155f9f93124e72ff" title="Handle a set of bridge parameters ." alt="" coords="5,71,281,127"/>
-</map>

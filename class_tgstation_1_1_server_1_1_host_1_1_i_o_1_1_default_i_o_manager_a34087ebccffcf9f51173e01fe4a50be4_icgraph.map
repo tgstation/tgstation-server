@@ -1,9 +1,0 @@
-<map id="Tgstation.Server.Host.IO.DefaultIOManager.ResolvePath" name="Tgstation.Server.Host.IO.DefaultIOManager.ResolvePath">
-<area shape="rect" id="node1" title="Retrieve the full path of the current working directory." alt="" coords="813,120,1015,161"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac24671c0d1ce1f6787304c5f4bcccf7c" title="Copies a directory from src &#160;to dest" alt="" coords="5,25,216,67"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac3523b10f3affcd57a6e94ba5297e8fb" title="Copy a file from src &#160;to dest" alt="" coords="566,55,746,96"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a1c0202582bb5f80ba212bf7cceb2bd6d" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="547,120,765,161"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a8b156fb1670e0f2f74bccdf040d2661c" title="Returns all the contents of a file at path &#160;as a byte array" alt="" coords="552,185,760,227"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#adfa411bbedf8ffc430cb9fcf0a6e6fe4" title="Writes some contents &#160;to a file at path &#160;overwriting previous content" alt="" coords="551,251,761,292"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a32ca1367eadecb45e671aa509f3ce058" title="Copies a directory from src &#160;to dest" alt="" coords="264,55,499,96"/>
-</map>

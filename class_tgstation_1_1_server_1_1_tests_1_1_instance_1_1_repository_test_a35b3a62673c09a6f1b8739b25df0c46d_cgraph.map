@@ -1,8 +1,0 @@
-<map id="Tgstation.Server.Tests.Instance.RepositoryTest.TestMergeTests" name="Tgstation.Server.Tests.Instance.RepositoryTest.TestMergeTests">
-<area shape="rect" id="node1" title=" " alt="" coords="5,79,213,120"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_repository_client.html#a5ec2d45a88691381a86f02d6a941f912" title="Get the Repository represented by the IRepositoryClient" alt="" coords="261,5,492,47"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_repository_client.html#a24995226be87730e9b7d49d6c53f5b2c" title="Update the Repository" alt="" coords="276,71,477,127"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_tests_1_1_instance_1_1_jobs_required_test.html#a11c99468369d8d269d2de1377a518c23" title=" " alt="" coords="273,152,481,193"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a50456aace539b2c54afc8f8218278c49" title="Cancels a job" alt="" coords="540,119,743,160"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_jobs_client.html#a1a7399807a0abd4dfaed05c1c0d3adff" title="Get a job" alt="" coords="544,184,739,225"/>
-</map>

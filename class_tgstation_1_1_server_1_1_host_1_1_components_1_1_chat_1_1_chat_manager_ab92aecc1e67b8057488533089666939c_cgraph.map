@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Chat.ChatManager.ChangeSettings" name="Tgstation.Server.Host.Components.Chat.ChatManager.ChangeSettings">
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#a78705214e55337f3970869e3fcabb502" title="Attempt to connect the IProvider " alt="" coords="311,5,562,47"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#ae24ff61d2fb16b41675498d0d95b67d8" title="Gracefully disconnects the provider. Permanently stops the reconnection timer. " alt="" coords="311,71,562,112"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#ae1d70f9b3228d495bfd6d5a77811d84c" title="Set the interval at which the provider tries to reconnect. " alt="" coords="304,135,569,191"/>
-</map>

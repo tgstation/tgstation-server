@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Watchdog.SessionController.Dispose" name="Tgstation.Server.Host.Components.Watchdog.SessionController.Dispose">
-<area shape="rect" id="node1" title=" " alt="" coords="292,5,531,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_session_controller.html#a275f0854e7df3126d0d3a3fe390b1a13" title="Releases the IProcess without terminating it. Also calls IDisposable.Dispose" alt="" coords="5,5,244,47"/>
-</map>

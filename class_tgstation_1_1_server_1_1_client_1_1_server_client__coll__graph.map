@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Client.ServerClient" name="Tgstation.Server.Client.ServerClient">
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server " alt="" coords="199,5,302,32"/>
-<area shape="rect" id="node3" href="$class_i_disposable.html" title="IDisposable" alt="" coords="5,32,100,59"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API " alt="" coords="165,57,336,98"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_token.html" title="Represents a JWT returned by the API " alt="" coords="149,122,352,163"/>
-</map>
