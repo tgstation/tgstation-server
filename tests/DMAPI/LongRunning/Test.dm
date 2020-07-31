@@ -4,6 +4,7 @@
 
 /world/New()
 	log << "Initial value of sleep_offline: [sleep_offline]"
+	sleep_offline = FALSE
 
 	// Intentionally slow down startup for testing purposes
 	for(var/i in 1 to 10000000)

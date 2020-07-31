@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SQLitePCL;
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -59,6 +60,9 @@ namespace Tgstation.Server.Tests
 			}
 			catch (RateLimitException)
 			{
+				if (!String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS4_TEST_GITHUB_TOKEN")))
+					throw;
+
 				Assert.Inconclusive("GitHub rate limit hit while testing administration endpoint. Set environment variable TGS4_TEST_GITHUB_TOKEN to fix this!");
 				return;	//c# needs the equivalent of [noreturn]
 			}
