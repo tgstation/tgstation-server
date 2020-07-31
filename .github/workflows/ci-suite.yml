@@ -615,7 +615,7 @@ jobs:
     steps:
       - name: Install 7Zip PS Module
         shell: powershell
-        steps: Install-Module -Name 7Zip4PowerShell -Verbose
+        run: Install-Module -Name 7Zip4PowerShell -Verbose
 
       - name: Checkout
         uses: actions/checkout@v1
@@ -685,7 +685,7 @@ jobs:
     steps:
       - name: Install 7Zip PS Module
         shell: powershell
-        steps: Install-Module -Name 7Zip4PowerShell -Verbose
+        run: Install-Module -Name 7Zip4PowerShell -Verbose
 
       - name: Checkout
         uses: actions/checkout@v1
