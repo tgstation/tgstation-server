@@ -16,6 +16,7 @@ env:
   TGS4_TEST_IRC_CHANNEL: ${{ secrets.IRC_CHANNEL }}
   TGS4_TEST_IRC_CONNECTION_STRING: ${{ secrets.IRC_CONNECTION_STRING }}
   TGS4_TEST_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  TGS4_RELEASE_NOTES_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   dmapi-build:
@@ -76,7 +77,7 @@ jobs:
       - name: Patch Doxyfile
         run: |
           VERSION=$(cat "build/Version.props" | grep -oPm1 "(?<=<TgsCoreVersion>)[^<]+")
-          echo -e "\nPROJECT_NUMBER = $VERSION\nINPUT = .\nOUTPUT_DIRECTORY = $HOME/tgsdoxout\nPROJECT_LOGO = ./build/tgs.ico\nHAVE_DOT=YES" >> "docs/Doxyfile"
+          echo -e "\nPROJECT_NUMBER = $VERSION\nINPUT = .\nOUTPUT_DIRECTORY = ~/tgsdoxout\nPROJECT_LOGO = ./build/tgs.ico\nHAVE_DOT=YES" >> "docs/Doxyfile"
 
       - name: Create DOXDIR
         run: mkdir -p $HOME/tgsdoxout
