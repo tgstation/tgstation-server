@@ -735,7 +735,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: tgstation-server-v${{ env.TGS_VERSION }}
-          release_name: tgstation-server 4 DMAPI v${{ env.TGS_VERSION }}
+          release_name: tgstation-server-v${{ env.TGS_VERSION }}
           body: ${{ env.TGS_RELEASE_NOTES }}
           commitish: ${{ github.event.head_commit.id }}
 
