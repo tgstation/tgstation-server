@@ -233,7 +233,7 @@ jobs:
         path: Artifacts/Service/
 
   linux-integration-tests:
-    name: Linux Integration Tests
+    name: Linux Integration Test
     needs: dmapi-build
     services: # We start all dbs here so we can just code the stuff once
       postgres:
