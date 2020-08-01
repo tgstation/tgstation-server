@@ -77,10 +77,7 @@ jobs:
       - name: Patch Doxyfile
         run: |
           VERSION=$(cat "build/Version.props" | grep -oPm1 "(?<=<TgsCoreVersion>)[^<]+")
-          echo -e "\nPROJECT_NUMBER = $VERSION\nINPUT = .\nOUTPUT_DIRECTORY = /home/runner/work/tgsdoxout\nPROJECT_LOGO = ./build/tgs.ico\nHAVE_DOT=YES" >> "docs/Doxyfile"
-
-      - name: Create Doxygen Output Directory
-        run: mkdir -p $HOME/tgsdoxout
+          echo -e "\nPROJECT_NUMBER = $VERSION\nINPUT = .\nOUTPUT_DIRECTORY = ./doxout\nPROJECT_LOGO = ./build/tgs.ico\nHAVE_DOT=YES" >> "docs/Doxyfile"
 
       - name: Doxygen Build
         uses: mattnotmitt/doxygen-action@v1
@@ -90,10 +87,12 @@ jobs:
       - name: gh-pages push
         if: github.event_name == 'push' && github.event.ref == 'refs/heads/dev'
         run: |
-          git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" $HOME/work/tgsdox
-          cd $HOME/work/tgsdox
+          git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" $HOME/tgsdox
+          pushd $HOME/tgsdox
           rm -r *
-          mv $HOME/work/tgsdoxout/* ./
+          popd
+          mv ./doxout/* $HOME/tgsdox
+          cd $HOME/tgsdox
           git config --global push.default simple
           git config user.name "tgstation-server"
           git config user.email "tgstation-server@tgstation13.org"
@@ -613,9 +612,6 @@ jobs:
     runs-on: windows-latest
     if: github.event_name == 'push' && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[DMDeploy]')
     steps:
-      - name: Install 7Zip PS Module
-        shell: powershell
-        run: Install-Module -Name 7Zip4PowerShell -Verbose -Force
 
       - name: Checkout
         uses: actions/checkout@v1
@@ -629,7 +625,8 @@ jobs:
 
       - name: Zip DMAPI
         shell: powershell
-        run: Compress-7Zip -Path src/DMAPI/* -ArchiveFileName DMAPI.zip -Format Zip
+        run: |
+          &"C:/Program Files/7-Zip/7z.exe" a DMAPI.zip ./src/DMAPI/* -tzip
 
       - name: Create GitHub Release
         uses: juitnow/github-action-create-release@v1
@@ -683,10 +680,6 @@ jobs:
     runs-on: windows-latest
     if: github.event_name == 'push' && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]')
     steps:
-      - name: Install 7Zip PS Module
-        shell: powershell
-        run: Install-Module -Name 7Zip4PowerShell -Verbose -Force
-
       - name: Checkout
         uses: actions/checkout@v1
 
@@ -724,10 +717,10 @@ jobs:
       - name: Zip Artifacts
         shell: powershell
         run: |
-          Compress-7Zip -Path src/DMAPI/* -ArchiveFileName DMAPI.zip -Format Zip
-          Compress-7Zip -Path ServerService/* -ArchiveFileName ServerService.zip -Format Zip
-          Compress-7Zip -Path ServerConsole/* -ArchiveFileName ServerConsole.zip -Format Zip
-          Compress-7Zip -Path ServerUpdatePackage/* -ArchiveFileName ServerUpdatePackage.zip -Format Zip
+          &"C:/Program Files/7-Zip/7z.exe" a DMAPI.zip ./src/DMAPI/* -tzip
+          &"C:/Program Files/7-Zip/7z.exe" a ServerService.zip ./ServerService/* -tzip
+          &"C:/Program Files/7-Zip/7z.exe" a ServerConsole.zip ./ServerConsole/* -tzip
+          &"C:/Program Files/7-Zip/7z.exe" a ServerUpdatePackage.zip ./ServerUpdatePackage/* -tzip
 
       - name: Generate Release Notes
         shell: powershell
