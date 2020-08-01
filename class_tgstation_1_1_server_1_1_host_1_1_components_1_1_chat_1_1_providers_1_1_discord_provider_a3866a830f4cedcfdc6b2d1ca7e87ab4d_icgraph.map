@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.Client_MessageReceived" name="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.Client_MessageReceived">
+<area shape="rect" id="node1" title="Handle a message recieved from Discord" alt="" coords="303,5,541,61"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a887f42d3b818cf7e637057a0939ed639" title="Construct a DiscordProvider" alt="" coords="5,5,255,61"/>
+</map>

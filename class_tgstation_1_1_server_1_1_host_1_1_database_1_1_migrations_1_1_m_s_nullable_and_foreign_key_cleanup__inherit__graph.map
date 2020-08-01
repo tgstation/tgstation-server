@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Database.Migrations.MSNullableAndForeignKeyCleanup" name="Tgstation.Server.Host.Database.Migrations.MSNullableAndForeignKeyCleanup">
+<area shape="rect" id="node1" title="Cleans up of nullable columns and foreign keys MSSQL" alt="" coords="5,80,245,136"/>
+<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="88,5,163,32"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Api.Models.Internal.ChatBot.SetConnectionStringBuilder" name="Tgstation.Server.Api.Models.Internal.ChatBot.SetConnectionStringBuilder">
+<area shape="rect" id="node1" title="Set the ChatConnectionStringBuilder for the ChatBot. Also updates the ConnectionString." alt="" coords="5,5,243,61"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_connection_string_builder.html#aeeb97f3f4f9cc635eaa55b2e9c81ad84" title="Gets the ChatBot.ConnectionString associated with the ChatConnectionStringBuilder" alt="" coords="291,5,528,61"/>
+</map>

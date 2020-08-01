@@ -1,0 +1,12 @@
+<map id="Tgstation.Server.Host.IO.IIOManager.ReadAllBytes" name="Tgstation.Server.Host.IO.IIOManager.ReadAllBytes">
+<area shape="rect" id="node1" title="Returns all the contents of a file at path &#160;as a byte array" alt="" coords="653,169,824,211"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a3b92be081e2beac876e749532a6d1d87" title="Check if it should and run the SetupWizard if necessary." alt="" coords="361,5,559,47"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a447802145e173d3d60ad702a857d41ff" title="Download a LogFile." alt="" coords="352,71,568,112"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a2e3fbaee5882bbf0cae1b195808aa2d8" title="Create a ISessionController from a freshly launch DreamDaemon instance" alt="" coords="315,136,605,177"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a1f48709bfdc0a2d5f675a2a2862755aa" title="Adds server side includes to the .dme being compiled" alt="" coords="343,201,577,243"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#af7ad93cfb1c7c7718a3b1ffe3e12d42d" title="Symlinks all directories in the GameData directory to destination" alt="" coords="337,266,583,322"/>
+<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_executable_lock.html#aaefbc3a18632926c53945415b70b33fc" title="Add a given fullDmbPath &#160;to the trusted DMBs list in BYOND&#39;s config." alt="" coords="322,345,598,387"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#ae78c3f7bde77d9470e413adba88d2ae4" title=" " alt="" coords="42,5,230,47"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a33718a8a97983fa9fb12c0d27bec8732" title="Starts all ISessionControllers." alt="" coords="7,136,265,177"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a90c81ec6a44a188164e5ae50e6430a7d" title="Executes and populate a given job" alt="" coords="5,201,267,243"/>
+</map>

@@ -1,0 +1,21 @@
+<map id="Tgstation.Server.Host.Controllers.AdministrationController" name="Tgstation.Server.Host.Controllers.AdministrationController">
+<area shape="rect" id="node1" title="ApiController for Administration purposes" alt="" coords="848,357,1064,398"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="A Controller for API functions" alt="" coords="465,56,561,83"/>
+<area shape="rect" id="node3" href="$class_controller.html" title=" " alt="" coords="43,5,120,32"/>
+<area shape="rect" id="node4" title=" " alt="" coords="58,56,105,83"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html" title="File logging configuration options" alt="" coords="399,138,628,179"/>
+<area shape="rect" id="node6" title=" " alt="" coords="54,223,109,249"/>
+<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options" alt="" coords="399,398,628,439"/>
+<area shape="rect" id="node16" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html" title="Configuration for the automatic update system" alt="" coords="399,529,628,570"/>
+<area shape="rect" id="node7" title=" " alt="" coords="26,116,137,143"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems" alt="" coords="429,267,597,309"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html" title="For creating IGitHubClients" alt="" coords="423,333,604,374"/>
+<area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information.html" title="Base class for Models.ServerInformation." alt="" coords="19,471,144,497"/>
+<area shape="rect" id="node12" title=" " alt="" coords="42,557,121,584"/>
+<area shape="rect" id="node13" title=" " alt="" coords="52,369,111,396"/>
+<area shape="rect" id="node14" title=" " alt="" coords="5,420,157,447"/>
+<area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_platform_identifier.html" title="For identifying the current platform" alt="" coords="414,463,613,505"/>
+<area shape="rect" id="node17" title=" " alt="" coords="41,608,122,635"/>
+<area shape="rect" id="node18" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="414,594,613,635"/>
+<area shape="rect" id="node19" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html" title="Represents a service that may take an updated Host assembly and run it, stopping the current assembly..." alt="" coords="423,659,604,701"/>
+</map>

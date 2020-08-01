@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.IO.ISymlinkFactory" name="Tgstation.Server.Host.IO.ISymlinkFactory">
+<area shape="rect" id="node1" title="For creating filesystem symbolic links" alt="" coords="5,39,173,80"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_symlink_factory.html" title="ISymlinkFactory for posix systems" alt="" coords="221,5,389,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_symlink_factory.html" title="ISymlinkFactory for windows systems" alt="" coords="221,71,389,112"/>
+</map>

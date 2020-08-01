@@ -1,0 +1,50 @@
+<map id="IDisposable" name="IDisposable">
+<area shape="rect" id="node1" title=" " alt="" coords="5,862,96,889"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API" alt="" coords="179,5,335,47"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_http_client.html" title="For sending HTTP requests" alt="" coords="179,71,335,112"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server" alt="" coords="179,136,335,177"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_executable_lock.html" title="Represents usage of the two primary BYOND server executables" alt="" coords="144,201,371,243"/>
+<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html" title="For managing the BYOND installation" alt="" coords="144,267,371,308"/>
+<area shape="rect" id="node12" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html" title="IByondInstaller for windows systems" alt="" coords="144,332,371,373"/>
+<area shape="rect" id="node13" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_tracking_context.html" title="Represents a tracking of dynamic chat json files" alt="" coords="144,397,371,439"/>
+<area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html" title="Factory for IDmbProviders" alt="" coords="144,463,371,504"/>
+<area shape="rect" id="node17" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs" alt="" coords="144,528,371,569"/>
+<area shape="rect" id="node21" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_reference.html" title="Controller version of IInstanceCore." alt="" coords="144,593,371,635"/>
+<area shape="rect" id="node23" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_registration.html" title="Represents a registration of an interop session." alt="" coords="144,659,371,700"/>
+<area shape="rect" id="node25" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on&#45;disk git repository" alt="" coords="144,724,371,765"/>
+<area shape="rect" id="node27" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html" title="Factory for creating and loading IRepositorys" alt="" coords="144,789,371,831"/>
+<area shape="rect" id="node29" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_i_configuration.html" title="For managing the Configuration directory" alt="" coords="144,855,371,896"/>
+<area shape="rect" id="node31" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_registration.html" title="Represents the lifetime of a IRestartHandler registration" alt="" coords="167,920,348,961"/>
+<area shape="rect" id="node33" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html" title="Async lock context helper" alt="" coords="167,985,348,1027"/>
+<area shape="rect" id="node34" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_console.html" title=" " alt="" coords="173,1051,341,1092"/>
+<area shape="rect" id="node35" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html" title="Class for pairing Tasks with CancellationTokenSources" alt="" coords="166,1116,349,1157"/>
+<area shape="rect" id="node36" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html" title=" " alt="" coords="166,1181,349,1223"/>
+<area shape="rect" id="node37" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html" title=" " alt="" coords="157,1247,358,1288"/>
+<area shape="rect" id="node38" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context.html" title="Represents the currently authenticated Api.Models.User" alt="" coords="157,1312,358,1353"/>
+<area shape="rect" id="node40" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache.html" title=" " alt="" coords="157,1377,358,1419"/>
+<area shape="rect" id="node41" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html" title="For keeping a specific ISystemIdentity alive for a period of time" alt="" coords="157,1443,358,1484"/>
+<area shape="rect" id="node42" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html" title="Represents a user on the current global::System.Runtime.InteropServices.OSPlatform" alt="" coords="157,1508,358,1549"/>
+<area shape="rect" id="node45" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process" alt="" coords="158,1573,357,1615"/>
+<area shape="rect" id="node47" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_program_shutdown_token_source.html" title="Contains a CancellationToken that triggers when the operating system requests the program shuts down." alt="" coords="154,1639,361,1680"/>
+<area shape="rect" id="node48" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html" title=" " alt="" coords="154,1704,361,1745"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html" title=" " alt="" coords="457,5,613,47"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_client_1_1_http_client.html" title=" " alt="" coords="457,71,613,112"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client.html" title=" " alt="" coords="457,136,613,177"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_executable_lock.html" title=" " alt="" coords="421,201,648,243"/>
+<area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html" title=" " alt="" coords="421,267,648,308"/>
+<area shape="rect" id="node14" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_tracking_context.html" title=" " alt="" coords="421,332,648,373"/>
+<area shape="rect" id="node16" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html" title="Standard IDmbFactory" alt="" coords="421,397,648,439"/>
+<area shape="rect" id="node18" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_provider.html" title=" " alt="" coords="421,463,648,504"/>
+<area shape="rect" id="node19" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html" title="A IDmbProvider that uses symlinks." alt="" coords="419,528,651,569"/>
+<area shape="rect" id="node20" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_temporary_dmb_provider.html" title="Temporary IDmbProvider" alt="" coords="420,593,649,635"/>
+<area shape="rect" id="node22" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_wrapper.html" title="Warpper around a given IInstance with a Dispose Action." alt="" coords="421,659,648,700"/>
+<area shape="rect" id="node24" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_bridge_registration.html" title=" " alt="" coords="421,724,648,765"/>
+<area shape="rect" id="node26" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html" title=" " alt="" coords="421,789,648,831"/>
+<area shape="rect" id="node28" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html" title=" " alt="" coords="421,855,648,896"/>
+<area shape="rect" id="node30" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html" title=" " alt="" coords="421,920,648,961"/>
+<area shape="rect" id="node32" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_restart_registration.html" title=" " alt="" coords="444,985,625,1027"/>
+<area shape="rect" id="node39" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html" title="Manages Api.Models.Users for a scope" alt="" coords="434,1312,635,1353"/>
+<area shape="rect" id="node43" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_posix_system_identity.html" title="ISystemIdentity for POSIX systems." alt="" coords="434,1443,635,1484"/>
+<area shape="rect" id="node44" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity.html" title="ISystemIdentity for windows systems" alt="" coords="434,1508,635,1549"/>
+<area shape="rect" id="node46" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html" title=" " alt="" coords="435,1573,634,1615"/>
+</map>

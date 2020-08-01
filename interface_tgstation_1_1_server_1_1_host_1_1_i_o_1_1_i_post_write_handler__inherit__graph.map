@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.IO.IPostWriteHandler" name="Tgstation.Server.Host.IO.IPostWriteHandler">
+<area shape="rect" id="node1" title="Handles changing file modes/permissions after writing" alt="" coords="5,39,173,80"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_posix_post_write_handler.html" title="IPostWriteHandler for POSIX systems" alt="" coords="226,5,394,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_windows_post_write_handler.html" title="IPostWriteHandler for Windows systems" alt="" coords="221,71,399,112"/>
+</map>

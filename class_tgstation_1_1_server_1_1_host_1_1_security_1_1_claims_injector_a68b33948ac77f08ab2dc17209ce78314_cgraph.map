@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Security.ClaimsInjector.InjectClaimsIntoContext" name="Tgstation.Server.Host.Security.ClaimsInjector.InjectClaimsIntoContext">
+<area shape="rect" id="node1" title="Setup the global::System.Security.Claims.Claims for a given tokenValidatedContext" alt="" coords="5,114,252,155"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_authentication_context_factory.html#a6ed924f10ee271ccc8d2ea840c095e23" title="Create an IAuthenticationContext to populate CurrentAuthenticationContext" alt="" coords="300,5,537,61"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb" title="Check if a given rightsType &#160;is meant for an Models.Instance" alt="" coords="323,85,514,126"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c" title="Map a given rightsType &#160;to its respective Enum Type" alt="" coords="585,173,768,214"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#acbf514eba48e29a2dc177eb5ae34edd7" title="Gets the role claim name used for a given rightsType &#160;and right" alt="" coords="327,202,510,243"/>
+</map>

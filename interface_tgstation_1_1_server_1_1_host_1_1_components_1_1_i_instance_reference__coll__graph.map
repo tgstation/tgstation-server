@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Components.IInstanceReference" name="Tgstation.Server.Host.Components.IInstanceReference">
+<area shape="rect" id="node1" title="Controller version of IInstanceCore." alt="" coords="128,155,355,196"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html" title="For interacting with the instance services" alt="" coords="130,80,233,107"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html" title="Provides the most recently deployed CompileJob." alt="" coords="5,5,184,32"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed." alt="" coords="208,5,331,32"/>
+<area shape="rect" id="node5" href="$class_i_disposable.html" title=" " alt="" coords="257,80,348,107"/>
+</map>

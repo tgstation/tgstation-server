@@ -1,0 +1,12 @@
+<map id="Tgstation.Server.Host.Components.Session.SessionPersistor" name="Tgstation.Server.Host.Components.Session.SessionPersistor">
+<area shape="rect" id="node1" title=" " alt="" coords="652,131,879,173"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor.html" title="Handles saving and loading ReattachInformation." alt="" coords="284,5,409,32"/>
+<area shape="rect" id="node3" title=" " alt="" coords="326,56,367,83"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components" alt="" coords="242,107,451,149"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html" title="Factory for IDmbProviders" alt="" coords="233,173,460,214"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html" title="Provides the most recently deployed CompileJob." alt="" coords="5,129,184,156"/>
+<area shape="rect" id="node7" href="$class_i_hosted_service.html" title=" " alt="" coords="39,180,151,207"/>
+<area shape="rect" id="node8" href="$class_i_disposable.html" title=" " alt="" coords="49,231,140,257"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html" title="For launching IProcess&#39;" alt="" coords="247,238,446,279"/>
+<area shape="rect" id="node10" title=" " alt="" coords="237,303,457,359"/>
+</map>

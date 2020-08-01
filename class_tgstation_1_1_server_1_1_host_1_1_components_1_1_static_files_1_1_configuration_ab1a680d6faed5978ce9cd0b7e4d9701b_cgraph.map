@@ -1,0 +1,12 @@
+<map id="Tgstation.Server.Host.Components.StaticFiles.Configuration.CopyDMFilesTo" name="Tgstation.Server.Host.Components.StaticFiles.Configuration.CopyDMFilesTo">
+<area shape="rect" id="node1" title="Copies all files in the CodeModifications directory to destination" alt="" coords="5,129,263,171"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path" alt="" coords="360,5,528,47"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#aab4ec78e2b2d66ad39642ed92a66250c" title="Copies a directory from src &#160;to dest" alt="" coords="357,71,531,112"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a5a067086b7757d904b99cabe914a925c" title="Ensures standard configuration directories exist" alt="" coords="311,188,577,229"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a4088b7924c694d628acd99b5a0829c86" title="Check that the file at path &#160;exists" alt="" coords="673,89,841,131"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a01e4f4e2d775bd2bf0910a1f5c2f24ef" title="Asyncronously locks a semaphore" alt="" coords="349,289,539,331"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a69aa1b9dbeb6af3744e568095c4376e7" title="Create a directory at path" alt="" coords="665,155,848,196"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a4a5436d55e83759de84d17871039d752" title="Get the proper path to StaticIgnoreFile" alt="" coords="625,220,888,261"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af3e7a63cedbe826cfd27f1a2a411103e" title="Writes some contents &#160;to a file at path &#160;overwriting previous content" alt="" coords="671,285,842,327"/>
+<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a600d8d0a279d2fe17d1f48c1a1bd17d4" title="Construct a SemaphoreSlimContext" alt="" coords="630,350,883,406"/>
+</map>

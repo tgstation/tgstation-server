@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.IO.IIOManager.GetFileName" name="Tgstation.Server.Host.IO.IIOManager.GetFileName">
+<area shape="rect" id="node1" title="Gets the file name portion of a path" alt="" coords="372,71,543,112"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a4bc1df0d137c1e026997a89262530182" title="Deletes all compile jobs that are inactive in the Game folder." alt="" coords="5,5,324,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a447802145e173d3d60ad702a857d41ff" title="Download a LogFile." alt="" coords="57,71,273,112"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#ad4b7ee25dc7ec160617061a6839ca2b7" title="List LogFiles present." alt="" coords="57,136,273,177"/>
+</map>

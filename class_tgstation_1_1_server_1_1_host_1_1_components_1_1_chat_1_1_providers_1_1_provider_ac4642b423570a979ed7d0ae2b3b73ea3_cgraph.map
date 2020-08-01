@@ -1,0 +1,10 @@
+<map id="Tgstation.Server.Host.Components.Chat.Providers.Provider.SetReconnectInterval" name="Tgstation.Server.Host.Components.Chat.Providers.Provider.SetReconnectInterval">
+<area shape="rect" id="node1" title="Set the interval at which the provider starts jobs to try to reconnect." alt="" coords="5,162,248,218"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac6502da810ca16f52bed5505c7807746" title="Creates a Task that will attempt to reconnect the Provider every reconnectInterval &#160;minutes." alt="" coords="311,136,581,177"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a19cca90f9904a5d3535cd27c3e3fe3fe" title="Stops and awaits the reconnectTask." alt="" coords="296,201,596,243"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a96305dc74c77224130e4067f19b59407" title="Attempt to connect the Provider." alt="" coords="663,5,889,47"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#a627edd03f216fa53e443b1901cf5599c" title="Gracefully disconnects the provider." alt="" coords="651,71,901,112"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac45c189505744c6f1012461193fca877" title="Queues a message &#160;for NextMessage(CancellationToken)" alt="" coords="644,136,908,177"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a21be789f798adf9985f2432d3499b4cd" title="Registers a given Job and begins running it" alt="" coords="674,201,878,243"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a04ad7543ef9c8863c1d8d0b46d17f522" title="Wait for a given job &#160;to complete" alt="" coords="661,267,891,308"/>
+</map>

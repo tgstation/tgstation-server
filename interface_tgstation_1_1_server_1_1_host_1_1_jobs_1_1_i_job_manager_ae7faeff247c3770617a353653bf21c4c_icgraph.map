@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Jobs.IJobManager.JobProgress" name="Tgstation.Server.Host.Jobs.IJobManager.JobProgress">
+<area shape="rect" id="node1" title="Get the Api.Models.Job.Progress for a job" alt="" coords="269,5,452,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#aad5f209a424e97eeb42d75c6ff37f07d" title="Get a specific Api.Models.Job." alt="" coords="5,5,221,47"/>
+</map>

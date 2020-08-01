@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.InstanceManager.GetInstanceReference" name="Tgstation.Server.Host.Components.InstanceManager.GetInstanceReference">
+<area shape="rect" id="node1" title="Get the IInstanceReference associated with given metadata" alt="" coords="280,5,535,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a232e9720186876671fb9709f433a507b" title="Move an IInstance" alt="" coords="5,5,232,47"/>
+</map>

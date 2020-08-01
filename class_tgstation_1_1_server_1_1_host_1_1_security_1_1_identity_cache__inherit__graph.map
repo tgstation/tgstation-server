@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Security.IdentityCache" name="Tgstation.Server.Host.Security.IdentityCache">
+<area shape="rect" id="node1" title=" " alt="" coords="19,80,220,121"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html" title="For caching ISystemIdentitys" alt="" coords="5,5,111,32"/>
+<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="135,5,226,32"/>
+</map>

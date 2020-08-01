@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog.DisposeAndNullControllersImpl" name="Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog.DisposeAndNullControllersImpl">
+<area shape="rect" id="node1" title="Call IDisposable.Dispose and null the fields for all ISessionControllers." alt="" coords="5,5,272,61"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#a7750549dee1e98a8d5a2299fcf8fbd87" title=" " alt="" coords="320,13,603,54"/>
+</map>

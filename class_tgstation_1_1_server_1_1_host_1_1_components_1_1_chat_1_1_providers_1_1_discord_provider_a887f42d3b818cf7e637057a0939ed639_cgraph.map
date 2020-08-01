@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.DiscordProvider" name="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.DiscordProvider">
+<area shape="rect" id="node1" title="Construct a DiscordProvider" alt="" coords="5,70,255,126"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3866a830f4cedcfdc6b2d1ca7e87ab4d" title="Handle a message recieved from Discord" alt="" coords="303,70,541,126"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac45c189505744c6f1012461193fca877" title="Queues a message &#160;for NextMessage(CancellationToken)" alt="" coords="589,5,853,47"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3cf5b9ba9079d6c9f582f61b5894f7c1" title="Normalize a discord mention string" alt="" coords="590,70,853,126"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ac986f3eaca89e94c1a16d3a6392c44dd" title="Send a message to the IProvider" alt="" coords="604,150,839,206"/>
+</map>

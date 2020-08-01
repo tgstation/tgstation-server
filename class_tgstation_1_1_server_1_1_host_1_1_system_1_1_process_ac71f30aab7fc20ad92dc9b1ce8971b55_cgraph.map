@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.System.Process.Resume" name="Tgstation.Server.Host.System.Process.Resume">
+<area shape="rect" id="node1" title="Resumes the process." alt="" coords="5,5,204,47"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ad7b3670db0f89899889687e13a33f7c6" title="Resume a given suspended Process." alt="" coords="252,5,476,47"/>
+</map>

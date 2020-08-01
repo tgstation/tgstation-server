@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.Interop.Converters.VersionConverter" name="Tgstation.Server.Host.Components.Interop.Converters.VersionConverter">
+<area shape="rect" id="node1" title="JsonConverter for serializing Versions for BYOND." alt="" coords="5,80,236,121"/>
+<area shape="rect" id="node2" href="$class_json_converter.html" title=" " alt="" coords="67,5,174,32"/>
+</map>

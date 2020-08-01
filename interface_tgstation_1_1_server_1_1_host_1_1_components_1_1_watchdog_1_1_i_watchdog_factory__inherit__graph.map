@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Components.Watchdog.IWatchdogFactory" name="Tgstation.Server.Host.Components.Watchdog.IWatchdogFactory">
+<area shape="rect" id="node1" title="For creating IWatchdogs" alt="" coords="11,5,237,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html" title=" " alt="" coords="11,95,237,136"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog_factory.html" title="IWatchdogFactory for creating WindowsWatchdogs." alt="" coords="5,184,243,225"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_posix_watchdog_factory.html" title="IWatchdogFactory for creating PosixWatchdogs." alt="" coords="11,273,237,315"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.IRenameNotifyee.InstanceRenamed" name="Tgstation.Server.Host.Components.IRenameNotifyee.InstanceRenamed">
+<area shape="rect" id="node1" title="Called when the owning Instance is renamed." alt="" coords="280,5,511,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a83fd03b9f768637cd654e3aca814d1ee" title="Called when the owning Instance is renamed." alt="" coords="5,5,232,47"/>
+</map>

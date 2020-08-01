@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Controllers.InstanceController.Create" name="Tgstation.Server.Host.Controllers.InstanceController.Create">
+<area shape="rect" id="node1" title="Create or attach an Api.Models.Instance." alt="" coords="5,5,221,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a8b8a858eef2c16d29e1aff3603f91cce" title=" " alt="" coords="269,5,485,47"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="533,5,701,47"/>
+</map>

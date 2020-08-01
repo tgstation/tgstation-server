@@ -1,0 +1,8 @@
+<map id="Tgstation.Server.Host.Controllers.AdministrationController.ListLogs" name="Tgstation.Server.Host.Controllers.AdministrationController.ListLogs">
+<area shape="rect" id="node1" title="List LogFiles present." alt="" coords="5,108,221,150"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e" title="Combines an array of strings into a path" alt="" coords="600,79,768,120"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a0d6d5a54db205d2d1d45a927d57f5182" title="Gets the file name portion of a path" alt="" coords="325,43,496,84"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#aca74c5436163f98c2780e8aa1468d098" title="Returns file names in a given path" alt="" coords="327,108,495,150"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#a6e9e186a1456017f692358f96bdab2c3" title="Gets the evaluated log Directory." alt="" coords="269,174,552,215"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a291d4f10bc7972fbb518125e1331f634" title="Get the DateTimeOffset of when a given path &#160;was last modified." alt="" coords="317,239,505,280"/>
+</map>

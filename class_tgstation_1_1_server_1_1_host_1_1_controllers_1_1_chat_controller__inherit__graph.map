@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Controllers.ChatController" name="Tgstation.Server.Host.Controllers.ChatController">
+<area shape="rect" id="node1" title="ApiController for managing Api.Models.ChatBots" alt="" coords="5,229,221,271"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller.html" title="abstract ApiController for operations on an IInstance." alt="" coords="24,155,203,181"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="A Controller for API functions" alt="" coords="65,80,161,107"/>
+<area shape="rect" id="node4" href="$class_controller.html" title=" " alt="" coords="75,5,152,32"/>
+</map>

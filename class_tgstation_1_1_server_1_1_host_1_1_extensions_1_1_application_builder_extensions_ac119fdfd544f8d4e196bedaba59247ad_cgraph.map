@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Extensions.ApplicationBuilderExtensions.UseCancelledRequestSuppression" name="Tgstation.Server.Host.Extensions.ApplicationBuilderExtensions.UseCancelledRequestSuppression">
+<area shape="rect" id="node1" title="Suppress TaskCanceledException warnings when a user aborts a request" alt="" coords="5,5,279,61"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a9f539001c8a2bbac8addd3505f61a31c" title="Gets a ILogger from a given httpContext" alt="" coords="327,13,580,54"/>
+</map>

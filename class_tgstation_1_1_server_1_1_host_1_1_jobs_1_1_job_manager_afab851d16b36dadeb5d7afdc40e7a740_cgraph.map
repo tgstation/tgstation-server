@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Jobs.JobManager.CancelJob" name="Tgstation.Server.Host.Jobs.JobManager.CancelJob">
+<area shape="rect" id="node1" title="Cancels a give job" alt="" coords="5,39,188,80"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#a674342b0dc8050c0ab42a299aa4a7762" title="Cancels task" alt="" coords="236,5,419,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_handler.html#ae9c16c160e9e0f1e1201dc86a29eace0" title="Wait for task to complete" alt="" coords="236,71,419,112"/>
+</map>

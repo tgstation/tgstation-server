@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.NativeMethods.MiniDumpWriteDump" name="Tgstation.Server.Host.NativeMethods.MiniDumpWriteDump">
+<area shape="rect" id="node1" title="See https://docs.microsoft.com/en&#45;us/windows/win32/api/minidumpapiset/nf&#45;minidumpapiset&#45;minidumpwrite..." alt="" coords="303,5,500,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_process_features.html#a1f0c6b3671ac06b34d885c295d1971ee" title="Create a dump file for a given process ." alt="" coords="5,5,255,47"/>
+</map>

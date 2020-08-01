@@ -1,0 +1,8 @@
+<map id="Tgstation.Server.Host.Components.Repository.IRepository.ShaIsParent" name="Tgstation.Server.Host.Components.Repository.IRepository.ShaIsParent">
+<area shape="rect" id="node1" title="Check if a given sha &#160;is a parent of the current Head." alt="" coords="1120,39,1347,80"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#aed1debb892c0e54911e3ef6b9296d62e" title="Get the updated list of TestMerges for an origin merge." alt="" coords="829,39,1072,80"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afb736b47a7400fb861186b8dad1c4c4c" title="Pull the repository and compile for every set of given minutes" alt="" coords="555,39,781,80"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a9c7e2863cce30a01be66c0ce1dd07d9c" title="Change the Api.Models.Instance.AutoUpdateInterval for the IInstanceCore" alt="" coords="280,39,507,80"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,5,232,47"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,71,232,112"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="Tgstation.Server.Host.Controllers.RepositoryController.Create" name="Tgstation.Server.Host.Controllers.RepositoryController.Create">
+<area shape="rect" id="node1" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="5,104,221,145"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae0fcee33c7b7341bc3bf0c0e66e1ebf4" title="Generic 201 response with a given payload ." alt="" coords="298,5,514,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f" title="Generic 410 response." alt="" coords="298,71,514,112"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a21be789f798adf9985f2432d3499b4cd" title="Registers a given Job and begins running it" alt="" coords="304,136,508,177"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller.html#ab20aad6535d46cb0f297e9a1b88d6e74" title="Run a given action &#160;with the relevant IInstance." alt="" coords="269,201,543,257"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#ae9607bccaf0751fd40d3ec32ce514c9f" title="Get the IInstanceReference associated with given metadata" alt="" coords="591,208,849,249"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Security.CryptographySuite.CheckUserPassword" name="Tgstation.Server.Host.Security.CryptographySuite.CheckUserPassword">
+<area shape="rect" id="node1" title="Checks a given password &#160;matches a given user &#39;s User.PasswordHash. This may result in User...." alt="" coords="5,5,259,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_cryptography_suite.html#a0936b97992a82380047925e656b4bdae" title="Sets a User.PasswordHash for a given user" alt="" coords="307,5,543,47"/>
+</map>

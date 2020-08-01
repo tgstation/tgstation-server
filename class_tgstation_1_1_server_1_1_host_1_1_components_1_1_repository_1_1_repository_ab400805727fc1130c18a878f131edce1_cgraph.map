@@ -1,0 +1,8 @@
+<map id="Tgstation.Server.Host.Components.Repository.Repository.AddTestMerge" name="Tgstation.Server.Host.Components.Repository.Repository.AddTestMerge">
+<area shape="rect" id="node1" title="Attempt to merge a GitHub pull request into HEAD" alt="" coords="5,77,240,119"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_commands.html#a3660f1ded05e762c347ffc43c6d71700" title="Runs a blocking fetch operation on a given repository ." alt="" coords="300,5,535,47"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html#a30e3427729e4b3a67bbd3068be3213b4" title="Generate a CredentialsHandler from a given username &#160;and password" alt="" coords="288,70,547,126"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#ace81561f45095dabdd6969b281a2be08" title="Runs a blocking force checkout to committish" alt="" coords="302,149,533,191"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_commands.html#a193582291ff43c0841b5c75f77f50fcb" title="Runs a blocking checkout operation on a given repository ." alt="" coords="595,113,851,155"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#ae8ee5ac2942a57e05ec5c7e238e75977" title="Converts a given progressReporter &#160;to a LibGit2Sharp.Handlers.CheckoutProgressHandler" alt="" coords="595,178,852,234"/>
+</map>

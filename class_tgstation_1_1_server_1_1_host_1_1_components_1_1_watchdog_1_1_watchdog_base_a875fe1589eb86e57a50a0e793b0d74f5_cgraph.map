@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.DisposeAndNullControllers" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.DisposeAndNullControllers">
+<area shape="rect" id="node1" title="Wrapper for DisposeAndNullControllersImpl under a locked context." alt="" coords="5,41,272,97"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a2f8ea066a8ae2408f1c86f828d7974f8" title="Call IDisposable.Dispose and null the fields for all ISessionControllers." alt="" coords="320,5,587,61"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a01e4f4e2d775bd2bf0910a1f5c2f24ef" title="Asyncronously locks a semaphore" alt="" coords="358,85,549,126"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a600d8d0a279d2fe17d1f48c1a1bd17d4" title="Construct a SemaphoreSlimContext" alt="" coords="635,77,888,133"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.IO.DefaultIOManager.GetFiles" name="Tgstation.Server.Host.IO.DefaultIOManager.GetFiles">
+<area shape="rect" id="node1" title="Returns file names in a given path" alt="" coords="5,5,184,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4" title="Retrieve the full path of the current working directory." alt="" coords="232,5,436,47"/>
+</map>

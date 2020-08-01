@@ -1,0 +1,8 @@
+<map id="Tgstation.Server.Host.Server.ApplyUpdate" name="Tgstation.Server.Host.Server.ApplyUpdate">
+<area shape="rect" id="node1" title="Run a new Host assembly and stop the current one. This will likely trigger all active CancellationTok..." alt="" coords="5,136,197,177"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a5307337e3bb84c45327e8a856b7f425f" title="Throws an InvalidOperationException if the IServerControl cannot be used" alt="" coords="245,5,437,47"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="251,71,432,112"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a20647d9e4dd09b806e407cd5c8a23b9b" title="Downloads a file from url" alt="" coords="256,136,427,177"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#ab2114beab119e090ece99d97ef0ca9c6" title="Restarts the Host" alt="" coords="245,201,437,243"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a839873a83e4a687821fbc3d28619f851" title="Extract a set of zipFileBytes &#160;to a given path" alt="" coords="253,267,430,308"/>
+</map>

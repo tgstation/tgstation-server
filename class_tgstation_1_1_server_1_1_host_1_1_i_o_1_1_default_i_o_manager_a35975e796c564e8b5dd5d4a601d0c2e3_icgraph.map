@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.IO.DefaultIOManager.CreateDirectory" name="Tgstation.Server.Host.IO.DefaultIOManager.CreateDirectory">
+<area shape="rect" id="node1" title="Create a directory at path" alt="" coords="547,5,765,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a32ca1367eadecb45e671aa509f3ce058" title="Copies a directory from src &#160;to dest" alt="" coords="264,5,499,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac24671c0d1ce1f6787304c5f4bcccf7c" title="Copies a directory from src &#160;to dest" alt="" coords="5,5,216,47"/>
+</map>

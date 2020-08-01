@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Api.Models.LogFile" name="Tgstation.Server.Api.Models.LogFile">
+<area shape="rect" id="node1" title="Represents a server log file." alt="" coords="5,80,192,121"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_raw_data.html" title="Represents raw bytes." alt="" coords="61,5,136,32"/>
+</map>

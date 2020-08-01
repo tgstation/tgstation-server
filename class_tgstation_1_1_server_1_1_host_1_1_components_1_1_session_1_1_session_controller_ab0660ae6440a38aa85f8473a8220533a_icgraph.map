@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Components.Session.SessionController.CheckDisposed" name="Tgstation.Server.Host.Components.Session.SessionController.CheckDisposed">
+<area shape="rect" id="node1" title="Throws an ObjectDisposedException if DisposeAsync has been called" alt="" coords="336,71,604,112"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a5265a5dbb5e09483ba2d84bb0dd39d12" title="Releases the IProcess without terminating it. Also calls IDisposable.Dispose" alt="" coords="33,5,260,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a3bf4bd799f6cdbe8c992f37798b44cf9" title="Changes RebootState to RebootState.Normal without telling the DMAPI" alt="" coords="5,71,288,112"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a3183d3610d700b1da9983b67cb1b558a" title="Causes the world to start listening on a newPort" alt="" coords="33,136,260,177"/>
+</map>

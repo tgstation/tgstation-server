@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.Controllers.AdministrationController.Update" name="Tgstation.Server.Host.Controllers.AdministrationController.Update">
+<area shape="rect" id="node1" title="Attempt to perform a server upgrade." alt="" coords="5,136,221,177"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a136149ffd1e19c77776bf08ad6f019d8" title="Try to download and apply an update with a given newVersion ." alt="" coords="269,129,524,185"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a08e0b784b8a22398a183e759446bf5f3" title="Run a new Host assembly and stop the current one. This will likely trigger all active CancellationTok..." alt="" coords="610,5,793,47"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a35af4d06cfa01eea597d3e29e74b0e21" title=" " alt="" coords="572,71,831,112"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f" title="Generic 410 response." alt="" coords="593,136,809,177"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#ac16c0fe44009a93f09d73f702f9844e9" title=" " alt="" coords="592,201,811,243"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="879,231,1095,272"/>
+</map>

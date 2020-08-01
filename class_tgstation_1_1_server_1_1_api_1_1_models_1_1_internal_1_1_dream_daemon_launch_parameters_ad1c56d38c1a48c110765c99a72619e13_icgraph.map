@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters.CanApplyWithoutReboot" name="Tgstation.Server.Api.Models.Internal.DreamDaemonLaunchParameters.CanApplyWithoutReboot">
+<area shape="rect" id="node1" title="Check if we match a given set of otherParameters . StartupTimeout is excluded." alt="" coords="320,5,587,61"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a390fcde5ed6ed30d6e5b5b2ebc8273dc" title="Changes the ActiveLaunchParameters. If currently running, may trigger a graceful restart." alt="" coords="5,13,272,54"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.Controllers.ApiController.Created" name="Tgstation.Server.Host.Controllers.ApiController.Created">
+<area shape="rect" id="node1" title="Generic 201 response with a given payload ." alt="" coords="269,169,485,211"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_user_controller.html#a3a26d7b7a1b8c8c8c0ade33893f24b09" title="Create an Api.Models.InstanceUser." alt="" coords="5,5,221,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a99457477cad4b6adcedbba47d939f005" title="Create a Api.Models.User." alt="" coords="5,71,221,112"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a30a5b00625419334b1d51ae4a51aebda" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="5,136,221,177"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a111121fa22f2648803f8f890c8a6305b" title="Create a configuration directory." alt="" coords="5,201,221,243"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a0263b7f7bef9a5b23cdc52c3735af3c5" title="Get Repository status." alt="" coords="5,267,221,308"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a7c19c1f24368f45b5e65ccf73fc58416" title="Write to a configuration file." alt="" coords="5,332,221,373"/>
+</map>

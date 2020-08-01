@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Models.Job.ToApi" name="Tgstation.Server.Host.Models.Job.ToApi">
+<area shape="rect" id="node1" title="Convert the Job to it&#39;s API form" alt="" coords="5,29,201,71"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a8effbd8cd0ce7ba4c72f40efc08a9b50" title="See ToApi(bool)" alt="" coords="249,29,445,71"/>
+</map>

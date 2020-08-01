@@ -1,0 +1,12 @@
+<map id="Tgstation.Server.Host.Components.Repository.RepositoryManager.CloneRepository" name="Tgstation.Server.Host.Components.Repository.RepositoryManager.CloneRepository">
+<area shape="rect" id="node1" title="Clone the repository at url" alt="" coords="5,208,300,249"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#a0a6ed81450e50013e2ec1bae65e5f8cb" title="Clone a remote LibGit2Sharp.IRepository." alt="" coords="357,5,629,47"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="403,71,584,112"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ae1f28b3b77349cbfbb9b3f9ba1271e5e" title="Check that the directory at path &#160;exists" alt="" coords="404,136,583,177"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html#a30e3427729e4b3a67bbd3068be3213b4" title="Generate a CredentialsHandler from a given username &#160;and password" alt="" coords="364,201,623,257"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#afcab0cdc52ae45ecd0dfba5c7630e303" title="Attempt to load the IRepository from the default location" alt="" coords="348,280,639,321"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="729,335,897,376"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a01e4f4e2d775bd2bf0910a1f5c2f24ef" title="Asyncronously locks a semaphore" alt="" coords="398,400,589,441"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#a855673b50e2639242bea6d6770c39773" title="Load a LibGit2Sharp.IRepository from a given path ." alt="" coords="694,255,933,311"/>
+<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a600d8d0a279d2fe17d1f48c1a1bd17d4" title="Construct a SemaphoreSlimContext" alt="" coords="687,399,940,455"/>
+</map>

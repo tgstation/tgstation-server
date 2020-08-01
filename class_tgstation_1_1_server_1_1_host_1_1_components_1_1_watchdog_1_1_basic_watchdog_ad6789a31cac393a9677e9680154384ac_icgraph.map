@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.HandleNewDmbAvailable" name="Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.HandleNewDmbAvailable">
+<area shape="rect" id="node1" title="Handler for MonitorActivationReason.NewDmbAvailable." alt="" coords="361,5,633,61"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a056db8ac9f376f053c671df0e7371ed4" title="Handles the actions to take when the monitor has to &quot;wake up&quot;" alt="" coords="5,13,313,54"/>
+</map>

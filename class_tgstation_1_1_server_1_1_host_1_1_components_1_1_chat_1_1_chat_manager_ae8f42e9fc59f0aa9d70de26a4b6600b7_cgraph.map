@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.Chat.ChatManager.DeleteConnection" name="Tgstation.Server.Host.Components.Chat.ChatManager.DeleteConnection">
+<area shape="rect" id="node1" title="Disconnects and deletes a given connection" alt="" coords="5,5,240,47"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#ae24ff61d2fb16b41675498d0d95b67d8" title="Gracefully disconnects the provider. Permanently stops the reconnection timer." alt="" coords="288,5,519,47"/>
+</map>

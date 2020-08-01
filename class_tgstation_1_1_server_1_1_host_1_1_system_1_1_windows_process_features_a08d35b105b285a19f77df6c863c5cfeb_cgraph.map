@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.System.WindowsProcessFeatures.SuspendProcess" name="Tgstation.Server.Host.System.WindowsProcessFeatures.SuspendProcess">
+<area shape="rect" id="node1" title="Suspend a given process ." alt="" coords="5,71,281,112"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a5cc6468cad981968d6edbeec40aea81e" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms724211(v=vs.85).aspx" alt="" coords="329,5,519,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a8680bb0a60dc39bc6652442a2fa9cdb4" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms684335(v=vs.85).aspx" alt="" coords="329,71,519,112"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a21ce8310ad8c05110a45b1f2b6892697" title="See https://msdn.microsoft.com/en&#45;us/library/windows/desktop/ms686345(v=vs.85).aspx" alt="" coords="329,136,519,177"/>
+</map>

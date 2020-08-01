@@ -1,0 +1,13 @@
+<map id="Tgstation.Server.Client.ApiException" name="Tgstation.Server.Client.ApiException">
+<area shape="rect" id="node1" title="API related Exceptions." alt="" coords="291,235,447,276"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_client_1_1_api_conflict_exception.html" title="Occurs when the server returns a bad request response if the ApiException.ErrorCode is present...." alt="" coords="523,5,679,47"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_client_1_1_conflict_exception.html" title="Occurs when the client performs an action that would result in data conflict" alt="" coords="523,71,679,112"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_client_1_1_insufficient_permissions_exception.html" title="Occurs when the client attempts to perform an action they do not have the rights for" alt="" coords="495,136,707,177"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_client_1_1_method_not_supported_exception.html" title="Occurs when the client tries to use a currently unsupported API" alt="" coords="500,201,701,243"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_client_1_1_rate_limit_exception.html" title="Occurs when a GitHub rate limit occurs" alt="" coords="523,267,679,308"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_client_1_1_server_error_exception.html" title="Occurs when an error occurs in the server" alt="" coords="523,332,679,373"/>
+<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_client_1_1_unauthorized_exception.html" title="Occurs when the client provides invalid credentials" alt="" coords="523,397,679,439"/>
+<area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_client_1_1_version_mismatch_exception.html" title="Occurs when the API version of the client is not compatible with the server&#39;s" alt="" coords="511,463,690,504"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_client_exception.html" title="Exceptions thrown by IServerClients" alt="" coords="132,242,243,269"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,242,84,269"/>
+</map>

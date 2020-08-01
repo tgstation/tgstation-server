@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.TerminateNoLock" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.TerminateNoLock">
+<area shape="rect" id="node1" title="Implementation of Terminate(bool, CancellationToken). Does not lock synchronizationSemaphore" alt="" coords="5,104,284,145"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a634f53946305b875c65c04dfd1719830" title="Get the active ISessionController." alt="" coords="332,5,619,47"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#ac217567aa6bd7e43c8cfd976eee05aac" title="Handle a given eventType" alt="" coords="356,71,595,112"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a084ec3f50264304b5aa437e58a09f313" title="Send a chat message &#160;to configured watchdog channels" alt="" coords="337,136,614,177"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a565b987a394c375c75b3fe14ca3f75e1" title="Stops MonitorLifetimes(CancellationToken). Doesn&#39;t kill the servers" alt="" coords="353,201,597,243"/>
+</map>

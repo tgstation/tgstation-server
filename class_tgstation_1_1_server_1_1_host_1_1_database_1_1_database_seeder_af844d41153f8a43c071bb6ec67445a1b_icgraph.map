@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Database.DatabaseSeeder.ResetAdminPassword" name="Tgstation.Server.Host.Database.DatabaseSeeder.ResetAdminPassword">
+<area shape="rect" id="node1" title="Changes the admin password in IDatabaseContext back to it&#39;s default and enables the account" alt="" coords="263,5,513,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a453f07e4addb58e08b4ce0ddfb84e357" title="Setup up a given databaseContext ." alt="" coords="5,5,215,47"/>
+</map>

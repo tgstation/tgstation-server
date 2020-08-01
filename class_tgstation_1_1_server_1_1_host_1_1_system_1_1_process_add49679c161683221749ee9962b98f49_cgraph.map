@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.System.Process.CreateDump" name="Tgstation.Server.Host.System.Process.CreateDump">
+<area shape="rect" id="node1" title="Create a dump file of the process." alt="" coords="5,5,204,47"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_features.html#ad576ba0ef666881ed6059180a0522a09" title="Create a dump file for a given process ." alt="" coords="252,5,452,47"/>
+</map>

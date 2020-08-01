@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.IO.DefaultIOManager.GetLastModified" name="Tgstation.Server.Host.IO.DefaultIOManager.GetLastModified">
+<area shape="rect" id="node1" title="Get the DateTimeOffset of when a given path &#160;was last modified." alt="" coords="5,5,231,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4" title="Retrieve the full path of the current working directory." alt="" coords="279,5,483,47"/>
+</map>

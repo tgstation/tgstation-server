@@ -1,0 +1,15 @@
+<map id="Tgstation.Server.Host.Components.Chat.Commands.CommandFactory" name="Tgstation.Server.Host.Components.Chat.Commands.CommandFactory">
+<area shape="rect" id="node1" title=" " alt="" coords="628,227,855,269"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command_factory.html" title="Factory for built in ICommands" alt="" coords="231,44,359,71"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html" title="For managing the BYOND installation" alt="" coords="181,162,408,203"/>
+<area shape="rect" id="node4" href="$class_i_hosted_service.html" title=" " alt="" coords="13,165,125,192"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers" alt="" coords="181,95,408,137"/>
+<area shape="rect" id="node5" href="$class_i_disposable.html" title=" " alt="" coords="23,224,114,251"/>
+<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html" title="Factory for creating and loading IRepositorys" alt="" coords="181,227,408,269"/>
+<area shape="rect" id="node7" href="$class_i_async_disposable.html" title=" " alt="" coords="5,5,132,32"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions" alt="" coords="9,56,128,83"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed." alt="" coords="7,107,130,133"/>
+<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components" alt="" coords="190,293,399,334"/>
+<area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="195,358,394,399"/>
+<area shape="rect" id="node13" title=" " alt="" coords="263,424,327,451"/>
+</map>

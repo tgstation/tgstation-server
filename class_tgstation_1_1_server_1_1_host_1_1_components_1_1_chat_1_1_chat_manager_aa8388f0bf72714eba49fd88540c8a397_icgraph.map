@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Components.Chat.ChatManager.RemapProvider" name="Tgstation.Server.Host.Components.Chat.ChatManager.RemapProvider">
+<area shape="rect" id="node1" title=" " alt="" coords="569,5,796,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a13d3a724fb03c4546b7af6162336809c" title="Processes a message" alt="" coords="288,5,521,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a530e8ef5a58711a9c6744021df74afb2" title="Monitors active providers for new Messages" alt="" coords="5,5,240,47"/>
+</map>

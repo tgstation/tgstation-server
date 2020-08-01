@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Components.Interop.Bridge.TestMergeInformation" name="Tgstation.Server.Host.Components.Interop.Bridge.TestMergeInformation">
+<area shape="rect" id="node1" title="This model mirrors /datum/tgs_revision_information/test_merge" alt="" coords="5,155,237,196"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_test_merge_base.html" title="Layer of test merge data required internally" alt="" coords="64,80,179,107"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html" title="Parameters for creating a TestMerge" alt="" coords="46,5,197,32"/>
+</map>

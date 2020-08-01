@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user.html" title="Represents a server User" alt="" coords="5,31,192,72"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user.html" title=" " alt="" coords="245,13,459,39"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html" title=" " alt="" coords="240,63,464,90"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_update.html" title="For editing a given User. Will never be returned by the API" alt="" coords="512,5,699,47"/>
+</map>

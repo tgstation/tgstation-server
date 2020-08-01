@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.Byond.IByondInstaller.CleanCache" name="Tgstation.Server.Host.Components.Byond.IByondInstaller.CleanCache">
+<area shape="rect" id="node1" title="Attempts to cleans the BYOND cache folder for the system" alt="" coords="280,5,507,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#aabf10dd79c9488de365bb8de0129b74b" title=" " alt="" coords="5,5,232,47"/>
+</map>

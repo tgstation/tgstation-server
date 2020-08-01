@@ -1,0 +1,8 @@
+<map id="Tgstation.Server.Host.Controllers.InstanceRequiredController" name="Tgstation.Server.Host.Controllers.InstanceRequiredController">
+<area shape="rect" id="node1" title="abstract ApiController for operations on an IInstance." alt="" coords="79,213,295,255"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="A Controller for API functions" alt="" coords="47,117,143,143"/>
+<area shape="rect" id="node3" href="$class_controller.html" title=" " alt="" coords="5,5,83,32"/>
+<area shape="rect" id="node4" title=" " alt="" coords="107,5,154,32"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html" title="For managing IInstances" alt="" coords="167,109,393,151"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters." alt="" coords="217,5,343,32"/>
+</map>

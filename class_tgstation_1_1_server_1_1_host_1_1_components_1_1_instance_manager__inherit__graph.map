@@ -1,0 +1,10 @@
+<map id="Tgstation.Server.Host.Components.InstanceManager" name="Tgstation.Server.Host.Components.InstanceManager">
+<area shape="rect" id="node1" title=" " alt="" coords="377,125,604,166"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html" title="For managing IInstances" alt="" coords="191,5,317,32"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters." alt="" coords="5,5,131,32"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core_provider.html" title="Provider for IInstanceCores" alt="" coords="179,56,329,83"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts" alt="" coords="197,107,311,133"/>
+<area shape="rect" id="node6" href="$class_i_hosted_service.html" title=" " alt="" coords="198,157,310,184"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_registrar.html" title="Registers IBridgeHandlers." alt="" coords="197,208,311,235"/>
+<area shape="rect" id="node8" href="$class_i_async_disposable.html" title=" " alt="" coords="191,259,317,285"/>
+</map>

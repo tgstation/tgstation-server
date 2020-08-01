@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory" name="Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory">
+<area shape="rect" id="node1" title=" " alt="" coords="515,46,747,87"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html" title="Factory for creating LibGit2Sharp.IRepositorys." alt="" coords="225,5,397,32"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_credentials_provider.html" title="For generating CredentialsHandlers" alt="" coords="5,5,144,32"/>
+<area shape="rect" id="node4" title=" " alt="" coords="193,56,428,112"/>
+</map>

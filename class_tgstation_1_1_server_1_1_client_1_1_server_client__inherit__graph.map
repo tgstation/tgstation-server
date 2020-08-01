@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Client.ServerClient" name="Tgstation.Server.Client.ServerClient">
+<area shape="rect" id="node1" title=" " alt="" coords="5,155,161,196"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server" alt="" coords="35,80,132,107"/>
+<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="38,5,129,32"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.IO.DefaultIOManager.MoveFile" name="Tgstation.Server.Host.IO.DefaultIOManager.MoveFile">
+<area shape="rect" id="node1" title="Moves a file at source &#160;to destination" alt="" coords="5,5,188,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a34087ebccffcf9f51173e01fe4a50be4" title="Retrieve the full path of the current working directory." alt="" coords="236,5,440,47"/>
+</map>

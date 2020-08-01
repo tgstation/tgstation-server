@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Api.Models.DreamMaker" name="Tgstation.Server.Api.Models.DreamMaker">
+<area shape="rect" id="node1" title="Represents the state of the DreamMaker compiler. Create action starts a new compile...." alt="" coords="10,5,197,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dream_maker_settings.html" title=" " alt="" coords="5,95,201,136"/>
+</map>

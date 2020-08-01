@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Components.Session.ISessionControllerFactory.LaunchNew" name="Tgstation.Server.Host.Components.Session.ISessionControllerFactory.LaunchNew">
+<area shape="rect" id="node1" title="Create a ISessionController from a freshly launch DreamDaemon instance" alt="" coords="589,5,884,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ab683b1788351899ba9ded6cd284c4177" title="Run a quick DD instance to test the DMAPI is installed on the target code" alt="" coords="315,5,541,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a90c81ec6a44a188164e5ae50e6430a7d" title="Executes and populate a given job" alt="" coords="5,5,267,47"/>
+</map>

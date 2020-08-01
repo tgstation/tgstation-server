@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.Repository.Repository.RawCheckout" name="Tgstation.Server.Host.Components.Repository.Repository.RawCheckout">
+<area shape="rect" id="node1" title="Runs a blocking force checkout to committish" alt="" coords="288,5,519,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#ab400805727fc1130c18a878f131edce1" title="Attempt to merge a GitHub pull request into HEAD" alt="" coords="5,5,240,47"/>
+</map>

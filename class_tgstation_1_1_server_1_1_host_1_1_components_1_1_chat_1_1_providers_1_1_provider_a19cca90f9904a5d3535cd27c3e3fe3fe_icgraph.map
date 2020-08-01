@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Components.Chat.Providers.Provider.StopReconnectionTimer" name="Tgstation.Server.Host.Components.Chat.Providers.Provider.StopReconnectionTimer">
+<area shape="rect" id="node1" title="Stops and awaits the reconnectTask." alt="" coords="297,71,597,112"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab77ee1149c17f06af44755f54aa19880" title="Gracefully disconnects the provider. Permanently stops the reconnection timer." alt="" coords="14,5,241,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#afe2edd40c945bc526ccd5dfea7a062b1" title=" " alt="" coords="5,71,249,112"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac4642b423570a979ed7d0ae2b3b73ea3" title="Set the interval at which the provider starts jobs to try to reconnect." alt="" coords="6,135,249,191"/>
+</map>
