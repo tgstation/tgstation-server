@@ -91,7 +91,7 @@ jobs:
           pushd $HOME/tgsdox
           rm -r *
           popd
-          mv ./doxout/* $HOME/tgsdox
+          echo ./doxout/* | xargs sudo mv -t $HOME/tgsdox
           cd $HOME/tgsdox
           git config --global push.default simple
           git config user.name "tgstation-server"
@@ -723,21 +723,17 @@ jobs:
           &"C:/Program Files/7-Zip/7z.exe" a ServerUpdatePackage.zip ./ServerUpdatePackage/* -tzip
 
       - name: Generate Release Notes
-        shell: powershell
-        run: |
-          dotnet run -c Release -p tools/ReleaseNotes ${{ env.TGS_VERSION }} build/Version.props
-          $releaseNotes = [IO.File]::ReadAllText("release_notes.md")
-          Write-Host "::set-env name=TGS_RELEASE_NOTES::$releaseNotes"
+        run: dotnet run -c Release -p tools/ReleaseNotes ${{ env.TGS_VERSION }} build/Version.props
 
       - name: Create GitHub Release
-        uses: juitnow/github-action-create-release@v1
+        uses: actions/create-release@v1
         id: create_release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
           tag_name: tgstation-server-v${{ env.TGS_VERSION }}
           release_name: tgstation-server-v${{ env.TGS_VERSION }}
-          body: ${{ env.TGS_RELEASE_NOTES }}
+          body_path: release_notes.md
           commitish: ${{ github.event.head_commit.id }}
 
       - name: Upload Server Console Artifact
