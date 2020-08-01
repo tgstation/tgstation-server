@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -426,7 +427,21 @@ namespace Tgstation.Server.Host.Core
 			if (controlPanelConfiguration.Enable)
 			{
 				logger.LogWarning("Web control panel enabled. This is a highly WIP feature!");
-				applicationBuilder.UseStaticFiles();
+				applicationBuilder.UseStaticFiles(new StaticFileOptions
+				{
+					OnPrepareResponse = (context) =>
+					{
+						if (!context.File.Name.EndsWith(".js", StringComparison.OrdinalIgnoreCase))
+							return;
+
+						var headers = context.Context.Response.GetTypedHeaders();
+						headers.CacheControl = new Microsoft.Net.Http.Headers.CacheControlHeaderValue
+						{
+							Public = true,
+							MaxAge = TimeSpan.MaxValue
+						};
+					}
+				});
 			}
 			else
 				logger.LogDebug("Web control panel disabled!");
