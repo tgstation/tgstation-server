@@ -77,9 +77,9 @@ jobs:
       - name: Patch Doxyfile
         run: |
           VERSION=$(cat "build/Version.props" | grep -oPm1 "(?<=<TgsCoreVersion>)[^<]+")
-          echo -e "\nPROJECT_NUMBER = $VERSION\nINPUT = .\nOUTPUT_DIRECTORY = ~/tgsdoxout\nPROJECT_LOGO = ./build/tgs.ico\nHAVE_DOT=YES" >> "docs/Doxyfile"
+          echo -e "\nPROJECT_NUMBER = $VERSION\nINPUT = .\nOUTPUT_DIRECTORY = /home/runner/tgsdoxout\nPROJECT_LOGO = ./build/tgs.ico\nHAVE_DOT=YES" >> "docs/Doxyfile"
 
-      - name: Create DOXDIR
+      - name: Create Doxygen Output Directory
         run: mkdir -p $HOME/tgsdoxout
 
       - name: Doxygen Build
@@ -615,7 +615,7 @@ jobs:
     steps:
       - name: Install 7Zip PS Module
         shell: powershell
-        run: Install-Module -Name 7Zip4PowerShell -Verbose
+        run: Install-Module -Name 7Zip4PowerShell -Verbose -Force
 
       - name: Checkout
         uses: actions/checkout@v1
@@ -629,9 +629,7 @@ jobs:
 
       - name: Zip DMAPI
         shell: powershell
-        run: |
-          Install-Module -Name 7Zip4PowerShell -Verbose
-          Compress-7Zip -Path src/DMAPI/* -ArchiveFileName DMAPI.zip -Format Zip
+        run: Compress-7Zip -Path src/DMAPI/* -ArchiveFileName DMAPI.zip -Format Zip
 
       - name: Create GitHub Release
         uses: juitnow/github-action-create-release@v1
@@ -685,6 +683,10 @@ jobs:
     runs-on: windows-latest
     if: github.event_name == 'push' && github.event.ref == 'refs/heads/master' && contains(github.event.head_commit.message, '[TGSDeploy]')
     steps:
+      - name: Install 7Zip PS Module
+        shell: powershell
+        steps: Install-Module -Name 7Zip4PowerShell -Verbose -Force
+
       - name: Checkout
         uses: actions/checkout@v1
 
@@ -722,7 +724,6 @@ jobs:
       - name: Zip Artifacts
         shell: powershell
         run: |
-          Install-Module -Name 7Zip4PowerShell -Verbose
           Compress-7Zip -Path src/DMAPI/* -ArchiveFileName DMAPI.zip -Format Zip
           Compress-7Zip -Path ServerService/* -ArchiveFileName ServerService.zip -Format Zip
           Compress-7Zip -Path ServerConsole/* -ArchiveFileName ServerConsole.zip -Format Zip
