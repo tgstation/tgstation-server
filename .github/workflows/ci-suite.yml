@@ -77,7 +77,7 @@ jobs:
       - name: Patch Doxyfile
         run: |
           VERSION=$(cat "build/Version.props" | grep -oPm1 "(?<=<TgsCoreVersion>)[^<]+")
-          echo -e "\nPROJECT_NUMBER = $VERSION\nINPUT = .\nOUTPUT_DIRECTORY = /home/runner/tgsdoxout\nPROJECT_LOGO = ./build/tgs.ico\nHAVE_DOT=YES" >> "docs/Doxyfile"
+          echo -e "\nPROJECT_NUMBER = $VERSION\nINPUT = .\nOUTPUT_DIRECTORY = /home/runner/work/tgsdoxout\nPROJECT_LOGO = ./build/tgs.ico\nHAVE_DOT=YES" >> "docs/Doxyfile"
 
       - name: Create Doxygen Output Directory
         run: mkdir -p $HOME/tgsdoxout
@@ -90,10 +90,10 @@ jobs:
       - name: gh-pages push
         if: github.event_name == 'push' && github.event.ref == 'refs/heads/dev'
         run: |
-          git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" $HOME/tgsdox
-          cd $HOME/tgsdox
+          git clone -b gh-pages --single-branch "https://git@github.com/tgstation/tgstation-server" $HOME/work/tgsdox
+          cd $HOME/work/tgsdox
           rm -r *
-          mv $HOME/tgsdoxout/* ./
+          mv $HOME/work/tgsdoxout/* ./
           git config --global push.default simple
           git config user.name "tgstation-server"
           git config user.email "tgstation-server@tgstation13.org"
