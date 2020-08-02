@@ -1,12 +1,8 @@
-ignore:
-  - "src/Tgstation.Server.Host/Database/Migrations"
-  - "src/Tgstation.Server.Host/Database/Design"
 coverage:
   status:
     project:
       default:
-        threshold: 0
-        if_no_uploads: failure
-        if_ci_failed: failure
+        target: auto
+        threshold: 3%
 comment:
   layout: "header, diff, changes"
