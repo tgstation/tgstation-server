@@ -458,7 +458,14 @@ namespace Tgstation.Server.Host.Components.Session
 								};
 						}
 
-						response.RuntimeInformation = reattachInformation.RuntimeInformation;
+						response.RuntimeInformation = new RuntimeInformation(
+							chatTrackingContext,
+							reattachInformation.Dmb,
+							reattachInformation.RuntimeInformation.ServerVersion,
+							reattachInformation.RuntimeInformation.InstanceName,
+							reattachInformation.RuntimeInformation.SecurityLevel,
+							reattachInformation.RuntimeInformation.ServerPort,
+							reattachInformation.RuntimeInformation.ApiValidateOnly);
 
 						// Load custom commands
 						chatTrackingContext.CustomCommands = parameters.CustomCommands;
@@ -671,7 +678,10 @@ namespace Tgstation.Server.Host.Components.Session
 
 		/// <inheritdoc />
 		public Task InstanceRenamed(string newInstanceName, CancellationToken cancellationToken)
-			=> SendCommand(new TopicParameters(newInstanceName), cancellationToken);
+		{
+			reattachInformation.RuntimeInformation.InstanceName = newInstanceName;
+			return SendCommand(new TopicParameters(newInstanceName), cancellationToken);
+		}
 
 		/// <inheritdoc />
 		public Task UpdateChannels(IEnumerable<ChannelRepresentation> newChannels, CancellationToken cancellationToken)

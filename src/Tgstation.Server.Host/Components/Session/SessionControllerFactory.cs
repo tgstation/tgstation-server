@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Globalization;
-using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -457,31 +456,14 @@ namespace Tgstation.Server.Host.Components.Session
 			IChatTrackingContext chatTrackingContext,
 			DreamDaemonSecurity? securityLevel,
 			bool apiValidateOnly)
-		{
-			var revisionInfo = new Api.Models.Internal.RevisionInformation
-			{
-				CommitSha = dmbProvider.CompileJob.RevisionInformation.CommitSha,
-				OriginCommitSha = dmbProvider.CompileJob.RevisionInformation.OriginCommitSha
-			};
-
-			var testMerges = dmbProvider
-				.CompileJob
-				.RevisionInformation
-				.ActiveTestMerges?
-				.Select(x => x.TestMerge)
-				.Select(x => new TestMergeInformation(x, revisionInfo))
-				?? Enumerable.Empty<TestMergeInformation>();
-
-			return new RuntimeInformation(
-				assemblyInformationProvider,
-				serverPortProvider,
-				testMerges,
-				chatTrackingContext.Channels,
-				instance,
-				revisionInfo,
+			=> new RuntimeInformation(
+				chatTrackingContext,
+				dmbProvider,
+				assemblyInformationProvider.Version,
+				instance.Name,
 				securityLevel,
+				serverPortProvider.HttpApiPort,
 				apiValidateOnly);
-		}
 
 		/// <summary>
 		/// Make sure the BYOND pager is not running.
