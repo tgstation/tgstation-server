@@ -348,7 +348,10 @@ namespace Tgstation.Server.Host.Controllers
 
 				await Task.WhenAll(tasks).ConfigureAwait(false);
 
-				var result = tasks.Select(x => x.Result).ToList();
+				var result = tasks
+					.Select(x => x.Result)
+					.OrderByDescending(x => x.Name)
+					.ToList();
 
 				return Ok(result);
 			}
