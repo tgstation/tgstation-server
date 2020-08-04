@@ -304,7 +304,7 @@ namespace Tgstation.Server.Host.Components.Session
 			var startupTask = !reattached && (apiValidate || DMApiAvailable)
 				? initialBridgeRequestTcs.Task
 				: process.Startup;
-			var toAwait = startupTask;
+			var toAwait = Task.WhenAny(startupTask, process.Lifetime);
 
 			if (startupTimeout.HasValue)
 				toAwait = Task.WhenAny(toAwait, Task.Delay(startTime.AddSeconds(startupTimeout.Value) - startTime));
