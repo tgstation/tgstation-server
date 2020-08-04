@@ -74,6 +74,11 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly ReattachInformation reattachInformation;
 
 		/// <summary>
+		/// The <see cref="TaskCompletionSource{TResult}"/> that completes when DD makes it's first bridge request.
+		/// </summary>
+		readonly TaskCompletionSource<object> initialBridgeRequestTcs;
+
+		/// <summary>
 		/// The <see cref="Instance"/> metadata.
 		/// </summary>
 		readonly Api.Models.Instance metadata;
@@ -226,6 +231,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 			rebootTcs = new TaskCompletionSource<object>();
 			primeTcs = new TaskCompletionSource<object>();
+			initialBridgeRequestTcs = new TaskCompletionSource<object>();
 			reattachTopicCts = new CancellationTokenSource();
 			synchronizationLock = new object();
 
@@ -241,7 +247,8 @@ namespace Tgstation.Server.Host.Components.Session
 			LaunchResult = GetLaunchResult(
 				assemblyInformationProvider,
 				startupTimeout,
-				reattached);
+				reattached,
+				apiValidate);
 
 			logger.LogDebug(
 				"Created session controller. CommsKey: {0}, Port: {1}",
@@ -285,24 +292,29 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/>.</param>
 		/// <param name="startupTimeout">The, optional, startup timeout in seconds.</param>
 		/// <param name="reattached">If DreamDaemon was reattached.</param>
+		/// <param name="apiValidate">If this is a DMAPI validation session.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="Session.LaunchResult"/> for the operation.</returns>
 		async Task<LaunchResult> GetLaunchResult(
 			IAssemblyInformationProvider assemblyInformationProvider,
 			uint? startupTimeout,
-			bool reattached)
+			bool reattached,
+			bool apiValidate)
 		{
 			var startTime = DateTimeOffset.Now;
-			Task toAwait = process.Startup;
+			var startupTask = !reattached && (apiValidate || DMApiAvailable)
+				? initialBridgeRequestTcs.Task
+				: process.Startup;
+			var toAwait = startupTask;
 
 			if (startupTimeout.HasValue)
-				toAwait = Task.WhenAny(process.Startup, Task.Delay(startTime.AddSeconds(startupTimeout.Value) - startTime));
+				toAwait = Task.WhenAny(toAwait, Task.Delay(startTime.AddSeconds(startupTimeout.Value) - startTime));
 
 			await toAwait.ConfigureAwait(false);
 
 			var result = new LaunchResult
 			{
 				ExitCode = process.Lifetime.IsCompleted ? (int?)await process.Lifetime.ConfigureAwait(false) : null,
-				StartupTime = process.Startup.IsCompleted ? (TimeSpan?)(DateTimeOffset.Now - startTime) : null
+				StartupTime = startupTask.IsCompleted ? (TimeSpan?)(DateTimeOffset.Now - startTime) : null
 			};
 
 			logger.LogTrace("Launch result: {0}", result);
@@ -339,6 +351,8 @@ namespace Tgstation.Server.Host.Components.Session
 			using (LogContext.PushProperty("Instance", metadata.Id))
 			{
 				logger.LogTrace("Handling bridge request...");
+				initialBridgeRequestTcs.TrySetResult(null);
+
 				var response = new BridgeResponse();
 				switch (parameters.CommandType)
 				{

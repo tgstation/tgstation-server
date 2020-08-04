@@ -518,7 +518,10 @@ namespace Tgstation.Server.Tests.Instance
 
 			await WaitForJob(compileJobJob, 90, false, null, cancellationToken);
 
-			return await instanceClient.DreamDaemon.Read(cancellationToken);
+			var ddInfo = await instanceClient.DreamDaemon.Read(cancellationToken);
+			if (requireApi)
+				Assert.IsNotNull((ddInfo.StagedCompileJob ?? ddInfo.ActiveCompileJob).DMApiVersion);
+			return ddInfo;
 		}
 
 		async Task GracefulWatchdogShutdown(uint timeout, CancellationToken cancellationToken)
