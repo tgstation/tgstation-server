@@ -141,5 +141,12 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if <paramref name="sha"/> is a parent of <see cref="Head"/>, <see langword="false"/> otherwise.</returns>
 		/// <remarks>This function is NOT reentrant.</remarks>
 		Task<bool> ShaIsParent(string sha, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Get the tracked reference's current SHA.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the tracked origin reference's SHA.</returns>
+		Task<string> GetOriginSha(CancellationToken cancellationToken);
 	}
 }
