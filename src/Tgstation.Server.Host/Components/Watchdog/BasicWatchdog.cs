@@ -96,7 +96,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								CultureInfo.InvariantCulture,
 								"Server {0}! Shutting down due to graceful termination request...",
 								exitWord),
-							false,
 							cancellationToken)
 							.ConfigureAwait(false);
 						return MonitorAction.Exit;
@@ -107,7 +106,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							CultureInfo.InvariantCulture,
 							"Server {0}! Rebooting...",
 							exitWord),
-						false,
 						cancellationToken)
 						.ConfigureAwait(false);
 					return MonitorAction.Restart;
@@ -132,7 +130,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							// graceful shutdown time
 							await Chat.SendWatchdogMessage(
 								"Active server rebooted! Shutting down due to graceful termination request...",
-								false,
 								cancellationToken)
 								.ConfigureAwait(false);
 							return MonitorAction.Exit;
@@ -257,7 +254,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			if (Server.CompileJob.DMApiVersion == null)
 				return Chat.SendWatchdogMessage(
 					"A new deployment has been made but cannot be applied automatically as the currently running server has no DMAPI. Please manually reboot the server to apply the update.",
-					true,
 					cancellationToken);
 			return Server.SetRebootState(Session.RebootState.Restart, cancellationToken);
 		}

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Serilog.Context;
 using System;
@@ -101,6 +101,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			logger.LogWarning(
 				"Instance {0} is says it's {1} in the database, but it is actually {2} in the service. Updating the database to reflect this...",
+				metadata.Id,
 				online ? OfflineWord : OnlineWord,
 				online ? OnlineWord : OfflineWord);
 

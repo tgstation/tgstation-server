@@ -137,7 +137,7 @@ namespace Tgstation.Server.Host.Core
 					var formatter = new MessageTemplateTextFormatter(
 						"{Timestamp:o} "
 						+ ServiceCollectionExtensions.SerilogContextTemplate
-						+ "|IR:{InstanceReference}){): [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}",
+						+ "): [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}",
 						null);
 
 					logPath = IOManager.ConcatPath(logPath, "tgs-.log");

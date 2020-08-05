@@ -542,6 +542,17 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
+		public Task<string> GetOriginSha(CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		{
+			if (!Tracking)
+				throw new JobException(ErrorCode.RepoReferenceRequired);
+
+			cancellationToken.ThrowIfCancellationRequested();
+
+			return libGitRepo.Head.TrackedBranch.Tip.Sha;
+		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+
+		/// <inheritdoc />
 		public async Task<bool?> MergeOrigin(string committerName, string committerEmail, Action<int> progressReporter, CancellationToken cancellationToken)
 		{
 			if (progressReporter == null)
@@ -563,7 +574,11 @@ namespace Tgstation.Server.Host.Components.Repository
 				cancellationToken.ThrowIfCancellationRequested();
 
 				trackedBranch = libGitRepo.Head.TrackedBranch;
-				logger.LogDebug("Merge origin/{2}: <{0} ({1})>", committerName, committerEmail, trackedBranch.FriendlyName);
+				logger.LogDebug(
+					"Merge origin/{0}: <{1} ({2})>",
+					trackedBranch.FriendlyName,
+					committerName,
+					committerEmail);
 				result = libGitRepo.Merge(trackedBranch, new Signature(committerName, committerEmail, DateTimeOffset.Now), new MergeOptions
 				{
 					CommitOnSuccess = true,

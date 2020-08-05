@@ -601,10 +601,10 @@ namespace Tgstation.Server.Host.Controllers
 							var fastForward = await repo.MergeOrigin(committerName, currentModel.CommitterEmail, NextProgressReporter(), ct).ConfigureAwait(false);
 							if (!fastForward.HasValue)
 								throw new JobException(ErrorCode.RepoMergeConflict);
+							lastRevisionInfo.OriginCommitSha = await repo.GetOriginSha(cancellationToken).ConfigureAwait(false);
 							await UpdateRevInfo().ConfigureAwait(false);
 							if (fastForward.Value)
 							{
-								lastRevisionInfo.OriginCommitSha = repo.Head;
 								await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, currentModel.CommitterName, currentModel.CommitterEmail, NextProgressReporter(), true, ct).ConfigureAwait(false);
 								postUpdateSha = repo.Head;
 							}

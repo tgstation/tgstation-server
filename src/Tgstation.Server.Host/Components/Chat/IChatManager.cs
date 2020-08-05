@@ -56,10 +56,9 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// Send a chat <paramref name="message"/> to configured watchdog channels
 		/// </summary>
 		/// <param name="message">The message being sent</param>
-		/// <param name="adminOnly">If the message should be sent to admin channels only. If no admin-only channels are configured, it will be sent to the watchdog channels.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task SendWatchdogMessage(string message, bool adminOnly, CancellationToken cancellationToken);
+		Task SendWatchdogMessage(string message, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Send the message for a deployment to configured deployment channels.

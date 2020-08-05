@@ -27,6 +27,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		string BotMention { get; }
 
 		/// <summary>
+		/// A <see cref="Task"/> that completes once the <see cref="IProvider"/> finishes it's first connection attempt regardless of success.
+		/// </summary>
+		Task InitialConnectionJob { get; }
+
+		/// <summary>
 		/// Get a <see cref="Task{TResult}"/> resulting in the next <see cref="Message"/> the <see cref="IProvider"/> recieves or <see langword="null"/> on a disconnect
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>

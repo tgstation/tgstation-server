@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Tgstation.Server.Host.Components.Events;
 
@@ -12,7 +12,8 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// <summary>
 		/// The <see cref="EventType"/> triggered.
 		/// </summary>
-		public EventType Type { get; }
+		/// <remarks>Nullable to prevent ignoring when serializing.</remarks>
+		public EventType? Type { get; }
 
 		/// <summary>
 		/// The set of parameters.

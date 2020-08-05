@@ -213,7 +213,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 			};
 
 			job.MinimumSecurityLevel = securityLevel; // needed for the TempDmbProvider
-			var timeoutAt = DateTimeOffset.Now.AddSeconds(timeout);
 
 			ApiValidationStatus validationStatus;
 			using (var provider = new TemporaryDmbProvider(ioManager.ResolvePath(job.DirectoryName.ToString()), String.Concat(job.DmeName, DmbExtension), job))
@@ -221,14 +220,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 			{
 				var launchResult = await controller.LaunchResult.ConfigureAwait(false);
 
-				var now = DateTimeOffset.Now;
-				if (now < timeoutAt && launchResult.StartupTime.HasValue)
-				{
-					var timeoutTask = Task.Delay(timeoutAt - now, cancellationToken);
-
-					await Task.WhenAny(controller.Lifetime, timeoutTask).ConfigureAwait(false);
-					cancellationToken.ThrowIfCancellationRequested();
-				}
+				if (launchResult.StartupTime.HasValue)
+					await controller.Lifetime.WithToken(cancellationToken).ConfigureAwait(false);
 
 				if (!controller.Lifetime.IsCompleted)
 				{

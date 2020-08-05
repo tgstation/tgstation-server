@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Components.Chat;
+using Tgstation.Server.Host.Components.Deployment;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Components.Interop.Bridge
@@ -30,7 +31,7 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		/// <summary>
 		/// The <see cref="Api.Models.Instance.Name"/> of the owner at the time of launch
 		/// </summary>
-		public string InstanceName { get; }
+		public string InstanceName { get; set; }
 
 		/// <summary>
 		/// The <see cref="Api.Models.Internal.RevisionInformation"/> of the launch
@@ -50,31 +51,46 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RuntimeInformation"/> <see langword="class"/>.
 		/// </summary>
-		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> to use.</param>
-		/// <param name="serverPortProvider">The <see cref="IServerPortProvider"/> used to set the value of <see cref="ServerPort"/>.</param>
-		/// <param name="testMerges">An <see cref="IEnumerable{T}"/> used to construct the value of <see cref="TestMerges"/>.</param>
-		/// <param name="chatChannels">The <see cref="Chat.ChannelRepresentation"/>s for the <see cref="ChatUpdate"/>.</param>
-		/// <param name="instance">The <see cref="Instance"/> used to set <see cref="InstanceName"/>.</param>
-		/// <param name="revision">The value of <see cref="RevisionInformation"/>.</param>
+		/// <param name="chatTrackingContext">The <see cref="IChatTrackingContext"/> to use.</param>
+		/// <param name="dmbProvider">The <see cref="IDmbProvider"/> to get revision information from.</param>
+		/// <param name="serverVersion">The value of <see cref="ServerVersion"/>.</param>
+		/// <param name="instanceName">The value of <see cref="InstanceName"/>.</param>
 		/// <param name="securityLevel">The value of <see cref="SecurityLevel"/>.</param>
+		/// <param name="serverPort">The value of <see cref="ServerPort"/>.</param>
 		/// <param name="apiValidateOnly">The value of <see cref="ApiValidateOnly"/>.</param>
 		public RuntimeInformation(
-			IAssemblyInformationProvider assemblyInformationProvider,
-			IServerPortProvider serverPortProvider,
-			IEnumerable<TestMergeInformation> testMerges,
-			IEnumerable<Chat.ChannelRepresentation> chatChannels,
-			Api.Models.Instance instance,
-			Api.Models.Internal.RevisionInformation revision,
+			IChatTrackingContext chatTrackingContext,
+			IDmbProvider dmbProvider,
+			Version serverVersion,
+			string instanceName,
 			DreamDaemonSecurity? securityLevel,
+			ushort serverPort,
 			bool apiValidateOnly)
-			: base(chatChannels)
+			: base(chatTrackingContext?.Channels ?? throw new ArgumentNullException(nameof(chatTrackingContext)))
 		{
-			ServerVersion = assemblyInformationProvider?.Version ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
-			ServerPort = serverPortProvider?.HttpApiPort ?? throw new ArgumentNullException(nameof(serverPortProvider));
-			TestMerges = testMerges?.ToList() ?? throw new ArgumentNullException(nameof(testMerges));
-			InstanceName = instance?.Name ?? throw new ArgumentNullException(nameof(instance));
-			Revision = revision ?? throw new ArgumentNullException(nameof(revision));
+			if (dmbProvider == null)
+				throw new ArgumentNullException(nameof(dmbProvider));
+
+			ServerVersion = serverVersion ?? throw new ArgumentNullException(nameof(serverVersion));
+
+			Revision = new Api.Models.Internal.RevisionInformation
+			{
+				CommitSha = dmbProvider.CompileJob.RevisionInformation.CommitSha,
+				OriginCommitSha = dmbProvider.CompileJob.RevisionInformation.OriginCommitSha
+			};
+
+			TestMerges = (IReadOnlyCollection<TestMergeInformation>)dmbProvider
+				.CompileJob
+				.RevisionInformation
+				.ActiveTestMerges?
+				.Select(x => x.TestMerge)
+				.Select(x => new TestMergeInformation(x, Revision))
+				.ToList()
+				?? Array.Empty<TestMergeInformation>();
+
+			InstanceName = instanceName ?? throw new ArgumentNullException(nameof(instanceName));
 			SecurityLevel = securityLevel;
+			ServerPort = serverPort;
 			ApiValidateOnly = apiValidateOnly;
 		}
 	}
