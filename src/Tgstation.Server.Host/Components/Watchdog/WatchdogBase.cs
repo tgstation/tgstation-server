@@ -897,7 +897,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				job,
 				async (core, databaseContextFactory, paramJob, progressFunction, ct) =>
 				{
-					// core will certainly be null here since jobs started before the instance is onlined can't provide one
+					if (core.Watchdog != this)
+						throw new InvalidOperationException(Instance.DifferentCoreExceptionMessage);
 					using (await SemaphoreSlimContext.Lock(synchronizationSemaphore, ct).ConfigureAwait(false))
 						await LaunchNoLock(true, true, true, reattachInfo, ct).ConfigureAwait(false);
 				},
