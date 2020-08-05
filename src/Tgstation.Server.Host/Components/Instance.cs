@@ -304,17 +304,27 @@ namespace Tgstation.Server.Host.Components
 											cancellationToken)
 										.ConfigureAwait(false);
 
-										var lastRevInfoWasOriginCommit = currentRevInfo == default || currentRevInfo.CommitSha == currentRevInfo.OriginCommitSha;
-										var stillOnOrigin = result.Value && lastRevInfoWasOriginCommit;
-
-										var currentHead = repo.Head;
-										if (currentHead != startSha)
+										if (updatedTestMerges.Count == 0)
 										{
-											await UpdateRevInfo(currentHead, stillOnOrigin, updatedTestMerges).ConfigureAwait(false);
-											shouldSyncTracked = stillOnOrigin;
+											logger.LogTrace("All test merges have been merged on remote");
+											preserveTestMerges = false;
 										}
 										else
-											shouldSyncTracked = false;
+										{
+											var lastRevInfoWasOriginCommit =
+												currentRevInfo == default
+												|| currentRevInfo.CommitSha == currentRevInfo.OriginCommitSha;
+											var stillOnOrigin = result.Value && lastRevInfoWasOriginCommit;
+
+											var currentHead = repo.Head;
+											if (currentHead != startSha)
+											{
+												await UpdateRevInfo(currentHead, stillOnOrigin, updatedTestMerges).ConfigureAwait(false);
+												shouldSyncTracked = stillOnOrigin;
+											}
+											else
+												shouldSyncTracked = false;
+										}
 									}
 
 									if (!preserveTestMerges)
