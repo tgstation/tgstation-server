@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -79,6 +79,7 @@ namespace Tgstation.Server.Tests
 				String.Format(CultureInfo.InvariantCulture, "General:InstanceLimit={0}", 11),
 				String.Format(CultureInfo.InvariantCulture, "General:UserLimit={0}", 150),
 				String.Format(CultureInfo.InvariantCulture, "FileLogging:Directory={0}", Path.Combine(Directory, "Logs")),
+				String.Format(CultureInfo.InvariantCulture, "FileLogging:LogLevel={0}", "Trace"),
 				String.Format(CultureInfo.InvariantCulture, "General:ValidInstancePaths:0={0}", Directory),
 				"General:ByondTopicTimeout=3000"
 			};
