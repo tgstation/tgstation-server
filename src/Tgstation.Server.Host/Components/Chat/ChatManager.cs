@@ -632,7 +632,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public async Task SendWatchdogMessage(string message, bool adminOnly, CancellationToken cancellationToken)
+		public async Task SendWatchdogMessage(string message, CancellationToken cancellationToken)
 		{
 			List<ulong> wdChannels = null;
 			message = String.Format(CultureInfo.InvariantCulture, "WD: {0}", message);
@@ -644,17 +644,7 @@ namespace Tgstation.Server.Host.Components.Chat
 
 			// so it doesn't change while we're using it
 			lock (mappedChannels)
-			{
-				if (adminOnly)
-				{
-					wdChannels = mappedChannels.Where(x => x.Value.IsAdminChannel).Select(x => x.Key).ToList();
-					if (wdChannels.Count == 0)
-						adminOnly = false;
-				}
-
-				if (!adminOnly)
-					wdChannels = mappedChannels.Where(x => x.Value.IsWatchdogChannel).Select(x => x.Key).ToList();
-			}
+				wdChannels = mappedChannels.Where(x => x.Value.IsWatchdogChannel).Select(x => x.Key).ToList();
 
 			await SendMessage(message, wdChannels, cancellationToken).ConfigureAwait(false);
 		}

@@ -260,7 +260,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			{
 				var eventTask = eventConsumer.HandleEvent(releaseServers ? EventType.WatchdogDetach : EventType.WatchdogShutdown, null, cancellationToken);
 
-				var chatTask = announce ? Chat.SendWatchdogMessage("Shutting down...", false, cancellationToken) : Task.CompletedTask;
+				var chatTask = announce ? Chat.SendWatchdogMessage("Shutting down...", cancellationToken) : Task.CompletedTask;
 
 				await eventTask.ConfigureAwait(false);
 
@@ -305,7 +305,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					case 2:
 						var message2 = "DEFCON 3: DreamDaemon has missed 2 heartbeats!";
 						Logger.LogInformation(message2);
-						await Chat.SendWatchdogMessage(message2, true, cancellationToken).ConfigureAwait(false);
+						await Chat.SendWatchdogMessage(message2, cancellationToken).ConfigureAwait(false);
 						break;
 					case 3:
 						var actionToTake = shouldShutdown
@@ -313,7 +313,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							: "be restarted";
 						var message3 = $"DEFCON 2: DreamDaemon has missed 3 heartbeats! If it does not respond to the next one, the watchdog will {actionToTake}!";
 						Logger.LogWarning(message3);
-						await Chat.SendWatchdogMessage(message3, false, cancellationToken).ConfigureAwait(false);
+						await Chat.SendWatchdogMessage(message3, cancellationToken).ConfigureAwait(false);
 						break;
 					case 4:
 						var actionTaken = shouldShutdown
@@ -321,7 +321,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							: "Restarting";
 						var message4 = $"DEFCON 1: Four heartbeats have been missed! {actionTaken}...";
 						Logger.LogWarning(message4);
-						await Chat.SendWatchdogMessage(message4, false, cancellationToken).ConfigureAwait(false);
+						await Chat.SendWatchdogMessage(message4, cancellationToken).ConfigureAwait(false);
 						await DisposeAndNullControllers(cancellationToken).ConfigureAwait(false);
 						return shouldShutdown ? MonitorAction.Exit : MonitorAction.Restart;
 					default:
@@ -360,7 +360,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			Task announceTask;
 			if (announce)
 			{
-				announceTask = Chat.SendWatchdogMessage(reattachInfo == null ? "Launching..." : "Reattaching...", false, cancellationToken); // simple announce
+				announceTask = Chat.SendWatchdogMessage(
+					reattachInfo == null
+						? "Launching..."
+						: "Reattaching...",
+					cancellationToken); // simple announce
 				if (reattachInfo == null)
 					announceTask = Task.WhenAll(
 						eventConsumer.HandleEvent(EventType.WatchdogLaunch, Enumerable.Empty<string>(), cancellationToken),
@@ -390,7 +394,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				{
 					await originalChatTask.ConfigureAwait(false);
 					if (announceFailure)
-						await Chat.SendWatchdogMessage("Startup failed!", false, cancellationToken).ConfigureAwait(false);
+						await Chat.SendWatchdogMessage("Startup failed!", cancellationToken).ConfigureAwait(false);
 				}
 
 				announceTask = ChainChatTaskWithErrorMessage();
@@ -476,7 +480,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			async Task ChainChatTask()
 			{
 				await chatTask.ConfigureAwait(false);
-				await Chat.SendWatchdogMessage(FailReattachMessage, false, cancellationToken).ConfigureAwait(false);
+				await Chat.SendWatchdogMessage(FailReattachMessage, cancellationToken).ConfigureAwait(false);
 			}
 
 			await InitControllers(ChainChatTask(), null, cancellationToken).ConfigureAwait(false);
@@ -563,7 +567,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 				chatTask = Chat.SendWatchdogMessage(
 					$"Failed to restart (Attempt: {retryAttempts}), retrying in {retryDelay}s...",
-					false,
 					cancellationToken);
 
 				await Task.WhenAll(
@@ -706,7 +709,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								: "Shutting down";
 							var chatTask = Chat.SendWatchdogMessage(
 								$"Monitor crashed, this should NEVER happen! Please report this, full details in logs! {nextActionMessage}. Error: {e.Message}",
-								false,
 								cancellationToken);
 
 							if (disposed)
@@ -860,7 +862,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			{
 				if (!graceful)
 				{
-					var chatTask = Chat.SendWatchdogMessage("Manual restart triggered...", false, cancellationToken);
+					var chatTask = Chat.SendWatchdogMessage("Manual restart triggered...", cancellationToken);
 					await TerminateNoLock(false, false, cancellationToken).ConfigureAwait(false);
 					await LaunchNoLock(true, false, true, null, cancellationToken).ConfigureAwait(false);
 					await chatTask.ConfigureAwait(false);
@@ -937,7 +939,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			releaseServers = true;
 			if (Status == WatchdogStatus.Online)
-				await Chat.SendWatchdogMessage("Detaching...", false, cancellationToken).ConfigureAwait(false);
+				await Chat.SendWatchdogMessage("Detaching...", cancellationToken).ConfigureAwait(false);
 			else
 				Logger.LogTrace("Not sending detach chat message as status is: {0}", Status);
 		}
