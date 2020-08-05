@@ -11,6 +11,7 @@ using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.Chat.Providers;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Components.Chat
@@ -101,6 +102,11 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// The <see cref="Task"/> that monitors incoming chat messages
 		/// </summary>
 		Task chatHandler;
+
+		/// <summary>
+		/// A <see cref="Task"/> that represents the <see cref="IProvider"/>s initial connection.
+		/// </summary>
+		Task initialProviderConnectionsTask;
 
 		/// <summary>
 		/// The <see cref="TaskCompletionSource{TResult}"/> that completes when <see cref="ChatBot"/>s change
@@ -600,7 +606,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public Task SendMessage(string message, IEnumerable<ulong> channelIds, CancellationToken cancellationToken)
+		public async Task SendMessage(string message, IEnumerable<ulong> channelIds, CancellationToken cancellationToken)
 		{
 			if (message == null)
 				throw new ArgumentNullException(nameof(message));
@@ -609,25 +615,32 @@ namespace Tgstation.Server.Host.Components.Chat
 
 			logger.LogTrace("Chat send \"{0}\" to channels: {1}", message, String.Join(", ", channelIds));
 
-			return Task.WhenAll(channelIds.Select(x =>
-			{
-				ChannelMapping channelMapping;
-				lock (mappedChannels)
-					if (!mappedChannels.TryGetValue(x, out channelMapping))
-						return Task.CompletedTask;
-				IProvider provider;
-				lock (providers)
-					if (!providers.TryGetValue(channelMapping.ProviderId, out provider))
-						return Task.CompletedTask;
-				return provider.SendMessage(channelMapping.ProviderChannelId, message, cancellationToken);
-			}));
+			await Task.WhenAll(
+				channelIds.Select(x =>
+				{
+					ChannelMapping channelMapping;
+					lock (mappedChannels)
+						if (!mappedChannels.TryGetValue(x, out channelMapping))
+							return Task.CompletedTask;
+					IProvider provider;
+					lock (providers)
+						if (!providers.TryGetValue(channelMapping.ProviderId, out provider))
+							return Task.CompletedTask;
+					return provider.SendMessage(channelMapping.ProviderChannelId, message, cancellationToken);
+				}))
+				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
-		public Task SendWatchdogMessage(string message, bool adminOnly, CancellationToken cancellationToken)
+		public async Task SendWatchdogMessage(string message, bool adminOnly, CancellationToken cancellationToken)
 		{
 			List<ulong> wdChannels = null;
 			message = String.Format(CultureInfo.InvariantCulture, "WD: {0}", message);
+
+			if (!initialProviderConnectionsTask.IsCompleted)
+				logger.LogTrace("Waiting for initial provider connections before sending watchdog message...");
+
+			await initialProviderConnectionsTask.WithToken(cancellationToken).ConfigureAwait(false);
 
 			// so it doesn't change while we're using it
 			lock (mappedChannels)
@@ -643,7 +656,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					wdChannels = mappedChannels.Where(x => x.Value.IsWatchdogChannel).Select(x => x.Key).ToList();
 			}
 
-			return SendMessage(message, wdChannels, cancellationToken);
+			await SendMessage(message, wdChannels, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -712,7 +725,18 @@ namespace Tgstation.Server.Host.Components.Chat
 			var initialChatBots = activeChatBots.ToList();
 			await Task.WhenAll(initialChatBots.Select(x => ChangeSettings(x, cancellationToken))).ConfigureAwait(false);
 			await Task.WhenAll(initialChatBots.Select(x => ChangeChannels(x.Id, x.Channels, cancellationToken))).ConfigureAwait(false);
+			initialProviderConnectionsTask = InitialConnection();
 			chatHandler = MonitorMessages(handlerCts.Token);
+		}
+
+		/// <summary>
+		/// Aggregate all <see cref="IProvider.InitialConnectionJob"/>s into one <sse cref="Task"/>.
+		/// </summary>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		async Task InitialConnection()
+		{
+			await Task.WhenAll(providers.Select(x => x.Value.InitialConnectionJob)).ConfigureAwait(false);
+			logger.LogTrace("Initial provider connection task completed");
 		}
 
 		/// <inheritdoc />

@@ -13,6 +13,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 	/// <inheritdoc />
 	abstract class Provider : IProvider
 	{
+		/// <inheritdoc />
+		public Task InitialConnectionJob => initialConnectionTcs.Task;
+
 		/// <summary>
 		/// The <see cref="ChatBot"/> the <see cref="Provider"/> is for.
 		/// </summary>
@@ -32,6 +35,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <see cref="Queue{T}"/> of received <see cref="Message"/>s
 		/// </summary>
 		readonly Queue<Message> messageQueue;
+
+		/// <summary>
+		/// The backing <see cref="TaskCompletionSource{TResult}"/> for <see cref="InitialConnectionJob"/>
+		/// </summary>
+		readonly TaskCompletionSource<object> initialConnectionTcs;
 
 		/// <summary>
 		/// Used for synchronizing access to <see cref="reconnectCts"/> and <see cref="reconnectTask"/>.
@@ -67,7 +75,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			messageQueue = new Queue<Message>();
 			nextMessage = new TaskCompletionSource<object>();
-
+			initialConnectionTcs = new TaskCompletionSource<object>();
 			reconnectTaskLock = new object();
 
 			logger.LogTrace("Created.");
@@ -233,8 +241,15 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 							cancellationToken)
 							.ConfigureAwait(false);
 
-						// DCT: Always wait for the job to complete here
-						await jobManager.WaitForJobCompletion(job, null, cancellationToken, default).ConfigureAwait(false);
+						try
+						{
+							// DCT: Always wait for the job to complete here
+							await jobManager.WaitForJobCompletion(job, null, cancellationToken, default).ConfigureAwait(false);
+						}
+						finally
+						{
+							initialConnectionTcs.TrySetResult(null);
+						}
 					}
 				}
 				catch (OperationCanceledException)
@@ -244,6 +259,10 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				catch(Exception e)
 				{
 					Logger.LogError(e, "Error reconnecting!");
+				}
+				finally
+				{
+					initialConnectionTcs.TrySetResult(null);
 				}
 			}
 			while (true);
