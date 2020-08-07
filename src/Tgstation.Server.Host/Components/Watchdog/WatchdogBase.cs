@@ -60,7 +60,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="WatchdogBase"/>.
 		/// </summary>
-		protected ILogger Logger { get; }
+		protected ILogger<WatchdogBase> Logger { get; }
 
 		/// <summary>
 		/// The <see cref="IChatManager"/> for the <see cref="WatchdogBase"/>
@@ -123,6 +123,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IEventConsumer eventConsumer;
 
 		/// <summary>
+		/// The <see cref="IGitHubDeploymentManager"/> for the <see cref="WatchdogBase"/>.
+		/// </summary>
+		readonly IGitHubDeploymentManager gitHubDeploymentManager;
+
+		/// <summary>
 		/// If the <see cref="WatchdogBase"/> should <see cref="LaunchNoLock(bool, bool, bool, ReattachInformation, CancellationToken)"/> in <see cref="StartAsync(CancellationToken)"/>
 		/// </summary>
 		readonly bool autoStart;
@@ -174,6 +179,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="asyncDelayer">The value of <see cref="AsyncDelayer"/>.</param>
 		/// <param name="diagnosticsIOManager">The value of <see cref="diagnosticsIOManager"/>.</param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/>.</param>
+		/// <param name="gitHubDeploymentManager">The value of <see cref="gitHubDeploymentManager"/>.</param>
 		/// <param name="logger">The value of <see cref="Logger"/></param>
 		/// <param name="initialLaunchParameters">The initial value of <see cref="ActiveLaunchParameters"/>. May be modified</param>
 		/// <param name="instance">The value of <see cref="instance"/></param>
@@ -188,7 +194,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IAsyncDelayer asyncDelayer,
 			IIOManager diagnosticsIOManager,
 			IEventConsumer eventConsumer,
-			ILogger logger,
+			IGitHubDeploymentManager gitHubDeploymentManager,
+			ILogger<WatchdogBase> logger,
 			DreamDaemonLaunchParameters initialLaunchParameters,
 			Api.Models.Instance instance,
 			bool autoStart)
@@ -201,6 +208,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			AsyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.diagnosticsIOManager = diagnosticsIOManager ?? throw new ArgumentNullException(nameof(diagnosticsIOManager));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
+			this.gitHubDeploymentManager = gitHubDeploymentManager ?? throw new ArgumentNullException(nameof(gitHubDeploymentManager));
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			ActiveLaunchParameters = initialLaunchParameters ?? throw new ArgumentNullException(nameof(initialLaunchParameters));
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
@@ -521,6 +529,23 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			CancellationToken cancellationToken);
 
 		/// <summary>
+		/// To be called before a given <paramref name="newCompileJob"/> goes live.
+		/// </summary>
+		/// <param name="newCompileJob">The new <see cref="Models.CompileJob"/> being applied.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		protected Task BeforeApplyDmb(Models.CompileJob newCompileJob, CancellationToken cancellationToken)
+		{
+			if (newCompileJob.Id == ActiveCompileJob?.Id)
+			{
+				Logger.LogTrace("Same compile job, not sending deployment event");
+				return Task.CompletedTask;
+			}
+
+			return gitHubDeploymentManager.ApplyDeployment(newCompileJob, ActiveCompileJob, cancellationToken);
+		}
+
+		/// <summary>
 		/// Attempt to restart the monitor from scratch.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
@@ -528,6 +553,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		private async Task MonitorRestart(CancellationToken cancellationToken)
 		{
 			Logger.LogTrace("Monitor restart!");
+
 			await DisposeAndNullControllers(cancellationToken).ConfigureAwait(false);
 
 			var chatTask = Task.CompletedTask;

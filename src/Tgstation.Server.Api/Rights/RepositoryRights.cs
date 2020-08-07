@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Tgstation.Server.Api.Rights
 {
@@ -14,7 +14,7 @@ namespace Tgstation.Server.Api.Rights
 		None = 0,
 
 		/// <summary>
-		/// User may cancel synchronize operations
+		/// User may cancel update operations.
 		/// </summary>
 		CancelPendingChanges = 1,
 
@@ -44,7 +44,7 @@ namespace Tgstation.Server.Api.Rights
 		ChangeCommitter = 32,
 
 		/// <summary>
-		/// User may change <see cref="Models.Internal.RepositorySettings.PushTestMergeCommits"/> and <see cref="Models.Internal.RepositorySettings.PostTestMergeComment"/>
+		/// User may change <see cref="Models.Internal.RepositorySettings.PushTestMergeCommits"/>, <see cref="Models.Internal.RepositorySettings.PostTestMergeComment"/>, and <see cref="Models.Internal.RepositorySettings.CreateGitHubDeployments"/>.
 		/// </summary>
 		ChangeTestMergeCommits = 64,
 
