@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -290,6 +290,9 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			if (directory == null)
 				throw new ArgumentNullException(nameof(directory));
+
+			if (directory.Path == null)
+				return BadRequest(new ErrorMessage(ErrorCode.ModelValidationFailure));
 
 			if (ForbidDueToModeConflicts(directory.Path, out var systemIdentity))
 				return Forbid();

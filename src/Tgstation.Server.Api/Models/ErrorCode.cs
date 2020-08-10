@@ -563,6 +563,12 @@ namespace Tgstation.Server.Api.Models
 		/// An attempt to connect a chat bot failed.
 		/// </summary>
 		[Description("Failed to connect chat bot!")]
-		ChatCannotConnectProvider
+		ChatCannotConnectProvider,
+
+		/// <summary>
+		/// Attempt to add DreamDaemon to the list of firewall exempt processes failed.
+		/// </summary>
+		[Description("Failed to allow DreamDaemon through the Windows firewall!")]
+		ByondDreamDaemonFirewallFail,
 	}
 }
