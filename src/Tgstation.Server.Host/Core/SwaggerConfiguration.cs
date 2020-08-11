@@ -128,7 +128,17 @@ namespace Tgstation.Server.Host.Core
 				new OpenApiInfo
 				{
 					Title = "TGS API",
-					Version = ApiHeaders.Version.Semver().ToString()
+					Version = ApiHeaders.Version.Semver().ToString(),
+					License = new OpenApiLicense
+					{
+						Name = "AGPL-3.0",
+						Url = new Uri("https://github.com/tgstation/tgstation-server/blob/dev/LICENSE")
+					},
+					Contact = new OpenApiContact
+					{
+						Name = "/tg/station 13",
+						Url = new Uri("https://github.com/tgstation")
+					}
 				});
 
 			// Important to do this before applying our own filters
