@@ -138,7 +138,8 @@ namespace Tgstation.Server.Host.Core
 					{
 						Name = "/tg/station 13",
 						Url = new Uri("https://github.com/tgstation")
-					}
+					},
+					Description = "A production scale tool for BYOND server management"
 				});
 
 			// Important to do this before applying our own filters
