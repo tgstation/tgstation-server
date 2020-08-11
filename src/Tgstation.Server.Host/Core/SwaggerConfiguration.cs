@@ -147,6 +147,9 @@ namespace Tgstation.Server.Host.Core
 			swaggerGenOptions.IncludeXmlComments(assemblyDocumentationPath);
 			swaggerGenOptions.IncludeXmlComments(apiDocumentationPath);
 
+			// nullable stuff
+			swaggerGenOptions.UseAllOfToExtendReferenceSchemas();
+
 			swaggerGenOptions.OperationFilter<SwaggerConfiguration>();
 			swaggerGenOptions.DocumentFilter<SwaggerConfiguration>();
 			swaggerGenOptions.SchemaFilter<SwaggerConfiguration>();
@@ -348,15 +351,18 @@ namespace Tgstation.Server.Host.Core
 			// Nothing is required
 			schema.Required.Clear();
 
-			if (!schema.Enum?.Any() ?? false)
-				return;
-
 			// Could be nullable type, make sure to get the right one
-			Type enumType = context.Type.IsConstructedGenericType
+			Type nonNullableType = context.Type.IsConstructedGenericType
 				? context.Type.GenericTypeArguments.First()
 				: context.Type;
 
-			OpenApiEnumVarNamesExtension.Apply(schema, enumType);
+			if (nonNullableType != context.Type)
+				schema.Nullable = true;
+
+			if (!schema.Enum?.Any() ?? false)
+				return;
+
+			OpenApiEnumVarNamesExtension.Apply(schema, nonNullableType);
 		}
 	}
 }
