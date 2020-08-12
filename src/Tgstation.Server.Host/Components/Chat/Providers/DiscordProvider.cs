@@ -57,7 +57,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// </summary>
 		/// <param name="fromDiscord">The mention <see cref="string"/> provided by the Discord library</param>
 		/// <returns>The normalized mention <see cref="string"/></returns>
-		static string NormalizeMentions(string fromDiscord) => fromDiscord.Replace("<!@", "<@", StringComparison.Ordinal);
+		static string NormalizeMentions(string fromDiscord) => fromDiscord.Replace("<@!", "<@", StringComparison.Ordinal);
 
 		/// <summary>
 		/// Construct a <see cref="DiscordProvider"/>

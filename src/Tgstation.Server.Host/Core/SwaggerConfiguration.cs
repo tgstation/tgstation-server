@@ -128,13 +128,27 @@ namespace Tgstation.Server.Host.Core
 				new OpenApiInfo
 				{
 					Title = "TGS API",
-					Version = ApiHeaders.Version.Semver().ToString()
+					Version = ApiHeaders.Version.Semver().ToString(),
+					License = new OpenApiLicense
+					{
+						Name = "AGPL-3.0",
+						Url = new Uri("https://github.com/tgstation/tgstation-server/blob/dev/LICENSE")
+					},
+					Contact = new OpenApiContact
+					{
+						Name = "/tg/station 13",
+						Url = new Uri("https://github.com/tgstation")
+					},
+					Description = "A production scale tool for BYOND server management"
 				});
 
 			// Important to do this before applying our own filters
 			// Otherwise we'll get NullReferenceExceptions on parameters to be setup in our document filter
 			swaggerGenOptions.IncludeXmlComments(assemblyDocumentationPath);
 			swaggerGenOptions.IncludeXmlComments(apiDocumentationPath);
+
+			// nullable stuff
+			swaggerGenOptions.UseAllOfToExtendReferenceSchemas();
 
 			swaggerGenOptions.OperationFilter<SwaggerConfiguration>();
 			swaggerGenOptions.DocumentFilter<SwaggerConfiguration>();
@@ -337,15 +351,18 @@ namespace Tgstation.Server.Host.Core
 			// Nothing is required
 			schema.Required.Clear();
 
-			if (!schema.Enum?.Any() ?? false)
-				return;
-
 			// Could be nullable type, make sure to get the right one
-			Type enumType = context.Type.IsConstructedGenericType
+			Type nonNullableType = context.Type.IsConstructedGenericType
 				? context.Type.GenericTypeArguments.First()
 				: context.Type;
 
-			OpenApiEnumVarNamesExtension.Apply(schema, enumType);
+			if (nonNullableType != context.Type)
+				schema.Nullable = true;
+
+			if (!schema.Enum?.Any() ?? false)
+				return;
+
+			OpenApiEnumVarNamesExtension.Apply(schema, nonNullableType);
 		}
 	}
 }
