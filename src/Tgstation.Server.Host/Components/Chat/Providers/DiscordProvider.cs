@@ -96,6 +96,16 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			if (e.Author.Id == client.CurrentUser.Id)
 				return;
 
+			if (e.Content.Equals("Based on what?", StringComparison.OrdinalIgnoreCase))
+			{
+				// DCT: None available
+				await SendMessage(
+					e.Channel.Id,
+					"https://youtu.be/LrNu-SuFF_o",
+					default)
+					.ConfigureAwait(false);
+			}
+
 			var pm = e.Channel is IPrivateChannel;
 
 			if (!pm && !mappedChannels.Contains(e.Channel.Id))
