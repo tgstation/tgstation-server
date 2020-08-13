@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Host.Models
@@ -43,6 +43,16 @@ namespace Tgstation.Server.Host.Models
 		/// Backing field for <see cref="Version.Build"/> of <see cref="DMApiVersion"/>.
 		/// </summary>
 		public int? DMApiPatchVersion { get; set; }
+
+		/// <summary>
+		/// The source GitHub repository the deployment came from if any.
+		/// </summary>
+		public long? GitHubRepoId { get; set; }
+
+		/// <summary>
+		/// The GitHub deployment ID associated with the <see cref="CompileJob"/> if any.
+		/// </summary>
+		public int? GitHubDeploymentId { get; set; }
 
 		/// <inheritdoc />
 		public override Version DMApiVersion

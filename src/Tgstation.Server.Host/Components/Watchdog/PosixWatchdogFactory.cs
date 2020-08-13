@@ -52,6 +52,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IIOManager gameIOManager,
 			IIOManager diagnosticsIOManager,
 			IEventConsumer eventConsumer,
+			IGitHubDeploymentManager gitHubDeploymentManager,
 			Api.Models.Instance instance,
 			DreamDaemonSettings settings)
 			=> new PosixWatchdog(
@@ -64,6 +65,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				AsyncDelayer,
 				diagnosticsIOManager,
 				eventConsumer,
+				gitHubDeploymentManager,
 				gameIOManager,
 				SymlinkFactory,
 				LoggerFactory.CreateLogger<PosixWatchdog>(),

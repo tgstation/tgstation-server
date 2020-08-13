@@ -41,6 +41,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly IIOManager ioManager;
 
 		/// <summary>
+		/// The <see cref="IGitHubDeploymentManager"/> for the <see cref="DmbFactory"/>.
+		/// </summary>
+		readonly IGitHubDeploymentManager gitHubDeploymentManager;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="DmbFactory"/>
 		/// </summary>
 		readonly ILogger<DmbFactory> logger;
@@ -76,16 +81,28 @@ namespace Tgstation.Server.Host.Components.Deployment
 		IDmbProvider nextDmbProvider;
 
 		/// <summary>
+		/// If the <see cref="DmbFactory"/> is "started" via <see cref="Microsoft.Extensions.Hosting.IHostedService"/>.
+		/// </summary>
+		bool started;
+
+		/// <summary>
 		/// Construct a <see cref="DmbFactory"/>
 		/// </summary>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
+		/// <param name="gitHubDeploymentManager">The value of <see cref="gitHubDeploymentManager"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="instance">The value of <see cref="instance"/></param>
-		public DmbFactory(IDatabaseContextFactory databaseContextFactory, IIOManager ioManager, ILogger<DmbFactory> logger, Api.Models.Instance instance)
+		public DmbFactory(
+			IDatabaseContextFactory databaseContextFactory,
+			IIOManager ioManager,
+			IGitHubDeploymentManager gitHubDeploymentManager,
+			ILogger<DmbFactory> logger,
+			Api.Models.Instance instance)
 		{
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
+			this.gitHubDeploymentManager = gitHubDeploymentManager ?? throw new ArgumentNullException(nameof(gitHubDeploymentManager));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 
@@ -107,11 +124,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 			async Task HandleCleanup()
 			{
 				var deleteJob = ioManager.DeleteDirectory(job.DirectoryName.ToString(), cleanupCts.Token);
-				Task otherTask;
 
-				// lock (this) //already locked below
-				otherTask = cleanupTask;
-				await Task.WhenAll(otherTask, deleteJob).ConfigureAwait(false);
+				// DCT: None available
+				var deploymentJob = gitHubDeploymentManager.MarkInactive(job, default);
+				var otherTask = cleanupTask;
+				await Task.WhenAll(otherTask, deleteJob, deploymentJob).ConfigureAwait(false);
 			}
 
 			lock (jobLockCounts)
@@ -137,6 +154,14 @@ namespace Tgstation.Server.Host.Components.Deployment
 			var newProvider = await FromCompileJob(job, cancellationToken).ConfigureAwait(false);
 			if (newProvider == null)
 				return;
+
+			// Do this first, because it's entirely possible when we set the tcs it will immediately need to be applied
+			if (started)
+				await gitHubDeploymentManager.StageDeployment(
+					newProvider.CompileJob,
+					cancellationToken)
+					.ConfigureAwait(false);
+
 			lock (jobLockCounts)
 			{
 				nextDmbProvider?.Dispose();
@@ -184,6 +209,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			if (cj == default(CompileJob))
 				return;
 			await LoadCompileJob(cj, cancellationToken).ConfigureAwait(false);
+			started = true;
 
 			// we dont do CleanUnusedCompileJobs here because the watchdog may have plans for them yet
 		}
@@ -191,8 +217,15 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken)
 		{
-			using (cancellationToken.Register(() => cleanupCts.Cancel()))
-				await cleanupTask.ConfigureAwait(false);
+			try
+			{
+				using (cancellationToken.Register(() => cleanupCts.Cancel()))
+					await cleanupTask.ConfigureAwait(false);
+			}
+			finally
+			{
+				started = false;
+			}
 		}
 
 		/// <inheritdoc />

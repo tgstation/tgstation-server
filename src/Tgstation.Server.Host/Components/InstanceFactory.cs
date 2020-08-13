@@ -248,7 +248,18 @@ namespace Tgstation.Server.Host.Components
 						loggerFactory.CreateLogger<SessionControllerFactory>(),
 						metadata.CloneMetadata());
 
-					var dmbFactory = new DmbFactory(databaseContextFactory, gameIoManager, loggerFactory.CreateLogger<DmbFactory>(), metadata.CloneMetadata());
+					var gitHubDeploymentManager = new GitHubDeploymentManager(
+						databaseContextFactory,
+						gitHubClientFactory,
+						loggerFactory.CreateLogger<GitHubDeploymentManager>(),
+						metadata.CloneMetadata());
+
+					var dmbFactory = new DmbFactory(
+						databaseContextFactory,
+						gameIoManager,
+						gitHubDeploymentManager,
+						loggerFactory.CreateLogger<DmbFactory>(),
+						metadata.CloneMetadata());
 					try
 					{
 						var reattachInfoHandler = new SessionPersistor(
@@ -265,6 +276,7 @@ namespace Tgstation.Server.Host.Components
 							gameIoManager,
 							diagnosticsIOManager,
 							eventConsumer,
+							gitHubDeploymentManager,
 							metadata.CloneMetadata(),
 							metadata.DreamDaemonSettings);
 						eventConsumer.SetWatchdog(watchdog);
@@ -283,6 +295,7 @@ namespace Tgstation.Server.Host.Components
 								gitHubClientFactory,
 								dmbFactory,
 								repoManager,
+								gitHubDeploymentManager,
 								loggerFactory.CreateLogger<DreamMaker>(),
 								metadata.CloneMetadata());
 

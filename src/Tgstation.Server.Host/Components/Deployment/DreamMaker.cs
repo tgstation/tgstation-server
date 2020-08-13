@@ -89,6 +89,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly ICompileJobSink compileJobConsumer;
 
 		/// <summary>
+		/// The <see cref="IGitHubDeploymentManager"/> for <see cref="DreamMaker"/>.
+		/// </summary>
+		readonly IGitHubDeploymentManager gitHubDeploymentManager;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for <see cref="DreamMaker"/>
 		/// </summary>
 		readonly ILogger<DreamMaker> logger;
@@ -113,6 +118,16 @@ namespace Tgstation.Server.Host.Components.Deployment
 		bool deploying;
 
 		/// <summary>
+		/// Format a given <see cref="Exception"/> for display to users.
+		/// </summary>
+		/// <param name="exception">The <see cref="Exception"/> to format.</param>
+		/// <returns>An error <see cref="string"/> for end users.</returns>
+		static string FormatExceptionForUsers(Exception exception)
+			=> exception is OperationCanceledException
+				? "The job was cancelled!"
+				: exception.Message;
+
+		/// <summary>
 		/// Construct <see cref="DreamMaker"/>
 		/// </summary>
 		/// <param name="byond">The value of <see cref="byond"/></param>
@@ -125,6 +140,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/>.</param>
 		/// <param name="compileJobConsumer">The value of <see cref="compileJobConsumer"/>.</param>
 		/// <param name="repositoryManager">The value of <see cref="repositoryManager"/>.</param>
+		/// <param name="gitHubDeploymentManager">The value of <see cref="gitHubDeploymentManager"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="metadata">The value of <see cref="metadata"/>.</param>
 		public DreamMaker(
@@ -138,6 +154,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			IGitHubClientFactory gitHubClientFactory,
 			ICompileJobSink compileJobConsumer,
 			IRepositoryManager repositoryManager,
+			IGitHubDeploymentManager gitHubDeploymentManager,
 			ILogger<DreamMaker> logger,
 			Api.Models.Instance metadata)
 		{
@@ -151,6 +168,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 			this.compileJobConsumer = compileJobConsumer ?? throw new ArgumentNullException(nameof(compileJobConsumer));
 			this.repositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
+			this.gitHubDeploymentManager = gitHubDeploymentManager ?? throw new ArgumentNullException(nameof(gitHubDeploymentManager));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 
@@ -345,22 +363,36 @@ namespace Tgstation.Server.Host.Components.Deployment
 		}
 
 		/// <summary>
-		/// Cleans up a failed compile <paramref name="job"/>
+		/// Cleans up a failed compile <paramref name="job"/>.
 		/// </summary>
-		/// <param name="job">The running <see cref="CompileJob"/></param>
+		/// <param name="job">The running <see cref="CompileJob"/>.</param>
+		/// <param name="exception">The <see cref="Exception"/> that was thrown.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		async Task CleanupFailedCompile(Models.CompileJob job)
+		async Task CleanupFailedCompile(Models.CompileJob job, Exception exception)
 		{
-			logger.LogTrace("Cleaning compile directory...");
-			var jobPath = job.DirectoryName.ToString();
-			try
+			async Task CleanDir()
 			{
-				await ioManager.DeleteDirectory(jobPath, CancellationToken.None).ConfigureAwait(false);
+				logger.LogTrace("Cleaning compile directory...");
+				var jobPath = job.DirectoryName.ToString();
+				try
+				{
+					// DCT: None available
+					await ioManager.DeleteDirectory(jobPath, default).ConfigureAwait(false);
+				}
+				catch (Exception e)
+				{
+					logger.LogWarning(e, "Error cleaning up compile directory {0}!", ioManager.ResolvePath(jobPath));
+				}
 			}
-			catch (Exception e)
-			{
-				logger.LogWarning(e, "Error cleaning up compile directory {0}!", ioManager.ResolvePath(jobPath));
-			}
+
+			// DCT: None available
+			await Task.WhenAll(
+				CleanDir(),
+				gitHubDeploymentManager.FailDeployment(
+					job,
+					FormatExceptionForUsers(exception),
+					default))
+				.ConfigureAwait(false);
 		}
 
 		/// <summary>
@@ -461,9 +493,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 				logger.LogDebug("Compile complete!");
 			}
-			catch
+			catch (Exception ex)
 			{
-				await CleanupFailedCompile(job).ConfigureAwait(false);
+				await CleanupFailedCompile(job, ex).ConfigureAwait(false);
 				throw;
 			}
 		}
@@ -651,14 +683,14 @@ namespace Tgstation.Server.Host.Components.Deployment
 						})
 						.ConfigureAwait(false);
 				}
-				catch
+				catch (Exception ex)
 				{
-					await CleanupFailedCompile(compileJob).ConfigureAwait(false);
+					await CleanupFailedCompile(compileJob, ex).ConfigureAwait(false);
 					throw;
 				}
 
 				var commentsTask = PostDeploymentComments(
-					revInfo,
+					compileJob,
 					activeCompileJob?.RevisionInformation,
 					repositorySettings,
 					repoOwner,
@@ -683,9 +715,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			{
 				if (currentChatCallback != null)
 					await currentChatCallback(
-						ex is OperationCanceledException
-							? "The job was cancelled!"
-							: ex.Message,
+						FormatExceptionForUsers(ex),
 						currentDreamMakerOutput)
 						.ConfigureAwait(false);
 
@@ -767,6 +797,12 @@ namespace Tgstation.Server.Host.Components.Deployment
 					ByondVersion = byondLock.Version.ToString()
 				};
 
+				await gitHubDeploymentManager.StartDeployment(
+					repository,
+					job,
+					cancellationToken)
+					.ConfigureAwait(false);
+
 				await RunCompileJob(job, dreamMakerSettings, byondLock, repository, apiValidateTimeout, cancellationToken).ConfigureAwait(false);
 
 				return job;
@@ -787,7 +823,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <summary>
 		/// Post deployment GitHub comments.
 		/// </summary>
-		/// <param name="deployedRevisionInformation">The deployed <see cref="RevisionInformation"/>.</param>
+		/// <param name="compileJob">The deployed <see cref="CompileJob"/>.</param>
 		/// <param name="previousRevisionInformation">The <see cref="RevisionInformation"/> of the previous deployment.</param>
 		/// <param name="repositorySettings">The <see cref="RepositorySettings"/>.</param>
 		/// <param name="repoOwner">The GitHub repostiory owner.</param>
@@ -795,7 +831,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task PostDeploymentComments(
-			Models.RevisionInformation deployedRevisionInformation,
+			Models.CompileJob compileJob,
 			Models.RevisionInformation previousRevisionInformation,
 			Models.RepositorySettings repositorySettings,
 			string repoOwner,
@@ -832,7 +868,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 			var tasks = new List<Task>();
 
-			string FormatTestMerge(Models.TestMerge testMerge, bool updated) => String.Format(CultureInfo.InvariantCulture, "#### Test Merge {4}{0}{0}##### Server Instance{0}{5}{1}{0}{0}##### Revision{0}Origin: {6}{0}Pull Request: {2}{0}Server: {7}{3}",
+			var deployedRevisionInformation = compileJob.RevisionInformation;
+			string FormatTestMerge(Models.TestMerge testMerge, bool updated) => String.Format(CultureInfo.InvariantCulture, "#### Test Merge {4}{0}{0}##### Server Instance{0}{5}{1}{0}{0}##### Revision{0}Origin: {6}{0}Pull Request: {2}{0}Server: {7}{3}{8}",
 				Environment.NewLine,
 				repositorySettings.ShowTestMergeCommitters.Value ? String.Format(CultureInfo.InvariantCulture, "{0}{0}##### Merged By{0}{1}", Environment.NewLine, testMerge.MergedBy.Name) : String.Empty,
 				testMerge.PullRequestRevision,
@@ -840,7 +877,10 @@ namespace Tgstation.Server.Host.Components.Deployment
 				updated ? "Updated" : "Deployed",
 				metadata.Name,
 				deployedRevisionInformation.OriginCommitSha,
-				deployedRevisionInformation.CommitSha);
+				deployedRevisionInformation.CommitSha,
+				compileJob.GitHubDeploymentId.HasValue
+					? $"{Environment.NewLine}[GitHub Deployments](https://github.com/{repoOwner}/{repoName}/deployments/activity_log?environment=TGS%3A%20{metadata.Name})"
+					: String.Empty);
 
 			// added prs
 			foreach (var I in deployedRevisionInformation
@@ -853,8 +893,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 			// removed prs
 			foreach (var I in previousRevisionInformation
-			.ActiveTestMerges
-			.Select(x => x.TestMerge)
+				.ActiveTestMerges
+				.Select(x => x.TestMerge)
 				.Where(x => !deployedRevisionInformation
 				.ActiveTestMerges
 				.Any(y => y.TestMerge.Number == x.Number)))
