@@ -374,7 +374,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="409">An IO error occurred while downloading.</response>
 		[HttpGet(Routes.Logs + "/{*path}")]
 		[TgsAuthorize(AdministrationRights.DownloadLogs)]
-		[ProducesResponseType(typeof(List<LogFile>), 200)]
+		[ProducesResponseType(typeof(LogFile), 200)]
 		[ProducesResponseType(typeof(ErrorMessage), 409)]
 		public async Task<IActionResult> GetLog(string path, CancellationToken cancellationToken)
 		{

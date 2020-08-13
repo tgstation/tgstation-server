@@ -57,7 +57,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// </summary>
 		/// <param name="fromDiscord">The mention <see cref="string"/> provided by the Discord library</param>
 		/// <returns>The normalized mention <see cref="string"/></returns>
-		static string NormalizeMentions(string fromDiscord) => fromDiscord.Replace("<!@", "<@", StringComparison.Ordinal);
+		static string NormalizeMentions(string fromDiscord) => fromDiscord.Replace("<@!", "<@", StringComparison.Ordinal);
 
 		/// <summary>
 		/// Construct a <see cref="DiscordProvider"/>
@@ -95,6 +95,16 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		{
 			if (e.Author.Id == client.CurrentUser.Id)
 				return;
+
+			if (e.Content.Equals("Based on what?", StringComparison.OrdinalIgnoreCase))
+			{
+				// DCT: None available
+				await SendMessage(
+					e.Channel.Id,
+					"https://youtu.be/LrNu-SuFF_o",
+					default)
+					.ConfigureAwait(false);
+			}
 
 			var pm = e.Channel is IPrivateChannel;
 

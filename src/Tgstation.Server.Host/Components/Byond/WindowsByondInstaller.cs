@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Text;
 using System.Threading;
@@ -84,65 +84,99 @@ namespace Tgstation.Server.Host.Components.Byond
 		public void Dispose() => semaphore.Dispose();
 
 		/// <inheritdoc />
-		public override async Task InstallByond(string path, Version version, CancellationToken cancellationToken)
-		{
-			async Task SetNoPromptTrusted()
-			{
-				var configPath = IOManager.ConcatPath(path, ByondConfigDir);
-				await IOManager.CreateDirectory(configPath, cancellationToken).ConfigureAwait(false);
+		public override Task InstallByond(string path, Version version, CancellationToken cancellationToken)
+			=> Task.WhenAll(
+				SetNoPromptTrusted(path, cancellationToken),
+				InstallDirectX(path, cancellationToken),
+				AddDreamDaemonToFirewall(path, cancellationToken));
 
-				var configFilePath = IOManager.ConcatPath(configPath, ByondDDConfig);
-				Logger.LogTrace("Disabling trusted prompts in {0}...", configFilePath);
-				await IOManager.WriteAllBytes(
-					configFilePath,
-					Encoding.UTF8.GetBytes(ByondNoPromptTrustedMode),
-					cancellationToken)
-					.ConfigureAwait(false);
+		async Task SetNoPromptTrusted(string path, CancellationToken cancellationToken)
+		{
+			var configPath = IOManager.ConcatPath(path, ByondConfigDir);
+			await IOManager.CreateDirectory(configPath, cancellationToken).ConfigureAwait(false);
+
+			var configFilePath = IOManager.ConcatPath(configPath, ByondDDConfig);
+			Logger.LogTrace("Disabling trusted prompts in {0}...", configFilePath);
+			await IOManager.WriteAllBytes(
+				configFilePath,
+				Encoding.UTF8.GetBytes(ByondNoPromptTrustedMode),
+				cancellationToken)
+				.ConfigureAwait(false);
+		}
+
+		async Task InstallDirectX(string path, CancellationToken cancellationToken)
+		{
+			using var lockContext = await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false);
+			if (installedDirectX)
+			{
+				Logger.LogTrace("DirectX already installed.");
+				return;
 			}
 
-			var setNoPromptTrustedModeTask = SetNoPromptTrusted();
+			Logger.LogTrace("Installing DirectX redistributable...");
 
-			// after this version lummox made DD depend of directx lol
-			// but then he became amazing and not only fixed it but also gave us 30s compiles \[T]/
-			// then he readded it again so -_-
-			if (!installedDirectX)
-				using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
-					if (!installedDirectX)
-					{
-						// ^check again because race conditions
-						Logger.LogTrace("Installing DirectX redistributable...");
+			// always install it, it's pretty fast and will do better redundancy checking than us
+			var rbdx = IOManager.ConcatPath(path, ByondDXDir);
 
-						// always install it, it's pretty fast and will do better redundancy checking than us
-						var rbdx = IOManager.ConcatPath(path, ByondDXDir);
+			try
+			{
+				// noShellExecute because we aren't doing runas shennanigans
+				using var directXInstaller = processExecutor.LaunchProcess(
+					IOManager.ConcatPath(rbdx, "DXSETUP.exe"),
+					rbdx,
+					"/silent",
+					noShellExecute: true);
 
-						// noShellExecute because we aren't doing runas shennanigans
-						IProcess directXInstaller;
-						try
-						{
-							directXInstaller = processExecutor.LaunchProcess(
-								IOManager.ConcatPath(rbdx, "DXSETUP.exe"),
-								rbdx, "/silent",
-								noShellExecute: true);
-						}
-						catch (Exception e)
-						{
-							throw new JobException(ErrorCode.ByondDirectXInstallFail, e);
-						}
+				int exitCode;
+				using (cancellationToken.Register(() => directXInstaller.Terminate()))
+					exitCode = await directXInstaller.Lifetime.ConfigureAwait(false);
+				cancellationToken.ThrowIfCancellationRequested();
 
-						using (directXInstaller)
-						{
-							int exitCode;
-							using (cancellationToken.Register(() => directXInstaller.Terminate()))
-								exitCode = await directXInstaller.Lifetime.ConfigureAwait(false);
-							cancellationToken.ThrowIfCancellationRequested();
+				if (exitCode != 0)
+					throw new JobException(ErrorCode.ByondDirectXInstallFail, new JobException($"Invalid exit code: {exitCode}"));
+				installedDirectX = true;
+			}
+			catch (Exception e)
+			{
+				throw new JobException(ErrorCode.ByondDirectXInstallFail, e);
+			}
+		}
 
-							if (exitCode != 0)
-								throw new JobException(ErrorCode.ByondDirectXInstallFail, new JobException($"Invalid exit code: {exitCode}"));
-							installedDirectX = true;
-						}
-					}
+		async Task AddDreamDaemonToFirewall(string path, CancellationToken cancellationToken)
+		{
+			var dreamDaemonPath = IOManager.ResolvePath(
+				IOManager.ConcatPath(
+					path,
+					ByondManager.BinPath,
+					DreamDaemonName));
 
-			await setNoPromptTrustedModeTask.ConfigureAwait(false);
+			try
+			{
+				using var netshProcess = processExecutor.LaunchProcess(
+					"netsh.exe",
+					IOManager.ResolvePath(),
+					$"advfirewall firewall add rule name=\"TGS DreamDaemon\" program=\"{dreamDaemonPath}\" protocol=tcp dir=in enable=yes action=allow",
+					true,
+					true,
+					true);
+
+				int exitCode;
+				using (cancellationToken.Register(() => netshProcess.Terminate()))
+					exitCode = await netshProcess.Lifetime.ConfigureAwait(false);
+				cancellationToken.ThrowIfCancellationRequested();
+
+				Logger.LogDebug(
+					"netsh.exe output:{0}{1}",
+					Environment.NewLine,
+					await netshProcess.GetCombinedOutput(cancellationToken).ConfigureAwait(false));
+
+				if (exitCode != 0)
+					throw new JobException(ErrorCode.ByondDreamDaemonFirewallFail, new JobException($"Invalid exit code: {exitCode}"));
+			}
+			catch (Exception ex)
+			{
+				throw new JobException(ErrorCode.ByondDreamDaemonFirewallFail, ex);
+			}
 		}
 	}
 }
