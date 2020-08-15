@@ -4,6 +4,7 @@ using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -190,6 +191,11 @@ namespace Tgstation.Server.Host.Core
 
 			operation.OperationId = $"{context.MethodInfo.DeclaringType.Name}.{context.MethodInfo.Name}";
 
+			// request bodies are never nullable
+			var bodySchemas = operation.RequestBody?.Content.Select(x => x.Value.Schema) ?? Enumerable.Empty<OpenApiSchema>();
+			foreach (var bodySchema in bodySchemas)
+				bodySchema.Nullable = false;
+
 			var authAttributes = context
 				.MethodInfo
 				.DeclaringType
@@ -356,7 +362,8 @@ namespace Tgstation.Server.Host.Core
 				? context.Type.GenericTypeArguments.First()
 				: context.Type;
 
-			if (nonNullableType != context.Type)
+			if (nonNullableType != context.Type
+				&& !context.Type.GetInterfaces().Any(x => x == typeof(IEnumerable)))
 				schema.Nullable = true;
 
 			if (!schema.Enum?.Any() ?? false)
