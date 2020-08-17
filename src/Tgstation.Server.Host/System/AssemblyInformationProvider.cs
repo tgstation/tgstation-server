@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Reflection;
 using Tgstation.Server.Api;
 
@@ -31,7 +31,7 @@ namespace Tgstation.Server.Host.System
 			Path = assembly.Location;
 			Name = assembly.GetName();
 			Version = Name.Version.Semver();
-			VersionString = String.Concat(VersionPrefix, '-', Version);
+			VersionString = String.Concat(VersionPrefix, "-v", Version);
 		}
 	}
 }
