@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
@@ -24,7 +24,7 @@ namespace Tgstation.Server.Host.Configuration
 		/// <summary>
 		/// The current <see cref="ConfigVersion"/>.
 		/// </summary>
-		public static readonly Version CurrentConfigVersion = new Version(2, 0, 0);
+		public static readonly Version CurrentConfigVersion = new Version(2, 1, 0);
 
 		/// <summary>
 		/// The default value for <see cref="ServerInformation.MinimumPasswordLength"/>.
@@ -86,6 +86,11 @@ namespace Tgstation.Server.Host.Configuration
 		/// If the <see cref="Components.Watchdog.BasicWatchdog"/> should be preferred.
 		/// </summary>
 		public bool UseBasicWatchdog { get; set; }
+
+		/// <summary>
+		/// If the swagger UI should be made avaiable.
+		/// </summary>
+		public bool HostApiDocumemtation { get; set; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GeneralConfiguration"/> <see langword="class"/>.

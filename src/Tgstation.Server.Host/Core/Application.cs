@@ -394,7 +394,8 @@ namespace Tgstation.Server.Host.Core
 			// suppress OperationCancelledExceptions, they are just aborted HTTP requests
 			applicationBuilder.UseCancelledRequestSuppression();
 
-			if (hostingEnvironment.IsDevelopment())
+			if (hostingEnvironment.IsDevelopment()
+				|| generalConfiguration.HostApiDocumemtation)
 			{
 				applicationBuilder.UseSwagger();
 				applicationBuilder.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TGS API V4"));

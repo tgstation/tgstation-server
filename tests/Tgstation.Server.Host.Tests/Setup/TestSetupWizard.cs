@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -144,6 +144,7 @@ namespace Tgstation.Server.Host.Setup.Tests
 				"-27",
 				"5000",
 				"fake token",
+				"y",
 				//logging config
 				"no",
 				//cp config
@@ -165,6 +166,7 @@ namespace Tgstation.Server.Host.Setup.Tests
 				String.Empty,
 				String.Empty,
 				String.Empty,
+				"n",
 				"n",
 				//logging config
 				"y",
@@ -188,6 +190,7 @@ namespace Tgstation.Server.Host.Setup.Tests
 				String.Empty,
 				String.Empty,
 				String.Empty,
+				"y",
 				"y",
 				"will faile",
 				String.Empty,

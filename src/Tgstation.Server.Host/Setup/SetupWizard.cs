@@ -1,4 +1,4 @@
-﻿using Microsoft.Data.Sqlite;
+using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -612,6 +612,8 @@ namespace Tgstation.Server.Host.Setup
 			newGeneralConfiguration.GitHubAccessToken = await console.ReadLineAsync(true, cancellationToken).ConfigureAwait(false);
 			if (String.IsNullOrWhiteSpace(newGeneralConfiguration.GitHubAccessToken))
 				newGeneralConfiguration.GitHubAccessToken = null;
+
+			newGeneralConfiguration.HostApiDocumemtation = await PromptYesNo("Host API Documentation? (y/n): ", cancellationToken).ConfigureAwait(false);
 
 			return newGeneralConfiguration;
 		}
