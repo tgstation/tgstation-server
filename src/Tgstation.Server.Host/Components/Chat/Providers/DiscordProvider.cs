@@ -33,11 +33,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <summary>
-		/// Gets the Discord bot token.
-		/// </summary>
-		string BotToken => ChatBot.ConnectionString;
-
-		/// <summary>
 		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="DiscordProvider"/>.
 		/// </summary>
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
@@ -51,6 +46,16 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <see cref="List{T}"/> of mapped <see cref="ITextChannel"/> <see cref="IEntity{TId}.Id"/>s
 		/// </summary>
 		readonly List<ulong> mappedChannels;
+
+		/// <summary>
+		/// The Discord bot token.
+		/// </summary>
+		readonly string botToken;
+
+		/// <summary>
+		/// The <see cref="DiscordDMOutputDisplayType"/>.
+		/// </summary>
+		readonly DiscordDMOutputDisplayType outputDisplayType;
 
 		/// <summary>
 		/// Normalize a discord mention string
@@ -74,6 +79,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			: base(jobManager, logger, chatBot)
 		{
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
+
+			var csb = new DiscordConnectionStringBuilder(chatBot.ConnectionString);
+			botToken = csb.BotToken;
+			outputDisplayType = csb.DMOutputDisplay;
+
 			client = new DiscordSocketClient();
 			client.MessageReceived += Client_MessageReceived;
 			mappedChannels = new List<ulong>();
@@ -150,7 +160,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		{
 			try
 			{
-				await client.LoginAsync(TokenType.Bot, BotToken, true).ConfigureAwait(false);
+				await client.LoginAsync(TokenType.Bot, botToken, true).ConfigureAwait(false);
 
 				Logger.LogTrace("Logged in.");
 				cancellationToken.ThrowIfCancellationRequested();
@@ -379,7 +389,15 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					? "The deployment completed successfully and will be available at the next server reboot."
 					: "The deployment failed.";
 
-				if (dreamMakerOutput != null)
+				var showDMOutput = outputDisplayType switch
+				{
+					DiscordDMOutputDisplayType.Always => true,
+					DiscordDMOutputDisplayType.Never => false,
+					DiscordDMOutputDisplayType.OnError => errorMessage != null,
+					_ => throw new InvalidOperationException($"Invalid DiscordDMOutputDisplayType: {outputDisplayType}"),
+				};
+
+				if (showDMOutput && dreamMakerOutput != null)
 					builder.AddField(new EmbedFieldBuilder
 					{
 						Name = "DreamMaker Output",

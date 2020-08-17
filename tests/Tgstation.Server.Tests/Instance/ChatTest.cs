@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -93,7 +93,12 @@ namespace Tgstation.Server.Tests.Instance
 		{
 			var firstBot = new ChatBot
 			{
-				ConnectionString = Environment.GetEnvironmentVariable("TGS4_TEST_DISCORD_TOKEN"),
+				ConnectionString =
+					new DiscordConnectionStringBuilder
+					{
+						BotToken = Environment.GetEnvironmentVariable("TGS4_TEST_DISCORD_TOKEN"),
+						DMOutputDisplay = DiscordDMOutputDisplayType.OnError
+					}.ToString(),
 				Enabled = false,
 				Name = "r4407",
 				Provider = ChatProvider.Discord,
