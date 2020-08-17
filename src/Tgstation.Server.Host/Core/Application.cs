@@ -94,6 +94,7 @@ namespace Tgstation.Server.Host.Core
 			// configure configuration
 			services.UseStandardConfig<UpdatesConfiguration>(Configuration);
 			services.UseStandardConfig<ControlPanelConfiguration>(Configuration);
+			services.UseStandardConfig<SecurityConfiguration>(Configuration);
 
 			// enable options which give us config reloading
 			services.AddOptions();

@@ -14,7 +14,7 @@ namespace Tgstation.Server.Host.System
 		public Version Version { get; }
 
 		/// <inheritdoc />
-		public AssemblyName Name { get; }
+		public AssemblyName AssemblyName { get; }
 
 		/// <inheritdoc />
 		public string Path { get; }
@@ -29,8 +29,8 @@ namespace Tgstation.Server.Host.System
 		{
 			Assembly assembly = Assembly.GetExecutingAssembly();
 			Path = assembly.Location;
-			Name = assembly.GetName();
-			Version = Name.Version.Semver();
+			AssemblyName = assembly.GetName();
+			Version = AssemblyName.Version.Semver();
 			VersionString = String.Concat(VersionPrefix, "-v", Version);
 		}
 	}

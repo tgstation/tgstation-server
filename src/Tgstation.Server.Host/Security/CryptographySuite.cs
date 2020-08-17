@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Globalization;
 using System.Security.Cryptography;
@@ -31,12 +31,10 @@ namespace Tgstation.Server.Host.Security
 		/// <inheritdoc />
 		public byte[] GetSecureBytes(uint amount)
 		{
-			using (var rng = new RNGCryptoServiceProvider())
-			{
-				var byt = new byte[amount];
-				rng.GetBytes(byt);
-				return byt;
-			}
+			using var rng = new RNGCryptoServiceProvider();
+			var byt = new byte[amount];
+			rng.GetBytes(byt);
+			return byt;
 		}
 
 		/// <inheritdoc />

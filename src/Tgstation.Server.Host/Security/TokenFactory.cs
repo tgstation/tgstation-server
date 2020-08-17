@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
@@ -6,6 +7,7 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.System;
 
@@ -14,23 +16,13 @@ namespace Tgstation.Server.Host.Security
 	/// <inheritdoc />
 	sealed class TokenFactory : ITokenFactory
 	{
-		/// <summary>
-		/// Amount of minutes until generated <see cref="Token"/>s expire
-		/// </summary>
-		const uint TokenExpiryMinutes = 15;
-
-		/// <summary>
-		/// Amount of minutes to skew the clock for <see cref="Token"/> validation
-		/// </summary>
-		const uint TokenClockSkewMinutes = 1;
-
-		/// <summary>
-		/// Amount of bytes to use in the <see cref="TokenValidationParameters.IssuerSigningKey"/>
-		/// </summary>
-		const uint TokenSigningKeyByteAmount = 256;
-
 		/// <inheritdoc />
 		public TokenValidationParameters ValidationParameters { get; }
+
+		/// <summary>
+		/// The <see cref="SecurityConfiguration"/> for the <see cref="TokenFactory"/>.
+		/// </summary>
+		readonly SecurityConfiguration securityConfiguration;
 
 		/// <summary>
 		/// The <see cref="IAsyncDelayer"/> for the <see cref="TokenFactory"/>
@@ -43,31 +35,44 @@ namespace Tgstation.Server.Host.Security
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
 		/// <param name="cryptographySuite">The <see cref="ICryptographySuite"/> used for generating the <see cref="ValidationParameters"/></param>
 		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> used to generate the issuer name.</param>
+		/// <param name="securityConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="securityConfiguration"/>.</param>
 		public TokenFactory(
 			IAsyncDelayer asyncDelayer,
 			ICryptographySuite cryptographySuite,
-			IAssemblyInformationProvider assemblyInformationProvider)
+			IAssemblyInformationProvider assemblyInformationProvider,
+			IOptions<SecurityConfiguration> securityConfigurationOptions)
 		{
+			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
+
+			if (cryptographySuite == null)
+				throw new ArgumentNullException(nameof(cryptographySuite));
+			if (assemblyInformationProvider == null)
+				throw new ArgumentNullException(nameof(assemblyInformationProvider));
+
+			securityConfiguration = securityConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(securityConfigurationOptions));
+
+			var signingKeyBytes = String.IsNullOrWhiteSpace(securityConfiguration.CustomTokenSigningKeyBase64)
+				? cryptographySuite.GetSecureBytes(securityConfiguration.TokenSigningKeyByteCount)
+				: Convert.FromBase64String(securityConfiguration.CustomTokenSigningKeyBase64);
+
 			ValidationParameters = new TokenValidationParameters
 			{
 				ValidateIssuerSigningKey = true,
-				IssuerSigningKey = new SymmetricSecurityKey(cryptographySuite.GetSecureBytes(TokenSigningKeyByteAmount)),
+				IssuerSigningKey = new SymmetricSecurityKey(signingKeyBytes),
 
 				ValidateIssuer = true,
-				ValidIssuer = assemblyInformationProvider.Name.Name,
+				ValidIssuer = assemblyInformationProvider.AssemblyName.Name,
 
 				ValidateLifetime = true,
 				ValidateAudience = true,
 				ValidAudience = typeof(Token).Assembly.GetName().Name,
 
-				ClockSkew = TimeSpan.FromMinutes(TokenClockSkewMinutes),
+				ClockSkew = TimeSpan.FromMinutes(securityConfiguration.TokenClockSkewMinutes),
 
 				RequireSignedTokens = true,
 
 				RequireExpirationTime = true
 			};
-
-			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 		}
 
 		/// <inheritdoc />
@@ -88,7 +93,7 @@ namespace Tgstation.Server.Host.Security
 			if (nowUnix == lpuUnix)
 				await asyncDelayer.Delay(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false);
 
-			var expiry = now.AddMinutes(TokenExpiryMinutes);
+			var expiry = now.AddMinutes(securityConfiguration.TokenExpiryMinutes);
 			var claims = new Claim[]
 			{
 				new Claim(JwtRegisteredClaimNames.Sub, user.Id.Value.ToString(CultureInfo.InvariantCulture)),
