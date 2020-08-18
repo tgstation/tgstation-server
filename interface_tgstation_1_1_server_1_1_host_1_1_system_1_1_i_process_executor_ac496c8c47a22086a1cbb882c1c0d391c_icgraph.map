@@ -1,8 +1,9 @@
 <map id="Tgstation.Server.Host.System.IProcessExecutor.LaunchProcess" name="Tgstation.Server.Host.System.IProcessExecutor.LaunchProcess">
-<area shape="rect" id="node1" title="Launch a IProcess" alt="" coords="653,71,872,112"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#a791ef513301c98f21808049b43f6db36" title="Does actions necessary to get an extracted BYOND installation working" alt="" coords="325,5,595,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a2e3fbaee5882bbf0cae1b195808aa2d8" title="Create a ISessionController from a freshly launch DreamDaemon instance" alt="" coords="315,71,605,112"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a2c7d7d0048942b67b6c275cd4a643296" title="Compiles a .dme with DreamMaker" alt="" coords="327,136,593,177"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a33718a8a97983fa9fb12c0d27bec8732" title="Starts all ISessionControllers." alt="" coords="7,71,265,112"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a90c81ec6a44a188164e5ae50e6430a7d" title="Executes and populate a given job" alt="" coords="5,136,267,177"/>
+<area shape="rect" id="node1" title="Launch a IProcess" alt="" coords="653,129,872,170"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#a6e7516f6939712dc72c480a31b87a3d8" title=" " alt="" coords="330,5,590,61"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_windows_byond_installer.html#ace687a0a8ab8b2c11dfa48715dc83c87" title=" " alt="" coords="343,85,577,141"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a2e3fbaee5882bbf0cae1b195808aa2d8" title="Create a ISessionController from a freshly launch DreamDaemon instance" alt="" coords="315,165,605,206"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a2c7d7d0048942b67b6c275cd4a643296" title="Compiles a .dme with DreamMaker" alt="" coords="327,230,593,271"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a33718a8a97983fa9fb12c0d27bec8732" title="Starts all ISessionControllers." alt="" coords="7,165,265,206"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a90c81ec6a44a188164e5ae50e6430a7d" title="Executes and populate a given job" alt="" coords="5,230,267,271"/>
 </map>

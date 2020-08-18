@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.StaticFiles.Configuration" name="Tgstation.Server.Host.Components.StaticFiles.Configuration">
-<area shape="rect" id="node1" title=" " alt="" coords="637,375,864,417"/>
+<area shape="rect" id="node1" title=" " alt="" coords="636,375,863,417"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_i_configuration.html" title="For managing the Configuration directory" alt="" coords="240,56,341,83"/>
 <area shape="rect" id="node3" href="$class_i_hosted_service.html" title=" " alt="" coords="9,5,121,32"/>
 <area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions" alt="" coords="5,56,124,83"/>

@@ -1,6 +1,8 @@
 <map id="Tgstation.Server.Host.Security.TokenFactory" name="Tgstation.Server.Host.Security.TokenFactory">
-<area shape="rect" id="node1" title=" " alt="" coords="73,139,275,180"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html" title="For creating Tokens" alt="" coords="5,13,111,39"/>
-<area shape="rect" id="node3" title=" " alt="" coords="135,13,213,39"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html" title="For waiting asynchronously" alt="" coords="290,5,471,47"/>
+<area shape="rect" id="node1" title=" " alt="" coords="747,57,948,98"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html" title="For creating Tokens" alt="" coords="407,5,513,32"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html" title="For waiting asynchronously" alt="" coords="369,57,551,98"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html" title="Configuration options pertaining to user security" alt="" coords="345,122,575,163"/>
+<area shape="rect" id="node5" title=" " alt="" coords="5,104,84,131"/>
+<area shape="rect" id="node6" title=" " alt="" coords="17,155,72,181"/>
 </map>

@@ -5,6 +5,6 @@
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a600d8d0a279d2fe17d1f48c1a1bd17d4" title="Construct a SemaphoreSlimContext" alt="" coords="629,5,882,61"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a634f53946305b875c65c04dfd1719830" title="Get the active ISessionController." alt="" coords="612,85,899,126"/>
 <area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#ac217567aa6bd7e43c8cfd976eee05aac" title="Handle a given eventType" alt="" coords="636,150,875,191"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a084ec3f50264304b5aa437e58a09f313" title="Send a chat message &#160;to configured watchdog channels" alt="" coords="617,215,894,257"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#afd05b7393661f33ea421cc169b621cea" title="Send a chat message &#160;to configured watchdog channels" alt="" coords="617,215,894,257"/>
 <area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a565b987a394c375c75b3fe14ca3f75e1" title="Stops MonitorLifetimes(CancellationToken). Doesn&#39;t kill the servers" alt="" coords="633,281,877,322"/>
 </map>

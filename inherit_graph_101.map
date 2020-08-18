@@ -1,4 +1,9 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html" title="For initially setting up a database." alt="" coords="5,5,215,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html" title=" " alt="" coords="263,5,472,47"/>
+<area shape="rect" id="node1" href="$class_db_context.html" title=" " alt="" coords="69,82,151,109"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html" title="Backend abstract implementation of IDatabaseContext" alt="" coords="263,104,472,145"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_my_sql_database_context.html" title="DatabaseContext for MySQL" alt="" coords="520,5,729,47"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_postgres_sql_database_context.html" title="DatabaseContext for PostgresSQL." alt="" coords="520,71,729,112"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_sqlite_database_context.html" title="DatabaseContext for SQLite." alt="" coords="520,136,729,177"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_sql_server_database_context.html" title="DatabaseContext for Sqlserver" alt="" coords="520,201,729,243"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database." alt="" coords="5,133,215,175"/>
 </map>

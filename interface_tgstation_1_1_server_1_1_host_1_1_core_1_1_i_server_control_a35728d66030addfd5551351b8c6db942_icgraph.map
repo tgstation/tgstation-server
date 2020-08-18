@@ -2,5 +2,5 @@
 <area shape="rect" id="node1" title="Register a given handler &#160;to run before stopping the server for a restart" alt="" coords="316,71,533,112"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ae0a718f1cae22fe94e31e1c6103ddbed" title="Construct a ChatManager" alt="" coords="23,5,250,47"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a1ea0b9c26cf8246544575d8705adaeb5" title="Construct an InstanceManager" alt="" coords="23,71,250,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a4fa6000293a0b943a2316c28ed3433d0" title="Initializes a new instance of the WatchdogBase class." alt="" coords="5,136,268,177"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a10098368e02b5ce00e1bd40a69d49d4e" title="Initializes a new instance of the WatchdogBase class." alt="" coords="5,136,268,177"/>
 </map>

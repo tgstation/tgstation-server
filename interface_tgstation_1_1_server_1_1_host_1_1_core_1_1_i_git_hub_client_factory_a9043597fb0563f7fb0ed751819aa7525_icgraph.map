@@ -1,9 +1,12 @@
 <map id="Tgstation.Server.Host.Core.IGitHubClientFactory.CreateClient" name="Tgstation.Server.Host.Core.IGitHubClientFactory.CreateClient">
-<area shape="rect" id="node1" title="Create a client with anonymous authentication. Low rate limit" alt="" coords="1120,72,1337,113"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#aed1debb892c0e54911e3ef6b9296d62e" title="Get the updated list of TestMerges for an origin merge." alt="" coords="829,39,1072,80"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a20510f6dd61837e191a7a2c1a5c1c9ce" title="Perform updats to the Repository." alt="" coords="843,104,1059,145"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afb736b47a7400fb861186b8dad1c4c4c" title="Pull the repository and compile for every set of given minutes" alt="" coords="555,39,781,80"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a9c7e2863cce30a01be66c0ce1dd07d9c" title="Change the Api.Models.Instance.AutoUpdateInterval for the IInstanceCore" alt="" coords="280,39,507,80"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,5,232,47"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,71,232,112"/>
+<area shape="rect" id="node1" title="Create a client with anonymous authentication. Low rate limit" alt="" coords="1407,147,1624,188"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#aed1debb892c0e54911e3ef6b9296d62e" title="Get the updated list of TestMerges for an origin merge." alt="" coords="1110,39,1353,80"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_git_hub_deployment_manager.html#a63f609709d84ef07f7987a13c846c310" title="Start a deployment for a given compileJob ." alt="" coords="1104,103,1359,159"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a20510f6dd61837e191a7a2c1a5c1c9ce" title="Perform updats to the Repository." alt="" coords="1123,183,1339,224"/>
+<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_git_hub_deployment_manager.html#ac3aeb890dfb67252ed73f8026913fd10" title=" " alt="" coords="1104,247,1359,303"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a4baa7e745d0000ea968b6fb38570d6a6" title=" " alt="" coords="829,39,1056,80"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afb736b47a7400fb861186b8dad1c4c4c" title="Pull the repository and compile for every set of given minutes" alt="" coords="555,39,781,80"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a9c7e2863cce30a01be66c0ce1dd07d9c" title="Change the Api.Models.Instance.AutoUpdateInterval for the IInstanceCore" alt="" coords="280,39,507,80"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,5,232,47"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afc1fd9e8dc3bd57b78dbcbc4e7f449b4" title=" " alt="" coords="5,71,232,112"/>
 </map>

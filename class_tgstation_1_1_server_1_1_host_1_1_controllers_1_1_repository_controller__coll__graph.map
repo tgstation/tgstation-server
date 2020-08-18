@@ -1,18 +1,18 @@
 <map id="Tgstation.Server.Host.Controllers.RepositoryController" name="Tgstation.Server.Host.Controllers.RepositoryController">
-<area shape="rect" id="node1" title="ApiController for managing the Repositorys" alt="" coords="1139,205,1355,246"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller.html" title="abstract ApiController for operations on an IInstance." alt="" coords="765,111,944,137"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="A Controller for API functions" alt="" coords="337,52,433,79"/>
+<area shape="rect" id="node1" title="ApiController for managing the Repositorys" alt="" coords="1137,205,1353,246"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller.html" title="abstract ApiController for operations on an IInstance." alt="" coords="764,111,943,137"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="A Controller for API functions" alt="" coords="336,52,432,79"/>
 <area shape="rect" id="node4" href="$class_controller.html" title=" " alt="" coords="29,5,107,32"/>
 <area shape="rect" id="node5" title=" " alt="" coords="45,56,91,83"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html" title="For managing IInstances" alt="" coords="272,103,499,145"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html" title="For managing IInstances" alt="" coords="271,103,497,145"/>
 <area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters." alt="" coords="5,111,131,137"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs" alt="" coords="763,162,946,203"/>
-<area shape="rect" id="node9" href="$class_i_hosted_service.html" title=" " alt="" coords="329,169,441,196"/>
-<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html" title="For creating IGitHubClients" alt="" coords="764,227,945,269"/>
-<area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options" alt="" coords="740,329,969,370"/>
-<area shape="rect" id="node12" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information.html" title="Base class for Models.ServerInformation." alt="" coords="323,220,448,247"/>
-<area shape="rect" id="node13" title=" " alt="" coords="346,308,425,335"/>
-<area shape="rect" id="node14" title=" " alt="" coords="358,359,413,385"/>
-<area shape="rect" id="node15" title=" " alt="" coords="356,409,415,436"/>
-<area shape="rect" id="node16" title=" " alt="" coords="309,460,461,487"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs" alt="" coords="762,162,945,203"/>
+<area shape="rect" id="node9" href="$class_i_hosted_service.html" title=" " alt="" coords="328,169,440,196"/>
+<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html" title="For creating IGitHubClients" alt="" coords="763,227,944,269"/>
+<area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options" alt="" coords="739,329,968,370"/>
+<area shape="rect" id="node12" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information.html" title="Base class for Models.ServerInformation." alt="" coords="321,220,447,247"/>
+<area shape="rect" id="node13" title=" " alt="" coords="345,308,423,335"/>
+<area shape="rect" id="node14" title=" " alt="" coords="357,359,411,385"/>
+<area shape="rect" id="node15" title=" " alt="" coords="351,409,417,436"/>
+<area shape="rect" id="node16" title=" " alt="" coords="337,460,431,487"/>
 </map>

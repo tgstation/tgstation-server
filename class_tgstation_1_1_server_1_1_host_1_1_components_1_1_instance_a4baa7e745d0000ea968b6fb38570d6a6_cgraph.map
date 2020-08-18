@@ -1,0 +1,11 @@
+<map id="Tgstation.Server.Host.Components.Instance.RepositoryAutoUpdateJob" name="Tgstation.Server.Host.Components.Instance.RepositoryAutoUpdateJob">
+<area shape="rect" id="node1" title=" " alt="" coords="5,167,232,209"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#afcab0cdc52ae45ecd0dfba5c7630e303" title="Attempt to load the IRepository from the default location" alt="" coords="280,85,571,126"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#aed1debb892c0e54911e3ef6b9296d62e" title="Get the updated list of TestMerges for an origin merge." alt="" coords="304,167,547,209"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#ad2118970749039c0d44a9eb4698d97e1" title="Construct a Repository" alt="" coords="312,269,539,310"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html#a855673b50e2639242bea6d6770c39773" title="Load a LibGit2Sharp.IRepository from a given path ." alt="" coords="619,5,857,61"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78" title="Retrieve the full path of the current working directory." alt="" coords="654,85,822,126"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html#a9043597fb0563f7fb0ed751819aa7525" title="Create a client with anonymous authentication. Low rate limit" alt="" coords="629,150,847,191"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a364b05c74603f9ee3f18cc012014465e" title="Check if a given sha &#160;is a parent of the current Head." alt="" coords="625,215,851,257"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#adec58d79f9d6c5fe1bc4e43f9f036308" title=" " alt="" coords="622,280,854,336"/>
+</map>

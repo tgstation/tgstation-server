@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Database.IDatabaseContextFactory.UseContext" name="Tgstation.Server.Host.Database.IDatabaseContextFactory.UseContext">
-<area shape="rect" id="node1" title="Run an operation &#160;in the scope of an IDatabaseContext" alt="" coords="1236,333,1475,375"/>
+<area shape="rect" id="node1" title="Run an operation &#160;in the scope of an IDatabaseContext" alt="" coords="1236,399,1475,440"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a4bc1df0d137c1e026997a89262530182" title="Deletes all compile jobs that are inactive in the Game folder." alt="" coords="869,48,1188,89"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ab03690c5e8fd15c8d3f7c746a36a9f37" title=" " alt="" coords="885,113,1172,155"/>
 <area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#af0268d30e70a14c2cff65d09e6ca6df5" title="Gets a IDmbProvider for a given CompileJob" alt="" coords="897,179,1161,220"/>
@@ -9,7 +9,9 @@
 <area shape="rect" id="node14" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a232e9720186876671fb9709f433a507b" title="Move an IInstance" alt="" coords="915,431,1142,472"/>
 <area shape="rect" id="node15" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a77615fe1970391e6ebe643dc3033156f" title=" " alt="" coords="915,496,1142,537"/>
 <area shape="rect" id="node16" href="$class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#ab886226b72e336cfe28a37233ed807dc" title="Runner for JobHandlers" alt="" coords="937,561,1120,603"/>
-<area shape="rect" id="node18" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a20510f6dd61837e191a7a2c1a5c1c9ce" title="Perform updats to the Repository." alt="" coords="921,627,1137,668"/>
+<area shape="rect" id="node18" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_git_hub_deployment_manager.html#a63f609709d84ef07f7987a13c846c310" title="Start a deployment for a given compileJob ." alt="" coords="901,626,1156,682"/>
+<area shape="rect" id="node19" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a20510f6dd61837e191a7a2c1a5c1c9ce" title="Perform updats to the Repository." alt="" coords="921,705,1137,747"/>
+<area shape="rect" id="node20" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_git_hub_deployment_manager.html#ac3aeb890dfb67252ed73f8026913fd10" title=" " alt="" coords="901,770,1156,826"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afb736b47a7400fb861186b8dad1c4c4c" title="Pull the repository and compile for every set of given minutes" alt="" coords="577,39,803,80"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a9c7e2863cce30a01be66c0ce1dd07d9c" title="Change the Api.Models.Instance.AutoUpdateInterval for the IInstanceCore" alt="" coords="282,39,509,80"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,5,232,47"/>

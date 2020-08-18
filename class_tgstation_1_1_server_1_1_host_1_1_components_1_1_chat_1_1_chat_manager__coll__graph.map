@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Chat.ChatManager" name="Tgstation.Server.Host.Components.Chat.ChatManager">
-<area shape="rect" id="node1" title=" " alt="" coords="615,674,841,715"/>
+<area shape="rect" id="node1" title=" " alt="" coords="644,674,871,715"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html" title="For managing connected chat services" alt="" coords="247,31,350,57"/>
 <area shape="rect" id="node3" href="$class_i_hosted_service.html" title=" " alt="" coords="13,5,125,32"/>
 <area shape="rect" id="node4" href="$class_i_async_disposable.html" title=" " alt="" coords="5,56,132,83"/>

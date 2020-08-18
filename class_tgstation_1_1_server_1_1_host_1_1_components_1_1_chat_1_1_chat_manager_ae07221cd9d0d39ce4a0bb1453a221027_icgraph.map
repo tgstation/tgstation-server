@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Components.Chat.ChatManager.SendMessage" name="Tgstation.Server.Host.Components.Chat.ChatManager.SendMessage">
-<area shape="rect" id="node1" title="Send a chat message &#160;to a given set of channelIds" alt="" coords="609,39,836,80"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a13d3a724fb03c4546b7af6162336809c" title="Processes a message" alt="" coords="308,5,541,47"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a3b2636d279f80828111c2bf94288983e" title="Send a chat message &#160;to configured watchdog channels" alt="" coords="288,71,561,112"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a530e8ef5a58711a9c6744021df74afb2" title="Monitors active providers for new Messages" alt="" coords="5,5,240,47"/>
-</map>

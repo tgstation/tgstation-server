@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Database.Migrations.MYAddDeploymentColumns" name="Tgstation.Server.Host.Database.Migrations.MYAddDeploymentColumns">
+<area shape="rect" id="node1" title="Adds columns for GitHub deployments for MYSQL." alt="" coords="5,80,252,121"/>
+<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="91,5,166,32"/>
+</map>

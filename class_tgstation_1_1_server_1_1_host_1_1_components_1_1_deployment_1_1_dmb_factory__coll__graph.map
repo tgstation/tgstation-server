@@ -1,18 +1,19 @@
 <map id="Tgstation.Server.Host.Components.Deployment.DmbFactory" name="Tgstation.Server.Host.Components.Deployment.DmbFactory">
-<area shape="rect" id="node1" title="Standard IDmbFactory" alt="" coords="667,347,893,389"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html" title="Factory for IDmbProviders" alt="" coords="306,64,402,91"/>
+<area shape="rect" id="node1" title="Standard IDmbFactory" alt="" coords="697,377,924,418"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_factory.html" title="Factory for IDmbProviders" alt="" coords="313,64,409,91"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_latest_compile_job_provider.html" title="Provides the most recently deployed CompileJob." alt="" coords="5,5,184,32"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_compile_job_sink.html" title="Sink for CompileJobs" alt="" coords="294,5,414,32"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_compile_job_sink.html" title="Sink for CompileJobs" alt="" coords="301,5,421,32"/>
 <area shape="rect" id="node4" href="$class_i_hosted_service.html" title=" " alt="" coords="39,64,151,91"/>
 <area shape="rect" id="node5" href="$class_i_disposable.html" title=" " alt="" coords="49,123,140,149"/>
-<area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs" alt="" coords="241,115,467,157"/>
-<area shape="rect" id="node7" title=" " alt="" coords="233,180,475,236"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems" alt="" coords="270,259,438,301"/>
-<area shape="rect" id="node9" title=" " alt="" coords="333,325,375,352"/>
-<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components" alt="" coords="249,377,459,418"/>
-<area shape="rect" id="node11" title=" " alt="" coords="329,443,379,469"/>
-<area shape="rect" id="node12" title=" " alt="" coords="287,494,421,535"/>
-<area shape="rect" id="node13" title=" " alt="" coords="275,559,433,601"/>
-<area shape="rect" id="node14" title=" " alt="" coords="331,625,377,652"/>
-<area shape="rect" id="node16" title=" " alt="" coords="269,676,439,703"/>
+<area shape="rect" id="node16" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_dmb_provider.html" title="Provides absolute paths to the latest compiled .dmbs" alt="" coords="248,115,475,157"/>
+<area shape="rect" id="node7" title=" " alt="" coords="241,180,482,236"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems" alt="" coords="277,259,445,301"/>
+<area shape="rect" id="node9" title=" " alt="" coords="341,325,382,352"/>
+<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components" alt="" coords="257,377,466,418"/>
+<area shape="rect" id="node11" title=" " alt="" coords="336,443,387,469"/>
+<area shape="rect" id="node12" title=" " alt="" coords="294,494,429,535"/>
+<area shape="rect" id="node13" title=" " alt="" coords="283,559,440,601"/>
+<area shape="rect" id="node14" title=" " alt="" coords="338,625,385,652"/>
+<area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_git_hub_deployment_manager.html" title="Creates and updates GitHub deployments." alt="" coords="233,677,489,718"/>
+<area shape="rect" id="node17" title=" " alt="" coords="276,743,447,769"/>
 </map>
