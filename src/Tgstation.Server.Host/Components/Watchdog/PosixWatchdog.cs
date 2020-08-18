@@ -113,9 +113,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				{
 					Logger.LogTrace("Unhardlinking compile job...");
 					Server?.Suspend();
+					var hardLink = ActiveSwappable.Directory;
+					var originalPosition = ActiveSwappable.CompileJob.DirectoryName.ToString();
 					await GameIOManager.MoveDirectory(
-						ActiveSwappable.Directory,
-						ActiveSwappable.CompileJob.DirectoryName.ToString(),
+						hardLink,
+						originalPosition,
 						default)
 						.ConfigureAwait(false);
 					directoryHardLinked = false;
