@@ -7,6 +7,7 @@ using System.Management;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 
 namespace Tgstation.Server.Host.System
@@ -119,7 +120,7 @@ namespace Tgstation.Server.Host.System
 						throw new Win32Exception();
 				},
 				cancellationToken,
-				TaskCreationOptions.LongRunning,
+				DefaultIOManager.BlockingTaskCreationOptions,
 				TaskScheduler.Current);
 	}
 }

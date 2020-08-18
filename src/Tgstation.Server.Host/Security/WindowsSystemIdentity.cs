@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.DirectoryServices.AccountManagement;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Security
 {
@@ -90,6 +91,6 @@ namespace Tgstation.Server.Host.Security
 			if (identity == null)
 				throw new InvalidOperationException("Impersonate using a UserPrincipal based WindowsSystemIdentity!");
 			WindowsIdentity.RunImpersonated(identity.AccessToken, action);
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 	}
 }
