@@ -179,6 +179,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			// don't need a new dmb if reattaching
 			var reattachInProgress = reattachInfo != null;
 			var dmbToUse = reattachInProgress ? null : DmbFactory.LockNextDmb(1);
+			Logger.LogTrace("Initializing controller with CompileJob {0}...", dmbToUse.CompileJob.Id);
 
 			// if this try catches something, both servers are killed
 			try
