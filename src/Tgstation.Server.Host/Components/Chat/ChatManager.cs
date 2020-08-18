@@ -21,7 +21,10 @@ namespace Tgstation.Server.Host.Components.Chat
 	#pragma warning disable CA1506
 	sealed class ChatManager : IChatManager, IRestartHandler
 	{
-		const string CommonMention = "!tgs";
+		/// <summary>
+		/// The common bot mention.
+		/// </summary>
+		public const string CommonMention = "!tgs";
 
 		/// <summary>
 		/// The <see cref="IProviderFactory"/> for the <see cref="ChatManager"/>
@@ -415,7 +418,11 @@ namespace Tgstation.Server.Host.Components.Chat
 				{
 					// prune disconnected providers
 					foreach (var I in messageTasks.Where(x => !x.Key.Disposed).ToList())
+					{
 						messageTasks.Remove(I.Key);
+						if (I.Value.IsCompleted)
+							(await I.Value.ConfigureAwait(false))?.Context?.Dispose();
+					}
 
 					// add new ones
 					Task updatedTask;
@@ -439,6 +446,7 @@ namespace Tgstation.Server.Host.Components.Chat
 					foreach (var I in messageTasks.Where(x => x.Value.IsCompleted).ToList())
 					{
 						var message = await I.Value.ConfigureAwait(false);
+						using var messageContext = message?.Context;
 						var messageNumber = Interlocked.Increment(ref messagesProcessed);
 						using (LogContext.PushProperty("ChatMessage", messageNumber))
 							await ProcessMessage(I.Key, message, cancellationToken).ConfigureAwait(false);
