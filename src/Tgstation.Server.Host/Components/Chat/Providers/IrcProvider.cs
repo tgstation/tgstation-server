@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.System;
 
@@ -302,7 +303,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						Logger.LogTrace("Exiting listening task...");
 					},
 					cancellationToken,
-					TaskCreationOptions.LongRunning,
+					DefaultIOManager.BlockingTaskCreationOptions,
 					TaskScheduler.Current);
 
 					await nickCheckCompleteTcs.Task.ConfigureAwait(false);
@@ -430,7 +431,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						}
 					},
 					cancellationToken,
-					TaskCreationOptions.LongRunning,
+					DefaultIOManager.BlockingTaskCreationOptions,
 					TaskScheduler.Current)
 					.ConfigureAwait(false);
 				await HardDisconnect(cancellationToken).ConfigureAwait(false);
@@ -472,7 +473,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					}
 				},
 				cancellationToken,
-				TaskCreationOptions.None,
+				DefaultIOManager.BlockingTaskCreationOptions,
 				TaskScheduler.Current);
 
 			await Task.WhenAny(
@@ -545,7 +546,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						})
 						.ToList();
 				}
-			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+			}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public override Task SendMessage(ulong channelId, string message, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
@@ -573,7 +574,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			{
 				Logger.LogWarning(e, "Unable to send to channel {0}!", channelName);
 			}
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public override async Task<Func<string, string, Task>> SendUpdateMessage(

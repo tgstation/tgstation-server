@@ -5,6 +5,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 
 namespace Tgstation.Server.Host.Components.Repository
@@ -46,7 +47,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					return new LibGit2Sharp.Repository(path);
 				},
 				cancellationToken,
-				TaskCreationOptions.LongRunning,
+				DefaultIOManager.BlockingTaskCreationOptions,
 				TaskScheduler.Current);
 		}
 
@@ -63,7 +64,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				logger.LogTrace(ex, "Suppressing clone cancellation exception");
 				cancellationToken.ThrowIfCancellationRequested();
 			}
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public CredentialsHandler GenerateCredentialsHandler(string username, string password) => (a, b, supportedCredentialTypes) =>

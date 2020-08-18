@@ -375,7 +375,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				}
 
 				libGitRepo.RemoveUntrackedFiles();
-			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+			}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
 
 			if (result.Status == MergeStatus.Conflicts)
 			{
@@ -389,7 +389,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				await Task.Factory.StartNew(() => libGitRepo.Commit(commitMessage, sig, sig, new CommitOptions
 				{
 					PrettifyMessage = true
-				}), cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+				}), cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
 			}
 
 			await eventConsumer.HandleEvent(
@@ -420,7 +420,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			{
 				libGitRepo.RemoveUntrackedFiles();
 				RawCheckout(committish, progressReporter, cancellationToken);
-			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+			}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -453,7 +453,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				{
 					cancellationToken.ThrowIfCancellationRequested();
 				}
-			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+			}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
 		}
 
 		/// <summary>
@@ -492,7 +492,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			{
 				libGitRepo.Branches.Remove(branch);
 			}
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public async Task ResetToOrigin(Action<int> progressReporter, CancellationToken cancellationToken)
@@ -530,7 +530,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			{
 				OnCheckoutProgress = CheckoutProgressHandler(progressReporter)
 			});
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public async Task CopyTo(string path, CancellationToken cancellationToken)
@@ -550,7 +550,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			cancellationToken.ThrowIfCancellationRequested();
 
 			return libGitRepo.Head.TrackedBranch.Tip.Sha;
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public async Task<bool?> MergeOrigin(string committerName, string committerEmail, Action<int> progressReporter, CancellationToken cancellationToken)
@@ -601,7 +601,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				}
 
 				libGitRepo.RemoveUntrackedFiles();
-			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+			}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
 
 			if (result.Status == MergeStatus.Conflicts)
 			{
@@ -643,7 +643,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				libGitRepo.Config.Set("user.name", committerName);
 				cancellationToken.ThrowIfCancellationRequested();
 				libGitRepo.Config.Set("user.email", committerEmail);
-			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+			}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
 
 			cancellationToken.ThrowIfCancellationRequested();
 			try
@@ -668,7 +668,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					{
 						OnCheckoutProgress = CheckoutProgressHandler(progress => progressReporter(progress / 10))
 					});
-				}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+				}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
 			}
 
 			void FinalReporter(int progress) => progressReporter((int)(((float)progress) / 100 * 90));
@@ -711,7 +711,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					logger.LogWarning(e, "Unable to make synchronization push!");
 					return false;
 				}
-			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+			}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -732,7 +732,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			if (libGitRepo.Lookup<Commit>(committish) != null)
 				return true;
 			return false;
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public Task<bool> ShaIsParent(string sha, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
@@ -770,6 +770,6 @@ namespace Tgstation.Server.Host.Components.Repository
 				startSha);
 
 			return false;
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 	}
 }

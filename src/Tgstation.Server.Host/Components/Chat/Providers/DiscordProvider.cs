@@ -33,11 +33,6 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		}
 
 		/// <summary>
-		/// Gets the Discord bot token.
-		/// </summary>
-		string BotToken => ChatBot.ConnectionString;
-
-		/// <summary>
 		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="DiscordProvider"/>.
 		/// </summary>
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
@@ -51,6 +46,16 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <see cref="List{T}"/> of mapped <see cref="ITextChannel"/> <see cref="IEntity{TId}.Id"/>s
 		/// </summary>
 		readonly List<ulong> mappedChannels;
+
+		/// <summary>
+		/// The Discord bot token.
+		/// </summary>
+		readonly string botToken;
+
+		/// <summary>
+		/// The <see cref="DiscordDMOutputDisplayType"/>.
+		/// </summary>
+		readonly DiscordDMOutputDisplayType outputDisplayType;
 
 		/// <summary>
 		/// Normalize a discord mention string
@@ -74,6 +79,11 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			: base(jobManager, logger, chatBot)
 		{
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
+
+			var csb = new DiscordConnectionStringBuilder(chatBot.ConnectionString);
+			botToken = csb.BotToken;
+			outputDisplayType = csb.DMOutputDisplay;
+
 			client = new DiscordSocketClient();
 			client.MessageReceived += Client_MessageReceived;
 			mappedChannels = new List<ulong>();
@@ -96,53 +106,76 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			if (e.Author.Id == client.CurrentUser.Id)
 				return;
 
-			if (e.Content.Equals("Based on what?", StringComparison.OrdinalIgnoreCase))
+			IDisposable typingState = null;
+			void StartTyping() => typingState = e.Channel.EnterTypingState();
+			try
 			{
-				// DCT: None available
-				await SendMessage(
-					e.Channel.Id,
-					"https://youtu.be/LrNu-SuFF_o",
-					default)
-					.ConfigureAwait(false);
-			}
-
-			var pm = e.Channel is IPrivateChannel;
-
-			if (!pm && !mappedChannels.Contains(e.Channel.Id))
-			{
-				var mentionedUs = e.MentionedUsers.Any(x => x.Id == client.CurrentUser.Id);
-				if (mentionedUs)
+				if (e.Content.Equals("Based on what?", StringComparison.OrdinalIgnoreCase))
 				{
-					Logger.LogTrace("Ignoring mention from {0} ({1}) by {2} ({3}). Channel not mapped!", e.Channel.Id, e.Channel.Name, e.Author.Id, e.Author.Username);
+					StartTyping();
 
 					// DCT: None available
-					await SendMessage(e.Channel.Id, "I do not respond to this channel!", default).ConfigureAwait(false);
+					await SendMessage(
+						e.Channel.Id,
+						"https://youtu.be/LrNu-SuFF_o",
+						default)
+						.ConfigureAwait(false);
+					return;
 				}
 
-				return;
-			}
+				var pm = e.Channel is IPrivateChannel;
+				var shouldNotAnswer = !pm;
+				if (shouldNotAnswer)
+					lock (mappedChannels)
+						shouldNotAnswer = !mappedChannels.Contains(e.Channel.Id);
 
-			var result = new Message
-			{
-				Content = NormalizeMentions(e.Content),
-				User = new ChatUser
+				var content = NormalizeMentions(e.Content);
+				var mentionedUs = e.MentionedUsers.Any(x => x.Id == client.CurrentUser.Id)
+					|| (!shouldNotAnswer && content.Split(' ').First().Equals(ChatManager.CommonMention, StringComparison.OrdinalIgnoreCase));
+				if (mentionedUs)
+					StartTyping();
+
+				if (shouldNotAnswer)
 				{
-					RealId = e.Author.Id,
-					Channel = new ChannelRepresentation
+					if (mentionedUs)
 					{
-						RealId = e.Channel.Id,
-						IsPrivateChannel = pm,
-						ConnectionName = pm ? e.Author.Username : (e.Channel as ITextChannel)?.Guild.Name ?? "UNKNOWN",
-						FriendlyName = e.Channel.Name
+						Logger.LogTrace("Ignoring mention from {0} ({1}) by {2} ({3}). Channel not mapped!", e.Channel.Id, e.Channel.Name, e.Author.Id, e.Author.Username);
 
-						// isAdmin and Tag populated by manager
-					},
-					FriendlyName = e.Author.Username,
-					Mention = NormalizeMentions(e.Author.Mention)
+						// DCT: None available
+						await SendMessage(e.Channel.Id, "I do not respond to this channel!", default).ConfigureAwait(false);
+					}
+
+					return;
 				}
-			};
 
-			EnqueueMessage(result);
+				var result = new Message
+				{
+					Content = content,
+					User = new ChatUser
+					{
+						RealId = e.Author.Id,
+						Channel = new ChannelRepresentation
+						{
+							RealId = e.Channel.Id,
+							IsPrivateChannel = pm,
+							ConnectionName = pm ? e.Author.Username : (e.Channel as ITextChannel)?.Guild.Name ?? "UNKNOWN",
+							FriendlyName = e.Channel.Name
+
+							// isAdmin and Tag populated by manager
+						},
+						FriendlyName = e.Author.Username,
+						Mention = NormalizeMentions(e.Author.Mention)
+					},
+					Context = typingState
+				};
+
+				EnqueueMessage(result);
+				typingState = null;
+			}
+			finally
+			{
+				typingState?.Dispose();
+			}
 		}
 
 		/// <inheritdoc />
@@ -150,7 +183,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		{
 			try
 			{
-				await client.LoginAsync(TokenType.Bot, BotToken, true).ConfigureAwait(false);
+				await client.LoginAsync(TokenType.Bot, botToken, true).ConfigureAwait(false);
 
 				Logger.LogTrace("Logged in.");
 				cancellationToken.ThrowIfCancellationRequested();
@@ -226,29 +259,47 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					throw new InvalidOperationException("ChatChannel missing DiscordChannelId!");
 
 				var channelId = channelFromDB.DiscordChannelId.Value;
-				var discordChannel = client.GetChannel(channelId);
-				if (discordChannel is ITextChannel textChannel)
+				ulong discordChannelId;
+				string connectionName;
+				string friendlyName;
+				if (channelId == 0)
 				{
-					var channelModel = new ChannelRepresentation
+					connectionName = client.CurrentUser.Username;
+					friendlyName = "(Unmapped accessible channels)";
+					discordChannelId = 0;
+				}
+				else
+				{
+					var discordChannel = client.GetChannel(channelId);
+					if (!(discordChannel is ITextChannel textChannel))
 					{
-						RealId = discordChannel.Id,
-						IsAdminChannel = channelFromDB.IsAdminChannel == true,
-						ConnectionName = textChannel.Guild.Name,
-						FriendlyName = textChannel.Name,
-						IsPrivateChannel = false,
-						Tag = channelFromDB.Tag
-					};
-					Logger.LogTrace("Mapped channel {0}: {1}", channelModel.RealId, channelModel.FriendlyName);
-					return channelModel;
+						Logger.LogWarning("Cound not map channel {0}! Incorrect type: {1}", channelId, discordChannel?.GetType());
+						return null;
+					}
+
+					discordChannelId = textChannel.Id;
+					connectionName = textChannel.Guild.Name;
+					friendlyName = textChannel.Name;
 				}
 
-				Logger.LogWarning("Cound not map channel {0}! Incorrect type: {1}", channelId, discordChannel?.GetType());
-				return null;
+				var channelModel = new ChannelRepresentation
+				{
+					RealId = discordChannelId,
+					IsAdminChannel = channelFromDB.IsAdminChannel == true,
+					ConnectionName = connectionName,
+					FriendlyName = friendlyName,
+					IsPrivateChannel = false,
+					Tag = channelFromDB.Tag
+				};
+				Logger.LogTrace("Mapped channel {0}: {1}", channelModel.RealId, channelModel.FriendlyName);
+				return channelModel;
 			}
 
-			var enumerator = channels.Select(x => GetModelChannelFromDBChannel(x)).Where(x => x != null).ToList();
+			var enumerator = channels
+				.Select(x => GetModelChannelFromDBChannel(x))
+				.Where(x => x != null).ToList();
 
-			lock (client)
+			lock (mappedChannels)
 			{
 				mappedChannels.Clear();
 				mappedChannels.AddRange(enumerator.Select(x => x.RealId));
@@ -260,21 +311,51 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		/// <inheritdoc />
 		public override async Task SendMessage(ulong channelId, string message, CancellationToken cancellationToken)
 		{
+			var requestOptions = new RequestOptions
+			{
+				CancelToken = cancellationToken,
+				Timeout = 10000 // prevent stupid long hold ups from this
+			};
+
+			Task SendToChannel(IMessageChannel channel) => channel.SendMessageAsync(
+				message,
+				false,
+				null,
+				requestOptions);
+
 			try
 			{
+				if (channelId == 0)
+				{
+					var unmappedTextChannels = client
+						.Guilds
+						.SelectMany(x => x.TextChannels);
+
+					lock (mappedChannels)
+						unmappedTextChannels = unmappedTextChannels.Where(x => !mappedChannels.Contains(x.Id));
+
+					// discord API confirmed weak boned: https://stackoverflow.com/a/52462336
+					var channelCount = 0UL;
+					var tasks = unmappedTextChannels
+						.Select(x =>
+						{
+							++channelCount;
+							return SendToChannel(x);
+						});
+
+					if (channelCount > 0)
+					{
+						Logger.LogTrace("Dispatched to {0} unmapped channels...", channelCount);
+						await Task.WhenAll(tasks).ConfigureAwait(false);
+					}
+
+					return;
+				}
+
 				if (!(client.GetChannel(channelId) is IMessageChannel channel))
 					return;
 
-				await channel.SendMessageAsync(
-					message,
-					false,
-					null,
-					new RequestOptions
-					{
-						CancelToken = cancellationToken,
-						Timeout = 10000 // prevent stupid long hold ups from this
-					})
-					.ConfigureAwait(false);
+				await SendToChannel(channel).ConfigureAwait(false);
 			}
 			catch (Exception e)
 			{
@@ -379,7 +460,15 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					? "The deployment completed successfully and will be available at the next server reboot."
 					: "The deployment failed.";
 
-				if (dreamMakerOutput != null)
+				var showDMOutput = outputDisplayType switch
+				{
+					DiscordDMOutputDisplayType.Always => true,
+					DiscordDMOutputDisplayType.Never => false,
+					DiscordDMOutputDisplayType.OnError => errorMessage != null,
+					_ => throw new InvalidOperationException($"Invalid DiscordDMOutputDisplayType: {outputDisplayType}"),
+				};
+
+				if (showDMOutput && dreamMakerOutput != null)
 					builder.AddField(new EmbedFieldBuilder
 					{
 						Name = "DreamMaker Output",

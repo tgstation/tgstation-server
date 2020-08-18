@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.System
 {
@@ -97,7 +98,7 @@ namespace Tgstation.Server.Host.System
 					}
 				},
 				default, // DCT: None available
-				TaskCreationOptions.LongRunning,
+				DefaultIOManager.BlockingTaskCreationOptions,
 				TaskScheduler.Current);
 
 			logger.LogTrace("Created process ID: {0}", Id);

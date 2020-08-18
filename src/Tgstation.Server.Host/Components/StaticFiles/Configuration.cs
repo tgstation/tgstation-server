@@ -287,7 +287,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 				if (systemIdentity == null)
-					await Task.Factory.StartNew(ReadImpl, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+					await Task.Factory.StartNew(ReadImpl, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
 				else
 					await systemIdentity.RunImpersonated(ReadImpl, cancellationToken).ConfigureAwait(false);
 
@@ -418,7 +418,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 				if (systemIdentity == null)
-					await Task.Factory.StartNew(WriteImpl, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+					await Task.Factory.StartNew(WriteImpl, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
 				else
 					await systemIdentity.RunImpersonated(WriteImpl, cancellationToken).ConfigureAwait(false);
 
@@ -436,7 +436,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 				if (systemIdentity == null)
-					await Task.Factory.StartNew(DoCreate, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+					await Task.Factory.StartNew(DoCreate, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
 				else
 					await systemIdentity.RunImpersonated(DoCreate, cancellationToken).ConfigureAwait(false);
 
