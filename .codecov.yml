@@ -4,5 +4,6 @@ coverage:
       default:
         target: auto
         threshold: 3%
+    patch: off
 comment:
   layout: "header, diff, changes"
