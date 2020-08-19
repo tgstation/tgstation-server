@@ -47,12 +47,12 @@ namespace Tgstation.Server.Api.Models
 			if (splits.Length < 2 || !Enum.TryParse<DiscordDMOutputDisplayType>(splits[1], out var dMOutputDisplayType))
 				dMOutputDisplayType = DiscordDMOutputDisplayType.Always;
 			DMOutputDisplay = dMOutputDisplayType;
-			if (splits.Length < 3 || !bool.TryParse(splits[2], out bool basedMeme))
-				basedMeme = false;
-			BasedMeme = basedMeme;
+			if (splits.Length < 3 || !Int32.TryParse(splits[2], out Int32 basedMeme))
+				basedMeme = 0;
+			BasedMeme = Convert.ToBoolean(basedMeme);
 		}
 
 		/// <inheritdoc />
-		public override string ToString() => $"{BotToken};{(int)DMOutputDisplay};{BasedMeme.ToString()}";
+		public override string ToString() => $"{BotToken};{(int)DMOutputDisplay};{Convert.ToInt32(BasedMeme)}";
 	}
 }
