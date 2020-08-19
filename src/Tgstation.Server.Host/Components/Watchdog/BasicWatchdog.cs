@@ -179,7 +179,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			// don't need a new dmb if reattaching
 			var reattachInProgress = reattachInfo != null;
 			var dmbToUse = reattachInProgress ? null : DmbFactory.LockNextDmb(1);
-			Logger.LogTrace("Initializing controller with CompileJob {0}...", dmbToUse.CompileJob.Id);
 
 			// if this try catches something, both servers are killed
 			try
@@ -190,6 +189,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				Task<ISessionController> serverLaunchTask;
 				if (!reattachInProgress)
 				{
+					Logger.LogTrace("Initializing controller with CompileJob {0}...", dmbToUse.CompileJob.Id);
 					dmbToUse = await PrepServerForLaunch(dmbToUse, cancellationToken).ConfigureAwait(false);
 					await BeforeApplyDmb(dmbToUse.CompileJob, cancellationToken).ConfigureAwait(false);
 					serverLaunchTask = SessionControllerFactory.LaunchNew(
