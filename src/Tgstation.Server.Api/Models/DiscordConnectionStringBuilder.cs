@@ -46,8 +46,10 @@ namespace Tgstation.Server.Api.Models
 			BotToken = splits.First();
 			if (splits.Length < 2 || !Enum.TryParse<DiscordDMOutputDisplayType>(splits[1], out var dMOutputDisplayType))
 				dMOutputDisplayType = DiscordDMOutputDisplayType.Always;
+			DMOutputDisplay = dMOutputDisplayType;
 			if (splits.Length < 3 || !bool.TryParse(splits[2], out bool basedMeme))
 				basedMeme = false;
+			BasedMeme = basedMeme;
 		}
 
 		/// <inheritdoc />
