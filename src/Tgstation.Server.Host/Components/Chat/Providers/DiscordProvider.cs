@@ -53,9 +53,9 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		readonly string botToken;
 
 		/// <summary>
-		/// Boolean to enable based mode (Will auto reply with 'based on the hardware thats installed in it' to anyone saying 'based on what')
+		/// <see cref="bool"/> to enable based mode. Will auto reply with a youtube link to a video that says "based on the hardware that's installed in it" to anyone saying 'based on what?' case-insensitive.
 		/// </summary>
-		readonly bool basedMode;
+		readonly bool basedMeme;
 
 		/// <summary>
 		/// The <see cref="DiscordDMOutputDisplayType"/>.
@@ -87,7 +87,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 
 			var csb = new DiscordConnectionStringBuilder(chatBot.ConnectionString);
 			botToken = csb.BotToken;
-			basedMode = csb.BasedMode;
+			basedMeme = csb.BasedMeme;
 			outputDisplayType = csb.DMOutputDisplay;
 
 			client = new DiscordSocketClient();
@@ -116,7 +116,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			void StartTyping() => typingState = e.Channel.EnterTypingState();
 			try
 			{
-				if (basedMode && e.Content.Equals("Based on what?", StringComparison.OrdinalIgnoreCase))
+				if (basedMeme && e.Content.Equals("Based on what?", StringComparison.OrdinalIgnoreCase))
 				{
 					StartTyping();
 

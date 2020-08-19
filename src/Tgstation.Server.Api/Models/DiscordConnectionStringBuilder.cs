@@ -19,9 +19,9 @@ namespace Tgstation.Server.Api.Models
 		public string? BotToken { get; set; }
 
 		/// <summary>
-		/// Boolean to enable based mode (Will auto reply with 'based on the hardware thats installed in it' to anyone saying 'based on what')
+		/// <see cref="bool"/> to enable based mode. Will auto reply with a youtube link to a video that says "based on the hardware that's installed in it" to anyone saying 'based on what?' case-insensitive.
 		/// </summary>
-		public bool BasedMode { get; set; }
+		public bool BasedMeme { get; set; }
 
 		/// <summary>
 		/// The <see cref="DiscordDMOutputDisplayType"/>.
@@ -46,10 +46,11 @@ namespace Tgstation.Server.Api.Models
 			BotToken = splits.First();
 			if (splits.Length < 2 || !Enum.TryParse<DiscordDMOutputDisplayType>(splits[1], out var dMOutputDisplayType))
 				dMOutputDisplayType = DiscordDMOutputDisplayType.Always;
-			DMOutputDisplay = dMOutputDisplayType;
+			if (splits.Length < 3 || !bool.TryParse(splits[2], out bool basedMeme))
+				basedMeme = false;
 		}
 
 		/// <inheritdoc />
-		public override string ToString() => $"{BotToken};{(int)DMOutputDisplay}";
+		public override string ToString() => $"{BotToken};{(int)DMOutputDisplay};{BasedMeme.ToString()}";
 	}
 }
