@@ -19,6 +19,11 @@ namespace Tgstation.Server.Api.Models
 		public string? BotToken { get; set; }
 
 		/// <summary>
+		/// Boolean to enable based mode (Will auto reply with 'based on the hardware thats installed in it' to anyone saying 'based on what')
+		/// </summary>
+		public bool BasedMode { get; set; }
+
+		/// <summary>
 		/// The <see cref="DiscordDMOutputDisplayType"/>.
 		/// </summary>
 		public DiscordDMOutputDisplayType DMOutputDisplay { get; set; }
