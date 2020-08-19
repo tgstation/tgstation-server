@@ -205,9 +205,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				// retrieve the session controller
 				Server = await serverLaunchTask.ConfigureAwait(false);
 
-				// failed reattaches will return null
-				Server?.SetHighPriority();
-
 				// possiblity of null servers due to failed reattaches
 				if (Server == null)
 				{
@@ -217,6 +214,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						.ConfigureAwait(false);
 					return;
 				}
+
+				Server.SetHighPriority();
 
 				await CheckLaunchResult(Server, "Server", cancellationToken).ConfigureAwait(false);
 
