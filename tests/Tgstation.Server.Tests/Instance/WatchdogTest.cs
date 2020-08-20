@@ -89,7 +89,7 @@ namespace Tgstation.Server.Tests.Instance
 			var killTask = Task.Run(() =>
 			{
 				killTaskStarted.SetResult(null);
-				while (jobTcs.Task?.IsCompleted != true)
+				while (!jobTcs.Task.IsCompleted)
 					KillDD(false);
 			});
 
@@ -98,12 +98,12 @@ namespace Tgstation.Server.Tests.Instance
 			{
 				await killTaskStarted.Task;
 				var dumpTask = instanceClient.DreamDaemon.CreateDump(cancellationToken);
-				await killTask;
 				job = await WaitForJob(await dumpTask, 20, true, null, cancellationToken);
 			}
 			finally
 			{
 				jobTcs.SetResult(null);
+				await killTask;
 			}
 			Assert.IsTrue(job.ErrorCode == ErrorCode.DreamDaemonOffline || job.ErrorCode == ErrorCode.GCoreFailure, $"{job.ErrorCode}: {job.ExceptionDetails}");
 			await Task.Delay(TimeSpan.FromSeconds(20), cancellationToken);
