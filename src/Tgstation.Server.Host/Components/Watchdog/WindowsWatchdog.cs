@@ -229,9 +229,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			{
 				await InitialLink(cancellationToken).ConfigureAwait(false);
 			}
-			catch
+			catch (Exception ex)
 			{
 				// We won't worry about disposing activeSwappable here as we can't dispose dmbToUse here.
+				Logger.LogTrace(ex, "Initial link error, nulling ActiveSwappable");
 				ActiveSwappable = null;
 				throw;
 			}
