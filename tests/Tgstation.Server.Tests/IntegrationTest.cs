@@ -318,7 +318,7 @@ namespace Tgstation.Server.Tests
 					foreach (var job in jobs)
 					{
 						Assert.IsTrue(job.StartedAt.Value >= preStartupTime);
-						await jrt.WaitForJob(job, 120, false, null, cancellationToken);
+						await jrt.WaitForJob(job, 130, false, null, cancellationToken);
 					}
 
 					var dd = await instanceClient.DreamDaemon.Read(cancellationToken);
