@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['handle_3826',['handle',['../class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a24428698a5b60b858c43dfd5529030e9',1,'Tgstation::Server::Host::System::Process']]],
-  ['handler_3827',['handler',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html#a429c52adf7d0b06ee91bb7b1e77cfe35',1,'Tgstation::Server::Host::Components::Chat::Commands::CustomCommand']]],
-  ['handlercts_3828',['handlerCts',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#adc4749cb2a207e472c9fac07cf56e981',1,'Tgstation::Server::Host::Components::Chat::ChatManager']]],
+  ['handle_3825',['handle',['../class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a24428698a5b60b858c43dfd5529030e9',1,'Tgstation::Server::Host::System::Process']]],
+  ['handler_3826',['handler',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html#a429c52adf7d0b06ee91bb7b1e77cfe35',1,'Tgstation::Server::Host::Components::Chat::Commands::CustomCommand']]],
+  ['handlercts_3827',['handlerCts',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#adc4749cb2a207e472c9fac07cf56e981',1,'Tgstation::Server::Host::Components::Chat::ChatManager']]],
+  ['hardlinkeddmb_3828',['hardLinkedDmb',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_posix_watchdog.html#a386eb6b53076b316ea5c4f9291ec6c38',1,'Tgstation::Server::Host::Components::Watchdog::PosixWatchdog']]],
   ['head_3829',['Head',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a40437fe926da0b9e03785da0199a8597',1,'Tgstation::Server::Host::Components::Repository::Repository']]],
   ['headers_3830',['headers',['../class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a48f8ea0a4dd7ac665735d1728899ebad',1,'Tgstation::Server::Client::ApiClient']]],
   ['heartbeatsmissed_3831',['heartbeatsMissed',['../class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#abaf0a71134899c397cc88eb39a189ff0',1,'Tgstation::Server::Host::Components::Watchdog::WatchdogBase']]],
