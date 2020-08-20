@@ -66,6 +66,13 @@ namespace Tgstation.Server.Tests
 				var updatedAssemblyVersion = FileVersionInfo.GetVersionInfo(updatedAssemblyPath);
 				Assert.AreEqual(testUpdateVersion, Version.Parse(updatedAssemblyVersion.FileVersion).Semver());
 			}
+			catch (RateLimitException)
+			{
+				if (String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS4_TEST_GITHUB_TOKEN")))
+					throw;
+
+				Assert.Inconclusive("GitHub rate limit hit!");
+			}
 			finally
 			{
 				serverCts.Cancel();
