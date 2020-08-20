@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
@@ -20,7 +21,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// If the swappable game directory is currently a rename of the compile job.
 		/// </summary>
-		bool directoryHardLinked;
+		IDmbProvider hardLinkedDmb;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PosixWatchdog"/> <see langword="class"/>.
@@ -96,7 +97,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				cancellationToken)
 				.ConfigureAwait(false);
 
-			directoryHardLinked = true;
+			hardLinkedDmb = ActiveSwappable;
 		}
 
 		/// <inheritdoc />
@@ -109,18 +110,30 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			finally
 			{
 				// Then we move it back and apply the symlink
-				if (directoryHardLinked)
+				if (hardLinkedDmb != null)
 				{
-					Logger.LogTrace("Unhardlinking compile job...");
-					Server?.Suspend();
-					var hardLink = ActiveSwappable.Directory;
-					var originalPosition = ActiveSwappable.CompileJob.DirectoryName.ToString();
-					await GameIOManager.MoveDirectory(
-						hardLink,
-						originalPosition,
-						default)
-						.ConfigureAwait(false);
-					directoryHardLinked = false;
+					try
+					{
+						Logger.LogTrace("Unhardlinking compile job...");
+						Server?.Suspend();
+						var hardLink = hardLinkedDmb.Directory;
+						var originalPosition = hardLinkedDmb.CompileJob.DirectoryName.ToString();
+						await GameIOManager.MoveDirectory(
+							hardLink,
+							originalPosition,
+							default)
+							.ConfigureAwait(false);
+					}
+					catch (Exception ex)
+					{
+						Logger.LogError(
+							ex,
+							"Failed to un-hard link compile job #{0} ({1})",
+							hardLinkedDmb.CompileJob.Id,
+							hardLinkedDmb.CompileJob.DirectoryName);
+					}
+
+					hardLinkedDmb = null;
 				}
 			}
 

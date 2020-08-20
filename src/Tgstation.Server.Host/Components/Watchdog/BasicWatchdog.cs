@@ -221,8 +221,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 				Server.EnableCustomChatCommands();
 			}
-			catch
+			catch (Exception ex)
 			{
+				Logger.LogTrace(ex, "Controller initialization failure!");
+
 				// kill the controllers
 				bool serverWasActive = Server != null;
 
