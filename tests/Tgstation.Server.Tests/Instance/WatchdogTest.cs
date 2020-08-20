@@ -85,12 +85,15 @@ namespace Tgstation.Server.Tests.Instance
 
 			KillDD(true);
 			Task<Job> dumpTask = null;
+			TaskCompletionSource<object> killTaskStarted = new TaskCompletionSource<object>();
 			var killTask = Task.Run(() =>
 			{
+				killTaskStarted.SetResult(null);
 				while (dumpTask?.IsCompleted != true)
 					KillDD(false);
 			});
 
+			await killTaskStarted.Task;
 			dumpTask = instanceClient.DreamDaemon.CreateDump(cancellationToken);
 			await killTask;
 			var job = await WaitForJob(await dumpTask, 20, true, null, cancellationToken);
