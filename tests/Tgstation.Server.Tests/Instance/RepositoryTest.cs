@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -168,7 +168,8 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.IsNull(withMerge.RevisionInformation.PrimaryTestMerge.Comment);
 			Assert.IsNotNull(withMerge.RevisionInformation.PrimaryTestMerge.TitleAtMerge);
 			Assert.IsNotNull(withMerge.RevisionInformation.PrimaryTestMerge.BodyAtMerge);
-			Assert.AreEqual($"https://github.com/tgstation/tgstation-server/pull/{prNumber}", withMerge.RevisionInformation.PrimaryTestMerge.Url);
+			if (withMerge.RevisionInformation.PrimaryTestMerge.Url != "REMOTE API ERROR: RATE LIMITED")
+				Assert.AreEqual($"https://github.com/tgstation/tgstation-server/pull/{prNumber}", withMerge.RevisionInformation.PrimaryTestMerge.Url);
 			Assert.AreEqual(orignCommit, withMerge.RevisionInformation.OriginCommitSha);
 			Assert.AreNotEqual(orignCommit, withMerge.RevisionInformation.CommitSha);
 
