@@ -31,7 +31,10 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Construct a <see cref="DiscordConnectionStringBuilder"/>
 		/// </summary>
-		public DiscordConnectionStringBuilder() { }
+		public DiscordConnectionStringBuilder()
+		{
+			BasedMeme = true;
+		}
 
 		/// <summary>
 		/// Construct a <see cref="DiscordConnectionStringBuilder"/> from a <paramref name="connectionString"/>
