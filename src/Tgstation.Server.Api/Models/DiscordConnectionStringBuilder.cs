@@ -48,7 +48,13 @@ namespace Tgstation.Server.Api.Models
 				dMOutputDisplayType = DiscordDMOutputDisplayType.Always;
 			DMOutputDisplay = dMOutputDisplayType;
 			if (splits.Length > 1 && Int32.TryParse(splits[2], out Int32 basedMeme))
+			{
 				BasedMeme = Convert.ToBoolean(basedMeme);
+			}
+			else
+			{
+				BasedMeme = true; // Oranges said this needs to be true by default :pensive:
+			}
 		}
 
 		/// <inheritdoc />
