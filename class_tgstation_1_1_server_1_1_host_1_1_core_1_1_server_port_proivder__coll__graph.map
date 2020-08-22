@@ -1,11 +1,10 @@
 <map id="Tgstation.Server.Host.Core.ServerPortProivder" name="Tgstation.Server.Host.Core.ServerPortProivder">
-<area shape="rect" id="node1" title=" " alt="" coords="771,87,952,128"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html" title="Provides access to the server&#39;s HttpApiPort." alt="" coords="419,44,555,70"/>
-<area shape="rect" id="node3" title=" " alt="" coords="457,94,516,121"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options" alt="" coords="372,146,601,187"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information.html" title="Base class for Models.ServerInformation." alt="" coords="5,12,131,38"/>
-<area shape="rect" id="node6" title=" " alt="" coords="29,102,107,129"/>
-<area shape="rect" id="node7" title=" " alt="" coords="41,153,95,180"/>
-<area shape="rect" id="node8" title=" " alt="" coords="35,204,101,230"/>
-<area shape="rect" id="node9" title=" " alt="" coords="21,254,115,281"/>
+<area shape="rect" id="node1" title=" " alt="" coords="771,50,952,91"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html" title="Provides access to the server&#39;s HttpApiPort." alt="" coords="419,5,555,32"/>
+<area shape="rect" id="node3" title=" " alt="" coords="39,72,97,99"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options" alt="" coords="372,175,601,217"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information.html" title="Base class for Models.ServerInformation." alt="" coords="5,136,131,163"/>
+<area shape="rect" id="node6" title=" " alt="" coords="29,227,107,253"/>
+<area shape="rect" id="node7" title=" " alt="" coords="41,277,95,304"/>
+<area shape="rect" id="node8" title=" " alt="" coords="35,328,101,355"/>
 </map>

@@ -1,34 +1,34 @@
 <map id="Tgstation.Server.Host.Components.InstanceManager" name="Tgstation.Server.Host.Components.InstanceManager">
-<area shape="rect" id="node1" title=" " alt="" coords="851,717,1077,759"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html" title="For managing IInstances" alt="" coords="427,7,554,34"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters." alt="" coords="5,7,131,34"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core_provider.html" title="Provider for IInstanceCores" alt="" coords="415,58,566,85"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts" alt="" coords="434,109,547,135"/>
-<area shape="rect" id="node6" href="$class_i_hosted_service.html" title=" " alt="" coords="12,226,124,253"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs" alt="" coords="399,277,582,319"/>
-<area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html" title="Factory for creating IInstances" alt="" coords="377,160,604,201"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_registrar.html" title="Registers IBridgeHandlers." alt="" coords="433,343,548,370"/>
-<area shape="rect" id="node8" href="$class_i_async_disposable.html" title=" " alt="" coords="427,394,554,421"/>
-<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems" alt="" coords="407,445,575,487"/>
-<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components" alt="" coords="386,511,595,552"/>
-<area shape="rect" id="node13" title=" " alt="" coords="465,577,516,603"/>
-<area shape="rect" id="node14" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html" title="For waiting asynchronously" alt="" coords="400,628,581,669"/>
-<area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html" title="Factory for ISystemIdentitys" alt="" coords="390,693,591,735"/>
-<area shape="rect" id="node16" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options" alt="" coords="376,759,605,800"/>
-<area shape="rect" id="node17" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information.html" title="Base class for Models.ServerInformation." alt="" coords="5,550,131,577"/>
-<area shape="rect" id="node18" title=" " alt="" coords="29,641,107,667"/>
-<area shape="rect" id="node19" title=" " alt="" coords="41,691,95,718"/>
-<area shape="rect" id="node20" title=" " alt="" coords="35,809,101,835"/>
-<area shape="rect" id="node21" title=" " alt="" coords="21,742,115,769"/>
-<area shape="rect" id="node22" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html" title="Provides access to the server&#39;s HttpApiPort." alt="" coords="400,888,581,929"/>
-<area shape="rect" id="node23" title=" " alt="" coords="467,954,514,981"/>
-<area shape="rect" id="node24" title=" " alt="" coords="412,1005,569,1047"/>
-<area shape="rect" id="node25" title=" " alt="" coords="381,1070,601,1126"/>
-<area shape="rect" id="node26" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="391,1149,590,1191"/>
-<area shape="rect" id="node27" title=" " alt="" coords="383,1214,598,1270"/>
-<area shape="rect" id="node28" title=" " alt="" coords="372,1294,609,1321"/>
-<area shape="rect" id="node29" title=" " alt="" coords="406,1345,575,1387"/>
-<area shape="rect" id="node30" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html" title="For initially setting up a database." alt="" coords="386,1411,595,1452"/>
-<area shape="rect" id="node31" title=" " alt="" coords="408,1477,573,1503"/>
-<area shape="rect" id="node32" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html" title="Represents a service that may take an updated Host assembly and run it, stopping the current assembly..." alt="" coords="400,1528,581,1569"/>
+<area shape="rect" id="node1" title=" " alt="" coords="851,719,1077,760"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html" title="For managing IInstances" alt="" coords="427,10,554,37"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters." alt="" coords="5,10,131,37"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core_provider.html" title="Provider for IInstanceCores" alt="" coords="415,61,566,87"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts" alt="" coords="434,111,547,138"/>
+<area shape="rect" id="node6" href="$class_i_hosted_service.html" title=" " alt="" coords="12,221,124,247"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs" alt="" coords="399,213,582,255"/>
+<area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html" title="Factory for creating IInstances" alt="" coords="377,279,604,320"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_registrar.html" title="Registers IBridgeHandlers." alt="" coords="433,345,548,371"/>
+<area shape="rect" id="node8" href="$class_i_async_disposable.html" title=" " alt="" coords="427,395,554,422"/>
+<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems" alt="" coords="407,447,575,488"/>
+<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html" title="Factory for scoping usage of IDatabaseContexts. Meant for use by Components" alt="" coords="386,512,595,553"/>
+<area shape="rect" id="node13" title=" " alt="" coords="465,578,516,605"/>
+<area shape="rect" id="node14" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html" title="For waiting asynchronously" alt="" coords="400,629,581,671"/>
+<area shape="rect" id="node15" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html" title="Factory for ISystemIdentitys" alt="" coords="390,695,591,736"/>
+<area shape="rect" id="node16" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options" alt="" coords="376,760,605,801"/>
+<area shape="rect" id="node17" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information.html" title="Base class for Models.ServerInformation." alt="" coords="5,551,131,578"/>
+<area shape="rect" id="node18" title=" " alt="" coords="29,642,107,669"/>
+<area shape="rect" id="node19" title=" " alt="" coords="41,693,95,719"/>
+<area shape="rect" id="node20" title=" " alt="" coords="39,743,97,770"/>
+<area shape="rect" id="node21" title=" " alt="" coords="35,810,101,837"/>
+<area shape="rect" id="node22" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html" title="Provides access to the server&#39;s HttpApiPort." alt="" coords="400,889,581,931"/>
+<area shape="rect" id="node23" title=" " alt="" coords="467,955,514,982"/>
+<area shape="rect" id="node24" title=" " alt="" coords="412,1007,569,1048"/>
+<area shape="rect" id="node25" title=" " alt="" coords="381,1071,601,1127"/>
+<area shape="rect" id="node26" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="391,1151,590,1192"/>
+<area shape="rect" id="node27" title=" " alt="" coords="383,1215,598,1271"/>
+<area shape="rect" id="node28" title=" " alt="" coords="372,1295,609,1322"/>
+<area shape="rect" id="node29" title=" " alt="" coords="406,1347,575,1388"/>
+<area shape="rect" id="node30" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html" title="For initially setting up a database." alt="" coords="386,1412,595,1453"/>
+<area shape="rect" id="node31" title=" " alt="" coords="408,1478,573,1505"/>
+<area shape="rect" id="node32" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html" title="Represents a service that may take an updated Host assembly and run it, stopping the current assembly..." alt="" coords="400,1529,581,1571"/>
 </map>
