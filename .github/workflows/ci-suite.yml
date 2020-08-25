@@ -198,6 +198,14 @@ jobs:
       if: ${{ github.event_name == 'pull_request' }}
       run: echo "::set-env name=TGS4_TEST_PULL_REQUEST_NUMBER::${{ github.event.number }}"
 
+    - name: Set TGS4_TEST_BRANCH to pull request base
+      if: ${{ github.event_name == 'pull_request' }}
+      run: echo "::set-env name=TGS4_TEST_BRANCH::${{ github.event.base_ref.substring('refs/heads/'.length) }}"
+
+    - name: Set TGS4_TEST_BRANCH to pushed branch
+      if: ${{ github.event_name == 'push' }}
+      run: echo "::set-env name=TGS4_TEST_BRANCH::${{ github.event.ref.substring('refs/heads/'.length) }}"
+
     - name: Run Integration Test
       run: |
         cd tests/Tgstation.Server.Tests
@@ -331,6 +339,14 @@ jobs:
     - name: Set TGS4_TEST_PULL_REQUEST_NUMBER
       if: ${{ github.event_name == 'pull_request' }}
       run: echo "::set-env name=TGS4_TEST_PULL_REQUEST_NUMBER::${{ github.event.number }}"
+
+    - name: Set TGS4_TEST_BRANCH to pull request base
+      if: ${{ github.event_name == 'pull_request' }}
+      run: echo "::set-env name=TGS4_TEST_BRANCH::${{ github.event.base_ref.substring('refs/heads/'.length - 1) }}"
+
+    - name: Set TGS4_TEST_BRANCH to pushed branch
+      if: ${{ github.event_name == 'push' }}
+      run: echo "::set-env name=TGS4_TEST_BRANCH::${{ github.event.ref.substring('refs/heads/'.length - 1) }}"
 
     - name: Run Integration Test
       run: |
