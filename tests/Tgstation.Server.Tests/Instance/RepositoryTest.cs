@@ -22,14 +22,31 @@ namespace Tgstation.Server.Tests.Instance
 
 		public async Task RunPreWatchdog(CancellationToken cancellationToken)
 		{
-			// Clone ourselves
-			var workingBranch = Environment.GetEnvironmentVariable("TGS4_TEST_BRANCH");
-			if (String.IsNullOrWhiteSpace(workingBranch))
-				workingBranch = Environment.GetEnvironmentVariable("APPVEYOR_REPO_BRANCH");
-			if (String.IsNullOrWhiteSpace(workingBranch))
-				workingBranch = Environment.GetEnvironmentVariable("TRAVIS_BRANCH");
-			if (String.IsNullOrWhiteSpace(workingBranch))
+			var branchSourceEnvVars = new List<string>
+			{
+				"TGS4_TEST_BRANCH",
+				"APPVEYOR_REPO_BRANCH",
+				"TRAVIS_BRANCH",
+				"GITHUB_BASE_REF_SLUG"
+			};
+
+			string workingBranch = null;
+			foreach (var envVarName in branchSourceEnvVars)
+			{
+				var envVar = Environment.GetEnvironmentVariable(envVarName);
+				if (!String.IsNullOrWhiteSpace(envVar))
+				{
+					workingBranch = envVar;
+					Console.WriteLine($"TEST: Set working branch to '{workingBranch}' from env var '{envVarName}'");
+					break;
+				}
+			}
+
+			if (workingBranch == null)
+			{
 				workingBranch = "master";
+				Console.WriteLine($"TEST: Set working branch to default '{workingBranch}'");
+			}
 
 			var initalRepo = await repositoryClient.Read(cancellationToken);
 			Assert.IsNotNull(initalRepo);
