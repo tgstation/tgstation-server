@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
@@ -23,6 +23,11 @@ namespace Tgstation.Server.Host.IO
 		/// Default <see cref="FileStream"/> buffer size used by .NET
 		/// </summary>
 		public const int DefaultBufferSize = 4096;
+
+		/// <summary>
+		/// The <see cref="TaskCreationOptions"/> used to spawn <see cref="Task"/>s for potentially long running, blocking operations.
+		/// </summary>
+		public const TaskCreationOptions BlockingTaskCreationOptions = TaskCreationOptions.None;
 
 		/// <summary>
 		/// Recursively empty a directory
@@ -149,7 +154,7 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public Task CreateDirectory(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(() => Directory.CreateDirectory(ResolvePath(path)), cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		public Task CreateDirectory(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(() => Directory.CreateDirectory(ResolvePath(path)), cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public Task DeleteDirectory(string path, CancellationToken cancellationToken)
@@ -162,18 +167,18 @@ namespace Tgstation.Server.Host.IO
 			return Task.Factory.StartNew(
 				() => NormalizeAndDelete(di, cancellationToken),
 				cancellationToken,
-				TaskCreationOptions.LongRunning,
+				BlockingTaskCreationOptions,
 				TaskScheduler.Current);
 		}
 
 		/// <inheritdoc />
-		public Task DeleteFile(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(() => File.Delete(ResolvePath(path)), cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		public Task DeleteFile(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(() => File.Delete(ResolvePath(path)), cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public Task<bool> FileExists(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(() => File.Exists(ResolvePath(path)), cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		public Task<bool> FileExists(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(() => File.Exists(ResolvePath(path)), cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public Task<bool> DirectoryExists(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(() => Directory.Exists(ResolvePath(path)), cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		public Task<bool> DirectoryExists(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(() => Directory.Exists(ResolvePath(path)), cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public string GetDirectoryName(string path) => Path.GetDirectoryName(path ?? throw new ArgumentNullException(nameof(path)));
@@ -201,7 +206,7 @@ namespace Tgstation.Server.Host.IO
 			}
 
 			return results;
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		}, cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public Task MoveFile(string source, string destination, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
@@ -211,7 +216,7 @@ namespace Tgstation.Server.Host.IO
 			source = ResolvePath(source ?? throw new ArgumentNullException(nameof(source)));
 			destination = ResolvePath(destination);
 			File.Move(source, destination);
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		}, cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public Task MoveDirectory(string source, string destination, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
@@ -221,7 +226,7 @@ namespace Tgstation.Server.Host.IO
 			source = ResolvePath(source ?? throw new ArgumentNullException(nameof(source)));
 			destination = ResolvePath(destination);
 			Directory.Move(source, destination);
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		}, cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public async Task<byte[]> ReadAllBytes(string path, CancellationToken cancellationToken)
@@ -261,7 +266,7 @@ namespace Tgstation.Server.Host.IO
 			}
 
 			return (IReadOnlyList<string>)results;
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		}, cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public Task<IReadOnlyList<string>> GetFiles(string path, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
@@ -276,7 +281,7 @@ namespace Tgstation.Server.Host.IO
 			}
 
 			return (IReadOnlyList<string>)results;
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		}, cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public async Task<byte[]> DownloadFile(Uri url, CancellationToken cancellationToken)
@@ -312,7 +317,7 @@ namespace Tgstation.Server.Host.IO
 			using var ms = new MemoryStream(zipFileBytes);
 			using var archive = new ZipArchive(ms, ZipArchiveMode.Read);
 			archive.ExtractToDirectory(path);
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		}, cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public bool PathContainsParentAccess(string path) => path?.Split(new[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }).Any(x => x == "..") ?? throw new ArgumentNullException(nameof(path));
@@ -323,6 +328,6 @@ namespace Tgstation.Server.Host.IO
 			path = ResolvePath(path ?? throw new ArgumentNullException(nameof(path)));
 			var fileInfo = new FileInfo(path);
 			return new DateTimeOffset(fileInfo.LastWriteTimeUtc);
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		}, cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
 	}
 }

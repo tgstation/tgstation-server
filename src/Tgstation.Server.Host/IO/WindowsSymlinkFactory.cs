@@ -1,4 +1,4 @@
-﻿using BetterWin32Errors;
+using BetterWin32Errors;
 using System;
 using System.IO;
 using System.Threading;
@@ -37,6 +37,6 @@ namespace Tgstation.Server.Host.IO
 			cancellationToken.ThrowIfCancellationRequested();
 			if (!NativeMethods.CreateSymbolicLink(linkPath, targetPath, flags))
 				throw new Win32Exception();
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 	}
 }

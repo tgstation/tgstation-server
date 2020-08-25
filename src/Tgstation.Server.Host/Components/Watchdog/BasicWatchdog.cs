@@ -47,6 +47,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="diagnosticsIOManager">The <see cref="IIOManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="eventConsumer">The <see cref="IEventConsumer"/> for the <see cref="WatchdogBase"/>.</param>
+		/// <param name="gitHubDeploymentManager">The <see cref="IGitHubDeploymentManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="initialLaunchParameters">The <see cref="DreamDaemonLaunchParameters"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="instance">The <see cref="Api.Models.Instance"/> for the <see cref="WatchdogBase"/>.</param>
@@ -61,6 +62,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IAsyncDelayer asyncDelayer,
 			IIOManager diagnosticsIOManager,
 			IEventConsumer eventConsumer,
+			IGitHubDeploymentManager gitHubDeploymentManager,
 			ILogger<BasicWatchdog> logger,
 			DreamDaemonLaunchParameters initialLaunchParameters,
 			Api.Models.Instance instance,
@@ -75,6 +77,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				 asyncDelayer,
 				 diagnosticsIOManager,
 				 eventConsumer,
+				 gitHubDeploymentManager,
 				 logger,
 				 initialLaunchParameters,
 				 instance,
@@ -123,7 +126,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					switch (rebootState)
 					{
 						case Session.RebootState.Normal:
-							return HandleNormalReboot();
+							return await HandleNormalReboot(cancellationToken).ConfigureAwait(false);
 						case Session.RebootState.Restart:
 							return MonitorAction.Restart;
 						case Session.RebootState.Shutdown:
@@ -186,6 +189,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				Task<ISessionController> serverLaunchTask;
 				if (!reattachInProgress)
 				{
+					Logger.LogTrace("Initializing controller with CompileJob {0}...", dmbToUse.CompileJob.Id);
+					await BeforeApplyDmb(dmbToUse.CompileJob, cancellationToken).ConfigureAwait(false);
 					dmbToUse = await PrepServerForLaunch(dmbToUse, cancellationToken).ConfigureAwait(false);
 					serverLaunchTask = SessionControllerFactory.LaunchNew(
 						dmbToUse,
@@ -200,9 +205,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				// retrieve the session controller
 				Server = await serverLaunchTask.ConfigureAwait(false);
 
-				// failed reattaches will return null
-				Server?.SetHighPriority();
-
 				// possiblity of null servers due to failed reattaches
 				if (Server == null)
 				{
@@ -213,12 +215,16 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					return;
 				}
 
+				Server.SetHighPriority();
+
 				await CheckLaunchResult(Server, "Server", cancellationToken).ConfigureAwait(false);
 
 				Server.EnableCustomChatCommands();
 			}
-			catch
+			catch (Exception ex)
 			{
+				Logger.LogTrace(ex, "Controller initialization failure!");
+
 				// kill the controllers
 				bool serverWasActive = Server != null;
 
@@ -236,11 +242,13 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// Handler for <see cref="MonitorActivationReason.ActiveServerRebooted"/> when the <see cref="RebootState"/> is <see cref="RebootState.Normal"/>.
 		/// </summary>
-		/// <returns>The <see cref="MonitorAction"/> to take.</returns>
-		protected virtual MonitorAction HandleNormalReboot()
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="MonitorAction"/> to take.</returns>
+		protected virtual Task<MonitorAction> HandleNormalReboot(CancellationToken cancellationToken)
 		{
-			bool dmbUpdatePending = ActiveLaunchParameters != LastLaunchParameters;
-			return dmbUpdatePending ? MonitorAction.Restart : MonitorAction.Continue;
+			var settingsUpdatePending = ActiveLaunchParameters != LastLaunchParameters;
+			var result = settingsUpdatePending ? MonitorAction.Restart : MonitorAction.Continue;
+			return Task.FromResult(result);
 		}
 
 		/// <summary>

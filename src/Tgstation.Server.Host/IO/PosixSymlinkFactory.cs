@@ -1,4 +1,4 @@
-﻿using Mono.Unix;
+using Mono.Unix;
 using System;
 using System.IO;
 using System.Threading;
@@ -28,6 +28,6 @@ namespace Tgstation.Server.Host.IO
 				fsInfo = new UnixDirectoryInfo(targetPath);
 			cancellationToken.ThrowIfCancellationRequested();
 			fsInfo.CreateSymbolicLink(linkPath);
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 	}
 }

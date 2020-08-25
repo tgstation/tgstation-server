@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -61,7 +61,7 @@ namespace Tgstation.Server.Host.IO
 		{
 			CheckAvailable();
 			global::System.Console.Read();
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public Task<string> ReadLineAsync(bool usePasswordChar, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
@@ -97,7 +97,7 @@ namespace Tgstation.Server.Host.IO
 			cancellationToken.ThrowIfCancellationRequested();
 			global::System.Console.WriteLine();
 			return passwordBuilder.ToString();
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public Task WriteAsync(string text, bool newLine, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
@@ -113,6 +113,6 @@ namespace Tgstation.Server.Host.IO
 				global::System.Console.WriteLine(text);
 			else
 				global::System.Console.Write(text);
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 	}
 }

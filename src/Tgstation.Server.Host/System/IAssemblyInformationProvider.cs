@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Reflection;
 
 namespace Tgstation.Server.Host.System
@@ -14,9 +14,9 @@ namespace Tgstation.Server.Host.System
 		string Path { get; }
 
 		/// <summary>
-		/// Gets the <see cref="AssemblyName"/>.
+		/// Gets the <see cref="global::System.Reflection.AssemblyName"/>.
 		/// </summary>
-		AssemblyName Name { get; }
+		AssemblyName AssemblyName { get; }
 
 		/// <summary>
 		/// Prefix to <see cref="VersionString"/>.

@@ -104,7 +104,7 @@ jobs:
           echo "Adding files..."
           git add --all
           echo "Committing..."
-          git commit -m "Deploy code docs to GitHub Pages for workflow run ${{ github.run_number }}" -m "Commit: ${{ github.event.head_commit.id }}"
+          git diff-index --quiet HEAD || git commit -m "Deploy code docs to GitHub Pages for workflow run ${{ github.run_number }}" -m "Commit: ${{ github.event.head_commit.id }}"
           echo "Pushing..."
           git push -f "https://${{ secrets.DEV_PUSH_TOKEN }}@github.com/tgstation/tgstation-server" 2>&1
 
@@ -197,6 +197,14 @@ jobs:
     - name: Set TGS4_TEST_PULL_REQUEST_NUMBER
       if: ${{ github.event_name == 'pull_request' }}
       run: echo "::set-env name=TGS4_TEST_PULL_REQUEST_NUMBER::${{ github.event.number }}"
+
+    - name: Set TGS4_GITHUB_REF for PR
+      if: ${{ github.event_name == 'pull_request' }}
+      run: echo "::set-env name=TGS4_GITHUB_REF::${{ github.event.base_ref }}"
+
+    - name: Set TGS4_GITHUB_REF for push
+      if: ${{ github.event_name == 'push' }}
+      run: echo "::set-env name=TGS4_GITHUB_REF::${{ github.event.ref }}"
 
     - name: Run Integration Test
       run: |
@@ -331,6 +339,14 @@ jobs:
     - name: Set TGS4_TEST_PULL_REQUEST_NUMBER
       if: ${{ github.event_name == 'pull_request' }}
       run: echo "::set-env name=TGS4_TEST_PULL_REQUEST_NUMBER::${{ github.event.number }}"
+
+    - name: Set TGS4_GITHUB_REF for PR
+      if: ${{ github.event_name == 'pull_request' }}
+      run: echo "::set-env name=TGS4_GITHUB_REF::${{ github.event.base_ref }}"
+
+    - name: Set TGS4_GITHUB_REF for push
+      if: ${{ github.event_name == 'push' }}
+      run: echo "::set-env name=TGS4_GITHUB_REF::${{ github.event.ref }}"
 
     - name: Run Integration Test
       run: |

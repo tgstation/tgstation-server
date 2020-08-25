@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,14 +22,35 @@ namespace Tgstation.Server.Tests.Instance
 
 		public async Task RunPreWatchdog(CancellationToken cancellationToken)
 		{
-			// Clone ourselves
-			var workingBranch = Environment.GetEnvironmentVariable("TGS4_TEST_BRANCH");
-			if (String.IsNullOrWhiteSpace(workingBranch))
-				workingBranch = Environment.GetEnvironmentVariable("APPVEYOR_REPO_BRANCH");
-			if (String.IsNullOrWhiteSpace(workingBranch))
-				workingBranch = Environment.GetEnvironmentVariable("TRAVIS_BRANCH");
-			if (String.IsNullOrWhiteSpace(workingBranch))
+			const string GitHubRef = "TGS4_GITHUB_REF";
+			var branchSourceEnvVars = new List<string>
+			{
+				"TGS4_TEST_BRANCH",
+				"APPVEYOR_REPO_BRANCH",
+				"TRAVIS_BRANCH",
+				GitHubRef
+			};
+
+			string workingBranch = null;
+			foreach (var envVarName in branchSourceEnvVars)
+			{
+				var envVar = Environment.GetEnvironmentVariable(envVarName);
+				if (!String.IsNullOrWhiteSpace(envVar))
+				{
+					if(envVarName == GitHubRef)
+						envVar = envVar.Substring("refs/heads/".Length);
+
+					workingBranch = envVar;
+					Console.WriteLine($"TEST: Set working branch to '{workingBranch}' from env var '{envVarName}'");
+					break;
+				}
+			}
+
+			if (workingBranch == null)
+			{
 				workingBranch = "master";
+				Console.WriteLine($"TEST: Set working branch to default '{workingBranch}'");
+			}
 
 			var initalRepo = await repositoryClient.Read(cancellationToken);
 			Assert.IsNotNull(initalRepo);
@@ -168,7 +189,8 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.IsNull(withMerge.RevisionInformation.PrimaryTestMerge.Comment);
 			Assert.IsNotNull(withMerge.RevisionInformation.PrimaryTestMerge.TitleAtMerge);
 			Assert.IsNotNull(withMerge.RevisionInformation.PrimaryTestMerge.BodyAtMerge);
-			Assert.AreEqual($"https://github.com/tgstation/tgstation-server/pull/{prNumber}", withMerge.RevisionInformation.PrimaryTestMerge.Url);
+			if (withMerge.RevisionInformation.PrimaryTestMerge.Url != "REMOTE API ERROR: RATE LIMITED")
+				Assert.AreEqual($"https://github.com/tgstation/tgstation-server/pull/{prNumber}", withMerge.RevisionInformation.PrimaryTestMerge.Url);
 			Assert.AreEqual(orignCommit, withMerge.RevisionInformation.OriginCommitSha);
 			Assert.AreNotEqual(orignCommit, withMerge.RevisionInformation.CommitSha);
 

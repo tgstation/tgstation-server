@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
@@ -20,7 +21,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// If the swappable game directory is currently a rename of the compile job.
 		/// </summary>
-		bool directoryHardLinked;
+		IDmbProvider hardLinkedDmb;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PosixWatchdog"/> <see langword="class"/>.
@@ -34,6 +35,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="diagnosticsIOManager">The <see cref="IIOManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="eventConsumer">The <see cref="IEventConsumer"/> for the <see cref="WatchdogBase"/>.</param>
+		/// <param name="gitHubDeploymentManager">The <see cref="IGitHubDeploymentManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="gameIOManager">The <see cref="IIOManager"/> pointing to the game directory for the <see cref="WindowsWatchdog"/>..</param>
 		/// <param name="symlinkFactory">The <see cref="ISymlinkFactory"/> for the <see cref="WindowsWatchdog"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="WatchdogBase"/>.</param>
@@ -50,6 +52,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IAsyncDelayer asyncDelayer,
 			IIOManager diagnosticsIOManager,
 			IEventConsumer eventConsumer,
+			IGitHubDeploymentManager gitHubDeploymentManager,
 			IIOManager gameIOManager,
 			ISymlinkFactory symlinkFactory,
 			ILogger<PosixWatchdog> logger,
@@ -66,6 +69,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				  asyncDelayer,
 				  diagnosticsIOManager,
 				  eventConsumer,
+				  gitHubDeploymentManager,
 				  gameIOManager,
 				  symlinkFactory,
 				  logger,
@@ -93,7 +97,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				cancellationToken)
 				.ConfigureAwait(false);
 
-			directoryHardLinked = true;
+			hardLinkedDmb = ActiveSwappable;
 		}
 
 		/// <inheritdoc />
@@ -106,16 +110,30 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			finally
 			{
 				// Then we move it back and apply the symlink
-				if (directoryHardLinked)
+				if (hardLinkedDmb != null)
 				{
-					Logger.LogTrace("Unhardlinking compile job...");
-					Server?.Suspend();
-					await GameIOManager.MoveDirectory(
-						ActiveSwappable.Directory,
-						ActiveSwappable.CompileJob.DirectoryName.ToString(),
-						default)
-						.ConfigureAwait(false);
-					directoryHardLinked = false;
+					try
+					{
+						Logger.LogTrace("Unhardlinking compile job...");
+						Server?.Suspend();
+						var hardLink = hardLinkedDmb.Directory;
+						var originalPosition = hardLinkedDmb.CompileJob.DirectoryName.ToString();
+						await GameIOManager.MoveDirectory(
+							hardLink,
+							originalPosition,
+							default)
+							.ConfigureAwait(false);
+					}
+					catch (Exception ex)
+					{
+						Logger.LogError(
+							ex,
+							"Failed to un-hard link compile job #{0} ({1})",
+							hardLinkedDmb.CompileJob.Id,
+							hardLinkedDmb.CompileJob.DirectoryName);
+					}
+
+					hardLinkedDmb = null;
 				}
 			}
 

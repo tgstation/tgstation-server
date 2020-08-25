@@ -99,6 +99,7 @@ DON'T:
 - Use the static keyword on fields where avoidable
 - Use the public keyword where avoidable
 - Handle Tasks in a synchronous fashion
+- Use static methods from built-in keywords i.e. Use `Boolean.TryParse` instead of `bool.TryParse`
 
 ### Formatting
 
@@ -118,7 +119,7 @@ void Hello()
 ```
 This is good:
 ```C#
-void Hello() 
+void Hello()
 {
 	if (!thing1)
 		return;
@@ -170,7 +171,7 @@ There is no strict process when it comes to merging pull requests. Pull requests
 
 Whenever you make a change to a model schema that must be reflected in the database, you'll have to generate and write a migration for it on all supported database types.
 
-We have a script to do this. 
+We have a script to do this.
 
 1. Run `build/GenerateMigrations.sh NameOfMigration` from the project root.
 1. You should now have MY/MS migration files generated in `/src/Tgstation.Server.Host/Models/Migrations`. Fix compiler warnings in the generated files. Ensure all classes are in the Tgstation.Server.Host.Models.Migrations namespace.

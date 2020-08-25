@@ -5,6 +5,7 @@ using System.DirectoryServices.AccountManagement;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Security
@@ -88,7 +89,7 @@ namespace Tgstation.Server.Host.Security
 				return null;
 			return (ISystemIdentity)new WindowsSystemIdentity(principal);
 		},
-			cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public Task<ISystemIdentity> CreateSystemIdentity(string username, string password, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
@@ -114,6 +115,6 @@ namespace Tgstation.Server.Host.Security
 			using var handle = new SafeAccessTokenHandle(token);
 			return (ISystemIdentity)new WindowsSystemIdentity(
 				new WindowsIdentity(handle.DangerousGetHandle()));   // https://github.com/dotnet/corefx/blob/6ed61acebe3214fcf79b4274f2bb9b55c0604a4d/src/System.Security.Principal.Windows/src/System/Security/Principal/WindowsIdentity.cs#L271
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 	}
 }

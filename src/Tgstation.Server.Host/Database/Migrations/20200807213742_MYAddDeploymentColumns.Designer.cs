@@ -2,13 +2,16 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
 	[DbContext(typeof(MySqlDatabaseContext))]
-	partial class MySqlDatabaseContextModelSnapshot : ModelSnapshot
+	[Migration("20200807213742_MYAddDeploymentColumns")]
+	partial class MYAddDeploymentColumns
 	{
-		protected override void BuildModel(ModelBuilder modelBuilder)
+		/// <inheritdoc />
+		protected override void BuildTargetModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
 			modelBuilder
