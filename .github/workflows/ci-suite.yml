@@ -191,9 +191,6 @@ jobs:
     - name: Set TGS4_TEST_CONNECTION_STRING
       run: echo "::set-env name=TGS4_TEST_CONNECTION_STRING::Server=(localdb)\MSSQLLocalDB;Integrated Security=true;Initial Catalog=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }};Application Name=tgstation-server"
 
-    - name: Inject slug/short variables
-      uses: rlespinasse/github-slug-action@v2.x
-
     - name: Checkout
       uses: actions/checkout@v1
 
@@ -327,9 +324,6 @@ jobs:
     - name: Set General__UseBasicWatchdog
       if: ${{ matrix.watchdog-type == 'Basic' }}
       run: echo "::set-env name=General__UseBasicWatchdog::true"
-
-    - name: Inject slug/short variables
-      uses: rlespinasse/github-slug-action@v2.x
 
     - name: Checkout
       uses: actions/checkout@v1

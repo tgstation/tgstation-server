@@ -22,12 +22,13 @@ namespace Tgstation.Server.Tests.Instance
 
 		public async Task RunPreWatchdog(CancellationToken cancellationToken)
 		{
+			const string GitHubRef = "GITHUB_REF";
 			var branchSourceEnvVars = new List<string>
 			{
 				"TGS4_TEST_BRANCH",
 				"APPVEYOR_REPO_BRANCH",
 				"TRAVIS_BRANCH",
-				"GITHUB_BASE_REF_SLUG"
+				GitHubRef
 			};
 
 			string workingBranch = null;
@@ -36,6 +37,9 @@ namespace Tgstation.Server.Tests.Instance
 				var envVar = Environment.GetEnvironmentVariable(envVarName);
 				if (!String.IsNullOrWhiteSpace(envVar))
 				{
+					if(envVarName == GitHubRef)
+						envVar = envVar.Substring("refs/heads/".Length);
+
 					workingBranch = envVar;
 					Console.WriteLine($"TEST: Set working branch to '{workingBranch}' from env var '{envVarName}'");
 					break;
