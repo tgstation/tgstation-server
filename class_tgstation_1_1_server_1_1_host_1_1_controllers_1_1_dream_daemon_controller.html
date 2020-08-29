@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.5.0</span>
+   &#160;<span id="projectnumber">4.5.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -126,7 +126,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ae9ce00c8ac0758a4c2328eae7d7ef2eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update watchdog settings to be applied at next server reboot.  <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#ae9ce00c8ac0758a4c2328eae7d7ef2eb">More...</a><br /></td></tr>
 <tr class="separator:ae9ce00c8ac0758a4c2328eae7d7ef2eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfae63e2f33e2293f43abff9cd65c246"><td class="memItemLeft" align="right" valign="top">Task&lt; IActionResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#adfae63e2f33e2293f43abff9cd65c246">Restart</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:adfae63e2f33e2293f43abff9cd65c246"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html" title="Represents a long running job on the server. Model is read-only, updates attempt to cancel the job">Api.Models.Job</a> to restart the <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_watchdog.html">Watchdog</a>. It will start if it wasn't already running.  <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#adfae63e2f33e2293f43abff9cd65c246">More...</a><br /></td></tr>
+<tr class="memdesc:adfae63e2f33e2293f43abff9cd65c246"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html" title="Represents a long running job on the server. Model is read-only, updates attempt to cancel the job">Api.Models.Job</a> to restart the <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_watchdog.html">Watchdog</a>. It will not start if it wasn't already running.  <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#adfae63e2f33e2293f43abff9cd65c246">More...</a><br /></td></tr>
 <tr class="separator:adfae63e2f33e2293f43abff9cd65c246"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9131baefd94f4bf123ef1901cb37565e"><td class="memItemLeft" align="right" valign="top">Task&lt; IActionResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a9131baefd94f4bf123ef1901cb37565e">CreateDump</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a9131baefd94f4bf123ef1901cb37565e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html" title="Represents a long running job on the server. Model is read-only, updates attempt to cancel the job">Api.Models.Job</a> to generate a DreamDaemon process dump.  <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a9131baefd94f4bf123ef1901cb37565e">More...</a><br /></td></tr>
@@ -502,7 +502,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Creates a <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html" title="Represents a long running job on the server. Model is read-only, updates attempt to cancel the job">Api.Models.Job</a> to restart the <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_watchdog.html">Watchdog</a>. It will start if it wasn't already running. </p>
+<p>Creates a <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html" title="Represents a long running job on the server. Model is read-only, updates attempt to cancel the job">Api.Models.Job</a> to restart the <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_watchdog.html">Watchdog</a>. It will not start if it wasn't already running. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
@@ -518,7 +518,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller_adfae63e2f33e2293f43abff9cd65c246_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller_adfae63e2f33e2293f43abff9cd65c246_cgraph" alt=""/></div>
 <map name="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller_adfae63e2f33e2293f43abff9cd65c246_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller_adfae63e2f33e2293f43abff9cd65c246_cgraph">
-<area shape="rect" title="Creates a Api.Models.Job to restart the Watchdog. It will start if it wasn&#39;t already running." alt="" coords="5,5,221,47"/>
+<area shape="rect" title="Creates a Api.Models.Job to restart the Watchdog. It will not start if it wasn&#39;t already running." alt="" coords="5,5,221,47"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a21be789f798adf9985f2432d3499b4cd" title="Registers a given Job and begins running it" alt="" coords="269,5,473,47"/>
 </map>
 </div>
