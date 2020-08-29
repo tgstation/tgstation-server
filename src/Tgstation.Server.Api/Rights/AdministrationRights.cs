@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Tgstation.Server.Api.Rights
 {
@@ -14,27 +14,27 @@ namespace Tgstation.Server.Api.Rights
 		None = 0,
 
 		/// <summary>
-		/// User can edit themself and other <see cref="Models.User"/>s and also create others
+		/// User can edit their and other <see cref="Models.User"/>s and create new ones.
 		/// </summary>
 		WriteUsers = 1,
 
 		/// <summary>
-		/// User can gracefully restart the host
+		/// User can gracefully restart TGS.
 		/// </summary>
 		RestartHost = 2,
 
 		/// <summary>
-		/// User can change <see cref="Models.Administration.NewVersion"/>
+		/// User can upgrade or downgrade TGS through the API.
 		/// </summary>
 		ChangeVersion = 4,
 
 		/// <summary>
-		/// User can change their password
+		/// User can change their password.
 		/// </summary>
 		EditOwnPassword = 8,
 
 		/// <summary>
-		/// User can read info and rights of other users
+		/// User can read info and rights of other users.
 		/// </summary>
 		ReadUsers = 16,
 

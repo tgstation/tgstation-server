@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Tgstation.Server.Api.Rights
 {
@@ -9,32 +9,32 @@ namespace Tgstation.Server.Api.Rights
 	public enum ByondRights : ulong
 	{
 		/// <summary>
-		/// User has no rights
+		/// User has no rights.
 		/// </summary>
 		None = 0,
 
 		/// <summary>
-		/// User may check the active installed BYOND version
+		/// User may view the active installed BYOND version.
 		/// </summary>
 		ReadActive = 1,
 
 		/// <summary>
-		/// User may list all installed BYOND versions
+		/// User may list all installed BYOND versions.
 		/// </summary>
 		ListInstalled = 2,
 
 		/// <summary>
-		/// User may change the active BYOND version. Also allows installing official BYOND versions
+		/// User may install official BYOND versions or change the active BYOND version.
 		/// </summary>
 		InstallOfficialOrChangeActiveVersion = 4,
 
 		/// <summary>
-		/// User may cancel version installations
+		/// User may cancel BYOND installation job.
 		/// </summary>
 		CancelInstall = 8,
 
 		/// <summary>
-		/// User may upload custom BYOND versions
+		/// User may upload and activate custom BYOND builds.
 		/// </summary>
 		InstallCustomVersion = 16,
 	}
