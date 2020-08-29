@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Models
@@ -36,7 +36,8 @@ namespace Tgstation.Server.Host.Models
 			CommitterName = CommitterName,
 			PushTestMergeCommits = PushTestMergeCommits,
 			ShowTestMergeCommitters = ShowTestMergeCommitters,
-			PostTestMergeComment = PostTestMergeComment
+			PostTestMergeComment = PostTestMergeComment,
+			CreateGitHubDeployments = CreateGitHubDeployments,
 
 			// revision information and the rest retrieved by controller
 		};
