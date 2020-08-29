@@ -218,7 +218,7 @@ namespace Tgstation.Server.Host.Database
 		}
 
 		/// <summary>
-		/// Changes the admin password in <see cref="IDatabaseContext"/> back to it's default and enables the account
+		/// Changes the admin password in <see cref="IDatabaseContext"/> back to it's default, enables the account, and gives it <see cref="AdministrationRights.WriteUsers"/> access.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> to reset the admin password for</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
@@ -229,6 +229,7 @@ namespace Tgstation.Server.Host.Database
 			if (admin != null)
 			{
 				admin.Enabled = true;
+				admin.AdministrationRights |= AdministrationRights.WriteUsers;
 				cryptographySuite.SetUserPassword(admin, Api.Models.User.DefaultAdminPassword, false);
 			}
 

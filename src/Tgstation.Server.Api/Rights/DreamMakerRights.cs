@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Tgstation.Server.Api.Rights
 {
@@ -9,42 +9,42 @@ namespace Tgstation.Server.Api.Rights
 	public enum DreamMakerRights : ulong
 	{
 		/// <summary>
-		/// User has no rights
+		/// User has no rights.
 		/// </summary>
 		None = 0,
 
 		/// <summary>
-		/// User may read <see cref="Models.DreamMaker"/> status
+		/// User may read all properties of <see cref="Models.DreamMaker"/>.
 		/// </summary>
 		Read = 1,
 
 		/// <summary>
-		/// User may trigger compiles
+		/// User may trigger deployments.
 		/// </summary>
 		Compile = 2,
 
 		/// <summary>
-		/// User may cancel compiles
+		/// User may cancel deployment jobs.
 		/// </summary>
 		CancelCompile = 4,
 
 		/// <summary>
-		/// User may modify <see cref="Models.DreamMaker.ProjectName"/>
+		/// User may modify <see cref="Models.DreamMaker.ProjectName"/>.
 		/// </summary>
 		SetDme = 8,
 
 		/// <summary>
-		/// User may modify <see cref="Models.DreamMaker.ApiValidationPort"/>
+		/// User may modify <see cref="Models.DreamMaker.ApiValidationPort"/>.
 		/// </summary>
 		SetApiValidationPort = 16,
 
 		/// <summary>
-		/// User may list and read all <see cref="Models.CompileJob"/>s
+		/// User may list and read all <see cref="Models.CompileJob"/>s.
 		/// </summary>
 		CompileJobs = 32,
 
 		/// <summary>
-		/// User may modify <see cref="Models.DreamMaker.ApiValidationSecurityLevel"/>
+		/// User may modify <see cref="Models.DreamMaker.ApiValidationSecurityLevel"/>.
 		/// </summary>
 		SetSecurityLevel = 64,
 

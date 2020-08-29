@@ -33,7 +33,7 @@ namespace Tgstation.Server.Host.Components.Interop
 		/// <summary>
 		/// The DMAPI <see cref="Version"/> being used.
 		/// </summary>
-		public static readonly Version Version = new Version(5, 2, 4);
+		public static readonly Version Version = new Version(5, 2, 5);
 
 		/// <summary>
 		/// <see cref="JsonSerializerSettings"/> for use when communicating with the DMAPI.
