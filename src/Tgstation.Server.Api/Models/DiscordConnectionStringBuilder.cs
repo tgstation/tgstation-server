@@ -50,7 +50,7 @@ namespace Tgstation.Server.Api.Models
 			if (splits.Length < 2 || !Enum.TryParse<DiscordDMOutputDisplayType>(splits[1], out var dMOutputDisplayType))
 				dMOutputDisplayType = DiscordDMOutputDisplayType.Always;
 			DMOutputDisplay = dMOutputDisplayType;
-			if (splits.Length > 1 && Int32.TryParse(splits[2], out Int32 basedMeme))
+			if (splits.Length > 2 && Int32.TryParse(splits[2], out Int32 basedMeme))
 			{
 				BasedMeme = Convert.ToBoolean(basedMeme);
 			}
