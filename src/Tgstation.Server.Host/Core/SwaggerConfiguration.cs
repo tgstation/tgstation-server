@@ -11,7 +11,6 @@ using System.Net;
 using System.Net.Mime;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Controllers;
 
 namespace Tgstation.Server.Host.Core
@@ -228,7 +227,7 @@ namespace Tgstation.Server.Host.Core
 					}
 				};
 
-				if (authAttributes.Any(attr => attr.RightsType.HasValue && RightsHelper.IsInstanceRight(attr.RightsType.Value)))
+				if (typeof(InstanceRequiredController).IsAssignableFrom(context.MethodInfo.DeclaringType))
 					operation.Parameters.Add(new OpenApiParameter
 					{
 						Reference = new OpenApiReference
