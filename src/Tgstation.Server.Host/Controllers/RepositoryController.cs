@@ -742,11 +742,34 @@ namespace Tgstation.Server.Host.Controllers
 										foreach (var I in search)
 										{
 											revInfoWereLookingFor = dbPull
-												.Where(x => model.NewTestMerges.Any(z =>
-												x.PrimaryTestMerge.Number == z.Number
-												&& x.PrimaryTestMerge.PullRequestRevision.StartsWith(z.PullRequestRevision, StringComparison.Ordinal)
-												&& (x.PrimaryTestMerge.Comment?.Trim().ToUpperInvariant() == z.Comment?.Trim().ToUpperInvariant() || z.Comment == null))
-												&& x.ActiveTestMerges.Select(y => y.TestMerge).All(y => appliedTestMergeIds.Contains(y.Id)))
+												.Where(testRevInfo =>
+												{
+													var testMergeMatch = model.NewTestMerges.Any(testTestMerge =>
+													{
+														var numberMatch = testRevInfo.PrimaryTestMerge.Number == testTestMerge.Number;
+														if (!numberMatch)
+															return false;
+
+														var shaMatch = testRevInfo.PrimaryTestMerge.PullRequestRevision.StartsWith(
+															testTestMerge.PullRequestRevision,
+															StringComparison.Ordinal);
+														if (!shaMatch)
+															return false;
+
+														var commentMatch = testRevInfo.PrimaryTestMerge.Comment == testTestMerge.Comment;
+														return commentMatch;
+													});
+
+													if (!testMergeMatch)
+														return false;
+
+													var previousTestMergesMatch = testRevInfo
+														.ActiveTestMerges
+														.Select(previousRevInfoTestMerge => previousRevInfoTestMerge.TestMerge)
+														.All(previousTestMerge => appliedTestMergeIds.Contains(previousTestMerge.Id));
+
+													return previousTestMergesMatch;
+												})
 												.FirstOrDefault();
 
 											if (revInfoWereLookingFor != null)
