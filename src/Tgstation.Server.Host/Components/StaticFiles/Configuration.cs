@@ -480,7 +480,17 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 					using (var script = processExecutor.LaunchProcess(
 						ioManager.ConcatPath(resolvedScriptsDir, I),
 						resolvedScriptsDir,
-						String.Join(' ', parameters),
+						String.Join(
+							' ',
+							parameters.Select(arg =>
+							{
+								if (!arg.Contains(' ', StringComparison.Ordinal))
+									return arg;
+
+								arg = arg.Replace("\"", "\\\"", StringComparison.Ordinal);
+
+								return $"\"{arg}\"";
+							})),
 						true,
 						true,
 						true))

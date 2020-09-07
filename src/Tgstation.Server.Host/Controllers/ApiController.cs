@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
@@ -49,11 +49,6 @@ namespace Tgstation.Server.Host.Controllers
 		protected Models.Instance Instance { get; }
 
 		/// <summary>
-		/// If <see cref="IAuthenticationContext.InstanceUser"/> permissions are required to access the <see cref="ApiController"/>
-		/// </summary>
-		readonly bool requireInstance;
-
-		/// <summary>
 		/// If <see cref="ApiHeaders"/> are required
 		/// </summary>
 		readonly bool requireHeaders;
@@ -64,14 +59,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="databaseContext">The value of <see cref="DatabaseContext"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="logger">The value of <see cref="Logger"/></param>
-		/// <param name="requireInstance">The value of <see cref="requireInstance"/></param>
 		/// <param name="requireHeaders">The value of <see cref="requireHeaders"/></param>
 		public ApiController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
 			ILogger<ApiController> logger,
-			bool requireInstance,
-			bool requireHeaders = true)
+			bool requireHeaders)
 		{
 			DatabaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
 			if (authenticationContextFactory == null)
@@ -79,7 +72,6 @@ namespace Tgstation.Server.Host.Controllers
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			AuthenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
 			Instance = AuthenticationContext?.InstanceUser?.Instance;
-			this.requireInstance = requireInstance;
 			this.requireHeaders = requireHeaders;
 		}
 
@@ -124,11 +116,11 @@ namespace Tgstation.Server.Host.Controllers
 		protected ObjectResult Created(object payload) => StatusCode((int)HttpStatusCode.Created, payload);
 
 		/// <summary>
-		/// Performs validation steps for an instance request.
+		/// Performs validation a request.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in an appropriate <see cref="IActionResult"/> on validation failure, <see langword="null"/> otherwise.</returns>
-		protected virtual Task<IActionResult> ValidateInstanceRequest(CancellationToken cancellationToken)
+		protected virtual Task<IActionResult> ValidateRequest(CancellationToken cancellationToken)
 			=> Task.FromResult<IActionResult>(null);
 
 		/// <summary>
@@ -193,20 +185,11 @@ namespace Tgstation.Server.Host.Controllers
 					return;
 				}
 
-				if (requireInstance)
+				var errorCase = await ValidateRequest(context.HttpContext.RequestAborted).ConfigureAwait(false);
+				if (errorCase != null)
 				{
-					IActionResult errorCase = null;
-					if (!ApiHeaders.InstanceId.HasValue)
-						errorCase = BadRequest(new ErrorMessage(ErrorCode.InstanceHeaderRequired));
-					else if (AuthenticationContext.InstanceUser == null)
-						errorCase = Forbid();
-
-					errorCase ??= await ValidateInstanceRequest(context.HttpContext.RequestAborted).ConfigureAwait(false);
-					if (errorCase != null)
-					{
-						await errorCase.ExecuteResultAsync(context).ConfigureAwait(false);
-						return;
-					}
+					await errorCase.ExecuteResultAsync(context).ConfigureAwait(false);
+					return;
 				}
 			}
 			catch (HeadersException)

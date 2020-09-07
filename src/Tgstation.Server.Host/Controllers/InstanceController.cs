@@ -90,7 +90,7 @@ namespace Tgstation.Server.Host.Controllers
 				  databaseContext,
 				  authenticationContextFactory,
 				  logger,
-				  false)
+				  true)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));

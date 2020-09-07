@@ -37,15 +37,19 @@ namespace Tgstation.Server.Host.Controllers
 				  databaseContext,
 				  authenticationContextFactory,
 				  logger,
-				  true,
 				  true)
 		{
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 		}
 
 		/// <inheritdoc />
-		protected override async Task<IActionResult> ValidateInstanceRequest(CancellationToken cancellationToken)
+		protected override async Task<IActionResult> ValidateRequest(CancellationToken cancellationToken)
 		{
+			if (!ApiHeaders.InstanceId.HasValue)
+				return BadRequest(new ErrorMessage(ErrorCode.InstanceHeaderRequired));
+			if (AuthenticationContext.InstanceUser == null)
+				return Forbid();
+
 			if (ValidateInstanceOnlineStatus(instanceManager, Logger, Instance))
 				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
