@@ -1,4 +1,6 @@
-[Release Notes]: # (Your PR should contain a detailed list of notable changes, titled appropriately. This includes any observable changes to the server or DMAPI. See examples below)
+[Base Branch]: # (Please set the base branch of your pull request appropriately. If you only made a patch, code improvement, non-server code change, or comment/documentation update please target the `master` branch. Otherwise, target the `dev` branch.)
+
+[Release Notes]: # (Your PR should contain a detailed list of notable changes, titled appropriately. This includes any observable changes to the server or DMAPI. See examples below.)
 
 :cl:
 Description of your change.
