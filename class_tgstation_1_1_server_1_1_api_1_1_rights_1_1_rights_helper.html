@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.5.1</span>
+   &#160;<span id="projectnumber">4.5.2</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -161,18 +161,18 @@ Static Private Attributes</h2></td></tr>
 </dl>
 </div>
 
-<p class="definition">Definition at line <a class="el" href="_rights_helper_8cs_source.html#l00079">79</a> of file <a class="el" href="_rights_helper_8cs_source.html">RightsHelper.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                                                              : Enum</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        {</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            ulong rights = 0;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            <span class="keywordflow">foreach</span> (Enum J <span class="keywordflow">in</span> Enum.GetValues(typeof(TRight)))</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                rights |= Convert.ToUInt64(J, CultureInfo.InvariantCulture);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            <span class="comment">// cri evertim</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            <span class="keywordflow">return</span> (TRight)(object)rights;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="_rights_helper_8cs_source.html#l00078">78</a> of file <a class="el" href="_rights_helper_8cs_source.html">RightsHelper.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                                                              : Enum</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        {</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            ulong rights = 0;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <span class="keywordflow">foreach</span> (Enum J <span class="keywordflow">in</span> Enum.GetValues(typeof(TRight)))</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                rights |= Convert.ToUInt64(J, CultureInfo.InvariantCulture);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            <span class="comment">// cri evertim</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            <span class="keywordflow">return</span> (TRight)(object)rights;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_rights_helper_8cs_source.html#l00095">Tgstation.Server.Api.Rights.RightsHelper.Clamp&lt; TRight &gt;()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_rights_helper_8cs_source.html#l00094">Tgstation.Server.Api.Rights.RightsHelper.Clamp&lt; TRight &gt;()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -232,18 +232,18 @@ Here is the caller graph for this function:</div>
 </dl>
 </div>
 
-<p class="definition">Definition at line <a class="el" href="_rights_helper_8cs_source.html#l00095">95</a> of file <a class="el" href="_rights_helper_8cs_source.html">RightsHelper.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                                                                       : Enum</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        {</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            var allRights = <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a0f8605b0068c15bb5e80fae8f858e0db">AllRights&lt;TRight&gt;</a>();</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            var allAsUlong = Convert.ToUInt64(allRights, CultureInfo.InvariantCulture);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            var rightsAsUlong = Convert.ToUInt64(rights, CultureInfo.InvariantCulture);</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            <span class="keywordflow">return</span> (TRight)(object)(allAsUlong &amp; rightsAsUlong);</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="_rights_helper_8cs_source.html#l00094">94</a> of file <a class="el" href="_rights_helper_8cs_source.html">RightsHelper.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                                                                       : Enum</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        {</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            var allRights = <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a0f8605b0068c15bb5e80fae8f858e0db">AllRights&lt;TRight&gt;</a>();</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            var allAsUlong = Convert.ToUInt64(allRights, CultureInfo.InvariantCulture);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            var rightsAsUlong = Convert.ToUInt64(rights, CultureInfo.InvariantCulture);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            <span class="keywordflow">return</span> (TRight)(object)(allAsUlong &amp; rightsAsUlong);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_rights_helper_8cs_source.html#l00079">Tgstation.Server.Api.Rights.RightsHelper.AllRights&lt; TRight &gt;()</a>.</p>
+<p class="reference">References <a class="el" href="_rights_helper_8cs_source.html#l00078">Tgstation.Server.Api.Rights.RightsHelper.AllRights&lt; TRight &gt;()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -289,14 +289,13 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if <em>rightsType</em>  is an instance right, <code>false</code> otherwise</dd></dl>
 
-<p class="reference">Referenced by <a class="el" href="_swagger_configuration_8cs_source.html#l00185">Tgstation.Server.Host.Core.SwaggerConfiguration.Apply()</a>, <a class="el" href="_authentication_context_8cs_source.html#l00046">Tgstation.Server.Host.Security.AuthenticationContext.GetRight()</a>, and <a class="el" href="_claims_injector_8cs_source.html#l00033">Tgstation.Server.Host.Security.ClaimsInjector.InjectClaimsIntoContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_authentication_context_8cs_source.html#l00046">Tgstation.Server.Host.Security.AuthenticationContext.GetRight()</a>, and <a class="el" href="_claims_injector_8cs_source.html#l00033">Tgstation.Server.Host.Security.ClaimsInjector.InjectClaimsIntoContext()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_a40d32838ff902da852c54215bd8e89fb_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_a40d32838ff902da852c54215bd8e89fb_icgraph" alt=""/></div>
 <map name="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_a40d32838ff902da852c54215bd8e89fb_icgraph" id="aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_a40d32838ff902da852c54215bd8e89fb_icgraph">
-<area shape="rect" title="Check if a given rightsType &#160;is meant for an Models.Instance" alt="" coords="833,384,1024,425"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_swagger_configuration.html#a050adcf275d869f1db4760d553fadb6e" title=" " alt="" coords="571,319,753,360"/>
+<area shape="rect" title="Check if a given rightsType &#160;is meant for an Models.Instance" alt="" coords="833,417,1024,459"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType" alt="" coords="561,384,763,425"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_claims_injector.html#a68b33948ac77f08ab2dc17209ce78314" title="Setup the global::System.Security.Claims.Claims for a given tokenValidatedContext" alt="" coords="539,449,785,491"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#a1442deb8a2f3296b5125bb385aa3caf2" title="Cancel a running Api.Models.Job." alt="" coords="272,5,488,47"/>
@@ -351,7 +350,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The Enum Type of the given <em>rightsType</em> </dd></dl>
 
-<p class="reference">Referenced by <a class="el" href="_authentication_context_8cs_source.html#l00046">Tgstation.Server.Host.Security.AuthenticationContext.GetRight()</a>, <a class="el" href="_claims_injector_8cs_source.html#l00033">Tgstation.Server.Host.Security.ClaimsInjector.InjectClaimsIntoContext()</a>, and <a class="el" href="_rights_helper_8cs_source.html#l00061">Tgstation.Server.Api.Rights.RightsHelper.RoleName()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_authentication_context_8cs_source.html#l00046">Tgstation.Server.Host.Security.AuthenticationContext.GetRight()</a>, <a class="el" href="_claims_injector_8cs_source.html#l00033">Tgstation.Server.Host.Security.ClaimsInjector.InjectClaimsIntoContext()</a>, and <a class="el" href="_rights_helper_8cs_source.html#l00060">Tgstation.Server.Api.Rights.RightsHelper.RoleName()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -424,11 +423,11 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A string representing the claim role name</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_rights_helper_8cs_source.html#l00061">61</a> of file <a class="el" href="_rights_helper_8cs_source.html">RightsHelper.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        {</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            var enumType = <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c">RightToType</a>(rightsType);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            <span class="keywordflow">return</span> String.Concat(enumType.Name, <span class="charliteral">&#39;.&#39;</span>, Enum.GetName(enumType, right));</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="_rights_helper_8cs_source.html#l00060">60</a> of file <a class="el" href="_rights_helper_8cs_source.html">RightsHelper.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        {</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            var enumType = <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c">RightToType</a>(rightsType);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <span class="keywordflow">return</span> String.Concat(enumType.Name, <span class="charliteral">&#39;.&#39;</span>, Enum.GetName(enumType, right));</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c">Tgstation.Server.Api.Rights.RightsHelper.RightToType()</a>.</p>
 
@@ -504,17 +503,16 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_rights_helper_8cs_source.html#l00041">41</a> of file <a class="el" href="_rights_helper_8cs_source.html">RightsHelper.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                                                                          : Enum</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        {</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            var flags = <span class="keyword">new</span> List&lt;string&gt;();</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            IEnumerable&lt;string&gt; GetRoleNames()</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            {</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                <span class="keywordflow">foreach</span> (Enum J <span class="keywordflow">in</span> Enum.GetValues(right.GetType()))</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                    <span class="keywordflow">if</span> (Convert.ToInt32(J, CultureInfo.InvariantCulture) != 0 &amp;&amp; right.HasFlag(J))</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                        yield <span class="keywordflow">return</span> String.Concat(typeof(TRight).Name, <span class="charliteral">&#39;.&#39;</span>, J.ToString());</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            }</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            var names = GetRoleNames();</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            <span class="keywordflow">return</span> String.Join(<span class="stringliteral">&quot;,&quot;</span>, names);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        }</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            IEnumerable&lt;string&gt; GetRoleNames()</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                <span class="keywordflow">foreach</span> (Enum J <span class="keywordflow">in</span> Enum.GetValues(right.GetType()))</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                    <span class="keywordflow">if</span> (Convert.ToInt32(J, CultureInfo.InvariantCulture) != 0 &amp;&amp; right.HasFlag(J))</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                        yield <span class="keywordflow">return</span> String.Concat(typeof(TRight).Name, <span class="charliteral">&#39;.&#39;</span>, J.ToString());</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            }</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            var names = GetRoleNames();</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            <span class="keywordflow">return</span> String.Join(<span class="stringliteral">&quot;,&quot;</span>, names);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -566,7 +564,7 @@ Here is the caller graph for this function:</div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_af199a84ed6fe6ca557db9de91070ad79"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79">Tgstation.Server.Api.Rights.InstanceManagerRights</a></div><div class="ttdeci">InstanceManagerRights</div><div class="ttdoc">Rights for managing Models.Instances</div><div class="ttdef"><b>Definition:</b> <a href="_instance_manager_rights_8cs_source.html#l00009">InstanceManagerRights.cs:10</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_acf2642afce6567c03b79876139a10a49"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49">Tgstation.Server.Api.Rights.DreamDaemonRights</a></div><div class="ttdeci">DreamDaemonRights</div><div class="ttdoc">Rights for Models.DreamDaemon</div><div class="ttdef"><b>Definition:</b> <a href="_dream_daemon_rights_8cs_source.html#l00009">DreamDaemonRights.cs:10</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a6aac419b6a793fe07657d96ac48dee5d"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a6aac419b6a793fe07657d96ac48dee5d">Tgstation.Server.Api.Rights.DreamMakerRights</a></div><div class="ttdeci">DreamMakerRights</div><div class="ttdoc">Rights for Models.DreamMaker</div><div class="ttdef"><b>Definition:</b> <a href="_dream_maker_rights_8cs_source.html#l00009">DreamMakerRights.cs:10</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_html_a0f8605b0068c15bb5e80fae8f858e0db"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a0f8605b0068c15bb5e80fae8f858e0db">Tgstation.Server.Api.Rights.RightsHelper.AllRights&lt; TRight &gt;</a></div><div class="ttdeci">static TRight AllRights&lt; TRight &gt;()</div><div class="ttdoc">Get all rights for a given TRight .</div><div class="ttdef"><b>Definition:</b> <a href="_rights_helper_8cs_source.html#l00079">RightsHelper.cs:79</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper_html_a0f8605b0068c15bb5e80fae8f858e0db"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a0f8605b0068c15bb5e80fae8f858e0db">Tgstation.Server.Api.Rights.RightsHelper.AllRights&lt; TRight &gt;</a></div><div class="ttdeci">static TRight AllRights&lt; TRight &gt;()</div><div class="ttdoc">Get all rights for a given TRight .</div><div class="ttdef"><b>Definition:</b> <a href="_rights_helper_8cs_source.html#l00078">RightsHelper.cs:78</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a691a59767073bc7dff0f17b809d07b0c"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0c">Tgstation.Server.Api.Rights.ConfigurationRights</a></div><div class="ttdeci">ConfigurationRights</div><div class="ttdoc">Rights for Models.ConfigurationFile</div><div class="ttdef"><b>Definition:</b> <a href="_configuration_rights_8cs_source.html#l00009">ConfigurationRights.cs:10</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_a95336db3db40dbae9701ef6e51240f39"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a95336db3db40dbae9701ef6e51240f39">Tgstation.Server.Api.Rights.RepositoryRights</a></div><div class="ttdeci">RepositoryRights</div><div class="ttdoc">Rights for a Models.Repository</div><div class="ttdef"><b>Definition:</b> <a href="_repository_rights_8cs_source.html#l00009">RepositoryRights.cs:10</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_rights_html_affda1440f9c5e2dfcca65138d2f89a21"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">Tgstation.Server.Api.Rights.AdministrationRights</a></div><div class="ttdeci">AdministrationRights</div><div class="ttdoc">Rights for Models.Administration</div><div class="ttdef"><b>Definition:</b> <a href="_administration_rights_8cs_source.html#l00009">AdministrationRights.cs:10</a></div></div>

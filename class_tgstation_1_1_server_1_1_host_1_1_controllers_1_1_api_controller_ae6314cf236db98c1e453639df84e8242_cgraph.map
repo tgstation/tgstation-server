@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Controllers.ApiController.OnActionExecutionAsync" name="Tgstation.Server.Host.Controllers.ApiController.OnActionExecutionAsync">
 <area shape="rect" id="node1" title=" " alt="" coords="5,100,251,141"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a305abd5b6b16230fb32f779af0a07d61" title="Checks if the ApiVersion is compatible with Version" alt="" coords="340,5,501,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a4c0455f507601bb0044375f6237c97b7" title="Response for missing/Invalid headers." alt="" coords="313,71,529,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="591,100,807,141"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a08c7d163190736be9f4823dd9ba7eb11" title="Performs validation steps for an instance request." alt="" coords="299,188,543,229"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a305abd5b6b16230fb32f779af0a07d61" title="Checks if the ApiVersion is compatible with Version" alt="" coords="326,5,487,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a4c0455f507601bb0044375f6237c97b7" title="Response for missing/Invalid headers." alt="" coords="299,71,515,112"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="563,100,779,141"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ad044e3a9bfa871e14b40cafa2f638dd1" title="Performs validation a request." alt="" coords="299,188,515,229"/>
 </map>

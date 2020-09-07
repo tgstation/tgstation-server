@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.5.1</span>
+   &#160;<span id="projectnumber">4.5.2</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -129,7 +129,7 @@ $(function() {
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                  databaseContext,</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                  authenticationContextFactory,</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                  logger,</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                  false)</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                  true)</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        {</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            this.jobManager = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a38f7f9669773242d177345e38be2dd34">jobManager</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a38f7f9669773242d177345e38be2dd34">jobManager</a>));</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            this.instanceManager = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#ad177b6d13a08c429c49b7e4294387d3c">instanceManager</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#ad177b6d13a08c429c49b7e4294387d3c">instanceManager</a>));</div>
@@ -784,7 +784,7 @@ $(function() {
 <div class="ttc" id="anamespace_tgstation_1_1_server_html"><div class="ttname"><a href="namespace_tgstation_1_1_server.html">Tgstation.Server</a></div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00012">ApiHeaders.cs:13</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_error_message_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_error_message.html">Tgstation.Server.Api.Models.ErrorMessage</a></div><div class="ttdoc">Represents an error message returned by the server</div><div class="ttdef"><b>Definition:</b> <a href="_error_message_8cs_source.html#l00009">ErrorMessage.cs:10</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller_html_a8bf721ab3f71056d9e5556b1b6c438de"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a8bf721ab3f71056d9e5556b1b6c438de">Tgstation.Server.Host.Controllers.InstanceController.CreateDefaultInstance</a></div><div class="ttdeci">Models.Instance CreateDefaultInstance(Api.Models.Instance initialSettings)</div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller_html_a666be878e8b392ab679eea0b30751dbf"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller.html#a666be878e8b392ab679eea0b30751dbf">Tgstation.Server.Host.Controllers.InstanceRequiredController.ValidateInstanceOnlineStatus</a></div><div class="ttdeci">static bool ValidateInstanceOnlineStatus(IInstanceManager instanceManager, ILogger logger, Models.Instance metadata)</div><div class="ttdoc">Corrects discrepencies between the Api.Models.Instance.Online status of IInstances in the database vs...</div><div class="ttdef"><b>Definition:</b> <a href="_instance_required_controller_8cs_source.html#l00085">InstanceRequiredController.cs:85</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller_html_a666be878e8b392ab679eea0b30751dbf"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller.html#a666be878e8b392ab679eea0b30751dbf">Tgstation.Server.Host.Controllers.InstanceRequiredController.ValidateInstanceOnlineStatus</a></div><div class="ttdeci">static bool ValidateInstanceOnlineStatus(IInstanceManager instanceManager, ILogger logger, Models.Instance metadata)</div><div class="ttdoc">Corrects discrepencies between the Api.Models.Instance.Online status of IInstances in the database vs...</div><div class="ttdef"><b>Definition:</b> <a href="_instance_required_controller_8cs_source.html#l00089">InstanceRequiredController.cs:89</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.19

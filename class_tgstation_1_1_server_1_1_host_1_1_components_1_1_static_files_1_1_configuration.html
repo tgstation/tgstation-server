@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.5.1</span>
+   &#160;<span id="projectnumber">4.5.2</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -490,24 +490,24 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_i_configuration.html#a38c2d45d551a853c4a1545dcf1996063">Tgstation.Server.Host.Components.StaticFiles.IConfiguration</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_configuration_8cs_source.html#l00502">502</a> of file <a class="el" href="_configuration_8cs_source.html">Configuration.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;        {</div>
-<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;            await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a5a067086b7757d904b99cabe914a925c">EnsureDirectories</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;            var path = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a3947ddcc7baa1a6c536a0db65766c7cb">ValidateConfigRelativePath</a>(configurationRelativePath);</div>
-<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160; </div>
-<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;            var result = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;            <span class="keyword">using</span> (await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html">SemaphoreSlimContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a01e4f4e2d775bd2bf0910a1f5c2f24ef">Lock</a>(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#af64bb7e6efa9991a5a3a14993a3277e8">semaphore</a>, cancellationToken).ConfigureAwait(<span class="keyword">false</span>))</div>
-<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;            {</div>
-<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;                <span class="keywordtype">void</span> CheckDeleteImpl() =&gt; result = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a29a360d050eedfecf24a5d7a75331f1d">synchronousIOManager</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html#ad7db8df684e3820376d161b6ac89804f">DeleteDirectory</a>(path);</div>
-<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160; </div>
-<div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;                <span class="keywordflow">if</span> (systemIdentity != <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;                    await systemIdentity.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html#a9b525a56c704424ce14e78edcb7d003e">RunImpersonated</a>(CheckDeleteImpl, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;                <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;                    CheckDeleteImpl();</div>
-<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;            }</div>
-<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160; </div>
-<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;            <span class="keywordflow">return</span> result;</div>
-<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="_configuration_8cs_source.html#l00512">512</a> of file <a class="el" href="_configuration_8cs_source.html">Configuration.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;        {</div>
+<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;            await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a5a067086b7757d904b99cabe914a925c">EnsureDirectories</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;            var path = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a3947ddcc7baa1a6c536a0db65766c7cb">ValidateConfigRelativePath</a>(configurationRelativePath);</div>
+<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160; </div>
+<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;            var result = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;            <span class="keyword">using</span> (await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html">SemaphoreSlimContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a01e4f4e2d775bd2bf0910a1f5c2f24ef">Lock</a>(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#af64bb7e6efa9991a5a3a14993a3277e8">semaphore</a>, cancellationToken).ConfigureAwait(<span class="keyword">false</span>))</div>
+<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;            {</div>
+<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;                <span class="keywordtype">void</span> CheckDeleteImpl() =&gt; result = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a29a360d050eedfecf24a5d7a75331f1d">synchronousIOManager</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html#ad7db8df684e3820376d161b6ac89804f">DeleteDirectory</a>(path);</div>
+<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160; </div>
+<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;                <span class="keywordflow">if</span> (systemIdentity != <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;                    await systemIdentity.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html#a9b525a56c704424ce14e78edcb7d003e">RunImpersonated</a>(CheckDeleteImpl, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;                <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;                    CheckDeleteImpl();</div>
+<div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160;            }</div>
+<div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160; </div>
+<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;            <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_semaphore_slim_context_8cs_source.html#l00018">Tgstation.Server.Host.Core.SemaphoreSlimContext.Lock()</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html#a9b525a56c704424ce14e78edcb7d003e">Tgstation.Server.Host.Security.ISystemIdentity.RunImpersonated()</a>.</p>
 <div class="dynheader">
@@ -684,23 +684,33 @@ Here is the caller graph for this function:</div>
 <div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;                    <span class="keyword">using</span> (var script = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a0eb31611253abc0c887ec46f1e9b8611">processExecutor</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#ac496c8c47a22086a1cbb882c1c0d391c">LaunchProcess</a>(</div>
 <div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;                        <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#afd5e0aef7c9a1023bc8a6cebe483c4c3">ioManager</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">ConcatPath</a>(resolvedScriptsDir, I),</div>
 <div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;                        resolvedScriptsDir,</div>
-<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;                        String.Join(<span class="charliteral">&#39; &#39;</span>, parameters),</div>
-<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;                        <span class="keyword">true</span>,</div>
-<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;                        <span class="keyword">true</span>,</div>
-<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;                        <span class="keyword">true</span>))</div>
-<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;                    <span class="keyword">using</span> (cancellationToken.Register(() =&gt; script.Terminate()))</div>
-<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;                    {</div>
-<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;                        var exitCode = await script.Lifetime.ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;                        cancellationToken.ThrowIfCancellationRequested();</div>
-<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;                        var scriptOutput = await script.GetCombinedOutput(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;                        <span class="keywordflow">if</span> (exitCode != 0)</div>
-<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;                            <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>($<span class="stringliteral">&quot;Script {I} exited with code {exitCode}:{Environment.NewLine}{scriptOutput}&quot;</span>);</div>
-<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;                        <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;                            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ab3c240ff7f92402a96f36d29f6ede284">logger</a>.LogDebug(<span class="stringliteral">&quot;Script output:{0}{1}&quot;</span>, Environment.NewLine, scriptOutput);</div>
-<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;                    }</div>
-<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;                }</div>
-<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;            }</div>
-<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;        }</div>
+<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;                        String.Join(</div>
+<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;                            <span class="charliteral">&#39; &#39;</span>,</div>
+<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;                            parameters.Select(arg =&gt;</div>
+<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;                            {</div>
+<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;                                if (!arg.Contains(<span class="stringliteral">&#39; &#39;</span>, StringComparison.Ordinal))</div>
+<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;                                    return arg;</div>
+<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160; </div>
+<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;                                arg = arg.Replace(<span class="stringliteral">&quot;\&quot;&quot;</span>, <span class="stringliteral">&quot;\\\&quot;&quot;</span>, StringComparison.Ordinal);</div>
+<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160; </div>
+<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;                                return $<span class="stringliteral">&quot;\&quot;{arg}\&quot;&quot;</span>;</div>
+<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;                            })),</div>
+<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;                        <span class="keyword">true</span>,</div>
+<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;                        <span class="keyword">true</span>,</div>
+<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;                        <span class="keyword">true</span>))</div>
+<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;                    <span class="keyword">using</span> (cancellationToken.Register(() =&gt; script.Terminate()))</div>
+<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;                    {</div>
+<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;                        var exitCode = await script.Lifetime.ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;                        cancellationToken.ThrowIfCancellationRequested();</div>
+<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;                        var scriptOutput = await script.GetCombinedOutput(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;                        <span class="keywordflow">if</span> (exitCode != 0)</div>
+<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;                            <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_exception.html">JobException</a>($<span class="stringliteral">&quot;Script {I} exited with code {exitCode}:{Environment.NewLine}{scriptOutput}&quot;</span>);</div>
+<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;                        <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;                            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ab3c240ff7f92402a96f36d29f6ede284">logger</a>.LogDebug(<span class="stringliteral">&quot;Script output:{0}{1}&quot;</span>, Environment.NewLine, scriptOutput);</div>
+<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;                    }</div>
+<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;                }</div>
+<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;            }</div>
+<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_semaphore_slim_context_8cs_source.html#l00018">Tgstation.Server.Host.Core.SemaphoreSlimContext.Lock()</a>.</p>
 <div class="dynheader">
