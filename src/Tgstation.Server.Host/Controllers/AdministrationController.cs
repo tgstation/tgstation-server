@@ -103,7 +103,7 @@ namespace Tgstation.Server.Host.Controllers
 				databaseContext,
 				authenticationContextFactory,
 				logger,
-				false)
+				true)
 		{
 			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 			this.serverUpdater = serverUpdater ?? throw new ArgumentNullException(nameof(serverUpdater));

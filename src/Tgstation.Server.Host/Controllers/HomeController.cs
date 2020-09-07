@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -99,7 +99,6 @@ namespace Tgstation.Server.Host.Controllers
 				  databaseContext,
 				  authenticationContextFactory,
 				  logger,
-				  false,
 				  (browserResolver ?? throw new ArgumentNullException(nameof(browserResolver))).Browser.Type != BrowserType.Generic
 				  && (controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions))).Enable)
 		{
