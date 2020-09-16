@@ -337,22 +337,26 @@ namespace Tgstation.Server.Host.Components.Deployment
 				return;
 			}
 
-			if (dmeModifications.HeadIncludeLine != null)
-				logger.LogDebug("Head .dme include line: {0}", dmeModifications.HeadIncludeLine);
-			if (dmeModifications.TailIncludeLine != null)
-				logger.LogDebug("Tail .dme include line: {0}", dmeModifications.TailIncludeLine);
-
-			var dmeLines = new List<string>(dme.Split(new[] { Environment.NewLine }, StringSplitOptions.None));
+			var dmeLines = new List<string>(dme.Split('\n', StringSplitOptions.None));
 			for (var I = 0; I < dmeLines.Count; ++I)
 			{
 				var line = dmeLines[I];
 				if (line.Contains("BEGIN_INCLUDE", StringComparison.Ordinal) && dmeModifications.HeadIncludeLine != null)
 				{
-					dmeLines.Insert(I + 1, dmeModifications.HeadIncludeLine);
+					var headIncludeLineNumber = I + 1;
+					logger.LogDebug(
+						"Inserting HeadInclude.dm at line {0}: {1}",
+						headIncludeLineNumber,
+						dmeModifications.HeadIncludeLine);
+					dmeLines.Insert(headIncludeLineNumber, dmeModifications.HeadIncludeLine);
 					++I;
 				}
 				else if (line.Contains("END_INCLUDE", StringComparison.Ordinal) && dmeModifications.TailIncludeLine != null)
 				{
+					logger.LogDebug(
+						"Inserting TailInclude.dm at line {0}: {1}",
+						I,
+						dmeModifications.TailIncludeLine);
 					dmeLines.Insert(I, dmeModifications.TailIncludeLine);
 					break;
 				}
