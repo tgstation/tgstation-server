@@ -2,7 +2,7 @@
   <PropertyGroup>
     <!-- This is the authorative version list -->
     <!-- Integration tests will ensure they match across the board -->
-    <TgsCoreVersion>4.5.3</TgsCoreVersion>
+    <TgsCoreVersion>4.5.4</TgsCoreVersion>
     <TgsConfigVersion>2.1.0</TgsConfigVersion>
     <TgsApiVersion>7.3.2</TgsApiVersion>
     <TgsClientVersion>8.3.2</TgsClientVersion>
