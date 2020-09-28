@@ -474,10 +474,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// Call from <see cref="InitControllers(Task, ReattachInformation, CancellationToken)"/> when a reattach operation fails to attempt a fresh start.
 		/// </summary>
-		/// <param name="chatTask">A, possibly active, <see cref="Task"/> for an outgoing chat message.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		protected async Task ReattachFailure(Task chatTask, CancellationToken cancellationToken)
+		protected async Task ReattachFailure(CancellationToken cancellationToken)
 		{
 			// we lost the server, just restart entirely
 			// DCT: Operation must always run
@@ -485,13 +484,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			const string FailReattachMessage = "Unable to properly reattach to server! Restarting watchdog...";
 			Logger.LogWarning(FailReattachMessage);
 
-			async Task ChainChatTask()
-			{
-				await chatTask.ConfigureAwait(false);
-				await Chat.SendWatchdogMessage(FailReattachMessage, cancellationToken).ConfigureAwait(false);
-			}
-
-			await InitControllers(ChainChatTask(), null, cancellationToken).ConfigureAwait(false);
+			var chatTask = Chat.SendWatchdogMessage(FailReattachMessage, cancellationToken);
+			await InitControllers(chatTask, null, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <summary>

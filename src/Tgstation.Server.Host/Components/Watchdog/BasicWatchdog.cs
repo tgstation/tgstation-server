@@ -192,6 +192,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					Logger.LogTrace("Initializing controller with CompileJob {0}...", dmbToUse.CompileJob.Id);
 					await BeforeApplyDmb(dmbToUse.CompileJob, cancellationToken).ConfigureAwait(false);
 					dmbToUse = await PrepServerForLaunch(dmbToUse, cancellationToken).ConfigureAwait(false);
+
+					await chatTask.ConfigureAwait(false);
 					serverLaunchTask = SessionControllerFactory.LaunchNew(
 						dmbToUse,
 						null,
@@ -200,7 +202,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						cancellationToken);
 				}
 				else
+				{
+					await chatTask.ConfigureAwait(false);
 					serverLaunchTask = SessionControllerFactory.Reattach(reattachInfo, cancellationToken);
+				}
 
 				// retrieve the session controller
 				Server = await serverLaunchTask.ConfigureAwait(false);
@@ -209,7 +214,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				if (Server == null)
 				{
 					await ReattachFailure(
-						chatTask,
 						cancellationToken)
 						.ConfigureAwait(false);
 					return;
