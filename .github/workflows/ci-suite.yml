@@ -7,15 +7,6 @@ on:
     - master
   pull_request:
     branches:
-    - devname: 'CI'
-
-on:
-  push:
-    branches:
-    - dev
-    - master
-  pull_request:
-    branches:
     - dev
     - master
 
