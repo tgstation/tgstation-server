@@ -5,6 +5,7 @@ on:
     branches:
     - dev
     - master
+    - fix/setenv-deprec
   pull_request:
     branches:
     - dev
