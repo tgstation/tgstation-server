@@ -189,10 +189,10 @@ jobs:
       run: echo "General__UseBasicWatchdog=true" >> $env:GITHUB_ENV
 
     - name: Set TGS4_TEST_CONNECTION_STRING
+      shell: bash
       run: |
-        Write-Host 'TGS4_TEST_CONNECTION_STRING<<EOF' >> $env:GITHUB_ENV
-        Write-Host 'Server=(localdb)\MSSQLLocalDB;Integrated Security=true;Initial Catalog=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }};Application Name=tgstation-server' >> $env:GITHUB_ENV
-        Write-Host 'EOF' >> $env:GITHUB_ENV
+        TGS4_CONNSTRING_VALUE="Server=(localdb)\MSSQLLocalDB;Integrated Security=true;Initial Catalog=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }};Application Name=tgstation-server"
+        echo "TGS4_TEST_CONNECTION_STRING=$(echo $TGS4_CONNSTRING_VALUE)" >> $GITHUB_ENV
 
     - name: Checkout
       uses: actions/checkout@v1
