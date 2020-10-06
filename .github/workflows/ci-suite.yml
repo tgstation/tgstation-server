@@ -186,25 +186,28 @@ jobs:
     steps:
     - name: Set General__UseBasicWatchdog
       if: ${{ matrix.watchdog-type == 'Basic' }}
-      run: echo "General__UseBasicWatchdog=true" >> $GITHUB_ENV
+      run: echo "General__UseBasicWatchdog=true" >> $env:GITHUB_ENV
 
     - name: Set TGS4_TEST_CONNECTION_STRING
-      run: Write-Host "TGS4_TEST_CONNECTION_STRING=Server=(localdb)\MSSQLLocalDB;Integrated Security=true;Initial Catalog=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }};Application Name=tgstation-server" >> $env:GITHUB_ENV
+      run: |
+        Write-Host 'TGS4_TEST_CONNECTION_STRING<<EOF' >> $env:GITHUB_ENV
+        Write-Host 'Server=(localdb)\MSSQLLocalDB;Integrated Security=true;Initial Catalog=TGS_${{ matrix.watchdog-type }}_${{ matrix.configuration }};Application Name=tgstation-server' >> $env:GITHUB_ENV
+        Write-Host 'EOF' >> $env:GITHUB_ENV
 
     - name: Checkout
       uses: actions/checkout@v1
 
     - name: Set TGS4_TEST_PULL_REQUEST_NUMBER
       if: ${{ github.event_name == 'pull_request' }}
-      run: echo "TGS4_TEST_PULL_REQUEST_NUMBER=${{ github.event.number }}" >> $GITHUB_ENV
+      run: echo "TGS4_TEST_PULL_REQUEST_NUMBER=${{ github.event.number }}" >> $env:GITHUB_ENV
 
     - name: Set TGS4_GITHUB_REF for PR
       if: ${{ github.event_name == 'pull_request' }}
-      run: echo "TGS4_GITHUB_REF=${{ github.event.base_ref }}" >> $GITHUB_ENV
+      run: echo "TGS4_GITHUB_REF=${{ github.event.base_ref }}" >> $env:GITHUB_ENV
 
     - name: Set TGS4_GITHUB_REF for push
       if: ${{ github.event_name == 'push' }}
-      run: echo "TGS4_GITHUB_REF=${{ github.event.ref }}" >> $GITHUB_ENV
+      run: echo "TGS4_GITHUB_REF=${{ github.event.ref }}" >> $env:GITHUB_ENV
 
     - name: Run Integration Test
       run: |
