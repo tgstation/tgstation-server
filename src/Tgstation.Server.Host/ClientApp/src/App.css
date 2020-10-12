@@ -1,0 +1,29 @@
+.App {
+    background-size: 50%;
+    background: #1e1e1e url(logo.svg) no-repeat center;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    display: grid;
+}
+
+.App-error {
+    color: red;
+    font-size: 150%;
+    margin: auto;
+}
+
+.App-main {
+    display: grid;
+}
+
+.Root {
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: 9% auto;
+}
+
+.Root-login {
+    display: grid;
+}
