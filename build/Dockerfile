@@ -28,6 +28,7 @@ WORKDIR /repo/src/Tgstation.Server.Host
 COPY src/Tgstation.Server.Host/ClientApp ClientApp
 COPY src/Tgstation.Server.Host/Tgstation.Server.Host.csproj ./
 
+RUN npm set unsafe-perm true 
 RUN dotnet msbuild -target:NpmBuild
 
 WORKDIR /repo
