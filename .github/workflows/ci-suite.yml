@@ -116,7 +116,7 @@ jobs:
       uses: actions/checkout@v1
 
     - name: Build Docker Image
-      run: docker build . -f build/Dockerfile
+      run: sudo -u \# 1001 docker build . -f build/Dockerfile
 
   linux-unit-tests:
     name: Linux Unit Tests
