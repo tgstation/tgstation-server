@@ -7,7 +7,6 @@ using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 using System;
 using System.Linq;
-using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -100,7 +99,7 @@ namespace Tgstation.Server.Host.Controllers
 				  authenticationContextFactory,
 				  logger,
 				  (browserResolver ?? throw new ArgumentNullException(nameof(browserResolver))).Browser.Type != BrowserType.Generic
-				  && (controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions))).Enable)
+				  && !(controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions))).Enable)
 		{
 			this.tokenFactory = tokenFactory ?? throw new ArgumentNullException(nameof(tokenFactory));
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
@@ -140,8 +139,8 @@ namespace Tgstation.Server.Host.Controllers
 			// if we are using a browser and the control panel, soft redirect to the app page
 			if (controlPanelConfiguration.Enable && browserResolver.Browser.Type != BrowserType.Generic)
 			{
-				Logger.LogDebug("Unauthorized browser request (User-Agent: \"{0}\"), loading control panel...", browserResolver.UserAgent);
-				return File("~/index.html", MediaTypeNames.Text.Html);
+				Logger.LogDebug("Unauthorized browser request (User-Agent: \"{0}\"), redirecting to control panel...", browserResolver.UserAgent);
+				return Redirect(Application.ControlPanelRoute);
 			}
 
 			return ApiHeaders == null ? HeadersIssue() : Unauthorized();

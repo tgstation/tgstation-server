@@ -1,5 +1,7 @@
 {
   "private": true,
+  "_comment1": "This sets PUBLIC_URL during the build",
+  "homepage": "/app/",
   "dependencies": {
     "react-dom": "^16.13.1",
     "tgstation-server-control-panel": "0.4.0"
@@ -7,7 +9,7 @@
   "optionalDependencies": {
     "fsevents": "1.2.9"
   },
-  "_comment": "fsevent@1.2.9 is locked in to prevent broken builds on windows for v1.2.11",
+  "_comment2": "fsevent@1.2.9 is locked in to prevent broken builds on windows for v1.2.11",
   "scripts": {
     "msbuild": "npm run clean && react-scripts build && cp-cli node_modules/tgstation-server-control-panel/build/public/ build/ && rimraf ../wwwroot && move-cli build ../wwwroot",
     "clean": "rimraf build"
