@@ -111,7 +111,7 @@ namespace Tgstation.Server.Tests
 
 			dynamic json = JObject.Parse(jsonText);
 
-			string cpVersionString = json.dependencies["tgstation-server-control-panel"];
+			string cpVersionString = json.version;
 
 			Assert.IsTrue(Version.TryParse(cpVersionString, out var actual));
 			Assert.AreEqual(expected, actual);

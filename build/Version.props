@@ -7,7 +7,7 @@
     <TgsApiVersion>7.3.2</TgsApiVersion>
     <TgsClientVersion>8.3.2</TgsClientVersion>
     <TgsDmapiVersion>5.2.6</TgsDmapiVersion>
-    <TgsControlPanelVersion>0.4.0</TgsControlPanelVersion>
+    <TgsControlPanelVersion>1.0.1</TgsControlPanelVersion>
     <TgsHostWatchdogVersion>1.1.0</TgsHostWatchdogVersion>
   </PropertyGroup>
 </Project>
