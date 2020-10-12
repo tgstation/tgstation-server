@@ -16,8 +16,7 @@ artifacts/
 /tests/DMAPI/travistester.dmb
 /src/Tgstation.Server.Host/appsettings.*.json
 /src/Tgstation.Server.Host/wwwroot
-/src/Tgstation.Server.Host/ClientApp/node_modules
-/src/Tgstation.Server.Host/ClientApp/build
+/src/Tgstation.Server.Host/ClientApp
 /tools/ReleaseNotes/release_notes.md
 /tools/ReleaseNotes/Properties/launchSettings.json
 release_notes.md
