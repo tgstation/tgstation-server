@@ -22,6 +22,7 @@ ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 WORKDIR /repo/build
 
 COPY build/Version.props Version.props
+COPY build/ControlPanelVersion.props ControlPanelVersion.props
 
 WORKDIR /repo/src/Tgstation.Server.Host
 
