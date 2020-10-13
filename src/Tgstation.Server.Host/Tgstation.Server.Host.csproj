@@ -20,26 +20,21 @@
 
   <PropertyGroup>
     <NodeModulesFolder>ClientApp/node_modules</NodeModulesFolder>
-    <ClientInstallStampFile>ClientApp/.install-stamp</ClientInstallStampFile>
     <NpmInstallStampFile>ClientApp/node_modules/.install-stamp</NpmInstallStampFile>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
 
-  <Target Name="ClientPull" Inputs="../../build/ControlPanelVersion.props" Outputs="$(ClientInstallStampFile)">
+  <Target Name="ClientInstall" Inputs="../../build/ControlPanelVersion.props" Outputs="$(NpmInstallStampFile)">
     <Message Text="Pulling web control panel..." Importance="high" />
     <RemoveDir Directories="ClientApp" />
     <Exec Command="git clone https://github.com/tgstation/tgstation-server-control-panel --branch v$(TgsControlPanelVersion) --depth 1 ClientApp" />
-    <Touch Files="$(ClientInstallStampFile)" AlwaysCreate="true" />
-  </Target>
-
-  <Target Name="NpmInstall" DependsOnTargets="ClientPull" Inputs="ClientApp/package.json;ClientApp/package-lock.json" Outputs="$(NpmInstallStampFile)">
     <Message Text="Restoring npm packages..." Importance="high" />
     <Exec WorkingDirectory="ClientApp" Command="npm ci" />
     <Touch Files="$(NpmInstallStampFile)" AlwaysCreate="true" />
   </Target>
 
-  <Target Name="NpmBuild" BeforeTargets="BeforeBuild" DependsOnTargets="NpmInstall" Inputs="@(ClientApp)" Outputs="wwwroot\index.html">
+  <Target Name="NpmBuild" BeforeTargets="BeforeBuild" DependsOnTargets="ClientInstall" Inputs="@(ClientApp)" Outputs="wwwroot\index.html">
     <Message Text="Building web control panel..." Importance="high" />
     <Exec WorkingDirectory="ClientApp" Command="npm run msbuild" />
   </Target>
