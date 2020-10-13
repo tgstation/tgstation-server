@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['instancemanagerrights_4053',['InstanceManagerRights',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79',1,'Tgstation::Server::Api::Rights']]],
-  ['instanceuserrights_4054',['InstanceUserRights',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a5f1b5a9225190982810802d7a85bb601',1,'Tgstation::Server::Api::Rights']]],
-  ['ircpasswordtype_4055',['IrcPasswordType',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a0a41c646f859c99d437373d8e6e0545b',1,'Tgstation::Server::Api::Models']]]
+  ['instancemanagerrights_4064',['InstanceManagerRights',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79',1,'Tgstation::Server::Api::Rights']]],
+  ['instanceuserrights_4065',['InstanceUserRights',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a5f1b5a9225190982810802d7a85bb601',1,'Tgstation::Server::Api::Rights']]],
+  ['ircpasswordtype_4066',['IrcPasswordType',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a0a41c646f859c99d437373d8e6e0545b',1,'Tgstation::Server::Api::Models']]]
 ];
