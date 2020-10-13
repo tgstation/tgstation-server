@@ -8,6 +8,7 @@ using System;
 using System.Globalization;
 using System.Net;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Extensions
 {
@@ -111,6 +112,25 @@ namespace Tgstation.Server.Host.Extensions
 						HttpContext = context
 					}).ConfigureAwait(false);
 				}
+			});
+		}
+
+		/// <summary>
+		/// Add the X-Powered-By response header.
+		/// </summary>
+		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure.</param>
+		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> to use.</param>
+		public static void UseServerBranding(this IApplicationBuilder applicationBuilder, IAssemblyInformationProvider assemblyInformationProvider)
+		{
+			if (applicationBuilder == null)
+				throw new ArgumentNullException(nameof(applicationBuilder));
+			if (assemblyInformationProvider == null)
+				throw new ArgumentNullException(nameof(assemblyInformationProvider));
+
+			applicationBuilder.Use(async (context, next) =>
+			{
+				context.Response.Headers.Add("X-Powered-By", assemblyInformationProvider.VersionPrefix);
+				await next().ConfigureAwait(false);
 			});
 		}
 	}
