@@ -115,8 +115,8 @@ $(function() {
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            var remoteIP = Request.HttpContext.Connection.RemoteIpAddress;</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="keywordflow">if</span> (!IPAddress.IsLoopback(remoteIP))</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            {</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_bridge_controller.html#a9891743d5f16fcef93d55fc828b8dd11">logger</a>.LogTrace(<span class="stringliteral">&quot;Ignoring remote bridge request from {0}&quot;</span>, remoteIP);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                <span class="keywordflow">return</span> NotFound();</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_bridge_controller.html#a9891743d5f16fcef93d55fc828b8dd11">logger</a>.LogTrace(<span class="stringliteral">&quot;Rejecting remote bridge request from {0}&quot;</span>, remoteIP);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                <span class="keywordflow">return</span> Forbid();</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            }</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            <span class="keyword">using</span> (LogContext.PushProperty(<span class="stringliteral">&quot;Bridge&quot;</span>, Interlocked.Increment(ref <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_bridge_controller.html#a0d4ca33235052b49fd927c9df33ae7f3">requestsProcessed</a>)))</div>
