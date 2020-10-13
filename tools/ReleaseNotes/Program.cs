@@ -34,9 +34,13 @@ namespace ReleaseNotes
 
 			var doNotCloseMilestone = args.Length > 1 && args[1].ToUpperInvariant() == "--NO-CLOSE";
 
-			string propsPath = "../../../../../build/Version.props";
+			var propsPath = "../../../../../build/Version.props";
 			if (args.Length > 1 && !doNotCloseMilestone)
 				propsPath = args[1];
+
+			var controlPanelPropsPath = "../../../../../build/Version.props";
+			if (args.Length > 2 && !doNotCloseMilestone)
+				propsPath = args[2];
 
 			const string ReleaseNotesEnvVar = "TGS4_RELEASE_NOTES_TOKEN";
 			var githubToken = Environment.GetEnvironmentVariable(ReleaseNotesEnvVar);
@@ -49,7 +53,7 @@ namespace ReleaseNotes
 			try
 			{
 				var client = new GitHubClient(new ProductHeaderValue("tgs_release_notes"));
-				if (!String.IsNullOrWhiteSpace(githubToken)) 
+				if (!String.IsNullOrWhiteSpace(githubToken))
 				{
 					client.Credentials = new Credentials(githubToken);
 				}
@@ -242,6 +246,11 @@ namespace ReleaseNotes
 						var xmlNamespace = project.GetDefaultNamespace();
 						var versionsPropertyGroup = project.Elements().First();
 
+						var doc2 = XDocument.Load(controlPanelPropsPath);
+						var project2 = doc.Root;
+						var controlPanelXmlNamespace = project.GetDefaultNamespace();
+						var controlPanelVersionsPropertyGroup = project.Elements().First();
+
 						var coreVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsCoreVersion").Value);
 						if(coreVersion != version)
 						{
@@ -252,7 +261,7 @@ namespace ReleaseNotes
 						var apiVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsApiVersion").Value);
 						var configVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsConfigVersion").Value);
 						var dmApiVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsDmapiVersion").Value);
-						var webControlVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsControlPanelVersion").Value);
+						var webControlVersion = Version.Parse(controlPanelVersionsPropertyGroup.Element(controlPanelXmlNamespace + "TgsControlPanelVersion").Value);
 						var hostWatchdogVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsHostWatchdogVersion").Value);
 
 						if (webControlVersion.Major == 0)
