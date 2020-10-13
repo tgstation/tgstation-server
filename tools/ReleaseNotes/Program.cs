@@ -1,4 +1,4 @@
-﻿using Octokit;
+using Octokit;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -244,12 +244,12 @@ namespace ReleaseNotes
 						var doc = XDocument.Load(propsPath);
 						var project = doc.Root;
 						var xmlNamespace = project.GetDefaultNamespace();
-						var versionsPropertyGroup = project.Elements().First();
+						var versionsPropertyGroup = project.Elements().First(x => x.Name == xmlNamespace + "PropertyGroup");
 
 						var doc2 = XDocument.Load(controlPanelPropsPath);
 						var project2 = doc.Root;
 						var controlPanelXmlNamespace = project.GetDefaultNamespace();
-						var controlPanelVersionsPropertyGroup = project.Elements().First();
+						var controlPanelVersionsPropertyGroup = project.Elements().First(x => x.Name == controlPanelXmlNamespace + "PropertyGroup");
 
 						var coreVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsCoreVersion").Value);
 						if(coreVersion != version)

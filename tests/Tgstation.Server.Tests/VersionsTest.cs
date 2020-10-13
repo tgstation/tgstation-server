@@ -27,7 +27,7 @@ namespace Tgstation.Server.Tests
 			var doc = XDocument.Load("../../../../../build/Version.props");
 			var project = doc.Root;
 			xmlNamespace = project.GetDefaultNamespace();
-			versionsPropertyGroup = project.Elements().First();
+			versionsPropertyGroup = project.Elements().First(x => x.Name == xmlNamespace + "PropertyGroup");
 			Assert.IsNotNull(versionsPropertyGroup);
 		}
 
@@ -106,8 +106,8 @@ namespace Tgstation.Server.Tests
 			var doc = XDocument.Load("../../../../../build/ControlPanelVersion.props");
 			var project = doc.Root;
 			var controlPanelXmlNamespace = project.GetDefaultNamespace();
-			var controlPanelVersionsPropertyGroup = project.Elements().First();
-			var versionString = controlPanelVersionsPropertyGroup.Element(xmlNamespace + "TgsControlPanelVersion").Value;
+			var controlPanelVersionsPropertyGroup = project.Elements().First(x => x.Name == controlPanelXmlNamespace + "PropertyGroup");
+			var versionString = controlPanelVersionsPropertyGroup.Element(controlPanelXmlNamespace + "TgsControlPanelVersion").Value;
 			Assert.IsNotNull(versionString);
 			Assert.IsTrue(Version.TryParse(versionString, out var expected));
 
