@@ -65,8 +65,8 @@ namespace Tgstation.Server.Host.Controllers
 			var remoteIP = Request.HttpContext.Connection.RemoteIpAddress;
 			if (!IPAddress.IsLoopback(remoteIP))
 			{
-				logger.LogTrace("Ignoring remote bridge request from {0}", remoteIP);
-				return NotFound();
+				logger.LogTrace("Rejecting remote bridge request from {0}", remoteIP);
+				return Forbid();
 			}
 
 			using (LogContext.PushProperty("Bridge", Interlocked.Increment(ref requestsProcessed)))
