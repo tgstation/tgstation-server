@@ -48,6 +48,11 @@ namespace Tgstation.Server.Host.Core
 	sealed class Application : SetupApplication
 	{
 		/// <summary>
+		/// Route to the web control panel.
+		/// </summary>
+		public const string ControlPanelRoute = "/app";
+
+		/// <summary>
 		/// The <see cref="IWebHostEnvironment"/> for the <see cref="Application"/>.
 		/// </summary>
 		readonly IWebHostEnvironment hostingEnvironment;
@@ -428,7 +433,12 @@ namespace Tgstation.Server.Host.Core
 			if (controlPanelConfiguration.Enable)
 			{
 				logger.LogWarning("Web control panel enabled. This is a highly WIP feature!");
-				applicationBuilder.UseStaticFiles();
+				applicationBuilder.UseFileServer(new FileServerOptions
+				{
+					RequestPath = ControlPanelRoute,
+					EnableDefaultFiles = true,
+					EnableDirectoryBrowsing = false
+				});
 			}
 			else
 				logger.LogDebug("Web control panel disabled!");
