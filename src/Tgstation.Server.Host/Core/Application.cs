@@ -389,6 +389,9 @@ namespace Tgstation.Server.Host.Core
 			// Final point where we wrap exceptions in a 500 (ErrorMessage) response
 			applicationBuilder.UseServerErrorHandling();
 
+			// Add the X-Powered-By response header
+			applicationBuilder.UseServerBranding(AssemblyInformationProvider);
+
 			// 503 requests made while the application is starting
 			applicationBuilder.UseAsyncInitialization(async (cancellationToken) =>
 			{
