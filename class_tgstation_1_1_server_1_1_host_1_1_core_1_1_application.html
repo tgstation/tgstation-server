@@ -400,73 +400,76 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;            <span class="comment">// Final point where we wrap exceptions in a 500 (ErrorMessage) response</span></div>
 <div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;            applicationBuilder.UseServerErrorHandling();</div>
 <div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160; </div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;            <span class="comment">// 503 requests made while the application is starting</span></div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;            applicationBuilder.UseAsyncInitialization(async (cancellationToken) =&gt;</div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;            {</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;                var tcs = <span class="keyword">new</span> TaskCompletionSource&lt;object&gt;();</div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;                <span class="keyword">using</span> (cancellationToken.Register(() =&gt; tcs.SetCanceled()))</div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;                    await Task.WhenAny(tcs.Task, instanceManager.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#a4ad311358f74779a6c1f2fcba4a30578">Ready</a>).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;            });</div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160; </div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;            <span class="comment">// suppress OperationCancelledExceptions, they are just aborted HTTP requests</span></div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;            applicationBuilder.UseCancelledRequestSuppression();</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;            <span class="comment">// Add the X-Powered-By response header</span></div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;            applicationBuilder.UseServerBranding(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html">AssemblyInformationProvider</a>);</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160; </div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;            <span class="comment">// 503 requests made while the application is starting</span></div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;            applicationBuilder.UseAsyncInitialization(async (cancellationToken) =&gt;</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;            {</div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;                var tcs = <span class="keyword">new</span> TaskCompletionSource&lt;object&gt;();</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;                <span class="keyword">using</span> (cancellationToken.Register(() =&gt; tcs.SetCanceled()))</div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;                    await Task.WhenAny(tcs.Task, instanceManager.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#a4ad311358f74779a6c1f2fcba4a30578">Ready</a>).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;            });</div>
 <div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160; </div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#affdb9aca40d21e4d92078d3da87483d1">hostingEnvironment</a>.IsDevelopment()</div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;                || generalConfiguration.HostApiDocumemtation)</div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;            {</div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;                applicationBuilder.UseSwagger();</div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;                applicationBuilder.UseSwaggerUI(c =&gt; c.SwaggerEndpoint(<span class="stringliteral">&quot;/swagger/v1/swagger.json&quot;</span>, <span class="stringliteral">&quot;TGS API V4&quot;</span>));</div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;                logger.LogTrace(<span class="stringliteral">&quot;Swagger API generation enabled&quot;</span>);</div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;            }</div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160; </div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;            <span class="comment">// Set up CORS based on configuration if necessary</span></div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;            Action&lt;CorsPolicyBuilder&gt; corsBuilder = <span class="keyword">null</span>;</div>
-<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;            <span class="keywordflow">if</span> (controlPanelConfiguration.AllowAnyOrigin)</div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;            {</div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;                logger.LogTrace(<span class="stringliteral">&quot;Access-Control-Allow-Origin: *&quot;</span>);</div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;                corsBuilder = builder =&gt; builder.AllowAnyOrigin();</div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;            }</div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (controlPanelConfiguration.AllowedOrigins?.Count &gt; 0)</div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;            {</div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;                logger.LogTrace(<span class="stringliteral">&quot;Access-Control-Allow-Origin: &quot;</span>, String.Join(<span class="charliteral">&#39;,&#39;</span>, controlPanelConfiguration.AllowedOrigins));</div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;                corsBuilder = builder =&gt; builder.WithOrigins(controlPanelConfiguration.AllowedOrigins.ToArray());</div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;            }</div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160; </div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;            var originalBuilder = corsBuilder;</div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;            corsBuilder = builder =&gt;</div>
-<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;            {</div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;                builder.AllowAnyHeader().AllowAnyMethod();</div>
-<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;                originalBuilder?.Invoke(builder);</div>
-<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;            };</div>
-<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;            applicationBuilder.UseCors(corsBuilder);</div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160; </div>
-<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;            <span class="comment">// spa loading if necessary</span></div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;            <span class="keywordflow">if</span> (controlPanelConfiguration.Enable)</div>
-<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;            {</div>
-<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;                logger.LogWarning(<span class="stringliteral">&quot;Web control panel enabled. This is a highly WIP feature!&quot;</span>);</div>
-<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;                applicationBuilder.UseFileServer(<span class="keyword">new</span> FileServerOptions</div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;                {</div>
-<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;                    RequestPath = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#aa984fa0fe83b7675cbc551f66240be0c">ControlPanelRoute</a>,</div>
-<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;                    EnableDefaultFiles = <span class="keyword">true</span>,</div>
-<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;                    EnableDirectoryBrowsing = <span class="keyword">false</span></div>
-<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;                });</div>
-<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;            }</div>
-<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;            <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;                logger.LogDebug(<span class="stringliteral">&quot;Web control panel disabled!&quot;</span>);</div>
-<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160; </div>
-<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;            logger.LogDebug(<span class="stringliteral">&quot;Starting hosting...&quot;</span>);</div>
-<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160; </div>
-<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;            <span class="comment">// authenticate JWT tokens using our security pipeline if present, returns 401 if bad</span></div>
-<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;            applicationBuilder.UseAuthentication();</div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;            <span class="comment">// suppress OperationCancelledExceptions, they are just aborted HTTP requests</span></div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;            applicationBuilder.UseCancelledRequestSuppression();</div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160; </div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#affdb9aca40d21e4d92078d3da87483d1">hostingEnvironment</a>.IsDevelopment()</div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;                || generalConfiguration.HostApiDocumemtation)</div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;            {</div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;                applicationBuilder.UseSwagger();</div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;                applicationBuilder.UseSwaggerUI(c =&gt; c.SwaggerEndpoint(<span class="stringliteral">&quot;/swagger/v1/swagger.json&quot;</span>, <span class="stringliteral">&quot;TGS API V4&quot;</span>));</div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;                logger.LogTrace(<span class="stringliteral">&quot;Swagger API generation enabled&quot;</span>);</div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;            }</div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160; </div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;            <span class="comment">// Set up CORS based on configuration if necessary</span></div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;            Action&lt;CorsPolicyBuilder&gt; corsBuilder = <span class="keyword">null</span>;</div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;            <span class="keywordflow">if</span> (controlPanelConfiguration.AllowAnyOrigin)</div>
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;            {</div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;                logger.LogTrace(<span class="stringliteral">&quot;Access-Control-Allow-Origin: *&quot;</span>);</div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;                corsBuilder = builder =&gt; builder.AllowAnyOrigin();</div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;            }</div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (controlPanelConfiguration.AllowedOrigins?.Count &gt; 0)</div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;            {</div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;                logger.LogTrace(<span class="stringliteral">&quot;Access-Control-Allow-Origin: &quot;</span>, String.Join(<span class="charliteral">&#39;,&#39;</span>, controlPanelConfiguration.AllowedOrigins));</div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;                corsBuilder = builder =&gt; builder.WithOrigins(controlPanelConfiguration.AllowedOrigins.ToArray());</div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;            }</div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160; </div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;            var originalBuilder = corsBuilder;</div>
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;            corsBuilder = builder =&gt;</div>
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;            {</div>
+<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;                builder.AllowAnyHeader().AllowAnyMethod();</div>
+<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;                originalBuilder?.Invoke(builder);</div>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;            };</div>
+<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;            applicationBuilder.UseCors(corsBuilder);</div>
+<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160; </div>
+<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;            <span class="comment">// spa loading if necessary</span></div>
+<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;            <span class="keywordflow">if</span> (controlPanelConfiguration.Enable)</div>
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;            {</div>
+<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;                logger.LogWarning(<span class="stringliteral">&quot;Web control panel enabled. This is a highly WIP feature!&quot;</span>);</div>
+<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;                applicationBuilder.UseFileServer(<span class="keyword">new</span> FileServerOptions</div>
+<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;                {</div>
+<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;                    RequestPath = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#aa984fa0fe83b7675cbc551f66240be0c">ControlPanelRoute</a>,</div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;                    EnableDefaultFiles = <span class="keyword">true</span>,</div>
+<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;                    EnableDirectoryBrowsing = <span class="keyword">false</span></div>
+<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;                });</div>
+<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;            }</div>
+<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;            <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;                logger.LogDebug(<span class="stringliteral">&quot;Web control panel disabled!&quot;</span>);</div>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160; </div>
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;            logger.LogDebug(<span class="stringliteral">&quot;Starting hosting...&quot;</span>);</div>
 <div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160; </div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;            <span class="comment">// suppress and log database exceptions</span></div>
-<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;            applicationBuilder.UseDbConflictHandling();</div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;            <span class="comment">// authenticate JWT tokens using our security pipeline if present, returns 401 if bad</span></div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;            applicationBuilder.UseAuthentication();</div>
 <div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160; </div>
-<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;            <span class="comment">// majority of handling is done in the controllers</span></div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;            applicationBuilder.UseMvc();</div>
+<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;            <span class="comment">// suppress and log database exceptions</span></div>
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;            applicationBuilder.UseDbConflictHandling();</div>
 <div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160; </div>
-<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;            <span class="comment">// 404 anything that gets this far</span></div>
-<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;        }</div>
+<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;            <span class="comment">// majority of handling is done in the controllers</span></div>
+<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;            applicationBuilder.UseMvc();</div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160; </div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;            <span class="comment">// 404 anything that gets this far</span></div>
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_setup_application_8cs_source.html#l00033">Tgstation.Server.Host.Setup.SetupApplication.Configuration</a>, <a class="el" href="_application_8cs_source.html#l00053">Tgstation.Server.Host.Core.Application.ControlPanelRoute</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a2eb5bdeb76bf1fbfdb297219af3ede45">Tgstation.Server.Host.Core.IServerControl.Die()</a>, <a class="el" href="_application_8cs_source.html#l00058">Tgstation.Server.Host.Core.Application.hostingEnvironment</a>, <a class="el" href="_limits_8cs_source.html#l00011">Tgstation.Server.Api.Models.Limits.MaximumStringLength</a>, <a class="el" href="_i_instance_manager_8cs_source.html#l00016">Tgstation.Server.Host.Components.IInstanceManager.Ready</a>, <a class="el" href="_application_8cs_source.html#l00063">Tgstation.Server.Host.Core.Application.tokenFactory</a>, and <a class="el" href="_i_server_control_8cs_source.html#l00016">Tgstation.Server.Host.Core.IServerControl.WatchdogPresent</a>.</p>
 <div class="dynheader">

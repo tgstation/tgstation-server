@@ -53,8 +53,9 @@ var searchData=
   ['usersidchange_2051',['UserSidChange',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a97e2a1f4c98dbb3165aa317dc67ea435',1,'Tgstation::Server::Api::Models']]],
   ['userupdate_2052',['UserUpdate',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_update.html',1,'Tgstation::Server::Api::Models']]],
   ['userupdate_2ecs_2053',['UserUpdate.cs',['../_user_update_8cs.html',1,'']]],
-  ['useservererrorhandling_2054',['UseServerErrorHandling',['../class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a879c6c603a37c9aebf25174e7aee4b2d',1,'Tgstation::Server::Host::Extensions::ApplicationBuilderExtensions']]],
-  ['usesetupapplication_2055',['UseSetupApplication',['../class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_host_builder_extensions.html#ae797b26258b28c3540df4af88ff850fe',1,'Tgstation::Server::Host::Extensions::HostBuilderExtensions']]],
-  ['usessl_2056',['UseSsl',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html#a8965e74ecabbb3c26693d2a1885dabc3',1,'Tgstation::Server::Api::Models::IrcConnectionStringBuilder']]],
-  ['usestandardconfig_3c_20tconfig_20_3e_2057',['UseStandardConfig&lt; TConfig &gt;',['../class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_service_collection_extensions.html#a47937ae7bd20d9b7cc5699cce51cb8ae',1,'Tgstation::Server::Host::Extensions::ServiceCollectionExtensions']]]
+  ['useserverbranding_2054',['UseServerBranding',['../class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a50049ce11ec909d5e9e25d76aca3efbc',1,'Tgstation::Server::Host::Extensions::ApplicationBuilderExtensions']]],
+  ['useservererrorhandling_2055',['UseServerErrorHandling',['../class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_application_builder_extensions.html#a879c6c603a37c9aebf25174e7aee4b2d',1,'Tgstation::Server::Host::Extensions::ApplicationBuilderExtensions']]],
+  ['usesetupapplication_2056',['UseSetupApplication',['../class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_host_builder_extensions.html#ae797b26258b28c3540df4af88ff850fe',1,'Tgstation::Server::Host::Extensions::HostBuilderExtensions']]],
+  ['usessl_2057',['UseSsl',['../class_tgstation_1_1_server_1_1_api_1_1_models_1_1_irc_connection_string_builder.html#a8965e74ecabbb3c26693d2a1885dabc3',1,'Tgstation::Server::Api::Models::IrcConnectionStringBuilder']]],
+  ['usestandardconfig_3c_20tconfig_20_3e_2058',['UseStandardConfig&lt; TConfig &gt;',['../class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_service_collection_extensions.html#a47937ae7bd20d9b7cc5699cce51cb8ae',1,'Tgstation::Server::Host::Extensions::ServiceCollectionExtensions']]]
 ];
