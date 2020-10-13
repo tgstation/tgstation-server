@@ -20,6 +20,7 @@ build/**
 !build/tgs.png
 !build/stylecop.json
 !build/Version.props
+!build/ControlPanelVersion.props
 docs
 src/DMAPI
 src/Tgstation.Server.Host/ClientApp/build
