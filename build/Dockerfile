@@ -25,11 +25,10 @@ COPY build/Version.props Version.props
 
 WORKDIR /repo/src/Tgstation.Server.Host
 
-COPY src/Tgstation.Server.Host/ClientApp ClientApp
 COPY src/Tgstation.Server.Host/Tgstation.Server.Host.csproj ./
 
 # I cant figure out how to run npm as non root so eh
-RUN npm set unsafe-perm true 
+RUN npm set unsafe-perm true
 RUN dotnet msbuild -target:NpmBuild
 RUN npm set unsafe-perm false
 
@@ -64,7 +63,7 @@ RUN apt-get update \
 		gcc-multilib \
 		gdb \
 	&& rm -rf /var/lib/apt/lists/*
-	
+
 EXPOSE 5000
 
 ENV General__ValidInstancePaths__0 /tgs4_instances
