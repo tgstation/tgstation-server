@@ -1,0 +1,7 @@
+<map id="Tgstation.Server.Host.Core.PortAllocator" name="Tgstation.Server.Host.Core.PortAllocator">
+<area shape="rect" id="node1" title=" " alt="" coords="376,90,557,131"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_port_allocator.html" title="Gets unassigned ports for use by TGS." alt="" coords="60,5,161,32"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html" title="Provides access to the server&#39;s HttpApiPort." alt="" coords="20,57,201,98"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,122,216,163"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html" title="Represents the database." alt="" coords="6,187,215,229"/>
+</map>

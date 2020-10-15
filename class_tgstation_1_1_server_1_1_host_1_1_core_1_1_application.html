@@ -282,14 +282,14 @@ Additional Inherited Members</h2></td></tr>
 </dl>
 </div>
 
-<p class="definition">Definition at line <a class="el" href="_application_8cs_source.html#l00325">325</a> of file <a class="el" href="_application_8cs_source.html">Application.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;                                         : <span class="keyword">class</span>, <a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html">IWatchdogFactory</a></div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;        {</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;            <span class="keywordflow">if</span> (postSetupServices.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html#a3a19dda55bff763cbbc27de56905ae5a">GeneralConfiguration</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a243d2eb586c4560648de8e670bad907c">UseBasicWatchdog</a>)</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;                services.AddSingleton&lt;<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html">IWatchdogFactory</a>, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html">WatchdogFactory</a>&gt;();</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;            <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;                services.AddSingleton&lt;<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html">IWatchdogFactory</a>, TSystemWatchdogFactory&gt;();</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="_application_8cs_source.html#l00326">326</a> of file <a class="el" href="_application_8cs_source.html">Application.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;                                         : <span class="keyword">class</span>, <a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html">IWatchdogFactory</a></div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;        {</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;            <span class="keywordflow">if</span> (postSetupServices.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html#a3a19dda55bff763cbbc27de56905ae5a">GeneralConfiguration</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a243d2eb586c4560648de8e670bad907c">UseBasicWatchdog</a>)</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;                services.AddSingleton&lt;<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html">IWatchdogFactory</a>, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html">WatchdogFactory</a>&gt;();</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;            <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;                services.AddSingleton&lt;<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html">IWatchdogFactory</a>, TSystemWatchdogFactory&gt;();</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -363,113 +363,113 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_application_8cs_source.html#l00348">348</a> of file <a class="el" href="_application_8cs_source.html">Application.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;        {</div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;            <span class="keywordflow">if</span> (applicationBuilder == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(applicationBuilder));</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;            <span class="keywordflow">if</span> (serverControl == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(serverControl));</div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160; </div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;            this.tokenFactory = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a93cb446fc8d8f84ea595abe709265398">tokenFactory</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a93cb446fc8d8f84ea595abe709265398">tokenFactory</a>));</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160; </div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;            var controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(controlPanelConfigurationOptions));</div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;            var generalConfiguration = generalConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(generalConfigurationOptions));</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160; </div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;            <span class="keywordflow">if</span> (logger == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(logger));</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160; </div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;            logger.LogDebug(<span class="stringliteral">&quot;Content Root: {0}&quot;</span>, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#affdb9aca40d21e4d92078d3da87483d1">hostingEnvironment</a>.ContentRootPath);</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;            logger.LogTrace(<span class="stringliteral">&quot;Web Root: {0}&quot;</span>, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#affdb9aca40d21e4d92078d3da87483d1">hostingEnvironment</a>.WebRootPath);</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160; </div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;            <span class="keywordflow">if</span> (generalConfiguration.MinimumPasswordLength &gt; <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_limits.html">Limits</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_limits.html#aceff5849fdb5c12fd9573b1e9ce0e609">MaximumStringLength</a>)</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;            {</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;                logger.LogCritical(<span class="stringliteral">&quot;Configured minimum password length ({0}) is greater than the maximum database string length ({1})!&quot;</span>);</div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;                serverControl.Die(<span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Minimum password length greater than database limit!&quot;</span>));</div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;                <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;            }</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160; </div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;            <span class="comment">// attempt to restart the server if the configuration changes</span></div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;            <span class="keywordflow">if</span> (serverControl.WatchdogPresent)</div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;                ChangeToken.OnChange(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_application.html#abecd5329f7937e822959734f3c5272d1">Configuration</a>.GetReloadToken, () =&gt;</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;                {</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;                    logger.LogInformation(<span class="stringliteral">&quot;Configuration change detected&quot;</span>);</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;                    serverControl.Restart();</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;                });</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160; </div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;            <span class="comment">// setup the HTTP request pipeline</span></div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;            <span class="comment">// Final point where we wrap exceptions in a 500 (ErrorMessage) response</span></div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;            applicationBuilder.UseServerErrorHandling();</div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160; </div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;            <span class="comment">// Add the X-Powered-By response header</span></div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;            applicationBuilder.UseServerBranding(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html">AssemblyInformationProvider</a>);</div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160; </div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;            <span class="comment">// 503 requests made while the application is starting</span></div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;            applicationBuilder.UseAsyncInitialization(async (cancellationToken) =&gt;</div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;            {</div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;                var tcs = <span class="keyword">new</span> TaskCompletionSource&lt;object&gt;();</div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;                <span class="keyword">using</span> (cancellationToken.Register(() =&gt; tcs.SetCanceled()))</div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;                    await Task.WhenAny(tcs.Task, instanceManager.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#a4ad311358f74779a6c1f2fcba4a30578">Ready</a>).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;            });</div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160; </div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;            <span class="comment">// suppress OperationCancelledExceptions, they are just aborted HTTP requests</span></div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;            applicationBuilder.UseCancelledRequestSuppression();</div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160; </div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#affdb9aca40d21e4d92078d3da87483d1">hostingEnvironment</a>.IsDevelopment()</div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;                || generalConfiguration.HostApiDocumemtation)</div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;            {</div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;                applicationBuilder.UseSwagger();</div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;                applicationBuilder.UseSwaggerUI(c =&gt; c.SwaggerEndpoint(<span class="stringliteral">&quot;/swagger/v1/swagger.json&quot;</span>, <span class="stringliteral">&quot;TGS API V4&quot;</span>));</div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;                logger.LogTrace(<span class="stringliteral">&quot;Swagger API generation enabled&quot;</span>);</div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;            }</div>
-<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160; </div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;            <span class="comment">// Set up CORS based on configuration if necessary</span></div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;            Action&lt;CorsPolicyBuilder&gt; corsBuilder = <span class="keyword">null</span>;</div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;            <span class="keywordflow">if</span> (controlPanelConfiguration.AllowAnyOrigin)</div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;            {</div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;                logger.LogTrace(<span class="stringliteral">&quot;Access-Control-Allow-Origin: *&quot;</span>);</div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;                corsBuilder = builder =&gt; builder.AllowAnyOrigin();</div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;            }</div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (controlPanelConfiguration.AllowedOrigins?.Count &gt; 0)</div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;            {</div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;                logger.LogTrace(<span class="stringliteral">&quot;Access-Control-Allow-Origin: &quot;</span>, String.Join(<span class="charliteral">&#39;,&#39;</span>, controlPanelConfiguration.AllowedOrigins));</div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;                corsBuilder = builder =&gt; builder.WithOrigins(controlPanelConfiguration.AllowedOrigins.ToArray());</div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;            }</div>
-<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160; </div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;            var originalBuilder = corsBuilder;</div>
-<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;            corsBuilder = builder =&gt;</div>
-<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;            {</div>
-<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;                builder.AllowAnyHeader().AllowAnyMethod();</div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;                originalBuilder?.Invoke(builder);</div>
-<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;            };</div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;            applicationBuilder.UseCors(corsBuilder);</div>
-<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160; </div>
-<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;            <span class="comment">// spa loading if necessary</span></div>
-<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;            <span class="keywordflow">if</span> (controlPanelConfiguration.Enable)</div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;            {</div>
-<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;                logger.LogWarning(<span class="stringliteral">&quot;Web control panel enabled. This is a highly WIP feature!&quot;</span>);</div>
-<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;                applicationBuilder.UseFileServer(<span class="keyword">new</span> FileServerOptions</div>
-<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;                {</div>
-<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;                    RequestPath = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#aa984fa0fe83b7675cbc551f66240be0c">ControlPanelRoute</a>,</div>
-<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;                    EnableDefaultFiles = <span class="keyword">true</span>,</div>
-<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;                    EnableDirectoryBrowsing = <span class="keyword">false</span></div>
-<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;                });</div>
-<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;            }</div>
-<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;            <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;                logger.LogDebug(<span class="stringliteral">&quot;Web control panel disabled!&quot;</span>);</div>
-<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160; </div>
-<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;            logger.LogDebug(<span class="stringliteral">&quot;Starting hosting...&quot;</span>);</div>
-<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160; </div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;            <span class="comment">// authenticate JWT tokens using our security pipeline if present, returns 401 if bad</span></div>
-<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;            applicationBuilder.UseAuthentication();</div>
-<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160; </div>
-<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;            <span class="comment">// suppress and log database exceptions</span></div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;            applicationBuilder.UseDbConflictHandling();</div>
-<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160; </div>
-<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;            <span class="comment">// majority of handling is done in the controllers</span></div>
-<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;            applicationBuilder.UseMvc();</div>
-<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160; </div>
-<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;            <span class="comment">// 404 anything that gets this far</span></div>
-<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="_application_8cs_source.html#l00349">349</a> of file <a class="el" href="_application_8cs_source.html">Application.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;        {</div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;            <span class="keywordflow">if</span> (applicationBuilder == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(applicationBuilder));</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;            <span class="keywordflow">if</span> (serverControl == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(serverControl));</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160; </div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;            this.tokenFactory = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a93cb446fc8d8f84ea595abe709265398">tokenFactory</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a93cb446fc8d8f84ea595abe709265398">tokenFactory</a>));</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160; </div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;            var controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(controlPanelConfigurationOptions));</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;            var generalConfiguration = generalConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(generalConfigurationOptions));</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160; </div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;            <span class="keywordflow">if</span> (logger == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(logger));</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160; </div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;            logger.LogDebug(<span class="stringliteral">&quot;Content Root: {0}&quot;</span>, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#affdb9aca40d21e4d92078d3da87483d1">hostingEnvironment</a>.ContentRootPath);</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;            logger.LogTrace(<span class="stringliteral">&quot;Web Root: {0}&quot;</span>, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#affdb9aca40d21e4d92078d3da87483d1">hostingEnvironment</a>.WebRootPath);</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160; </div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;            <span class="keywordflow">if</span> (generalConfiguration.MinimumPasswordLength &gt; <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_limits.html">Limits</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_limits.html#aceff5849fdb5c12fd9573b1e9ce0e609">MaximumStringLength</a>)</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;            {</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;                logger.LogCritical(<span class="stringliteral">&quot;Configured minimum password length ({0}) is greater than the maximum database string length ({1})!&quot;</span>);</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;                serverControl.Die(<span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Minimum password length greater than database limit!&quot;</span>));</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;                <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;            }</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160; </div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;            <span class="comment">// attempt to restart the server if the configuration changes</span></div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;            <span class="keywordflow">if</span> (serverControl.WatchdogPresent)</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;                ChangeToken.OnChange(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_application.html#abecd5329f7937e822959734f3c5272d1">Configuration</a>.GetReloadToken, () =&gt;</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;                {</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;                    logger.LogInformation(<span class="stringliteral">&quot;Configuration change detected&quot;</span>);</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;                    serverControl.Restart();</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;                });</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160; </div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;            <span class="comment">// setup the HTTP request pipeline</span></div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;            <span class="comment">// Final point where we wrap exceptions in a 500 (ErrorMessage) response</span></div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;            applicationBuilder.UseServerErrorHandling();</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160; </div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;            <span class="comment">// Add the X-Powered-By response header</span></div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;            applicationBuilder.UseServerBranding(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_assembly_information_provider.html">AssemblyInformationProvider</a>);</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160; </div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;            <span class="comment">// 503 requests made while the application is starting</span></div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;            applicationBuilder.UseAsyncInitialization(async (cancellationToken) =&gt;</div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;            {</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;                var tcs = <span class="keyword">new</span> TaskCompletionSource&lt;object&gt;();</div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;                <span class="keyword">using</span> (cancellationToken.Register(() =&gt; tcs.SetCanceled()))</div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;                    await Task.WhenAny(tcs.Task, instanceManager.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#a4ad311358f74779a6c1f2fcba4a30578">Ready</a>).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;            });</div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160; </div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;            <span class="comment">// suppress OperationCancelledExceptions, they are just aborted HTTP requests</span></div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;            applicationBuilder.UseCancelledRequestSuppression();</div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160; </div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#affdb9aca40d21e4d92078d3da87483d1">hostingEnvironment</a>.IsDevelopment()</div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;                || generalConfiguration.HostApiDocumemtation)</div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;            {</div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;                applicationBuilder.UseSwagger();</div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;                applicationBuilder.UseSwaggerUI(c =&gt; c.SwaggerEndpoint(<span class="stringliteral">&quot;/swagger/v1/swagger.json&quot;</span>, <span class="stringliteral">&quot;TGS API V4&quot;</span>));</div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;                logger.LogTrace(<span class="stringliteral">&quot;Swagger API generation enabled&quot;</span>);</div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;            }</div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160; </div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;            <span class="comment">// Set up CORS based on configuration if necessary</span></div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;            Action&lt;CorsPolicyBuilder&gt; corsBuilder = <span class="keyword">null</span>;</div>
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;            <span class="keywordflow">if</span> (controlPanelConfiguration.AllowAnyOrigin)</div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;            {</div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;                logger.LogTrace(<span class="stringliteral">&quot;Access-Control-Allow-Origin: *&quot;</span>);</div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;                corsBuilder = builder =&gt; builder.AllowAnyOrigin();</div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;            }</div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (controlPanelConfiguration.AllowedOrigins?.Count &gt; 0)</div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;            {</div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;                logger.LogTrace(<span class="stringliteral">&quot;Access-Control-Allow-Origin: &quot;</span>, String.Join(<span class="charliteral">&#39;,&#39;</span>, controlPanelConfiguration.AllowedOrigins));</div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;                corsBuilder = builder =&gt; builder.WithOrigins(controlPanelConfiguration.AllowedOrigins.ToArray());</div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;            }</div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160; </div>
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;            var originalBuilder = corsBuilder;</div>
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;            corsBuilder = builder =&gt;</div>
+<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;            {</div>
+<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;                builder.AllowAnyHeader().AllowAnyMethod();</div>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;                originalBuilder?.Invoke(builder);</div>
+<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;            };</div>
+<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;            applicationBuilder.UseCors(corsBuilder);</div>
+<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160; </div>
+<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;            <span class="comment">// spa loading if necessary</span></div>
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;            <span class="keywordflow">if</span> (controlPanelConfiguration.Enable)</div>
+<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;            {</div>
+<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;                logger.LogWarning(<span class="stringliteral">&quot;Web control panel enabled. This is a highly WIP feature!&quot;</span>);</div>
+<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;                applicationBuilder.UseFileServer(<span class="keyword">new</span> FileServerOptions</div>
+<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;                {</div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;                    RequestPath = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#aa984fa0fe83b7675cbc551f66240be0c">ControlPanelRoute</a>,</div>
+<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;                    EnableDefaultFiles = <span class="keyword">true</span>,</div>
+<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;                    EnableDirectoryBrowsing = <span class="keyword">false</span></div>
+<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;                });</div>
+<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;            }</div>
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;            <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;                logger.LogDebug(<span class="stringliteral">&quot;Web control panel disabled!&quot;</span>);</div>
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160; </div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;            logger.LogDebug(<span class="stringliteral">&quot;Starting hosting...&quot;</span>);</div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160; </div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;            <span class="comment">// authenticate JWT tokens using our security pipeline if present, returns 401 if bad</span></div>
+<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;            applicationBuilder.UseAuthentication();</div>
+<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160; </div>
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;            <span class="comment">// suppress and log database exceptions</span></div>
+<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;            applicationBuilder.UseDbConflictHandling();</div>
+<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160; </div>
+<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;            <span class="comment">// majority of handling is done in the controllers</span></div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;            applicationBuilder.UseMvc();</div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160; </div>
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;            <span class="comment">// 404 anything that gets this far</span></div>
+<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_setup_application_8cs_source.html#l00033">Tgstation.Server.Host.Setup.SetupApplication.Configuration</a>, <a class="el" href="_application_8cs_source.html#l00053">Tgstation.Server.Host.Core.Application.ControlPanelRoute</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a2eb5bdeb76bf1fbfdb297219af3ede45">Tgstation.Server.Host.Core.IServerControl.Die()</a>, <a class="el" href="_application_8cs_source.html#l00058">Tgstation.Server.Host.Core.Application.hostingEnvironment</a>, <a class="el" href="_limits_8cs_source.html#l00011">Tgstation.Server.Api.Models.Limits.MaximumStringLength</a>, <a class="el" href="_i_instance_manager_8cs_source.html#l00016">Tgstation.Server.Host.Components.IInstanceManager.Ready</a>, <a class="el" href="_application_8cs_source.html#l00063">Tgstation.Server.Host.Core.Application.tokenFactory</a>, and <a class="el" href="_i_server_control_8cs_source.html#l00016">Tgstation.Server.Host.Core.IServerControl.WatchdogPresent</a>.</p>
 <div class="dynheader">
@@ -759,22 +759,23 @@ Here is the call graph for this function:</div>
 <div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;            services.AddSingleton&lt;<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html">IProcessExecutor</a>, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process_executor.html">ProcessExecutor</a>&gt;();</div>
 <div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;            services.AddSingleton&lt;IServerPortProvider, ServerPortProivder&gt;();</div>
 <div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;            services.AddSingleton&lt;<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_topic_client_factory.html">ITopicClientFactory</a>, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_topic_client_factory.html">TopicClientFactory</a>&gt;();</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160; </div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;            <span class="comment">// configure component services</span></div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;            services.AddSingleton&lt;<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html">ILibGit2RepositoryFactory</a>, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html">LibGit2RepositoryFactory</a>&gt;();</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;            services.AddSingleton&lt;<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_commands.html">ILibGit2Commands</a>, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_commands.html">LibGit2Commands</a>&gt;();</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;            services.AddSingleton&lt;<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_factory.html">IProviderFactory</a>, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider_factory.html">ProviderFactory</a>&gt;();</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;            services.AddSingleton&lt;<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_factory.html">IChatManagerFactory</a>, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_factory.html">ChatManagerFactory</a>&gt;();</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;            services.AddSingleton&lt;<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html">IInstanceFactory</a>, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html">InstanceFactory</a>&gt;();</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160; </div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;            <span class="comment">// configure root services</span></div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;            services.AddSingleton&lt;<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html">IJobManager</a>, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html">JobManager</a>&gt;();</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160; </div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;            services.AddSingleton&lt;<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html">InstanceManager</a>&gt;();</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;            services.AddSingleton&lt;<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html">IBridgeDispatcher</a>&gt;(x =&gt; x.GetRequiredService&lt;<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html">InstanceManager</a>&gt;());</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;            services.AddSingleton(x =&gt; <span class="keyword">new</span> Lazy&lt;IInstanceCoreProvider&gt;(() =&gt; x.GetRequiredService&lt;<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html">InstanceManager</a>&gt;()));</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;            services.AddSingleton&lt;<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html">IInstanceManager</a>&gt;(x =&gt; x.GetRequiredService&lt;<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html">InstanceManager</a>&gt;());</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;        }</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;            services.AddScoped&lt;IPortAllocator, PortAllocator&gt;();</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160; </div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;            <span class="comment">// configure component services</span></div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;            services.AddSingleton&lt;<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_repository_factory.html">ILibGit2RepositoryFactory</a>, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html">LibGit2RepositoryFactory</a>&gt;();</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;            services.AddSingleton&lt;<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_lib_git2_commands.html">ILibGit2Commands</a>, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_commands.html">LibGit2Commands</a>&gt;();</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;            services.AddSingleton&lt;<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider_factory.html">IProviderFactory</a>, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider_factory.html">ProviderFactory</a>&gt;();</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;            services.AddSingleton&lt;<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_factory.html">IChatManagerFactory</a>, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager_factory.html">ChatManagerFactory</a>&gt;();</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;            services.AddSingleton&lt;<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html">IInstanceFactory</a>, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html">InstanceFactory</a>&gt;();</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160; </div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;            <span class="comment">// configure root services</span></div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;            services.AddSingleton&lt;<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html">IJobManager</a>, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html">JobManager</a>&gt;();</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160; </div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;            services.AddSingleton&lt;<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html">InstanceManager</a>&gt;();</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;            services.AddSingleton&lt;<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html">IBridgeDispatcher</a>&gt;(x =&gt; x.GetRequiredService&lt;<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html">InstanceManager</a>&gt;());</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;            services.AddSingleton(x =&gt; <span class="keyword">new</span> Lazy&lt;IInstanceCoreProvider&gt;(() =&gt; x.GetRequiredService&lt;<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html">InstanceManager</a>&gt;()));</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;            services.AddSingleton&lt;<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html">IInstanceManager</a>&gt;(x =&gt; x.GetRequiredService&lt;<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html">InstanceManager</a>&gt;());</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a286f4eb5c679683b7e519847a6c3574e">Tgstation.Server.Host.IO.IIOManager.ConcatPath()</a>, <a class="el" href="_setup_application_8cs_source.html#l00033">Tgstation.Server.Host.Setup.SetupApplication.Configuration</a>, <a class="el" href="_swagger_configuration_8cs_source.html#l00124">Tgstation.Server.Host.Core.SwaggerConfiguration.Configure()</a>, <a class="el" href="_i_post_setup_services_8cs_source.html#l00019">Tgstation.Server.Host.Setup.IPostSetupServices.DatabaseConfiguration</a>, <a class="el" href="_database_configuration_8cs_source.html#l00020">Tgstation.Server.Host.Configuration.DatabaseConfiguration.DatabaseType</a>, <a class="el" href="_file_logging_configuration_8cs_source.html#l00038">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.Disable</a>, <a class="el" href="_i_post_setup_services_8cs_source.html#l00024">Tgstation.Server.Host.Setup.IPostSetupServices.FileLoggingConfiguration</a>, <a class="el" href="_i_post_setup_services_8cs_source.html#l00014">Tgstation.Server.Host.Setup.IPostSetupServices.GeneralConfiguration</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a691970cc91e5576b06ed9ce14e51d9b8">Tgstation.Server.Host.IO.IIOManager.GetDirectoryName()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ab6635afaf199a1396a743f3b46eac786">Tgstation.Server.Host.IO.IIOManager.GetFileNameWithoutExtension()</a>, <a class="el" href="_file_logging_configuration_8cs_source.html#l00059">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.GetFullLogDirectory()</a>, <a class="el" href="_application_8cs_source.html#l00058">Tgstation.Server.Host.Core.Application.hostingEnvironment</a>, <a class="el" href="_setup_application_8cs_source.html#l00023">Tgstation.Server.Host.Setup.SetupApplication.IOManager</a>, <a class="el" href="_i_platform_identifier_8cs_source.html#l00011">Tgstation.Server.Host.System.IPlatformIdentifier.IsWindows</a>, <a class="el" href="_file_logging_configuration_8cs_source.html#l00044">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.LogLevel</a>, <a class="el" href="_file_logging_configuration_8cs_source.html#l00050">Tgstation.Server.Host.Configuration.FileLoggingConfiguration.MicrosoftLogLevel</a>, <a class="el" href="_i_post_setup_services_8cs_source.html#l00029">Tgstation.Server.Host.Setup.IPostSetupServices.PlatformIdentifier</a>, <a class="el" href="_general_configuration_8cs_source.html#l00083">Tgstation.Server.Host.Configuration.GeneralConfiguration.RestartTimeout</a>, <a class="el" href="_service_collection_extensions_8cs_source.html#l00021">Tgstation.Server.Host.Extensions.ServiceCollectionExtensions.SerilogContextTemplate</a>, <a class="el" href="_application_8cs_source.html#l00063">Tgstation.Server.Host.Core.Application.tokenFactory</a>, and <a class="el" href="_i_token_factory_8cs_source.html#l00016">Tgstation.Server.Host.Security.ITokenFactory.ValidationParameters</a>.</p>
 <div class="dynheader">
@@ -846,7 +847,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_application_8cs_source.html#l00053">53</a> of file <a class="el" href="_application_8cs_source.html">Application.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00348">Tgstation.Server.Host.Core.Application.Configure()</a>, and <a class="el" href="_home_controller_8cs_source.html#l00125">Tgstation.Server.Host.Controllers.HomeController.Home()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00349">Tgstation.Server.Host.Core.Application.Configure()</a>, and <a class="el" href="_home_controller_8cs_source.html#l00125">Tgstation.Server.Host.Controllers.HomeController.Home()</a>.</p>
 
 </div>
 </div>
@@ -874,7 +875,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_application_8cs_source.html#l00058">58</a> of file <a class="el" href="_application_8cs_source.html">Application.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00070">Tgstation.Server.Host.Core.Application.Application()</a>, <a class="el" href="_application_8cs_source.html#l00348">Tgstation.Server.Host.Core.Application.Configure()</a>, and <a class="el" href="_application_8cs_source.html#l00092">Tgstation.Server.Host.Core.Application.ConfigureServices()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00070">Tgstation.Server.Host.Core.Application.Application()</a>, <a class="el" href="_application_8cs_source.html#l00349">Tgstation.Server.Host.Core.Application.Configure()</a>, and <a class="el" href="_application_8cs_source.html#l00092">Tgstation.Server.Host.Core.Application.ConfigureServices()</a>.</p>
 
 </div>
 </div>
@@ -902,7 +903,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_application_8cs_source.html#l00063">63</a> of file <a class="el" href="_application_8cs_source.html">Application.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00348">Tgstation.Server.Host.Core.Application.Configure()</a>, and <a class="el" href="_application_8cs_source.html#l00092">Tgstation.Server.Host.Core.Application.ConfigureServices()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_application_8cs_source.html#l00349">Tgstation.Server.Host.Core.Application.Configure()</a>, and <a class="el" href="_application_8cs_source.html#l00092">Tgstation.Server.Host.Core.Application.ConfigureServices()</a>.</p>
 
 </div>
 </div>
