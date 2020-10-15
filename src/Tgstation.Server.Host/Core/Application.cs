@@ -299,6 +299,7 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
 			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
 			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
+			services.AddScoped<IPortAllocator, PortAllocator>();
 
 			// configure component services
 			services.AddSingleton<ILibGit2RepositoryFactory, LibGit2RepositoryFactory>();

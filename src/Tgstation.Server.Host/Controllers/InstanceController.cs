@@ -15,6 +15,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
@@ -62,6 +63,11 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IPlatformIdentifier platformIdentifier;
 
 		/// <summary>
+		/// The <see cref="IPortAllocator"/> for the <see cref="InstanceController"/>.
+		/// </summary>
+		readonly IPortAllocator portAllocator;
+
+		/// <summary>
 		/// The <see cref="GeneralConfiguration"/> for the <see cref="InstanceController"/>.
 		/// </summary>
 		readonly GeneralConfiguration generalConfiguration;
@@ -75,14 +81,16 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="instanceManager">The value of <see cref="instanceManager"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
+		/// <param name="portAllocator">The value of <see cref="IPortAllocator"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
-		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		public InstanceController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
 			IJobManager jobManager,
 			IInstanceManager instanceManager,
 			IIOManager ioManager,
+			IPortAllocator portAllocator,
 			IPlatformIdentifier platformIdentifier,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			ILogger<InstanceController> logger)
@@ -96,18 +104,43 @@ namespace Tgstation.Server.Host.Controllers
 			this.instanceManager = instanceManager ?? throw new ArgumentNullException(nameof(instanceManager));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
+			this.portAllocator = portAllocator ?? throw new ArgumentNullException(nameof(portAllocator));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
-		Models.Instance CreateDefaultInstance(Api.Models.Instance initialSettings)
-			=> new Models.Instance
+		async Task<Models.Instance> CreateDefaultInstance(Api.Models.Instance initialSettings, CancellationToken cancellationToken)
+		{
+			var ddPort = await portAllocator.GetAvailablePort(1, false, cancellationToken).ConfigureAwait(false);
+			if (!ddPort.HasValue)
+				return null;
+
+			// try to use the old default if possible
+			const ushort DefaultDreamDaemonPort = 1337;
+			if (ddPort.Value < DefaultDreamDaemonPort)
+				ddPort = await portAllocator.GetAvailablePort(DefaultDreamDaemonPort, false, cancellationToken).ConfigureAwait(false) ?? ddPort;
+
+			const ushort DefaultApiValidationPort = 1339;
+			var dmPort = await portAllocator
+				.GetAvailablePort(
+					Math.Min((ushort)(ddPort.Value + 1), DefaultApiValidationPort),
+					false,
+					cancellationToken)
+				.ConfigureAwait(false);
+			if (!dmPort.HasValue)
+				return null;
+
+			// try to use the old default if possible
+			if (dmPort < DefaultApiValidationPort)
+				dmPort = await portAllocator.GetAvailablePort(DefaultApiValidationPort, false, cancellationToken).ConfigureAwait(false) ?? dmPort;
+
+			return new Models.Instance
 			{
 				ConfigurationType = initialSettings.ConfigurationType ?? ConfigurationType.Disallowed,
 				DreamDaemonSettings = new DreamDaemonSettings
 				{
 					AllowWebClient = false,
 					AutoStart = false,
-					Port = 1337,
+					Port = ddPort,
 					SecurityLevel = DreamDaemonSecurity.Safe,
 					StartupTimeout = 60,
 					HeartbeatSeconds = 60,
@@ -115,7 +148,7 @@ namespace Tgstation.Server.Host.Controllers
 				},
 				DreamMakerSettings = new DreamMakerSettings
 				{
-					ApiValidationPort = 1339,
+					ApiValidationPort = dmPort,
 					ApiValidationSecurityLevel = DreamDaemonSecurity.Safe,
 					RequireDMApiValidation = true
 				},
@@ -140,6 +173,7 @@ namespace Tgstation.Server.Host.Controllers
 					InstanceAdminUser(null)
 				}
 			};
+		}
 
 		string NormalizePath(string path)
 		{
@@ -277,7 +311,9 @@ namespace Tgstation.Server.Host.Controllers
 				else
 					attached = true;
 
-			var newInstance = CreateDefaultInstance(model);
+			var newInstance = await CreateDefaultInstance(model, cancellationToken).ConfigureAwait(false);
+			if (newInstance == null)
+				return Conflict(new ErrorMessage(ErrorCode.NoPortsAvailable));
 
 			DatabaseContext.Instances.Add(newInstance);
 			try

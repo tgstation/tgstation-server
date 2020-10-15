@@ -570,5 +570,17 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("Failed to allow DreamDaemon through the Windows firewall!")]
 		ByondDreamDaemonFirewallFail,
+
+		/// <summary>
+		/// Attempted to create an instance but no free ports could be found.
+		/// </summary>
+		[Description("TGS was unable to find a free port to allocate for the operation!")]
+		NoPortsAvailable,
+
+		/// <summary>
+		/// Attempted to set a port which is either in use by another part of TGS or otherwise not available for binding.
+		/// </summary>
+		[Description("The requested port is either already in use by TGS or could not be allocated!")]
+		PortNotAvailable,
 	}
 }
