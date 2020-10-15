@@ -12,6 +12,7 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Session;
+using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
@@ -26,9 +27,14 @@ namespace Tgstation.Server.Host.Controllers
 	public sealed class DreamDaemonController : InstanceRequiredController
 	{
 		/// <summary>
-		/// The <see cref="IJobManager"/> for the <see cref="DreamMakerController"/>
+		/// The <see cref="IJobManager"/> for the <see cref="DreamDaemonController"/>.
 		/// </summary>
 		readonly IJobManager jobManager;
+
+		/// <summary>
+		/// The <see cref="IPortAllocator"/> for the <see cref="DreamDaemonController"/>.
+		/// </summary>
+		readonly IPortAllocator portAllocator;
 
 		/// <summary>
 		/// Construct a <see cref="DreamDaemonController"/>
@@ -37,12 +43,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
+		/// <param name="portAllocator">The value of <see cref="IPortAllocator"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
 		public DreamDaemonController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
 			IJobManager jobManager,
 			IInstanceManager instanceManager,
+			IPortAllocator portAllocator,
 			ILogger<DreamDaemonController> logger)
 			: base(
 				  instanceManager,
@@ -51,6 +59,7 @@ namespace Tgstation.Server.Host.Controllers
 				  logger)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
+			this.portAllocator = portAllocator ?? throw new ArgumentNullException(nameof(portAllocator));
 		}
 
 		/// <summary>
@@ -218,6 +227,18 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (current == default)
 				return Gone();
+
+			if (model.Port.HasValue && model.Port.Value != current.Port.Value)
+			{
+				var verifiedPort = await portAllocator
+					.GetAvailablePort(
+						model.Port.Value,
+						true,
+						cancellationToken)
+					.ConfigureAwait(false);
+				if (verifiedPort != model.Port)
+					return Conflict(new ErrorMessage(ErrorCode.PortNotAvailable));
+			}
 
 			var userRights = (DreamDaemonRights)AuthenticationContext.GetRight(RightsType.DreamDaemon);
 
