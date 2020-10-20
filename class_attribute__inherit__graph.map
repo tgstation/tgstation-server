@@ -1,4 +1,5 @@
 <map id="Attribute" name="Attribute">
-<area shape="rect" id="node1" title=" " alt="" coords="83,5,154,32"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_script_attribute.html" title="Attribute for indicating the script that a given EventType runs." alt="" coords="5,80,232,121"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,46,76,73"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_event_script_attribute.html" title="Attribute for indicating the script that a given EventType runs." alt="" coords="124,5,351,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_version_atrribute.html" title="Attribute for bringing in the DMApiConstants.Version from MSBuild." alt="" coords="124,71,351,112"/>
 </map>
