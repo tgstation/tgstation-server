@@ -17,14 +17,14 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
   </PropertyGroup>
-  
+
   <PropertyGroup>
     <NodeModulesFolder>ClientApp/node_modules</NodeModulesFolder>
     <NpmInstallStampFile>ClientApp/node_modules/.install-stamp</NpmInstallStampFile>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
-  
+
   <Target Name="NpmInstall" Inputs="ClientApp/package-lock.json" Outputs="$(NpmInstallStampFile)">
     <Message Text="Restoring npm packages..." Importance="high" />
     <Exec WorkingDirectory="ClientApp" Command="npm ci" />
@@ -35,10 +35,23 @@
     <Message Text="Building web control panel..." Importance="high" />
     <Exec WorkingDirectory="ClientApp" Command="npm run msbuild" />
   </Target>
-  
+
   <Target Name="NpmClean" AfterTargets="Clean">
     <Message Text="Cleaning web control panel..." Importance="high" />
     <RemoveDir Directories="wwwroot" />
+  </Target>
+
+  <Target Name="GenerateBuildVersionsAttribute" BeforeTargets="CoreCompile">
+    <ItemGroup>
+      <AssemblyAttributes Include="Tgstation.Server.Host.Components.Interop.DMApiVersionAtrribute">
+        <_Parameter1>$(TgsDmapiVersion)</_Parameter1>
+      </AssemblyAttributes>
+    </ItemGroup>
+
+    <WriteCodeFragment AssemblyAttributes="@(AssemblyAttributes)" Language="C#" OutputDirectory="$(IntermediateOutputPath)" OutputFile="DMApiVersion.cs">
+      <Output TaskParameter="OutputFile" ItemName="Compile" />
+      <Output TaskParameter="OutputFile" ItemName="FileWrites" />
+    </WriteCodeFragment>
   </Target>
 
   <ItemGroup>
@@ -109,7 +122,7 @@
     <ClientApp Include="ClientApp\src\**\*;ClientApp\public\**\*;ClientApp\tsconfig.json;ClientApp\package.json;ClientApp\package-lock.json" />
     <AdditionalFiles Include="../../build/stylecop.json" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <Content Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
