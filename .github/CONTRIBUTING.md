@@ -236,7 +236,7 @@ Word commit names descriptively. Only submit work through pull requests. When do
 
 At the time of this writing, the repository is configured to automate much of the deployment/release process.
 
-When the new API or client is ready to be released, update the `Version.props` file appropriately and merge the pull request with the text `[APIDeploy]` or `[NuGetDeploy]` respectively in the commit message (or both!). The release will be published automatically.
+When the new API, client, or DMAPI is ready to be released, update the `Version.props` file appropriately and merge the pull request with the text `[APIDeploy]`, `[NuGetDeploy]`, or `[DMDeploy]` respectively in the commit message (or all three!). The release will be published automatically.
 
 That step should be taken for the latest API and client before releasing the core version that uses them if applicable.
 
