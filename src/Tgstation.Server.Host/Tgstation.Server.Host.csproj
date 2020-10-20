@@ -44,6 +44,19 @@
     <RemoveDir Directories="wwwroot" />
   </Target>
 
+  <Target Name="GenerateBuildVersionsAttribute" BeforeTargets="CoreCompile">
+    <ItemGroup>
+      <AssemblyAttributes Include="Tgstation.Server.Host.Components.Interop.DMApiVersionAtrribute">
+        <_Parameter1>$(TgsDmapiVersion)</_Parameter1>
+      </AssemblyAttributes>
+    </ItemGroup>
+
+    <WriteCodeFragment AssemblyAttributes="@(AssemblyAttributes)" Language="C#" OutputDirectory="$(IntermediateOutputPath)" OutputFile="DMApiVersion.cs">
+      <Output TaskParameter="OutputFile" ItemName="Compile" />
+      <Output TaskParameter="OutputFile" ItemName="FileWrites" />
+    </WriteCodeFragment>
+  </Target>
+
   <ItemGroup>
     <PackageReference Include="BetterWin32Errors" Version="0.2.0" />
     <PackageReference Include="Byond.TopicSender" Version="5.0.0" />
