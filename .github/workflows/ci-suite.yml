@@ -596,7 +596,7 @@ jobs:
         run: |
           [XML]$versionXML = Get-Content build/Version.props
           $apiVersion = $versionXML.Project.PropertyGroup.TgsApiVersion
-          Write-Host "TGS_API_VERSION=$apiVersion" >> $env:GITHUB_ENV
+          echo "TGS_API_VERSION=$apiVersion" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
       - name: Retrieve OpenAPI Spec
         uses: actions/download-artifact@v2
@@ -640,7 +640,7 @@ jobs:
         run: |
           [XML]$versionXML = Get-Content build/Version.props
           $dmVersion = $versionXML.Project.PropertyGroup.TgsDmapiVersion
-          Write-Host "TGS_DM_VERSION=$dmVersion" >> $env:GITHUB_ENV
+          echo "TGS_DM_VERSION=$dmVersion" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
       - name: Zip DMAPI
         shell: powershell
@@ -707,7 +707,7 @@ jobs:
         run: |
           [XML]$versionXML = Get-Content build/Version.props
           $tgsVersion = $versionXML.Project.PropertyGroup.TgsCoreVersion
-          Write-Host "TGS_VERSION=$tgsVersion" >> $env:GITHUB_ENV
+          echo "TGS_VERSION=$tgsVersion" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
       - name: Retrieve Server Service
         uses: actions/download-artifact@v2
