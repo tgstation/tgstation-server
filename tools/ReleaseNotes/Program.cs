@@ -49,7 +49,7 @@ namespace ReleaseNotes
 			try
 			{
 				var client = new GitHubClient(new ProductHeaderValue("tgs_release_notes"));
-				if (!String.IsNullOrWhiteSpace(githubToken)) 
+				if (!String.IsNullOrWhiteSpace(githubToken))
 				{
 					client.Credentials = new Credentials(githubToken);
 				}
