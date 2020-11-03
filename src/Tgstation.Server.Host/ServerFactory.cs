@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -51,16 +52,17 @@ namespace Tgstation.Server.Host
 			var setupWizardHostBuilder = CreateDefaultBuilder()
 				.UseSetupApplication();
 
-			IPostSetupServices postSetupServices;
+			IPostSetupServices<ServerFactory> postSetupServices;
 			using (var setupHost = setupWizardHostBuilder.Build())
 			{
-				postSetupServices = setupHost.Services.GetRequiredService<IPostSetupServices>();
+				postSetupServices = setupHost.Services.GetRequiredService<IPostSetupServices<ServerFactory>>();
 				await setupHost.RunAsync(cancellationToken).ConfigureAwait(false);
-			}
 
-			if (postSetupServices.GeneralConfiguration.SetupWizardMode == SetupWizardMode.Only)
-			{
-				return null;
+				if (postSetupServices.GeneralConfiguration.SetupWizardMode == SetupWizardMode.Only)
+				{
+					postSetupServices.Logger.LogInformation("Shutting down due to only running setup wizard.");
+					return null;
+				}
 			}
 
 			var hostBuilder = CreateDefaultBuilder()
