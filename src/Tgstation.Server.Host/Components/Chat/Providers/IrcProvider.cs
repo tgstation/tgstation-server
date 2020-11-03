@@ -239,6 +239,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 		protected override async Task Connect(CancellationToken cancellationToken)
 		{
 			disconnecting = false;
+			cancellationToken.ThrowIfCancellationRequested();
 			try
 			{
 				client.Connect(address, port);
