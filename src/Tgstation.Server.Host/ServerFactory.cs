@@ -58,6 +58,11 @@ namespace Tgstation.Server.Host
 				await setupHost.RunAsync(cancellationToken).ConfigureAwait(false);
 			}
 
+			if (postSetupServices.GeneralConfiguration.SetupWizardMode == SetupWizardMode.Only)
+			{
+				return null;
+			}
+
 			var hostBuilder = CreateDefaultBuilder()
 				.ConfigureWebHost(webHostBuilder =>
 					webHostBuilder
