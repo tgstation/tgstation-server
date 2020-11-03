@@ -40,6 +40,8 @@ namespace Tgstation.Server.Host
 		}
 
 		/// <inheritdoc />
+		// TODO: Decomplexify
+#pragma warning disable CA1506
 		public async Task<IServer> CreateServer(string[] args, string updatePath, CancellationToken cancellationToken)
 		{
 			if (args == null)
@@ -88,5 +90,6 @@ namespace Tgstation.Server.Host
 
 			return new Server(hostBuilder, updatePath);
 		}
+#pragma warning restore CA1506
 	}
 }
