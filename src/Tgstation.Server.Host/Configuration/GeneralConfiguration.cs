@@ -90,7 +90,7 @@ namespace Tgstation.Server.Host.Configuration
 		/// <summary>
 		/// If the swagger UI should be made avaiable.
 		/// </summary>
-		public bool HostApiDocumemtation { get; set; }
+		public bool HostApiDocumentation { get; set; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GeneralConfiguration"/> <see langword="class"/>.

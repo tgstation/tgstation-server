@@ -195,7 +195,7 @@ namespace Tgstation.Server.Host.Core
 					options.SerializerSettings.Converters = new[] { new VersionConverter() };
 				});
 
-			if (postSetupServices.GeneralConfiguration.HostApiDocumemtation)
+			if (postSetupServices.GeneralConfiguration.HostApiDocumentation)
 			{
 				static string GetDocumentationFilePath(string assemblyLocation) => IOManager.ConcatPath(IOManager.GetDirectoryName(assemblyLocation), String.Concat(IOManager.GetFileNameWithoutExtension(assemblyLocation), ".xml"));
 				var assemblyDocumentationPath = GetDocumentationFilePath(typeof(Application).Assembly.Location);
@@ -396,7 +396,7 @@ namespace Tgstation.Server.Host.Core
 			// suppress OperationCancelledExceptions, they are just aborted HTTP requests
 			applicationBuilder.UseCancelledRequestSuppression();
 
-			if (generalConfiguration.HostApiDocumemtation)
+			if (generalConfiguration.HostApiDocumentation)
 			{
 				applicationBuilder.UseSwagger();
 				applicationBuilder.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TGS API V4"));

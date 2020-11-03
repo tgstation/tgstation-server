@@ -613,7 +613,7 @@ namespace Tgstation.Server.Host.Setup
 			if (String.IsNullOrWhiteSpace(newGeneralConfiguration.GitHubAccessToken))
 				newGeneralConfiguration.GitHubAccessToken = null;
 
-			newGeneralConfiguration.HostApiDocumemtation = await PromptYesNo("Host API Documentation? (y/n): ", cancellationToken).ConfigureAwait(false);
+			newGeneralConfiguration.HostApiDocumentation = await PromptYesNo("Host API Documentation? (y/n): ", cancellationToken).ConfigureAwait(false);
 
 			return newGeneralConfiguration;
 		}
