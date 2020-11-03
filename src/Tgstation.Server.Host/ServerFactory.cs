@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -44,10 +44,9 @@ namespace Tgstation.Server.Host
 			if (args == null)
 				throw new ArgumentNullException(nameof(args));
 
+			var basePath = IOManager.ResolvePath();
 			IHostBuilder CreateDefaultBuilder() => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
-				.ConfigureAppConfiguration((context, configuration) => configuration
-					.SetBasePath(
-						IOManager.ResolvePath()));
+				.ConfigureAppConfiguration((context, configuration) => configuration.SetBasePath(basePath));
 
 			var setupWizardHostBuilder = CreateDefaultBuilder()
 				.UseSetupApplication();
