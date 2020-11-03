@@ -434,13 +434,6 @@ namespace Tgstation.Server.Host.Core
 			else
 				logger.LogDebug("Web control panel disabled!");
 
-			var masterVersionsAttribute = MasterVersionsAttribute.Instance;
-			logger.LogTrace("Configuration version: {0}", masterVersionsAttribute.RawConfigurationVersion);
-			logger.LogTrace("DMAPI version: {0}", masterVersionsAttribute.RawDMApiVersion);
-			logger.LogTrace("Web control panel version: {0}", masterVersionsAttribute.RawControlPanelVersion);
-
-			logger.LogDebug("Starting hosting...");
-
 			// authenticate JWT tokens using our security pipeline if present, returns 401 if bad
 			applicationBuilder.UseAuthentication();
 
@@ -451,6 +444,14 @@ namespace Tgstation.Server.Host.Core
 			applicationBuilder.UseMvc();
 
 			// 404 anything that gets this far
+			// End of request pipeline setup
+
+			var masterVersionsAttribute = MasterVersionsAttribute.Instance;
+			logger.LogTrace("Configuration version: {0}", masterVersionsAttribute.RawConfigurationVersion);
+			logger.LogTrace("DMAPI version: {0}", masterVersionsAttribute.RawDMApiVersion);
+			logger.LogTrace("Web control panel version: {0}", masterVersionsAttribute.RawControlPanelVersion);
+
+			logger.LogDebug("Starting hosting...");
 		}
 	}
 }
