@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Host.Setup;
 
 namespace Tgstation.Server.Host.Configuration
 {
