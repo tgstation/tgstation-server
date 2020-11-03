@@ -1,8 +1,8 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
-using System.Reflection;
 using Tgstation.Server.Host.Components.Interop.Converters;
+using Tgstation.Server.Host.Properties;
 
 namespace Tgstation.Server.Host.Components.Interop
 {
@@ -34,11 +34,7 @@ namespace Tgstation.Server.Host.Components.Interop
 		/// <summary>
 		/// The DMAPI <see cref="Version"/> being used.
 		/// </summary>
-		public static readonly Version Version = Version.Parse(
-			Assembly
-				.GetExecutingAssembly()
-				.GetCustomAttribute<DMApiVersionAtrribute>()
-				.RawDMApiVersion);
+		public static readonly Version Version = Version.Parse(MasterVersionsAttribute.Instance.RawDMApiVersion);
 
 		/// <summary>
 		/// <see cref="JsonSerializerSettings"/> for use when communicating with the DMAPI.

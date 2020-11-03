@@ -41,14 +41,16 @@
     <RemoveDir Directories="wwwroot" />
   </Target>
 
-  <Target Name="GenerateBuildVersionsAttribute" BeforeTargets="CoreCompile">
+  <Target Name="ApplyMasterVersionsAttribute" BeforeTargets="CoreCompile">
     <ItemGroup>
-      <AssemblyAttributes Include="Tgstation.Server.Host.Components.Interop.DMApiVersionAtrribute">
-        <_Parameter1>$(TgsDmapiVersion)</_Parameter1>
+      <AssemblyAttributes Include="Tgstation.Server.Host.Properties.MasterVersionsAttribute">
+        <_Parameter1>$(TgsConfigVersion)</_Parameter1>
+        <_Parameter2>$(TgsDmapiVersion)</_Parameter2>
+        <_Parameter3>$(TgsControlPanelVersion)</_Parameter3>
       </AssemblyAttributes>
     </ItemGroup>
 
-    <WriteCodeFragment AssemblyAttributes="@(AssemblyAttributes)" Language="C#" OutputDirectory="$(IntermediateOutputPath)" OutputFile="DMApiVersion.cs">
+    <WriteCodeFragment AssemblyAttributes="@(AssemblyAttributes)" Language="C#" OutputDirectory="$(IntermediateOutputPath)" OutputFile="MasterVersionsAssemblyInfo.cs">
       <Output TaskParameter="OutputFile" ItemName="Compile" />
       <Output TaskParameter="OutputFile" ItemName="FileWrites" />
     </WriteCodeFragment>

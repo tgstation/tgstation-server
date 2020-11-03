@@ -35,6 +35,7 @@ using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
+using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Setup;
 using Tgstation.Server.Host.System;
@@ -432,6 +433,11 @@ namespace Tgstation.Server.Host.Core
 			}
 			else
 				logger.LogDebug("Web control panel disabled!");
+
+			var masterVersionsAttribute = MasterVersionsAttribute.Instance;
+			logger.LogTrace("Configuration version: {0}", masterVersionsAttribute.RawConfigurationVersion);
+			logger.LogTrace("DMAPI version: {0}", masterVersionsAttribute.RawDMApiVersion);
+			logger.LogTrace("Web control panel version: {0}", masterVersionsAttribute.RawControlPanelVersion);
 
 			logger.LogDebug("Starting hosting...");
 
