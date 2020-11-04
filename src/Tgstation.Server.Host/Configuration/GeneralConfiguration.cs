@@ -3,6 +3,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Host.Properties;
+using Tgstation.Server.Host.Setup;
 
 namespace Tgstation.Server.Host.Configuration
 {
@@ -24,7 +26,7 @@ namespace Tgstation.Server.Host.Configuration
 		/// <summary>
 		/// The current <see cref="ConfigVersion"/>.
 		/// </summary>
-		public static readonly Version CurrentConfigVersion = new Version(2, 1, 0);
+		public static readonly Version CurrentConfigVersion = Version.Parse(MasterVersionsAttribute.Instance.RawConfigurationVersion);
 
 		/// <summary>
 		/// The default value for <see cref="ServerInformation.MinimumPasswordLength"/>.
@@ -90,7 +92,7 @@ namespace Tgstation.Server.Host.Configuration
 		/// <summary>
 		/// If the swagger UI should be made avaiable.
 		/// </summary>
-		public bool HostApiDocumemtation { get; set; }
+		public bool HostApiDocumentation { get; set; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GeneralConfiguration"/> <see langword="class"/>.

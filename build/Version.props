@@ -3,7 +3,7 @@
     <!-- This is the authorative version list -->
     <!-- Integration tests will ensure they match across the board -->
     <TgsCoreVersion>4.5.4</TgsCoreVersion>
-    <TgsConfigVersion>2.1.0</TgsConfigVersion>
+    <TgsConfigVersion>2.1.1</TgsConfigVersion>
     <TgsApiVersion>7.4.0</TgsApiVersion>
     <TgsClientVersion>8.4.0</TgsClientVersion>
     <TgsDmapiVersion>5.2.7</TgsDmapiVersion>

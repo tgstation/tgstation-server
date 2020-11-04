@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Threading.Tasks;
@@ -30,7 +30,8 @@ namespace Tgstation.Server.Host.Tests
 			var factory = Application.CreateDefaultServerFactory();
 
 			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => factory.CreateServer(null, null, default));
-			await factory.CreateServer(new[] { "General:SetupWizardMode=Never" }, null, default);
+			var result = await factory.CreateServer(new[] { "General:SetupWizardMode=Never" }, null, default);
+			Assert.IsNotNull(result);
 		}
 
 		[TestMethod]
@@ -41,7 +42,8 @@ namespace Tgstation.Server.Host.Tests
 
 			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => factory.CreateServer(null, null, default));
 			await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => factory.CreateServer(null, Path, default));
-			await factory.CreateServer(new[] { "General:SetupWizardMode=Never" }, Path, default);
+			var result = await factory.CreateServer(new[] { "General:SetupWizardMode=Never" }, Path, default);
+			Assert.IsNotNull(result);
 		}
 	}
 }

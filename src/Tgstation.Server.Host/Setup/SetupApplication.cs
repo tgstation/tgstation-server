@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog.Events;
@@ -73,7 +73,7 @@ namespace Tgstation.Server.Host.Setup
 		/// <param name="services">The <see cref="IServiceCollection"/> to configure.</param>
 		protected virtual void ConfigureHostedService(IServiceCollection services)
 		{
-			services.AddSingleton<IPostSetupServices, PostSetupServices>();
+			services.AddSingleton(typeof(IPostSetupServices<>), typeof(PostSetupServices<>));
 			services.AddSingleton<IHostedService, SetupWizard>();
 		}
 	}

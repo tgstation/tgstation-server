@@ -1,4 +1,4 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.IO;
 
@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host
 		/// <param name="args">The arguments for the <see cref="IServer"/></param>
 		/// <param name="updatePath">The directory in which to install server updates</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="IServer"/></returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="IServer"/> if it should be run, <see langword="null"/> otherwise.</returns>
 		Task<IServer> CreateServer(string[] args, string updatePath, CancellationToken cancellationToken);
 	}
 }
