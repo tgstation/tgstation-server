@@ -445,7 +445,6 @@ namespace Tgstation.Server.Host.Core
 
 			// 404 anything that gets this far
 			// End of request pipeline setup
-
 			var masterVersionsAttribute = MasterVersionsAttribute.Instance;
 			logger.LogTrace("Configuration version: {0}", masterVersionsAttribute.RawConfigurationVersion);
 			logger.LogTrace("DMAPI version: {0}", masterVersionsAttribute.RawDMApiVersion);
