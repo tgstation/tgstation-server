@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -39,24 +40,31 @@ namespace Tgstation.Server.Host
 		}
 
 		/// <inheritdoc />
+		// TODO: Decomplexify
+#pragma warning disable CA1506
 		public async Task<IServer> CreateServer(string[] args, string updatePath, CancellationToken cancellationToken)
 		{
 			if (args == null)
 				throw new ArgumentNullException(nameof(args));
 
+			var basePath = IOManager.ResolvePath();
 			IHostBuilder CreateDefaultBuilder() => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
-				.ConfigureAppConfiguration((context, configuration) => configuration
-					.SetBasePath(
-						IOManager.ResolvePath()));
+				.ConfigureAppConfiguration((context, configuration) => configuration.SetBasePath(basePath));
 
 			var setupWizardHostBuilder = CreateDefaultBuilder()
 				.UseSetupApplication();
 
-			IPostSetupServices postSetupServices;
+			IPostSetupServices<ServerFactory> postSetupServices;
 			using (var setupHost = setupWizardHostBuilder.Build())
 			{
-				postSetupServices = setupHost.Services.GetRequiredService<IPostSetupServices>();
+				postSetupServices = setupHost.Services.GetRequiredService<IPostSetupServices<ServerFactory>>();
 				await setupHost.RunAsync(cancellationToken).ConfigureAwait(false);
+
+				if (postSetupServices.GeneralConfiguration.SetupWizardMode == SetupWizardMode.Only)
+				{
+					postSetupServices.Logger.LogInformation("Shutting down due to only running setup wizard.");
+					return null;
+				}
 			}
 
 			var hostBuilder = CreateDefaultBuilder()
@@ -82,5 +90,6 @@ namespace Tgstation.Server.Host
 
 			return new Server(hostBuilder, updatePath);
 		}
+#pragma warning restore CA1506
 	}
 }

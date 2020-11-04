@@ -207,10 +207,9 @@ namespace Tgstation.Server.Host.Jobs
 					try
 					{
 						lock (synchronizationLock)
-						{
 							jobs.Add(job.Id, jobHandler);
-							jobHandler.Start();
-						}
+
+						jobHandler.Start();
 					}
 					catch
 					{

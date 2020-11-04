@@ -35,6 +35,7 @@ using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
+using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Setup;
 using Tgstation.Server.Host.System;
@@ -200,7 +201,7 @@ namespace Tgstation.Server.Host.Core
 					options.SerializerSettings.Converters = new[] { new VersionConverter() };
 				});
 
-			if (hostingEnvironment.IsDevelopment())
+			if (postSetupServices.GeneralConfiguration.HostApiDocumentation)
 			{
 				static string GetDocumentationFilePath(string assemblyLocation) => IOManager.ConcatPath(IOManager.GetDirectoryName(assemblyLocation), String.Concat(IOManager.GetFileNameWithoutExtension(assemblyLocation), ".xml"));
 				var assemblyDocumentationPath = GetDocumentationFilePath(typeof(Application).Assembly.Location);
@@ -404,8 +405,7 @@ namespace Tgstation.Server.Host.Core
 			// suppress OperationCancelledExceptions, they are just aborted HTTP requests
 			applicationBuilder.UseCancelledRequestSuppression();
 
-			if (hostingEnvironment.IsDevelopment()
-				|| generalConfiguration.HostApiDocumemtation)
+			if (generalConfiguration.HostApiDocumentation)
 			{
 				applicationBuilder.UseSwagger();
 				applicationBuilder.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TGS API V4"));
@@ -447,8 +447,6 @@ namespace Tgstation.Server.Host.Core
 			else
 				logger.LogDebug("Web control panel disabled!");
 
-			logger.LogDebug("Starting hosting...");
-
 			// authenticate JWT tokens using our security pipeline if present, returns 401 if bad
 			applicationBuilder.UseAuthentication();
 
@@ -459,6 +457,13 @@ namespace Tgstation.Server.Host.Core
 			applicationBuilder.UseMvc();
 
 			// 404 anything that gets this far
+			// End of request pipeline setup
+			var masterVersionsAttribute = MasterVersionsAttribute.Instance;
+			logger.LogTrace("Configuration version: {0}", masterVersionsAttribute.RawConfigurationVersion);
+			logger.LogTrace("DMAPI version: {0}", masterVersionsAttribute.RawDMApiVersion);
+			logger.LogTrace("Web control panel version: {0}", masterVersionsAttribute.RawControlPanelVersion);
+
+			logger.LogDebug("Starting hosting...");
 		}
 	}
 }
