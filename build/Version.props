@@ -9,5 +9,6 @@
     <TgsDmapiVersion>5.2.7</TgsDmapiVersion>
     <TgsControlPanelVersion>0.4.0</TgsControlPanelVersion>
     <TgsHostWatchdogVersion>1.1.0</TgsHostWatchdogVersion>
+    <TgsContainerScriptVersion>1.1.0</TgsContainerScriptVersion>
   </PropertyGroup>
 </Project>
