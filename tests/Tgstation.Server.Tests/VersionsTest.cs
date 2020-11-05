@@ -3,12 +3,12 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using Tgstation.Server.Api;
 using Tgstation.Server.Client;
 using Tgstation.Server.Host;
 using Tgstation.Server.Host.Components.Interop;
-using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Configuration;
 
 namespace Tgstation.Server.Tests
@@ -130,6 +130,18 @@ namespace Tgstation.Server.Tests
 			Assert.AreEqual(expected.Minor, actual.Minor);
 			Assert.AreEqual(expected.Build, actual.Build);
 			Assert.AreEqual(-1, actual.Revision);
+		}
+
+		[TestMethod]
+		public async Task TestContainerScriptVersion()
+		{
+			var versionString = versionsPropertyGroup.Element(xmlNamespace + "TgsContainerScriptVersion").Value;
+			Assert.IsNotNull(versionString);
+			Assert.IsTrue(Version.TryParse(versionString, out var expected));
+			var scriptLines = await File.ReadAllLinesAsync("../../../../../build/tgs.docker.sh");
+
+			var line = scriptLines.FirstOrDefault(x => x.Trim().Contains($"SCRIPT_VERSION=\"{expected.Semver()}\""));
+			Assert.IsNotNull(line);
 		}
 	}
 }

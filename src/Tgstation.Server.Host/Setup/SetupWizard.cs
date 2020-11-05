@@ -1,4 +1,5 @@
 using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -73,6 +74,11 @@ namespace Tgstation.Server.Host.Setup
 		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
+		/// A <see cref="TaskCompletionSource{TResult}"/> that will complete when the <see cref="IConfiguration"/> is reloaded.
+		/// </summary>
+		TaskCompletionSource<object> reloadTcs;
+
+		/// <summary>
 		/// Construct a <see cref="SetupWizard"/>
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
@@ -83,6 +89,7 @@ namespace Tgstation.Server.Host.Setup
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
 		/// <param name="applicationLifetime">The value of <see cref="applicationLifetime"/>.</param>
+		/// <param name="configuration">The <see cref="IConfiguration"/> in use.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/></param>
 		public SetupWizard(
 			IIOManager ioManager,
@@ -93,6 +100,7 @@ namespace Tgstation.Server.Host.Setup
 			IPlatformIdentifier platformIdentifier,
 			IAsyncDelayer asyncDelayer,
 			IHostApplicationLifetime applicationLifetime,
+			IConfiguration configuration,
 			IOptions<GeneralConfiguration> generalConfigurationOptions)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
@@ -103,7 +111,16 @@ namespace Tgstation.Server.Host.Setup
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.applicationLifetime = applicationLifetime ?? throw new ArgumentNullException(nameof(applicationLifetime));
+			if (configuration == null)
+				throw new ArgumentNullException(nameof(configuration));
+
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+
+			configuration
+				.GetReloadToken()
+				.RegisterChangeCallback(
+					state => reloadTcs?.TrySetResult(null),
+					null);
 		}
 
 		/// <summary>
@@ -758,9 +775,16 @@ namespace Tgstation.Server.Host.Setup
 			var json = JsonConvert.SerializeObject(map, Formatting.Indented);
 			var configBytes = Encoding.UTF8.GetBytes(json);
 
+			reloadTcs = new TaskCompletionSource<object>();
+
 			try
 			{
 				await ioManager.WriteAllBytes(userConfigFileName, configBytes, cancellationToken).ConfigureAwait(false);
+
+				// Ensure the reload
+				if (generalConfiguration.SetupWizardMode != SetupWizardMode.Only)
+					using (cancellationToken.Register(() => reloadTcs.TrySetCanceled()))
+						await reloadTcs.Task.ConfigureAwait(false);
 			}
 			catch (OperationCanceledException)
 			{

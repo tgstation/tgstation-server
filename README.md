@@ -51,22 +51,24 @@ tgstation-server supports running in a docker container and is the recommended d
 To create a container run
 ```sh
 docker run \
-	-ti \ #start interactive for manual configuration
-	--restart=always \ #if you want maximum uptime
-	--network="host" \ #if your sql server is on the same machine
-	--name="tgs" \ #or whatever else you wanna call it
-	--cap-add=sys_nice \ #allows tgs to schedule DreamDaemon as a higher priority process
-	--init \ #reaps potential zombie processes
-	-p <tgs port>:80 \
-	-p 0.0.0.0:<public game port>:<public game port> \
-	-v /path/to/your/configfile/directory:/config_data \ #only if you want to use manual configuration
-	-v /path/to/store/instances:/tgs4_instances \
-	-v /path/to/your/log/folder:/tgs_logs \
-	tgstation/server:<release version> #replace this with <your tag name> if you built the image locally
+	-ti \ # Start with interactive terminal the first time to run the setup wizard
+	--restart=always \ # Recommended for maximum uptime
+	--network="host" \ # Not recommended, eases networking setup if your sql server is on the same machine
+	--name="tgs" \ # Name for the container
+	--cap-add=sys_nice \ # Recommended, allows tgs to schedule DreamDaemon as a higher priority process
+	--init \ #Highly recommended, reaps potential zombie processes
+	-p <tgs port>:<port configured with setup wizard> \ # Port bridge for accessing TGS
+	-p 0.0.0.0:<public game port>:<public game port> \ # Port bridge for accessing DreamDaemon
+	-v /path/to/your/configfile/directory:/config_data \ # Recommended, create a volume mapping for server configuration
+	-v /path/to/store/instances:/tgs4_instances \ # Recommended, create a volume mapping for server instances
+	-v /path/to/your/log/folder:/tgs_logs \ # Recommended, create a volume mapping for server logs
+	tgstation/server[:<release version>]
 ```
 with any additional options you desire (i.e. You'll have to expose more game ports in order to host more than one instance).
 
-- Important note about port exposure: The internal port used by DreamDaemon _**MUST**_ match the port you want users to connect on. If it doesn't, you'll still be able to have them connect HOWEVER links from the BYOND hub will point at what DreamDaemon thinks the port is.
+When launching the container for the first time, you'll be prompted with the setup wizard.
+
+Important note about port exposure: The internal port used by DreamDaemon _**MUST**_ match the port you want users to connect on. If it doesn't, you'll still be able to have them connect HOWEVER links from the BYOND hub will point at what DreamDaemon thinks the port is (the internal port).
 
 Note although `/app/lib` is specified as a volume mount point in the `Dockerfile`, unless you REALLY know what you're doing. Do not mount any volumes over this for fear of breaking your container.
 
