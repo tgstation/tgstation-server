@@ -3,14 +3,16 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
 	[DbContext(typeof(SqlServerDatabaseContext))]
-	partial class SqlServerDatabaseContextModelSnapshot : ModelSnapshot
+	[Migration("20201106082502_MSAddAdditionalDDParameters")]
+	partial class MSAddAdditionalDDParameters
 	{
 		/// <inheritdoc />
-		protected override void BuildModel(ModelBuilder modelBuilder)
+		protected override void BuildTargetModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
 			modelBuilder

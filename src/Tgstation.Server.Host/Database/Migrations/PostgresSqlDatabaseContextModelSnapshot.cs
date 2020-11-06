@@ -9,12 +9,13 @@ namespace Tgstation.Server.Host.Database.Migrations
 	[DbContext(typeof(PostgresSqlDatabaseContext))]
 	partial class PostgresSqlDatabaseContextModelSnapshot : ModelSnapshot
 	{
+		/// <inheritdoc />
 		protected override void BuildModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
 			modelBuilder
 				.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
-				.HasAnnotation("ProductVersion", "3.1.6")
+				.HasAnnotation("ProductVersion", "3.1.7")
 				.HasAnnotation("Relational:MaxIdentifierLength", 63);
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
@@ -166,6 +167,11 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.ValueGeneratedOnAdd()
 						.HasColumnType("bigint")
 						.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+					b.Property<string>("AdditionalParameters")
+						.IsRequired()
+						.HasColumnType("character varying(10000)")
+						.HasMaxLength(10000);
 
 					b.Property<bool?>("AllowWebClient")
 						.IsRequired()

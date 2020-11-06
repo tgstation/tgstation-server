@@ -131,6 +131,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreEqual(WatchdogStatus.Online, daemonStatus.Status.Value);
 			Assert.AreEqual(false, daemonStatus.SoftRestart);
 			Assert.AreEqual(false, daemonStatus.SoftShutdown);
+			Assert.AreEqual(String.Empty, daemonStatus.AdditionalParameters);
 			var initialCompileJob = daemonStatus.ActiveCompileJob;
 
 			daemonStatus = await DeployTestDme("BasicOperation/basic_operation_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
@@ -150,7 +151,13 @@ namespace Tgstation.Server.Tests.Instance
 		async Task RunBasicTest(CancellationToken cancellationToken)
 		{
 			global::System.Console.WriteLine("TEST: WATCHDOG BASIC TEST");
-			var daemonStatus = await DeployTestDme("BasicOperation/basic_operation_test", DreamDaemonSecurity.Ultrasafe, true, cancellationToken);
+
+			var daemonStatus = await instanceClient.DreamDaemon.Update(new DreamDaemon
+			{
+				AdditionalParameters = "test=bababooey"
+			}, cancellationToken);
+			Assert.AreEqual("test=bababooey", daemonStatus.AdditionalParameters);
+			daemonStatus = await DeployTestDme("BasicOperation/basic_operation_test", DreamDaemonSecurity.Ultrasafe, true, cancellationToken);
 
 			Assert.AreEqual(WatchdogStatus.Offline, daemonStatus.Status.Value);
 			Assert.IsNotNull(daemonStatus.ActiveCompileJob);
@@ -187,6 +194,12 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreEqual(WatchdogStatus.Offline, daemonStatus.Status.Value);
 
 			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken);
+
+			daemonStatus = await instanceClient.DreamDaemon.Update(new DreamDaemon
+			{
+				AdditionalParameters = String.Empty
+			}, cancellationToken);
+			Assert.AreEqual(String.Empty, daemonStatus.AdditionalParameters);
 		}
 
 		async Task RunHeartbeatTest(CancellationToken cancellationToken)

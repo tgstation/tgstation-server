@@ -13,7 +13,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "3.1.6");
+				.HasAnnotation("ProductVersion", "3.1.7");
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
 				{
@@ -162,6 +162,11 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
 						.HasColumnType("INTEGER");
+
+					b.Property<string>("AdditionalParameters")
+						.IsRequired()
+						.HasColumnType("TEXT")
+						.HasMaxLength(10000);
 
 					b.Property<bool?>("AllowWebClient")
 						.IsRequired()
