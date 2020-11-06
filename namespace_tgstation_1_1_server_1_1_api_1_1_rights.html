@@ -158,7 +158,9 @@ Enumerations</h2></td></tr>
 &#160;&#160;<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49ae34541119c09d49ca1ba51be76c98aa1">DreamDaemonRights.SetStartupTimeout</a> = 2048, 
 <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49a56edaf677f0c63f6d6b0d6bd90f151cc">DreamDaemonRights.SetHeartbeatInterval</a> = 4096, 
 <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49a14e9adc4994501d29b832109c5a7f14b">DreamDaemonRights.CreateDump</a> = 8192, 
-<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49a598cfc66b07c2c5b69d5cc126492418a">DreamDaemonRights.SetTopicTimeout</a> = 16384
+<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49a598cfc66b07c2c5b69d5cc126492418a">DreamDaemonRights.SetTopicTimeout</a> = 16384, 
+<br />
+&#160;&#160;<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49a2608e36de9df2c73e6c9a985b922e887">DreamDaemonRights.SetAdditionalParameters</a> = 32768
 <br />
  }</td></tr>
 <tr class="memdesc:acf2642afce6567c03b79876139a10a49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rights for Models.DreamDaemon  <a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49">More...</a><br /></td></tr>
@@ -535,6 +537,8 @@ Enumerations</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="acf2642afce6567c03b79876139a10a49a598cfc66b07c2c5b69d5cc126492418a"></a>SetTopicTimeout&#160;</td><td class="fielddoc"><p>User can change <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#a5e172ad3abdcc1f6a0f24cdf08646d0a" title="The timeout for sending and receiving BYOND topics in milliseconds.">Models.Internal.DreamDaemonLaunchParameters.TopicRequestTimeout</a>. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="acf2642afce6567c03b79876139a10a49a2608e36de9df2c73e6c9a985b922e887"></a>SetAdditionalParameters&#160;</td><td class="fielddoc"><p>User can change <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html#ae0805858305339e11954cf91f9c21a16" title="Parameters string for DreamDaemon.">Models.Internal.DreamDaemonLaunchParameters.AdditionalParameters</a>. </p>
+</td></tr>
 </table>
 
 <p class="definition">Definition at line <a class="el" href="_dream_daemon_rights_8cs_source.html#l00009">9</a> of file <a class="el" href="_dream_daemon_rights_8cs_source.html">DreamDaemonRights.cs</a>.</p>
@@ -569,8 +573,10 @@ Enumerations</h2></td></tr>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        CreateDump = 8192,</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49a6adf97f83acf6453d4a6a4b1070f3754">SetTopicTimeout</a> = 16384,</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    }</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        SetTopicTimeout = 16384,</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49a6adf97f83acf6453d4a6a4b1070f3754">SetAdditionalParameters</a> = 32768,</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    }</div>
 </div><!-- fragment -->
 </div>
 </div>

@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Database.Migrations.MSAddAdditionalDDParameters" name="Tgstation.Server.Host.Database.Migrations.MSAddAdditionalDDParameters">
+<area shape="rect" id="node1" title="Adds the AdditionalParameters DD column for MSSQL." alt="" coords="5,80,276,121"/>
+<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="103,5,178,32"/>
+</map>

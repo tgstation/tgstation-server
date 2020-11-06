@@ -1,6 +1,6 @@
-<map id="Tgstation.Server.Host.Setup.PostSetupServices" name="Tgstation.Server.Host.Setup.PostSetupServices">
-<area shape="rect" id="node1" title=" " alt="" coords="827,345,1015,386"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html" title="Set of objects needed to configure an Core.Application." alt="" coords="417,163,556,189"/>
+<map id="Tgstation.Server.Host.Setup.PostSetupServices&lt; TLoggerType &gt;" name="Tgstation.Server.Host.Setup.PostSetupServices&lt; TLoggerType &gt;">
+<area shape="rect" id="node1" title=" " alt="" coords="827,345,1059,386"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html" title=" " alt="" coords="417,149,556,190"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html" title="File logging configuration options" alt="" coords="372,345,601,386"/>
 <area shape="rect" id="node4" title=" " alt="" coords="41,304,95,331"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html" title="Configuration options for the Database.DatabaseContext" alt="" coords="372,279,601,321"/>

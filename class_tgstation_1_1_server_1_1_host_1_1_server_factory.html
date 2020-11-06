@@ -124,7 +124,7 @@ Private Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Implementation of <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server_factory.html" title="For creating IServers">IServerFactory</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="_server_factory_8cs_source.html#l00020">20</a> of file <a class="el" href="_server_factory_8cs_source.html">ServerFactory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_server_factory_8cs_source.html#l00021">21</a> of file <a class="el" href="_server_factory_8cs_source.html">ServerFactory.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a4234b15ede546c23f9b5d35bc5c8749b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4234b15ede546c23f9b5d35bc5c8749b">&#9670;&nbsp;</a></span>CreateServer()</h2>
@@ -162,51 +162,56 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server_factory.html#a063542cb78195a507feb3c0e6921b01b">Tgstation.Server.Host.IServerFactory</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_server_factory_8cs_source.html#l00042">42</a> of file <a class="el" href="_server_factory_8cs_source.html">ServerFactory.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            <span class="keywordflow">if</span> (args == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(args));</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            IHostBuilder CreateDefaultBuilder() =&gt; Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                .ConfigureAppConfiguration((context, configuration) =&gt; configuration</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                    .SetBasePath(</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                        <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a00dd1ed657781fec45931a35278ac3a2">IOManager</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">ResolvePath</a>()));</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            var setupWizardHostBuilder = CreateDefaultBuilder()</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                .UseSetupApplication();</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            <a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html">IPostSetupServices</a> postSetupServices;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="keyword">using</span> (var setupHost = setupWizardHostBuilder.Build())</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            {</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                postSetupServices = setupHost.Services.GetRequiredService&lt;<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html">IPostSetupServices</a>&gt;();</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                await setupHost.RunAsync(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            }</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            var hostBuilder = CreateDefaultBuilder()</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                .ConfigureWebHost(webHostBuilder =&gt;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                    webHostBuilder</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                        .UseKestrel(kestrelOptions =&gt;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                        {</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                            var serverPortProvider = kestrelOptions.ApplicationServices.GetRequiredService&lt;<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html">IServerPortProvider</a>&gt;();</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                            kestrelOptions.ListenAnyIP(</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                                serverPortProvider.HttpApiPort,</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                                listenOptions =&gt; listenOptions.Protocols = HttpProtocols.Http1AndHttp2);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                        })</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                        .UseIIS()</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                        .UseIISIntegration()</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                        .UseApplication(postSetupServices)</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                        .SuppressStatusMessages(<span class="keyword">true</span>)</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                        .UseShutdownTimeout(TimeSpan.FromMilliseconds(postSetupServices.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html#a3a19dda55bff763cbbc27de56905ae5a">GeneralConfiguration</a>.RestartTimeout)));</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            <span class="keywordflow">if</span> (updatePath != <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                hostBuilder.UseContentRoot(</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a00dd1ed657781fec45931a35278ac3a2">IOManager</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">ResolvePath</a>(</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                        <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a00dd1ed657781fec45931a35278ac3a2">IOManager</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a691970cc91e5576b06ed9ce14e51d9b8">GetDirectoryName</a>(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a387f7728fad0a77333cbb190d18b400d">assemblyInformationProvider</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#a49dad396bc16dcecc22c246e1706966a">Path</a>)));</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">new</span> Server(hostBuilder, updatePath);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="_server_factory_8cs_source.html#l00045">45</a> of file <a class="el" href="_server_factory_8cs_source.html">ServerFactory.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <span class="keywordflow">if</span> (args == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(args));</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            var basePath = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a00dd1ed657781fec45931a35278ac3a2">IOManager</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">ResolvePath</a>();</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            IHostBuilder CreateDefaultBuilder() =&gt; Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                .ConfigureAppConfiguration((context, configuration) =&gt; configuration.SetBasePath(basePath));</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            var setupWizardHostBuilder = CreateDefaultBuilder()</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                .UseSetupApplication();</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html">IPostSetupServices&lt;ServerFactory&gt;</a> postSetupServices;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            <span class="keyword">using</span> (var setupHost = setupWizardHostBuilder.Build())</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            {</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                postSetupServices = setupHost.Services.GetRequiredService&lt;<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html">IPostSetupServices&lt;ServerFactory&gt;</a>&gt;();</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                await setupHost.RunAsync(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                <span class="keywordflow">if</span> (postSetupServices.GeneralConfiguration.SetupWizardMode == <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_setup.html#ada83b66b0eb589bb855302d25c41e4de">SetupWizardMode</a>.Only)</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                {</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                    postSetupServices.Logger.LogInformation(<span class="stringliteral">&quot;Shutting down due to only running setup wizard.&quot;</span>);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                    <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                }</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            }</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            var hostBuilder = CreateDefaultBuilder()</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                .ConfigureWebHost(webHostBuilder =&gt;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                    webHostBuilder</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                        .UseKestrel(kestrelOptions =&gt;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                        {</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                            var serverPortProvider = kestrelOptions.ApplicationServices.GetRequiredService&lt;<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html">IServerPortProvider</a>&gt;();</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                            kestrelOptions.ListenAnyIP(</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                                serverPortProvider.HttpApiPort,</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                                listenOptions =&gt; listenOptions.Protocols = HttpProtocols.Http1AndHttp2);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                        })</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                        .UseIIS()</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                        .UseIISIntegration()</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                        .UseApplication(postSetupServices)</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                        .SuppressStatusMessages(<span class="keyword">true</span>)</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                        .UseShutdownTimeout(TimeSpan.FromMilliseconds(postSetupServices.GeneralConfiguration.RestartTimeout)));</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            <span class="keywordflow">if</span> (updatePath != <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                hostBuilder.UseContentRoot(</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a00dd1ed657781fec45931a35278ac3a2">IOManager</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">ResolvePath</a>(</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                        <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a00dd1ed657781fec45931a35278ac3a2">IOManager</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a691970cc91e5576b06ed9ce14e51d9b8">GetDirectoryName</a>(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a387f7728fad0a77333cbb190d18b400d">assemblyInformationProvider</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#a49dad396bc16dcecc22c246e1706966a">Path</a>)));</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">new</span> Server(hostBuilder, updatePath);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_server_factory_8cs_source.html#l00025">Tgstation.Server.Host.ServerFactory.assemblyInformationProvider</a>, <a class="el" href="_i_post_setup_services_8cs_source.html#l00014">Tgstation.Server.Host.Setup.IPostSetupServices.GeneralConfiguration</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a691970cc91e5576b06ed9ce14e51d9b8">Tgstation.Server.Host.IO.IIOManager.GetDirectoryName()</a>, <a class="el" href="_server_factory_8cs_source.html#l00028">Tgstation.Server.Host.ServerFactory.IOManager</a>, <a class="el" href="_i_assembly_information_provider_8cs_source.html#l00014">Tgstation.Server.Host.System.IAssemblyInformationProvider.Path</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">Tgstation.Server.Host.IO.IIOManager.ResolvePath()</a>.</p>
+<p class="reference">References <a class="el" href="_server_factory_8cs_source.html#l00026">Tgstation.Server.Host.ServerFactory.assemblyInformationProvider</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a691970cc91e5576b06ed9ce14e51d9b8">Tgstation.Server.Host.IO.IIOManager.GetDirectoryName()</a>, <a class="el" href="_server_factory_8cs_source.html#l00029">Tgstation.Server.Host.ServerFactory.IOManager</a>, <a class="el" href="_i_assembly_information_provider_8cs_source.html#l00014">Tgstation.Server.Host.System.IAssemblyInformationProvider.Path</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">Tgstation.Server.Host.IO.IIOManager.ResolvePath()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_tgstation_8_server_8_host_2_program_8cs_source.html#l00034">Tgstation.Server.Host.Program.Main()</a>.</p>
 <div class="dynheader">
@@ -254,9 +259,9 @@ Here is the caller graph for this function:</div>
 
 <p>The IAssemblyInformationProvider for the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html" title="Implementation of IServerFactory.">ServerFactory</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="_server_factory_8cs_source.html#l00025">25</a> of file <a class="el" href="_server_factory_8cs_source.html">ServerFactory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_server_factory_8cs_source.html#l00026">26</a> of file <a class="el" href="_server_factory_8cs_source.html">ServerFactory.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_server_factory_8cs_source.html#l00042">Tgstation.Server.Host.ServerFactory.CreateServer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_factory_8cs_source.html#l00045">Tgstation.Server.Host.ServerFactory.CreateServer()</a>.</p>
 
 </div>
 </div>
@@ -283,10 +288,10 @@ Here is the caller graph for this function:</div>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_server_factory_8cs_source.html#l00028">28</a> of file <a class="el" href="_server_factory_8cs_source.html">ServerFactory.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_server_factory_8cs_source.html#l00029">29</a> of file <a class="el" href="_server_factory_8cs_source.html">ServerFactory.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_server_factory_8cs_source.html#l00042">Tgstation.Server.Host.ServerFactory.CreateServer()</a>, and <a class="el" href="_tgstation_8_server_8_host_2_program_8cs_source.html#l00034">Tgstation.Server.Host.Program.Main()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_server_factory_8cs_source.html#l00045">Tgstation.Server.Host.ServerFactory.CreateServer()</a>, and <a class="el" href="_tgstation_8_server_8_host_2_program_8cs_source.html#l00034">Tgstation.Server.Host.Program.Main()</a>.</p>
 
 </div>
 </div>
@@ -294,14 +299,14 @@ Here is the caller graph for this function:</div>
 <li>src/Tgstation.Server.Host/<a class="el" href="_server_factory_8cs_source.html">ServerFactory.cs</a></li>
 </ul>
 </div><!-- contents -->
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_server_factory_html_a387f7728fad0a77333cbb190d18b400d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a387f7728fad0a77333cbb190d18b400d">Tgstation.Server.Host.ServerFactory.assemblyInformationProvider</a></div><div class="ttdeci">readonly IAssemblyInformationProvider assemblyInformationProvider</div><div class="ttdoc">The IAssemblyInformationProvider for the ServerFactory.</div><div class="ttdef"><b>Definition:</b> <a href="_server_factory_8cs_source.html#l00025">ServerFactory.cs:25</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_server_factory_html_a387f7728fad0a77333cbb190d18b400d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a387f7728fad0a77333cbb190d18b400d">Tgstation.Server.Host.ServerFactory.assemblyInformationProvider</a></div><div class="ttdeci">readonly IAssemblyInformationProvider assemblyInformationProvider</div><div class="ttdoc">The IAssemblyInformationProvider for the ServerFactory.</div><div class="ttdef"><b>Definition:</b> <a href="_server_factory_8cs_source.html#l00026">ServerFactory.cs:26</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services_html"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html">Tgstation.Server.Host.Setup.IPostSetupServices</a></div><div class="ttdoc">Set of objects needed to configure an Core.Application.</div><div class="ttdef"><b>Definition:</b> <a href="_i_post_setup_services_8cs_source.html#l00009">IPostSetupServices.cs:10</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_server_factory_html_a00dd1ed657781fec45931a35278ac3a2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a00dd1ed657781fec45931a35278ac3a2">Tgstation.Server.Host.ServerFactory.IOManager</a></div><div class="ttdeci">IIOManager IOManager</div><div class="ttdef"><b>Definition:</b> <a href="_server_factory_8cs_source.html#l00028">ServerFactory.cs:28</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_server_factory_html_a00dd1ed657781fec45931a35278ac3a2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a00dd1ed657781fec45931a35278ac3a2">Tgstation.Server.Host.ServerFactory.IOManager</a></div><div class="ttdeci">IIOManager IOManager</div><div class="ttdef"><b>Definition:</b> <a href="_server_factory_8cs_source.html#l00029">ServerFactory.cs:29</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_a18a442b5dff16f5e7a730ec354e81d78"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a18a442b5dff16f5e7a730ec354e81d78">Tgstation.Server.Host.IO.IIOManager.ResolvePath</a></div><div class="ttdeci">string ResolvePath()</div><div class="ttdoc">Retrieve the full path of the current working directory.</div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager_html_a691970cc91e5576b06ed9ce14e51d9b8"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a691970cc91e5576b06ed9ce14e51d9b8">Tgstation.Server.Host.IO.IIOManager.GetDirectoryName</a></div><div class="ttdeci">string GetDirectoryName(string path)</div><div class="ttdoc">Gets the directory portion of a given path</div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider_html"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html">Tgstation.Server.Host.Core.IServerPortProvider</a></div><div class="ttdoc">Provides access to the server's HttpApiPort.</div><div class="ttdef"><b>Definition:</b> <a href="_i_server_port_provider_8cs_source.html#l00006">IServerPortProvider.cs:7</a></div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_setup_html_ada83b66b0eb589bb855302d25c41e4de"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_setup.html#ada83b66b0eb589bb855302d25c41e4de">Tgstation.Server.Host.Setup.SetupWizardMode</a></div><div class="ttdeci">SetupWizardMode</div><div class="ttdoc">Determines if the SetupWizard will run.</div><div class="ttdef"><b>Definition:</b> <a href="_setup_wizard_mode_8cs_source.html#l00006">SetupWizardMode.cs:7</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider_html_a49dad396bc16dcecc22c246e1706966a"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#a49dad396bc16dcecc22c246e1706966a">Tgstation.Server.Host.System.IAssemblyInformationProvider.Path</a></div><div class="ttdeci">string Path</div><div class="ttdoc">Gets the path to the executing assembly.</div><div class="ttdef"><b>Definition:</b> <a href="_i_assembly_information_provider_8cs_source.html#l00014">IAssemblyInformationProvider.cs:14</a></div></div>
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services_html_a3a19dda55bff763cbbc27de56905ae5a"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html#a3a19dda55bff763cbbc27de56905ae5a">Tgstation.Server.Host.Setup.IPostSetupServices.GeneralConfiguration</a></div><div class="ttdeci">GeneralConfiguration GeneralConfiguration</div><div class="ttdoc">The Configuration.GeneralConfiguration.</div><div class="ttdef"><b>Definition:</b> <a href="_i_post_setup_services_8cs_source.html#l00014">IPostSetupServices.cs:14</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20
