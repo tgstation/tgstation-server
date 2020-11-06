@@ -87,5 +87,10 @@ namespace Tgstation.Server.Api.Rights
 		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.TopicRequestTimeout"/>.
 		/// </summary>
 		SetTopicTimeout = 16384,
+
+		/// <summary>
+		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.AdditionalParameters"/>.
+		/// </summary>
+		SetAdditionalParameters = 32768,
 	}
 }

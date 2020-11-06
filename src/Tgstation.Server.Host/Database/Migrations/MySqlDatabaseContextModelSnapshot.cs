@@ -8,11 +8,12 @@ namespace Tgstation.Server.Host.Database.Migrations
 	[DbContext(typeof(MySqlDatabaseContext))]
 	partial class MySqlDatabaseContextModelSnapshot : ModelSnapshot
 	{
+		/// <inheritdoc />
 		protected override void BuildModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "3.1.6")
+				.HasAnnotation("ProductVersion", "3.1.7")
 				.HasAnnotation("Relational:MaxIdentifierLength", 64);
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
@@ -162,6 +163,11 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.Property<long>("Id")
 						.ValueGeneratedOnAdd()
 						.HasColumnType("bigint");
+
+					b.Property<string>("AdditionalParameters")
+						.IsRequired()
+						.HasColumnType("longtext CHARACTER SET utf8mb4")
+						.HasMaxLength(10000);
 
 					b.Property<bool?>("AllowWebClient")
 						.IsRequired()

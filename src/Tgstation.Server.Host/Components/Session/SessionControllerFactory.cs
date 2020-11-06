@@ -231,6 +231,9 @@ namespace Tgstation.Server.Host.Components.Session
 					// more sanitization here cause it uses the same scheme
 					var parameters = $"{DMApiConstants.ParamApiVersion}={byondTopicSender.SanitizeString(DMApiConstants.Version.Semver().ToString())}&{byondTopicSender.SanitizeString(DMApiConstants.ParamServerPort)}={serverPortProvider.HttpApiPort}&{byondTopicSender.SanitizeString(DMApiConstants.ParamAccessIdentifier)}={byondTopicSender.SanitizeString(accessIdentifier)}";
 
+					if (!String.IsNullOrEmpty(launchParameters.AdditionalParameters))
+						parameters = $"{parameters}&{launchParameters.AdditionalParameters}";
+
 					var visibility = apiValidate ? "invisible" : "public";
 
 					// important to run on all ports to allow port changing

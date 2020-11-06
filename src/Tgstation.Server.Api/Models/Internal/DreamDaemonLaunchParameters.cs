@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models.Internal
@@ -49,6 +49,13 @@ namespace Tgstation.Server.Api.Models.Internal
 		public uint? TopicRequestTimeout { get; set; }
 
 		/// <summary>
+		/// Parameters string for DreamDaemon.
+		/// </summary>
+		[Required]
+		[StringLength(Limits.MaximumStringLength)]
+		public string? AdditionalParameters { get; set; }
+
+		/// <summary>
 		/// Check if we match a given set of <paramref name="otherParameters"/>. <see cref="StartupTimeout"/> is excluded.
 		/// </summary>
 		/// <param name="otherParameters">The <see cref="DreamDaemonLaunchParameters"/> to compare against</param>
@@ -57,6 +64,7 @@ namespace Tgstation.Server.Api.Models.Internal
 			AllowWebClient == (otherParameters?.AllowWebClient ?? throw new ArgumentNullException(nameof(otherParameters)))
 				&& SecurityLevel == otherParameters.SecurityLevel
 				&& Port == otherParameters.Port
-				&& TopicRequestTimeout == otherParameters.TopicRequestTimeout; // We intentionally don't check StartupTimeout or heartbeat seconds as it doesn't matter in terms of the watchdog
+				&& TopicRequestTimeout == otherParameters.TopicRequestTimeout
+				&& AdditionalParameters == otherParameters.AdditionalParameters; // We intentionally don't check StartupTimeout or heartbeat seconds as it doesn't matter in terms of the watchdog
 	}
 }
