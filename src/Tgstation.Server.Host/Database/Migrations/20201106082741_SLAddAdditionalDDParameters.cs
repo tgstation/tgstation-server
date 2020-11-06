@@ -59,7 +59,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 				});
 
 			migrationBuilder.Sql(
-				$"INSERT INTO DreamDaemonSettings SELECT Id,AllowWebClient,SecurityLevel,PrimaryPort,AutoStart,HeartbeatSeconds,StartupTimeout,InstanceId,TopicRequestTimeout FROM DreamDaemonSettings_down");
+				$"INSERT INTO DreamDaemonSettings SELECT Id,AllowWebClient,SecurityLevel,Port,AutoStart,HeartbeatSeconds,StartupTimeout,InstanceId,TopicRequestTimeout FROM DreamDaemonSettings_down");
 
 			migrationBuilder.DropTable(
 				name: "DreamDaemonSettings_down");
