@@ -66,7 +66,7 @@ docker run \
 ```
 with any additional options you desire (i.e. You'll have to expose more game ports in order to host more than one instance).
 
-When launching the container for the first time, you'll be prompted with the setup wizard.
+When launching the container for the first time, you'll be prompted with the setup wizard and then the container will exit. Start the container again to launch the server.
 
 Important note about port exposure: The internal port used by DreamDaemon _**MUST**_ match the port you want users to connect on. If it doesn't, you'll still be able to have them connect HOWEVER links from the BYOND hub will point at what DreamDaemon thinks the port is (the internal port).
 
@@ -75,6 +75,8 @@ Note although `/app/lib` is specified as a volume mount point in the `Dockerfile
 The configuration option `General:ValidInstancePaths` will be preconfigured to point to `/tgs4_instances`. It is recommended you don't change this.
 
 Note that this container is meant to be long running. Updates are handled internally as opposed to at the container level.
+
+Note that automatic configuration reloading is currently not supported in the container. See #1143
 
 If using manual configuration, before starting your container make sure the aforementioned `appsettings.Production.json` is setup properly. See below
 
