@@ -27,7 +27,7 @@ namespace Tgstation.Server.Tests
 			var doc = XDocument.Load("../../../../../build/Version.props");
 			var project = doc.Root;
 			xmlNamespace = project.GetDefaultNamespace();
-			versionsPropertyGroup = project.Elements().First();
+			versionsPropertyGroup = project.Elements().First(x => x.Name == xmlNamespace + "PropertyGroup");
 			Assert.IsNotNull(versionsPropertyGroup);
 		}
 
@@ -103,7 +103,11 @@ namespace Tgstation.Server.Tests
 		[TestMethod]
 		public void TestControlPanelVersion()
 		{
-			var versionString = versionsPropertyGroup.Element(xmlNamespace + "TgsControlPanelVersion").Value;
+			var doc = XDocument.Load("../../../../../build/ControlPanelVersion.props");
+			var project = doc.Root;
+			var controlPanelXmlNamespace = project.GetDefaultNamespace();
+			var controlPanelVersionsPropertyGroup = project.Elements().First(x => x.Name == controlPanelXmlNamespace + "PropertyGroup");
+			var versionString = controlPanelVersionsPropertyGroup.Element(controlPanelXmlNamespace + "TgsControlPanelVersion").Value;
 			Assert.IsNotNull(versionString);
 			Assert.IsTrue(Version.TryParse(versionString, out var expected));
 
@@ -111,7 +115,7 @@ namespace Tgstation.Server.Tests
 
 			dynamic json = JObject.Parse(jsonText);
 
-			string cpVersionString = json.dependencies["tgstation-server-control-panel"];
+			string cpVersionString = json.version;
 
 			Assert.IsTrue(Version.TryParse(cpVersionString, out var actual));
 			Assert.AreEqual(expected, actual);

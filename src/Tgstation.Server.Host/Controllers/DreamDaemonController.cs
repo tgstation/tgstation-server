@@ -152,6 +152,7 @@ namespace Tgstation.Server.Host.Controllers
 					result.StartupTimeout = settings.StartupTimeout.Value;
 					result.HeartbeatSeconds = settings.HeartbeatSeconds.Value;
 					result.TopicRequestTimeout = settings.TopicRequestTimeout.Value;
+					result.AdditionalParameters = settings.AdditionalParameters;
 				}
 
 				if (revision)
@@ -273,7 +274,8 @@ namespace Tgstation.Server.Host.Controllers
 						|| (model.SoftShutdown.HasValue && !AuthenticationContext.InstanceUser.DreamDaemonRights.Value.HasFlag(DreamDaemonRights.SoftShutdown))
 						|| CheckModified(x => x.StartupTimeout, DreamDaemonRights.SetStartupTimeout)
 						|| CheckModified(x => x.HeartbeatSeconds, DreamDaemonRights.SetHeartbeatInterval)
-						|| CheckModified(x => x.TopicRequestTimeout, DreamDaemonRights.SetTopicTimeout))
+						|| CheckModified(x => x.TopicRequestTimeout, DreamDaemonRights.SetTopicTimeout)
+						|| CheckModified(x => x.AdditionalParameters, DreamDaemonRights.SetAdditionalParameters))
 						return Forbid();
 
 					await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);

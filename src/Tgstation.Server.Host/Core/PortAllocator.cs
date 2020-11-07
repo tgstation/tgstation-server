@@ -77,6 +77,7 @@ namespace Tgstation.Server.Host.Core
 				catch (Exception ex)
 				{
 					logger.LogDebug(ex, "Not using port {0}", I);
+					continue;
 				}
 
 				logger.LogInformation("Allocated port {0}", I);

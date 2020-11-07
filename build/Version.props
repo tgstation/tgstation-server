@@ -1,14 +1,15 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- This is the authorative version list -->
+  <!-- Integration tests will ensure they match across the board -->
+  <Import Project="ControlPanelVersion.props" />
   <PropertyGroup>
-    <!-- This is the authorative version list -->
-    <!-- Integration tests will ensure they match across the board -->
-    <TgsCoreVersion>4.5.4</TgsCoreVersion>
+    <TgsCoreVersion>4.6.0</TgsCoreVersion>
     <TgsConfigVersion>2.1.1</TgsConfigVersion>
     <TgsApiVersion>7.4.0</TgsApiVersion>
     <TgsClientVersion>8.4.0</TgsClientVersion>
     <TgsDmapiVersion>5.2.8</TgsDmapiVersion>
-    <TgsControlPanelVersion>0.4.0</TgsControlPanelVersion>
     <TgsHostWatchdogVersion>1.1.0</TgsHostWatchdogVersion>
     <TgsContainerScriptVersion>1.1.1</TgsContainerScriptVersion>
   </PropertyGroup>
 </Project>
+

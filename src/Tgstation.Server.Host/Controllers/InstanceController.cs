@@ -144,7 +144,8 @@ namespace Tgstation.Server.Host.Controllers
 					SecurityLevel = DreamDaemonSecurity.Safe,
 					StartupTimeout = 60,
 					HeartbeatSeconds = 60,
-					TopicRequestTimeout = generalConfiguration.ByondTopicTimeout
+					TopicRequestTimeout = generalConfiguration.ByondTopicTimeout,
+					AdditionalParameters = String.Empty,
 				},
 				DreamMakerSettings = new DreamMakerSettings
 				{
