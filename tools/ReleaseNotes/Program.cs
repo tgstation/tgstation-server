@@ -34,11 +34,11 @@ namespace ReleaseNotes
 
 			var doNotCloseMilestone = args.Length > 1 && args[1].ToUpperInvariant() == "--NO-CLOSE";
 
-			var propsPath = "../../../../../build/Version.props";
+			var propsPath = "../../build/Version.props";
 			if (args.Length > 1 && !doNotCloseMilestone)
 				propsPath = args[1];
 
-			var controlPanelPropsPath = "../../../../../build/Version.props";
+			var controlPanelPropsPath = "../../build/ControlPanelVersion.props";
 			if (args.Length > 2 && !doNotCloseMilestone)
 				propsPath = args[2];
 
