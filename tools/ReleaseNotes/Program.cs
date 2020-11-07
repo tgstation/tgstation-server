@@ -34,14 +34,6 @@ namespace ReleaseNotes
 
 			var doNotCloseMilestone = args.Length > 1 && args[1].ToUpperInvariant() == "--NO-CLOSE";
 
-			var propsPath = "build/Version.props";
-			if (args.Length > 1 && !doNotCloseMilestone)
-				propsPath = args[1];
-
-			var controlPanelPropsPath = "build/ControlPanelVersion.props";
-			if (args.Length > 2 && !doNotCloseMilestone)
-				propsPath = args[2];
-
 			const string ReleaseNotesEnvVar = "TGS4_RELEASE_NOTES_TOKEN";
 			var githubToken = Environment.GetEnvironmentVariable(ReleaseNotesEnvVar);
 			if (String.IsNullOrWhiteSpace(githubToken) && !doNotCloseMilestone)
@@ -241,15 +233,18 @@ namespace ReleaseNotes
 				switch (releasingSuite)
 				{
 					case 4:
-						var doc = XDocument.Load(propsPath);
+						const string PropsPath = "build/Version.props";
+						const string ControlPanelPropsPath = "build/ControlPanelVersion.props";
+
+						var doc = XDocument.Load(PropsPath);
 						var project = doc.Root;
 						var xmlNamespace = project.GetDefaultNamespace();
 						var versionsPropertyGroup = project.Elements().First(x => x.Name == xmlNamespace + "PropertyGroup");
 
-						var doc2 = XDocument.Load(controlPanelPropsPath);
-						var project2 = doc.Root;
-						var controlPanelXmlNamespace = project.GetDefaultNamespace();
-						var controlPanelVersionsPropertyGroup = project.Elements().First(x => x.Name == controlPanelXmlNamespace + "PropertyGroup");
+						var doc2 = XDocument.Load(ControlPanelPropsPath);
+						var project2 = doc2.Root;
+						var controlPanelXmlNamespace = project2.GetDefaultNamespace();
+						var controlPanelVersionsPropertyGroup = project2.Elements().First(x => x.Name == controlPanelXmlNamespace + "PropertyGroup");
 
 						var coreVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsCoreVersion").Value);
 						if(coreVersion != version)
