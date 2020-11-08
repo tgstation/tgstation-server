@@ -1043,49 +1043,53 @@ Here is the caller graph for this function:</div>
 <div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;                    _ =&gt; <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;Invalid DiscordDMOutputDisplayType: {outputDisplayType}&quot;</span>),</div>
 <div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;                };</div>
 <div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160; </div>
-<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;                <span class="keywordflow">if</span> (showDMOutput &amp;&amp; dreamMakerOutput != <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;                    builder.AddField(<span class="keyword">new</span> EmbedFieldBuilder</div>
-<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;                    {</div>
-<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;                        Name = <span class="stringliteral">&quot;DreamMaker Output&quot;</span>,</div>
-<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;                        Value = $<span class="stringliteral">&quot;```{Environment.NewLine}{dreamMakerOutput}{Environment.NewLine}```&quot;</span></div>
-<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;                    });</div>
-<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160; </div>
-<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;                <span class="keywordflow">if</span> (errorMessage != <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;                    builder.AddField(<span class="keyword">new</span> EmbedFieldBuilder</div>
-<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;                    {</div>
-<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;                        Name = <span class="stringliteral">&quot;Error Message&quot;</span>,</div>
-<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;                        Value = errorMessage</div>
-<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;                    });</div>
-<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160; </div>
-<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;                var updatedMessage = $<span class="stringliteral">&quot;DM: Deployment {completionString}!&quot;</span>;</div>
-<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;                <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;                {</div>
-<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;                    await message.ModifyAsync(</div>
-<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;                        props =&gt;</div>
-<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;                        {</div>
-<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;                            props.Content = updatedMessage;</div>
-<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;                            props.Embed = builder.Build();</div>
-<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;                        })</div>
-<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;                        .ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;                }</div>
-<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;                <span class="keywordflow">catch</span> (Exception ex)</div>
-<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;                {</div>
-<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Updating deploy embed {0} failed, attempting new post!&quot;</span>, message.Id);</div>
-<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;                    <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;                    {</div>
-<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;                        await channel.SendMessageAsync(</div>
-<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;                            updatedMessage,</div>
-<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;                            <span class="keyword">false</span>,</div>
-<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;                            builder.Build())</div>
-<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;                            .ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;                    }</div>
-<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;                    <span class="keywordflow">catch</span> (Exception ex2)</div>
-<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;                    {</div>
-<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;                        <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogWarning(ex2, <span class="stringliteral">&quot;Posting completion deploy embed failed!&quot;</span>);</div>
+<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;                <span class="keywordflow">if</span> (dreamMakerOutput != <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;                {</div>
+<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;                    showDMOutput = showDMOutput &amp;&amp; dreamMakerOutput.Length &lt; EmbedFieldBuilder.MaxFieldValueLength - (6 + Environment.NewLine.Length);</div>
+<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;                    <span class="keywordflow">if</span> (showDMOutput)</div>
+<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;                        builder.AddField(<span class="keyword">new</span> EmbedFieldBuilder</div>
+<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;                        {</div>
+<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;                            Name = <span class="stringliteral">&quot;DreamMaker Output&quot;</span>,</div>
+<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;                            Value = $<span class="stringliteral">&quot;```{Environment.NewLine}{dreamMakerOutput}{Environment.NewLine}```&quot;</span></div>
+<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;                        });</div>
+<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;                }</div>
+<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160; </div>
+<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;                <span class="keywordflow">if</span> (errorMessage != <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;                    builder.AddField(<span class="keyword">new</span> EmbedFieldBuilder</div>
+<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;                    {</div>
+<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;                        Name = <span class="stringliteral">&quot;Error Message&quot;</span>,</div>
+<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;                        Value = errorMessage</div>
+<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;                    });</div>
+<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160; </div>
+<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;                var updatedMessage = $<span class="stringliteral">&quot;DM: Deployment {completionString}!&quot;</span>;</div>
+<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;                <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;                {</div>
+<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;                    await message.ModifyAsync(</div>
+<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;                        props =&gt;</div>
+<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;                        {</div>
+<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;                            props.Content = updatedMessage;</div>
+<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;                            props.Embed = builder.Build();</div>
+<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;                        })</div>
+<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;                        .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;                }</div>
+<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;                <span class="keywordflow">catch</span> (Exception ex)</div>
+<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;                {</div>
+<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Updating deploy embed {0} failed, attempting new post!&quot;</span>, message.Id);</div>
+<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;                    <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;                    {</div>
+<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;                        await channel.SendMessageAsync(</div>
+<div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;                            updatedMessage,</div>
+<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;                            <span class="keyword">false</span>,</div>
+<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;                            builder.Build())</div>
+<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;                            .ConfigureAwait(<span class="keyword">false</span>);</div>
 <div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;                    }</div>
-<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;                }</div>
-<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;            };</div>
-<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;        }</div>
+<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;                    <span class="keywordflow">catch</span> (Exception ex2)</div>
+<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;                    {</div>
+<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;                        <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ab24337ff80dfef1a9657f7106758a8c3">Logger</a>.LogWarning(ex2, <span class="stringliteral">&quot;Posting completion deploy embed failed!&quot;</span>);</div>
+<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;                    }</div>
+<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;                }</div>
+<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;            };</div>
+<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
