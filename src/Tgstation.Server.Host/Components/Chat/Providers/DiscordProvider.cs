@@ -474,12 +474,16 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					_ => throw new InvalidOperationException($"Invalid DiscordDMOutputDisplayType: {outputDisplayType}"),
 				};
 
-				if (showDMOutput && dreamMakerOutput != null)
-					builder.AddField(new EmbedFieldBuilder
-					{
-						Name = "DreamMaker Output",
-						Value = $"```{Environment.NewLine}{dreamMakerOutput}{Environment.NewLine}```"
-					});
+				if (dreamMakerOutput != null)
+				{
+					showDMOutput = showDMOutput && dreamMakerOutput.Length < EmbedFieldBuilder.MaxFieldValueLength - (6 + Environment.NewLine.Length);
+					if (showDMOutput)
+						builder.AddField(new EmbedFieldBuilder
+						{
+							Name = "DreamMaker Output",
+							Value = $"```{Environment.NewLine}{dreamMakerOutput}{Environment.NewLine}```"
+						});
+				}
 
 				if (errorMessage != null)
 					builder.AddField(new EmbedFieldBuilder
