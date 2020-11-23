@@ -428,7 +428,10 @@ namespace Tgstation.Server.Host.Core
 			var originalBuilder = corsBuilder;
 			corsBuilder = builder =>
 			{
-				builder.AllowAnyHeader().AllowAnyMethod();
+				builder
+					.AllowAnyHeader()
+					.AllowAnyMethod()
+					.SetPreflightMaxAge(TimeSpan.FromDays(1));
 				originalBuilder?.Invoke(builder);
 			};
 			applicationBuilder.UseCors(corsBuilder);
