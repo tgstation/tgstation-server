@@ -127,7 +127,10 @@ namespace Tgstation.Server.Host.Core
 				config =>
 				{
 					if (microsoftEventLevel.HasValue)
+					{
 						config.MinimumLevel.Override("Microsoft", microsoftEventLevel.Value);
+						config.MinimumLevel.Override("System.Net.Http.HttpClient", microsoftEventLevel.Value);
+					}
 				},
 				sinkConfig =>
 				{
@@ -220,6 +223,9 @@ namespace Tgstation.Server.Host.Core
 
 			// CORS conditionally enabled later
 			services.AddCors();
+
+			// Enable managed HTTP clients
+			services.AddHttpClient();
 
 			void AddTypedContext<TContext>() where TContext : DatabaseContext
 			{

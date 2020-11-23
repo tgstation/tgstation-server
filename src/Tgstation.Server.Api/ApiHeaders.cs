@@ -35,17 +35,17 @@ namespace Tgstation.Server.Api
 		/// <summary>
 		/// The JWT authentication header scheme
 		/// </summary>
-		public const string BearerAuthenticationScheme = "bearer";
+		public const string BearerAuthenticationScheme = "Bearer";
 
 		/// <summary>
 		/// The JWT authentication header scheme
 		/// </summary>
-		public const string BasicAuthenticationScheme = "basic";
+		public const string BasicAuthenticationScheme = "Basic";
 
 		/// <summary>
 		/// The JWT authentication header scheme
 		/// </summary>
-		public const string OAuthAuthenticationScheme = "oauth";
+		public const string OAuthAuthenticationScheme = "OAuth";
 
 		/// <summary>
 		/// The current <see cref="System.Reflection.AssemblyName"/>
@@ -206,9 +206,7 @@ namespace Tgstation.Server.Api
 								InstanceId = instanceId;
 						}
 
-#pragma warning disable CA1308 // Normalize strings to uppercase
-						switch (scheme.ToLowerInvariant())
-#pragma warning restore CA1308 // Normalize strings to uppercase
+						switch (scheme)
 						{
 							case OAuthAuthenticationScheme:
 								if (requestHeaders.Headers.TryGetValue(OAuthProviderHeader, out StringValues oauthProviderValues))

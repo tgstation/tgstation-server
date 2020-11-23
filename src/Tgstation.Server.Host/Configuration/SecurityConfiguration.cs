@@ -60,6 +60,11 @@ namespace Tgstation.Server.Host.Configuration
 		/// <summary>
 		/// OAuth options for GitHub.
 		/// </summary>
-		public GitHubOAuthConfiguration GitHubOAuth { get; set; }
+		public OAuthConfiguration GitHubOAuth { get; set; }
+
+		/// <summary>
+		/// OAuth options for Discord.
+		/// </summary>
+		public OAuthConfiguration DiscordOAuth { get; set; }
 	}
 }

@@ -129,23 +129,10 @@ namespace Tgstation.Server.Host.Controllers
 		/// </returns>
 		/// <response code="200"><see cref="ServerInformation"/> retrieved successfully.</response>
 		[HttpGet]
-		[TgsAuthorize]
 		[AllowAnonymous]
 		[ProducesResponseType(typeof(ServerInformation), 200)]
 		public IActionResult Home()
 		{
-			if (AuthenticationContext != null)
-				return Json(new ServerInformation
-				{
-					Version = assemblyInformationProvider.Version,
-					ApiVersion = ApiHeaders.Version,
-					DMApiVersion = DMApiConstants.Version,
-					MinimumPasswordLength = generalConfiguration.MinimumPasswordLength,
-					InstanceLimit = generalConfiguration.InstanceLimit,
-					UserLimit = generalConfiguration.UserLimit,
-					ValidInstancePaths = generalConfiguration.ValidInstancePaths
-				});
-
 			// if we are using a browser and the control panel, soft redirect to the app page
 			if (controlPanelConfiguration.Enable && browserResolver.Browser.Type != BrowserType.Generic)
 			{
@@ -153,7 +140,17 @@ namespace Tgstation.Server.Host.Controllers
 				return Redirect(Core.Application.ControlPanelRoute);
 			}
 
-			return ApiHeaders == null ? HeadersIssue() : Unauthorized();
+			return Json(new ServerInformation
+			{
+				Version = assemblyInformationProvider.Version,
+				ApiVersion = ApiHeaders.Version,
+				DMApiVersion = DMApiConstants.Version,
+				MinimumPasswordLength = generalConfiguration.MinimumPasswordLength,
+				InstanceLimit = generalConfiguration.InstanceLimit,
+				UserLimit = generalConfiguration.UserLimit,
+				ValidInstancePaths = generalConfiguration.ValidInstancePaths,
+				OAuthProviderClientIds = oAuthProviders.ClientIds()
+			});
 		}
 
 		/// <summary>

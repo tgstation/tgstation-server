@@ -15,6 +15,11 @@ namespace Tgstation.Server.Host.Security.OAuth
 		OAuthProvider Provider { get; }
 
 		/// <summary>
+		/// The OAuth client ID of validator.
+		/// </summary>
+		string ClientId { get; }
+
+		/// <summary>
 		/// Validate a given OAuth response <paramref name="code"/>.
 		/// </summary>
 		/// <param name="code">The OAuth response string from web application.</param>

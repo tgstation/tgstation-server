@@ -17,6 +17,9 @@ namespace Tgstation.Server.Host.Security.OAuth
 		/// <inheritdoc />
 		public OAuthProvider Provider => OAuthProvider.GitHub;
 
+		/// <inheritdoc />
+		public string ClientId => oAuthConfiguration.ClientId;
+
 		/// <summary>
 		/// The <see cref="IGitHubClientFactory"/> for the <see cref="GitHubOAuthValidator"/>.
 		/// </summary>
@@ -28,24 +31,24 @@ namespace Tgstation.Server.Host.Security.OAuth
 		readonly ILogger<GitHubOAuthValidator> logger;
 
 		/// <summary>
-		/// The <see cref="GitHubOAuthConfiguration"/> for the <see cref="GitHubOAuthValidator"/>.
+		/// The <see cref="OAuthConfiguration"/> for the <see cref="GitHubOAuthValidator"/>.
 		/// </summary>
-		readonly GitHubOAuthConfiguration gitHubOAuthConfiguration;
+		readonly OAuthConfiguration oAuthConfiguration;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GitHubOAuthValidator"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		/// <param name="gitHubOAuthConfiguration">The value of <see cref="gitHubOAuthConfiguration"/>.</param>
+		/// <param name="oAuthConfiguration">The value of <see cref="oAuthConfiguration"/>.</param>
 		public GitHubOAuthValidator(
 			IGitHubClientFactory gitHubClientFactory,
 			ILogger<GitHubOAuthValidator> logger,
-			GitHubOAuthConfiguration gitHubOAuthConfiguration)
+			OAuthConfiguration oAuthConfiguration)
 		{
 			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			this.gitHubOAuthConfiguration = gitHubOAuthConfiguration ?? throw new ArgumentNullException(nameof(gitHubOAuthConfiguration));
+			this.oAuthConfiguration = oAuthConfiguration ?? throw new ArgumentNullException(nameof(oAuthConfiguration));
 		}
 
 		/// <inheritdoc />
@@ -62,8 +65,8 @@ namespace Tgstation.Server.Host.Security.OAuth
 					.Oauth
 					.CreateAccessToken(
 						new OauthTokenRequest(
-							gitHubOAuthConfiguration.ClientId,
-							gitHubOAuthConfiguration.ClientSecret,
+							oAuthConfiguration.ClientId,
+							oAuthConfiguration.ClientSecret,
 							code))
 					.ConfigureAwait(false);
 

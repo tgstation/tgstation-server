@@ -9,5 +9,10 @@ namespace Tgstation.Server.Api.Models
 		/// https://github.com
 		/// </summary>
 		GitHub,
+
+		/// <summary>
+		/// https://discord.com
+		/// </summary>
+		Discord,
 	}
 }
