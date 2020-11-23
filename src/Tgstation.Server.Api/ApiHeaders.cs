@@ -20,32 +20,32 @@ namespace Tgstation.Server.Api
 		/// <summary>
 		/// The <see cref="ApiVersion"/> header key.
 		/// </summary>
-		public const string ApiVersionHeader = "Api";
+		public static readonly string ApiVersionHeader = "Api";
 
 		/// <summary>
 		/// The <see cref="InstanceId"/> header key.
 		/// </summary>
-		public const string InstanceIdHeader = "Instance";
+		public static readonly string InstanceIdHeader = "Instance";
 
 		/// <summary>
 		/// The <see cref="OAuthProvider"/> header key.
 		/// </summary>
-		public const string OAuthProviderHeader = "OAuthProvider";
+		public static readonly string OAuthProviderHeader = "OAuthProvider";
 
 		/// <summary>
 		/// The JWT authentication header scheme
 		/// </summary>
-		public const string BearerAuthenticationScheme = "Bearer";
+		public static readonly string BearerAuthenticationScheme = "Bearer";
 
 		/// <summary>
 		/// The JWT authentication header scheme
 		/// </summary>
-		public const string BasicAuthenticationScheme = "Basic";
+		public static readonly string BasicAuthenticationScheme = "Basic";
 
 		/// <summary>
 		/// The JWT authentication header scheme
 		/// </summary>
-		public const string OAuthAuthenticationScheme = "OAuth";
+		public static readonly string OAuthAuthenticationScheme = "OAuth";
 
 		/// <summary>
 		/// The current <see cref="System.Reflection.AssemblyName"/>

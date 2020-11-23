@@ -36,6 +36,6 @@ namespace Tgstation.Server.Api
 		/// <summary>
 		/// <see cref="ApiHeaders.OAuthProviderHeader"/>.
 		/// </summary>
-		OAuthProvider,
+		OAuthProvider = 16,
 	}
 }

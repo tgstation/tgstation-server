@@ -162,11 +162,8 @@ namespace Tgstation.Server.Host.Core
 				});
 
 			// configure bearer token validation
-			var authenticationBuilder = services
-				.AddAuthentication(options =>
-				{
-					options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-				})
+			services
+				.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 				.AddJwtBearer(jwtBearerOptions =>
 				{
 					// this line isn't actually run until the first request is made

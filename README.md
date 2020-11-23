@@ -120,6 +120,14 @@ Create an `appsettings.Production.json` file next to `appsettings.json`. This wi
 
 - `ControlPanel:AllowedOrigins`: Set the Access-Control-Allow-Origin headers to this list of origins for all responses (also enables all headers and methods). This is overridden by `ControlPanel:AllowAnyOrigin`
 
+- `Security:<Provider Name>OAuth`: Sets the OAuth client ID and secret for a given `<Provider Name>`. The currently supported providers are `GitHub`, and `Discord`. Setting these fields to `null` disables logins with the provider, but does not stop users from associating their accounts using the API. Sample Entry:
+```json
+"GitHubOAuth":{
+	"ClientId": "...",
+	"ClientSecret": "..."
+}
+```
+
 ### Database Configuration
 
 If using a MariaDB/MySQL server, our client library [recommends you set 'utf8mb4' as your default charset](https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql#1-recommended-server-charset) disregard at your own risk.
@@ -372,10 +380,9 @@ TGS 4 can self update without stopping your DreamDaemon servers. Any V4 release 
 Here are tools for interacting with the TGS 4 web API
 
 - [tgstation-server-control-panel]: Official client and included with the server (WIP). A react web app for using tgstation-server.
-- [Tgstation.Server.ControlPanel](https://github.com/tgstation/Tgstation.Server.ControlPanel): Official client. A cross platform GUI for using tgstation-server
-- [Tgstation.Server.Client](https://www.nuget.org/packages/Tgstation.Server.Client): A nuget .NET Standard 2.0 TAP based library for communicating with tgstation-server
-- [Tgstation.Server.Api](https://www.nuget.org/packages/Tgstation.Server.Api): A nuget .NET Standard 2.0 library containing API definitions for tgstation-server
-- [Postman](https://www.getpostman.com/): This repository contains [TGS.postman_collection.json](tools/TGS.postman_collection.json) which is used during development for testing. Contains example requests for all endpoints but takes some knowledge to use (Note that the pre-request script is configured to login the default admin user for every request)
+- [Tgstation.Server.ControlPanel](https://github.com/tgstation/Tgstation.Server.ControlPanel): Official client. A cross platform GUI for using tgstation-server. Feature complete.
+- [Tgstation.Server.Client](https://www.nuget.org/packages/Tgstation.Server.Client): A nuget .NET Standard 2.0 TAP based library for communicating with tgstation-server. Feature complete.
+- [Tgstation.Server.Api](https://www.nuget.org/packages/Tgstation.Server.Api): A nuget .NET Standard 2.0 library containing API definitions for tgstation-server. Feature complete.
 
 Contact project maintainers to get your client added to this list
 

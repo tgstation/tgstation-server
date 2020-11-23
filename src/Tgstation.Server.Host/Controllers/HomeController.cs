@@ -161,9 +161,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="200">User logged in and <see cref="Token"/> generated successfully.</response>
 		/// <response code="401">User authentication failed.</response>
 		/// <response code="403">User authenticated but is disabled by an administrator.</response>
+		/// <response code="429">OAuth authentication failed due to rate limiting.</response>
 		[HttpPost]
 		[ProducesResponseType(typeof(Token), 200)]
-		#pragma warning disable CA1506 // TODO: Decomplexify
+		[ProducesResponseType(typeof(ErrorMessage), 429)]
+#pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<IActionResult> CreateToken(CancellationToken cancellationToken)
 		{
 			if (ApiHeaders == null)
