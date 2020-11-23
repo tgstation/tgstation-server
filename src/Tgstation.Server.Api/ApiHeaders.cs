@@ -8,6 +8,7 @@ using System.Net.Http.Headers;
 using System.Net.Mime;
 using System.Reflection;
 using System.Text;
+using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Api
 {
@@ -17,24 +18,34 @@ namespace Tgstation.Server.Api
 	public sealed class ApiHeaders
 	{
 		/// <summary>
-		/// The <see cref="ApiVersion"/> header key
+		/// The <see cref="ApiVersion"/> header key.
 		/// </summary>
 		public const string ApiVersionHeader = "Api";
 
 		/// <summary>
-		/// The <see cref="InstanceId"/> header key
+		/// The <see cref="InstanceId"/> header key.
 		/// </summary>
 		public const string InstanceIdHeader = "Instance";
 
 		/// <summary>
+		/// The <see cref="OAuthProvider"/> header key.
+		/// </summary>
+		public const string OAuthProviderHeader = "OAuthProvider";
+
+		/// <summary>
 		/// The JWT authentication header scheme
 		/// </summary>
-		public const string JwtAuthenticationScheme = "bearer";
+		public const string BearerAuthenticationScheme = "bearer";
 
 		/// <summary>
 		/// The JWT authentication header scheme
 		/// </summary>
 		public const string BasicAuthenticationScheme = "basic";
+
+		/// <summary>
+		/// The JWT authentication header scheme
+		/// </summary>
+		public const string OAuthAuthenticationScheme = "oauth";
 
 		/// <summary>
 		/// The current <see cref="System.Reflection.AssemblyName"/>
@@ -47,7 +58,7 @@ namespace Tgstation.Server.Api
 		public static readonly Version Version = AssemblyName.Version.Semver();
 
 		/// <summary>
-		/// The instance <see cref="Models.EntityId.Id"/> being accessed
+		/// The instance <see cref="EntityId.Id"/> being accessed
 		/// </summary>
 		public long? InstanceId { get; set; }
 
@@ -82,9 +93,14 @@ namespace Tgstation.Server.Api
 		public string? Password { get; }
 
 		/// <summary>
-		/// If the header uses password or JWT authentication
+		/// The <see cref="Models.OAuthProvider"/> the <see cref="Token"/> is for, if any.
 		/// </summary>
-		public bool IsTokenAuthentication => Token != null;
+		public OAuthProvider? OAuthProvider { get; }
+
+		/// <summary>
+		/// If the header uses password or TGS JWT authentication.
+		/// </summary>
+		public bool IsTokenAuthentication => Token != null && !OAuthProvider.HasValue;
 
 		/// <summary>
 		/// Checks if a given <paramref name="otherVersion"/> is compatible with our own
@@ -98,12 +114,15 @@ namespace Tgstation.Server.Api
 		/// </summary>
 		/// <param name="userAgent">The value of <see cref="UserAgent"/></param>
 		/// <param name="token">The value of <see cref="Token"/></param>
-		public ApiHeaders(ProductHeaderValue userAgent, string token) : this(userAgent, token, null, null)
+		/// <param name="oauthProvider">The value of <see cref="OAuthProvider"/>.</param>
+		public ApiHeaders(ProductHeaderValue userAgent, string token, OAuthProvider? oauthProvider = null) : this(userAgent, token, null, null)
 		{
 			if (userAgent == null)
 				throw new ArgumentNullException(nameof(userAgent));
 			if (token == null)
 				throw new ArgumentNullException(nameof(token));
+
+			OAuthProvider = oauthProvider;
 		}
 
 		/// <summary>
@@ -191,7 +210,20 @@ namespace Tgstation.Server.Api
 						switch (scheme.ToLowerInvariant())
 #pragma warning restore CA1308 // Normalize strings to uppercase
 						{
-							case JwtAuthenticationScheme:
+							case OAuthAuthenticationScheme:
+								if (requestHeaders.Headers.TryGetValue(OAuthProviderHeader, out StringValues oauthProviderValues))
+								{
+									var oauthProviderString = oauthProviderValues.First();
+									if (Enum.TryParse<OAuthProvider>(oauthProviderString, out var oauthProvider))
+										OAuthProvider = oauthProvider;
+									else
+										AddError(HeaderTypes.OAuthProvider, "Invalid OAuth provider!");
+								}
+								else
+									AddError(HeaderTypes.OAuthProvider, $"Missing {OAuthProviderHeader} header!");
+
+								goto case BearerAuthenticationScheme;
+							case BearerAuthenticationScheme:
 								Token = parameter;
 								break;
 							case BasicAuthenticationScheme:
@@ -253,7 +285,7 @@ namespace Tgstation.Server.Api
 		/// Set <see cref="HttpRequestHeaders"/> using the <see cref="ApiHeaders"/>. This initially clears <paramref name="headers"/>
 		/// </summary>
 		/// <param name="headers">The <see cref="HttpRequestHeaders"/> to set</param>
-		/// <param name="instanceId">The instance <see cref="Models.EntityId.Id"/> for the request</param>
+		/// <param name="instanceId">The instance <see cref="EntityId.Id"/> for the request</param>
 		public void SetRequestHeaders(HttpRequestHeaders headers, long? instanceId = null)
 		{
 			if (headers == null)
@@ -263,12 +295,16 @@ namespace Tgstation.Server.Api
 
 			headers.Clear();
 			headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
-			if (IsTokenAuthentication)
-				headers.Authorization = new AuthenticationHeaderValue(JwtAuthenticationScheme, Token);
-			else
+			if (!IsTokenAuthentication)
 				headers.Authorization = new AuthenticationHeaderValue(
 					BasicAuthenticationScheme,
 					Convert.ToBase64String(Encoding.UTF8.GetBytes($"{Username}:{Password}")));
+			else
+			{
+				headers.Authorization = new AuthenticationHeaderValue(BearerAuthenticationScheme, Token);
+				if (OAuthProvider.HasValue)
+					headers.Add(OAuthProviderHeader, OAuthProvider.ToString());
+			}
 
 			headers.UserAgent.Add(new ProductInfoHeaderValue(UserAgent));
 			headers.Add(ApiVersionHeader, new ProductHeaderValue(AssemblyName.Name, ApiVersion.ToString()).ToString());

@@ -62,6 +62,7 @@ namespace Tgstation.Server.Host.Setup
 
 			services.UseStandardConfig<GeneralConfiguration>(Configuration);
 			services.UseStandardConfig<DatabaseConfiguration>(Configuration);
+			services.UseStandardConfig<SecurityConfiguration>(Configuration);
 			services.UseStandardConfig<FileLoggingConfiguration>(Configuration);
 
 			ConfigureHostedService(services);

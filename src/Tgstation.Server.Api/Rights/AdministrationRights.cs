@@ -42,5 +42,10 @@ namespace Tgstation.Server.Api.Rights
 		/// User can list and download <see cref="Models.LogFile"/>s.
 		/// </summary>
 		DownloadLogs = 32,
+
+		/// <summary>
+		/// User can modify their own <see cref="Models.User.OAuthConnections"/>.
+		/// </summary>
+		EditOwnOAuthConnections = 64,
 	}
 }

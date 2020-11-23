@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
+using Octokit;
 using System;
 using System.Linq;
 using System.Threading;
@@ -17,6 +18,7 @@ using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.Security.OAuth;
 using Tgstation.Server.Host.System;
 using Wangkanai.Detection;
 
@@ -54,6 +56,11 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IIdentityCache identityCache;
 
 		/// <summary>
+		/// The <see cref="IOAuthProviders"/> for the <see cref="HomeController"/>.
+		/// </summary>
+		readonly IOAuthProviders oAuthProviders;
+
+		/// <summary>
 		/// The <see cref="IBrowserResolver"/> for the <see cref="HomeController"/>
 		/// </summary>
 		readonly IBrowserResolver browserResolver;
@@ -78,6 +85,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cryptographySuite">The value of <see cref="cryptographySuite"/></param>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
 		/// <param name="identityCache">The value of <see cref="identityCache"/></param>
+		/// <param name="oAuthProviders">The value of <see cref="oAuthProviders"/>.</param>
 		/// <param name="browserResolver">The value of <see cref="browserResolver"/></param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="controlPanelConfiguration"/></param>
@@ -90,6 +98,7 @@ namespace Tgstation.Server.Host.Controllers
 			ICryptographySuite cryptographySuite,
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IIdentityCache identityCache,
+			IOAuthProviders oAuthProviders,
 			IBrowserResolver browserResolver,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions,
@@ -106,6 +115,7 @@ namespace Tgstation.Server.Host.Controllers
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.identityCache = identityCache ?? throw new ArgumentNullException(nameof(identityCache));
+			this.oAuthProviders = oAuthProviders ?? throw new ArgumentNullException(nameof(oAuthProviders));
 			this.browserResolver = browserResolver;
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions));
@@ -140,7 +150,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (controlPanelConfiguration.Enable && browserResolver.Browser.Type != BrowserType.Generic)
 			{
 				Logger.LogDebug("Unauthorized browser request (User-Agent: \"{0}\"), redirecting to control panel...", browserResolver.UserAgent);
-				return Redirect(Application.ControlPanelRoute);
+				return Redirect(Core.Application.ControlPanelRoute);
 			}
 
 			return ApiHeaders == null ? HeadersIssue() : Unauthorized();
@@ -168,26 +178,56 @@ namespace Tgstation.Server.Host.Controllers
 			if (ApiHeaders.IsTokenAuthentication)
 				return BadRequest(new ErrorMessage(ErrorCode.TokenWithToken));
 
-			ISystemIdentity systemIdentity;
-			try
-			{
-				// trust the system over the database because a user's name can change while still having the same SID
-				systemIdentity = await systemIdentityFactory.CreateSystemIdentity(ApiHeaders.Username, ApiHeaders.Password, cancellationToken).ConfigureAwait(false);
-			}
-			catch (NotImplementedException)
-			{
-				systemIdentity = null;
-			}
+			var oAuthLogin = ApiHeaders.OAuthProvider.HasValue;
+
+			ISystemIdentity systemIdentity = null;
+			if (!oAuthLogin)
+				try
+				{
+					// trust the system over the database because a user's name can change while still having the same SID
+					systemIdentity = await systemIdentityFactory.CreateSystemIdentity(ApiHeaders.Username, ApiHeaders.Password, cancellationToken).ConfigureAwait(false);
+				}
+				catch (NotImplementedException ex)
+				{
+					Logger.LogTrace(ex, "System identities not implemented!");
+				}
 
 			using (systemIdentity)
 			{
 				// Get the user from the database
 				IQueryable<Models.User> query = DatabaseContext.Users.AsQueryable();
-				string canonicalName = Models.User.CanonicalizeName(ApiHeaders.Username);
-				if (systemIdentity == null)
-					query = query.Where(x => x.CanonicalName == canonicalName);
+				if (oAuthLogin)
+				{
+					ulong? externalUserId;
+					try
+					{
+						externalUserId = await oAuthProviders
+							.GetValidator(ApiHeaders.OAuthProvider.Value)
+							.ValidateResponseCode(ApiHeaders.Token, cancellationToken)
+							.ConfigureAwait(false);
+					}
+					catch (RateLimitExceededException ex)
+					{
+						return RateLimit(ex);
+					}
+
+					if (!externalUserId.HasValue)
+						return Unauthorized();
+
+					query = query.Where(
+						x => x.OAuthConnections.Any(
+							y => y.Provider == ApiHeaders.OAuthProvider.Value
+							&& y.ExternalUserId == externalUserId.Value));
+				}
 				else
-					query = query.Where(x => x.CanonicalName == canonicalName || x.SystemIdentifier == systemIdentity.Uid);
+				{
+					string canonicalName = Models.User.CanonicalizeName(ApiHeaders.Username);
+					if (systemIdentity == null)
+						query = query.Where(x => x.CanonicalName == canonicalName);
+					else
+						query = query.Where(x => x.CanonicalName == canonicalName || x.SystemIdentifier == systemIdentity.Uid);
+				}
+
 				var users = await query.Select(x => new Models.User
 				{
 					Id = x.Id,
@@ -213,32 +253,33 @@ namespace Tgstation.Server.Host.Controllers
 				var originalHash = user.PasswordHash;
 				var isDbUser = originalHash != null;
 				bool usingSystemIdentity = systemIdentity != null && !isDbUser;
-				if (!usingSystemIdentity)
-				{
-					// DB User password check and update
-					if (!cryptographySuite.CheckUserPassword(user, ApiHeaders.Password))
-						return Unauthorized();
-					if (user.PasswordHash != originalHash)
+				if (!oAuthLogin)
+					if (!usingSystemIdentity)
 					{
-						Logger.LogDebug("User ID {0}'s password hash needs a refresh, updating database.", user.Id);
-						var updatedUser = new Models.User
+						// DB User password check and update
+						if (!cryptographySuite.CheckUserPassword(user, ApiHeaders.Password))
+							return Unauthorized();
+						if (user.PasswordHash != originalHash)
 						{
-							Id = user.Id
-						};
-						DatabaseContext.Users.Attach(updatedUser);
-						updatedUser.PasswordHash = user.PasswordHash;
+							Logger.LogDebug("User ID {0}'s password hash needs a refresh, updating database.", user.Id);
+							var updatedUser = new Models.User
+							{
+								Id = user.Id
+							};
+							DatabaseContext.Users.Attach(updatedUser);
+							updatedUser.PasswordHash = user.PasswordHash;
+							await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+						}
+					}
+					else if (systemIdentity.Username != user.Name)
+					{
+						// System identity username change update
+						Logger.LogDebug("User ID {0}'s system identity needs a refresh, updating database.", user.Id);
+						DatabaseContext.Users.Attach(user);
+						user.Name = systemIdentity.Username;
+						user.CanonicalName = Models.User.CanonicalizeName(user.Name);
 						await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 					}
-				}
-				else if (systemIdentity.Username != user.Name)
-				{
-					// System identity username change update
-					Logger.LogDebug("User ID {0}'s system identity needs a refresh, updating database.", user.Id);
-					DatabaseContext.Users.Attach(user);
-					user.Name = systemIdentity.Username;
-					user.CanonicalName = Models.User.CanonicalizeName(user.Name);
-					await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
-				}
 
 				// Now that the bookeeping is done, tell them to fuck off if necessary
 				if (!user.Enabled.Value)
@@ -247,7 +288,7 @@ namespace Tgstation.Server.Host.Controllers
 					return Forbid();
 				}
 
-				var token = await tokenFactory.CreateToken(user, cancellationToken).ConfigureAwait(false);
+				var token = await tokenFactory.CreateToken(user, oAuthLogin, cancellationToken).ConfigureAwait(false);
 				if (usingSystemIdentity)
 				{
 					// expire the identity slightly after the auth token in case of lag
@@ -262,6 +303,6 @@ namespace Tgstation.Server.Host.Controllers
 				return Json(token);
 			}
 		}
-		#pragma warning restore CA1506
+#pragma warning restore CA1506
 	}
 }

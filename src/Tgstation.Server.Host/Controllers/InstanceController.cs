@@ -281,7 +281,9 @@ namespace Tgstation.Server.Host.Controllers
 				}
 			}
 
+#pragma warning disable CA1508 // Avoid dead conditional code
 			if (earlyOut != null)
+#pragma warning restore CA1508 // Avoid dead conditional code
 				return earlyOut;
 
 			// Last test, ensure it's in the list of valid paths
@@ -420,9 +422,9 @@ namespace Tgstation.Server.Host.Controllers
 
 			var moveJob = await InstanceQuery()
 				.SelectMany(x => x.Jobs).
-#pragma warning disable CA1307 // Specify StringComparison
+#pragma warning disable CA1310 // Specify StringComparison
 				Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
-#pragma warning restore CA1307 // Specify StringComparison
+#pragma warning restore CA1310 // Specify StringComparison
 				.Select(x => new Models.Job
 				{
 					Id = x.Id
@@ -614,9 +616,9 @@ namespace Tgstation.Server.Host.Controllers
 
 			var moveJobs = await GetBaseQuery()
 				.SelectMany(x => x.Jobs)
-#pragma warning disable CA1307 // Specify StringComparison
+#pragma warning disable CA1310 // Specify StringComparison
 				.Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
-#pragma warning restore CA1307 // Specify StringComparison
+#pragma warning restore CA1310 // Specify StringComparison
 				.Include(x => x.StartedBy).ThenInclude(x => x.CreatedBy)
 				.Include(x => x.Instance)
 				.ToListAsync(cancellationToken)
@@ -687,9 +689,9 @@ namespace Tgstation.Server.Host.Controllers
 
 			var moveJob = await QueryForUser()
 				.SelectMany(x => x.Jobs)
-#pragma warning disable CA1307 // Specify StringComparison
+#pragma warning disable CA1310 // Specify StringComparison
 				.Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
-#pragma warning restore CA1307 // Specify StringComparison
+#pragma warning restore CA1310 // Specify StringComparison
 				.Include(x => x.StartedBy).ThenInclude(x => x.CreatedBy)
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);

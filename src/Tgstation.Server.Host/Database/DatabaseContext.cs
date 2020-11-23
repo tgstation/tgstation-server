@@ -87,9 +87,14 @@ namespace Tgstation.Server.Host.Database
 		public DbSet<TestMerge> TestMerges { get; set; }
 
 		/// <summary>
-		/// The <see cref="RevInfoTestMerge"/>s om the <see cref="DatabaseContext"/>
+		/// The <see cref="RevInfoTestMerge"/>s in the <see cref="DatabaseContext"/>
 		/// </summary>
 		public DbSet<RevInfoTestMerge> RevInfoTestMerges { get; set; }
+
+		/// <summary>
+		/// The <see cref="OAuthConnection"/>s in the <see cref="DatabaseContext"/>
+		/// </summary>
+		public DbSet<OAuthConnection> OAuthConnections { get; set; }
 
 		/// <summary>
 		/// The <see cref="DeleteBehavior"/> for the <see cref="CompileJob"/>/<see cref="RevisionInformation"/> foreign key.
@@ -131,6 +136,9 @@ namespace Tgstation.Server.Host.Database
 
 		/// <inheritdoc />
 		IDatabaseCollection<ReattachInformation> IDatabaseContext.ReattachInformations => reattachInformationsCollection;
+
+		/// <inheritdoc />
+		IDatabaseCollection<OAuthConnection> IDatabaseContext.OAuthConnections => oAuthConnections;
 
 		/// <summary>
 		/// Backing field for <see cref="IDatabaseContext.Users"/>.
@@ -193,6 +201,11 @@ namespace Tgstation.Server.Host.Database
 		readonly IDatabaseCollection<ReattachInformation> reattachInformationsCollection;
 
 		/// <summary>
+		/// Backing field for <see cref="IDatabaseContext.OAuthConnections"/>.
+		/// </summary>
+		readonly IDatabaseCollection<OAuthConnection> oAuthConnections;
+
+		/// <summary>
 		/// Gets the configure action for a given <typeparamref name="TDatabaseContext"/>.
 		/// </summary>
 		/// <typeparam name="TDatabaseContext">The <see cref="DatabaseContext"/> parent class to configure with.</typeparam>
@@ -216,7 +229,7 @@ namespace Tgstation.Server.Host.Database
 		/// Construct a <see cref="DatabaseContext"/>
 		/// </summary>
 		/// <param name="dbContextOptions">The <see cref="DbContextOptions"/> for the <see cref="DatabaseContext"/>.</param>
-		public DatabaseContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+		protected DatabaseContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
 		{
 			usersCollection = new DatabaseCollection<User>(Users);
 			instancesCollection = new DatabaseCollection<Instance>(Instances);
@@ -230,6 +243,7 @@ namespace Tgstation.Server.Host.Database
 			revisionInformationsCollection = new DatabaseCollection<RevisionInformation>(RevisionInformations);
 			jobsCollection = new DatabaseCollection<Job>(Jobs);
 			reattachInformationsCollection = new DatabaseCollection<ReattachInformation>(ReattachInformations);
+			oAuthConnections = new DatabaseCollection<OAuthConnection>(OAuthConnections);
 		}
 
 		/// <inheritdoc />
@@ -244,6 +258,9 @@ namespace Tgstation.Server.Host.Database
 			userModel.HasIndex(x => x.CanonicalName).IsUnique();
 			userModel.HasIndex(x => x.SystemIdentifier).IsUnique();
 			userModel.HasMany(x => x.TestMerges).WithOne(x => x.MergedBy).OnDelete(DeleteBehavior.Restrict);
+			userModel.HasMany(x => x.OAuthConnections).WithOne(x => x.User).OnDelete(DeleteBehavior.Cascade);
+
+			modelBuilder.Entity<OAuthConnection>().HasIndex(x => new { x.Provider, x.ExternalUserId }).IsUnique();
 
 			modelBuilder.Entity<InstanceUser>().HasIndex(x => new { x.UserId, x.InstanceId }).IsUnique();
 
@@ -316,6 +333,7 @@ namespace Tgstation.Server.Host.Database
 		}
 
 		/// <inheritdoc />
+#pragma warning disable CA1502 // Cyclomatic complexity
 		public async Task SchemaDowngradeForServerVersion(
 			ILogger<DatabaseContext> logger,
 			Version version,
@@ -338,7 +356,43 @@ namespace Tgstation.Server.Host.Database
 			if (version < new Version(4, 1, 0))
 				throw new NotSupportedException("Cannot migrate below version 4.1.0!");
 
-			if(version < new Version(4, 4, 0))
+			if (version < new Version(4, 6, 0))
+				switch (currentDatabaseType)
+				{
+					case DatabaseType.MariaDB:
+					case DatabaseType.MySql:
+						targetMigration = nameof(MYAddAdditionalDDParameters);
+						break;
+					case DatabaseType.PostgresSql:
+						targetMigration = nameof(PGAddAdditionalDDParameters);
+						break;
+					case DatabaseType.SqlServer:
+					case DatabaseType.Sqlite:
+						targetMigration = nameof(MSAddAdditionalDDParameters);
+						break;
+					default:
+						throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
+				}
+
+			if (version < new Version(4, 5, 0))
+				switch (currentDatabaseType)
+				{
+					case DatabaseType.MariaDB:
+					case DatabaseType.MySql:
+						targetMigration = nameof(MYAddDeploymentColumns);
+						break;
+					case DatabaseType.PostgresSql:
+						targetMigration = nameof(PGAddDeploymentColumns);
+						break;
+					case DatabaseType.SqlServer:
+					case DatabaseType.Sqlite:
+						targetMigration = nameof(MSAddDeploymentColumns);
+						break;
+					default:
+						throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
+				}
+
+			if (version < new Version(4, 4, 0))
 				switch (currentDatabaseType)
 				{
 					case DatabaseType.MariaDB:
@@ -403,5 +457,6 @@ namespace Tgstation.Server.Host.Database
 				logger.LogCritical(e, "Failed to migrate!");
 			}
 		}
+#pragma warning restore CA1502 // Cyclomatic complexity
 	}
 }

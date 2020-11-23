@@ -37,6 +37,7 @@ using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.Security.OAuth;
 using Tgstation.Server.Host.Setup;
 using Tgstation.Server.Host.System;
 
@@ -100,7 +101,6 @@ namespace Tgstation.Server.Host.Core
 			// configure configuration
 			services.UseStandardConfig<UpdatesConfiguration>(Configuration);
 			services.UseStandardConfig<ControlPanelConfiguration>(Configuration);
-			services.UseStandardConfig<SecurityConfiguration>(Configuration);
 
 			// enable options which give us config reloading
 			services.AddOptions();
@@ -159,24 +159,29 @@ namespace Tgstation.Server.Host.Core
 				});
 
 			// configure bearer token validation
-			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(jwtBearerOptions =>
-			{
-				// this line isn't actually run until the first request is made
-				// at that point tokenFactory will be populated
-				jwtBearerOptions.TokenValidationParameters = tokenFactory.ValidationParameters;
-				jwtBearerOptions.Events = new JwtBearerEvents
+			var authenticationBuilder = services
+				.AddAuthentication(options =>
 				{
-					// Application is our composition root so this monstrosity of a line is okay
-					// At least, that's what I tell myself to sleep at night
-					OnTokenValidated = ctx => ctx
-						.HttpContext
-						.RequestServices
-						.GetRequiredService<IClaimsInjector>()
-						.InjectClaimsIntoContext(
-							ctx,
-							ctx.HttpContext.RequestAborted)
-				};
-			});
+					options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+				})
+				.AddJwtBearer(jwtBearerOptions =>
+				{
+					// this line isn't actually run until the first request is made
+					// at that point tokenFactory will be populated
+					jwtBearerOptions.TokenValidationParameters = tokenFactory.ValidationParameters;
+					jwtBearerOptions.Events = new JwtBearerEvents
+					{
+						// Application is our composition root so this monstrosity of a line is okay
+						// At least, that's what I tell myself to sleep at night
+						OnTokenValidated = ctx => ctx
+							.HttpContext
+							.RequestServices
+							.GetRequiredService<IClaimsInjector>()
+							.InjectClaimsIntoContext(
+								ctx,
+								ctx.HttpContext.RequestAborted)
+					};
+				});
 
 			// WARNING: STATIC CODE
 			// fucking prevents converting 'sub' to M$ bs
@@ -260,6 +265,7 @@ namespace Tgstation.Server.Host.Core
 			// configure security services
 			services.AddScoped<IAuthenticationContextFactory, AuthenticationContextFactory>();
 			services.AddScoped<IClaimsInjector, ClaimsInjector>();
+			services.AddScoped<IOAuthProviders, OAuthProviders>();
 			services.AddSingleton<IIdentityCache, IdentityCache>();
 			services.AddSingleton<ICryptographySuite, CryptographySuite>();
 			services.AddSingleton<ITokenFactory, TokenFactory>();

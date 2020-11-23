@@ -176,7 +176,7 @@ namespace Tgstation.Server.Host.Core
 				In = ParameterLocation.Header,
 				Type = SecuritySchemeType.Http,
 				Name = HeaderNames.Authorization,
-				Scheme = ApiHeaders.JwtAuthenticationScheme
+				Scheme = ApiHeaders.BearerAuthenticationScheme
 			});
 		}
 

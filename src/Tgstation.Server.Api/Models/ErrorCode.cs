@@ -582,5 +582,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("The requested port is either already in use by TGS or could not be allocated!")]
 		PortNotAvailable,
+
+		/// <summary>
+		/// Attempted to set <see cref="User.OAuthConnections"/> for the admin user.
+		/// </summary>
+		[Description("The admin user cannot use OAuth connections!")]
+		AdminUserCannotOAuth,
 	}
 }

@@ -1,3 +1,5 @@
+using Tgstation.Server.Api.Models;
+
 namespace Tgstation.Server.Host.Configuration
 {
 	/// <summary>
@@ -16,6 +18,11 @@ namespace Tgstation.Server.Host.Configuration
 		const uint DefaultTokenExpiryMinutes = 15;
 
 		/// <summary>
+		/// Default value of <see cref="OAuthTokenExpiryMinutes"/>.
+		/// </summary>
+		const uint DefaultOAuthTokenExpiryMinutes = 60 * 24; // 1 day
+
+		/// <summary>
 		/// Default value of <see cref="TokenClockSkewMinutes"/>.
 		/// </summary>
 		const uint DefaultTokenClockSkewMinutes = 1;
@@ -26,12 +33,12 @@ namespace Tgstation.Server.Host.Configuration
 		const uint DefaultTokenSigningKeyByteAmount = 256;
 
 		/// <summary>
-		/// Amount of minutes until generated <see cref="Api.Models.Token"/>s expire.
+		/// Amount of minutes until <see cref="Token"/>s generated from passwords expire.
 		/// </summary>
 		public uint TokenExpiryMinutes { get; set; } = DefaultTokenExpiryMinutes;
 
 		/// <summary>
-		/// Amount of minutes to skew the clock for <see cref="Api.Models.Token"/> validation.
+		/// Amount of minutes to skew the clock for <see cref="Token"/> validation.
 		/// </summary>
 		public uint TokenClockSkewMinutes { get; set; } = DefaultTokenClockSkewMinutes;
 
@@ -41,8 +48,18 @@ namespace Tgstation.Server.Host.Configuration
 		public uint TokenSigningKeyByteCount { get; set; } = DefaultTokenSigningKeyByteAmount;
 
 		/// <summary>
+		/// Amount of minutes until <see cref="Token"/>s generated from OAuth logins expire.
+		/// </summary>
+		public uint OAuthTokenExpiryMinutes { get; set; } = DefaultOAuthTokenExpiryMinutes;
+
+		/// <summary>
 		/// A custom token signing key. Overrides <see cref="TokenSigningKeyByteCount"/>.
 		/// </summary>
 		public string CustomTokenSigningKeyBase64 { get; set; }
+
+		/// <summary>
+		/// OAuth options for GitHub.
+		/// </summary>
+		public GitHubOAuthConfiguration GitHubOAuth { get; set; }
 	}
 }

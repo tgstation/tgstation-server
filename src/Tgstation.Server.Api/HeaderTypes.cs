@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Tgstation.Server.Api
 {
@@ -24,13 +24,18 @@ namespace Tgstation.Server.Api
 		Accept = 2,
 
 		/// <summary>
-		/// Api header.
+		/// <see cref="ApiHeaders.ApiVersionHeader"/>.
 		/// </summary>
 		Api = 4,
 
 		/// <summary>
 		/// <see cref="Microsoft.Net.Http.Headers.HeaderNames.Authorization"/>
 		/// </summary>
-		Authorization = 8
+		Authorization = 8,
+
+		/// <summary>
+		/// <see cref="ApiHeaders.OAuthProviderHeader"/>.
+		/// </summary>
+		OAuthProvider,
 	}
 }

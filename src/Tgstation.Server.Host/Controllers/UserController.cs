@@ -74,7 +74,9 @@ namespace Tgstation.Server.Host.Controllers
 		BadRequestObjectResult CheckValidName(UserUpdate model, bool newUser)
 		{
 			var userInvalidWithNullName = newUser && model.Name == null && model.SystemIdentifier == null;
+#pragma warning disable CA1508 // https://github.com/dotnet/roslyn-analyzers/issues/3685
 			if (userInvalidWithNullName || (model.Name != null && String.IsNullOrWhiteSpace(model.Name)))
+#pragma warning restore CA1508
 				return BadRequest(new ErrorMessage(ErrorCode.UserMissingName));
 
 			model.Name = model.Name?.Trim();
@@ -118,6 +120,9 @@ namespace Tgstation.Server.Host.Controllers
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
+			if (model.OAuthConnections?.Any(x => x == null) == true)
+				return BadRequest(new ErrorMessage(ErrorCode.ModelValidationFailure));
+
 			if (!(model.Password == null ^ model.SystemIdentifier == null))
 				return BadRequest(new ErrorMessage(ErrorCode.UserMismatchPasswordSid));
 
@@ -132,17 +137,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (fail != null)
 				return fail;
 
-			var dbUser = new Models.User
-			{
-				AdministrationRights = RightsHelper.Clamp(model.AdministrationRights ?? AdministrationRights.None),
-				CreatedAt = DateTimeOffset.Now,
-				CreatedBy = AuthenticationContext.User,
-				Enabled = model.Enabled ?? false,
-				InstanceManagerRights = RightsHelper.Clamp(model.InstanceManagerRights ?? InstanceManagerRights.None),
-				Name = model.Name,
-				SystemIdentifier = model.SystemIdentifier,
-				InstanceUsers = new List<Models.InstanceUser>()
-			};
+			var dbUser = CreateNewUserFromModel(model);
 
 			if (model.SystemIdentifier != null)
 				try
@@ -157,7 +152,7 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					return RequiresPosixSystemIdentity();
 				}
-			else
+			else if (!(model.Password?.Length == 0 && model.OAuthConnections.Count != 0))
 			{
 				var result = TrySetPassword(dbUser, model.Password, true);
 				if (result != null)
@@ -169,6 +164,8 @@ namespace Tgstation.Server.Host.Controllers
 			DatabaseContext.Users.Add(dbUser);
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+
+			Logger.LogInformation("Created new user {0} ({1})", dbUser.Name, dbUser.Id);
 
 			return Created(dbUser.ToApi(true));
 		}
@@ -182,7 +179,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="200"><see cref="Api.Models.User"/> updated successfully.</response>
 		/// <response code="404">Requested <see cref="Api.Models.Internal.User.Id"/> does not exist.</response>
 		[HttpPost]
-		[TgsAuthorize(AdministrationRights.WriteUsers | AdministrationRights.EditOwnPassword)]
+		[TgsAuthorize(AdministrationRights.WriteUsers | AdministrationRights.EditOwnPassword | AdministrationRights.EditOwnOAuthConnections)]
 		[ProducesResponseType(typeof(Api.Models.User), 200)]
 		[ProducesResponseType(typeof(ErrorMessage), 404)]
 		#pragma warning disable CA1502 // TODO: Decomplexify
@@ -192,19 +189,22 @@ namespace Tgstation.Server.Host.Controllers
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
-			if (!model.Id.HasValue)
+			if (!model.Id.HasValue || model.OAuthConnections?.Any(x => x == null) == true)
 				return BadRequest(new ErrorMessage(ErrorCode.ModelValidationFailure));
 
 			var callerAdministrationRights = (AdministrationRights)AuthenticationContext.GetRight(RightsType.Administration);
-			var passwordEditOnly = !callerAdministrationRights.HasFlag(AdministrationRights.WriteUsers);
+			var canEditAllUsers = callerAdministrationRights.HasFlag(AdministrationRights.WriteUsers);
+			var passwordEdit = canEditAllUsers || callerAdministrationRights.HasFlag(AdministrationRights.EditOwnPassword);
+			var oAuthEdit = canEditAllUsers || callerAdministrationRights.HasFlag(AdministrationRights.EditOwnOAuthConnections);
 
-			var originalUser = passwordEditOnly
+			var originalUser = passwordEdit
 				? AuthenticationContext.User
 				: await DatabaseContext
 					.Users
 					.AsQueryable()
 					.Where(x => x.Id == model.Id)
 					.Include(x => x.CreatedBy)
+					.Include(x => x.OAuthConnections)
 					.FirstOrDefaultAsync(cancellationToken)
 					.ConfigureAwait(false);
 
@@ -214,13 +214,15 @@ namespace Tgstation.Server.Host.Controllers
 			if (originalUser.CanonicalName == Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
 				return Forbid();
 
-			// Ensure they are only trying to edit password (system identity change will trigger a bad request)
-			if (passwordEditOnly
+			// Ensure they are only trying to edit things they have perms for (system identity change will trigger a bad request)
+			if ((!canEditAllUsers
 				&& (model.Id != originalUser.Id
 				|| model.InstanceManagerRights.HasValue
 				|| model.AdministrationRights.HasValue
 				|| model.Enabled.HasValue
 				|| model.Name != null))
+				|| (!passwordEdit && model.Password != null)
+				|| (!oAuthEdit && model.OAuthConnections != null))
 				return Forbid();
 
 			if (model.SystemIdentifier != null && model.SystemIdentifier != originalUser.SystemIdentifier)
@@ -246,6 +248,22 @@ namespace Tgstation.Server.Host.Controllers
 				originalUser.Enabled = model.Enabled.Value;
 			}
 
+			if (model.OAuthConnections != null
+				&& (model.OAuthConnections.Count != originalUser.OAuthConnections.Count
+				|| !model.OAuthConnections.All(x => originalUser.OAuthConnections.Any(y => y.Provider == x.Provider && y.ExternalUserId == x.ExternalUserId))))
+			{
+				if (originalUser.CanonicalName == Models.User.CanonicalizeName(Api.Models.User.AdminName))
+					return BadRequest(new ErrorMessage(ErrorCode.AdminUserCannotOAuth));
+
+				originalUser.OAuthConnections.Clear();
+				foreach (var updatedConnection in model.OAuthConnections)
+					originalUser.OAuthConnections.Add(new Models.OAuthConnection
+					{
+						Provider = updatedConnection.Provider,
+						ExternalUserId = updatedConnection.ExternalUserId
+					});
+			}
+
 			var fail = CheckValidName(model, false);
 			if (fail != null)
 				return fail;
@@ -253,6 +271,8 @@ namespace Tgstation.Server.Host.Controllers
 			originalUser.Name = model.Name ?? originalUser.Name;
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
+
+			Logger.LogInformation("Updated user {0} ({1})", originalUser.Name, originalUser.Id);
 
 			// return id only if not a self update and cannot read users
 			return Json(
@@ -293,6 +313,7 @@ namespace Tgstation.Server.Host.Controllers
 				.AsQueryable()
 				.Where(x => x.CanonicalName != Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
 				.Include(x => x.CreatedBy)
+				.Include(x => x.OAuthConnections)
 				.ToListAsync(cancellationToken).ConfigureAwait(false);
 			return Json(users.Select(x => x.ToApi(true)));
 		}
@@ -321,6 +342,7 @@ namespace Tgstation.Server.Host.Controllers
 				.AsQueryable()
 				.Where(x => x.Id == id)
 				.Include(x => x.CreatedBy)
+				.Include(x => x.OAuthConnections)
 				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (user == default)
 				return NotFound();
@@ -330,5 +352,30 @@ namespace Tgstation.Server.Host.Controllers
 
 			return Json(user.ToApi(true));
 		}
+
+		/// <summary>
+		/// Creates a new <see cref="User"/> from a given <paramref name="model"/>.
+		/// </summary>
+		/// <param name="model">The <see cref="Api.Models.User"/> to use as a template.</param>
+		/// <returns>A new <see cref="User"/>.</returns>
+		Models.User CreateNewUserFromModel(Api.Models.User model) => new Models.User
+		{
+			AdministrationRights = RightsHelper.Clamp(model.AdministrationRights ?? AdministrationRights.None),
+			CreatedAt = DateTimeOffset.Now,
+			CreatedBy = AuthenticationContext.User,
+			Enabled = model.Enabled ?? false,
+			InstanceManagerRights = RightsHelper.Clamp(model.InstanceManagerRights ?? InstanceManagerRights.None),
+			Name = model.Name,
+			SystemIdentifier = model.SystemIdentifier,
+			InstanceUsers = new List<Models.InstanceUser>(),
+			OAuthConnections = model
+					.OAuthConnections
+					?.Select(x => new Models.OAuthConnection
+					{
+						Provider = x.Provider,
+						ExternalUserId = x.ExternalUserId
+					})
+					.ToList()
+		};
 	}
 }

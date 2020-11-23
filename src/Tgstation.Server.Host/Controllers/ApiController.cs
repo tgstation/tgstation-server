@@ -2,8 +2,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
+using Microsoft.Net.Http.Headers;
+using Octokit;
 using Serilog.Context;
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Mime;
@@ -60,7 +63,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="logger">The value of <see cref="Logger"/></param>
 		/// <param name="requireHeaders">The value of <see cref="requireHeaders"/></param>
-		public ApiController(
+		protected ApiController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
 			ILogger<ApiController> logger,
@@ -114,6 +117,22 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="payload">The accompanying API payload.</param>
 		/// <returns>A <see cref="HttpStatusCode.Created"/> <see cref="ObjectResult"/> with the given <paramref name="payload"/>.</returns>
 		protected ObjectResult Created(object payload) => StatusCode((int)HttpStatusCode.Created, payload);
+
+		/// <summary>
+		/// 429 response for a given <paramref name="rateLimitException"/>.
+		/// </summary>
+		/// <param name="rateLimitException">The <see cref="RateLimitExceededException"/> that occurred.</param>
+		/// <returns>A <see cref="HttpStatusCode.TooManyRequests"/> <see cref="ObjectResult"/>.</returns>
+		protected ObjectResult RateLimit(RateLimitExceededException rateLimitException)
+		{
+			if (rateLimitException == null)
+				throw new ArgumentNullException(nameof(rateLimitException));
+
+			Logger.LogWarning(rateLimitException, "Exceeded GitHub rate limit!");
+			var secondsString = Math.Ceiling((rateLimitException.Reset - DateTimeOffset.Now).TotalSeconds).ToString(CultureInfo.InvariantCulture);
+			Response.Headers.Add(HeaderNames.RetryAfter, secondsString);
+			return StatusCode(HttpStatusCode.TooManyRequests, new ErrorMessage(ErrorCode.GitHubApiRateLimit));
+		}
 
 		/// <summary>
 		/// Performs validation a request.
