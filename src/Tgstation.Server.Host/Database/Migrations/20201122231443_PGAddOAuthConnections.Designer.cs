@@ -383,8 +383,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.HasColumnType("bigint")
 						.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-					b.Property<decimal>("ExternalUserId")
-						.HasColumnType("numeric(20,0)");
+					b.Property<string>("ExternalUserId")
+						.IsRequired()
+						.HasColumnType("character varying(100)")
+						.HasMaxLength(100);
 
 					b.Property<int>("Provider")
 						.HasColumnType("integer");

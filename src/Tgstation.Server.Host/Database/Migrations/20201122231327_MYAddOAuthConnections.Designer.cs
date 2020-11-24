@@ -381,8 +381,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.ValueGeneratedOnAdd()
 						.HasColumnType("bigint");
 
-					b.Property<ulong>("ExternalUserId")
-						.HasColumnType("bigint unsigned");
+					b.Property<string>("ExternalUserId")
+						.IsRequired()
+						.HasColumnType("varchar(100) CHARACTER SET utf8mb4")
+						.HasMaxLength(100);
 
 					b.Property<int>("Provider")
 						.HasColumnType("int");

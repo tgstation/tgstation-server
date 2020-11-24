@@ -22,7 +22,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					Id = table.Column<long>(nullable: false)
 						.Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
 					Provider = table.Column<int>(nullable: false),
-					ExternalUserId = table.Column<decimal>(nullable: false),
+					ExternalUserId = table.Column<string>(nullable: false, maxLength: 100),
 					UserId = table.Column<long>(nullable: true)
 				},
 				constraints: table =>
