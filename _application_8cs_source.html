@@ -459,45 +459,48 @@ $(function() {
 <div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;            var originalBuilder = corsBuilder;</div>
 <div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;            corsBuilder = builder =&gt;</div>
 <div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;            {</div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;                builder.AllowAnyHeader().AllowAnyMethod();</div>
-<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;                originalBuilder?.Invoke(builder);</div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;            };</div>
-<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;            applicationBuilder.UseCors(corsBuilder);</div>
-<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160; </div>
-<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;            <span class="comment">// spa loading if necessary</span></div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;            <span class="keywordflow">if</span> (controlPanelConfiguration.Enable)</div>
-<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;            {</div>
-<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;                logger.LogWarning(<span class="stringliteral">&quot;Web control panel enabled. This is a highly WIP feature!&quot;</span>);</div>
-<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;                applicationBuilder.UseFileServer(<span class="keyword">new</span> FileServerOptions</div>
-<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;                {</div>
-<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;                    RequestPath = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#aa984fa0fe83b7675cbc551f66240be0c">ControlPanelRoute</a>,</div>
-<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;                    EnableDefaultFiles = <span class="keyword">true</span>,</div>
-<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;                    EnableDirectoryBrowsing = <span class="keyword">false</span></div>
-<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;                });</div>
-<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;            }</div>
-<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;            <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;                logger.LogDebug(<span class="stringliteral">&quot;Web control panel disabled!&quot;</span>);</div>
-<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160; </div>
-<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;            <span class="comment">// authenticate JWT tokens using our security pipeline if present, returns 401 if bad</span></div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;            applicationBuilder.UseAuthentication();</div>
+<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;                builder</div>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;                    .AllowAnyHeader()</div>
+<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;                    .AllowAnyMethod()</div>
+<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;                    .SetPreflightMaxAge(TimeSpan.FromDays(1));</div>
+<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;                originalBuilder?.Invoke(builder);</div>
+<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;            };</div>
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;            applicationBuilder.UseCors(corsBuilder);</div>
+<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160; </div>
+<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;            <span class="comment">// spa loading if necessary</span></div>
+<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;            <span class="keywordflow">if</span> (controlPanelConfiguration.Enable)</div>
+<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;            {</div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;                logger.LogWarning(<span class="stringliteral">&quot;Web control panel enabled. This is a highly WIP feature!&quot;</span>);</div>
+<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;                applicationBuilder.UseFileServer(<span class="keyword">new</span> FileServerOptions</div>
+<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;                {</div>
+<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;                    RequestPath = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#aa984fa0fe83b7675cbc551f66240be0c">ControlPanelRoute</a>,</div>
+<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;                    EnableDefaultFiles = <span class="keyword">true</span>,</div>
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;                    EnableDirectoryBrowsing = <span class="keyword">false</span></div>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;                });</div>
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;            }</div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;            <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;                logger.LogDebug(<span class="stringliteral">&quot;Web control panel disabled!&quot;</span>);</div>
 <div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160; </div>
-<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;            <span class="comment">// suppress and log database exceptions</span></div>
-<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;            applicationBuilder.UseDbConflictHandling();</div>
+<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;            <span class="comment">// authenticate JWT tokens using our security pipeline if present, returns 401 if bad</span></div>
+<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;            applicationBuilder.UseAuthentication();</div>
 <div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160; </div>
-<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;            <span class="comment">// majority of handling is done in the controllers</span></div>
-<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;            applicationBuilder.UseMvc();</div>
+<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;            <span class="comment">// suppress and log database exceptions</span></div>
+<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;            applicationBuilder.UseDbConflictHandling();</div>
 <div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160; </div>
-<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;            <span class="comment">// 404 anything that gets this far</span></div>
-<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;            <span class="comment">// End of request pipeline setup</span></div>
-<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;            var masterVersionsAttribute = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html">MasterVersionsAttribute</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#af17f819f7eb525f7274264ec212a5105">Instance</a>;</div>
-<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;            logger.LogTrace(<span class="stringliteral">&quot;Configuration version: {0}&quot;</span>, masterVersionsAttribute.RawConfigurationVersion);</div>
-<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;            logger.LogTrace(<span class="stringliteral">&quot;DMAPI version: {0}&quot;</span>, masterVersionsAttribute.RawDMApiVersion);</div>
-<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;            logger.LogTrace(<span class="stringliteral">&quot;Web control panel version: {0}&quot;</span>, masterVersionsAttribute.RawControlPanelVersion);</div>
-<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160; </div>
-<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;            logger.LogDebug(<span class="stringliteral">&quot;Starting hosting...&quot;</span>);</div>
-<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;        }</div>
-<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;    }</div>
-<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;}</div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;            <span class="comment">// majority of handling is done in the controllers</span></div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;            applicationBuilder.UseMvc();</div>
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160; </div>
+<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;            <span class="comment">// 404 anything that gets this far</span></div>
+<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;            <span class="comment">// End of request pipeline setup</span></div>
+<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;            var masterVersionsAttribute = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html">MasterVersionsAttribute</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_properties_1_1_master_versions_attribute.html#af17f819f7eb525f7274264ec212a5105">Instance</a>;</div>
+<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;            logger.LogTrace(<span class="stringliteral">&quot;Configuration version: {0}&quot;</span>, masterVersionsAttribute.RawConfigurationVersion);</div>
+<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;            logger.LogTrace(<span class="stringliteral">&quot;DMAPI version: {0}&quot;</span>, masterVersionsAttribute.RawDMApiVersion);</div>
+<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;            logger.LogTrace(<span class="stringliteral">&quot;Web control panel version: {0}&quot;</span>, masterVersionsAttribute.RawControlPanelVersion);</div>
+<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160; </div>
+<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;            logger.LogDebug(<span class="stringliteral">&quot;Starting hosting...&quot;</span>);</div>
+<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;        }</div>
+<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;    }</div>
+<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_limits_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_limits.html">Tgstation.Server.Api.Models.Limits</a></div><div class="ttdoc">Sanity limits to prevent users from overloading</div><div class="ttdef"><b>Definition:</b> <a href="_limits_8cs_source.html#l00006">Limits.cs:7</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_jobs_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_jobs.html">Tgstation.Server.Host.Jobs</a></div><div class="ttdef"><b>Definition:</b> <a href="_i_job_manager_8cs_source.html#l00006">IJobManager.cs:7</a></div></div>
