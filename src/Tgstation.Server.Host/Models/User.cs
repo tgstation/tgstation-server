@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -47,6 +47,11 @@ namespace Tgstation.Server.Host.Models
 		/// The <see cref="TestMerge"/>s made by the <see cref="User"/>
 		/// </summary>
 		public ICollection<TestMerge> TestMerges { get; set; }
+
+		/// <summary>
+		/// The <see cref="TestMerge"/>s made by the <see cref="User"/>
+		/// </summary>
+		public ICollection<OAuthConnection> OAuthConnections { get; set; }
 
 		/// <summary>
 		/// Change a <see cref="Api.Models.Internal.User.Name"/> into a <see cref="CanonicalName"/>.

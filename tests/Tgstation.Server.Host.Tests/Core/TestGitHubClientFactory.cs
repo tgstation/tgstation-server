@@ -1,7 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Octokit;
 using System;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.System;
 
@@ -17,8 +18,7 @@ namespace Tgstation.Server.Host.Core.Tests
 		public async Task TestCreateBasicClient()
 		{
 			var mockApp = new Mock<IAssemblyInformationProvider>();
-			mockApp.SetupGet(x => x.Version).Returns(new Version()).Verifiable();
-			mockApp.SetupGet(x => x.VersionPrefix).Returns("TGSTests").Verifiable();
+			mockApp.SetupGet(x => x.ProductInfoHeaderValue).Returns(new ProductInfoHeaderValue("TGSTests", "1.2.3")).Verifiable();
 
 			var factory = new GitHubClientFactory(mockApp.Object);
 
@@ -36,8 +36,7 @@ namespace Tgstation.Server.Host.Core.Tests
 		public async Task TestCreateTokenClient()
 		{
 			var mockApp = new Mock<IAssemblyInformationProvider>();
-			mockApp.SetupGet(x => x.Version).Returns(new Version()).Verifiable();
-			mockApp.SetupGet(x => x.VersionPrefix).Returns("TGSTests").Verifiable();
+			mockApp.SetupGet(x => x.ProductInfoHeaderValue).Returns(new ProductInfoHeaderValue("TGSTests", "1.2.3")).Verifiable();
 
 			var factory = new GitHubClientFactory(mockApp.Object);
 

@@ -64,10 +64,10 @@ namespace Tgstation.Server.Api.Models
 		CannotChangeServerSuite,
 
 		/// <summary>
-		/// A required GitHub API request failed.
+		/// A required remote API request failed.
 		/// </summary>
-		[Description("A required GitHub request returned an API error!")]
-		GitHubApiError,
+		[Description("A required remote API request returned an error!")]
+		RemoteApiError,
 
 		/// <summary>
 		/// A server update was requested while another was in progress.
@@ -582,5 +582,17 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("The requested port is either already in use by TGS or could not be allocated!")]
 		PortNotAvailable,
+
+		/// <summary>
+		/// Attempted to set <see cref="User.OAuthConnections"/> for the admin user.
+		/// </summary>
+		[Description("The admin user cannot use OAuth connections!")]
+		AdminUserCannotOAuth,
+
+		/// <summary>
+		/// Attempted to login with a disabled OAuth provider.
+		/// </summary>
+		[Description("The requested OAuth provider is disabled via configuration!")]
+		OAuthProviderDisabled,
 	}
 }

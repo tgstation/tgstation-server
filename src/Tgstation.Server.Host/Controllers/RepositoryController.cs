@@ -426,7 +426,9 @@ namespace Tgstation.Server.Host.Controllers
 				|| (model.UpdateFromOrigin == true && !userRights.HasFlag(RepositoryRights.UpdateBranch)))
 				return Forbid();
 
-			if (currentModel.AccessToken?.Length == 0 && currentModel.AccessUser?.Length == 0)
+#pragma warning disable CA1508 // Avoid dead conditional code
+			if (model.AccessToken?.Length == 0 && model.AccessUser?.Length == 0)
+#pragma warning restore CA1508 // Avoid dead conditional code
 			{
 				// setting an empty string clears everything
 				currentModel.AccessUser = null;

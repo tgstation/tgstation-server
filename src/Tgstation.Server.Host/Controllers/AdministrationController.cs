@@ -1,11 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Primitives;
 using Octokit;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -115,14 +113,6 @@ namespace Tgstation.Server.Host.Controllers
 			fileLoggingConfiguration = fileLoggingConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(fileLoggingConfigurationOptions));
 		}
 
-		ObjectResult RateLimit(RateLimitExceededException exception)
-		{
-			Logger.LogWarning(exception, "Exceeded GitHub rate limit!");
-			var secondsString = Math.Ceiling((exception.Reset - DateTimeOffset.Now).TotalSeconds).ToString(CultureInfo.InvariantCulture);
-			Response.Headers.Add("Retry-After", new StringValues(secondsString));
-			return StatusCode(HttpStatusCode.TooManyRequests, new ErrorMessage(ErrorCode.GitHubApiRateLimit));
-		}
-
 		/// <summary>
 		/// Try to download and apply an update with a given <paramref name="newVersion"/>.
 		/// </summary>
@@ -150,7 +140,10 @@ namespace Tgstation.Server.Host.Controllers
 			catch (ApiException e)
 			{
 				Logger.LogWarning(e, OctokitException);
-				return StatusCode(HttpStatusCode.FailedDependency);
+				return StatusCode(HttpStatusCode.FailedDependency, new ErrorMessage(ErrorCode.RemoteApiError)
+				{
+					AdditionalData = e.Message
+				});
 			}
 
 			releases = releases.Where(x => x.TagName.StartsWith(updatesConfiguration.GitTagPrefix, StringComparison.InvariantCulture));
@@ -244,7 +237,7 @@ namespace Tgstation.Server.Host.Controllers
 			catch (ApiException e)
 			{
 				Logger.LogWarning(e, OctokitException);
-				return StatusCode(HttpStatusCode.FailedDependency, new ErrorMessage(ErrorCode.GitHubApiError)
+				return StatusCode(HttpStatusCode.FailedDependency, new ErrorMessage(ErrorCode.RemoteApiError)
 				{
 					AdditionalData = e.Message
 				});
