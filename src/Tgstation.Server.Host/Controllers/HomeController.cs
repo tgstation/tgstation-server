@@ -124,14 +124,15 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Main page of the <see cref="Application"/>
 		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>
-		/// The <see cref="ServerInformation"/> of the <see cref="Application"/> if a properly authenticated API request, the web control panel if on a browser and enabled, <see cref="UnauthorizedResult"/> otherwise.
+		/// A <see cref="Task{TResult}"/> resuting in the <see cref="JsonResult"/> containing <see cref="ServerInformation"/> of the <see cref="Application"/> if a properly authenticated API request, the web control panel if on a browser and enabled, <see cref="UnauthorizedResult"/> otherwise.
 		/// </returns>
 		/// <response code="200"><see cref="ServerInformation"/> retrieved successfully.</response>
 		[HttpGet]
 		[AllowAnonymous]
 		[ProducesResponseType(typeof(ServerInformation), 200)]
-		public IActionResult Home()
+		public async Task<IActionResult> Home(CancellationToken cancellationToken)
 		{
 			// if we are using a browser and the control panel, soft redirect to the app page
 			if (controlPanelConfiguration.Enable && browserResolver.Browser.Type != BrowserType.Generic)
@@ -149,7 +150,7 @@ namespace Tgstation.Server.Host.Controllers
 				InstanceLimit = generalConfiguration.InstanceLimit,
 				UserLimit = generalConfiguration.UserLimit,
 				ValidInstancePaths = generalConfiguration.ValidInstancePaths,
-				OAuthProviderClientIds = oAuthProviders.ClientIds()
+				OAuthProviderClientIds = await oAuthProviders.ClientIds(cancellationToken).ConfigureAwait(false)
 			});
 		}
 

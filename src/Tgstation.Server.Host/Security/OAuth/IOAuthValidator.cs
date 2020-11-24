@@ -15,9 +15,11 @@ namespace Tgstation.Server.Host.Security.OAuth
 		OAuthProvider Provider { get; }
 
 		/// <summary>
-		/// The OAuth client ID of validator.
+		/// Gets the OAuth client ID of validator.
 		/// </summary>
-		string ClientId { get; }
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the client ID of the validator on success, <see langword="null"/> on failure.</returns>
+		Task<string> GetClientId(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Validate a given OAuth response <paramref name="code"/>.

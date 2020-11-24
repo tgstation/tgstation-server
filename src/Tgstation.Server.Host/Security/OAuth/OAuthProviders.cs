@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
@@ -56,6 +58,14 @@ namespace Tgstation.Server.Host.Security.OAuth
 						loggerFactory.CreateLogger<DiscordOAuthValidator>(),
 						discordConfig));
 
+			if(securityConfiguration.OAuth.TryGetValue(OAuthProvider.TGForums, out var tgConfig))
+				validatorsBuilder.Add(
+					new TGForumsOAuthValidator(
+						httpClientFactory,
+						assemblyInformationProvider,
+						loggerFactory.CreateLogger<TGForumsOAuthValidator>(),
+						tgConfig));
+
 			validators = validatorsBuilder;
 		}
 
@@ -63,9 +73,19 @@ namespace Tgstation.Server.Host.Security.OAuth
 		public IOAuthValidator GetValidator(OAuthProvider oAuthProvider) => validators.First(x => x.Provider == oAuthProvider);
 
 		/// <inheritdoc />
-		public Dictionary<OAuthProvider, string> ClientIds() => validators
-			.ToDictionary(
+		public async Task<Dictionary<OAuthProvider, string>> ClientIds(CancellationToken cancellationToken)
+		{
+			var providersAndTasks = validators.ToDictionary(
 				x => x.Provider,
-				x => x.ClientId);
+				x => x.GetClientId(cancellationToken));
+
+			await Task.WhenAll(providersAndTasks.Values).ConfigureAwait(false);
+
+			return providersAndTasks
+				.Where(x => x.Value.Result != null)
+				.ToDictionary(
+					x => x.Key,
+					x => x.Value.Result);
+		}
 	}
 }

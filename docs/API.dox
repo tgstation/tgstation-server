@@ -146,6 +146,7 @@ You will be granted a bearer token as in basic auth. This will have an extended 
 
 - ID: 0, Name: GitHub, Documentation: https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/
 - ID: 1, Name: Discord, Documentation: https://discord.com/developers/docs/topics/oauth2
+- ID: 2, Name: TGForums, Documentation: https://tgstation13.org/phpBB/viewtopic.php?f=45&t=9922
 
 @section api_perms Permissions
 

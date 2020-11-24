@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Security.OAuth
@@ -18,7 +20,8 @@ namespace Tgstation.Server.Host.Security.OAuth
 		/// <summary>
 		/// Gets a <see cref="Dictionary{TKey, TValue}"/> of the provider client IDs.
 		/// </summary>
-		/// <returns>A new <see cref="Dictionary{TKey, TValue}"/> of the provider client IDs.</returns>
-		Dictionary<OAuthProvider, string> ClientIds();
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in a anew <see cref="Dictionary{TKey, TValue}"/> of the active provider client IDs.</returns>
+		Task<Dictionary<OAuthProvider, string>> ClientIds(CancellationToken cancellationToken);
 	}
 }

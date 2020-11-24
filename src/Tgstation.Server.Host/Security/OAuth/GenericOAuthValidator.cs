@@ -1,16 +1,13 @@
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
-using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.System;
 
@@ -19,24 +16,8 @@ namespace Tgstation.Server.Host.Security.OAuth
 	/// <summary>
 	/// <see cref="IOAuthValidator"/> for generic OAuth2 endpoints.
 	/// </summary>
-	abstract class GenericOAuthValidator : IOAuthValidator
+	abstract class GenericOAuthValidator : BaseOAuthValidator
 	{
-		/// <inheritdoc />
-		public abstract OAuthProvider Provider { get; }
-
-		/// <inheritdoc />
-		public string ClientId => OAuthConfiguration.ClientId;
-
-		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="GenericOAuthValidator"/>.
-		/// </summary>
-		protected ILogger<GenericOAuthValidator> Logger { get; }
-
-		/// <summary>
-		/// The <see cref="OAuthConfiguration"/> for the <see cref="GenericOAuthValidator"/>.
-		/// </summary>
-		protected OAuthConfiguration OAuthConfiguration { get; }
-
 		/// <summary>
 		/// <see cref="Uri"/> to <see cref="HttpMethod.Post"/> to to get the access token.
 		/// </summary>
@@ -48,32 +29,23 @@ namespace Tgstation.Server.Host.Security.OAuth
 		protected abstract Uri UserInformationUrl { get; }
 
 		/// <summary>
-		/// The <see cref="IHttpClientFactory"/> for the <see cref="GenericOAuthValidator"/>.
-		/// </summary>
-		readonly IHttpClientFactory httpClientFactory;
-
-		/// <summary>
-		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="GenericOAuthValidator"/>.
-		/// </summary>
-		readonly IAssemblyInformationProvider assemblyInformationProvider;
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="GenericOAuthValidator"/> <see langword="class"/>.
 		/// </summary>
-		/// <param name="httpClientFactory">The value of <see cref="httpClientFactory"/>.</param>
-		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
-		/// <param name="logger">The value of <see cref="Logger"/>.</param>
-		/// <param name="oAuthConfiguration">The value of <see cref="OAuthConfiguration"/>.</param>
+		/// <param name="httpClientFactory">The <see cref="IHttpClientFactory"/> for the <see cref="BaseOAuthValidator"/></param>
+		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> for the <see cref="BaseOAuthValidator"/></param>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="BaseOAuthValidator"/></param>
+		/// <param name="oAuthConfiguration">The <see cref="OAuthConfiguration"/> for the <see cref="BaseOAuthValidator"/>.</param>
 		public GenericOAuthValidator(
 			IHttpClientFactory httpClientFactory,
 			IAssemblyInformationProvider assemblyInformationProvider,
 			ILogger<GenericOAuthValidator> logger,
 			OAuthConfiguration oAuthConfiguration)
+			: base(
+				 httpClientFactory,
+				 assemblyInformationProvider,
+				 logger,
+				 oAuthConfiguration)
 		{
-			this.httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
-			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
-			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			OAuthConfiguration = oAuthConfiguration ?? throw new ArgumentNullException(nameof(oAuthConfiguration));
 		}
 
 		/// <summary>
@@ -98,11 +70,9 @@ namespace Tgstation.Server.Host.Security.OAuth
 		protected abstract OAuthTokenRequest CreateTokenRequest(string code);
 
 		/// <inheritdoc />
-		public async Task<string> ValidateResponseCode(string code, CancellationToken cancellationToken)
+		public override async Task<string> ValidateResponseCode(string code, CancellationToken cancellationToken)
 		{
-			using var httpClient = httpClientFactory.CreateClient();
-			httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
-			httpClient.DefaultRequestHeaders.UserAgent.Add(assemblyInformationProvider.ProductInfoHeaderValue);
+			using var httpClient = CreateHttpClient();
 			try
 			{
 				Logger.LogTrace("Validating response code...");
@@ -113,13 +83,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 				// roundabout but it works
 				var tokenRequestJson = JsonConvert.SerializeObject(
 					tokenRequestPayload,
-					new JsonSerializerSettings
-					{
-						ContractResolver = new DefaultContractResolver
-						{
-							NamingStrategy = new SnakeCaseNamingStrategy()
-						}
-					});
+					SerializerSettings());
 
 				var tokenRequestDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(tokenRequestJson);
 				tokenRequest.Content = new FormUrlEncodedContent(tokenRequestDictionary);
@@ -153,5 +117,8 @@ namespace Tgstation.Server.Host.Security.OAuth
 				return null;
 			}
 		}
+
+		/// <inheritdoc />
+		public override Task<string> GetClientId(CancellationToken cancellationToken) => Task.FromResult(OAuthConfiguration.ClientId);
 	}
 }

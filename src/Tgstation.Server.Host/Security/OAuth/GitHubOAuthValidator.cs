@@ -18,9 +18,6 @@ namespace Tgstation.Server.Host.Security.OAuth
 		/// <inheritdoc />
 		public OAuthProvider Provider => OAuthProvider.GitHub;
 
-		/// <inheritdoc />
-		public string ClientId => oAuthConfiguration.ClientId;
-
 		/// <summary>
 		/// The <see cref="IGitHubClientFactory"/> for the <see cref="GitHubOAuthValidator"/>.
 		/// </summary>
@@ -95,5 +92,8 @@ namespace Tgstation.Server.Host.Security.OAuth
 				return null;
 			}
 		}
+
+		/// <inheritdoc />
+		public Task<string> GetClientId(CancellationToken cancellationToken) => Task.FromResult(oAuthConfiguration.ClientId);
 	}
 }

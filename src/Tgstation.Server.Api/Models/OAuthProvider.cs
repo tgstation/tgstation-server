@@ -14,5 +14,10 @@ namespace Tgstation.Server.Api.Models
 		/// https://discord.com
 		/// </summary>
 		Discord,
+
+		/// <summary>
+		/// https://tgstation13.org
+		/// </summary>
+		TGForums,
 	}
 }
