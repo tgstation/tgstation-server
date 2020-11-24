@@ -196,7 +196,7 @@ OAuth providers are hardcoded but it is fairly easy to add new ones. The flow do
 1. Add the name to the [Tgstation.Server.Api.Models.OAuthProviders](../src/Tgstation.Server.Api/Models/OAuthProviders.cs) enum (Also necessitates a minor HTTP API version bump).
 1. Create an implementation of [IOAuthValidator](../src/Tgstation.Server.Host/Security/OAuth/IOAuthValidator.cs).
 	- Most providers can simply override the [GenericOAuthValidator](../src/Tgstation.Server.Host/Security/OAuth/GenericOAuthValidator.cs).
-1. Construct the implementation in the [OAuthProviders] class.
+1. Construct the implementation in the [OAuthProviders](../src/Tgstation.Server.Host/Security/OAuth/OAuthProviders.cs) class.
 1. Add a null entry to the default [appsettings.json](../src/Tgstation.Server.Host/appsettings.json).
 1. Update the main [README.md](../README.md) to indicate the new provider.
 1. Update the [API documentation](../docs/API.dox) to indicate the new provider.

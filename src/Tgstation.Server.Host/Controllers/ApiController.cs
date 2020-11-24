@@ -258,9 +258,19 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				if (ApiHeaders != null)
 					Logger.LogDebug(
-						"Starting API Request: Version: {0}. User-Agent: {1}",
+						"Starting API request: Version: {0}. {1}: {2}",
 						ApiHeaders.ApiVersion.Semver(),
+						HeaderNames.UserAgent,
 						ApiHeaders.RawUserAgent);
+				else if (Request.Headers.TryGetValue(HeaderNames.UserAgent, out var userAgents))
+					Logger.LogDebug(
+						"Starting unauthorized API request. {0}: {1}",
+						HeaderNames.UserAgent,
+						userAgents);
+				else
+					Logger.LogDebug(
+						"Starting unauthorized API request. No {0}!",
+						HeaderNames.UserAgent);
 				await base.OnActionExecutionAsync(context, next).ConfigureAwait(false);
 			}
 		}
