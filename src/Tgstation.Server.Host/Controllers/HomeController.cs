@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -8,6 +9,7 @@ using Microsoft.Net.Http.Headers;
 using Octokit;
 using System;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -141,6 +143,21 @@ namespace Tgstation.Server.Host.Controllers
 				return Redirect(Core.Application.ControlPanelRoute);
 			}
 
+			// we only allow authorization header issues
+			if (ApiHeaders == null)
+				try
+				{
+					var headers = new ApiHeaders(Request.GetTypedHeaders(), true);
+					if (!headers.Compatible())
+						return StatusCode(
+							HttpStatusCode.UpgradeRequired,
+							new ErrorMessage(ErrorCode.ApiMismatch));
+				}
+				catch (HeadersException)
+				{
+					return HeadersIssue(true);
+				}
+
 			return Json(new ServerInformation
 			{
 				Version = assemblyInformationProvider.Version,
@@ -172,7 +189,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (ApiHeaders == null)
 			{
 				Response.Headers.Add(HeaderNames.WWWAuthenticate, new StringValues("basic realm=\"Create TGS4 bearer token\""));
-				return HeadersIssue();
+				return HeadersIssue(false);
 			}
 
 			if (ApiHeaders.IsTokenAuthentication)
@@ -201,8 +218,13 @@ namespace Tgstation.Server.Host.Controllers
 					string externalUserId;
 					try
 					{
-						externalUserId = await oAuthProviders
-							.GetValidator(ApiHeaders.OAuthProvider.Value)
+						var validator = oAuthProviders
+							.GetValidator(ApiHeaders.OAuthProvider.Value);
+
+						if (validator == null)
+							return BadRequest(new ErrorMessage(ErrorCode.OAuthProviderDisabled));
+
+						externalUserId = await validator
 							.ValidateResponseCode(ApiHeaders.Token, cancellationToken)
 							.ConfigureAwait(false);
 					}

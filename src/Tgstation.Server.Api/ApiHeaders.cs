@@ -145,8 +145,10 @@ namespace Tgstation.Server.Api
 		/// Construct and validates <see cref="ApiHeaders"/> from a set of <paramref name="requestHeaders"/>
 		/// </summary>
 		/// <param name="requestHeaders">The <see cref="RequestHeaders"/> containing the <see cref="ApiHeaders"/></param>
+		/// <param name="ignoreMissingAuth">If a missing <see cref="HeaderNames.Authorization"/> should be ignored.</param>
 		/// <exception cref="HeadersException">Thrown if the <paramref name="requestHeaders"/> constitue invalid <see cref="ApiHeaders"/>.</exception>
-		public ApiHeaders(RequestHeaders requestHeaders)
+#pragma warning disable CA1502
+		public ApiHeaders(RequestHeaders requestHeaders, bool ignoreMissingAuth = false)
 		{
 			if (requestHeaders == null)
 				throw new ArgumentNullException(nameof(requestHeaders));
@@ -183,7 +185,10 @@ namespace Tgstation.Server.Api
 				AddError(HeaderTypes.Api, $"Malformed {ApiVersionHeader} header!");
 
 			if (!requestHeaders.Headers.TryGetValue(HeaderNames.Authorization, out StringValues authorization))
-				AddError(HeaderTypes.Authorization, $"Missing {HeaderNames.Authorization} header!");
+			{
+				if (!ignoreMissingAuth)
+					AddError(HeaderTypes.Authorization, $"Missing {HeaderNames.Authorization} header!");
+			}
 			else
 			{
 				var auth = authorization.First();
@@ -233,12 +238,12 @@ namespace Tgstation.Server.Api
 								}
 								catch
 								{
-									throw new InvalidOperationException("Invalid basic Authorization header!");
+									throw new InvalidOperationException($"Invalid basic {HeaderNames.Authorization} header!");
 								}
 
 								var basicAuthSplits = joinedString.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
 								if (basicAuthSplits.Length < 2)
-									throw new InvalidOperationException("Invalid basic Authorization header!");
+									throw new InvalidOperationException($"Invalid basic {HeaderNames.Authorization} header!");
 
 								Username = basicAuthSplits.First();
 								Password = String.Concat(basicAuthSplits.Skip(1));
@@ -256,6 +261,7 @@ namespace Tgstation.Server.Api
 
 			ApiVersion = apiVersion!.Semver();
 		}
+#pragma warning restore CA1502
 
 		/// <summary>
 		/// Construct <see cref="ApiHeaders"/>

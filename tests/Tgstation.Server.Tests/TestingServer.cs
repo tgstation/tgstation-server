@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
@@ -31,7 +32,7 @@ namespace Tgstation.Server.Tests
 
 		IServer realServer;
 
-		public TestingServer()
+		public TestingServer(bool enableOAuth)
 		{
 			Directory = Environment.GetEnvironmentVariable("TGS4_TEST_TEMP_DIRECTORY");
 			if (String.IsNullOrWhiteSpace(Directory))
@@ -85,6 +86,17 @@ namespace Tgstation.Server.Tests
 				String.Format(CultureInfo.InvariantCulture, "General:ValidInstancePaths:0={0}", Directory),
 				"General:ByondTopicTimeout=3000"
 			};
+
+			// enable all oauth providers
+			if (enableOAuth)
+				foreach (var I in Enum.GetValues(typeof(OAuthProvider)))
+				{
+					args.Add($"Security:OAuth:{I}:ClientId=Fake");
+					args.Add($"Security:OAuth:{I}:ClientSecret=Faker");
+				}
+
+			// SPECIFICALLY DELETE THE DEV APPSETTINGS, WE DON'T WANT IT IN THE WAY
+			File.Delete("appsettings.Development.json");
 
 			if (!String.IsNullOrEmpty(gitHubAccessToken))
 				args.Add(String.Format(CultureInfo.InvariantCulture, "General:GitHubAccessToken={0}", gitHubAccessToken));

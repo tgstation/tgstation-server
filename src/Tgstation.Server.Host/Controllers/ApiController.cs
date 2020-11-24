@@ -145,13 +145,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Response for missing/Invalid headers.
 		/// </summary>
+		/// <param name="ignoreMissingAuth">Whether or not errors due to missing <see cref="HeaderNames.Authorization"/> should be thrown.</param>
 		/// <returns>The appropriate <see cref="IActionResult"/>.</returns>
-		protected IActionResult HeadersIssue()
+		protected IActionResult HeadersIssue(bool ignoreMissingAuth)
 		{
 			HeadersException headersException;
 			try
 			{
-				var _ = new ApiHeaders(Request.GetTypedHeaders());
+				var _ = new ApiHeaders(Request.GetTypedHeaders(), ignoreMissingAuth);
 				throw new InvalidOperationException("Expected a header parse exception!");
 			}
 			catch (HeadersException ex)
@@ -215,7 +216,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				if (requireHeaders)
 				{
-					await HeadersIssue()
+					await HeadersIssue(false)
 						.ExecuteResultAsync(context)
 						.ConfigureAwait(false);
 					return;

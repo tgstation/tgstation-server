@@ -588,5 +588,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("The admin user cannot use OAuth connections!")]
 		AdminUserCannotOAuth,
+
+		/// <summary>
+		/// Attempted to login with a disabled OAuth provider.
+		/// </summary>
+		[Description("The requested OAuth provider is disabled via configuration!")]
+		OAuthProviderDisabled,
 	}
 }

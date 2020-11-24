@@ -380,7 +380,7 @@ TGS 4 can self update without stopping your DreamDaemon servers. Any V4 release 
 Here are tools for interacting with the TGS 4 web API
 
 - [tgstation-server-control-panel]: Official client and included with the server (WIP). A react web app for using tgstation-server.
-- [Tgstation.Server.ControlPanel](https://github.com/tgstation/Tgstation.Server.ControlPanel): Official client. A cross platform GUI for using tgstation-server. Feature complete.
+- [Tgstation.Server.ControlPanel](https://github.com/tgstation/Tgstation.Server.ControlPanel): Official client. A cross platform GUI for using tgstation-server. Feature complete but lacks OAuth login options.
 - [Tgstation.Server.Client](https://www.nuget.org/packages/Tgstation.Server.Client): A nuget .NET Standard 2.0 TAP based library for communicating with tgstation-server. Feature complete.
 - [Tgstation.Server.Api](https://www.nuget.org/packages/Tgstation.Server.Api): A nuget .NET Standard 2.0 library containing API definitions for tgstation-server. Feature complete.
 

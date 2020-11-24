@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +29,7 @@ namespace Tgstation.Server.Tests
 
 		async Task BasicTests(CancellationToken cancellationToken)
 		{
-			var user = await this.client.Read(cancellationToken).ConfigureAwait(false);
+			var user = await client.Read(cancellationToken).ConfigureAwait(false);
 			Assert.IsNotNull(user);
 			Assert.AreEqual("Admin", user.Name);
 			Assert.IsNull(user.SystemIdentifier);

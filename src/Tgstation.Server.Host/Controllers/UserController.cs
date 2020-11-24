@@ -197,7 +197,7 @@ namespace Tgstation.Server.Host.Controllers
 			var passwordEdit = canEditAllUsers || callerAdministrationRights.HasFlag(AdministrationRights.EditOwnPassword);
 			var oAuthEdit = canEditAllUsers || callerAdministrationRights.HasFlag(AdministrationRights.EditOwnOAuthConnections);
 
-			var originalUser = passwordEdit
+			var originalUser = !canEditAllUsers
 				? AuthenticationContext.User
 				: await DatabaseContext
 					.Users
