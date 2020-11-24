@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Octokit;
 using System;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -52,7 +53,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 		}
 
 		/// <inheritdoc />
-		public async Task<ulong?> ValidateResponseCode(string code, CancellationToken cancellationToken)
+		public async Task<string> ValidateResponseCode(string code, CancellationToken cancellationToken)
 		{
 			if (code == null)
 				throw new ArgumentNullException(nameof(code));
@@ -82,7 +83,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 					.Current()
 					.ConfigureAwait(false);
 
-				return (ulong)userDetails.Id;
+				return userDetails.Id.ToString(CultureInfo.InvariantCulture);
 			}
 			catch (RateLimitExceededException)
 			{

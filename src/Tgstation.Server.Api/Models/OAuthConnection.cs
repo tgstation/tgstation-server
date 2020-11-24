@@ -16,6 +16,8 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The ID of the user in the <see cref="Provider"/>.
 		/// </summary>
-		public ulong ExternalUserId { get; set; }
+		[Required]
+		[StringLength(Limits.MaximumIndexableStringLength)]
+		public string? ExternalUserId { get; set; }
 	}
 }

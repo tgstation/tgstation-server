@@ -88,7 +88,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 		/// </summary>
 		/// <param name="responseJson">The user information payload <see cref="JObject"/>.</param>
 		/// <returns>The user ID on success, <see langword="null"/> otherwise.</returns>
-		protected abstract ulong? DecodeUserInformationPayload(dynamic responseJson);
+		protected abstract string DecodeUserInformationPayload(dynamic responseJson);
 
 		/// <summary>
 		/// Create the <see cref="OAuthTokenRequest"/> for a given <paramref name="code"/>
@@ -98,7 +98,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 		protected abstract OAuthTokenRequest CreateTokenRequest(string code);
 
 		/// <inheritdoc />
-		public async Task<ulong?> ValidateResponseCode(string code, CancellationToken cancellationToken)
+		public async Task<string> ValidateResponseCode(string code, CancellationToken cancellationToken)
 		{
 			using var httpClient = httpClientFactory.CreateClient();
 			httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));

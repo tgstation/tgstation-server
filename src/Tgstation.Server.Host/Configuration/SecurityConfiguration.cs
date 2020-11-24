@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Configuration
@@ -58,13 +59,8 @@ namespace Tgstation.Server.Host.Configuration
 		public string CustomTokenSigningKeyBase64 { get; set; }
 
 		/// <summary>
-		/// OAuth options for GitHub.
+		/// OAuth provider settings.
 		/// </summary>
-		public OAuthConfiguration GitHubOAuth { get; set; }
-
-		/// <summary>
-		/// OAuth options for Discord.
-		/// </summary>
-		public OAuthConfiguration DiscordOAuth { get; set; }
+		public IDictionary<OAuthProvider, OAuthConfiguration> OAuth { get; set; }
 	}
 }

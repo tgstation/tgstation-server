@@ -378,8 +378,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.ValueGeneratedOnAdd()
 						.HasColumnType("INTEGER");
 
-					b.Property<ulong>("ExternalUserId")
-						.HasColumnType("INTEGER");
+					b.Property<string>("ExternalUserId")
+						.IsRequired()
+						.HasColumnType("TEXT")
+						.HasMaxLength(100);
 
 					b.Property<int>("Provider")
 						.HasColumnType("INTEGER");

@@ -197,7 +197,7 @@ namespace Tgstation.Server.Host.Controllers
 				IQueryable<Models.User> query = DatabaseContext.Users.AsQueryable();
 				if (oAuthLogin)
 				{
-					ulong? externalUserId;
+					string externalUserId;
 					try
 					{
 						externalUserId = await oAuthProviders
@@ -210,13 +210,13 @@ namespace Tgstation.Server.Host.Controllers
 						return RateLimit(ex);
 					}
 
-					if (!externalUserId.HasValue)
+					if (externalUserId == null)
 						return Unauthorized();
 
 					query = query.Where(
 						x => x.OAuthConnections.Any(
 							y => y.Provider == ApiHeaders.OAuthProvider.Value
-							&& y.ExternalUserId == externalUserId.Value));
+							&& y.ExternalUserId == externalUserId));
 				}
 				else
 				{

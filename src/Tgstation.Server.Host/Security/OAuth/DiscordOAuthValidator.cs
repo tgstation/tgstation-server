@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Logging;
 using System;
-using System.Globalization;
 using System.Net.Http;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Configuration;
@@ -45,8 +44,6 @@ namespace Tgstation.Server.Host.Security.OAuth
 		protected override string DecodeTokenPayload(dynamic responseJson) => responseJson.access_token;
 
 		/// <inheritdoc />
-		protected override ulong? DecodeUserInformationPayload(dynamic responseJson) => UInt64.Parse(
-			(string)responseJson.id,
-			CultureInfo.InvariantCulture);
+		protected override string DecodeUserInformationPayload(dynamic responseJson) => responseJson.id;
 	}
 }

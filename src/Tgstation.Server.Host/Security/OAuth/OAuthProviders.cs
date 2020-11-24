@@ -41,20 +41,20 @@ namespace Tgstation.Server.Host.Security.OAuth
 
 			var validatorsBuilder = new List<IOAuthValidator>();
 
-			if (securityConfiguration.GitHubOAuth != null)
+			if (securityConfiguration.OAuth.TryGetValue(OAuthProvider.GitHub, out var gitHubConfig))
 				validatorsBuilder.Add(
 					new GitHubOAuthValidator(
 						gitHubClientFactory,
 						loggerFactory.CreateLogger<GitHubOAuthValidator>(),
-						securityConfiguration.GitHubOAuth));
+						gitHubConfig));
 
-			if (securityConfiguration.DiscordOAuth != null)
+			if (securityConfiguration.OAuth.TryGetValue(OAuthProvider.Discord, out var discordConfig))
 				validatorsBuilder.Add(
 					new DiscordOAuthValidator(
 						httpClientFactory,
 						assemblyInformationProvider,
 						loggerFactory.CreateLogger<DiscordOAuthValidator>(),
-						securityConfiguration.DiscordOAuth));
+						discordConfig));
 
 			validators = validatorsBuilder;
 		}

@@ -189,6 +189,18 @@ We have a script to do this.
 1. Run `dotnet ef migrations add SL<NameOfYourMigration> --context SqliteDatabaseContext`.
 1. Follow the above steps.
 
+## Adding OAuth Providers
+
+OAuth providers are hardcoded but it is fairly easy to add new ones. Follow the following steps:
+
+1. Add the name to the [Tgstation.Server.Api.Models.OAuthProviders](../src/Tgstation.Server.Api/Models/OAuthProviders.cs) enum (Also necessitates a minor HTTP API version bump).
+1. Create an implementation of [IOAuthValidator](../src/Tgstation.Server.Host/Security/OAuth/IOAuthValidator.cs).
+	- Most providers can simply override the [GenericOAuthValidator](../src/Tgstation.Server.Host/Security/OAuth/GenericOAuthValidator.cs).
+1. Construct the implementation in the [OAuthProviders] class.
+1. Add a null entry to the default [appsettings.json](../src/Tgstation.Server.Host/appsettings.json).
+
+TGS should now be able to accept authentication response tokens from your provider.
+
 ### Important Note About the \[Required\] Attribute.
 
 We use this attribute to ensure EFCore generated tables are not nullable for specific properties. They are valid to be null in API communication. Do not use this attribute expecting the model validator to prevent null data in API request.

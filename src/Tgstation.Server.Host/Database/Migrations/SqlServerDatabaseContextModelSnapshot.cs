@@ -383,8 +383,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.HasColumnType("bigint")
 						.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-					b.Property<decimal>("ExternalUserId")
-						.HasColumnType("decimal(20,0)");
+					b.Property<string>("ExternalUserId")
+						.IsRequired()
+						.HasColumnType("nvarchar(100)")
+						.HasMaxLength(100);
 
 					b.Property<int>("Provider")
 						.HasColumnType("int");
