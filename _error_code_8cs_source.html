@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.6.0</span>
+   &#160;<span id="projectnumber">4.7.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -106,8 +106,8 @@ $(function() {
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        [Description(<span class="stringliteral">&quot;Cannot update to a different tgstation-server suite version.&quot;</span>)]</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        CannotChangeServerSuite,</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        [Description(<span class="stringliteral">&quot;A required GitHub request returned an API error!&quot;</span>)]</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        GitHubApiError,</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        [Description(<span class="stringliteral">&quot;A required remote API request returned an error!&quot;</span>)]</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        RemoteApiError,</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        [Description(<span class="stringliteral">&quot;A server update was requested while another was in progress&quot;</span>)]</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        ServerUpdateInProgress,</div>
@@ -366,9 +366,15 @@ $(function() {
 <div class="line"><a name="l00578"></a><span class="lineno">  578</span>&#160;        NoPortsAvailable,</div>
 <div class="line"><a name="l00579"></a><span class="lineno">  579</span>&#160; </div>
 <div class="line"><a name="l00583"></a><span class="lineno">  583</span>&#160;        [Description(<span class="stringliteral">&quot;The requested port is either already in use by TGS or could not be allocated!&quot;</span>)]</div>
-<div class="line"><a name="l00584"></a><span class="lineno">  584</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8aecbf01325f1c744e9d7bb586ac2eb5ed">PortNotAvailable</a>,</div>
-<div class="line"><a name="l00585"></a><span class="lineno">  585</span>&#160;    }</div>
-<div class="line"><a name="l00586"></a><span class="lineno">  586</span>&#160;}</div>
+<div class="line"><a name="l00584"></a><span class="lineno">  584</span>&#160;        PortNotAvailable,</div>
+<div class="line"><a name="l00585"></a><span class="lineno">  585</span>&#160; </div>
+<div class="line"><a name="l00589"></a><span class="lineno">  589</span>&#160;        [Description(<span class="stringliteral">&quot;The admin user cannot use OAuth connections!&quot;</span>)]</div>
+<div class="line"><a name="l00590"></a><span class="lineno">  590</span>&#160;        AdminUserCannotOAuth,</div>
+<div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160; </div>
+<div class="line"><a name="l00595"></a><span class="lineno">  595</span>&#160;        [Description(<span class="stringliteral">&quot;The requested OAuth provider is disabled via configuration!&quot;</span>)]</div>
+<div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8aecbf01325f1c744e9d7bb586ac2eb5ed">OAuthProviderDisabled</a>,</div>
+<div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160;    }</div>
+<div class="line"><a name="l00598"></a><span class="lineno">  598</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">Tgstation.Server.Api.Models.ErrorCode</a></div><div class="ttdeci">ErrorCode</div><div class="ttdoc">Types of ErrorMessages that the API may return.</div><div class="ttdef"><b>Definition:</b> <a href="_error_code_8cs_source.html#l00010">ErrorCode.cs:11</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8aecbf01325f1c744e9d7bb586ac2eb5ed"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8aecbf01325f1c744e9d7bb586ac2eb5ed">Tgstation.Server.Api.Models.ErrorCode.InternalServerError</a></div><div class="ttdeci">@ InternalServerError</div><div class="ttdoc">An implementation error occurred while processing the request.</div></div>

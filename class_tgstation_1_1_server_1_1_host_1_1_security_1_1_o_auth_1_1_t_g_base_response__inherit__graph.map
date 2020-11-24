@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Security.OAuth.TGBaseResponse" name="Tgstation.Server.Host.Security.OAuth.TGBaseResponse">
+<area shape="rect" id="node1" title="Base class for tgstation forum responses." alt="" coords="5,39,207,80"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_create_session_response.html" title="Response when creating a tgstation forums session." alt="" coords="257,5,480,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_get_session_info_response.html" title="Response when getting tgstation forum user&#39;s info." alt="" coords="255,71,483,112"/>
+</map>

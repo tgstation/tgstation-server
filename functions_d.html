@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.6.0</span>
+   &#160;<span id="projectnumber">4.7.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -128,6 +128,14 @@ $(function() {
 <li>Debug
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_program.html#a938d576ceba93bf3cb1a32ae1dcccc52">Tgstation.Server.Host.Service.Program</a>
 </li>
+<li>DecodeTokenPayload()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_discord_o_auth_validator.html#a25a0a7a6a995708d3f1a787cd6e20642">Tgstation.Server.Host.Security.OAuth.DiscordOAuthValidator</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a68585ace726fcf3936747b53129e8aa7">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator</a>
+</li>
+<li>DecodeUserInformationPayload()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_discord_o_auth_validator.html#a5bf6299df47ba2a4c1b1ebb8268ed53f">Tgstation.Server.Host.Security.OAuth.DiscordOAuthValidator</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a9a6766ae5983746a97b04f9592b6f330">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator</a>
+</li>
 <li>DefaultAdminPassword
 : <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user.html#a6d73f12df63e1cea9b3d011da9d9a14a">Tgstation.Server.Api.Models.User</a>
 </li>
@@ -169,6 +177,9 @@ $(function() {
 </li>
 <li>DefaultMinimumPasswordLength
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a2f4d695a6363f6d92a8adb8f7860e809">Tgstation.Server.Host.Configuration.GeneralConfiguration</a>
+</li>
+<li>DefaultOAuthTokenExpiryMinutes
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html#ab82ad939c3c4ef374f2db6b7b335748f">Tgstation.Server.Host.Configuration.SecurityConfiguration</a>
 </li>
 <li>DefaultRestartTimeout
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a8aada49cbc40077cf605dcb0ec00d259">Tgstation.Server.Host.Configuration.GeneralConfiguration</a>
@@ -318,8 +329,14 @@ $(function() {
 <li>DiscordConnectionStringBuilder()
 : <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_discord_connection_string_builder.html#a6728e43a98a9f8a7e99cb4b286ae03af">Tgstation.Server.Api.Models.DiscordConnectionStringBuilder</a>
 </li>
+<li>DiscordOAuthValidator()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_discord_o_auth_validator.html#ae5acc20f1d22d812aa38783b5163300b">Tgstation.Server.Host.Security.OAuth.DiscordOAuthValidator</a>
+</li>
 <li>DiscordProvider()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a887f42d3b818cf7e637057a0939ed639">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider</a>
+</li>
+<li>DiscordTokenRequest()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_discord_token_request.html#a2e873a439701ee73dc263821a3544b3b">Tgstation.Server.Host.Security.OAuth.DiscordTokenRequest</a>
 </li>
 <li>Dispose()
 : <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#ad4afd612c75a7240f3aa27b49520a1bf">Tgstation.Server.Client.ApiClient</a>
@@ -462,6 +479,7 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_heartbeat.html#a6699ad0573ce9d6809adb8275aef1e4e">Tgstation.Server.Host.Database.Migrations.MSAddHeartbeat</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_job_error_codes.html#a46fc331b3a27bdc1a3220d16991fd676">Tgstation.Server.Host.Database.Migrations.MSAddJobErrorCodes</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_minimum_security.html#a9233da9df7bb2bbbf399a8225a77dfc5">Tgstation.Server.Host.Database.Migrations.MSAddMinimumSecurity</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_add_o_auth_connections.html#aac5f6fb1123e106cea7fe629dfdca682">Tgstation.Server.Host.Database.Migrations.MSAddOAuthConnections</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_allow_null_d_m_api.html#a3a5535279567ec208518789362b10040">Tgstation.Server.Host.Database.Migrations.MSAllowNullDMApi</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_checkpoint_rebuild.html#ac2a807dd610b05efff586abc8fc5838c">Tgstation.Server.Host.Database.Migrations.MSCheckpointRebuild</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_fix_cascading_delete.html#a7eb735e2cac5616d83e1fc523950a7a7">Tgstation.Server.Host.Database.Migrations.MSFixCascadingDelete</a>
@@ -483,6 +501,7 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_heartbeat.html#aecedd67bcc41584f5cc7ce3e43991e67">Tgstation.Server.Host.Database.Migrations.MYAddHeartbeat</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_job_error_codes.html#a2b882b3dc7c98709f515357624fd5c7d">Tgstation.Server.Host.Database.Migrations.MYAddJobErrorCodes</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_minimum_security.html#a70b456f851dae6ac43d48e2170d975ce">Tgstation.Server.Host.Database.Migrations.MYAddMinimumSecurity</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_o_auth_connections.html#abfc65f8f237bb1bb3b2e78e9a9a6ecbf">Tgstation.Server.Host.Database.Migrations.MYAddOAuthConnections</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_allow_null_d_m_api.html#a23b83a4977a3869e6a5c1975586411f1">Tgstation.Server.Host.Database.Migrations.MYAllowNullDMApi</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_checkpoint_rebuild.html#ac0aa836ba342d7d6f1b775d354466f9a">Tgstation.Server.Host.Database.Migrations.MYCheckpointRebuild</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_fix_cascading_delete.html#a29c2467e5b26498fdc9be4daf32190e6">Tgstation.Server.Host.Database.Migrations.MYFixCascadingDelete</a>
@@ -500,6 +519,7 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_topic_timeout.html#a65160a3abe4072ec1f844961f600b6da">Tgstation.Server.Host.Database.Migrations.MYTopicTimeout</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_add_additional_d_d_parameters.html#ac672a7bb2d6d0f02762e6156d153f10e">Tgstation.Server.Host.Database.Migrations.PGAddAdditionalDDParameters</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_add_deployment_columns.html#added5a11d65c29997659a974ce398362">Tgstation.Server.Host.Database.Migrations.PGAddDeploymentColumns</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_add_o_auth_connections.html#ab7f7b491161e7ec0877c35c34965b386">Tgstation.Server.Host.Database.Migrations.PGAddOAuthConnections</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_allow_null_d_m_api.html#a11dfa79c963f480b402307af39034789">Tgstation.Server.Host.Database.Migrations.PGAllowNullDMApi</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_create.html#a91b4446c41d615ad2513be276114100e">Tgstation.Server.Host.Database.Migrations.PGCreate</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_remove_experimental_watchdog.html#ae854d9dd602db118b7711bf4a13b9b2a">Tgstation.Server.Host.Database.Migrations.PGRemoveExperimentalWatchdog</a>
@@ -507,6 +527,7 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_additional_d_d_parameters.html#a492e74a97aaa75a40aca3646042ae2b6">Tgstation.Server.Host.Database.Migrations.SLAddAdditionalDDParameters</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_deployment_columns.html#a64a95198e3162f8c094904534dbb3fd9">Tgstation.Server.Host.Database.Migrations.SLAddDeploymentColumns</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_heartbeat.html#a69db556c8f9816d01d3acfe308c32d0c">Tgstation.Server.Host.Database.Migrations.SLAddHeartbeat</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_o_auth_connections.html#a94239f678055402bb21d0a49b4f648dc">Tgstation.Server.Host.Database.Migrations.SLAddOAuthConnections</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_allow_null_d_m_api.html#a835767cfae5418f6e289022d1d1ae7ac">Tgstation.Server.Host.Database.Migrations.SLAllowNullDMApi</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_rebuild.html#af59f624ac40ca4702a4ceee81043c686">Tgstation.Server.Host.Database.Migrations.SLRebuild</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_remove_experimental_watchdog.html#aef19a599caab07370c84bf792cd002e8">Tgstation.Server.Host.Database.Migrations.SLRemoveExperimentalWatchdog</a>

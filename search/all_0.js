@@ -113,5 +113,13 @@ var searchData=
   ['20201106082653_5fpgaddadditionalddparameters_2ecs_110',['20201106082653_PGAddAdditionalDDParameters.cs',['../20201106082653___p_g_add_additional_d_d_parameters_8cs.html',1,'']]],
   ['20201106082653_5fpgaddadditionalddparameters_2edesigner_2ecs_111',['20201106082653_PGAddAdditionalDDParameters.Designer.cs',['../20201106082653___p_g_add_additional_d_d_parameters_8_designer_8cs.html',1,'']]],
   ['20201106082741_5fsladdadditionalddparameters_2ecs_112',['20201106082741_SLAddAdditionalDDParameters.cs',['../20201106082741___s_l_add_additional_d_d_parameters_8cs.html',1,'']]],
-  ['20201106082741_5fsladdadditionalddparameters_2edesigner_2ecs_113',['20201106082741_SLAddAdditionalDDParameters.Designer.cs',['../20201106082741___s_l_add_additional_d_d_parameters_8_designer_8cs.html',1,'']]]
+  ['20201106082741_5fsladdadditionalddparameters_2edesigner_2ecs_113',['20201106082741_SLAddAdditionalDDParameters.Designer.cs',['../20201106082741___s_l_add_additional_d_d_parameters_8_designer_8cs.html',1,'']]],
+  ['20201122231219_5fmsaddoauthconnections_2ecs_114',['20201122231219_MSAddOAuthConnections.cs',['../20201122231219___m_s_add_o_auth_connections_8cs.html',1,'']]],
+  ['20201122231219_5fmsaddoauthconnections_2edesigner_2ecs_115',['20201122231219_MSAddOAuthConnections.Designer.cs',['../20201122231219___m_s_add_o_auth_connections_8_designer_8cs.html',1,'']]],
+  ['20201122231327_5fmyaddoauthconnections_2ecs_116',['20201122231327_MYAddOAuthConnections.cs',['../20201122231327___m_y_add_o_auth_connections_8cs.html',1,'']]],
+  ['20201122231327_5fmyaddoauthconnections_2edesigner_2ecs_117',['20201122231327_MYAddOAuthConnections.Designer.cs',['../20201122231327___m_y_add_o_auth_connections_8_designer_8cs.html',1,'']]],
+  ['20201122231443_5fpgaddoauthconnections_2ecs_118',['20201122231443_PGAddOAuthConnections.cs',['../20201122231443___p_g_add_o_auth_connections_8cs.html',1,'']]],
+  ['20201122231443_5fpgaddoauthconnections_2edesigner_2ecs_119',['20201122231443_PGAddOAuthConnections.Designer.cs',['../20201122231443___p_g_add_o_auth_connections_8_designer_8cs.html',1,'']]],
+  ['20201122231546_5fsladdoauthconnections_2ecs_120',['20201122231546_SLAddOAuthConnections.cs',['../20201122231546___s_l_add_o_auth_connections_8cs.html',1,'']]],
+  ['20201122231546_5fsladdoauthconnections_2edesigner_2ecs_121',['20201122231546_SLAddOAuthConnections.Designer.cs',['../20201122231546___s_l_add_o_auth_connections_8_designer_8cs.html',1,'']]]
 ];

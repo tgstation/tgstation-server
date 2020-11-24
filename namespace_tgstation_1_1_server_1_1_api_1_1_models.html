@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.6.0</span>
+   &#160;<span id="projectnumber">4.7.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -136,6 +136,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">LogFile</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a server log file.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_connection.html">OAuthConnection</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a valid OAuth connection.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_connection.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html">Repository</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a git repository  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -195,7 +198,7 @@ Enumerations</h2></td></tr>
 <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a2ccc27c4e4def41ceaa583ef4eb565ef">ErrorCode.MissingHostWatchdog</a>, 
 <br />
 &#160;&#160;<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8ad27cb08b02e194991882f231d87b9030">ErrorCode.CannotChangeServerSuite</a>, 
-<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a4af2008e35f4739b74b961d3a9e418cd">ErrorCode.GitHubApiError</a>, 
+<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a5355901d7bb2e440b1928a19c5323edb">ErrorCode.RemoteApiError</a>, 
 <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a7b3644a07defb6b7df279cc44dc46adb">ErrorCode.ServerUpdateInProgress</a>, 
 <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a62cd93d475c146a93fa08ce89132bf72">ErrorCode.UserNameChange</a>, 
 <br />
@@ -301,7 +304,10 @@ Enumerations</h2></td></tr>
 <br />
 &#160;&#160;<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a52544d5ffb4da020f83e998f17c8a74d">ErrorCode.ByondDreamDaemonFirewallFail</a>, 
 <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8ab6a3956ae3bf109dc8b764f42873c54f">ErrorCode.NoPortsAvailable</a>, 
-<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8add38e6da07b457322c287231a4b8f772">ErrorCode.PortNotAvailable</a>
+<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8add38e6da07b457322c287231a4b8f772">ErrorCode.PortNotAvailable</a>, 
+<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a5261e5851ba039b68ee0f66c9cd5ee83">ErrorCode.AdminUserCannotOAuth</a>, 
+<br />
+&#160;&#160;<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8ae390eb31f661edf88bb3deed466098a1">ErrorCode.OAuthProviderDisabled</a>
 <br />
  }</td></tr>
 <tr class="memdesc:a1a6adb59dd51244efabf4e548e7075c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Types of ErrorMessages that the API may return.  <a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">More...</a><br /></td></tr>
@@ -312,6 +318,12 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a0a41c646f859c99d437373d8e6e0545b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents the type of a password for a ChatProvider.Irc  <a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a0a41c646f859c99d437373d8e6e0545b">More...</a><br /></td></tr>
 <tr class="separator:a0a41c646f859c99d437373d8e6e0545b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49b1c1275c0d47d43360f8c7619ec901"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a> { <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901ad3b7c913cd04ebfec0e9ec32cb6fd58c">OAuthProvider.GitHub</a>, 
+<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901a8f5cc6430613f1c12f36965050bb7197">OAuthProvider.Discord</a>, 
+<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901a3f7d1aa8d95975a2d291d5a787cd324f">OAuthProvider.TGForums</a>
+ }</td></tr>
+<tr class="memdesc:a49b1c1275c0d47d43360f8c7619ec901"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of OAuth providers supported by TGS  <a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">More...</a><br /></td></tr>
+<tr class="separator:a49b1c1275c0d47d43360f8c7619ec901"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abcc98739b8feb9dd6744647f287e0683"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#abcc98739b8feb9dd6744647f287e0683">WatchdogStatus</a> { <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#abcc98739b8feb9dd6744647f287e0683a8d9da4bc0e49a50e09ac9f7e56789d39">WatchdogStatus.Offline</a>, 
 <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#abcc98739b8feb9dd6744647f287e0683ad6a7dfc0a40da7ac6674d7c9888fa5e8">WatchdogStatus.Restoring</a>, 
 <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#abcc98739b8feb9dd6744647f287e0683a54f664c70c22054ea0d8d26fc3997ce7">WatchdogStatus.Online</a>, 
@@ -522,7 +534,7 @@ Enumerations</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8ad27cb08b02e194991882f231d87b9030"></a>CannotChangeServerSuite&#160;</td><td class="fielddoc"><p>Attempted to change to a suite other than TGS4. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8a4af2008e35f4739b74b961d3a9e418cd"></a>GitHubApiError&#160;</td><td class="fielddoc"><p>A required GitHub API request failed. </p>
+<tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8a5355901d7bb2e440b1928a19c5323edb"></a>RemoteApiError&#160;</td><td class="fielddoc"><p>A required remote API request failed. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8a7b3644a07defb6b7df279cc44dc46adb"></a>ServerUpdateInProgress&#160;</td><td class="fielddoc"><p>A server update was requested while another was in progress. </p>
 </td></tr>
@@ -552,7 +564,7 @@ Enumerations</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8a024cf09531e01356ce46f4e6abd33f77"></a>InstanceWhitespaceName&#160;</td><td class="fielddoc"><p>Attempted to create an <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance">Instance</a> with a whitespace <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#adccb5a6eaa5665bac809ef9894188e6d" title="The name of the Instance">Instance.Name</a>. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8a49be0a84ceb449e1d69789040ca5ade1"></a>InstanceHeaderRequired&#160;</td><td class="fielddoc"><p>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a28f94492eb21542e63675a53d871e3ef" title="The InstanceId header key">ApiHeaders.InstanceIdHeader</a> header was required but not set. </p>
+<tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8a49be0a84ceb449e1d69789040ca5ade1"></a>InstanceHeaderRequired&#160;</td><td class="fielddoc"><p>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a28f94492eb21542e63675a53d871e3ef" title="The InstanceId header key.">ApiHeaders.InstanceIdHeader</a> header was required but not set. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8aab217c3aea820156b624733a34ab3c48"></a>RequiresPosixSystemIdentity&#160;</td><td class="fielddoc"><p>The operation requires the unimplemented POSIX system identities feature. </p>
 </td></tr>
@@ -694,6 +706,10 @@ Enumerations</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8add38e6da07b457322c287231a4b8f772"></a>PortNotAvailable&#160;</td><td class="fielddoc"><p>Attempted to set a port which is either in use by another part of TGS or otherwise not available for binding. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8a5261e5851ba039b68ee0f66c9cd5ee83"></a>AdminUserCannotOAuth&#160;</td><td class="fielddoc"><p>Attempted to set <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user.html#a90e7d8981a565a9d5950488cd8caa7c9" title="List of OAuthConnections associated with the User.">User.OAuthConnections</a> for the admin user. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8ae390eb31f661edf88bb3deed466098a1"></a>OAuthProviderDisabled&#160;</td><td class="fielddoc"><p>Attempted to login with a disabled OAuth provider. </p>
+</td></tr>
 </table>
 
 <p class="definition">Definition at line <a class="el" href="_error_code_8cs_source.html#l00010">10</a> of file <a class="el" href="_error_code_8cs_source.html">ErrorCode.cs</a>.</p>
@@ -725,8 +741,8 @@ Enumerations</h2></td></tr>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        [Description(<span class="stringliteral">&quot;Cannot update to a different tgstation-server suite version.&quot;</span>)]</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        CannotChangeServerSuite,</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        [Description(<span class="stringliteral">&quot;A required GitHub request returned an API error!&quot;</span>)]</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        GitHubApiError,</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        [Description(<span class="stringliteral">&quot;A required remote API request returned an error!&quot;</span>)]</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        RemoteApiError,</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        [Description(<span class="stringliteral">&quot;A server update was requested while another was in progress&quot;</span>)]</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        ServerUpdateInProgress,</div>
@@ -985,8 +1001,14 @@ Enumerations</h2></td></tr>
 <div class="line"><a name="l00578"></a><span class="lineno">  578</span>&#160;        NoPortsAvailable,</div>
 <div class="line"><a name="l00579"></a><span class="lineno">  579</span>&#160; </div>
 <div class="line"><a name="l00583"></a><span class="lineno">  583</span>&#160;        [Description(<span class="stringliteral">&quot;The requested port is either already in use by TGS or could not be allocated!&quot;</span>)]</div>
-<div class="line"><a name="l00584"></a><span class="lineno">  584</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8aecbf01325f1c744e9d7bb586ac2eb5ed">PortNotAvailable</a>,</div>
-<div class="line"><a name="l00585"></a><span class="lineno">  585</span>&#160;    }</div>
+<div class="line"><a name="l00584"></a><span class="lineno">  584</span>&#160;        PortNotAvailable,</div>
+<div class="line"><a name="l00585"></a><span class="lineno">  585</span>&#160; </div>
+<div class="line"><a name="l00589"></a><span class="lineno">  589</span>&#160;        [Description(<span class="stringliteral">&quot;The admin user cannot use OAuth connections!&quot;</span>)]</div>
+<div class="line"><a name="l00590"></a><span class="lineno">  590</span>&#160;        AdminUserCannotOAuth,</div>
+<div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160; </div>
+<div class="line"><a name="l00595"></a><span class="lineno">  595</span>&#160;        [Description(<span class="stringliteral">&quot;The requested OAuth provider is disabled via configuration!&quot;</span>)]</div>
+<div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8aecbf01325f1c744e9d7bb586ac2eb5ed">OAuthProviderDisabled</a>,</div>
+<div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160;    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1027,6 +1049,47 @@ Enumerations</h2></td></tr>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        Sasl,</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a0a41c646f859c99d437373d8e6e0545ba9aa1b03934893d7134a660af4204f2a9">NickServ</a></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a49b1c1275c0d47d43360f8c7619ec901"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49b1c1275c0d47d43360f8c7619ec901">&#9670;&nbsp;</a></span>OAuthProvider</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">Tgstation.Server.Api.Models.OAuthProvider</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>List of OAuth providers supported by TGS </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a49b1c1275c0d47d43360f8c7619ec901ad3b7c913cd04ebfec0e9ec32cb6fd58c"></a>GitHub&#160;</td><td class="fielddoc"><p><a href="https://github.com">https://github.com</a> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a49b1c1275c0d47d43360f8c7619ec901a8f5cc6430613f1c12f36965050bb7197"></a>Discord&#160;</td><td class="fielddoc"><p><a href="https://discord.com">https://discord.com</a> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a49b1c1275c0d47d43360f8c7619ec901a3f7d1aa8d95975a2d291d5a787cd324f"></a>TGForums&#160;</td><td class="fielddoc"><p><a href="https://tgstation13.org">https://tgstation13.org</a> </p>
+</td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="_o_auth_provider_8cs_source.html#l00006">6</a> of file <a class="el" href="_o_auth_provider_8cs_source.html">OAuthProvider.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        GitHub,</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a2d962413bc23404156feea75066e39cca2b6446aa685b2e1260e9d6f60239e547">Discord</a>,</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901ad3b7c913cd04ebfec0e9ec32cb6fd58c">TGForums</a>,</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    }</div>
 </div><!-- fragment -->
 </div>
@@ -1080,6 +1143,7 @@ Enumerations</h2></td></tr>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_ad4850e6b78816679602b13d63d2869b5ac0405d71f21e769c787a10b9620f11ea"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5ac0405d71f21e769c787a10b9620f11ea">Tgstation.Server.Api.Models.DreamDaemonSecurity.Trusted</a></div><div class="ttdeci">@ Trusted</div><div class="ttdoc">Server is unrestricted in terms of file access and shell commands</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_ab7bc96f211e450615be8669d10de2440ade99ae8770699a4725a85853a0790d24"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ab7bc96f211e450615be8669d10de2440ade99ae8770699a4725a85853a0790d24">Tgstation.Server.Api.Models.ConfigurationType.Disallowed</a></div><div class="ttdeci">@ Disallowed</div><div class="ttdoc">Configuration editing is not allowed</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a0a41c646f859c99d437373d8e6e0545ba9aa1b03934893d7134a660af4204f2a9"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a0a41c646f859c99d437373d8e6e0545ba9aa1b03934893d7134a660af4204f2a9">Tgstation.Server.Api.Models.IrcPasswordType.Server</a></div><div class="ttdeci">@ Server</div><div class="ttdoc">Use server authentication</div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a49b1c1275c0d47d43360f8c7619ec901ad3b7c913cd04ebfec0e9ec32cb6fd58c"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901ad3b7c913cd04ebfec0e9ec32cb6fd58c">Tgstation.Server.Api.Models.OAuthProvider.GitHub</a></div><div class="ttdeci">@ GitHub</div><div class="ttdoc">https://github.com</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_af16952d12561118ecebc3d8ccf510221a68eec46437c384d8dad18d5464ebc35c"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#af16952d12561118ecebc3d8ccf510221a68eec46437c384d8dad18d5464ebc35c">Tgstation.Server.Api.Models.DiscordDMOutputDisplayType.Always</a></div><div class="ttdeci">@ Always</div><div class="ttdoc">Always show.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8aecbf01325f1c744e9d7bb586ac2eb5ed"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8aecbf01325f1c744e9d7bb586ac2eb5ed">Tgstation.Server.Api.Models.ErrorCode.InternalServerError</a></div><div class="ttdeci">@ InternalServerError</div><div class="ttdoc">An implementation error occurred while processing the request.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_abcc98739b8feb9dd6744647f287e0683a8d9da4bc0e49a50e09ac9f7e56789d39"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#abcc98739b8feb9dd6744647f287e0683a8d9da4bc0e49a50e09ac9f7e56789d39">Tgstation.Server.Api.Models.WatchdogStatus.Offline</a></div><div class="ttdeci">@ Offline</div><div class="ttdoc">The watchdog is not running.</div></div>

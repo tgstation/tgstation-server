@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.6.0</span>
+   &#160;<span id="projectnumber">4.7.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -152,6 +152,11 @@ Manual Configuration</h3>
 <li><code>ControlPanel:Enable</code>: Enable the javascript based control panel to be served from the server via /index.html</li>
 <li><code>ControlPanel:AllowAnyOrigin</code>: Set the Access-Control-Allow-Origin header to * for all responses (also enables all headers and methods)</li>
 <li><code>ControlPanel:AllowedOrigins</code>: Set the Access-Control-Allow-Origin headers to this list of origins for all responses (also enables all headers and methods). This is overridden by <code>ControlPanel:AllowAnyOrigin</code></li>
+<li><code>Security:&lt;Provider Name&gt;OAuth</code>: Sets the OAuth client ID and secret for a given <code>&lt;Provider Name&gt;</code>. The currently supported providers are <code>GitHub</code>, <code>Discord</code>, and <code>TGForums</code>. Setting these fields to <code>null</code> disables logins with the provider, but does not stop users from associating their accounts using the API. Sample Entry: <div class="fragment"><div class="line">&quot;GitHubOAuth&quot;:{</div>
+<div class="line">    &quot;ClientId&quot;: &quot;... (Note for `TGForums`, this is the redirect_uri used)&quot;,</div>
+<div class="line">    &quot;ClientSecret&quot;: &quot;...&quot;</div>
+<div class="line">}</div>
+</div><!-- fragment --></li>
 </ul>
 <h2><a class="anchor" id="autotoc_md10"></a>
 Database Configuration</h2>
@@ -349,10 +354,9 @@ Clients</h2>
 <p>Here are tools for interacting with the TGS 4 web API</p>
 <ul>
 <li>[tgstation-server-control-panel]: Official client and included with the server (WIP). A react web app for using tgstation-server.</li>
-<li><a href="https://github.com/tgstation/Tgstation.Server.ControlPanel">Tgstation.Server.ControlPanel</a>: Official client. A cross platform GUI for using tgstation-server</li>
-<li><a href="https://www.nuget.org/packages/Tgstation.Server.Client">Tgstation.Server.Client</a>: A nuget .NET Standard 2.0 TAP based library for communicating with tgstation-server</li>
-<li><a href="https://www.nuget.org/packages/Tgstation.Server.Api">Tgstation.Server.Api</a>: A nuget .NET Standard 2.0 library containing API definitions for tgstation-server</li>
-<li><a href="https://www.getpostman.com/">Postman</a>: This repository contains <a href="tools/TGS.postman_collection.json">TGS.postman_collection.json</a> which is used during development for testing. Contains example requests for all endpoints but takes some knowledge to use (Note that the pre-request script is configured to login the default admin user for every request)</li>
+<li><a href="https://github.com/tgstation/Tgstation.Server.ControlPanel">Tgstation.Server.ControlPanel</a>: Official client. A cross platform GUI for using tgstation-server. Feature complete but lacks OAuth login options.</li>
+<li><a href="https://www.nuget.org/packages/Tgstation.Server.Client">Tgstation.Server.Client</a>: A nuget .NET Standard 2.0 TAP based library for communicating with tgstation-server. Feature complete.</li>
+<li><a href="https://www.nuget.org/packages/Tgstation.Server.Api">Tgstation.Server.Api</a>: A nuget .NET Standard 2.0 library containing API definitions for tgstation-server. Feature complete.</li>
 </ul>
 <p>Contact project maintainers to get your client added to this list</p>
 <h1><a class="anchor" id="autotoc_md35"></a>

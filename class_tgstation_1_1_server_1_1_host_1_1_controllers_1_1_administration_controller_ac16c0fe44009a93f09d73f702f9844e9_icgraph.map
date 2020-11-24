@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Host.Controllers.AdministrationController.RateLimit" name="Tgstation.Server.Host.Controllers.AdministrationController.RateLimit">
-<area shape="rect" id="node1" title=" " alt="" coords="572,49,791,90"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a136149ffd1e19c77776bf08ad6f019d8" title="Try to download and apply an update with a given newVersion ." alt="" coords="269,5,524,61"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a10c3be25fd9ac418bcab6bb9541bbd69" title="Get Administration server information." alt="" coords="289,85,505,126"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#afbf7a02a0808b463ea298c43a03e0e99" title="Attempt to perform a server upgrade." alt="" coords="5,13,221,54"/>
-</map>

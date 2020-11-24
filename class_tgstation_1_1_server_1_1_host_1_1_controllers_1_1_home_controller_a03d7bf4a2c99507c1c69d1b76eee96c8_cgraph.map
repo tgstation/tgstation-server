@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Controllers.HomeController.Home" name="Tgstation.Server.Host.Controllers.HomeController.Home">
-<area shape="rect" id="node1" title="Main page of the Application" alt="" coords="5,5,221,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a4c0455f507601bb0044375f6237c97b7" title="Response for missing/Invalid headers." alt="" coords="269,5,485,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="533,5,749,47"/>
-</map>

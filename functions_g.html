@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.6.0</span>
+   &#160;<span id="projectnumber">4.7.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -113,6 +113,9 @@ $(function() {
 <li>GeneratePushOptions()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#ae497427222edeac86fbaea36d2dac220">Tgstation.Server.Host.Components.Repository.Repository</a>
 </li>
+<li>GenericOAuthValidator()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#aac38058b1afe1e73cc515ad3b117cc93">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator</a>
+</li>
 <li>Get()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html#aa51d933c64d66c1dc62cb31ef4bacdfb">Tgstation.Server.Host.Controllers.ControlPanelController</a>
 </li>
@@ -132,6 +135,13 @@ $(function() {
 <li>GetAvailablePort()
 : <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_port_allocator.html#ac989342d01f012e78c39eaed65f64ab1">Tgstation.Server.Host.Core.IPortAllocator</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_port_allocator.html#a8fb1267381fb78844e330740ad86786c">Tgstation.Server.Host.Core.PortAllocator</a>
+</li>
+<li>GetClientId()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator.html#a76fab3412f16c6cd89a04b2dd13e8fcd">Tgstation.Server.Host.Security.OAuth.BaseOAuthValidator</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a06a6be79ca673f71e99b499253990ec9">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a3e7a3dfb8d77b8d6c2633b6cf8ab048c">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html#a614676e8d442895eab5116c53e713328">Tgstation.Server.Host.Security.OAuth.IOAuthValidator</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_forums_o_auth_validator.html#a6fc633f499d8808d8d4bbc36d0504ce8">Tgstation.Server.Host.Security.OAuth.TGForumsOAuthValidator</a>
 </li>
 <li>GetCombinedOutput()
 : <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html#a143445ea75400e7a5eafcdfefcb277bb">Tgstation.Server.Host.System.IProcess</a>
@@ -298,6 +308,10 @@ $(function() {
 <li>GetUserAndDomainName()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity_factory.html#a1cca1b38097ffb81518592e6b967cecf">Tgstation.Server.Host.Security.WindowsSystemIdentityFactory</a>
 </li>
+<li>GetValidator()
+: <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html#a65bc09f0519643a3e29cf8032858ea07">Tgstation.Server.Host.Security.OAuth.IOAuthProviders</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_o_auth_providers.html#a3af7d2f7a10fa4d83a6133ac1a02a0ff">Tgstation.Server.Host.Security.OAuth.OAuthProviders</a>
+</li>
 <li>GetWindowText()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#aab504dccd83453d3af13a7e4feceb7a9">Tgstation.Server.Host.NativeMethods</a>
 </li>
@@ -318,6 +332,9 @@ $(function() {
 <li>GitHubClientFactory()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_git_hub_client_factory.html#a72336fa397ae9b38f421d27063479af9">Tgstation.Server.Host.Core.GitHubClientFactory</a>
 </li>
+<li>gitHubClientFactory
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#a09cfdc01c12a28554c85552db1383a07">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator</a>
+</li>
 <li>GitHubDeploymentId
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a173271b6e3470cf0666356d7f356b83c">Tgstation.Server.Host.Models.CompileJob</a>
 </li>
@@ -333,6 +350,9 @@ $(function() {
 </li>
 <li>GitHubName
 : <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html#a9105b82687e1adb689f4f79892a27a1b">Tgstation.Server.Api.Models.Repository</a>
+</li>
+<li>GitHubOAuthValidator()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_git_hub_o_auth_validator.html#aaccd631e5a99cb45f4b10bbbfbee95af">Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator</a>
 </li>
 <li>GitHubOwner
 : <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html#a5bbd920211d37e14effab5b48b217613">Tgstation.Server.Api.Models.Repository</a>
@@ -365,6 +385,9 @@ $(function() {
 : <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#ac07cba61d66cd0a7ceeb846be2e76885">Tgstation.Server.Client.IInstanceManagerClient</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#ad3adb6fbb920b5ab031e54adadbbd869">Tgstation.Server.Client.InstanceManagerClient</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a360b9539cb9eef92ba62ee6d78e7b161">Tgstation.Server.Host.Controllers.InstanceController</a>
+</li>
+<li>GrantType
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_discord_token_request.html#aed4afe234e028603b09ebc57af544ae7">Tgstation.Server.Host.Security.OAuth.DiscordTokenRequest</a>
 </li>
 </ul>
 </div><!-- contents -->

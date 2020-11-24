@@ -1,13 +1,13 @@
 <map id="Tgstation.Server.Host.Controllers.ApiController.StatusCode" name="Tgstation.Server.Host.Controllers.ApiController.StatusCode">
-<area shape="rect" id="node1" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="839,177,1055,218"/>
+<area shape="rect" id="node1" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="836,209,1052,250"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a136149ffd1e19c77776bf08ad6f019d8" title="Try to download and apply an update with a given newVersion ." alt="" coords="269,5,524,61"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a38a75a3f14b37983b1e5a76f2186e0ad" title="Create a new chat bot model ." alt="" coords="573,177,789,218"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#aacf3549e22bb38699d3226a156e3e0dc" title="Attempts to restart the server." alt="" coords="573,242,789,283"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a4c0455f507601bb0044375f6237c97b7" title="Response for missing/Invalid headers." alt="" coords="573,307,789,349"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae6314cf236db98c1e453639df84e8242" title=" " alt="" coords="274,370,519,411"/>
-<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#ac16c0fe44009a93f09d73f702f9844e9" title=" " alt="" coords="572,59,791,101"/>
-<area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a10c3be25fd9ac418bcab6bb9541bbd69" title="Get Administration server information." alt="" coords="289,107,505,149"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a38a75a3f14b37983b1e5a76f2186e0ad" title="Create a new chat bot model ." alt="" coords="572,355,788,397"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#aacf3549e22bb38699d3226a156e3e0dc" title="Attempts to restart the server." alt="" coords="572,421,788,462"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a28d03a8af8e2ef025de2f0ac8e7a4221" title="Response for missing/Invalid headers." alt="" coords="572,238,788,279"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#a648bd5ead5349e7592e0bef30f5aea98" title="Main page of the Application" alt="" coords="289,219,505,261"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae6314cf236db98c1e453639df84e8242" title=" " alt="" coords="274,289,519,330"/>
+<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#adfc4e0e6f1d81ebc19a238527550f7a4" title="429 response for a given rateLimitException ." alt="" coords="572,121,788,162"/>
+<area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a10c3be25fd9ac418bcab6bb9541bbd69" title="Get Administration server information." alt="" coords="289,85,505,126"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#afbf7a02a0808b463ea298c43a03e0e99" title="Attempt to perform a server upgrade." alt="" coords="5,13,221,54"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#afe4c43b884ebd0e9c4b60e39d4e1c162" title="Attempt to authenticate a User using ApiController.ApiHeaders" alt="" coords="289,239,505,281"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#a03d7bf4a2c99507c1c69d1b76eee96c8" title="Main page of the Application" alt="" coords="289,305,505,346"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#afe4c43b884ebd0e9c4b60e39d4e1c162" title="Attempt to authenticate a User using ApiController.ApiHeaders" alt="" coords="289,151,505,193"/>
 </map>

@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Security.OAuth.TGForumsOAuthValidator.ValidateResponseCode" name="Tgstation.Server.Host.Security.OAuth.TGForumsOAuthValidator.ValidateResponseCode">
+<area shape="rect" id="node1" title="Validate a given OAuth response code ." alt="" coords="5,34,268,90"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator.html#a8a0dbfa065ce22417f170db57db6be89" title="Create a new configured HttpClient." alt="" coords="316,5,595,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator.html#af111de96a41ad5e5b73db33de7eb1cbb" title="Gets JsonSerializerSettings that should be used." alt="" coords="337,70,573,126"/>
+</map>

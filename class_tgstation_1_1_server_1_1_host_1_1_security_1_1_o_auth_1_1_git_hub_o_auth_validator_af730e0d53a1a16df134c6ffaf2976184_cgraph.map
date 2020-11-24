@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.ValidateResponseCode" name="Tgstation.Server.Host.Security.OAuth.GitHubOAuthValidator.ValidateResponseCode">
+<area shape="rect" id="node1" title="Validate a given OAuth response code ." alt="" coords="5,5,247,61"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html#a9043597fb0563f7fb0ed751819aa7525" title="Create a client with anonymous authentication. Low rate limit" alt="" coords="295,13,512,54"/>
+</map>

@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.6.0</span>
+   &#160;<span id="projectnumber">4.7.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -76,12 +76,16 @@ $(function() {
 </li>
 <li class="level1"><a href="#api_header">Headers</a></li>
 <li class="level1"><a href="#api_response">Response Codes</a></li>
-<li class="level1"><a href="#api_auth">Authentication</a></li>
+<li class="level1"><a href="#api_ver">Server Information</a></li>
+<li class="level1"><a href="#api_auth">Authentication</a><ul><li class="level2"><a href="#api_auth_o">OAuth 2.0</a><ul><li class="level3"><a href="#api_auth_o_providers">Supported Providers</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="level1"><a href="#api_perms">Permissions</a></li>
 <li class="level1"><a href="#api_user">User Management</a><ul><li class="level2"><a href="#api_iuser">Instance User Management</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#api_ver">Version</a></li>
 <li class="level1"><a href="#api_admin">Server-wide Administrative Actions</a></li>
 <li class="level1"><a href="#api_inst">Instances</a><ul><li class="level2"><a href="#api_job">Jobs</a></li>
 <li class="level2"><a href="#api_chat">Chat Bots</a></li>
@@ -162,6 +166,16 @@ Response Codes</h1>
 <li>501: Not implemented. Functionality not available in the current server version</li>
 <li>503: Service unavailable. The server is either starting up or shutting down and isn't ready to respond to requests. You can try again soon and a response/lack thereof will indicate which of the two events it was</li>
 </ul>
+<h1><a class="anchor" id="api_ver"></a>
+Server Information</h1>
+<p>The versions of the TGS host can be retireved with this request.</p>
+<p>Note: This endpoint does not require authentication</p>
+<p>GET "/" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_server_information.html">Tgstation.Server.Api.Models.ServerInformation</a></p>
+<p>The Version model fields are based on the C# one and looks like this:</p>
+<div class="fragment"><div class="line">{</div>
+<div class="line">    &quot;version&quot;: &quot;&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;.&lt;revision&gt;&quot;</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>Other fields may be present in the Version model but should be ignored. See a description of these version numbers <a href="https://github.com/tgstation/tgstation-server/blob/master/.github/CONTRIBUTING.md#versioning">here</a>.</p>
 <h1><a class="anchor" id="api_auth"></a>
 Authentication</h1>
 <p>Every request made to TGS requires authentication. It is provided in the form of the Authorization header.</p>
@@ -169,7 +183,7 @@ Authentication</h1>
 <p>POST "/" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_token.html">Tgstation.Server.Api.Models.Token</a></p>
 <p>Headers:</p>
 <ul>
-<li>Authorization:basic <code>&lt;Base64 encoded credentials in the form username:password&gt;</code></li>
+<li>Authorization:Basic <code>&lt;Base64 encoded credentials in the form username:password&gt;</code></li>
 </ul>
 <p>If the provided credentials are valid and your user account is enabled you will recieve a <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_token.html">Tgstation.Server.Api.Models.Token</a> object </p><div class="fragment"><div class="line">{</div>
 <div class="line">    &quot;bearer&quot;: &quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoiMTUzMzIzNjk0MSIsIm5iZiI6IjE1MzMyMzYwNDEiLCJpc3MiOiJUZ3N0YXRpb24uU2VydmVyLkhvc3QiLCJhdWQiOiJUZ3N0YXRpb24uU2VydmVyLkFwaSJ9.QWFSWNi9mgol582zaK4MQ5XDK2gZF-Nx3z9_ToHjKW4&quot;</div>
@@ -177,9 +191,33 @@ Authentication</h1>
 </div><!-- fragment --><p>If your account is disabled, you will recieve a 403 response.</p>
 <p>You may recognize the bearer value as a <a href="https://jwt.io">Json Web Token</a>. This is a secure representation of your identity to the server. It expires after a set period of time or until your password changes. It must be present for requests made to all other APIs. To do so add the following header to your other requests</p>
 <ul>
-<li>Authorization:bearer <code>&lt;your bearer token&gt;</code></li>
+<li>Authorization:Bearer <code>&lt;your bearer token&gt;</code></li>
 </ul>
 <p>Continue to use this token until you begin to recieve 401 responses from the API. Then repeat the process to get a new one if your credentials are still valid</p>
+<h2><a class="anchor" id="api_auth_o"></a>
+OAuth 2.0</h2>
+<p>TGS4 supports OAuth 2.0 with select providers for authentication.</p>
+<p>The flow for this is as follows:</p>
+<ul>
+<li>Retrieve the <a class="el" href="api.html#api_ver">Server Information</a> to find out available OAuth providers and their respective client IDs.</li>
+<li>Send the user to the Authorization Request endpoint for the provider using the client ID from above. See <a href="https://tools.ietf.org/html/rfc6749#section-4.1.1">https://tools.ietf.org/html/rfc6749#section-4.1.1</a>. DO NOT specify a redirect URI, this should be configured in the provider.</li>
+<li>Retrieve the authorization response code after successfully completing the authorize step above.</li>
+<li>Perform the following request:</li>
+</ul>
+<p>POST "/" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_token.html">Tgstation.Server.Api.Models.Token</a></p>
+<p>Headers:</p>
+<ul>
+<li>Authorization:OAuth <code>OAuth Authorization Response Code</code></li>
+<li>OAuthProvider:&lt;Provider Name&gt;</li>
+</ul>
+<p>You will be granted a bearer token as in basic auth. This will have an extended expiration to avoid repeating the entire process.</p>
+<h3><a class="anchor" id="api_auth_o_providers"></a>
+Supported Providers</h3>
+<ul>
+<li>ID: 0, Name: GitHub, Documentation: <a href="https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/">https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/</a></li>
+<li>ID: 1, Name: Discord, Documentation: <a href="https://discord.com/developers/docs/topics/oauth2">https://discord.com/developers/docs/topics/oauth2</a></li>
+<li>ID: 2, Name: TGForums, Documentation: <a href="https://tgstation13.org/phpBB/viewtopic.php?f=45&t=9922">https://tgstation13.org/phpBB/viewtopic.php?f=45&amp;t=9922</a></li>
+</ul>
 <h1><a class="anchor" id="api_perms"></a>
 Permissions</h1>
 <p>Almost all actions available require some level of user permissions. Which are divided into two categories:</p>
@@ -208,15 +246,6 @@ Instance User Management</h2>
 <p>Unlike regular users, they can also be deleted, which prevents the user from discovering the instance</p>
 <p>I DELETE "/InstanceUser/{UserId}" =&gt; OK</p>
 <p>Users with the permission to modify <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Tgstation.Server.Api.Models.Instance</a> objects can also gain user editing rights for any Instance. See api_instance</p>
-<h1><a class="anchor" id="api_ver"></a>
-Version</h1>
-<p>The versions of the TGS host can be retireved with this request</p>
-<p>GET "/" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_server_information.html">Tgstation.Server.Api.Models.ServerInformation</a></p>
-<p>The Version model fields are based on the C# one and looks like this:</p>
-<div class="fragment"><div class="line">{</div>
-<div class="line">    &quot;version&quot;: &quot;&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;.&lt;revision&gt;&quot;</div>
-<div class="line">}</div>
-</div><!-- fragment --><p>Other fields may be present in the Version model but should be ignored. See a description of these version numbers <a href="https://github.com/tgstation/tgstation-server/blob/master/.github/CONTRIBUTING.md#versioning">here</a>.</p>
 <h1><a class="anchor" id="api_admin"></a>
 Server-wide Administrative Actions</h1>
 <p>You can retrieve server update information with this</p>

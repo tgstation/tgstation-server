@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Controllers.AdministrationController.Read" name="Tgstation.Server.Host.Controllers.AdministrationController.Read">
 <area shape="rect" id="node1" title="Get Administration server information." alt="" coords="5,71,221,112"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a35af4d06cfa01eea597d3e29e74b0e21" title=" " alt="" coords="269,5,528,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#ac16c0fe44009a93f09d73f702f9844e9" title=" " alt="" coords="289,71,508,112"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#adfc4e0e6f1d81ebc19a238527550f7a4" title="429 response for a given rateLimitException ." alt="" coords="291,71,507,112"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="576,100,792,141"/>
 </map>

@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['setupwizardmode_4131',['SetupWizardMode',['../namespace_tgstation_1_1_server_1_1_host_1_1_setup.html#ada83b66b0eb589bb855302d25c41e4de',1,'Tgstation::Server::Host::Setup']]]
+  ['rebootstate_4294',['RebootState',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_session.html#a3a9adb69be732dbd67aef59559f830c2',1,'Tgstation::Server::Host::Components::Session']]],
+  ['repositoryrights_4295',['RepositoryRights',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a95336db3db40dbae9701ef6e51240f39',1,'Tgstation::Server::Api::Rights']]],
+  ['rightstype_4296',['RightsType',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7b02c8c3dadd90810a9eaa24712a0a20',1,'Tgstation::Server::Api::Rights']]]
 ];

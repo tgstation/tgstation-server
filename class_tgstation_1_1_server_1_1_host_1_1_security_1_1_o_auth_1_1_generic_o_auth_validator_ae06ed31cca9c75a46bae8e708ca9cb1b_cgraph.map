@@ -1,0 +1,8 @@
+<map id="Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.ValidateResponseCode" name="Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.ValidateResponseCode">
+<area shape="rect" id="node1" title="Validate a given OAuth response code ." alt="" coords="5,150,251,206"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator.html#a8a0dbfa065ce22417f170db57db6be89" title="Create a new configured HttpClient." alt="" coords="299,5,577,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a2a56ab728ee760bcca4af7eea14d2c76" title="Create the OAuthTokenRequest for a given code" alt="" coords="320,70,556,126"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a68585ace726fcf3936747b53129e8aa7" title="Decode the token payload responseJson ." alt="" coords="317,150,559,206"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a9a6766ae5983746a97b04f9592b6f330" title="Decode the user information payload responseJson ." alt="" coords="317,230,559,286"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator.html#af111de96a41ad5e5b73db33de7eb1cbb" title="Gets JsonSerializerSettings that should be used." alt="" coords="320,310,556,366"/>
+</map>

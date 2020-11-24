@@ -1,16 +1,18 @@
 <map id="Tgstation.Server.Host.Setup.PostSetupServices&lt; TLoggerType &gt;" name="Tgstation.Server.Host.Setup.PostSetupServices&lt; TLoggerType &gt;">
-<area shape="rect" id="node1" title=" " alt="" coords="827,345,1059,386"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html" title=" " alt="" coords="417,149,556,190"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html" title="File logging configuration options" alt="" coords="372,345,601,386"/>
-<area shape="rect" id="node4" title=" " alt="" coords="41,304,95,331"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html" title="Configuration options for the Database.DatabaseContext" alt="" coords="372,279,601,321"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options" alt="" coords="372,214,601,255"/>
-<area shape="rect" id="node5" title=" " alt="" coords="13,409,123,436"/>
-<area shape="rect" id="node6" title=" " alt="" coords="403,410,570,451"/>
-<area shape="rect" id="node8" title=" " alt="" coords="409,475,565,517"/>
-<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information.html" title="Base class for Models.ServerInformation." alt="" coords="5,231,131,257"/>
-<area shape="rect" id="node11" title=" " alt="" coords="29,79,107,105"/>
-<area shape="rect" id="node12" title=" " alt="" coords="39,129,97,156"/>
-<area shape="rect" id="node13" title=" " alt="" coords="35,180,101,207"/>
-<area shape="rect" id="node14" title=" " alt="" coords="397,541,576,582"/>
+<area shape="rect" id="node1" title=" " alt="" coords="847,267,1079,308"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_setup_1_1_i_post_setup_services.html" title=" " alt="" coords="437,5,576,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html" title="File logging configuration options" alt="" coords="392,71,621,112"/>
+<area shape="rect" id="node4" title=" " alt="" coords="41,227,95,254"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html" title="Configuration options for the Database.DatabaseContext" alt="" coords="392,267,621,308"/>
+<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options" alt="" coords="392,481,621,523"/>
+<area shape="rect" id="node15" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html" title="Configuration options pertaining to user security" alt="" coords="392,397,621,439"/>
+<area shape="rect" id="node5" title=" " alt="" coords="13,78,123,105"/>
+<area shape="rect" id="node6" title=" " alt="" coords="427,136,586,177"/>
+<area shape="rect" id="node7" title=" " alt="" coords="423,201,590,243"/>
+<area shape="rect" id="node9" title=" " alt="" coords="429,332,585,373"/>
+<area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information.html" title="Base class for Models.ServerInformation." alt="" coords="5,633,131,659"/>
+<area shape="rect" id="node12" title=" " alt="" coords="29,434,107,461"/>
+<area shape="rect" id="node13" title=" " alt="" coords="39,582,97,609"/>
+<area shape="rect" id="node14" title=" " alt="" coords="35,531,101,558"/>
+<area shape="rect" id="node16" title=" " alt="" coords="417,547,596,588"/>
 </map>

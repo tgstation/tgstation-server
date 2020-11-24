@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.6.0</span>
+   &#160;<span id="projectnumber">4.7.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -92,7 +92,8 @@ Enumerations</h2></td></tr>
 <br />
 &#160;&#160;<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21a6ca04cb3c1c0f79210a1e67312debeb5">AdministrationRights.EditOwnPassword</a> = 8, 
 <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21a1a27a371ba5487ede2e91059df7cab27">AdministrationRights.ReadUsers</a> = 16, 
-<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21a58226070c23da85922d478f497efa9fd">AdministrationRights.DownloadLogs</a> = 32
+<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21a58226070c23da85922d478f497efa9fd">AdministrationRights.DownloadLogs</a> = 32, 
+<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21a0334378755729d43cd68ba5aadf02183">AdministrationRights.EditOwnOAuthConnections</a> = 64
 <br />
  }</td></tr>
 <tr class="memdesc:affda1440f9c5e2dfcca65138d2f89a21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rights for Models.Administration  <a href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">More...</a><br /></td></tr>
@@ -283,6 +284,8 @@ Enumerations</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="affda1440f9c5e2dfcca65138d2f89a21a58226070c23da85922d478f497efa9fd"></a>DownloadLogs&#160;</td><td class="fielddoc"><p>User can list and download <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html" title="Represents a server log file.">Models.LogFile</a>s. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="affda1440f9c5e2dfcca65138d2f89a21a0334378755729d43cd68ba5aadf02183"></a>EditOwnOAuthConnections&#160;</td><td class="fielddoc"><p>User can modify their own <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user.html#a90e7d8981a565a9d5950488cd8caa7c9" title="List of OAuthConnections associated with the User.">Models.User.OAuthConnections</a>. </p>
+</td></tr>
 </table>
 
 <p class="definition">Definition at line <a class="el" href="_administration_rights_8cs_source.html#l00009">9</a> of file <a class="el" href="_administration_rights_8cs_source.html">AdministrationRights.cs</a>.</p>
@@ -299,8 +302,10 @@ Enumerations</h2></td></tr>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        ReadUsers = 16,</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21a6adf97f83acf6453d4a6a4b1070f3754">DownloadLogs</a> = 32,</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    }</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        DownloadLogs = 32,</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21a6adf97f83acf6453d4a6a4b1070f3754">EditOwnOAuthConnections</a> = 64,</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    }</div>
 </div><!-- fragment -->
 </div>
 </div>
