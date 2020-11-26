@@ -162,6 +162,20 @@ I GET "/InstanceUser" => @ref Tgstation.Server.Api.Models.InstanceUser
 
 See individual documentation of each permission enum for their usage
 
+@section api_transfer File Transfers
+
+Certain responses inherit from @ref Tgstation.Server.Api.Models.FileTicketResult. These are special in that, having that model's @ref Tgstation.Server.Api.Models.FileTicketResult.FileTicket field populated indicates there is a pending file download or upload to take place. These are handled in the "/Transfer" endpoint.
+
+To perform a file download make the following request:
+
+GET "/Transfer?ticket=<@ref Tgstation.Server.Api.Models.FileTicketResult.FileTicket>" => application/octet-stream
+
+To perform a file upload make the following request:
+
+PUT "/Transfer?ticket=<@ref Tgstation.Server.Api.Models.FileTicketResult.FileTicket>" application/octet-stream => OK
+
+File tickets are only valid for a short time after the initial request is made and should be dealt with immediately. Ensure that the file tickets are properly URL encoded.
+
 @section api_user User Management
 
 TGS start with one user: "Admin". The password is "ISolemlySwearToDeleteTheDataDirectory"

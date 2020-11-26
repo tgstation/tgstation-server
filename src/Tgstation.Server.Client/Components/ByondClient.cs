@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -38,6 +39,19 @@ namespace Tgstation.Server.Client.Components
 		public Task<IReadOnlyList<Byond>> InstalledVersions(CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<Byond>>(Routes.ListRoute(Routes.Byond), instance.Id, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<Byond> SetActiveVersion(Byond byond, CancellationToken cancellationToken) => apiClient.Update<Byond, Byond>(Routes.Byond, byond ?? throw new ArgumentNullException(nameof(byond)), instance.Id, cancellationToken);
+		public async Task<Byond> SetActiveVersion(Byond byond, Stream zipFileStream, CancellationToken cancellationToken)
+		{
+			var result = await apiClient.Update<Byond, Byond>(
+				Routes.Byond,
+				byond ?? throw new ArgumentNullException(nameof(byond)),
+				instance.Id,
+				cancellationToken)
+				.ConfigureAwait(false);
+
+			if (byond.UploadCustomZip == true)
+				await apiClient.Upload(result, zipFileStream, cancellationToken).ConfigureAwait(false);
+
+			return result;
+		}
 	}
 }

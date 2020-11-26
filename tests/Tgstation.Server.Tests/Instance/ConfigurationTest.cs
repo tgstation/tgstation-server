@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
 using System.Text;
@@ -25,7 +25,8 @@ namespace Tgstation.Server.Tests.Instance
 		{
 			var tmp = (file.Path?.StartsWith('/') ?? false) ? '.' + file.Path : file.Path;
 			var path = Path.Combine(instance.Path, "Configuration", tmp);
-			return File.Exists(path);
+			var result = File.Exists(path);
+			return result;
 		}
 
 		async Task TestDeleteDirectory(CancellationToken cancellationToken)
@@ -39,18 +40,21 @@ namespace Tgstation.Server.Tests.Instance
 			await configurationClient.DeleteEmptyDirectory(TestDir, cancellationToken).ConfigureAwait(false);
 
 			//try to delete non-empty
+			using var uploadMs = new MemoryStream(Encoding.UTF8.GetBytes("Hello world!"));
 			var file = await configurationClient.Write(new ConfigurationFile
 			{
-				Content = Encoding.UTF8.GetBytes("Hello world!"),
 				Path = TestDir.Path + "/test.txt"
-			}, cancellationToken).ConfigureAwait(false);
+			}, uploadMs, cancellationToken).ConfigureAwait(false);
 
 			Assert.IsTrue(FileExists(file));
 
+			var updatedFile = await configurationClient.Read(file, cancellationToken).ConfigureAwait(false);
+			Assert.AreEqual(file.LastReadHash, updatedFile.Item1.LastReadHash);
+
 			await ApiAssert.ThrowsException<ConflictException>(() => configurationClient.DeleteEmptyDirectory(TestDir, cancellationToken), ErrorCode.ConfigurationDirectoryNotEmpty).ConfigureAwait(false);
 
-			file.Content = null;
-			await configurationClient.Write(file, cancellationToken).ConfigureAwait(false);
+			file.FileTicket = null;
+			await configurationClient.Write(file, null, cancellationToken).ConfigureAwait(false);
 
 			await configurationClient.DeleteEmptyDirectory(TestDir, cancellationToken).ConfigureAwait(false);
 		}

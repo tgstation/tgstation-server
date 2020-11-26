@@ -40,6 +40,7 @@ using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Security.OAuth;
 using Tgstation.Server.Host.Setup;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Transfer;
 
 namespace Tgstation.Server.Host.Core
 {
@@ -304,12 +305,15 @@ namespace Tgstation.Server.Host.Core
 			}
 
 			// configure misc services
+			services.AddScoped<IPortAllocator, PortAllocator>();
 			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
 			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
 			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
 			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
-			services.AddScoped<IPortAllocator, PortAllocator>();
+			services.AddSingleton<FileTransferService>();
+			services.AddSingleton<IFileTransferStreamHandler>(x => x.GetRequiredService<FileTransferService>());
+			services.AddSingleton<IFileTransferTicketProvider>(x => x.GetRequiredService<FileTransferService>());
 
 			// configure component services
 			services.AddSingleton<ILibGit2RepositoryFactory, LibGit2RepositoryFactory>();

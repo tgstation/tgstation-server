@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.Transfer;
 
 namespace Tgstation.Server.Host.Controllers
 {
@@ -28,18 +30,25 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IJobManager jobManager;
 
 		/// <summary>
+		/// The <see cref="IFileTransferTicketProvider"/> for the <see cref="ByondController"/>.
+		/// </summary>
+		readonly IFileTransferTicketProvider fileTransferService;
+
+		/// <summary>
 		/// Construct a <see cref="ByondController"/>
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> for the <see cref="InstanceRequiredController"/>.</param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
+		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
 		public ByondController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
 			IInstanceManager instanceManager,
 			IJobManager jobManager,
+			IFileTransferTicketProvider fileTransferService,
 			ILogger<ByondController> logger)
 			: base(
 				  instanceManager,
@@ -48,6 +57,7 @@ namespace Tgstation.Server.Host.Controllers
 				  logger)
 		{
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
+			this.fileTransferService = fileTransferService ?? throw new ArgumentNullException(nameof(fileTransferService));
 		}
 
 		/// <summary>
@@ -104,14 +114,16 @@ namespace Tgstation.Server.Host.Controllers
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
+			var uploadingZip = model.UploadCustomZip == true;
+
 			if (model.Version == null
 				|| model.Version.Revision != -1
-				|| (model.Content != null && model.Version.Build > 0))
+				|| (uploadingZip && model.Version.Build > 0))
 				return BadRequest(new ErrorMessage(ErrorCode.ModelValidationFailure));
 
 			var userByondRights = AuthenticationContext.InstanceUser.ByondRights.Value;
-			if ((!userByondRights.HasFlag(ByondRights.InstallOfficialOrChangeActiveVersion) && model.Content == null)
-				|| (!userByondRights.HasFlag(ByondRights.InstallCustomVersion) && model.Content != null))
+			if ((!userByondRights.HasFlag(ByondRights.InstallOfficialOrChangeActiveVersion) && !uploadingZip)
+				|| (!userByondRights.HasFlag(ByondRights.InstallCustomVersion) && uploadingZip))
 				return Forbid();
 
 			// remove cruff fields
@@ -120,7 +132,7 @@ namespace Tgstation.Server.Host.Controllers
 				async instance =>
 				{
 					var byondManager = instance.ByondManager;
-					if (model.Content == null && byondManager.InstalledVersions.Any(x => x == model.Version))
+					if (!uploadingZip && byondManager.InstalledVersions.Any(x => x == model.Version))
 					{
 						Logger.LogInformation(
 							"User ID {0} changing instance ID {1} BYOND version to {2}",
@@ -146,21 +158,61 @@ namespace Tgstation.Server.Host.Controllers
 						// run the install through the job manager
 						var job = new Models.Job
 						{
-							Description = $"Install {(model.Content == null ? String.Empty : "custom ")}BYOND version {model.Version.Major}.{model.Version.Minor}",
+							Description = $"Install {(!uploadingZip ? String.Empty : "custom ")}BYOND version {model.Version.Major}.{model.Version.Minor}",
 							StartedBy = AuthenticationContext.User,
 							CancelRightsType = RightsType.Byond,
 							CancelRight = (ulong)ByondRights.CancelInstall,
 							Instance = Instance
 						};
-						await jobManager.RegisterOperation(
-							job,
-							(core, databaseContextFactory, paramJob, progressHandler, jobCancellationToken) => core.ByondManager.ChangeVersion(
-								model.Version,
-								model.Content,
-								jobCancellationToken),
-							cancellationToken)
-							.ConfigureAwait(false);
-						result.InstallJob = job.ToApi();
+
+						IFileUploadTicket fileUploadTicket = null;
+						if (uploadingZip)
+							fileUploadTicket = fileTransferService.CreateUpload();
+
+						try
+						{
+							await jobManager.RegisterOperation(
+								job,
+								async (core, databaseContextFactory, paramJob, progressHandler, jobCancellationToken) =>
+								{
+									Stream zipFileStream = null;
+									if (fileUploadTicket != null)
+										using (fileUploadTicket)
+										{
+											var uploadStream = await fileUploadTicket.GetResult(jobCancellationToken).ConfigureAwait(false);
+											if (uploadStream == null)
+												throw new JobException(ErrorCode.FileUploadExpired);
+
+											zipFileStream = new MemoryStream();
+											try
+											{
+												await uploadStream.CopyToAsync(zipFileStream, jobCancellationToken).ConfigureAwait(false);
+											}
+											catch
+											{
+												await zipFileStream.DisposeAsync().ConfigureAwait(false);
+												throw;
+											}
+										}
+
+									using (zipFileStream)
+										await core.ByondManager.ChangeVersion(
+											model.Version,
+											zipFileStream,
+											jobCancellationToken)
+										.ConfigureAwait(false);
+								},
+								cancellationToken)
+								.ConfigureAwait(false);
+
+							result.InstallJob = job.ToApi();
+							result.FileTicket = fileUploadTicket?.Ticket.FileTicket;
+						}
+						catch
+						{
+							fileUploadTicket?.Dispose();
+							throw;
+						}
 					}
 
 					if ((AuthenticationContext.GetRight(RightsType.Byond) & (ulong)ByondRights.ReadActive) != 0)

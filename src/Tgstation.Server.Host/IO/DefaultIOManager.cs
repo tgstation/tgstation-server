@@ -122,7 +122,7 @@ namespace Tgstation.Server.Host.IO
 		/// <inheritdoc />
 		public async Task CopyDirectory(string src, string dest, IEnumerable<string> ignore, CancellationToken cancellationToken)
 		{
-			if (dest == null)
+			if (src == null)
 				throw new ArgumentNullException(nameof(src));
 			if (dest == null)
 				throw new ArgumentNullException(nameof(src));
@@ -134,12 +134,7 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public string ConcatPath(params string[] paths)
-		{
-			if (paths == null)
-				throw new ArgumentNullException(nameof(paths));
-			return Path.Combine(paths);
-		}
+		public string ConcatPath(params string[] paths) => Path.Combine(paths);
 
 		/// <inheritdoc />
 		public async Task CopyFile(string src, string dest, CancellationToken cancellationToken)
@@ -308,14 +303,13 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public Task ZipToDirectory(string path, byte[] zipFileBytes, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		public Task ZipToDirectory(string path, Stream zipFile, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
 		{
 			path = ResolvePath(path);
-			if (zipFileBytes == null)
-				throw new ArgumentNullException(nameof(zipFileBytes));
+			if (zipFile == null)
+				throw new ArgumentNullException(nameof(zipFile));
 
-			using var ms = new MemoryStream(zipFileBytes);
-			using var archive = new ZipArchive(ms, ZipArchiveMode.Read);
+			using var archive = new ZipArchive(zipFile, ZipArchiveMode.Read);
 			archive.ExtractToDirectory(path);
 		}, cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
 
@@ -329,5 +323,8 @@ namespace Tgstation.Server.Host.IO
 			var fileInfo = new FileInfo(path);
 			return new DateTimeOffset(fileInfo.LastWriteTimeUtc);
 		}, cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
+
+		/// <inheritdoc />
+		public Stream GetFileStream(string path, bool shareWrite) => new FileStream(ResolvePath(path), FileMode.Open, FileAccess.Read, FileShare.Read | FileShare.Delete | (shareWrite ? FileShare.Write : FileShare.None), DefaultBufferSize, true);
 	}
 }

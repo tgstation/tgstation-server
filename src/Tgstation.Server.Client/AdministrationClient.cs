@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -38,10 +39,25 @@ namespace Tgstation.Server.Client
 		public Task<IReadOnlyList<LogFile>> ListLogs(CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<LogFile>>(Routes.Logs, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<LogFile> GetLog(LogFile logFile, CancellationToken cancellationToken) => apiClient.Read<LogFile>(
-			Routes.Logs + Routes.SanitizeGetPath(
-				HttpUtility.UrlEncode(
-					logFile?.Name ?? throw new ArgumentNullException(nameof(logFile)))),
-			cancellationToken);
+		public async Task<Tuple<LogFile, Stream>> GetLog(LogFile logFile, CancellationToken cancellationToken)
+		{
+			var resultFile = await apiClient.Read<LogFile>(
+				Routes.Logs + Routes.SanitizeGetPath(
+					HttpUtility.UrlEncode(
+						logFile?.Name ?? throw new ArgumentNullException(nameof(logFile)))),
+				cancellationToken)
+				.ConfigureAwait(false);
+
+			var stream = await apiClient.Download(resultFile, cancellationToken).ConfigureAwait(false);
+			try
+			{
+				return Tuple.Create(resultFile, stream);
+			}
+			catch
+			{
+				stream.Dispose();
+				throw;
+			}
+		}
 	}
 }

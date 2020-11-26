@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -44,7 +46,7 @@ namespace Tgstation.Server.Client
 		/// </summary>
 		/// <param name="logFile">The <see cref="LogFile"/> to download.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the downloaded <see cref="LogFile"/>.</returns>
-		Task<LogFile> GetLog(LogFile logFile, CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting a <see cref="Tuple{T1, T2}"/> containing the downloaded <see cref="LogFile"/> and associated <see cref="Stream"/>.</returns>
+		Task<Tuple<LogFile, Stream>> GetLog(LogFile logFile, CancellationToken cancellationToken);
 	}
 }
