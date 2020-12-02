@@ -115,7 +115,7 @@ Docker (Linux)</h3>
 <div class="line">    --name=&quot;tgs&quot; \ # Name for the container</div>
 <div class="line">    --cap-add=sys_nice \ # Recommended, allows tgs to schedule DreamDaemon as a higher priority process</div>
 <div class="line">    --init \ #Highly recommended, reaps potential zombie processes</div>
-<div class="line">    -p &lt;tgs port&gt;:&lt;port configured with setup wizard&gt; \ # Port bridge for accessing TGS</div>
+<div class="line">    -p 5000:5000 \ # Port bridge for accessing TGS, you can change this if you need</div>
 <div class="line">    -p 0.0.0.0:&lt;public game port&gt;:&lt;public game port&gt; \ # Port bridge for accessing DreamDaemon</div>
 <div class="line">    -v /path/to/your/configfile/directory:/config_data \ # Recommended, create a volume mapping for server configuration</div>
 <div class="line">    -v /path/to/store/instances:/tgs4_instances \ # Recommended, create a volume mapping for server instances</div>
