@@ -86,6 +86,16 @@ The first time you run TGS4 you should be prompted with a configuration wizard w
 
 This wizard will, generally, run whenever the server is launched without detecting the config json. Follow the instructions below to perform this process manually.
 
+#### Configuration Methods
+
+There are 3 primary supported ways to configure TGS:
+
+- Modify the `appsettings.Production.json` file (Recommended).
+- Set environment variables in the form `Section__Subsection=value` or `Section__ArraySubsection__0=value` for arrays.
+- Set command line arguments in the form `--Section:Subsection=value` or `--Section:ArraySubsection:0=value` for arrays.
+
+The latter two are not recommended as they cannot be dynamically changed at runtime. See more on ASP.NET core configuration [here](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-3.1).
+
 #### Manual Configuration
 
 Create an `appsettings.Production.json` file next to `appsettings.json`. This will override the default settings in appsettings.json with your production settings. There are a few keys meant to be changed by hosts. Modifying any config files while the server is running will trigger a safe restart (Keeps DreamDaemon's running). Note these are all case-sensitive:
