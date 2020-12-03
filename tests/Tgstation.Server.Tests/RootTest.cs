@@ -212,6 +212,7 @@ namespace Tgstation.Server.Tests
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 				var content = await response.Content.ReadAsStringAsync();
 				var message = JsonConvert.DeserializeObject<ErrorMessage>(content);
+				Assert.AreEqual(MediaTypeNames.Application.Json, response.Content.Headers.ContentType.MediaType);
 				Assert.AreEqual(ErrorCode.ModelValidationFailure, message.ErrorCode);
 			}
 
@@ -226,6 +227,7 @@ namespace Tgstation.Server.Tests
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 				var content = await response.Content.ReadAsStringAsync();
 				var message = JsonConvert.DeserializeObject<ErrorMessage>(content);
+				Assert.AreEqual(MediaTypeNames.Application.Json, response.Content.Headers.ContentType.MediaType);
 				Assert.AreEqual(ErrorCode.ModelValidationFailure, message.ErrorCode);
 			}
 
@@ -237,6 +239,7 @@ namespace Tgstation.Server.Tests
 				request.Headers.Add(ApiHeaders.ApiVersionHeader, "Tgstation.Server.Api/" + ApiHeaders.Version);
 				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, token);
 				using var response = await httpClient.SendAsync(request, cancellationToken);
+				Assert.AreEqual(MediaTypeNames.Application.Json, response.Content.Headers.ContentType.MediaType);
 				Assert.AreEqual(HttpStatusCode.NotAcceptable, response.StatusCode);
 			}
 
@@ -249,6 +252,7 @@ namespace Tgstation.Server.Tests
 				request.Headers.Add(ApiHeaders.ApiVersionHeader, "Tgstation.Server.Api/" + ApiHeaders.Version);
 				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, token);
 				using var response = await httpClient.SendAsync(request, cancellationToken);
+				Assert.AreEqual(MediaTypeNames.Application.Json, response.Content.Headers.ContentType.MediaType);
 				Assert.AreEqual(HttpStatusCode.Gone, response.StatusCode);
 			}
 
@@ -260,6 +264,7 @@ namespace Tgstation.Server.Tests
 				request.Headers.Add(ApiHeaders.ApiVersionHeader, "Tgstation.Server.Api/" + ApiHeaders.Version);
 				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, token);
 				using var response = await httpClient.SendAsync(request, cancellationToken);
+				Assert.AreEqual(MediaTypeNames.Application.Json, response.Content.Headers.ContentType.MediaType);
 				Assert.AreEqual(HttpStatusCode.Gone, response.StatusCode);
 			}
 		}

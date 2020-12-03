@@ -39,7 +39,7 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <summary>
-		/// The <see cref="HttpClient"/> for the <see cref="ApiClient"/>
+		/// The <see cref="HttpClientImplementation"/> for the <see cref="ApiClient"/>
 		/// </summary>
 		readonly IHttpClient httpClient;
 

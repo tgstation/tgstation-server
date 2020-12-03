@@ -1,6 +1,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
+using System.Net.Http;
+using System.Net.Mime;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -56,7 +59,13 @@ namespace Tgstation.Server.Tests.Instance
 			using (var downloadMemoryStream = new MemoryStream())
 			{
 				using (var downloadStream = updatedFileTuple.Item2)
+				{
+					var requestStream = downloadStream as CachedResponseStream;
+					Assert.IsNotNull(requestStream);
+					var response = (HttpResponseMessage)requestStream.GetType().GetField("response", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(requestStream);
+					Assert.AreEqual(response.Content.Headers.ContentType.MediaType, MediaTypeNames.Application.Octet);
 					await downloadStream.CopyToAsync(downloadMemoryStream);
+				}
 				Assert.AreEqual(TestString, Encoding.UTF8.GetString(downloadMemoryStream.ToArray()).Trim());
 			}
 
