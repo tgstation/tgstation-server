@@ -1,3 +1,5 @@
+using System;
+
 namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
@@ -19,5 +21,10 @@ namespace Tgstation.Server.Api.Models
 		/// Length limit for git commit SHAs.
 		/// </summary>
 		public const int MaximumCommitShaLength = 40;
+
+		/// <summary>
+		/// The maximum size for file transfers.
+		/// </summary>
+		public const int MaximumFileTransferSize = Int32.MaxValue;
 	}
 }

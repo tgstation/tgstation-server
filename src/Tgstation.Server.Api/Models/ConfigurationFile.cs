@@ -1,12 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Tgstation.Server.Api.Models.Internal;
+using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
 	/// Represents a game configuration file. Create and delete actions uncerimonuously overwrite/delete files
 	/// </summary>
-	public sealed class ConfigurationFile : RawData
+	public sealed class ConfigurationFile : FileTicketResult
 	{
 		/// <summary>
 		/// The path to the <see cref="ConfigurationFile"/> file

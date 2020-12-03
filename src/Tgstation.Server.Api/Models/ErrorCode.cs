@@ -166,7 +166,7 @@ namespace Tgstation.Server.Api.Models
 		RequiresPosixSystemIdentity,
 
 		/// <summary>
-		/// A <see cref="ConfigurationFile"/> was attem updated
+		/// A <see cref="ConfigurationFile"/> was updated.
 		/// </summary>
 		[Description("This existing file hash does not match, the file has beeen updated!")]
 		ConfigurationFileUpdated,
@@ -594,5 +594,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("The requested OAuth provider is disabled via configuration!")]
 		OAuthProviderDisabled,
+
+		/// <summary>
+		/// A <see cref="Job"/> requiring a file upload did not receive it before timing out.
+		/// </summary>
+		[Description("The job did not receive a required upload before timing out!")]
+		FileUploadExpired,
 	}
 }

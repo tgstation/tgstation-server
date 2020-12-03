@@ -396,6 +396,7 @@ namespace Tgstation.Server.Tests.Instance
 				{
 					Version = versionToInstall
 				},
+				null,
 				cancellationToken);
 			var byondInstallJob = await byondInstallJobTask;
 

@@ -6,6 +6,7 @@
       "no_summary": "error",
       "no_array_responses": "off",
       "parameter_order": "error",
+      "undefined_tag": "off",
       "unused_tag": "error",
       "operation_id_naming_convention": "off"
     },
@@ -44,12 +45,15 @@
       "no_property_description": "off",
       "description_mentions_json": "error",
       "array_of_arrays": "error",
+      "inconsistent_property_type": "error",
       "property_case_convention": "off",
-      "enum_case_convention": "error"
+      "property_case_collision": "error",
+      "enum_case_convention": "error",
+      "undefined_required_properties": "error"
     },
     "walker": {
       "no_empty_descriptions": "error",
-      "has_circular_references": "off",
+      "has_circular_references": "error",
       "$ref_siblings": "error",
       "duplicate_sibling_description": "error",
       "incorrect_ref_pattern": "error"
@@ -76,7 +80,11 @@
     "responses": {
       "no_response_codes": "error",
       "no_success_response_codes": "error",
+      "no_response_body": "error",
       "ibm_status_code_guidelines": "off"
+    },
+    "schemas": {
+      "json_or_param_binary_string": "error"
     }
   }
 }

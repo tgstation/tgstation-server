@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Tgstation.Server.Client
 {
 	/// <inheritdoc />
-	sealed class HttpClient : IHttpClient
+	sealed class HttpClientImplementation : IHttpClient
 	{
 		/// <inheritdoc />
 		public TimeSpan Timeout
@@ -16,16 +16,16 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <summary>
-		/// The real <see cref="System.Net.Http.HttpClient"/>
+		/// The real <see cref="HttpClient"/>
 		/// </summary>
-		readonly System.Net.Http.HttpClient httpClient;
+		readonly HttpClient httpClient;
 
 		/// <summary>
-		/// Construct an <see cref="HttpClient"/>
+		/// Construct an <see cref="HttpClientImplementation"/>
 		/// </summary>
-		public HttpClient()
+		public HttpClientImplementation()
 		{
-			httpClient = new System.Net.Http.HttpClient();
+			httpClient = new HttpClient();
 		}
 
 		/// <inheritdoc />

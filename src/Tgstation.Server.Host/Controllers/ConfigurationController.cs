@@ -77,11 +77,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">File updated successfully.</response>
-		/// <response code="201">File created successfully.</response>
+		/// <response code="202">File upload ticket created successfully.</response>
 		[HttpPost]
 		[TgsAuthorize(ConfigurationRights.Write)]
 		[ProducesResponseType(typeof(ConfigurationFile), 200)]
-		[ProducesResponseType(typeof(ConfigurationFile), 201)]
+		[ProducesResponseType(typeof(ConfigurationFile), 202)]
 		public async Task<IActionResult> Update([FromBody] ConfigurationFile model, CancellationToken cancellationToken)
 		{
 			if (model == null)
@@ -99,16 +99,11 @@ namespace Tgstation.Server.Host.Controllers
 							.Write(
 								model.Path,
 								systemIdentity,
-								model.Content,
 								model.LastReadHash,
 								cancellationToken)
 							.ConfigureAwait(false);
-						if (newFile == null)
-							return Conflict(new ErrorMessage(ErrorCode.ConfigurationFileUpdated));
 
-						newFile.Content = null;
-
-						return model.LastReadHash == null ? (IActionResult)Created(newFile) : Json(newFile);
+						return model.LastReadHash == null ? (IActionResult)Accepted(newFile) : Json(newFile);
 					})
 					.ConfigureAwait(false);
 			}

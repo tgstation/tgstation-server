@@ -20,6 +20,7 @@ using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Transfer;
 
 namespace Tgstation.Server.Host.Controllers
 {
@@ -57,6 +58,11 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IPlatformIdentifier platformIdentifier;
 
 		/// <summary>
+		/// The <see cref="IFileTransferTicketProvider"/> for the <see cref="AdministrationController"/>.
+		/// </summary>
+		readonly IFileTransferTicketProvider fileTransferService;
+
+		/// <summary>
 		/// The <see cref="UpdatesConfiguration"/> for the <see cref="AdministrationController"/>
 		/// </summary>
 		readonly UpdatesConfiguration updatesConfiguration;
@@ -81,6 +87,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
+		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
 		/// <param name="updatesConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="updatesConfiguration"/></param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="generalConfiguration"/></param>
@@ -93,6 +100,7 @@ namespace Tgstation.Server.Host.Controllers
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IIOManager ioManager,
 			IPlatformIdentifier platformIdentifier,
+			IFileTransferTicketProvider fileTransferService,
 			ILogger<AdministrationController> logger,
 			IOptions<UpdatesConfiguration> updatesConfigurationOptions,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
@@ -108,6 +116,7 @@ namespace Tgstation.Server.Host.Controllers
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
+			this.fileTransferService = fileTransferService ?? throw new ArgumentNullException(nameof(fileTransferService));
 			updatesConfiguration = updatesConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(updatesConfigurationOptions));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			fileLoggingConfiguration = fileLoggingConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(fileLoggingConfigurationOptions));
@@ -386,13 +395,20 @@ namespace Tgstation.Server.Host.Controllers
 				path);
 			try
 			{
+				var fileTransferTicket = fileTransferService.CreateDownload(
+					new FileDownloadProvider(
+						() => null,
+						null,
+						fullPath,
+						true));
+
 				var readTask = ioManager.ReadAllBytes(fullPath, cancellationToken);
 
 				return Ok(new LogFile
 				{
 					Name = path,
 					LastModified = await ioManager.GetLastModified(fullPath, cancellationToken).ConfigureAwait(false),
-					Content = await readTask.ConfigureAwait(false)
+					FileTicket = fileTransferTicket.FileTicket
 				});
 			}
 			catch (IOException ex)

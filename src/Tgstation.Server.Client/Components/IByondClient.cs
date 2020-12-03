@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -28,8 +29,9 @@ namespace Tgstation.Server.Client.Components
 		/// Updates the <see cref="Byond"/> information
 		/// </summary>
 		/// <param name="byond">The <see cref="Byond"/> information to update</param>
+		/// <param name="zipFileStream">The <see cref="Stream"/> for the .zip file if <see cref="Byond.UploadCustomZip"/> is <see langword="true"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the updated <see cref="Byond"/> information</returns>
-		Task<Byond> SetActiveVersion(Byond byond, CancellationToken cancellationToken);
+		Task<Byond> SetActiveVersion(Byond byond, Stream zipFileStream, CancellationToken cancellationToken);
 	}
 }

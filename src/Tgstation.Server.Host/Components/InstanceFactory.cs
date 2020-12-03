@@ -19,6 +19,7 @@ using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Transfer;
 
 namespace Tgstation.Server.Host.Components
 {
@@ -126,6 +127,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IServerPortProvider serverPortProvider;
 
 		/// <summary>
+		/// The <see cref="IFileTransferTicketProvider"/> for the <see cref="InstanceFactory"/>.
+		/// </summary>
+		readonly IFileTransferTicketProvider fileTransferService;
+
+		/// <summary>
 		/// The <see cref="GeneralConfiguration"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
 		readonly GeneralConfiguration generalConfiguration;
@@ -153,6 +159,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="repositoryFactory">The value of <see cref="repositoryFactory"/>.</param>
 		/// <param name="repositoryCommands">The value of <see cref="repositoryCommands"/>.</param>
 		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
+		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		public InstanceFactory(
 			IIOManager ioManager,
@@ -175,6 +182,7 @@ namespace Tgstation.Server.Host.Components
 			ILibGit2RepositoryFactory repositoryFactory,
 			ILibGit2Commands repositoryCommands,
 			IServerPortProvider serverPortProvider,
+			IFileTransferTicketProvider fileTransferService,
 			IOptions<GeneralConfiguration> generalConfigurationOptions)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
@@ -197,6 +205,7 @@ namespace Tgstation.Server.Host.Components
 			this.repositoryFactory = repositoryFactory ?? throw new ArgumentNullException(nameof(repositoryFactory));
 			this.repositoryCommands = repositoryCommands ?? throw new ArgumentNullException(nameof(repositoryCommands));
 			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
+			this.fileTransferService = fileTransferService ?? throw new ArgumentNullException(nameof(fileTransferService));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
@@ -214,7 +223,15 @@ namespace Tgstation.Server.Host.Components
 			var diagnosticsIOManager = new ResolvingIOManager(instanceIoManager, "Diagnostics");
 			var configurationIoManager = new ResolvingIOManager(instanceIoManager, "Configuration");
 
-			var configuration = new StaticFiles.Configuration(configurationIoManager, synchronousIOManager, symlinkFactory, processExecutor, postWriteHandler, platformIdentifier, loggerFactory.CreateLogger<StaticFiles.Configuration>());
+			var configuration = new StaticFiles.Configuration(
+				configurationIoManager,
+				synchronousIOManager,
+				symlinkFactory,
+				processExecutor,
+				postWriteHandler,
+				platformIdentifier,
+				fileTransferService,
+				loggerFactory.CreateLogger<StaticFiles.Configuration>());
 			var eventConsumer = new EventConsumer(configuration);
 			var repoManager = new RepositoryManager(
 				repositoryFactory,

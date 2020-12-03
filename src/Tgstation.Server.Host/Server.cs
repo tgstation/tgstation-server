@@ -194,8 +194,11 @@ namespace Tgstation.Server.Host
 					var cancellationToken = cancellationTokenSource.Token;
 
 					logger.LogTrace("Downloading zip package...");
-					var updateZipData = await ioManager.DownloadFile(updateZipUrl, cancellationToken).ConfigureAwait(false);
-
+					using var updateZipData = new MemoryStream(
+						await ioManager.DownloadFile(
+							updateZipUrl,
+							cancellationToken)
+						.ConfigureAwait(false));
 					try
 					{
 						logger.LogTrace("Exctracting zip package to {0}...", updatePath);

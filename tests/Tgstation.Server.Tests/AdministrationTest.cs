@@ -33,12 +33,12 @@ namespace Tgstation.Server.Tests
 			var logFile = logs.First();
 			Assert.IsNotNull(logFile);
 			Assert.IsFalse(String.IsNullOrWhiteSpace(logFile.Name));
-			Assert.IsNull(logFile.Content);
+			Assert.IsNull(logFile.FileTicket);
 
-			var downloaded = await client.GetLog(logFile, cancellationToken);
-			Assert.AreEqual(logFile.Name, downloaded.Name);
-			Assert.IsTrue(logFile.LastModified <= downloaded.LastModified);
-			Assert.IsNull(logFile.Content);
+			var downloadedTuple = await client.GetLog(logFile, cancellationToken);
+			Assert.AreEqual(logFile.Name, downloadedTuple.Item1.Name);
+			Assert.IsTrue(logFile.LastModified <= downloadedTuple.Item1.LastModified);
+			Assert.IsNull(logFile.FileTicket);
 
 			await ApiAssert.ThrowsException<ConflictException>(() => client.GetLog(new LogFile
 			{
