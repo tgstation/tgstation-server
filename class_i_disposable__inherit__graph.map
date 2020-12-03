@@ -1,5 +1,5 @@
 <map id="IDisposable" name="IDisposable">
-<area shape="rect" id="node1" title=" " alt="" coords="5,862,96,889"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,895,96,922"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API" alt="" coords="179,5,335,47"/>
 <area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_http_client.html" title="For sending HTTP requests" alt="" coords="179,71,335,112"/>
 <area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html" title="Main client for communicating with a server" alt="" coords="179,136,335,177"/>
@@ -27,8 +27,9 @@
 <area shape="rect" id="node45" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process.html" title="Abstraction over a global::System.Diagnostics.Process" alt="" coords="158,1573,357,1615"/>
 <area shape="rect" id="node47" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_program_shutdown_token_source.html" title="Contains a CancellationToken that triggers when the operating system requests the program shuts down." alt="" coords="154,1639,361,1680"/>
 <area shape="rect" id="node48" href="$class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html" title=" " alt="" coords="154,1704,361,1745"/>
+<area shape="rect" id="node49" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html" title="A FileTicketResult that waits for a pending upload." alt="" coords="156,1769,359,1811"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html" title=" " alt="" coords="457,5,613,47"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_client_1_1_http_client.html" title=" " alt="" coords="457,71,613,112"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_client_1_1_http_client_implementation.html" title=" " alt="" coords="450,71,619,112"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_client_1_1_server_client.html" title=" " alt="" coords="457,136,613,177"/>
 <area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_executable_lock.html" title=" " alt="" coords="421,201,648,243"/>
 <area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html" title=" " alt="" coords="421,267,648,308"/>

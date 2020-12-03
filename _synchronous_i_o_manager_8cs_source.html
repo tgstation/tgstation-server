@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.6.0</span>
+   &#160;<span id="projectnumber">4.7.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -140,76 +140,72 @@ $(function() {
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            <span class="keywordflow">return</span> File.ReadAllBytes(path);</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        }</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html#a74a681b01f42d65b5bc6e10ad73541c1">   77</a></span>&#160;        <span class="keyword">public</span> <span class="keywordtype">bool</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html#a74a681b01f42d65b5bc6e10ad73541c1">WriteFileChecked</a>(<span class="keywordtype">string</span> path, <span class="keywordtype">byte</span>[] data, ref <span class="keywordtype">string</span> sha1InOut, CancellationToken cancellationToken)</div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html#a9c83db9d91d2bc33ea4e03a92d1fb1f6">   77</a></span>&#160;        <span class="keyword">public</span> <span class="keywordtype">bool</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html#a9c83db9d91d2bc33ea4e03a92d1fb1f6">WriteFileChecked</a>(<span class="keywordtype">string</span> path, <a class="code" href="class_stream.html">Stream</a> data, ref <span class="keywordtype">string</span> sha1InOut, CancellationToken cancellationToken)</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        {</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            <span class="keywordflow">if</span> (path == <span class="keyword">null</span>)</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(path));</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            cancellationToken.ThrowIfCancellationRequested();</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            var directory = Path.GetDirectoryName(path);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            Directory.CreateDirectory(directory);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <span class="keywordflow">if</span> (data == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(data));</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            cancellationToken.ThrowIfCancellationRequested();</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            <span class="keyword">using</span> (var file = File.Open(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None))</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            {</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                cancellationToken.ThrowIfCancellationRequested();</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                <span class="comment">// as nice as it would be to not have to arrayify the memory stream, we have to</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                <span class="comment">// because, oddly enough sha1(memorystream) != sha1(memorystream.ToArray())</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                <span class="comment">// vOv</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                <span class="keywordtype">byte</span>[] originalBytes;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                <span class="keyword">using</span> (var readMs = <span class="keyword">new</span> MemoryStream())</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                {</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                    file.CopyTo(readMs);</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                    originalBytes = readMs.ToArray();</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                }</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                <span class="comment">// no sha1? no write</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                <span class="keywordflow">if</span> (originalBytes.Length != 0 &amp;&amp; sha1InOut == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                <span class="comment">// suppressed due to only using for consistency checks</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="preprocessor">#pragma warning disable CA5350 // Do not use insecure cryptographic algorithm SHA1.</span></div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                <span class="keyword">using</span> (var sha1 = <span class="keyword">new</span> SHA1Managed())</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;#pragma warning restore CA5350 <span class="comment">// Do not use insecure cryptographic algorithm SHA1.</span></div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                {</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                    <span class="keywordtype">string</span> GetSha1(<span class="keywordtype">byte</span>[] dataToHash) =&gt; dataToHash != <span class="keyword">null</span> &amp;&amp; dataToHash.Length != 0 ? String.Join(String.Empty, sha1.ComputeHash(dataToHash).Select(b =&gt; b.ToString(<span class="stringliteral">&quot;x2&quot;</span>, CultureInfo.InvariantCulture))) : <span class="keyword">null</span>;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                    var originalSha1 = GetSha1(originalBytes);</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                    <span class="keywordflow">if</span> (originalSha1 != sha1InOut)</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                    {</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                        sha1InOut = originalSha1;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                    }</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                    sha1InOut = GetSha1(data);</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                }</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                cancellationToken.ThrowIfCancellationRequested();</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                <span class="keywordflow">if</span> (data != <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                {</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                    file.Seek(0, SeekOrigin.Begin);</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160; </div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                    cancellationToken.ThrowIfCancellationRequested();</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                    file.SetLength(data.Length);</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                    file.Write(data, 0, data.Length);</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                }</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            }</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160; </div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;            <span class="keywordflow">if</span> (data == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;                File.Delete(path);</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        }</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    }</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;}</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            var directory = Path.GetDirectoryName(path);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            Directory.CreateDirectory(directory);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            cancellationToken.ThrowIfCancellationRequested();</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            <span class="keyword">using</span> (var file = File.Open(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None))</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                cancellationToken.ThrowIfCancellationRequested();</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                <span class="comment">// no sha1? no write</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                <span class="keywordflow">if</span> (file.Length != 0 &amp;&amp; sha1InOut == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                <span class="comment">// suppressed due to only using for consistency checks</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor">#pragma warning disable CA5350 // Do not use insecure cryptographic algorithm SHA1.</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                <span class="keyword">using</span> (var sha1 = <span class="keyword">new</span> SHA1Managed())</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;#pragma warning restore CA5350 <span class="comment">// Do not use insecure cryptographic algorithm SHA1.</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                {</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                    <span class="keywordtype">string</span> GetSha1(<a class="code" href="class_stream.html">Stream</a> dataToHash) =&gt; dataToHash != <span class="keyword">null</span> &amp;&amp; dataToHash.Length != 0 ? String.Join(String.Empty, sha1.ComputeHash(dataToHash).Select(b =&gt; b.ToString(<span class="stringliteral">&quot;x2&quot;</span>, CultureInfo.InvariantCulture))) : <span class="keyword">null</span>;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                    var originalSha1 = GetSha1(file);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                    <span class="keywordflow">if</span> (originalSha1 != sha1InOut)</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                    {</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                        sha1InOut = originalSha1;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                    }</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                    sha1InOut = GetSha1(data);</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                }</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                cancellationToken.ThrowIfCancellationRequested();</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                <span class="keywordflow">if</span> (data.Length != 0)</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                {</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                    file.Seek(0, SeekOrigin.Begin);</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                    data.Seek(0, SeekOrigin.Begin);</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                    cancellationToken.ThrowIfCancellationRequested();</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                    file.SetLength(data.Length);</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                    data.CopyTo(file);</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                }</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            }</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            <span class="keywordflow">if</span> (data.Length == 0)</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                File.Delete(path);</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        }</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    }</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager_html"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html">Tgstation.Server.Host.IO.ISynchronousIOManager</a></div><div class="ttdoc">For accessing the disk in a synchronous manner</div><div class="ttdef"><b>Definition:</b> <a href="_i_synchronous_i_o_manager_8cs_source.html#l00009">ISynchronousIOManager.cs:10</a></div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager_html"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html">Tgstation.Server.Host.IO.ISynchronousIOManager</a></div><div class="ttdoc">For accessing the disk in a synchronous manner</div><div class="ttdef"><b>Definition:</b> <a href="_i_synchronous_i_o_manager_8cs_source.html#l00010">ISynchronousIOManager.cs:11</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager_html_a595b31e7065ee0d3431903fa0ac55156"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html#a595b31e7065ee0d3431903fa0ac55156">Tgstation.Server.Host.IO.SynchronousIOManager.CreateDirectory</a></div><div class="ttdeci">bool CreateDirectory(string path, CancellationToken cancellationToken)</div><div class="ttdoc">Create an empty directory at path</div><div class="ttdef"><b>Definition:</b> <a href="_synchronous_i_o_manager_8cs_source.html#l00015">SynchronousIOManager.cs:15</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager_html_ac1b1a366625c83d9e7cc57acabca1d98"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html#ac1b1a366625c83d9e7cc57acabca1d98">Tgstation.Server.Host.IO.SynchronousIOManager.IsDirectory</a></div><div class="ttdeci">bool IsDirectory(string path)</div><div class="ttdoc">Checks if a given path  is a directory</div><div class="ttdef"><b>Definition:</b> <a href="_synchronous_i_o_manager_8cs_source.html#l00061">SynchronousIOManager.cs:61</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_i_o_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_i_o.html">Tgstation.Server.Host.IO</a></div><div class="ttdef"><b>Definition:</b> <a href="_console_8cs_source.html#l00006">Console.cs:7</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager_html_a238b441b58a9da1b2e2821f203b65deb"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html#a238b441b58a9da1b2e2821f203b65deb">Tgstation.Server.Host.IO.SynchronousIOManager.DeleteDirectory</a></div><div class="ttdeci">bool DeleteDirectory(string path)</div><div class="ttdoc">Deletes a directory at path  if it's empty</div><div class="ttdef"><b>Definition:</b> <a href="_synchronous_i_o_manager_8cs_source.html#l00025">SynchronousIOManager.cs:25</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager_html_a74a681b01f42d65b5bc6e10ad73541c1"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html#a74a681b01f42d65b5bc6e10ad73541c1">Tgstation.Server.Host.IO.SynchronousIOManager.WriteFileChecked</a></div><div class="ttdeci">bool WriteFileChecked(string path, byte[] data, ref string sha1InOut, CancellationToken cancellationToken)</div><div class="ttdoc">Write data  to a file at a given path</div><div class="ttdef"><b>Definition:</b> <a href="_synchronous_i_o_manager_8cs_source.html#l00077">SynchronousIOManager.cs:77</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager_html_a65612d712154495899633c1195579b08"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html#a65612d712154495899633c1195579b08">Tgstation.Server.Host.IO.SynchronousIOManager.GetDirectories</a></div><div class="ttdeci">IEnumerable&lt; string &gt; GetDirectories(string path, CancellationToken cancellationToken)</div><div class="ttdoc">Enumerate directories in a given path</div><div class="ttdef"><b>Definition:</b> <a href="_synchronous_i_o_manager_8cs_source.html#l00041">SynchronousIOManager.cs:41</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager_html_ae7fb6512f77a65454cf2309a1c4eccdf"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html#ae7fb6512f77a65454cf2309a1c4eccdf">Tgstation.Server.Host.IO.SynchronousIOManager.ReadFile</a></div><div class="ttdeci">byte[] ReadFile(string path)</div><div class="ttdoc">Read the bytes of a file at a given path</div><div class="ttdef"><b>Definition:</b> <a href="_synchronous_i_o_manager_8cs_source.html#l00069">SynchronousIOManager.cs:69</a></div></div>
+<div class="ttc" id="aclass_stream_html"><div class="ttname"><a href="class_stream.html">Stream</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager_html_a9a2b8e249e8a8f9786158e30b52471da"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html#a9a2b8e249e8a8f9786158e30b52471da">Tgstation.Server.Host.IO.SynchronousIOManager.GetFiles</a></div><div class="ttdeci">IEnumerable&lt; string &gt; GetFiles(string path, CancellationToken cancellationToken)</div><div class="ttdoc">Enumerate files in a given path</div><div class="ttdef"><b>Definition:</b> <a href="_synchronous_i_o_manager_8cs_source.html#l00051">SynchronousIOManager.cs:51</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager_html_a9c83db9d91d2bc33ea4e03a92d1fb1f6"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html#a9c83db9d91d2bc33ea4e03a92d1fb1f6">Tgstation.Server.Host.IO.SynchronousIOManager.WriteFileChecked</a></div><div class="ttdeci">bool WriteFileChecked(string path, Stream data, ref string sha1InOut, CancellationToken cancellationToken)</div><div class="ttdoc">Write data  to a file at a given path</div><div class="ttdef"><b>Definition:</b> <a href="_synchronous_i_o_manager_8cs_source.html#l00077">SynchronousIOManager.cs:77</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html">Tgstation.Server.Host.IO.SynchronousIOManager</a></div><div class="ttdef"><b>Definition:</b> <a href="_synchronous_i_o_manager_8cs_source.html#l00012">SynchronousIOManager.cs:13</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

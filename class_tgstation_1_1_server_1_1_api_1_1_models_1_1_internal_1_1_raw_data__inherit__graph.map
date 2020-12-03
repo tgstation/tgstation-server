@@ -1,6 +1,0 @@
-<map id="Tgstation.Server.Api.Models.Internal.RawData" name="Tgstation.Server.Api.Models.Internal.RawData">
-<area shape="rect" id="node1" title="Represents raw bytes." alt="" coords="5,71,192,112"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html" title="Represents a BYOND installation. RawData.Content is used to upload custom BYOND version zip files,..." alt="" coords="240,5,427,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html" title="Represents a game configuration file. Create and delete actions uncerimonuously overwrite/delete file..." alt="" coords="240,71,427,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html" title="Represents a server log file." alt="" coords="240,136,427,177"/>
-</map>

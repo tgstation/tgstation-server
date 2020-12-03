@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.IO.IIOManager.GetFileStream" name="Tgstation.Server.Host.IO.IIOManager.GetFileStream">
+<area shape="rect" id="node1" title="Gets the Stream for a given file path ." alt="" coords="339,39,516,80"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ad62e7c4dde34d7c7d1039bcbf03c5b72" title="Reads a given configurationRelativePath" alt="" coords="35,5,261,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#a8f9f2a24c747b003152010fc9275f5a2" title="Gets the the Stream for a given ticket &#160;associated with a pending download." alt="" coords="5,71,291,112"/>
+</map>

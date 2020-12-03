@@ -2,6 +2,7 @@
 <area shape="rect" id="node1" title="429 response for a given rateLimitException ." alt="" coords="572,85,788,126"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a136149ffd1e19c77776bf08ad6f019d8" title="Try to download and apply an update with a given newVersion ." alt="" coords="269,5,524,61"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#afe4c43b884ebd0e9c4b60e39d4e1c162" title="Attempt to authenticate a User using ApiController.ApiHeaders" alt="" coords="289,85,505,126"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a10c3be25fd9ac418bcab6bb9541bbd69" title="Get Administration server information." alt="" coords="289,150,505,191"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a10c3be25fd9ac418bcab6bb9541bbd69" title="Get Administration server information." alt="" coords="289,150,505,191"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#afbf7a02a0808b463ea298c43a03e0e99" title="Attempt to perform a server upgrade." alt="" coords="5,13,221,54"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_swagger_configuration.html#a050adcf275d869f1db4760d553fadb6e" title=" " alt="" coords="22,85,205,126"/>
 </map>

@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.6.0</span>
+   &#160;<span id="projectnumber">4.7.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -186,7 +186,8 @@ $(function() {
 </li>
 <li>Dispose()
 : <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#ad4afd612c75a7240f3aa27b49520a1bf">Tgstation.Server.Client.ApiClient</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_http_client.html#a01a43b38e92d4c35f303db4d24a2d27a">Tgstation.Server.Client.HttpClient</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_cached_response_stream.html#ada97a3a0c54efbbbd80389923254fdf3">Tgstation.Server.Client.CachedResponseStream</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_http_client_implementation.html#a0009116d20de03111acbe06a2b0c39a1">Tgstation.Server.Client.HttpClientImplementation</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_server_client.html#abcacb02b4b6734d065f599659914c2ff">Tgstation.Server.Client.ServerClient</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_executable_lock.html#af8246eaaf2299ebea9af766cad757790">Tgstation.Server.Host.Components.Byond.ByondExecutableLock</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#ad943befa858b57706c8fdeac1c93a7bc">Tgstation.Server.Host.Components.Byond.ByondManager</a>
@@ -216,6 +217,7 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_process.html#a110b26835967f72e89837e6f47f4b1a1">Tgstation.Server.Host.System.Process</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_program_shutdown_token_source.html#a1c17ac001c62907054e00cf6216aba78">Tgstation.Server.Host.System.ProgramShutdownTokenSource</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#ab96927cd0efef08c6926838bc238d45a">Tgstation.Server.Host.System.WindowsNetworkPromptReaper</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#aaabc4c14d1af63be703b4d3283df10be">Tgstation.Server.Host.Transfer.FileUploadProvider</a>
 </li>
 <li>DisposeAndNullControllers()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a875fe1589eb86e57a50a0e793b0d74f5">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>
@@ -226,7 +228,8 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_windows_watchdog.html#a4fbabec855f7dc736b0bd76e6c311be4">Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog</a>
 </li>
 <li>DisposeAsync()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ac0bd122a06d9a590adc983b3aedc7417">Tgstation.Server.Host.Components.Chat.ChatManager</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_cached_response_stream.html#a17aaaa85796a838cf94caebbf76b758e">Tgstation.Server.Client.CachedResponseStream</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ac0bd122a06d9a590adc983b3aedc7417">Tgstation.Server.Host.Components.Chat.ChatManager</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#ab650903107863653f1b637562f4813b4">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a4fafe65b92ddf1b6fae01c5e479dce39">Tgstation.Server.Host.Components.Chat.Providers.IrcProvider</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#afe2edd40c945bc526ccd5dfea7a062b1">Tgstation.Server.Host.Components.Chat.Providers.Provider</a>
@@ -234,6 +237,7 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a72f7ed3869c2397df900e5745be0befc">Tgstation.Server.Host.Components.InstanceManager</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a0a6612e49a14544cad75292fba3798c1">Tgstation.Server.Host.Components.Session.SessionController</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a6f69db8c3ceae298404f5d8d5a7312b3">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#acefb7d435335dcf23c5973288d31be48">Tgstation.Server.Host.Transfer.FileTransferService</a>
 </li>
 <li>DmbFactory()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#acf5589df4ced5b0683e045870001fb18">Tgstation.Server.Host.Components.Deployment.DmbFactory</a>
@@ -311,6 +315,11 @@ $(function() {
 <li>Downgrade()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#ae30cd4eb76ba111b3fcd0e1b3622716d">Tgstation.Server.Host.Database.DatabaseSeeder</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html#a83bee4040049ba8768dcb04ae7f50deb">Tgstation.Server.Host.Database.IDatabaseSeeder</a>
+</li>
+<li>Download()
+: <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#acb95645d8d2af9b5f5a9e9cec1e144c4">Tgstation.Server.Client.ApiClient</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a88f01385c3f74908304ee74df9a5a2e7">Tgstation.Server.Client.IApiClient</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#a99370cde96d1f091c9dba881bdb2de0f">Tgstation.Server.Host.Controllers.TransferController</a>
 </li>
 <li>DownloadFile()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a509e05cc7905cda41869f57bee5c6c58">Tgstation.Server.Host.IO.DefaultIOManager</a>

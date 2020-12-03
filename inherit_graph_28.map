@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_limits.html" title="Sanity limits to prevent users from overloading" alt="" coords="5,5,192,47"/>
+<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html" title="Represents information about a current git revison" alt="" coords="5,39,192,80"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html" title=" " alt="" coords="245,5,431,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html" title=" " alt="" coords="240,71,436,112"/>
 </map>

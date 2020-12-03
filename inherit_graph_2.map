@@ -1,13 +1,14 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_controller.html" title=" " alt="" coords="5,242,83,269"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="A Controller for API functions" alt="" coords="131,169,347,211"/>
-<area shape="rect" id="node16" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_bridge_controller.html" title="Controller for recieving DMAPI requests from DreamDaemon." alt="" coords="131,235,347,276"/>
-<area shape="rect" id="node17" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html" title="Controller for the web control panel." alt="" coords="131,300,347,341"/>
+<area shape="rect" id="node1" href="$class_controller.html" title=" " alt="" coords="5,275,83,302"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="A Controller for API functions" alt="" coords="131,203,347,244"/>
+<area shape="rect" id="node17" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_bridge_controller.html" title="Controller for recieving DMAPI requests from DreamDaemon." alt="" coords="131,268,347,309"/>
+<area shape="rect" id="node18" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html" title="Controller for the web control panel." alt="" coords="131,333,347,375"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html" title="ApiController for Administration purposes" alt="" coords="395,39,611,80"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html" title="Main ApiController for the Application" alt="" coords="395,104,611,145"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html" title="ApiController for managing Components.Instances" alt="" coords="395,169,611,211"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller.html" title="abstract ApiController for operations on an IInstance." alt="" coords="395,235,611,276"/>
-<area shape="rect" id="node15" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html" title="ApiController for managing Users." alt="" coords="395,300,611,341"/>
+<area shape="rect" id="node15" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html" title="ApiController for file streaming." alt="" coords="395,300,611,341"/>
+<area shape="rect" id="node16" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html" title="ApiController for managing Users." alt="" coords="395,365,611,407"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_byond_controller.html" title="Controller for managing Api.Models.Byond.Versions" alt="" coords="659,5,875,47"/>
 <area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html" title="ApiController for managing Api.Models.ChatBots" alt="" coords="659,71,875,112"/>
 <area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html" title="The ApiController for ConfigurationFiles" alt="" coords="659,136,875,177"/>

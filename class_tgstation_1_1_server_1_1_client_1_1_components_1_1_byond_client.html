@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.6.0</span>
+   &#160;<span id="projectnumber">4.7.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -70,7 +70,6 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -114,14 +113,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a58ad28bf73680ade13cd1bf1ebece987"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyList&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html">Byond</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#a58ad28bf73680ade13cd1bf1ebece987">InstalledVersions</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a58ad28bf73680ade13cd1bf1ebece987"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all installed Byond System.Versions  <a href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#a58ad28bf73680ade13cd1bf1ebece987">More...</a><br /></td></tr>
 <tr class="separator:a58ad28bf73680ade13cd1bf1ebece987"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a798c9e8b4b224f3a78791f765d69b304"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html">Byond</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#a798c9e8b4b224f3a78791f765d69b304">SetActiveVersion</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html">Byond</a> byond, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a798c9e8b4b224f3a78791f765d69b304"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the Byond information  <a href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#a798c9e8b4b224f3a78791f765d69b304">More...</a><br /></td></tr>
-<tr class="separator:a798c9e8b4b224f3a78791f765d69b304"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
-Private Member Functions</h2></td></tr>
-<tr class="memitem:a3dde46060da75e3a757784489da4c810"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html">Byond</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#a3dde46060da75e3a757784489da4c810">Byond</a> (Routes.Byond, byond ?? throw new ArgumentNullException(nameof(byond)), instance.Id, cancellationToken)</td></tr>
-<tr class="separator:a3dde46060da75e3a757784489da4c810"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7727bbde0e89343a5787f63c6f2ae9c"><td class="memItemLeft" align="right" valign="top">async Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html">Byond</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#ab7727bbde0e89343a5787f63c6f2ae9c">SetActiveVersion</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html">Byond</a> byond, <a class="el" href="class_stream.html">Stream</a> zipFileStream, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ab7727bbde0e89343a5787f63c6f2ae9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the Byond information  <a href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#ab7727bbde0e89343a5787f63c6f2ae9c">More...</a><br /></td></tr>
+<tr class="separator:ab7727bbde0e89343a5787f63c6f2ae9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -134,7 +128,7 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_byond_client_8cs_source.html#l00011">11</a> of file <a class="el" href="_byond_client_8cs_source.html">ByondClient.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_byond_client_8cs_source.html#l00012">12</a> of file <a class="el" href="_byond_client_8cs_source.html">ByondClient.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a330467d91ed28edace4990dce15c6991"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a330467d91ed28edace4990dce15c6991">&#9670;&nbsp;</a></span>ByondClient()</h2>
@@ -171,13 +165,13 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_byond_client_8cs_source.html#l00028">28</a> of file <a class="el" href="_byond_client_8cs_source.html">ByondClient.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        {</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            this.<a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#a295eaf549628214344fb27e81fba5541">apiClient</a> = <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#a295eaf549628214344fb27e81fba5541">apiClient</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#a295eaf549628214344fb27e81fba5541">apiClient</a>));</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            this.instance = <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#a96b47c77cfbbad1f762003260953c840">instance</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#a96b47c77cfbbad1f762003260953c840">instance</a>));</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="_byond_client_8cs_source.html#l00029">29</a> of file <a class="el" href="_byond_client_8cs_source.html">ByondClient.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        {</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            this.<a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#a295eaf549628214344fb27e81fba5541">apiClient</a> = <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#a295eaf549628214344fb27e81fba5541">apiClient</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#a295eaf549628214344fb27e81fba5541">apiClient</a>));</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            this.instance = <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#a96b47c77cfbbad1f762003260953c840">instance</a> ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(<a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#a96b47c77cfbbad1f762003260953c840">instance</a>));</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_byond_client_8cs_source.html#l00016">Tgstation.Server.Client.Components.ByondClient.apiClient</a>, and <a class="el" href="_byond_client_8cs_source.html#l00021">Tgstation.Server.Client.Components.ByondClient.instance</a>.</p>
+<p class="reference">References <a class="el" href="_byond_client_8cs_source.html#l00017">Tgstation.Server.Client.Components.ByondClient.apiClient</a>, and <a class="el" href="_byond_client_8cs_source.html#l00022">Tgstation.Server.Client.Components.ByondClient.instance</a>.</p>
 
 </div>
 </div>
@@ -204,54 +198,6 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a3dde46060da75e3a757784489da4c810"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3dde46060da75e3a757784489da4c810">&#9670;&nbsp;</a></span>Byond()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Task&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html">Byond</a>&gt; Tgstation.Server.Client.Components.ByondClient.Byond </td>
-          <td>(</td>
-          <td class="paramtype">Routes.&#160;</td>
-          <td class="paramname"><em>Byond</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">byond ?? throw new &#160;</td>
-          <td class="paramname"><em>ArgumentNullException</em>nameof(byond), </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">instance.&#160;</td>
-          <td class="paramname"><em>Id</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">cancellationToken&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a58ad28bf73680ade13cd1bf1ebece987"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a58ad28bf73680ade13cd1bf1ebece987">&#9670;&nbsp;</a></span>InstalledVersions()</h2>
 
@@ -274,17 +220,23 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a798c9e8b4b224f3a78791f765d69b304"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a798c9e8b4b224f3a78791f765d69b304">&#9670;&nbsp;</a></span>SetActiveVersion()</h2>
+<a id="ab7727bbde0e89343a5787f63c6f2ae9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7727bbde0e89343a5787f63c6f2ae9c">&#9670;&nbsp;</a></span>SetActiveVersion()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html">Byond</a>&gt; Tgstation.Server.Client.Components.ByondClient.SetActiveVersion </td>
+          <td class="memname">async Task&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html">Byond</a>&gt; Tgstation.Server.Client.Components.ByondClient.SetActiveVersion </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html">Byond</a>&#160;</td>
           <td class="paramname"><em>byond</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_stream.html">Stream</a>&#160;</td>
+          <td class="paramname"><em>zipFileStream</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -302,7 +254,33 @@ Private Attributes</h2></td></tr>
 
 <p>Updates the Byond information </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_byond_client.html#a76a30723a9370f391d4ca12fb31e5c71">Tgstation.Server.Client.Components.IByondClient</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_byond_client.html#ab34f5cf916b630a10d755820a8085a5b">Tgstation.Server.Client.Components.IByondClient</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_byond_client_8cs_source.html#l00042">42</a> of file <a class="el" href="_byond_client_8cs_source.html">ByondClient.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        {</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            var result = await <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#a295eaf549628214344fb27e81fba5541">apiClient</a>.Update&lt;<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html">Byond</a>, <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html">Byond</a>&gt;(</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a9846874e39579d320e53020346944a60">Byond</a>,</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                byond ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(byond)),</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#a96b47c77cfbbad1f762003260953c840">instance</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#a9546a5e0ce3494cf2c6300b80843c309">Id</a>,</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                cancellationToken)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            <span class="keywordflow">if</span> (byond.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html#a3be538186d2ca2b214b18143bc672a17">UploadCustomZip</a> == <span class="keyword">true</span>)</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                await <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#a295eaf549628214344fb27e81fba5541">apiClient</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#ad162203cab86ad9d14141e8f46656cb0">Upload</a>(result, zipFileStream, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="_byond_client_8cs_source.html#l00017">Tgstation.Server.Client.Components.ByondClient.apiClient</a>, <a class="el" href="_routes_8cs_source.html#l00039">Tgstation.Server.Api.Routes.Byond</a>, <a class="el" href="_entity_id_8cs_source.html#l00011">Tgstation.Server.Api.Models.EntityId.Id</a>, <a class="el" href="_byond_client_8cs_source.html#l00022">Tgstation.Server.Client.Components.ByondClient.instance</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#ad162203cab86ad9d14141e8f46656cb0">Tgstation.Server.Client.IApiClient.Upload()</a>, and <a class="el" href="_byond_8cs_source.html#l00023">Tgstation.Server.Api.Models.Byond.UploadCustomZip</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client_ab7727bbde0e89343a5787f63c6f2ae9c_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client_ab7727bbde0e89343a5787f63c6f2ae9c_cgraph" alt=""/></div>
+<map name="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client_ab7727bbde0e89343a5787f63c6f2ae9c_cgraph" id="aclass_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client_ab7727bbde0e89343a5787f63c6f2ae9c_cgraph">
+<area shape="rect" title="Updates the Byond information" alt="" coords="5,5,232,61"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#ad162203cab86ad9d14141e8f46656cb0" title="Uploads a given uploadStream &#160;for a given ticket ." alt="" coords="280,13,436,54"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -329,9 +307,9 @@ Private Attributes</h2></td></tr>
 
 <p>The <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API">IApiClient</a> for the <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html">ByondClient</a> </p>
 
-<p class="definition">Definition at line <a class="el" href="_byond_client_8cs_source.html#l00016">16</a> of file <a class="el" href="_byond_client_8cs_source.html">ByondClient.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_byond_client_8cs_source.html#l00017">17</a> of file <a class="el" href="_byond_client_8cs_source.html">ByondClient.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_byond_client_8cs_source.html#l00028">Tgstation.Server.Client.Components.ByondClient.ByondClient()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_byond_client_8cs_source.html#l00029">Tgstation.Server.Client.Components.ByondClient.ByondClient()</a>, and <a class="el" href="_byond_client_8cs_source.html#l00042">Tgstation.Server.Client.Components.ByondClient.SetActiveVersion()</a>.</p>
 
 </div>
 </div>
@@ -357,9 +335,9 @@ Private Attributes</h2></td></tr>
 
 <p>The Instance for the <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html">ByondClient</a> </p>
 
-<p class="definition">Definition at line <a class="el" href="_byond_client_8cs_source.html#l00021">21</a> of file <a class="el" href="_byond_client_8cs_source.html">ByondClient.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_byond_client_8cs_source.html#l00022">22</a> of file <a class="el" href="_byond_client_8cs_source.html">ByondClient.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_byond_client_8cs_source.html#l00028">Tgstation.Server.Client.Components.ByondClient.ByondClient()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_byond_client_8cs_source.html#l00029">Tgstation.Server.Client.Components.ByondClient.ByondClient()</a>, and <a class="el" href="_byond_client_8cs_source.html#l00042">Tgstation.Server.Client.Components.ByondClient.SetActiveVersion()</a>.</p>
 
 </div>
 </div>
@@ -367,8 +345,14 @@ Private Attributes</h2></td></tr>
 <li>src/Tgstation.Server.Client/Components/<a class="el" href="_byond_client_8cs_source.html">ByondClient.cs</a></li>
 </ul>
 </div><!-- contents -->
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client_html_a295eaf549628214344fb27e81fba5541"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#a295eaf549628214344fb27e81fba5541">Tgstation.Server.Client.Components.ByondClient.apiClient</a></div><div class="ttdeci">readonly IApiClient apiClient</div><div class="ttdoc">The IApiClient for the ByondClient</div><div class="ttdef"><b>Definition:</b> <a href="_byond_client_8cs_source.html#l00016">ByondClient.cs:16</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client_html_a96b47c77cfbbad1f762003260953c840"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#a96b47c77cfbbad1f762003260953c840">Tgstation.Server.Client.Components.ByondClient.instance</a></div><div class="ttdeci">readonly Instance instance</div><div class="ttdoc">The Instance for the ByondClient</div><div class="ttdef"><b>Definition:</b> <a href="_byond_client_8cs_source.html#l00021">ByondClient.cs:21</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_routes_html_a9846874e39579d320e53020346944a60"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a9846874e39579d320e53020346944a60">Tgstation.Server.Api.Routes.Byond</a></div><div class="ttdeci">const string Byond</div><div class="ttdoc">The Models.Byond controller</div><div class="ttdef"><b>Definition:</b> <a href="_routes_8cs_source.html#l00039">Routes.cs:39</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client_html_a295eaf549628214344fb27e81fba5541"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#a295eaf549628214344fb27e81fba5541">Tgstation.Server.Client.Components.ByondClient.apiClient</a></div><div class="ttdeci">readonly IApiClient apiClient</div><div class="ttdoc">The IApiClient for the ByondClient</div><div class="ttdef"><b>Definition:</b> <a href="_byond_client_8cs_source.html#l00017">ByondClient.cs:17</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id_html_a9546a5e0ce3494cf2c6300b80843c309"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#a9546a5e0ce3494cf2c6300b80843c309">Tgstation.Server.Api.Models.EntityId.Id</a></div><div class="ttdeci">long Id</div><div class="ttdoc">The ID of the entity.</div><div class="ttdef"><b>Definition:</b> <a href="_entity_id_8cs_source.html#l00011">EntityId.cs:11</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client_html_a96b47c77cfbbad1f762003260953c840"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#a96b47c77cfbbad1f762003260953c840">Tgstation.Server.Client.Components.ByondClient.instance</a></div><div class="ttdeci">readonly Instance instance</div><div class="ttdoc">The Instance for the ByondClient</div><div class="ttdef"><b>Definition:</b> <a href="_byond_client_8cs_source.html#l00022">ByondClient.cs:22</a></div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_client_1_1_i_api_client_html_ad162203cab86ad9d14141e8f46656cb0"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#ad162203cab86ad9d14141e8f46656cb0">Tgstation.Server.Client.IApiClient.Upload</a></div><div class="ttdeci">Task Upload(FileTicketResult ticket, Stream? uploadStream, CancellationToken cancellationToken)</div><div class="ttdoc">Uploads a given uploadStream  for a given ticket .</div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_routes_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Tgstation.Server.Api.Routes</a></div><div class="ttdoc">Routes to a server actions</div><div class="ttdef"><b>Definition:</b> <a href="_routes_8cs_source.html#l00009">Routes.cs:10</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html">Tgstation.Server.Api.Models.Byond</a></div><div class="ttdoc">Represents a BYOND installation. FileTicketResult.FileTicket is used to upload custom BYOND version z...</div><div class="ttdef"><b>Definition:</b> <a href="_byond_8cs_source.html#l00008">Byond.cs:9</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond_html_a3be538186d2ca2b214b18143bc672a17"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html#a3be538186d2ca2b214b18143bc672a17">Tgstation.Server.Api.Models.Byond.UploadCustomZip</a></div><div class="ttdeci">bool? UploadCustomZip</div><div class="ttdoc">If a custom BYOND version is to be uploaded.</div><div class="ttdef"><b>Definition:</b> <a href="_byond_8cs_source.html#l00023">Byond.cs:23</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20

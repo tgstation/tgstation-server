@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.6.0</span>
+   &#160;<span id="projectnumber">4.7.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -78,10 +78,11 @@ $(function() {
 </li>
 <li>Read()
 : <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#a90fccaf2e24a3793a1c3892365415d63">Tgstation.Server.Client.AdministrationClient</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#adb77f8fd7a46572e3c1d6bd90e3e300c">Tgstation.Server.Client.Components.ConfigurationClient</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_cached_response_stream.html#a67f1a2f4949727f85ad53e5ea16a9bda">Tgstation.Server.Client.CachedResponseStream</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#af8d4f89b5c637493ca6ec77e2f4e5b45">Tgstation.Server.Client.Components.ConfigurationClient</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_dream_daemon_client.html#afcc1957f652e164e4f2e9e05ca84bc9d">Tgstation.Server.Client.Components.DreamDaemonClient</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_dream_maker_client.html#aa2f286f3f548960f2f9f88f17eb31538">Tgstation.Server.Client.Components.DreamMakerClient</a>
-, <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#a8f860a7b9851f7bcffa232fcf82eb109">Tgstation.Server.Client.Components.IConfigurationClient</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#ace3d07581accf3244c80f0c90b7fc8ae">Tgstation.Server.Client.Components.IConfigurationClient</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_dream_daemon_client.html#a1e6a43558dcadc261304053b63476323">Tgstation.Server.Client.Components.IDreamDaemonClient</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_dream_maker_client.html#ac0b3a15957db0648ca8425469e1983b0">Tgstation.Server.Client.Components.IDreamMakerClient</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_instance_user_client.html#aae3394792a75d2690ff8038cb4e8007f">Tgstation.Server.Client.Components.IInstanceUserClient</a>
@@ -103,7 +104,7 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#ad82f699ed9786892700f4c9526eb06ad">Tgstation.Server.Host.Controllers.UserController</a>
 </li>
 <li>Read&lt; TResult &gt;()
-: <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a1808561c1ec1ddac56ee78648788214c">Tgstation.Server.Client.ApiClient</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a90dffec712d3fea1328dd2b8cb4ce5b7">Tgstation.Server.Client.ApiClient</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#ae8bd028857ed8443176c7ac25edd18bd">Tgstation.Server.Client.IApiClient</a>
 </li>
 <li>ReadAllBytes()
@@ -191,7 +192,7 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ab100112c49c5d17623a5f8d0d0be0b7c">Tgstation.Server.Host.Components.Session.SessionController</a>
 </li>
 <li>Repository()
-: <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_repository_client.html#a1c314570d2e4f3c0a6dfb7e8aa6c68a0">Tgstation.Server.Client.Components.RepositoryClient</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_repository_client.html#aa68b503106bfa0f9558c08cc8d79ec1d">Tgstation.Server.Client.Components.RepositoryClient</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#ad2118970749039c0d44a9eb4698d97e1">Tgstation.Server.Host.Components.Repository.Repository</a>
 </li>
 <li>RepositoryAutoUpdateJob()
@@ -265,6 +266,10 @@ $(function() {
 <li>ResumeThread()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_native_methods.html#a318c159e4464a5d63dd81260b45d95bc">Tgstation.Server.Host.NativeMethods</a>
 </li>
+<li>RetrieveDownloadStream()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#a8f9f2a24c747b003152010fc9275f5a2">Tgstation.Server.Host.Transfer.FileTransferService</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html#a8f0005c5ab62349c700359e7d6ee3fa8">Tgstation.Server.Host.Transfer.IFileTransferStreamHandler</a>
+</li>
 <li>RevisionCommand()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_revision_command.html#a69b5a156fd8b4e7c8f9396d967d435e2">Tgstation.Server.Host.Components.Chat.Commands.RevisionCommand</a>
 </li>
@@ -301,7 +306,7 @@ $(function() {
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#ab886226b72e336cfe28a37233ed807dc">Tgstation.Server.Host.Jobs.JobManager</a>
 </li>
 <li>RunRequest&lt; TResult &gt;()
-: <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a53176ca924a3696c940cef412df72f04">Tgstation.Server.Client.ApiClient</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a4751776977d67560eae638d9db6e015a">Tgstation.Server.Client.ApiClient</a>
 </li>
 <li>RuntimeInformation()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_runtime_information.html#a62f468bd96fb1967080510a0c0aafe1a">Tgstation.Server.Host.Components.Interop.Bridge.RuntimeInformation</a>

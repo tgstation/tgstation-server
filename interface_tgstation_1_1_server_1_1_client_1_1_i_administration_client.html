@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.6.0</span>
+   &#160;<span id="projectnumber">4.7.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -102,23 +102,23 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a87d1decb897faad52ff2fee928672473"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyList&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">LogFile</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#a87d1decb897faad52ff2fee928672473">ListLogs</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a87d1decb897faad52ff2fee928672473"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lists the log files available for download.  <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#a87d1decb897faad52ff2fee928672473">More...</a><br /></td></tr>
 <tr class="separator:a87d1decb897faad52ff2fee928672473"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99c93db202361b69893b54d95aef275d"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">LogFile</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#a99c93db202361b69893b54d95aef275d">GetLog</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">LogFile</a> logFile, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a99c93db202361b69893b54d95aef275d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Download a given <em>logFile</em> .  <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#a99c93db202361b69893b54d95aef275d">More...</a><br /></td></tr>
-<tr class="separator:a99c93db202361b69893b54d95aef275d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbfd33badcafff4599b2a2d6bf20fddf"><td class="memItemLeft" align="right" valign="top">Task&lt; Tuple&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">LogFile</a>, <a class="el" href="class_stream.html">Stream</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#abbfd33badcafff4599b2a2d6bf20fddf">GetLog</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">LogFile</a> logFile, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:abbfd33badcafff4599b2a2d6bf20fddf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Download a given <em>logFile</em> .  <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#abbfd33badcafff4599b2a2d6bf20fddf">More...</a><br /></td></tr>
+<tr class="separator:abbfd33badcafff4599b2a2d6bf20fddf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>For managing server administration </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_administration_client_8cs_source.html#l00011">11</a> of file <a class="el" href="_i_administration_client_8cs_source.html">IAdministrationClient.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_administration_client_8cs_source.html#l00013">13</a> of file <a class="el" href="_i_administration_client_8cs_source.html">IAdministrationClient.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a99c93db202361b69893b54d95aef275d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a99c93db202361b69893b54d95aef275d">&#9670;&nbsp;</a></span>GetLog()</h2>
+<a id="abbfd33badcafff4599b2a2d6bf20fddf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abbfd33badcafff4599b2a2d6bf20fddf">&#9670;&nbsp;</a></span>GetLog()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">LogFile</a>&gt; Tgstation.Server.Client.IAdministrationClient.GetLog </td>
+          <td class="memname">Task&lt;Tuple&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">LogFile</a>, <a class="el" href="class_stream.html">Stream</a>&gt; &gt; Tgstation.Server.Client.IAdministrationClient.GetLog </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">LogFile</a>&#160;</td>
           <td class="paramname"><em>logFile</em>, </td>
@@ -145,9 +145,9 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the downloaded LogFile.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting a Tuple&lt;T1, T2&gt; containing the downloaded LogFile and associated <a class="el" href="class_stream.html">Stream</a>.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#a4729c542c5e10fc5b7aa0ff8335a455e">Tgstation.Server.Client.AdministrationClient</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#a5f669a5b89d74d419e3648cd13333d1e">Tgstation.Server.Client.AdministrationClient</a>.</p>
 
 </div>
 </div>

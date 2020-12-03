@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.6.0</span>
+   &#160;<span id="projectnumber">4.7.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -88,7 +88,7 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents administrative server information  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_administration.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html">Byond</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a BYOND installation. RawData.Content is used to upload custom BYOND version zip files, though <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html#a5e83da474fffc2a2919cda933e09ce85" title="The System.Version of the Byond installation used for new compiles. Will be null if the user does not...">Version</a> must still be set.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a BYOND installation. <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_file_ticket_result.html#a109c34a2e387f7474f6b031145cb5378" title="The ticket to use to access the Routes.Transfer controller.">FileTicketResult.FileTicket</a> is used to upload custom BYOND version zip files, though <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html#a5e83da474fffc2a2919cda933e09ce85" title="The System.Version of the Byond installation used for new compiles. Will be null if the user does not...">Version</a> must still be set.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_bot.html">ChatBot</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -117,6 +117,9 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_error_message.html">ErrorMessage</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents an error message returned by the server  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_error_message.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_file_ticket_result.html">FileTicketResult</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Response for when file transfers are necessary.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_file_ticket_result.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Instance</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Metadata about a server instance  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html#details">More...</a><br /></td></tr>
@@ -307,7 +310,8 @@ Enumerations</h2></td></tr>
 <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8add38e6da07b457322c287231a4b8f772">ErrorCode.PortNotAvailable</a>, 
 <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a5261e5851ba039b68ee0f66c9cd5ee83">ErrorCode.AdminUserCannotOAuth</a>, 
 <br />
-&#160;&#160;<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8ae390eb31f661edf88bb3deed466098a1">ErrorCode.OAuthProviderDisabled</a>
+&#160;&#160;<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8ae390eb31f661edf88bb3deed466098a1">ErrorCode.OAuthProviderDisabled</a>, 
+<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a9be896e4189c3bed74bfd767114623ab">ErrorCode.FileUploadExpired</a>
 <br />
  }</td></tr>
 <tr class="memdesc:a1a6adb59dd51244efabf4e548e7075c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Types of ErrorMessages that the API may return.  <a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">More...</a><br /></td></tr>
@@ -568,7 +572,7 @@ Enumerations</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8aab217c3aea820156b624733a34ab3c48"></a>RequiresPosixSystemIdentity&#160;</td><td class="fielddoc"><p>The operation requires the unimplemented POSIX system identities feature. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8a5c0d6072f109fa92c30019b66bbceeaf"></a>ConfigurationFileUpdated&#160;</td><td class="fielddoc"><p>A <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html" title="Represents a game configuration file. Create and delete actions uncerimonuously overwrite/delete file...">ConfigurationFile</a> was attem updated </p>
+<tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8a5c0d6072f109fa92c30019b66bbceeaf"></a>ConfigurationFileUpdated&#160;</td><td class="fielddoc"><p>A <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html" title="Represents a game configuration file. Create and delete actions uncerimonuously overwrite/delete file...">ConfigurationFile</a> was updated. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8ab6aac8a71757f5fdf164188595806e72"></a>ConfigurationDirectoryNotEmpty&#160;</td><td class="fielddoc"><p>Attempted to delete an non-empty directory. </p>
 </td></tr>
@@ -709,6 +713,8 @@ Enumerations</h2></td></tr>
 <tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8a5261e5851ba039b68ee0f66c9cd5ee83"></a>AdminUserCannotOAuth&#160;</td><td class="fielddoc"><p>Attempted to set <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user.html#a90e7d8981a565a9d5950488cd8caa7c9" title="List of OAuthConnections associated with the User.">User.OAuthConnections</a> for the admin user. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8ae390eb31f661edf88bb3deed466098a1"></a>OAuthProviderDisabled&#160;</td><td class="fielddoc"><p>Attempted to login with a disabled OAuth provider. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8a9be896e4189c3bed74bfd767114623ab"></a>FileUploadExpired&#160;</td><td class="fielddoc"><p>A <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html" title="Represents a long running job on the server. Model is read-only, updates attempt to cancel the job">Job</a> requiring a file upload did not receive it before timing out. </p>
 </td></tr>
 </table>
 
@@ -1007,8 +1013,11 @@ Enumerations</h2></td></tr>
 <div class="line"><a name="l00590"></a><span class="lineno">  590</span>&#160;        AdminUserCannotOAuth,</div>
 <div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160; </div>
 <div class="line"><a name="l00595"></a><span class="lineno">  595</span>&#160;        [Description(<span class="stringliteral">&quot;The requested OAuth provider is disabled via configuration!&quot;</span>)]</div>
-<div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8aecbf01325f1c744e9d7bb586ac2eb5ed">OAuthProviderDisabled</a>,</div>
-<div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160;    }</div>
+<div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;        OAuthProviderDisabled,</div>
+<div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160; </div>
+<div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160;        [Description(<span class="stringliteral">&quot;The job did not receive a required upload before timing out!&quot;</span>)]</div>
+<div class="line"><a name="l00602"></a><span class="lineno">  602</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8aecbf01325f1c744e9d7bb586ac2eb5ed">FileUploadExpired</a>,</div>
+<div class="line"><a name="l00603"></a><span class="lineno">  603</span>&#160;    }</div>
 </div><!-- fragment -->
 </div>
 </div>

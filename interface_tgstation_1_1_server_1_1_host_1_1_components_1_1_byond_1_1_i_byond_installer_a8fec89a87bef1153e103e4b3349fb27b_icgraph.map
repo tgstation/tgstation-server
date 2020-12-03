@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Byond.IByondInstaller.InstallByond" name="Tgstation.Server.Host.Components.Byond.IByondInstaller.InstallByond">
 <area shape="rect" id="node1" title="Does actions necessary to get an extracted BYOND installation working" alt="" coords="569,5,796,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a4bddb77bd7ead9f87e24380a35b4e7e0" title="Installs a BYOND version &#160;if it isn&#39;t already" alt="" coords="292,5,521,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a431f006cfe5e1d2ab2efb346d6556705" title="Change the active BYOND version" alt="" coords="5,5,244,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#aa7d8993e0cc81b24d36804902f27461c" title="Installs a BYOND version &#160;if it isn&#39;t already" alt="" coords="292,5,521,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_manager.html#a028fd720f53dc4227179818d23df4470" title="Change the active BYOND version" alt="" coords="5,5,244,47"/>
 </map>

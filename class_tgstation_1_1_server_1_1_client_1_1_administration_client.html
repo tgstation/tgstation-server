@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.6.0</span>
+   &#160;<span id="projectnumber">4.7.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -117,9 +117,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aae9ea74b1fd163a771a6a563fb02ccaa"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyList&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">LogFile</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#aae9ea74b1fd163a771a6a563fb02ccaa">ListLogs</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:aae9ea74b1fd163a771a6a563fb02ccaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lists the log files available for download.  <a href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#aae9ea74b1fd163a771a6a563fb02ccaa">More...</a><br /></td></tr>
 <tr class="separator:aae9ea74b1fd163a771a6a563fb02ccaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4729c542c5e10fc5b7aa0ff8335a455e"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">LogFile</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#a4729c542c5e10fc5b7aa0ff8335a455e">GetLog</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">LogFile</a> logFile, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a4729c542c5e10fc5b7aa0ff8335a455e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Download a given <em>logFile</em> .  <a href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#a4729c542c5e10fc5b7aa0ff8335a455e">More...</a><br /></td></tr>
-<tr class="separator:a4729c542c5e10fc5b7aa0ff8335a455e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f669a5b89d74d419e3648cd13333d1e"><td class="memItemLeft" align="right" valign="top">async Task&lt; Tuple&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">LogFile</a>, <a class="el" href="class_stream.html">Stream</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#a5f669a5b89d74d419e3648cd13333d1e">GetLog</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">LogFile</a> logFile, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a5f669a5b89d74d419e3648cd13333d1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Download a given <em>logFile</em> .  <a href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#a5f669a5b89d74d419e3648cd13333d1e">More...</a><br /></td></tr>
+<tr class="separator:a5f669a5b89d74d419e3648cd13333d1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -129,7 +129,7 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_administration_client_8cs_source.html#l00012">12</a> of file <a class="el" href="_administration_client_8cs_source.html">AdministrationClient.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_administration_client_8cs_source.html#l00013">13</a> of file <a class="el" href="_administration_client_8cs_source.html">AdministrationClient.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aa5d48433766cd2f29ee60007767f5387"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa5d48433766cd2f29ee60007767f5387">&#9670;&nbsp;</a></span>AdministrationClient()</h2>
@@ -155,24 +155,24 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_administration_client_8cs_source.html#l00023">23</a> of file <a class="el" href="_administration_client_8cs_source.html">AdministrationClient.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        {</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            this.<a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#aa8fcfafea45fc308cd03fc312b49bbc9">apiClient</a> = <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#aa8fcfafea45fc308cd03fc312b49bbc9">apiClient</a>;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="_administration_client_8cs_source.html#l00024">24</a> of file <a class="el" href="_administration_client_8cs_source.html">AdministrationClient.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        {</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            this.<a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#aa8fcfafea45fc308cd03fc312b49bbc9">apiClient</a> = <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#aa8fcfafea45fc308cd03fc312b49bbc9">apiClient</a>;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_administration_client_8cs_source.html#l00017">Tgstation.Server.Client.AdministrationClient.apiClient</a>.</p>
+<p class="reference">References <a class="el" href="_administration_client_8cs_source.html#l00018">Tgstation.Server.Client.AdministrationClient.apiClient</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a4729c542c5e10fc5b7aa0ff8335a455e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4729c542c5e10fc5b7aa0ff8335a455e">&#9670;&nbsp;</a></span>GetLog()</h2>
+<a id="a5f669a5b89d74d419e3648cd13333d1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f669a5b89d74d419e3648cd13333d1e">&#9670;&nbsp;</a></span>GetLog()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">LogFile</a>&gt; Tgstation.Server.Client.AdministrationClient.GetLog </td>
+          <td class="memname">async Task&lt;Tuple&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">LogFile</a>, <a class="el" href="class_stream.html">Stream</a>&gt; &gt; Tgstation.Server.Client.AdministrationClient.GetLog </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">LogFile</a>&#160;</td>
           <td class="paramname"><em>logFile</em>, </td>
@@ -193,7 +193,40 @@ Private Attributes</h2></td></tr>
 
 <p>Download a given <em>logFile</em> . </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#a99c93db202361b69893b54d95aef275d">Tgstation.Server.Client.IAdministrationClient</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#abbfd33badcafff4599b2a2d6bf20fddf">Tgstation.Server.Client.IAdministrationClient</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="_administration_client_8cs_source.html#l00042">42</a> of file <a class="el" href="_administration_client_8cs_source.html">AdministrationClient.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        {</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            var resultFile = await <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#aa8fcfafea45fc308cd03fc312b49bbc9">apiClient</a>.Read&lt;<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">LogFile</a>&gt;(</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#aeb032cc314264cd0214895fe0c6b7670">Logs</a> + <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Routes</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a427423a8a36ba74df914acb74ffb0483">SanitizeGetPath</a>(</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                    HttpUtility.UrlEncode(</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                        logFile?.Name ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(logFile)))),</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                cancellationToken)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            var stream = await <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#aa8fcfafea45fc308cd03fc312b49bbc9">apiClient</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a88f01385c3f74908304ee74df9a5a2e7">Download</a>(resultFile, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            {</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                <span class="keywordflow">return</span> Tuple.Create(resultFile, stream);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            }</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="keywordflow">catch</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                stream.Dispose();</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            }</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="_administration_client_8cs_source.html#l00018">Tgstation.Server.Client.AdministrationClient.apiClient</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a88f01385c3f74908304ee74df9a5a2e7">Tgstation.Server.Client.IApiClient.Download()</a>, <a class="el" href="_routes_8cs_source.html#l00024">Tgstation.Server.Api.Routes.Logs</a>, <a class="el" href="_log_file_8cs_source.html#l00013">Tgstation.Server.Api.Models.LogFile.Name</a>, and <a class="el" href="_routes_8cs_source.html#l00121">Tgstation.Server.Api.Routes.SanitizeGetPath()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tgstation_1_1_server_1_1_client_1_1_administration_client_a5f669a5b89d74d419e3648cd13333d1e_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_client_1_1_administration_client_a5f669a5b89d74d419e3648cd13333d1e_cgraph" alt=""/></div>
+<map name="class_tgstation_1_1_server_1_1_client_1_1_administration_client_a5f669a5b89d74d419e3648cd13333d1e_cgraph" id="aclass_tgstation_1_1_server_1_1_client_1_1_administration_client_a5f669a5b89d74d419e3648cd13333d1e_cgraph">
+<area shape="rect" title="Download a given logFile ." alt="" coords="5,39,189,80"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a88f01385c3f74908304ee74df9a5a2e7" title="Downloads a file Stream for a given ticket ." alt="" coords="253,5,409,47"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a427423a8a36ba74df914acb74ffb0483" title="Sanitize a Models.FileTicketResult path for use in a GET Uri." alt="" coords="237,71,424,112"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -318,9 +351,9 @@ Private Attributes</h2></td></tr>
 
 <p>The <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#aa8fcfafea45fc308cd03fc312b49bbc9" title="The apiClient for the AdministrationClient">apiClient</a> for the <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html">AdministrationClient</a> </p>
 
-<p class="definition">Definition at line <a class="el" href="_administration_client_8cs_source.html#l00017">17</a> of file <a class="el" href="_administration_client_8cs_source.html">AdministrationClient.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_administration_client_8cs_source.html#l00018">18</a> of file <a class="el" href="_administration_client_8cs_source.html">AdministrationClient.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_administration_client_8cs_source.html#l00023">Tgstation.Server.Client.AdministrationClient.AdministrationClient()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_administration_client_8cs_source.html#l00024">Tgstation.Server.Client.AdministrationClient.AdministrationClient()</a>, and <a class="el" href="_administration_client_8cs_source.html#l00042">Tgstation.Server.Client.AdministrationClient.GetLog()</a>.</p>
 
 </div>
 </div>
@@ -328,7 +361,12 @@ Private Attributes</h2></td></tr>
 <li>src/Tgstation.Server.Client/<a class="el" href="_administration_client_8cs_source.html">AdministrationClient.cs</a></li>
 </ul>
 </div><!-- contents -->
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_client_1_1_administration_client_html_aa8fcfafea45fc308cd03fc312b49bbc9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#aa8fcfafea45fc308cd03fc312b49bbc9">Tgstation.Server.Client.AdministrationClient.apiClient</a></div><div class="ttdeci">readonly IApiClient apiClient</div><div class="ttdoc">The apiClient for the AdministrationClient</div><div class="ttdef"><b>Definition:</b> <a href="_administration_client_8cs_source.html#l00017">AdministrationClient.cs:17</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_routes_html_a427423a8a36ba74df914acb74ffb0483"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a427423a8a36ba74df914acb74ffb0483">Tgstation.Server.Api.Routes.SanitizeGetPath</a></div><div class="ttdeci">static string SanitizeGetPath(string path)</div><div class="ttdoc">Sanitize a Models.FileTicketResult path for use in a GET Uri.</div><div class="ttdef"><b>Definition:</b> <a href="_routes_8cs_source.html#l00121">Routes.cs:121</a></div></div>
+<div class="ttc" id="ainterface_tgstation_1_1_server_1_1_client_1_1_i_api_client_html_a88f01385c3f74908304ee74df9a5a2e7"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a88f01385c3f74908304ee74df9a5a2e7">Tgstation.Server.Client.IApiClient.Download</a></div><div class="ttdeci">Task&lt; Stream &gt; Download(FileTicketResult ticket, CancellationToken cancellationToken)</div><div class="ttdoc">Downloads a file Stream for a given ticket .</div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_routes_html_aeb032cc314264cd0214895fe0c6b7670"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#aeb032cc314264cd0214895fe0c6b7670">Tgstation.Server.Api.Routes.Logs</a></div><div class="ttdeci">const string Logs</div><div class="ttdoc">The Models.Administration controller</div><div class="ttdef"><b>Definition:</b> <a href="_routes_8cs_source.html#l00024">Routes.cs:24</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">Tgstation.Server.Api.Models.LogFile</a></div><div class="ttdoc">Represents a server log file.</div><div class="ttdef"><b>Definition:</b> <a href="_log_file_8cs_source.html#l00008">LogFile.cs:9</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_client_1_1_administration_client_html_aa8fcfafea45fc308cd03fc312b49bbc9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#aa8fcfafea45fc308cd03fc312b49bbc9">Tgstation.Server.Client.AdministrationClient.apiClient</a></div><div class="ttdeci">readonly IApiClient apiClient</div><div class="ttdoc">The apiClient for the AdministrationClient</div><div class="ttdef"><b>Definition:</b> <a href="_administration_client_8cs_source.html#l00018">AdministrationClient.cs:18</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_routes_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_routes.html">Tgstation.Server.Api.Routes</a></div><div class="ttdoc">Routes to a server actions</div><div class="ttdef"><b>Definition:</b> <a href="_routes_8cs_source.html#l00009">Routes.cs:10</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20

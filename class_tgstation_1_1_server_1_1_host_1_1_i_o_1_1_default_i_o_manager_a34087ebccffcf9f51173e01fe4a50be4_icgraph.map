@@ -11,6 +11,6 @@
 <area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a2ecf7ea4ad7cadd294a1a4882e56a812" title="Moves a file at source &#160;to destination" alt="" coords="586,548,769,590"/>
 <area shape="rect" id="node12" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a8b156fb1670e0f2f74bccdf040d2661c" title="Returns all the contents of a file at path &#160;as a byte array" alt="" coords="573,614,781,655"/>
 <area shape="rect" id="node13" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#adfa411bbedf8ffc430cb9fcf0a6e6fe4" title="Writes some contents &#160;to a file at path &#160;overwriting previous content" alt="" coords="573,679,781,720"/>
-<area shape="rect" id="node14" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a8905a0a82326cf61f67ba1ec1eccb0e2" title="Extract a set of zipFileBytes &#160;to a given path" alt="" coords="570,744,785,786"/>
+<area shape="rect" id="node14" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a62a703e04375abfc93020af28fd6b0ef" title="Extract a set of zipFile &#160;to a given path" alt="" coords="570,744,785,786"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a32ca1367eadecb45e671aa509f3ce058" title="Copies a directory from src &#160;to dest" alt="" coords="264,91,499,132"/>
 </map>

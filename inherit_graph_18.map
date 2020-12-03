@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_error_message.html" title="Represents an error message returned by the server" alt="" coords="5,5,192,47"/>
+<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_dream_maker.html" title="Represents the state of the DreamMaker compiler. Create action starts a new compile...." alt="" coords="5,5,192,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dream_maker_settings.html" title=" " alt="" coords="240,5,436,47"/>
 </map>

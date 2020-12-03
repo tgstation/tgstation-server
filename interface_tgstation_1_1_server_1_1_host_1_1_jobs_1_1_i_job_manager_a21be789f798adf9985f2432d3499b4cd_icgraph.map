@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Jobs.IJobManager.RegisterOperation" name="Tgstation.Server.Host.Jobs.IJobManager.RegisterOperation">
-<area shape="rect" id="node1" title="Registers a given Job and begins running it" alt="" coords="888,332,1092,373"/>
+<area shape="rect" id="node1" title="Registers a given Job and begins running it" alt="" coords="888,300,1092,341"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a30a5b00625419334b1d51ae4a51aebda" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="597,5,813,47"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a5fe34841f9b648b042096e51dba7be4e" title="Launches the watchdog." alt="" coords="597,71,813,112"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html#a7231f4980bd98c9a033e805c90e92c95" title="Begin deploying repository code." alt="" coords="597,136,813,177"/>
@@ -9,8 +9,7 @@
 <area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#adfae63e2f33e2293f43abff9cd65c246" title="Creates a Api.Models.Job to restart the Watchdog. It will not start if it wasn&#39;t already running." alt="" coords="597,397,813,439"/>
 <area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ae30d4b582b04eb7c3ef3c5d848429bbd" title=" " alt="" coords="586,463,825,504"/>
 <area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#afb736b47a7400fb861186b8dad1c4c4c" title="Pull the repository and compile for every set of given minutes" alt="" coords="592,528,819,569"/>
-<area shape="rect" id="node15" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_byond_controller.html#ad84ccddae9c935bc645b048f8ea46d7f" title="Changes the active BYOND version to the one specified in a given model ." alt="" coords="597,593,813,635"/>
-<area shape="rect" id="node16" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a20510f6dd61837e191a7a2c1a5c1c9ce" title="Perform updats to the Repository." alt="" coords="597,659,813,700"/>
+<area shape="rect" id="node15" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a20510f6dd61837e191a7a2c1a5c1c9ce" title="Perform updats to the Repository." alt="" coords="597,593,813,635"/>
 <area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac4642b423570a979ed7d0ae2b3b73ea3" title="Set the interval at which the provider starts jobs to try to reconnect." alt="" coords="280,325,523,381"/>
 <area shape="rect" id="node12" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a9c7e2863cce30a01be66c0ce1dd07d9c" title="Change the Api.Models.Instance.AutoUpdateInterval for the IInstanceCore" alt="" coords="288,528,515,569"/>
 <area shape="rect" id="node13" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2" title=" " alt="" coords="5,495,232,536"/>

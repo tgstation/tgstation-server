@@ -1,7 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_i_design_time_db_context_factory.html" title=" " alt="" coords="5,121,204,147"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_my_sql_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating MySqlDatabaseContexts." alt="" coords="252,5,525,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_postgres_sql_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating PostgresSqlDatabaseContexts." alt="" coords="256,70,521,126"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_sqlite_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating SqliteDatabaseContexts." alt="" coords="253,149,524,191"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_design_1_1_sql_server_design_time_db_context_factory.html" title="IDesignTimeDbContextFactory&lt;TContext&gt; for creating SqlServerDatabaseContexts." alt="" coords="263,214,514,270"/>
+<area shape="rect" id="node1" href="$class_file_result.html" title=" " alt="" coords="5,13,85,39"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_limited_file_stream_result.html" title="Very similar to FileStreamResult except it&#39;s IActionResultExecutor&lt;TResult&gt; contains a fix for https:..." alt="" coords="133,5,349,47"/>
 </map>

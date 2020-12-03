@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Client.Components.ConfigurationClient.Write" name="Tgstation.Server.Client.Components.ConfigurationClient.Write">
+<area shape="rect" id="node1" title="Overwrite a ConfigurationFile file" alt="" coords="5,49,244,90"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a60002e47d604a7189fea03b3a4720787" title=" " alt="" coords="292,5,501,61"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#ad162203cab86ad9d14141e8f46656cb0" title="Uploads a given uploadStream &#160;for a given ticket ." alt="" coords="319,85,475,126"/>
+</map>

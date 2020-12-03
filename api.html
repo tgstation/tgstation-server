@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.6.0</span>
+   &#160;<span id="projectnumber">4.7.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -83,6 +83,7 @@ $(function() {
 </ul>
 </li>
 <li class="level1"><a href="#api_perms">Permissions</a></li>
+<li class="level1"><a href="#api_transfer">File Transfers</a></li>
 <li class="level1"><a href="#api_user">User Management</a><ul><li class="level2"><a href="#api_iuser">Instance User Management</a></li>
 </ul>
 </li>
@@ -228,6 +229,14 @@ Permissions</h1>
 <p>Permissions are represented a a 32 bit integer in the form of bitflags. The two endpoints for retrieving these permission are:</p>
 <p>GET "/Users" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user.html">Tgstation.Server.Api.Models.User</a> I GET "/InstanceUser" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_user.html">Tgstation.Server.Api.Models.InstanceUser</a></p>
 <p>See individual documentation of each permission enum for their usage</p>
+<h1><a class="anchor" id="api_transfer"></a>
+File Transfers</h1>
+<p>Certain responses inherit from <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_file_ticket_result.html">Tgstation.Server.Api.Models.FileTicketResult</a>. These are special in that, having that model's <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_file_ticket_result.html#a109c34a2e387f7474f6b031145cb5378">Tgstation.Server.Api.Models.FileTicketResult.FileTicket</a> field populated indicates there is a pending file download or upload to take place. These are handled in the "/Transfer" endpoint.</p>
+<p>To perform a file download make the following request:</p>
+<p>GET "/Transfer?ticket=&lt;@ref Tgstation.Server.Api.Models.FileTicketResult.FileTicket&gt;" =&gt; application/octet-stream</p>
+<p>To perform a file upload make the following request:</p>
+<p>PUT "/Transfer?ticket=&lt;@ref Tgstation.Server.Api.Models.FileTicketResult.FileTicket&gt;" application/octet-stream =&gt; OK</p>
+<p>File tickets are only valid for a short time after the initial request is made and should be dealt with immediately. Ensure that the file tickets are properly URL encoded.</p>
 <h1><a class="anchor" id="api_user"></a>
 User Management</h1>
 <p>TGS start with one user: "Admin". The password is "ISolemlySwearToDeleteTheDataDirectory"</p>
@@ -299,7 +308,7 @@ Byond Version Management</h2>
 <p>I GET "/Byond" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html">Tgstation.Server.Api.Models.Byond</a></p>
 <p>To set the active Byond version:</p>
 <p>I POST "/Byond" <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html">Tgstation.Server.Api.Models.Byond</a> =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html">Tgstation.Server.Api.Models.Byond</a></p>
-<p>This will queue up a job to install the byond version if it doesn't exist which will be returned in the response. The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_raw_data.html#a5f8416b44a3708f47e438ea192b9b7ed">Tgstation.Server.Api.Models.Internal.RawData.Content</a> field can be used to upload custom zip files.</p>
+<p>This will queue up a job to install the byond version if it doesn't exist which will be returned in the response. The Tgstation.Server.Api.Models.Internal.RawData.Content field can be used to upload custom zip files.</p>
 <p>To list all installed Byond versions use the following request:</p>
 <p>I GET "/Byond/List" =&gt; Array of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html">Tgstation.Server.Api.Models.Byond</a></p>
 <h2><a class="anchor" id="Git"></a>
@@ -377,18 +386,18 @@ Static Files</h2>
 <p>To get the contents of a static file directory use the following method</p>
 <p>I GET "/Config/List/&lt;path to directory&gt;" =&gt; Array of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html">Tgstation.Server.Api.Models.ConfigurationFile</a></p>
 <p>Where the path is formatted as: directory/inner_directory/more_directories</p>
-<p>If the path is empty, the root directory will be retrieved. The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_raw_data.html#a5f8416b44a3708f47e438ea192b9b7ed">Tgstation.Server.Api.Models.ConfigurationFile.Content</a> and <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html#a70d7168ec1797a25a56e2d104783afc2">Tgstation.Server.Api.Models.ConfigurationFile.LastReadHash</a> fields will not be populated for this response</p>
+<p>If the path is empty, the root directory will be retrieved. The Tgstation.Server.Api.Models.ConfigurationFile.Content and <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html#a70d7168ec1797a25a56e2d104783afc2">Tgstation.Server.Api.Models.ConfigurationFile.LastReadHash</a> fields will not be populated for this response</p>
 <p>If you do not have access to list the requested directory, a 403 response will be returned. If the path actually represents a file or the directory no longer exists a 410 response will be returned.</p>
 <p>To create an empty config directory use the following request</p>
 <p>I PUT "/Config" <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html">Tgstation.Server.Api.Models.ConfigurationFile</a> =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html">Tgstation.Server.Api.Models.ConfigurationFile</a></p>
 <p>To get the content of a static file use the following method</p>
 <p>I GET "/Config/File/&lt;path to file&gt;" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html">Tgstation.Server.Api.Models.ConfigurationFile</a></p>
-<p>410 will be returned if the path doesn't exist. <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_raw_data.html#a5f8416b44a3708f47e438ea192b9b7ed">Tgstation.Server.Api.Models.ConfigurationFile.Content</a> will only be populated if the path is a file the user has access to, otherwise the other fields will be populated appropriately.</p>
+<p>410 will be returned if the path doesn't exist. Tgstation.Server.Api.Models.ConfigurationFile.Content will only be populated if the path is a file the user has access to, otherwise the other fields will be populated appropriately.</p>
 <p>To create, write, and delete files use the following request</p>
 <p>I POST "/Config" <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html">Tgstation.Server.Api.Models.ConfigurationFile</a> =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html">Tgstation.Server.Api.Models.ConfigurationFile</a></p>
-<p>When creating a file, only <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html#a19126e46ab252c271f06077ab214385c">Tgstation.Server.Api.Models.ConfigurationFile.Path</a> and <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_raw_data.html#a5f8416b44a3708f47e438ea192b9b7ed">Tgstation.Server.Api.Models.ConfigurationFile.Content</a> should be specified</p>
+<p>When creating a file, only <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html#a19126e46ab252c271f06077ab214385c">Tgstation.Server.Api.Models.ConfigurationFile.Path</a> and Tgstation.Server.Api.Models.ConfigurationFile.Content should be specified</p>
 <p>If the file already exists, the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html#a70d7168ec1797a25a56e2d104783afc2">Tgstation.Server.Api.Models.ConfigurationFile.LastReadHash</a> field must also be present with the last version recieved from the server for that file. If this does not match at the time of the request, 409 will be returned, indicating the file has changed since it was last viewed by the client.</p>
-<p>To delete a file set <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_raw_data.html#a5f8416b44a3708f47e438ea192b9b7ed">Tgstation.Server.Api.Models.ConfigurationFile.Content</a> to null in the request.</p>
+<p>To delete a file set Tgstation.Server.Api.Models.ConfigurationFile.Content to null in the request.</p>
 <p>To delete an empty directory use the following request</p>
 <p>I DELETE "/Config" <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html">Tgstation.Server.Api.Models.ConfigurationFile</a> =&gt; OK</p>
 <p>Where the request <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html#a19126e46ab252c271f06077ab214385c">Tgstation.Server.Api.Models.ConfigurationFile.Path</a> is set to the directory to delete</p>

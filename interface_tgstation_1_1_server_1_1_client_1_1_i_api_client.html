@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.6.0</span>
+   &#160;<span id="projectnumber">4.7.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -152,6 +152,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a70767f3f66d4486d4025835ece18d9ef"><td class="memItemLeft" align="right" valign="top">Task&lt; TResult &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a70767f3f66d4486d4025835ece18d9ef">Delete&lt; TResult &gt;</a> (string route, long instanceId, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a70767f3f66d4486d4025835ece18d9ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run an HTTP DELETE request  <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a70767f3f66d4486d4025835ece18d9ef">More...</a><br /></td></tr>
 <tr class="separator:a70767f3f66d4486d4025835ece18d9ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88f01385c3f74908304ee74df9a5a2e7"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_stream.html">Stream</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a88f01385c3f74908304ee74df9a5a2e7">Download</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_file_ticket_result.html">FileTicketResult</a> ticket, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a88f01385c3f74908304ee74df9a5a2e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Downloads a file <a class="el" href="class_stream.html">Stream</a> for a given <em>ticket</em> .  <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a88f01385c3f74908304ee74df9a5a2e7">More...</a><br /></td></tr>
+<tr class="separator:a88f01385c3f74908304ee74df9a5a2e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad162203cab86ad9d14141e8f46656cb0"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#ad162203cab86ad9d14141e8f46656cb0">Upload</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_file_ticket_result.html">FileTicketResult</a> ticket, <a class="el" href="class_stream.html">Stream</a>? uploadStream, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ad162203cab86ad9d14141e8f46656cb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Uploads a given <em>uploadStream</em>  for a given <em>ticket</em> .  <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#ad162203cab86ad9d14141e8f46656cb0">More...</a><br /></td></tr>
+<tr class="separator:ad162203cab86ad9d14141e8f46656cb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
@@ -168,7 +174,7 @@ Properties</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Web interface for the API </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_api_client_8cs_source.html#l00011">11</a> of file <a class="el" href="_i_api_client_8cs_source.html">IApiClient.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_api_client_8cs_source.html#l00013">13</a> of file <a class="el" href="_i_api_client_8cs_source.html">IApiClient.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a55853418698889c9f90804d1e9067b51"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a55853418698889c9f90804d1e9067b51">&#9670;&nbsp;</a></span>AddRequestLogger()</h2>
@@ -302,7 +308,7 @@ Properties</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">route</td><td>The server route to make the request to</td></tr>
     <tr><td class="paramname">body</td><td>The request body</td></tr>
-    <tr><td class="paramname">instanceId</td><td>The instance <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#a9546a5e0ce3494cf2c6300b80843c309" title="The ID of the entity.">Api.Models.EntityId.Id</a> to make the request to</td></tr>
+    <tr><td class="paramname">instanceId</td><td>The instance EntityId.Id to make the request to</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
   </table>
   </dd>
@@ -401,7 +407,7 @@ Properties</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">route</td><td>The server route to make the request to</td></tr>
-    <tr><td class="paramname">instanceId</td><td>The instance <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#a9546a5e0ce3494cf2c6300b80843c309" title="The ID of the entity.">Api.Models.EntityId.Id</a> to make the request to</td></tr>
+    <tr><td class="paramname">instanceId</td><td>The instance EntityId.Id to make the request to</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
   </table>
   </dd>
@@ -488,7 +494,7 @@ Properties</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">route</td><td>The server route to make the request to</td></tr>
-    <tr><td class="paramname">instanceId</td><td>The instance <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#a9546a5e0ce3494cf2c6300b80843c309" title="The ID of the entity.">Api.Models.EntityId.Id</a> to make the request to</td></tr>
+    <tr><td class="paramname">instanceId</td><td>The instance EntityId.Id to make the request to</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
   </table>
   </dd>
@@ -548,7 +554,7 @@ Properties</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">route</td><td>The server route to make the request to</td></tr>
     <tr><td class="paramname">body</td><td>The request body</td></tr>
-    <tr><td class="paramname">instanceId</td><td>The instance <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#a9546a5e0ce3494cf2c6300b80843c309" title="The ID of the entity.">Api.Models.EntityId.Id</a> to make the request to</td></tr>
+    <tr><td class="paramname">instanceId</td><td>The instance EntityId.Id to make the request to</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
   </table>
   </dd>
@@ -601,7 +607,7 @@ Properties</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">route</td><td>The server route to make the request to</td></tr>
-    <tr><td class="paramname">instanceId</td><td>The instance <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#a9546a5e0ce3494cf2c6300b80843c309" title="The ID of the entity.">Api.Models.EntityId.Id</a> to make the request to</td></tr>
+    <tr><td class="paramname">instanceId</td><td>The instance EntityId.Id to make the request to</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
   </table>
   </dd>
@@ -609,6 +615,58 @@ Properties</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the response body as a <em>TResult</em> </dd></dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#afa6dc92d38b59a7a6a2e44126bb5ad50">Tgstation.Server.Client.ApiClient</a>.</p>
+
+</div>
+</div>
+<a id="a88f01385c3f74908304ee74df9a5a2e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88f01385c3f74908304ee74df9a5a2e7">&#9670;&nbsp;</a></span>Download()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task&lt;<a class="el" href="class_stream.html">Stream</a>&gt; Tgstation.Server.Client.IApiClient.Download </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_file_ticket_result.html">FileTicketResult</a>&#160;</td>
+          <td class="paramname"><em>ticket</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Downloads a file <a class="el" href="class_stream.html">Stream</a> for a given <em>ticket</em> . </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ticket</td><td>The FileTicketResult to download.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the downloaded <a class="el" href="class_stream.html">Stream</a>.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#acb95645d8d2af9b5f5a9e9cec1e144c4">Tgstation.Server.Client.ApiClient</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_administration_client_8cs_source.html#l00042">Tgstation.Server.Client.AdministrationClient.GetLog()</a>, and <a class="el" href="_configuration_client_8cs_source.html#l00045">Tgstation.Server.Client.Components.ConfigurationClient.Read()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client_a88f01385c3f74908304ee74df9a5a2e7_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_client_1_1_i_api_client_a88f01385c3f74908304ee74df9a5a2e7_icgraph" alt=""/></div>
+<map name="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client_a88f01385c3f74908304ee74df9a5a2e7_icgraph" id="ainterface_tgstation_1_1_server_1_1_client_1_1_i_api_client_a88f01385c3f74908304ee74df9a5a2e7_icgraph">
+<area shape="rect" title="Downloads a file Stream for a given ticket ." alt="" coords="292,39,448,80"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#a5f669a5b89d74d419e3648cd13333d1e" title="Download a given logFile ." alt="" coords="33,5,217,47"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#af8d4f89b5c637493ca6ec77e2f4e5b45" title="Read a ConfigurationFile file" alt="" coords="5,71,244,112"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -694,7 +752,7 @@ Properties</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">route</td><td>The server route to make the request to</td></tr>
-    <tr><td class="paramname">instanceId</td><td>The instance <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#a9546a5e0ce3494cf2c6300b80843c309" title="The ID of the entity.">Api.Models.EntityId.Id</a> to make the request to</td></tr>
+    <tr><td class="paramname">instanceId</td><td>The instance EntityId.Id to make the request to</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
   </table>
   </dd>
@@ -793,7 +851,7 @@ Properties</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">route</td><td>The server route to make the request to</td></tr>
-    <tr><td class="paramname">instanceId</td><td>The instance <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#a9546a5e0ce3494cf2c6300b80843c309" title="The ID of the entity.">Api.Models.EntityId.Id</a> to make the request to</td></tr>
+    <tr><td class="paramname">instanceId</td><td>The instance EntityId.Id to make the request to</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
   </table>
   </dd>
@@ -961,7 +1019,7 @@ Properties</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">route</td><td>The server route to make the request to</td></tr>
     <tr><td class="paramname">body</td><td>The request body</td></tr>
-    <tr><td class="paramname">instanceId</td><td>The instance <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#a9546a5e0ce3494cf2c6300b80843c309" title="The ID of the entity.">Api.Models.EntityId.Id</a> to make the request to</td></tr>
+    <tr><td class="paramname">instanceId</td><td>The instance EntityId.Id to make the request to</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
   </table>
   </dd>
@@ -1018,6 +1076,65 @@ Properties</h2></td></tr>
 
 </div>
 </div>
+<a id="ad162203cab86ad9d14141e8f46656cb0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad162203cab86ad9d14141e8f46656cb0">&#9670;&nbsp;</a></span>Upload()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task Tgstation.Server.Client.IApiClient.Upload </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_file_ticket_result.html">FileTicketResult</a>&#160;</td>
+          <td class="paramname"><em>ticket</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_stream.html">Stream</a>?&#160;</td>
+          <td class="paramname"><em>uploadStream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Uploads a given <em>uploadStream</em>  for a given <em>ticket</em> . </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ticket</td><td>The FileTicketResult to download.</td></tr>
+    <tr><td class="paramname">uploadStream</td><td>The <a class="el" href="class_stream.html">Stream</a> to upload. <code>null</code> represents an empty file.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#ab5679a856fe42d66d3abb7cba5214a47">Tgstation.Server.Client.ApiClient</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_byond_client_8cs_source.html#l00042">Tgstation.Server.Client.Components.ByondClient.SetActiveVersion()</a>, and <a class="el" href="_configuration_client_8cs_source.html#l00067">Tgstation.Server.Client.Components.ConfigurationClient.Write()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client_ad162203cab86ad9d14141e8f46656cb0_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_client_1_1_i_api_client_ad162203cab86ad9d14141e8f46656cb0_icgraph" alt=""/></div>
+<map name="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client_ad162203cab86ad9d14141e8f46656cb0_icgraph" id="ainterface_tgstation_1_1_server_1_1_client_1_1_i_api_client_ad162203cab86ad9d14141e8f46656cb0_icgraph">
+<area shape="rect" title="Uploads a given uploadStream &#160;for a given ticket ." alt="" coords="292,49,448,90"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#ab7727bbde0e89343a5787f63c6f2ae9c" title="Updates the Byond information" alt="" coords="11,5,238,61"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#aaf0780e26e81855d7835c410cd04f02b" title="Overwrite a ConfigurationFile file" alt="" coords="5,85,244,126"/>
+</map>
+</div>
+
+</div>
+</div>
 <h2 class="groupheader">Property Documentation</h2>
 <a id="afb0feaf84640f44711b635836bf9378e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afb0feaf84640f44711b635836bf9378e">&#9670;&nbsp;</a></span>Headers</h2>
@@ -1041,8 +1158,8 @@ Properties</h2></td></tr>
 
 <p>The ApiHeaders the <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API">IApiClient</a> uses </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_api_client_8cs_source.html#l00016">16</a> of file <a class="el" href="_i_api_client_8cs_source.html">IApiClient.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_api_client_8cs_source.html#l00018">18</a> of file <a class="el" href="_i_api_client_8cs_source.html">IApiClient.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_server_client_8cs_source.html#l00057">Tgstation.Server.Client.ServerClient.ServerClient()</a>.</p>
 
@@ -1070,8 +1187,8 @@ Properties</h2></td></tr>
 
 <p>The request timeout </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_api_client_8cs_source.html#l00026">26</a> of file <a class="el" href="_i_api_client_8cs_source.html">IApiClient.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_api_client_8cs_source.html#l00028">28</a> of file <a class="el" href="_i_api_client_8cs_source.html">IApiClient.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1097,8 +1214,8 @@ Properties</h2></td></tr>
 
 <p>The Uri pointing the tgstation-server </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_api_client_8cs_source.html#l00021">21</a> of file <a class="el" href="_i_api_client_8cs_source.html">IApiClient.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_i_api_client_8cs_source.html#l00023">23</a> of file <a class="el" href="_i_api_client_8cs_source.html">IApiClient.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
