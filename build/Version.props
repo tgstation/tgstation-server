@@ -9,7 +9,7 @@
     <TgsClientVersion>8.4.0</TgsClientVersion>
     <TgsDmapiVersion>5.2.9</TgsDmapiVersion>
     <TgsHostWatchdogVersion>1.1.0</TgsHostWatchdogVersion>
-    <TgsContainerScriptVersion>1.1.1</TgsContainerScriptVersion>
+    <TgsContainerScriptVersion>1.2.0</TgsContainerScriptVersion>
   </PropertyGroup>
 </Project>
 
