@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.WebUtilities;
 using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.IO;
 
 namespace Tgstation.Server.Host.Transfer
 {
@@ -29,6 +31,11 @@ namespace Tgstation.Server.Host.Transfer
 		readonly TaskCompletionSource<object> completionTcs;
 
 		/// <summary>
+		/// If synchronous IO is required. Uses a <see cref="FileBufferingReadStream"/> as a backend if set.
+		/// </summary>
+		readonly bool requireSynchronousIO;
+
+		/// <summary>
 		/// The <see cref="ErrorMessage"/> that occurred while processing the upload if any.
 		/// </summary>
 		ErrorMessage errorMessage;
@@ -37,13 +44,15 @@ namespace Tgstation.Server.Host.Transfer
 		/// Initializes a new instance of the <see cref="FileUploadProvider"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="ticket">The value of <see cref="Ticket"/>.</param>
-		public FileUploadProvider(FileTicketResult ticket)
+		/// <param name="requireSynchronousIO">The value of <see cref="requireSynchronousIO"/></param>
+		public FileUploadProvider(FileTicketResult ticket, bool requireSynchronousIO)
 		{
 			Ticket = ticket ?? throw new ArgumentNullException(nameof(ticket));
 
 			ticketExpiryCts = new CancellationTokenSource();
 			taskCompletionSource = new TaskCompletionSource<Stream>();
 			completionTcs = new TaskCompletionSource<object>();
+			this.requireSynchronousIO = requireSynchronousIO;
 		}
 
 		/// <inheritdoc />
@@ -84,10 +93,21 @@ namespace Tgstation.Server.Host.Transfer
 			if (ticketExpiryCts.IsCancellationRequested)
 				return new ErrorMessage(ErrorCode.ResourceNotPresent);
 
-			taskCompletionSource.TrySetResult(stream);
+			Stream bufferedStream = null;
+			if (requireSynchronousIO)
+			{
+				// big reads, we should buffer to disk
+				bufferedStream = new FileBufferingReadStream(stream, DefaultIOManager.DefaultBufferSize);
+				await bufferedStream.DrainAsync(cancellationToken).ConfigureAwait(false);
+			}
 
-			await completionTcs.Task.WithToken(cancellationToken).ConfigureAwait(false);
-			return errorMessage;
+			using (bufferedStream)
+			{
+				taskCompletionSource.TrySetResult(bufferedStream ?? stream);
+
+				await completionTcs.Task.WithToken(cancellationToken).ConfigureAwait(false);
+				return errorMessage;
+			}
 		}
 
 		/// <inheritdoc />

@@ -40,23 +40,37 @@ namespace Tgstation.Server.Tests.Instance
 			await configurationClient.DeleteEmptyDirectory(TestDir, cancellationToken).ConfigureAwait(false);
 
 			//try to delete non-empty
-			using var uploadMs = new MemoryStream(Encoding.UTF8.GetBytes("Hello world!"));
+			const string TestString = "Hello world!";
+			using var uploadMs = new MemoryStream(Encoding.UTF8.GetBytes(TestString));
 			var file = await configurationClient.Write(new ConfigurationFile
 			{
 				Path = TestDir.Path + "/test.txt"
 			}, uploadMs, cancellationToken).ConfigureAwait(false);
 
 			Assert.IsTrue(FileExists(file));
+			Assert.IsNull(file.LastReadHash);
 
-			var updatedFile = await configurationClient.Read(file, cancellationToken).ConfigureAwait(false);
-			Assert.AreEqual(file.LastReadHash, updatedFile.Item1.LastReadHash);
+			var updatedFileTuple = await configurationClient.Read(file, cancellationToken).ConfigureAwait(false);
+			var updatedFile = updatedFileTuple.Item1;
+			Assert.IsNotNull(updatedFile.LastReadHash);
+			using (var downloadMemoryStream = new MemoryStream())
+			{
+				using (var downloadStream = updatedFileTuple.Item2)
+					await downloadStream.CopyToAsync(downloadMemoryStream);
+				Assert.AreEqual(TestString, Encoding.UTF8.GetString(downloadMemoryStream.ToArray()).Trim());
+			}
 
 			await ApiAssert.ThrowsException<ConflictException>(() => configurationClient.DeleteEmptyDirectory(TestDir, cancellationToken), ErrorCode.ConfigurationDirectoryNotEmpty).ConfigureAwait(false);
 
 			file.FileTicket = null;
-			await configurationClient.Write(file, null, cancellationToken).ConfigureAwait(false);
+			await configurationClient.Write(updatedFile, null, cancellationToken).ConfigureAwait(false);
+			Assert.IsFalse(FileExists(file));
 
 			await configurationClient.DeleteEmptyDirectory(TestDir, cancellationToken).ConfigureAwait(false);
+
+			var tmp = (TestDir.Path?.StartsWith('/') ?? false) ? '.' + TestDir.Path : TestDir.Path;
+			var path = Path.Combine(instance.Path, "Configuration", tmp);
+			Assert.IsFalse(Directory.Exists(path));
 		}
 
 		public async Task Run(CancellationToken cancellationToken)

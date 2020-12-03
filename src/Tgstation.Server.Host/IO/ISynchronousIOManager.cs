@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 
 namespace Tgstation.Server.Host.IO
@@ -50,11 +51,11 @@ namespace Tgstation.Server.Host.IO
 		/// Write <paramref name="data"/> to a file at a given <paramref name="path"/>
 		/// </summary>
 		/// <param name="path">The path to the file to write</param>
-		/// <param name="data">The new contents of the file</param>
+		/// <param name="data">A <see cref="Stream"/> containing the new contents of the file</param>
 		/// <param name="sha1InOut">The function only succeeds if this parameter matches the SHA-1 hash of the contents of the current file. Contains the SHA1 of the file on disk once the function returns</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns><see langword="true"/> on success, <see langword="false"/> if the operation failed due to <paramref name="sha1InOut"/> not matching the file's contents</returns>
-		bool WriteFileChecked(string path, byte[] data, ref string sha1InOut, CancellationToken cancellationToken);
+		bool WriteFileChecked(string path, Stream data, ref string sha1InOut, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Checks if a given <paramref name="path"/> is a directory

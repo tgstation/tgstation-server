@@ -286,16 +286,32 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 						var disposeToken = disposeCts.Token;
 						var fileTicket = fileTransferService.CreateDownload(
 							new FileDownloadProvider(
-								cancellationToken =>
+								() =>
 								{
 									if (disposeToken.IsCancellationRequested)
-										return Task.FromResult<ErrorCode?>(ErrorCode.InstanceOffline);
+										return ErrorCode.InstanceOffline;
 
 									var newSha = GetFileSha();
 									if (newSha != originalSha)
-										return Task.FromResult<ErrorCode?>(ErrorCode.ConfigurationFileUpdated);
+										return ErrorCode.ConfigurationFileUpdated;
 
-									return Task.FromResult<ErrorCode?>(null);
+									return null;
+								},
+								async cancellationToken =>
+								{
+									FileStream result = null;
+									void GetFileStream()
+									{
+										result = ioManager.GetFileStream(path, false);
+									}
+
+									using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+										if (systemIdentity == null)
+											await Task.Factory.StartNew(GetFileStream, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
+										else
+											await systemIdentity.RunImpersonated(GetFileStream, cancellationToken).ConfigureAwait(false);
+
+									return result;
 								},
 								path,
 								false));
@@ -425,30 +441,32 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				lock (semaphore)
 					try
 					{
-						var fileTicket = fileTransferService.CreateUpload();
+						var fileTicket = fileTransferService.CreateUpload(true);
 						var uploadCancellationToken = disposeCts.Token;
 						async Task UploadHandler()
 						{
 							using (fileTicket)
 							{
-								byte[] data;
 								var fileHash = previousHash;
-								using (var ms = new MemoryStream())
+								using var uploadStream = await fileTicket.GetResult(uploadCancellationToken).ConfigureAwait(false);
+								bool success = false;
+								void WriteCallback()
 								{
-									using (var stream = await fileTicket.GetResult(uploadCancellationToken).ConfigureAwait(false))
-										await stream.CopyToAsync(ms, uploadCancellationToken).ConfigureAwait(false);
-									data = ms.ToArray();
-									if (data.Length == 0)
-										data = null;
+									success = synchronousIOManager.WriteFileChecked(path, uploadStream, ref fileHash, cancellationToken);
 								}
 
-								var success = synchronousIOManager.WriteFileChecked(path, data, ref fileHash, cancellationToken);
+								using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+									if (systemIdentity == null)
+										await Task.Factory.StartNew(WriteCallback, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
+									else
+										await systemIdentity.RunImpersonated(WriteCallback, cancellationToken).ConfigureAwait(false);
+
 								if (!success)
 									fileTicket.SetErrorMessage(new ErrorMessage(ErrorCode.ConfigurationFileUpdated)
 									{
 										AdditionalData = fileHash
 									});
-								else if(data != null)
+								else if(uploadStream.Length > 0)
 									postWriteHandler.HandleWrite(path);
 							}
 						}

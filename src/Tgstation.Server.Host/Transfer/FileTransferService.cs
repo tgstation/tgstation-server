@@ -163,9 +163,9 @@ namespace Tgstation.Server.Host.Transfer
 
 			QueueExpiry(() =>
 			{
-				logger.LogTrace("Expiring download ticket {0}...", ticketResult.FileTicket);
 				lock (downloadTickets)
-					downloadTickets.Remove(ticketResult.FileTicket);
+					if(downloadTickets.Remove(ticketResult.FileTicket))
+						logger.LogTrace("Expired download ticket {0}...", ticketResult.FileTicket);
 			});
 
 			logger.LogTrace("Created download ticket {0}", ticketResult.FileTicket);
@@ -174,19 +174,21 @@ namespace Tgstation.Server.Host.Transfer
 		}
 
 		/// <inheritdoc />
-		public IFileUploadTicket CreateUpload()
+		public IFileUploadTicket CreateUpload(bool requireSynchronousIO)
 		{
 			logger.LogDebug("Creating upload ticket...");
-			var uploadTicket = new FileUploadProvider(CreateTicket());
+			var uploadTicket = new FileUploadProvider(CreateTicket(), requireSynchronousIO);
 
 			lock (uploadTickets)
 				uploadTickets.Add(uploadTicket.Ticket.FileTicket, uploadTicket);
 
 			QueueExpiry(() =>
 			{
-				logger.LogTrace("Expiring upload ticket {0}...", uploadTicket.Ticket.FileTicket);
 				lock (uploadTickets)
-					uploadTickets.Remove(uploadTicket.Ticket.FileTicket);
+					if (uploadTickets.Remove(uploadTicket.Ticket.FileTicket))
+						logger.LogTrace("Expired upload ticket {0}...", uploadTicket.Ticket.FileTicket);
+					else
+						return;
 
 				uploadTicket.Expire();
 			});
@@ -197,7 +199,7 @@ namespace Tgstation.Server.Host.Transfer
 		}
 
 		/// <inheritdoc />
-		public async Task<Tuple<Stream, ErrorMessage>> RetrieveDownloadStream(FileTicketResult ticket, CancellationToken cancellationToken)
+		public async Task<Tuple<FileStream, ErrorMessage>> RetrieveDownloadStream(FileTicketResult ticket, CancellationToken cancellationToken)
 		{
 			if (ticket == null)
 				throw new ArgumentNullException(nameof(ticket));
@@ -208,27 +210,30 @@ namespace Tgstation.Server.Host.Transfer
 				if (!downloadTickets.TryGetValue(ticket.FileTicket, out downloadProvider))
 				{
 					logger.LogTrace("Download ticket {0} not found!", ticket.FileTicket);
-					return Tuple.Create<Stream, ErrorMessage>(null, null);
+					return Tuple.Create<FileStream, ErrorMessage>(null, null);
 				}
 
 				downloadTickets.Remove(ticket.FileTicket);
 			}
 
-			var errorCode = await downloadProvider.ActivationCallback(cancellationToken).ConfigureAwait(false);
+			var errorCode = downloadProvider.ActivationCallback();
 			if (errorCode.HasValue)
 			{
 				logger.LogDebug("Download ticket {0} failed activation!", ticket.FileTicket);
-				return Tuple.Create<Stream, ErrorMessage>(null, new ErrorMessage(errorCode.Value));
+				return Tuple.Create<FileStream, ErrorMessage>(null, new ErrorMessage(errorCode.Value));
 			}
 
-			Stream stream;
+			FileStream stream;
 			try
 			{
-				stream = ioManager.GetFileStream(downloadProvider.FilePath, downloadProvider.ShareWrite);
+				if (downloadProvider.FileStreamProvider != null)
+					stream = await downloadProvider.FileStreamProvider(cancellationToken).ConfigureAwait(false);
+				else
+					stream = ioManager.GetFileStream(downloadProvider.FilePath, downloadProvider.ShareWrite);
 			}
 			catch (IOException ex)
 			{
-				return Tuple.Create<Stream, ErrorMessage>(
+				return Tuple.Create<FileStream, ErrorMessage>(
 					null,
 					new ErrorMessage(ErrorCode.IOError)
 					{
@@ -239,7 +244,7 @@ namespace Tgstation.Server.Host.Transfer
 			try
 			{
 				logger.LogTrace("Ticket {0} downloading...", ticket.FileTicket);
-				return Tuple.Create<Stream, ErrorMessage>(stream, null);
+				return Tuple.Create<FileStream, ErrorMessage>(stream, null);
 			}
 			catch
 			{

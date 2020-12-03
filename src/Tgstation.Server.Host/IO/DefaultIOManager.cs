@@ -145,6 +145,8 @@ namespace Tgstation.Server.Host.IO
 				throw new ArgumentNullException(nameof(dest));
 			using var srcStream = new FileStream(ResolvePath(src), FileMode.Open, FileAccess.Read, FileShare.Read | FileShare.Delete, DefaultBufferSize, true);
 			using var destStream = new FileStream(ResolvePath(dest), FileMode.Create, FileAccess.Write, FileShare.ReadWrite | FileShare.Delete, DefaultBufferSize, true);
+
+			// value taken from documentation
 			await srcStream.CopyToAsync(destStream, 81920, cancellationToken).ConfigureAwait(false);
 		}
 
@@ -325,6 +327,6 @@ namespace Tgstation.Server.Host.IO
 		}, cancellationToken, BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
-		public Stream GetFileStream(string path, bool shareWrite) => new FileStream(ResolvePath(path), FileMode.Open, FileAccess.Read, FileShare.Read | FileShare.Delete | (shareWrite ? FileShare.Write : FileShare.None), DefaultBufferSize, true);
+		public FileStream GetFileStream(string path, bool shareWrite) => new FileStream(ResolvePath(path), FileMode.Open, FileAccess.Read, FileShare.Read | FileShare.Delete | (shareWrite ? FileShare.Write : FileShare.None), DefaultBufferSize, true);
 	}
 }

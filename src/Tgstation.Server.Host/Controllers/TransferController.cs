@@ -63,7 +63,7 @@ namespace Tgstation.Server.Host.Controllers
 		public async Task<IActionResult> Download([FromQuery] string ticket, CancellationToken cancellationToken)
 		{
 			if (ticket == null)
-				throw new ArgumentNullException(nameof(ticket));
+				return BadRequest(new ErrorMessage(ErrorCode.ModelValidationFailure));
 
 			var streamAccept = new MediaTypeHeaderValue(MediaTypeNames.Application.Octet);
 			if (!Request.GetTypedHeaders().Accept.Any(x => streamAccept.IsSubsetOf(x)))
@@ -87,7 +87,7 @@ namespace Tgstation.Server.Host.Controllers
 				if (stream == null)
 					return Gone();
 
-				return new FileStreamResult(stream, new MediaTypeHeaderValue(MediaTypeNames.Application.Octet));
+				return new LimitedFileStreamResult(stream);
 			}
 			catch
 			{
@@ -109,7 +109,7 @@ namespace Tgstation.Server.Host.Controllers
 		public async Task<IActionResult> Upload([FromQuery] string ticket, CancellationToken cancellationToken)
 		{
 			if (ticket == null)
-				throw new ArgumentNullException(nameof(ticket));
+				return BadRequest(new ErrorMessage(ErrorCode.ModelValidationFailure));
 
 			var fileTicketResult = new FileTicketResult
 			{
@@ -118,7 +118,9 @@ namespace Tgstation.Server.Host.Controllers
 
 			var result = await fileTransferService.SetUploadStream(fileTicketResult, Request.Body, cancellationToken).ConfigureAwait(false);
 			if (result != null)
-				return Conflict(result);
+				return result.ErrorCode == ErrorCode.ResourceNotPresent
+					? Gone()
+					: Conflict(result);
 
 			return Created(new object());
 		}

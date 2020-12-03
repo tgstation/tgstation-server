@@ -397,7 +397,8 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				var fileTransferTicket = fileTransferService.CreateDownload(
 					new FileDownloadProvider(
-						cancellationToken => Task.FromResult<ErrorCode?>(null),
+						() => null,
+						null,
 						fullPath,
 						true));
 

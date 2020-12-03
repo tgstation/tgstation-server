@@ -167,7 +167,7 @@ namespace Tgstation.Server.Host.Controllers
 
 						IFileUploadTicket fileUploadTicket = null;
 						if (uploadingZip)
-							fileUploadTicket = fileTransferService.CreateUpload();
+							fileUploadTicket = fileTransferService.CreateUpload(false);
 
 						try
 						{

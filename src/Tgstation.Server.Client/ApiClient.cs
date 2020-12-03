@@ -216,16 +216,22 @@ namespace Tgstation.Server.Client
 				response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
 			}
 
-			using (response)
+			try
 			{
 				await Task.WhenAll(requestLoggers.Select(x => x.LogResponse(response, cancellationToken))).ConfigureAwait(false);
 
+				// just stream
 				if (fileDownload && response.IsSuccessStatusCode)
-				{
-					// just stream
-					return (TResult)(object)await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-				}
+					return (TResult)(object)await CachedResponseStream.Create(response).ConfigureAwait(false);
+			}
+			catch
+			{
+				response.Dispose();
+				throw;
+			}
 
+			using (response)
+			{
 				var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
 				if (!response.IsSuccessStatusCode)

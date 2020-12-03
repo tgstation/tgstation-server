@@ -194,11 +194,81 @@ namespace Tgstation.Server.Tests
 					Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
 				}
 		}
+		async Task TestInvalidTransfers(IServerClient serverClient, CancellationToken cancellationToken)
+		{
+			var url = serverClient.Url;
+			var token = serverClient.Token.Bearer;
+			// check that 400s are returned appropriately
+			using var httpClient = new HttpClient();
+
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.Transfer.Substring(1)))
+			{
+				request.Headers.Accept.Clear();
+				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
+				request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+				request.Headers.Add(ApiHeaders.ApiVersionHeader, "Tgstation.Server.Api/" + ApiHeaders.Version);
+				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, token);
+				using var response = await httpClient.SendAsync(request, cancellationToken);
+				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+				var content = await response.Content.ReadAsStringAsync();
+				var message = JsonConvert.DeserializeObject<ErrorMessage>(content);
+				Assert.AreEqual(ErrorCode.ModelValidationFailure, message.ErrorCode);
+			}
+
+			using (var request = new HttpRequestMessage(HttpMethod.Put, url.ToString() + Routes.Transfer.Substring(1)))
+			{
+				request.Headers.Accept.Clear();
+				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
+				request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+				request.Headers.Add(ApiHeaders.ApiVersionHeader, "Tgstation.Server.Api/" + ApiHeaders.Version);
+				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, token);
+				using var response = await httpClient.SendAsync(request, cancellationToken);
+				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+				var content = await response.Content.ReadAsStringAsync();
+				var message = JsonConvert.DeserializeObject<ErrorMessage>(content);
+				Assert.AreEqual(ErrorCode.ModelValidationFailure, message.ErrorCode);
+			}
+
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.Transfer.Substring(1) + "?ticket=veryfaketicket"))
+			{
+				request.Headers.Accept.Clear();
+				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
+				request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+				request.Headers.Add(ApiHeaders.ApiVersionHeader, "Tgstation.Server.Api/" + ApiHeaders.Version);
+				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, token);
+				using var response = await httpClient.SendAsync(request, cancellationToken);
+				Assert.AreEqual(HttpStatusCode.NotAcceptable, response.StatusCode);
+			}
+
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.Transfer.Substring(1) + "?ticket=veryfaketicket"))
+			{
+				request.Headers.Accept.Clear();
+				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
+				request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+				request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Octet));
+				request.Headers.Add(ApiHeaders.ApiVersionHeader, "Tgstation.Server.Api/" + ApiHeaders.Version);
+				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, token);
+				using var response = await httpClient.SendAsync(request, cancellationToken);
+				Assert.AreEqual(HttpStatusCode.Gone, response.StatusCode);
+			}
+
+			using (var request = new HttpRequestMessage(HttpMethod.Put, url.ToString() + Routes.Transfer.Substring(1) + "?ticket=veryfaketicket"))
+			{
+				request.Headers.Accept.Clear();
+				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
+				request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+				request.Headers.Add(ApiHeaders.ApiVersionHeader, "Tgstation.Server.Api/" + ApiHeaders.Version);
+				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, token);
+				using var response = await httpClient.SendAsync(request, cancellationToken);
+				Assert.AreEqual(HttpStatusCode.Gone, response.StatusCode);
+			}
+		}
 
 		public Task Run(IServerClientFactory clientFactory, IServerClient serverClient, CancellationToken cancellationToken)
 			=> Task.WhenAll(
 				TestRequestValidation(serverClient, cancellationToken),
 				TestOAuthFails(serverClient, cancellationToken),
-				TestServerInformation(clientFactory, serverClient, cancellationToken));
+				TestServerInformation(clientFactory, serverClient, cancellationToken),
+				TestInvalidTransfers(serverClient, cancellationToken));
 	}
 }

@@ -26,6 +26,6 @@ namespace Tgstation.Server.Host.Transfer
 		/// <param name="ticket">The <see cref="FileTicketResult"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Tuple{T1, T2}"/> containing either a <see cref="Stream"/> containing the data to download or an <see cref="ErrorMessage"/> to return.</returns>
-		Task<Tuple<Stream, ErrorMessage>> RetrieveDownloadStream(FileTicketResult ticket, CancellationToken cancellationToken);
+		Task<Tuple<FileStream, ErrorMessage>> RetrieveDownloadStream(FileTicketResult ticket, CancellationToken cancellationToken);
 	}
 }

@@ -209,7 +209,8 @@ namespace Tgstation.Server.Host.IO
 		/// </summary>
 		/// <param name="path">The path of the file.</param>
 		/// <param name="shareWrite">If <see cref="FileShare.Write"/> should be used.</param>
-		/// <returns>The <see cref="Stream"/> of the file.</returns>
-		Stream GetFileStream(string path, bool shareWrite);
+		/// <returns>The <see cref="FileStream"/> of the file.</returns>
+		/// <remarks>This function is sychronous.</remarks>
+		FileStream GetFileStream(string path, bool shareWrite);
 	}
 }

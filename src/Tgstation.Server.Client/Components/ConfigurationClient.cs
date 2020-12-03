@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -69,9 +66,12 @@ namespace Tgstation.Server.Client.Components
 		/// <inheritdoc />
 		public async Task<ConfigurationFile> Write(ConfigurationFile file, Stream uploadStream, CancellationToken cancellationToken)
 		{
+			long initialStreamPosition = 0;
 			MemoryStream? memoryStream = null;
-			if (uploadStream != null)
+			if (uploadStream?.CanSeek == false)
 				memoryStream = new MemoryStream();
+			else if (uploadStream != null)
+				initialStreamPosition = uploadStream.Position;
 
 			using (memoryStream)
 			{
@@ -81,22 +81,14 @@ namespace Tgstation.Server.Client.Components
 					instance.Id,
 					cancellationToken);
 
-				if (uploadStream != null)
-					await uploadStream.CopyToAsync(memoryStream, cancellationToken).ConfigureAwait(false);
+				if (memoryStream != null)
+					await uploadStream!.CopyToAsync(memoryStream, cancellationToken).ConfigureAwait(false);
 
 				var configFile = await configFileTask.ConfigureAwait(false);
 
-				// minor improvement to "fix" a lost feature that used to be in API 7
-				// since LastReadHash is no longer updated until the next GET request, we can use the same calculations here to generate it.
-				if (uploadStream != null)
-#pragma warning disable CA5350 // Do not use insecure cryptographic algorithm SHA1.
-					using (var sha1 = new SHA1Managed())
-#pragma warning restore CA5350 // Do not use insecure cryptographic algorithm SHA1.
-						configFile.LastReadHash = String.Join(String.Empty, sha1.ComputeHash(memoryStream).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
-				else
-					configFile.LastReadHash = null;
-
-				await apiClient.Upload(configFile, memoryStream, cancellationToken).ConfigureAwait(false);
+				var streamUsed = memoryStream ?? uploadStream;
+				streamUsed?.Seek(initialStreamPosition, SeekOrigin.Begin);
+				await apiClient.Upload(configFile, streamUsed, cancellationToken).ConfigureAwait(false);
 
 				return configFile;
 			}

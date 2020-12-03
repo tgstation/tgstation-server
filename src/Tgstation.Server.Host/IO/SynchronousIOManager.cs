@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -74,30 +74,24 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <inheritdoc />
-		public bool WriteFileChecked(string path, byte[] data, ref string sha1InOut, CancellationToken cancellationToken)
+		public bool WriteFileChecked(string path, Stream data, ref string sha1InOut, CancellationToken cancellationToken)
 		{
 			if (path == null)
 				throw new ArgumentNullException(nameof(path));
+			if (data == null)
+				throw new ArgumentNullException(nameof(data));
+
 			cancellationToken.ThrowIfCancellationRequested();
 			var directory = Path.GetDirectoryName(path);
+
 			Directory.CreateDirectory(directory);
 			cancellationToken.ThrowIfCancellationRequested();
 			using (var file = File.Open(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None))
 			{
 				cancellationToken.ThrowIfCancellationRequested();
 
-				// as nice as it would be to not have to arrayify the memory stream, we have to
-				// because, oddly enough sha1(memorystream) != sha1(memorystream.ToArray())
-				// vOv
-				byte[] originalBytes;
-				using (var readMs = new MemoryStream())
-				{
-					file.CopyTo(readMs);
-					originalBytes = readMs.ToArray();
-				}
-
 				// no sha1? no write
-				if (originalBytes.Length != 0 && sha1InOut == null)
+				if (file.Length != 0 && sha1InOut == null)
 					return false;
 
 				// suppressed due to only using for consistency checks
@@ -105,8 +99,8 @@ namespace Tgstation.Server.Host.IO
 				using (var sha1 = new SHA1Managed())
 #pragma warning restore CA5350 // Do not use insecure cryptographic algorithm SHA1.
 				{
-					string GetSha1(byte[] dataToHash) => dataToHash != null && dataToHash.Length != 0 ? String.Join(String.Empty, sha1.ComputeHash(dataToHash).Select(b => b.ToString("x2", CultureInfo.InvariantCulture))) : null;
-					var originalSha1 = GetSha1(originalBytes);
+					string GetSha1(Stream dataToHash) => dataToHash != null && dataToHash.Length != 0 ? String.Join(String.Empty, sha1.ComputeHash(dataToHash).Select(b => b.ToString("x2", CultureInfo.InvariantCulture))) : null;
+					var originalSha1 = GetSha1(file);
 					if (originalSha1 != sha1InOut)
 					{
 						sha1InOut = originalSha1;
@@ -118,17 +112,18 @@ namespace Tgstation.Server.Host.IO
 
 				cancellationToken.ThrowIfCancellationRequested();
 
-				if (data != null)
+				if (data.Length != 0)
 				{
 					file.Seek(0, SeekOrigin.Begin);
+					data.Seek(0, SeekOrigin.Begin);
 
 					cancellationToken.ThrowIfCancellationRequested();
 					file.SetLength(data.Length);
-					file.Write(data, 0, data.Length);
+					data.CopyTo(file);
 				}
 			}
 
-			if (data == null)
+			if (data.Length == 0)
 				File.Delete(path);
 			return true;
 		}
