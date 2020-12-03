@@ -57,7 +57,7 @@ docker run \
 	--name="tgs" \ # Name for the container
 	--cap-add=sys_nice \ # Recommended, allows tgs to schedule DreamDaemon as a higher priority process
 	--init \ #Highly recommended, reaps potential zombie processes
-	-p <tgs port>:<port configured with setup wizard> \ # Port bridge for accessing TGS
+	-p 5000:5000 \ # Port bridge for accessing TGS, you can change this if you need
 	-p 0.0.0.0:<public game port>:<public game port> \ # Port bridge for accessing DreamDaemon
 	-v /path/to/your/configfile/directory:/config_data \ # Recommended, create a volume mapping for server configuration
 	-v /path/to/store/instances:/tgs4_instances \ # Recommended, create a volume mapping for server instances
