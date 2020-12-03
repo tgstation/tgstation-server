@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Net.Mime;
@@ -59,8 +60,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="410">The <paramref name="ticket"/> was no longer or was never valid.</response>
 		[TgsAuthorize]
 		[HttpGet]
-		[Produces(MediaTypeNames.Application.Octet, MediaTypeNames.Application.Json)]
-		public async Task<IActionResult> Download([FromQuery] string ticket, CancellationToken cancellationToken)
+		[ProducesResponseType(200, Type = typeof(LimitedFileStreamResult))]
+		[ProducesResponseType(410, Type = typeof(ErrorMessage))]
+		public async Task<IActionResult> Download([Required, FromQuery] string ticket, CancellationToken cancellationToken)
 		{
 			if (ticket == null)
 				return BadRequest(new ErrorMessage(ErrorCode.ModelValidationFailure));
@@ -102,11 +104,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="ticket">The <see cref="FileTicketResult.FileTicket"/> for the upload.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the method.</returns>
-		/// <response code="201">Uploaded file successfully.</response>
+		/// <response code="204">Uploaded file successfully.</response>
+		/// <response code="409">An error occurred during the upload.</response>
 		/// <response code="410">The <paramref name="ticket"/> was no longer or was never valid.</response>
 		[TgsAuthorize]
 		[HttpPut]
-		public async Task<IActionResult> Upload([FromQuery] string ticket, CancellationToken cancellationToken)
+		[ProducesResponseType(204)]
+		[ProducesResponseType(410, Type = typeof(ErrorMessage))]
+		public async Task<IActionResult> Upload([Required, FromQuery] string ticket, CancellationToken cancellationToken)
 		{
 			if (ticket == null)
 				return BadRequest(new ErrorMessage(ErrorCode.ModelValidationFailure));
@@ -122,7 +127,7 @@ namespace Tgstation.Server.Host.Controllers
 					? Gone()
 					: Conflict(result);
 
-			return Created(new object());
+			return NoContent();
 		}
 	}
 }
