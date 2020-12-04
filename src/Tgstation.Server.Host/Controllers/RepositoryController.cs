@@ -744,6 +744,9 @@ namespace Tgstation.Server.Host.Controllers
 											revInfoWereLookingFor = dbPull
 												.Where(testRevInfo =>
 												{
+													if (testRevInfo.PrimaryTestMerge == null)
+														return false;
+
 													var testMergeMatch = model.NewTestMerges.Any(testTestMerge =>
 													{
 														var numberMatch = testRevInfo.PrimaryTestMerge.Number == testTestMerge.Number;
