@@ -64,11 +64,6 @@ namespace Tgstation.Server.Host.Controllers
 		readonly UpdatesConfiguration updatesConfiguration;
 
 		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="AdministrationController"/>
-		/// </summary>
-		readonly GeneralConfiguration generalConfiguration;
-
-		/// <summary>
 		/// The <see cref="FileLoggingConfiguration"/> for the <see cref="AdministrationController"/>
 		/// </summary>
 		readonly FileLoggingConfiguration fileLoggingConfiguration;
@@ -85,7 +80,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
 		/// <param name="updatesConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="updatesConfiguration"/></param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="generalConfiguration"/></param>
 		/// <param name="fileLoggingConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="fileLoggingConfiguration"/></param>
 		public AdministrationController(
 			IDatabaseContext databaseContext,
@@ -97,7 +91,6 @@ namespace Tgstation.Server.Host.Controllers
 			IPlatformIdentifier platformIdentifier,
 			ILogger<AdministrationController> logger,
 			IOptions<UpdatesConfiguration> updatesConfigurationOptions,
-			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<FileLoggingConfiguration> fileLoggingConfigurationOptions)
 			: base(
 				databaseContext,
@@ -111,7 +104,6 @@ namespace Tgstation.Server.Host.Controllers
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			updatesConfiguration = updatesConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(updatesConfigurationOptions));
-			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			fileLoggingConfiguration = fileLoggingConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(fileLoggingConfigurationOptions));
 		}
 
@@ -135,7 +127,7 @@ namespace Tgstation.Server.Host.Controllers
 			IEnumerable<Release> releases;
 			try
 			{
-				var gitHubClient = GetGitHubClient();
+				var gitHubClient = gitHubClientFactory.CreateClient();
 				releases = await gitHubClient
 					.Repository
 					.Release
@@ -180,8 +172,6 @@ namespace Tgstation.Server.Host.Controllers
 			return Gone();
 		}
 
-		IGitHubClient GetGitHubClient() => String.IsNullOrEmpty(generalConfiguration.GitHubAccessToken) ? gitHubClientFactory.CreateClient() : gitHubClientFactory.CreateClient(generalConfiguration.GitHubAccessToken);
-
 		/// <summary>
 		/// Get <see cref="Administration"/> server information.
 		/// </summary>
@@ -203,7 +193,7 @@ namespace Tgstation.Server.Host.Controllers
 				Uri repoUrl = null;
 				try
 				{
-					var gitHubClient = GetGitHubClient();
+					var gitHubClient = gitHubClientFactory.CreateClient();
 					var repositoryTask = gitHubClient
 						.Repository
 						.Get(updatesConfiguration.GitHubRepositoryId)

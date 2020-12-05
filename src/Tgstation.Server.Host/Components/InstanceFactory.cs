@@ -7,6 +7,7 @@ using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.Components.Deployment.Remote;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Components.Repository;
@@ -248,16 +249,16 @@ namespace Tgstation.Server.Host.Components
 						loggerFactory.CreateLogger<SessionControllerFactory>(),
 						metadata.CloneMetadata());
 
-					var gitHubDeploymentManager = new GitHubDeploymentManager(
+					var remoteDeploymentManager = new RemoteDeploymentManager(
 						databaseContextFactory,
 						gitHubClientFactory,
-						loggerFactory.CreateLogger<GitHubDeploymentManager>(),
+						loggerFactory.CreateLogger<RemoteDeploymentManager>(),
 						metadata.CloneMetadata());
 
 					var dmbFactory = new DmbFactory(
 						databaseContextFactory,
 						gameIoManager,
-						gitHubDeploymentManager,
+						remoteDeploymentManager,
 						loggerFactory.CreateLogger<DmbFactory>(),
 						metadata.CloneMetadata());
 					try
@@ -276,7 +277,7 @@ namespace Tgstation.Server.Host.Components
 							gameIoManager,
 							diagnosticsIOManager,
 							eventConsumer,
-							gitHubDeploymentManager,
+							remoteDeploymentManager,
 							metadata.CloneMetadata(),
 							metadata.DreamDaemonSettings);
 						eventConsumer.SetWatchdog(watchdog);
@@ -292,10 +293,9 @@ namespace Tgstation.Server.Host.Components
 								eventConsumer,
 								chatManager,
 								processExecutor,
-								gitHubClientFactory,
 								dmbFactory,
 								repoManager,
-								gitHubDeploymentManager,
+								remoteDeploymentManager,
 								loggerFactory.CreateLogger<DreamMaker>(),
 								metadata.CloneMetadata());
 
@@ -310,9 +310,8 @@ namespace Tgstation.Server.Host.Components
 								dmbFactory,
 								jobManager,
 								eventConsumer,
-								gitHubClientFactory,
-								loggerFactory.CreateLogger<Instance>(),
-								generalConfiguration);
+								remoteDeploymentManager,
+								loggerFactory.CreateLogger<Instance>());
 
 							return instance;
 						}

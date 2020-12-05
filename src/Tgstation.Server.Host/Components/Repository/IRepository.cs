@@ -2,29 +2,15 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Host.Components.Repository
 {
 	/// <summary>
 	/// Represents an on-disk git repository
 	/// </summary>
-	public interface IRepository : IDisposable
+	public interface IRepository : IGitRemoteInformation, IDisposable
 	{
-		/// <summary>
-		/// If the <see cref="IRepository"/> was cloned from GitHub.com
-		/// </summary>
-		bool IsGitHubRepository { get; }
-
-		/// <summary>
-		/// The <see cref="Octokit.Repository.Owner"/> if this <see cref="IsGitHubRepository"/>
-		/// </summary>
-		string GitHubOwner { get; }
-
-		/// <summary>
-		/// The <see cref="Octokit.Repository.Name"/> if this <see cref="IsGitHubRepository"/>
-		/// </summary>
-		string GitHubRepoName { get; }
-
 		/// <summary>
 		/// If <see cref="Reference"/> tracks an upstream branch
 		/// </summary>

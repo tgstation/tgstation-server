@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.Components.Deployment.Remote;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Core;
@@ -47,7 +48,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="diagnosticsIOManager">The <see cref="IIOManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="eventConsumer">The <see cref="IEventConsumer"/> for the <see cref="WatchdogBase"/>.</param>
-		/// <param name="gitHubDeploymentManager">The <see cref="IGitHubDeploymentManager"/> for the <see cref="WatchdogBase"/>.</param>
+		/// <param name="remoteDeploymentManager">The <see cref="IRemoteDeploymentManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="initialLaunchParameters">The <see cref="DreamDaemonLaunchParameters"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="instance">The <see cref="Api.Models.Instance"/> for the <see cref="WatchdogBase"/>.</param>
@@ -62,7 +63,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IAsyncDelayer asyncDelayer,
 			IIOManager diagnosticsIOManager,
 			IEventConsumer eventConsumer,
-			IGitHubDeploymentManager gitHubDeploymentManager,
+			IRemoteDeploymentManager remoteDeploymentManager,
 			ILogger<BasicWatchdog> logger,
 			DreamDaemonLaunchParameters initialLaunchParameters,
 			Api.Models.Instance instance,
@@ -77,7 +78,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				 asyncDelayer,
 				 diagnosticsIOManager,
 				 eventConsumer,
-				 gitHubDeploymentManager,
+				 remoteDeploymentManager,
 				 logger,
 				 initialLaunchParameters,
 				 instance,

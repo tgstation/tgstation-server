@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Components.Deployment.Remote;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
@@ -41,9 +42,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly IIOManager ioManager;
 
 		/// <summary>
-		/// The <see cref="IGitHubDeploymentManager"/> for the <see cref="DmbFactory"/>.
+		/// The <see cref="IRemoteDeploymentManager"/> for the <see cref="DmbFactory"/>.
 		/// </summary>
-		readonly IGitHubDeploymentManager gitHubDeploymentManager;
+		readonly IRemoteDeploymentManager remoteDeploymentManager;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="DmbFactory"/>
@@ -90,19 +91,19 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// </summary>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
-		/// <param name="gitHubDeploymentManager">The value of <see cref="gitHubDeploymentManager"/>.</param>
+		/// <param name="remoteDeploymentManager">The value of <see cref="remoteDeploymentManager"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="instance">The value of <see cref="instance"/></param>
 		public DmbFactory(
 			IDatabaseContextFactory databaseContextFactory,
 			IIOManager ioManager,
-			IGitHubDeploymentManager gitHubDeploymentManager,
+			IRemoteDeploymentManager remoteDeploymentManager,
 			ILogger<DmbFactory> logger,
 			Api.Models.Instance instance)
 		{
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
-			this.gitHubDeploymentManager = gitHubDeploymentManager ?? throw new ArgumentNullException(nameof(gitHubDeploymentManager));
+			this.remoteDeploymentManager = remoteDeploymentManager ?? throw new ArgumentNullException(nameof(remoteDeploymentManager));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 
@@ -126,7 +127,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				var deleteJob = ioManager.DeleteDirectory(job.DirectoryName.ToString(), cleanupCts.Token);
 
 				// DCT: None available
-				var deploymentJob = gitHubDeploymentManager.MarkInactive(job, default);
+				var deploymentJob = remoteDeploymentManager.MarkInactive(job, default);
 				var otherTask = cleanupTask;
 				await Task.WhenAll(otherTask, deleteJob, deploymentJob).ConfigureAwait(false);
 			}
@@ -157,7 +158,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 			// Do this first, because it's entirely possible when we set the tcs it will immediately need to be applied
 			if (started)
-				await gitHubDeploymentManager.StageDeployment(
+				await remoteDeploymentManager.StageDeployment(
 					newProvider.CompileJob,
 					cancellationToken)
 					.ConfigureAwait(false);

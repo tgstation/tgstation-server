@@ -18,11 +18,6 @@ namespace Tgstation.Server.Host.Components.Repository
 	sealed class Repository : IRepository
 	{
 		/// <summary>
-		/// Indication of a GitHub repository
-		/// </summary>
-		public const string GitHubUrl = "://github.com/";
-
-		/// <summary>
 		/// The default username for committers.
 		/// </summary>
 		public const string DefaultCommitterName = "tgstation-server";
@@ -42,16 +37,19 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// </summary>
 		public const string RemoteTemporaryBranchName = "___TGSTempBranch";
 
+		/// <summary>
+		/// Used when a reference cannot be determined
+		/// </summary>
 		const string UnknownReference = "<UNKNOWN>";
 
 		/// <inheritdoc />
-		public bool IsGitHubRepository { get; }
+		public RemoteGitProvider? RemoteGitProvider => gitRemoteFeatures.RemoteGitProvider;
 
 		/// <inheritdoc />
-		public string GitHubOwner { get; }
+		public string RemoteRepositoryOwner => gitRemoteFeatures.RemoteRepositoryOwner;
 
 		/// <inheritdoc />
-		public string GitHubRepoName { get; }
+		public string RemoteRepositoryName => gitRemoteFeatures.RemoteRepositoryName;
 
 		/// <inheritdoc />
 		public bool Tracking => Reference != null && libGitRepo.Head.IsTracking;
@@ -91,6 +89,11 @@ namespace Tgstation.Server.Host.Components.Repository
 		readonly ICredentialsProvider credentialsProvider;
 
 		/// <summary>
+		/// The <see cref="IGitRemoteFeatures"/> for the <see cref="Repository"/>.
+		/// </summary>
+		readonly IGitRemoteFeatures gitRemoteFeatures;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Repository"/>
 		/// </summary>
 		readonly ILogger<Repository> logger;
@@ -120,6 +123,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="ioMananger">The value of <see cref="ioMananger"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
 		/// <param name="credentialsProvider">The value of <see cref="credentialsProvider"/></param>
+		/// <param name="gitRemoteFeatures">The value of <see cref="gitRemoteFeatures"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="onDispose">The value if <see cref="onDispose"/></param>
 		public Repository(
@@ -128,6 +132,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			IIOManager ioMananger,
 			IEventConsumer eventConsumer,
 			ICredentialsProvider credentialsProvider,
+			IGitRemoteFeatures gitRemoteFeatures,
 			ILogger<Repository> logger,
 			Action onDispose)
 		{
@@ -136,17 +141,9 @@ namespace Tgstation.Server.Host.Components.Repository
 			this.ioMananger = ioMananger ?? throw new ArgumentNullException(nameof(ioMananger));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.credentialsProvider = credentialsProvider ?? throw new ArgumentNullException(nameof(credentialsProvider));
+			this.gitRemoteFeatures = gitRemoteFeatures ?? throw new ArgumentNullException(nameof(gitRemoteFeatures));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.onDispose = onDispose ?? throw new ArgumentNullException(nameof(onDispose));
-
-			IsGitHubRepository = Origin.Contains(GitHubUrl, StringComparison.InvariantCultureIgnoreCase);
-
-			if (IsGitHubRepository)
-			{
-				GetRepositoryOwnerName(Origin, out var owner, out var name);
-				GitHubOwner = owner;
-				GitHubRepoName = name;
-			}
 		}
 
 		/// <inheritdoc />
@@ -165,9 +162,15 @@ namespace Tgstation.Server.Host.Components.Repository
 			onDispose();
 		}
 
+		/// <summary>
+		/// Parses the <paramref name="owner"/> and <paramref name="name"/> for a given git <paramref name="remote"/>.
+		/// </summary>
+		/// <param name="remote">The full remote URL.</param>
+		/// <param name="owner">The parsed owner.</param>
+		/// <param name="name">The parsed name.</param>
 		void GetRepositoryOwnerName(string remote, out string owner, out string name)
 		{
-			// Assume standard gh format: [(git)|(https)]://github.com/owner/repo(.git)[0-1]
+			// Assume standard gh format: [(git)|(https)]://[<remotegitprovider>].com/owner/repo(.git)[0-1]
 			// Yes use .git twice in case it was weird
 			var toRemove = new string[] { ".git", "/", ".git" };
 			foreach (string item in toRemove)
@@ -283,7 +286,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				committerName,
 				committerEmail);
 
-			if (!IsGitHubRepository)
+			if (RemoteGitProvider == Api.Models.RemoteGitProvider.Unknown)
 				throw new JobException(ErrorCode.RepoTestMergeInvalidRemote);
 
 			var commitMessage = String.Format(
@@ -298,7 +301,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			var prBranchName = String.Format(CultureInfo.InvariantCulture, "pr-{0}", testMergeParameters.Number);
 			var localBranchName = String.Format(CultureInfo.InvariantCulture, "pull/{0}/headrefs/heads/{1}", testMergeParameters.Number, prBranchName);
 
-			var refSpec = String.Format(CultureInfo.InvariantCulture, "pull/{0}/head:{1}", testMergeParameters.Number, prBranchName);
+			var refSpec = String.Format(CultureInfo.InvariantCulture, gitRemoteFeatures.TestMergeRefSpecFormatter, testMergeParameters.Number, prBranchName);
 			var refSpecList = new List<string> { refSpec };
 			var logMessage = String.Format(CultureInfo.InvariantCulture, "Merge remote pull request #{0}", testMergeParameters.Number);
 

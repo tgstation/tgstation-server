@@ -1,9 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Octokit;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -12,10 +10,10 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
+using Tgstation.Server.Host.Components.Deployment.Remote;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Session;
-using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
@@ -79,19 +77,14 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly IRepositoryManager repositoryManager;
 
 		/// <summary>
-		/// The <see cref="IGitHubClientFactory"/> for <see cref="DreamMaker"/>.
-		/// </summary>
-		readonly IGitHubClientFactory gitHubClientFactory;
-
-		/// <summary>
 		/// The <see cref="ICompileJobSink"/> for <see cref="DreamMaker"/>.
 		/// </summary>
 		readonly ICompileJobSink compileJobConsumer;
 
 		/// <summary>
-		/// The <see cref="IGitHubDeploymentManager"/> for <see cref="DreamMaker"/>.
+		/// The <see cref="IRemoteDeploymentManager"/> for <see cref="DreamMaker"/>.
 		/// </summary>
-		readonly IGitHubDeploymentManager gitHubDeploymentManager;
+		readonly IRemoteDeploymentManager gitHubDeploymentManager;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for <see cref="DreamMaker"/>
@@ -137,7 +130,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
 		/// <param name="chatManager">The value of <see cref="chatManager"/></param>
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
-		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/>.</param>
 		/// <param name="compileJobConsumer">The value of <see cref="compileJobConsumer"/>.</param>
 		/// <param name="repositoryManager">The value of <see cref="repositoryManager"/>.</param>
 		/// <param name="gitHubDeploymentManager">The value of <see cref="gitHubDeploymentManager"/>.</param>
@@ -151,10 +143,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 			IEventConsumer eventConsumer,
 			IChatManager chatManager,
 			IProcessExecutor processExecutor,
-			IGitHubClientFactory gitHubClientFactory,
 			ICompileJobSink compileJobConsumer,
 			IRepositoryManager repositoryManager,
-			IGitHubDeploymentManager gitHubDeploymentManager,
+			IRemoteDeploymentManager gitHubDeploymentManager,
 			ILogger<DreamMaker> logger,
 			Api.Models.Instance metadata)
 		{
@@ -165,7 +156,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.chatManager = chatManager ?? throw new ArgumentNullException(nameof(chatManager));
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
-			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 			this.compileJobConsumer = compileJobConsumer ?? throw new ArgumentNullException(nameof(compileJobConsumer));
 			this.repositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
 			this.gitHubDeploymentManager = gitHubDeploymentManager ?? throw new ArgumentNullException(nameof(gitHubDeploymentManager));
@@ -590,12 +580,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 							if (repo == null)
 								throw new JobException(ErrorCode.RepoMissing);
 
-							if (repo.IsGitHubRepository)
-							{
-								repoOwner = repo.GitHubOwner;
-								repoName = repo.GitHubRepoName;
-							}
-
 							var repoSha = repo.Head;
 							revInfo = await databaseContext
 								.RevisionInformations
@@ -693,7 +677,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					throw;
 				}
 
-				var commentsTask = PostDeploymentComments(
+				var commentsTask = gitHubDeploymentManager.PostDeploymentComments(
 					compileJob,
 					activeCompileJob?.RevisionInformation,
 					repositorySettings,
@@ -787,8 +771,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 					revisionInformation,
 					byondLock.Version,
 					DateTimeOffset.Now + estimatedDuration,
-					repository.GitHubOwner,
-					repository.GitHubRepoName,
+					repository.RemoteRepositoryOwner,
+					repository.RemoteRepositoryName,
 					localCommitExistsOnRemote,
 					cancellationToken)
 					.ConfigureAwait(false);
@@ -822,99 +806,6 @@ namespace Tgstation.Server.Host.Components.Deployment
 				progressCts.Cancel();
 				await progressTask.ConfigureAwait(false);
 			}
-		}
-
-		/// <summary>
-		/// Post deployment GitHub comments.
-		/// </summary>
-		/// <param name="compileJob">The deployed <see cref="CompileJob"/>.</param>
-		/// <param name="previousRevisionInformation">The <see cref="RevisionInformation"/> of the previous deployment.</param>
-		/// <param name="repositorySettings">The <see cref="RepositorySettings"/>.</param>
-		/// <param name="repoOwner">The GitHub repostiory owner.</param>
-		/// <param name="repoName">The GitHub repostiory name.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		async Task PostDeploymentComments(
-			Models.CompileJob compileJob,
-			Models.RevisionInformation previousRevisionInformation,
-			Models.RepositorySettings repositorySettings,
-			string repoOwner,
-			string repoName,
-			CancellationToken cancellationToken)
-		{
-			if (repositorySettings?.AccessToken == null)
-				return;
-
-			if ((previousRevisionInformation != null && previousRevisionInformation.CommitSha == previousRevisionInformation.CommitSha)
-				|| !repositorySettings.PostTestMergeComment.Value)
-				return;
-
-			previousRevisionInformation = new Models.RevisionInformation
-			{
-				ActiveTestMerges = new List<RevInfoTestMerge>()
-			};
-
-			var gitHubClient = gitHubClientFactory.CreateClient(repositorySettings.AccessToken);
-
-			async Task CommentOnPR(int prNumber, string comment)
-			{
-				try
-				{
-					await gitHubClient.Issue.Comment.Create(repoOwner, repoName, prNumber, comment)
-						.WithToken(cancellationToken)
-						.ConfigureAwait(false);
-				}
-				catch (ApiException e)
-				{
-					logger.LogWarning(e, "Error posting GitHub comment!");
-				}
-			}
-
-			var tasks = new List<Task>();
-
-			var deployedRevisionInformation = compileJob.RevisionInformation;
-			string FormatTestMerge(Models.TestMerge testMerge, bool updated) => String.Format(CultureInfo.InvariantCulture, "#### Test Merge {4}{0}{0}##### Server Instance{0}{5}{1}{0}{0}##### Revision{0}Origin: {6}{0}Pull Request: {2}{0}Server: {7}{3}{8}",
-				Environment.NewLine,
-				repositorySettings.ShowTestMergeCommitters.Value ? String.Format(CultureInfo.InvariantCulture, "{0}{0}##### Merged By{0}{1}", Environment.NewLine, testMerge.MergedBy.Name) : String.Empty,
-				testMerge.PullRequestRevision,
-				testMerge.Comment != null ? String.Format(CultureInfo.InvariantCulture, "{0}{0}##### Comment{0}{1}", Environment.NewLine, testMerge.Comment) : String.Empty,
-				updated ? "Updated" : "Deployed",
-				metadata.Name,
-				deployedRevisionInformation.OriginCommitSha,
-				deployedRevisionInformation.CommitSha,
-				compileJob.GitHubDeploymentId.HasValue
-					? $"{Environment.NewLine}[GitHub Deployments](https://github.com/{repoOwner}/{repoName}/deployments/activity_log?environment=TGS%3A%20{metadata.Name})"
-					: String.Empty);
-
-			// added prs
-			foreach (var I in deployedRevisionInformation
-				.ActiveTestMerges
-				.Select(x => x.TestMerge)
-				.Where(x => !previousRevisionInformation
-					.ActiveTestMerges
-					.Any(y => y.TestMerge.Number == x.Number)))
-				tasks.Add(CommentOnPR(I.Number, FormatTestMerge(I, false)));
-
-			// removed prs
-			foreach (var I in previousRevisionInformation
-				.ActiveTestMerges
-				.Select(x => x.TestMerge)
-				.Where(x => !deployedRevisionInformation
-				.ActiveTestMerges
-				.Any(y => y.TestMerge.Number == x.Number)))
-				tasks.Add(CommentOnPR(I.Number, "#### Test Merge Removed"));
-
-			// updated prs
-			foreach (var I in deployedRevisionInformation
-				.ActiveTestMerges
-				.Select(x => x.TestMerge)
-				.Where(x => previousRevisionInformation
-					.ActiveTestMerges
-					.Any(y => y.TestMerge.Number == x.Number)))
-				tasks.Add(CommentOnPR(I.Number, FormatTestMerge(I, true)));
-
-			if (tasks.Any())
-				await Task.WhenAll(tasks).ConfigureAwait(false);
 		}
 	}
 }

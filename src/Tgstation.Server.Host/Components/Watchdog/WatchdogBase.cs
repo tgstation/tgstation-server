@@ -10,6 +10,7 @@ using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.Components.Deployment.Remote;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Interop.Topic;
 using Tgstation.Server.Host.Components.Session;
@@ -123,9 +124,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		readonly IEventConsumer eventConsumer;
 
 		/// <summary>
-		/// The <see cref="IGitHubDeploymentManager"/> for the <see cref="WatchdogBase"/>.
+		/// The <see cref="IRemoteDeploymentManager"/> for the <see cref="WatchdogBase"/>.
 		/// </summary>
-		readonly IGitHubDeploymentManager gitHubDeploymentManager;
+		readonly IRemoteDeploymentManager remoteDeploymentManager;
 
 		/// <summary>
 		/// If the <see cref="WatchdogBase"/> should <see cref="LaunchNoLock(bool, bool, bool, ReattachInformation, CancellationToken)"/> in <see cref="StartAsync(CancellationToken)"/>
@@ -179,7 +180,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="asyncDelayer">The value of <see cref="AsyncDelayer"/>.</param>
 		/// <param name="diagnosticsIOManager">The value of <see cref="diagnosticsIOManager"/>.</param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/>.</param>
-		/// <param name="gitHubDeploymentManager">The value of <see cref="gitHubDeploymentManager"/>.</param>
+		/// <param name="remoteDeploymentManager">The value of <see cref="remoteDeploymentManager"/>.</param>
 		/// <param name="logger">The value of <see cref="Logger"/></param>
 		/// <param name="initialLaunchParameters">The initial value of <see cref="ActiveLaunchParameters"/>. May be modified</param>
 		/// <param name="instance">The value of <see cref="instance"/></param>
@@ -194,7 +195,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IAsyncDelayer asyncDelayer,
 			IIOManager diagnosticsIOManager,
 			IEventConsumer eventConsumer,
-			IGitHubDeploymentManager gitHubDeploymentManager,
+			IRemoteDeploymentManager remoteDeploymentManager,
 			ILogger<WatchdogBase> logger,
 			DreamDaemonLaunchParameters initialLaunchParameters,
 			Api.Models.Instance instance,
@@ -208,7 +209,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			AsyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.diagnosticsIOManager = diagnosticsIOManager ?? throw new ArgumentNullException(nameof(diagnosticsIOManager));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
-			this.gitHubDeploymentManager = gitHubDeploymentManager ?? throw new ArgumentNullException(nameof(gitHubDeploymentManager));
+			this.remoteDeploymentManager = remoteDeploymentManager ?? throw new ArgumentNullException(nameof(remoteDeploymentManager));
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			ActiveLaunchParameters = initialLaunchParameters ?? throw new ArgumentNullException(nameof(initialLaunchParameters));
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
@@ -536,7 +537,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return Task.CompletedTask;
 			}
 
-			return gitHubDeploymentManager.ApplyDeployment(newCompileJob, ActiveCompileJob, cancellationToken);
+			return remoteDeploymentManager.ApplyDeployment(newCompileJob, ActiveCompileJob, cancellationToken);
 		}
 
 		/// <summary>

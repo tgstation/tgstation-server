@@ -123,11 +123,9 @@ namespace Tgstation.Server.Host.Controllers
 
 		async Task<bool> PopulateApi(Repository model, Components.Repository.IRepository repository, IDatabaseContext databaseContext, Models.Instance instance, CancellationToken cancellationToken)
 		{
-			if (repository.IsGitHubRepository)
-			{
-				model.GitHubOwner = repository.GitHubOwner;
-				model.GitHubName = repository.GitHubRepoName;
-			}
+			model.RemoteGitProvider = repository.RemoteGitProvider;
+			model.RemoteRepositoryOwner = repository.RemoteRepositoryOwner;
+			model.RemoteRepositoryName = repository.RemoteRepositoryName;
 
 			model.Origin = repository.Origin;
 			model.Reference = repository.Reference;
@@ -171,14 +169,6 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (currentModel == default)
 				return Gone();
-
-			// normalize github urls
-			const string BadGitHubUrl = "://www.github.com/";
-			var uiOrigin = model.Origin.ToUpperInvariant();
-			var uiBad = BadGitHubUrl.ToUpperInvariant();
-			var uiGitHub = Components.Repository.Repository.GitHubUrl.ToUpperInvariant();
-			if (uiOrigin.Contains(uiBad, StringComparison.Ordinal))
-				model.Origin = uiOrigin.Replace(uiBad, uiGitHub, StringComparison.Ordinal);
 
 			currentModel.AccessToken = model.AccessToken;
 			currentModel.AccessUser = model.AccessUser; // intentionally only these fields, user not allowed to change anything else atm
@@ -507,7 +497,7 @@ namespace Tgstation.Server.Host.Controllers
 				var startSha = repo.Head;
 				string postUpdateSha = null;
 
-				if (newTestMerges && !repo.IsGitHubRepository)
+				if (newTestMerges && repo.RemoteGitProvider == RemoteGitProvider.Unknown)
 					throw new JobException(ErrorCode.RepoUnsupportedTestMergeRemote);
 
 				var committerName = currentModel.ShowTestMergeCommitters.Value
@@ -655,18 +645,19 @@ namespace Tgstation.Server.Host.Controllers
 					Dictionary<int, Octokit.PullRequest> prMap = null;
 					if (newTestMerges)
 					{
+						if (repo.RemoteGitProvider == RemoteGitProvider.Unknown)
+							throw new JobException(ErrorCode.RepoTestMergeInvalidRemote);
+
 						// bit of sanitization
 						foreach (var I in model.NewTestMerges.Where(x => String.IsNullOrWhiteSpace(x.PullRequestRevision)))
 							I.PullRequestRevision = null;
 
 						var gitHubClient = currentModel.AccessToken != null
 							? gitHubClientFactory.CreateClient(currentModel.AccessToken)
-							: (String.IsNullOrEmpty(generalConfiguration.GitHubAccessToken)
-								? gitHubClientFactory.CreateClient()
-								: gitHubClientFactory.CreateClient(generalConfiguration.GitHubAccessToken));
+							: gitHubClientFactory.CreateClient();
 
-						var repoOwner = repo.GitHubOwner;
-						var repoName = repo.GitHubRepoName;
+						var repoOwner = repo.RemoteRepositoryOwner;
+						var repoName = repo.RemoteRepositoryName;
 
 						// optimization: if we've already merged these exact same commits in this fashion before, just find the rev info for it and check it out
 						Models.RevisionInformation revInfoWereLookingFor = null;

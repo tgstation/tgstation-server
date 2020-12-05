@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
 	/// Represents a git repository
 	/// </summary>
-	public sealed class Repository : Internal.RepositorySettings
+	public sealed class Repository : RepositorySettings, IGitRemoteInformation
 	{
 		/// <summary>
 		/// The origin URL. If <see langword="null"/>, the <see cref="Repository"/> does not exist
@@ -29,15 +30,14 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		public RevisionInformation? RevisionInformation { get; set; }
 
-		/// <summary>
-		/// If the repository was cloned from GitHub.com this will be set with the owner of the repository
-		/// </summary>
-		public string? GitHubOwner { get; set; }
+		/// <inheritdoc />
+		public RemoteGitProvider? RemoteGitProvider { get; set; }
 
-		/// <summary>
-		/// If the repository was cloned from GitHub.com this will be set with the name of the repository
-		/// </summary>
-		public string? GitHubName { get; set; }
+		/// <inheritdoc />
+		public string? RemoteRepositoryOwner { get; set; }
+
+		/// <inheritdoc />
+		public string? RemoteRepositoryName { get; set; }
 
 		/// <summary>
 		/// The <see cref="Job"/> started by the <see cref="Repository"/> if any

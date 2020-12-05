@@ -188,18 +188,32 @@ namespace Tgstation.Server.Host.Components.Repository
 			{
 				try
 				{
-					var libGitRepo = await repositoryFactory.CreateFromPath(ioManager.ResolvePath(), cancellationToken).ConfigureAwait(false);
-					return new Repository(
-						libGitRepo,
-						commands,
-						ioManager,
-						eventConsumer,
-						repositoryFactory,
-						repositoryLogger, () =>
+					var repoTuple = await repositoryFactory.CreateFromPath(ioManager.ResolvePath(), cancellationToken).ConfigureAwait(false);
+
+					try
 					{
-						logger.LogTrace("Releasing semaphore due to Repository disposal...");
-						semaphore.Release();
-					});
+						var libGit2Repo = repoTuple.Item1;
+						var gitRemoteFeatures = repoTuple.Item2;
+
+						return new Repository(
+							libGit2Repo,
+							commands,
+							ioManager,
+							eventConsumer,
+							repositoryFactory,
+							gitRemoteFeatures,
+							repositoryLogger,
+							() =>
+							{
+								logger.LogTrace("Releasing semaphore due to Repository disposal...");
+								semaphore.Release();
+							});
+					}
+					catch
+					{
+						repoTuple.Item1.Dispose();
+						throw;
+					}
 				}
 				catch
 				{

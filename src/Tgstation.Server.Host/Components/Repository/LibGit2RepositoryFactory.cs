@@ -2,6 +2,7 @@ using LibGit2Sharp;
 using LibGit2Sharp.Handlers;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -35,12 +36,12 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public Task<LibGit2Sharp.IRepository> CreateFromPath(string path, CancellationToken cancellationToken)
+		public async Task<Tuple<LibGit2Sharp.IRepository, IGitRemoteFeatures>> CreateFromPath(string path, CancellationToken cancellationToken)
 		{
 			if (path == null)
 				throw new ArgumentNullException(nameof(path));
 
-			return Task.Factory.StartNew<LibGit2Sharp.IRepository>(
+			var repo = await Task.Factory.StartNew<LibGit2Sharp.IRepository>(
 				() =>
 				{
 					logger.LogTrace("Creating libgit2 repostory at {0}...", path);
@@ -48,7 +49,45 @@ namespace Tgstation.Server.Host.Components.Repository
 				},
 				cancellationToken,
 				DefaultIOManager.BlockingTaskCreationOptions,
-				TaskScheduler.Current);
+				TaskScheduler.Current)
+				.ConfigureAwait(false);
+
+			try
+			{
+				var remoteFeatures = CreateGitRemoteFeatures(repo);
+				return Tuple.Create(repo, remoteFeatures);
+			}
+			catch
+			{
+				repo.Dispose();
+				throw;
+			}
+		}
+
+		IGitRemoteFeatures CreateGitRemoteFeatures(LibGit2Sharp.IRepository repo)
+		{
+			var primaryRemote = repo.Network.Remotes.First();
+			var primaryRemoteUrl = new Uri(primaryRemote.Url);
+
+			try
+			{
+				switch (primaryRemoteUrl.Host.ToUpperInvariant())
+				{
+					case "GITHUB.COM":
+					case "WWW.GITHUB.COM":
+					case "GIT.GITHUB.COM":
+						return new GitHubRemoteFeatures(primaryRemoteUrl);
+					default:
+						logger.LogTrace("Unknown git remote: {0}", primaryRemoteUrl);
+						break;
+				}
+			}
+			catch (Exception ex)
+			{
+				logger.LogWarning(ex, "Error parsing remote git provider.");
+			}
+
+			return new DefaultGitRemoteFeatures();
 		}
 
 		/// <inheritdoc />

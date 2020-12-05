@@ -4,6 +4,7 @@ using System;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.Components.Deployment.Remote;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Configuration;
@@ -58,7 +59,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IIOManager gameIOManager,
 			IIOManager diagnosticsIOManager,
 			IEventConsumer eventConsumer,
-			IGitHubDeploymentManager gitHubDeploymentManager,
+			IRemoteDeploymentManager gitHubDeploymentManager,
 			Api.Models.Instance instance,
 			DreamDaemonSettings settings)
 			=> new WindowsWatchdog(
