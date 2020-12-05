@@ -41,9 +41,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				var contentTypeProvider = new FileExtensionContentTypeProvider();
 				if (!contentTypeProvider.TryGetContentType(fileInfo.Name, out var contentType))
-				{
-					contentType = "application/octet-stream";
-				}
+					contentType = MediaTypeNames.Application.Octet;
 
 				return File(appRoute, contentType);
 			}

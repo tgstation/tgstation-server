@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 
 namespace Tgstation.Server.Api.Models
 {
@@ -21,5 +22,10 @@ namespace Tgstation.Server.Api.Models
 		/// The DMAPI version of the host.
 		/// </summary>
 		public Version? DMApiVersion { get; set; }
+
+		/// <summary>
+		/// Map of <see cref="OAuthProvider"/> to the server's associated client IDs for them.
+		/// </summary>
+		public IDictionary<OAuthProvider, string>? OAuthProviderClientIds { get; set; }
 	}
 }

@@ -57,7 +57,7 @@ docker run \
 	--name="tgs" \ # Name for the container
 	--cap-add=sys_nice \ # Recommended, allows tgs to schedule DreamDaemon as a higher priority process
 	--init \ #Highly recommended, reaps potential zombie processes
-	-p <tgs port>:<port configured with setup wizard> \ # Port bridge for accessing TGS
+	-p 5000:5000 \ # Port bridge for accessing TGS, you can change this if you need
 	-p 0.0.0.0:<public game port>:<public game port> \ # Port bridge for accessing DreamDaemon
 	-v /path/to/your/configfile/directory:/config_data \ # Recommended, create a volume mapping for server configuration
 	-v /path/to/store/instances:/tgs4_instances \ # Recommended, create a volume mapping for server instances
@@ -85,6 +85,16 @@ If using manual configuration, before starting your container make sure the afor
 The first time you run TGS4 you should be prompted with a configuration wizard which will guide you through setting up your appsettings.Production.json
 
 This wizard will, generally, run whenever the server is launched without detecting the config json. Follow the instructions below to perform this process manually.
+
+#### Configuration Methods
+
+There are 3 primary supported ways to configure TGS:
+
+- Modify the `appsettings.Production.json` file (Recommended).
+- Set environment variables in the form `Section__Subsection=value` or `Section__ArraySubsection__0=value` for arrays.
+- Set command line arguments in the form `--Section:Subsection=value` or `--Section:ArraySubsection:0=value` for arrays.
+
+The latter two are not recommended as they cannot be dynamically changed at runtime. See more on ASP.NET core configuration [here](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-3.1).
 
 #### Manual Configuration
 
@@ -119,6 +129,14 @@ Create an `appsettings.Production.json` file next to `appsettings.json`. This wi
 - `ControlPanel:AllowAnyOrigin`: Set the Access-Control-Allow-Origin header to * for all responses (also enables all headers and methods)
 
 - `ControlPanel:AllowedOrigins`: Set the Access-Control-Allow-Origin headers to this list of origins for all responses (also enables all headers and methods). This is overridden by `ControlPanel:AllowAnyOrigin`
+
+- `Security:<Provider Name>OAuth`: Sets the OAuth client ID and secret for a given `<Provider Name>`. The currently supported providers are `GitHub`, `Discord`, and `TGForums`. Setting these fields to `null` disables logins with the provider, but does not stop users from associating their accounts using the API. Sample Entry:
+```json
+"GitHubOAuth":{
+	"ClientId": "... (Note for `TGForums`, this is the redirect_uri used)",
+	"ClientSecret": "..."
+}
+```
 
 ### Database Configuration
 
@@ -372,10 +390,9 @@ TGS 4 can self update without stopping your DreamDaemon servers. Any V4 release 
 Here are tools for interacting with the TGS 4 web API
 
 - [tgstation-server-control-panel]: Official client and included with the server (WIP). A react web app for using tgstation-server.
-- [Tgstation.Server.ControlPanel](https://github.com/tgstation/Tgstation.Server.ControlPanel): Official client. A cross platform GUI for using tgstation-server
-- [Tgstation.Server.Client](https://www.nuget.org/packages/Tgstation.Server.Client): A nuget .NET Standard 2.0 TAP based library for communicating with tgstation-server
-- [Tgstation.Server.Api](https://www.nuget.org/packages/Tgstation.Server.Api): A nuget .NET Standard 2.0 library containing API definitions for tgstation-server
-- [Postman](https://www.getpostman.com/): This repository contains [TGS.postman_collection.json](tools/TGS.postman_collection.json) which is used during development for testing. Contains example requests for all endpoints but takes some knowledge to use (Note that the pre-request script is configured to login the default admin user for every request)
+- [Tgstation.Server.ControlPanel](https://github.com/tgstation/Tgstation.Server.ControlPanel): Official client. A cross platform GUI for using tgstation-server. Feature complete but lacks OAuth login options.
+- [Tgstation.Server.Client](https://www.nuget.org/packages/Tgstation.Server.Client): A nuget .NET Standard 2.0 TAP based library for communicating with tgstation-server. Feature complete.
+- [Tgstation.Server.Api](https://www.nuget.org/packages/Tgstation.Server.Api): A nuget .NET Standard 2.0 library containing API definitions for tgstation-server. Feature complete.
 
 Contact project maintainers to get your client added to this list
 

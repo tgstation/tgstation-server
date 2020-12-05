@@ -15,6 +15,7 @@ using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Transfer;
 
 namespace Tgstation.Server.Host.Components.StaticFiles
 {
@@ -77,6 +78,11 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		readonly IPlatformIdentifier platformIdentifier;
 
 		/// <summary>
+		/// The <see cref="IFileTransferTicketProvider"/> for <see cref="Configuration"/>.
+		/// </summary>>
+		readonly IFileTransferTicketProvider fileTransferService;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for <see cref="Configuration"/>
 		/// </summary>
 		readonly ILogger<Configuration> logger;
@@ -87,6 +93,16 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		readonly SemaphoreSlim semaphore;
 
 		/// <summary>
+		/// The <see cref="CancellationTokenSource"/> that is triggered when <see cref="IDisposable.Dispose"/> is called.
+		/// </summary>
+		readonly CancellationTokenSource disposeCts;
+
+		/// <summary>
+		/// The culmination of all upload file transfer callbacks.
+		/// </summary>
+		Task uploadTasks;
+
+		/// <summary>
 		/// Construct <see cref="Configuration"/>
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
@@ -95,6 +111,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
 		/// <param name="postWriteHandler">The value of <see cref="postWriteHandler"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
+		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		public Configuration(
 			IIOManager ioManager,
@@ -103,6 +120,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			IProcessExecutor processExecutor,
 			IPostWriteHandler postWriteHandler,
 			IPlatformIdentifier platformIdentifier,
+			IFileTransferTicketProvider fileTransferService,
 			ILogger<Configuration> logger)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
@@ -111,13 +129,21 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			this.postWriteHandler = postWriteHandler ?? throw new ArgumentNullException(nameof(postWriteHandler));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
+			this.fileTransferService = fileTransferService ?? throw new ArgumentNullException(nameof(fileTransferService));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			semaphore = new SemaphoreSlim(1);
+			disposeCts = new CancellationTokenSource();
+			uploadTasks = Task.CompletedTask;
 		}
 
 		/// <inheritdoc />
-		public void Dispose() => semaphore.Dispose();
+		public void Dispose()
+		{
+			semaphore.Dispose();
+			disposeCts.Cancel();
+			disposeCts.Dispose();
+		}
 
 		/// <summary>
 		/// Get the proper path to <see cref="StaticIgnoreFile"/>
@@ -246,17 +272,55 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				lock (semaphore)
 					try
 					{
-						var content = synchronousIOManager.ReadFile(path);
-						string sha1String;
+						string GetFileSha()
+						{
+							var content = synchronousIOManager.ReadFile(path);
 #pragma warning disable CA5350 // Do not use insecure cryptographic algorithm SHA1.
-						using (var sha1 = new SHA1Managed())
+							using var sha1 = new SHA1Managed();
 #pragma warning restore CA5350 // Do not use insecure cryptographic algorithm SHA1.
-							sha1String = String.Join(String.Empty, sha1.ComputeHash(content).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
+							return String.Join(String.Empty, sha1.ComputeHash(content).Select(b => b.ToString("x2", CultureInfo.InvariantCulture)));
+						}
+
+						var originalSha = GetFileSha();
+
+						var disposeToken = disposeCts.Token;
+						var fileTicket = fileTransferService.CreateDownload(
+							new FileDownloadProvider(
+								() =>
+								{
+									if (disposeToken.IsCancellationRequested)
+										return ErrorCode.InstanceOffline;
+
+									var newSha = GetFileSha();
+									if (newSha != originalSha)
+										return ErrorCode.ConfigurationFileUpdated;
+
+									return null;
+								},
+								async cancellationToken =>
+								{
+									FileStream result = null;
+									void GetFileStream()
+									{
+										result = ioManager.GetFileStream(path, false);
+									}
+
+									using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+										if (systemIdentity == null)
+											await Task.Factory.StartNew(GetFileStream, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
+										else
+											await systemIdentity.RunImpersonated(GetFileStream, cancellationToken).ConfigureAwait(false);
+
+									return result;
+								},
+								path,
+								false));
+
 						result = new ConfigurationFile
 						{
-							Content = content,
+							FileTicket = fileTicket.FileTicket,
 							IsDirectory = false,
-							LastReadHash = sha1String,
+							LastReadHash = originalSha,
 							AccessDenied = false,
 							Path = configurationRelativePath
 						};
@@ -365,7 +429,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		}
 
 		/// <inheritdoc />
-		public async Task<ConfigurationFile> Write(string configurationRelativePath, ISystemIdentity systemIdentity, byte[] data, string previousHash, CancellationToken cancellationToken)
+		public async Task<ConfigurationFile> Write(string configurationRelativePath, ISystemIdentity systemIdentity, string previousHash, CancellationToken cancellationToken)
 		{
 			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
@@ -377,20 +441,47 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				lock (semaphore)
 					try
 					{
-						var fileHash = previousHash;
-						var success = synchronousIOManager.WriteFileChecked(path, data, ref fileHash, cancellationToken);
-						if (!success)
-							return;
-						if (data != null)
-							postWriteHandler.HandleWrite(path);
+						var fileTicket = fileTransferService.CreateUpload(true);
+						var uploadCancellationToken = disposeCts.Token;
+						async Task UploadHandler()
+						{
+							using (fileTicket)
+							{
+								var fileHash = previousHash;
+								using var uploadStream = await fileTicket.GetResult(uploadCancellationToken).ConfigureAwait(false);
+								bool success = false;
+								void WriteCallback()
+								{
+									success = synchronousIOManager.WriteFileChecked(path, uploadStream, ref fileHash, cancellationToken);
+								}
+
+								using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+									if (systemIdentity == null)
+										await Task.Factory.StartNew(WriteCallback, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
+									else
+										await systemIdentity.RunImpersonated(WriteCallback, cancellationToken).ConfigureAwait(false);
+
+								if (!success)
+									fileTicket.SetErrorMessage(new ErrorMessage(ErrorCode.ConfigurationFileUpdated)
+									{
+										AdditionalData = fileHash
+									});
+								else if(uploadStream.Length > 0)
+									postWriteHandler.HandleWrite(path);
+							}
+						}
+
 						result = new ConfigurationFile
 						{
-							Content = data,
+							FileTicket = fileTicket.Ticket.FileTicket,
+							LastReadHash = previousHash,
 							IsDirectory = false,
-							LastReadHash = fileHash,
 							AccessDenied = false,
 							Path = configurationRelativePath
 						};
+
+						lock (disposeCts)
+							uploadTasks = Task.WhenAll(uploadTasks, UploadHandler());
 					}
 					catch (UnauthorizedAccessException)
 					{

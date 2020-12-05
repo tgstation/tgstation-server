@@ -13,7 +13,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 		{
 #pragma warning disable 612, 618
 			modelBuilder
-				.HasAnnotation("ProductVersion", "3.1.7")
+				.HasAnnotation("ProductVersion", "3.1.10")
 				.HasAnnotation("Relational:MaxIdentifierLength", 64);
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
@@ -373,6 +373,33 @@ namespace Tgstation.Server.Host.Database.Migrations
 					b.ToTable("Jobs");
 				});
 
+			modelBuilder.Entity("Tgstation.Server.Host.Models.OAuthConnection", b =>
+				{
+					b.Property<long>("Id")
+						.ValueGeneratedOnAdd()
+						.HasColumnType("bigint");
+
+					b.Property<string>("ExternalUserId")
+						.IsRequired()
+						.HasColumnType("varchar(100) CHARACTER SET utf8mb4")
+						.HasMaxLength(100);
+
+					b.Property<int>("Provider")
+						.HasColumnType("int");
+
+					b.Property<long?>("UserId")
+						.HasColumnType("bigint");
+
+					b.HasKey("Id");
+
+					b.HasIndex("UserId");
+
+					b.HasIndex("Provider", "ExternalUserId")
+						.IsUnique();
+
+					b.ToTable("OAuthConnections");
+				});
+
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ReattachInformation", b =>
 				{
 					b.Property<long>("Id")
@@ -703,6 +730,14 @@ namespace Tgstation.Server.Host.Database.Migrations
 						.HasForeignKey("StartedById")
 						.OnDelete(DeleteBehavior.Cascade)
 						.IsRequired();
+				});
+
+			modelBuilder.Entity("Tgstation.Server.Host.Models.OAuthConnection", b =>
+				{
+					b.HasOne("Tgstation.Server.Host.Models.User", "User")
+						.WithMany("OAuthConnections")
+						.HasForeignKey("UserId")
+						.OnDelete(DeleteBehavior.Cascade);
 				});
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ReattachInformation", b =>

@@ -77,6 +77,24 @@ TGS will only every return the response codes listed here
 - 501: Not implemented. Functionality not available in the current server version
 - 503: Service unavailable. The server is either starting up or shutting down and isn't ready to respond to requests. You can try again soon and a response/lack thereof will indicate which of the two events it was
 
+@section api_ver Server Information
+
+The versions of the TGS host can be retireved with this request.
+
+Note: This endpoint does not require authentication
+
+GET "/" => @ref Tgstation.Server.Api.Models.ServerInformation
+
+The Version model fields are based on the C# one and looks like this:
+
+@code{.json}
+{
+	"version": "<major>.<minor>.<patch>.<revision>"
+}
+@endcode
+
+Other fields may be present in the Version model but should be ignored. See a description of these version numbers <a href="https://github.com/tgstation/tgstation-server/blob/master/.github/CONTRIBUTING.md#versioning">here</a>.
+
 @section api_auth Authentication
 
 Every request made to TGS requires authentication. It is provided in the form of the Authorization header. 
@@ -87,7 +105,7 @@ POST "/" => @ref Tgstation.Server.Api.Models.Token
 
 Headers:
 
-- Authorization:basic `<Base64 encoded credentials in the form username:password>`
+- Authorization:Basic `<Base64 encoded credentials in the form username:password>`
 
 If the provided credentials are valid and your user account is enabled you will recieve a @ref Tgstation.Server.Api.Models.Token object
 @code{.json}
@@ -100,9 +118,35 @@ If your account is disabled, you will recieve a 403 response.
 
 You may recognize the bearer value as a <a href="https://jwt.io">Json Web Token</a>. This is a secure representation of your identity to the server. It expires after a set period of time or until your password changes. It must be present for requests made to all other APIs. To do so add the following header to your other requests
 
-- Authorization:bearer `<your bearer token>`
+- Authorization:Bearer `<your bearer token>`
 
 Continue to use this token until you begin to recieve 401 responses from the API. Then repeat the process to get a new one if your credentials are still valid
+
+@subsection api_auth_o OAuth 2.0
+
+TGS4 supports OAuth 2.0 with select providers for authentication.
+
+The flow for this is as follows:
+
+- Retrieve the @ref api_ver to find out available OAuth providers and their respective client IDs.
+- Send the user to the Authorization Request endpoint for the provider using the client ID from above. See https://tools.ietf.org/html/rfc6749#section-4.1.1. DO NOT specify a redirect URI, this should be configured in the provider.
+- Retrieve the authorization response code after successfully completing the authorize step above.
+- Perform the following request:
+
+POST "/" => @ref Tgstation.Server.Api.Models.Token
+
+Headers:
+
+- Authorization:OAuth `OAuth Authorization Response Code`
+- OAuthProvider:<Provider Name>
+
+You will be granted a bearer token as in basic auth. This will have an extended expiration to avoid repeating the entire process.
+
+@subsubsection api_auth_o_providers Supported Providers
+
+- ID: 0, Name: GitHub, Documentation: https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/
+- ID: 1, Name: Discord, Documentation: https://discord.com/developers/docs/topics/oauth2
+- ID: 2, Name: TGForums, Documentation: https://tgstation13.org/phpBB/viewtopic.php?f=45&t=9922
 
 @section api_perms Permissions
 
@@ -117,6 +161,20 @@ GET "/Users" => @ref Tgstation.Server.Api.Models.User
 I GET "/InstanceUser" => @ref Tgstation.Server.Api.Models.InstanceUser
 
 See individual documentation of each permission enum for their usage
+
+@section api_transfer File Transfers
+
+Certain responses inherit from @ref Tgstation.Server.Api.Models.FileTicketResult. These are special in that, having that model's @ref Tgstation.Server.Api.Models.FileTicketResult.FileTicket field populated indicates there is a pending file download or upload to take place. These are handled in the "/Transfer" endpoint.
+
+To perform a file download make the following request:
+
+GET "/Transfer?ticket=<@ref Tgstation.Server.Api.Models.FileTicketResult.FileTicket>" => application/octet-stream
+
+To perform a file upload make the following request:
+
+PUT "/Transfer?ticket=<@ref Tgstation.Server.Api.Models.FileTicketResult.FileTicket>" application/octet-stream => OK
+
+File tickets are only valid for a short time after the initial request is made and should be dealt with immediately. Ensure that the file tickets are properly URL encoded.
 
 @section api_user User Management
 
@@ -149,22 +207,6 @@ Unlike regular users, they can also be deleted, which prevents the user from dis
 I DELETE "/InstanceUser/{UserId}" => OK
 
 Users with the permission to modify @ref Tgstation.Server.Api.Models.Instance objects can also gain user editing rights for any Instance. See @ref api_instance
-
-@section api_ver Version
-
-The versions of the TGS host can be retireved with this request
-
-GET "/" => @ref Tgstation.Server.Api.Models.ServerInformation
-
-The Version model fields are based on the C# one and looks like this:
-
-@code{.json}
-{
-	"version": "<major>.<minor>.<patch>.<revision>"
-}
-@endcode
-
-Other fields may be present in the Version model but should be ignored. See a description of these version numbers <a href="https://github.com/tgstation/tgstation-server/blob/master/.github/CONTRIBUTING.md#versioning">here</a>.
 
 @section api_admin Server-wide Administrative Actions
 

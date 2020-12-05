@@ -19,6 +19,9 @@ namespace Tgstation.Server.Host.Setup
 		public DatabaseConfiguration DatabaseConfiguration => databaseConfigurationOptions.Value;
 
 		/// <inheritdoc />
+		public SecurityConfiguration SecurityConfiguration => securityConfigurationOptions.Value;
+
+		/// <inheritdoc />
 		public FileLoggingConfiguration FileLoggingConfiguration => fileLoggingConfigurationOptions.Value;
 
 		/// <inheritdoc />
@@ -35,6 +38,11 @@ namespace Tgstation.Server.Host.Setup
 		readonly IOptions<DatabaseConfiguration> databaseConfigurationOptions;
 
 		/// <summary>
+		/// Backing <see cref="IOptions{TOptions}"/> for <see cref="SecurityConfiguration"/>.
+		/// </summary>
+		readonly IOptions<SecurityConfiguration> securityConfigurationOptions;
+
+		/// <summary>
 		/// Backing <see cref="IOptions{TOptions}"/> for <see cref="FileLoggingConfiguration"/>.
 		/// </summary>
 		readonly IOptions<FileLoggingConfiguration> fileLoggingConfigurationOptions;
@@ -46,12 +54,14 @@ namespace Tgstation.Server.Host.Setup
 		/// <param name="loggerFactory">The <see cref="ILoggerFactory"/> used to create <see cref="Logger"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="GeneralConfiguration"/>.</param>
 		/// <param name="databaseConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="DatabaseConfiguration"/>.</param>
+		/// <param name="securityConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="SecurityConfiguration"/>.</param>
 		/// <param name="fileLoggingConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="FileLoggingConfiguration"/>.</param>
 		public PostSetupServices(
 			IPlatformIdentifier platformIdentifier,
 			ILoggerFactory loggerFactory,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<DatabaseConfiguration> databaseConfigurationOptions,
+			IOptions<SecurityConfiguration> securityConfigurationOptions,
 			IOptions<FileLoggingConfiguration> fileLoggingConfigurationOptions)
 		{
 			PlatformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
@@ -61,6 +71,7 @@ namespace Tgstation.Server.Host.Setup
 			Logger = loggerFactory.CreateLogger<TLoggerType>();
 			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			this.databaseConfigurationOptions = databaseConfigurationOptions ?? throw new ArgumentNullException(nameof(databaseConfigurationOptions));
+			this.securityConfigurationOptions = securityConfigurationOptions ?? throw new ArgumentNullException(nameof(securityConfigurationOptions));
 			this.fileLoggingConfigurationOptions = fileLoggingConfigurationOptions ?? throw new ArgumentNullException(nameof(fileLoggingConfigurationOptions));
 		}
 	}

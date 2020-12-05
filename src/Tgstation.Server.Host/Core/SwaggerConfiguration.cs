@@ -26,6 +26,11 @@ namespace Tgstation.Server.Host.Core
 		const string PasswordSecuritySchemeId = "Password_Login_Scheme";
 
 		/// <summary>
+		/// The <see cref="OpenApiSecurityScheme"/> name for OAuth 2.0 authentication.
+		/// </summary>
+		const string OAuthSecuritySchemeId = "OAuth_Login_Scheme";
+
+		/// <summary>
 		/// The <see cref="OpenApiSecurityScheme"/> name for token authentication.
 		/// </summary>
 		const string TokenSecuritySchemeId = "Token_Authorization_Scheme";
@@ -170,13 +175,21 @@ namespace Tgstation.Server.Host.Core
 				Scheme = ApiHeaders.BasicAuthenticationScheme
 			});
 
+			swaggerGenOptions.AddSecurityDefinition(OAuthSecuritySchemeId, new OpenApiSecurityScheme
+			{
+				In = ParameterLocation.Header,
+				Type = SecuritySchemeType.Http,
+				Name = HeaderNames.Authorization,
+				Scheme = ApiHeaders.OAuthAuthenticationScheme
+			});
+
 			swaggerGenOptions.AddSecurityDefinition(TokenSecuritySchemeId, new OpenApiSecurityScheme
 			{
 				BearerFormat = "JWT",
 				In = ParameterLocation.Header,
 				Type = SecuritySchemeType.Http,
 				Name = HeaderNames.Authorization,
-				Scheme = ApiHeaders.JwtAuthenticationScheme
+				Scheme = ApiHeaders.BearerAuthenticationScheme
 			});
 		}
 
@@ -236,10 +249,35 @@ namespace Tgstation.Server.Host.Core
 							Id = ApiHeaders.InstanceIdHeader
 						}
 					});
+				else if (typeof(TransferController).IsAssignableFrom(context.MethodInfo.DeclaringType))
+					if (context.MethodInfo.Name == nameof(TransferController.Upload))
+						operation.RequestBody = new OpenApiRequestBody
+						{
+							Content = new Dictionary<string, OpenApiMediaType>
+							{
+								{
+									MediaTypeNames.Application.Octet,
+									new OpenApiMediaType
+									{
+										Schema = new OpenApiSchema
+										{
+											Type = "string",
+											Format = "binary"
+										}
+									}
+								}
+							}
+						};
+					else if (context.MethodInfo.Name == nameof(TransferController.Download))
+					{
+						var twoHundredResponseContents = operation.Responses["200"].Content;
+						var fileContent = twoHundredResponseContents[MediaTypeNames.Application.Json];
+						twoHundredResponseContents.Remove(MediaTypeNames.Application.Json);
+						twoHundredResponseContents.Add(MediaTypeNames.Application.Octet, fileContent);
+					}
 			}
-			else
+			else if (context.MethodInfo.Name == nameof(HomeController.CreateToken))
 			{
-				// HomeController.CreateToken
 				var passwordScheme = new OpenApiSecurityScheme
 				{
 					Reference = new OpenApiReference
@@ -249,12 +287,38 @@ namespace Tgstation.Server.Host.Core
 					}
 				};
 
+				var oAuthScheme = new OpenApiSecurityScheme
+				{
+					Reference = new OpenApiReference
+					{
+						Type = ReferenceType.SecurityScheme,
+						Id = OAuthSecuritySchemeId
+					}
+				};
+
+				operation.Parameters.Add(new OpenApiParameter
+				{
+					In = ParameterLocation.Header,
+					Name = ApiHeaders.OAuthProviderHeader,
+					Description = "The external OAuth service provider.",
+					Style = ParameterStyle.Simple,
+					Example = new OpenApiString("Discord"),
+					Schema = new OpenApiSchema
+					{
+						Type = "string"
+					}
+				});
+
 				operation.Security = new List<OpenApiSecurityRequirement>
 				{
 					new OpenApiSecurityRequirement
 					{
 						{
 							passwordScheme,
+							new List<string>()
+						},
+						{
+							oAuthScheme,
 							new List<string>()
 						}
 					}
@@ -311,17 +375,24 @@ namespace Tgstation.Server.Host.Core
 				Schema = productHeaderSchema
 			});
 
-			string bridgeOperationPath = null;
+			var pathsToRemove = new List<string>();
+			var filteredControllers = new string[]
+			{
+				nameof(BridgeController),
+				nameof(ControlPanelController),
+			};
+
 			foreach (var path in swaggerDoc.Paths)
 				foreach (var operation in path.Value.Operations.Select(x => x.Value))
 				{
-					if (operation.OperationId.Equals($"{nameof(BridgeController)}.{nameof(BridgeController.Process)}", StringComparison.Ordinal))
+					if (filteredControllers.Any(
+						x => operation.OperationId.StartsWith(x, StringComparison.Ordinal)))
 					{
-						bridgeOperationPath = path.Key;
+						pathsToRemove.Add(path.Key);
 						continue;
 					}
 
-					operation.Parameters.Add(new OpenApiParameter
+					operation.Parameters.Insert(0, new OpenApiParameter
 					{
 						Reference = new OpenApiReference
 						{
@@ -330,7 +401,7 @@ namespace Tgstation.Server.Host.Core
 						},
 					});
 
-					operation.Parameters.Add(new OpenApiParameter
+					operation.Parameters.Insert(1, new OpenApiParameter
 					{
 						Reference = new OpenApiReference
 						{
@@ -340,7 +411,8 @@ namespace Tgstation.Server.Host.Core
 					});
 				}
 
-			swaggerDoc.Paths.Remove(bridgeOperationPath);
+			foreach (var filteredPath in pathsToRemove)
+				swaggerDoc.Paths.Remove(filteredPath);
 
 			AddDefaultResponses(swaggerDoc);
 		}

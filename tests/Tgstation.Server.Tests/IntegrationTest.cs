@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -12,6 +13,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Mime;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Threading;
@@ -37,9 +39,9 @@ namespace Tgstation.Server.Tests
 		readonly IServerClientFactory clientFactory = new ServerClientFactory(new ProductHeaderValue(Assembly.GetExecutingAssembly().GetName().Name, Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
 		[TestMethod]
-		public async Task TestUpdateProtocol()
+		public async Task TestUpdateProtocolAndDisabledOAuth()
 		{
-			using var server = new TestingServer();
+			using var server = new TestingServer(false);
 			using var serverCts = new CancellationTokenSource();
 			var cancellationToken = serverCts.Token;
 			var serverTask = server.Run(cancellationToken);
@@ -47,11 +49,30 @@ namespace Tgstation.Server.Tests
 			{
 				var testUpdateVersion = new Version(4, 3, 0);
 				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
+				{
+					// Disabled OAuth test
+					using (var httpClient = new HttpClient())
+					using (var request = new HttpRequestMessage(HttpMethod.Post, server.Url.ToString()))
+					{
+						request.Headers.Accept.Clear();
+						request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
+						request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+						request.Headers.Add(ApiHeaders.ApiVersionHeader, "Tgstation.Server.Api/" + ApiHeaders.Version);
+						request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.OAuthAuthenticationScheme, adminClient.Token.Bearer);
+						request.Headers.Add(ApiHeaders.OAuthProviderHeader, OAuthProvider.GitHub.ToString());
+						using var response = await httpClient.SendAsync(request, cancellationToken);
+						Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+						var content = await response.Content.ReadAsStringAsync();
+						var message = JsonConvert.DeserializeObject<ErrorMessage>(content);
+						Assert.AreEqual(ErrorCode.OAuthProviderDisabled, message.ErrorCode);
+					}
+
 					//attempt to update to stable
 					await adminClient.Administration.Update(new Administration
 					{
 						NewVersion = testUpdateVersion
 					}, cancellationToken).ConfigureAwait(false);
+				}
 
 				//wait up to 3 minutes for the dl and install
 				await Task.WhenAny(serverTask, Task.Delay(TimeSpan.FromMinutes(3), cancellationToken)).ConfigureAwait(false);
@@ -207,7 +228,7 @@ namespace Tgstation.Server.Tests
 				Assert.Inconclusive("Cannot run server test because DreamDaemon will not start headless while the BYOND pager is running!");
 			}
 
-			using var server = new TestingServer();
+			using var server = new TestingServer(true);
 
 			const int MaximumTestMinutes = 20;
 			using var hardTimeoutCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(MaximumTestMinutes));
@@ -450,7 +471,7 @@ namespace Tgstation.Server.Tests
 		[TestMethod]
 		public async Task TestRepoParentLookup()
 		{
-			using var testingServer = new TestingServer();
+			using var testingServer = new TestingServer(false);
 			LibGit2Sharp.Repository.Clone("https://github.com/Cyberboss/test", testingServer.Directory);
 			var libGit2Repo = new LibGit2Sharp.Repository(testingServer.Directory);
 			using var repo = new Host.Components.Repository.Repository(

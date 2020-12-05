@@ -1,4 +1,5 @@
 using System;
+using System.Net.Http.Headers;
 using System.Reflection;
 using Tgstation.Server.Api;
 
@@ -21,6 +22,11 @@ namespace Tgstation.Server.Host.System
 
 		/// <inheritdoc />
 		public string VersionString { get; }
+
+		/// <inheritdoc />
+		public ProductInfoHeaderValue ProductInfoHeaderValue => new ProductInfoHeaderValue(
+			VersionPrefix,
+			Version.ToString());
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AssemblyInformationProvider"/> <see langword="class"/>.

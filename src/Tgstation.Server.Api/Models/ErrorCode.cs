@@ -64,10 +64,10 @@ namespace Tgstation.Server.Api.Models
 		CannotChangeServerSuite,
 
 		/// <summary>
-		/// A required GitHub API request failed.
+		/// A required remote API request failed.
 		/// </summary>
-		[Description("A required GitHub request returned an API error!")]
-		GitHubApiError,
+		[Description("A required remote API request returned an error!")]
+		RemoteApiError,
 
 		/// <summary>
 		/// A server update was requested while another was in progress.
@@ -166,7 +166,7 @@ namespace Tgstation.Server.Api.Models
 		RequiresPosixSystemIdentity,
 
 		/// <summary>
-		/// A <see cref="ConfigurationFile"/> was attem updated
+		/// A <see cref="ConfigurationFile"/> was updated.
 		/// </summary>
 		[Description("This existing file hash does not match, the file has beeen updated!")]
 		ConfigurationFileUpdated,
@@ -582,5 +582,23 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("The requested port is either already in use by TGS or could not be allocated!")]
 		PortNotAvailable,
+
+		/// <summary>
+		/// Attempted to set <see cref="User.OAuthConnections"/> for the admin user.
+		/// </summary>
+		[Description("The admin user cannot use OAuth connections!")]
+		AdminUserCannotOAuth,
+
+		/// <summary>
+		/// Attempted to login with a disabled OAuth provider.
+		/// </summary>
+		[Description("The requested OAuth provider is disabled via configuration!")]
+		OAuthProviderDisabled,
+
+		/// <summary>
+		/// A <see cref="Job"/> requiring a file upload did not receive it before timing out.
+		/// </summary>
+		[Description("The job did not receive a required upload before timing out!")]
+		FileUploadExpired,
 	}
 }

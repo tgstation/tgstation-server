@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -41,17 +42,56 @@ namespace Tgstation.Server.Client.Components
 		public Task<IReadOnlyList<ConfigurationFile>> List(string directory, CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<ConfigurationFile>>(Routes.ListRoute(Routes.Configuration) + Routes.SanitizeGetPath(directory), instance.Id, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<ConfigurationFile> Read(ConfigurationFile file, CancellationToken cancellationToken)
+		public async Task<Tuple<ConfigurationFile, Stream>> Read(ConfigurationFile file, CancellationToken cancellationToken)
 		{
 			if (file == null)
 				throw new ArgumentNullException(nameof(file));
-			return apiClient.Read<ConfigurationFile>(
+			var configFile = await apiClient.Read<ConfigurationFile>(
 				Routes.ConfigurationFile + Routes.SanitizeGetPath(file.Path ?? throw new ArgumentException("file.Path should not be null!", nameof(file))),
 				instance.Id,
-				cancellationToken);
+				cancellationToken)
+				.ConfigureAwait(false);
+			var downloadStream = await apiClient.Download(configFile, cancellationToken).ConfigureAwait(false);
+			try
+			{
+				return Tuple.Create(configFile, downloadStream);
+			}
+			catch
+			{
+				downloadStream.Dispose();
+				throw;
+			}
 		}
 
 		/// <inheritdoc />
-		public Task<ConfigurationFile> Write(ConfigurationFile file, CancellationToken cancellationToken) => apiClient.Update<ConfigurationFile, ConfigurationFile>(Routes.Configuration, file ?? throw new ArgumentNullException(nameof(file)), instance.Id, cancellationToken);
+		public async Task<ConfigurationFile> Write(ConfigurationFile file, Stream uploadStream, CancellationToken cancellationToken)
+		{
+			long initialStreamPosition = 0;
+			MemoryStream? memoryStream = null;
+			if (uploadStream?.CanSeek == false)
+				memoryStream = new MemoryStream();
+			else if (uploadStream != null)
+				initialStreamPosition = uploadStream.Position;
+
+			using (memoryStream)
+			{
+				var configFileTask = apiClient.Update<ConfigurationFile, ConfigurationFile>(
+					Routes.Configuration,
+					file ?? throw new ArgumentNullException(nameof(file)),
+					instance.Id,
+					cancellationToken);
+
+				if (memoryStream != null)
+					await uploadStream!.CopyToAsync(memoryStream, cancellationToken).ConfigureAwait(false);
+
+				var configFile = await configFileTask.ConfigureAwait(false);
+
+				var streamUsed = memoryStream ?? uploadStream;
+				streamUsed?.Seek(initialStreamPosition, SeekOrigin.Begin);
+				await apiClient.Upload(configFile, streamUsed, cancellationToken).ConfigureAwait(false);
+
+				return configFile;
+			}
+		}
 	}
 }

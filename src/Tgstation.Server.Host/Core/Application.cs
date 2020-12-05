@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -31,14 +32,17 @@ using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.Security.OAuth;
 using Tgstation.Server.Host.Setup;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Transfer;
 
 namespace Tgstation.Server.Host.Core
 {
@@ -100,7 +104,6 @@ namespace Tgstation.Server.Host.Core
 			// configure configuration
 			services.UseStandardConfig<UpdatesConfiguration>(Configuration);
 			services.UseStandardConfig<ControlPanelConfiguration>(Configuration);
-			services.UseStandardConfig<SecurityConfiguration>(Configuration);
 
 			// enable options which give us config reloading
 			services.AddOptions();
@@ -127,7 +130,10 @@ namespace Tgstation.Server.Host.Core
 				config =>
 				{
 					if (microsoftEventLevel.HasValue)
+					{
 						config.MinimumLevel.Override("Microsoft", microsoftEventLevel.Value);
+						config.MinimumLevel.Override("System.Net.Http.HttpClient", microsoftEventLevel.Value);
+					}
 				},
 				sinkConfig =>
 				{
@@ -159,24 +165,26 @@ namespace Tgstation.Server.Host.Core
 				});
 
 			// configure bearer token validation
-			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(jwtBearerOptions =>
-			{
-				// this line isn't actually run until the first request is made
-				// at that point tokenFactory will be populated
-				jwtBearerOptions.TokenValidationParameters = tokenFactory.ValidationParameters;
-				jwtBearerOptions.Events = new JwtBearerEvents
+			services
+				.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+				.AddJwtBearer(jwtBearerOptions =>
 				{
-					// Application is our composition root so this monstrosity of a line is okay
-					// At least, that's what I tell myself to sleep at night
-					OnTokenValidated = ctx => ctx
-						.HttpContext
-						.RequestServices
-						.GetRequiredService<IClaimsInjector>()
-						.InjectClaimsIntoContext(
-							ctx,
-							ctx.HttpContext.RequestAborted)
-				};
-			});
+					// this line isn't actually run until the first request is made
+					// at that point tokenFactory will be populated
+					jwtBearerOptions.TokenValidationParameters = tokenFactory.ValidationParameters;
+					jwtBearerOptions.Events = new JwtBearerEvents
+					{
+						// Application is our composition root so this monstrosity of a line is okay
+						// At least, that's what I tell myself to sleep at night
+						OnTokenValidated = ctx => ctx
+							.HttpContext
+							.RequestServices
+							.GetRequiredService<IClaimsInjector>()
+							.InjectClaimsIntoContext(
+								ctx,
+								ctx.HttpContext.RequestAborted)
+					};
+				});
 
 			// WARNING: STATIC CODE
 			// fucking prevents converting 'sub' to M$ bs
@@ -215,6 +223,9 @@ namespace Tgstation.Server.Host.Core
 
 			// CORS conditionally enabled later
 			services.AddCors();
+
+			// Enable managed HTTP clients
+			services.AddHttpClient();
 
 			void AddTypedContext<TContext>() where TContext : DatabaseContext
 			{
@@ -260,6 +271,7 @@ namespace Tgstation.Server.Host.Core
 			// configure security services
 			services.AddScoped<IAuthenticationContextFactory, AuthenticationContextFactory>();
 			services.AddScoped<IClaimsInjector, ClaimsInjector>();
+			services.AddSingleton<IOAuthProviders, OAuthProviders>();
 			services.AddSingleton<IIdentityCache, IdentityCache>();
 			services.AddSingleton<ICryptographySuite, CryptographySuite>();
 			services.AddSingleton<ITokenFactory, TokenFactory>();
@@ -295,12 +307,16 @@ namespace Tgstation.Server.Host.Core
 			}
 
 			// configure misc services
+			services.AddScoped<IPortAllocator, PortAllocator>();
+			services.AddTransient<IActionResultExecutor<LimitedFileStreamResult>, LimitedFileStreamResultExecutor>();
 			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
 			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
 			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
 			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
-			services.AddScoped<IPortAllocator, PortAllocator>();
+			services.AddSingleton<FileTransferService>();
+			services.AddSingleton<IFileTransferStreamHandler>(x => x.GetRequiredService<FileTransferService>());
+			services.AddSingleton<IFileTransferTicketProvider>(x => x.GetRequiredService<FileTransferService>());
 
 			// configure component services
 			services.AddSingleton<ILibGit2RepositoryFactory, LibGit2RepositoryFactory>();
@@ -428,7 +444,10 @@ namespace Tgstation.Server.Host.Core
 			var originalBuilder = corsBuilder;
 			corsBuilder = builder =>
 			{
-				builder.AllowAnyHeader().AllowAnyMethod();
+				builder
+					.AllowAnyHeader()
+					.AllowAnyMethod()
+					.SetPreflightMaxAge(TimeSpan.FromDays(1));
 				originalBuilder?.Invoke(builder);
 			};
 			applicationBuilder.UseCors(corsBuilder);

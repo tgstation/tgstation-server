@@ -89,6 +89,11 @@ namespace Tgstation.Server.Api
 		public const string Jobs = Root + nameof(Models.Job);
 
 		/// <summary>
+		/// The transfer controller.
+		/// </summary>
+		public const string Transfer = Root + "Transfer";
+
+		/// <summary>
 		/// The postfix for list operations
 		/// </summary>
 		public const string List = "List";
@@ -109,7 +114,7 @@ namespace Tgstation.Server.Api
 		public static string ListRoute(string route) => String.Format(CultureInfo.InvariantCulture, "{0}/{1}", route, List);
 
 		/// <summary>
-		/// Sanitize a <see cref="Models.Internal.RawData"/> path for use in a GET <see cref="Uri"/>.
+		/// Sanitize a <see cref="Models.FileTicketResult"/> path for use in a GET <see cref="Uri"/>.
 		/// </summary>
 		/// <param name="path">The path to sanitize.</param>
 		/// <returns>The sanitized path.</returns>

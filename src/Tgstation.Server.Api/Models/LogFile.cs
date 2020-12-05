@@ -1,12 +1,11 @@
 using System;
-using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
 	/// Represents a server log file.
 	/// </summary>
-	public sealed class LogFile : RawData
+	public sealed class LogFile : FileTicketResult
 	{
 		/// <summary>
 		/// The name of the log file.

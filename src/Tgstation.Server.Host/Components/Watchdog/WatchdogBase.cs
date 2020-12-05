@@ -361,6 +361,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			CancellationToken cancellationToken)
 		{
 			Logger.LogTrace("Begin LaunchImplNoLock");
+			if (startMonitor && Status != WatchdogStatus.Offline)
+				throw new JobException(ErrorCode.WatchdogRunning);
 
 			if (reattachInfo == null && !DmbFactory.DmbAvailable)
 				throw new JobException(ErrorCode.WatchdogCompileJobCorrupted);

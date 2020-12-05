@@ -1,6 +1,6 @@
 #!/bin/sh
 
-SCRIPT_VERSION="1.1.1"
+SCRIPT_VERSION="1.2.0"
 
 echo "tgstation-server 4 container startup script v$SCRIPT_VERSION"
 echo "PWD: $PWD"
@@ -23,4 +23,4 @@ if [ ! -f "$HOST_CONFIG" ]; then
 fi
 
 echo "Executing console runner..."
-exec dotnet Tgstation.Server.Host.Console.dll
+exec dotnet Tgstation.Server.Host.Console.dll $@

@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Headers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Net.Http.Headers;
 using System.Net.Mime;
+using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Api.Tests
 {
@@ -21,6 +22,7 @@ namespace Tgstation.Server.Api.Tests
 			Assert.ThrowsException<ArgumentNullException>(() => new ApiHeaders(null, null));
 			Assert.ThrowsException<ArgumentNullException>(() => new ApiHeaders(productHeaderValue, null));
 			var headers = new ApiHeaders(productHeaderValue, String.Empty);
+			headers = new ApiHeaders(productHeaderValue, String.Empty, OAuthProvider.GitHub);
 		}
 
 		[TestMethod]

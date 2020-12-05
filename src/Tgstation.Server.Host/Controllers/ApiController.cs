@@ -2,8 +2,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
+using Microsoft.Net.Http.Headers;
+using Octokit;
 using Serilog.Context;
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Mime;
@@ -60,7 +63,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="logger">The value of <see cref="Logger"/></param>
 		/// <param name="requireHeaders">The value of <see cref="requireHeaders"/></param>
-		public ApiController(
+		protected ApiController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
 			ILogger<ApiController> logger,
@@ -116,6 +119,22 @@ namespace Tgstation.Server.Host.Controllers
 		protected ObjectResult Created(object payload) => StatusCode((int)HttpStatusCode.Created, payload);
 
 		/// <summary>
+		/// 429 response for a given <paramref name="rateLimitException"/>.
+		/// </summary>
+		/// <param name="rateLimitException">The <see cref="RateLimitExceededException"/> that occurred.</param>
+		/// <returns>A <see cref="HttpStatusCode.TooManyRequests"/> <see cref="ObjectResult"/>.</returns>
+		protected ObjectResult RateLimit(RateLimitExceededException rateLimitException)
+		{
+			if (rateLimitException == null)
+				throw new ArgumentNullException(nameof(rateLimitException));
+
+			Logger.LogWarning(rateLimitException, "Exceeded GitHub rate limit!");
+			var secondsString = Math.Ceiling((rateLimitException.Reset - DateTimeOffset.Now).TotalSeconds).ToString(CultureInfo.InvariantCulture);
+			Response.Headers.Add(HeaderNames.RetryAfter, secondsString);
+			return StatusCode(HttpStatusCode.TooManyRequests, new ErrorMessage(ErrorCode.GitHubApiRateLimit));
+		}
+
+		/// <summary>
 		/// Performs validation a request.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
@@ -126,13 +145,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Response for missing/Invalid headers.
 		/// </summary>
+		/// <param name="ignoreMissingAuth">Whether or not errors due to missing <see cref="HeaderNames.Authorization"/> should be thrown.</param>
 		/// <returns>The appropriate <see cref="IActionResult"/>.</returns>
-		protected IActionResult HeadersIssue()
+		protected IActionResult HeadersIssue(bool ignoreMissingAuth)
 		{
 			HeadersException headersException;
 			try
 			{
-				var _ = new ApiHeaders(Request.GetTypedHeaders());
+				var _ = new ApiHeaders(Request.GetTypedHeaders(), ignoreMissingAuth);
 				throw new InvalidOperationException("Expected a header parse exception!");
 			}
 			catch (HeadersException ex)
@@ -196,7 +216,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				if (requireHeaders)
 				{
-					await HeadersIssue()
+					await HeadersIssue(false)
 						.ExecuteResultAsync(context)
 						.ConfigureAwait(false);
 					return;
@@ -239,9 +259,19 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				if (ApiHeaders != null)
 					Logger.LogDebug(
-						"Starting API Request: Version: {0}. User-Agent: {1}",
+						"Starting API request: Version: {0}. {1}: {2}",
 						ApiHeaders.ApiVersion.Semver(),
+						HeaderNames.UserAgent,
 						ApiHeaders.RawUserAgent);
+				else if (Request.Headers.TryGetValue(HeaderNames.UserAgent, out var userAgents))
+					Logger.LogDebug(
+						"Starting unauthorized API request. {0}: {1}",
+						HeaderNames.UserAgent,
+						userAgents);
+				else
+					Logger.LogDebug(
+						"Starting unauthorized API request. No {0}!",
+						HeaderNames.UserAgent);
 				await base.OnActionExecutionAsync(context, next).ConfigureAwait(false);
 			}
 		}

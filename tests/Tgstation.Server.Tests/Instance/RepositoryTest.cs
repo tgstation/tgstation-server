@@ -79,7 +79,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			clone = await repositoryClient.Clone(initalRepo, cancellationToken).ConfigureAwait(false);
 
-			await WaitForJob(clone.ActiveJob, 180, false, null, cancellationToken).ConfigureAwait(false);
+			await WaitForJob(clone.ActiveJob, 600, false, null, cancellationToken).ConfigureAwait(false);
 			var cloned = await repositoryClient.Read(cancellationToken);
 
 			Assert.AreEqual(Origin, cloned.Origin);
@@ -209,7 +209,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			var mergingAgain = await repositoryClient.Update(withMerge, cancellationToken);
 			Assert.IsNotNull(mergingAgain.ActiveJob);
-			await WaitForJob(mergingAgain.ActiveJob, 30, false, null, cancellationToken);
+			await WaitForJob(mergingAgain.ActiveJob, 60, false, null, cancellationToken);
 
 			var final = await repositoryClient.Read(cancellationToken);
 			Assert.AreEqual("asdffdsa", final.RevisionInformation.PrimaryTestMerge.Comment);
