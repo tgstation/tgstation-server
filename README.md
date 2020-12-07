@@ -143,10 +143,11 @@ The following providers use the `RedirectUrl` setting:
 
 - GitHub
 - TGForums
+- Keycloak
 
 The following providers use the `ServerUrl` setting:
 
-- None so far
+- Keycloak
 
 ### Database Configuration
 

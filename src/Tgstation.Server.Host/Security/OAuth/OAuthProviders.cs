@@ -66,6 +66,14 @@ namespace Tgstation.Server.Host.Security.OAuth
 						loggerFactory.CreateLogger<TGForumsOAuthValidator>(),
 						tgConfig));
 
+			if (securityConfiguration.OAuth.TryGetValue(OAuthProvider.Keycloak, out var keyCloakConfig))
+				validatorsBuilder.Add(
+					new KeycloakOAuthValidator(
+						httpClientFactory,
+						assemblyInformationProvider,
+						loggerFactory.CreateLogger<KeycloakOAuthValidator>(),
+						keyCloakConfig));
+
 			validators = validatorsBuilder;
 		}
 
