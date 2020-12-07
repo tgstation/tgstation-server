@@ -19,5 +19,10 @@ namespace Tgstation.Server.Api.Models
 		/// https://tgstation13.org
 		/// </summary>
 		TGForums,
+
+		/// <summary>
+		/// https://www.keycloak.org
+		/// </summary>
+		Keycloak,
 	}
 }

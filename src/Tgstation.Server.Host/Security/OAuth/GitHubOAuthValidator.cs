@@ -65,7 +65,10 @@ namespace Tgstation.Server.Host.Security.OAuth
 						new OauthTokenRequest(
 							oAuthConfiguration.ClientId,
 							oAuthConfiguration.ClientSecret,
-							code))
+							code)
+						{
+							RedirectUri = oAuthConfiguration.RedirectUrl
+						})
 					.ConfigureAwait(false);
 
 				var token = response.AccessToken;
@@ -94,6 +97,11 @@ namespace Tgstation.Server.Host.Security.OAuth
 		}
 
 		/// <inheritdoc />
-		public Task<string> GetClientId(CancellationToken cancellationToken) => Task.FromResult(oAuthConfiguration.ClientId);
+		public Task<OAuthProviderInfo> GetProviderInfo(CancellationToken cancellationToken) => Task.FromResult(
+			new OAuthProviderInfo
+			{
+				ClientId = oAuthConfiguration.ClientId,
+				RedirectUri = oAuthConfiguration.RedirectUrl
+			});
 	}
 }

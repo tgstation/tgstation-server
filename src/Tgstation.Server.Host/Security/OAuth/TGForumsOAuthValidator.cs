@@ -54,7 +54,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 		}
 
 		/// <inheritdoc />
-		public override async Task<string> GetClientId(CancellationToken cancellationToken)
+		public override async Task<OAuthProviderInfo> GetProviderInfo(CancellationToken cancellationToken)
 		{
 			var expiredSessions = sessions.RemoveAll(x => x.Item2.AddMinutes(SessionRetentionMinutes) < DateTimeOffset.Now);
 			if (expiredSessions > 0)
@@ -65,7 +65,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 			{
 				UriBuilder builder = new UriBuilder("https://tgstation13.org/phpBB/oauth_create_session.php")
 				{
-					Query = $"site_private_token={HttpUtility.UrlEncode(Convert.ToBase64String(Encoding.UTF8.GetBytes(OAuthConfiguration.ClientSecret)))}&return_uri={HttpUtility.UrlEncode(OAuthConfiguration.ClientId)}"
+					Query = $"site_private_token={HttpUtility.UrlEncode(Convert.ToBase64String(Encoding.UTF8.GetBytes(OAuthConfiguration.ClientSecret)))}&return_uri={HttpUtility.UrlEncode(OAuthConfiguration.RedirectUrl.ToString())}"
 				};
 
 				using var request = new HttpRequestMessage(HttpMethod.Get, builder.Uri);
@@ -83,8 +83,15 @@ namespace Tgstation.Server.Host.Security.OAuth
 					return null;
 				}
 
-				sessions.Add(Tuple.Create(newSession, DateTimeOffset.Now));
-				return newSession.SessionPublicToken;
+				sessions.Add(
+					Tuple.Create(
+						newSession,
+						DateTimeOffset.Now));
+				return new OAuthProviderInfo
+				{
+					ClientId = newSession.SessionPublicToken,
+					RedirectUri = OAuthConfiguration.RedirectUrl
+				};
 			}
 			catch (Exception ex)
 			{
