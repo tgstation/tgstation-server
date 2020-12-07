@@ -96,7 +96,10 @@ namespace Tgstation.Server.Host.Security.OAuth
 
 				var accessToken = DecodeTokenPayload(tokenResponseJson);
 				if (accessToken == null)
+				{
+					Logger.LogTrace("No token from DecodeTokenPayload!");
 					return null;
+				}
 
 				Logger.LogTrace("Getting user details...");
 				using var userInformationRequest = new HttpRequestMessage(HttpMethod.Get, UserInformationUrl);
