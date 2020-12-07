@@ -14,20 +14,14 @@ namespace Tgstation.Server.Host.Security.OAuth
 		public string GrantType { get; }
 
 		/// <summary>
-		/// The 'scope' field.
-		/// </summary>
-		public string Scope { get; }
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="DiscordTokenRequest"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="oAuthConfiguration">The <see cref="OAuthConfigurationBase"/> for the <see cref="OAuthTokenRequest"/>.</param>
 		/// <param name="code">The OAuth code for the <see cref="OAuthTokenRequest"/>.</param>
 		public DiscordTokenRequest(OAuthConfigurationBase oAuthConfiguration, string code)
-			: base(oAuthConfiguration, code)
+			: base(oAuthConfiguration, code, "identify")
 		{
 			GrantType = "authorization_code";
-			Scope = "identify";
 		}
 	}
 }

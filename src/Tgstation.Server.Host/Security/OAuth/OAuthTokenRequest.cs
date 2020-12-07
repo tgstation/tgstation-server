@@ -9,19 +9,26 @@ namespace Tgstation.Server.Host.Security.OAuth
 	class OAuthTokenRequest : OAuthConfigurationBase
 	{
 		/// <summary>
-		/// The OAuth code.
+		/// The OAuth code received from the browser.
 		/// </summary>
 		public string Code { get; }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OAuthTokenRequest"/>
+		/// The scopes being requested.
+		/// </summary>
+		public string Scope { get; }
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="OAuthTokenRequest"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="oAuthConfiguration">The <see cref="OAuthConfiguration"/> to build from.</param>
-		/// <param name="code">The OAuth code received from the browser.</param>
-		public OAuthTokenRequest(OAuthConfigurationBase oAuthConfiguration, string code)
+		/// <param name="code">The value of <see cref="Code"/>.</param>
+		/// <param name="scope">The value of <see cref="Scope"/></param>
+		public OAuthTokenRequest(OAuthConfigurationBase oAuthConfiguration, string code, string scope)
 			: base(oAuthConfiguration)
 		{
 			Code = code ?? throw new ArgumentNullException(nameof(code));
+			Scope = scope ?? throw new ArgumentNullException(nameof(scope));
 		}
 	}
 }
