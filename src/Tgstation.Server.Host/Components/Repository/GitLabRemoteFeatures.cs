@@ -1,0 +1,97 @@
+using GitLabApiClient;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Host.Extensions;
+
+namespace Tgstation.Server.Host.Components.Repository
+{
+	/// <summary>
+	/// GitLab <see cref="IGitRemoteFeatures"/>.
+	/// </summary>
+	sealed class GitLabRemoteFeatures : GitRemoteFeaturesBase
+	{
+		/// <inheritdoc />
+		public override string TestMergeRefSpecFormatter => "merge-requests/{0}/head:{1}";
+
+		/// <inheritdoc />
+		public override string TestMergeLocalBranchNameFormatter => "merge-requests/{0}/headrefs/heads/{1}";
+
+		/// <inheritdoc />
+		public override RemoteGitProvider? RemoteGitProvider => Api.Models.RemoteGitProvider.GitLab;
+
+		/// <inheritdoc />
+		public override string RemoteRepositoryOwner { get; }
+
+		/// <inheritdoc />
+		public override string RemoteRepositoryName { get; }
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="GitLabRemoteFeatures"/> <see langword="class"/>.
+		/// </summary>
+		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="GitRemoteFeaturesBase"/>.</param>
+		/// <param name="remoteUrl">The remote repository <see cref="Uri"/>.</param>
+		public GitLabRemoteFeatures(ILogger<GitLabRemoteFeatures> logger, Uri remoteUrl)
+			: base(logger, remoteUrl)
+		{
+			RemoteRepositoryOwner = remoteUrl.Segments[1].TrimEnd('/');
+			RemoteRepositoryName = remoteUrl.Segments[2].TrimEnd('/');
+		}
+
+		/// <inheritdoc />
+		protected override async Task<Models.TestMerge> GetTestMergeImpl(
+			TestMergeParameters parameters,
+			RepositorySettings repositorySettings,
+			CancellationToken cancellationToken)
+		{
+			const string GitLabUrl = "https://gitlab.com";
+
+			var client = repositorySettings.AccessToken != null
+				? new GitLabClient(GitLabUrl, repositorySettings.AccessToken)
+				: new GitLabClient(GitLabUrl);
+
+			try
+			{
+				var mr = await client
+					.MergeRequests
+					.GetAsync($"{RemoteRepositoryOwner}/{RemoteRepositoryName}", parameters.Number)
+					.WithToken(cancellationToken)
+					.ConfigureAwait(false);
+
+				var revisionToUse = parameters.PullRequestRevision == null
+					|| mr.Sha.StartsWith(parameters.PullRequestRevision, StringComparison.OrdinalIgnoreCase)
+					? mr.Sha
+					: parameters.PullRequestRevision;
+
+				return new Models.TestMerge
+				{
+					Author = mr.Author.Username,
+					BodyAtMerge = mr.Description,
+					TitleAtMerge = mr.Title,
+					Comment = parameters.Comment,
+					Number = parameters.Number,
+					PullRequestRevision = mr.Sha,
+					Url = mr.WebUrl
+				};
+			}
+			catch (Exception ex)
+			{
+				Logger.LogWarning(ex, "Error retrieving merge request metadata!");
+
+				return new Models.TestMerge
+				{
+					Author = ex.Message,
+					BodyAtMerge = ex.Message,
+					TitleAtMerge = ex.Message,
+					Comment = parameters.Comment,
+					Number = parameters.Number,
+					PullRequestRevision = parameters.PullRequestRevision,
+					Url = ex.Message
+				};
+			}
+		}
+	}
+}

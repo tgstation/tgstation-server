@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
@@ -123,7 +124,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="ioMananger">The value of <see cref="ioMananger"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
 		/// <param name="credentialsProvider">The value of <see cref="credentialsProvider"/></param>
-		/// <param name="gitRemoteFeatures">The value of <see cref="gitRemoteFeatures"/>.</param>
+		/// <param name="gitRemoteFeaturesFactory">The <see cref="IGitRemoteFeaturesFactory"/> to provide the value of <see cref="gitRemoteFeatures"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="onDispose">The value if <see cref="onDispose"/></param>
 		public Repository(
@@ -132,7 +133,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			IIOManager ioMananger,
 			IEventConsumer eventConsumer,
 			ICredentialsProvider credentialsProvider,
-			IGitRemoteFeatures gitRemoteFeatures,
+			IGitRemoteFeaturesFactory gitRemoteFeaturesFactory,
 			ILogger<Repository> logger,
 			Action onDispose)
 		{
@@ -141,9 +142,13 @@ namespace Tgstation.Server.Host.Components.Repository
 			this.ioMananger = ioMananger ?? throw new ArgumentNullException(nameof(ioMananger));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.credentialsProvider = credentialsProvider ?? throw new ArgumentNullException(nameof(credentialsProvider));
-			this.gitRemoteFeatures = gitRemoteFeatures ?? throw new ArgumentNullException(nameof(gitRemoteFeatures));
+			if (gitRemoteFeaturesFactory == null)
+				throw new ArgumentNullException(nameof(gitRemoteFeaturesFactory));
+
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.onDispose = onDispose ?? throw new ArgumentNullException(nameof(onDispose));
+
+			gitRemoteFeatures = gitRemoteFeaturesFactory.CreateGitRemoteFeatures(this);
 		}
 
 		/// <inheritdoc />
@@ -299,7 +304,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				testMergeParameters.Comment ?? String.Empty);
 
 			var prBranchName = String.Format(CultureInfo.InvariantCulture, "pr-{0}", testMergeParameters.Number);
-			var localBranchName = String.Format(CultureInfo.InvariantCulture, "pull/{0}/headrefs/heads/{1}", testMergeParameters.Number, prBranchName);
+			var localBranchName = String.Format(CultureInfo.InvariantCulture, gitRemoteFeatures.TestMergeLocalBranchNameFormatter, testMergeParameters.Number, prBranchName);
 
 			var refSpec = String.Format(CultureInfo.InvariantCulture, gitRemoteFeatures.TestMergeRefSpecFormatter, testMergeParameters.Number, prBranchName);
 			var refSpecList = new List<string> { refSpec };
@@ -774,5 +779,14 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			return false;
 		}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
+
+		/// <inheritdoc />
+		public Task<Models.TestMerge> GetTestMerge(
+			TestMergeParameters parameters,
+			RepositorySettings repositorySettings,
+			CancellationToken cancellationToken) => gitRemoteFeatures.GetTestMerge(
+				parameters,
+				repositorySettings,
+				cancellationToken);
 	}
 }

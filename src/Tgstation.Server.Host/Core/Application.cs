@@ -306,24 +306,23 @@ namespace Tgstation.Server.Host.Core
 				services.AddSingleton<INetworkPromptReaper, PosixNetworkPromptReaper>();
 			}
 
-			// configure misc services
+			// configure component/misc services
 			services.AddScoped<IPortAllocator, PortAllocator>();
 			services.AddTransient<IActionResultExecutor<LimitedFileStreamResult>, LimitedFileStreamResultExecutor>();
-			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
 			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
 			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
 			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
-			services.AddSingleton<FileTransferService>();
-			services.AddSingleton<IFileTransferStreamHandler>(x => x.GetRequiredService<FileTransferService>());
-			services.AddSingleton<IFileTransferTicketProvider>(x => x.GetRequiredService<FileTransferService>());
-
-			// configure component services
+			services.AddSingleton<IInstanceFactory, InstanceFactory>();
+			services.AddSingleton<IGitRemoteFeaturesFactory, GitRemoteFeaturesFactory>();
 			services.AddSingleton<ILibGit2RepositoryFactory, LibGit2RepositoryFactory>();
 			services.AddSingleton<ILibGit2Commands, LibGit2Commands>();
 			services.AddSingleton<IProviderFactory, ProviderFactory>();
 			services.AddSingleton<IChatManagerFactory, ChatManagerFactory>();
-			services.AddSingleton<IInstanceFactory, InstanceFactory>();
+			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
+			services.AddSingleton<FileTransferService>();
+			services.AddSingleton<IFileTransferStreamHandler>(x => x.GetRequiredService<FileTransferService>());
+			services.AddSingleton<IFileTransferTicketProvider>(x => x.GetRequiredService<FileTransferService>());
 
 			// configure root services
 			services.AddSingleton<IJobManager, JobManager>();

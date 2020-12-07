@@ -1,3 +1,6 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Components.Repository
@@ -8,7 +11,10 @@ namespace Tgstation.Server.Host.Components.Repository
 	sealed class DefaultGitRemoteFeatures : IGitRemoteFeatures
 	{
 		/// <inheritdoc />
-		public string TestMergeRefSpecFormatter => null;
+		public string TestMergeRefSpecFormatter => throw new NotSupportedException();
+
+		/// <inheritdoc />
+		public string TestMergeLocalBranchNameFormatter => throw new NotSupportedException();
 
 		/// <inheritdoc />
 		public RemoteGitProvider? RemoteGitProvider => Api.Models.RemoteGitProvider.Unknown;
@@ -18,5 +24,11 @@ namespace Tgstation.Server.Host.Components.Repository
 
 		/// <inheritdoc />
 		public string RemoteRepositoryName => null;
+
+		/// <inheritdoc />
+		public Task<Models.TestMerge> GetTestMerge(
+			TestMergeParameters parameters,
+			Api.Models.Internal.RepositorySettings repositorySettings,
+			CancellationToken cancellationToken) => throw new NotSupportedException();
 	}
 }

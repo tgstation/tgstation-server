@@ -2,14 +2,13 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Host.Components.Repository
 {
 	/// <summary>
 	/// Represents an on-disk git repository
 	/// </summary>
-	public interface IRepository : IGitRemoteInformation, IDisposable
+	public interface IRepository : IGitRemoteAdditionalInformation, IDisposable
 	{
 		/// <summary>
 		/// If <see cref="Reference"/> tracks an upstream branch

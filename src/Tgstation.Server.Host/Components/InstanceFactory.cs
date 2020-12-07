@@ -133,6 +133,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IFileTransferTicketProvider fileTransferService;
 
 		/// <summary>
+		/// The <see cref="IGitRemoteFeaturesFactory"/> for the <see cref="InstanceFactory"/>.
+		/// </summary>
+		readonly IGitRemoteFeaturesFactory gitRemoteFeaturesFactory;
+
+		/// <summary>
 		/// The <see cref="GeneralConfiguration"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
 		readonly GeneralConfiguration generalConfiguration;
@@ -161,6 +166,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="repositoryCommands">The value of <see cref="repositoryCommands"/>.</param>
 		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
 		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
+		/// <param name="gitRemoteFeaturesFactory">The value of <see cref="gitRemoteFeaturesFactory"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		public InstanceFactory(
 			IIOManager ioManager,
@@ -184,6 +190,7 @@ namespace Tgstation.Server.Host.Components
 			ILibGit2Commands repositoryCommands,
 			IServerPortProvider serverPortProvider,
 			IFileTransferTicketProvider fileTransferService,
+			IGitRemoteFeaturesFactory gitRemoteFeaturesFactory,
 			IOptions<GeneralConfiguration> generalConfigurationOptions)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
@@ -207,6 +214,7 @@ namespace Tgstation.Server.Host.Components
 			this.repositoryCommands = repositoryCommands ?? throw new ArgumentNullException(nameof(repositoryCommands));
 			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
 			this.fileTransferService = fileTransferService ?? throw new ArgumentNullException(nameof(fileTransferService));
+			this.gitRemoteFeaturesFactory = gitRemoteFeaturesFactory ?? throw new ArgumentNullException(nameof(gitRemoteFeaturesFactory));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
@@ -239,6 +247,7 @@ namespace Tgstation.Server.Host.Components
 				repositoryCommands,
 				repoIoManager,
 				eventConsumer,
+				gitRemoteFeaturesFactory,
 				loggerFactory.CreateLogger<Repository.Repository>(),
 				loggerFactory.CreateLogger<RepositoryManager>());
 			try

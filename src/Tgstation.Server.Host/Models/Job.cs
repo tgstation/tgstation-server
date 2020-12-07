@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
+	#pragma warning disable CA1724 // naming conflict with gitlab package
 	public sealed class Job : Api.Models.Internal.Job
+	#pragma warning restore CA1724
 	{
 		/// <summary>
 		/// See <see cref="Api.Models.Job.StartedBy"/>

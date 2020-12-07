@@ -20,8 +20,7 @@ namespace Tgstation.Server.Host.Components.Repository.Tests
 			string path,
 			ILibGit2RepositoryFactory repositoryFactory = null) =>
 			(await (repositoryFactory ?? CreateFactory())
-			.CreateFromPath(path, default))
-			.Item1;
+			.CreateFromPath(path, default));
 
 		[TestMethod]
 		public void TestConstructionThrows() => Assert.ThrowsException<ArgumentNullException>(() => new LibGit2RepositoryFactory(null));

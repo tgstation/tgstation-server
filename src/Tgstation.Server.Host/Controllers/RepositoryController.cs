@@ -17,7 +17,6 @@ using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -644,7 +643,6 @@ namespace Tgstation.Server.Host.Controllers
 					}
 
 					// test merging
-					Dictionary<int, Octokit.PullRequest> prMap = null;
 					if (newTestMerges)
 					{
 						if (repo.RemoteGitProvider == RemoteGitProvider.Unknown)
@@ -666,10 +664,6 @@ namespace Tgstation.Server.Host.Controllers
 						bool needToApplyRemainingPrs = true;
 						if (lastRevisionInfo.OriginCommitSha == lastRevisionInfo.CommitSha)
 						{
-							// In order for this to work though we need the shas of all the commits
-							if (model.NewTestMerges.Any(x => x.PullRequestRevision == null))
-								prMap = new Dictionary<int, Octokit.PullRequest>();
-
 							bool cantSearch = false;
 							foreach (var I in model.NewTestMerges)
 							{
@@ -681,11 +675,10 @@ namespace Tgstation.Server.Host.Controllers
 									try
 									{
 										// retrieve the latest sha
-										var pr = await gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number)
-											.WithToken(ct)
-											.ConfigureAwait(false);
-										prMap.Add(I.Number, pr);
-										I.PullRequestRevision = pr.Head.Sha;
+										var pr = await repo.GetTestMerge(I, currentModel, ct).ConfigureAwait(false);
+
+										// we want to take the earliest truth possible to prevent RCEs, if this fails AddTestMerge will set it
+										I.PullRequestRevision = pr.PullRequestRevision;
 									}
 									catch
 									{
@@ -798,47 +791,10 @@ namespace Tgstation.Server.Host.Controllers
 						{
 							foreach (var I in model.NewTestMerges)
 							{
-								Octokit.PullRequest pr = null;
-								string errorMessage = null;
-
 								if (lastRevisionInfo.ActiveTestMerges.Any(x => x.TestMerge.Number == I.Number))
 									throw new JobException(ErrorCode.RepoDuplicateTestMerge);
 
-								Exception exception = null;
-								try
-								{
-									// load from cache if possible
-									if (prMap == null || !prMap.TryGetValue(I.Number, out pr))
-										pr = await gitHubClient
-											.PullRequest
-											.Get(repoOwner, repoName, I.Number)
-											.WithToken(ct)
-											.ConfigureAwait(false);
-								}
-								catch (Octokit.RateLimitExceededException ex)
-								{
-									// you look at your anonymous access and sigh
-									errorMessage = "REMOTE API ERROR: RATE LIMITED";
-									exception = ex;
-								}
-								catch (Octokit.AuthorizationException ex)
-								{
-									errorMessage = "REMOTE API ERROR: BAD CREDENTIALS";
-									exception = ex;
-								}
-								catch (Octokit.NotFoundException ex)
-								{
-									// you look at your shithub and sigh
-									errorMessage = "REMOTE API ERROR: PULL REQUEST NOT FOUND";
-									exception = ex;
-								}
-
-								if (exception != null)
-									Logger.LogWarning(exception, "Error retrieving pull request metadata!");
-
-								// we want to take the earliest truth possible to prevent RCEs, if this fails AddTestMerge will set it
-								if (I.PullRequestRevision == null && pr != null)
-									I.PullRequestRevision = pr.Head.Sha;
+								var fullTestMergeTask = repo.GetTestMerge(I, currentModel, ct);
 
 								var mergeResult = await repo.AddTestMerge(
 									I,
@@ -849,28 +805,38 @@ namespace Tgstation.Server.Host.Controllers
 									NextProgressReporter(),
 									ct).ConfigureAwait(false);
 
-								if (!mergeResult.HasValue)
+								if (mergeResult == null)
 									throw new JobException(
 										ErrorCode.RepoTestMergeConflict,
 										new JobException(
 											$"Merge of PR #{I.Number} at {I.PullRequestRevision.Substring(0, 7)} conflicted!"));
 
-								++doneSteps;
+								Models.TestMerge fullTestMerge;
+								try
+								{
+									fullTestMerge = await fullTestMergeTask.ConfigureAwait(false);
+								}
+								catch (Exception ex)
+								{
+									Logger.LogWarning("Error retrieving metadata for test merge #{0}!", I.Number);
+
+									fullTestMerge = new Models.TestMerge
+									{
+										Author = ex.Message,
+										BodyAtMerge = ex.Message,
+										MergedAt = DateTimeOffset.Now,
+										TitleAtMerge = ex.Message,
+										Comment = I.Comment,
+										Number = I.Number,
+										PullRequestRevision = I.PullRequestRevision,
+										Url = ex.Message
+									};
+								}
 
 								// MergedBy will be set later
-								var tm = new Models.TestMerge
-								{
-									Author = pr?.User.Login ?? errorMessage,
-									BodyAtMerge = pr?.Body ?? errorMessage ?? String.Empty,
-									MergedAt = DateTimeOffset.Now,
-									TitleAtMerge = pr?.Title ?? errorMessage ?? String.Empty,
-									Comment = I.Comment,
-									Number = I.Number,
-									PullRequestRevision = I.PullRequestRevision,
-									Url = pr?.HtmlUrl ?? errorMessage
-								};
+								++doneSteps;
 
-								await UpdateRevInfo(tm).ConfigureAwait(false);
+								await UpdateRevInfo(fullTestMerge).ConfigureAwait(false);
 							}
 						}
 					}
