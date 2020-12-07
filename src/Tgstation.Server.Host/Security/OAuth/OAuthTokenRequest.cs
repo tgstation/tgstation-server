@@ -6,7 +6,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 	/// <summary>
 	/// Generic OAuth token request.
 	/// </summary>
-	class OAuthTokenRequest : OAuthConfiguration
+	class OAuthTokenRequest : OAuthConfigurationBase
 	{
 		/// <summary>
 		/// The OAuth code.
@@ -18,7 +18,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 		/// </summary>
 		/// <param name="oAuthConfiguration">The <see cref="OAuthConfiguration"/> to build from.</param>
 		/// <param name="code">The OAuth code received from the browser.</param>
-		public OAuthTokenRequest(OAuthConfiguration oAuthConfiguration, string code)
+		public OAuthTokenRequest(OAuthConfigurationBase oAuthConfiguration, string code)
 			: base(oAuthConfiguration)
 		{
 			Code = code ?? throw new ArgumentNullException(nameof(code));

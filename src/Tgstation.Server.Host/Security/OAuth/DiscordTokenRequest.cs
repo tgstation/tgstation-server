@@ -21,9 +21,9 @@ namespace Tgstation.Server.Host.Security.OAuth
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DiscordTokenRequest"/> <see langword="class"/>.
 		/// </summary>
-		/// <param name="oAuthConfiguration">The <see cref="OAuthConfiguration"/> for the <see cref="OAuthTokenRequest"/>.</param>
+		/// <param name="oAuthConfiguration">The <see cref="OAuthConfigurationBase"/> for the <see cref="OAuthTokenRequest"/>.</param>
 		/// <param name="code">The OAuth code for the <see cref="OAuthTokenRequest"/>.</param>
-		public DiscordTokenRequest(OAuthConfiguration oAuthConfiguration, string code)
+		public DiscordTokenRequest(OAuthConfigurationBase oAuthConfiguration, string code)
 			: base(oAuthConfiguration, code)
 		{
 			GrantType = "authorization_code";

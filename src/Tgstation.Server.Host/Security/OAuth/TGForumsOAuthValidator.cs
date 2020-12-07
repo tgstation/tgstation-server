@@ -65,7 +65,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 			{
 				UriBuilder builder = new UriBuilder("https://tgstation13.org/phpBB/oauth_create_session.php")
 				{
-					Query = $"site_private_token={HttpUtility.UrlEncode(Convert.ToBase64String(Encoding.UTF8.GetBytes(OAuthConfiguration.ClientSecret)))}&return_uri={HttpUtility.UrlEncode(OAuthConfiguration.ClientId)}"
+					Query = $"site_private_token={HttpUtility.UrlEncode(Convert.ToBase64String(Encoding.UTF8.GetBytes(OAuthConfiguration.ClientSecret)))}&return_uri={HttpUtility.UrlEncode(OAuthConfiguration.Url)}"
 				};
 
 				using var request = new HttpRequestMessage(HttpMethod.Get, builder.Uri);
