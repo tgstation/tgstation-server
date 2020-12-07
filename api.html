@@ -200,7 +200,7 @@ OAuth 2.0</h2>
 <p>TGS4 supports OAuth 2.0 with select providers for authentication.</p>
 <p>The flow for this is as follows:</p>
 <ul>
-<li>Retrieve the <a class="el" href="api.html#api_ver">Server Information</a> to find out available OAuth providers and their respective client IDs.</li>
+<li>Retrieve the <a class="el" href="api.html#api_ver">Server Information</a> to find out available OAuth providers and their respective client ID and redirect URIs.</li>
 <li>Send the user to the Authorization Request endpoint for the provider using the client ID from above. See <a href="https://tools.ietf.org/html/rfc6749#section-4.1.1">https://tools.ietf.org/html/rfc6749#section-4.1.1</a>. DO NOT specify a redirect URI, this should be configured in the provider.</li>
 <li>Retrieve the authorization response code after successfully completing the authorize step above.</li>
 <li>Perform the following request:</li>
@@ -215,9 +215,10 @@ OAuth 2.0</h2>
 <h3><a class="anchor" id="api_auth_o_providers"></a>
 Supported Providers</h3>
 <ul>
-<li>ID: 0, Name: GitHub, Documentation: <a href="https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/">https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/</a></li>
-<li>ID: 1, Name: Discord, Documentation: <a href="https://discord.com/developers/docs/topics/oauth2">https://discord.com/developers/docs/topics/oauth2</a></li>
-<li>ID: 2, Name: TGForums, Documentation: <a href="https://tgstation13.org/phpBB/viewtopic.php?f=45&t=9922">https://tgstation13.org/phpBB/viewtopic.php?f=45&amp;t=9922</a></li>
+<li>GitHub: <a href="https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps">https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps</a></li>
+<li>Discord: <a href="https://discord.com/developers/docs/topics/oauth2">https://discord.com/developers/docs/topics/oauth2</a></li>
+<li>TGForums: <a href="https://tgstation13.org/phpBB/viewtopic.php?f=45&t=9922">https://tgstation13.org/phpBB/viewtopic.php?f=45&amp;t=9922</a></li>
+<li>Keycloak: <a href="https://plugins.miniorange.com/keycloak-single-sign-on-wordpress-sso-oauth-openid-connect">https://plugins.miniorange.com/keycloak-single-sign-on-wordpress-sso-oauth-openid-connect</a></li>
 </ul>
 <h1><a class="anchor" id="api_perms"></a>
 Permissions</h1>

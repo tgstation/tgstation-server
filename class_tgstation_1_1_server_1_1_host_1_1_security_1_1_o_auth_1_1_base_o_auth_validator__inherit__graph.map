@@ -1,7 +1,8 @@
 <map id="Tgstation.Server.Host.Security.OAuth.BaseOAuthValidator" name="Tgstation.Server.Host.Security.OAuth.BaseOAuthValidator">
-<area shape="rect" id="node1" title="Base class for IOAuthValidators." alt="" coords="168,39,369,80"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html" title="IOAuthValidator for generic OAuth2 endpoints." alt="" coords="423,5,624,47"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_forums_o_auth_validator.html" title="IOAuthValidator for /tg/ forums." alt="" coords="417,71,629,112"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider." alt="" coords="5,46,120,73"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_discord_o_auth_validator.html" title="OAuth validator for Discord." alt="" coords="677,5,879,47"/>
+<area shape="rect" id="node1" title="Base class for IOAuthValidators." alt="" coords="168,71,369,112"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html" title="IOAuthValidator for generic OAuth2 endpoints." alt="" coords="423,37,624,79"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_forums_o_auth_validator.html" title="IOAuthValidator for /tg/ forums." alt="" coords="417,103,629,144"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider." alt="" coords="5,78,120,105"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_discord_o_auth_validator.html" title="OAuth validator for Discord." alt="" coords="678,5,879,47"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_keycloak_o_auth_validator.html" title="OAuth validator for Keycloak." alt="" coords="677,71,880,112"/>
 </map>

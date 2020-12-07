@@ -142,6 +142,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_connection.html">OAuthConnection</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a valid OAuth connection.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_connection.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_provider_info.html">OAuthProviderInfo</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Public information about a given <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901" title="List of OAuth providers supported by TGS">OAuthProvider</a>.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_provider_info.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html">Repository</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a git repository  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -324,7 +327,8 @@ Enumerations</h2></td></tr>
 <tr class="separator:a0a41c646f859c99d437373d8e6e0545b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a49b1c1275c0d47d43360f8c7619ec901"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a> { <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901ad3b7c913cd04ebfec0e9ec32cb6fd58c">OAuthProvider.GitHub</a>, 
 <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901a8f5cc6430613f1c12f36965050bb7197">OAuthProvider.Discord</a>, 
-<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901a3f7d1aa8d95975a2d291d5a787cd324f">OAuthProvider.TGForums</a>
+<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901a3f7d1aa8d95975a2d291d5a787cd324f">OAuthProvider.TGForums</a>, 
+<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901a69b9cd2452d8b95ca6cb79f295cc9468">OAuthProvider.Keycloak</a>
  }</td></tr>
 <tr class="memdesc:a49b1c1275c0d47d43360f8c7619ec901"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of OAuth providers supported by TGS  <a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">More...</a><br /></td></tr>
 <tr class="separator:a49b1c1275c0d47d43360f8c7619ec901"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1090,6 +1094,8 @@ Enumerations</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="a49b1c1275c0d47d43360f8c7619ec901a3f7d1aa8d95975a2d291d5a787cd324f"></a>TGForums&#160;</td><td class="fielddoc"><p><a href="https://tgstation13.org">https://tgstation13.org</a> </p>
 </td></tr>
+<tr><td class="fieldname"><a id="a49b1c1275c0d47d43360f8c7619ec901a69b9cd2452d8b95ca6cb79f295cc9468"></a>Keycloak&#160;</td><td class="fielddoc"><p><a href="https://www.keycloak.org">https://www.keycloak.org</a> </p>
+</td></tr>
 </table>
 
 <p class="definition">Definition at line <a class="el" href="_o_auth_provider_8cs_source.html#l00006">6</a> of file <a class="el" href="_o_auth_provider_8cs_source.html">OAuthProvider.cs</a>.</p>
@@ -1098,8 +1104,10 @@ Enumerations</h2></td></tr>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a2d962413bc23404156feea75066e39cca2b6446aa685b2e1260e9d6f60239e547">Discord</a>,</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901ad3b7c913cd04ebfec0e9ec32cb6fd58c">TGForums</a>,</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    }</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        TGForums,</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901ad3b7c913cd04ebfec0e9ec32cb6fd58c">Keycloak</a>,</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    }</div>
 </div><!-- fragment -->
 </div>
 </div>

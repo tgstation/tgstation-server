@@ -87,11 +87,12 @@ Inheritance diagram for Tgstation.Server.Host.Security.OAuth.BaseOAuthValidator:
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator__inherit__graph.png" border="0" usemap="#a_tgstation_8_server_8_host_8_security_8_o_auth_8_base_o_auth_validator_inherit__map" alt="Inheritance graph"/></div>
 <map name="_tgstation_8_server_8_host_8_security_8_o_auth_8_base_o_auth_validator_inherit__map" id="a_tgstation_8_server_8_host_8_security_8_o_auth_8_base_o_auth_validator_inherit__map">
-<area shape="rect" title="Base class for IOAuthValidators." alt="" coords="168,39,369,80"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html" title="IOAuthValidator for generic OAuth2 endpoints." alt="" coords="423,5,624,47"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_forums_o_auth_validator.html" title="IOAuthValidator for /tg/ forums." alt="" coords="417,71,629,112"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider." alt="" coords="5,46,120,73"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_discord_o_auth_validator.html" title="OAuth validator for Discord." alt="" coords="677,5,879,47"/>
+<area shape="rect" title="Base class for IOAuthValidators." alt="" coords="168,71,369,112"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html" title="IOAuthValidator for generic OAuth2 endpoints." alt="" coords="423,37,624,79"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_forums_o_auth_validator.html" title="IOAuthValidator for /tg/ forums." alt="" coords="417,103,629,144"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html" title="Validates OAuth responses for a given Provider." alt="" coords="5,78,120,105"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_discord_o_auth_validator.html" title="OAuth validator for Discord." alt="" coords="678,5,879,47"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_keycloak_o_auth_validator.html" title="OAuth validator for Keycloak." alt="" coords="677,71,880,112"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -111,9 +112,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af2a906e3f33ce1e12a0a69821473565b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator.html#af2a906e3f33ce1e12a0a69821473565b">BaseOAuthValidator</a> (IHttpClientFactory <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator.html#af581a5d3474f482073f64b820b05f7aa">httpClientFactory</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html">IAssemblyInformationProvider</a> <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator.html#a40d6470d7795e0e309115ab8fd916038">assemblyInformationProvider</a>, ILogger&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator.html">BaseOAuthValidator</a> &gt; logger, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration.html">OAuthConfiguration</a> oAuthConfiguration)</td></tr>
 <tr class="memdesc:af2a906e3f33ce1e12a0a69821473565b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new instance of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html" title="IOAuthValidator for generic OAuth2 endpoints.">GenericOAuthValidator</a> <code>class</code>.  <a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator.html#af2a906e3f33ce1e12a0a69821473565b">More...</a><br /></td></tr>
 <tr class="separator:af2a906e3f33ce1e12a0a69821473565b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a76fab3412f16c6cd89a04b2dd13e8fcd"><td class="memItemLeft" align="right" valign="top">abstract Task&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator.html#a76fab3412f16c6cd89a04b2dd13e8fcd">GetClientId</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a76fab3412f16c6cd89a04b2dd13e8fcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth.html">OAuth</a> client ID of validator.  <a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator.html#a76fab3412f16c6cd89a04b2dd13e8fcd">More...</a><br /></td></tr>
-<tr class="separator:a76fab3412f16c6cd89a04b2dd13e8fcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac69970e67acd0f74da2925c9af14c213"><td class="memItemLeft" align="right" valign="top">abstract Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_provider_info.html">OAuthProviderInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator.html#ac69970e67acd0f74da2925c9af14c213">GetProviderInfo</a> (CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:ac69970e67acd0f74da2925c9af14c213"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the OAuthProvider of validator.  <a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator.html#ac69970e67acd0f74da2925c9af14c213">More...</a><br /></td></tr>
+<tr class="separator:ac69970e67acd0f74da2925c9af14c213"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad9687e0e93b1eaddb122093b41f81ad0"><td class="memItemLeft" align="right" valign="top">abstract Task&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator.html#ad9687e0e93b1eaddb122093b41f81ad0">ValidateResponseCode</a> (string code, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ad9687e0e93b1eaddb122093b41f81ad0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate a given <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth.html">OAuth</a> response <em>code</em> .  <a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator.html#ad9687e0e93b1eaddb122093b41f81ad0">More...</a><br /></td></tr>
 <tr class="separator:ad9687e0e93b1eaddb122093b41f81ad0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -265,23 +266,23 @@ Private Attributes</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_base_o_auth_validator_8cs_source.html#l00042">Tgstation.Server.Host.Security.OAuth.BaseOAuthValidator.assemblyInformationProvider</a>, <a class="el" href="_base_o_auth_validator_8cs_source.html#l00037">Tgstation.Server.Host.Security.OAuth.BaseOAuthValidator.httpClientFactory</a>, and <a class="el" href="_i_assembly_information_provider_8cs_source.html#l00040">Tgstation.Server.Host.System.IAssemblyInformationProvider.ProductInfoHeaderValue</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_t_g_forums_o_auth_validator_8cs_source.html#l00057">Tgstation.Server.Host.Security.OAuth.TGForumsOAuthValidator.GetClientId()</a>, <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00073">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.ValidateResponseCode()</a>, and <a class="el" href="_t_g_forums_o_auth_validator_8cs_source.html#l00097">Tgstation.Server.Host.Security.OAuth.TGForumsOAuthValidator.ValidateResponseCode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_t_g_forums_o_auth_validator_8cs_source.html#l00057">Tgstation.Server.Host.Security.OAuth.TGForumsOAuthValidator.GetProviderInfo()</a>, <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00074">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.ValidateResponseCode()</a>, and <a class="el" href="_t_g_forums_o_auth_validator_8cs_source.html#l00104">Tgstation.Server.Host.Security.OAuth.TGForumsOAuthValidator.ValidateResponseCode()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator_a8a0dbfa065ce22417f170db57db6be89_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator_a8a0dbfa065ce22417f170db57db6be89_icgraph" alt=""/></div>
 <map name="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator_a8a0dbfa065ce22417f170db57db6be89_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator_a8a0dbfa065ce22417f170db57db6be89_icgraph">
-<area shape="rect" title="Create a new configured HttpClient." alt="" coords="333,77,612,119"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_forums_o_auth_validator.html#a6fc633f499d8808d8d4bbc36d0504ce8" title="Gets the OAuth client ID of validator." alt="" coords="5,5,285,47"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#ae06ed31cca9c75a46bae8e708ca9cb1b" title="Validate a given OAuth response code ." alt="" coords="23,70,268,126"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_forums_o_auth_validator.html#a7139c35ff4a0844158f5e13193349f35" title="Validate a given OAuth response code ." alt="" coords="14,150,277,206"/>
+<area shape="rect" title="Create a new configured HttpClient." alt="" coords="360,77,639,119"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_forums_o_auth_validator.html#a3dae929ddccb17cc82fe4f682fabb2a6" title="Gets the OAuthProvider of validator." alt="" coords="5,5,312,47"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#ae06ed31cca9c75a46bae8e708ca9cb1b" title="Validate a given OAuth response code ." alt="" coords="36,70,281,126"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_forums_o_auth_validator.html#a7139c35ff4a0844158f5e13193349f35" title="Validate a given OAuth response code ." alt="" coords="27,150,290,206"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a76fab3412f16c6cd89a04b2dd13e8fcd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a76fab3412f16c6cd89a04b2dd13e8fcd">&#9670;&nbsp;</a></span>GetClientId()</h2>
+<a id="ac69970e67acd0f74da2925c9af14c213"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac69970e67acd0f74da2925c9af14c213">&#9670;&nbsp;</a></span>GetProviderInfo()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -290,7 +291,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">abstract Task&lt;string&gt; Tgstation.Server.Host.Security.OAuth.BaseOAuthValidator.GetClientId </td>
+          <td class="memname">abstract Task&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_provider_info.html">OAuthProviderInfo</a>&gt; Tgstation.Server.Host.Security.OAuth.BaseOAuthValidator.GetProviderInfo </td>
           <td>(</td>
           <td class="paramtype">CancellationToken&#160;</td>
           <td class="paramname"><em>cancellationToken</em></td><td>)</td>
@@ -304,11 +305,11 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Gets the <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth.html">OAuth</a> client ID of validator. </p>
+<p>Gets the OAuthProvider of validator. </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html#a614676e8d442895eab5116c53e713328">Tgstation.Server.Host.Security.OAuth.IOAuthValidator</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_validator.html#ac39398de7e5fcdaafe4a66fc8f46988e">Tgstation.Server.Host.Security.OAuth.IOAuthValidator</a>.</p>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_forums_o_auth_validator.html#a6fc633f499d8808d8d4bbc36d0504ce8">Tgstation.Server.Host.Security.OAuth.TGForumsOAuthValidator</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a06a6be79ca673f71e99b499253990ec9">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_forums_o_auth_validator.html#a3dae929ddccb17cc82fe4f682fabb2a6">Tgstation.Server.Host.Security.OAuth.TGForumsOAuthValidator</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#af6fee105ccc24555cca7569a2a0772d8">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator</a>.</p>
 
 </div>
 </div>
@@ -338,16 +339,16 @@ Here is the caller graph for this function:</div>
 <p>Gets JsonSerializerSettings that should be used. </p>
 <dl class="section return"><dt>Returns</dt><dd>A new JsonSerializerSettings object.</dd></dl>
 
-<p class="reference">Referenced by <a class="el" href="_t_g_forums_o_auth_validator_8cs_source.html#l00057">Tgstation.Server.Host.Security.OAuth.TGForumsOAuthValidator.GetClientId()</a>, <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00073">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.ValidateResponseCode()</a>, and <a class="el" href="_t_g_forums_o_auth_validator_8cs_source.html#l00097">Tgstation.Server.Host.Security.OAuth.TGForumsOAuthValidator.ValidateResponseCode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_t_g_forums_o_auth_validator_8cs_source.html#l00057">Tgstation.Server.Host.Security.OAuth.TGForumsOAuthValidator.GetProviderInfo()</a>, <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00074">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.ValidateResponseCode()</a>, and <a class="el" href="_t_g_forums_o_auth_validator_8cs_source.html#l00104">Tgstation.Server.Host.Security.OAuth.TGForumsOAuthValidator.ValidateResponseCode()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator_af111de96a41ad5e5b73db33de7eb1cbb_icgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator_af111de96a41ad5e5b73db33de7eb1cbb_icgraph" alt=""/></div>
 <map name="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator_af111de96a41ad5e5b73db33de7eb1cbb_icgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator_af111de96a41ad5e5b73db33de7eb1cbb_icgraph">
-<area shape="rect" title="Gets JsonSerializerSettings that should be used." alt="" coords="333,70,569,126"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_forums_o_auth_validator.html#a6fc633f499d8808d8d4bbc36d0504ce8" title="Gets the OAuth client ID of validator." alt="" coords="5,5,285,47"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#ae06ed31cca9c75a46bae8e708ca9cb1b" title="Validate a given OAuth response code ." alt="" coords="23,70,268,126"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_forums_o_auth_validator.html#a7139c35ff4a0844158f5e13193349f35" title="Validate a given OAuth response code ." alt="" coords="14,150,277,206"/>
+<area shape="rect" title="Gets JsonSerializerSettings that should be used." alt="" coords="360,70,596,126"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_forums_o_auth_validator.html#a3dae929ddccb17cc82fe4f682fabb2a6" title="Gets the OAuthProvider of validator." alt="" coords="5,5,312,47"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#ae06ed31cca9c75a46bae8e708ca9cb1b" title="Validate a given OAuth response code ." alt="" coords="36,70,281,126"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_forums_o_auth_validator.html#a7139c35ff4a0844158f5e13193349f35" title="Validate a given OAuth response code ." alt="" coords="27,150,290,206"/>
 </map>
 </div>
 
@@ -478,7 +479,7 @@ Here is the caller graph for this function:</div>
 <p class="definition">Definition at line <a class="el" href="_base_o_auth_validator_8cs_source.html#l00027">27</a> of file <a class="el" href="_base_o_auth_validator_8cs_source.html">BaseOAuthValidator.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_base_o_auth_validator_8cs_source.html#l00063">Tgstation.Server.Host.Security.OAuth.BaseOAuthValidator.BaseOAuthValidator()</a>, <a class="el" href="_t_g_forums_o_auth_validator_8cs_source.html#l00057">Tgstation.Server.Host.Security.OAuth.TGForumsOAuthValidator.GetClientId()</a>, <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00073">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.ValidateResponseCode()</a>, and <a class="el" href="_t_g_forums_o_auth_validator_8cs_source.html#l00097">Tgstation.Server.Host.Security.OAuth.TGForumsOAuthValidator.ValidateResponseCode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_base_o_auth_validator_8cs_source.html#l00063">Tgstation.Server.Host.Security.OAuth.BaseOAuthValidator.BaseOAuthValidator()</a>, <a class="el" href="_t_g_forums_o_auth_validator_8cs_source.html#l00057">Tgstation.Server.Host.Security.OAuth.TGForumsOAuthValidator.GetProviderInfo()</a>, <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00074">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.ValidateResponseCode()</a>, and <a class="el" href="_t_g_forums_o_auth_validator_8cs_source.html#l00104">Tgstation.Server.Host.Security.OAuth.TGForumsOAuthValidator.ValidateResponseCode()</a>.</p>
 
 </div>
 </div>
@@ -540,7 +541,7 @@ Here is the caller graph for this function:</div>
 <li>src/Tgstation.Server.Host/Security/OAuth/<a class="el" href="_base_o_auth_validator_8cs_source.html">BaseOAuthValidator.cs</a></li>
 </ul>
 </div><!-- contents -->
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration.html">Tgstation.Server.Host.Configuration.OAuthConfiguration</a></div><div class="ttdoc">OAuth options.</div><div class="ttdef"><b>Definition:</b> <a href="_o_auth_configuration_8cs_source.html#l00008">OAuthConfiguration.cs:9</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration.html">Tgstation.Server.Host.Configuration.OAuthConfiguration</a></div><div class="ttdoc">OAuth configuration options.</div><div class="ttdef"><b>Definition:</b> <a href="_o_auth_configuration_8cs_source.html#l00008">OAuthConfiguration.cs:9</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator_html_ae97b6e909bde0b09dd5780b25220a1af"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator.html#ae97b6e909bde0b09dd5780b25220a1af">Tgstation.Server.Host.Security.OAuth.BaseOAuthValidator.Logger</a></div><div class="ttdeci">ILogger&lt; BaseOAuthValidator &gt; Logger</div><div class="ttdoc">The ILogger for the BaseOAuthValidator.</div><div class="ttdef"><b>Definition:</b> <a href="_base_o_auth_validator_8cs_source.html#l00027">BaseOAuthValidator.cs:27</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator_html_a40d6470d7795e0e309115ab8fd916038"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator.html#a40d6470d7795e0e309115ab8fd916038">Tgstation.Server.Host.Security.OAuth.BaseOAuthValidator.assemblyInformationProvider</a></div><div class="ttdeci">readonly IAssemblyInformationProvider assemblyInformationProvider</div><div class="ttdoc">The IAssemblyInformationProvider for the BaseOAuthValidator.</div><div class="ttdef"><b>Definition:</b> <a href="_base_o_auth_validator_8cs_source.html#l00042">BaseOAuthValidator.cs:42</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider_html_ac576ee50be1f68ebbaeaa959fa304aa8"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html#ac576ee50be1f68ebbaeaa959fa304aa8">Tgstation.Server.Host.System.IAssemblyInformationProvider.ProductInfoHeaderValue</a></div><div class="ttdeci">ProductInfoHeaderValue ProductInfoHeaderValue</div><div class="ttdoc">The ProductInfoHeaderValue for the assembly.</div><div class="ttdef"><b>Definition:</b> <a href="_i_assembly_information_provider_8cs_source.html#l00040">IAssemblyInformationProvider.cs:40</a></div></div>

@@ -1,5 +1,0 @@
-<map id="Tgstation.Server.Host.Security.OAuth.TGForumsOAuthValidator.GetClientId" name="Tgstation.Server.Host.Security.OAuth.TGForumsOAuthValidator.GetClientId">
-<area shape="rect" id="node1" title="Gets the OAuth client ID of validator." alt="" coords="5,41,285,83"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator.html#a8a0dbfa065ce22417f170db57db6be89" title="Create a new configured HttpClient." alt="" coords="333,5,612,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator.html#af111de96a41ad5e5b73db33de7eb1cbb" title="Gets JsonSerializerSettings that should be used." alt="" coords="355,70,591,126"/>
-</map>

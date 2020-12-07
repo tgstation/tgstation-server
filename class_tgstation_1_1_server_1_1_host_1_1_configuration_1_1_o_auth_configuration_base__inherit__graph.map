@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Configuration.OAuthConfigurationBase" name="Tgstation.Server.Host.Configuration.OAuthConfigurationBase">
+<area shape="rect" id="node1" title="Base OAuth options." alt="" coords="5,39,235,80"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration.html" title="OAuth configuration options." alt="" coords="283,5,512,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_o_auth_token_request.html" title="Generic OAuth token request." alt="" coords="297,71,498,112"/>
+</map>

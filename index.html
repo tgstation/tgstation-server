@@ -162,10 +162,22 @@ Manual Configuration</h3>
 <li><code>ControlPanel:AllowAnyOrigin</code>: Set the Access-Control-Allow-Origin header to * for all responses (also enables all headers and methods)</li>
 <li><code>ControlPanel:AllowedOrigins</code>: Set the Access-Control-Allow-Origin headers to this list of origins for all responses (also enables all headers and methods). This is overridden by <code>ControlPanel:AllowAnyOrigin</code></li>
 <li><code>Security:&lt;Provider Name&gt;OAuth</code>: Sets the OAuth client ID and secret for a given <code>&lt;Provider Name&gt;</code>. The currently supported providers are <code>GitHub</code>, <code>Discord</code>, and <code>TGForums</code>. Setting these fields to <code>null</code> disables logins with the provider, but does not stop users from associating their accounts using the API. Sample Entry: <div class="fragment"><div class="line">&quot;GitHubOAuth&quot;:{</div>
-<div class="line">    &quot;ClientId&quot;: &quot;... (Note for `TGForums`, this is the redirect_uri used)&quot;,</div>
-<div class="line">    &quot;ClientSecret&quot;: &quot;...&quot;</div>
+<div class="line">    &quot;ClientId&quot;: &quot;...&quot;,</div>
+<div class="line">    &quot;ClientSecret&quot;: &quot;...&quot;,</div>
+<div class="line">    &quot;RedirectUrl&quot;: &quot;...&quot;, (Used with certain providers)</div>
+<div class="line">    &quot;ServerUrl&quot;: &quot;...&quot;, (Used with certain providers)</div>
 <div class="line">}</div>
 </div><!-- fragment --></li>
+</ul>
+<p>The following providers use the <code>RedirectUrl</code> setting:</p>
+<ul>
+<li>GitHub</li>
+<li>TGForums</li>
+<li>Keycloak</li>
+</ul>
+<p>The following providers use the <code>ServerUrl</code> setting:</p>
+<ul>
+<li>Keycloak</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md11"></a>
 Database Configuration</h2>

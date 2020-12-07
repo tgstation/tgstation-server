@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Controllers.HomeController.Home" name="Tgstation.Server.Host.Controllers.HomeController.Home">
-<area shape="rect" id="node1" title="Main page of the Application" alt="" coords="5,71,221,112"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html#a579ea2a568271cc5377e487de9280730" title="Gets a Dictionary&lt;TKey, TValue&gt; of the provider client IDs." alt="" coords="271,5,483,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a28d03a8af8e2ef025de2f0ac8e7a4221" title="Response for missing/Invalid headers." alt="" coords="269,71,485,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="533,100,749,141"/>
+<area shape="rect" id="node1" title="Main page of the Application" alt="" coords="5,64,221,105"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a28d03a8af8e2ef025de2f0ac8e7a4221" title="Response for missing/Invalid headers." alt="" coords="281,5,497,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="556,35,772,76"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html#a91f623131fa6c4fbdda9d04e58f8d4bc" title="Gets a Dictionary&lt;TKey, TValue&gt; of the provider client IDs." alt="" coords="269,123,508,164"/>
 </map>

@@ -1,5 +1,4 @@
 <map id="Tgstation.Server.Host.Security.OAuth.OAuthTokenRequest" name="Tgstation.Server.Host.Security.OAuth.OAuthTokenRequest">
 <area shape="rect" id="node1" title="Generic OAuth token request." alt="" coords="5,80,207,121"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_discord_token_request.html" title="OAuthTokenRequest for Discord." alt="" coords="5,169,207,211"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration.html" title="OAuth options." alt="" coords="39,5,173,32"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_o_auth_configuration_base.html" title="Base OAuth options." alt="" coords="24,5,188,32"/>
 </map>
