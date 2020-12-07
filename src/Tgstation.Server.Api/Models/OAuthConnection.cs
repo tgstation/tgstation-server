@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models
@@ -10,6 +12,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The <see cref="OAuthProvider"/> of the <see cref="OAuthConnection"/>.
 		/// </summary>]
+		[JsonConverter(typeof(StringEnumConverter))]
 		[EnumDataType(typeof(OAuthProvider))]
 		public OAuthProvider Provider { get; set; }
 
