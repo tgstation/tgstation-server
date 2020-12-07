@@ -73,7 +73,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 		}
 
 		/// <inheritdoc />
-		public abstract Task<string> GetClientId(CancellationToken cancellationToken);
+		public abstract Task<OAuthProviderInfo> GetProviderInfo(CancellationToken cancellationToken);
 
 		/// <inheritdoc />
 		public abstract Task<string> ValidateResponseCode(string code, CancellationToken cancellationToken);

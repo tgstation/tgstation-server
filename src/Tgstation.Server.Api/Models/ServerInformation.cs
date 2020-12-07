@@ -24,8 +24,8 @@ namespace Tgstation.Server.Api.Models
 		public Version? DMApiVersion { get; set; }
 
 		/// <summary>
-		/// Map of <see cref="OAuthProvider"/> to the server's associated client IDs for them.
+		/// Map of <see cref="OAuthProvider"/> to the <see cref="OAuthProviderInfo"/> for them.
 		/// </summary>
-		public IDictionary<OAuthProvider, string>? OAuthProviderClientIds { get; set; }
+		public IDictionary<OAuthProvider, OAuthProviderInfo>? OAuthProviderInfos { get; set; }
 	}
 }

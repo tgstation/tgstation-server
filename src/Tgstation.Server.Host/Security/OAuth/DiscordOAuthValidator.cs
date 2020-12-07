@@ -38,7 +38,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 		protected override Uri UserInformationUrl => new Uri("https://discord.com/api/users/@me");
 
 		/// <inheritdoc />
-		protected override OAuthTokenRequest CreateTokenRequest(string code) => new DiscordTokenRequest(OAuthConfiguration, code);
+		protected override OAuthTokenRequest CreateTokenRequest(string code) => new OAuthTokenRequest(OAuthConfiguration, code, "identify");
 
 		/// <inheritdoc />
 		protected override string DecodeTokenPayload(dynamic responseJson) => responseJson.access_token;

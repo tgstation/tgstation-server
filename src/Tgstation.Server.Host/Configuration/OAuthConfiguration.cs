@@ -1,3 +1,5 @@
+using System;
+
 namespace Tgstation.Server.Host.Configuration
 {
 	/// <summary>
@@ -6,8 +8,13 @@ namespace Tgstation.Server.Host.Configuration
 	sealed class OAuthConfiguration : OAuthConfigurationBase
 	{
 		/// <summary>
-		/// The redirect or server URL. Not used by all providers.
+		/// The client redirect URL. Not used by all providers.
 		/// </summary>
-		public string Url { get; set; }
+		public Uri ServerUrl { get; set; }
+
+		/// <summary>
+		/// The authentication server URL. Not used by all providers.
+		/// </summary>
+		public Uri RedirectUrl { get; set; }
 	}
 }

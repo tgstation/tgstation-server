@@ -133,15 +133,20 @@ Create an `appsettings.Production.json` file next to `appsettings.json`. This wi
 - `Security:<Provider Name>OAuth`: Sets the OAuth client ID and secret for a given `<Provider Name>`. The currently supported providers are `GitHub`, `Discord`, and `TGForums`. Setting these fields to `null` disables logins with the provider, but does not stop users from associating their accounts using the API. Sample Entry:
 ```json
 "GitHubOAuth":{
-	"Url": "...", (Used with certain providers)
 	"ClientId": "...",
-	"ClientSecret": "..."
+	"ClientSecret": "...",
+	"RedirectUrl": "...", (Used with certain providers)
+	"ServerUrl": "...", (Used with certain providers)
 }
 ```
+The following providers use the `RedirectUrl` setting:
 
-The following providers use the `Url` setting:
+- GitHub
+- TGForums
 
-- `TGForums`: Used as the OAuth redirect url.
+The following providers use the `ServerUrl` setting:
+
+- None so far
 
 ### Database Configuration
 

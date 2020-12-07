@@ -58,7 +58,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 						loggerFactory.CreateLogger<DiscordOAuthValidator>(),
 						discordConfig));
 
-			if(securityConfiguration.OAuth.TryGetValue(OAuthProvider.TGForums, out var tgConfig))
+			if (securityConfiguration.OAuth.TryGetValue(OAuthProvider.TGForums, out var tgConfig))
 				validatorsBuilder.Add(
 					new TGForumsOAuthValidator(
 						httpClientFactory,
@@ -73,11 +73,11 @@ namespace Tgstation.Server.Host.Security.OAuth
 		public IOAuthValidator GetValidator(OAuthProvider oAuthProvider) => validators.FirstOrDefault(x => x.Provider == oAuthProvider);
 
 		/// <inheritdoc />
-		public async Task<Dictionary<OAuthProvider, string>> ClientIds(CancellationToken cancellationToken)
+		public async Task<Dictionary<OAuthProvider, OAuthProviderInfo>> ProviderInfos(CancellationToken cancellationToken)
 		{
 			var providersAndTasks = validators.ToDictionary(
 				x => x.Provider,
-				x => x.GetClientId(cancellationToken));
+				x => x.GetProviderInfo(cancellationToken));
 
 			await Task.WhenAll(providersAndTasks.Values).ConfigureAwait(false);
 
