@@ -109,8 +109,7 @@ namespace Tgstation.Server.Host.Controllers
 				  databaseContext,
 				  authenticationContextFactory,
 				  logger,
-				  (browserResolver ?? throw new ArgumentNullException(nameof(browserResolver))).Browser.Type != BrowserType.Generic
-				  && !(controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions))).Enable)
+				  false)
 		{
 			this.tokenFactory = tokenFactory ?? throw new ArgumentNullException(nameof(tokenFactory));
 			this.systemIdentityFactory = systemIdentityFactory ?? throw new ArgumentNullException(nameof(systemIdentityFactory));
