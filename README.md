@@ -1,6 +1,6 @@
 # tgstation-server v4:
 
-![CI](https://github.com/tgstation/tgstation-server/workflows/CI/badge.svg) [![Build Status](https://travis-ci.org/tgstation/tgstation-server.svg?branch=master)](https://travis-ci.org/tgstation/tgstation-server) [![codecov](https://codecov.io/gh/tgstation/tgstation-server/branch/master/graph/badge.svg)](https://codecov.io/gh/tgstation/tgstation-server)
+![CI](https://github.com/tgstation/tgstation-server/workflows/CI/badge.svg) [![codecov](https://codecov.io/gh/tgstation/tgstation-server/branch/master/graph/badge.svg)](https://codecov.io/gh/tgstation/tgstation-server)
 
 [![GitHub license](https://img.shields.io/github/license/tgstation/tgstation-server.svg)](LICENSE) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/tgstation/tgstation-server.svg)](http://isitmaintained.com/project/tgstation/tgstation-server "Average time to resolve an issue") [![NuGet version](https://img.shields.io/nuget/v/Tgstation.Server.Api.svg)](https://www.nuget.org/packages/Tgstation.Server.Api) [![NuGet version](https://img.shields.io/nuget/v/Tgstation.Server.Client.svg)](https://www.nuget.org/packages/Tgstation.Server.Client)
 
@@ -133,10 +133,21 @@ Create an `appsettings.Production.json` file next to `appsettings.json`. This wi
 - `Security:<Provider Name>OAuth`: Sets the OAuth client ID and secret for a given `<Provider Name>`. The currently supported providers are `GitHub`, `Discord`, and `TGForums`. Setting these fields to `null` disables logins with the provider, but does not stop users from associating their accounts using the API. Sample Entry:
 ```json
 "GitHubOAuth":{
-	"ClientId": "... (Note for `TGForums`, this is the redirect_uri used)",
-	"ClientSecret": "..."
+	"ClientId": "...",
+	"ClientSecret": "...",
+	"RedirectUrl": "...", (Used with certain providers)
+	"ServerUrl": "...", (Used with certain providers)
 }
 ```
+The following providers use the `RedirectUrl` setting:
+
+- GitHub
+- TGForums
+- Keycloak
+
+The following providers use the `ServerUrl` setting:
+
+- Keycloak
 
 ### Database Configuration
 

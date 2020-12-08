@@ -203,11 +203,14 @@ jobs:
 
     - name: Set TGS4_GITHUB_REF for PR
       if: ${{ github.event_name == 'pull_request' }}
-      run: echo "TGS4_GITHUB_REF=${{ github.event.base_ref }}" >> $env:GITHUB_ENV
+      run: echo "TGS4_GITHUB_REF=${{ github.base_ref }}" >> $env:GITHUB_ENV
 
     - name: Set TGS4_GITHUB_REF for push
       if: ${{ github.event_name == 'push' }}
-      run: echo "TGS4_GITHUB_REF=${{ github.event.ref }}" >> $env:GITHUB_ENV
+      shell: bash
+      run: |
+        TEMP_GITHUB_REF="${{ github.event.ref }}"
+        echo "TGS4_GITHUB_REF=${TEMP_GITHUB_REF##*/}" >> $env:GITHUB_ENV
 
     - name: Run Integration Test
       run: |
@@ -345,11 +348,13 @@ jobs:
 
     - name: Set TGS4_GITHUB_REF for PR
       if: ${{ github.event_name == 'pull_request' }}
-      run: echo "TGS4_GITHUB_REF=${{ github.event.base_ref }}" >> $GITHUB_ENV
+      run: echo "TGS4_GITHUB_REF=${{ github.base_ref }}" >> $GITHUB_ENV
 
     - name: Set TGS4_GITHUB_REF for push
       if: ${{ github.event_name == 'push' }}
-      run: echo "TGS4_GITHUB_REF=${{ github.event.ref }}" >> $GITHUB_ENV
+      run: |
+        TEMP_GITHUB_REF="${{ github.event.ref }}"
+        echo "TGS4_GITHUB_REF=${TEMP_GITHUB_REF##*/}" >> $env:GITHUB_ENV
 
     - name: Run Integration Test
       run: |

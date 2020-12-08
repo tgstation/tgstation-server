@@ -63,7 +63,7 @@ TGS will only every return the response codes listed here
 - 204: No Content. Identical to 200 with no response body.
 - 400: Bad Request. The response body will contain an @ref Tgstation.Server.Api.Models.ErrorMessage model detailing the error
 - 401: Unauthorized. Invalid or expired credentials were provided. Check rights APIs for updates. See @ref api_auth for details
-- 403: Forbidden. User tried to make a request they were not allowed to perform. 
+- 403: Forbidden. User tried to make a request they were not allowed to perform.
 - 404: Not found. A resource was requested that had never existed. In the case of retrieving a resource by ID, it could potentially exist in the future
 - 406: Not Acceptable. Consequence of failing to provide an Accept header
 - 408: Request Timeout. The client took to long to continue a request
@@ -97,7 +97,7 @@ Other fields may be present in the Version model but should be ignored. See a de
 
 @section api_auth Authentication
 
-Every request made to TGS requires authentication. It is provided in the form of the Authorization header. 
+Every request made to TGS requires authentication. It is provided in the form of the Authorization header.
 
 The first request made to TGS must be to login the user
 
@@ -128,7 +128,7 @@ TGS4 supports OAuth 2.0 with select providers for authentication.
 
 The flow for this is as follows:
 
-- Retrieve the @ref api_ver to find out available OAuth providers and their respective client IDs.
+- Retrieve the @ref api_ver to find out which @ref Tgstation.Server.Api.Models.OAuthProvider are enabled and their respective information.
 - Send the user to the Authorization Request endpoint for the provider using the client ID from above. See https://tools.ietf.org/html/rfc6749#section-4.1.1. DO NOT specify a redirect URI, this should be configured in the provider.
 - Retrieve the authorization response code after successfully completing the authorize step above.
 - Perform the following request:
@@ -144,9 +144,10 @@ You will be granted a bearer token as in basic auth. This will have an extended 
 
 @subsubsection api_auth_o_providers Supported Providers
 
-- ID: 0, Name: GitHub, Documentation: https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/
-- ID: 1, Name: Discord, Documentation: https://discord.com/developers/docs/topics/oauth2
-- ID: 2, Name: TGForums, Documentation: https://tgstation13.org/phpBB/viewtopic.php?f=45&t=9922
+- GitHub: https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps
+- Discord: https://discord.com/developers/docs/topics/oauth2
+- TGForums: https://tgstation13.org/phpBB/viewtopic.php?f=45&t=9922
+- Keycloak: https://plugins.miniorange.com/keycloak-single-sign-on-wordpress-sso-oauth-openid-connect
 
 @section api_perms Permissions
 
@@ -391,7 +392,7 @@ If the server detects a set of @ref Tgstation.Server.Api.Models.TestMergeParamet
 
 @subsubsection api_repounsetauth Unsetting Authentication
 
-The repository uses the @ref Tgstation.Server.Api.Models.Repository.AccessUser and @ref Tgstation.Server.Api.Models.Repository.AccessToken credentials to access the remote repository if these fields are set. To unset them you must set both of them to an empty string like so 
+The repository uses the @ref Tgstation.Server.Api.Models.Repository.AccessUser and @ref Tgstation.Server.Api.Models.Repository.AccessToken credentials to access the remote repository if these fields are set. To unset them you must set both of them to an empty string like so
 
 @code{.json}
 {

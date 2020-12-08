@@ -93,6 +93,7 @@ namespace Tgstation.Server.Tests
 				{
 					args.Add($"Security:OAuth:{I}:ClientId=Fake");
 					args.Add($"Security:OAuth:{I}:ClientSecret=Faker");
+					args.Add($"Security:OAuth:{I}:Url=https://fakest.com");
 				}
 
 			// SPECIFICALLY DELETE THE DEV APPSETTINGS, WE DON'T WANT IT IN THE WAY

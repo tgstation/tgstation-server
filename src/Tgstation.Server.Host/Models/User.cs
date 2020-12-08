@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -75,7 +76,8 @@ namespace Tgstation.Server.Host.Models
 			Id = Id,
 			InstanceManagerRights = showDetails ? InstanceManagerRights : null,
 			Name = Name,
-			SystemIdentifier = showDetails ? SystemIdentifier : null
+			SystemIdentifier = showDetails ? SystemIdentifier : null,
+			OAuthConnections = OAuthConnections?.Select(x => x.ToApi()).ToList(),
 		};
 
 		/// <summary>

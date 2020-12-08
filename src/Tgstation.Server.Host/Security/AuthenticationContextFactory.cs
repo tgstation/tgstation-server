@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
@@ -60,6 +60,7 @@ namespace Tgstation.Server.Host.Security
 				.AsQueryable()
 				.Where(x => x.Id == userId)
 				.Include(x => x.CreatedBy)
+				.Include(x => x.OAuthConnections)
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);
 			if (user == default)

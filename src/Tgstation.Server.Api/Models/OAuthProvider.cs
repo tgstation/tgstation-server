@@ -1,8 +1,12 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
 namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
 	/// List of OAuth providers supported by TGS
 	/// </summary>
+	[JsonConverter(typeof(StringEnumConverter))]
 	public enum OAuthProvider
 	{
 		/// <summary>
@@ -19,5 +23,10 @@ namespace Tgstation.Server.Api.Models
 		/// https://tgstation13.org
 		/// </summary>
 		TGForums,
+
+		/// <summary>
+		/// https://www.keycloak.org
+		/// </summary>
+		Keycloak,
 	}
 }

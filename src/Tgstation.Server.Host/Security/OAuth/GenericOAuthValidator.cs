@@ -8,6 +8,7 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.System;
 
@@ -95,7 +96,10 @@ namespace Tgstation.Server.Host.Security.OAuth
 
 				var accessToken = DecodeTokenPayload(tokenResponseJson);
 				if (accessToken == null)
+				{
+					Logger.LogTrace("No token from DecodeTokenPayload!");
 					return null;
+				}
 
 				Logger.LogTrace("Getting user details...");
 				using var userInformationRequest = new HttpRequestMessage(HttpMethod.Get, UserInformationUrl);
@@ -119,6 +123,12 @@ namespace Tgstation.Server.Host.Security.OAuth
 		}
 
 		/// <inheritdoc />
-		public override Task<string> GetClientId(CancellationToken cancellationToken) => Task.FromResult(OAuthConfiguration.ClientId);
+		public override Task<OAuthProviderInfo> GetProviderInfo(CancellationToken cancellationToken) => Task.FromResult(
+			new OAuthProviderInfo
+			{
+				ClientId = OAuthConfiguration.ClientId,
+				RedirectUri = OAuthConfiguration.RedirectUrl,
+				ServerUrl = OAuthConfiguration.ServerUrl
+			});
 	}
 }
