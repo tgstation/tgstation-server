@@ -16,5 +16,10 @@ namespace Tgstation.Server.Api.Models
 		/// The redirect URL.
 		/// </summary>
 		public Uri? RedirectUri { get; set; }
+
+		/// <summary>
+		/// The server URL.
+		/// </summary>
+		public Uri? ServerUrl { get; set; }
 	}
 }

@@ -128,7 +128,7 @@ TGS4 supports OAuth 2.0 with select providers for authentication.
 
 The flow for this is as follows:
 
-- Retrieve the @ref api_ver to find out available OAuth providers and their respective client ID and redirect URIs.
+- Retrieve the @ref api_ver to find out which @ref Tgstation.Server.Api.Models.OAuthProvider are enabled and their respective information.
 - Send the user to the Authorization Request endpoint for the provider using the client ID from above. See https://tools.ietf.org/html/rfc6749#section-4.1.1. DO NOT specify a redirect URI, this should be configured in the provider.
 - Retrieve the authorization response code after successfully completing the authorize step above.
 - Perform the following request:

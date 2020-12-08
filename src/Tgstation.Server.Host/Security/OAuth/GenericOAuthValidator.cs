@@ -127,7 +127,8 @@ namespace Tgstation.Server.Host.Security.OAuth
 			new OAuthProviderInfo
 			{
 				ClientId = OAuthConfiguration.ClientId,
-				RedirectUri = OAuthConfiguration.RedirectUrl
+				RedirectUri = OAuthConfiguration.RedirectUrl,
+				ServerUrl = OAuthConfiguration.ServerUrl
 			});
 	}
 }
