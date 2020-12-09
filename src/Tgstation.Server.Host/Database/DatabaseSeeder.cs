@@ -295,7 +295,11 @@ namespace Tgstation.Server.Host.Database
 			if (downgradeVersion == null)
 				throw new ArgumentNullException(nameof(downgradeVersion));
 
-			return databaseContext.SchemaDowngradeForServerVersion(databaseLogger, downgradeVersion, databaseConfiguration.DatabaseType, cancellationToken);
+			return databaseContext.SchemaDowngradeForServerVersion(
+				databaseLogger,
+				downgradeVersion,
+				databaseConfiguration.DatabaseType,
+				cancellationToken);
 		}
 	}
 }
