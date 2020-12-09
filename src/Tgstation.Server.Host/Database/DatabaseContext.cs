@@ -338,6 +338,7 @@ namespace Tgstation.Server.Host.Database
 #endif
 
 		/// <inheritdoc />
+#pragma warning disable CA1502 // TODO: Decomplexify
 		public async Task SchemaDowngradeForServerVersion(
 			ILogger<DatabaseContext> logger,
 			Version targetVersion,
@@ -486,5 +487,6 @@ namespace Tgstation.Server.Host.Database
 				logger.LogCritical(e, "Failed to migrate!");
 			}
 		}
+#pragma warning restore CA1502
 	}
 }
