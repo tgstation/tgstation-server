@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Tgstation.Server.Api.Models.Internal;
@@ -12,7 +13,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The origin URL. If <see langword="null"/>, the <see cref="Repository"/> does not exist
 		/// </summary>
-		public string? Origin { get; set; }
+		public Uri? Origin { get; set; }
 
 		/// <summary>
 		/// If submodules should be recursively cloned.

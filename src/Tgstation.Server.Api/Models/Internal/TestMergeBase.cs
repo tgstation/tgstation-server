@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models.Internal
@@ -51,7 +51,7 @@ namespace Tgstation.Server.Api.Models.Internal
 			BodyAtMerge = copy.BodyAtMerge;
 			Comment = copy.Comment;
 			Number = copy.Number;
-			PullRequestRevision = copy.PullRequestRevision;
+			TargetCommitSha = copy.TargetCommitSha;
 			TitleAtMerge = copy.TitleAtMerge;
 			Url = copy.Url;
 		}

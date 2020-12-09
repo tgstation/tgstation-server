@@ -59,7 +59,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IIOManager gameIOManager,
 			IIOManager diagnosticsIOManager,
 			IEventConsumer eventConsumer,
-			IRemoteDeploymentManager gitHubDeploymentManager,
+			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
 			Api.Models.Instance instance,
 			DreamDaemonSettings settings)
 			=> new WindowsWatchdog(
@@ -72,7 +72,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				AsyncDelayer,
 				diagnosticsIOManager,
 				eventConsumer,
-				gitHubDeploymentManager,
+				remoteDeploymentManagerFactory,
 				gameIOManager,
 				SymlinkFactory,
 				LoggerFactory.CreateLogger<WindowsWatchdog>(),

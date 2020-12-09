@@ -42,7 +42,7 @@ namespace Tgstation.Server.Host.Models
 			Id = Id,
 			MergedBy = MergedBy.ToApi(false),
 			Number = Number,
-			PullRequestRevision = PullRequestRevision,
+			TargetCommitSha = TargetCommitSha,
 			Url = Url
 		};
 	}

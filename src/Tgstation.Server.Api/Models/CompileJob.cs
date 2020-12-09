@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Tgstation.Server.Api.Models
 {
@@ -19,5 +19,10 @@ namespace Tgstation.Server.Api.Models
 		/// The <see cref="Byond.Version"/> the <see cref="CompileJob"/> was made with
 		/// </summary>
 		public Version? ByondVersion { get; set; }
+
+		/// <summary>
+		/// The origin <see cref="Uri"/> of the repository the compile job was built from.
+		/// </summary>
+		public Uri? RepositoryOrigin { get; set; }
 	}
 }

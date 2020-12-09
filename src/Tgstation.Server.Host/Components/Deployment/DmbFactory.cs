@@ -42,9 +42,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly IIOManager ioManager;
 
 		/// <summary>
-		/// The <see cref="IRemoteDeploymentManager"/> for the <see cref="DmbFactory"/>.
+		/// The <see cref="IRemoteDeploymentManagerFactory"/> for the <see cref="DmbFactory"/>.
 		/// </summary>
-		readonly IRemoteDeploymentManager remoteDeploymentManager;
+		readonly IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="DmbFactory"/>
@@ -54,7 +54,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <summary>
 		/// The <see cref="Api.Models.Instance"/> for the <see cref="DmbFactory"/>
 		/// </summary>
-		readonly Api.Models.Instance instance;
+		readonly Api.Models.Instance metadata;
 
 		/// <summary>
 		/// The <see cref="CancellationTokenSource"/> for <see cref="cleanupTask"/>
@@ -91,21 +91,21 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// </summary>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
-		/// <param name="remoteDeploymentManager">The value of <see cref="remoteDeploymentManager"/>.</param>
+		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		/// <param name="instance">The value of <see cref="instance"/></param>
+		/// <param name="metadata">The value of <see cref="metadata"/></param>
 		public DmbFactory(
 			IDatabaseContextFactory databaseContextFactory,
 			IIOManager ioManager,
-			IRemoteDeploymentManager remoteDeploymentManager,
+			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
 			ILogger<DmbFactory> logger,
-			Api.Models.Instance instance)
+			Api.Models.Instance metadata)
 		{
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
-			this.remoteDeploymentManager = remoteDeploymentManager ?? throw new ArgumentNullException(nameof(remoteDeploymentManager));
+			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
+			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 
 			cleanupTask = Task.CompletedTask;
 			newerDmbTcs = new TaskCompletionSource<object>();
@@ -125,6 +125,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 			async Task HandleCleanup()
 			{
 				var deleteJob = ioManager.DeleteDirectory(job.DirectoryName.ToString(), cleanupCts.Token);
+				var remoteDeploymentManager = remoteDeploymentManagerFactory.CreateRemoteDeploymentManager(
+					metadata,
+					job);
 
 				// DCT: None available
 				var deploymentJob = remoteDeploymentManager.MarkInactive(job, default);
@@ -158,10 +161,15 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 			// Do this first, because it's entirely possible when we set the tcs it will immediately need to be applied
 			if (started)
+			{
+				var remoteDeploymentManager = remoteDeploymentManagerFactory.CreateRemoteDeploymentManager(
+					metadata,
+					job);
 				await remoteDeploymentManager.StageDeployment(
-					newProvider.CompileJob,
-					cancellationToken)
-					.ConfigureAwait(false);
+						newProvider.CompileJob,
+						cancellationToken)
+						.ConfigureAwait(false);
+			}
 
 			lock (jobLockCounts)
 			{
@@ -200,7 +208,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				cj = await db
 					.CompileJobs
 					.AsQueryable()
-					.Where(x => x.Job.Instance.Id == instance.Id)
+					.Where(x => x.Job.Instance.Id == metadata.Id)
 					.OrderByDescending(x => x.Job.StoppedAt)
 					.FirstOrDefaultAsync(cancellationToken)
 					.ConfigureAwait(false);
@@ -357,7 +365,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					.CompileJobs
 					.AsQueryable()
 					.Where(
-						x => x.Job.Instance.Id == instance.Id
+						x => x.Job.Instance.Id == metadata.Id
 						&& jobIdsToSkip.Contains(x.Id))
 					.Select(x => x.DirectoryName.Value)
 					.ToListAsync(cancellationToken)

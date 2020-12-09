@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <summary>
 		/// The current origin remote the <see cref="IRepository"/> is using
 		/// </summary>
-		string Origin { get; }
+		Uri Origin { get; }
 
 		/// <summary>
 		/// Checks if a given <paramref name="committish"/> is a sha

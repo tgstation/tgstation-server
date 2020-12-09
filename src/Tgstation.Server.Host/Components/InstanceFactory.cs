@@ -103,11 +103,6 @@ namespace Tgstation.Server.Host.Components
 		readonly INetworkPromptReaper networkPromptReaper;
 
 		/// <summary>
-		/// The <see cref="IGitHubClientFactory"/> for the <see cref="InstanceFactory"/>
-		/// </summary>
-		readonly IGitHubClientFactory gitHubClientFactory;
-
-		/// <summary>
 		/// The <see cref="IPlatformIdentifier"/> for the <see cref="InstanceFactory"/>
 		/// </summary>
 		readonly IPlatformIdentifier platformIdentifier;
@@ -138,6 +133,11 @@ namespace Tgstation.Server.Host.Components
 		readonly IGitRemoteFeaturesFactory gitRemoteFeaturesFactory;
 
 		/// <summary>
+		/// The <see cref="IRemoteDeploymentManagerFactory"/> for the <see cref="InstanceFactory"/>.
+		/// </summary>
+		readonly IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory;
+
+		/// <summary>
 		/// The <see cref="GeneralConfiguration"/> for the <see cref="InstanceFactory"/>.
 		/// </summary>
 		readonly GeneralConfiguration generalConfiguration;
@@ -160,13 +160,13 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="watchdogFactory">The value of <see cref="watchdogFactory"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="networkPromptReaper">The value of <see cref="networkPromptReaper"/></param>
-		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
 		/// <param name="repositoryFactory">The value of <see cref="repositoryFactory"/>.</param>
 		/// <param name="repositoryCommands">The value of <see cref="repositoryCommands"/>.</param>
 		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
 		/// <param name="fileTransferService">The value of <see cref="fileTransferService"/>.</param>
 		/// <param name="gitRemoteFeaturesFactory">The value of <see cref="gitRemoteFeaturesFactory"/>.</param>
+		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		public InstanceFactory(
 			IIOManager ioManager,
@@ -184,13 +184,13 @@ namespace Tgstation.Server.Host.Components
 			IWatchdogFactory watchdogFactory,
 			IJobManager jobManager,
 			INetworkPromptReaper networkPromptReaper,
-			IGitHubClientFactory gitHubClientFactory,
 			IPlatformIdentifier platformIdentifier,
 			ILibGit2RepositoryFactory repositoryFactory,
 			ILibGit2Commands repositoryCommands,
 			IServerPortProvider serverPortProvider,
 			IFileTransferTicketProvider fileTransferService,
 			IGitRemoteFeaturesFactory gitRemoteFeaturesFactory,
+			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
 			IOptions<GeneralConfiguration> generalConfigurationOptions)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
@@ -208,13 +208,13 @@ namespace Tgstation.Server.Host.Components
 			this.watchdogFactory = watchdogFactory ?? throw new ArgumentNullException(nameof(watchdogFactory));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.networkPromptReaper = networkPromptReaper ?? throw new ArgumentNullException(nameof(networkPromptReaper));
-			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.repositoryFactory = repositoryFactory ?? throw new ArgumentNullException(nameof(repositoryFactory));
 			this.repositoryCommands = repositoryCommands ?? throw new ArgumentNullException(nameof(repositoryCommands));
 			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
 			this.fileTransferService = fileTransferService ?? throw new ArgumentNullException(nameof(fileTransferService));
 			this.gitRemoteFeaturesFactory = gitRemoteFeaturesFactory ?? throw new ArgumentNullException(nameof(gitRemoteFeaturesFactory));
+			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
@@ -275,16 +275,10 @@ namespace Tgstation.Server.Host.Components
 						loggerFactory.CreateLogger<SessionControllerFactory>(),
 						metadata.CloneMetadata());
 
-					var remoteDeploymentManager = new RemoteDeploymentManager(
-						databaseContextFactory,
-						gitHubClientFactory,
-						loggerFactory.CreateLogger<RemoteDeploymentManager>(),
-						metadata.CloneMetadata());
-
 					var dmbFactory = new DmbFactory(
 						databaseContextFactory,
 						gameIoManager,
-						remoteDeploymentManager,
+						remoteDeploymentManagerFactory,
 						loggerFactory.CreateLogger<DmbFactory>(),
 						metadata.CloneMetadata());
 					try
@@ -303,7 +297,7 @@ namespace Tgstation.Server.Host.Components
 							gameIoManager,
 							diagnosticsIOManager,
 							eventConsumer,
-							remoteDeploymentManager,
+							remoteDeploymentManagerFactory,
 							metadata.CloneMetadata(),
 							metadata.DreamDaemonSettings);
 						eventConsumer.SetWatchdog(watchdog);
@@ -321,7 +315,7 @@ namespace Tgstation.Server.Host.Components
 								processExecutor,
 								dmbFactory,
 								repoManager,
-								remoteDeploymentManager,
+								remoteDeploymentManagerFactory,
 								loggerFactory.CreateLogger<DreamMaker>(),
 								metadata.CloneMetadata());
 
@@ -336,7 +330,7 @@ namespace Tgstation.Server.Host.Components
 								dmbFactory,
 								jobManager,
 								eventConsumer,
-								remoteDeploymentManager,
+								remoteDeploymentManagerFactory,
 								loggerFactory.CreateLogger<Instance>());
 
 							return instance;

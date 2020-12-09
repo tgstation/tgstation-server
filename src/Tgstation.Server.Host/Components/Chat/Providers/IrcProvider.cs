@@ -601,7 +601,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			var testmergeInsert = (revisionInformation.ActiveTestMerges?.Count ?? 0) == 0 ? String.Empty : String.Format(CultureInfo.InvariantCulture, " (Test Merges: {0})",
 				String.Join(", ", revisionInformation.ActiveTestMerges.Select(x => x.TestMerge).Select(x =>
 				{
-					var result = String.Format(CultureInfo.InvariantCulture, "#{0} at {1}", x.Number, x.PullRequestRevision.Substring(0, 7));
+					var result = String.Format(CultureInfo.InvariantCulture, "#{0} at {1}", x.Number, x.TargetCommitSha.Substring(0, 7));
 					if (x.Comment != null)
 						result += String.Format(CultureInfo.InvariantCulture, " ({0})", x.Comment);
 					return result;

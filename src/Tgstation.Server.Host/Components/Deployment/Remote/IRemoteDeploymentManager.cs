@@ -14,11 +14,14 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// <summary>
 		/// Start a deployment for a given <paramref name="compileJob"/>.
 		/// </summary>
-		/// <param name="repository">The <see cref="IRepository"/> being deployed.</param>
+		/// <param name="remoteInformation">The <see cref="Api.Models.Internal.IGitRemoteInformation"/> of the repository being deployed.</param>
 		/// <param name="compileJob">The active <see cref="CompileJob"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task StartDeployment(IRepository repository, CompileJob compileJob, CancellationToken cancellationToken);
+		Task StartDeployment(
+			Api.Models.Internal.IGitRemoteInformation remoteInformation,
+			CompileJob compileJob,
+			CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Stage a given <paramref name="compileJob"/>'s deployment.
@@ -82,7 +85,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// <param name="revisionInformation">The current <see cref="RevisionInformation"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IReadOnlyCollection{T}"/> of <see cref="RevInfoTestMerge"/>s that should remain the new <see cref="RevisionInformation"/>.</returns>
-		Task<IReadOnlyCollection<RevInfoTestMerge>> RemoveMergedPullRequests(
+		Task<IReadOnlyCollection<RevInfoTestMerge>> RemoveMergedTestMerges(
 			IRepository repository,
 			RepositorySettings repositorySettings,
 			RevisionInformation revisionInformation,

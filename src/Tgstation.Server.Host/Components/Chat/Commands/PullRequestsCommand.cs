@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -87,7 +87,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 						.Select(x => new Models.TestMerge
 						{
 							Number = x.Number,
-							PullRequestRevision = x.PullRequestRevision
+							TargetCommitSha = x.TargetCommitSha
 						})
 						.ToListAsync(cancellationToken)
 						.ConfigureAwait(false))
@@ -100,7 +100,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 				results = watchdog.ActiveCompileJob?.RevisionInformation.ActiveTestMerges.Select(x => x.TestMerge).ToList() ?? new List<Models.TestMerge>();
 			}
 
-			return !results.Any() ? "None!" : String.Join(", ", results.Select(x => String.Format(CultureInfo.InvariantCulture, "#{0} at {1}", x.Number, x.PullRequestRevision.Substring(0, 7))));
+			return !results.Any() ? "None!" : String.Join(", ", results.Select(x => String.Format(CultureInfo.InvariantCulture, "#{0} at {1}", x.Number, x.TargetCommitSha.Substring(0, 7))));
 		}
 		#pragma warning restore CA1506
 	}

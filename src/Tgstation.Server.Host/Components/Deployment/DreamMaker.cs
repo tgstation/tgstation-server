@@ -82,9 +82,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly ICompileJobSink compileJobConsumer;
 
 		/// <summary>
-		/// The <see cref="IRemoteDeploymentManager"/> for <see cref="DreamMaker"/>.
+		/// The <see cref="IRemoteDeploymentManagerFactory"/> for <see cref="DreamMaker"/>.
 		/// </summary>
-		readonly IRemoteDeploymentManager gitHubDeploymentManager;
+		readonly IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for <see cref="DreamMaker"/>
@@ -132,7 +132,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="processExecutor">The value of <see cref="processExecutor"/></param>
 		/// <param name="compileJobConsumer">The value of <see cref="compileJobConsumer"/>.</param>
 		/// <param name="repositoryManager">The value of <see cref="repositoryManager"/>.</param>
-		/// <param name="gitHubDeploymentManager">The value of <see cref="gitHubDeploymentManager"/>.</param>
+		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="metadata">The value of <see cref="metadata"/>.</param>
 		public DreamMaker(
@@ -145,7 +145,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			IProcessExecutor processExecutor,
 			ICompileJobSink compileJobConsumer,
 			IRepositoryManager repositoryManager,
-			IRemoteDeploymentManager gitHubDeploymentManager,
+			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
 			ILogger<DreamMaker> logger,
 			Api.Models.Instance metadata)
 		{
@@ -158,7 +158,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			this.compileJobConsumer = compileJobConsumer ?? throw new ArgumentNullException(nameof(compileJobConsumer));
 			this.repositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
-			this.gitHubDeploymentManager = gitHubDeploymentManager ?? throw new ArgumentNullException(nameof(gitHubDeploymentManager));
+			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 
@@ -360,9 +360,10 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// Cleans up a failed compile <paramref name="job"/>.
 		/// </summary>
 		/// <param name="job">The running <see cref="CompileJob"/>.</param>
+		/// <param name="remoteDeploymentManager">The <see cref="IRemoteDeploymentManager"/> associated with the <paramref name="job"/>.</param>
 		/// <param name="exception">The <see cref="Exception"/> that was thrown.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		async Task CleanupFailedCompile(Models.CompileJob job, Exception exception)
+		async Task CleanupFailedCompile(Models.CompileJob job, IRemoteDeploymentManager remoteDeploymentManager, Exception exception)
 		{
 			async Task CleanDir()
 			{
@@ -382,7 +383,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			// DCT: None available
 			await Task.WhenAll(
 				CleanDir(),
-				gitHubDeploymentManager.FailDeployment(
+				remoteDeploymentManager.FailDeployment(
 					job,
 					FormatExceptionForUsers(exception),
 					default))
@@ -396,10 +397,18 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="dreamMakerSettings">The <see cref="Api.Models.DreamMaker"/> settings to use</param>
 		/// <param name="byondLock">The <see cref="IByondExecutableLock"/> to use</param>
 		/// <param name="repository">The <see cref="IRepository"/> to use</param>
+		/// <param name="remoteDeploymentManager">The <see cref="IRemoteDeploymentManager"/> to use.</param>
 		/// <param name="apiValidateTimeout">The timeout for validating the DMAPI</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		async Task RunCompileJob(Models.CompileJob job, Api.Models.DreamMaker dreamMakerSettings, IByondExecutableLock byondLock, IRepository repository, uint apiValidateTimeout, CancellationToken cancellationToken)
+		async Task RunCompileJob(
+			Models.CompileJob job,
+			Api.Models.DreamMaker dreamMakerSettings,
+			IByondExecutableLock byondLock,
+			IRepository repository,
+			IRemoteDeploymentManager remoteDeploymentManager,
+			uint apiValidateTimeout,
+			CancellationToken cancellationToken)
 		{
 			var outputDirectory = job.DirectoryName.ToString();
 			logger.LogTrace("Compile output GUID: {0}", outputDirectory);
@@ -416,7 +425,15 @@ namespace Tgstation.Server.Host.Components.Deployment
 				// repository closed now
 
 				// run precompile scripts
-				await eventConsumer.HandleEvent(EventType.CompileStart, new List<string> { resolvedOutputDirectory, repoOrigin }, cancellationToken).ConfigureAwait(false);
+				await eventConsumer.HandleEvent(
+					EventType.CompileStart,
+					new List<string>
+					{
+						resolvedOutputDirectory,
+						repoOrigin.ToString()
+					},
+					cancellationToken)
+					.ConfigureAwait(false);
 
 				// determine the dme
 				if (job.DmeName == null)
@@ -489,13 +506,13 @@ namespace Tgstation.Server.Host.Components.Deployment
 			}
 			catch (Exception ex)
 			{
-				await CleanupFailedCompile(job, ex).ConfigureAwait(false);
+				await CleanupFailedCompile(job, remoteDeploymentManager, ex).ConfigureAwait(false);
 				throw;
 			}
 		}
 
 		/// <inheritdoc />
-		#pragma warning disable CA1506, CA1508
+		#pragma warning disable CA1506
 		public async Task DeploymentProcess(
 			Models.Job job,
 			IDatabaseContextFactory databaseContextFactory,
@@ -530,6 +547,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				Models.DreamDaemonSettings ddSettings = null;
 				DreamMakerSettings dreamMakerSettings = null;
 				IRepository repo = null;
+				IRemoteDeploymentManager remoteDeploymentManager = null;
 				Models.RevisionInformation revInfo = null;
 				await databaseContextFactory.UseContext(
 					async databaseContext =>
@@ -580,6 +598,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 							if (repo == null)
 								throw new JobException(ErrorCode.RepoMissing);
 
+							remoteDeploymentManager = remoteDeploymentManagerFactory
+								.CreateRemoteDeploymentManager(metadata, repo.RemoteGitProvider.Value);
+
 							var repoSha = repo.Head;
 							revInfo = await databaseContext
 								.RevisionInformations
@@ -627,6 +648,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 						dreamMakerSettings,
 						ddSettings.StartupTimeout.Value,
 						repo,
+						remoteDeploymentManager,
 						progressReporter,
 						averageSpan,
 						likelyPushedTestMergeCommit,
@@ -673,11 +695,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 				}
 				catch (Exception ex)
 				{
-					await CleanupFailedCompile(compileJob, ex).ConfigureAwait(false);
+					await CleanupFailedCompile(compileJob, remoteDeploymentManager, ex).ConfigureAwait(false);
 					throw;
 				}
 
-				var commentsTask = gitHubDeploymentManager.PostDeploymentComments(
+				var commentsTask = remoteDeploymentManager.PostDeploymentComments(
 					compileJob,
 					activeCompileJob?.RevisionInformation,
 					repositorySettings,
@@ -714,7 +736,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				deploying = false;
 			}
 		}
-		#pragma warning restore CA1506, CA1508
+		#pragma warning restore CA1506
 
 		/// <summary>
 		/// Calculate the average length of a deployment using a given <paramref name="databaseContext"/>.
@@ -755,6 +777,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			Api.Models.DreamMaker dreamMakerSettings,
 			uint apiValidateTimeout,
 			IRepository repository,
+			IRemoteDeploymentManager remoteDeploymentManager,
 			Action<int> progressReporter,
 			TimeSpan? estimatedDuration,
 			bool localCommitExistsOnRemote,
@@ -782,16 +805,25 @@ namespace Tgstation.Server.Host.Components.Deployment
 					DirectoryName = Guid.NewGuid(),
 					DmeName = dreamMakerSettings.ProjectName,
 					RevisionInformation = revisionInformation,
-					ByondVersion = byondLock.Version.ToString()
+					ByondVersion = byondLock.Version.ToString(),
+					RepositoryOrigin = repository.Origin.ToString(),
 				};
 
-				await gitHubDeploymentManager.StartDeployment(
+				await remoteDeploymentManager.StartDeployment(
 					repository,
 					job,
 					cancellationToken)
 					.ConfigureAwait(false);
 
-				await RunCompileJob(job, dreamMakerSettings, byondLock, repository, apiValidateTimeout, cancellationToken).ConfigureAwait(false);
+				await RunCompileJob(
+					job,
+					dreamMakerSettings,
+					byondLock,
+					repository,
+					remoteDeploymentManager,
+					apiValidateTimeout,
+					cancellationToken)
+					.ConfigureAwait(false);
 
 				return job;
 			}

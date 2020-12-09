@@ -62,7 +62,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		public string Reference => libGitRepo.Head.FriendlyName;
 
 		/// <inheritdoc />
-		public string Origin => libGitRepo.Network.Remotes.First().Url;
+		public Uri Origin => new Uri(libGitRepo.Network.Remotes.First().Url);
 
 		/// <summary>
 		/// The <see cref="LibGit2Sharp.IRepository"/> for the <see cref="Repository"/>
@@ -168,27 +168,6 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <summary>
-		/// Parses the <paramref name="owner"/> and <paramref name="name"/> for a given git <paramref name="remote"/>.
-		/// </summary>
-		/// <param name="remote">The full remote URL.</param>
-		/// <param name="owner">The parsed owner.</param>
-		/// <param name="name">The parsed name.</param>
-		void GetRepositoryOwnerName(string remote, out string owner, out string name)
-		{
-			// Assume standard gh format: [(git)|(https)]://[<remotegitprovider>].com/owner/repo(.git)[0-1]
-			// Yes use .git twice in case it was weird
-			var toRemove = new string[] { ".git", "/", ".git" };
-			foreach (string item in toRemove)
-				if (remote.EndsWith(item, StringComparison.OrdinalIgnoreCase))
-					remote = remote.Substring(0, remote.LastIndexOf(item, StringComparison.OrdinalIgnoreCase));
-			var splits = remote.Split('/');
-			name = splits.Last();
-			owner = splits[^2].Split('.').First();
-
-			logger.LogTrace("GetRepositoryOwnerName({0}) => {1} / {2}", remote, owner, name);
-		}
-
-		/// <summary>
 		/// Generate a standard set of <see cref="PushOptions"/>
 		/// </summary>
 		/// <param name="progressReporter"><see cref="Action{T1}"/> to report 0-100 <see cref="int"/> progress of the operation</param>
@@ -286,7 +265,7 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			logger.LogDebug("Begin AddTestMerge: #{0} at {1} ({2}) by <{3} ({4})>",
 				testMergeParameters.Number,
-				testMergeParameters.PullRequestRevision?.Substring(0, 7),
+				testMergeParameters.TargetCommitSha?.Substring(0, 7),
 				testMergeParameters.Comment,
 				committerName,
 				committerEmail);
@@ -303,12 +282,12 @@ namespace Tgstation.Server.Host.Components.Repository
 					: String.Empty,
 				testMergeParameters.Comment ?? String.Empty);
 
-			var prBranchName = String.Format(CultureInfo.InvariantCulture, "pr-{0}", testMergeParameters.Number);
-			var localBranchName = String.Format(CultureInfo.InvariantCulture, gitRemoteFeatures.TestMergeLocalBranchNameFormatter, testMergeParameters.Number, prBranchName);
+			var testMergeBranchName = String.Format(CultureInfo.InvariantCulture, "tm-{0}", testMergeParameters.Number);
+			var localBranchName = String.Format(CultureInfo.InvariantCulture, gitRemoteFeatures.TestMergeLocalBranchNameFormatter, testMergeParameters.Number, testMergeBranchName);
 
-			var refSpec = String.Format(CultureInfo.InvariantCulture, gitRemoteFeatures.TestMergeRefSpecFormatter, testMergeParameters.Number, prBranchName);
+			var refSpec = String.Format(CultureInfo.InvariantCulture, gitRemoteFeatures.TestMergeRefSpecFormatter, testMergeParameters.Number, testMergeBranchName);
 			var refSpecList = new List<string> { refSpec };
-			var logMessage = String.Format(CultureInfo.InvariantCulture, "Merge remote pull request #{0}", testMergeParameters.Number);
+			var logMessage = String.Format(CultureInfo.InvariantCulture, "Test merge #{0}", testMergeParameters.Number);
 
 			var originalCommit = libGitRepo.Head;
 
@@ -352,13 +331,13 @@ namespace Tgstation.Server.Host.Components.Repository
 
 					cancellationToken.ThrowIfCancellationRequested();
 
-					testMergeParameters.PullRequestRevision = libGitRepo.Lookup(testMergeParameters.PullRequestRevision ?? localBranchName).Sha;
+					testMergeParameters.TargetCommitSha = libGitRepo.Lookup(testMergeParameters.TargetCommitSha ?? localBranchName).Sha;
 
 					cancellationToken.ThrowIfCancellationRequested();
 
-					logger.LogTrace("Merging {0} into {1}...", testMergeParameters.PullRequestRevision.Substring(0, 7), Reference);
+					logger.LogTrace("Merging {0} into {1}...", testMergeParameters.TargetCommitSha.Substring(0, 7), Reference);
 
-					result = libGitRepo.Merge(testMergeParameters.PullRequestRevision, sig, new MergeOptions
+					result = libGitRepo.Merge(testMergeParameters.TargetCommitSha, sig, new MergeOptions
 					{
 						CommitOnSuccess = commitMessage == null,
 						FailOnConflict = true,
@@ -387,7 +366,17 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			if (result.Status == MergeStatus.Conflicts)
 			{
-				await eventConsumer.HandleEvent(EventType.RepoMergeConflict, new List<string> { originalCommit.Tip.Sha, testMergeParameters.PullRequestRevision, originalCommit.FriendlyName ?? UnknownReference, prBranchName }, cancellationToken).ConfigureAwait(false);
+				await eventConsumer.HandleEvent(
+					EventType.RepoMergeConflict,
+					new List<string>
+					{
+						originalCommit.Tip.Sha,
+						testMergeParameters.TargetCommitSha,
+						originalCommit.FriendlyName ?? UnknownReference,
+						testMergeBranchName
+					},
+					cancellationToken)
+					.ConfigureAwait(false);
 				return null;
 			}
 
@@ -405,7 +394,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				new List<string>
 				{
 					testMergeParameters.Number.ToString(CultureInfo.InvariantCulture),
-					testMergeParameters.PullRequestRevision,
+					testMergeParameters.TargetCommitSha,
 					testMergeParameters.Comment
 				},
 				cancellationToken)

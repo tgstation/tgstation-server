@@ -56,7 +56,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="diagnosticsIOManager">The <see cref="IIOManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="eventConsumer">The <see cref="IEventConsumer"/> for the <see cref="WatchdogBase"/>.</param>
-		/// <param name="gitHubDeploymentManager">The <see cref="IRemoteDeploymentManager"/> for the <see cref="WatchdogBase"/>.</param>
+		/// <param name="remoteDeploymentManagerFactory">The <see cref="IRemoteDeploymentManagerFactory"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="gameIOManager">The value of <see cref="GameIOManager"/>.</param>
 		/// <param name="symlinkFactory">The value of <see cref="symlinkFactory"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="WatchdogBase"/>.</param>
@@ -73,7 +73,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IAsyncDelayer asyncDelayer,
 			IIOManager diagnosticsIOManager,
 			IEventConsumer eventConsumer,
-			IRemoteDeploymentManager gitHubDeploymentManager,
+			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
 			IIOManager gameIOManager,
 			ISymlinkFactory symlinkFactory,
 			ILogger<WindowsWatchdog> logger,
@@ -89,7 +89,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				asyncDelayer,
 				diagnosticsIOManager,
 				eventConsumer,
-				gitHubDeploymentManager,
+				remoteDeploymentManagerFactory,
 				logger,
 				initialLaunchParameters,
 				instance,

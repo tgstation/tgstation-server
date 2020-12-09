@@ -74,9 +74,7 @@ namespace Tgstation.Server.Host.Controllers
 		BadRequestObjectResult CheckValidName(UserUpdate model, bool newUser)
 		{
 			var userInvalidWithNullName = newUser && model.Name == null && model.SystemIdentifier == null;
-#pragma warning disable CA1508 // https://github.com/dotnet/roslyn-analyzers/issues/3685
 			if (userInvalidWithNullName || (model.Name != null && String.IsNullOrWhiteSpace(model.Name)))
-#pragma warning restore CA1508
 				return BadRequest(new ErrorMessage(ErrorCode.UserMissingName));
 
 			model.Name = model.Name?.Trim();

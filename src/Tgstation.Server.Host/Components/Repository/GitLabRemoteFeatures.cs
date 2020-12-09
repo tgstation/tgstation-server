@@ -14,6 +14,12 @@ namespace Tgstation.Server.Host.Components.Repository
 	/// </summary>
 	sealed class GitLabRemoteFeatures : GitRemoteFeaturesBase
 	{
+		/// <summary>
+		/// Url for main GitLab site.
+		/// </summary>
+		/// <remarks>Eventually we'll derive this from a repo's origin when someone request custom GitHub/GitLab installation support.</remarks>
+		public const string GitLabUrl = "https://gitlab.com";
+
 		/// <inheritdoc />
 		public override string TestMergeRefSpecFormatter => "merge-requests/{0}/head:{1}";
 
@@ -47,8 +53,6 @@ namespace Tgstation.Server.Host.Components.Repository
 			RepositorySettings repositorySettings,
 			CancellationToken cancellationToken)
 		{
-			const string GitLabUrl = "https://gitlab.com";
-
 			var client = repositorySettings.AccessToken != null
 				? new GitLabClient(GitLabUrl, repositorySettings.AccessToken)
 				: new GitLabClient(GitLabUrl);
@@ -61,10 +65,10 @@ namespace Tgstation.Server.Host.Components.Repository
 					.WithToken(cancellationToken)
 					.ConfigureAwait(false);
 
-				var revisionToUse = parameters.PullRequestRevision == null
-					|| mr.Sha.StartsWith(parameters.PullRequestRevision, StringComparison.OrdinalIgnoreCase)
+				var revisionToUse = parameters.TargetCommitSha == null
+					|| mr.Sha.StartsWith(parameters.TargetCommitSha, StringComparison.OrdinalIgnoreCase)
 					? mr.Sha
-					: parameters.PullRequestRevision;
+					: parameters.TargetCommitSha;
 
 				return new Models.TestMerge
 				{
@@ -73,7 +77,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					TitleAtMerge = mr.Title,
 					Comment = parameters.Comment,
 					Number = parameters.Number,
-					PullRequestRevision = mr.Sha,
+					TargetCommitSha = mr.Sha,
 					Url = mr.WebUrl
 				};
 			}
@@ -88,7 +92,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					TitleAtMerge = ex.Message,
 					Comment = parameters.Comment,
 					Number = parameters.Number,
-					PullRequestRevision = parameters.PullRequestRevision,
+					TargetCommitSha = parameters.TargetCommitSha,
 					Url = ex.Message
 				};
 			}

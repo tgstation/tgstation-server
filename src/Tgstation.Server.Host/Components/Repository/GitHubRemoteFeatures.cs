@@ -95,10 +95,10 @@ namespace Tgstation.Server.Host.Components.Repository
 			if (exception != null)
 				Logger.LogWarning(exception, "Error retrieving pull request metadata!");
 
-			var revisionToUse = parameters.PullRequestRevision == null
-				|| pr?.Head.Sha.StartsWith(parameters.PullRequestRevision, StringComparison.OrdinalIgnoreCase) == true
+			var revisionToUse = parameters.TargetCommitSha == null
+				|| pr?.Head.Sha.StartsWith(parameters.TargetCommitSha, StringComparison.OrdinalIgnoreCase) == true
 				? pr?.Head.Sha
-				: parameters.PullRequestRevision;
+				: parameters.TargetCommitSha;
 
 			var testMerge = new Models.TestMerge
 			{
@@ -107,7 +107,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				TitleAtMerge = pr?.Title ?? errorMessage ?? String.Empty,
 				Comment = parameters.Comment,
 				Number = parameters.Number,
-				PullRequestRevision = revisionToUse,
+				TargetCommitSha = revisionToUse,
 				Url = pr?.HtmlUrl ?? errorMessage
 			};
 

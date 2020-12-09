@@ -63,9 +63,9 @@ namespace Tgstation.Server.Host.Components
 		readonly IEventConsumer eventConsumer;
 
 		/// <summary>
-		/// The <see cref="IRemoteDeploymentManager"/> for the <see cref="Instance"/>.
+		/// The <see cref="IRemoteDeploymentManagerFactory"/> for the <see cref="Instance"/>.
 		/// </summary>
-		readonly IRemoteDeploymentManager remoteDeploymentManager;
+		readonly IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Instance"/>
@@ -105,7 +105,7 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="dmbFactory">The value of <see cref="dmbFactory"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
-		/// <param name="remoteDeploymentManager">The value of <see cref="remoteDeploymentManager"/>.</param>
+		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		public Instance(
 			Api.Models.Instance metadata,
@@ -119,7 +119,7 @@ namespace Tgstation.Server.Host.Components
 			IDmbFactory dmbFactory,
 			IJobManager jobManager,
 			IEventConsumer eventConsumer,
-			IRemoteDeploymentManager remoteDeploymentManager,
+			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
 			ILogger<Instance> logger)
 		{
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
@@ -132,7 +132,7 @@ namespace Tgstation.Server.Host.Components
 			this.dmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
-			this.remoteDeploymentManager = remoteDeploymentManager ?? throw new ArgumentNullException(nameof(remoteDeploymentManager));
+			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
 			timerLock = new object();
@@ -263,12 +263,14 @@ namespace Tgstation.Server.Host.Components
 			}
 
 			var preserveTestMerges = repositorySettings.AutoUpdatesKeepTestMerges.Value;
-
+			var remoteDeploymentManager = remoteDeploymentManagerFactory.CreateRemoteDeploymentManager(
+				metadata,
+				repo.RemoteGitProvider.Value);
 			if (result.HasValue)
 			{
 				currentRevInfo = await currentRevInfoTask.ConfigureAwait(false);
 
-				var updatedTestMerges = await remoteDeploymentManager.RemoveMergedPullRequests(
+				var updatedTestMerges = await remoteDeploymentManager.RemoveMergedTestMerges(
 					repo,
 					repositorySettings,
 					currentRevInfo,

@@ -10,7 +10,7 @@
     <IsPackable>false</IsPackable>
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
     <DocumentationFile>bin\$(Configuration)\netcoreapp3.1\Tgstation.Server.Host.xml</DocumentationFile>
-    <NoWarn>API1000</NoWarn>
+    <NoWarn>API1000,CA1508</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">

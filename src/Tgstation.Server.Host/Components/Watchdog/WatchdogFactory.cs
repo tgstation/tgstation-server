@@ -73,7 +73,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IIOManager gameIOManager,
 			IIOManager diagnosticsIOManager,
 			IEventConsumer eventConsumer,
-			IRemoteDeploymentManager remoteDeploymentManager,
+			IRemoteDeploymentManagerFactory remoteDeploymentManagerfactory,
 			Api.Models.Instance instance,
 			DreamDaemonSettings settings)
 			=> new BasicWatchdog(
@@ -86,7 +86,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				AsyncDelayer,
 				diagnosticsIOManager,
 				eventConsumer,
-				remoteDeploymentManager,
+				remoteDeploymentManagerfactory,
 				LoggerFactory.CreateLogger<BasicWatchdog>(),
 				settings,
 				instance,

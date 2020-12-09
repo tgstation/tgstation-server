@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using System;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host.Components.Repository
@@ -45,36 +46,41 @@ namespace Tgstation.Server.Host.Components.Repository
 				throw new ArgumentNullException(nameof(repository));
 
 			var primaryRemote = repository.Origin;
-			try
+			var remoteGitProvider = ParseRemoteGitProviderFromOrigin(primaryRemote);
+			return remoteGitProvider switch
 			{
-				var primaryRemoteUrl = new Uri(primaryRemote);
+				RemoteGitProvider.GitHub => new GitHubRemoteFeatures(
+					gitHubClientFactory,
+					loggerFactory.CreateLogger<GitHubRemoteFeatures>(),
+					primaryRemote),
+				RemoteGitProvider.GitLab => new GitLabRemoteFeatures(
+					loggerFactory.CreateLogger<GitLabRemoteFeatures>(),
+					primaryRemote),
+				RemoteGitProvider.Unknown => new DefaultGitRemoteFeatures(),
+				_ => throw new InvalidOperationException($"Unknown RemoteGitProvider: {remoteGitProvider}!"),
+			};
+		}
 
-				switch (primaryRemoteUrl.Host.ToUpperInvariant())
-				{
-					case "GITHUB.COM":
-					case "WWW.GITHUB.COM":
-					case "GIT.GITHUB.COM":
-						return new GitHubRemoteFeatures(
-							gitHubClientFactory,
-							loggerFactory.CreateLogger<GitHubRemoteFeatures>(),
-							primaryRemoteUrl);
-					case "GITLAB.COM":
-					case "WWW.GITLAB.COM":
-					case "GIT.GITLAB.COM":
-						return new GitLabRemoteFeatures(
-							loggerFactory.CreateLogger<GitLabRemoteFeatures>(),
-							primaryRemoteUrl);
-					default:
-						logger.LogTrace("Unknown git remote: {0}", primaryRemoteUrl);
-						break;
-				}
-			}
-			catch (Exception ex)
+		/// <inheritdoc />
+		public RemoteGitProvider ParseRemoteGitProviderFromOrigin(Uri origin)
+		{
+			if (origin == null)
+				throw new ArgumentNullException(nameof(origin));
+
+			switch (origin.Host.ToUpperInvariant())
 			{
-				logger.LogWarning(ex, "Error parsing remote git provider.");
+				case "GITHUB.COM":
+				case "WWW.GITHUB.COM":
+				case "GIT.GITHUB.COM":
+					return RemoteGitProvider.GitHub;
+				case "GITLAB.COM":
+				case "WWW.GITLAB.COM":
+				case "GIT.GITLAB.COM":
+					return RemoteGitProvider.GitLab;
+				default:
+					logger.LogTrace("Unknown git remote: {0}", origin);
+					return RemoteGitProvider.Unknown;
 			}
-
-			return new DefaultGitRemoteFeatures();
 		}
 	}
 }
