@@ -93,7 +93,7 @@ namespace Tgstation.Server.Tests
 			var versionLine = lines.FirstOrDefault(l => l.StartsWith(Prefix));
 			Assert.IsNotNull(versionLine);
 
-			versionLine = versionLine.Substring(Prefix.Length + 1, 5);
+			versionLine = versionLine.Substring(Prefix.Length + 1, expected.ToString().Length);
 
 			Assert.IsTrue(Version.TryParse(versionLine, out var actual));
 			Assert.AreEqual(expected, actual);
