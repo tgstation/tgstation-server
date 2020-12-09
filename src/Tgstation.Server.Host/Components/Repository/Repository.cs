@@ -271,7 +271,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				committerEmail);
 
 			if (RemoteGitProvider == Api.Models.RemoteGitProvider.Unknown)
-				throw new JobException(ErrorCode.RepoTestMergeInvalidRemote);
+				throw new InvalidOperationException("Cannot test merge with an Unknown RemoteGitProvider!");
 
 			var commitMessage = String.Format(
 				CultureInfo.InvariantCulture,
