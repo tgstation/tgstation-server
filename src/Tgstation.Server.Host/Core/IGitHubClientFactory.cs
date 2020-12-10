@@ -1,4 +1,4 @@
-﻿using Octokit;
+using Octokit;
 
 namespace Tgstation.Server.Host.Core
 {
@@ -8,9 +8,9 @@ namespace Tgstation.Server.Host.Core
 	public interface IGitHubClientFactory
 	{
 		/// <summary>
-		/// Create a client with anonymous authentication. Low rate limit
+		/// Create a client with anonymous authentication or general authentica. Low rate limit. Attempts to use the server's token to bypass this.
 		/// </summary>
-		/// <returns>A new <see cref="IGitHubClient"/></returns>
+		/// <returns>A new <see cref="IGitHubClient"/>.</returns>
 		IGitHubClient CreateClient();
 
 		/// <summary>

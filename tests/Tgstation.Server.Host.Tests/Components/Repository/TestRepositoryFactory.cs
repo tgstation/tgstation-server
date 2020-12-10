@@ -1,4 +1,4 @@
-﻿using LibGit2Sharp;
+using LibGit2Sharp;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -16,11 +16,11 @@ namespace Tgstation.Server.Host.Components.Repository.Tests
 	{
 		static ILibGit2RepositoryFactory CreateFactory() => new LibGit2RepositoryFactory(Mock.Of<ILogger<LibGit2RepositoryFactory>>());
 
-		static Task<LibGit2Sharp.IRepository> TestRepoLoading(
+		static async Task<LibGit2Sharp.IRepository> TestRepoLoading(
 			string path,
 			ILibGit2RepositoryFactory repositoryFactory = null) =>
-			(repositoryFactory ?? CreateFactory())
-			.CreateFromPath(path, default);
+			(await (repositoryFactory ?? CreateFactory())
+			.CreateFromPath(path, default));
 
 		[TestMethod]
 		public void TestConstructionThrows() => Assert.ThrowsException<ArgumentNullException>(() => new LibGit2RepositoryFactory(null));

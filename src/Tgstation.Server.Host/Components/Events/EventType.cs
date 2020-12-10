@@ -1,4 +1,4 @@
-﻿namespace Tgstation.Server.Host.Components.Events
+namespace Tgstation.Server.Host.Components.Events
 {
 	/// <summary>
 	/// Types of events. Mirror in tgs.dm
@@ -24,10 +24,10 @@
 		RepoFetch,
 
 		/// <summary>
-		/// Parameters: Pull request number, pull request sha, merger message
+		/// Parameters: Test merge number, test merge target sha, merger message
 		/// </summary>
 		[EventScript("RepoMergePullRequest")]
-		RepoMergePullRequest,
+		RepoAddTestMerge,
 
 		/// <summary>
 		/// Parameters: Absolute path to repository root

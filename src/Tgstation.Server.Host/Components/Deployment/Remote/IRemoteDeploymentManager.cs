@@ -1,23 +1,27 @@
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Models;
 
-namespace Tgstation.Server.Host.Components.Deployment
+namespace Tgstation.Server.Host.Components.Deployment.Remote
 {
 	/// <summary>
-	/// Creates and updates GitHub deployments.
+	/// Creates and updates remote deployments.
 	/// </summary>
-	interface IGitHubDeploymentManager
+	interface IRemoteDeploymentManager
 	{
 		/// <summary>
 		/// Start a deployment for a given <paramref name="compileJob"/>.
 		/// </summary>
-		/// <param name="repository">The <see cref="IRepository"/> being deployed.</param>
+		/// <param name="remoteInformation">The <see cref="Api.Models.Internal.IGitRemoteInformation"/> of the repository being deployed.</param>
 		/// <param name="compileJob">The active <see cref="CompileJob"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task StartDeployment(IRepository repository, CompileJob compileJob, CancellationToken cancellationToken);
+		Task StartDeployment(
+			Api.Models.Internal.IGitRemoteInformation remoteInformation,
+			CompileJob compileJob,
+			CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Stage a given <paramref name="compileJob"/>'s deployment.
@@ -54,5 +58,37 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		Task MarkInactive(CompileJob compileJob, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Post deployment comments to the test merge ticket.
+		/// </summary>
+		/// <param name="compileJob">The deployed <see cref="CompileJob"/>.</param>
+		/// <param name="previousRevisionInformation">The <see cref="RevisionInformation"/> of the previous deployment.</param>
+		/// <param name="repositorySettings">The <see cref="RepositorySettings"/>.</param>
+		/// <param name="repoOwner">The GitHub repostiory owner.</param>
+		/// <param name="repoName">The GitHub repostiory name.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		Task PostDeploymentComments(
+			CompileJob compileJob,
+			RevisionInformation previousRevisionInformation,
+			RepositorySettings repositorySettings,
+			string repoOwner,
+			string repoName,
+			CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Get the updated list of <see cref="TestMerge"/>s for an origin merge.
+		/// </summary>
+		/// <param name="repository">The <see cref="IRepository"/> to use.</param>
+		/// <param name="repositorySettings">The <see cref="RepositorySettings"/>.</param>
+		/// <param name="revisionInformation">The current <see cref="RevisionInformation"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IReadOnlyCollection{T}"/> of <see cref="RevInfoTestMerge"/>s that should remain the new <see cref="RevisionInformation"/>.</returns>
+		Task<IReadOnlyCollection<RevInfoTestMerge>> RemoveMergedTestMerges(
+			IRepository repository,
+			RepositorySettings repositorySettings,
+			RevisionInformation revisionInformation,
+			CancellationToken cancellationToken);
 	}
 }

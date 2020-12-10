@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
@@ -17,11 +18,6 @@ namespace Tgstation.Server.Host.Components.Repository
 	/// <inheritdoc />
 	sealed class Repository : IRepository
 	{
-		/// <summary>
-		/// Indication of a GitHub repository
-		/// </summary>
-		public const string GitHubUrl = "://github.com/";
-
 		/// <summary>
 		/// The default username for committers.
 		/// </summary>
@@ -42,16 +38,19 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// </summary>
 		public const string RemoteTemporaryBranchName = "___TGSTempBranch";
 
+		/// <summary>
+		/// Used when a reference cannot be determined
+		/// </summary>
 		const string UnknownReference = "<UNKNOWN>";
 
 		/// <inheritdoc />
-		public bool IsGitHubRepository { get; }
+		public RemoteGitProvider? RemoteGitProvider => gitRemoteFeatures.RemoteGitProvider;
 
 		/// <inheritdoc />
-		public string GitHubOwner { get; }
+		public string RemoteRepositoryOwner => gitRemoteFeatures.RemoteRepositoryOwner;
 
 		/// <inheritdoc />
-		public string GitHubRepoName { get; }
+		public string RemoteRepositoryName => gitRemoteFeatures.RemoteRepositoryName;
 
 		/// <inheritdoc />
 		public bool Tracking => Reference != null && libGitRepo.Head.IsTracking;
@@ -63,7 +62,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		public string Reference => libGitRepo.Head.FriendlyName;
 
 		/// <inheritdoc />
-		public string Origin => libGitRepo.Network.Remotes.First().Url;
+		public Uri Origin => new Uri(libGitRepo.Network.Remotes.First().Url);
 
 		/// <summary>
 		/// The <see cref="LibGit2Sharp.IRepository"/> for the <see cref="Repository"/>
@@ -89,6 +88,11 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// The <see cref="ICredentialsProvider"/> for the <see cref="Repository"/>
 		/// </summary>
 		readonly ICredentialsProvider credentialsProvider;
+
+		/// <summary>
+		/// The <see cref="IGitRemoteFeatures"/> for the <see cref="Repository"/>.
+		/// </summary>
+		readonly IGitRemoteFeatures gitRemoteFeatures;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Repository"/>
@@ -120,6 +124,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="ioMananger">The value of <see cref="ioMananger"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
 		/// <param name="credentialsProvider">The value of <see cref="credentialsProvider"/></param>
+		/// <param name="gitRemoteFeaturesFactory">The <see cref="IGitRemoteFeaturesFactory"/> to provide the value of <see cref="gitRemoteFeatures"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="onDispose">The value if <see cref="onDispose"/></param>
 		public Repository(
@@ -128,6 +133,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			IIOManager ioMananger,
 			IEventConsumer eventConsumer,
 			ICredentialsProvider credentialsProvider,
+			IGitRemoteFeaturesFactory gitRemoteFeaturesFactory,
 			ILogger<Repository> logger,
 			Action onDispose)
 		{
@@ -136,17 +142,13 @@ namespace Tgstation.Server.Host.Components.Repository
 			this.ioMananger = ioMananger ?? throw new ArgumentNullException(nameof(ioMananger));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.credentialsProvider = credentialsProvider ?? throw new ArgumentNullException(nameof(credentialsProvider));
+			if (gitRemoteFeaturesFactory == null)
+				throw new ArgumentNullException(nameof(gitRemoteFeaturesFactory));
+
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.onDispose = onDispose ?? throw new ArgumentNullException(nameof(onDispose));
 
-			IsGitHubRepository = Origin.Contains(GitHubUrl, StringComparison.InvariantCultureIgnoreCase);
-
-			if (IsGitHubRepository)
-			{
-				GetRepositoryOwnerName(Origin, out var owner, out var name);
-				GitHubOwner = owner;
-				GitHubRepoName = name;
-			}
+			gitRemoteFeatures = gitRemoteFeaturesFactory.CreateGitRemoteFeatures(this);
 		}
 
 		/// <inheritdoc />
@@ -163,21 +165,6 @@ namespace Tgstation.Server.Host.Components.Repository
 			logger.LogTrace("Disposing...");
 			libGitRepo.Dispose();
 			onDispose();
-		}
-
-		void GetRepositoryOwnerName(string remote, out string owner, out string name)
-		{
-			// Assume standard gh format: [(git)|(https)]://github.com/owner/repo(.git)[0-1]
-			// Yes use .git twice in case it was weird
-			var toRemove = new string[] { ".git", "/", ".git" };
-			foreach (string item in toRemove)
-				if (remote.EndsWith(item, StringComparison.OrdinalIgnoreCase))
-					remote = remote.Substring(0, remote.LastIndexOf(item, StringComparison.OrdinalIgnoreCase));
-			var splits = remote.Split('/');
-			name = splits.Last();
-			owner = splits[^2].Split('.').First();
-
-			logger.LogTrace("GetRepositoryOwnerName({0}) => {1} / {2}", remote, owner, name);
 		}
 
 		/// <summary>
@@ -278,29 +265,29 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			logger.LogDebug("Begin AddTestMerge: #{0} at {1} ({2}) by <{3} ({4})>",
 				testMergeParameters.Number,
-				testMergeParameters.PullRequestRevision?.Substring(0, 7),
+				testMergeParameters.TargetCommitSha?.Substring(0, 7),
 				testMergeParameters.Comment,
 				committerName,
 				committerEmail);
 
-			if (!IsGitHubRepository)
-				throw new JobException(ErrorCode.RepoTestMergeInvalidRemote);
+			if (RemoteGitProvider == Api.Models.RemoteGitProvider.Unknown)
+				throw new InvalidOperationException("Cannot test merge with an Unknown RemoteGitProvider!");
 
 			var commitMessage = String.Format(
 				CultureInfo.InvariantCulture,
-				"Test merge of pull request #{0}{1}{2}",
+				"TGS Test merge #{0}{1}{2}",
 				testMergeParameters.Number,
 				testMergeParameters.Comment != null
 					? Environment.NewLine
 					: String.Empty,
 				testMergeParameters.Comment ?? String.Empty);
 
-			var prBranchName = String.Format(CultureInfo.InvariantCulture, "pr-{0}", testMergeParameters.Number);
-			var localBranchName = String.Format(CultureInfo.InvariantCulture, "pull/{0}/headrefs/heads/{1}", testMergeParameters.Number, prBranchName);
+			var testMergeBranchName = String.Format(CultureInfo.InvariantCulture, "tm-{0}", testMergeParameters.Number);
+			var localBranchName = String.Format(CultureInfo.InvariantCulture, gitRemoteFeatures.TestMergeLocalBranchNameFormatter, testMergeParameters.Number, testMergeBranchName);
 
-			var refSpec = String.Format(CultureInfo.InvariantCulture, "pull/{0}/head:{1}", testMergeParameters.Number, prBranchName);
+			var refSpec = String.Format(CultureInfo.InvariantCulture, gitRemoteFeatures.TestMergeRefSpecFormatter, testMergeParameters.Number, testMergeBranchName);
 			var refSpecList = new List<string> { refSpec };
-			var logMessage = String.Format(CultureInfo.InvariantCulture, "Merge remote pull request #{0}", testMergeParameters.Number);
+			var logMessage = String.Format(CultureInfo.InvariantCulture, "Test merge #{0}", testMergeParameters.Number);
 
 			var originalCommit = libGitRepo.Head;
 
@@ -344,13 +331,13 @@ namespace Tgstation.Server.Host.Components.Repository
 
 					cancellationToken.ThrowIfCancellationRequested();
 
-					testMergeParameters.PullRequestRevision = libGitRepo.Lookup(testMergeParameters.PullRequestRevision ?? localBranchName).Sha;
+					testMergeParameters.TargetCommitSha = libGitRepo.Lookup(testMergeParameters.TargetCommitSha ?? localBranchName).Sha;
 
 					cancellationToken.ThrowIfCancellationRequested();
 
-					logger.LogTrace("Merging {0} into {1}...", testMergeParameters.PullRequestRevision.Substring(0, 7), Reference);
+					logger.LogTrace("Merging {0} into {1}...", testMergeParameters.TargetCommitSha.Substring(0, 7), Reference);
 
-					result = libGitRepo.Merge(testMergeParameters.PullRequestRevision, sig, new MergeOptions
+					result = libGitRepo.Merge(testMergeParameters.TargetCommitSha, sig, new MergeOptions
 					{
 						CommitOnSuccess = commitMessage == null,
 						FailOnConflict = true,
@@ -379,7 +366,17 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			if (result.Status == MergeStatus.Conflicts)
 			{
-				await eventConsumer.HandleEvent(EventType.RepoMergeConflict, new List<string> { originalCommit.Tip.Sha, testMergeParameters.PullRequestRevision, originalCommit.FriendlyName ?? UnknownReference, prBranchName }, cancellationToken).ConfigureAwait(false);
+				await eventConsumer.HandleEvent(
+					EventType.RepoMergeConflict,
+					new List<string>
+					{
+						originalCommit.Tip.Sha,
+						testMergeParameters.TargetCommitSha,
+						originalCommit.FriendlyName ?? UnknownReference,
+						testMergeBranchName
+					},
+					cancellationToken)
+					.ConfigureAwait(false);
 				return null;
 			}
 
@@ -393,11 +390,11 @@ namespace Tgstation.Server.Host.Components.Repository
 			}
 
 			await eventConsumer.HandleEvent(
-				EventType.RepoMergePullRequest,
+				EventType.RepoAddTestMerge,
 				new List<string>
 				{
 					testMergeParameters.Number.ToString(CultureInfo.InvariantCulture),
-					testMergeParameters.PullRequestRevision,
+					testMergeParameters.TargetCommitSha,
 					testMergeParameters.Comment
 				},
 				cancellationToken)
@@ -771,5 +768,14 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			return false;
 		}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
+
+		/// <inheritdoc />
+		public Task<Models.TestMerge> GetTestMerge(
+			TestMergeParameters parameters,
+			RepositorySettings repositorySettings,
+			CancellationToken cancellationToken) => gitRemoteFeatures.GetTestMerge(
+				parameters,
+				repositorySettings,
+				cancellationToken);
 	}
 }

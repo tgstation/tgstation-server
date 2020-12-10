@@ -77,7 +77,9 @@ namespace Tgstation.Server.Host.Models
 			InstanceManagerRights = showDetails ? InstanceManagerRights : null,
 			Name = Name,
 			SystemIdentifier = showDetails ? SystemIdentifier : null,
-			OAuthConnections = OAuthConnections?.Select(x => x.ToApi()).ToList(),
+			OAuthConnections = OAuthConnections
+				?.Select(x => x.ToApi())
+				.ToList(),
 		};
 
 		/// <summary>

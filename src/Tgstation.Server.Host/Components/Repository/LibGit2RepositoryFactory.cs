@@ -35,12 +35,12 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public Task<LibGit2Sharp.IRepository> CreateFromPath(string path, CancellationToken cancellationToken)
+		public async Task<LibGit2Sharp.IRepository> CreateFromPath(string path, CancellationToken cancellationToken)
 		{
 			if (path == null)
 				throw new ArgumentNullException(nameof(path));
 
-			return Task.Factory.StartNew<LibGit2Sharp.IRepository>(
+			var repo = await Task.Factory.StartNew<LibGit2Sharp.IRepository>(
 				() =>
 				{
 					logger.LogTrace("Creating libgit2 repostory at {0}...", path);
@@ -48,7 +48,10 @@ namespace Tgstation.Server.Host.Components.Repository
 				},
 				cancellationToken,
 				DefaultIOManager.BlockingTaskCreationOptions,
-				TaskScheduler.Current);
+				TaskScheduler.Current)
+				.ConfigureAwait(false);
+
+			return repo;
 		}
 
 		/// <inheritdoc />

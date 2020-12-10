@@ -281,9 +281,7 @@ namespace Tgstation.Server.Host.Controllers
 				}
 			}
 
-#pragma warning disable CA1508 // Avoid dead conditional code
 			if (earlyOut != null)
-#pragma warning restore CA1508 // Avoid dead conditional code
 				return earlyOut;
 
 			// Last test, ensure it's in the list of valid paths

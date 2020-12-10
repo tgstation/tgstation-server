@@ -34,6 +34,7 @@ namespace Tgstation.Server.Tests
 			Assert.AreEqual("Admin", user.Name);
 			Assert.IsNull(user.SystemIdentifier);
 			Assert.AreEqual(true, user.Enabled);
+			Assert.IsNotNull(user.OAuthConnections);
 
 			var systemUser = user.CreatedBy;
 			Assert.IsNotNull(systemUser);
@@ -49,6 +50,41 @@ namespace Tgstation.Server.Tests
 			{
 				Id = systemUser.Id
 			}, cancellationToken), null);
+
+			var sampleOAuthConnections = new List<OAuthConnection>
+			{
+				new OAuthConnection
+				{
+					ExternalUserId = "asdfasdf",
+					Provider = OAuthProvider.Discord
+				}
+			};
+			await ApiAssert.ThrowsException<ApiConflictException>(() => client.Update(new UserUpdate
+			{
+				Id = user.Id,
+				OAuthConnections = sampleOAuthConnections
+			}, cancellationToken), ErrorCode.AdminUserCannotOAuth);
+
+			var testUser = await client.Create(
+				new UserUpdate
+				{
+					Name = $"BasicTestUser",
+					Password = "asdfasdjfhauwiehruiy273894234jhndjkwh"
+				},
+				cancellationToken).ConfigureAwait(false);
+
+			Assert.IsNotNull(testUser.OAuthConnections);
+			testUser = await client.Update(
+			   new UserUpdate
+			   {
+				   Id = testUser.Id,
+				   OAuthConnections = sampleOAuthConnections
+			   },
+			   cancellationToken).ConfigureAwait(false);
+
+			Assert.AreEqual(1, testUser.OAuthConnections.Count);
+			Assert.AreEqual(sampleOAuthConnections.First().ExternalUserId, testUser.OAuthConnections.First().ExternalUserId);
+			Assert.AreEqual(sampleOAuthConnections.First().Provider, testUser.OAuthConnections.First().Provider);
 		}
 
 		async Task TestCreateSysUser(CancellationToken cancellationToken)

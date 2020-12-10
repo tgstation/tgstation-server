@@ -10,7 +10,7 @@
     <IsPackable>false</IsPackable>
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
     <DocumentationFile>bin\$(Configuration)\netcoreapp3.1\Tgstation.Server.Host.xml</DocumentationFile>
-    <NoWarn>API1000</NoWarn>
+    <NoWarn>API1000,CA1508</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -65,6 +65,7 @@
     <PackageReference Include="Cyberboss.AspNetCore.AsyncInitializer" Version="1.2.0" />
     <PackageReference Include="Cyberboss.SmartIrc4net.Standard" Version="0.4.6" />
     <PackageReference Include="Discord.Net.WebSocket" Version="2.2.0" />
+    <PackageReference Include="GitLabApiClient" Version="1.7.0" />
     <PackageReference Include="LibGit2Sharp" Version="0.27.0-preview-0034" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.10" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.10" />

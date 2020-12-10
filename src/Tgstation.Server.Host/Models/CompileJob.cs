@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -13,7 +14,7 @@ namespace Tgstation.Server.Host.Models
 		public Job Job { get; set; }
 
 		/// <summary>
-		/// The <see cref="Api.Models.EntityId.Id"/> of <see cref="Job"/>
+		/// The <see cref="EntityId.Id"/> of <see cref="Job"/>
 		/// </summary>
 		public long JobId { get; set; }
 
@@ -43,6 +44,11 @@ namespace Tgstation.Server.Host.Models
 		/// Backing field for <see cref="Version.Build"/> of <see cref="DMApiVersion"/>.
 		/// </summary>
 		public int? DMApiPatchVersion { get; set; }
+
+		/// <summary>
+		/// The origin <see cref="Uri"/> of the repository the compile job was built from.
+		/// </summary>
+		public string RepositoryOrigin { get; set; }
 
 		/// <summary>
 		/// The source GitHub repository the deployment came from if any.
@@ -86,7 +92,8 @@ namespace Tgstation.Server.Host.Models
 			RevisionInformation = RevisionInformation.ToApi(),
 			ByondVersion = Version.Parse(ByondVersion),
 			MinimumSecurityLevel = MinimumSecurityLevel,
-			DMApiVersion = DMApiVersion
+			DMApiVersion = DMApiVersion,
+			RepositoryOrigin = new Uri(RepositoryOrigin),
 		};
 	}
 }
