@@ -8,7 +8,7 @@ namespace Tgstation.Server.Api.Models
 	public class TestMergeParameters
 	{
 		/// <summary>
-		/// The number of the pull request
+		/// The number of the test merge source.
 		/// </summary>
 		public int Number { get; set; }
 
@@ -17,7 +17,7 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Required]
 		[StringLength(40)]
-		public string? TargetCommitSha { get; set; }
+		public virtual string? TargetCommitSha { get; set; }
 
 		/// <summary>
 		/// Optional comment about the test

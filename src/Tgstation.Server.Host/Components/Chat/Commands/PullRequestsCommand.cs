@@ -21,7 +21,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		public string Name => "prs";
 
 		/// <inheritdoc />
-		public string HelpText => "Display live test merge pull request numbers. Add --repo to view repository test merges";
+		public string HelpText => "Display live test merge numbers. Add --repo to view test merges in the repository as opposed to live.";
 
 		/// <inheritdoc />
 		public bool AdminOnly => false;

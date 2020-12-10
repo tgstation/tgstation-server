@@ -9,19 +9,19 @@ namespace Tgstation.Server.Api.Models.Internal
 	public abstract class TestMergeBase : TestMergeParameters
 	{
 		/// <summary>
-		/// The title of the pull request
+		/// The title of the test merge source.
 		/// </summary>
 		[Required]
 		public string? TitleAtMerge { get; set; }
 
 		/// <summary>
-		/// The body of the pull request
+		/// The body of the test merge source.
 		/// </summary>
 		[Required]
 		public string? BodyAtMerge { get; set; }
 
 		/// <summary>
-		/// The URL of the pull request
+		/// The URL of the test merge source.
 		/// </summary>
 		[Required]
 #pragma warning disable CA1056 // Uri properties should not be strings
@@ -29,7 +29,7 @@ namespace Tgstation.Server.Api.Models.Internal
 #pragma warning restore CA1056 // Uri properties should not be strings
 
 		/// <summary>
-		/// The author of the pull request
+		/// The author of the test merge source.
 		/// </summary>
 		[Required]
 		public string? Author { get; set; }

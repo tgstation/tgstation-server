@@ -6,7 +6,7 @@ namespace Tgstation.Server.Host.Components.Repository
 	interface IGitRemoteFeatures : IGitRemoteAdditionalInformation
 	{
 		/// <summary>
-		/// Gets a formatter string which creates the remote refspec for fetching the HEAD of passed in pull request number.
+		/// Gets a formatter string which creates the remote refspec for fetching the HEAD of passed in test merge number.
 		/// </summary>
 		string TestMergeRefSpecFormatter { get; }
 

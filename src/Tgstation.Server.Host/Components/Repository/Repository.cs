@@ -275,7 +275,7 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			var commitMessage = String.Format(
 				CultureInfo.InvariantCulture,
-				"Test merge of pull request #{0}{1}{2}",
+				"TGS Test merge #{0}{1}{2}",
 				testMergeParameters.Number,
 				testMergeParameters.Comment != null
 					? Environment.NewLine
@@ -390,7 +390,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			}
 
 			await eventConsumer.HandleEvent(
-				EventType.RepoMergePullRequest,
+				EventType.RepoAddTestMerge,
 				new List<string>
 				{
 					testMergeParameters.Number.ToString(CultureInfo.InvariantCulture),

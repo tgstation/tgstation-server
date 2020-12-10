@@ -48,7 +48,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		Task CheckoutObject(string committish, Action<int> progressReporter, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Attempt to merge a GitHub pull request into HEAD
+		/// Attempt to merge the revision specified by a given set of <paramref name="testMergeParameters"/> into HEAD
 		/// </summary>
 		/// <param name="testMergeParameters">The <see cref="TestMergeParameters"/> of the pull request</param>
 		/// <param name="committerName">The name of the merge committer</param>

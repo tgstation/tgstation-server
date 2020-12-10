@@ -234,7 +234,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// <see cref="Repository.NewTestMerges"/> contained duplicate <see cref="TestMergeParameters.Number"/>s.
 		/// </summary>
-		[Description("The same pull request was present more than once in the test merge requests or is already merged!")]
+		[Description("The same test merge was present more than once or is already merged!")]
 		RepoDuplicateTestMerge,
 
 		/// <summary>
@@ -460,7 +460,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Encounted merge conflicts while test merging.
 		/// </summary>
-		[Description("Encountered merge conflicts while test merging one or more pull requests!")]
+		[Description("Encountered merge conflicts while test merging one or more sources!")]
 		RepoTestMergeConflict,
 
 		/// <summary>
