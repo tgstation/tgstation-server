@@ -47,23 +47,49 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 			if (repositorySettings?.AccessToken == null)
 				return;
 
-			if ((previousRevisionInformation != null && previousRevisionInformation.CommitSha == previousRevisionInformation.CommitSha)
+			var deployedRevisionInformation = compileJob.RevisionInformation;
+			if ((previousRevisionInformation != null && previousRevisionInformation.CommitSha == deployedRevisionInformation.CommitSha)
 				|| !repositorySettings.PostTestMergeComment.Value)
 				return;
 
 			previousRevisionInformation ??= new RevisionInformation();
 			previousRevisionInformation.ActiveTestMerges ??= new List<RevInfoTestMerge>();
 
-			var deployedRevisionInformation = compileJob.RevisionInformation;
+			deployedRevisionInformation.ActiveTestMerges ??= new List<RevInfoTestMerge>();
 			var tasks = new List<Task>();
 
 			// added prs
-			foreach (var I in deployedRevisionInformation
+			var tmsAdded = deployedRevisionInformation
 				.ActiveTestMerges
 				.Select(x => x.TestMerge)
 				.Where(x => !previousRevisionInformation
 					.ActiveTestMerges
-					.Any(y => y.TestMerge.Number == x.Number)))
+					.Any(y => y.TestMerge.Number == x.Number))
+				.ToList();
+			var tmsRemoved = previousRevisionInformation
+				.ActiveTestMerges
+				.Select(x => x.TestMerge)
+				.Where(x => !deployedRevisionInformation
+					.ActiveTestMerges
+					.Any(y => y.TestMerge.Number == x.Number))
+				.ToList();
+			var tmsUpdated = deployedRevisionInformation
+				.ActiveTestMerges
+				.Select(x => x.TestMerge)
+				.Where(x => previousRevisionInformation
+					.ActiveTestMerges
+					.Any(y => y.TestMerge.Number == x.Number))
+				.ToList();
+
+			if (!tmsAdded.Any() && !tmsRemoved.Any() && !tmsUpdated.Any())
+				return;
+
+			Logger.LogTrace(
+				"Commenting on {0} added, {1} removed, and {2} updated test merge sources...",
+				tmsAdded.Count,
+				tmsRemoved.Count,
+				tmsUpdated.Count);
+			foreach (var I in tmsAdded)
 				tasks.Add(
 					CommentOnTestMergeSource(
 						repositorySettings,
@@ -79,13 +105,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 						I.Number,
 						cancellationToken));
 
-			// removed prs
-			foreach (var I in previousRevisionInformation
-				.ActiveTestMerges
-				.Select(x => x.TestMerge)
-				.Where(x => !deployedRevisionInformation
-				.ActiveTestMerges
-				.Any(y => y.TestMerge.Number == x.Number)))
+			foreach (var I in tmsRemoved)
 				tasks.Add(
 					CommentOnTestMergeSource(
 						repositorySettings,
@@ -95,13 +115,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 						I.Number,
 						cancellationToken));
 
-			// updated prs
-			foreach (var I in deployedRevisionInformation
-				.ActiveTestMerges
-				.Select(x => x.TestMerge)
-				.Where(x => previousRevisionInformation
-					.ActiveTestMerges
-					.Any(y => y.TestMerge.Number == x.Number)))
+			foreach (var I in tmsUpdated)
 				tasks.Add(
 					CommentOnTestMergeSource(
 						repositorySettings,

@@ -602,13 +602,15 @@ namespace Tgstation.Server.Host.Components.Deployment
 								.CreateRemoteDeploymentManager(metadata, repo.RemoteGitProvider.Value);
 
 							var repoSha = repo.Head;
+							repoOwner = repo.RemoteRepositoryOwner;
+							repoName = repo.RemoteRepositoryName;
 							revInfo = await databaseContext
 								.RevisionInformations
 								.AsQueryable()
 								.Where(x => x.CommitSha == repoSha && x.Instance.Id == metadata.Id)
 								.Include(x => x.ActiveTestMerges)
-								.ThenInclude(x => x.TestMerge)
-								.ThenInclude(x => x.MergedBy)
+									.ThenInclude(x => x.TestMerge)
+									.ThenInclude(x => x.MergedBy)
 								.FirstOrDefaultAsync(cancellationToken)
 								.ConfigureAwait(false);
 
@@ -661,10 +663,12 @@ namespace Tgstation.Server.Host.Components.Deployment
 					await databaseContextFactory.UseContext(
 						async databaseContext =>
 						{
+							var fullJob = compileJob.Job;
 							compileJob.Job = new Models.Job
 							{
 								Id = job.Id
 							};
+							var fullRevInfo = compileJob.RevisionInformation;
 							compileJob.RevisionInformation = new Models.RevisionInformation
 							{
 								Id = revInfo.Id
@@ -690,6 +694,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 								await databaseContext.Save(default).ConfigureAwait(false);
 								throw;
 							}
+
+							compileJob.Job = fullJob;
+							compileJob.RevisionInformation = fullRevInfo;
 						})
 						.ConfigureAwait(false);
 				}
