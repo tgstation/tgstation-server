@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
@@ -96,16 +96,16 @@ namespace Tgstation.Server.Host.Database
 		Task<bool> Migrate(ILogger<DatabaseContext> logger, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Attempt to downgrade the schema to the migration used for a given server <paramref name="version"/>
+		/// Attempt to downgrade the schema to the migration used for a given server <paramref name="targetVersion"/>
 		/// </summary>
 		/// <param name="logger">The <see cref="DatabaseContext"/> <see cref="ILogger"/> to use.</param>
-		/// <param name="version">The tgstation-server <see cref="Version"/> that the schema should downgrade for</param>
+		/// <param name="targetVersion">The tgstation-server <see cref="Version"/> that the schema should downgrade for</param>
 		/// <param name="currentDatabaseType">The <see cref="DatabaseType"/> in use.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task SchemaDowngradeForServerVersion(
 			ILogger<DatabaseContext> logger,
-			Version version,
+			Version targetVersion,
 			DatabaseType currentDatabaseType,
 			CancellationToken cancellationToken);
 	}

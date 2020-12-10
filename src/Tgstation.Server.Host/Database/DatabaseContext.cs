@@ -315,30 +315,112 @@ namespace Tgstation.Server.Host.Database
 			return wasEmpty;
 		}
 
+#if DEBUG
+		/// <summary>
+		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
+		/// </summary>
+		public static readonly Type MSLatestMigration = typeof(MSAddAdditionalDDParameters);
+
+		/// <summary>
+		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
+		/// </summary>
+		public static readonly Type MYLatestMigration = typeof(MYAddAdditionalDDParameters);
+
+		/// <summary>
+		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
+		/// </summary>
+		public static readonly Type PGLatestMigration = typeof(PGAddAdditionalDDParameters);
+
+		/// <summary>
+		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
+		/// </summary>
+		public static readonly Type SLLatestMigration = typeof(SLAddAdditionalDDParameters);
+#endif
+
 		/// <inheritdoc />
+#pragma warning disable CA1502 // TODO: Decomplexify
 		public async Task SchemaDowngradeForServerVersion(
 			ILogger<DatabaseContext> logger,
-			Version version,
+			Version targetVersion,
 			DatabaseType currentDatabaseType,
 			CancellationToken cancellationToken)
 		{
 			if(logger == null)
 				throw new ArgumentNullException(nameof(logger));
-			if (version == null)
-				throw new ArgumentNullException(nameof(version));
-			if (version < new Version(4, 0))
-				throw new ArgumentOutOfRangeException(nameof(version), version, "Not a valid V4 version!");
+			if (targetVersion == null)
+				throw new ArgumentNullException(nameof(targetVersion));
+			if (targetVersion < new Version(4, 0))
+				throw new ArgumentOutOfRangeException(nameof(targetVersion), targetVersion, "Not a valid V4 version!");
+
+			if (currentDatabaseType == DatabaseType.PostgresSql && targetVersion < new Version(4, 3, 0))
+				throw new NotSupportedException("Cannot migrate below version 4.3.0 with PostgresSql!");
+
+			if (targetVersion < new Version(4, 1, 0))
+				throw new NotSupportedException("Cannot migrate below version 4.1.0!");
 
 			// Update this with new migrations as they are made
 			string targetMigration = null;
+			if (targetVersion < new Version(4, 7, 0))
+				switch (currentDatabaseType)
+				{
+					case DatabaseType.MariaDB:
+					case DatabaseType.MySql:
+						targetMigration = nameof(MYAddAdditionalDDParameters);
+						break;
+					case DatabaseType.PostgresSql:
+						targetMigration = nameof(PGAddAdditionalDDParameters);
+						break;
+					case DatabaseType.SqlServer:
+						targetMigration = nameof(MSAddAdditionalDDParameters);
+						break;
+					case DatabaseType.Sqlite:
+						targetMigration = nameof(SLAddAdditionalDDParameters);
+						break;
+					default:
+						throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
+				}
 
-			if (currentDatabaseType == DatabaseType.PostgresSql && version < new Version(4, 3, 0))
-				throw new NotSupportedException("Cannot migrate below version 4.3.0 with PostgresSql!");
+			if (targetVersion < new Version(4, 6, 0))
+				switch (currentDatabaseType)
+				{
+					case DatabaseType.MariaDB:
+					case DatabaseType.MySql:
+						targetMigration = nameof(MYAddDeploymentColumns);
+						break;
+					case DatabaseType.PostgresSql:
+						targetMigration = nameof(PGAddDeploymentColumns);
+						break;
+					case DatabaseType.SqlServer:
+						targetMigration = nameof(MSAddDeploymentColumns);
+						break;
+					case DatabaseType.Sqlite:
+						targetMigration = nameof(SLAddDeploymentColumns);
+						break;
+					default:
+						throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
+				}
 
-			if (version < new Version(4, 1, 0))
-				throw new NotSupportedException("Cannot migrate below version 4.1.0!");
+			if (targetVersion < new Version(4, 5, 0))
+				switch (currentDatabaseType)
+				{
+					case DatabaseType.MariaDB:
+					case DatabaseType.MySql:
+						targetMigration = nameof(MYAllowNullDMApi);
+						break;
+					case DatabaseType.PostgresSql:
+						targetMigration = nameof(PGAllowNullDMApi);
+						break;
+					case DatabaseType.SqlServer:
+						targetMigration = nameof(MSAllowNullDMApi);
+						break;
+					case DatabaseType.Sqlite:
+						targetMigration = nameof(SLAllowNullDMApi);
+						break;
+					default:
+						throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
+				}
 
-			if(version < new Version(4, 4, 0))
+			if (targetVersion < new Version(4, 4, 0))
 				switch (currentDatabaseType)
 				{
 					case DatabaseType.MariaDB:
@@ -349,14 +431,16 @@ namespace Tgstation.Server.Host.Database
 						targetMigration = nameof(PGCreate);
 						break;
 					case DatabaseType.SqlServer:
-					case DatabaseType.Sqlite:
 						targetMigration = nameof(MSRemoveSoftColumns);
+						break;
+					case DatabaseType.Sqlite:
+						targetMigration = nameof(SLRemoveSoftColumns);
 						break;
 					default:
 						throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
 				}
 
-			if (version < new Version(4, 2, 0))
+			if (targetVersion < new Version(4, 2, 0))
 				targetMigration = currentDatabaseType == DatabaseType.Sqlite ? nameof(SLRebuild) : nameof(MSFixCascadingDelete);
 
 			if (targetMigration == null)
@@ -393,7 +477,7 @@ namespace Tgstation.Server.Host.Database
 			var dbServiceProvider = ((IInfrastructure<IServiceProvider>)Database).Instance;
 			var migrator = dbServiceProvider.GetRequiredService<IMigrator>();
 
-			logger.LogInformation("Migrating down to version {0}. Target: {1}", version, targetMigration);
+			logger.LogInformation("Migrating down to version {0}. Target: {1}", targetVersion, targetMigration);
 			try
 			{
 				await migrator.MigrateAsync(targetMigration, cancellationToken).ConfigureAwait(false);
@@ -403,5 +487,6 @@ namespace Tgstation.Server.Host.Database
 				logger.LogCritical(e, "Failed to migrate!");
 			}
 		}
+#pragma warning restore CA1502
 	}
 }

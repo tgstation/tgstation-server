@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -59,33 +60,41 @@ namespace Tgstation.Server.Host.Core
 				.ToListAsync(cancellationToken)
 				.ConfigureAwait(false);
 
-			for (var I = basePort; I < UInt16.MaxValue; ++I)
+			var exceptions = new List<Exception>();
+			ushort I = 0;
+			try
 			{
-				if (checkOne && I != basePort)
-					break;
-
-				if (I == serverPortProvider.HttpApiPort
-					|| ddPorts.Contains(I)
-					|| dmPorts.Contains(I))
-					continue;
-
-				try
+				for (I = basePort; I < UInt16.MaxValue; ++I)
 				{
-					logger.LogTrace("Bind test: {0}", I);
-					SocketExtensions.BindTest(I, false);
-				}
-				catch (Exception ex)
-				{
-					logger.LogDebug(ex, "Not using port {0}", I);
-					continue;
+					if (checkOne && I != basePort)
+						break;
+
+					if (I == serverPortProvider.HttpApiPort
+						|| ddPorts.Contains(I)
+						|| dmPorts.Contains(I))
+						continue;
+
+					try
+					{
+						SocketExtensions.BindTest(I, false);
+					}
+					catch (Exception ex)
+					{
+						exceptions.Add(ex);
+						continue;
+					}
+
+					logger.LogInformation("Allocated port {0}", I);
+					return I;
 				}
 
-				logger.LogInformation("Allocated port {0}", I);
-				return I;
+				logger.LogWarning("Unable to allocate port >= {0}!", basePort);
+				return null;
 			}
-
-			logger.LogWarning("Unable to allocate port >= {0}!", basePort);
-			return null;
+			finally
+			{
+				logger.LogDebug(new AggregateException(exceptions), "Failed to allocate ports {0}-{1}!", basePort, I - 1);
+			}
 		}
 	}
 }

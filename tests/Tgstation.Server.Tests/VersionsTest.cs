@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 using System;
@@ -10,6 +11,7 @@ using Tgstation.Server.Client;
 using Tgstation.Server.Host;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Database;
 
 namespace Tgstation.Server.Tests
 {
@@ -143,5 +145,62 @@ namespace Tgstation.Server.Tests
 			var line = scriptLines.FirstOrDefault(x => x.Trim().Contains($"SCRIPT_VERSION=\"{expected.Semver()}\""));
 			Assert.IsNotNull(line);
 		}
+
+#if DEBUG
+		[TestMethod]
+		public void TestDowngradeMigrations()
+		{
+			static string GetMigrationTimestampString(Type type) => type
+				?.GetCustomAttributes(typeof(MigrationAttribute), false)
+				.OfType<MigrationAttribute>()
+				.SingleOrDefault()
+				?.Id
+				.Split('_')
+				.First()
+				?? String.Empty;
+
+			var allTypesWithMigrationAttributes = typeof(Program)
+				.Assembly
+				.GetTypes()
+				.ToDictionary(
+					x => x,
+					x => GetMigrationTimestampString(x));
+
+			Type latestMigrationMS = null;
+			Type latestMigrationMY = null;
+			Type latestMigrationPG = null;
+			Type latestMigrationSL = null;
+			foreach (var kvp in allTypesWithMigrationAttributes)
+			{
+				var migrationType = kvp.Key;
+				var migrationTimestamp = kvp.Value;
+
+				switch(migrationType.Name.Substring(0, 2))
+				{
+					case "MS":
+						if (String.Compare(GetMigrationTimestampString(latestMigrationMS), migrationTimestamp) < 0)
+							latestMigrationMS = migrationType;
+						break;
+					case "MY":
+						if (String.Compare(GetMigrationTimestampString(latestMigrationMY), migrationTimestamp) < 0)
+							latestMigrationMY = migrationType;
+						break;
+					case "PG":
+						if (String.Compare(GetMigrationTimestampString(latestMigrationPG), migrationTimestamp) < 0)
+							latestMigrationPG = migrationType;
+						break;
+					case "SL":
+						if (String.Compare(GetMigrationTimestampString(latestMigrationSL), migrationTimestamp) < 0)
+							latestMigrationSL = migrationType;
+						break;
+				}
+			}
+
+			Assert.AreEqual(latestMigrationMS, DatabaseContext.MSLatestMigration);
+			Assert.AreEqual(latestMigrationMY, DatabaseContext.MYLatestMigration);
+			Assert.AreEqual(latestMigrationPG, DatabaseContext.PGLatestMigration);
+			Assert.AreEqual(latestMigrationSL, DatabaseContext.SLLatestMigration);
+		}
+#endif
 	}
 }
