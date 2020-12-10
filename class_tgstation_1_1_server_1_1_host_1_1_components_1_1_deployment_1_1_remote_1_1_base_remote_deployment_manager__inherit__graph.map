@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Components.Deployment.Remote.BaseRemoteDeploymentManager" name="Tgstation.Server.Host.Components.Deployment.Remote.BaseRemoteDeploymentManager">
+<area shape="rect" id="node1" title="Base class for implementing IRemoteDeploymentManagers." alt="" coords="243,45,527,101"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html" title="IRemoteDeploymentManager for GitHub.com" alt="" coords="575,5,869,61"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_lab_remote_deployment_manager.html" title="IRemoteDeploymentManager for GitLab.com" alt="" coords="575,85,869,141"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html" title="Creates and updates remote deployments." alt="" coords="5,60,195,87"/>
+</map>

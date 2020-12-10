@@ -109,9 +109,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad04e55b87e2ea16c68210ce73a80cebd"><td class="memItemLeft" align="right" valign="top">LibGit2Sharp.IRepository&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#ad04e55b87e2ea16c68210ce73a80cebd">CreateInMemory</a> ()</td></tr>
 <tr class="memdesc:ad04e55b87e2ea16c68210ce73a80cebd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an in-memeory LibGit2Sharp.IRepository.  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#ad04e55b87e2ea16c68210ce73a80cebd">More...</a><br /></td></tr>
 <tr class="separator:ad04e55b87e2ea16c68210ce73a80cebd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff825ad3b4e4f4de83285d3cf2281e7b"><td class="memItemLeft" align="right" valign="top">Task&lt; LibGit2Sharp.IRepository &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#aff825ad3b4e4f4de83285d3cf2281e7b">CreateFromPath</a> (string path, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:aff825ad3b4e4f4de83285d3cf2281e7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a LibGit2Sharp.IRepository from a given <em>path</em> .  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#aff825ad3b4e4f4de83285d3cf2281e7b">More...</a><br /></td></tr>
-<tr class="separator:aff825ad3b4e4f4de83285d3cf2281e7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb1c5bc9050af520116853c5475cc9d3"><td class="memItemLeft" align="right" valign="top">async Task&lt; LibGit2Sharp.IRepository &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#acb1c5bc9050af520116853c5475cc9d3">CreateFromPath</a> (string path, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:acb1c5bc9050af520116853c5475cc9d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a LibGit2Sharp.IRepository from a given <em>path</em> .  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#acb1c5bc9050af520116853c5475cc9d3">More...</a><br /></td></tr>
+<tr class="separator:acb1c5bc9050af520116853c5475cc9d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac40ab8e01d38e4283f2b108b6cf3d4e4"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#ac40ab8e01d38e4283f2b108b6cf3d4e4">Clone</a> (Uri url, CloneOptions cloneOptions, string path, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ac40ab8e01d38e4283f2b108b6cf3d4e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clone a remote LibGit2Sharp.IRepository.  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#ac40ab8e01d38e4283f2b108b6cf3d4e4">More...</a><br /></td></tr>
 <tr class="separator:ac40ab8e01d38e4283f2b108b6cf3d4e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -209,14 +209,14 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="aff825ad3b4e4f4de83285d3cf2281e7b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aff825ad3b4e4f4de83285d3cf2281e7b">&#9670;&nbsp;</a></span>CreateFromPath()</h2>
+<a id="acb1c5bc9050af520116853c5475cc9d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb1c5bc9050af520116853c5475cc9d3">&#9670;&nbsp;</a></span>CreateFromPath()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt;LibGit2Sharp.IRepository&gt; Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.CreateFromPath </td>
+          <td class="memname">async Task&lt;LibGit2Sharp.IRepository&gt; Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.CreateFromPath </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>path</em>, </td>
@@ -244,7 +244,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            <span class="keywordflow">if</span> (path == <span class="keyword">null</span>)</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(path));</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            <span class="keywordflow">return</span> Task.Factory.StartNew&lt;LibGit2Sharp.IRepository&gt;(</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            var repo = await Task.Factory.StartNew&lt;LibGit2Sharp.IRepository&gt;(</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                () =&gt;</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                {</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_lib_git2_repository_factory.html#a0459148f90ada2863ee586bb9ff43351">logger</a>.LogTrace(<span class="stringliteral">&quot;Creating libgit2 repostory at {0}...&quot;</span>, path);</div>
@@ -252,8 +252,11 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                },</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                cancellationToken,</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html">DefaultIOManager</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ac6dfeef4e622bb46047169215099995d">BlockingTaskCreationOptions</a>,</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                TaskScheduler.Current);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        }</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                TaskScheduler.Current)</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            <span class="keywordflow">return</span> repo;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_default_i_o_manager_8cs_source.html#l00030">Tgstation.Server.Host.IO.DefaultIOManager.BlockingTaskCreationOptions</a>, and <a class="el" href="_lib_git2_repository_factory_8cs_source.html#l00019">Tgstation.Server.Host.Components.Repository.LibGit2RepositoryFactory.logger</a>.</p>
 

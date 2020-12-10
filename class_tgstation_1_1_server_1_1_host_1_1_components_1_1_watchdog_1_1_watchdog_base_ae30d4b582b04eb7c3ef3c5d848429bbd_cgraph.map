@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.StartAsync" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.StartAsync">
 <area shape="rect" id="node1" title=" " alt="" coords="5,586,244,628"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a4ec856fefa4de5eba884c0392cece9b9" title="Construct an Instance" alt="" coords="310,120,537,161"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a1786942cc8a27d171bce120e6eed5a9b" title="Construct an Instance" alt="" coords="310,120,537,161"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#af5d1f2571cdce3431ab477a9c9c3e6f4" title="Launches the watchdog." alt="" coords="292,185,555,226"/>
 <area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a01e4f4e2d775bd2bf0910a1f5c2f24ef" title="Asyncronously locks a semaphore" alt="" coords="1647,432,1838,473"/>
 <area shape="rect" id="node18" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_persistor.html#a1893d3e0b81183484ed4d762fa8b8337" title="Load a saved ReattachInformation." alt="" coords="310,645,537,686"/>

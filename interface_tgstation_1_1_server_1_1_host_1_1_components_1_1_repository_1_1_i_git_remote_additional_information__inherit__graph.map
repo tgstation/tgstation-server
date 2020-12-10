@@ -1,0 +1,11 @@
+<map id="Tgstation.Server.Host.Components.Repository.IGitRemoteAdditionalInformation" name="Tgstation.Server.Host.Components.Repository.IGitRemoteAdditionalInformation">
+<area shape="rect" id="node1" title="Additional information from git remotes." alt="" coords="207,104,481,145"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features.html" title="Provides features for remote git services" alt="" coords="529,71,756,112"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on&#45;disk git repository" alt="" coords="529,136,756,177"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_i_git_remote_information.html" title="Provides information about remote providers." alt="" coords="5,111,159,138"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_default_git_remote_features.html" title="The IGitRemoteFeatures used for unknown providers." alt="" coords="804,5,1044,47"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_base.html" title="Base class for implementing IGitRemoteFeatures." alt="" coords="809,71,1039,112"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html" title="GitHub IGitRemoteFeatures." alt="" coords="1092,39,1319,80"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html" title="GitLab IGitRemoteFeatures." alt="" coords="1092,104,1319,145"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html" title=" " alt="" coords="811,136,1037,177"/>
+</map>

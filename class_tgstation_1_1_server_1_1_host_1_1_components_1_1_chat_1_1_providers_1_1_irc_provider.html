@@ -1300,7 +1300,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160;            var testmergeInsert = (revisionInformation.ActiveTestMerges?.Count ?? 0) == 0 ? String.Empty : String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot; (Test Merges: {0})&quot;</span>,</div>
 <div class="line"><a name="l00602"></a><span class="lineno">  602</span>&#160;                String.Join(<span class="stringliteral">&quot;, &quot;</span>, revisionInformation.ActiveTestMerges.Select(x =&gt; x.TestMerge).Select(x =&gt;</div>
 <div class="line"><a name="l00603"></a><span class="lineno">  603</span>&#160;                {</div>
-<div class="line"><a name="l00604"></a><span class="lineno">  604</span>&#160;                    var result = String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;#{0} at {1}&quot;</span>, x.Number, x.PullRequestRevision.Substring(0, 7));</div>
+<div class="line"><a name="l00604"></a><span class="lineno">  604</span>&#160;                    var result = String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot;#{0} at {1}&quot;</span>, x.Number, x.TargetCommitSha.Substring(0, 7));</div>
 <div class="line"><a name="l00605"></a><span class="lineno">  605</span>&#160;                    if (x.Comment != null)</div>
 <div class="line"><a name="l00606"></a><span class="lineno">  606</span>&#160;                        result += String.Format(CultureInfo.InvariantCulture, <span class="stringliteral">&quot; ({0})&quot;</span>, x.Comment);</div>
 <div class="line"><a name="l00607"></a><span class="lineno">  607</span>&#160;                    return result;</div>

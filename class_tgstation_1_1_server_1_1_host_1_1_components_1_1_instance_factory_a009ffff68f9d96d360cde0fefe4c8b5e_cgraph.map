@@ -1,9 +1,9 @@
 <map id="Tgstation.Server.Host.Components.InstanceFactory.CreateInstance" name="Tgstation.Server.Host.Components.InstanceFactory.CreateInstance">
 <area shape="rect" id="node1" title="Create an IInstance" alt="" coords="5,118,232,159"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_factory.html#a2da119ff14c5553f07a8e0c3b3d43755" title="Create a IChatManager" alt="" coords="301,5,545,61"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html#a5a7c5f02df9f603fd21cd61fc3ebaf3e" title="Creates a IWatchdog" alt="" coords="280,85,567,126"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog_factory.html#a7776b90becee310dbf88b39c649ed4e7" title="Creates a IWatchdog" alt="" coords="280,85,567,126"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a923eeba6faee2b5573a1fa4bc37c2216" title=" " alt="" coords="310,150,537,191"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#ad2118970749039c0d44a9eb4698d97e1" title="Construct a Repository" alt="" coords="310,217,537,258"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#a61b0a56eced0f9e75057c0c9f17b5d1d" title=" " alt="" coords="615,147,861,189"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#adec58d79f9d6c5fe1bc4e43f9f036308" title=" " alt="" coords="622,212,854,268"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a7d75a9e231bf808aab132ec9de724ff6" title="Construct a Repository" alt="" coords="310,217,537,258"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#a61b0a56eced0f9e75057c0c9f17b5d1d" title=" " alt="" coords="616,147,863,189"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory.html#ac68dccad767316b6c071ca0687bf3b9f" title="Create the IGitRemoteFeatures for a given repository ." alt="" coords="615,212,864,268"/>
 </map>

@@ -96,7 +96,8 @@ $(function() {
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_command_factory.html#abbd5571bc7db746a0f12add2f39e67de">Tgstation.Server.Host.Components.Chat.Commands.CommandFactory</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_pull_requests_command.html#a092a4f6583f2101fbef0ec6caf5c41a0">Tgstation.Server.Host.Components.Chat.Commands.PullRequestsCommand</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#ad0b797ad2e348db517f20393acacdb65">Tgstation.Server.Host.Components.Deployment.DmbFactory</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_git_hub_deployment_manager.html#ab9a4d8a174effbee50c7ea653cd65724">Tgstation.Server.Host.Components.Deployment.GitHubDeploymentManager</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a05daf039a3547769d54da9136bbbc22c">Tgstation.Server.Host.Components.Deployment.Remote.GitHubRemoteDeploymentManager</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_remote_deployment_manager_factory.html#a7162d7e6a743217321c4b633a11710a3">Tgstation.Server.Host.Components.Deployment.Remote.RemoteDeploymentManagerFactory</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#a1b570e9e9d997c7b93842a93f1a362d6">Tgstation.Server.Host.Components.InstanceFactory</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ab5c8e78bdae6eb6eb2ed289563c639cc">Tgstation.Server.Host.Components.InstanceManager</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_persistor.html#a2227915dc11711ab8eac49598f9bda08">Tgstation.Server.Host.Components.Session.SessionPersistor</a>
@@ -213,7 +214,7 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_instance_user_client.html#a66319c3cf70b1e17e7d03d00113680ef">Tgstation.Server.Client.Components.InstanceUserClient</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_repository_client.html#a542817cc102394601ab78412d37f82ba">Tgstation.Server.Client.Components.IRepositoryClient</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_repository_client.html#a53bf505d9df01bc1bccec11d00e44733">Tgstation.Server.Client.Components.RepositoryClient</a>
-, <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a64cf5a4f7ea0ce4a99164906fcdfd19a">Tgstation.Server.Client.IApiClient</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a6954d79598a2d4498c99e201481dc6b1">Tgstation.Server.Client.IApiClient</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#aacf3549e22bb38699d3226a156e3e0dc">Tgstation.Server.Host.Controllers.AdministrationController</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a5c9497452013644a7b8b6d4ee09a65a3">Tgstation.Server.Host.Controllers.ChatController</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a70a6018d637cb3eb379b8949a4a754a8">Tgstation.Server.Host.Controllers.ConfigurationController</a>
@@ -447,7 +448,7 @@ $(function() {
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ad68af0912872eba94733cb322b08ecb3">Tgstation.Server.Host.Components.Deployment.DreamMaker</a>
 </li>
 <li>DmbFactory()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#acf5589df4ced5b0683e045870001fb18">Tgstation.Server.Host.Components.Deployment.DmbFactory</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#a33a90e2e5211e114c19475db3dce372f">Tgstation.Server.Host.Components.Deployment.DmbFactory</a>
 </li>
 <li>dmbFactory
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a4c3746b0143784d232119fdb418263ba">Tgstation.Server.Host.Components.Instance</a>
@@ -491,6 +492,7 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_checkpoint_rebuild.html#ac2a807dd610b05efff586abc8fc5838c">Tgstation.Server.Host.Database.Migrations.MSCheckpointRebuild</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_fix_cascading_delete.html#a7eb735e2cac5616d83e1fc523950a7a7">Tgstation.Server.Host.Database.Migrations.MSFixCascadingDelete</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_fix_rev_info_index.html#ae8f00fc3a07d7375ce51b8f129369088">Tgstation.Server.Host.Database.Migrations.MSFixRevInfoIndex</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_generic_test_merging_update.html#afbd842ae8454a9131db057bd83fb664d">Tgstation.Server.Host.Database.Migrations.MSGenericTestMergingUpdate</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_initial_create.html#ae0f4cc2dd9b29f92f03b254d9411140b">Tgstation.Server.Host.Database.Migrations.MSInitialCreate</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_kill_jsons_add_d_m_api_version.html#a69f92765673944b287c528ef67ac628f">Tgstation.Server.Host.Database.Migrations.MSKillJsonsAddDMApiVersion</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_limits_on_chat.html#acf6df5f177b238f879d6cadc9c212c8f">Tgstation.Server.Host.Database.Migrations.MSLimitsOnChat</a>
@@ -514,6 +516,7 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_fix_cascading_delete.html#a29c2467e5b26498fdc9be4daf32190e6">Tgstation.Server.Host.Database.Migrations.MYFixCascadingDelete</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_fix_foreign_key.html#a75a8797a59d9d37f823c1e8141c48148">Tgstation.Server.Host.Database.Migrations.MYFixForeignKey</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_fix_rev_info_index.html#a75731f56be6e24f24ad159d275e16665">Tgstation.Server.Host.Database.Migrations.MYFixRevInfoIndex</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_generic_test_merging_update.html#ae151850e1e6ad1caf63006bb3cc3a9bc">Tgstation.Server.Host.Database.Migrations.MYGenericTestMergingUpdate</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_initial_create.html#a1c0857d0051862bb633c92aa072e47bd">Tgstation.Server.Host.Database.Migrations.MYInitialCreate</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_kill_jsons_add_d_m_api_version.html#a051e7067eb3622929d13230cd270136a">Tgstation.Server.Host.Database.Migrations.MYKillJsonsAddDMApiVersion</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_limits_on_chat.html#a08643345b848248c54f6391c441afca0">Tgstation.Server.Host.Database.Migrations.MYLimitsOnChat</a>
@@ -529,6 +532,7 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_add_o_auth_connections.html#ab7f7b491161e7ec0877c35c34965b386">Tgstation.Server.Host.Database.Migrations.PGAddOAuthConnections</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_allow_null_d_m_api.html#a11dfa79c963f480b402307af39034789">Tgstation.Server.Host.Database.Migrations.PGAllowNullDMApi</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_create.html#a91b4446c41d615ad2513be276114100e">Tgstation.Server.Host.Database.Migrations.PGCreate</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_generic_test_merging_update.html#a3b922c51f87680d9027691a8da1cdd8f">Tgstation.Server.Host.Database.Migrations.PGGenericTestMergingUpdate</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_remove_experimental_watchdog.html#ae854d9dd602db118b7711bf4a13b9b2a">Tgstation.Server.Host.Database.Migrations.PGRemoveExperimentalWatchdog</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_topic_timeout.html#a0310dac83148c1460053a83c2b0a453b">Tgstation.Server.Host.Database.Migrations.PGTopicTimeout</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_additional_d_d_parameters.html#a492e74a97aaa75a40aca3646042ae2b6">Tgstation.Server.Host.Database.Migrations.SLAddAdditionalDDParameters</a>
@@ -536,6 +540,7 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_heartbeat.html#a69db556c8f9816d01d3acfe308c32d0c">Tgstation.Server.Host.Database.Migrations.SLAddHeartbeat</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_o_auth_connections.html#a94239f678055402bb21d0a49b4f648dc">Tgstation.Server.Host.Database.Migrations.SLAddOAuthConnections</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_allow_null_d_m_api.html#a835767cfae5418f6e289022d1d1ae7ac">Tgstation.Server.Host.Database.Migrations.SLAllowNullDMApi</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_generic_test_merging_update.html#ab43c410e6c23725ed23a2e2ad5384dee">Tgstation.Server.Host.Database.Migrations.SLGenericTestMergingUpdate</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_rebuild.html#af59f624ac40ca4702a4ceee81043c686">Tgstation.Server.Host.Database.Migrations.SLRebuild</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_remove_experimental_watchdog.html#aef19a599caab07370c84bf792cd002e8">Tgstation.Server.Host.Database.Migrations.SLRemoveExperimentalWatchdog</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_remove_soft_columns.html#a452f5f223962a06f1f4aac9250a98f7a">Tgstation.Server.Host.Database.Migrations.SLRemoveSoftColumns</a>
@@ -593,7 +598,7 @@ $(function() {
 : <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_user.html#a8367896a1a9ff6e745d0c62b85d8fd0e">Tgstation.Server.Api.Models.InstanceUser</a>
 </li>
 <li>DreamDaemonSettings
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ae03574f8c27c8c179b6d1b8c6f71532e">Tgstation.Server.Host.Database.DatabaseContext</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ab13ccb4c344a982d5af87d5b3f51bd79">Tgstation.Server.Host.Database.DatabaseContext</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a834db5965b255a765f7ae274e4104f36">Tgstation.Server.Host.Database.IDatabaseContext</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html#a94cb9055338f1d52397f10aab18f554d">Tgstation.Server.Host.Models.Instance</a>
 </li>
@@ -605,7 +610,7 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_dream_maker_client.html#a62edd66a221c9b7044bd068dcf7324d9">Tgstation.Server.Client.Components.DreamMakerClient</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_instance_client.html#a5a505ae2d713942640558e34222b444b">Tgstation.Server.Client.Components.IInstanceClient</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_instance_client.html#af92b0694efe4453eee2ea50d9c18616e">Tgstation.Server.Client.Components.InstanceClient</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ae0e8004e9266522f60980b7724eb9252">Tgstation.Server.Host.Components.Deployment.DreamMaker</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ab04aa8c17266b3ae6b54c6408801c285">Tgstation.Server.Host.Components.Deployment.DreamMaker</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_core.html#acbc6bed95fa79891224fc0b1c5255071">Tgstation.Server.Host.Components.IInstanceCore</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a5774569e57a7e7b15ce6dafed0904ab0">Tgstation.Server.Host.Components.Instance</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_wrapper.html#a0392aae240c5fe54f476cff7c6079581">Tgstation.Server.Host.Components.InstanceWrapper</a>

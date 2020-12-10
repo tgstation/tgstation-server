@@ -1,0 +1,8 @@
+<map id="Tgstation.Server.Host.Components.Repository.DefaultGitRemoteFeatures" name="Tgstation.Server.Host.Components.Repository.DefaultGitRemoteFeatures">
+<area shape="rect" id="node1" title="The IGitRemoteFeatures used for unknown providers." alt="" coords="153,291,393,332"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features.html" title="Provides features for remote git services" alt="" coords="41,157,180,184"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_additional_information.html" title="Additional information from git remotes." alt="" coords="5,81,216,108"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_i_git_remote_information.html" title="Provides information about remote providers." alt="" coords="34,5,187,32"/>
+<area shape="rect" id="node5" title=" " alt="" coords="204,157,343,184"/>
+<area shape="rect" id="node6" title=" " alt="" coords="390,157,445,184"/>
+</map>

@@ -1,5 +1,6 @@
 <map id="Tgstation.Server.Host.Components.Deployment.DreamMaker.DeploymentProcess" name="Tgstation.Server.Host.Components.Deployment.DreamMaker.DeploymentProcess">
-<area shape="rect" id="node1" title=" " alt="" coords="5,39,292,80"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a4ec856fefa4de5eba884c0392cece9b9" title="Construct an Instance" alt="" coords="346,5,573,47"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42" title="Run an operation &#160;in the scope of an IDatabaseContext" alt="" coords="340,71,579,112"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,77,292,119"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a1786942cc8a27d171bce120e6eed5a9b" title="Construct an Instance" alt="" coords="356,5,583,47"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html#accc45dd9f9dbb63c27218a47a7768eb5" title="Post deployment comments to the test merge ticket." alt="" coords="340,70,599,126"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42" title="Run an operation &#160;in the scope of an IDatabaseContext" alt="" coords="350,149,589,191"/>
 </map>

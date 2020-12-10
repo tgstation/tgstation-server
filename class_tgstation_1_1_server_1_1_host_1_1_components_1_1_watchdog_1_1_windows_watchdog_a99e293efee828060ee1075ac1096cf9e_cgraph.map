@@ -1,5 +1,6 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog.HandleNormalReboot" name="Tgstation.Server.Host.Components.Watchdog.WindowsWatchdog.HandleNormalReboot">
-<area shape="rect" id="node1" title="Handler for MonitorActivationReason.ActiveServerRebooted when the RebootState is RebootState...." alt="" coords="5,13,327,54"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a1582efdefef65cd7587e76a7bae09a4e" title="To be called before a given newCompileJob &#160;goes live." alt="" coords="375,13,645,54"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_i_git_hub_deployment_manager.html#a21fcd146642b9e85afa1e7870b43ffbb" title="Stage a given compileJob &#39;s deployment." alt="" coords="693,5,952,61"/>
+<area shape="rect" id="node1" title="Handler for MonitorActivationReason.ActiveServerRebooted when the RebootState is RebootState...." alt="" coords="5,53,327,94"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a1582efdefef65cd7587e76a7bae09a4e" title="To be called before a given newCompileJob &#160;goes live." alt="" coords="375,53,645,94"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager.html#a5eb0d5e39709230e697671ed11f1cc04" title="Stage a given compileJob &#39;s deployment." alt="" coords="723,5,982,61"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html#a4115cea1f220c4fdaede74566aa848d3" title="Creates a IRemoteDeploymentManager for a given remoteGitProvider ." alt="" coords="693,85,1012,141"/>
 </map>

@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Components.Deployment.Remote.RemoteDeploymentManagerFactory.CreateRemoteDeploymentManager" name="Tgstation.Server.Host.Components.Deployment.Remote.RemoteDeploymentManagerFactory.CreateRemoteDeploymentManager">
+<area shape="rect" id="node1" title="Create a IRemoteDeploymentManager for a given compileJob ." alt="" coords="5,45,309,101"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_remote_deployment_manager_factory.html#acfd615cd1714362a52b801c3c2b67225" title="Creates a IRemoteDeploymentManager for a given remoteGitProvider ." alt="" coords="357,5,661,61"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features_factory.html#ae7e26c0b76d3cd67c5c2939fbe6136d3" title="Gets the RemoteGitProvider for a given origin ." alt="" coords="385,85,634,141"/>
+</map>

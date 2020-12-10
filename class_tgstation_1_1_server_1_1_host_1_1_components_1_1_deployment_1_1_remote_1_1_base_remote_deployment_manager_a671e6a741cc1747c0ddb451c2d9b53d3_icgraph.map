@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Components.Deployment.Remote.BaseRemoteDeploymentManager.FormatTestMerge" name="Tgstation.Server.Host.Components.Deployment.Remote.BaseRemoteDeploymentManager.FormatTestMerge">
+<area shape="rect" id="node1" title="Formats a comment for a given testMerge ." alt="" coords="337,5,621,61"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_base_remote_deployment_manager.html#ac3f0524571c5f044bb4b8e71f24e342a" title="Post deployment comments to the test merge ticket." alt="" coords="5,5,289,61"/>
+</map>

@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Components.Deployment.DreamMaker.FormatExceptionForUsers" name="Tgstation.Server.Host.Components.Deployment.DreamMaker.FormatExceptionForUsers">
 <area shape="rect" id="node1" title="Format a given Exception for display to users." alt="" coords="305,5,572,61"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#aa5f70760f3e069c36e2515cc2d68d9a8" title="Cleans up a failed compile job ." alt="" coords="5,5,257,61"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#a27764e420f42ca8febbfee4b62c20d71" title="Cleans up a failed compile job ." alt="" coords="5,5,257,61"/>
 </map>

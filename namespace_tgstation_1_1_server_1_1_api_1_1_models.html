@@ -332,6 +332,12 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a49b1c1275c0d47d43360f8c7619ec901"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of OAuth providers supported by TGS  <a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">More...</a><br /></td></tr>
 <tr class="separator:a49b1c1275c0d47d43360f8c7619ec901"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaff5188f30ee5c04c081684eb9672f17"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17">RemoteGitProvider</a> { <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17a88183b946cc5f0e8c96b2e66e1c74a7e">RemoteGitProvider.Unknown</a>, 
+<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17ad3b7c913cd04ebfec0e9ec32cb6fd58c">RemoteGitProvider.GitHub</a>, 
+<a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17acf0a6993a4b526850302726c7cca0e7f">RemoteGitProvider.GitLab</a>
+ }</td></tr>
+<tr class="memdesc:aaff5188f30ee5c04c081684eb9672f17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates the remote git host.  <a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17">More...</a><br /></td></tr>
+<tr class="separator:aaff5188f30ee5c04c081684eb9672f17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abcc98739b8feb9dd6744647f287e0683"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#abcc98739b8feb9dd6744647f287e0683">WatchdogStatus</a> { <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#abcc98739b8feb9dd6744647f287e0683a8d9da4bc0e49a50e09ac9f7e56789d39">WatchdogStatus.Offline</a>, 
 <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#abcc98739b8feb9dd6744647f287e0683ad6a7dfc0a40da7ac6674d7c9888fa5e8">WatchdogStatus.Restoring</a>, 
 <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#abcc98739b8feb9dd6744647f287e0683a54f664c70c22054ea0d8d26fc3997ce7">WatchdogStatus.Online</a>, 
@@ -580,7 +586,7 @@ Enumerations</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8ab6aac8a71757f5fdf164188595806e72"></a>ConfigurationDirectoryNotEmpty&#160;</td><td class="fielddoc"><p>Attempted to delete an non-empty directory. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8abf3899d083ff7fb486eafce336a25148"></a>RepoMissingOrigin&#160;</td><td class="fielddoc"><p>Tried to clone a repository with a missing <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html#a560111c8642096989558062e0348b4ab" title="The origin URL. If null, the Repository does not exist">Repository.Origin</a> property. </p>
+<tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8abf3899d083ff7fb486eafce336a25148"></a>RepoMissingOrigin&#160;</td><td class="fielddoc"><p>Tried to clone a repository with a missing <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html#a435091fde796afcc437a870464ad6fa7" title="The origin URL. If null, the Repository does not exist">Repository.Origin</a> property. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8aafc428eb4bcd3a2488e41337c34ee233"></a>RepoMismatchUserAndAccessToken&#160;</td><td class="fielddoc"><p>One of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#a99781fa636aa32efab9dea036e49de4e" title="The username to access the git repository with">Internal.RepositorySettings.AccessUser</a> and <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#acc5868ef8bebd88a8caa34c4f8f1fd86" title="The token/password to access the git repository with">Internal.RepositorySettings.AccessToken</a> is set while the other isn't. </p>
 </td></tr>
@@ -598,7 +604,7 @@ Enumerations</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8a8175ed8fec68e26692e684b17db8548c"></a>RepoCantChangeOrigin&#160;</td><td class="fielddoc"><p>Attempted to change the origin of an existing repository. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8a561351a05b0b60c943b21f38f23bd553"></a>RepoDuplicateTestMerge&#160;</td><td class="fielddoc"><p><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html#ad4bb63897d14c742a2c52a159ec75641" title="TestMergeParameters for new TestMerges. Note that merges that conflict will not be performed">Repository.NewTestMerges</a> contained duplicate <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a91cb81663a87f96476a47a2628ac1a86" title="The number of the pull request">TestMergeParameters.Number</a>s. </p>
+<tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8a561351a05b0b60c943b21f38f23bd553"></a>RepoDuplicateTestMerge&#160;</td><td class="fielddoc"><p><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html#ad4bb63897d14c742a2c52a159ec75641" title="TestMergeParameters for new TestMerges. Note that merges that conflict will not be performed">Repository.NewTestMerges</a> contained duplicate <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a91cb81663a87f96476a47a2628ac1a86" title="The number of the test merge source.">TestMergeParameters.Number</a>s. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a1a6adb59dd51244efabf4e548e7075c8a5aac4df009b9b8c791899cd52c320593"></a>RepoWhitespaceCommitterName&#160;</td><td class="fielddoc"><p>Attempted to set a whitespace <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#ad6554d43c365ca4df2122315420cb456" title="The name of the committer">Internal.RepositorySettings.CommitterName</a>. </p>
 </td></tr>
@@ -835,7 +841,7 @@ Enumerations</h2></td></tr>
 <div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        [Description(<span class="stringliteral">&quot;Cannot change the origin of an existing repository, delete and recreate it instead!&quot;</span>)]</div>
 <div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;        RepoCantChangeOrigin,</div>
 <div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160; </div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        [Description(<span class="stringliteral">&quot;The same pull request was present more than once in the test merge requests or is already merged!&quot;</span>)]</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        [Description(<span class="stringliteral">&quot;The same test merge was present more than once or is already merged!&quot;</span>)]</div>
 <div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        RepoDuplicateTestMerge,</div>
 <div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160; </div>
 <div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;        [Description(<span class="stringliteral">&quot;committerName cannot be whitespace!&quot;</span>)]</div>
@@ -950,7 +956,7 @@ Enumerations</h2></td></tr>
 <div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;        [Description(<span class="stringliteral">&quot;The repository&#39;s current reference is unsuitable for this operation as it does not track a remote reference!&quot;</span>)]</div>
 <div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;        RepoReferenceNotTracking,</div>
 <div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160; </div>
-<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;        [Description(<span class="stringliteral">&quot;Encountered merge conflicts while test merging one or more pull requests!&quot;</span>)]</div>
+<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;        [Description(<span class="stringliteral">&quot;Encountered merge conflicts while test merging one or more sources!&quot;</span>)]</div>
 <div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;        RepoTestMergeConflict,</div>
 <div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160; </div>
 <div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;        [Description(<span class="stringliteral">&quot;The new instance&#39;s path is not under a white-listed path.&quot;</span>)]</div>
@@ -1111,6 +1117,47 @@ Enumerations</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
+<a id="aaff5188f30ee5c04c081684eb9672f17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaff5188f30ee5c04c081684eb9672f17">&#9670;&nbsp;</a></span>RemoteGitProvider</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17">Tgstation.Server.Api.Models.RemoteGitProvider</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Indicates the remote git host. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aaff5188f30ee5c04c081684eb9672f17a88183b946cc5f0e8c96b2e66e1c74a7e"></a>Unknown&#160;</td><td class="fielddoc"><p>Unknown remote git provider. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aaff5188f30ee5c04c081684eb9672f17ad3b7c913cd04ebfec0e9ec32cb6fd58c"></a>GitHub&#160;</td><td class="fielddoc"><p>Remote provider is GitHub.com </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aaff5188f30ee5c04c081684eb9672f17acf0a6993a4b526850302726c7cca0e7f"></a>GitLab&#160;</td><td class="fielddoc"><p>Remote provider is GitLab.com </p>
+</td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="_remote_git_provider_8cs_source.html#l00006">6</a> of file <a class="el" href="_remote_git_provider_8cs_source.html">RemoteGitProvider.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        Unknown,</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        GitHub,</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17a88183b946cc5f0e8c96b2e66e1c74a7e">GitLab</a>,</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    }</div>
+</div><!-- fragment -->
+</div>
+</div>
 <a id="abcc98739b8feb9dd6744647f287e0683"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abcc98739b8feb9dd6744647f287e0683">&#9670;&nbsp;</a></span>WatchdogStatus</h2>
 
@@ -1163,6 +1210,7 @@ Enumerations</h2></td></tr>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a49b1c1275c0d47d43360f8c7619ec901ad3b7c913cd04ebfec0e9ec32cb6fd58c"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901ad3b7c913cd04ebfec0e9ec32cb6fd58c">Tgstation.Server.Api.Models.OAuthProvider.GitHub</a></div><div class="ttdeci">@ GitHub</div><div class="ttdoc">https://github.com</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_af16952d12561118ecebc3d8ccf510221a68eec46437c384d8dad18d5464ebc35c"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#af16952d12561118ecebc3d8ccf510221a68eec46437c384d8dad18d5464ebc35c">Tgstation.Server.Api.Models.DiscordDMOutputDisplayType.Always</a></div><div class="ttdeci">@ Always</div><div class="ttdoc">Always show.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a1a6adb59dd51244efabf4e548e7075c8aecbf01325f1c744e9d7bb586ac2eb5ed"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8aecbf01325f1c744e9d7bb586ac2eb5ed">Tgstation.Server.Api.Models.ErrorCode.InternalServerError</a></div><div class="ttdeci">@ InternalServerError</div><div class="ttdoc">An implementation error occurred while processing the request.</div></div>
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_aaff5188f30ee5c04c081684eb9672f17a88183b946cc5f0e8c96b2e66e1c74a7e"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17a88183b946cc5f0e8c96b2e66e1c74a7e">Tgstation.Server.Api.Models.RemoteGitProvider.Unknown</a></div><div class="ttdeci">@ Unknown</div><div class="ttdoc">Unknown remote git provider.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_abcc98739b8feb9dd6744647f287e0683a8d9da4bc0e49a50e09ac9f7e56789d39"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#abcc98739b8feb9dd6744647f287e0683a8d9da4bc0e49a50e09ac9f7e56789d39">Tgstation.Server.Api.Models.WatchdogStatus.Offline</a></div><div class="ttdeci">@ Offline</div><div class="ttdoc">The watchdog is not running.</div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a2d962413bc23404156feea75066e39cca2b6446aa685b2e1260e9d6f60239e547"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a2d962413bc23404156feea75066e39cca2b6446aa685b2e1260e9d6f60239e547">Tgstation.Server.Api.Models.ChatProvider.Irc</a></div><div class="ttdeci">@ Irc</div><div class="ttdoc">Internet relay chat</div></div>
 <!-- start footer part -->

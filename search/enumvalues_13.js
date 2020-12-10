@@ -1,15 +1,16 @@
 var searchData=
 [
-  ['ultrasafe_4688',['Ultrasafe',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5a380d297f2cbdccba869676c96bd38bc1',1,'Tgstation::Server::Api::Models']]],
-  ['unaskedvalidationrequest_4689',['UnaskedValidationRequest',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_session.html#a9dd0e3dfc87080e8c7a91665b79891b3a4b42bf5b19925da0a8866a1dfdc33ffd',1,'Tgstation::Server::Host::Components::Session']]],
-  ['updatebranch_4690',['UpdateBranch',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a95336db3db40dbae9701ef6e51240f39a31df5784b56922c3559917d3286fcac3',1,'Tgstation::Server::Api::Rights']]],
-  ['useragent_4691',['UserAgent',['../namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5efa7a1c9344ffcbe2316169f2cbbc867973',1,'Tgstation::Server::Api']]],
-  ['usercoloninname_4692',['UserColonInName',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8acc88a1ecdc7342ee66cbaa257334a82f',1,'Tgstation::Server::Api::Models']]],
-  ['usermismatchnamesid_4693',['UserMismatchNameSid',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8ab254802c60656270a5f21f42da04bc0e',1,'Tgstation::Server::Api::Models']]],
-  ['usermismatchpasswordsid_4694',['UserMismatchPasswordSid',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8ae272fba7876aca6039eb7560c8daa7be',1,'Tgstation::Server::Api::Models']]],
-  ['usermissingid_4695',['UserMissingId',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a044890652423551342e8a034741750b5',1,'Tgstation::Server::Api::Models']]],
-  ['usermissingname_4696',['UserMissingName',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8aa3364f781ce5d54c217bdba6a4f8fe47',1,'Tgstation::Server::Api::Models']]],
-  ['usernamechange_4697',['UserNameChange',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a62cd93d475c146a93fa08ce89132bf72',1,'Tgstation::Server::Api::Models']]],
-  ['userpasswordlength_4698',['UserPasswordLength',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a3c8306a8d5116e9f6584f3c845a6afbe',1,'Tgstation::Server::Api::Models']]],
-  ['usersidchange_4699',['UserSidChange',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a97e2a1f4c98dbb3165aa317dc67ea435',1,'Tgstation::Server::Api::Models']]]
+  ['ultrasafe_4806',['Ultrasafe',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#ad4850e6b78816679602b13d63d2869b5a380d297f2cbdccba869676c96bd38bc1',1,'Tgstation::Server::Api::Models']]],
+  ['unaskedvalidationrequest_4807',['UnaskedValidationRequest',['../namespace_tgstation_1_1_server_1_1_host_1_1_components_1_1_session.html#a9dd0e3dfc87080e8c7a91665b79891b3a4b42bf5b19925da0a8866a1dfdc33ffd',1,'Tgstation::Server::Host::Components::Session']]],
+  ['unknown_4808',['Unknown',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17a88183b946cc5f0e8c96b2e66e1c74a7e',1,'Tgstation::Server::Api::Models']]],
+  ['updatebranch_4809',['UpdateBranch',['../namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a95336db3db40dbae9701ef6e51240f39a31df5784b56922c3559917d3286fcac3',1,'Tgstation::Server::Api::Rights']]],
+  ['useragent_4810',['UserAgent',['../namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5efa7a1c9344ffcbe2316169f2cbbc867973',1,'Tgstation::Server::Api']]],
+  ['usercoloninname_4811',['UserColonInName',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8acc88a1ecdc7342ee66cbaa257334a82f',1,'Tgstation::Server::Api::Models']]],
+  ['usermismatchnamesid_4812',['UserMismatchNameSid',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8ab254802c60656270a5f21f42da04bc0e',1,'Tgstation::Server::Api::Models']]],
+  ['usermismatchpasswordsid_4813',['UserMismatchPasswordSid',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8ae272fba7876aca6039eb7560c8daa7be',1,'Tgstation::Server::Api::Models']]],
+  ['usermissingid_4814',['UserMissingId',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a044890652423551342e8a034741750b5',1,'Tgstation::Server::Api::Models']]],
+  ['usermissingname_4815',['UserMissingName',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8aa3364f781ce5d54c217bdba6a4f8fe47',1,'Tgstation::Server::Api::Models']]],
+  ['usernamechange_4816',['UserNameChange',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a62cd93d475c146a93fa08ce89132bf72',1,'Tgstation::Server::Api::Models']]],
+  ['userpasswordlength_4817',['UserPasswordLength',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a3c8306a8d5116e9f6584f3c845a6afbe',1,'Tgstation::Server::Api::Models']]],
+  ['usersidchange_4818',['UserSidChange',['../namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8a97e2a1f4c98dbb3165aa317dc67ea435',1,'Tgstation::Server::Api::Models']]]
 ];
