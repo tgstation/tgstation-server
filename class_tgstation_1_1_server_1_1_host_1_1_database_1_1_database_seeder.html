@@ -293,17 +293,21 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;            <span class="keywordflow">if</span> (downgradeVersion == <span class="keyword">null</span>)</div>
 <div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(downgradeVersion));</div>
 <div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160; </div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;            <span class="keywordflow">return</span> databaseContext.SchemaDowngradeForServerVersion(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a2bc9f345004fe0cd972d9275d771b948">databaseLogger</a>, downgradeVersion, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a6c8e101a216a05b59a646260218b2467">databaseConfiguration</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#adab83eaad53afabdb2f7b43c23ece38a">DatabaseType</a>, cancellationToken);</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;        }</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;            <span class="keywordflow">return</span> databaseContext.SchemaDowngradeForServerVersion(</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a2bc9f345004fe0cd972d9275d771b948">databaseLogger</a>,</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;                downgradeVersion,</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a6c8e101a216a05b59a646260218b2467">databaseConfiguration</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#adab83eaad53afabdb2f7b43c23ece38a">DatabaseType</a>,</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;                cancellationToken);</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_database_seeder_8cs_source.html#l00048">Tgstation.Server.Host.Database.DatabaseSeeder.databaseConfiguration</a>, <a class="el" href="_database_seeder_8cs_source.html#l00033">Tgstation.Server.Host.Database.DatabaseSeeder.databaseLogger</a>, <a class="el" href="_database_configuration_8cs_source.html#l00020">Tgstation.Server.Host.Configuration.DatabaseConfiguration.DatabaseType</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#ac34cc442f544f86aec48f1fe7570b8d2">Tgstation.Server.Host.Database.IDatabaseContext.SchemaDowngradeForServerVersion()</a>.</p>
+<p class="reference">References <a class="el" href="_database_seeder_8cs_source.html#l00048">Tgstation.Server.Host.Database.DatabaseSeeder.databaseConfiguration</a>, <a class="el" href="_database_seeder_8cs_source.html#l00033">Tgstation.Server.Host.Database.DatabaseSeeder.databaseLogger</a>, <a class="el" href="_database_configuration_8cs_source.html#l00020">Tgstation.Server.Host.Configuration.DatabaseConfiguration.DatabaseType</a>, and <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a5529555e7c95208aef1b1c00708f6272">Tgstation.Server.Host.Database.IDatabaseContext.SchemaDowngradeForServerVersion()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder_ae30cd4eb76ba111b3fcd0e1b3622716d_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder_ae30cd4eb76ba111b3fcd0e1b3622716d_cgraph" alt=""/></div>
 <map name="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder_ae30cd4eb76ba111b3fcd0e1b3622716d_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder_ae30cd4eb76ba111b3fcd0e1b3622716d_cgraph">
 <area shape="rect" title="Migrate a given databaseContext &#160;down." alt="" coords="5,13,215,54"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#ac34cc442f544f86aec48f1fe7570b8d2" title="Attempt to downgrade the schema to the migration used for a given server version" alt="" coords="263,5,523,61"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a5529555e7c95208aef1b1c00708f6272" title="Attempt to downgrade the schema to the migration used for a given server targetVersion" alt="" coords="263,5,523,61"/>
 </map>
 </div>
 
