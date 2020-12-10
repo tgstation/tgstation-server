@@ -367,13 +367,14 @@ namespace Tgstation.Server.Host.Controllers
 			SystemIdentifier = model.SystemIdentifier,
 			InstanceUsers = new List<Models.InstanceUser>(),
 			OAuthConnections = model
-					.OAuthConnections
-					?.Select(x => new Models.OAuthConnection
-					{
-						Provider = x.Provider,
-						ExternalUserId = x.ExternalUserId
-					})
-					.ToList()
+				.OAuthConnections
+				?.Select(x => new Models.OAuthConnection
+				{
+					Provider = x.Provider,
+					ExternalUserId = x.ExternalUserId
+				})
+				.ToList()
+				?? new List<Models.OAuthConnection>(),
 		};
 	}
 }

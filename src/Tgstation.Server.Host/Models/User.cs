@@ -79,8 +79,7 @@ namespace Tgstation.Server.Host.Models
 			SystemIdentifier = showDetails ? SystemIdentifier : null,
 			OAuthConnections = OAuthConnections
 				?.Select(x => x.ToApi())
-				.ToList()
-				?? new List<Api.Models.OAuthConnection>(),
+				.ToList(),
 		};
 
 		/// <summary>
