@@ -336,22 +336,22 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
 		/// </summary>
-		public static readonly Type MSLatestMigration = typeof(MSAddAdditionalDDParameters);
+		public static readonly Type MSLatestMigration = typeof(MSGenericTestMergingUpdate);
 
 		/// <summary>
-		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
+		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
 		/// </summary>
-		public static readonly Type MYLatestMigration = typeof(MYAddAdditionalDDParameters);
+		public static readonly Type MYLatestMigration = typeof(MYGenericTestMergingUpdate);
 
 		/// <summary>
-		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
+		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
 		/// </summary>
-		public static readonly Type PGLatestMigration = typeof(PGAddAdditionalDDParameters);
+		public static readonly Type PGLatestMigration = typeof(PGGenericTestMergingUpdate);
 
 		/// <summary>
-		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
+		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
 		/// </summary>
-		public static readonly Type SLLatestMigration = typeof(SLAddAdditionalDDParameters);
+		public static readonly Type SLLatestMigration = typeof(SLGenericTestMergingUpdate);
 #endif
 
 		/// <inheritdoc />
