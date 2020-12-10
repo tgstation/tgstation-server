@@ -816,10 +816,12 @@ namespace Tgstation.Server.Host.Controllers
 										TitleAtMerge = ex.Message,
 										Comment = I.Comment,
 										Number = I.Number,
-										TargetCommitSha = I.TargetCommitSha,
 										Url = ex.Message
 									};
 								}
+
+								// Ensure we're getting the full sha from git itself
+								fullTestMerge.TargetCommitSha = I.TargetCommitSha;
 
 								// MergedBy will be set later
 								++doneSteps;
