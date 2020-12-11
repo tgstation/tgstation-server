@@ -22,7 +22,7 @@ namespace Tgstation.Server.Api.Rights
 			{ RightsType.DreamDaemon, typeof(DreamDaemonRights) },
 			{ RightsType.ChatBots, typeof(ChatBotRights) },
 			{ RightsType.Configuration, typeof(ConfigurationRights) },
-			{ RightsType.InstanceUser, typeof(InstanceUserRights) }
+			{ RightsType.InstancePermissionSet, typeof(InstancePermissionSetRights) }
 		};
 
 		/// <summary>

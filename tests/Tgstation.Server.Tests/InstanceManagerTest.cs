@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
 using System.Linq;
@@ -142,16 +142,16 @@ namespace Tgstation.Server.Tests
 			var instanceClient = instanceManagerClient.CreateClient(firstTest);
 
 			//can regain permissions on instance without instance user
-			var ourInstanceUser = await instanceClient.Users.Read(cancellationToken).ConfigureAwait(false);
-			await instanceClient.Users.Delete(ourInstanceUser, cancellationToken).ConfigureAwait(false);
+			var ourInstanceUser = await instanceClient.PermissionSets.Read(cancellationToken).ConfigureAwait(false);
+			await instanceClient.PermissionSets.Delete(ourInstanceUser, cancellationToken).ConfigureAwait(false);
 
-			await Assert.ThrowsExceptionAsync<InsufficientPermissionsException>(() => instanceClient.Users.Read(cancellationToken)).ConfigureAwait(false);
+			await Assert.ThrowsExceptionAsync<InsufficientPermissionsException>(() => instanceClient.PermissionSets.Read(cancellationToken)).ConfigureAwait(false);
 
 			await instanceManagerClient.GrantPermissions(new Api.Models.Instance
 			{
 				Id = firstTest.Id
 			}, cancellationToken).ConfigureAwait(false);
-			ourInstanceUser = await instanceClient.Users.Read(cancellationToken).ConfigureAwait(false);
+			ourInstanceUser = await instanceClient.PermissionSets.Read(cancellationToken).ConfigureAwait(false);
 
 			Assert.AreEqual(RightsHelper.AllRights<DreamDaemonRights>(), ourInstanceUser.DreamDaemonRights.Value);
 
@@ -174,7 +174,10 @@ namespace Tgstation.Server.Tests
 			var update = new UserUpdate
 			{
 				Id = current.Id,
-				InstanceManagerRights = InstanceManagerRights.SetChatBotLimit
+				PermissionSet = new PermissionSet
+				{
+					InstanceManagerRights = InstanceManagerRights.SetChatBotLimit
+				}
 			};
 			await usersClient.Update(update, cancellationToken);
 			var update2 = new Api.Models.Instance
@@ -184,7 +187,7 @@ namespace Tgstation.Server.Tests
 			};
 			var newThing = await instanceManagerClient.Update(update2, cancellationToken);
 
-			update.InstanceManagerRights |= InstanceManagerRights.Delete | InstanceManagerRights.Create | InstanceManagerRights.List;
+			update.PermissionSet.InstanceManagerRights |= InstanceManagerRights.Delete | InstanceManagerRights.Create | InstanceManagerRights.List;
 			await usersClient.Update(update, cancellationToken);
 
 			//but only if the attach file exists

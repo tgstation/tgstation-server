@@ -102,13 +102,13 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Construct a <see cref="TgsAuthorizeAttribute"/> for <see cref="InstanceUserRights"/>
+		/// Construct a <see cref="TgsAuthorizeAttribute"/> for <see cref="InstancePermissionSetRights"/>
 		/// </summary>
 		/// <param name="requiredRights">The rights required</param>
-		public TgsAuthorizeAttribute(InstanceUserRights requiredRights)
+		public TgsAuthorizeAttribute(InstancePermissionSetRights requiredRights)
 		{
 			Roles = RightsHelper.RoleNames(requiredRights);
-			RightsType = Api.Rights.RightsType.InstanceUser;
+			RightsType = Api.Rights.RightsType.InstancePermissionSet;
 		}
 	}
 }

@@ -47,7 +47,7 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			if (!ApiHeaders.InstanceId.HasValue)
 				return BadRequest(new ErrorMessage(ErrorCode.InstanceHeaderRequired));
-			if (AuthenticationContext.InstanceUser == null)
+			if (AuthenticationContext.InstancePermissionSet == null)
 				return Forbid();
 
 			if (ValidateInstanceOnlineStatus(instanceManager, Logger, Instance))

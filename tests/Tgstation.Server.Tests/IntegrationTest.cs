@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -20,6 +21,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Client;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Repository;
@@ -164,7 +166,7 @@ namespace Tgstation.Server.Tests
 				Assert.Inconclusive("No/invalid database type configured in env var TGS4_TEST_DATABASE_TYPE!");
 
 			string migrationName = null;
-			DbContext CreateContext()
+			DatabaseContext CreateContext()
 			{
 				string serverVersion = Environment.GetEnvironmentVariable($"{DatabaseConfiguration.Section}__{nameof(DatabaseConfiguration.ServerVersion)}");
 				if (String.IsNullOrWhiteSpace(serverVersion))
@@ -205,15 +207,95 @@ namespace Tgstation.Server.Tests
 				return null;
 			}
 
-			Task Delete(DbContext context) => databaseType == DatabaseType.Sqlite ? Task.CompletedTask : context.Database.EnsureCreatedAsync();
-
 			using var context = CreateContext();
-			await Delete(context);
+			await context.Database.EnsureDeletedAsync();
 			await context.Database.MigrateAsync(default);
+
+			// add usergroups and dummy instances for testing purposes
+			var group = new Host.Models.UserGroup
+			{
+				PermissionSet = new Host.Models.PermissionSet
+				{
+					AdministrationRights = AdministrationRights.ChangeVersion,
+					InstanceManagerRights = InstanceManagerRights.GrantPermissions
+				},
+				Name = "TestGroup",
+			};
+
+			const string TestUserName = "TestUser42";
+			var user = new Host.Models.User
+			{
+				Name = TestUserName,
+				CreatedAt = DateTimeOffset.Now,
+				OAuthConnections = new List<Host.Models.OAuthConnection>(),
+				CanonicalName = Host.Models.User.CanonicalizeName(TestUserName),
+				Enabled = false,
+				Group = group,
+				PasswordHash = "_",
+			};
+
+			var instance = new Host.Models.Instance
+			{
+				AutoUpdateInterval = 0,
+				ChatBotLimit = 1,
+				ChatSettings = new List<Host.Models.ChatBot>(),
+				ConfigurationType = ConfigurationType.HostWrite,
+				DreamDaemonSettings = new Host.Models.DreamDaemonSettings
+				{
+					AllowWebClient = false,
+					AutoStart = false,
+					HeartbeatSeconds = 0,
+					Port = 1447,
+					SecurityLevel = DreamDaemonSecurity.Safe,
+					StartupTimeout = 1000,
+					TopicRequestTimeout = 1000,
+					AdditionalParameters = String.Empty,
+				},
+				DreamMakerSettings = new Host.Models.DreamMakerSettings
+				{
+					ApiValidationPort = 1557,
+					ApiValidationSecurityLevel = DreamDaemonSecurity.Trusted,
+					RequireDMApiValidation = false,
+				},
+				InstancePermissionSets = new List<Host.Models.InstancePermissionSet>
+				{
+					new Host.Models.InstancePermissionSet
+					{
+						ByondRights = ByondRights.InstallCustomVersion,
+						ChatBotRights = ChatBotRights.None,
+						ConfigurationRights = ConfigurationRights.Read,
+						DreamDaemonRights = DreamDaemonRights.ReadRevision,
+						DreamMakerRights = DreamMakerRights.SetApiValidationPort,
+						InstancePermissionSetRights = InstancePermissionSetRights.Write,
+						PermissionSet = group.PermissionSet,
+						RepositoryRights = RepositoryRights.SetReference
+					}
+				},
+				Name = "sfdsadfsa",
+				Online = false,
+				Path = "/a/b/c/d",
+				RepositorySettings = new Host.Models.RepositorySettings
+				{
+					AutoUpdatesKeepTestMerges = false,
+					AutoUpdatesSynchronize = false,
+					CommitterEmail = "email@eample.com",
+					CommitterName = "blubluh",
+					CreateGitHubDeployments = false,
+					PostTestMergeComment = false,
+					PushTestMergeCommits = false,
+					ShowTestMergeCommitters = false,
+				},
+			};
+
+			context.Users.Add(user);
+			context.Groups.Add(group);
+			context.Instances.Add(instance);
+			await context.Save(default);
+
 			var dbServiceProvider = ((IInfrastructure<IServiceProvider>)context.Database).Instance;
 			var migrator = dbServiceProvider.GetRequiredService<IMigrator>();
 			await migrator.MigrateAsync(migrationName, default);
-			await Delete(context);
+			await context.Database.EnsureDeletedAsync();
 		}
 #endif
 
@@ -275,11 +357,12 @@ namespace Tgstation.Server.Tests
 
 					var rootTest = FailFast(new RootTest().Run(clientFactory, adminClient, cancellationToken));
 					var adminTest = FailFast(new AdministrationTest(adminClient.Administration).Run(cancellationToken));
-					var usersTest = FailFast(new UsersTest(adminClient.Users).Run(cancellationToken));
 					instance = await new InstanceManagerTest(adminClient.Instances, adminClient.Users, server.Directory).RunPreInstanceTest(cancellationToken);
-
 					Assert.IsTrue(Directory.Exists(instance.Path));
 					var instanceClient = adminClient.Instances.CreateClient(instance);
+
+					var usersTest = FailFast(new UsersTest(adminClient, instanceClient).Run(cancellationToken));
+
 					Assert.IsTrue(Directory.Exists(instanceClient.Metadata.Path));
 
 					var instanceTests = FailFast(new InstanceTest(instanceClient, adminClient.Instances).RunTests(cancellationToken));

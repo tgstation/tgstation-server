@@ -121,7 +121,7 @@ namespace Tgstation.Server.Host.Controllers
 				|| (uploadingZip && model.Version.Build > 0))
 				return BadRequest(new ErrorMessage(ErrorCode.ModelValidationFailure));
 
-			var userByondRights = AuthenticationContext.InstanceUser.ByondRights.Value;
+			var userByondRights = AuthenticationContext.InstancePermissionSet.ByondRights.Value;
 			if ((!userByondRights.HasFlag(ByondRights.InstallOfficialOrChangeActiveVersion) && !uploadingZip)
 				|| (!userByondRights.HasFlag(ByondRights.InstallCustomVersion) && uploadingZip))
 				return Forbid();

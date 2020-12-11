@@ -288,7 +288,7 @@ namespace Tgstation.Server.Api.Models
 		ChatBotProviderMissing,
 
 		/// <summary>
-		/// Attempted to update a <see cref="User"/> or <see cref="InstanceUser"/> without its ID.
+		/// Attempted to update a <see cref="User"/> or <see cref="InstancePermissionSet"/> without its ID.
 		/// </summary>
 		[Description("Missing user ID!")]
 		[Obsolete("Deprecated in favor of code 2", true)]
@@ -600,5 +600,23 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("The job did not receive a required upload before timing out!")]
 		FileUploadExpired,
+
+		/// <summary>
+		/// Tried to update a <see cref="User"/> to have both a <see cref="User.Group"/> and <see cref="User.PermissionSet"/>
+		/// </summary>
+		[Description("A user may not have both a permissionSet and group!")]
+		UserGroupAndPermissionSet,
+
+		/// <summary>
+		/// Tried to delete a non-empty <see cref="UserGroup"/>.
+		/// </summary>
+		[Description("Cannot delete the user group as it is not empty!")]
+		UserGroupNotEmpty,
+
+		/// <summary>
+		/// Tried to edit <see cref="UserGroup"/> membership using <see cref="Routes.UserGroup"/>.
+		/// </summary>
+		[Description("The " + Routes.UserGroup + " endpoint cannot edit group members. Please update each member user individually.")]
+		UserGroupControllerCantEditMembers,
 	}
 }

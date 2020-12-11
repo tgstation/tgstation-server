@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models.Internal
@@ -17,7 +17,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// The name of the connection
 		/// </summary>
 		[Required]
-		[StringLength(Limits.MaximumIndexableStringLength)]
+		[StringLength(Limits.MaximumIndexableStringLength, MinimumLength = 1)]
 		public string? Name { get; set; }
 
 		/// <summary>

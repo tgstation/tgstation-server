@@ -279,7 +279,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.ToTable("Instances");
 			});
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.InstanceUser", b =>
+			modelBuilder.Entity("Tgstation.Server.Host.Models.InstancePermissionSet", b =>
 			{
 				b.Property<long>("Id")
 					.ValueGeneratedOnAdd()
@@ -304,23 +304,23 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.Property<long>("InstanceId")
 					.HasColumnType("bigint");
 
-				b.Property<decimal>("InstanceUserRights")
+				b.Property<decimal>("InstancePermissionSetRights")
 					.HasColumnType("numeric(20,0)");
+
+				b.Property<long>("PermissionSetId")
+					.HasColumnType("bigint");
 
 				b.Property<decimal>("RepositoryRights")
 					.HasColumnType("numeric(20,0)");
-
-				b.Property<long>("UserId")
-					.HasColumnType("bigint");
 
 				b.HasKey("Id");
 
 				b.HasIndex("InstanceId");
 
-				b.HasIndex("UserId", "InstanceId")
+				b.HasIndex("PermissionSetId", "InstanceId")
 					.IsUnique();
 
-				b.ToTable("InstanceUsers");
+				b.ToTable("InstancePermissionSets");
 			});
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.Job", b =>
@@ -403,6 +403,36 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsUnique();
 
 				b.ToTable("OAuthConnections");
+			});
+
+			modelBuilder.Entity("Tgstation.Server.Host.Models.PermissionSet", b =>
+			{
+				b.Property<long?>("Id")
+					.ValueGeneratedOnAdd()
+					.HasColumnType("bigint")
+					.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+				b.Property<decimal>("AdministrationRights")
+					.HasColumnType("numeric(20,0)");
+
+				b.Property<long?>("GroupId")
+					.HasColumnType("bigint");
+
+				b.Property<decimal>("InstanceManagerRights")
+					.HasColumnType("numeric(20,0)");
+
+				b.Property<long?>("UserId")
+					.HasColumnType("bigint");
+
+				b.HasKey("Id");
+
+				b.HasIndex("GroupId")
+					.IsUnique();
+
+				b.HasIndex("UserId")
+					.IsUnique();
+
+				b.ToTable("PermissionSets");
 			});
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ReattachInformation", b =>
@@ -610,12 +640,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasColumnType("bigint")
 					.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-				b.Property<decimal>("AdministrationRights")
-					.HasColumnType("numeric(20,0)");
-
 				b.Property<string>("CanonicalName")
 					.IsRequired()
-					.HasColumnType("text");
+					.HasColumnType("character varying(100)")
+					.HasMaxLength(100);
 
 				b.Property<DateTimeOffset?>("CreatedAt")
 					.IsRequired()
@@ -628,22 +656,23 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsRequired()
 					.HasColumnType("boolean");
 
-				b.Property<decimal>("InstanceManagerRights")
-					.HasColumnType("numeric(20,0)");
+				b.Property<long?>("GroupId")
+					.HasColumnType("bigint");
 
 				b.Property<DateTimeOffset?>("LastPasswordUpdate")
 					.HasColumnType("timestamp with time zone");
 
 				b.Property<string>("Name")
 					.IsRequired()
-					.HasColumnType("character varying(10000)")
-					.HasMaxLength(10000);
+					.HasColumnType("character varying(100)")
+					.HasMaxLength(100);
 
 				b.Property<string>("PasswordHash")
 					.HasColumnType("text");
 
 				b.Property<string>("SystemIdentifier")
-					.HasColumnType("text");
+					.HasColumnType("character varying(100)")
+					.HasMaxLength(100);
 
 				b.HasKey("Id");
 
@@ -652,10 +681,32 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 				b.HasIndex("CreatedById");
 
+				b.HasIndex("GroupId");
+
 				b.HasIndex("SystemIdentifier")
 					.IsUnique();
 
 				b.ToTable("Users");
+			});
+
+			modelBuilder.Entity("Tgstation.Server.Host.Models.UserGroup", b =>
+			{
+				b.Property<long>("Id")
+					.ValueGeneratedOnAdd()
+					.HasColumnType("bigint")
+					.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+				b.Property<string>("Name")
+					.IsRequired()
+					.HasColumnType("character varying(100)")
+					.HasMaxLength(100);
+
+				b.HasKey("Id");
+
+				b.HasIndex("Name")
+					.IsUnique();
+
+				b.ToTable("Groups");
 			});
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
@@ -709,17 +760,17 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsRequired();
 			});
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.InstanceUser", b =>
+			modelBuilder.Entity("Tgstation.Server.Host.Models.InstancePermissionSet", b =>
 			{
 				b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
-					.WithMany("InstanceUsers")
+					.WithMany("InstancePermissionSets")
 					.HasForeignKey("InstanceId")
 					.OnDelete(DeleteBehavior.Cascade)
 					.IsRequired();
 
-				b.HasOne("Tgstation.Server.Host.Models.User", null)
-					.WithMany("InstanceUsers")
-					.HasForeignKey("UserId")
+				b.HasOne("Tgstation.Server.Host.Models.PermissionSet", "PermissionSet")
+					.WithMany("InstancePermissionSets")
+					.HasForeignKey("PermissionSetId")
 					.OnDelete(DeleteBehavior.Cascade)
 					.IsRequired();
 			});
@@ -748,6 +799,19 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.HasOne("Tgstation.Server.Host.Models.User", "User")
 					.WithMany("OAuthConnections")
 					.HasForeignKey("UserId")
+					.OnDelete(DeleteBehavior.Cascade);
+			});
+
+			modelBuilder.Entity("Tgstation.Server.Host.Models.PermissionSet", b =>
+			{
+				b.HasOne("Tgstation.Server.Host.Models.UserGroup", "Group")
+					.WithOne("PermissionSet")
+					.HasForeignKey("Tgstation.Server.Host.Models.PermissionSet", "GroupId")
+					.OnDelete(DeleteBehavior.Cascade);
+
+				b.HasOne("Tgstation.Server.Host.Models.User", "User")
+					.WithOne("PermissionSet")
+					.HasForeignKey("Tgstation.Server.Host.Models.PermissionSet", "UserId")
 					.OnDelete(DeleteBehavior.Cascade);
 			});
 
@@ -813,6 +877,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.HasOne("Tgstation.Server.Host.Models.User", "CreatedBy")
 					.WithMany("CreatedUsers")
 					.HasForeignKey("CreatedById");
+
+				b.HasOne("Tgstation.Server.Host.Models.UserGroup", "Group")
+					.WithMany("Users")
+					.HasForeignKey("GroupId");
 			});
 #pragma warning restore 612, 618
 		}

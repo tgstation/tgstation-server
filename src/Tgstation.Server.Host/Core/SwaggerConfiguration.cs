@@ -163,6 +163,8 @@ namespace Tgstation.Server.Host.Core
 			{
 				if (type == typeof(Api.Models.Internal.User))
 					return "ShallowUser";
+				if (type == typeof(Api.Models.Internal.UserGroup))
+					return "ShallowUserGroup";
 
 				return type.Name;
 			});

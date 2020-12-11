@@ -22,7 +22,7 @@ namespace Tgstation.Server.Client.Components
 		public IConfigurationClient Configuration { get; }
 
 		/// <inheritdoc />
-		public IInstanceUserClient Users { get; }
+		public IInstancePermissionSetClient PermissionSets { get; }
 
 		/// <inheritdoc />
 		public IChatBotsClient ChatBots { get; }
@@ -49,7 +49,7 @@ namespace Tgstation.Server.Client.Components
 			Repository = new RepositoryClient(apiClient, instance);
 			DreamDaemon = new DreamDaemonClient(apiClient, instance);
 			Configuration = new ConfigurationClient(apiClient, instance);
-			Users = new InstanceUserClient(apiClient, instance);
+			PermissionSets = new InstancePermissionSetClient(apiClient, instance);
 			ChatBots = new ChatBotsClient(apiClient, instance);
 			DreamMaker = new DreamMakerClient(apiClient, instance);
 			Jobs = new JobsClient(apiClient, instance);

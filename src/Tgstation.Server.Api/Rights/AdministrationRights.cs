@@ -14,7 +14,7 @@ namespace Tgstation.Server.Api.Rights
 		None = 0,
 
 		/// <summary>
-		/// User can edit their and other <see cref="Models.User"/>s and create new ones.
+		/// User has complete control over creating/editing <see cref="Models.User"/>s and <see cref="Models.UserGroup"/>s (and deleting in the case of the latter).
 		/// </summary>
 		WriteUsers = 1,
 

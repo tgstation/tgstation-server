@@ -74,7 +74,7 @@ namespace Tgstation.Server.Host.Controllers
 				throw new ArgumentNullException(nameof(authenticationContextFactory));
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			AuthenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
-			Instance = AuthenticationContext?.InstanceUser?.Instance;
+			Instance = AuthenticationContext?.InstancePermissionSet?.Instance;
 			this.requireHeaders = requireHeaders;
 		}
 

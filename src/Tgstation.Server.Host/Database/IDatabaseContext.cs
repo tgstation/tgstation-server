@@ -24,9 +24,9 @@ namespace Tgstation.Server.Host.Database
 		IDatabaseCollection<Instance> Instances { get; }
 
 		/// <summary>
-		/// The <see cref="InstanceUser"/>s in the <see cref="IDatabaseContext"/>.
+		/// The <see cref="InstancePermissionSet"/>s in the <see cref="IDatabaseContext"/>.
 		/// </summary>
-		IDatabaseCollection<InstanceUser> InstanceUsers { get; }
+		IDatabaseCollection<InstancePermissionSet> InstancePermissionSets { get; }
 
 		/// <summary>
 		/// The <see cref="Job"/>s in the <see cref="IDatabaseContext"/>.
@@ -77,6 +77,16 @@ namespace Tgstation.Server.Host.Database
 		/// The <see cref="DbSet{TEntity}"/> for <see cref="OAuthConnection"/>s.
 		/// </summary>
 		IDatabaseCollection<OAuthConnection> OAuthConnections { get; }
+
+		/// <summary>
+		/// The <see cref="DbSet{TEntity}"/> for <see cref="UserGroup"/>s.
+		/// </summary>
+		IDatabaseCollection<UserGroup> Groups { get; }
+
+		/// <summary>
+		/// The <see cref="DbSet{TEntity}"/> for <see cref="PermissionSet"/>s.
+		/// </summary>
+		IDatabaseCollection<PermissionSet> PermissionSets { get; }
 
 		/// <summary>
 		/// Saves changes made to the <see cref="IDatabaseContext"/>

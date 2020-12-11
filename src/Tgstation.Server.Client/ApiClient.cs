@@ -138,7 +138,8 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// Main request method
 		/// </summary>
-		/// <typeparam name="TResult">The resulting POCO type</typeparam>
+		/// <typeparam name="TBody">The body <see cref="Type"/>.</typeparam>
+		/// <typeparam name="TResult">The resulting POCO type.</typeparam>
 		/// <param name="route">The route to run</param>
 		/// <param name="body">The body of the request</param>
 		/// <param name="method">The method of the request</param>
@@ -146,18 +147,19 @@ namespace Tgstation.Server.Client
 		/// <param name="tokenRefresh">If this is a token refresh operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the response on success</returns>
-		Task<TResult> RunRequest<TResult>(
+		Task<TResult> RunRequest<TBody, TResult>(
 			string route,
-			object? body,
+			TBody? body,
 			HttpMethod method,
 			long? instanceId,
 			bool tokenRefresh,
 			CancellationToken cancellationToken)
+			where TBody : class
 		{
 			HttpContent? content = null;
 			if(body != null)
 				content = new StringContent(
-					JsonConvert.SerializeObject(body, GetSerializerSettings()),
+					JsonConvert.SerializeObject(body, typeof(TBody), Formatting.None, GetSerializerSettings()),
 					Encoding.UTF8,
 					MediaTypeNames.Application.Json);
 
@@ -269,7 +271,7 @@ namespace Tgstation.Server.Client
 				if (startingToken != headers.Token)
 					return true;
 
-				var token = await RunRequest<Token>(Routes.Root, new object(), HttpMethod.Post, null, true, cancellationToken);
+				var token = await RunRequest<object, Token>(Routes.Root, new object(), HttpMethod.Post, null, true, cancellationToken);
 				headers = new ApiHeaders(headers.UserAgent!, token.Bearer!);
 			}
 			catch (ClientException)
@@ -285,52 +287,52 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <inheritdoc />
-		public Task<TResult> Create<TResult>(string route, CancellationToken cancellationToken) => RunRequest<TResult>(route, new object(), HttpMethod.Put, null, false, cancellationToken);
+		public Task<TResult> Create<TResult>(string route, CancellationToken cancellationToken) => RunRequest<object, TResult>(route, new object(), HttpMethod.Put, null, false, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<TResult> Read<TResult>(string route, CancellationToken cancellationToken) => RunRequest<TResult>(route, null, HttpMethod.Get, null, false, cancellationToken);
+		public Task<TResult> Read<TResult>(string route, CancellationToken cancellationToken) => RunRequest<object, TResult>(route, null, HttpMethod.Get, null, false, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<TResult> Update<TResult>(string route, CancellationToken cancellationToken) => RunRequest<TResult>(route, new object(), HttpMethod.Post, null, false, cancellationToken);
+		public Task<TResult> Update<TResult>(string route, CancellationToken cancellationToken) => RunRequest<object, TResult>(route, new object(), HttpMethod.Post, null, false, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<TResult> Update<TBody, TResult>(string route, TBody body, CancellationToken cancellationToken) => RunRequest<TResult>(route, body, HttpMethod.Post, null, false, cancellationToken);
+		public Task<TResult> Update<TBody, TResult>(string route, TBody body, CancellationToken cancellationToken) where TBody : class => RunRequest<TBody, TResult>(route, body, HttpMethod.Post, null, false, cancellationToken);
 
 		/// <inheritdoc />
 		public Task Patch(string route, CancellationToken cancellationToken) => RunRequest<object>(route, null, HttpMethod.Patch, null, false, cancellationToken);
 
 		/// <inheritdoc />
-		public Task Update<TBody>(string route, TBody body, CancellationToken cancellationToken) => RunRequest<object>(route, body, HttpMethod.Post, null, false, cancellationToken);
+		public Task Update<TBody>(string route, TBody body, CancellationToken cancellationToken) where TBody : class => RunRequest<TBody, object>(route, body, HttpMethod.Post, null, false, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<TResult> Create<TBody, TResult>(string route, TBody body, CancellationToken cancellationToken) => RunRequest<TResult>(route, body, HttpMethod.Put, null, false, cancellationToken);
+		public Task<TResult> Create<TBody, TResult>(string route, TBody body, CancellationToken cancellationToken) where TBody : class => RunRequest<TBody, TResult>(route, body, HttpMethod.Put, null, false, cancellationToken);
 
 		/// <inheritdoc />
 		public Task Delete(string route, CancellationToken cancellationToken) => RunRequest<object>(route, null, HttpMethod.Delete, null, false, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<TResult> Create<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, body, HttpMethod.Put, instanceId, false, cancellationToken);
+		public Task<TResult> Create<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken) where TBody : class => RunRequest<TBody, TResult>(route, body, HttpMethod.Put, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
 		public Task<TResult> Read<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, null, HttpMethod.Get, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<TResult> Update<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, body, HttpMethod.Post, instanceId, false, cancellationToken);
+		public Task<TResult> Update<TBody, TResult>(string route, TBody body, long instanceId, CancellationToken cancellationToken) where TBody : class => RunRequest<TBody, TResult>(route, body, HttpMethod.Post, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
 		public Task Delete(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<object>(route, null, HttpMethod.Delete, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
-		public Task Delete<TBody>(string route, TBody body, long instanceId, CancellationToken cancellationToken) => RunRequest<object>(route, body, HttpMethod.Delete, instanceId, false, cancellationToken);
+		public Task Delete<TBody>(string route, TBody body, long instanceId, CancellationToken cancellationToken) where TBody : class => RunRequest<TBody, object>(route, body, HttpMethod.Delete, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
 		public Task<TResult> Delete<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, null, HttpMethod.Delete, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<TResult> Create<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, new object(), HttpMethod.Put, instanceId, false, cancellationToken);
+		public Task<TResult> Create<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<object, TResult>(route, new object(), HttpMethod.Put, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<TResult> Patch<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<TResult>(route, new object(), HttpMethod.Patch, instanceId, false, cancellationToken);
+		public Task<TResult> Patch<TResult>(string route, long instanceId, CancellationToken cancellationToken) => RunRequest<object, TResult>(route, new object(), HttpMethod.Patch, instanceId, false, cancellationToken);
 
 		/// <inheritdoc />
 		public void AddRequestLogger(IRequestLogger requestLogger) => requestLoggers.Add(requestLogger ?? throw new ArgumentNullException(nameof(requestLogger)));

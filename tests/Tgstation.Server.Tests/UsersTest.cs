@@ -5,18 +5,22 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Client;
+using Tgstation.Server.Client.Components;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Tests
 {
 	sealed class UsersTest
 	{
-		readonly IUsersClient client;
+		readonly IServerClient serverClient;
+		readonly IInstanceClient instanceClient;
 
-		public UsersTest(IUsersClient client)
+		public UsersTest(IServerClient serverClient, IInstanceClient instanceClient)
 		{
-			this.client = client ?? throw new ArgumentNullException(nameof(client));
+			this.serverClient = serverClient ?? throw new ArgumentNullException(nameof(serverClient));
+			this.instanceClient = instanceClient ?? throw new ArgumentNullException(nameof(instanceClient));
 		}
 
 		public async Task Run(CancellationToken cancellationToken)
@@ -29,24 +33,28 @@ namespace Tgstation.Server.Tests
 
 		async Task BasicTests(CancellationToken cancellationToken)
 		{
-			var user = await client.Read(cancellationToken).ConfigureAwait(false);
+			var user = await serverClient.Users.Read(cancellationToken).ConfigureAwait(false);
 			Assert.IsNotNull(user);
 			Assert.AreEqual("Admin", user.Name);
 			Assert.IsNull(user.SystemIdentifier);
 			Assert.AreEqual(true, user.Enabled);
 			Assert.IsNotNull(user.OAuthConnections);
+			Assert.IsNotNull(user.PermissionSet);
+			Assert.IsNotNull(user.PermissionSet.Id);
+			Assert.IsNotNull(user.PermissionSet.InstanceManagerRights);
+			Assert.IsNotNull(user.PermissionSet.AdministrationRights);
 
 			var systemUser = user.CreatedBy;
 			Assert.IsNotNull(systemUser);
 			Assert.AreEqual("TGS", systemUser.Name);
 			Assert.AreEqual(false, systemUser.Enabled);
 
-			var users = await client.List(cancellationToken);
+			var users = await serverClient.Users.List(cancellationToken);
 			Assert.IsTrue(users.Count > 0);
 			Assert.IsFalse(users.Any(x => x.Id == systemUser.Id));
 
-			await ApiAssert.ThrowsException<InsufficientPermissionsException>(() => client.GetId(systemUser, cancellationToken), null);
-			await ApiAssert.ThrowsException<InsufficientPermissionsException>(() => client.Update(new UserUpdate
+			await ApiAssert.ThrowsException<InsufficientPermissionsException>(() => serverClient.Users.GetId(systemUser, cancellationToken), null);
+			await ApiAssert.ThrowsException<InsufficientPermissionsException>(() => serverClient.Users.Update(new UserUpdate
 			{
 				Id = systemUser.Id
 			}, cancellationToken), null);
@@ -59,13 +67,13 @@ namespace Tgstation.Server.Tests
 					Provider = OAuthProvider.Discord
 				}
 			};
-			await ApiAssert.ThrowsException<ApiConflictException>(() => client.Update(new UserUpdate
+			await ApiAssert.ThrowsException<ApiConflictException>(() => serverClient.Users.Update(new UserUpdate
 			{
 				Id = user.Id,
 				OAuthConnections = sampleOAuthConnections
 			}, cancellationToken), ErrorCode.AdminUserCannotOAuth);
 
-			var testUser = await client.Create(
+			var testUser = await serverClient.Users.Create(
 				new UserUpdate
 				{
 					Name = $"BasicTestUser",
@@ -74,7 +82,7 @@ namespace Tgstation.Server.Tests
 				cancellationToken).ConfigureAwait(false);
 
 			Assert.IsNotNull(testUser.OAuthConnections);
-			testUser = await client.Update(
+			testUser = await serverClient.Users.Update(
 			   new UserUpdate
 			   {
 				   Id = testUser.Id,
@@ -85,6 +93,96 @@ namespace Tgstation.Server.Tests
 			Assert.AreEqual(1, testUser.OAuthConnections.Count);
 			Assert.AreEqual(sampleOAuthConnections.First().ExternalUserId, testUser.OAuthConnections.First().ExternalUserId);
 			Assert.AreEqual(sampleOAuthConnections.First().Provider, testUser.OAuthConnections.First().Provider);
+
+
+			var group = await serverClient.Groups.Create(
+				new UserGroup
+				{
+					Name = "TestGroup"
+				},
+				cancellationToken);
+			Assert.AreEqual(group.Name, "TestGroup");
+			Assert.IsNotNull(group.PermissionSet);
+			Assert.IsNotNull(group.PermissionSet.Id);
+			Assert.AreEqual(AdministrationRights.None, group.PermissionSet.AdministrationRights);
+			Assert.AreEqual(InstanceManagerRights.None, group.PermissionSet.InstanceManagerRights);
+
+			var group2 = await serverClient.Groups.Create(new UserGroup
+			{
+				Name = "TestGroup2",
+				PermissionSet = new PermissionSet
+				{
+					InstanceManagerRights = InstanceManagerRights.List
+				}
+			}, cancellationToken);
+			Assert.AreEqual(AdministrationRights.None, group2.PermissionSet.AdministrationRights);
+			Assert.AreEqual(InstanceManagerRights.List, group2.PermissionSet.InstanceManagerRights);
+
+			var groups = await serverClient.Groups.List(cancellationToken);
+			Assert.AreEqual(2, groups.Count);
+
+			foreach (var igroup in groups)
+			{
+				Assert.IsNotNull(igroup.Users);
+				Assert.IsNotNull(igroup.PermissionSet);
+			}
+
+			await serverClient.Groups.Delete(group2, cancellationToken);
+
+			groups = await serverClient.Groups.List(cancellationToken);
+			Assert.AreEqual(1, groups.Count);
+
+			group.PermissionSet.InstanceManagerRights = RightsHelper.AllRights<InstanceManagerRights>();
+			group.PermissionSet.AdministrationRights = RightsHelper.AllRights<AdministrationRights>();
+			group.Users = null;
+
+			group = await serverClient.Groups.Update(group, cancellationToken);
+
+			Assert.AreEqual(RightsHelper.AllRights<AdministrationRights>(), group.PermissionSet.AdministrationRights);
+			Assert.AreEqual(RightsHelper.AllRights<InstanceManagerRights>(), group.PermissionSet.InstanceManagerRights);
+
+			await ApiAssert.ThrowsException<ApiConflictException>(() => serverClient.Groups.Update(group, cancellationToken), ErrorCode.UserGroupControllerCantEditMembers);
+
+			var userUpdate = new UserUpdate
+			{
+				Id = user.Id,
+				PermissionSet = user.PermissionSet,
+				Group = new Api.Models.Internal.UserGroup
+				{
+					Id = group.Id
+				},
+			};
+			await ApiAssert.ThrowsException<ApiConflictException>(
+				() => serverClient.Users.Update(
+					userUpdate,
+					cancellationToken),
+				ErrorCode.UserGroupAndPermissionSet);
+
+			userUpdate.PermissionSet = null;
+
+			await instanceClient.PermissionSets.Create(new InstancePermissionSet
+			{
+				PermissionSetId = group.PermissionSet.Id.Value,
+				ByondRights = RightsHelper.AllRights<ByondRights>(),
+				ChatBotRights = RightsHelper.AllRights<ChatBotRights>(),
+				ConfigurationRights = RightsHelper.AllRights<ConfigurationRights>(),
+				DreamDaemonRights = RightsHelper.AllRights<DreamDaemonRights>(),
+				DreamMakerRights = RightsHelper.AllRights<DreamMakerRights>(),
+				InstancePermissionSetRights = RightsHelper.AllRights<InstancePermissionSetRights>(),
+				RepositoryRights = RightsHelper.AllRights<RepositoryRights>(),
+			}, cancellationToken);
+
+			user = await serverClient.Users.Update(userUpdate, cancellationToken);
+
+			Assert.IsNull(user.PermissionSet);
+			Assert.IsNotNull(user.Group);
+			Assert.AreEqual(group.Id, user.Group.Id);
+
+			group = await serverClient.Groups.GetId(group, cancellationToken);
+			Assert.IsNotNull(group.Users);
+			Assert.AreEqual(1, group.Users.Count);
+			Assert.AreEqual(user.Id, group.Users.First().Id);
+			Assert.IsNotNull(group.PermissionSet);
 		}
 
 		async Task TestCreateSysUser(CancellationToken cancellationToken)
@@ -95,9 +193,9 @@ namespace Tgstation.Server.Tests
 				SystemIdentifier = sysId
 			};
 			if (new PlatformIdentifier().IsWindows)
-				await client.Create(update, cancellationToken);
+				await serverClient.Users.Create(update, cancellationToken);
 			else
-				await ApiAssert.ThrowsException<MethodNotSupportedException>(() => client.Create(update, cancellationToken), ErrorCode.RequiresPosixSystemIdentity);
+				await ApiAssert.ThrowsException<MethodNotSupportedException>(() => serverClient.Users.Create(update, cancellationToken), ErrorCode.RequiresPosixSystemIdentity);
 		}
 
 		async Task TestSpamCreation(CancellationToken cancellationToken)
@@ -115,7 +213,7 @@ namespace Tgstation.Server.Tests
 				for (int i = 0; i < RepeatCount; ++i)
 				{
 					tasks.Add(
-						client.Create(
+						serverClient.Users.Create(
 							new UserUpdate
 							{
 								Name = $"SpamTestUser_{i}",
