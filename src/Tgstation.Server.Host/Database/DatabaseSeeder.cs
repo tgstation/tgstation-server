@@ -240,10 +240,14 @@ namespace Tgstation.Server.Host.Database
 				{
 					admin.Group = null;
 					admin.GroupId = null;
-					admin.PermissionSet = new PermissionSet();
+					admin.PermissionSet = new PermissionSet
+					{
+						InstanceManagerRights = InstanceManagerRights.None,
+						AdministrationRights = AdministrationRights.WriteUsers
+					};
 				}
-
-				admin.PermissionSet.AdministrationRights |= AdministrationRights.WriteUsers;
+				else
+					admin.PermissionSet.AdministrationRights |= AdministrationRights.WriteUsers;
 				cryptographySuite.SetUserPassword(admin, Api.Models.User.DefaultAdminPassword, false);
 			}
 

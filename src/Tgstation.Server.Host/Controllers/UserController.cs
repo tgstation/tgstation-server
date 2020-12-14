@@ -298,8 +298,8 @@ namespace Tgstation.Server.Host.Controllers
 					originalUser.PermissionSet = new Models.PermissionSet();
 				}
 
-				originalUser.PermissionSet.AdministrationRights = model.PermissionSet.AdministrationRights;
-				originalUser.PermissionSet.InstanceManagerRights = model.PermissionSet.InstanceManagerRights;
+				originalUser.PermissionSet.AdministrationRights = model.PermissionSet.AdministrationRights ?? AdministrationRights.None;
+				originalUser.PermissionSet.InstanceManagerRights = model.PermissionSet.InstanceManagerRights ?? InstanceManagerRights.None;
 
 				originalUser.Group = null;
 				originalUser.GroupId = null;
