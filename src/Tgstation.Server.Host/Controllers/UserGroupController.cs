@@ -86,7 +86,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="410">The requested <see cref="UserGroup"/> does not currently exist.</response>
 		[HttpPost]
 		[TgsAuthorize(AdministrationRights.WriteUsers)]
-		[ProducesResponseType(typeof(UserGroup), 201)]
+		[ProducesResponseType(typeof(UserGroup), 200)]
 		public async Task<IActionResult> Update([FromBody] UserGroup model, CancellationToken cancellationToken)
 		{
 			if (model == null)
@@ -119,7 +119,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
-			return Created(currentGroup.ToApi(true));
+			return Json(currentGroup.ToApi(true));
 		}
 
 		/// <summary>
