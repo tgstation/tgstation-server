@@ -301,13 +301,19 @@ namespace Tgstation.Server.Host.Components.Session
 			bool apiValidate)
 		{
 			var startTime = DateTimeOffset.Now;
-			var startupTask = !reattached && (apiValidate || DMApiAvailable)
+			var useBridgeRequestForLaunchResult = !reattached && (apiValidate || DMApiAvailable);
+			var startupTask = useBridgeRequestForLaunchResult
 				? initialBridgeRequestTcs.Task
 				: process.Startup;
 			var toAwait = Task.WhenAny(startupTask, process.Lifetime);
 
 			if (startupTimeout.HasValue)
 				toAwait = Task.WhenAny(toAwait, Task.Delay(startTime.AddSeconds(startupTimeout.Value) - startTime));
+
+			logger.LogTrace(
+				"Waiting for LaunchResult based on {0}{1}...",
+				useBridgeRequestForLaunchResult ? "initial bridge request" : "process startup",
+				startupTimeout.HasValue ? $" with a timeout of {startupTimeout.Value}s" : String.Empty);
 
 			await toAwait.ConfigureAwait(false);
 
