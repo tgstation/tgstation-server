@@ -271,16 +271,16 @@ namespace Tgstation.Server.Host.Database.Migrations
 				unique: true);
 
 			migrationBuilder.Sql(
-				"UPDATE Users SET AdministrationRights = p.AdministrationRights, InstanceManagerRights = p.InstanceManagerRights FROM Users u JOIN PermissionSets p ON u.Id = p.UserId WHERE p.UserId != NULL");
+				"UPDATE Users AS u JOIN PermissionSets p ON u.Id = p.UserId SET u.AdministrationRights = p.AdministrationRights, u.InstanceManagerRights = p.InstanceManagerRights WHERE p.UserId IS NOT NULL");
 
 			migrationBuilder.Sql(
-				"UPDATE Users SET AdministrationRights = p.AdministrationRights, InstanceManagerRights = p.InstanceManagerRights FROM Users u JOIN PermissionSets p ON u.GroupId = p.GroupId WHERE p.GroupId != NULL");
+				"UPDATE Users AS u JOIN PermissionSets p ON u.GroupId = p.GroupId SET u.AdministrationRights = p.AdministrationRights, u.InstanceManagerRights = p.InstanceManagerRights WHERE p.GroupId IS NOT NULL");
 
 			migrationBuilder.Sql(
-				"INSERT INTO InstanceUsers (UserId, InstanceId, InstanceUserRights, ByondRights, DreamDaemonRights, DreamMakerRights, RepositoryRights, ChatBotRights, ConfigurationRights) SELECT p.UserId, ips.InstanceId, ips.InstancePermissionSetRights, ips.ByondRights, ips.DreamDaemonRights, ips.DreamMakerRights, ips.RepositoryRights, ips.ChatBotRights, ips.ConfigurationRights FROM InstancePermissionSets ips JOIN PermissionSets p ON ips.PermissionSetId = p.Id WHERE p.UserId != NULL");
+				"INSERT INTO InstanceUsers (UserId, InstanceId, InstanceUserRights, ByondRights, DreamDaemonRights, DreamMakerRights, RepositoryRights, ChatBotRights, ConfigurationRights) SELECT p.UserId, ips.InstanceId, ips.InstancePermissionSetRights, ips.ByondRights, ips.DreamDaemonRights, ips.DreamMakerRights, ips.RepositoryRights, ips.ChatBotRights, ips.ConfigurationRights FROM InstancePermissionSets ips JOIN PermissionSets p ON ips.PermissionSetId = p.Id WHERE p.UserId IS NOT NULL");
 
 			migrationBuilder.Sql(
-				"INSERT INTO InstanceUsers (UserId, InstanceId, InstanceUserRights, ByondRights, DreamDaemonRights, DreamMakerRights, RepositoryRights, ChatBotRights, ConfigurationRights) SELECT u.Id, ips.InstanceId, ips.InstancePermissionSetRights, ips.ByondRights, ips.DreamDaemonRights, ips.DreamMakerRights, ips.RepositoryRights, ips.ChatBotRights, ips.ConfigurationRights FROM InstancePermissionSets ips JOIN PermissionSets p ON ips.PermissionSetId = p.Id JOIN Users u ON p.GroupId = u.GroupId WHERE p.GroupId != NULL");
+				"INSERT INTO InstanceUsers (UserId, InstanceId, InstanceUserRights, ByondRights, DreamDaemonRights, DreamMakerRights, RepositoryRights, ChatBotRights, ConfigurationRights) SELECT u.Id, ips.InstanceId, ips.InstancePermissionSetRights, ips.ByondRights, ips.DreamDaemonRights, ips.DreamMakerRights, ips.RepositoryRights, ips.ChatBotRights, ips.ConfigurationRights FROM InstancePermissionSets ips JOIN PermissionSets p ON ips.PermissionSetId = p.Id JOIN Users u ON p.GroupId = u.GroupId WHERE p.GroupId IS NOT NULL");
 
 			migrationBuilder.DropForeignKey(
 				name: "FK_Users_Groups_GroupId",
