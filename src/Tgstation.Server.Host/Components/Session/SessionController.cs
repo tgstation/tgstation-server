@@ -212,6 +212,17 @@ namespace Tgstation.Server.Host.Components.Session
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
+			portClosedForReboot = false;
+			disposed = false;
+			apiValidationStatus = ApiValidationStatus.NeverValidated;
+			released = false;
+
+			rebootTcs = new TaskCompletionSource<object>();
+			primeTcs = new TaskCompletionSource<object>();
+			initialBridgeRequestTcs = new TaskCompletionSource<object>();
+			reattachTopicCts = new CancellationTokenSource();
+			synchronizationLock = new object();
+
 			if (apiValidate || DMApiAvailable)
 			{
 				bridgeRegistration = bridgeRegistrar.RegisterHandler(this);
@@ -223,17 +234,6 @@ namespace Tgstation.Server.Host.Components.Session
 					reattachInformation.Dmb.CompileJob.DMApiVersion == null
 						? "no"
 						: $"incompatible ({reattachInformation.Dmb.CompileJob.DMApiVersion})");
-
-			portClosedForReboot = false;
-			disposed = false;
-			apiValidationStatus = ApiValidationStatus.NeverValidated;
-			released = false;
-
-			rebootTcs = new TaskCompletionSource<object>();
-			primeTcs = new TaskCompletionSource<object>();
-			initialBridgeRequestTcs = new TaskCompletionSource<object>();
-			reattachTopicCts = new CancellationTokenSource();
-			synchronizationLock = new object();
 
 			async Task<int> WrapLifetime()
 			{
