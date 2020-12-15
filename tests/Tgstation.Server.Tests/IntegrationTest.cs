@@ -361,7 +361,7 @@ namespace Tgstation.Server.Tests
 					Assert.IsTrue(Directory.Exists(instance.Path));
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 
-					var usersTest = FailFast(new UsersTest(adminClient, instanceClient).Run(cancellationToken));
+					var usersTest = FailFast(new UsersTest(adminClient).Run(cancellationToken));
 
 					Assert.IsTrue(Directory.Exists(instanceClient.Metadata.Path));
 

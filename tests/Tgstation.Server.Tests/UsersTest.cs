@@ -15,12 +15,10 @@ namespace Tgstation.Server.Tests
 	sealed class UsersTest
 	{
 		readonly IServerClient serverClient;
-		readonly IInstanceClient instanceClient;
 
-		public UsersTest(IServerClient serverClient, IInstanceClient instanceClient)
+		public UsersTest(IServerClient serverClient)
 		{
 			this.serverClient = serverClient ?? throw new ArgumentNullException(nameof(serverClient));
-			this.instanceClient = instanceClient ?? throw new ArgumentNullException(nameof(instanceClient));
 		}
 
 		public async Task Run(CancellationToken cancellationToken)
@@ -160,7 +158,8 @@ namespace Tgstation.Server.Tests
 
 			userUpdate.PermissionSet = null;
 
-			await instanceClient.PermissionSets.Create(new InstancePermissionSet
+			var allInstances = await serverClient.Instances.List(cancellationToken).ConfigureAwait(false);
+			var instancePermissionSet = new InstancePermissionSet
 			{
 				PermissionSetId = group.PermissionSet.Id.Value,
 				ByondRights = RightsHelper.AllRights<ByondRights>(),
@@ -170,7 +169,16 @@ namespace Tgstation.Server.Tests
 				DreamMakerRights = RightsHelper.AllRights<DreamMakerRights>(),
 				InstancePermissionSetRights = RightsHelper.AllRights<InstancePermissionSetRights>(),
 				RepositoryRights = RightsHelper.AllRights<RepositoryRights>(),
-			}, cancellationToken);
+			};
+			await Task.WhenAll(
+				allInstances
+					.Where(x => x.Online.Value)
+					.Select(
+						instance => serverClient
+							.Instances
+							.CreateClient(instance)
+							.PermissionSets
+							.Create(instancePermissionSet, cancellationToken)));
 
 			user = await serverClient.Users.Update(userUpdate, cancellationToken);
 

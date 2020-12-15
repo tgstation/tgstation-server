@@ -176,7 +176,8 @@ namespace Tgstation.Server.Tests
 				Id = current.Id,
 				PermissionSet = new PermissionSet
 				{
-					InstanceManagerRights = InstanceManagerRights.SetChatBotLimit
+					InstanceManagerRights = InstanceManagerRights.SetChatBotLimit,
+					AdministrationRights = RightsHelper.AllRights<AdministrationRights>()
 				}
 			};
 			await usersClient.Update(update, cancellationToken);
