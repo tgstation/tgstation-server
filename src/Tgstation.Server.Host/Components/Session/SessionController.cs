@@ -479,6 +479,8 @@ namespace Tgstation.Server.Host.Components.Session
 									});
 						}
 
+						logger.LogTrace("ApiValidationStatus set to {0}", apiValidationStatus);
+
 						response.RuntimeInformation = new RuntimeInformation(
 							chatTrackingContext,
 							reattachInformation.Dmb,
