@@ -101,8 +101,14 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// </summary>
 		readonly object deploymentLock;
 
-		Func<string, string, Task> currentChatCallback;
+		/// <summary>
+		/// The active callback from <see cref="IChatManager.QueueDeploymentMessage"/>.
+		/// </summary>
+		Action<string, string> currentChatCallback;
 
+		/// <summary>
+		/// Cached for <see cref="currentChatCallback"/>.
+		/// </summary>
 		string currentDreamMakerOutput;
 
 		/// <summary>
@@ -716,25 +722,26 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 				var eventTask = eventConsumer.HandleEvent(EventType.DeploymentComplete, null, cancellationToken);
 
-				var chatTask = currentChatCallback(null, compileJob.Output);
-				currentChatCallback = null;
-
 				try
 				{
-					await Task.WhenAll(commentsTask, eventTask, chatTask).ConfigureAwait(false);
+					currentChatCallback(null, compileJob.Output);
+
+					await Task.WhenAll(commentsTask, eventTask).ConfigureAwait(false);
 				}
 				catch (Exception ex)
 				{
 					throw new JobException(ErrorCode.PostDeployFailure, ex);
 				}
+				finally
+				{
+					currentChatCallback = null;
+				}
 			}
 			catch (Exception ex)
 			{
-				if (currentChatCallback != null)
-					await currentChatCallback(
-						FormatExceptionForUsers(ex),
-						currentDreamMakerOutput)
-						.ConfigureAwait(false);
+				currentChatCallback?.Invoke(
+					FormatExceptionForUsers(ex),
+					currentDreamMakerOutput);
 
 				throw;
 			}
@@ -797,15 +804,13 @@ namespace Tgstation.Server.Host.Components.Deployment
 			try
 			{
 				using var byondLock = await byond.UseExecutables(null, cancellationToken).ConfigureAwait(false);
-				currentChatCallback = await chatManager.SendDeploymentMessage(
+				currentChatCallback = chatManager.QueueDeploymentMessage(
 					revisionInformation,
 					byondLock.Version,
 					DateTimeOffset.Now + estimatedDuration,
 					repository.RemoteRepositoryOwner,
 					repository.RemoteRepositoryName,
-					localCommitExistsOnRemote,
-					cancellationToken)
-					.ConfigureAwait(false);
+					localCommitExistsOnRemote);
 
 				var job = new Models.CompileJob
 				{

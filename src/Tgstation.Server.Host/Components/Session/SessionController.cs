@@ -343,7 +343,7 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		public async Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
+		public Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
 		{
 			if (parameters == null)
 				throw new ArgumentNullException(nameof(parameters));
@@ -358,34 +358,36 @@ namespace Tgstation.Server.Host.Components.Session
 				{
 					case BridgeCommandType.ChatSend:
 						if (parameters.ChatMessage == null)
-							return new BridgeResponse
-							{
-								ErrorMessage = "Missing chatMessage field!"
-							};
+							return Task.FromResult(
+								new BridgeResponse
+								{
+									ErrorMessage = "Missing chatMessage field!"
+								});
 
 						if (parameters.ChatMessage.ChannelIds == null)
-							return new BridgeResponse
-							{
-								ErrorMessage = "Missing channelIds field in chatMessage!"
-							};
+							return Task.FromResult(
+								new BridgeResponse
+								{
+									ErrorMessage = "Missing channelIds field in chatMessage!"
+								});
 
 						if (parameters.ChatMessage.ChannelIds.Any(channelIdString => !UInt64.TryParse(channelIdString, out var _)))
-							return new BridgeResponse
-							{
-								ErrorMessage = "Invalid channelIds in chatMessage!"
-							};
+							return Task.FromResult(
+								new BridgeResponse
+								{
+									ErrorMessage = "Invalid channelIds in chatMessage!"
+								});
 
 						if (parameters.ChatMessage.Text == null)
-							return new BridgeResponse
-							{
-								ErrorMessage = "Missing message field in chatMessage!"
-							};
+							return Task.FromResult(
+								new BridgeResponse
+								{
+									ErrorMessage = "Missing message field in chatMessage!"
+								});
 
-						await chat.SendMessage(
+						chat.QueueMessage(
 							parameters.ChatMessage.Text,
-							parameters.ChatMessage.ChannelIds.Select(UInt64.Parse),
-							cancellationToken)
-							.ConfigureAwait(false);
+							parameters.ChatMessage.ChannelIds.Select(UInt64.Parse));
 						break;
 					case BridgeCommandType.Prime:
 						var oldPrimeTcs = primeTcs;
@@ -404,10 +406,11 @@ namespace Tgstation.Server.Host.Components.Session
 							{
 								/////UHHHH
 								logger.LogWarning("DreamDaemon sent new port command without providing it's own!");
-								return new BridgeResponse
-								{
-									ErrorMessage = "Missing stringified port as data parameter!"
-								};
+								return Task.FromResult(
+									new BridgeResponse
+									{
+										ErrorMessage = "Missing stringified port as data parameter!"
+									});
 							}
 
 							var currentPort = parameters.CurrentPort.Value;
@@ -434,19 +437,21 @@ namespace Tgstation.Server.Host.Components.Session
 					case BridgeCommandType.Startup:
 						apiValidationStatus = ApiValidationStatus.BadValidationRequest;
 						if (parameters.Version == null)
-							return new BridgeResponse
-							{
-								ErrorMessage = "Missing dmApiVersion field!"
-							};
+							return Task.FromResult(
+								new BridgeResponse
+								{
+									ErrorMessage = "Missing dmApiVersion field!"
+								});
 
 						DMApiVersion = parameters.Version;
 						if (DMApiVersion.Major != DMApiConstants.Version.Major)
 						{
 							apiValidationStatus = ApiValidationStatus.Incompatible;
-							return new BridgeResponse
-							{
-								ErrorMessage = "Incompatible dmApiVersion!"
-							};
+							return Task.FromResult(
+								new BridgeResponse
+								{
+									ErrorMessage = "Incompatible dmApiVersion!"
+								});
 						}
 
 						switch (parameters.MinimumSecurityLevel)
@@ -461,15 +466,17 @@ namespace Tgstation.Server.Host.Components.Session
 								apiValidationStatus = ApiValidationStatus.RequiresTrusted;
 								break;
 							case null:
-								return new BridgeResponse
-								{
-									ErrorMessage = "Missing minimumSecurityLevel field!"
-								};
+								return Task.FromResult(
+									new BridgeResponse
+									{
+										ErrorMessage = "Missing minimumSecurityLevel field!"
+									});
 							default:
-								return new BridgeResponse
-								{
-									ErrorMessage = "Invalid minimumSecurityLevel!"
-								};
+								return Task.FromResult(
+									new BridgeResponse
+									{
+										ErrorMessage = "Invalid minimumSecurityLevel!"
+									});
 						}
 
 						response.RuntimeInformation = new RuntimeInformation(
@@ -504,7 +511,7 @@ namespace Tgstation.Server.Host.Components.Session
 						break;
 				}
 
-				return response;
+				return Task.FromResult(response);
 			}
 		}
 

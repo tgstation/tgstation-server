@@ -60,7 +60,6 @@ namespace ReleaseNotes
 				{
 					Milestone = $"v{versionString}",
 					Type = IssueTypeQualifier.PullRequest,
-					State = ItemState.Closed,
 					Repos = { { RepoOwner, RepoName } }
 				}).ConfigureAwait(false);
 

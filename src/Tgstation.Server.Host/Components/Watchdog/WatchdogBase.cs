@@ -269,7 +269,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			{
 				var eventTask = eventConsumer.HandleEvent(releaseServers ? EventType.WatchdogDetach : EventType.WatchdogShutdown, null, cancellationToken);
 
-				var chatTask = announce ? Chat.SendWatchdogMessage("Shutting down...", cancellationToken) : Task.CompletedTask;
+				var chatTask = announce ? Chat.QueueWatchdogMessage("Shutting down...", cancellationToken) : Task.CompletedTask;
 
 				await eventTask.ConfigureAwait(false);
 
@@ -314,7 +314,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					case 2:
 						var message2 = "DEFCON 3: DreamDaemon has missed 2 heartbeats!";
 						Logger.LogInformation(message2);
-						await Chat.SendWatchdogMessage(message2, cancellationToken).ConfigureAwait(false);
+						await Chat.QueueWatchdogMessage(message2, cancellationToken).ConfigureAwait(false);
 						break;
 					case 3:
 						var actionToTake = shouldShutdown
@@ -322,7 +322,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							: "be restarted";
 						var message3 = $"DEFCON 2: DreamDaemon has missed 3 heartbeats! If it does not respond to the next one, the watchdog will {actionToTake}!";
 						Logger.LogWarning(message3);
-						await Chat.SendWatchdogMessage(message3, cancellationToken).ConfigureAwait(false);
+						await Chat.QueueWatchdogMessage(message3, cancellationToken).ConfigureAwait(false);
 						break;
 					case 4:
 						var actionTaken = shouldShutdown
@@ -330,7 +330,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							: "Restarting";
 						var message4 = $"DEFCON 1: Four heartbeats have been missed! {actionTaken}...";
 						Logger.LogWarning(message4);
-						await Chat.SendWatchdogMessage(message4, cancellationToken).ConfigureAwait(false);
+						await Chat.QueueWatchdogMessage(message4, cancellationToken).ConfigureAwait(false);
 						await DisposeAndNullControllers(cancellationToken).ConfigureAwait(false);
 						return shouldShutdown ? MonitorAction.Exit : MonitorAction.Restart;
 					default:
@@ -371,7 +371,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			Task announceTask;
 			if (announce)
 			{
-				announceTask = Chat.SendWatchdogMessage(
+				announceTask = Chat.QueueWatchdogMessage(
 					reattachInfo == null
 						? "Launching..."
 						: "Reattaching...",
@@ -405,7 +405,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				{
 					await originalChatTask.ConfigureAwait(false);
 					if (announceFailure)
-						await Chat.SendWatchdogMessage("Startup failed!", cancellationToken).ConfigureAwait(false);
+						await Chat.QueueWatchdogMessage("Startup failed!", cancellationToken).ConfigureAwait(false);
 				}
 
 				announceTask = ChainChatTaskWithErrorMessage();
@@ -487,7 +487,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			const string FailReattachMessage = "Unable to properly reattach to server! Restarting watchdog...";
 			Logger.LogWarning(FailReattachMessage);
 
-			var chatTask = Chat.SendWatchdogMessage(FailReattachMessage, cancellationToken);
+			var chatTask = Chat.QueueWatchdogMessage(FailReattachMessage, cancellationToken);
 			await InitControllers(chatTask, null, cancellationToken).ConfigureAwait(false);
 		}
 
@@ -591,7 +591,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						Math.Pow(2, retryAttempts)),
 					TimeSpan.FromHours(1).TotalSeconds); // max of one hour, increasing by a power of 2 each time
 
-				chatTask = Chat.SendWatchdogMessage(
+				chatTask = Chat.QueueWatchdogMessage(
 					$"Failed to restart (Attempt: {retryAttempts}), retrying in {retryDelay}s...",
 					cancellationToken);
 
@@ -733,7 +733,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							var nextActionMessage = nextAction != MonitorAction.Exit
 								? "Recovering"
 								: "Shutting down";
-							var chatTask = Chat.SendWatchdogMessage(
+							var chatTask = Chat.QueueWatchdogMessage(
 								$"Monitor crashed, this should NEVER happen! Please report this, full details in logs! {nextActionMessage}. Error: {e.Message}",
 								cancellationToken);
 
@@ -811,22 +811,19 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				.ConfigureAwait(false);
 
 			if (result?.InteropResponse?.ChatResponses != null)
-				await Task.WhenAll(
-					result.InteropResponse.ChatResponses.Select(
-						x => Chat.SendMessage(
-							x.Text,
-							x.ChannelIds
-								.Select(channelIdString =>
-								{
-									if (UInt64.TryParse(channelIdString, out var channelId))
-										return (ulong?)channelId;
+				foreach (var response in result.InteropResponse.ChatResponses)
+					Chat.QueueMessage(
+						response.Text,
+						response.ChannelIds
+							.Select(channelIdString =>
+							{
+								if (UInt64.TryParse(channelIdString, out var channelId))
+									return (ulong?)channelId;
 
-									return null;
-								})
-								.Where(nullableChannelId => nullableChannelId.HasValue)
-								.Select(nullableChannelId => nullableChannelId.Value),
-							cancellationToken)))
-					.ConfigureAwait(false);
+								return null;
+							})
+							.Where(nullableChannelId => nullableChannelId.HasValue)
+							.Select(nullableChannelId => nullableChannelId.Value));
 		}
 
 		/// <inheritdoc />
@@ -888,7 +885,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			{
 				if (!graceful)
 				{
-					var chatTask = Chat.SendWatchdogMessage("Manual restart triggered...", cancellationToken);
+					var chatTask = Chat.QueueWatchdogMessage("Manual restart triggered...", cancellationToken);
 					await TerminateNoLock(false, false, cancellationToken).ConfigureAwait(false);
 					await LaunchNoLock(true, false, true, null, cancellationToken).ConfigureAwait(false);
 					await chatTask.ConfigureAwait(false);
@@ -966,7 +963,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			releaseServers = true;
 			if (Status == WatchdogStatus.Online)
-				await Chat.SendWatchdogMessage("Detaching...", cancellationToken).ConfigureAwait(false);
+				await Chat.QueueWatchdogMessage("Detaching...", cancellationToken).ConfigureAwait(false);
 			else
 				Logger.LogTrace("Not sending detach chat message as status is: {0}", Status);
 		}
