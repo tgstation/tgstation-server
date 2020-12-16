@@ -11,6 +11,7 @@ on:
     - master
 
 env:
+  TGS4_DOTNET_VERSION: 3.1.x
   TGS4_TEST_DISCORD_CHANNEL: ${{ secrets.DISCORD_CHANNEL_ID }}
   TGS4_TEST_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
   TGS4_TEST_IRC_CHANNEL: ${{ secrets.IRC_CHANNEL }}
@@ -130,10 +131,10 @@ jobs:
       with:
         node-version: 12.x
 
-    - name: Setup dotnet 3.1.X
+    - name: Setup dotnet
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.x
+        dotnet-version: ${{ env.TGS4_DOTNET_VERSION }}
 
     - name: Checkout
       uses: actions/checkout@v1
@@ -157,6 +158,11 @@ jobs:
         configuration: [ 'Debug', 'Release' ]
     runs-on: windows-latest
     steps:
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.TGS4_DOTNET_VERSION }}
+
     - name: Checkout
       uses: actions/checkout@v1
 
@@ -184,6 +190,11 @@ jobs:
         configuration: [ 'Debug', 'Release' ]
     runs-on: windows-latest
     steps:
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.TGS4_DOTNET_VERSION }}
+
     - name: Set General__UseBasicWatchdog
       if: ${{ matrix.watchdog-type == 'Basic' }}
       run: echo "General__UseBasicWatchdog=true" >> $env:GITHUB_ENV
@@ -308,7 +319,7 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: ${{ matrix.dotnet }}
+        dotnet-version: ${{ env.TGS4_DOTNET_VERSION }}
 
     - name: Set Sqlite Connection Info
       if: ${{ matrix.database-type == 'Sqlite' }}
