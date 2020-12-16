@@ -44,8 +44,9 @@ namespace TGS.Server
 		/// Runs an event named <paramref name="eventName"/> if it exists
 		/// </summary>
 		/// <param name="eventName">The name of the event</param>
+		/// <param name="arguments">The arguments for the event</param>
 		/// <returns><see langword="false"/> if the event handler exists and failed to run, <see langword="true"/> otherwise</returns>
-		bool HandleEvent(string eventName)
+		bool HandleEvent(string eventName, string arguments = null)
 		{
 
 			if (!EventHandlerExists(eventName))
@@ -54,40 +55,41 @@ namespace TGS.Server
 				return true;
 			}
 
-			var process = new Process
+			using (var process = new Process
 			{
 				StartInfo = new ProcessStartInfo
 				{
-					FileName = GetEventPath(eventName),
+					FileName = Path.GetFullPath(GetEventPath(eventName)).Replace('\\', '/'),
 					UseShellExecute = false,
-					RedirectStandardOutput = true,
-					RedirectStandardError = true,
-					CreateNoWindow = true
+					WorkingDirectory = Path.GetFullPath(RelativePath(EventFolder)),
 				}
-			};
-			process.Start();
-			process.WaitForExit();
+			})
+			{
+				if (arguments != null)
+					process.StartInfo.Arguments = arguments;
 
-			var stdout = process.StandardOutput.ReadToEnd();
-			var stderr = process.StandardError.ReadToEnd();
-			var success = process.ExitCode == 0;
-			var eventData = String.Format("Preaction Event: {0} @ {1} ran. Stdout:\n{2}\nStderr:\n{3}", eventName, GetEventPath(eventName), stdout, stderr);
+				process.Start();
+				process.WaitForExit();
 
-			if (success)
-				WriteInfo(eventData, EventID.PreactionEvent);
-			else
-				WriteWarning(eventData, EventID.PreactionFail);
+				var success = process.ExitCode == 0;
+				var eventData = String.Format("Preaction Event: {0} @ {1} ran. Exit Code: {2}", eventName, GetEventPath(eventName), process.ExitCode);
 
-			return success;
+				if (success)
+					WriteInfo(eventData, EventID.PreactionEvent);
+				else
+					WriteWarning(eventData, EventID.PreactionFail);
+
+				return success;
+			}
 		}
 
 		/// <summary>
 		/// Run the "precompile" event
 		/// </summary>
 		/// <returns><see langword="false"/> if the event handler exists and failed to run, <see langword="true"/> otherwise</returns>
-		public bool PrecompileHook()
+		public bool PrecompileHook(string arguments = null)
 		{
-			return HandleEvent("precompile");
+			return HandleEvent("precompile", arguments);
 		}
 
 		/// <summary>
