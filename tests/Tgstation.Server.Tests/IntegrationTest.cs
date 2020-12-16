@@ -123,10 +123,11 @@ namespace Tgstation.Server.Tests
 		async Task<IServerClient> CreateAdminClient(Uri url, CancellationToken cancellationToken)
 		{
 			var giveUpAt = DateTimeOffset.Now.AddSeconds(60);
-			do
+			for(var I = 1; ; ++I)
 			{
 				try
 				{
+					Console.WriteLine($"TEST: CreateAdminClient attempt {I}...");
 					return await clientFactory.CreateFromLogin(
 						url,
 						User.AdminName,
@@ -149,7 +150,7 @@ namespace Tgstation.Server.Tests
 						throw;
 					await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
 				}
-			} while (true);
+			}
 		}
 
 #if DEBUG
