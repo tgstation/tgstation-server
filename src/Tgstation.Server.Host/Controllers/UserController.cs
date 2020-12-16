@@ -121,7 +121,8 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.OAuthConnections?.Any(x => x == null) == true)
 				return BadRequest(new ErrorMessage(ErrorCode.ModelValidationFailure));
 
-			if (!(model.Password == null ^ model.SystemIdentifier == null))
+			if ((model.Password != null && model.SystemIdentifier != null)
+				|| (model.Password == null && model.SystemIdentifier == null && model.OAuthConnections?.Any() != true))
 				return BadRequest(new ErrorMessage(ErrorCode.UserMismatchPasswordSid));
 
 			if (model.Group != null && model.PermissionSet != null)
@@ -155,7 +156,7 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					return RequiresPosixSystemIdentity();
 				}
-			else if (!(model.Password?.Length == 0 && model.OAuthConnections.Count != 0))
+			else if (!(model.Password?.Length == 0 && model.OAuthConnections?.Any() == true))
 			{
 				var result = TrySetPassword(dbUser, model.Password, true);
 				if (result != null)
@@ -260,6 +261,9 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				if (originalUser.CanonicalName == Models.User.CanonicalizeName(Api.Models.User.AdminName))
 					return BadRequest(new ErrorMessage(ErrorCode.AdminUserCannotOAuth));
+
+				if (model.OAuthConnections.Count == 0 && originalUser.PasswordHash == null && originalUser.SystemIdentifier == null)
+					return BadRequest(new ErrorMessage(ErrorCode.CannotRemoveLastAuthenticationOption));
 
 				originalUser.OAuthConnections.Clear();
 				foreach (var updatedConnection in model.OAuthConnections)

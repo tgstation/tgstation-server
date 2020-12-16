@@ -618,5 +618,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("The " + Routes.UserGroup + " endpoint cannot edit group members. Please update each member user individually.")]
 		UserGroupControllerCantEditMembers,
+
+		/// <summary>
+		/// Tried to remove the last <see cref="OAuthConnection"/> for a passwordless <see cref="User"/>.
+		/// </summary>
+		[Description("This user is passwordless and removing their oAuthConnections would leave them with no authentication method!")]
+		CannotRemoveLastAuthenticationOption,
 	}
 }
