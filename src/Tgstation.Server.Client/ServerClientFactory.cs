@@ -62,6 +62,9 @@ namespace Tgstation.Server.Client
 				token = await api.Update<Token>(Routes.Root, cancellationToken).ConfigureAwait(false);
 			}
 
+			if (!attemptLoginRefresh)
+				loginHeaders = null;
+
 			var apiHeaders = new ApiHeaders(productHeaderValue, token.Bearer!);
 
 			var client = new ServerClient(ApiClientFactory.CreateApiClient(host, apiHeaders, loginHeaders), token);
