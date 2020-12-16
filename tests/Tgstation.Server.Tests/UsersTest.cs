@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Client;
-using Tgstation.Server.Client.Components;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Tests
@@ -141,10 +140,29 @@ namespace Tgstation.Server.Tests
 
 			await ApiAssert.ThrowsException<ApiConflictException>(() => serverClient.Groups.Update(group, cancellationToken), ErrorCode.UserGroupControllerCantEditMembers);
 
-			var userUpdate = new UserUpdate
+			var testUserUpdate = new UserUpdate
 			{
-				Id = user.Id,
-				PermissionSet = user.PermissionSet,
+				Name = "TestUserWithNoPassword",
+				Password = String.Empty
+			};
+
+			await ApiAssert.ThrowsException<ApiConflictException>(() => serverClient.Users.Create(testUserUpdate, cancellationToken), ErrorCode.UserPasswordLength);
+
+			testUserUpdate.OAuthConnections = new List<OAuthConnection>
+			{
+				new OAuthConnection
+				{
+					ExternalUserId = "asdf",
+					Provider = OAuthProvider.GitHub
+				}
+			};
+
+			var testUser2 = await serverClient.Users.Create(testUserUpdate, cancellationToken);
+
+			testUserUpdate = new UserUpdate
+			{
+				Id = testUser2.Id,
+				PermissionSet = testUser2.PermissionSet,
 				Group = new Api.Models.Internal.UserGroup
 				{
 					Id = group.Id
@@ -152,44 +170,22 @@ namespace Tgstation.Server.Tests
 			};
 			await ApiAssert.ThrowsException<ApiConflictException>(
 				() => serverClient.Users.Update(
-					userUpdate,
+					testUserUpdate,
 					cancellationToken),
 				ErrorCode.UserGroupAndPermissionSet);
 
-			userUpdate.PermissionSet = null;
+			testUserUpdate.PermissionSet = null;
 
-			var allInstances = await serverClient.Instances.List(cancellationToken).ConfigureAwait(false);
-			var instancePermissionSet = new InstancePermissionSet
-			{
-				PermissionSetId = group.PermissionSet.Id.Value,
-				ByondRights = RightsHelper.AllRights<ByondRights>(),
-				ChatBotRights = RightsHelper.AllRights<ChatBotRights>(),
-				ConfigurationRights = RightsHelper.AllRights<ConfigurationRights>(),
-				DreamDaemonRights = RightsHelper.AllRights<DreamDaemonRights>(),
-				DreamMakerRights = RightsHelper.AllRights<DreamMakerRights>(),
-				InstancePermissionSetRights = RightsHelper.AllRights<InstancePermissionSetRights>(),
-				RepositoryRights = RightsHelper.AllRights<RepositoryRights>(),
-			};
-			await Task.WhenAll(
-				allInstances
-					.Where(x => x.Online.Value)
-					.Select(
-						instance => serverClient
-							.Instances
-							.CreateClient(instance)
-							.PermissionSets
-							.Create(instancePermissionSet, cancellationToken)));
+			testUser2 = await serverClient.Users.Update(testUserUpdate, cancellationToken);
 
-			user = await serverClient.Users.Update(userUpdate, cancellationToken);
-
-			Assert.IsNull(user.PermissionSet);
-			Assert.IsNotNull(user.Group);
-			Assert.AreEqual(group.Id, user.Group.Id);
+			Assert.IsNull(testUser2.PermissionSet);
+			Assert.IsNotNull(testUser2.Group);
+			Assert.AreEqual(group.Id, testUser2.Group.Id);
 
 			group = await serverClient.Groups.GetId(group, cancellationToken);
 			Assert.IsNotNull(group.Users);
 			Assert.AreEqual(1, group.Users.Count);
-			Assert.AreEqual(user.Id, group.Users.First().Id);
+			Assert.AreEqual(testUser2.Id, group.Users.First().Id);
 			Assert.IsNotNull(group.PermissionSet);
 		}
 

@@ -357,11 +357,10 @@ namespace Tgstation.Server.Tests
 
 					var rootTest = FailFast(new RootTest().Run(clientFactory, adminClient, cancellationToken));
 					var adminTest = FailFast(new AdministrationTest(adminClient.Administration).Run(cancellationToken));
+					var usersTest = FailFast(new UsersTest(adminClient).Run(cancellationToken));
 					instance = await new InstanceManagerTest(adminClient.Instances, adminClient.Users, server.Directory).RunPreInstanceTest(cancellationToken);
 					Assert.IsTrue(Directory.Exists(instance.Path));
 					var instanceClient = adminClient.Instances.CreateClient(instance);
-
-					var usersTest = FailFast(new UsersTest(adminClient).Run(cancellationToken));
 
 					Assert.IsTrue(Directory.Exists(instanceClient.Metadata.Path));
 
