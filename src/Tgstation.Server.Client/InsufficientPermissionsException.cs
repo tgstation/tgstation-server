@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net.Http;
 
 namespace Tgstation.Server.Client
@@ -16,6 +16,11 @@ namespace Tgstation.Server.Client
 			responseMessage,
 			"The current user has insufficient permissions to perform the requested operation!")
 		{ }
+
+		/// <summary>
+		/// Intializes a new instance of the <see cref="InsufficientPermissionsException"/> <see langword="class"/>.
+		/// </summary>
+		public InsufficientPermissionsException() { }
 
 		/// <summary>
 		/// Construct an <see cref="InsufficientPermissionsException"/> with a <paramref name="message"/>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -38,7 +38,7 @@ namespace Tgstation.Server.Client
 			string password,
 			IEnumerable<IRequestLogger>? requestLoggers = null,
 			TimeSpan? timeout = null,
-			bool attemptRefreshLogin = true,
+			bool attemptLoginRefresh = true,
 			CancellationToken cancellationToken = default)
 		{
 			if (host == null)

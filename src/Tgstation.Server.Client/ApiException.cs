@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net.Http;
 using Tgstation.Server.Api.Models;
 
@@ -31,7 +31,7 @@ namespace Tgstation.Server.Client
 		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/>.</param>
 		protected ApiException(ErrorMessage? errorMessage, HttpResponseMessage responseMessage) : base(
 			responseMessage,
-			errorMessage?.Message ?? $"HTTP {responseMessage.StatusCode}. Unknown API error, ErrorMessage payload not present!")
+			errorMessage?.Message ?? $"HTTP {responseMessage?.StatusCode ?? throw new ArgumentNullException(nameof(responseMessage))}. Unknown API error, ErrorMessage payload not present!")
 		{
 			ServerApiVersion = errorMessage?.ServerApiVersion;
 			AdditionalServerData = errorMessage?.AdditionalData;

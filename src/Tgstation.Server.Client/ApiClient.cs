@@ -363,14 +363,25 @@ namespace Tgstation.Server.Client
 				memoryStream = new MemoryStream();
 
 			using (memoryStream)
-				await RunRequest<object>(
-					$"{Routes.Transfer}?ticket={HttpUtility.UrlEncode(ticket.FileTicket)}",
-					new StreamContent(uploadStream ?? memoryStream),
-					HttpMethod.Put,
-					null,
-					false,
-					cancellationToken)
-					.ConfigureAwait(false);
+			{
+				var streamContent = new StreamContent(uploadStream ?? memoryStream);
+				try
+				{
+					await RunRequest<object>(
+						$"{Routes.Transfer}?ticket={HttpUtility.UrlEncode(ticket.FileTicket)}",
+						streamContent,
+						HttpMethod.Put,
+						null,
+						false,
+						cancellationToken)
+						.ConfigureAwait(false);
+					streamContent = null; //CA2000
+				}
+				finally
+				{
+					streamContent?.Dispose();
+				}
+			}
 		}
 	}
 }

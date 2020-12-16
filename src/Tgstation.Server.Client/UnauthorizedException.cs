@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net.Http;
 using Tgstation.Server.Api.Models;
 
@@ -16,6 +16,11 @@ namespace Tgstation.Server.Client
 		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/>.</param>
 		public UnauthorizedException(ErrorMessage? errorMessage, HttpResponseMessage responseMessage) : base(errorMessage, responseMessage)
 		{ }
+
+		/// <summary>
+		/// Intializes a new instance of the <see cref="UnauthorizedException"/> <see langword="class"/>.
+		/// </summary>
+		public UnauthorizedException() { }
 
 		/// <summary>
 		/// Construct an <see cref="UnauthorizedException"/> with a <paramref name="message"/>
