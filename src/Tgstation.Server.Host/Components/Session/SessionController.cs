@@ -308,7 +308,7 @@ namespace Tgstation.Server.Host.Components.Session
 			var toAwait = Task.WhenAny(startupTask, process.Lifetime);
 
 			if (startupTimeout.HasValue)
-				toAwait = Task.WhenAny(toAwait, Task.Delay(startTime.AddSeconds(startupTimeout.Value) - startTime));
+				toAwait = Task.WhenAny(toAwait, Task.Delay(TimeSpan.FromSeconds(startupTimeout.Value)));
 
 			logger.LogTrace(
 				"Waiting for LaunchResult based on {0}{1}...",
