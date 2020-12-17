@@ -223,11 +223,14 @@ jobs:
         TEMP_GITHUB_REF="${{ github.event.ref }}"
         echo "TGS4_GITHUB_REF=${TEMP_GITHUB_REF##*/}" >> $env:GITHUB_ENV
 
+    - name: Build
+      run: dotnet build -c ${{ matrix.configuration }}
+
     - name: Run Integration Test
       run: |
         cd tests/Tgstation.Server.Tests
         Start-Sleep -Seconds 10
-        dotnet test -c ${{ matrix.configuration }} -l "console;verbosity=detailed;noprogress=true" --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings -r ./TestResults
+        dotnet test -c ${{ matrix.configuration }} --no-build "console;verbosity=detailed;noprogress=true" --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings -r ./TestResults
 
     - name: Store Code Coverage
       uses: actions/upload-artifact@v2
@@ -367,11 +370,14 @@ jobs:
         TEMP_GITHUB_REF="${{ github.event.ref }}"
         echo "TGS4_GITHUB_REF=${TEMP_GITHUB_REF##*/}" >> $env:GITHUB_ENV
 
+    - name: Build
+      run: dotnet build -c ${{ matrix.configuration }}
+
     - name: Run Integration Test
       run: |
         cd tests/Tgstation.Server.Tests
         sleep 10
-        dotnet test -c ${{ matrix.configuration }} -l "console;verbosity=detailed;noprogress=true" --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings -r ./TestResults
+        dotnet test -c ${{ matrix.configuration }} --no-build -l "console;verbosity=detailed;noprogress=true" --collect:"XPlat Code Coverage" --settings ../../build/coverlet.runsettings -r ./TestResults
 
     - name: Store Code Coverage
       uses: actions/upload-artifact@v2
