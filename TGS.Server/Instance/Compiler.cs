@@ -440,7 +440,7 @@ namespace TGS.Server
 						compilerCurrentStatus = CompilerStatus.Initialized;
 						return;
 					}
-				
+
 				if (!File.Exists(dmePath))
 				{
 					var errorMsg = String.Format("Could not find {0}!", dmeName);
@@ -454,7 +454,7 @@ namespace TGS.Server
 					}
 				}
 
-				if (!PrecompileHook())
+				if (!PrecompileHook($"\"{resurrectee.Replace('\\', '/')}\""))
 				{
 					lastCompilerError = "The precompile hook failed";
 					compilerCurrentStatus = CompilerStatus.Initialized;   //still fairly valid
