@@ -9,13 +9,8 @@ using Tgstation.Server.Api.Models;
 namespace Tgstation.Server.Client.Components
 {
 	/// <inheritdoc />
-	sealed class ConfigurationClient : IConfigurationClient
+	sealed class ConfigurationClient : PaginatedClient, IConfigurationClient
 	{
-		/// <summary>
-		/// The <see cref="IApiClient"/> for the <see cref="ConfigurationClient"/>
-		/// </summary>
-		readonly IApiClient apiClient;
-
 		/// <summary>
 		/// The <see cref="Instance"/> for the <see cref="ConfigurationClient"/>
 		/// </summary>
@@ -24,34 +19,42 @@ namespace Tgstation.Server.Client.Components
 		/// <summary>
 		/// Construct a <see cref="ConfigurationClient"/>
 		/// </summary>
-		/// <param name="apiClient">The value of <see cref="apiClient"/></param>
+		/// <param name="apiClient">The <see cref="IApiClient"/> for the <see cref="PaginatedClient"/>.</param>
 		/// <param name="instance">The value of <see cref="instance"/></param>
 		public ConfigurationClient(IApiClient apiClient, Instance instance)
+			: base(apiClient)
 		{
-			this.apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 		}
 
 		/// <inheritdoc />
-		public Task DeleteEmptyDirectory(ConfigurationFile directory, CancellationToken cancellationToken) => apiClient.Delete(Routes.Configuration, directory, instance.Id, cancellationToken);
+		public Task DeleteEmptyDirectory(ConfigurationFile directory, CancellationToken cancellationToken) => ApiClient.Delete(Routes.Configuration, directory, instance.Id, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<ConfigurationFile> CreateDirectory(ConfigurationFile directory, CancellationToken cancellationToken) => apiClient.Create<ConfigurationFile, ConfigurationFile>(Routes.Configuration, directory, instance.Id, cancellationToken);
+		public Task<ConfigurationFile> CreateDirectory(ConfigurationFile directory, CancellationToken cancellationToken) => ApiClient.Create<ConfigurationFile, ConfigurationFile>(Routes.Configuration, directory, instance.Id, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<ConfigurationFile>> List(string directory, CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<ConfigurationFile>>(Routes.ListRoute(Routes.Configuration) + Routes.SanitizeGetPath(directory), instance.Id, cancellationToken);
+		public Task<IReadOnlyList<ConfigurationFile>> List(
+			PaginationSettings? paginationSettings,
+			string directory,
+			CancellationToken cancellationToken)
+			=> ReadPaged<ConfigurationFile>(
+				paginationSettings,
+				Routes.ListRoute(Routes.Configuration) + Routes.SanitizeGetPath(directory),
+				instance.Id,
+				cancellationToken);
 
 		/// <inheritdoc />
 		public async Task<Tuple<ConfigurationFile, Stream>> Read(ConfigurationFile file, CancellationToken cancellationToken)
 		{
 			if (file == null)
 				throw new ArgumentNullException(nameof(file));
-			var configFile = await apiClient.Read<ConfigurationFile>(
+			var configFile = await ApiClient.Read<ConfigurationFile>(
 				Routes.ConfigurationFile + Routes.SanitizeGetPath(file.Path ?? throw new ArgumentException("file.Path should not be null!", nameof(file))),
 				instance.Id,
 				cancellationToken)
 				.ConfigureAwait(false);
-			var downloadStream = await apiClient.Download(configFile, cancellationToken).ConfigureAwait(false);
+			var downloadStream = await ApiClient.Download(configFile, cancellationToken).ConfigureAwait(false);
 			try
 			{
 				return Tuple.Create(configFile, downloadStream);
@@ -75,7 +78,7 @@ namespace Tgstation.Server.Client.Components
 
 			using (memoryStream)
 			{
-				var configFileTask = apiClient.Update<ConfigurationFile, ConfigurationFile>(
+				var configFileTask = ApiClient.Update<ConfigurationFile, ConfigurationFile>(
 					Routes.Configuration,
 					file ?? throw new ArgumentNullException(nameof(file)),
 					instance.Id,
@@ -88,7 +91,7 @@ namespace Tgstation.Server.Client.Components
 
 				var streamUsed = memoryStream ?? uploadStream;
 				streamUsed?.Seek(initialStreamPosition, SeekOrigin.Begin);
-				await apiClient.Upload(configFile, streamUsed, cancellationToken).ConfigureAwait(false);
+				await ApiClient.Upload(configFile, streamUsed, cancellationToken).ConfigureAwait(false);
 
 				return configFile;
 			}

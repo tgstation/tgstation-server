@@ -1,9 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class InstanceUser : Api.Models.InstanceUser
+	public sealed class InstanceUser : Api.Models.InstanceUser, IApiTransformable<Api.Models.InstanceUser>
 	{
 		/// <summary>
 		/// The row Id
@@ -21,10 +21,7 @@ namespace Tgstation.Server.Host.Models
 		[Required]
 		public Instance Instance { get; set; }
 
-		/// <summary>
-		/// Convert the <see cref="InstanceUser"/> to it's API form
-		/// </summary>
-		/// <returns>A new <see cref="Api.Models.InstanceUser"/></returns>
+		/// <inheritdoc />
 		public Api.Models.InstanceUser ToApi() => new Api.Models.InstanceUser
 		{
 			ByondRights = ByondRights,

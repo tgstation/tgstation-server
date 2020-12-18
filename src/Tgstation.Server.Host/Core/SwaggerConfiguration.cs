@@ -164,6 +164,9 @@ namespace Tgstation.Server.Host.Core
 				if (type == typeof(Api.Models.Internal.User))
 					return "ShallowUser";
 
+				if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Paginated<>))
+					return $"Paginated{type.GenericTypeArguments.First().Name}";
+
 				return type.Name;
 			});
 
@@ -241,7 +244,7 @@ namespace Tgstation.Server.Host.Core
 				};
 
 				if (typeof(InstanceRequiredController).IsAssignableFrom(context.MethodInfo.DeclaringType))
-					operation.Parameters.Add(new OpenApiParameter
+					operation.Parameters.Insert(0, new OpenApiParameter
 					{
 						Reference = new OpenApiReference
 						{

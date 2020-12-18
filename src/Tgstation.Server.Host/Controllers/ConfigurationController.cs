@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -172,54 +171,75 @@ namespace Tgstation.Server.Host.Controllers
 		/// Get the contents of a directory at a <paramref name="directoryPath"/>
 		/// </summary>
 		/// <param name="directoryPath">The path of the directory to get</param>
+		/// <param name="page">The current page.</param>
+		/// <param name="pageSize">The page size.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation</returns>
 		/// <response code="200">Directory listed successfully.</response>>
 		/// <response code="410">Directory does not currently exist.</response>
 		[HttpGet(Routes.List + "/{*directoryPath}")]
 		[TgsAuthorize(ConfigurationRights.List)]
-		[ProducesResponseType(typeof(IReadOnlyList<ConfigurationFile>), 200)]
+		[ProducesResponseType(typeof(Paginated<ConfigurationFile>), 200)]
 		[ProducesResponseType(typeof(ErrorMessage), 410)]
-		public async Task<IActionResult> Directory(string directoryPath, CancellationToken cancellationToken)
-		{
-			if (ForbidDueToModeConflicts(directoryPath, out var systemIdentity))
-				return Forbid();
+		public Task<IActionResult> Directory(
+			string directoryPath,
+			[FromQuery] int? page,
+			[FromQuery] int? pageSize,
+			CancellationToken cancellationToken)
+			=> Paginated(
+				async () =>
+				{
+					if (ForbidDueToModeConflicts(directoryPath, out var systemIdentity))
+						return new PaginatableResult<ConfigurationFile>(
+							Forbid());
 
-			try
-			{
-				return await WithComponentInstance(
-					async instance =>
+					try
 					{
-						var result = await instance
-							.Configuration
-							.ListDirectory(directoryPath, systemIdentity, cancellationToken)
-							.ConfigureAwait(false);
-						if (result == null)
-							return Gone();
+						return new PaginatableResult<ConfigurationFile>(
+							await WithComponentInstance(
+								async instance =>
+								{
+									var result = await instance
+										.Configuration
+										.ListDirectory(directoryPath, systemIdentity, cancellationToken)
+										.ConfigureAwait(false);
+									if (result == null)
+										return Gone();
 
-						return Json(result);
-					})
-					.ConfigureAwait(false);
-			}
-			catch (NotImplementedException)
-			{
-				return RequiresPosixSystemIdentity();
-			}
-			catch (UnauthorizedAccessException)
-			{
-				return Forbid();
-			}
-		}
+									return Json(result);
+								})
+								.ConfigureAwait(false));
+					}
+					catch (NotImplementedException)
+					{
+						return new PaginatableResult<ConfigurationFile>(
+							RequiresPosixSystemIdentity());
+					}
+					catch (UnauthorizedAccessException)
+					{
+						return new PaginatableResult<ConfigurationFile>(
+							Forbid());
+					}
+				},
+				null,
+				page,
+				pageSize,
+				cancellationToken);
 
 		/// <summary>
 		/// Get the contents of the root configuration directory.
 		/// </summary>
+		/// <param name="page">The current page.</param>
+		/// <param name="pageSize">The page size.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(ConfigurationRights.List)]
-		[ProducesResponseType(typeof(IReadOnlyList<ConfigurationFile>), 200)]
-		public Task<IActionResult> List(CancellationToken cancellationToken) => Directory(null, cancellationToken);
+		[ProducesResponseType(typeof(Paginated<ConfigurationFile>), 200)]
+		public Task<IActionResult> List(
+			[FromQuery] int? page,
+			[FromQuery] int? pageSize,
+			CancellationToken cancellationToken) => Directory(null, page, pageSize, cancellationToken);
 
 		/// <summary>
 		/// Create a configuration directory.

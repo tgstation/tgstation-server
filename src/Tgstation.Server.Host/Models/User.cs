@@ -6,7 +6,7 @@ using System.Linq;
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class User : Api.Models.Internal.User
+	public sealed class User : Api.Models.Internal.User, IApiTransformable<Api.Models.User>
 	{
 		/// <summary>
 		/// Username used when creating jobs automatically.
@@ -88,5 +88,8 @@ namespace Tgstation.Server.Host.Models
 		/// <param name="showDetails">If rights and system identifier should be shown</param>
 		/// <returns>A new <see cref="Api.Models.User"/></returns>
 		public Api.Models.User ToApi(bool showDetails) => ToApi(true, showDetails);
+
+		/// <inheritdoc />
+		public Api.Models.User ToApi() => ToApi(true);
 	}
 }

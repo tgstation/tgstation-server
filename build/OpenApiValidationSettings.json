@@ -4,7 +4,7 @@
       "no_operation_id": "error",
       "operation_id_case_convention": "off",
       "no_summary": "error",
-      "no_array_responses": "off",
+      "no_array_responses": "error",
       "parameter_order": "error",
       "undefined_tag": "off",
       "unused_tag": "error",

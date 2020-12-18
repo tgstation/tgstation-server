@@ -313,48 +313,59 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// List <see cref="LogFile"/>s present.
 		/// </summary>
+		/// <param name="page">The current page.</param>
+		/// <param name="pageSize">The page size.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Listed logs successfully.</response>
 		/// <response code="409">An IO error occurred while listing.</response>
 		[HttpGet(Routes.Logs)]
 		[TgsAuthorize(AdministrationRights.DownloadLogs)]
-		[ProducesResponseType(typeof(List<LogFile>), 200)]
+		[ProducesResponseType(typeof(Paginated<LogFile>), 200)]
 		[ProducesResponseType(typeof(ErrorMessage), 409)]
-		public async Task<IActionResult> ListLogs(CancellationToken cancellationToken)
-		{
-			var path = fileLoggingConfiguration.GetFullLogDirectory(ioManager, assemblyInformationProvider, platformIdentifier);
-			try
-			{
-				var files = await ioManager.GetFiles(path, cancellationToken).ConfigureAwait(false);
-				var tasks = files.Select(
-					async file => new LogFile
-					{
-						Name = ioManager.GetFileName(file),
-						LastModified = await ioManager.GetLastModified(
-							ioManager.ConcatPath(path, file),
-							cancellationToken)
-						.ConfigureAwait(false)
-					})
-					.ToList();
-
-				await Task.WhenAll(tasks).ConfigureAwait(false);
-
-				var result = tasks
-					.Select(x => x.Result)
-					.OrderByDescending(x => x.Name)
-					.ToList();
-
-				return Ok(result);
-			}
-			catch (IOException ex)
-			{
-				return Conflict(new ErrorMessage(ErrorCode.IOError)
+		public Task<IActionResult> ListLogs([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
+			=> Paginated(
+				async () =>
 				{
-					AdditionalData = ex.ToString()
-				});
-			}
-		}
+					var path = fileLoggingConfiguration.GetFullLogDirectory(ioManager, assemblyInformationProvider, platformIdentifier);
+					try
+					{
+						var files = await ioManager.GetFiles(path, cancellationToken).ConfigureAwait(false);
+						var tasks = files.Select(
+							async file => new LogFile
+							{
+								Name = ioManager.GetFileName(file),
+								LastModified = await ioManager
+									.GetLastModified(
+										ioManager.ConcatPath(path, file),
+										cancellationToken)
+										.ConfigureAwait(false)
+							})
+							.ToList();
+
+						await Task.WhenAll(tasks).ConfigureAwait(false);
+
+						var result = tasks
+							.Select(x => x.Result)
+							.OrderByDescending(x => x.Name)
+							.ToList();
+
+						return new PaginatableResult<LogFile>(
+							result.AsQueryable());
+					}
+					catch (IOException ex)
+					{
+						return new PaginatableResult<LogFile>(
+							Conflict(new ErrorMessage(ErrorCode.IOError)
+							{
+								AdditionalData = ex.ToString()
+							}));
+					}
+				},
+				null,
+				page,
+				pageSize,
+				cancellationToken);
 
 		/// <summary>
 		/// Download a <see cref="LogFile"/>.

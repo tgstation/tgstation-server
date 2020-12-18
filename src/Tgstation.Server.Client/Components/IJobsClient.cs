@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -11,18 +11,20 @@ namespace Tgstation.Server.Client.Components
 	public interface IJobsClient
 	{
 		/// <summary>
-		/// List the <see cref="Job"/> <see cref="EntityId"/>s in the <see cref="Instance"/>
+		/// List the <see cref="Job"/>s in the <see cref="Instance"/>
 		/// </summary>
+		/// <param name="paginationSettings">The optional <see cref="PaginationSettings"/> for the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="IReadOnlyList{T}"/> of the <see cref="Job"/> <see cref="EntityId"/>s in the <see cref="Instance"/></returns>
-		Task<IReadOnlyList<EntityId>> List(CancellationToken cancellationToken);
+		Task<IReadOnlyList<Job>> List(PaginationSettings? paginationSettings, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// List the active <see cref="Job"/>s in the <see cref="Instance"/>
 		/// </summary>
+		/// <param name="paginationSettings">The optional <see cref="PaginationSettings"/> for the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="IReadOnlyList{T}"/> of the active <see cref="Job"/>s in the <see cref="Instance"/></returns>
-		Task<IReadOnlyList<Job>> ListActive(CancellationToken cancellationToken);
+		Task<IReadOnlyList<Job>> ListActive(PaginationSettings? paginationSettings, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Get a <paramref name="job"/>
