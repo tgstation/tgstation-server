@@ -260,6 +260,8 @@ jobs:
   linux-integration-tests:
     name: Linux Integration Test
     needs: dmapi-build
+    env:
+      FileLogging__MicrosoftLogLevel: Debug
     services: # We start all dbs here so we can just code the stuff once
       postgres:
         image: postgres
