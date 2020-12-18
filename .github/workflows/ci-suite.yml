@@ -352,6 +352,7 @@ jobs:
 
     - name: Set TGS4_GITHUB_REF for push
       if: ${{ github.event_name == 'push' }}
+      shell: bash
       run: |
         TEMP_GITHUB_REF="${{ github.event.ref }}"
         echo "TGS4_GITHUB_REF=${TEMP_GITHUB_REF##*/}" >> $env:GITHUB_ENV
