@@ -635,7 +635,7 @@ namespace Tgstation.Server.Host.Controllers
 				instance =>
 				{
 					needsUpdate |= InstanceRequiredController.ValidateInstanceOnlineStatus(instanceManager, Logger, instance);
-					instance.MoveJob = moveJobs.FirstOrDefault(x => x.Instance.Id == instance.Id).ToApi();
+					instance.MoveJob = moveJobs.FirstOrDefault(x => x.Instance.Id == instance.Id)?.ToApi();
 				},
 				page,
 				pageSize,
