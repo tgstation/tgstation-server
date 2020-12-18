@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleEvent" name="Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleEvent">
 <area shape="rect" id="node1" title="Handle a given eventType" alt="" coords="5,39,253,80"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a634f53946305b875c65c04dfd1719830" title="Get the active ISessionController." alt="" coords="301,5,588,47"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a75c070c958da3a46d0deee9f243f3624" title="Send a chat message &#160;to a given set of channelIds" alt="" coords="331,71,558,112"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#ac8211cd2105b12cfe4233e999698ed9b" title="Queue a chat message &#160;to a given set of channelIds ." alt="" coords="331,71,558,112"/>
 </map>

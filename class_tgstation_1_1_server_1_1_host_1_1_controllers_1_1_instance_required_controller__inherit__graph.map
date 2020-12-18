@@ -5,7 +5,7 @@
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html" title="The ApiController for ConfigurationFiles" alt="" coords="539,136,755,177"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html" title="ApiController for managing the DreamDaemon" alt="" coords="539,201,755,243"/>
 <area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html" title="ApiController for managing the deployment system." alt="" coords="539,267,755,308"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_user_controller.html" title="ApiController for managing InstanceUsers." alt="" coords="539,332,755,373"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_permission_set_controller.html" title="ApiController for managing InstancePermissionSets." alt="" coords="539,332,755,373"/>
 <area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html" title="ApiController for Api.Models.Jobs" alt="" coords="539,397,755,439"/>
 <area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html" title="ApiController for managing the Repositorys" alt="" coords="539,463,755,504"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="A Controller for API functions" alt="" coords="131,242,227,269"/>

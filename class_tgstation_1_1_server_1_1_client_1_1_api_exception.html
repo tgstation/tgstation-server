@@ -206,7 +206,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_api_exception_8cs_source.html#l00032">32</a> of file <a class="el" href="_api_exception_8cs_source.html">ApiException.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                                                                                                : base(</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            responseMessage,</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            errorMessage?.Message ?? $<span class="stringliteral">&quot;HTTP {responseMessage.StatusCode}. Unknown API error, ErrorMessage payload not present!&quot;</span>)</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            errorMessage?.Message ?? $<span class="stringliteral">&quot;HTTP {responseMessage?.StatusCode ?? throw new ArgumentNullException(nameof(responseMessage))}. Unknown API error, ErrorMessage payload not present!&quot;</span>)</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        {</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_api_exception.html#a281531bad45554e8e35c02bd7c43ee38">ServerApiVersion</a> = errorMessage?.ServerApiVersion;</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_api_exception.html#a15ba2ccaacd995deb459ac67b1ebd787">AdditionalServerData</a> = errorMessage?.AdditionalData;</div>

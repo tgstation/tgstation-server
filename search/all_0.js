@@ -129,5 +129,13 @@ var searchData=
   ['20201209194500_5fpggenerictestmergingupdate_2ecs_126',['20201209194500_PGGenericTestMergingUpdate.cs',['../20201209194500___p_g_generic_test_merging_update_8cs.html',1,'']]],
   ['20201209194500_5fpggenerictestmergingupdate_2edesigner_2ecs_127',['20201209194500_PGGenericTestMergingUpdate.Designer.cs',['../20201209194500___p_g_generic_test_merging_update_8_designer_8cs.html',1,'']]],
   ['20201209194554_5fslgenerictestmergingupdate_2ecs_128',['20201209194554_SLGenericTestMergingUpdate.cs',['../20201209194554___s_l_generic_test_merging_update_8cs.html',1,'']]],
-  ['20201209194554_5fslgenerictestmergingupdate_2edesigner_2ecs_129',['20201209194554_SLGenericTestMergingUpdate.Designer.cs',['../20201209194554___s_l_generic_test_merging_update_8_designer_8cs.html',1,'']]]
+  ['20201209194554_5fslgenerictestmergingupdate_2edesigner_2ecs_129',['20201209194554_SLGenericTestMergingUpdate.Designer.cs',['../20201209194554___s_l_generic_test_merging_update_8_designer_8cs.html',1,'']]],
+  ['20201214181824_5fmsaddusergroups_2ecs_130',['20201214181824_MSAddUserGroups.cs',['../20201214181824___m_s_add_user_groups_8cs.html',1,'']]],
+  ['20201214181824_5fmsaddusergroups_2edesigner_2ecs_131',['20201214181824_MSAddUserGroups.Designer.cs',['../20201214181824___m_s_add_user_groups_8_designer_8cs.html',1,'']]],
+  ['20201214181914_5fmyaddusergroups_2ecs_132',['20201214181914_MYAddUserGroups.cs',['../20201214181914___m_y_add_user_groups_8cs.html',1,'']]],
+  ['20201214181914_5fmyaddusergroups_2edesigner_2ecs_133',['20201214181914_MYAddUserGroups.Designer.cs',['../20201214181914___m_y_add_user_groups_8_designer_8cs.html',1,'']]],
+  ['20201214182008_5fpgaddusergroups_2ecs_134',['20201214182008_PGAddUserGroups.cs',['../20201214182008___p_g_add_user_groups_8cs.html',1,'']]],
+  ['20201214182008_5fpgaddusergroups_2edesigner_2ecs_135',['20201214182008_PGAddUserGroups.Designer.cs',['../20201214182008___p_g_add_user_groups_8_designer_8cs.html',1,'']]],
+  ['20201214182101_5fsladdusergroups_2ecs_136',['20201214182101_SLAddUserGroups.cs',['../20201214182101___s_l_add_user_groups_8cs.html',1,'']]],
+  ['20201214182101_5fsladdusergroups_2edesigner_2ecs_137',['20201214182101_SLAddUserGroups.Designer.cs',['../20201214182101___s_l_add_user_groups_8_designer_8cs.html',1,'']]]
 ];

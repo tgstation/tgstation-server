@@ -1,4 +1,6 @@
 <map id="Tgstation.Server.Host.Models.TestMerge.ToApi" name="Tgstation.Server.Host.Models.TestMerge.ToApi">
 <area shape="rect" id="node1" title=" " alt="" coords="5,29,201,71"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a8effbd8cd0ce7ba4c72f40efc08a9b50" title="See ToApi(bool)" alt="" coords="249,29,445,71"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_permission_set.html#a0c4c85a1b94bc28e9ca083765992e7fa" title="Convert the PermissionSet to it&#39;s API form." alt="" coords="737,29,933,71"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html#a9b05a1bd0a7525ef0d589ef1963fa63c" title="Convert the UserGroup to it&#39;s API form." alt="" coords="493,59,689,100"/>
 </map>

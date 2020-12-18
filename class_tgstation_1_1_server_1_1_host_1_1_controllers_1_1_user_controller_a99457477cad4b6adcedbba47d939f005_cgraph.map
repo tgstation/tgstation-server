@@ -1,8 +1,8 @@
 <map id="Tgstation.Server.Host.Controllers.UserController.Create" name="Tgstation.Server.Host.Controllers.UserController.Create">
-<area shape="rect" id="node1" title="Create a Api.Models.User." alt="" coords="5,244,221,285"/>
+<area shape="rect" id="node1" title="Create a new Api.Models.User." alt="" coords="5,244,221,285"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a7d6d50ff837b991a62dd2664cc0577ad" title="Check if a given model &#160;has a valid Api.Models.Internal.User.Name specified." alt="" coords="295,5,511,47"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae0fcee33c7b7341bc3bf0c0e66e1ebf4" title="Generic 201 response with a given payload ." alt="" coords="295,71,511,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a99fbc2f76efbb9c3bfbb12319fd05648" title="Creates a new User from a given model ." alt="" coords="270,136,537,177"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#ac210a9feaeef4c80b1051161dadc184b" title="Creates a new User from a given model ." alt="" coords="270,136,537,177"/>
 <area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#adaf274d215700bf692b1c3964ff32103" title="Create a ISystemIdentity for a given user" alt="" coords="283,201,523,257"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f" title="Generic 410 response." alt="" coords="295,280,511,321"/>
 <area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a22bf49e8a9635f804b5cdcb6632ddc34" title="Generic 501 response." alt="" coords="269,345,537,387"/>

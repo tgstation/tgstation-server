@@ -114,15 +114,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab9ba3beba537518b1f68ca31ae9dea25"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#ab9ba3beba537518b1f68ca31ae9dea25">ChangeChannels</a> (long connectionId, IEnumerable&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html">Api.Models.ChatChannel</a> &gt; newChannels, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:ab9ba3beba537518b1f68ca31ae9dea25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change chat channels  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#ab9ba3beba537518b1f68ca31ae9dea25">More...</a><br /></td></tr>
 <tr class="separator:ab9ba3beba537518b1f68ca31ae9dea25"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a75c070c958da3a46d0deee9f243f3624"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a75c070c958da3a46d0deee9f243f3624">SendMessage</a> (string message, IEnumerable&lt; ulong &gt; channelIds, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a75c070c958da3a46d0deee9f243f3624"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a chat <em>message</em>  to a given set of <em>channelIds</em>   <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a75c070c958da3a46d0deee9f243f3624">More...</a><br /></td></tr>
-<tr class="separator:a75c070c958da3a46d0deee9f243f3624"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afd05b7393661f33ea421cc169b621cea"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#afd05b7393661f33ea421cc169b621cea">SendWatchdogMessage</a> (string message, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:afd05b7393661f33ea421cc169b621cea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a chat <em>message</em>  to configured watchdog channels  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#afd05b7393661f33ea421cc169b621cea">More...</a><br /></td></tr>
-<tr class="separator:afd05b7393661f33ea421cc169b621cea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa21f71a08aaebd2b27e1d5d716ac1124"><td class="memItemLeft" align="right" valign="top">Task&lt; Func&lt; string, string, Task &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#aa21f71a08aaebd2b27e1d5d716ac1124">SendDeploymentMessage</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a> revisionInformation, Version byondVersion, DateTimeOffset? estimatedCompletionTime, string gitHubOwner, string gitHubRepo, bool localCommitPushed, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:aa21f71a08aaebd2b27e1d5d716ac1124"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send the message for a deployment to configured deployment channels.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#aa21f71a08aaebd2b27e1d5d716ac1124">More...</a><br /></td></tr>
-<tr class="separator:aa21f71a08aaebd2b27e1d5d716ac1124"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8211cd2105b12cfe4233e999698ed9b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#ac8211cd2105b12cfe4233e999698ed9b">QueueMessage</a> (string message, IEnumerable&lt; ulong &gt; channelIds)</td></tr>
+<tr class="memdesc:ac8211cd2105b12cfe4233e999698ed9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Queue a chat <em>message</em>  to a given set of <em>channelIds</em> .  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#ac8211cd2105b12cfe4233e999698ed9b">More...</a><br /></td></tr>
+<tr class="separator:ac8211cd2105b12cfe4233e999698ed9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f6855c98ad2fd9d071eb31236630258"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a1f6855c98ad2fd9d071eb31236630258">QueueWatchdogMessage</a> (string message, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a1f6855c98ad2fd9d071eb31236630258"><td class="mdescLeft">&#160;</td><td class="mdescRight">Queue a chat <em>message</em>  to configured watchdog channels.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a1f6855c98ad2fd9d071eb31236630258">More...</a><br /></td></tr>
+<tr class="separator:a1f6855c98ad2fd9d071eb31236630258"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a370f787984f9c2b72cdffa85b0e785b9"><td class="memItemLeft" align="right" valign="top">Action&lt; string, string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a370f787984f9c2b72cdffa85b0e785b9">QueueDeploymentMessage</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a> revisionInformation, Version byondVersion, DateTimeOffset? estimatedCompletionTime, string gitHubOwner, string gitHubRepo, bool localCommitPushed)</td></tr>
+<tr class="memdesc:a370f787984f9c2b72cdffa85b0e785b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send the message for a deployment to configured deployment channels.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a370f787984f9c2b72cdffa85b0e785b9">More...</a><br /></td></tr>
+<tr class="separator:a370f787984f9c2b72cdffa85b0e785b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b3b4e9ab7d03bd8020ee9dfa9bebbbe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_tracking_context.html">IChatTrackingContext</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a5b3b4e9ab7d03bd8020ee9dfa9bebbbe">CreateTrackingContext</a> ()</td></tr>
 <tr class="memdesc:a5b3b4e9ab7d03bd8020ee9dfa9bebbbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start tracking <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_custom_command.html" title="Represents a command made from DM code">Commands.CustomCommand</a>s and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_channel_representation.html" title="Represents a Providers.IProvider channel.">ChannelRepresentation</a>s.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a5b3b4e9ab7d03bd8020ee9dfa9bebbbe">More...</a><br /></td></tr>
 <tr class="separator:a5b3b4e9ab7d03bd8020ee9dfa9bebbbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -294,6 +294,191 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="a370f787984f9c2b72cdffa85b0e785b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a370f787984f9c2b72cdffa85b0e785b9">&#9670;&nbsp;</a></span>QueueDeploymentMessage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Action&lt;string, string&gt; Tgstation.Server.Host.Components.Chat.IChatManager.QueueDeploymentMessage </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a>&#160;</td>
+          <td class="paramname"><em>revisionInformation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Version&#160;</td>
+          <td class="paramname"><em>byondVersion</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">DateTimeOffset?&#160;</td>
+          <td class="paramname"><em>estimatedCompletionTime</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>gitHubOwner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>gitHubRepo</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>localCommitPushed</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Send the message for a deployment to configured deployment channels. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">revisionInformation</td><td>The RevisionInformation of the deployment.</td></tr>
+    <tr><td class="paramname">byondVersion</td><td>The BYOND Version of the deployment.</td></tr>
+    <tr><td class="paramname">estimatedCompletionTime</td><td>The optional DateTimeOffset the deployment is expected to be completed at.</td></tr>
+    <tr><td class="paramname">gitHubOwner</td><td>The repository GitHub owner, if any.</td></tr>
+    <tr><td class="paramname">gitHubRepo</td><td>The repository GitHub name, if any.</td></tr>
+    <tr><td class="paramname">localCommitPushed</td><td><code>true</code> if the local deployment commit was pushed to the remote repository.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An Action&lt;T1, T2&gt; to call to update the message at the deployment's conclusion. Parameters: Error message if any, DreamMaker output if any.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#acf8e8d3925c71d14cceac8df5143cdc7">Tgstation.Server.Host.Components.Chat.ChatManager</a>.</p>
+
+</div>
+</div>
+<a id="ac8211cd2105b12cfe4233e999698ed9b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8211cd2105b12cfe4233e999698ed9b">&#9670;&nbsp;</a></span>QueueMessage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Tgstation.Server.Host.Components.Chat.IChatManager.QueueMessage </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>message</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IEnumerable&lt; ulong &gt;&#160;</td>
+          <td class="paramname"><em>channelIds</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Queue a chat <em>message</em>  to a given set of <em>channelIds</em> . </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">message</td><td>The message being sent.</td></tr>
+    <tr><td class="paramname">channelIds</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html#a0dd252ba836263c5a825862bcda215f7" title="The row Id">Models.ChatChannel.Id</a>s of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html">Models.ChatChannel</a>s to send to.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a58ab5c0ce4dae64a8b7781df6fbe7559">Tgstation.Server.Host.Components.Chat.ChatManager</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_watchdog_base_8cs_source.html#l00798">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleEvent()</a>, and <a class="el" href="_session_controller_8cs_source.html#l00352">Tgstation.Server.Host.Components.Session.SessionController.ProcessBridgeRequest()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_ac8211cd2105b12cfe4233e999698ed9b_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_ac8211cd2105b12cfe4233e999698ed9b_icgraph" alt=""/></div>
+<map name="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_ac8211cd2105b12cfe4233e999698ed9b_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_ac8211cd2105b12cfe4233e999698ed9b_icgraph">
+<area shape="rect" title="Queue a chat message &#160;to a given set of channelIds ." alt="" coords="316,41,543,83"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a1b043f3ab25e84bc675dd5455cbf3f52" title="Handle a given eventType" alt="" coords="13,5,261,47"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#ac6a393a718f22ede4f07a428a3bd3847" title="Handle a set of bridge parameters ." alt="" coords="5,70,268,126"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a1f6855c98ad2fd9d071eb31236630258"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f6855c98ad2fd9d071eb31236630258">&#9670;&nbsp;</a></span>QueueWatchdogMessage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task Tgstation.Server.Host.Components.Chat.IChatManager.QueueWatchdogMessage </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>message</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Queue a chat <em>message</em>  to configured watchdog channels. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">message</td><td>The message being sent.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a4a3051f36861a7cf6ebff6215e39163f">Tgstation.Server.Host.Components.Chat.ChatManager</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_watchdog_base_8cs_source.html#l00300">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleHeartbeat()</a>, <a class="el" href="_basic_watchdog_8cs_source.html#l00089">Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.HandleMonitorWakeup()</a>, <a class="el" href="_basic_watchdog_8cs_source.html#l00264">Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.HandleNewDmbAvailable()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00962">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleRestart()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00356">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.LaunchNoLock()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00612">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.MonitorLifetimes()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00553">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.MonitorRestart()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00482">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.ReattachFailure()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00878">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.Restart()</a>, and <a class="el" href="_watchdog_base_8cs_source.html#l00264">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.TerminateNoLock()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_a1f6855c98ad2fd9d071eb31236630258_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_a1f6855c98ad2fd9d071eb31236630258_icgraph" alt=""/></div>
+<map name="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_a1f6855c98ad2fd9d071eb31236630258_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_a1f6855c98ad2fd9d071eb31236630258_icgraph">
+<area shape="rect" title="Queue a chat message &#160;to configured watchdog channels." alt="" coords="1636,282,1921,324"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a32ebad8014be63eb29e7a894cdbfcaf1" title="Handles a watchdog heartbeat." alt="" coords="1313,144,1585,185"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#adfec26f530228b80d384b86ee979ef2f" title="The main loop of the watchdog. Ayschronously waits for events to occur and then responds to them." alt="" coords="972,104,1243,145"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#af5d1f2571cdce3431ab477a9c9c3e6f4" title="Launches the watchdog." alt="" coords="643,166,905,208"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a24fd29d12e91f659010d483228be1225" title="Attempt to restart the monitor from scratch." alt="" coords="336,81,595,122"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a39d65944835fca058d4a4be46eaf81bd" title="Restarts the watchdog" alt="" coords="352,277,579,318"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a056db8ac9f376f053c671df0e7371ed4" title="Handles the actions to take when the monitor has to &quot;wake up&quot;" alt="" coords="953,493,1261,534"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#ad6789a31cac393a9677e9680154384ac" title="Handler for MonitorActivationReason.NewDmbAvailable." alt="" coords="1313,428,1585,484"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ad78e8addece7234fb29cffe96a18442e" title="Handle a restart of the server" alt="" coords="1320,508,1577,549"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a2a1ca4d25ec02eb53ddbcb36088331a1" title="Call from InitControllers(Task, ReattachInformation, CancellationToken) when a reattach operation fai..." alt="" coords="1316,573,1581,614"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a6845304123ed975aec4de3dc79bf8551" title="Implementation of Terminate(bool, CancellationToken). Does not lock synchronizationSemaphore" alt="" coords="1309,312,1588,353"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#af619caa031c183aa1aa5adbcf11a3434" title="Start the IWatchdog" alt="" coords="352,212,579,253"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ae30d4b582b04eb7c3ef3c5d848429bbd" title=" " alt="" coords="346,146,585,188"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a3b874bb53e907a576a4b88122083c6c3" title="Cancels pending graceful actions" alt="" coords="5,277,288,318"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a33718a8a97983fa9fb12c0d27bec8732" title="Starts all ISessionControllers." alt="" coords="979,573,1236,614"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#aec4f16b34fe08499a4aaff0235ecdc76" title=" " alt="" coords="989,362,1226,404"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a49a9acdffdc9e7cd176f803b23e97ff4" title="Stops the watchdog" alt="" coords="991,428,1223,469"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="a1e1ce49aa3e843a1e037060a544e125e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1e1ce49aa3e843a1e037060a544e125e">&#9670;&nbsp;</a></span>RegisterCommandHandler()</h2>
 
@@ -328,206 +513,6 @@ Here is the caller graph for this function:</div>
 <map name="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_a1e1ce49aa3e843a1e037060a544e125e_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_a1e1ce49aa3e843a1e037060a544e125e_icgraph">
 <area shape="rect" title="Registers a customCommandHandler &#160;to use" alt="" coords="316,5,604,47"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a5a114c04be3e48711271ab2ffd6be8fc" title="Initializes a new instance of the WatchdogBase class." alt="" coords="5,5,268,47"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="aa21f71a08aaebd2b27e1d5d716ac1124"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa21f71a08aaebd2b27e1d5d716ac1124">&#9670;&nbsp;</a></span>SendDeploymentMessage()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Task&lt;Func&lt;string, string, Task&gt; &gt; Tgstation.Server.Host.Components.Chat.IChatManager.SendDeploymentMessage </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html">Models.RevisionInformation</a>&#160;</td>
-          <td class="paramname"><em>revisionInformation</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Version&#160;</td>
-          <td class="paramname"><em>byondVersion</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">DateTimeOffset?&#160;</td>
-          <td class="paramname"><em>estimatedCompletionTime</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>gitHubOwner</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>gitHubRepo</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>localCommitPushed</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>cancellationToken</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Send the message for a deployment to configured deployment channels. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">revisionInformation</td><td>The RevisionInformation of the deployment.</td></tr>
-    <tr><td class="paramname">byondVersion</td><td>The BYOND Version of the deployment.</td></tr>
-    <tr><td class="paramname">estimatedCompletionTime</td><td>The optional DateTimeOffset the deployment is expected to be completed at.</td></tr>
-    <tr><td class="paramname">gitHubOwner</td><td>The repository GitHub owner, if any.</td></tr>
-    <tr><td class="paramname">gitHubRepo</td><td>The repository GitHub name, if any.</td></tr>
-    <tr><td class="paramname">localCommitPushed</td><td><code>true</code> if the local deployment commit was pushed to the remote repository.</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a Func&lt;T1, T2, TResult&gt; to call to update the message at the deployment's conclusion. Parameters: Error message if any, DreamMaker output if any.</dd></dl>
-
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ac952a5db509eb59655c1f83b1f0530a5">Tgstation.Server.Host.Components.Chat.ChatManager</a>.</p>
-
-</div>
-</div>
-<a id="a75c070c958da3a46d0deee9f243f3624"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a75c070c958da3a46d0deee9f243f3624">&#9670;&nbsp;</a></span>SendMessage()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Task Tgstation.Server.Host.Components.Chat.IChatManager.SendMessage </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>message</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">IEnumerable&lt; ulong &gt;&#160;</td>
-          <td class="paramname"><em>channelIds</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>cancellationToken</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Send a chat <em>message</em>  to a given set of <em>channelIds</em>  </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">message</td><td>The message being sent</td></tr>
-    <tr><td class="paramname">channelIds</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html#a0dd252ba836263c5a825862bcda215f7" title="The row Id">Models.ChatChannel.Id</a>s of the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_channel.html">Models.ChatChannel</a>s to send to</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation</dd></dl>
-
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#a11c7e69a731e145f3b1adb30e3838c15">Tgstation.Server.Host.Components.Chat.ChatManager</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="_watchdog_base_8cs_source.html#l00798">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleEvent()</a>, and <a class="el" href="_session_controller_8cs_source.html#l00346">Tgstation.Server.Host.Components.Session.SessionController.ProcessBridgeRequest()</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_a75c070c958da3a46d0deee9f243f3624_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_a75c070c958da3a46d0deee9f243f3624_icgraph" alt=""/></div>
-<map name="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_a75c070c958da3a46d0deee9f243f3624_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_a75c070c958da3a46d0deee9f243f3624_icgraph">
-<area shape="rect" title="Send a chat message &#160;to a given set of channelIds" alt="" coords="316,41,543,83"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a1b043f3ab25e84bc675dd5455cbf3f52" title="Handle a given eventType" alt="" coords="13,5,261,47"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#addf10bdb560585e28933161df7e31fef" title="Handle a set of bridge parameters ." alt="" coords="5,70,268,126"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="afd05b7393661f33ea421cc169b621cea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afd05b7393661f33ea421cc169b621cea">&#9670;&nbsp;</a></span>SendWatchdogMessage()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Task Tgstation.Server.Host.Components.Chat.IChatManager.SendWatchdogMessage </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>message</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>cancellationToken</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Send a chat <em>message</em>  to configured watchdog channels </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">message</td><td>The message being sent</td></tr>
-    <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task representing the running operation</dd></dl>
-
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_chat_manager.html#ad7e8f53171e62b278e16c0afbf8df8e4">Tgstation.Server.Host.Components.Chat.ChatManager</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="_watchdog_base_8cs_source.html#l00300">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleHeartbeat()</a>, <a class="el" href="_basic_watchdog_8cs_source.html#l00089">Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.HandleMonitorWakeup()</a>, <a class="el" href="_basic_watchdog_8cs_source.html#l00264">Tgstation.Server.Host.Components.Watchdog.BasicWatchdog.HandleNewDmbAvailable()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00965">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.HandleRestart()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00356">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.LaunchNoLock()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00612">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.MonitorLifetimes()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00553">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.MonitorRestart()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00482">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.ReattachFailure()</a>, <a class="el" href="_watchdog_base_8cs_source.html#l00881">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.Restart()</a>, and <a class="el" href="_watchdog_base_8cs_source.html#l00264">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.TerminateNoLock()</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_afd05b7393661f33ea421cc169b621cea_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_afd05b7393661f33ea421cc169b621cea_icgraph" alt=""/></div>
-<map name="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_afd05b7393661f33ea421cc169b621cea_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager_afd05b7393661f33ea421cc169b621cea_icgraph">
-<area shape="rect" title="Send a chat message &#160;to configured watchdog channels" alt="" coords="1636,284,1913,325"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a32ebad8014be63eb29e7a894cdbfcaf1" title="Handles a watchdog heartbeat." alt="" coords="1313,145,1585,186"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#adfec26f530228b80d384b86ee979ef2f" title="The main loop of the watchdog. Ayschronously waits for events to occur and then responds to them." alt="" coords="972,105,1243,146"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#af5d1f2571cdce3431ab477a9c9c3e6f4" title="Launches the watchdog." alt="" coords="643,168,905,209"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a24fd29d12e91f659010d483228be1225" title="Attempt to restart the monitor from scratch." alt="" coords="336,82,595,124"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a39d65944835fca058d4a4be46eaf81bd" title="Restarts the watchdog" alt="" coords="352,278,579,320"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a056db8ac9f376f053c671df0e7371ed4" title="Handles the actions to take when the monitor has to &quot;wake up&quot;" alt="" coords="953,494,1261,536"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#ad6789a31cac393a9677e9680154384ac" title="Handler for MonitorActivationReason.NewDmbAvailable." alt="" coords="1313,430,1585,486"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ad78e8addece7234fb29cffe96a18442e" title="Handle a restart of the server" alt="" coords="1320,509,1577,550"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a2a1ca4d25ec02eb53ddbcb36088331a1" title="Call from InitControllers(Task, ReattachInformation, CancellationToken) when a reattach operation fai..." alt="" coords="1316,574,1581,616"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a6845304123ed975aec4de3dc79bf8551" title="Implementation of Terminate(bool, CancellationToken). Does not lock synchronizationSemaphore" alt="" coords="1309,313,1588,354"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#af619caa031c183aa1aa5adbcf11a3434" title="Start the IWatchdog" alt="" coords="352,213,579,254"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ae30d4b582b04eb7c3ef3c5d848429bbd" title=" " alt="" coords="346,148,585,189"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a3b874bb53e907a576a4b88122083c6c3" title="Cancels pending graceful actions" alt="" coords="5,278,288,320"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a33718a8a97983fa9fb12c0d27bec8732" title="Starts all ISessionControllers." alt="" coords="979,574,1236,616"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#aec4f16b34fe08499a4aaff0235ecdc76" title=" " alt="" coords="989,364,1226,405"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a49a9acdffdc9e7cd176f803b23e97ff4" title="Stops the watchdog" alt="" coords="991,429,1223,470"/>
 </map>
 </div>
 

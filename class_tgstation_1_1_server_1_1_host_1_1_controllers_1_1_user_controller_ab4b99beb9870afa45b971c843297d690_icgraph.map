@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Controllers.UserController.List" name="Tgstation.Server.Host.Controllers.UserController.List">
 <area shape="rect" id="node1" title="List all Api.Models.Users in the server." alt="" coords="584,5,800,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a99fbc2f76efbb9c3bfbb12319fd05648" title="Creates a new User from a given model ." alt="" coords="269,5,536,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a99457477cad4b6adcedbba47d939f005" title="Create a Api.Models.User." alt="" coords="5,5,221,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#ac210a9feaeef4c80b1051161dadc184b" title="Creates a new User from a given model ." alt="" coords="269,5,536,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a99457477cad4b6adcedbba47d939f005" title="Create a new Api.Models.User." alt="" coords="5,5,221,47"/>
 </map>

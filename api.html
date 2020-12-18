@@ -228,7 +228,7 @@ Permissions</h1>
 <li>Instance permissions apply only when interacting with a specific instance</li>
 </ul>
 <p>Permissions are represented a a 32 bit integer in the form of bitflags. The two endpoints for retrieving these permission are:</p>
-<p>GET "/Users" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user.html">Tgstation.Server.Api.Models.User</a> I GET "/InstanceUser" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_user.html">Tgstation.Server.Api.Models.InstanceUser</a></p>
+<p>GET "/Users" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user.html">Tgstation.Server.Api.Models.User</a> I GET "/InstanceUser" =&gt; Tgstation.Server.Api.Models.InstanceUser</p>
 <p>See individual documentation of each permission enum for their usage</p>
 <h1><a class="anchor" id="api_transfer"></a>
 File Transfers</h1>
@@ -250,9 +250,9 @@ User Management</h1>
 <h2><a class="anchor" id="api_iuser"></a>
 Instance User Management</h2>
 <p>Instance users must be created for a given instance before being manipulated. The creator of an instance starts with full permissions on it</p>
-<p>I PUT "/InstanceUser" <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_user.html">Tgstation.Server.Api.Models.InstanceUser</a> =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_user.html">Tgstation.Server.Api.Models.InstanceUser</a></p>
+<p>I PUT "/InstanceUser" Tgstation.Server.Api.Models.InstanceUser =&gt; Tgstation.Server.Api.Models.InstanceUser</p>
 <p>They can be updated with a similar POST</p>
-<p>I POST "/InstanceUser" <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_user.html">Tgstation.Server.Api.Models.InstanceUser</a> =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_user.html">Tgstation.Server.Api.Models.InstanceUser</a></p>
+<p>I POST "/InstanceUser" Tgstation.Server.Api.Models.InstanceUser =&gt; Tgstation.Server.Api.Models.InstanceUser</p>
 <p>Unlike regular users, they can also be deleted, which prevents the user from discovering the instance</p>
 <p>I DELETE "/InstanceUser/{UserId}" =&gt; OK</p>
 <p>Users with the permission to modify <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Tgstation.Server.Api.Models.Instance</a> objects can also gain user editing rights for any Instance. See api_instance</p>
@@ -271,7 +271,7 @@ Instances</h1>
 <p>Instances are DreamDaemon server configurations, they live in their own directory on the disk somewhere you specify. TGS starts with no default instance, to create one use this request:</p>
 <p>PUT "/Instance" <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Tgstation.Server.Api.Models.Instance</a> =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Tgstation.Server.Api.Models.Instance</a></p>
 <p>This normally returns 201 BUT, in the case of attaching an existing instance, 200 will instead be returned</p>
-<p>The user that creates an instance will be given full <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_user.html">Tgstation.Server.Api.Models.InstanceUser</a> permission. The path must not exist at the time of creation. Support for attaching instances from backups is yet to come.</p>
+<p>The user that creates an instance will be given full Tgstation.Server.Api.Models.InstanceUser permission. The path must not exist at the time of creation. Support for attaching instances from backups is yet to come.</p>
 <p>A specific Instance may be retrieved with:</p>
 <p>GET "/Instances/{InstanceID}" =&gt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html">Tgstation.Server.Api.Models.Instance</a></p>
 <p>Instances start offline, regardless of what was specified during the create request. An offline instance will return 403 for all requests made to it.</p>

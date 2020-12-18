@@ -34,5 +34,5 @@
 <area shape="rect" id="node32" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_process_executor.html#a5618ee521ada90bb15bf3315440898f3" title="Get a IProcess by id ." alt="" coords="723,454,921,495"/>
 <area shape="rect" id="node33" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_reattach_information.html#a56616a95d65e523becb086f2042d8a93" title="Set the RuntimeInformation post construction." alt="" coords="692,375,952,431"/>
 <area shape="rect" id="node35" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a4b0a1532e11c7f7a5695123bac28c0ab" title="Starts all ISessionControllers." alt="" coords="695,310,949,351"/>
-<area shape="rect" id="node36" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#afd05b7393661f33ea421cc169b621cea" title="Send a chat message &#160;to configured watchdog channels" alt="" coords="683,245,961,286"/>
+<area shape="rect" id="node36" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a1f6855c98ad2fd9d071eb31236630258" title="Queue a chat message &#160;to configured watchdog channels." alt="" coords="679,245,965,286"/>
 </map>

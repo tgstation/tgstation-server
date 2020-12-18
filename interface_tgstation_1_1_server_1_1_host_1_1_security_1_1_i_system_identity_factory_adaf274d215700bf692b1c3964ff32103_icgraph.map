@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Security.ISystemIdentityFactory.CreateSystemIdentity" name="Tgstation.Server.Host.Security.ISystemIdentityFactory.CreateSystemIdentity">
 <area shape="rect" id="node1" title="Create a ISystemIdentity for a given user" alt="" coords="500,31,740,87"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a99457477cad4b6adcedbba47d939f005" title="Create a Api.Models.User." alt="" coords="236,5,452,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a99457477cad4b6adcedbba47d939f005" title="Create a new Api.Models.User." alt="" coords="236,5,452,47"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#afe4c43b884ebd0e9c4b60e39d4e1c162" title="Attempt to authenticate a User using ApiController.ApiHeaders" alt="" coords="236,71,452,112"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_swagger_configuration.html#a050adcf275d869f1db4760d553fadb6e" title=" " alt="" coords="5,71,188,112"/>
 </map>
