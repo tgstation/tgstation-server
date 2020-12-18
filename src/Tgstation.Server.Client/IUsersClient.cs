@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -28,9 +28,10 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// List all <see cref="User"/>s
 		/// </summary>
+		/// <param name="paginationSettings">The optional <see cref="PaginationSettings"/> for the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="IReadOnlyList{T}"/> of all <see cref="User"/>s</returns>
-		Task<IReadOnlyList<User>> List(CancellationToken cancellationToken);
+		Task<IReadOnlyList<User>> List(PaginationSettings? paginationSettings, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Create a new <paramref name="user"/>

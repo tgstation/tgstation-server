@@ -345,24 +345,29 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// List all <see cref="Api.Models.User"/>s in the server.
 		/// </summary>
+		/// <param name="page">The current page.</param>
+		/// <param name="pageSize">The page size.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200">Retrieved <see cref="Api.Models.User"/>s successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(AdministrationRights.ReadUsers)]
-		[ProducesResponseType(typeof(IEnumerable<Api.Models.User>), 200)]
-		public async Task<IActionResult> List(CancellationToken cancellationToken)
-		{
-			var users = await DatabaseContext
-				.Users
-				.AsQueryable()
-				.Where(x => x.CanonicalName != Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
-				.Include(x => x.CreatedBy)
-				.Include(x => x.OAuthConnections)
-				.Include(x => x.Group)
-				.ToListAsync(cancellationToken).ConfigureAwait(false);
-			return Json(users.Select(x => x.ToApi(true)));
-		}
+		[ProducesResponseType(typeof(Paginated<Api.Models.User>), 200)]
+		public Task<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
+			=> Paginated<Models.User, Api.Models.User>(
+				() => Task.FromResult(
+					new PaginatableResult<Models.User>(
+						DatabaseContext
+							.Users
+							.AsQueryable()
+							.Where(x => x.CanonicalName != Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
+							.Include(x => x.CreatedBy)
+							.Include(x => x.OAuthConnections)
+							.Include(x => x.Group))),
+				null,
+				page,
+				pageSize,
+				cancellationToken);
 
 		/// <summary>
 		/// Get a specific <see cref="Api.Models.User"/>.

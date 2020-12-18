@@ -37,9 +37,10 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// Lists the log files available for download.
 		/// </summary>
+		/// <param name="paginationSettings">The optional <see cref="PaginationSettings"/> for the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in an <see cref="IReadOnlyList{T}"/> of <see cref="LogFile"/> metadata.</returns>
-		Task<IReadOnlyList<LogFile>> ListLogs(CancellationToken cancellationToken);
+		Task<IReadOnlyList<LogFile>> ListLogs(PaginationSettings? paginationSettings, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Download a given <paramref name="logFile"/>.

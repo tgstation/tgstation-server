@@ -28,7 +28,7 @@ namespace Tgstation.Server.Tests
 
 		async Task TestLogs(CancellationToken cancellationToken)
 		{
-			var logs = await client.ListLogs(cancellationToken);
+			var logs = await client.ListLogs(null, cancellationToken);
 			Assert.AreNotEqual(0, logs.Count);
 			var logFile = logs.First();
 			Assert.IsNotNull(logFile);

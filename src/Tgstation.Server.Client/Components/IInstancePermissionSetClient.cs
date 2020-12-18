@@ -28,9 +28,10 @@ namespace Tgstation.Server.Client.Components
 		/// <summary>
 		/// Get the <see cref="InstancePermissionSet"/>s in the <see cref="Instance"/>
 		/// </summary>
+		/// <param name="paginationSettings">The optional <see cref="PaginationSettings"/> for the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="IReadOnlyList{T}"/> of <see cref="InstancePermissionSet"/>s in the instance</returns>
-		Task<IReadOnlyList<InstancePermissionSet>> List(CancellationToken cancellationToken);
+		Task<IReadOnlyList<InstancePermissionSet>> List(PaginationSettings? paginationSettings, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Update a <paramref name="instancePermissionSet"/>

@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -152,23 +151,27 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Lists <see cref="Api.Models.InstancePermissionSet"/>s for the instance.
 		/// </summary>
+		/// <param name="page">The current page.</param>
+		/// <param name="pageSize">The page size.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Retrieved <see cref="Api.Models.InstancePermissionSet"/>s successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(InstancePermissionSetRights.Read)]
-		[ProducesResponseType(typeof(IEnumerable<Api.Models.InstancePermissionSet>), 200)]
-		public async Task<IActionResult> List(CancellationToken cancellationToken)
-		{
-			var permissionSets = await DatabaseContext
-				.Instances
-				.AsQueryable()
-				.Where(x => x.Id == Instance.Id)
-				.SelectMany(x => x.InstancePermissionSets)
-				.ToListAsync(cancellationToken)
-				.ConfigureAwait(false);
-			return Json(permissionSets.Select(x => x.ToApi()));
-		}
+		[ProducesResponseType(typeof(Paginated<Api.Models.InstancePermissionSet>), 200)]
+		public Task<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
+			=> Paginated<Models.InstancePermissionSet, Api.Models.InstancePermissionSet>(
+				() => Task.FromResult(
+					new PaginatableResult<Models.InstancePermissionSet>(
+						DatabaseContext
+							.Instances
+							.AsQueryable()
+							.Where(x => x.Id == Instance.Id)
+							.SelectMany(x => x.InstancePermissionSets))),
+				null,
+				page,
+				pageSize,
+				cancellationToken);
 
 		/// <summary>
 		/// Gets a specific <see cref="Api.Models.InstancePermissionSet"/>.

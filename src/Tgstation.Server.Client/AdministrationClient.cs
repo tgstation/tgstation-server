@@ -10,45 +10,40 @@ using Tgstation.Server.Api.Models;
 namespace Tgstation.Server.Client
 {
 	/// <inheritdoc />
-	sealed class AdministrationClient : IAdministrationClient
+	sealed class AdministrationClient : PaginatedClient, IAdministrationClient
 	{
-		/// <summary>
-		/// The <see cref="apiClient"/> for the <see cref="AdministrationClient"/>
-		/// </summary>
-		readonly IApiClient apiClient;
-
 		/// <summary>
 		/// Construct an <see cref="AdministrationClient"/>
 		/// </summary>
-		/// <param name="apiClient">The value of <see cref="apiClient"/></param>
+		/// <param name="apiClient">The <see cref="IApiClient"/> for the <see cref="PaginatedClient"/>.</param>
 		public AdministrationClient(IApiClient apiClient)
-		{
-			this.apiClient = apiClient;
-		}
+			: base(apiClient)
+		{ }
 
 		/// <inheritdoc />
-		public Task<Administration> Read(CancellationToken cancellationToken) => apiClient.Read<Administration>(Routes.Administration, cancellationToken);
+		public Task<Administration> Read(CancellationToken cancellationToken) => ApiClient.Read<Administration>(Routes.Administration, cancellationToken);
 
 		/// <inheritdoc />
-		public Task Update(Administration administration, CancellationToken cancellationToken) => apiClient.Update(Routes.Administration, administration ?? throw new ArgumentNullException(nameof(administration)), cancellationToken);
+		public Task Update(Administration administration, CancellationToken cancellationToken) => ApiClient.Update(Routes.Administration, administration ?? throw new ArgumentNullException(nameof(administration)), cancellationToken);
 
 		/// <inheritdoc />
-		public Task Restart(CancellationToken cancellationToken) => apiClient.Delete(Routes.Administration, cancellationToken);
+		public Task Restart(CancellationToken cancellationToken) => ApiClient.Delete(Routes.Administration, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<LogFile>> ListLogs(CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<LogFile>>(Routes.Logs, cancellationToken);
+		public Task<IReadOnlyList<LogFile>> ListLogs(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
+			=> ReadPaged<LogFile>(paginationSettings, Routes.Logs, null, cancellationToken);
 
 		/// <inheritdoc />
 		public async Task<Tuple<LogFile, Stream>> GetLog(LogFile logFile, CancellationToken cancellationToken)
 		{
-			var resultFile = await apiClient.Read<LogFile>(
+			var resultFile = await ApiClient.Read<LogFile>(
 				Routes.Logs + Routes.SanitizeGetPath(
 					HttpUtility.UrlEncode(
 						logFile?.Name ?? throw new ArgumentNullException(nameof(logFile)))),
 				cancellationToken)
 				.ConfigureAwait(false);
 
-			var stream = await apiClient.Download(resultFile, cancellationToken).ConfigureAwait(false);
+			var stream = await ApiClient.Download(resultFile, cancellationToken).ConfigureAwait(false);
 			try
 			{
 				return Tuple.Create(resultFile, stream);

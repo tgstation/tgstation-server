@@ -26,6 +26,8 @@ namespace Tgstation.Server.Tests
 				BasicTests(cancellationToken),
 				TestCreateSysUser(cancellationToken),
 				TestSpamCreation(cancellationToken)).ConfigureAwait(false);
+
+			await TestPagination(cancellationToken);
 		}
 
 		async Task BasicTests(CancellationToken cancellationToken)
@@ -46,7 +48,7 @@ namespace Tgstation.Server.Tests
 			Assert.AreEqual("TGS", systemUser.Name);
 			Assert.AreEqual(false, systemUser.Enabled);
 
-			var users = await serverClient.Users.List(cancellationToken);
+			var users = await serverClient.Users.List(null, cancellationToken);
 			Assert.IsTrue(users.Count > 0);
 			Assert.IsFalse(users.Any(x => x.Id == systemUser.Id));
 
@@ -234,6 +236,56 @@ namespace Tgstation.Server.Tests
 			}
 
 			Assert.AreEqual(RepeatCount, tasks.Select(task => task.Result.Id).Distinct().Count(), "Did not receive expected number of unique user IDs!");
+		}
+
+		async Task TestPagination(CancellationToken cancellationToken)
+		{
+			// we test pagination here b/c it's the only spot we have a decent amount of entities
+			var nullSettings = await serverClient.Users.List(null, cancellationToken);
+			var emptySettings = await serverClient.Users.List(
+				new PaginationSettings
+				{
+				}, cancellationToken);
+
+			Assert.AreEqual(nullSettings.Count, emptySettings.Count);
+			Assert.IsTrue(nullSettings.All(x => emptySettings.SingleOrDefault(y => x.Id == y.Id) != null));
+
+			await ApiAssert.ThrowsException<ApiConflictException>(() => serverClient.Users.List(
+				new PaginationSettings
+				{
+					PageSize = -2143
+				}, cancellationToken), ErrorCode.ApiInvalidPageOrPageSize);
+			await ApiAssert.ThrowsException<ApiConflictException>(() => serverClient.Users.List(
+				new PaginationSettings
+				{
+					PageSize = Int32.MaxValue
+				}, cancellationToken), ErrorCode.ApiPageTooLarge);
+
+			await serverClient.Users.List(
+				new PaginationSettings
+				{
+					PageSize = 50
+				},
+				cancellationToken);
+
+			var skipped = await serverClient.Users.List(new PaginationSettings
+			{
+				Offset = 50,
+				RetrieveCount = 5
+			}, cancellationToken);
+			Assert.AreEqual(5, skipped.Count);
+
+			var allAfterSkipped = await serverClient.Users.List(new PaginationSettings
+			{
+				Offset = 50,
+			}, cancellationToken);
+			Assert.IsTrue(5 < allAfterSkipped.Count);
+
+			var limited = await serverClient.Users.List(new PaginationSettings
+			{
+				RetrieveCount = 12,
+			}, cancellationToken);
+			Assert.AreEqual(12, limited.Count);
 		}
 	}
 }

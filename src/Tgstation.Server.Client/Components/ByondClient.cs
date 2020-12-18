@@ -9,13 +9,8 @@ using Tgstation.Server.Api.Models;
 namespace Tgstation.Server.Client.Components
 {
 	/// <inheritdoc />
-	sealed class ByondClient : IByondClient
+	sealed class ByondClient : PaginatedClient, IByondClient
 	{
-		/// <summary>
-		/// The <see cref="IApiClient"/> for the <see cref="ByondClient"/>
-		/// </summary>
-		readonly IApiClient apiClient;
-
 		/// <summary>
 		/// The <see cref="Instance"/> for the <see cref="ByondClient"/>
 		/// </summary>
@@ -24,24 +19,25 @@ namespace Tgstation.Server.Client.Components
 		/// <summary>
 		/// Construct a <see cref="ByondClient"/>
 		/// </summary>
-		/// <param name="apiClient">The value of <see cref="apiClient"/></param>
+		/// <param name="apiClient">The <see cref="IApiClient"/> for the <see cref="PaginatedClient"/>.</param>
 		/// <param name="instance">The value of <see cref="Instance"/></param>
 		public ByondClient(IApiClient apiClient, Instance instance)
+			: base(apiClient)
 		{
-			this.apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 		}
 
 		/// <inheritdoc />
-		public Task<Byond> ActiveVersion(CancellationToken cancellationToken) => apiClient.Read<Byond>(Routes.Byond, instance.Id, cancellationToken);
+		public Task<Byond> ActiveVersion(CancellationToken cancellationToken) => ApiClient.Read<Byond>(Routes.Byond, instance.Id, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<Byond>> InstalledVersions(CancellationToken cancellationToken) => apiClient.Read<IReadOnlyList<Byond>>(Routes.ListRoute(Routes.Byond), instance.Id, cancellationToken);
+		public Task<IReadOnlyList<Byond>> InstalledVersions(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
+			=> ReadPaged<Byond>(paginationSettings, Routes.ListRoute(Routes.Byond), instance.Id, cancellationToken);
 
 		/// <inheritdoc />
 		public async Task<Byond> SetActiveVersion(Byond byond, Stream zipFileStream, CancellationToken cancellationToken)
 		{
-			var result = await apiClient.Update<Byond, Byond>(
+			var result = await ApiClient.Update<Byond, Byond>(
 				Routes.Byond,
 				byond ?? throw new ArgumentNullException(nameof(byond)),
 				instance.Id,
@@ -49,7 +45,7 @@ namespace Tgstation.Server.Client.Components
 				.ConfigureAwait(false);
 
 			if (byond.UploadCustomZip == true)
-				await apiClient.Upload(result, zipFileStream, cancellationToken).ConfigureAwait(false);
+				await ApiClient.Upload(result, zipFileStream, cancellationToken).ConfigureAwait(false);
 
 			return result;
 		}

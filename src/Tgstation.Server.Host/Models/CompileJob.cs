@@ -5,7 +5,7 @@ using Tgstation.Server.Api.Models;
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class CompileJob : Api.Models.Internal.CompileJob
+	public sealed class CompileJob : Api.Models.Internal.CompileJob, IApiTransformable<Api.Models.CompileJob>
 	{
 		/// <summary>
 		/// See <see cref="Api.Models.CompileJob.Job"/>
@@ -78,10 +78,7 @@ namespace Tgstation.Server.Host.Models
 			}
 		}
 
-		/// <summary>
-		/// Convert the <see cref="CompileJob"/> to it's API form
-		/// </summary>
-		/// <returns>A new <see cref="Api.Models.CompileJob"/></returns>
+		/// <inheritdoc />
 		public Api.Models.CompileJob ToApi() => new Api.Models.CompileJob
 		{
 			DirectoryName = DirectoryName,

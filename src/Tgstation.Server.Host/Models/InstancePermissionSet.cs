@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class InstancePermissionSet : Api.Models.InstancePermissionSet
+	public sealed class InstancePermissionSet : Api.Models.InstancePermissionSet, IApiTransformable<Api.Models.InstancePermissionSet>
 	{
 		/// <summary>
 		/// The row Id
@@ -27,10 +27,7 @@ namespace Tgstation.Server.Host.Models
 		[Required]
 		public PermissionSet PermissionSet { get; set; }
 
-		/// <summary>
-		/// Convert the <see cref="InstancePermissionSet"/> to it's API form
-		/// </summary>
-		/// <returns>A new <see cref="Api.Models.InstancePermissionSet"/></returns>
+		/// <inheritdoc />
 		public Api.Models.InstancePermissionSet ToApi() => new Api.Models.InstancePermissionSet
 		{
 			ByondRights = ByondRights,

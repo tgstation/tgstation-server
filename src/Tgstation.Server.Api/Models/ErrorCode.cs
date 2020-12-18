@@ -250,18 +250,16 @@ namespace Tgstation.Server.Api.Models
 		RepoWhitespaceCommitterEmail,
 
 		/// <summary>
-		/// Deprecated.
+		/// A paginated request asked for too large a page.
 		/// </summary>
-		[Description("Deprecated error code.")]
-		[Obsolete("With API v7 ", true)]
-		DreamDaemonDuplicatePorts,
+		[Description("Requested pageSize is too large!")]
+		ApiPageTooLarge,
 
 		/// <summary>
-		/// Deprecated.
+		/// A paginated request asked for page 0.
 		/// </summary>
-		[Description("Deprecated error code.")]
-		[Obsolete("With DMAPI-5.0.0, ultrasafe security is now supported.", true)]
-		InvalidSecurityLevel,
+		[Description("Cannot request page or pageSize <= 0.")]
+		ApiInvalidPageOrPageSize,
 
 		/// <summary>
 		/// A requested <see cref="ChatChannel"/>'s data does not match with its <see cref="Internal.ChatBot.Provider"/>.

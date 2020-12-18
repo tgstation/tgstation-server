@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -95,13 +94,8 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ErrorMessage), 404)]
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
-			var compileJob = await DatabaseContext
-				.CompileJobs
-				.AsQueryable()
-				.Where(x => x.Id == id && x.Job.Instance.Id == Instance.Id)
-				.Include(x => x.Job).ThenInclude(x => x.StartedBy)
-				.Include(x => x.RevisionInformation).ThenInclude(x => x.PrimaryTestMerge).ThenInclude(x => x.MergedBy)
-				.Include(x => x.RevisionInformation).ThenInclude(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).ThenInclude(x => x.MergedBy)
+			var compileJob = await BaseCompileJobsQuery()
+				.Where(x => x.Id == id)
 				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (compileJob == default)
 				return NotFound();
@@ -109,29 +103,44 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
+		/// Base query for pulling in all required <see cref="CompileJob"/> fields.
+		/// </summary>
+		/// <returns>An <see cref="IQueryable{T}"/> of <see cref="CompileJob"/> with all the inclusions.</returns>
+		IQueryable<Models.CompileJob> BaseCompileJobsQuery() => DatabaseContext
+			.CompileJobs
+			.AsQueryable()
+			.Include(x => x.Job)
+				.ThenInclude(x => x.StartedBy)
+			.Include(x => x.RevisionInformation)
+				.ThenInclude(x => x.PrimaryTestMerge)
+					.ThenInclude(x => x.MergedBy)
+			.Include(x => x.RevisionInformation)
+				.ThenInclude(x => x.ActiveTestMerges)
+					.ThenInclude(x => x.TestMerge)
+						.ThenInclude(x => x.MergedBy)
+			.Where(x => x.Job.Instance.Id == Instance.Id);
+
+		/// <summary>
 		/// List all <see cref="Api.Models.CompileJob"/> <see cref="EntityId"/>s for the instance.
 		/// </summary>
+		/// <param name="page">The current page.</param>
+		/// <param name="pageSize">The page size.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Retrieved <see cref="EntityId"/>s successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(DreamMakerRights.CompileJobs)]
-		[ProducesResponseType(typeof(List<EntityId>), 200)]
-		public async Task<IActionResult> List(CancellationToken cancellationToken)
-		{
-			var compileJobs = await DatabaseContext
-				.CompileJobs
-				.AsQueryable()
-				.Where(x => x.Job.Instance.Id == Instance.Id)
-				.OrderByDescending(x => x.Job.StoppedAt)
-				.Select(x => new EntityId
-				{
-					Id = x.Id
-				})
-				.ToListAsync(cancellationToken)
-				.ConfigureAwait(false);
-			return Json(compileJobs);
-		}
+		[ProducesResponseType(typeof(Paginated<Api.Models.CompileJob>), 200)]
+		public Task<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
+			=> Paginated<Models.CompileJob, Api.Models.CompileJob>(
+				() => Task.FromResult(
+					new PaginatableResult<Models.CompileJob>(
+						BaseCompileJobsQuery()
+							.OrderByDescending(x => x.Job.StoppedAt))),
+				null,
+				page,
+				pageSize,
+				cancellationToken);
 
 		/// <summary>
 		/// Begin deploying repository code.

@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -53,50 +52,54 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Get active <see cref="Api.Models.Job"/>s for the instance.
 		/// </summary>
+		/// <param name="page">The current page.</param>
+		/// <param name="pageSize">The page size.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Retrieved active <see cref="Api.Models.Job"/>s successfully.</response>
 		[HttpGet]
 		[TgsAuthorize]
-		[ProducesResponseType(typeof(IEnumerable<Api.Models.Job>), 200)]
-		public async Task<IActionResult> Read(CancellationToken cancellationToken)
-		{
-			var result = await DatabaseContext
-				.Jobs
-				.AsQueryable()
-				.Include(x => x.StartedBy)
-				.Where(x => x.Instance.Id == Instance.Id && !x.StoppedAt.HasValue)
-				.OrderByDescending(x => x.StartedAt)
-				.ToListAsync(cancellationToken)
-				.ConfigureAwait(false);
-			return Json(result.Select(x => x.ToApi()));
-		}
+		[ProducesResponseType(typeof(Paginated<Api.Models.Job>), 200)]
+		public Task<IActionResult> Read([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
+			=> Paginated<Models.Job, Api.Models.Job>(
+				() => Task.FromResult(
+					new PaginatableResult<Models.Job>(
+						DatabaseContext
+						.Jobs
+						.AsQueryable()
+						.Include(x => x.StartedBy)
+						.Where(x => x.Instance.Id == Instance.Id && !x.StoppedAt.HasValue)
+						.OrderByDescending(x => x.StartedAt))),
+				null,
+				page,
+				pageSize,
+				cancellationToken);
 
 		/// <summary>
 		/// List all <see cref="Api.Models.Job"/> <see cref="EntityId"/>s for the instance in reverse creation order.
 		/// </summary>
+		/// <param name="page">The current page.</param>
+		/// <param name="pageSize">The page size.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Retrieved <see cref="Api.Models.Job"/> <see cref="EntityId"/>s successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize]
-		[ProducesResponseType(typeof(List<EntityId>), 200)]
-		public async Task<IActionResult> List(CancellationToken cancellationToken)
-		{
-			// you KNOW this will need pagination eventually right?
-			var jobs = await DatabaseContext
-				.Jobs
-				.AsQueryable()
-				.Where(x => x.Instance.Id == Instance.Id)
-				.OrderByDescending(x => x.StartedAt)
-				.Select(x => new EntityId
-				{
-					Id = x.Id
-				})
-				.ToListAsync(cancellationToken)
-				.ConfigureAwait(false);
-			return Json(jobs);
-		}
+		[ProducesResponseType(typeof(Paginated<Api.Models.Job>), 200)]
+		public Task<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
+			=> Paginated<Models.Job, Api.Models.Job>(
+				() => Task.FromResult(
+					new PaginatableResult<Models.Job>(
+						DatabaseContext
+						.Jobs
+						.AsQueryable()
+						.Include(x => x.StartedBy)
+						.Where(x => x.Instance.Id == Instance.Id)
+						.OrderByDescending(x => x.StartedAt))),
+				null,
+				page,
+				pageSize,
+				cancellationToken);
 
 		/// <summary>
 		/// Cancel a running <see cref="Api.Models.Job"/>.

@@ -403,10 +403,10 @@ namespace Tgstation.Server.Tests
 				{
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 
-					var jobs = await instanceClient.Jobs.ListActive(cancellationToken);
+					var jobs = await instanceClient.Jobs.ListActive(null, cancellationToken);
 					if (!jobs.Any())
 					{
-						var entities = await instanceClient.Jobs.List(cancellationToken);
+						var entities = await instanceClient.Jobs.List(null, cancellationToken);
 						var getTasks = entities
 							.Select(e => instanceClient.Jobs.GetId(e, cancellationToken))
 							.ToList();
@@ -446,10 +446,10 @@ namespace Tgstation.Server.Tests
 				{
 					var instanceClient = adminClient.Instances.CreateClient(instance);
 
-					var jobs = await instanceClient.Jobs.ListActive(cancellationToken);
+					var jobs = await instanceClient.Jobs.ListActive(null, cancellationToken);
 					if (!jobs.Any())
 					{
-						var entities = await instanceClient.Jobs.List(cancellationToken);
+						var entities = await instanceClient.Jobs.List(null, cancellationToken);
 						var getTasks = entities
 							.Select(e => instanceClient.Jobs.GetId(e, cancellationToken))
 							.ToList();
