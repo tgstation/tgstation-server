@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -153,23 +152,27 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Lists <see cref="UserGroup"/>s for the instance.
 		/// </summary>
+		/// <param name="page">The current page.</param>
+		/// <param name="pageSize">The page size.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Retrieved <see cref="UserGroup"/>s successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(InstancePermissionSetRights.Read)]
-		[ProducesResponseType(typeof(IEnumerable<UserGroup>), 200)]
-		public async Task<IActionResult> List(CancellationToken cancellationToken)
-		{
-			var users = await DatabaseContext
-				.Groups
-				.AsQueryable()
-				.Include(x => x.Users)
-				.Include(x => x.PermissionSet)
-				.ToListAsync(cancellationToken)
-				.ConfigureAwait(false);
-			return Json(users.Select(x => x.ToApi(true)));
-		}
+		[ProducesResponseType(typeof(Paginated<UserGroup>), 200)]
+		public Task<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
+			=> Paginated<Models.UserGroup, UserGroup>(
+				() => Task.FromResult(
+					new PaginatableResult<Models.UserGroup>(
+						DatabaseContext
+							.Groups
+							.AsQueryable()
+							.Include(x => x.Users)
+							.Include(x => x.PermissionSet))),
+				null,
+				page,
+				pageSize,
+				cancellationToken);
 
 		/// <summary>
 		/// Delete an <see cref="UserGroup"/>.

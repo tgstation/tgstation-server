@@ -21,9 +21,10 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// List all <see cref="UserGroup"/>s.
 		/// </summary>
+		/// <param name="paginationSettings">The optional <see cref="PaginationSettings"/> for the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="IReadOnlyList{T}"/> of all <see cref="UserGroup"/>s.</returns>
-		Task<IReadOnlyList<UserGroup>> List(CancellationToken cancellationToken);
+		Task<IReadOnlyList<UserGroup>> List(PaginationSettings? paginationSettings, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Create a new <paramref name="group"/>.

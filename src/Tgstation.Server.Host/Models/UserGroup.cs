@@ -5,7 +5,7 @@ using System.Linq;
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class UserGroup : Api.Models.Internal.UserGroup
+	public sealed class UserGroup : Api.Models.Internal.UserGroup, IApiTransformable<Api.Models.UserGroup>
 	{
 		/// <summary>
 		/// The <see cref="Models.PermissionSet"/> the <see cref="UserGroup"/> has.
@@ -32,5 +32,8 @@ namespace Tgstation.Server.Host.Models
 				? Users?.Select(x => x.ToApi(false)).OfType<Api.Models.Internal.User>().ToList() ?? new List<Api.Models.Internal.User>()
 				: null,
 		};
+
+		/// <inheritdoc />
+		public Api.Models.UserGroup ToApi() => ToApi(true);
 	}
 }

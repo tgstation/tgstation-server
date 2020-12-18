@@ -117,7 +117,7 @@ namespace Tgstation.Server.Tests
 			Assert.AreEqual(AdministrationRights.None, group2.PermissionSet.AdministrationRights);
 			Assert.AreEqual(InstanceManagerRights.List, group2.PermissionSet.InstanceManagerRights);
 
-			var groups = await serverClient.Groups.List(cancellationToken);
+			var groups = await serverClient.Groups.List(null, cancellationToken);
 			Assert.AreEqual(2, groups.Count);
 
 			foreach (var igroup in groups)
@@ -128,7 +128,7 @@ namespace Tgstation.Server.Tests
 
 			await serverClient.Groups.Delete(group2, cancellationToken);
 
-			groups = await serverClient.Groups.List(cancellationToken);
+			groups = await serverClient.Groups.List(null, cancellationToken);
 			Assert.AreEqual(1, groups.Count);
 
 			group.PermissionSet.InstanceManagerRights = RightsHelper.AllRights<InstanceManagerRights>();
