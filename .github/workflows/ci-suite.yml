@@ -392,7 +392,7 @@ jobs:
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'PostgresSql' }}
       run: |
         cd src/Tgstation.Server.Host
-        dotnet publish -c ${{ matrix.configuration }} --no-build -o ../../Artifacts/ServerUpdate
+        dotnet publish -c ${{ matrix.configuration }}NoService --no-build -o ../../Artifacts/ServerUpdate
 
     - name: Store Server Console
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'MariaDB' }}
