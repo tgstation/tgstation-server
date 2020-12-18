@@ -425,7 +425,7 @@ Should you end up with a lost database for some reason or want to reattach a det
 
 ## Troubleshooting
 
-Feel free to ask for help at the coderbus discord in \#hosting-questions: https://discord.gg/Vh8TJp9. Cyberboss#8246 can answer most questions.
+Feel free to ask for help at the coderbus discord in \#hosting-questions: https://discord.gg/Vh8TJp9. Cyberboss#0016 can answer most questions.
 
 ## Contributing
 
