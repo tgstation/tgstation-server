@@ -828,8 +828,7 @@ namespace Tgstation.Server.Host.Components.Chat
 			lock (mappedChannels) // so it doesn't change while we're using it
 				wdChannels = mappedChannels.Select(x => x.Key).ToList();
 
-			QueueMessage(message, wdChannels);
-			return Task.CompletedTask;
+			return SendMessage(message, wdChannels, cancellationToken);
 		}
 
 		/// <summary>
