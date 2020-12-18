@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -39,6 +39,11 @@ namespace Tgstation.Server.Client
 		/// Access the <see cref="IUsersClient"/>
 		/// </summary>
 		IUsersClient Users { get; }
+
+		/// <summary>
+		/// Access the <see cref="IUserGroupsClient"/>.
+		/// </summary>
+		IUserGroupsClient Groups { get; }
 
 		/// <summary>
 		/// The <see cref="ServerInformation"/> of the <see cref="IServerClient"/>

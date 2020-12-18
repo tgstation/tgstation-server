@@ -1,4 +1,4 @@
-﻿namespace Tgstation.Server.Api.Rights
+namespace Tgstation.Server.Api.Rights
 {
 	/// <summary>
 	/// The type of rights a model uses
@@ -46,8 +46,8 @@
 		Configuration,
 
 		/// <summary>
-		/// <see cref="InstanceUserRights"/>
+		/// <see cref="InstancePermissionSetRights"/>
 		/// </summary>
-		InstanceUser
+		InstancePermissionSet
 	}
 }

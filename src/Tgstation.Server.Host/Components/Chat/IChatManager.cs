@@ -44,21 +44,19 @@ namespace Tgstation.Server.Host.Components.Chat
 		Task ChangeChannels(long connectionId, IEnumerable<Api.Models.ChatChannel> newChannels, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Send a chat <paramref name="message"/> to a given set of <paramref name="channelIds"/>
+		/// Queue a chat <paramref name="message"/> to a given set of <paramref name="channelIds"/>.
 		/// </summary>
-		/// <param name="message">The message being sent</param>
-		/// <param name="channelIds">The <see cref="Models.ChatChannel.Id"/>s of the <see cref="Models.ChatChannel"/>s to send to</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task SendMessage(string message, IEnumerable<ulong> channelIds, CancellationToken cancellationToken);
+		/// <param name="message">The message being sent.</param>
+		/// <param name="channelIds">The <see cref="Models.ChatChannel.Id"/>s of the <see cref="Models.ChatChannel"/>s to send to.</param>
+		void QueueMessage(string message, IEnumerable<ulong> channelIds);
 
 		/// <summary>
-		/// Send a chat <paramref name="message"/> to configured watchdog channels
+		/// Queue a chat <paramref name="message"/> to configured watchdog channels.
 		/// </summary>
-		/// <param name="message">The message being sent</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task SendWatchdogMessage(string message, CancellationToken cancellationToken);
+		/// <param name="message">The message being sent.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		Task QueueWatchdogMessage(string message, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Send the message for a deployment to configured deployment channels.
@@ -69,16 +67,14 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <param name="gitHubOwner">The repository GitHub owner, if any.</param>
 		/// <param name="gitHubRepo">The repository GitHub name, if any.</param>
 		/// <param name="localCommitPushed"><see langword="true"/> if the local deployment commit was pushed to the remote repository.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="Func{T1, T2, TResult}"/> to call to update the message at the deployment's conclusion. Parameters: Error message if any, DreamMaker output if any.</returns>
-		Task<Func<string, string, Task>> SendDeploymentMessage(
+		/// <returns>An <see cref="Action{T1, T2}"/> to call to update the message at the deployment's conclusion. Parameters: Error message if any, DreamMaker output if any.</returns>
+		Action<string, string> QueueDeploymentMessage(
 			Models.RevisionInformation revisionInformation,
 			Version byondVersion,
 			DateTimeOffset? estimatedCompletionTime,
 			string gitHubOwner,
 			string gitHubRepo,
-			bool localCommitPushed,
-			CancellationToken cancellationToken);
+			bool localCommitPushed);
 
 		/// <summary>
 		/// Start tracking <see cref="Commands.CustomCommand"/>s and <see cref="ChannelRepresentation"/>s.

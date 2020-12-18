@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class InstanceUser : Api.Models.InstanceUser, IApiTransformable<Api.Models.InstanceUser>
+	public sealed class InstancePermissionSet : Api.Models.InstancePermissionSet, IApiTransformable<Api.Models.InstancePermissionSet>
 	{
 		/// <summary>
 		/// The row Id
@@ -16,13 +16,19 @@ namespace Tgstation.Server.Host.Models
 		public long InstanceId { get; set; }
 
 		/// <summary>
-		/// The <see cref="Models.Instance"/> the <see cref="InstanceUser"/> belongs to
+		/// The <see cref="Models.Instance"/> the <see cref="InstancePermissionSet"/> belongs to.
 		/// </summary>
 		[Required]
 		public Instance Instance { get; set; }
 
+		/// <summary>
+		/// The <see cref="Models.PermissionSet"/> the <see cref="InstancePermissionSet"/> belongs to.
+		/// </summary>
+		[Required]
+		public PermissionSet PermissionSet { get; set; }
+
 		/// <inheritdoc />
-		public Api.Models.InstanceUser ToApi() => new Api.Models.InstanceUser
+		public Api.Models.InstancePermissionSet ToApi() => new Api.Models.InstancePermissionSet
 		{
 			ByondRights = ByondRights,
 			ChatBotRights = ChatBotRights,
@@ -30,8 +36,8 @@ namespace Tgstation.Server.Host.Models
 			DreamDaemonRights = DreamDaemonRights,
 			DreamMakerRights = DreamMakerRights,
 			RepositoryRights = RepositoryRights,
-			InstanceUserRights = InstanceUserRights,
-			UserId = UserId
+			InstancePermissionSetRights = InstancePermissionSetRights,
+			PermissionSetId = PermissionSetId
 		};
 	}
 }

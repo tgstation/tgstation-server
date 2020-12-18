@@ -169,9 +169,9 @@ namespace Tgstation.Server.Host.Controllers
 					PostTestMergeComment = false,
 					CreateGitHubDeployments = false
 				},
-				InstanceUsers = new List<Models.InstanceUser> // give this user full privileges on the instance
+				InstancePermissionSets = new List<Models.InstancePermissionSet> // give this user full privileges on the instance
 				{
-					InstanceAdminUser(null)
+					InstanceAdminPermissionSet(null)
 				}
 			};
 		}
@@ -188,21 +188,21 @@ namespace Tgstation.Server.Host.Controllers
 			return path;
 		}
 
-		Models.InstanceUser InstanceAdminUser(Models.InstanceUser userToModify)
+		Models.InstancePermissionSet InstanceAdminPermissionSet(Models.InstancePermissionSet permissionSetToModify)
 		{
-			if (userToModify == null)
-				userToModify = new Models.InstanceUser()
+			if (permissionSetToModify == null)
+				permissionSetToModify = new Models.InstancePermissionSet()
 				{
-					UserId = AuthenticationContext.User.Id.Value
+					PermissionSetId = AuthenticationContext.PermissionSet.Id.Value
 				};
-			userToModify.ByondRights = RightsHelper.AllRights<ByondRights>();
-			userToModify.ChatBotRights = RightsHelper.AllRights<ChatBotRights>();
-			userToModify.ConfigurationRights = RightsHelper.AllRights<ConfigurationRights>();
-			userToModify.DreamDaemonRights = RightsHelper.AllRights<DreamDaemonRights>();
-			userToModify.DreamMakerRights = RightsHelper.AllRights<DreamMakerRights>();
-			userToModify.RepositoryRights = RightsHelper.AllRights<RepositoryRights>();
-			userToModify.InstanceUserRights = RightsHelper.AllRights<InstanceUserRights>();
-			return userToModify;
+			permissionSetToModify.ByondRights = RightsHelper.AllRights<ByondRights>();
+			permissionSetToModify.ChatBotRights = RightsHelper.AllRights<ChatBotRights>();
+			permissionSetToModify.ConfigurationRights = RightsHelper.AllRights<ConfigurationRights>();
+			permissionSetToModify.DreamDaemonRights = RightsHelper.AllRights<DreamDaemonRights>();
+			permissionSetToModify.DreamMakerRights = RightsHelper.AllRights<DreamMakerRights>();
+			permissionSetToModify.RepositoryRights = RightsHelper.AllRights<RepositoryRights>();
+			permissionSetToModify.InstancePermissionSetRights = RightsHelper.AllRights<InstancePermissionSetRights>();
+			return permissionSetToModify;
 		}
 
 		/// <summary>
@@ -431,7 +431,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (moveJob != default)
 			{
 				// don't allow them to cancel it if they can't start it.
-				if (!AuthenticationContext.User.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.Relocate))
+				if (!AuthenticationContext.PermissionSet.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.Relocate))
 					return Forbid();
 				await jobManager.CancelJob(moveJob, AuthenticationContext.User, true, cancellationToken).ConfigureAwait(false); // cancel it now
 			}
@@ -602,16 +602,16 @@ namespace Tgstation.Server.Host.Controllers
 			IQueryable<Models.Instance> GetBaseQuery()
 			{
 				IQueryable<Models.Instance> query = DatabaseContext.Instances;
-				if (!AuthenticationContext.User.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List))
+				if (!AuthenticationContext.PermissionSet.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List))
 					query = query
-						.Where(x => x.InstanceUsers.Any(y => y.UserId == AuthenticationContext.User.Id))
-						.Where(x => x.InstanceUsers.Any(instanceUser =>
+						.Where(x => x.InstancePermissionSets.Any(y => y.PermissionSetId == AuthenticationContext.PermissionSet.Id.Value))
+						.Where(x => x.InstancePermissionSets.Any(instanceUser =>
 							instanceUser.ByondRights != ByondRights.None ||
 							instanceUser.ChatBotRights != ChatBotRights.None ||
 							instanceUser.ConfigurationRights != ConfigurationRights.None ||
 							instanceUser.DreamDaemonRights != DreamDaemonRights.None ||
 							instanceUser.DreamMakerRights != DreamMakerRights.None ||
-							instanceUser.InstanceUserRights != InstanceUserRights.None));
+							instanceUser.InstancePermissionSetRights != InstancePermissionSetRights.None));
 
 				// Hack for EF IAsyncEnumerable BS
 				return query.Select(x => x);
@@ -662,7 +662,7 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ErrorMessage), 410)]
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
-			var cantList = !AuthenticationContext.User.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List);
+			var cantList = !AuthenticationContext.PermissionSet.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List);
 			IQueryable<Models.Instance> QueryForUser()
 			{
 				var query = DatabaseContext
@@ -671,7 +671,7 @@ namespace Tgstation.Server.Host.Controllers
 					.Where(x => x.Id == id);
 
 				if (cantList)
-					query = query.Include(x => x.InstanceUsers);
+					query = query.Include(x => x.InstancePermissionSets);
 				return query;
 			}
 
@@ -683,13 +683,13 @@ namespace Tgstation.Server.Host.Controllers
 			if (InstanceRequiredController.ValidateInstanceOnlineStatus(instanceManager, Logger, instance))
 				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
-			if (cantList && !instance.InstanceUsers.Any(instanceUser => instanceUser.UserId == AuthenticationContext.User.Id &&
+			if (cantList && !instance.InstancePermissionSets.Any(instanceUser => instanceUser.PermissionSetId == AuthenticationContext.PermissionSet.Id.Value &&
 				(instanceUser.ByondRights != ByondRights.None ||
 				instanceUser.ChatBotRights != ChatBotRights.None ||
 				instanceUser.ConfigurationRights != ConfigurationRights.None ||
 				instanceUser.DreamDaemonRights != DreamDaemonRights.None ||
 				instanceUser.DreamMakerRights != DreamMakerRights.None ||
-				instanceUser.InstanceUserRights != InstanceUserRights.None)))
+				instanceUser.InstancePermissionSetRights != InstancePermissionSetRights.None)))
 				return Forbid();
 
 			var api = instance.ToApi();
@@ -719,22 +719,22 @@ namespace Tgstation.Server.Host.Controllers
 		public async Task<IActionResult> GrantPermissions(long id, CancellationToken cancellationToken)
 		{
 			// ensure the current user has write privilege on the instance
-			var usersInstanceUser = await DatabaseContext
+			var usersInstancePermissionSet = await DatabaseContext
 				.Instances
 				.AsQueryable()
 				.Where(x => x.Id == id)
-				.SelectMany(x => x.InstanceUsers)
-				.Where(x => x.UserId == AuthenticationContext.User.Id)
+				.SelectMany(x => x.InstancePermissionSets)
+				.Where(x => x.PermissionSetId == AuthenticationContext.PermissionSet.Id.Value)
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);
-			if (usersInstanceUser == default)
+			if (usersInstancePermissionSet == default)
 			{
-				var instanceAdminUser = InstanceAdminUser(null);
+				var instanceAdminUser = InstanceAdminPermissionSet(null);
 				instanceAdminUser.InstanceId = id;
-				DatabaseContext.InstanceUsers.Add(instanceAdminUser);
+				DatabaseContext.InstancePermissionSets.Add(instanceAdminUser);
 			}
 			else
-				InstanceAdminUser(usersInstanceUser);
+				InstanceAdminPermissionSet(usersInstancePermissionSet);
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 

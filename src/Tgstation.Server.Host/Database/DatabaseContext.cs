@@ -62,9 +62,9 @@ namespace Tgstation.Server.Host.Database
 		public DbSet<RepositorySettings> RepositorySettings { get; set; }
 
 		/// <summary>
-		/// The <see cref="InstanceUser"/>s in the <see cref="DatabaseContext"/>.
+		/// The <see cref="InstancePermissionSet"/>s in the <see cref="DatabaseContext"/>.
 		/// </summary>
-		public DbSet<InstanceUser> InstanceUsers { get; set; }
+		public DbSet<InstancePermissionSet> InstancePermissionSets { get; set; }
 
 		/// <summary>
 		/// The <see cref="ChatChannel"/>s in the <see cref="DatabaseContext"/>.
@@ -97,6 +97,16 @@ namespace Tgstation.Server.Host.Database
 		public DbSet<OAuthConnection> OAuthConnections { get; set; }
 
 		/// <summary>
+		/// The <see cref="PermissionSet"/>s in the <see cref="DatabaseContext"/>
+		/// </summary>
+		public DbSet<PermissionSet> PermissionSets { get; set; }
+
+		/// <summary>
+		/// The <see cref="UserGroup"/>s in the <see cref="DatabaseContext"/>
+		/// </summary>
+		public DbSet<UserGroup> Groups { get; set; }
+
+		/// <summary>
 		/// The <see cref="DeleteBehavior"/> for the <see cref="CompileJob"/>/<see cref="RevisionInformation"/> foreign key.
 		/// </summary>
 		protected virtual DeleteBehavior RevInfoCompileJobDeleteBehavior => DeleteBehavior.ClientNoAction;
@@ -108,7 +118,7 @@ namespace Tgstation.Server.Host.Database
 		IDatabaseCollection<Instance> IDatabaseContext.Instances => instancesCollection;
 
 		/// <inheritdoc />
-		IDatabaseCollection<InstanceUser> IDatabaseContext.InstanceUsers => instanceUsersCollection;
+		IDatabaseCollection<InstancePermissionSet> IDatabaseContext.InstancePermissionSets => instancePermissionSetsCollection;
 
 		/// <inheritdoc />
 		IDatabaseCollection<Job> IDatabaseContext.Jobs => jobsCollection;
@@ -140,6 +150,12 @@ namespace Tgstation.Server.Host.Database
 		/// <inheritdoc />
 		IDatabaseCollection<OAuthConnection> IDatabaseContext.OAuthConnections => oAuthConnections;
 
+		/// <inheritdoc />
+		IDatabaseCollection<UserGroup> IDatabaseContext.Groups => groups;
+
+		/// <inheritdoc />
+		IDatabaseCollection<PermissionSet> IDatabaseContext.PermissionSets => permissionSets;
+
 		/// <summary>
 		/// Backing field for <see cref="IDatabaseContext.Users"/>.
 		/// </summary>
@@ -156,9 +172,9 @@ namespace Tgstation.Server.Host.Database
 		readonly IDatabaseCollection<CompileJob> compileJobsCollection;
 
 		/// <summary>
-		/// Backing field for <see cref="IDatabaseContext.InstanceUsers"/>.
+		/// Backing field for <see cref="IDatabaseContext.InstancePermissionSets"/>.
 		/// </summary>
-		readonly IDatabaseCollection<InstanceUser> instanceUsersCollection;
+		readonly IDatabaseCollection<InstancePermissionSet> instancePermissionSetsCollection;
 
 		/// <summary>
 		/// Backing field for <see cref="IDatabaseContext.Jobs"/>.
@@ -206,6 +222,16 @@ namespace Tgstation.Server.Host.Database
 		readonly IDatabaseCollection<OAuthConnection> oAuthConnections;
 
 		/// <summary>
+		/// Backing field for <see cref="IDatabaseContext.Groups"/>.
+		/// </summary>
+		readonly IDatabaseCollection<UserGroup> groups;
+
+		/// <summary>
+		/// Backing field for <see cref="IDatabaseContext.PermissionSets"/>.
+		/// </summary>
+		readonly IDatabaseCollection<PermissionSet> permissionSets;
+
+		/// <summary>
 		/// Gets the configure action for a given <typeparamref name="TDatabaseContext"/>.
 		/// </summary>
 		/// <typeparam name="TDatabaseContext">The <see cref="DatabaseContext"/> parent class to configure with.</typeparam>
@@ -233,7 +259,7 @@ namespace Tgstation.Server.Host.Database
 		{
 			usersCollection = new DatabaseCollection<User>(Users);
 			instancesCollection = new DatabaseCollection<Instance>(Instances);
-			instanceUsersCollection = new DatabaseCollection<InstanceUser>(InstanceUsers);
+			instancePermissionSetsCollection = new DatabaseCollection<InstancePermissionSet>(InstancePermissionSets);
 			compileJobsCollection = new DatabaseCollection<CompileJob>(CompileJobs);
 			repositorySettingsCollection = new DatabaseCollection<RepositorySettings>(RepositorySettings);
 			dreamMakerSettingsCollection = new DatabaseCollection<DreamMakerSettings>(DreamMakerSettings);
@@ -244,6 +270,8 @@ namespace Tgstation.Server.Host.Database
 			jobsCollection = new DatabaseCollection<Job>(Jobs);
 			reattachInformationsCollection = new DatabaseCollection<ReattachInformation>(ReattachInformations);
 			oAuthConnections = new DatabaseCollection<OAuthConnection>(OAuthConnections);
+			groups = new DatabaseCollection<UserGroup>(Groups);
+			permissionSets = new DatabaseCollection<PermissionSet>(PermissionSets);
 		}
 
 		/// <inheritdoc />
@@ -262,7 +290,16 @@ namespace Tgstation.Server.Host.Database
 
 			modelBuilder.Entity<OAuthConnection>().HasIndex(x => new { x.Provider, x.ExternalUserId }).IsUnique();
 
-			modelBuilder.Entity<InstanceUser>().HasIndex(x => new { x.UserId, x.InstanceId }).IsUnique();
+			var groupsModel = modelBuilder.Entity<UserGroup>();
+			groupsModel.HasIndex(x => x.Name).IsUnique();
+			groupsModel.HasMany(x => x.Users).WithOne(x => x.Group).OnDelete(DeleteBehavior.ClientSetNull);
+
+			var permissionSetModel = modelBuilder.Entity<PermissionSet>();
+			permissionSetModel.HasOne(x => x.Group).WithOne(x => x.PermissionSet).OnDelete(DeleteBehavior.Cascade);
+			permissionSetModel.HasOne(x => x.User).WithOne(x => x.PermissionSet).OnDelete(DeleteBehavior.Cascade);
+			permissionSetModel.HasMany(x => x.InstancePermissionSets).WithOne(x => x.PermissionSet).OnDelete(DeleteBehavior.Cascade);
+
+			modelBuilder.Entity<InstancePermissionSet>().HasIndex(x => new { x.PermissionSetId, x.InstanceId }).IsUnique();
 
 			var revInfo = modelBuilder.Entity<RevisionInformation>();
 			revInfo.HasMany(x => x.ActiveTestMerges).WithOne(x => x.RevisionInformation).OnDelete(DeleteBehavior.Cascade);
@@ -301,7 +338,7 @@ namespace Tgstation.Server.Host.Database
 			instanceModel.HasOne(x => x.DreamMakerSettings).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
 			instanceModel.HasOne(x => x.RepositorySettings).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
 			instanceModel.HasMany(x => x.RevisionInformations).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
-			instanceModel.HasMany(x => x.InstanceUsers).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
+			instanceModel.HasMany(x => x.InstancePermissionSets).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
 			instanceModel.HasMany(x => x.Jobs).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
 		}
 
@@ -336,22 +373,22 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
 		/// </summary>
-		public static readonly Type MSLatestMigration = typeof(MSGenericTestMergingUpdate);
+		public static readonly Type MSLatestMigration = typeof(MSAddUserGroups);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
 		/// </summary>
-		public static readonly Type MYLatestMigration = typeof(MYGenericTestMergingUpdate);
+		public static readonly Type MYLatestMigration = typeof(MYAddUserGroups);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
 		/// </summary>
-		public static readonly Type PGLatestMigration = typeof(PGGenericTestMergingUpdate);
+		public static readonly Type PGLatestMigration = typeof(PGAddUserGroups);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
 		/// </summary>
-		public static readonly Type SLLatestMigration = typeof(SLGenericTestMergingUpdate);
+		public static readonly Type SLLatestMigration = typeof(SLAddUserGroups);
 #endif
 
 		/// <inheritdoc />

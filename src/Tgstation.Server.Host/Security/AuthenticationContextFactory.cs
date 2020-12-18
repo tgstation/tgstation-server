@@ -60,6 +60,9 @@ namespace Tgstation.Server.Host.Security
 				.AsQueryable()
 				.Where(x => x.Id == userId)
 				.Include(x => x.CreatedBy)
+				.Include(x => x.PermissionSet)
+				.Include(x => x.Group)
+					.ThenInclude(x => x.PermissionSet)
 				.Include(x => x.OAuthConnections)
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);
@@ -85,23 +88,24 @@ namespace Tgstation.Server.Host.Security
 				systemIdentity = null;
 			}
 
+			var userPermissionSet = user.PermissionSet ?? user.Group.PermissionSet;
 			try
 			{
-				InstanceUser instanceUser = null;
+				InstancePermissionSet instancePermissionSet = null;
 				if (instanceId.HasValue)
 				{
-					instanceUser = await databaseContext.InstanceUsers
+					instancePermissionSet = await databaseContext.InstancePermissionSets
 						.AsQueryable()
-						.Where(x => x.UserId == userId && x.InstanceId == instanceId)
+						.Where(x => x.PermissionSetId == userPermissionSet.Id && x.InstanceId == instanceId)
 						.Include(x => x.Instance)
 						.FirstOrDefaultAsync(cancellationToken)
 						.ConfigureAwait(false);
 
-					if (instanceUser == null)
+					if (instancePermissionSet == null)
 						logger.LogDebug("User {0} does not have permissions on instance {1}!", userId, instanceId.Value);
 				}
 
-				CurrentAuthenticationContext = new AuthenticationContext(systemIdentity, user, instanceUser);
+				CurrentAuthenticationContext = new AuthenticationContext(systemIdentity, user, instancePermissionSet);
 			}
 			catch
 			{

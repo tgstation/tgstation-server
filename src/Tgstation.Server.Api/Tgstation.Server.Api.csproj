@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../../build/Version.props" />
 
   <PropertyGroup>
@@ -23,6 +23,7 @@
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <DocumentationFile>bin\$(Configuration)\netstandard2.1\Tgstation.Server.Api.xml</DocumentationFile>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <NoWarn>CA1028</NoWarn>
   </PropertyGroup>
 
@@ -33,18 +34,14 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <AdditionalFiles Include="../../build/stylecop.json" />
     <None Include="../../LICENSE" Pack="true" PackagePath="" />

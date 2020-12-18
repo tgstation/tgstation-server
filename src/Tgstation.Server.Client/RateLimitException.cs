@@ -1,4 +1,4 @@
-﻿using Microsoft.Net.Http.Headers;
+using Microsoft.Net.Http.Headers;
 using System;
 using System.Linq;
 using System.Net.Http;
@@ -23,6 +23,9 @@ namespace Tgstation.Server.Client
 		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/> for the <see cref="ClientException"/>.</param>
 		public RateLimitException(ErrorMessage? errorMessage, HttpResponseMessage responseMessage) : base(errorMessage, responseMessage)
 		{
+			if (responseMessage == null)
+				throw new ArgumentNullException(nameof(responseMessage));
+
 			if (!responseMessage.Headers.TryGetValues(HeaderNames.RetryAfter, out var values))
 				return;
 
@@ -35,6 +38,12 @@ namespace Tgstation.Server.Client
 		/// Construct an <see cref="RateLimitException"/>
 		/// </summary>
 		public RateLimitException() { }
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="RateLimitException"/> <see langword="class"/>.
+		/// </summary>
+		/// <param name="message">The message for the <see cref="Exception"/>.</param>
+		public RateLimitException(string message) : base(message) { }
 
 		/// <summary>
 		/// Construct an <see cref="RateLimitException"/> with a <paramref name="message"/> and <paramref name="innerException"/>

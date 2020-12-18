@@ -28,9 +28,9 @@ namespace Tgstation.Server.Host.Models
 		public RepositorySettings RepositorySettings { get; set; }
 
 		/// <summary>
-		/// The <see cref="InstanceUser"/>s in the <see cref="Instance"/>
+		/// The <see cref="InstancePermissionSet"/>s in the <see cref="Instance"/>
 		/// </summary>
-		public ICollection<InstanceUser> InstanceUsers { get; set; }
+		public ICollection<InstancePermissionSet> InstancePermissionSets { get; set; }
 
 		/// <summary>
 		/// The <see cref="ChatBot"/>s for the <see cref="Instance"/>

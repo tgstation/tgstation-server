@@ -286,11 +286,10 @@ namespace Tgstation.Server.Api.Models
 		ChatBotProviderMissing,
 
 		/// <summary>
-		/// Attempted to update a <see cref="User"/> or <see cref="InstanceUser"/> without its ID.
+		/// Tried to edit <see cref="UserGroup"/> membership using <see cref="Routes.UserGroup"/>.
 		/// </summary>
-		[Description("Missing user ID!")]
-		[Obsolete("Deprecated in favor of code 2", true)]
-		UserMissingId,
+		[Description("The " + Routes.UserGroup + " endpoint cannot edit group members. Please update each member user individually.")]
+		UserGroupControllerCantEditMembers,
 
 		/// <summary>
 		/// Attempted to add a <see cref="ChatBot"/> when at or above the <see cref="Instance.ChatBotLimit"/> or it was set to something lower than the existing amount of <see cref="ChatBot"/>.
@@ -335,11 +334,10 @@ namespace Tgstation.Server.Api.Models
 		DreamMakerInvalidValidation,
 
 		/// <summary>
-		/// DMAPI validation timeout.
+		/// Tried to remove the last <see cref="OAuthConnection"/> for a passwordless <see cref="User"/>.
 		/// </summary>
-		[Description("The DreamDaemon startup timeout was hit before the DMAPI validated!")]
-		[Obsolete("Deprecated in favor of error code 52", true)]
-		DreamMakerValidationTimeout,
+		[Description("This user is passwordless and removing their oAuthConnections would leave them with no authentication method!")]
+		CannotRemoveLastAuthenticationOption,
 
 		/// <summary>
 		/// No .dme could be found for deployment.
@@ -598,5 +596,17 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("The job did not receive a required upload before timing out!")]
 		FileUploadExpired,
+
+		/// <summary>
+		/// Tried to update a <see cref="User"/> to have both a <see cref="User.Group"/> and <see cref="User.PermissionSet"/>
+		/// </summary>
+		[Description("A user may not have both a permissionSet and group!")]
+		UserGroupAndPermissionSet,
+
+		/// <summary>
+		/// Tried to delete a non-empty <see cref="UserGroup"/>.
+		/// </summary>
+		[Description("Cannot delete the user group as it is not empty!")]
+		UserGroupNotEmpty,
 	}
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -51,7 +52,7 @@ namespace Tgstation.Server.Client
 				if (paginationSettings.RetrieveCount == 0)
 					return new List<TModel>(); // that was easy
 				else if (paginationSettings.RetrieveCount < 0)
-					throw new ArgumentOutOfRangeException("RetrieveCount cannot be less than 0!", nameof(paginationSettings));
+					throw new ArgumentOutOfRangeException(nameof(paginationSettings), "RetrieveCount cannot be less than 0!");
 
 				int? pageSize = null;
 				if (paginationSettings.PageSize.HasValue)
@@ -64,7 +65,7 @@ namespace Tgstation.Server.Client
 				if (paginationSettings.Offset.HasValue)
 				{
 					if(paginationSettings.Offset.Value < 0)
-						throw new ArgumentOutOfRangeException("Offset cannot be less than 0!", nameof(paginationSettings));
+						throw new ArgumentOutOfRangeException(nameof(paginationSettings), "Offset cannot be less than 0!");
 
 					pageSize ??= paginationSettings.Offset.Value;
 					currentPage = (paginationSettings.Offset.Value / pageSize.Value) + 1;
@@ -73,11 +74,11 @@ namespace Tgstation.Server.Client
 
 			Task<Paginated<TModel>> GetPage() => instanceId.HasValue
 				? ApiClient.Read<Paginated<TModel>>(
-					String.Format(routeFormatter, currentPage),
+					String.Format(CultureInfo.InvariantCulture, routeFormatter, currentPage),
 					instanceId.Value,
 					cancellationToken)
 				: ApiClient.Read<Paginated<TModel>>(
-					String.Format(routeFormatter, currentPage),
+					String.Format(CultureInfo.InvariantCulture, routeFormatter, currentPage),
 					cancellationToken);
 
 			var firstPage = await GetPage().ConfigureAwait(false);

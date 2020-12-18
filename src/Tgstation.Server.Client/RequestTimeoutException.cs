@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net.Http;
 
 namespace Tgstation.Server.Client
@@ -14,6 +14,11 @@ namespace Tgstation.Server.Client
 		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/> for the <see cref="ClientException"/>.</param>
 		public RequestTimeoutException(HttpResponseMessage responseMessage) : base(responseMessage, "The request timed out!")
 		{ }
+
+		/// <summary>
+		/// Intializes a new instance of the <see cref="RequestTimeoutException"/> <see langword="class"/>.
+		/// </summary>
+		public RequestTimeoutException() { }
 
 		/// <summary>
 		/// Construct an <see cref="RequestTimeoutException"/> with a <paramref name="message"/>

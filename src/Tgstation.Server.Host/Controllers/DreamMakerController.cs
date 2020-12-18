@@ -208,7 +208,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (model.ProjectName != null)
 			{
-				if (!AuthenticationContext.InstanceUser.DreamMakerRights.Value.HasFlag(DreamMakerRights.SetDme))
+				if (!AuthenticationContext.InstancePermissionSet.DreamMakerRights.Value.HasFlag(DreamMakerRights.SetDme))
 					return Forbid();
 				if (model.ProjectName.Length == 0)
 					hostModel.ProjectName = null;
@@ -218,7 +218,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (model.ApiValidationPort.HasValue)
 			{
-				if (!AuthenticationContext.InstanceUser.DreamMakerRights.Value.HasFlag(DreamMakerRights.SetApiValidationPort))
+				if (!AuthenticationContext.InstancePermissionSet.DreamMakerRights.Value.HasFlag(DreamMakerRights.SetApiValidationPort))
 					return Forbid();
 
 				if (model.ApiValidationPort.Value != hostModel.ApiValidationPort.Value)
@@ -238,14 +238,14 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (model.ApiValidationSecurityLevel.HasValue)
 			{
-				if (!AuthenticationContext.InstanceUser.DreamMakerRights.Value.HasFlag(DreamMakerRights.SetSecurityLevel))
+				if (!AuthenticationContext.InstancePermissionSet.DreamMakerRights.Value.HasFlag(DreamMakerRights.SetSecurityLevel))
 					return Forbid();
 				hostModel.ApiValidationSecurityLevel = model.ApiValidationSecurityLevel;
 			}
 
 			if (model.RequireDMApiValidation.HasValue)
 			{
-				if (!AuthenticationContext.InstanceUser.DreamMakerRights.Value.HasFlag(DreamMakerRights.SetApiValidationRequirement))
+				if (!AuthenticationContext.InstancePermissionSet.DreamMakerRights.Value.HasFlag(DreamMakerRights.SetApiValidationRequirement))
 					return Forbid();
 				hostModel.RequireDMApiValidation = model.RequireDMApiValidation;
 			}

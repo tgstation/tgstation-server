@@ -29,6 +29,11 @@ namespace Tgstation.Server.Api
 		public const string User = Root + nameof(Models.User);
 
 		/// <summary>
+		/// The <see cref="Models.UserGroup"/> controller.
+		/// </summary>
+		public const string UserGroup = Root + nameof(Models.UserGroup);
+
+		/// <summary>
 		/// The <see cref="Models.Instance"/> controller
 		/// </summary>
 		public const string InstanceManager = Root + nameof(Models.Instance);
@@ -69,9 +74,9 @@ namespace Tgstation.Server.Api
 		public const string ConfigurationFile = Configuration + "/" + File;
 
 		/// <summary>
-		/// The <see cref="Models.InstanceUser"/> controller
+		/// The <see cref="Models.InstancePermissionSet"/> controller
 		/// </summary>
-		public const string InstanceUser = Root + nameof(Models.InstanceUser);
+		public const string InstancePermissionSet = Root + nameof(Models.InstancePermissionSet);
 
 		/// <summary>
 		/// The <see cref="Models.ChatBot"/> controller

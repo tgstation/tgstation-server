@@ -279,7 +279,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.ToTable("Instances");
 			});
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.InstanceUser", b =>
+			modelBuilder.Entity("Tgstation.Server.Host.Models.InstancePermissionSet", b =>
 			{
 				b.Property<long>("Id")
 					.ValueGeneratedOnAdd()
@@ -303,23 +303,23 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.Property<long>("InstanceId")
 					.HasColumnType("INTEGER");
 
-				b.Property<ulong>("InstanceUserRights")
+				b.Property<ulong>("InstancePermissionSetRights")
+					.HasColumnType("INTEGER");
+
+				b.Property<long>("PermissionSetId")
 					.HasColumnType("INTEGER");
 
 				b.Property<ulong>("RepositoryRights")
-					.HasColumnType("INTEGER");
-
-				b.Property<long>("UserId")
 					.HasColumnType("INTEGER");
 
 				b.HasKey("Id");
 
 				b.HasIndex("InstanceId");
 
-				b.HasIndex("UserId", "InstanceId")
+				b.HasIndex("PermissionSetId", "InstanceId")
 					.IsUnique();
 
-				b.ToTable("InstanceUsers");
+				b.ToTable("InstancePermissionSets");
 			});
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.Job", b =>
@@ -400,6 +400,35 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsUnique();
 
 				b.ToTable("OAuthConnections");
+			});
+
+			modelBuilder.Entity("Tgstation.Server.Host.Models.PermissionSet", b =>
+			{
+				b.Property<long?>("Id")
+					.ValueGeneratedOnAdd()
+					.HasColumnType("INTEGER");
+
+				b.Property<ulong>("AdministrationRights")
+					.HasColumnType("INTEGER");
+
+				b.Property<long?>("GroupId")
+					.HasColumnType("INTEGER");
+
+				b.Property<ulong>("InstanceManagerRights")
+					.HasColumnType("INTEGER");
+
+				b.Property<long?>("UserId")
+					.HasColumnType("INTEGER");
+
+				b.HasKey("Id");
+
+				b.HasIndex("GroupId")
+					.IsUnique();
+
+				b.HasIndex("UserId")
+					.IsUnique();
+
+				b.ToTable("PermissionSets");
 			});
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ReattachInformation", b =>
@@ -601,12 +630,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.ValueGeneratedOnAdd()
 					.HasColumnType("INTEGER");
 
-				b.Property<ulong>("AdministrationRights")
-					.HasColumnType("INTEGER");
-
 				b.Property<string>("CanonicalName")
 					.IsRequired()
-					.HasColumnType("TEXT");
+					.HasColumnType("TEXT")
+					.HasMaxLength(100);
 
 				b.Property<DateTimeOffset?>("CreatedAt")
 					.IsRequired()
@@ -619,7 +646,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsRequired()
 					.HasColumnType("INTEGER");
 
-				b.Property<ulong>("InstanceManagerRights")
+				b.Property<long?>("GroupId")
 					.HasColumnType("INTEGER");
 
 				b.Property<DateTimeOffset?>("LastPasswordUpdate")
@@ -628,13 +655,14 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.Property<string>("Name")
 					.IsRequired()
 					.HasColumnType("TEXT")
-					.HasMaxLength(10000);
+					.HasMaxLength(100);
 
 				b.Property<string>("PasswordHash")
 					.HasColumnType("TEXT");
 
 				b.Property<string>("SystemIdentifier")
-					.HasColumnType("TEXT");
+					.HasColumnType("TEXT")
+					.HasMaxLength(100);
 
 				b.HasKey("Id");
 
@@ -643,10 +671,31 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 				b.HasIndex("CreatedById");
 
+				b.HasIndex("GroupId");
+
 				b.HasIndex("SystemIdentifier")
 					.IsUnique();
 
 				b.ToTable("Users");
+			});
+
+			modelBuilder.Entity("Tgstation.Server.Host.Models.UserGroup", b =>
+			{
+				b.Property<long>("Id")
+					.ValueGeneratedOnAdd()
+					.HasColumnType("INTEGER");
+
+				b.Property<string>("Name")
+					.IsRequired()
+					.HasColumnType("TEXT")
+					.HasMaxLength(100);
+
+				b.HasKey("Id");
+
+				b.HasIndex("Name")
+					.IsUnique();
+
+				b.ToTable("Groups");
 			});
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
@@ -700,17 +749,17 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsRequired();
 			});
 
-			modelBuilder.Entity("Tgstation.Server.Host.Models.InstanceUser", b =>
+			modelBuilder.Entity("Tgstation.Server.Host.Models.InstancePermissionSet", b =>
 			{
 				b.HasOne("Tgstation.Server.Host.Models.Instance", "Instance")
-					.WithMany("InstanceUsers")
+					.WithMany("InstancePermissionSets")
 					.HasForeignKey("InstanceId")
 					.OnDelete(DeleteBehavior.Cascade)
 					.IsRequired();
 
-				b.HasOne("Tgstation.Server.Host.Models.User", null)
-					.WithMany("InstanceUsers")
-					.HasForeignKey("UserId")
+				b.HasOne("Tgstation.Server.Host.Models.PermissionSet", "PermissionSet")
+					.WithMany("InstancePermissionSets")
+					.HasForeignKey("PermissionSetId")
 					.OnDelete(DeleteBehavior.Cascade)
 					.IsRequired();
 			});
@@ -739,6 +788,19 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.HasOne("Tgstation.Server.Host.Models.User", "User")
 					.WithMany("OAuthConnections")
 					.HasForeignKey("UserId")
+					.OnDelete(DeleteBehavior.Cascade);
+			});
+
+			modelBuilder.Entity("Tgstation.Server.Host.Models.PermissionSet", b =>
+			{
+				b.HasOne("Tgstation.Server.Host.Models.UserGroup", "Group")
+					.WithOne("PermissionSet")
+					.HasForeignKey("Tgstation.Server.Host.Models.PermissionSet", "GroupId")
+					.OnDelete(DeleteBehavior.Cascade);
+
+				b.HasOne("Tgstation.Server.Host.Models.User", "User")
+					.WithOne("PermissionSet")
+					.HasForeignKey("Tgstation.Server.Host.Models.PermissionSet", "UserId")
 					.OnDelete(DeleteBehavior.Cascade);
 			});
 
@@ -804,6 +866,10 @@ namespace Tgstation.Server.Host.Database.Migrations
 				b.HasOne("Tgstation.Server.Host.Models.User", "CreatedBy")
 					.WithMany("CreatedUsers")
 					.HasForeignKey("CreatedById");
+
+				b.HasOne("Tgstation.Server.Host.Models.UserGroup", "Group")
+					.WithMany("Users")
+					.HasForeignKey("GroupId");
 			});
 #pragma warning restore 612, 618
 		}
