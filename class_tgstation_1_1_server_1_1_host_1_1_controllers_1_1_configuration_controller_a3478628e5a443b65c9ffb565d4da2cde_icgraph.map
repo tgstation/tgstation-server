@@ -2,7 +2,7 @@
 <area shape="rect" id="node1" title="If a ForbidResult should be returned from actions due to conflicts with one or both of the Api...." alt="" coords="269,129,499,185"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a111121fa22f2648803f8f890c8a6305b" title="Create a configuration directory." alt="" coords="5,5,221,47"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a70a6018d637cb3eb379b8949a4a754a8" title="Deletes an empty directory" alt="" coords="5,71,221,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a048dc25d07e09e17d7f697cf6ded2dd7" title="Get the contents of a directory at a directoryPath" alt="" coords="5,136,221,177"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#af5742f4dc1543a104b71c2717cf04020" title="Get the contents of a directory at a directoryPath" alt="" coords="5,136,221,177"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a51d11df3997c7f49c6fb8e7784d3f2d0" title="Get the contents of a file at a filePath" alt="" coords="5,201,221,243"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a7c19c1f24368f45b5e65ccf73fc58416" title="Write to a configuration file." alt="" coords="5,267,221,308"/>
 </map>

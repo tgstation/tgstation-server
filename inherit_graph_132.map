@@ -1,5 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html" title="Factory for ISystemIdentitys" alt="" coords="5,39,207,80"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_posix_system_identity_factory.html" title="ISystemIdentityFactory for posix systems" alt="" coords="256,5,457,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_windows_system_identity_factory.html" title="ISystemIdentityFactory for windows systems. Uses long running tasks due to potential networked domain..." alt="" coords="255,71,459,112"/>
+<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_base_response.html" title="Base class for tgstation forum responses." alt="" coords="5,39,207,80"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_create_session_response.html" title="Response when creating a tgstation forums session." alt="" coords="257,5,480,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_get_session_info_response.html" title="Response when getting tgstation forum user&#39;s info." alt="" coords="255,71,483,112"/>
 </map>

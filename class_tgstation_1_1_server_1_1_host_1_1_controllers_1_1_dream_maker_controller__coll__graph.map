@@ -1,12 +1,13 @@
 <map id="Tgstation.Server.Host.Controllers.DreamMakerController" name="Tgstation.Server.Host.Controllers.DreamMakerController">
-<area shape="rect" id="node1" title="ApiController for managing the deployment system." alt="" coords="956,162,1172,203"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller.html" title="abstract ApiController for operations on an IInstance." alt="" coords="650,111,829,137"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="A Controller for API functions" alt="" coords="336,52,432,79"/>
+<area shape="rect" id="node1" title="ApiController for managing the deployment system." alt="" coords="976,198,1192,239"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller.html" title="abstract ApiController for operations on an IInstance." alt="" coords="670,147,849,173"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="A Controller for API functions" alt="" coords="356,67,452,93"/>
 <area shape="rect" id="node4" href="$class_controller.html" title=" " alt="" coords="29,5,107,32"/>
-<area shape="rect" id="node5" title=" " alt="" coords="45,56,91,83"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html" title="For managing IInstances" alt="" coords="271,103,497,145"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters." alt="" coords="5,111,131,137"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs" alt="" coords="648,162,831,203"/>
-<area shape="rect" id="node9" href="$class_i_hosted_service.html" title=" " alt="" coords="328,169,440,196"/>
-<area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_port_allocator.html" title="Gets unassigned ports for use by TGS." alt="" coords="649,227,830,269"/>
+<area shape="rect" id="node5" title=" " alt="" coords="39,56,97,83"/>
+<area shape="rect" id="node6" title=" " alt="" coords="45,107,91,133"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html" title="For managing IInstances" alt="" coords="291,139,517,181"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_i_bridge_dispatcher.html" title="Handler for BridgeParameters." alt="" coords="5,157,131,184"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs" alt="" coords="668,198,851,239"/>
+<area shape="rect" id="node10" href="$class_i_hosted_service.html" title=" " alt="" coords="348,205,460,232"/>
+<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_port_allocator.html" title="Gets unassigned ports for use by TGS." alt="" coords="669,263,850,305"/>
 </map>

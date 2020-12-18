@@ -1,4 +1,4 @@
-<map id="Tgstation.Server.Client.IApiClient.Upload" name="Tgstation.Server.Client.IApiClient.Upload">
+<map id="Tgstation.Server.Client.ApiClient.Upload" name="Tgstation.Server.Client.ApiClient.Upload">
 <area shape="rect" id="node1" title="Uploads a given uploadStream &#160;for a given ticket ." alt="" coords="292,49,448,90"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_byond_client.html#ab7727bbde0e89343a5787f63c6f2ae9c" title="Updates the Byond information" alt="" coords="11,5,238,61"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#aaf0780e26e81855d7835c410cd04f02b" title="Overwrite a ConfigurationFile file" alt="" coords="5,85,244,126"/>

@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Models.OAuthConnection" name="Tgstation.Server.Host.Models.OAuthConnection">
-<area shape="rect" id="node1" title=" " alt="" coords="6,80,202,121"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_connection.html" title="Represents a valid OAuth connection." alt="" coords="5,5,203,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="118,95,314,136"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_connection.html" title="Represents a valid OAuth connection." alt="" coords="5,13,203,39"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="227,5,432,47"/>
 </map>

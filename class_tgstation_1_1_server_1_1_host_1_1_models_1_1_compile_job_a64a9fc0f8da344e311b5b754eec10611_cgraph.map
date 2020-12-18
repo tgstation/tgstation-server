@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Models.CompileJob.ToApi" name="Tgstation.Server.Host.Models.CompileJob.ToApi">
-<area shape="rect" id="node1" title="Convert the CompileJob to it&#39;s API form" alt="" coords="5,39,201,80"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#aaea7f482968921045b73cbdaca4dd652" title="Convert the Job to it&#39;s API form" alt="" coords="493,5,689,47"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html#a8e6f5b4375c0594f10c413c4119515b1" title="Convert the RevisionInformation to it&#39;s API form" alt="" coords="249,68,445,109"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,39,201,80"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#aaea7f482968921045b73cbdaca4dd652" title=" " alt="" coords="493,5,689,47"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html#a8e6f5b4375c0594f10c413c4119515b1" title=" " alt="" coords="249,68,445,109"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a8effbd8cd0ce7ba4c72f40efc08a9b50" title="See ToApi(bool)" alt="" coords="737,39,933,80"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html#ac2943458d2fc3077a6684408fb26ab09" title="Convert the TestMerge to it&#39;s API form" alt="" coords="493,71,689,112"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html#ac2943458d2fc3077a6684408fb26ab09" title=" " alt="" coords="493,71,689,112"/>
 </map>

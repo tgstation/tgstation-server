@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Controllers.ChatController.Create" name="Tgstation.Server.Host.Controllers.ChatController.Create">
 <area shape="rect" id="node1" title="Create a new chat bot model ." alt="" coords="5,169,221,211"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a30fce4a18499c3c89b4b153b9805ce85" title="Converts api &#160;to a ChatChannel" alt="" coords="283,5,529,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a1db346728a09c30c7cf2501c33038490" title="List Api.Models.ChatBots." alt="" coords="298,71,514,112"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a3fb20e3f3a969fedbb24e129438716ba" title="List Api.Models.ChatBots." alt="" coords="298,71,514,112"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext" alt="" coords="301,136,511,177"/>
 <area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a1079cc001cfaf55fa44aae68d9b106f5" title="Perform some basic validation of a given model ." alt="" coords="287,201,525,243"/>
 <area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="298,267,514,308"/>

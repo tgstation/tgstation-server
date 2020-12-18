@@ -1,7 +1,8 @@
 <map id="Tgstation.Server.Host.Controllers.TransferController" name="Tgstation.Server.Host.Controllers.TransferController">
-<area shape="rect" id="node1" title="ApiController for file streaming." alt="" coords="65,199,281,240"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="A Controller for API functions" alt="" coords="39,102,135,129"/>
+<area shape="rect" id="node1" title="ApiController for file streaming." alt="" coords="115,213,331,255"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="A Controller for API functions" alt="" coords="88,117,184,143"/>
 <area shape="rect" id="node3" href="$class_controller.html" title=" " alt="" coords="5,5,83,32"/>
-<area shape="rect" id="node4" title=" " alt="" coords="107,5,154,32"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html" title="Reads and writes to Streams associated with FileTicketResults." alt="" coords="159,95,361,136"/>
+<area shape="rect" id="node4" title=" " alt="" coords="107,5,165,32"/>
+<area shape="rect" id="node5" title=" " alt="" coords="255,5,302,32"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_transfer_stream_handler.html" title="Reads and writes to Streams associated with FileTicketResults." alt="" coords="208,109,411,151"/>
 </map>

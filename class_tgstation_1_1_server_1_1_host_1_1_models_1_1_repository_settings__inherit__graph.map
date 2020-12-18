@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Models.RepositorySettings" name="Tgstation.Server.Host.Models.RepositorySettings">
-<area shape="rect" id="node1" title=" " alt="" coords="5,95,201,136"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html" title="Represents configurable settings for a Repository" alt="" coords="34,5,173,47"/>
+<area shape="rect" id="node1" title=" " alt="" coords="57,95,253,136"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html" title="Represents configurable settings for a Repository" alt="" coords="5,5,144,47"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="168,5,304,47"/>
 </map>

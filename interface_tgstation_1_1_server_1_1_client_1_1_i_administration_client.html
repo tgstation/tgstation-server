@@ -99,9 +99,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9730058c232e1f8d1917137f3445d8a3"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#a9730058c232e1f8d1917137f3445d8a3">Restart</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a9730058c232e1f8d1917137f3445d8a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restarts the TGS server  <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#a9730058c232e1f8d1917137f3445d8a3">More...</a><br /></td></tr>
 <tr class="separator:a9730058c232e1f8d1917137f3445d8a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a87d1decb897faad52ff2fee928672473"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyList&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">LogFile</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#a87d1decb897faad52ff2fee928672473">ListLogs</a> (CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a87d1decb897faad52ff2fee928672473"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lists the log files available for download.  <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#a87d1decb897faad52ff2fee928672473">More...</a><br /></td></tr>
-<tr class="separator:a87d1decb897faad52ff2fee928672473"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cd28e6d03d1839ccbd2ab1a2e093703"><td class="memItemLeft" align="right" valign="top">Task&lt; IReadOnlyList&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">LogFile</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#a4cd28e6d03d1839ccbd2ab1a2e093703">ListLogs</a> (<a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_pagination_settings.html">PaginationSettings</a>? paginationSettings, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a4cd28e6d03d1839ccbd2ab1a2e093703"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lists the log files available for download.  <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#a4cd28e6d03d1839ccbd2ab1a2e093703">More...</a><br /></td></tr>
+<tr class="separator:a4cd28e6d03d1839ccbd2ab1a2e093703"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abbfd33badcafff4599b2a2d6bf20fddf"><td class="memItemLeft" align="right" valign="top">Task&lt; Tuple&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">LogFile</a>, <a class="el" href="class_stream.html">Stream</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#abbfd33badcafff4599b2a2d6bf20fddf">GetLog</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">LogFile</a> logFile, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:abbfd33badcafff4599b2a2d6bf20fddf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Download a given <em>logFile</em> .  <a href="interface_tgstation_1_1_server_1_1_client_1_1_i_administration_client.html#abbfd33badcafff4599b2a2d6bf20fddf">More...</a><br /></td></tr>
 <tr class="separator:abbfd33badcafff4599b2a2d6bf20fddf"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -151,8 +151,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a87d1decb897faad52ff2fee928672473"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a87d1decb897faad52ff2fee928672473">&#9670;&nbsp;</a></span>ListLogs()</h2>
+<a id="a4cd28e6d03d1839ccbd2ab1a2e093703"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cd28e6d03d1839ccbd2ab1a2e093703">&#9670;&nbsp;</a></span>ListLogs()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -160,9 +160,19 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">Task&lt;IReadOnlyList&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html">LogFile</a>&gt; &gt; Tgstation.Server.Client.IAdministrationClient.ListLogs </td>
           <td>(</td>
-          <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>cancellationToken</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_pagination_settings.html">PaginationSettings</a>?&#160;</td>
+          <td class="paramname"><em>paginationSettings</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -170,13 +180,14 @@ Public Member Functions</h2></td></tr>
 <p>Lists the log files available for download. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">paginationSettings</td><td>The optional <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_pagination_settings.html" title="Settings for a paginated request.">PaginationSettings</a> for the operation.</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in an IReadOnlyList&lt;T&gt; of LogFile metadata.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#aae9ea74b1fd163a771a6a563fb02ccaa">Tgstation.Server.Client.AdministrationClient</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_administration_client.html#abe710f9f3e473794b142256ea09e75cb">Tgstation.Server.Client.AdministrationClient</a>.</p>
 
 </div>
 </div>

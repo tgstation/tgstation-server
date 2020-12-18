@@ -1,14 +1,14 @@
 <map id="Tgstation.Server.Host.Controllers.UserController" name="Tgstation.Server.Host.Controllers.UserController">
-<area shape="rect" id="node1" title="ApiController for managing Users." alt="" coords="780,141,996,182"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="A Controller for API functions" alt="" coords="439,56,535,83"/>
-<area shape="rect" id="node3" href="$class_controller.html" title=" " alt="" coords="29,5,107,32"/>
-<area shape="rect" id="node4" title=" " alt="" coords="45,56,91,83"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html" title="Factory for ISystemIdentitys" alt="" coords="386,107,587,149"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html" title="Contains various cryptographic functions" alt="" coords="386,173,587,214"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options" alt="" coords="372,238,601,279"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information.html" title="Base class for Models.ServerInformation." alt="" coords="5,107,131,133"/>
-<area shape="rect" id="node9" title=" " alt="" coords="29,195,107,221"/>
-<area shape="rect" id="node10" title=" " alt="" coords="41,245,95,272"/>
-<area shape="rect" id="node11" title=" " alt="" coords="39,296,97,323"/>
-<area shape="rect" id="node12" title=" " alt="" coords="35,347,101,373"/>
+<area shape="rect" id="node1" title="ApiController for managing Users." alt="" coords="780,254,996,295"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="A Controller for API functions" alt="" coords="439,81,535,108"/>
+<area shape="rect" id="node3" href="$class_controller.html" title=" " alt="" coords="29,56,107,83"/>
+<area shape="rect" id="node4" title=" " alt="" coords="39,123,97,149"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options" alt="" coords="372,211,601,253"/>
+<area shape="rect" id="node5" title=" " alt="" coords="45,5,91,32"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html" title="Factory for ISystemIdentitys" alt="" coords="386,277,587,318"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html" title="Contains various cryptographic functions" alt="" coords="386,342,587,383"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information.html" title="Base class for Models.ServerInformation." alt="" coords="5,292,131,319"/>
+<area shape="rect" id="node10" title=" " alt="" coords="29,381,107,408"/>
+<area shape="rect" id="node11" title=" " alt="" coords="41,191,95,217"/>
+<area shape="rect" id="node12" title=" " alt="" coords="35,241,101,268"/>
 </map>

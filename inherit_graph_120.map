@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_task_extensions.html" title="Extensions for the Task class." alt="" coords="5,5,223,47"/>
+<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_dream_maker.html" title="Represents the state of the DreamMaker compiler. Create action starts a new compile...." alt="" coords="34,5,221,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dream_maker_settings.html" title=" " alt="" coords="297,41,493,83"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="5,70,249,126"/>
 </map>
