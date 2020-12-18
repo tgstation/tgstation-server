@@ -349,15 +349,15 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		public async Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
+		public Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
 		{
 			if (parameters == null)
 				throw new ArgumentNullException(nameof(parameters));
 
-			// I don't fully understand why, but it seems to be REALLY important that this function remains async
-			// I'm sure if i think about it hard enough I'll realize there's some race condition between this processing
-			// and the deployment process, but this has been blocking me all week and I'm tired of giving it energy
-			await Task.Yield();
+			static Task<BridgeResponse> Error(string message) => Task.FromResult(new BridgeResponse
+			{
+				ErrorMessage = message
+			});
 
 			using (LogContext.PushProperty("Instance", metadata.Id))
 			{
@@ -369,28 +369,16 @@ namespace Tgstation.Server.Host.Components.Session
 				{
 					case BridgeCommandType.ChatSend:
 						if (parameters.ChatMessage == null)
-							return new BridgeResponse
-							{
-								ErrorMessage = "Missing chatMessage field!"
-							};
+							return Error("Missing chatMessage field!");
 
 						if (parameters.ChatMessage.ChannelIds == null)
-							return new BridgeResponse
-							{
-								ErrorMessage = "Missing channelIds field in chatMessage!"
-							};
+							return Error("Missing channelIds field in chatMessage!");
 
 						if (parameters.ChatMessage.ChannelIds.Any(channelIdString => !UInt64.TryParse(channelIdString, out var _)))
-							return new BridgeResponse
-							{
-								ErrorMessage = "Invalid channelIds in chatMessage!"
-							};
+							return Error("Invalid channelIds in chatMessage!");
 
 						if (parameters.ChatMessage.Text == null)
-							return new BridgeResponse
-							{
-								ErrorMessage = "Missing message field in chatMessage!"
-							};
+							return Error("Missing message field in chatMessage!");
 
 						chat.QueueMessage(
 							parameters.ChatMessage.Text,
@@ -413,10 +401,7 @@ namespace Tgstation.Server.Host.Components.Session
 							{
 								/////UHHHH
 								logger.LogWarning("DreamDaemon sent new port command without providing it's own!");
-								return new BridgeResponse
-								{
-									ErrorMessage = "Missing stringified port as data parameter!"
-								};
+								return Error("Missing stringified port as data parameter!");
 							}
 
 							var currentPort = parameters.CurrentPort.Value;
@@ -443,19 +428,13 @@ namespace Tgstation.Server.Host.Components.Session
 					case BridgeCommandType.Startup:
 						apiValidationStatus = ApiValidationStatus.BadValidationRequest;
 						if (parameters.Version == null)
-							return new BridgeResponse
-							{
-								ErrorMessage = "Missing dmApiVersion field!"
-							};
+							return Error("Missing dmApiVersion field!");
 
 						DMApiVersion = parameters.Version;
 						if (DMApiVersion.Major != DMApiConstants.Version.Major)
 						{
 							apiValidationStatus = ApiValidationStatus.Incompatible;
-							return new BridgeResponse
-							{
-								ErrorMessage = "Incompatible dmApiVersion!"
-							};
+							return Error("Incompatible dmApiVersion!");
 						}
 
 						switch (parameters.MinimumSecurityLevel)
@@ -470,15 +449,9 @@ namespace Tgstation.Server.Host.Components.Session
 								apiValidationStatus = ApiValidationStatus.RequiresTrusted;
 								break;
 							case null:
-								return new BridgeResponse
-								{
-									ErrorMessage = "Missing minimumSecurityLevel field!"
-								};
+								return Error("Missing minimumSecurityLevel field!");
 							default:
-								return new BridgeResponse
-								{
-									ErrorMessage = "Invalid minimumSecurityLevel!"
-								};
+								return Error("Invalid minimumSecurityLevel!");
 						}
 
 						logger.LogTrace("ApiValidationStatus set to {0}", apiValidationStatus);
@@ -515,7 +488,7 @@ namespace Tgstation.Server.Host.Components.Session
 						break;
 				}
 
-				return response;
+				return Task.FromResult(response);
 			}
 		}
 
