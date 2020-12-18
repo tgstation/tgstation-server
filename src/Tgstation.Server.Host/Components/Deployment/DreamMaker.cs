@@ -238,13 +238,13 @@ namespace Tgstation.Server.Host.Components.Deployment
 					await controller.Lifetime.WithToken(cancellationToken).ConfigureAwait(false);
 
 				if (!controller.Lifetime.IsCompleted)
-				{
-					if (requireValidate)
-						throw new JobException(ErrorCode.DreamMakerNeverValidated);
 					await controller.DisposeAsync().ConfigureAwait(false);
-				}
 
 				validationStatus = controller.ApiValidationStatus;
+
+				if (requireValidate && validationStatus == ApiValidationStatus.NeverValidated)
+					throw new JobException(ErrorCode.DreamMakerNeverValidated);
+
 				logger.LogTrace("API validation status: {0}", validationStatus);
 
 				job.DMApiVersion = controller.DMApiVersion;
