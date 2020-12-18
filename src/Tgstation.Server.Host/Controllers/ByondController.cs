@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -79,21 +78,31 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Lists installed <see cref="Api.Models.Byond"/> versions.
 		/// </summary>
+		/// <param name="page">The current page.</param>
+		/// <param name="pageSize">The page size.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Retrieved version information successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(ByondRights.ListInstalled)]
-		[ProducesResponseType(typeof(IEnumerable<Api.Models.Byond>), 200)]
-		public Task<IActionResult> List()
-			=> WithComponentInstance(instance =>
-				Task.FromResult<IActionResult>(
-					Json(instance
-						.ByondManager
-						.InstalledVersions
-						.Select(x => new Api.Models.Byond
-						{
-							Version = x
-						}))));
+		[ProducesResponseType(typeof(Paginated<Api.Models.Byond>), 200)]
+		public Task<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
+			=> WithComponentInstance(
+				instance => Paginated(
+					() => Task.FromResult(
+						new PaginatableResult<Api.Models.Byond>(
+							instance
+								.ByondManager
+								.InstalledVersions
+								.Select(x => new Api.Models.Byond
+								{
+									Version = x
+								})
+								.AsQueryable())),
+					null,
+					page,
+					pageSize,
+					cancellationToken));
 
 		/// <summary>
 		/// Changes the active BYOND version to the one specified in a given <paramref name="model"/>.

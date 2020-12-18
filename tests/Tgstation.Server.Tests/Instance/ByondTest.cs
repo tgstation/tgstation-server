@@ -75,7 +75,7 @@ namespace Tgstation.Server.Tests.Instance
 
 		async Task TestNoVersion(CancellationToken cancellationToken)
 		{
-			var allVersionsTask = byondClient.InstalledVersions(cancellationToken);
+			var allVersionsTask = byondClient.InstalledVersions(null, cancellationToken);
 			var currentShit = await byondClient.ActiveVersion(cancellationToken).ConfigureAwait(false);
 			Assert.IsNotNull(currentShit);
 			Assert.IsNull(currentShit.InstallJob);

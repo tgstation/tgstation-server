@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -147,23 +146,27 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Lists <see cref="Api.Models.InstanceUser"/>s for the instance.
 		/// </summary>
+		/// <param name="page">The current page.</param>
+		/// <param name="pageSize">The page size.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Retrieved <see cref="Api.Models.InstanceUser"/>s successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(InstanceUserRights.ReadUsers)]
-		[ProducesResponseType(typeof(IEnumerable<Api.Models.InstanceUser>), 200)]
-		public async Task<IActionResult> List(CancellationToken cancellationToken)
-		{
-			var users = await DatabaseContext
-				.Instances
-				.AsQueryable()
-				.Where(x => x.Id == Instance.Id)
-				.SelectMany(x => x.InstanceUsers)
-				.ToListAsync(cancellationToken)
-				.ConfigureAwait(false);
-			return Json(users.Select(x => x.ToApi()));
-		}
+		[ProducesResponseType(typeof(Paginated<Api.Models.InstanceUser>), 200)]
+		public Task<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
+			=> Paginated<Models.InstanceUser, Api.Models.InstanceUser>(
+				() => Task.FromResult(
+					new PaginatableResult<Models.InstanceUser>(
+						DatabaseContext
+							.Instances
+							.AsQueryable()
+							.Where(x => x.Id == Instance.Id)
+							.SelectMany(x => x.InstanceUsers))),
+				null,
+				page,
+				pageSize,
+				cancellationToken);
 
 		/// <summary>
 		/// Gets a specific <see cref="Api.Models.InstanceUser"/>.

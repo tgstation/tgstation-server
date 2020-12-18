@@ -52,7 +52,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreEqual(csb.ToString(), firstBot.ConnectionString);
 			Assert.AreNotEqual(0, firstBot.Id);
 
-			var bots = await chatClient.List(cancellationToken);
+			var bots = await chatClient.List(null, cancellationToken);
 			Assert.AreEqual(firstBot.Id, bots.First(x => x.Provider.Value == ChatProvider.Irc).Id);
 
 			var retrievedBot = await chatClient.GetId(firstBot, cancellationToken);
@@ -115,7 +115,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreEqual(csb.ToString(), firstBot.ConnectionString);
 			Assert.AreNotEqual(0, firstBot.Id);
 
-			var bots = await chatClient.List(cancellationToken);
+			var bots = await chatClient.List(null, cancellationToken);
 			Assert.AreEqual(firstBot.Id, bots.First(x => x.Provider.Value == ChatProvider.Discord).Id);
 
 			var retrievedBot = await chatClient.GetId(firstBot, cancellationToken);
@@ -154,13 +154,13 @@ namespace Tgstation.Server.Tests.Instance
 
 		public async Task RunPostTest(CancellationToken cancellationToken)
 		{
-			var activeBots = await chatClient.List(cancellationToken);
+			var activeBots = await chatClient.List(null, cancellationToken);
 
 			Assert.AreEqual(2, activeBots.Count);
 
 			await Task.WhenAll(activeBots.Select(bot => chatClient.Delete(bot, cancellationToken)));
 
-			var nowBots = await chatClient.List(cancellationToken);
+			var nowBots = await chatClient.List(null, cancellationToken);
 			Assert.AreEqual(0, nowBots.Count);
 		}
 
@@ -173,7 +173,7 @@ namespace Tgstation.Server.Tests.Instance
 				Provider = ChatProvider.Irc
 			}, cancellationToken), ErrorCode.ChatBotMax);
 
-			var bots = await chatClient.List(cancellationToken);
+			var bots = await chatClient.List(null, cancellationToken);
 			var discordBot = bots.First(bot => bot.Provider.Value == ChatProvider.Discord);
 
 			// We limited chat bots and channels to 1 and 2 respectively, try violating them

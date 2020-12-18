@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -168,29 +168,33 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// List <see cref="Api.Models.ChatBot"/>s.
 		/// </summary>
+		/// <param name="page">The current page.</param>
+		/// <param name="pageSize">The page size.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Listed chat bots successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(ChatBotRights.Read)]
-		[ProducesResponseType(typeof(IEnumerable<Api.Models.ChatBot>), 200)]
-		public async Task<IActionResult> List(CancellationToken cancellationToken)
+		[ProducesResponseType(typeof(Paginated<Api.Models.ChatBot>), 200)]
+		public Task<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
 		{
-			var query = DatabaseContext
-				.ChatBots
-				.AsQueryable()
-				.Where(x => x.InstanceId == Instance.Id)
-				.Include(x => x.Channels);
-
-			var results = await query.ToListAsync(cancellationToken).ConfigureAwait(false);
-
 			var connectionStrings = (AuthenticationContext.GetRight(RightsType.ChatBots) & (ulong)ChatBotRights.ReadConnectionString) != 0;
-
-			if (!connectionStrings)
-				foreach (var I in results)
-					I.ConnectionString = null;
-
-			return Json(results.Select(x => x.ToApi()));
+			return Paginated<Models.ChatBot, Api.Models.ChatBot>(
+				() => Task.FromResult(
+					new PaginatableResult<Models.ChatBot>(
+						DatabaseContext
+							.ChatBots
+							.AsQueryable()
+							.Where(x => x.InstanceId == Instance.Id)
+							.Include(x => x.Channels))),
+				chatBot =>
+				{
+					if (connectionStrings)
+						chatBot.ConnectionString = null;
+				},
+				page,
+				pageSize,
+				cancellationToken);
 		}
 
 		/// <summary>

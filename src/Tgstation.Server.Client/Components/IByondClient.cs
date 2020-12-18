@@ -21,9 +21,10 @@ namespace Tgstation.Server.Client.Components
 		/// <summary>
 		/// Get all installed <see cref="Byond"/> <see cref="System.Version"/>s
 		/// </summary>
+		/// <param name="paginationSettings">The optional <see cref="PaginationSettings"/> for the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in an <see cref="IReadOnlyList{T}"/> of installed <see cref="Byond"/> <see cref="System.Version"/>s</returns>
-		Task<IReadOnlyList<Byond>> InstalledVersions(CancellationToken cancellationToken);
+		Task<IReadOnlyList<Byond>> InstalledVersions(PaginationSettings? paginationSettings, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Updates the <see cref="Byond"/> information

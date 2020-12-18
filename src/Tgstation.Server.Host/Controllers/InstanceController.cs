@@ -586,13 +586,18 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// List <see cref="Api.Models.Instance"/>s.
 		/// </summary>
+		/// <param name="page">The current page.</param>
+		/// <param name="pageSize">The page size.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Retrieved <see cref="Api.Models.Instance"/>s successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(InstanceManagerRights.List | InstanceManagerRights.Read)]
-		[ProducesResponseType(typeof(IEnumerable<Api.Models.Instance>), 200)]
-		public async Task<IActionResult> List(CancellationToken cancellationToken)
+		[ProducesResponseType(typeof(Paginated<Api.Models.Instance>), 200)]
+		public async Task<IActionResult> List(
+			[FromQuery] int? page,
+			[FromQuery] int? pageSize,
+			CancellationToken cancellationToken)
 		{
 			IQueryable<Models.Instance> GetBaseQuery()
 			{
@@ -622,21 +627,25 @@ namespace Tgstation.Server.Host.Controllers
 				.ToListAsync(cancellationToken)
 				.ConfigureAwait(false);
 
-			var instances = await GetBaseQuery()
-				.ToListAsync(cancellationToken)
-				.ConfigureAwait(false);
-
 			var needsUpdate = false;
-			foreach (var instance in instances)
-				needsUpdate |= InstanceRequiredController.ValidateInstanceOnlineStatus(instanceManager, Logger, instance);
+			var result = await Paginated<Models.Instance, Api.Models.Instance>(
+				() => Task.FromResult(
+					new PaginatableResult<Models.Instance>(
+						GetBaseQuery())),
+				instance =>
+				{
+					needsUpdate |= InstanceRequiredController.ValidateInstanceOnlineStatus(instanceManager, Logger, instance);
+					instance.MoveJob = moveJobs.FirstOrDefault(x => x.Instance.Id == instance.Id)?.ToApi();
+				},
+				page,
+				pageSize,
+				cancellationToken)
+				.ConfigureAwait(false);
 
 			if (needsUpdate)
 				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
-			var apis = instances.Select(x => x.ToApi());
-			foreach(var I in moveJobs)
-				apis.Where(x => x.Id == I.Instance.Id).First().MoveJob = I.ToApi(); // if this .First() fails i will personally murder kevinz000 because I just know he is somehow responsible
-			return Json(apis);
+			return result;
 		}
 
 		/// <summary>

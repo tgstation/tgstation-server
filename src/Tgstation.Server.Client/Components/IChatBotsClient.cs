@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -13,9 +13,10 @@ namespace Tgstation.Server.Client.Components
 		/// <summary>
 		/// List the <see cref="ChatBot"/>s
 		/// </summary>
+		/// <param name="paginationSettings">The optional <see cref="PaginationSettings"/> for the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="IReadOnlyList{T}"/> of the <see cref="ChatBot"/> of the server</returns>
-		Task<IReadOnlyList<ChatBot>> List(CancellationToken cancellationToken);
+		Task<IReadOnlyList<ChatBot>> List(PaginationSettings? paginationSettings, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Create a <see cref="ChatBot"/>

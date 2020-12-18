@@ -15,10 +15,14 @@ namespace Tgstation.Server.Client.Components
 		/// <summary>
 		/// List configuration files
 		/// </summary>
+		/// <param name="paginationSettings">The optional <see cref="PaginationSettings"/> for the operation.</param>
 		/// <param name="directory">The path to the directory to list files in</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="IReadOnlyList{T}"/> of <see cref="ConfigurationFile"/>s in the <paramref name="directory"/></returns>
-		Task<IReadOnlyList<ConfigurationFile>> List(string directory, CancellationToken cancellationToken);
+		Task<IReadOnlyList<ConfigurationFile>> List(
+			PaginationSettings? paginationSettings,
+			string directory,
+			CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Read a <see cref="ConfigurationFile"/> file

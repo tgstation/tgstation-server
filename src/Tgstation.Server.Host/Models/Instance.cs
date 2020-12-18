@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Tgstation.Server.Host.Models
 {
 	/// <summary>
 	/// Represents an <see cref="Api.Models.Instance"/> in the database
 	/// </summary>
-	public sealed class Instance : Api.Models.Instance
+	public sealed class Instance : Api.Models.Instance, IApiTransformable<Api.Models.Instance>
 	{
 		/// <summary>
 		/// Default for <see cref="Api.Models.Instance.ChatBotLimit"/>.
@@ -47,10 +47,7 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		public ICollection<Job> Jobs { get; set; }
 
-		/// <summary>
-		/// Convert the <see cref="Instance"/> to it's API form
-		/// </summary>
-		/// <returns>A new <see cref="Api.Models.Instance"/></returns>
+		/// <inheritdoc />
 		public Api.Models.Instance ToApi() => new Api.Models.Instance
 		{
 			AutoUpdateInterval = AutoUpdateInterval,
@@ -59,7 +56,8 @@ namespace Tgstation.Server.Host.Models
 			Name = Name,
 			Path = Path,
 			Online = Online,
-			ChatBotLimit = ChatBotLimit
+			ChatBotLimit = ChatBotLimit,
+			MoveJob = MoveJob,
 		};
 	}
 }

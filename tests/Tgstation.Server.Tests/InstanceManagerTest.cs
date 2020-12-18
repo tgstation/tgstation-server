@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
 using System.Linq;
@@ -137,7 +137,7 @@ namespace Tgstation.Server.Tests
 
 		public async Task RunPostTest(CancellationToken cancellationToken)
 		{
-			var instances = await instanceManagerClient.List(cancellationToken);
+			var instances = await instanceManagerClient.List(null, cancellationToken);
 			var firstTest = instances.Single(x => x.Name == TestInstanceName);
 			var instanceClient = instanceManagerClient.CreateClient(firstTest);
 
