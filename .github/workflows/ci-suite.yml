@@ -386,7 +386,7 @@ jobs:
         cd src/Tgstation.Server.Host.Console
         dotnet publish -c ${{ matrix.configuration }} -o ../../Artifacts/Console
         cd ../Tgstation.Server.Host
-        dotnet publish -c ${{ matrix.configuration }} --no-build -o ../../Artifacts/Console/lib/Default
+        dotnet publish -c ${{ matrix.configuration }}NoService --no-build -o ../../Artifacts/Console/lib/Default
 
     - name: Package Server Update Package
       if: ${{ matrix.configuration == 'Release' && matrix.watchdog-type == 'System' && matrix.database-type == 'PostgresSql' }}
