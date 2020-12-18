@@ -355,7 +355,7 @@ jobs:
       shell: bash
       run: |
         TEMP_GITHUB_REF="${{ github.event.ref }}"
-        echo "TGS4_GITHUB_REF=${TEMP_GITHUB_REF##*/}" >> $env:GITHUB_ENV
+        echo "TGS4_GITHUB_REF=${TEMP_GITHUB_REF##*/}" >> $GITHUB_ENV
 
     - name: Run Integration Test
       run: |
