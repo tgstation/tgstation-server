@@ -200,7 +200,7 @@ jobs:
 
     - name: Set General__UseBasicWatchdog
       if: ${{ matrix.watchdog-type == 'Basic' }}
-      run: echo "General__UseBasicWatchdog=true" >> $env:GITHUB_ENV
+      run: echo "General__UseBasicWatchdog=true" >> $Env:GITHUB_ENV
 
     - name: Set TGS4_TEST_CONNECTION_STRING
       shell: bash
@@ -213,18 +213,18 @@ jobs:
 
     - name: Set TGS4_TEST_PULL_REQUEST_NUMBER
       if: ${{ github.event_name == 'pull_request' }}
-      run: echo "TGS4_TEST_PULL_REQUEST_NUMBER=${{ github.event.number }}" >> $env:GITHUB_ENV
+      run: echo "TGS4_TEST_PULL_REQUEST_NUMBER=${{ github.event.number }}" >> $Env:GITHUB_ENV
 
     - name: Set TGS4_GITHUB_REF for PR
       if: ${{ github.event_name == 'pull_request' }}
-      run: echo "TGS4_GITHUB_REF=${{ github.base_ref }}" >> $env:GITHUB_ENV
+      run: echo "TGS4_GITHUB_REF=${{ github.base_ref }}" >> $Env:GITHUB_ENV
 
     - name: Set TGS4_GITHUB_REF for push
       if: ${{ github.event_name == 'push' }}
       shell: bash
       run: |
         TEMP_GITHUB_REF="${{ github.event.ref }}"
-        echo "TGS4_GITHUB_REF=${TEMP_GITHUB_REF##*/}" >> $env:GITHUB_ENV
+        echo "TGS4_GITHUB_REF=${TEMP_GITHUB_REF##*/}" >> $GITHUB_ENV
 
     - name: Clean package cache as a temporary workaround for actions/setup-dotnet#155
       run: dotnet clean && dotnet nuget locals all --clear
