@@ -283,7 +283,7 @@ namespace Tgstation.Server.Host.Controllers
 					// run this second because current may be modified by it
 					await watchdog.ChangeSettings(current, cancellationToken).ConfigureAwait(false);
 
-					if (!oldSoftRestart && model.SoftRestart == true)
+					if (!oldSoftRestart && model.SoftRestart == true && watchdog.Status == WatchdogStatus.Online)
 						await watchdog.Restart(true, cancellationToken).ConfigureAwait(false);
 					else if (!oldSoftShutdown && model.SoftShutdown == true)
 						await watchdog.Terminate(true, cancellationToken).ConfigureAwait(false);
