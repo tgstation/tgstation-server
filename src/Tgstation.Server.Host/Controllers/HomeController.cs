@@ -63,6 +63,11 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IOAuthProviders oAuthProviders;
 
 		/// <summary>
+		/// The <see cref="IPlatformIdentifier"/> for the <see cref="HomeController"/>.
+		/// </summary>
+		readonly IPlatformIdentifier platformIdentifier;
+
+		/// <summary>
 		/// The <see cref="IBrowserResolver"/> for the <see cref="HomeController"/>
 		/// </summary>
 		readonly IBrowserResolver browserResolver;
@@ -88,6 +93,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
 		/// <param name="identityCache">The value of <see cref="identityCache"/></param>
 		/// <param name="oAuthProviders">The value of <see cref="oAuthProviders"/>.</param>
+		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="browserResolver">The value of <see cref="browserResolver"/></param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="controlPanelConfiguration"/></param>
@@ -101,6 +107,7 @@ namespace Tgstation.Server.Host.Controllers
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IIdentityCache identityCache,
 			IOAuthProviders oAuthProviders,
+			IPlatformIdentifier platformIdentifier,
 			IBrowserResolver browserResolver,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions,
@@ -116,6 +123,7 @@ namespace Tgstation.Server.Host.Controllers
 			this.cryptographySuite = cryptographySuite ?? throw new ArgumentNullException(nameof(cryptographySuite));
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.identityCache = identityCache ?? throw new ArgumentNullException(nameof(identityCache));
+			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.oAuthProviders = oAuthProviders ?? throw new ArgumentNullException(nameof(oAuthProviders));
 			this.browserResolver = browserResolver;
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
@@ -166,6 +174,7 @@ namespace Tgstation.Server.Host.Controllers
 				InstanceLimit = generalConfiguration.InstanceLimit,
 				UserLimit = generalConfiguration.UserLimit,
 				ValidInstancePaths = generalConfiguration.ValidInstancePaths,
+				WindowsHost = platformIdentifier.IsWindows,
 				OAuthProviderInfos = await oAuthProviders.ProviderInfos(cancellationToken).ConfigureAwait(false)
 			});
 		}

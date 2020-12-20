@@ -24,7 +24,7 @@ namespace Tgstation.Server.Api.Rights
 		RestartHost = 2,
 
 		/// <summary>
-		/// User can upgrade or downgrade TGS through the API.
+		/// User can read <see cref="Models.Administration"/> and upgrade/downgrade TGS through the API.
 		/// </summary>
 		ChangeVersion = 4,
 

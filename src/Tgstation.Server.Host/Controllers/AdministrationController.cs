@@ -166,7 +166,6 @@ namespace Tgstation.Server.Host.Controllers
 						return Conflict(new ErrorMessage(ErrorCode.ServerUpdateInProgress));
 					return Accepted(new Administration
 					{
-						WindowsHost = platformIdentifier.IsWindows,
 						NewVersion = newVersion
 					}); // gtfo of here before all the cancellation tokens fire
 				}
@@ -183,7 +182,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="424">The GitHub API rate limit was hit. See response header Retry-After.</response>
 		/// <response code="429">A GitHub API error occurred. See error message for details.</response>
 		[HttpGet]
-		[TgsAuthorize]
+		[TgsAuthorize(AdministrationRights.ChangeVersion)]
 		[ProducesResponseType(typeof(Administration), 200)]
 		[ProducesResponseType(typeof(ErrorMessage), 424)]
 		[ProducesResponseType(typeof(ErrorMessage), 429)]
@@ -226,7 +225,6 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					LatestVersion = greatestVersion,
 					TrackedRepositoryUrl = repoUrl,
-					WindowsHost = platformIdentifier.IsWindows
 				});
 			}
 			catch (RateLimitExceededException e)

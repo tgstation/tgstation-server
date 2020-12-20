@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Tgstation.Server.Api.Models
 {
@@ -7,11 +7,6 @@ namespace Tgstation.Server.Api.Models
 	/// </summary>
 	public sealed class Administration
 	{
-		/// <summary>
-		/// If the server is running on a windows operating system
-		/// </summary>
-		public bool WindowsHost { get; set; }
-
 		/// <summary>
 		/// The GitHub repository the server is built to recieve updates from
 		/// </summary>

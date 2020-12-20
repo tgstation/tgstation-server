@@ -1,8 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SQLitePCL;
 using System;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -68,7 +66,6 @@ namespace Tgstation.Server.Tests
 				// CI fails all the time b/c of this, ignore it
 				return;
 			}
-			Assert.AreEqual(RuntimeInformation.IsOSPlatform(OSPlatform.Windows), model.WindowsHost);
 
 			//we've released a few 4.x versions now, check the release checker is at least somewhat functional
 			Assert.AreEqual(4, model.LatestVersion.Major);
