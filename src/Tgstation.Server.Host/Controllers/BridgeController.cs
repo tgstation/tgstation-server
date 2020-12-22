@@ -18,6 +18,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// </summary>
 	[Route("Bridge")]
 	[Produces(MediaTypeNames.Application.Json)]
+	[ApiController]
 	public class BridgeController : Controller
 	{
 		/// <summary>

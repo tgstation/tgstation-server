@@ -73,6 +73,11 @@ namespace Tgstation.Server.Host.Controllers
 		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
+		/// The <see cref="SwarmConfiguration"/> for the <see cref="InstanceController"/>.
+		/// </summary>
+		readonly SwarmConfiguration swarmConfiguration;
+
+		/// <summary>
 		/// Construct a <see cref="InstanceController"/>
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
@@ -83,6 +88,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
 		/// <param name="portAllocator">The value of <see cref="IPortAllocator"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
+		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		public InstanceController(
 			IDatabaseContext databaseContext,
@@ -93,6 +99,7 @@ namespace Tgstation.Server.Host.Controllers
 			IPortAllocator portAllocator,
 			IPlatformIdentifier platformIdentifier,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			ILogger<InstanceController> logger)
 			: base(
 				  databaseContext,
@@ -106,6 +113,7 @@ namespace Tgstation.Server.Host.Controllers
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.portAllocator = portAllocator ?? throw new ArgumentNullException(nameof(portAllocator));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 		}
 
 		async Task<Models.Instance> CreateDefaultInstance(Api.Models.Instance initialSettings, CancellationToken cancellationToken)
@@ -172,7 +180,8 @@ namespace Tgstation.Server.Host.Controllers
 				InstancePermissionSets = new List<Models.InstancePermissionSet> // give this user full privileges on the instance
 				{
 					InstanceAdminPermissionSet(null)
-				}
+				},
+				SwarmIdentifer = swarmConfiguration.Identifier,
 			};
 		}
 
@@ -257,6 +266,7 @@ namespace Tgstation.Server.Host.Controllers
 					await DatabaseContext
 						.Instances
 						.AsQueryable()
+						.Where(x => x.SwarmIdentifer == swarmConfiguration.Identifier)
 						.Select(x => new Models.Instance
 						{
 							Path = x.Path
@@ -368,7 +378,7 @@ namespace Tgstation.Server.Host.Controllers
 			var originalModel = await DatabaseContext
 				.Instances
 				.AsQueryable()
-				.Where(x => x.Id == id)
+				.Where(x => x.Id == id && x.SwarmIdentifer == swarmConfiguration.Identifier)
 				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (originalModel == default)
 				return Gone();
@@ -416,7 +426,7 @@ namespace Tgstation.Server.Host.Controllers
 			IQueryable<Models.Instance> InstanceQuery() => DatabaseContext
 				.Instances
 				.AsQueryable()
-				.Where(x => x.Id == model.Id);
+				.Where(x => x.Id == model.Id && x.SwarmIdentifer == swarmConfiguration.Identifier);
 
 			var moveJob = await InstanceQuery()
 				.SelectMany(x => x.Jobs).
@@ -601,7 +611,10 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			IQueryable<Models.Instance> GetBaseQuery()
 			{
-				IQueryable<Models.Instance> query = DatabaseContext.Instances;
+				IQueryable<Models.Instance> query = DatabaseContext
+					.Instances
+					.AsQueryable()
+					.Where(x => x.SwarmIdentifer == swarmConfiguration.Identifier);
 				if (!AuthenticationContext.PermissionSet.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List))
 					query = query
 						.Where(x => x.InstancePermissionSets.Any(y => y.PermissionSetId == AuthenticationContext.PermissionSet.Id.Value))
@@ -668,7 +681,7 @@ namespace Tgstation.Server.Host.Controllers
 				var query = DatabaseContext
 					.Instances
 					.AsQueryable()
-					.Where(x => x.Id == id);
+					.Where(x => x.Id == id && x.SwarmIdentifer == swarmConfiguration.Identifier);
 
 				if (cantList)
 					query = query.Include(x => x.InstancePermissionSets);
@@ -722,7 +735,7 @@ namespace Tgstation.Server.Host.Controllers
 			var usersInstancePermissionSet = await DatabaseContext
 				.Instances
 				.AsQueryable()
-				.Where(x => x.Id == id)
+				.Where(x => x.Id == id && x.SwarmIdentifer == swarmConfiguration.Identifier)
 				.SelectMany(x => x.InstancePermissionSets)
 				.Where(x => x.PermissionSetId == AuthenticationContext.PermissionSet.Id.Value)
 				.FirstOrDefaultAsync(cancellationToken)

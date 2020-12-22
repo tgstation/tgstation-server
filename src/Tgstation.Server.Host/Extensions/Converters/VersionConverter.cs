@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using Tgstation.Server.Api;
 
-namespace Tgstation.Server.Host.Components.Interop.Converters
+namespace Tgstation.Server.Host.Extensions.Converters
 {
 	/// <summary>
 	/// <see cref="JsonConverter"/> for serializing <see cref="Version"/>s for BYOND.

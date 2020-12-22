@@ -332,7 +332,7 @@ namespace Tgstation.Server.Host.Database
 			modelBuilder.Entity<ChatBot>().HasIndex(x => new { x.InstanceId, x.Name }).IsUnique();
 
 			var instanceModel = modelBuilder.Entity<Instance>();
-			instanceModel.HasIndex(x => x.Path).IsUnique();
+			instanceModel.HasIndex(x => new { x.Path, x.SwarmIdentifer }).IsUnique();
 			instanceModel.HasMany(x => x.ChatSettings).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
 			instanceModel.HasOne(x => x.DreamDaemonSettings).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
 			instanceModel.HasOne(x => x.DreamMakerSettings).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
@@ -373,22 +373,22 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
 		/// </summary>
-		public static readonly Type MSLatestMigration = typeof(MSAddUserGroups);
+		public static readonly Type MSLatestMigration = typeof(MSAddSwarmIdentifer);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
 		/// </summary>
-		public static readonly Type MYLatestMigration = typeof(MYAddUserGroups);
+		public static readonly Type MYLatestMigration = typeof(MYAddSwarmIdentifer);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
 		/// </summary>
-		public static readonly Type PGLatestMigration = typeof(PGAddUserGroups);
+		public static readonly Type PGLatestMigration = typeof(PGAddSwarmIdentifer);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
 		/// </summary>
-		public static readonly Type SLLatestMigration = typeof(SLAddUserGroups);
+		public static readonly Type SLLatestMigration = typeof(SLAddSwarmIdentifer);
 #endif
 
 		/// <inheritdoc />
@@ -415,85 +415,41 @@ namespace Tgstation.Server.Host.Database
 			// Update this with new migrations as they are made
 			string targetMigration = null;
 			if (targetVersion < new Version(4, 7, 0))
-				switch (currentDatabaseType)
+				targetMigration = currentDatabaseType switch
 				{
-					case DatabaseType.MariaDB:
-					case DatabaseType.MySql:
-						targetMigration = nameof(MYAddAdditionalDDParameters);
-						break;
-					case DatabaseType.PostgresSql:
-						targetMigration = nameof(PGAddAdditionalDDParameters);
-						break;
-					case DatabaseType.SqlServer:
-						targetMigration = nameof(MSAddAdditionalDDParameters);
-						break;
-					case DatabaseType.Sqlite:
-						targetMigration = nameof(SLAddAdditionalDDParameters);
-						break;
-					default:
-						throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
-				}
-
+					DatabaseType.MariaDB or DatabaseType.MySql => nameof(MYAddAdditionalDDParameters),
+					DatabaseType.PostgresSql => nameof(PGAddAdditionalDDParameters),
+					DatabaseType.SqlServer => nameof(MSAddAdditionalDDParameters),
+					DatabaseType.Sqlite => nameof(SLAddAdditionalDDParameters),
+					_ => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType)),
+				};
 			if (targetVersion < new Version(4, 6, 0))
-				switch (currentDatabaseType)
+				targetMigration = currentDatabaseType switch
 				{
-					case DatabaseType.MariaDB:
-					case DatabaseType.MySql:
-						targetMigration = nameof(MYAddDeploymentColumns);
-						break;
-					case DatabaseType.PostgresSql:
-						targetMigration = nameof(PGAddDeploymentColumns);
-						break;
-					case DatabaseType.SqlServer:
-						targetMigration = nameof(MSAddDeploymentColumns);
-						break;
-					case DatabaseType.Sqlite:
-						targetMigration = nameof(SLAddDeploymentColumns);
-						break;
-					default:
-						throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
-				}
-
+					DatabaseType.MariaDB or DatabaseType.MySql => nameof(MYAddDeploymentColumns),
+					DatabaseType.PostgresSql => nameof(PGAddDeploymentColumns),
+					DatabaseType.SqlServer => nameof(MSAddDeploymentColumns),
+					DatabaseType.Sqlite => nameof(SLAddDeploymentColumns),
+					_ => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType)),
+				};
 			if (targetVersion < new Version(4, 5, 0))
-				switch (currentDatabaseType)
+				targetMigration = currentDatabaseType switch
 				{
-					case DatabaseType.MariaDB:
-					case DatabaseType.MySql:
-						targetMigration = nameof(MYAllowNullDMApi);
-						break;
-					case DatabaseType.PostgresSql:
-						targetMigration = nameof(PGAllowNullDMApi);
-						break;
-					case DatabaseType.SqlServer:
-						targetMigration = nameof(MSAllowNullDMApi);
-						break;
-					case DatabaseType.Sqlite:
-						targetMigration = nameof(SLAllowNullDMApi);
-						break;
-					default:
-						throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
-				}
-
+					DatabaseType.MariaDB or DatabaseType.MySql => nameof(MYAllowNullDMApi),
+					DatabaseType.PostgresSql => nameof(PGAllowNullDMApi),
+					DatabaseType.SqlServer => nameof(MSAllowNullDMApi),
+					DatabaseType.Sqlite => nameof(SLAllowNullDMApi),
+					_ => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType)),
+				};
 			if (targetVersion < new Version(4, 4, 0))
-				switch (currentDatabaseType)
+				targetMigration = currentDatabaseType switch
 				{
-					case DatabaseType.MariaDB:
-					case DatabaseType.MySql:
-						targetMigration = nameof(MYFixForeignKey);
-						break;
-					case DatabaseType.PostgresSql:
-						targetMigration = nameof(PGCreate);
-						break;
-					case DatabaseType.SqlServer:
-						targetMigration = nameof(MSRemoveSoftColumns);
-						break;
-					case DatabaseType.Sqlite:
-						targetMigration = nameof(SLRemoveSoftColumns);
-						break;
-					default:
-						throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType));
-				}
-
+					DatabaseType.MariaDB or DatabaseType.MySql => nameof(MYFixForeignKey),
+					DatabaseType.PostgresSql => nameof(PGCreate),
+					DatabaseType.SqlServer => nameof(MSRemoveSoftColumns),
+					DatabaseType.Sqlite => nameof(SLRemoveSoftColumns),
+					_ => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType)),
+				};
 			if (targetVersion < new Version(4, 2, 0))
 				targetMigration = currentDatabaseType == DatabaseType.Sqlite ? nameof(SLRebuild) : nameof(MSFixCascadingDelete);
 
@@ -503,29 +459,18 @@ namespace Tgstation.Server.Host.Database
 				return;
 			}
 
-			string migrationSubstitution;
-			switch (currentDatabaseType)
+			// already setup
+			var migrationSubstitution = currentDatabaseType switch
 			{
-				case DatabaseType.SqlServer:
-					// already setup
-					migrationSubstitution = null;
-					break;
-				case DatabaseType.MySql:
-				case DatabaseType.MariaDB:
-					migrationSubstitution = "MY{0}";
-					break;
-				case DatabaseType.Sqlite:
-					migrationSubstitution = "SL{0}";
-					break;
-				case DatabaseType.PostgresSql:
-					migrationSubstitution = "PG{0}";
-					break;
-				default:
-					throw new InvalidOperationException($"Invalid DatabaseType: {currentDatabaseType}");
-			}
+				DatabaseType.SqlServer => null,// already setup
+				DatabaseType.MySql or DatabaseType.MariaDB => "MY{0}",
+				DatabaseType.Sqlite => "SL{0}",
+				DatabaseType.PostgresSql => "PG{0}",
+				_ => throw new InvalidOperationException($"Invalid DatabaseType: {currentDatabaseType}"),
+			};
 
 			if (migrationSubstitution != null)
-				targetMigration = String.Format(CultureInfo.InvariantCulture, migrationSubstitution, targetMigration.Substring(2));
+				targetMigration = String.Format(CultureInfo.InvariantCulture, migrationSubstitution, targetMigration[2..]);
 
 			// even though it clearly implements it in the DatabaseFacade definition this won't work without casting (╯ಠ益ಠ)╯︵ ┻━┻
 			var dbServiceProvider = ((IInfrastructure<IServiceProvider>)Database).Instance;

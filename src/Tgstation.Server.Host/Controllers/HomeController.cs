@@ -21,6 +21,7 @@ using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Security.OAuth;
+using Tgstation.Server.Host.Swarm;
 using Tgstation.Server.Host.System;
 using Wangkanai.Detection;
 
@@ -68,6 +69,11 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IPlatformIdentifier platformIdentifier;
 
 		/// <summary>
+		/// The <see cref="ISwarmService"/> for the <see cref="HomeController"/>.
+		/// </summary>
+		readonly ISwarmService swarmService;
+
+		/// <summary>
 		/// The <see cref="IBrowserResolver"/> for the <see cref="HomeController"/>
 		/// </summary>
 		readonly IBrowserResolver browserResolver;
@@ -95,6 +101,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="oAuthProviders">The value of <see cref="oAuthProviders"/>.</param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="browserResolver">The value of <see cref="browserResolver"/></param>
+		/// <param name="swarmService">The value of <see cref="swarmService"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="controlPanelConfiguration"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
@@ -109,6 +116,7 @@ namespace Tgstation.Server.Host.Controllers
 			IOAuthProviders oAuthProviders,
 			IPlatformIdentifier platformIdentifier,
 			IBrowserResolver browserResolver,
+			ISwarmService swarmService,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions,
 			ILogger<HomeController> logger)
@@ -125,7 +133,8 @@ namespace Tgstation.Server.Host.Controllers
 			this.identityCache = identityCache ?? throw new ArgumentNullException(nameof(identityCache));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.oAuthProviders = oAuthProviders ?? throw new ArgumentNullException(nameof(oAuthProviders));
-			this.browserResolver = browserResolver;
+			this.browserResolver = browserResolver ?? throw new ArgumentNullException(nameof(browserResolver));
+			this.swarmService = swarmService ?? throw new ArgumentNullException(nameof(swarmService));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions));
 		}
@@ -141,6 +150,7 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpGet]
 		[AllowAnonymous]
 		[ProducesResponseType(typeof(ServerInformation), 200)]
+		#pragma warning disable CA1506
 		public async Task<IActionResult> Home(CancellationToken cancellationToken)
 		{
 			// if we are using a browser and the control panel, soft redirect to the app page
@@ -175,9 +185,11 @@ namespace Tgstation.Server.Host.Controllers
 				UserLimit = generalConfiguration.UserLimit,
 				ValidInstancePaths = generalConfiguration.ValidInstancePaths,
 				WindowsHost = platformIdentifier.IsWindows,
+				SwarmServers = swarmService.GetSwarmServers(),
 				OAuthProviderInfos = await oAuthProviders.ProviderInfos(cancellationToken).ConfigureAwait(false)
 			});
 		}
+		#pragma warning restore CA1506
 
 		/// <summary>
 		/// Attempt to authenticate a <see cref="User"/> using <see cref="ApiController.ApiHeaders"/>

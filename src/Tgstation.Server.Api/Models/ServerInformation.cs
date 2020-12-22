@@ -29,6 +29,11 @@ namespace Tgstation.Server.Api.Models
 		public bool WindowsHost { get; set; }
 
 		/// <summary>
+		/// A <see cref="ICollection{T}"/> of connected <see cref="SwarmServer"/>s.
+		/// </summary>
+		public ICollection<SwarmServer>? SwarmServers { get; set; }
+
+		/// <summary>
 		/// Map of <see cref="OAuthProvider"/> to the <see cref="OAuthProviderInfo"/> for them.
 		/// </summary>
 		public IDictionary<OAuthProvider, OAuthProviderInfo>? OAuthProviderInfos { get; set; }
