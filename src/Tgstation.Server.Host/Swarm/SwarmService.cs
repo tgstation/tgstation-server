@@ -163,6 +163,11 @@ namespace Tgstation.Server.Host.Swarm
 		bool restarting;
 
 		/// <summary>
+		/// If the <see cref="swarmServers"/> list has been updated and needs to be resent to clients.
+		/// </summary>
+		bool serversDirty;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="SwarmService"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/>.</param>
@@ -623,7 +628,7 @@ namespace Tgstation.Server.Host.Swarm
 				.ConfigureAwait(false);
 
 			lock (swarmServers)
-				if (swarmServers.Count == currentSwarmServers.Count)
+				if (!serversDirty && swarmServers.Count == currentSwarmServers.Count)
 					return;
 
 			await SendUpdatedServerListToNodes(cancellationToken).ConfigureAwait(false);
@@ -787,6 +792,7 @@ namespace Tgstation.Server.Host.Swarm
 			}
 
 			await Task.WhenAll(currentSwarmServers.Select(x => UpdateRequestForServer(x))).ConfigureAwait(false);
+			serversDirty = false;
 		}
 
 		/// <summary>
@@ -812,7 +818,7 @@ namespace Tgstation.Server.Host.Swarm
 
 			var request = new HttpRequestMessage(
 				httpMethod,
-				swarmServer.Address + SwarmConstants.ControllerRoute + subroute);
+				swarmServer.Address + SwarmConstants.ControllerRoute.Substring(1) + subroute);
 
 			request.Headers.Add(SwarmConstants.ApiKeyHeader, swarmConfiguration.PrivateKey);
 			request.Headers.Add(ApplicationBuilderExtensions.XPoweredByHeader, assemblyInformationProvider.VersionPrefix);
@@ -1086,6 +1092,8 @@ namespace Tgstation.Server.Host.Swarm
 				swarmServers.RemoveAll(x => x.Identifier == nodeIdentifier);
 				registrationIds.Remove(nodeIdentifier);
 			}
+
+			serversDirty = true;
 		}
 	}
 }
