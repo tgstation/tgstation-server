@@ -17,8 +17,6 @@ namespace Tgstation.Server.Host.Extensions
 	/// </summary>
 	static class ApplicationBuilderExtensions
 	{
-		public const string XPoweredByHeader = "X-Powered-By";
-
 		/// <summary>
 		/// Gets a <see cref="ILogger"/> from a given <paramref name="httpContext"/>
 		/// </summary>
@@ -131,7 +129,7 @@ namespace Tgstation.Server.Host.Extensions
 
 			applicationBuilder.Use(async (context, next) =>
 			{
-				context.Response.Headers.Add(XPoweredByHeader, assemblyInformationProvider.VersionPrefix);
+				context.Response.Headers.Add("X-Powered-By", assemblyInformationProvider.VersionPrefix);
 				await next().ConfigureAwait(false);
 			});
 		}

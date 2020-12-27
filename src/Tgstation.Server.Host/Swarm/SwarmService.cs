@@ -7,13 +7,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Extensions.Converters;
 using Tgstation.Server.Host.System;
 
@@ -846,10 +847,13 @@ namespace Tgstation.Server.Host.Swarm
 
 			var request = new HttpRequestMessage(
 				httpMethod,
-				swarmServer.Address + subroute);
+				swarmServer.Address + subroute.Substring(1));
 
 			request.Headers.Add(SwarmConstants.ApiKeyHeader, swarmConfiguration.PrivateKey);
-			request.Headers.Add(ApplicationBuilderExtensions.XPoweredByHeader, assemblyInformationProvider.VersionPrefix);
+			request.Headers.UserAgent.Clear();
+			request.Headers.UserAgent.Add(assemblyInformationProvider.ProductInfoHeaderValue);
+			request.Headers.Accept.Clear();
+			request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
 			if (registrationIdOverride.HasValue)
 				request.Headers.Add(SwarmConstants.RegistrationIdHeader, registrationIdOverride.Value.ToString());
 			else if (swarmController)
