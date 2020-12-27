@@ -154,7 +154,7 @@ namespace Tgstation.Server.Tests
 
 		async Task TestServerInformation(IServerClientFactory clientFactory, IServerClient serverClient, CancellationToken cancellationToken)
 		{
-			var serverInfo = await serverClient.Version(default).ConfigureAwait(false);
+			var serverInfo = await serverClient.ServerInformation(default).ConfigureAwait(false);
 
 			Assert.AreEqual(ApiHeaders.Version, serverInfo.ApiVersion);
 			var assemblyVersion = typeof(IServer).Assembly.GetName().Version.Semver();
