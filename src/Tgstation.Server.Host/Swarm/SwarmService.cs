@@ -27,12 +27,12 @@ namespace Tgstation.Server.Host.Swarm
 		/// <summary>
 		/// Interval at which the swarm controller makes health checks on nodes.
 		/// </summary>
-		const int ControllerHealthCheckIntervalMinutes = 5;
+		const int ControllerHealthCheckIntervalMinutes = 3;
 
 		/// <summary>
 		/// Interval at which the node makes health checks on the controller if it has not received one.
 		/// </summary>
-		const int NodeHealthCheckIntervalMinutes = 7;
+		const int NodeHealthCheckIntervalMinutes = 5;
 
 		/// <summary>
 		/// See <see cref="JsonSerializerSettings"/> for the swarm system.
@@ -277,8 +277,10 @@ namespace Tgstation.Server.Host.Swarm
 			{
 				lock (swarmServers)
 					task = Task.WhenAll(
-						swarmServers.Select(
-							x => SendRemoteAbort(x)));
+						swarmServers
+							.Where(x => !x.Controller)
+							.Select(
+								x => SendRemoteAbort(x)));
 			}
 
 			await task.ConfigureAwait(false);
@@ -363,8 +365,10 @@ namespace Tgstation.Server.Host.Swarm
 			Task task;
 			lock (swarmServers)
 				task = Task.WhenAll(
-					swarmServers.Select(
-						x => SendRemoteCommitUpdate(x)));
+					swarmServers
+						.Where(x => !x.Controller)
+						.Select(
+							x => SendRemoteCommitUpdate(x)));
 
 			await task.ConfigureAwait(false);
 			return true;
@@ -416,11 +420,7 @@ namespace Tgstation.Server.Host.Swarm
 			{
 				logger.LogDebug("Forwarding update request to swarm controller...");
 
-				SwarmServer controller;
-				lock (swarmServers)
-					controller = swarmServers.First();
-
-				return await RemotePrepareUpdate(controller).ConfigureAwait(false);
+				return await RemotePrepareUpdate(null).ConfigureAwait(false);
 			}
 
 			var selfPrepare = await PrepareUpdateFromController(version, cancellationToken).ConfigureAwait(false);
@@ -432,7 +432,10 @@ namespace Tgstation.Server.Host.Swarm
 				logger.LogTrace("Sending remote prepare nodes...");
 				List<Task<bool>> tasks;
 				lock (swarmServers)
-					tasks = swarmServers.Select(x => RemotePrepareUpdate(x)).ToList();
+					tasks = swarmServers
+						.Where(x => !x.Controller)
+						.Select(x => RemotePrepareUpdate(x))
+						.ToList();
 				await Task.WhenAll(tasks);
 
 				// if all succeeds...
@@ -441,7 +444,10 @@ namespace Tgstation.Server.Host.Swarm
 					logger.LogDebug("Distributed prepare for update to version {0} complete.", version);
 					updateCommitTcs = new TaskCompletionSource<bool>();
 					lock (swarmServers)
-						nodesThatNeedToBeReadyToCommit = new List<string>(swarmServers.Select(x => x.Identifier));
+						nodesThatNeedToBeReadyToCommit = new List<string>(
+							swarmServers
+								.Where(x => !x.Controller)
+								.Select(x => x.Identifier));
 					return true;
 				}
 			}
@@ -512,7 +518,11 @@ namespace Tgstation.Server.Host.Swarm
 		public async Task<SwarmRegistrationResult> Initialize(CancellationToken cancellationToken)
 		{
 			if (SwarmMode)
-				logger.LogInformation("Swarm mode enabled");
+				logger.LogInformation(
+					"Swarm mode enabled ({0})",
+					swarmController
+						? "controller"
+						: "node");
 			else
 				logger.LogTrace("Swarm mode disabled");
 
@@ -539,7 +549,8 @@ namespace Tgstation.Server.Host.Swarm
 			if (swarmController)
 			{
 				serverHealthCheckCancellationTokenSource?.Cancel();
-				await serverHealthCheckTask.ConfigureAwait(false);
+				if (serverHealthCheckTask != null)
+					await serverHealthCheckTask.ConfigureAwait(false);
 
 				if (targetUpdateVersion != null
 					&& targetUpdateVersion < assemblyInformationProvider.Version)
@@ -607,12 +618,17 @@ namespace Tgstation.Server.Host.Swarm
 						&& result.Identifier == swarmServer.Identifier)
 						return;
 
-					logger.LogWarning("Error during swarm server health check on node '{0}'! Response: {1}. Unregistering...", swarmServer.Identifier,
+					logger.LogWarning(
+						"Error during swarm server health check on node '{0}'! Response: {1}. Unregistering...",
+						swarmServer.Identifier,
 					responseString);
 				}
 				catch (Exception ex)
 				{
-					logger.LogWarning(ex, "Error during swarm server health check on node '{0}'! Unregistering...", swarmServer.Identifier);
+					logger.LogWarning(
+						ex,
+						"Error during swarm server health check on node '{0}'! Unregistering...",
+						swarmServer.Identifier);
 				}
 
 				lock (swarmServers)
@@ -623,9 +639,11 @@ namespace Tgstation.Server.Host.Swarm
 			}
 
 			await Task.WhenAll(
-				currentSwarmServers.Select(
-					x => HealthRequestForServer(x)))
-				.ConfigureAwait(false);
+				currentSwarmServers
+					.Where(x => !x.Controller)
+					.Select(
+						x => HealthRequestForServer(x)))
+					.ConfigureAwait(false);
 
 			lock (swarmServers)
 				if (!serversDirty && swarmServers.Count == currentSwarmServers.Count)
@@ -791,7 +809,10 @@ namespace Tgstation.Server.Host.Swarm
 				}
 			}
 
-			await Task.WhenAll(currentSwarmServers.Select(x => UpdateRequestForServer(x))).ConfigureAwait(false);
+			await Task.WhenAll(
+				currentSwarmServers
+					.Where(x => !x.Controller)
+					.Select(x => UpdateRequestForServer(x))).ConfigureAwait(false);
 			serversDirty = false;
 		}
 
@@ -816,9 +837,16 @@ namespace Tgstation.Server.Host.Swarm
 				Address = swarmConfiguration.ControllerAddress,
 			};
 
+			subroute = $"{SwarmConstants.ControllerRoute}/{subroute}";
+			logger.LogTrace(
+				"{0} {1} to swarm server {2}",
+				httpMethod,
+				subroute,
+				swarmServer.Identifier ?? swarmServer.Address.ToString());
+
 			var request = new HttpRequestMessage(
 				httpMethod,
-				swarmServer.Address + SwarmConstants.ControllerRoute.Substring(1) + subroute);
+				swarmServer.Address + subroute);
 
 			request.Headers.Add(SwarmConstants.ApiKeyHeader, swarmConfiguration.PrivateKey);
 			request.Headers.Add(ApplicationBuilderExtensions.XPoweredByHeader, assemblyInformationProvider.VersionPrefix);

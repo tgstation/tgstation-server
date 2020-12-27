@@ -196,9 +196,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <inheritdoc />
 		public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
 		{
+			using var _ = LogContext.PushProperty("Request", $"{Request.Method} {Request.Path}");
+			logger.LogTrace("Swarm request from {0}...", Request.HttpContext.Connection.RemoteIpAddress);
 			if (swarmConfiguration.PrivateKey == null)
 			{
-				logger.LogDebug("Attempted swarm request without private key!");
+				logger.LogDebug("Attempted swarm request without private key configured!");
 				await Forbid().ExecuteResultAsync(context).ConfigureAwait(false);
 				return;
 			}
@@ -233,11 +235,8 @@ namespace Tgstation.Server.Host.Controllers
 				return;
 			}
 
-			using (LogContext.PushProperty("Request", $"{Request.Method} {Request.Path}"))
-			{
-				logger.LogDebug("Starting swarm request...");
-				await base.OnActionExecutionAsync(context, next).ConfigureAwait(false);
-			}
+			logger.LogDebug("Starting swarm request processing...");
+			await base.OnActionExecutionAsync(context, next).ConfigureAwait(false);
 		}
 	}
 }

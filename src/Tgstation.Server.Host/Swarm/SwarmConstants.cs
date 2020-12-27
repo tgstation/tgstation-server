@@ -25,11 +25,11 @@ namespace Tgstation.Server.Host.Swarm
 		/// <summary>
 		/// The route used for swarm registration.
 		/// </summary>
-		public const string RegisterRoute = "/Register";
+		public const string RegisterRoute = "Register";
 
 		/// <summary>
 		/// The route used for swarm updates.
 		/// </summary>
-		public const string UpdateRoute = "/Update";
+		public const string UpdateRoute = "Update";
 	}
 }
