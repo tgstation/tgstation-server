@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Mime;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -869,7 +870,9 @@ namespace Tgstation.Server.Host.Swarm
 			{
 				if (body != null)
 					request.Content = new StringContent(
-						JsonConvert.SerializeObject(body, SerializerSettings));
+						JsonConvert.SerializeObject(body, SerializerSettings),
+						Encoding.UTF8,
+						MediaTypeNames.Application.Json);
 
 				return request;
 			}
