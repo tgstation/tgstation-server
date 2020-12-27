@@ -409,6 +409,9 @@ namespace Tgstation.Server.Host.Database
 			if (currentDatabaseType == DatabaseType.PostgresSql && targetVersion < new Version(4, 3, 0))
 				throw new NotSupportedException("Cannot migrate below version 4.3.0 with PostgresSql!");
 
+			if (currentDatabaseType == DatabaseType.MariaDB)
+				currentDatabaseType = DatabaseType.MySql; // Keeping switch expressions while avoiding `or` syntax from C#9
+
 			if (targetVersion < new Version(4, 1, 0))
 				throw new NotSupportedException("Cannot migrate below version 4.1.0!");
 
@@ -417,7 +420,7 @@ namespace Tgstation.Server.Host.Database
 			if (targetVersion < new Version(4, 7, 0))
 				targetMigration = currentDatabaseType switch
 				{
-					DatabaseType.MariaDB or DatabaseType.MySql => nameof(MYAddAdditionalDDParameters),
+					DatabaseType.MySql => nameof(MYAddAdditionalDDParameters),
 					DatabaseType.PostgresSql => nameof(PGAddAdditionalDDParameters),
 					DatabaseType.SqlServer => nameof(MSAddAdditionalDDParameters),
 					DatabaseType.Sqlite => nameof(SLAddAdditionalDDParameters),
@@ -426,7 +429,7 @@ namespace Tgstation.Server.Host.Database
 			if (targetVersion < new Version(4, 6, 0))
 				targetMigration = currentDatabaseType switch
 				{
-					DatabaseType.MariaDB or DatabaseType.MySql => nameof(MYAddDeploymentColumns),
+					DatabaseType.MySql => nameof(MYAddDeploymentColumns),
 					DatabaseType.PostgresSql => nameof(PGAddDeploymentColumns),
 					DatabaseType.SqlServer => nameof(MSAddDeploymentColumns),
 					DatabaseType.Sqlite => nameof(SLAddDeploymentColumns),
@@ -435,7 +438,7 @@ namespace Tgstation.Server.Host.Database
 			if (targetVersion < new Version(4, 5, 0))
 				targetMigration = currentDatabaseType switch
 				{
-					DatabaseType.MariaDB or DatabaseType.MySql => nameof(MYAllowNullDMApi),
+					DatabaseType.MySql => nameof(MYAllowNullDMApi),
 					DatabaseType.PostgresSql => nameof(PGAllowNullDMApi),
 					DatabaseType.SqlServer => nameof(MSAllowNullDMApi),
 					DatabaseType.Sqlite => nameof(SLAllowNullDMApi),
@@ -444,7 +447,7 @@ namespace Tgstation.Server.Host.Database
 			if (targetVersion < new Version(4, 4, 0))
 				targetMigration = currentDatabaseType switch
 				{
-					DatabaseType.MariaDB or DatabaseType.MySql => nameof(MYFixForeignKey),
+					DatabaseType.MySql => nameof(MYFixForeignKey),
 					DatabaseType.PostgresSql => nameof(PGCreate),
 					DatabaseType.SqlServer => nameof(MSRemoveSoftColumns),
 					DatabaseType.Sqlite => nameof(SLRemoveSoftColumns),
@@ -463,7 +466,7 @@ namespace Tgstation.Server.Host.Database
 			var migrationSubstitution = currentDatabaseType switch
 			{
 				DatabaseType.SqlServer => null,// already setup
-				DatabaseType.MySql or DatabaseType.MariaDB => "MY{0}",
+				DatabaseType.MySql => "MY{0}",
 				DatabaseType.Sqlite => "SL{0}",
 				DatabaseType.PostgresSql => "PG{0}",
 				_ => throw new InvalidOperationException($"Invalid DatabaseType: {currentDatabaseType}"),
