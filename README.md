@@ -98,7 +98,7 @@ The latter two are not recommended as they cannot be dynamically changed at runt
 
 #### Manual Configuration
 
-Create an `appsettings.Production.json` file next to `appsettings.json`. This will override the default settings in appsettings.json with your production settings. There are a few keys meant to be changed by hosts. Modifying any config files while the server is running will trigger a safe restart (Keeps DreamDaemon's running). Note these are all case-sensitive:
+Create an `appsettings.Production.json` file next to `appsettings.json`. This will override the default settings in appsettings.json with your production settings. There are a few keys meant to be changed by hosts. Modifying any config files while the server is running will trigger a safe restart (Keeps DreamDaemon instances running). Note these are all case-sensitive:
 
 - `General:ConfigVersion`: Suppresses warnings about out of date config versions. You should change this after updating TGS to one with a new config version. The current version can be found on the releases page for your server version (This field did not exist before v4.4.0).
 
@@ -130,13 +130,29 @@ Create an `appsettings.Production.json` file next to `appsettings.json`. This wi
 
 - `ControlPanel:AllowedOrigins`: Set the Access-Control-Allow-Origin headers to this list of origins for all responses (also enables all headers and methods). This is overridden by `ControlPanel:AllowAnyOrigin`
 
-- `Security:<Provider Name>OAuth`: Sets the OAuth client ID and secret for a given `<Provider Name>`. The currently supported providers are `GitHub`, `Discord`, and `TGForums`. Setting these fields to `null` disables logins with the provider, but does not stop users from associating their accounts using the API. Sample Entry:
+- `Swarm`: This section should be left `null` unless using the server swarm system. If this is to happen, ensure all swarm servers are set to connect to the same database.
+
+- `Swarm:PrivateKey`: Should be a secure string set identically on all swarmed servers.
+
+- `Swarm:ControllerAddress`: Should be set on all swarmed servers that are **not** the controller server and should be an address the controller server may be reached at.
+
+- `Swarm:Address`: Should be set on all swarmed servers. Should be an address the server can be reached at by other servers in the swarm.
+
+- `Swarm:Identifier` should be set uniquely on all swarmed servers. Used to identify the current server. This is also used to select which instances exist on the current machine and should not be changed post-setup.
+
+- `Security:OAuth:<Provider Name>`: Sets the OAuth client ID and secret for a given `<Provider Name>`. The currently supported providers are `GitHub`, `Discord`, and `TGForums`. Setting these fields to `null` disables logins with the provider, but does not stop users from associating their accounts using the API. Sample Entry:
 ```json
-"GitHubOAuth":{
-	"ClientId": "...",
-	"ClientSecret": "...",
-	"RedirectUrl": "...", (Used with certain providers)
-	"ServerUrl": "...", (Used with certain providers)
+{
+	"Security": {
+		"OAuth": {
+			"Keycloak": {
+				"ClientId": "...",
+				"ClientSecret": "...",
+				"RedirectUrl": "..."
+				"ServerUrl": "..."
+			}
+		}
+	}
 }
 ```
 The following providers use the `RedirectUrl` setting:
@@ -309,6 +325,12 @@ Example VirtualHost Entry
 </VirtualHost>
 </IfModule>
 ```
+
+## Swarmed Servers
+
+Multiple tgstation-servers can be linked together in a swarm. The main benefit of this is allowing for users, groups, and permissions to be shared across the servers. Servers in a swarm must connect to the same database, use the same tgstation-server version, and have their own unique names.
+
+In a swarm, one server is designated the 'controller'. This is the server other 'node's in the swarm communicate with and coordinates group updates. Issuing an update command to one server in a swarm will update them all to the specified version.
 
 ## Usage
 
