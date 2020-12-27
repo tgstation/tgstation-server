@@ -371,6 +371,7 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="Application"/></param>
 		/// <param name="tokenFactory">The value of <see cref="tokenFactory"/></param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/>.</param>
+		/// <param name="serverPortProvider">The <see cref="IServerPortProvider"/>.</param>
 		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="ControlPanelConfiguration"/> to use</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="GeneralConfiguration"/> to use</param>
 		/// <param name="logger">The <see cref="Microsoft.Extensions.Logging.ILogger"/> for the <see cref="Application"/></param>
@@ -379,6 +380,7 @@ namespace Tgstation.Server.Host.Core
 			IServerControl serverControl,
 			ITokenFactory tokenFactory,
 			IInstanceManager instanceManager,
+			IServerPortProvider serverPortProvider,
 			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			ILogger<Application> logger)
@@ -493,7 +495,7 @@ namespace Tgstation.Server.Host.Core
 			logger.LogTrace("DMAPI version: {0}", masterVersionsAttribute.RawDMApiVersion);
 			logger.LogTrace("Web control panel version: {0}", masterVersionsAttribute.RawControlPanelVersion);
 
-			logger.LogDebug("Starting hosting...");
+			logger.LogDebug("Starting hosting on port {0}...", serverPortProvider.HttpApiPort);
 		}
 	}
 }
