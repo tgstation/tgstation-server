@@ -612,18 +612,7 @@ namespace Tgstation.Server.Host.Swarm
 				{
 					using var response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
 					response.EnsureSuccessStatusCode();
-
-					var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-					var result = JsonConvert.DeserializeObject<SwarmServer>(responseString, SerializerSettings);
-
-					if (result.Address == swarmServer.Address
-						&& result.Identifier == swarmServer.Identifier)
-						return;
-
-					logger.LogWarning(
-						"Error during swarm server health check on node '{0}'! Response: {1}. Unregistering...",
-						swarmServer.Identifier,
-					responseString);
+					return;
 				}
 				catch (Exception ex)
 				{
@@ -648,10 +637,11 @@ namespace Tgstation.Server.Host.Swarm
 					.ConfigureAwait(false);
 
 			lock (swarmServers)
-				if (!serversDirty && swarmServers.Count == currentSwarmServers.Count)
-					return;
+				if (swarmServers.Count != currentSwarmServers.Count)
+					serversDirty = true;
 
-			await SendUpdatedServerListToNodes(cancellationToken).ConfigureAwait(false);
+			if (serversDirty)
+				await SendUpdatedServerListToNodes(cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <summary>
@@ -814,7 +804,8 @@ namespace Tgstation.Server.Host.Swarm
 			await Task.WhenAll(
 				currentSwarmServers
 					.Where(x => !x.Controller)
-					.Select(x => UpdateRequestForServer(x))).ConfigureAwait(false);
+					.Select(x => UpdateRequestForServer(x)))
+				.ConfigureAwait(false);
 			serversDirty = false;
 		}
 
@@ -1033,6 +1024,7 @@ namespace Tgstation.Server.Host.Swarm
 			}
 
 			logger.LogInformation("Registered node {0} with ID {1}", node.Identifier, registrationId);
+			serversDirty = true;
 			return true;
 		}
 
