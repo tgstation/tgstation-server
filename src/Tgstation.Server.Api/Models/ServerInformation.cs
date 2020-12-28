@@ -29,6 +29,11 @@ namespace Tgstation.Server.Api.Models
 		public bool WindowsHost { get; set; }
 
 		/// <summary>
+		/// If there is a server update in progress.
+		/// </summary>
+		public bool UpdateInProgress { get; set; }
+
+		/// <summary>
 		/// A <see cref="ICollection{T}"/> of connected <see cref="SwarmServer"/>s.
 		/// </summary>
 		public ICollection<SwarmServer>? SwarmServers { get; set; }

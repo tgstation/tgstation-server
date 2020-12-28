@@ -74,6 +74,11 @@ namespace Tgstation.Server.Host.Controllers
 		readonly ISwarmService swarmService;
 
 		/// <summary>
+		/// The <see cref="IServerControl"/> for the <see cref="HomeController"/>.
+		/// </summary>
+		readonly IServerControl serverControl;
+
+		/// <summary>
 		/// The <see cref="IBrowserResolver"/> for the <see cref="HomeController"/>
 		/// </summary>
 		readonly IBrowserResolver browserResolver;
@@ -102,6 +107,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
 		/// <param name="browserResolver">The value of <see cref="browserResolver"/></param>
 		/// <param name="swarmService">The value of <see cref="swarmService"/>.</param>
+		/// <param name="serverControl">The value of <see cref="serverControl"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="controlPanelConfiguration"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
@@ -117,6 +123,7 @@ namespace Tgstation.Server.Host.Controllers
 			IPlatformIdentifier platformIdentifier,
 			IBrowserResolver browserResolver,
 			ISwarmService swarmService,
+			IServerControl serverControl,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions,
 			ILogger<HomeController> logger)
@@ -135,6 +142,7 @@ namespace Tgstation.Server.Host.Controllers
 			this.oAuthProviders = oAuthProviders ?? throw new ArgumentNullException(nameof(oAuthProviders));
 			this.browserResolver = browserResolver ?? throw new ArgumentNullException(nameof(browserResolver));
 			this.swarmService = swarmService ?? throw new ArgumentNullException(nameof(swarmService));
+			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions));
 		}
@@ -186,7 +194,8 @@ namespace Tgstation.Server.Host.Controllers
 				ValidInstancePaths = generalConfiguration.ValidInstancePaths,
 				WindowsHost = platformIdentifier.IsWindows,
 				SwarmServers = swarmService.GetSwarmServers(),
-				OAuthProviderInfos = await oAuthProviders.ProviderInfos(cancellationToken).ConfigureAwait(false)
+				OAuthProviderInfos = await oAuthProviders.ProviderInfos(cancellationToken).ConfigureAwait(false),
+				UpdateInProgress = serverControl.UpdateInProgress,
 			});
 		}
 		#pragma warning restore CA1506

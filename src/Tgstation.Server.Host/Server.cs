@@ -22,6 +22,9 @@ namespace Tgstation.Server.Host
 		public bool RestartRequested { get; private set; }
 
 		/// <inheritdoc />
+		public bool UpdateInProgress { get; private set; }
+
+		/// <inheritdoc />
 		public bool WatchdogPresent =>
 #if WATCHDOG_FREE_RESTART
 			true;
@@ -73,11 +76,6 @@ namespace Tgstation.Server.Host
 		/// The <see cref="Exception"/> to propagate when the server terminates
 		/// </summary>
 		Exception propagatedException;
-
-		/// <summary>
-		/// If a server update has been or is being applied
-		/// </summary>
-		bool updating;
 
 		/// <summary>
 		/// Construct a <see cref="Server"/>
@@ -181,13 +179,13 @@ namespace Tgstation.Server.Host
 
 			lock (restartLock)
 			{
-				if (updating || RestartRequested)
+				if (UpdateInProgress || RestartRequested)
 				{
 					logger.LogTrace("Aborted due to concurrency conflict!");
 					return false;
 				}
 
-				updating = true;
+				UpdateInProgress = true;
 			}
 
 			async void RunUpdate()
@@ -244,7 +242,7 @@ namespace Tgstation.Server.Host
 						}
 						catch (Exception e)
 						{
-							updating = false;
+							UpdateInProgress = false;
 							try
 							{
 								// important to not leave this directory around if possible
@@ -271,7 +269,7 @@ namespace Tgstation.Server.Host
 				}
 				finally
 				{
-					updating = false;
+					UpdateInProgress = false;
 				}
 			}
 
@@ -321,7 +319,7 @@ namespace Tgstation.Server.Host
 
 			lock (restartLock)
 			{
-				if ((updating && newVersion == null) || RestartRequested)
+				if ((UpdateInProgress && newVersion == null) || RestartRequested)
 				{
 					logger.LogTrace("Aborted due to concurrency conflict!");
 					return;

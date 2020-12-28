@@ -16,6 +16,11 @@ namespace Tgstation.Server.Host.Core
 		bool WatchdogPresent { get; }
 
 		/// <summary>
+		/// Whether or not the server is currently updating
+		/// </summary>
+		bool UpdateInProgress { get; }
+
+		/// <summary>
 		/// Run a new <see cref="Host"/> assembly and stop the current one. This will likely trigger all active <see cref="CancellationToken"/>s
 		/// </summary>
 		/// <param name="version">The <see cref="Version"/> the <see cref="IServerControl"/> is updating to</param>
