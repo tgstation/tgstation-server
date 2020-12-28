@@ -293,7 +293,7 @@ namespace Tgstation.Server.Host.Components.Repository
 
 			MergeResult result = null;
 
-			var sig = new Signature(new Identity(committerName, committerEmail), DateTimeOffset.Now);
+			var sig = new Signature(new Identity(committerName, committerEmail), DateTimeOffset.UtcNow);
 			await Task.Factory.StartNew(() =>
 			{
 				try
@@ -576,7 +576,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					trackedBranch.FriendlyName,
 					committerName,
 					committerEmail);
-				result = libGitRepo.Merge(trackedBranch, new Signature(committerName, committerEmail, DateTimeOffset.Now), new MergeOptions
+				result = libGitRepo.Merge(trackedBranch, new Signature(committerName, committerEmail, DateTimeOffset.UtcNow), new MergeOptions
 				{
 					CommitOnSuccess = true,
 					FailOnConflict = true,
@@ -748,7 +748,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				new Signature(
 					DefaultCommitterName,
 					DefaultCommitterEmail,
-					DateTimeOffset.Now),
+					DateTimeOffset.UtcNow),
 				new MergeOptions
 				{
 					FastForwardStrategy = FastForwardStrategy.FastForwardOnly,

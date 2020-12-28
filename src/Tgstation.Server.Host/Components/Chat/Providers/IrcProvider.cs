@@ -619,7 +619,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 						? byondVersion.ToString()
 						: $"{byondVersion.Major}.{byondVersion.Minor}",
 					estimatedCompletionTime.HasValue
-						? $" ETA: {estimatedCompletionTime - DateTimeOffset.Now}"
+						? $" ETA: {estimatedCompletionTime - DateTimeOffset.UtcNow}"
 						: String.Empty),
 				cancellationToken).ConfigureAwait(false);
 

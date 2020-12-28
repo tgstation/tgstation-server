@@ -300,7 +300,7 @@ namespace Tgstation.Server.Host.Components.Session
 			bool reattached,
 			bool apiValidate)
 		{
-			var startTime = DateTimeOffset.Now;
+			var startTime = DateTimeOffset.UtcNow;
 			var useBridgeRequestForLaunchResult = !reattached && (apiValidate || DMApiAvailable);
 			var startupTask = useBridgeRequestForLaunchResult
 				? initialBridgeRequestTcs.Task
@@ -320,7 +320,7 @@ namespace Tgstation.Server.Host.Components.Session
 			var result = new LaunchResult
 			{
 				ExitCode = process.Lifetime.IsCompleted ? (int?)await process.Lifetime.ConfigureAwait(false) : null,
-				StartupTime = startupTask.IsCompleted ? (TimeSpan?)(DateTimeOffset.Now - startTime) : null
+				StartupTime = startupTask.IsCompleted ? (TimeSpan?)(DateTimeOffset.UtcNow - startTime) : null
 			};
 
 			logger.LogTrace("Launch result: {0}", result);

@@ -270,7 +270,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				// It constitutes an API violation if it's returned by the DreamDaemonController so just set it here
 				// Bit of a hack, but it works out to be nearly if not the same value that's put in the DB
 				logger.LogTrace("Setting missing StoppedAt for CompileJob.Job #{0}...", compileJob.Job.Id);
-				compileJob.Job.StoppedAt = DateTimeOffset.Now;
+				compileJob.Job.StoppedAt = DateTimeOffset.UtcNow;
 			}
 
 			var providerSubmitted = false;

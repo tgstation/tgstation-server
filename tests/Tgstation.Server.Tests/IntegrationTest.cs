@@ -122,7 +122,7 @@ namespace Tgstation.Server.Tests
 
 		async Task<IServerClient> CreateAdminClient(Uri url, CancellationToken cancellationToken)
 		{
-			var giveUpAt = DateTimeOffset.Now.AddSeconds(60);
+			var giveUpAt = DateTimeOffset.UtcNow.AddSeconds(60);
 			for(var I = 1; ; ++I)
 			{
 				try
@@ -139,14 +139,14 @@ namespace Tgstation.Server.Tests
 				catch (HttpRequestException)
 				{
 					//migrating, to be expected
-					if (DateTimeOffset.Now > giveUpAt)
+					if (DateTimeOffset.UtcNow > giveUpAt)
 						throw;
 					await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
 				}
 				catch (ServiceUnavailableException)
 				{
 					// migrating, to be expected
-					if (DateTimeOffset.Now > giveUpAt)
+					if (DateTimeOffset.UtcNow > giveUpAt)
 						throw;
 					await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
 				}
@@ -227,7 +227,7 @@ namespace Tgstation.Server.Tests
 			var user = new Host.Models.User
 			{
 				Name = TestUserName,
-				CreatedAt = DateTimeOffset.Now,
+				CreatedAt = DateTimeOffset.UtcNow,
 				OAuthConnections = new List<Host.Models.OAuthConnection>(),
 				CanonicalName = Host.Models.User.CanonicalizeName(TestUserName),
 				Enabled = false,
@@ -350,7 +350,7 @@ namespace Tgstation.Server.Tests
 						}
 						catch (Exception ex)
 						{
-							Console.WriteLine($"[{DateTimeOffset.Now}] TEST ERROR: {ex}");
+							Console.WriteLine($"[{DateTimeOffset.UtcNow}] TEST ERROR: {ex}");
 							serverCts.Cancel();
 							throw;
 						}
@@ -396,7 +396,7 @@ namespace Tgstation.Server.Tests
 				await Task.WhenAny(serverTask, Task.Delay(TimeSpan.FromMinutes(1), cancellationToken));
 				Assert.IsTrue(serverTask.IsCompleted);
 
-				var preStartupTime = DateTimeOffset.Now;
+				var preStartupTime = DateTimeOffset.UtcNow;
 
 				serverTask = server.Run(cancellationToken);
 				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
@@ -440,7 +440,7 @@ namespace Tgstation.Server.Tests
 				await Task.WhenAny(serverTask, Task.Delay(TimeSpan.FromMinutes(1), cancellationToken));
 				Assert.IsTrue(serverTask.IsCompleted);
 
-				preStartupTime = DateTimeOffset.Now;
+				preStartupTime = DateTimeOffset.UtcNow;
 				serverTask = server.Run(cancellationToken);
 				using (var adminClient = await CreateAdminClient(server.Url, cancellationToken))
 				{
@@ -481,12 +481,12 @@ namespace Tgstation.Server.Tests
 			}
 			catch(ApiException ex)
 			{
-				Console.WriteLine($"[{DateTimeOffset.Now}] TEST ERROR: {ex.ErrorCode}: {ex.Message}\n{ex.AdditionalServerData}");
+				Console.WriteLine($"[{DateTimeOffset.UtcNow}] TEST ERROR: {ex.ErrorCode}: {ex.Message}\n{ex.AdditionalServerData}");
 				throw;
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"[{DateTimeOffset.Now}] TEST ERROR: {ex}");
+				Console.WriteLine($"[{DateTimeOffset.UtcNow}] TEST ERROR: {ex}");
 				throw;
 			}
 			finally

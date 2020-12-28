@@ -31,7 +31,7 @@ namespace Tgstation.Server.Client
 
 			var secondsString = values.FirstOrDefault();
 			if (UInt32.TryParse(secondsString, out var seconds))
-				RetryAfter = DateTimeOffset.Now.AddSeconds(seconds);
+				RetryAfter = DateTimeOffset.UtcNow.AddSeconds(seconds);
 		}
 
 		/// <summary>

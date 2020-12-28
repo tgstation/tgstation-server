@@ -807,7 +807,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				currentChatCallback = chatManager.QueueDeploymentMessage(
 					revisionInformation,
 					byondLock.Version,
-					DateTimeOffset.Now + estimatedDuration,
+					DateTimeOffset.UtcNow + estimatedDuration,
 					repository.RemoteRepositoryOwner,
 					repository.RemoteRepositoryName,
 					localCommitExistsOnRemote);

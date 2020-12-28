@@ -728,7 +728,7 @@ namespace Tgstation.Server.Host.Swarm
 				{
 					logger.LogInformation("Sucessfully registered with ID {0}", requestedRegistrationId);
 					controllerRegistration = requestedRegistrationId;
-					lastControllerHealthCheck = DateTimeOffset.Now;
+					lastControllerHealthCheck = DateTimeOffset.UtcNow;
 					return SwarmRegistrationResult.Success;
 				}
 
@@ -906,7 +906,7 @@ namespace Tgstation.Server.Host.Swarm
 					var delay = swarmController
 						? TimeSpan.FromMinutes(ControllerHealthCheckIntervalMinutes)
 						: lastControllerHealthCheck.HasValue
-							? (lastControllerHealthCheck.Value.AddMinutes(NodeHealthCheckIntervalMinutes) - DateTimeOffset.Now)
+							? (lastControllerHealthCheck.Value.AddMinutes(NodeHealthCheckIntervalMinutes) - DateTimeOffset.UtcNow)
 							: TimeSpan.FromMinutes(NodeHealthCheckIntervalMinutes);
 					await asyncDelayer.Delay(
 						delay,
@@ -921,7 +921,7 @@ namespace Tgstation.Server.Host.Swarm
 							continue; // unregistered
 						}
 
-						if ((DateTimeOffset.Now - lastControllerHealthCheck.Value).TotalMinutes < NodeHealthCheckIntervalMinutes)
+						if ((DateTimeOffset.UtcNow - lastControllerHealthCheck.Value).TotalMinutes < NodeHealthCheckIntervalMinutes)
 						{
 							logger.LogTrace("Controller seems to be active, skipping health check.");
 							continue;
@@ -960,7 +960,7 @@ namespace Tgstation.Server.Host.Swarm
 			if (registrationId != controllerRegistration)
 				return false;
 
-			lastControllerHealthCheck = DateTimeOffset.Now;
+			lastControllerHealthCheck = DateTimeOffset.UtcNow;
 			return true;
 		}
 

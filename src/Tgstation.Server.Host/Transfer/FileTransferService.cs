@@ -127,12 +127,12 @@ namespace Tgstation.Server.Host.Transfer
 
 			async Task ExpireAsync()
 			{
-				var expireAt = DateTimeOffset.Now + TimeSpan.FromMinutes(TicketValidityMinutes);
+				var expireAt = DateTimeOffset.UtcNow + TimeSpan.FromMinutes(TicketValidityMinutes);
 				try
 				{
 					await oldExpireTask.WithToken(disposeCts.Token).ConfigureAwait(false);
 
-					var now = DateTimeOffset.Now;
+					var now = DateTimeOffset.UtcNow;
 					if (now < expireAt)
 						await asyncDelayer.Delay(expireAt - now, disposeCts.Token).ConfigureAwait(false);
 				}
