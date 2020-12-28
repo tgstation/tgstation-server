@@ -203,7 +203,7 @@ namespace Tgstation.Server.Host.Components
 			{
 				if (!instances.TryGetValue(metadata.Id, out var instance))
 				{
-					logger.LogTrace("Cannot reference instance {0} as it is not online!", metadata.Id);
+					logger.LogTrace("Cannot reference instance {0} as it is not online or on this node!", metadata.Id);
 					return null;
 				}
 
