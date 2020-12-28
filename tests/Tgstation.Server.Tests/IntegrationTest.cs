@@ -116,173 +116,178 @@ namespace Tgstation.Server.Tests
 		[TestMethod]
 		public async Task TestSwarm()
 		{
+			// cleanup existing directories
+			new TestingServer(null, false).Dispose();
+
 			const string PrivateKey = "adlfj73ywifhks7iwrgfegjs";
 
 			var controllerAddress = new Uri("http://localhost:5011");
-			using var controller = new TestingServer(new SwarmConfiguration
+			using (var controller = new TestingServer(new SwarmConfiguration
 			{
 				Address = controllerAddress,
 				Identifier = "controller",
 				PrivateKey = PrivateKey
-			}, false, 5011);
-			using var node1 = new TestingServer(new SwarmConfiguration
+			}, false, 5011))
 			{
-				Address = new Uri("http://localhost:5012"),
-				ControllerAddress = controllerAddress,
-				Identifier = "node1",
-				PrivateKey = PrivateKey
-			}, false, 5012);
-			using var node2 = new TestingServer(new SwarmConfiguration
-			{
-				Address = new Uri("http://localhost:5013"),
-				ControllerAddress = controllerAddress,
-				Identifier = "node2",
-				PrivateKey = PrivateKey
-			}, false, 5013);
-			using var serverCts = new CancellationTokenSource();
-			var cancellationToken = serverCts.Token;
-			var serverTask = Task.WhenAll(
-				node1.Run(cancellationToken),
-				node2.Run(cancellationToken),
-				controller.Run(cancellationToken));
-
-			try
-			{
-				using var controllerClient = await CreateAdminClient(controller.Url, cancellationToken);
-				using var node1Client = await CreateAdminClient(node1.Url, cancellationToken);
-				using var node2Client = await CreateAdminClient(node2.Url, cancellationToken);
-
-				var controllerInfo = await controllerClient.ServerInformation(cancellationToken);
-
-				async Task WaitForSwarmServerUpdate()
+				using var node1 = new TestingServer(new SwarmConfiguration
 				{
-					ServerInformation serverInformation;
-					do
+					Address = new Uri("http://localhost:5012"),
+					ControllerAddress = controllerAddress,
+					Identifier = "node1",
+					PrivateKey = PrivateKey
+				}, false, 5012);
+				using var node2 = new TestingServer(new SwarmConfiguration
+				{
+					Address = new Uri("http://localhost:5013"),
+					ControllerAddress = controllerAddress,
+					Identifier = "node2",
+					PrivateKey = PrivateKey
+				}, false, 5013);
+				using var serverCts = new CancellationTokenSource();
+				var cancellationToken = serverCts.Token;
+				var serverTask = Task.WhenAll(
+					node1.Run(cancellationToken),
+					node2.Run(cancellationToken),
+					controller.Run(cancellationToken));
+
+				try
+				{
+					using var controllerClient = await CreateAdminClient(controller.Url, cancellationToken);
+					using var node1Client = await CreateAdminClient(node1.Url, cancellationToken);
+					using var node2Client = await CreateAdminClient(node2.Url, cancellationToken);
+
+					var controllerInfo = await controllerClient.ServerInformation(cancellationToken);
+
+					async Task WaitForSwarmServerUpdate()
 					{
-						await Task.Delay(TimeSpan.FromSeconds(10));
-						serverInformation = await node1Client.ServerInformation(cancellationToken);
+						ServerInformation serverInformation;
+						do
+						{
+							await Task.Delay(TimeSpan.FromSeconds(10));
+							serverInformation = await node1Client.ServerInformation(cancellationToken);
+						}
+						while (serverInformation.SwarmServers.Count == 1);
 					}
-					while (serverInformation.SwarmServers.Count == 1);
-				}
 
-				static void CheckInfo(ServerInformation serverInformation)
-				{
-					Assert.IsNotNull(serverInformation.SwarmServers);
-					Assert.AreEqual(3, serverInformation.SwarmServers.Count);
-
-					var node1 = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "node1");
-					Assert.IsNotNull(node1);
-					Assert.AreEqual(node1.Address, "http://localhost:5012");
-					Assert.IsFalse(node1.Controller);
-
-					var node2 = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "node2");
-					Assert.IsNotNull(node2);
-					Assert.AreEqual(node2.Address, "http://localhost:5013");
-					Assert.IsFalse(node2.Controller);
-
-					var controller = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "controller");
-					Assert.IsNotNull(controller);
-					Assert.AreEqual(controller.Address, "http://localhost:5011");
-					Assert.IsTrue(controller.Controller);
-				}
-
-				CheckInfo(controllerInfo);
-
-				// wait a few minutes for the updated server list to dispatch
-				await Task.WhenAny(
-					WaitForSwarmServerUpdate(),
-					Task.Delay(TimeSpan.FromMinutes(4)));
-
-				var node2Info = await node2Client.ServerInformation(cancellationToken);
-				var node1Info = await node1Client.ServerInformation(cancellationToken);
-				CheckInfo(node1Info);
-				CheckInfo(node2Info);
-
-				// check user info is shared
-				var newUser = await node2Client.Users.Create(new UserUpdate
-				{
-					Name = "asdf",
-					Password = "asdfasdfasdfasdf",
-					Enabled = true,
-					PermissionSet = new PermissionSet
+					static void CheckInfo(ServerInformation serverInformation)
 					{
-						AdministrationRights = AdministrationRights.ChangeVersion
+						Assert.IsNotNull(serverInformation.SwarmServers);
+						Assert.AreEqual(3, serverInformation.SwarmServers.Count);
+
+						var node1 = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "node1");
+						Assert.IsNotNull(node1);
+						Assert.AreEqual(node1.Address, "http://localhost:5012");
+						Assert.IsFalse(node1.Controller);
+
+						var node2 = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "node2");
+						Assert.IsNotNull(node2);
+						Assert.AreEqual(node2.Address, "http://localhost:5013");
+						Assert.IsFalse(node2.Controller);
+
+						var controller = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "controller");
+						Assert.IsNotNull(controller);
+						Assert.AreEqual(controller.Address, "http://localhost:5011");
+						Assert.IsTrue(controller.Controller);
 					}
-				}, cancellationToken);
 
-				var node1User = await node1Client.Users.GetId(newUser, cancellationToken);
-				Assert.AreEqual(newUser.Name, node1User.Name);
-				Assert.AreEqual(newUser.Enabled, node1User.Enabled);
+					CheckInfo(controllerInfo);
 
-				using var controllerUserClient = await clientFactory.CreateFromLogin(
-					controllerAddress,
-					newUser.Name,
-					"asdfasdfasdfasdf");
+					// wait a few minutes for the updated server list to dispatch
+					await Task.WhenAny(
+						WaitForSwarmServerUpdate(),
+						Task.Delay(TimeSpan.FromMinutes(4)));
 
-				using var node1BadClient = clientFactory.CreateFromToken(node1.Url, controllerUserClient.Token);
-				await Assert.ThrowsExceptionAsync<UnauthorizedException>(() => node1BadClient.Administration.Read(cancellationToken));
+					var node2Info = await node2Client.ServerInformation(cancellationToken);
+					var node1Info = await node1Client.ServerInformation(cancellationToken);
+					CheckInfo(node1Info);
+					CheckInfo(node2Info);
 
-				// check instance info is not shared
-				var controllerInstance = await controllerClient.Instances.CreateOrAttach(
-					new Api.Models.Instance
+					// check user info is shared
+					var newUser = await node2Client.Users.Create(new UserUpdate
 					{
-						Name = "ControllerInstance",
-						Path = Path.Combine(controller.Directory, "ControllerInstance")
-					},
-					cancellationToken);
+						Name = "asdf",
+						Password = "asdfasdfasdfasdf",
+						Enabled = true,
+						PermissionSet = new PermissionSet
+						{
+							AdministrationRights = AdministrationRights.ChangeVersion
+						}
+					}, cancellationToken);
 
-				var node2Instance = await node2Client.Instances.CreateOrAttach(
-					new Api.Models.Instance
+					var node1User = await node1Client.Users.GetId(newUser, cancellationToken);
+					Assert.AreEqual(newUser.Name, node1User.Name);
+					Assert.AreEqual(newUser.Enabled, node1User.Enabled);
+
+					using var controllerUserClient = await clientFactory.CreateFromLogin(
+						controllerAddress,
+						newUser.Name,
+						"asdfasdfasdfasdf");
+
+					using var node1BadClient = clientFactory.CreateFromToken(node1.Url, controllerUserClient.Token);
+					await Assert.ThrowsExceptionAsync<UnauthorizedException>(() => node1BadClient.Administration.Read(cancellationToken));
+
+					// check instance info is not shared
+					var controllerInstance = await controllerClient.Instances.CreateOrAttach(
+						new Api.Models.Instance
+						{
+							Name = "ControllerInstance",
+							Path = Path.Combine(controller.Directory, "ControllerInstance")
+						},
+						cancellationToken);
+
+					var node2Instance = await node2Client.Instances.CreateOrAttach(
+						new Api.Models.Instance
+						{
+							Name = "Node2Instance",
+							Path = Path.Combine(node2.Directory, "Node2Instance")
+						},
+						cancellationToken);
+					var node2InstanceList = await node2Client.Instances.List(null, cancellationToken);
+					Assert.AreEqual(1, node2InstanceList.Count);
+					Assert.AreEqual(node2Instance.Id, node2InstanceList.First().Id);
+					Assert.IsNotNull(await node2Client.Instances.GetId(node2Instance, cancellationToken));
+					var controllerInstanceList = await controllerClient.Instances.List(null, cancellationToken);
+					Assert.AreEqual(1, controllerInstanceList.Count);
+					Assert.AreEqual(controllerInstance.Id, controllerInstanceList.First().Id);
+					Assert.IsNotNull(await controllerClient.Instances.GetId(controllerInstance, cancellationToken));
+
+					await Assert.ThrowsExceptionAsync<ConflictException>(() => controllerClient.Instances.GetId(node2Instance, cancellationToken));
+					await Assert.ThrowsExceptionAsync<ConflictException>(() => node1Client.Instances.GetId(controllerInstance, cancellationToken));
+
+					// test update
+					var testUpdateVersion = new Version(4, 6, 2);
+					await node1Client.Administration.Update(
+						new Administration
+						{
+							NewVersion = testUpdateVersion
+						},
+						cancellationToken);
+					await Task.WhenAny(Task.Delay(TimeSpan.FromMinutes(2)), serverTask);
+					Assert.IsTrue(serverTask.IsCompleted);
+
+					void CheckServerUpdated(TestingServer server)
 					{
-						Name = "Node2Instance",
-						Path = Path.Combine(node2.Directory, "Node2Instance")
-					},
-					cancellationToken);
-				var node2InstanceList = await node2Client.Instances.List(null, cancellationToken);
-				Assert.AreEqual(1, node2InstanceList.Count);
-				Assert.AreEqual(node2Instance.Id, node2InstanceList.First().Id);
-				Assert.IsNotNull(await node2Client.Instances.GetId(node2Instance, cancellationToken));
-				var controllerInstanceList = await controllerClient.Instances.List(null, cancellationToken);
-				Assert.AreEqual(1, controllerInstanceList.Count);
-				Assert.AreEqual(controllerInstance.Id, controllerInstanceList.First().Id);
-				Assert.IsNotNull(await controllerClient.Instances.GetId(controllerInstance, cancellationToken));
+						Assert.IsTrue(Directory.Exists(server.UpdatePath), "Update directory not present!");
 
-				await Assert.ThrowsExceptionAsync<ConflictException>(() => controllerClient.Instances.GetId(node2Instance, cancellationToken));
-				await Assert.ThrowsExceptionAsync<ConflictException>(() => node1Client.Instances.GetId(controllerInstance, cancellationToken));
+						var updatedAssemblyPath = Path.Combine(server.UpdatePath, "Tgstation.Server.Host.dll");
+						Assert.IsTrue(File.Exists(updatedAssemblyPath), "Updated assembly missing!");
 
-				// test update
-				var testUpdateVersion = new Version(4, 6, 2);
-				await node1Client.Administration.Update(
-					new Administration
-					{
-						NewVersion = testUpdateVersion
-					},
-					cancellationToken);
-				await Task.WhenAny(Task.Delay(TimeSpan.FromMinutes(2)), serverTask);
-				Assert.IsTrue(serverTask.IsCompleted);
+						var updatedAssemblyVersion = FileVersionInfo.GetVersionInfo(updatedAssemblyPath);
+						Assert.AreEqual(testUpdateVersion, Version.Parse(updatedAssemblyVersion.FileVersion).Semver());
+					}
 
-				void CheckServerUpdated(TestingServer server)
-				{
-					Assert.IsTrue(Directory.Exists(server.UpdatePath), "Update directory not present!");
-
-					var updatedAssemblyPath = Path.Combine(server.UpdatePath, "Tgstation.Server.Host.dll");
-					Assert.IsTrue(File.Exists(updatedAssemblyPath), "Updated assembly missing!");
-
-					var updatedAssemblyVersion = FileVersionInfo.GetVersionInfo(updatedAssemblyPath);
-					Assert.AreEqual(testUpdateVersion, Version.Parse(updatedAssemblyVersion.FileVersion).Semver());
+					CheckServerUpdated(controller);
+					CheckServerUpdated(node1);
+					CheckServerUpdated(node2);
 				}
-
-				CheckServerUpdated(controller);
-				CheckServerUpdated(node1);
-				CheckServerUpdated(node2);
-			}
-			finally
-			{
-				serverCts.Cancel();
-				await serverTask;
+				finally
+				{
+					serverCts.Cancel();
+					await serverTask;
+				}
 			}
 
-			Directory.Delete(Path.GetDirectoryName(controller.Directory), true);
+			new TestingServer(null, false).Dispose();
 		}
 
 		static void TerminateAllDDs()
