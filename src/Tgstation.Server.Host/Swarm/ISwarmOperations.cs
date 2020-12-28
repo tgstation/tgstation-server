@@ -9,7 +9,7 @@ namespace Tgstation.Server.Host.Swarm
 	/// <summary>
 	/// Swarm service operations for the <see cref="Controllers.SwarmController"/>.
 	/// </summary>
-	public interface ISwarmOperations : ISwarmServiceBase
+	public interface ISwarmOperations
 	{
 		/// <summary>
 		/// Pass in an updated list of <paramref name="swarmServers"/> to the node.
@@ -55,5 +55,12 @@ namespace Tgstation.Server.Host.Swarm
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		Task<bool> RemoteCommitRecieved(Guid registrationId, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Remotely abort an uncommitted update.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		Task RemoteAbortUpdate(CancellationToken cancellationToken);
 	}
 }

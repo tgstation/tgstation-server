@@ -189,7 +189,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (!ValidateRegistration())
 				return Forbid();
 
-			await swarmOperations.AbortUpdate(cancellationToken).ConfigureAwait(false);
+			await swarmOperations.RemoteAbortUpdate(cancellationToken).ConfigureAwait(false);
 			return NoContent();
 		}
 

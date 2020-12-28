@@ -239,16 +239,22 @@ namespace Tgstation.Server.Host.Swarm
 		public void Dispose() => serverHealthCheckCancellationTokenSource?.Dispose();
 
 		/// <inheritdoc />
+		public async Task RemoteAbortUpdate(CancellationToken cancellationToken)
+		{
+			if (targetUpdateVersion == null)
+			{
+				logger.LogTrace("Not remote aborting non-existent update");
+				return;
+			}
+
+			await AbortUpdate(cancellationToken).ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
 		public async Task AbortUpdate(CancellationToken cancellationToken)
 		{
 			if (!SwarmMode)
 				return;
-
-			if (targetUpdateVersion == null)
-			{
-				logger.LogTrace("Not aborting non-exitent update");
-				return;
-			}
 
 			logger.LogInformation("Aborting swarm update!");
 			updateCommitTcs?.TrySetResult(false);
@@ -324,6 +330,7 @@ namespace Tgstation.Server.Host.Swarm
 			if (commitTcsTask == null)
 			{
 				logger.LogDebug("Update commit failed, no pending task completion source!");
+				await AbortUpdate(cancellationToken).ConfigureAwait(false);
 				return false;
 			}
 
@@ -331,6 +338,7 @@ namespace Tgstation.Server.Host.Swarm
 			if (!commitGoAhead)
 			{
 				logger.LogDebug("Update commit failed!");
+				await AbortUpdate(cancellationToken).ConfigureAwait(false);
 				return false;
 			}
 
@@ -425,7 +433,7 @@ namespace Tgstation.Server.Host.Swarm
 				return await RemotePrepareUpdate(null).ConfigureAwait(false);
 			}
 
-			var selfPrepare = await PrepareUpdateFromController(version, cancellationToken).ConfigureAwait(false);
+			var selfPrepare = await PrepareUpdateImpl(version, true, cancellationToken).ConfigureAwait(false);
 			if (!selfPrepare)
 				return false;
 
@@ -438,18 +446,13 @@ namespace Tgstation.Server.Host.Swarm
 						.Where(x => !x.Controller)
 						.Select(x => RemotePrepareUpdate(x))
 						.ToList();
+
 				await Task.WhenAll(tasks);
 
 				// if all succeeds...
 				if (tasks.All(x => x.Result))
 				{
 					logger.LogDebug("Distributed prepare for update to version {0} complete.", version);
-					updateCommitTcs = new TaskCompletionSource<bool>();
-					lock (swarmServers)
-						nodesThatNeedToBeReadyToCommit = new List<string>(
-							swarmServers
-								.Where(x => !x.Controller)
-								.Select(x => x.Identifier));
 					return true;
 				}
 			}
@@ -464,9 +467,19 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> PrepareUpdateFromController(Version version, CancellationToken cancellationToken)
+		public Task<bool> PrepareUpdateFromController(Version version, CancellationToken cancellationToken)
+			=> PrepareUpdateImpl(version, false, cancellationToken);
+
+		/// <summary>
+		/// Implementation of <see cref="PrepareUpdate(Version, CancellationToken)"/>,
+		/// </summary>
+		/// <param name="version">The <see cref="Version"/> being updated to.</param>
+		/// <param name="initiator">Whether or not the update request originated on this server.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in whether or not the update should proceed.</returns>
+		async Task<bool> PrepareUpdateImpl(Version version, bool initiator, CancellationToken cancellationToken)
 		{
-			logger.LogTrace("PrepareUpdateFromController {0}...", version);
+			logger.LogTrace("PrepareUpdateImpl {0}...", version);
 			var shouldAbort = false;
 			try
 			{
@@ -488,16 +501,25 @@ namespace Tgstation.Server.Host.Swarm
 					targetUpdateVersion = version;
 				}
 
-				if (!swarmController)
-				{
-					updateCommitTcs = new TaskCompletionSource<bool>();
-					var updateApplyResult = await serverUpdater.BeginUpdate(version, cancellationToken).ConfigureAwait(false);
+				updateCommitTcs = new TaskCompletionSource<bool>();
+				if (!initiator)
+				{ 
+					var updateApplyResult = await serverUpdater.BeginUpdate(
+						version,
+						cancellationToken)
+						.ConfigureAwait(false);
 					if (updateApplyResult != ServerUpdateResult.Started)
 					{
 						logger.LogWarning("Failed to prepare update! Result: {0}", updateApplyResult);
 						shouldAbort = true;
 						return false;
 					}
+
+					lock (swarmServers)
+						nodesThatNeedToBeReadyToCommit = new List<string>(
+							swarmServers
+								.Where(x => !x.Controller)
+								.Select(x => x.Identifier));
 				}
 
 				logger.LogDebug("Prepared for update to version {0}", version);
@@ -1058,7 +1080,7 @@ namespace Tgstation.Server.Host.Swarm
 			var nodeList = nodesThatNeedToBeReadyToCommit;
 			if (nodeList == null)
 			{
-				logger.LogTrace("Ignoring ready-commit from node {0} as the update appears to have been aborted.", nodeIdentifier);
+				logger.LogDebug("Ignoring ready-commit from node {0} as the update appears to have been aborted.", nodeIdentifier);
 				return false;
 			}
 
