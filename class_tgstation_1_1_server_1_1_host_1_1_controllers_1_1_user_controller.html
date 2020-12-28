@@ -557,7 +557,7 @@ Here is the call graph for this function:</div>
 <div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160; </div>
 <div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">new</span> Models.User</div>
 <div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;            {</div>
-<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;                CreatedAt = DateTimeOffset.Now,</div>
+<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;                CreatedAt = DateTimeOffset.UtcNow,</div>
 <div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;                CreatedBy = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">AuthenticationContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a0846ac9679599a99923987863edb0d5c">User</a>,</div>
 <div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;                Enabled = model.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user.html#a4a0a4bb6e68f049511123dbb5f1dc094">Enabled</a> ?? <span class="keyword">false</span>,</div>
 <div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html">PermissionSet</a> = permissionSet,</div>
@@ -955,7 +955,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;            <span class="keywordflow">if</span> (model.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user.html#a4a0a4bb6e68f049511123dbb5f1dc094">Enabled</a>.HasValue)</div>
 <div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;            {</div>
 <div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;                <span class="keywordflow">if</span> (originalUser.Enabled.Value &amp;&amp; !model.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user.html#a4a0a4bb6e68f049511123dbb5f1dc094">Enabled</a>.Value)</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;                    originalUser.LastPasswordUpdate = DateTimeOffset.Now;</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;                    originalUser.LastPasswordUpdate = DateTimeOffset.UtcNow;</div>
 <div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160; </div>
 <div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;                originalUser.Enabled = model.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user.html#a4a0a4bb6e68f049511123dbb5f1dc094">Enabled</a>.Value;</div>
 <div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;            }</div>

@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Configuration.SwarmConfiguration" name="Tgstation.Server.Host.Configuration.SwarmConfiguration">
+<area shape="rect" id="node1" title="Configuration for the server swarm system." alt="" coords="5,80,235,121"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="69,5,171,32"/>
+</map>

@@ -273,7 +273,7 @@ Here is the call graph for this function:</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <span class="keywordflow">if</span> (user == <span class="keyword">null</span>)</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(user));</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            var now = DateTimeOffset.Now;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            var now = DateTimeOffset.UtcNow;</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            var nowUnix = now.ToUnixTimeSeconds();</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            <span class="comment">// this prevents validation conflicts down the line</span></div>

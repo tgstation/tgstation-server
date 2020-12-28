@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.IO.IConsole.PressAnyKeyAsync" name="Tgstation.Server.Host.IO.IConsole.PressAnyKeyAsync">
 <area shape="rect" id="node1" title="Wait for a key press on the IConsole" alt="" coords="1269,39,1460,80"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a411edd6a908eddd48051a38077d021cd" title="Saves a given Configuration set to userConfigFileName" alt="" coords="725,5,927,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a531de6c6df7481026213721c2ad0477f" title="Saves a given Configuration set to userConfigFileName" alt="" coords="725,5,927,47"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#ab962664cd664ba5ad329e8af1d6b49a7" title="Ensure a given testConnection &#160;works." alt="" coords="977,68,1221,109"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#af95450fea6b5b6d723d91198b7b41d8e" title="Runs the SetupWizard" alt="" coords="487,39,675,80"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a3b92be081e2beac876e749532a6d1d87" title="Check if it should and run the SetupWizard if necessary." alt="" coords="241,39,439,80"/>

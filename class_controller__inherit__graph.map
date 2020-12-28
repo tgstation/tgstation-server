@@ -1,8 +1,9 @@
 <map id="Controller" name="Controller">
-<area shape="rect" id="node1" title=" " alt="" coords="5,307,83,334"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,341,83,367"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="A Controller for API functions" alt="" coords="131,235,347,276"/>
 <area shape="rect" id="node18" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_bridge_controller.html" title="Controller for recieving DMAPI requests from DreamDaemon." alt="" coords="131,300,347,341"/>
 <area shape="rect" id="node19" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_control_panel_controller.html" title="Controller for the web control panel." alt="" coords="131,365,347,407"/>
+<area shape="rect" id="node20" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html" title="For swarm server communication." alt="" coords="131,431,347,472"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html" title="ApiController for Administration purposes" alt="" coords="395,39,611,80"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html" title="Main ApiController for the Application" alt="" coords="395,104,611,145"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html" title="ApiController for managing Components.Instances" alt="" coords="395,169,611,211"/>

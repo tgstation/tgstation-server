@@ -69,7 +69,8 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a>  </div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#enum-members">Enumerations</a>  </div>
   <div class="headertitle">
 <div class="title">Tgstation.Server.Host.Core Namespace Reference</div>  </div>
 </div><!--header-->
@@ -105,6 +106,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">interface &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html">IServerPortProvider</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides access to the server's <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html#af5e86a67c2cc59e14c762532275f0a2c" title="The port the server listens on.">HttpApiPort</a>.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">interface &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html">IServerUpdateInitiator</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initiates server self updates.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_open_api_enum_var_names_extension.html">OpenApiEnumVarNamesExtension</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements the "x-enum-varnames" OpenAPI 3.0 extension.  <a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_open_api_enum_var_names_extension.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -117,11 +121,65 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_port_proivder.html">ServerPortProivder</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_initiator.html">ServerUpdateInitiator</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_swagger_configuration.html">SwaggerConfiguration</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements various filters for Swashbuckle.  <a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_swagger_configuration.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:ae686e550e6b4c0a19a500e3dd9e4195c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">ServerUpdateResult</a> { <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195ca8428552d86c0d262a542a528af490afa">ServerUpdateResult.Started</a>, 
+<a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195ca612bc56faff6977bb963589ae60b44e5">ServerUpdateResult.ReleaseMissing</a>, 
+<a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195cabe7bd44ba521a3628a4c1534d12d40a3">ServerUpdateResult.UpdateInProgress</a>
+ }</td></tr>
+<tr class="memdesc:ae686e550e6b4c0a19a500e3dd9e4195c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The result of a call to start a server update.  <a href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">More...</a><br /></td></tr>
+<tr class="separator:ae686e550e6b4c0a19a500e3dd9e4195c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="ae686e550e6b4c0a19a500e3dd9e4195c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae686e550e6b4c0a19a500e3dd9e4195c">&#9670;&nbsp;</a></span>ServerUpdateResult</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195c">Tgstation.Server.Host.Core.ServerUpdateResult</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The result of a call to start a server update. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ae686e550e6b4c0a19a500e3dd9e4195ca8428552d86c0d262a542a528af490afa"></a>Started&#160;</td><td class="fielddoc"><p>The update process was started successfully. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ae686e550e6b4c0a19a500e3dd9e4195ca612bc56faff6977bb963589ae60b44e5"></a>ReleaseMissing&#160;</td><td class="fielddoc"><p>The requested release version was not found. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ae686e550e6b4c0a19a500e3dd9e4195cabe7bd44ba521a3628a4c1534d12d40a3"></a>UpdateInProgress&#160;</td><td class="fielddoc"><p>Another update is already in progress. </p>
+</td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="_server_update_result_8cs_source.html#l00006">6</a> of file <a class="el" href="_server_update_result_8cs_source.html">ServerUpdateResult.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        Started,</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        ReleaseMissing,</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195ca8428552d86c0d262a542a528af490afa">UpdateInProgress</a>,</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    }</div>
+</div><!-- fragment -->
+</div>
+</div>
 </div><!-- contents -->
+<div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_core_html_ae686e550e6b4c0a19a500e3dd9e4195ca8428552d86c0d262a542a528af490afa"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_core.html#ae686e550e6b4c0a19a500e3dd9e4195ca8428552d86c0d262a542a528af490afa">Tgstation.Server.Host.Core.ServerUpdateResult.Started</a></div><div class="ttdeci">@ Started</div><div class="ttdoc">The update process was started successfully.</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20

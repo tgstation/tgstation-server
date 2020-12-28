@@ -491,12 +491,12 @@ Here is the call graph for this function:</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            async Task ExpireAsync()</div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            {</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                var expireAt = DateTimeOffset.Now + TimeSpan.FromMinutes(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#a4d32a387874aeea222a5dba31f7617e4">TicketValidityMinutes</a>);</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                var expireAt = DateTimeOffset.UtcNow + TimeSpan.FromMinutes(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#a4d32a387874aeea222a5dba31f7617e4">TicketValidityMinutes</a>);</div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                <span class="keywordflow">try</span></div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;                {</div>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;                    await oldExpireTask.WithToken(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#aca7837f476e01b115f7a1f2f6ccc555d">disposeCts</a>.Token).ConfigureAwait(<span class="keyword">false</span>);</div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160; </div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                    var now = DateTimeOffset.Now;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                    var now = DateTimeOffset.UtcNow;</div>
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                    <span class="keywordflow">if</span> (now &lt; expireAt)</div>
 <div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                        await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#ab838c7d4af83e6c3526288894b883d63">asyncDelayer</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html#afab931ac159bc999fee1e7eda917c7d6">Delay</a>(expireAt - now, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#aca7837f476e01b115f7a1f2f6ccc555d">disposeCts</a>.Token).ConfigureAwait(<span class="keyword">false</span>);</div>
 <div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                }</div>

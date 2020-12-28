@@ -489,7 +489,7 @@ $(function() {
 <div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;                var completionString = errorMessage == <span class="keyword">null</span> ? <span class="stringliteral">&quot;Succeeded&quot;</span> : <span class="stringliteral">&quot;Failed&quot;</span>;</div>
 <div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;                builder.Footer.Text = completionString;</div>
 <div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;                builder.Color = errorMessage == <span class="keyword">null</span> ? Color.Green : Color.Red;</div>
-<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;                builder.Timestamp = DateTimeOffset.Now;</div>
+<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;                builder.Timestamp = DateTimeOffset.UtcNow;</div>
 <div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;                builder.Description = errorMessage == <span class="keyword">null</span></div>
 <div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;                    ? <span class="stringliteral">&quot;The deployment completed successfully and will be available at the next server reboot.&quot;</span></div>
 <div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;                    : <span class="stringliteral">&quot;The deployment failed.&quot;</span>;</div>

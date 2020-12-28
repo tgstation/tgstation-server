@@ -86,7 +86,7 @@ $(function() {
 , <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context.html#a74e123c6393ad813f997c882a22b228e">Tgstation.Server.Host.Database.IDatabaseContext</a>
 </li>
 <li>SaveConfiguration()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a411edd6a908eddd48051a38077d021cd">Tgstation.Server.Host.Setup.SetupWizard</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_setup_1_1_setup_wizard.html#a531de6c6df7481026213721c2ad0477f">Tgstation.Server.Host.Setup.SetupWizard</a>
 </li>
 <li>SchemaDowngradeForServerVersion()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a5f663b429aa5645799114195d044fbdf">Tgstation.Server.Host.Database.DatabaseContext</a>
@@ -111,6 +111,7 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_file_logging_configuration.html#a8450ea7764591aa38857686d8fc70f93">Tgstation.Server.Host.Configuration.FileLoggingConfiguration</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a04dc43bd8ff33f4a8a791f750f7eb1d9">Tgstation.Server.Host.Configuration.GeneralConfiguration</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html#a63e264392098db4e986d5dd638fe7fb5">Tgstation.Server.Host.Configuration.SecurityConfiguration</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html#a4112bcb9a326ef189a140db42f90a332">Tgstation.Server.Host.Configuration.SwarmConfiguration</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_updates_configuration.html#aeed3d84cee92ab5e7488d5c5b52493c7">Tgstation.Server.Host.Configuration.UpdatesConfiguration</a>
 </li>
 <li>SecureStringLength
@@ -179,6 +180,9 @@ $(function() {
 <li>SendMessageCount
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_windows_network_prompt_reaper.html#a6c18ae3a8fda9fa9973b0a8a396328f4">Tgstation.Server.Host.System.WindowsNetworkPromptReaper</a>
 </li>
+<li>SendUpdatedServerListToNodes()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a83c9d1f94839af4dffa28563744d5c19">Tgstation.Server.Host.Swarm.SwarmService</a>
+</li>
 <li>SendUpdateMessage()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a99ee167ed1b5c1175b176da1ecbc4be7">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_i_provider.html#a0b36493529119db3cdfa915c0fa5a11c">Tgstation.Server.Host.Components.Chat.Providers.IProvider</a>
@@ -188,6 +192,7 @@ $(function() {
 <li>SerializerSettings
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_d_m_api_constants.html#a38c0e12f070e67fbdedfce3854c58d42">Tgstation.Server.Host.Components.Interop.DMApiConstants</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_base_o_auth_validator.html#af111de96a41ad5e5b73db33de7eb1cbb">Tgstation.Server.Host.Security.OAuth.BaseOAuthValidator</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a8bff250ec232f1e2941975f9c8895d22">Tgstation.Server.Host.Swarm.SwarmService</a>
 </li>
 <li>SerilogContextTemplate
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_service_collection_extensions.html#a2c8521a096ca983ff3cfe7b6356406d8">Tgstation.Server.Host.Extensions.ServiceCollectionExtensions</a>
@@ -213,8 +218,23 @@ $(function() {
 <li>ServerControl
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_factory.html#a83607d97387c92ed33c6640f0cd4ee1a">Tgstation.Server.Host.Components.Watchdog.WatchdogFactory</a>
 </li>
+<li>serverControl
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#af5fd9e32b26b176d9e13416f32c69f1b">Tgstation.Server.Host.Controllers.AdministrationController</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#a2ac0d91e4078324fef25de4bd56f1e8e">Tgstation.Server.Host.Controllers.HomeController</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_initiator.html#a803e3069bd11d1d4de5bfd2c61b25e03">Tgstation.Server.Host.Core.ServerUpdateInitiator</a>
+</li>
 <li>ServerErrorException()
 : <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_server_error_exception.html#a3c0883bc41902cff9f2becfdb64c0d97">Tgstation.Server.Client.ServerErrorException</a>
+</li>
+<li>serverHealthCheckCancellationTokenSource
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a2448c6ba5909a0a226d28c4476cb90bf">Tgstation.Server.Host.Swarm.SwarmService</a>
+</li>
+<li>serverHealthCheckTask
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a05185ea27d74831739dff16e9bc80518">Tgstation.Server.Host.Swarm.SwarmService</a>
+</li>
+<li>ServerInformation()
+: <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_server_client.html#a43d8b1ba3cab94b95a11d2584008fa72">Tgstation.Server.Client.IServerClient</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_server_client.html#a0665395bb1c3438da5e5c0cb367f5569">Tgstation.Server.Client.ServerClient</a>
 </li>
 <li>ServerPort
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_runtime_information.html#a34f2ed18e36028c8a913c4c542fc9dba">Tgstation.Server.Host.Components.Interop.Bridge.RuntimeInformation</a>
@@ -228,14 +248,21 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a14b84906ae2ddd580d5735ebf3ba9917">Tgstation.Server.Host.Components.Session.SessionControllerFactory</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_port_allocator.html#af739eb441dbb7cc86faf0452861384bf">Tgstation.Server.Host.Core.PortAllocator</a>
 </li>
+<li>serversDirty
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ac468acd7c153f9b080827fb202b6ab32">Tgstation.Server.Host.Swarm.SwarmService</a>
+</li>
 <li>ServerService()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_service_1_1_server_service.html#a3f4d7655e24f18f6929e48f48c79b0a2">Tgstation.Server.Host.Service.ServerService</a>
 </li>
 <li>ServerSideModifications()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_server_side_modifications.html#a80a1a88d3e1f59d285b91563e86e2ef8">Tgstation.Server.Host.Components.StaticFiles.ServerSideModifications</a>
 </li>
+<li>ServerUpdateInitiator()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_initiator.html#a690f7b9c2284a8798641189ba3b05f09">Tgstation.Server.Host.Core.ServerUpdateInitiator</a>
+</li>
 <li>serverUpdater
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a860fa70ca4b87deb3f9e6f550d57dc72">Tgstation.Server.Host.Controllers.AdministrationController</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a7b6cc8d99ad7c11cb958bf781328e9b8">Tgstation.Server.Host.Controllers.AdministrationController</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a13ddce111f3e9f5f408e4befa88fba36">Tgstation.Server.Host.Swarm.SwarmService</a>
 </li>
 <li>ServerUrl
 : <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_provider_info.html#ad35a0bb316fa1c4520aa127eeaf04346">Tgstation.Server.Api.Models.OAuthProviderInfo</a>
@@ -244,6 +271,7 @@ $(function() {
 <li>ServerVersion
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_runtime_information.html#a58c14ed1399e171958dfe450be84c3cf">Tgstation.Server.Host.Components.Interop.Bridge.RuntimeInformation</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_database_configuration.html#a37d2a2cb232af1fcc3a5ea4139a052e9">Tgstation.Server.Host.Configuration.DatabaseConfiguration</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_registration_request.html#a81cd4d57b8337fadce441cc658fe33fa">Tgstation.Server.Host.Swarm.SwarmRegistrationRequest</a>
 </li>
 <li>ServiceUnavailableException()
 : <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_service_unavailable_exception.html#a5a4fcd887f74c9658dd181a3cf7204cb">Tgstation.Server.Client.ServiceUnavailableException</a>
@@ -371,6 +399,8 @@ $(function() {
 <li>Shutdown()
 : <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_dream_daemon_client.html#a42a57cfe50960559e8d8c2c003cb27f5">Tgstation.Server.Client.Components.DreamDaemonClient</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_dream_daemon_client.html#a6dd7bcf744d8804790ece473931f378b">Tgstation.Server.Client.Components.IDreamDaemonClient</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#ac6d9e40d5100430fb7215bd3f11b4e7a">Tgstation.Server.Host.Swarm.ISwarmService</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ad0606023ac6dcc80d8f26f8052ac0dca">Tgstation.Server.Host.Swarm.SwarmService</a>
 </li>
 <li>SoftRestart
 : <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_dream_daemon.html#a24b03adbbc3a308d6a6ce6edc9846e17">Tgstation.Server.Api.Models.DreamDaemon</a>
@@ -414,7 +444,7 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dmb_factory.html#ae898120e96809cdb6bbd582072bcff71">Tgstation.Server.Host.Components.Deployment.DmbFactory</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a11cc04923d2557eefd57ad2ded9eb7f2">Tgstation.Server.Host.Components.Instance</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_factory.html#aabf10dd79c9488de365bb8de0129b74b">Tgstation.Server.Host.Components.InstanceFactory</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#aa2bcc92fca46ad404800304ce4bdd781">Tgstation.Server.Host.Components.InstanceManager</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a9f739bf99678bc5adb51f0b402b531af">Tgstation.Server.Host.Components.InstanceManager</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#af05de18337edc2207b60b080de230802">Tgstation.Server.Host.Components.StaticFiles.Configuration</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#ae30d4b582b04eb7c3ef3c5d848429bbd">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_job_manager.html#aa3ab90c932ef1f25299d046a103bfe7c">Tgstation.Server.Host.Jobs.JobManager</a>
@@ -460,13 +490,13 @@ $(function() {
 <li>Status
 : <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_dream_daemon.html#a374f3676c32da4421a9bbb9bdbb74bcd">Tgstation.Server.Api.Models.DreamDaemon</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html#a81f00a3e7109a861886d14e6233d8b43">Tgstation.Server.Host.Components.Watchdog.IWatchdog</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a5fa8be05b0c448ea097a70e5d8708ffb">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>
 </li>
 <li>status
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#af5c8949750c7c079faf8d438fde20c6c">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>
 </li>
 <li>Status
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_base_response.html#a6d9c1dd792f49f9c0bd9b983a376e2a3">Tgstation.Server.Host.Security.OAuth.TGBaseResponse</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_watchdog_base.html#a5fa8be05b0c448ea097a70e5d8708ffb">Tgstation.Server.Host.Components.Watchdog.WatchdogBase</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_t_g_base_response.html#a6d9c1dd792f49f9c0bd9b983a376e2a3">Tgstation.Server.Host.Security.OAuth.TGBaseResponse</a>
 </li>
 <li>StatusCode()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#adc93040c7a61d510292e387329d3f00e">Tgstation.Server.Host.Controllers.ApiController</a>
@@ -511,6 +541,43 @@ $(function() {
 </li>
 <li>SwappableDmbProvider()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_swappable_dmb_provider.html#ada4c525ee4e74e9ae5017d4f5816d888">Tgstation.Server.Host.Components.Deployment.SwappableDmbProvider</a>
+</li>
+<li>swarmConfiguration
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a9eaeb3190a96e2d25bdb58dedb00e07f">Tgstation.Server.Host.Components.InstanceManager</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a952ce837f434c65e69d35ec886d0fc2d">Tgstation.Server.Host.Controllers.InstanceController</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a6439cd2a46d7f3da9820521acf961c4a">Tgstation.Server.Host.Controllers.SwarmController</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_factory.html#a9304c02f24f70dd2b1ec459ded857fa9">Tgstation.Server.Host.Security.AuthenticationContextFactory</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ad157ab1cc7d0dff6e066cf6f885644da">Tgstation.Server.Host.Swarm.SwarmService</a>
+</li>
+<li>SwarmController()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a3554793054745b845cdaf6385ab29ee0">Tgstation.Server.Host.Controllers.SwarmController</a>
+</li>
+<li>swarmController
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a100bde23a659ca75ab63c9d5f839251a">Tgstation.Server.Host.Swarm.SwarmService</a>
+</li>
+<li>SwarmIdentifer
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html#a291cf43b19afb52d83b756b3a1f1058e">Tgstation.Server.Host.Models.Instance</a>
+</li>
+<li>SwarmMode
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a33ea557bd6d58e80ec8fee3133f4ed2f">Tgstation.Server.Host.Swarm.SwarmService</a>
+</li>
+<li>swarmOperations
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a16304a5cba8be41beb3cb5515b34cc47">Tgstation.Server.Host.Controllers.SwarmController</a>
+</li>
+<li>SwarmServers
+: <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_server_information.html#a164e73c505d46448a6259fb4b0b98302">Tgstation.Server.Api.Models.ServerInformation</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_servers_update_request.html#a4be61b417172036e9aac787222c1b033">Tgstation.Server.Host.Swarm.SwarmServersUpdateRequest</a>
+</li>
+<li>swarmServers
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#af82b5a24d0e4b048c673f87f2d841d59">Tgstation.Server.Host.Swarm.SwarmService</a>
+</li>
+<li>swarmService
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ad71558ef36bfa98213f058e82ee42a9c">Tgstation.Server.Host.Components.InstanceManager</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#af66e4335301e796919e6c3ea677978bd">Tgstation.Server.Host.Controllers.HomeController</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_server.html#a970a464c2d644755c0f96db31285068f">Tgstation.Server.Host.Server</a>
+</li>
+<li>SwarmService()
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a11368bb333735539b43845fed06c72a3">Tgstation.Server.Host.Swarm.SwarmService</a>
 </li>
 <li>Sychronize()
 : <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#a5f8ea07e50eb3d5d272b956a6e2543b5">Tgstation.Server.Host.Components.Repository.IRepository</a>

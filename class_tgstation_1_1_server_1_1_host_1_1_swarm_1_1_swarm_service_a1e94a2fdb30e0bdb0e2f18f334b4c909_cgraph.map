@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Swarm.SwarmService.HealthCheckController" name="Tgstation.Server.Host.Swarm.SwarmService.HealthCheckController">
+<area shape="rect" id="node1" title="Ping the swarm controller to see that it is still running. If need be, reregister." alt="" coords="5,5,245,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a80458cc7264493ea2e7888addb55cf59" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="580,5,824,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#af41e4b53d0d8b9dba7a96149e9931ca7" title="Attempt to register the node with the controller." alt="" coords="293,35,532,76"/>
+</map>

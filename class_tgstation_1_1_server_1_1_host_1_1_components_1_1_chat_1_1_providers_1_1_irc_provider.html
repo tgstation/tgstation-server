@@ -1318,7 +1318,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><a name="l00619"></a><span class="lineno">  619</span>&#160;                        ? byondVersion.ToString()</div>
 <div class="line"><a name="l00620"></a><span class="lineno">  620</span>&#160;                        : $<span class="stringliteral">&quot;{byondVersion.Major}.{byondVersion.Minor}&quot;</span>,</div>
 <div class="line"><a name="l00621"></a><span class="lineno">  621</span>&#160;                    estimatedCompletionTime.HasValue</div>
-<div class="line"><a name="l00622"></a><span class="lineno">  622</span>&#160;                        ? $<span class="stringliteral">&quot; ETA: {estimatedCompletionTime - DateTimeOffset.Now}&quot;</span></div>
+<div class="line"><a name="l00622"></a><span class="lineno">  622</span>&#160;                        ? $<span class="stringliteral">&quot; ETA: {estimatedCompletionTime - DateTimeOffset.UtcNow}&quot;</span></div>
 <div class="line"><a name="l00623"></a><span class="lineno">  623</span>&#160;                        : String.Empty),</div>
 <div class="line"><a name="l00624"></a><span class="lineno">  624</span>&#160;                cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
 <div class="line"><a name="l00625"></a><span class="lineno">  625</span>&#160; </div>

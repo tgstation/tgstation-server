@@ -285,7 +285,7 @@ $(function() {
 <div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160; </div>
 <div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;            MergeResult result = <span class="keyword">null</span>;</div>
 <div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160; </div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;            var sig = <span class="keyword">new</span> Signature(<span class="keyword">new</span> Identity(committerName, committerEmail), DateTimeOffset.Now);</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;            var sig = <span class="keyword">new</span> Signature(<span class="keyword">new</span> Identity(committerName, committerEmail), DateTimeOffset.UtcNow);</div>
 <div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;            await Task.Factory.StartNew(() =&gt;</div>
 <div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;            {</div>
 <div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;                <span class="keywordflow">try</span></div>
@@ -553,7 +553,7 @@ $(function() {
 <div class="line"><a name="l00576"></a><span class="lineno">  576</span>&#160;                    trackedBranch.FriendlyName,</div>
 <div class="line"><a name="l00577"></a><span class="lineno">  577</span>&#160;                    committerName,</div>
 <div class="line"><a name="l00578"></a><span class="lineno">  578</span>&#160;                    committerEmail);</div>
-<div class="line"><a name="l00579"></a><span class="lineno">  579</span>&#160;                result = libGitRepo.Merge(trackedBranch, <span class="keyword">new</span> Signature(committerName, committerEmail, DateTimeOffset.Now), <span class="keyword">new</span> MergeOptions</div>
+<div class="line"><a name="l00579"></a><span class="lineno">  579</span>&#160;                result = libGitRepo.Merge(trackedBranch, <span class="keyword">new</span> Signature(committerName, committerEmail, DateTimeOffset.UtcNow), <span class="keyword">new</span> MergeOptions</div>
 <div class="line"><a name="l00580"></a><span class="lineno">  580</span>&#160;                {</div>
 <div class="line"><a name="l00581"></a><span class="lineno">  581</span>&#160;                    CommitOnSuccess = true,</div>
 <div class="line"><a name="l00582"></a><span class="lineno">  582</span>&#160;                    FailOnConflict = true,</div>
@@ -722,7 +722,7 @@ $(function() {
 <div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;                <span class="keyword">new</span> Signature(</div>
 <div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160;                    DefaultCommitterName,</div>
 <div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;                    DefaultCommitterEmail,</div>
-<div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160;                    DateTimeOffset.Now),</div>
+<div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160;                    DateTimeOffset.UtcNow),</div>
 <div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160;                <span class="keyword">new</span> MergeOptions</div>
 <div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;                {</div>
 <div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160;                    FastForwardStrategy = FastForwardStrategy.FastForwardOnly,</div>

@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Host.Swarm.SwarmService.CommitUpdate" name="Tgstation.Server.Host.Swarm.SwarmService.CommitUpdate">
+<area shape="rect" id="node1" title="Signal to the swarm that an update is ready to be applied." alt="" coords="5,64,203,105"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ad9e5207fa6e34f5c01b87d4a19b18465" title="Abort an uncommitted update." alt="" coords="251,5,445,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a80458cc7264493ea2e7888addb55cf59" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="493,35,737,76"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html#afab931ac159bc999fee1e7eda917c7d6" title="Create a Task that completes after a given timeSpan" alt="" coords="257,123,439,164"/>
+</map>

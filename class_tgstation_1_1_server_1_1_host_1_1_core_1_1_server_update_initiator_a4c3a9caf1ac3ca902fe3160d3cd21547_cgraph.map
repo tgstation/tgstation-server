@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Core.ServerUpdateInitiator.BeginUpdate" name="Tgstation.Server.Host.Core.ServerUpdateInitiator.BeginUpdate">
+<area shape="rect" id="node1" title="Start the process of downloading and applying an update to a new server version ." alt="" coords="5,39,228,80"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_control.html#a08e0b784b8a22398a183e759446bf5f3" title="Run a new Host assembly and stop the current one. This will likely trigger all active CancellationTok..." alt="" coords="293,5,476,47"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html#a9043597fb0563f7fb0ed751819aa7525" title="Create a client with anonymous authentication or general authentica. Low rate limit...." alt="" coords="276,71,493,112"/>
+</map>

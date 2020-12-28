@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Database.Migrations.PGAddSwarmIdentifer" name="Tgstation.Server.Host.Database.Migrations.PGAddSwarmIdentifer">
+<area shape="rect" id="node1" title="Adds the swarm identifier column for PostgresSQL." alt="" coords="5,80,220,121"/>
+<area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="75,5,150,32"/>
+</map>

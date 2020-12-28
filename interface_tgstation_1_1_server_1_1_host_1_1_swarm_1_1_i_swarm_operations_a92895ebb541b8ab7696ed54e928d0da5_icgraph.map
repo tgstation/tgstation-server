@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Swarm.ISwarmOperations.UpdateSwarmServersList" name="Tgstation.Server.Host.Swarm.ISwarmOperations.UpdateSwarmServersList">
+<area shape="rect" id="node1" title="Pass in an updated list of swarmServers &#160;to the node." alt="" coords="269,5,552,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#aa393ac5a5027ec0a320ba09c5303d591" title="Node list update endpoint." alt="" coords="5,5,221,47"/>
+</map>

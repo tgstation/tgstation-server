@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Controllers.AdministrationController.CheckReleasesAndApplyUpdate" name="Tgstation.Server.Host.Controllers.AdministrationController.CheckReleasesAndApplyUpdate">
-<area shape="rect" id="node1" title="Try to download and apply an update with a given newVersion ." alt="" coords="269,5,524,61"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#afbf7a02a0808b463ea298c43a03e0e99" title="Attempt to perform a server upgrade." alt="" coords="5,13,221,54"/>
-</map>

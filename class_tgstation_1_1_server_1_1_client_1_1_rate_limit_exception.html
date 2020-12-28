@@ -220,7 +220,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            var secondsString = values.FirstOrDefault();</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            <span class="keywordflow">if</span> (UInt32.TryParse(secondsString, out var seconds))</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_rate_limit_exception.html#a3a57db9e2ca420da24a144286faf57b0">RetryAfter</a> = DateTimeOffset.Now.AddSeconds(seconds);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_client_1_1_rate_limit_exception.html#a3a57db9e2ca420da24a144286faf57b0">RetryAfter</a> = DateTimeOffset.UtcNow.AddSeconds(seconds);</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_rate_limit_exception_8cs_source.html#l00017">Tgstation.Server.Client.RateLimitException.RetryAfter</a>.</p>

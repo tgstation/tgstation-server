@@ -187,9 +187,9 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            <span class="keywordflow">if</span> (onExpiry == <span class="keyword">null</span>)</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(onExpiry));</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            var now = DateTimeOffset.Now;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            var now = DateTimeOffset.UtcNow;</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <span class="keywordflow">if</span> (expiry &lt; now)</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentOutOfRangeException(nameof(expiry), expiry, <span class="stringliteral">&quot;expiry must be greater than DateTimeOffset.Now!&quot;</span>);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentOutOfRangeException(nameof(expiry), expiry, <span class="stringliteral">&quot;expiry must be greater than DateTimeOffset.UtcNow!&quot;</span>);</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_identity_cache_object.html#ac8422fda839cd16fd8b467bb4947f8a1">cancellationTokenSource</a> = <span class="keyword">new</span> CancellationTokenSource();</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>

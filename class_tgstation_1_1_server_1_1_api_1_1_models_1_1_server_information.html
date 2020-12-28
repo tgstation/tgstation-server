@@ -111,6 +111,12 @@ Properties</h2></td></tr>
 <tr class="memitem:a4facf3d6b4b97e90222f3e04b3eefac2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_server_information.html#a4facf3d6b4b97e90222f3e04b3eefac2">WindowsHost</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a4facf3d6b4b97e90222f3e04b3eefac2"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the server is running on a windows operating system.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_server_information.html#a4facf3d6b4b97e90222f3e04b3eefac2">More...</a><br /></td></tr>
 <tr class="separator:a4facf3d6b4b97e90222f3e04b3eefac2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ad29b33e56b08e96df5e172d53eb1b9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_server_information.html#a1ad29b33e56b08e96df5e172d53eb1b9">UpdateInProgress</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a1ad29b33e56b08e96df5e172d53eb1b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">If there is a server update in progress.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_server_information.html#a1ad29b33e56b08e96df5e172d53eb1b9">More...</a><br /></td></tr>
+<tr class="separator:a1ad29b33e56b08e96df5e172d53eb1b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a164e73c505d46448a6259fb4b0b98302"><td class="memItemLeft" align="right" valign="top">ICollection&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_swarm_server.html">SwarmServer</a> &gt;?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_server_information.html#a164e73c505d46448a6259fb4b0b98302">SwarmServers</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a164e73c505d46448a6259fb4b0b98302"><td class="mdescLeft">&#160;</td><td class="mdescRight">A ICollection&lt;T&gt; of connected <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_swarm_server.html">SwarmServer</a>s.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_server_information.html#a164e73c505d46448a6259fb4b0b98302">More...</a><br /></td></tr>
+<tr class="separator:a164e73c505d46448a6259fb4b0b98302"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b679a33fed678c594e1e1653ebba6c6"><td class="memItemLeft" align="right" valign="top">IDictionary&lt; <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a>, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_provider_info.html">OAuthProviderInfo</a> &gt;?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_server_information.html#a2b679a33fed678c594e1e1653ebba6c6">OAuthProviderInfos</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a2b679a33fed678c594e1e1653ebba6c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map of <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901" title="List of OAuth providers supported by TGS">OAuthProvider</a> to the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_provider_info.html" title="Public information about a given OAuthProvider.">OAuthProviderInfo</a> for them.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_server_information.html#a2b679a33fed678c594e1e1653ebba6c6">More...</a><br /></td></tr>
 <tr class="separator:a2b679a33fed678c594e1e1653ebba6c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -208,6 +214,60 @@ Properties</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Map of <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901" title="List of OAuth providers supported by TGS">OAuthProvider</a> to the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_o_auth_provider_info.html" title="Public information about a given OAuthProvider.">OAuthProviderInfo</a> for them. </p>
+
+<p class="definition">Definition at line <a class="el" href="_server_information_8cs_source.html#l00044">44</a> of file <a class="el" href="_server_information_8cs_source.html">ServerInformation.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a164e73c505d46448a6259fb4b0b98302"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a164e73c505d46448a6259fb4b0b98302">&#9670;&nbsp;</a></span>SwarmServers</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">ICollection&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_swarm_server.html">SwarmServer</a>&gt;? Tgstation.Server.Api.Models.ServerInformation.SwarmServers</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A ICollection&lt;T&gt; of connected <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_swarm_server.html">SwarmServer</a>s. </p>
+
+<p class="definition">Definition at line <a class="el" href="_server_information_8cs_source.html#l00039">39</a> of file <a class="el" href="_server_information_8cs_source.html">ServerInformation.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a1ad29b33e56b08e96df5e172d53eb1b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ad29b33e56b08e96df5e172d53eb1b9">&#9670;&nbsp;</a></span>UpdateInProgress</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Tgstation.Server.Api.Models.ServerInformation.UpdateInProgress</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>If there is a server update in progress. </p>
 
 <p class="definition">Definition at line <a class="el" href="_server_information_8cs_source.html#l00034">34</a> of file <a class="el" href="_server_information_8cs_source.html">ServerInformation.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>

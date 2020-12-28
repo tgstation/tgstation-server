@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.Controllers.SwarmController.ValidateRegistration" name="Tgstation.Server.Host.Controllers.SwarmController.ValidateRegistration">
+<area shape="rect" id="node1" title="Check that the RequestRegistrationId is valid." alt="" coords="269,169,507,211"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#ae1173f86de441aa5ac32174c67b55a44" title="Update abort endpoint." alt="" coords="5,5,221,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a5f3ab430ba35c981d39adf1e886c2c80" title="Update commit endpoint." alt="" coords="5,71,221,112"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a3ebd38f432298789da90cd740f30e6bd" title="Health check endpoint." alt="" coords="5,136,221,177"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#a929075d3762247e7acc4e3fee8d04788" title="Update initiation endpoint." alt="" coords="5,201,221,243"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#aafa232538241ccc52c7708ac2e5b6fcb" title="Deregistration endpoint." alt="" coords="5,267,221,308"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_swarm_controller.html#aa393ac5a5027ec0a320ba09c5303d591" title="Node list update endpoint." alt="" coords="5,332,221,373"/>
+</map>

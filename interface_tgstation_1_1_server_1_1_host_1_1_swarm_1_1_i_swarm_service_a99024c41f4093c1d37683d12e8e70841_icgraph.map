@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Swarm.ISwarmService.GetSwarmServers" name="Tgstation.Server.Host.Swarm.ISwarmService.GetSwarmServers">
+<area shape="rect" id="node1" title="Gets the list of SwarmServers in the swarm, including the current one." alt="" coords="269,5,491,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#a648bd5ead5349e7592e0bef30f5aea98" title="Main page of the Application" alt="" coords="5,5,221,47"/>
+</map>

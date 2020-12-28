@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Host.Swarm.SwarmService.HealthCheckLoop" name="Tgstation.Server.Host.Swarm.SwarmService.HealthCheckLoop">
+<area shape="rect" id="node1" title="Timed loop for calling HealthCheckNodes(CancellationToken)." alt="" coords="5,71,220,112"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html#afab931ac159bc999fee1e7eda917c7d6" title="Create a Task that completes after a given timeSpan" alt="" coords="297,5,479,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a1e94a2fdb30e0bdb0e2f18f334b4c909" title="Ping the swarm controller to see that it is still running. If need be, reregister." alt="" coords="268,71,508,112"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a8b4fc2ec080f4fe94a0e44ca475f4fd7" title="Ping each node to see that they are still running." alt="" coords="277,136,499,177"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a80458cc7264493ea2e7888addb55cf59" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="853,103,1097,144"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#af41e4b53d0d8b9dba7a96149e9931ca7" title="Attempt to register the node with the controller." alt="" coords="561,73,800,115"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a83c9d1f94839af4dffa28563744d5c19" title="Sends the controllers list of nodes to all nodes." alt="" coords="556,190,805,246"/>
+</map>

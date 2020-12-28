@@ -1,8 +1,11 @@
 <map id="Tgstation.Server.Host.Server.ApplyUpdate" name="Tgstation.Server.Host.Server.ApplyUpdate">
-<area shape="rect" id="node1" title="Run a new Host assembly and stop the current one. This will likely trigger all active CancellationTok..." alt="" coords="5,136,197,177"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a5307337e3bb84c45327e8a856b7f425f" title="Throws an InvalidOperationException if the IServerControl cannot be used" alt="" coords="245,5,437,47"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="251,71,432,112"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a20647d9e4dd09b806e407cd5c8a23b9b" title="Downloads a file from url" alt="" coords="256,136,427,177"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#ab2114beab119e090ece99d97ef0ca9c6" title="Restarts the Host" alt="" coords="245,201,437,243"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a97cec04d5bb18549ae09bc89bf2d016f" title="Extract a set of zipFile &#160;to a given path" alt="" coords="253,267,430,308"/>
+<area shape="rect" id="node1" title="Run a new Host assembly and stop the current one. This will likely trigger all active CancellationTok..." alt="" coords="5,235,197,276"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a8612bfef4d2f9c7180fc7498f7d33985" title="Abort an uncommitted update." alt="" coords="249,5,443,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#a5307337e3bb84c45327e8a856b7f425f" title="Throws an InvalidOperationException if the IServerControl cannot be used" alt="" coords="250,71,442,112"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a062fc6ff8b4d61b3a21bc19e66989fd8" title="Signal to the swarm that an update is ready to be applied." alt="" coords="245,136,447,177"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7" title="Recursively delete a directory, removes and does not enter any symlinks encounterd." alt="" coords="255,201,437,243"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a20647d9e4dd09b806e407cd5c8a23b9b" title="Downloads a file from url" alt="" coords="261,267,431,308"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#aa2a8fc7faaca60e942f0ce1a7205f935" title="Signal to the swarm that an update is requested." alt="" coords="245,332,447,373"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_server.html#ab2114beab119e090ece99d97ef0ca9c6" title="Restarts the Host" alt="" coords="250,397,442,439"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#a97cec04d5bb18549ae09bc89bf2d016f" title="Extract a set of zipFile &#160;to a given path" alt="" coords="257,463,435,504"/>
 </map>
