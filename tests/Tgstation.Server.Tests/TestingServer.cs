@@ -32,13 +32,13 @@ namespace Tgstation.Server.Tests
 
 		IServer realServer;
 
-		public TestingServer(bool enableOAuth)
+		public TestingServer(SwarmConfiguration swarmConfiguration, bool enableOAuth, ushort port = 5010)
 		{
 			Directory = Environment.GetEnvironmentVariable("TGS4_TEST_TEMP_DIRECTORY");
 			if (String.IsNullOrWhiteSpace(Directory))
 			{
 				Directory = Path.Combine(Path.GetTempPath(), "TGS4_INTEGRATION_TEST");
-				if (System.IO.Directory.Exists(Directory))
+				if (System.IO.Directory.Exists(Directory) && swarmConfiguration == null)
 					try
 					{
 						System.IO.Directory.Delete(Directory, true);
@@ -49,8 +49,8 @@ namespace Tgstation.Server.Tests
 
 			Directory = Path.Combine(Directory, Guid.NewGuid().ToString());
 			System.IO.Directory.CreateDirectory(Directory);
-			const string UrlString = "http://localhost:5010";
-			Url = new Uri(UrlString);
+			string urlString = $"http://localhost:{port}";
+			Url = new Uri(urlString);
 
 			//so we need a db
 			//we have to rely on env vars
@@ -73,7 +73,7 @@ namespace Tgstation.Server.Tests
 			var args = new List<string>()
 			{
 				String.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", true),
-				String.Format(CultureInfo.InvariantCulture, "General:ApiPort={0}", 5010),
+				String.Format(CultureInfo.InvariantCulture, "General:ApiPort={0}", port),
 				String.Format(CultureInfo.InvariantCulture, "Database:DatabaseType={0}", DatabaseType),
 				String.Format(CultureInfo.InvariantCulture, "Database:ConnectionString={0}", connectionString),
 				String.Format(CultureInfo.InvariantCulture, "General:SetupWizardMode={0}", SetupWizardMode.Never),
@@ -86,6 +86,15 @@ namespace Tgstation.Server.Tests
 				String.Format(CultureInfo.InvariantCulture, "General:ValidInstancePaths:0={0}", Directory),
 				"General:ByondTopicTimeout=3000"
 			};
+
+			if (swarmConfiguration != null)
+			{
+				args.Add($"Swarm:PrivateKey={swarmConfiguration.PrivateKey}");
+				args.Add($"Swarm:Identifier={swarmConfiguration.Identifier}");
+				args.Add($"Swarm:Address={swarmConfiguration.Address}");
+				if (swarmConfiguration.ControllerAddress != null)
+					args.Add($"Swarm:ControllerAddress={swarmConfiguration.ControllerAddress}");
+			}
 
 			// enable all oauth providers
 			if (enableOAuth)
