@@ -272,9 +272,12 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.IsRequired()
 					.HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
+				b.Property<string>("SwarmIdentifer")
+					.HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
 				b.HasKey("Id");
 
-				b.HasIndex("Path")
+				b.HasIndex("Path", "SwarmIdentifer")
 					.IsUnique();
 
 				b.ToTable("Instances");

@@ -147,7 +147,7 @@ namespace Tgstation.Server.Host.Jobs
 						};
 
 						databaseContext.Jobs.Attach(attachedJob);
-						attachedJob.StoppedAt = DateTimeOffset.Now;
+						attachedJob.StoppedAt = DateTimeOffset.UtcNow;
 						attachedJob.ExceptionDetails = job.ExceptionDetails;
 						attachedJob.ErrorCode = job.ErrorCode;
 						attachedJob.Cancelled = job.Cancelled;
@@ -177,7 +177,7 @@ namespace Tgstation.Server.Host.Jobs
 					if (operation == null)
 						throw new ArgumentNullException(nameof(operation));
 
-					job.StartedAt = DateTimeOffset.Now;
+					job.StartedAt = DateTimeOffset.UtcNow;
 					job.Cancelled = false;
 
 					job.Instance = new Models.Instance
@@ -238,7 +238,7 @@ namespace Tgstation.Server.Host.Jobs
 						var job = new Job { Id = I };
 						databaseContext.Jobs.Attach(job);
 						job.Cancelled = true;
-						job.StoppedAt = DateTimeOffset.Now;
+						job.StoppedAt = DateTimeOffset.UtcNow;
 					}
 
 					await databaseContext.Save(cancellationToken).ConfigureAwait(false);

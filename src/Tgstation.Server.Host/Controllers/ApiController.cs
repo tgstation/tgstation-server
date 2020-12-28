@@ -143,7 +143,7 @@ namespace Tgstation.Server.Host.Controllers
 				throw new ArgumentNullException(nameof(rateLimitException));
 
 			Logger.LogWarning(rateLimitException, "Exceeded GitHub rate limit!");
-			var secondsString = Math.Ceiling((rateLimitException.Reset - DateTimeOffset.Now).TotalSeconds).ToString(CultureInfo.InvariantCulture);
+			var secondsString = Math.Ceiling((rateLimitException.Reset - DateTimeOffset.UtcNow).TotalSeconds).ToString(CultureInfo.InvariantCulture);
 			Response.Headers.Add(HeaderNames.RetryAfter, secondsString);
 			return StatusCode(HttpStatusCode.TooManyRequests, new ErrorMessage(ErrorCode.GitHubApiRateLimit));
 		}

@@ -83,7 +83,7 @@ namespace Tgstation.Server.Host.Database
 			bool alreadyExists = tgsUser != null;
 			tgsUser ??= new User()
 			{
-				CreatedAt = DateTimeOffset.Now,
+				CreatedAt = DateTimeOffset.UtcNow,
 				CanonicalName = User.CanonicalizeName(User.TgsSystemUserName),
 			};
 
@@ -111,7 +111,7 @@ namespace Tgstation.Server.Host.Database
 					AdministrationRights = RightsHelper.AllRights<AdministrationRights>(),
 					InstanceManagerRights = RightsHelper.AllRights<InstanceManagerRights>(),
 				},
-				CreatedAt = DateTimeOffset.Now,
+				CreatedAt = DateTimeOffset.UtcNow,
 				Name = Api.Models.User.AdminName,
 				CanonicalName = User.CanonicalizeName(Api.Models.User.AdminName),
 				Enabled = true,

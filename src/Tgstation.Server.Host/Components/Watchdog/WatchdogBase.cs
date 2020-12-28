@@ -980,7 +980,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			var dumpFileName = diagnosticsIOManager.ResolvePath(
 				diagnosticsIOManager.ConcatPath(
 					DumpDirectory,
-					$"DreamDaemon-{DateTimeOffset.Now.ToFileStamp()}.dmp"));
+					$"DreamDaemon-{DateTimeOffset.UtcNow.ToFileStamp()}.dmp"));
 
 			var session = GetActiveController();
 			if (session?.Lifetime.IsCompleted != false)

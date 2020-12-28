@@ -815,7 +815,7 @@ namespace Tgstation.Server.Host.Controllers
 									{
 										Author = ex.Message,
 										BodyAtMerge = ex.Message,
-										MergedAt = DateTimeOffset.Now,
+										MergedAt = DateTimeOffset.UtcNow,
 										TitleAtMerge = ex.Message,
 										Comment = I.Comment,
 										Number = I.Number,

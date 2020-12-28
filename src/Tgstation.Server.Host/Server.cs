@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.Swarm;
 
 namespace Tgstation.Server.Host
 {
@@ -19,6 +20,9 @@ namespace Tgstation.Server.Host
 	{
 		/// <inheritdoc />
 		public bool RestartRequested { get; private set; }
+
+		/// <inheritdoc />
+		public bool UpdateInProgress { get; private set; }
 
 		/// <inheritdoc />
 		public bool WatchdogPresent =>
@@ -49,6 +53,11 @@ namespace Tgstation.Server.Host
 		readonly object restartLock;
 
 		/// <summary>
+		/// The <see cref="ISwarmService"/> for the <see cref="Server"/>.
+		/// </summary>
+		ISwarmService swarmService;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Server"/>
 		/// </summary>
 		ILogger<Server> logger;
@@ -67,11 +76,6 @@ namespace Tgstation.Server.Host
 		/// The <see cref="Exception"/> to propagate when the server terminates
 		/// </summary>
 		Exception propagatedException;
-
-		/// <summary>
-		/// If a server update has been or is being applied
-		/// </summary>
-		bool updating;
 
 		/// <summary>
 		/// Construct a <see cref="Server"/>
@@ -140,6 +144,7 @@ namespace Tgstation.Server.Host
 				using var host = hostBuilder.Build();
 				try
 				{
+					swarmService = host.Services.GetRequiredService<ISwarmService>();
 					logger = host.Services.GetRequiredService<ILogger<Server>>();
 					using (cancellationToken.Register(() => logger.LogInformation("Server termination requested!")))
 					{
@@ -174,13 +179,13 @@ namespace Tgstation.Server.Host
 
 			lock (restartLock)
 			{
-				if (updating || RestartRequested)
+				if (UpdateInProgress || RestartRequested)
 				{
 					logger.LogTrace("Aborted due to concurrency conflict!");
 					return false;
 				}
 
-				updating = true;
+				UpdateInProgress = true;
 			}
 
 			async void RunUpdate()
@@ -193,31 +198,63 @@ namespace Tgstation.Server.Host
 						throw new InvalidOperationException("Tried to update a non-running Server!");
 					var cancellationToken = cancellationTokenSource.Token;
 
-					logger.LogTrace("Downloading zip package...");
-					using var updateZipData = new MemoryStream(
-						await ioManager.DownloadFile(
-							updateZipUrl,
-							cancellationToken)
-						.ConfigureAwait(false));
+					var updatePrepareResult = await swarmService.PrepareUpdate(version, cancellationToken).ConfigureAwait(false);
+					if (!updatePrepareResult)
+						return;
+
+					MemoryStream updateZipData;
 					try
 					{
-						logger.LogTrace("Exctracting zip package to {0}...", updatePath);
-						await ioManager.ZipToDirectory(updatePath, updateZipData, cancellationToken).ConfigureAwait(false);
+						logger.LogTrace("Downloading zip package...");
+						updateZipData = new MemoryStream(
+							await ioManager.DownloadFile(
+								updateZipUrl,
+								cancellationToken)
+							.ConfigureAwait(false));
 					}
-					catch (Exception e)
+					catch (Exception e1)
 					{
-						updating = false;
 						try
 						{
-							// important to not leave this directory around if possible
-							await ioManager.DeleteDirectory(updatePath, default).ConfigureAwait(false);
+							await swarmService.AbortUpdate(cancellationToken).ConfigureAwait(false);
 						}
 						catch (Exception e2)
 						{
-							throw new AggregateException(e, e2);
+							throw new AggregateException(e1, e2);
+						}
+					
+						throw;
+					}
+
+					using (updateZipData)
+					{
+						var updateCommitResult = await swarmService.CommitUpdate(cancellationToken).ConfigureAwait(false);
+						if (!updateCommitResult)
+						{
+							logger.LogError("Swarm distributed commit failed, not applying update!");
+							return;
 						}
 
-						throw;
+						try
+						{
+							logger.LogTrace("Extracting zip package to {0}...", updatePath);
+							await ioManager.ZipToDirectory(updatePath, updateZipData, cancellationToken).ConfigureAwait(false);
+						}
+						catch (Exception e)
+						{
+							UpdateInProgress = false;
+							try
+							{
+								// important to not leave this directory around if possible
+								await ioManager.DeleteDirectory(updatePath, default).ConfigureAwait(false);
+							}
+							catch (Exception e2)
+							{
+								throw new AggregateException(e, e2);
+							}
+
+							throw;
+						}
 					}
 
 					await Restart(version, null, true).ConfigureAwait(false);
@@ -232,7 +269,7 @@ namespace Tgstation.Server.Host
 				}
 				finally
 				{
-					updating = false;
+					UpdateInProgress = false;
 				}
 			}
 
@@ -282,7 +319,7 @@ namespace Tgstation.Server.Host
 
 			lock (restartLock)
 			{
-				if ((updating && newVersion == null) || RestartRequested)
+				if ((UpdateInProgress && newVersion == null) || RestartRequested)
 				{
 					logger.LogTrace("Aborted due to concurrency conflict!");
 					return;

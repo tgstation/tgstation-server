@@ -56,7 +56,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 		/// <inheritdoc />
 		public override async Task<OAuthProviderInfo> GetProviderInfo(CancellationToken cancellationToken)
 		{
-			var expiredSessions = sessions.RemoveAll(x => x.Item2.AddMinutes(SessionRetentionMinutes) < DateTimeOffset.Now);
+			var expiredSessions = sessions.RemoveAll(x => x.Item2.AddMinutes(SessionRetentionMinutes) < DateTimeOffset.UtcNow);
 			if (expiredSessions > 0)
 				Logger.LogTrace("Expired {0} sessions", expiredSessions);
 
@@ -86,7 +86,7 @@ namespace Tgstation.Server.Host.Security.OAuth
 				sessions.Add(
 					Tuple.Create(
 						newSession,
-						DateTimeOffset.Now));
+						DateTimeOffset.UtcNow));
 				return new OAuthProviderInfo
 				{
 					ClientId = newSession.SessionPublicToken,

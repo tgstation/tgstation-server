@@ -461,7 +461,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				var completionString = errorMessage == null ? "Succeeded" : "Failed";
 				builder.Footer.Text = completionString;
 				builder.Color = errorMessage == null ? Color.Green : Color.Red;
-				builder.Timestamp = DateTimeOffset.Now;
+				builder.Timestamp = DateTimeOffset.UtcNow;
 				builder.Description = errorMessage == null
 					? "The deployment completed successfully and will be available at the next server reboot."
 					: "The deployment failed.";

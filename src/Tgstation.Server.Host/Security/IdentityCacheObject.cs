@@ -41,9 +41,9 @@ namespace Tgstation.Server.Host.Security
 
 			if (onExpiry == null)
 				throw new ArgumentNullException(nameof(onExpiry));
-			var now = DateTimeOffset.Now;
+			var now = DateTimeOffset.UtcNow;
 			if (expiry < now)
-				throw new ArgumentOutOfRangeException(nameof(expiry), expiry, "expiry must be greater than DateTimeOffset.Now!");
+				throw new ArgumentOutOfRangeException(nameof(expiry), expiry, "expiry must be greater than DateTimeOffset.UtcNow!");
 
 			cancellationTokenSource = new CancellationTokenSource();
 

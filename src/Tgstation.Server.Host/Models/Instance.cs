@@ -28,6 +28,11 @@ namespace Tgstation.Server.Host.Models
 		public RepositorySettings RepositorySettings { get; set; }
 
 		/// <summary>
+		/// The <see cref="Api.Models.Internal.SwarmServer.Identifier"/> of the the server in the swarm this instance belongs to.
+		/// </summary>
+		public string SwarmIdentifer { get; set; }
+
+		/// <summary>
 		/// The <see cref="InstancePermissionSet"/>s in the <see cref="Instance"/>
 		/// </summary>
 		public ICollection<InstancePermissionSet> InstancePermissionSets { get; set; }

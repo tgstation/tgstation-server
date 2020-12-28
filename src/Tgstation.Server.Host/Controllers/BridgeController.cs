@@ -16,8 +16,9 @@ namespace Tgstation.Server.Host.Controllers
 	/// <summary>
 	/// <see cref="Controller"/> for recieving DMAPI requests from DreamDaemon.
 	/// </summary>
-	[Route("Bridge")]
+	[Route("/Bridge")]
 	[Produces(MediaTypeNames.Application.Json)]
+	[ApiController]
 	public class BridgeController : Controller
 	{
 		/// <summary>

@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 
-namespace Tgstation.Server.Host.Components.Interop.Converters
+namespace Tgstation.Server.Host.Extensions.Converters
 {
 	/// <summary>
 	/// <see cref="JsonConverter"/> for decoding <see cref="bool"/>s returned by BYOND.

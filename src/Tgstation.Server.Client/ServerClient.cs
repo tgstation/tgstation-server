@@ -75,7 +75,7 @@ namespace Tgstation.Server.Client
 		public void Dispose() => apiClient.Dispose();
 
 		/// <inheritdoc />
-		public Task<ServerInformation> Version(CancellationToken cancellationToken) => apiClient.Read<ServerInformation>(Routes.Root, cancellationToken);
+		public Task<ServerInformation> ServerInformation(CancellationToken cancellationToken) => apiClient.Read<ServerInformation>(Routes.Root, cancellationToken);
 
 		/// <inheritdoc />
 		public void AddRequestLogger(IRequestLogger requestLogger) => apiClient.AddRequestLogger(requestLogger);

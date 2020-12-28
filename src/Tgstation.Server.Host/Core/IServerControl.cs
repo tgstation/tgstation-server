@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.IO;
@@ -14,6 +14,11 @@ namespace Tgstation.Server.Host.Core
 		/// <see langword="true"/> if live updates are supported, <see langword="false"/>. <see cref="ApplyUpdate(Version, Uri, IIOManager)"/> and <see cref="Restart"/> will fail if this is <see langword="false"/>
 		/// </summary>
 		bool WatchdogPresent { get; }
+
+		/// <summary>
+		/// Whether or not the server is currently updating
+		/// </summary>
+		bool UpdateInProgress { get; }
 
 		/// <summary>
 		/// Run a new <see cref="Host"/> assembly and stop the current one. This will likely trigger all active <see cref="CancellationToken"/>s

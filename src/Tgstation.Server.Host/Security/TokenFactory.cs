@@ -81,7 +81,7 @@ namespace Tgstation.Server.Host.Security
 			if (user == null)
 				throw new ArgumentNullException(nameof(user));
 
-			var now = DateTimeOffset.Now;
+			var now = DateTimeOffset.UtcNow;
 			var nowUnix = now.ToUnixTimeSeconds();
 
 			// this prevents validation conflicts down the line

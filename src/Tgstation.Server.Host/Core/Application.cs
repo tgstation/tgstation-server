@@ -16,6 +16,7 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Display;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -28,7 +29,6 @@ using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Chat.Providers;
 using Tgstation.Server.Host.Components.Deployment.Remote;
 using Tgstation.Server.Host.Components.Interop.Bridge;
-using Tgstation.Server.Host.Components.Interop.Converters;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Components.Watchdog;
@@ -36,12 +36,14 @@ using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.Extensions.Converters;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Security.OAuth;
 using Tgstation.Server.Host.Setup;
+using Tgstation.Server.Host.Swarm;
 using Tgstation.Server.Host.System;
 using Tgstation.Server.Host.Transfer;
 
@@ -105,6 +107,7 @@ namespace Tgstation.Server.Host.Core
 			// configure configuration
 			services.UseStandardConfig<UpdatesConfiguration>(Configuration);
 			services.UseStandardConfig<ControlPanelConfiguration>(Configuration);
+			services.UseStandardConfig<SwarmConfiguration>(Configuration);
 
 			// enable options which give us config reloading
 			services.AddOptions();
@@ -207,7 +210,10 @@ namespace Tgstation.Server.Host.Core
 					options.SerializerSettings.CheckAdditionalContent = true;
 					options.SerializerSettings.MissingMemberHandling = MissingMemberHandling.Error;
 					options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-					options.SerializerSettings.Converters = new[] { new VersionConverter() };
+					options.SerializerSettings.Converters = new List<JsonConverter>
+					{
+						new VersionConverter()
+					};
 				});
 
 			if (postSetupServices.GeneralConfiguration.HostApiDocumentation)
@@ -325,6 +331,10 @@ namespace Tgstation.Server.Host.Core
 			services.AddSingleton<FileTransferService>();
 			services.AddSingleton<IFileTransferStreamHandler>(x => x.GetRequiredService<FileTransferService>());
 			services.AddSingleton<IFileTransferTicketProvider>(x => x.GetRequiredService<FileTransferService>());
+			services.AddSingleton<SwarmService>();
+			services.AddSingleton<ISwarmService>(x => x.GetRequiredService<SwarmService>());
+			services.AddSingleton<ISwarmOperations>(x => x.GetRequiredService<SwarmService>());
+			services.AddSingleton<IServerUpdateInitiator, ServerUpdateInitiator>();
 
 			// configure root services
 			services.AddSingleton<IJobManager, JobManager>();
@@ -361,6 +371,7 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="Application"/></param>
 		/// <param name="tokenFactory">The value of <see cref="tokenFactory"/></param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/>.</param>
+		/// <param name="serverPortProvider">The <see cref="IServerPortProvider"/>.</param>
 		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="ControlPanelConfiguration"/> to use</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="GeneralConfiguration"/> to use</param>
 		/// <param name="logger">The <see cref="Microsoft.Extensions.Logging.ILogger"/> for the <see cref="Application"/></param>
@@ -369,6 +380,7 @@ namespace Tgstation.Server.Host.Core
 			IServerControl serverControl,
 			ITokenFactory tokenFactory,
 			IInstanceManager instanceManager,
+			IServerPortProvider serverPortProvider,
 			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			ILogger<Application> logger)
@@ -483,7 +495,7 @@ namespace Tgstation.Server.Host.Core
 			logger.LogTrace("DMAPI version: {0}", masterVersionsAttribute.RawDMApiVersion);
 			logger.LogTrace("Web control panel version: {0}", masterVersionsAttribute.RawControlPanelVersion);
 
-			logger.LogDebug("Starting hosting...");
+			logger.LogDebug("Starting hosting on port {0}...", serverPortProvider.HttpApiPort);
 		}
 	}
 }

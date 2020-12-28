@@ -250,7 +250,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.Enabled.HasValue)
 			{
 				if (originalUser.Enabled.Value && !model.Enabled.Value)
-					originalUser.LastPasswordUpdate = DateTimeOffset.Now;
+					originalUser.LastPasswordUpdate = DateTimeOffset.UtcNow;
 
 				originalUser.Enabled = model.Enabled.Value;
 			}
@@ -431,7 +431,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			return new Models.User
 			{
-				CreatedAt = DateTimeOffset.Now,
+				CreatedAt = DateTimeOffset.UtcNow,
 				CreatedBy = AuthenticationContext.User,
 				Enabled = model.Enabled ?? false,
 				PermissionSet = permissionSet,

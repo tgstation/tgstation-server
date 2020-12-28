@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Octokit;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -40,7 +39,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// The <see cref="IServerControl"/> for the <see cref="AdministrationController"/>
 		/// </summary>
-		readonly IServerControl serverUpdater;
+		readonly IServerControl serverControl;
+
+		/// <summary>
+		/// The <see cref="IServerUpdateInitiator"/> for the <see cref="AdministrationController"/>
+		/// </summary>
+		readonly IServerUpdateInitiator serverUpdater;
 
 		/// <summary>
 		/// The <see cref="IAssemblyInformationProvider"/> for the <see cref="AdministrationController"/>
@@ -78,7 +82,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/></param>
-		/// <param name="serverUpdater">The value of <see cref="serverUpdater"/></param>
+		/// <param name="serverControl">The value of <see cref="serverControl"/>.</param>
+		/// <param name="serverUpdater">The value of <see cref="serverUpdater"/>.</param>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
@@ -90,7 +95,8 @@ namespace Tgstation.Server.Host.Controllers
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
 			IGitHubClientFactory gitHubClientFactory,
-			IServerControl serverUpdater,
+			IServerControl serverControl,
+			IServerUpdateInitiator serverUpdater,
 			IAssemblyInformationProvider assemblyInformationProvider,
 			IIOManager ioManager,
 			IPlatformIdentifier platformIdentifier,
@@ -105,6 +111,7 @@ namespace Tgstation.Server.Host.Controllers
 				true)
 		{
 			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
+			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
 			this.serverUpdater = serverUpdater ?? throw new ArgumentNullException(nameof(serverUpdater));
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
@@ -112,65 +119,6 @@ namespace Tgstation.Server.Host.Controllers
 			this.fileTransferService = fileTransferService ?? throw new ArgumentNullException(nameof(fileTransferService));
 			updatesConfiguration = updatesConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(updatesConfigurationOptions));
 			fileLoggingConfiguration = fileLoggingConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(fileLoggingConfigurationOptions));
-		}
-
-		/// <summary>
-		/// Try to download and apply an update with a given <paramref name="newVersion"/>.
-		/// </summary>
-		/// <param name="newVersion">The version of the server to update to.</param>
-		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
-		async Task<IActionResult> CheckReleasesAndApplyUpdate(Version newVersion, CancellationToken cancellationToken)
-		{
-			Logger.LogDebug("Looking for GitHub releases version {0}...", newVersion);
-			IEnumerable<Release> releases;
-			try
-			{
-				var gitHubClient = gitHubClientFactory.CreateClient();
-				releases = await gitHubClient
-					.Repository
-					.Release
-					.GetAll(updatesConfiguration.GitHubRepositoryId)
-					.WithToken(cancellationToken)
-					.ConfigureAwait(false);
-			}
-			catch (RateLimitExceededException e)
-			{
-				return RateLimit(e);
-			}
-			catch (ApiException e)
-			{
-				Logger.LogWarning(e, OctokitException);
-				return StatusCode(HttpStatusCode.FailedDependency, new ErrorMessage(ErrorCode.RemoteApiError)
-				{
-					AdditionalData = e.Message
-				});
-			}
-
-			releases = releases.Where(x => x.TagName.StartsWith(updatesConfiguration.GitTagPrefix, StringComparison.InvariantCulture));
-
-			Logger.LogTrace("Release query complete!");
-
-			foreach (var release in releases)
-				if (Version.TryParse(
-					release.TagName.Replace(
-						updatesConfiguration.GitTagPrefix, String.Empty, StringComparison.Ordinal),
-					out var version)
-					&& version == newVersion)
-				{
-					var asset = release.Assets.Where(x => x.Name.Equals(updatesConfiguration.UpdatePackageAssetName, StringComparison.Ordinal)).FirstOrDefault();
-					if (asset == default)
-						continue;
-
-					if (!serverUpdater.ApplyUpdate(version, new Uri(asset.BrowserDownloadUrl), ioManager))
-						return Conflict(new ErrorMessage(ErrorCode.ServerUpdateInProgress));
-					return Accepted(new Administration
-					{
-						NewVersion = newVersion
-					}); // gtfo of here before all the cancellation tokens fire
-				}
-
-			return Gone();
 		}
 
 		/// <summary>
@@ -273,10 +221,35 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.NewVersion.Major != assemblyInformationProvider.Version.Major)
 				return BadRequest(new ErrorMessage(ErrorCode.CannotChangeServerSuite));
 
-			if (!serverUpdater.WatchdogPresent)
+			if (!serverControl.WatchdogPresent)
 				return UnprocessableEntity(new ErrorMessage(ErrorCode.MissingHostWatchdog));
 
-			return await CheckReleasesAndApplyUpdate(model.NewVersion, cancellationToken).ConfigureAwait(false);
+			try
+			{
+				var updateResult = await serverUpdater.BeginUpdate(model.NewVersion, cancellationToken).ConfigureAwait(false);
+				if (updateResult == ServerUpdateResult.ReleaseMissing)
+					return Gone();
+
+				if (updateResult == ServerUpdateResult.UpdateInProgress)
+					return BadRequest(new ErrorMessage(ErrorCode.ServerUpdateInProgress));
+
+				return Accepted(new Administration
+				{
+					NewVersion = model.NewVersion
+				});
+			}
+			catch (RateLimitExceededException e)
+			{
+				return RateLimit(e);
+			}
+			catch (ApiException e)
+			{
+				Logger.LogWarning(e, OctokitException);
+				return StatusCode(HttpStatusCode.FailedDependency, new ErrorMessage(ErrorCode.RemoteApiError)
+				{
+					AdditionalData = e.Message
+				});
+			}
 		}
 
 		/// <summary>
@@ -293,13 +266,13 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			try
 			{
-				if (!serverUpdater.WatchdogPresent)
+				if (!serverControl.WatchdogPresent)
 				{
 					Logger.LogDebug("Restart request failed due to lack of host watchdog!");
 					return UnprocessableEntity(new ErrorMessage(ErrorCode.MissingHostWatchdog));
 				}
 
-				await serverUpdater.Restart().ConfigureAwait(false);
+				await serverControl.Restart().ConfigureAwait(false);
 				return NoContent();
 			}
 			catch (InvalidOperationException)

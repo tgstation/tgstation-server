@@ -385,6 +385,7 @@ namespace Tgstation.Server.Host.Core
 			{
 				nameof(BridgeController),
 				nameof(ControlPanelController),
+				nameof(SwarmController),
 			};
 
 			foreach (var path in swaggerDoc.Paths)

@@ -177,6 +177,8 @@ namespace Tgstation.Server.Host.Setup.Tests
 				//cp config
 				"y",
 				"y",
+				// swarm config
+				"n",
 				//saved, now for second run
 				//this time use defaults amap
 				String.Empty,
@@ -204,6 +206,15 @@ namespace Tgstation.Server.Host.Setup.Tests
 				"y",
 				"n",
 				String.Empty,
+				//swarm config
+				"y",
+				"node1",
+				"not a url",
+				"net.tcp://notandhttpAddress.com",
+				"http://node1:3400",
+				"privatekey",
+				"n",
+				"http://controller.com",
 				//third run, we already hit all the code coverage so just get through it
 				String.Empty,
 				nameof(DatabaseType.MariaDB),
@@ -229,6 +240,12 @@ namespace Tgstation.Server.Host.Setup.Tests
 				"y",
 				"n",
 				"http://fake.com, https://example.org",
+				//swarm config
+				"y",
+				"controller",
+				"https://controller.com",
+				"privatekey",
+				"y"
 			};
 
 			var inputPos = 0;
