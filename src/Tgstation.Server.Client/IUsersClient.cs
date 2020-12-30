@@ -23,7 +23,7 @@ namespace Tgstation.Server.Client
 		/// <param name="user">The <see cref="Api.Models.Internal.User"/> to get.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the requested <paramref name="user"/></returns>
-		Task<User> GetId(Api.Models.Internal.User user, CancellationToken cancellationToken);
+		Task<User> GetId(Api.Models.Internal.UserBase user, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// List all <see cref="User"/>s

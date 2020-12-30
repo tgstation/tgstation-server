@@ -40,7 +40,7 @@ namespace Tgstation.Server.Host.Models
 		public PermissionSet PermissionSet { get; set; }
 
 		/// <summary>
-		/// The uppercase invariant of <see cref="Api.Models.Internal.User.Name"/>
+		/// The uppercase invariant of <see cref="Api.Models.Internal.UserBase.Name"/>
 		/// </summary>
 		[Required]
 		[StringLength(Limits.MaximumIndexableStringLength, MinimumLength = 1)]
@@ -67,9 +67,9 @@ namespace Tgstation.Server.Host.Models
 		public ICollection<OAuthConnection> OAuthConnections { get; set; }
 
 		/// <summary>
-		/// Change a <see cref="Api.Models.Internal.User.Name"/> into a <see cref="CanonicalName"/>.
+		/// Change a <see cref="Api.Models.Internal.UserBase.Name"/> into a <see cref="CanonicalName"/>.
 		/// </summary>
-		/// <param name="name">The <see cref="Api.Models.Internal.User.Name"/>.</param>
+		/// <param name="name">The <see cref="Api.Models.Internal.UserBase.Name"/>.</param>
 		/// <returns>The <see cref="CanonicalName"/>.</returns>
 		public static string CanonicalizeName(string name) => name?.ToUpperInvariant() ?? throw new ArgumentNullException(nameof(name));
 
@@ -81,9 +81,9 @@ namespace Tgstation.Server.Host.Models
 		/// <returns>A new <see cref="Api.Models.User"/></returns>
 		Api.Models.User ToApi(bool recursive, bool showDetails) => new Api.Models.User
 		{
-			CreatedAt = CreatedAt,
-			CreatedBy = recursive ? CreatedBy?.ToApi(false, false) : null,
-			Enabled = Enabled,
+			CreatedAt = showDetails ? CreatedAt : null,
+			CreatedBy = showDetails && recursive ? CreatedBy?.ToApi(false, false) : null,
+			Enabled = showDetails ? Enabled : null,
 			Id = Id,
 			Name = Name,
 			SystemIdentifier = showDetails ? SystemIdentifier : null,

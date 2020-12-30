@@ -66,7 +66,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Check if a given <paramref name="model"/> has a valid <see cref="Api.Models.Internal.User.Name"/> specified.
+		/// Check if a given <paramref name="model"/> has a valid <see cref="Api.Models.Internal.UserBase.Name"/> specified.
 		/// </summary>
 		/// <param name="model">The <see cref="UserUpdate"/> to check.</param>
 		/// <param name="newUser">If this is a new <see cref="Api.Models.User"/>.</param>
@@ -191,7 +191,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200"><see cref="Api.Models.User"/> updated successfully.</response>
-		/// <response code="404">Requested <see cref="Api.Models.Internal.User.Id"/> does not exist.</response>
+		/// <response code="404">Requested <see cref="Api.Models.Internal.UserBase.Id"/> does not exist.</response>
 		/// <response code="410">Requested <see cref="Api.Models.User.Group"/> does not exist.</response>
 		[HttpPost]
 		[TgsAuthorize(AdministrationRights.WriteUsers | AdministrationRights.EditOwnPassword | AdministrationRights.EditOwnOAuthConnections)]
@@ -292,6 +292,7 @@ namespace Tgstation.Server.Host.Controllers
 					.Groups
 					.AsQueryable()
 					.Where(x => x.Id == model.Group.Id)
+					.Include(x => x.PermissionSet)
 					.FirstOrDefaultAsync(cancellationToken)
 					.ConfigureAwait(false);
 
@@ -333,7 +334,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			// return id only if not a self update and cannot read users
 			return Json(
-				model.Id == originalUser.Id
+				AuthenticationContext.User.Id == originalUser.Id
 				|| callerAdministrationRights.HasFlag(AdministrationRights.ReadUsers)
 				? originalUser.ToApi(true)
 				: new Api.Models.User
@@ -384,7 +385,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Get a specific <see cref="Api.Models.User"/>.
 		/// </summary>
-		/// <param name="id">The <see cref="Api.Models.Internal.User.Id"/> to retrieve.</param>
+		/// <param name="id">The <see cref="Api.Models.Internal.UserBase.Id"/> to retrieve.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200">The <see cref="Api.Models.User"/> was retrieved successfully.</response>
@@ -432,6 +433,7 @@ namespace Tgstation.Server.Host.Controllers
 					.Groups
 					.AsQueryable()
 					.Where(x => x.Id == model.Group.Id)
+					.Include(x => x.PermissionSet)
 					.FirstOrDefaultAsync(cancellationToken)
 					.ConfigureAwait(false);
 			else

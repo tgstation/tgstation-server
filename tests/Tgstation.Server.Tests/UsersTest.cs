@@ -46,7 +46,6 @@ namespace Tgstation.Server.Tests
 			var systemUser = user.CreatedBy;
 			Assert.IsNotNull(systemUser);
 			Assert.AreEqual("TGS", systemUser.Name);
-			Assert.AreEqual(false, systemUser.Enabled);
 
 			var users = await serverClient.Users.List(null, cancellationToken);
 			Assert.IsTrue(users.Count > 0);
@@ -165,7 +164,7 @@ namespace Tgstation.Server.Tests
 			{
 				Id = testUser2.Id,
 				PermissionSet = testUser2.PermissionSet,
-				Group = new Api.Models.Internal.UserGroup
+				Group = new UserGroup
 				{
 					Id = group.Id
 				},

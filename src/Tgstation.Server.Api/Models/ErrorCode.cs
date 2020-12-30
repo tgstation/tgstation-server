@@ -76,7 +76,7 @@ namespace Tgstation.Server.Api.Models
 		ServerUpdateInProgress,
 
 		/// <summary>
-		/// Attempted to change something other than the capitalization of a <see cref="Internal.User.Name"/>.
+		/// Attempted to change something other than the capitalization of a <see cref="Internal.UserBase.Name"/>.
 		/// </summary>
 		[Description("Can only change the capitalization of a user's name!")]
 		UserNameChange,
@@ -88,7 +88,7 @@ namespace Tgstation.Server.Api.Models
 		UserSidChange,
 
 		/// <summary>
-		/// Attempted to create a <see cref="User"/> with a <see cref="Internal.User.Name"/> and <see cref="Internal.User.SystemIdentifier"/>.
+		/// Attempted to create a <see cref="User"/> with a <see cref="Internal.UserBase.Name"/> and <see cref="Internal.User.SystemIdentifier"/>.
 		/// </summary>
 		[Description("A user cannot have both a name and systemIdentifier!")]
 		UserMismatchNameSid,
@@ -106,13 +106,13 @@ namespace Tgstation.Server.Api.Models
 		UserPasswordLength,
 
 		/// <summary>
-		/// Attempted to create a <see cref="User"/> with a ':' in the <see cref="Internal.User.Name"/>.
+		/// Attempted to create a <see cref="User"/> with a ':' in the <see cref="Internal.UserBase.Name"/>.
 		/// </summary>
 		[Description("User names cannot contain the ':' character!")]
 		UserColonInName,
 
 		/// <summary>
-		/// Attempted to create a <see cref="User"/> with a <see langword="null"/> or whitespace <see cref="Internal.User.Name"/>.
+		/// Attempted to create a <see cref="User"/> with a <see langword="null"/> or whitespace <see cref="Internal.UserBase.Name"/>.
 		/// </summary>
 		[Description("User's name is missing or invalid whitespace!")]
 		UserMissingName,
