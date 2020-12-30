@@ -100,6 +100,9 @@ Properties</h2></td></tr>
 <tr class="memitem:a74a84ae6531a78ce51038f22e081bd04"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information.html#a74a84ae6531a78ce51038f22e081bd04">UserLimit</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a74a84ae6531a78ce51038f22e081bd04"><td class="mdescLeft">&#160;</td><td class="mdescRight">The maximum number of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user.html">Models.User</a>s allowed.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information.html#a74a84ae6531a78ce51038f22e081bd04">More...</a><br /></td></tr>
 <tr class="separator:a74a84ae6531a78ce51038f22e081bd04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0365b26fdbeffbd3d134d3cf25f27614"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information.html#a0365b26fdbeffbd3d134d3cf25f27614">UserGroupLimit</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a0365b26fdbeffbd3d134d3cf25f27614"><td class="mdescLeft">&#160;</td><td class="mdescRight">The maximum number of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_group.html">Models.UserGroup</a>s allowed.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information.html#a0365b26fdbeffbd3d134d3cf25f27614">More...</a><br /></td></tr>
+<tr class="separator:a0365b26fdbeffbd3d134d3cf25f27614"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1bc0807183f8654ff304e1f78d73b205"><td class="memItemLeft" align="right" valign="top">ICollection&lt; string &gt;?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information.html#a1bc0807183f8654ff304e1f78d73b205">ValidInstancePaths</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a1bc0807183f8654ff304e1f78d73b205"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_limits.html" title="Sanity limits to prevent users from overloading">Limits</a> the locations instances may be created or attached from.  <a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information.html#a1bc0807183f8654ff304e1f78d73b205">More...</a><br /></td></tr>
 <tr class="separator:a1bc0807183f8654ff304e1f78d73b205"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -134,7 +137,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_internal_2_server_information_8cs_source.html#l00018">18</a> of file <a class="el" href="_internal_2_server_information_8cs_source.html">ServerInformation.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_instance_controller_8cs_source.html#l00229">Tgstation.Server.Host.Controllers.InstanceController.Create()</a>, <a class="el" href="_general_configuration_8cs_source.html#l00100">Tgstation.Server.Host.Configuration.GeneralConfiguration.GeneralConfiguration()</a>, and <a class="el" href="_home_controller_8cs_source.html#l00162">Tgstation.Server.Host.Controllers.HomeController.Home()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_instance_controller_8cs_source.html#l00229">Tgstation.Server.Host.Controllers.InstanceController.Create()</a>, <a class="el" href="_general_configuration_8cs_source.html#l00105">Tgstation.Server.Host.Configuration.GeneralConfiguration.GeneralConfiguration()</a>, and <a class="el" href="_home_controller_8cs_source.html#l00162">Tgstation.Server.Host.Controllers.HomeController.Home()</a>.</p>
 
 </div>
 </div>
@@ -163,7 +166,36 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_internal_2_server_information_8cs_source.html#l00013">13</a> of file <a class="el" href="_internal_2_server_information_8cs_source.html">ServerInformation.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_general_configuration_8cs_source.html#l00100">Tgstation.Server.Host.Configuration.GeneralConfiguration.GeneralConfiguration()</a>, <a class="el" href="_home_controller_8cs_source.html#l00162">Tgstation.Server.Host.Controllers.HomeController.Home()</a>, and <a class="el" href="_user_controller_8cs_source.html#l00093">Tgstation.Server.Host.Controllers.UserController.TrySetPassword()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_general_configuration_8cs_source.html#l00105">Tgstation.Server.Host.Configuration.GeneralConfiguration.GeneralConfiguration()</a>, <a class="el" href="_home_controller_8cs_source.html#l00162">Tgstation.Server.Host.Controllers.HomeController.Home()</a>, and <a class="el" href="_user_controller_8cs_source.html#l00093">Tgstation.Server.Host.Controllers.UserController.TrySetPassword()</a>.</p>
+
+</div>
+</div>
+<a id="a0365b26fdbeffbd3d134d3cf25f27614"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0365b26fdbeffbd3d134d3cf25f27614">&#9670;&nbsp;</a></span>UserGroupLimit</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint Tgstation.Server.Api.Models.Internal.ServerInformation.UserGroupLimit</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The maximum number of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_group.html">Models.UserGroup</a>s allowed. </p>
+
+<p class="definition">Definition at line <a class="el" href="_internal_2_server_information_8cs_source.html#l00028">28</a> of file <a class="el" href="_internal_2_server_information_8cs_source.html">ServerInformation.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_user_group_controller_8cs_source.html#l00061">Tgstation.Server.Host.Controllers.UserGroupController.Create()</a>, <a class="el" href="_general_configuration_8cs_source.html#l00105">Tgstation.Server.Host.Configuration.GeneralConfiguration.GeneralConfiguration()</a>, and <a class="el" href="_home_controller_8cs_source.html#l00162">Tgstation.Server.Host.Controllers.HomeController.Home()</a>.</p>
 
 </div>
 </div>
@@ -192,7 +224,7 @@ Properties</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_internal_2_server_information_8cs_source.html#l00023">23</a> of file <a class="el" href="_internal_2_server_information_8cs_source.html">ServerInformation.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_general_configuration_8cs_source.html#l00100">Tgstation.Server.Host.Configuration.GeneralConfiguration.GeneralConfiguration()</a>, and <a class="el" href="_home_controller_8cs_source.html#l00162">Tgstation.Server.Host.Controllers.HomeController.Home()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_user_controller_8cs_source.html#l00117">Tgstation.Server.Host.Controllers.UserController.Create()</a>, <a class="el" href="_general_configuration_8cs_source.html#l00105">Tgstation.Server.Host.Configuration.GeneralConfiguration.GeneralConfiguration()</a>, and <a class="el" href="_home_controller_8cs_source.html#l00162">Tgstation.Server.Host.Controllers.HomeController.Home()</a>.</p>
 
 </div>
 </div>
@@ -218,8 +250,8 @@ Properties</h2></td></tr>
 
 <p><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_limits.html" title="Sanity limits to prevent users from overloading">Limits</a> the locations instances may be created or attached from. </p>
 
-<p class="definition">Definition at line <a class="el" href="_internal_2_server_information_8cs_source.html#l00028">28</a> of file <a class="el" href="_internal_2_server_information_8cs_source.html">ServerInformation.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_internal_2_server_information_8cs_source.html#l00033">33</a> of file <a class="el" href="_internal_2_server_information_8cs_source.html">ServerInformation.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="_home_controller_8cs_source.html#l00162">Tgstation.Server.Host.Controllers.HomeController.Home()</a>.</p>
 
