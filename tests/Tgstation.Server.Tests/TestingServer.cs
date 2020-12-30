@@ -80,6 +80,7 @@ namespace Tgstation.Server.Tests
 				String.Format(CultureInfo.InvariantCulture, "General:MinimumPasswordLength={0}", 10),
 				String.Format(CultureInfo.InvariantCulture, "General:InstanceLimit={0}", 11),
 				String.Format(CultureInfo.InvariantCulture, "General:UserLimit={0}", 150),
+				String.Format(CultureInfo.InvariantCulture, "General:UserGroupLimit={0}", 47),
 				String.Format(CultureInfo.InvariantCulture, "General:HostApiDocumentation={0}", DumpOpenApiSpecpath),
 				String.Format(CultureInfo.InvariantCulture, "FileLogging:Directory={0}", Path.Combine(Directory, "Logs")),
 				String.Format(CultureInfo.InvariantCulture, "FileLogging:LogLevel={0}", "Trace"),

@@ -162,6 +162,7 @@ namespace Tgstation.Server.Tests
 			Assert.AreEqual(10U, serverInfo.MinimumPasswordLength);
 			Assert.AreEqual(11U, serverInfo.InstanceLimit);
 			Assert.AreEqual(150U, serverInfo.UserLimit);
+			Assert.AreEqual(47U, serverInfo.UserGroupLimit);
 			Assert.AreEqual(RuntimeInformation.IsOSPlatform(OSPlatform.Windows), serverInfo.WindowsHost);
 
 			//check that modifying the token even slightly fucks up the auth
