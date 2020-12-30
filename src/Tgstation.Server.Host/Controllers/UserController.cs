@@ -182,10 +182,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200"><see cref="Api.Models.User"/> updated successfully.</response>
 		/// <response code="404">Requested <see cref="Api.Models.Internal.User.Id"/> does not exist.</response>
+		/// <response code="410">Requested <see cref="Api.Models.User.Group"/> does not exist.</response>
 		[HttpPost]
 		[TgsAuthorize(AdministrationRights.WriteUsers | AdministrationRights.EditOwnPassword | AdministrationRights.EditOwnOAuthConnections)]
 		[ProducesResponseType(typeof(Api.Models.User), 200)]
 		[ProducesResponseType(typeof(ErrorMessage), 404)]
+		[ProducesResponseType(typeof(ErrorMessage), 410)]
 #pragma warning disable CA1502 // TODO: Decomplexify
 #pragma warning disable CA1506
 		public async Task<IActionResult> Update([FromBody] UserUpdate model, CancellationToken cancellationToken)
