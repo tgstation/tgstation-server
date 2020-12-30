@@ -139,6 +139,14 @@ namespace Tgstation.Server.Host.Controllers
 			if (fail != null)
 				return fail;
 
+			var totalUsers = await DatabaseContext
+				.Users
+				.AsQueryable()
+				.CountAsync(cancellationToken)
+				.ConfigureAwait(false);
+			if (totalUsers >= generalConfiguration.UserLimit)
+				return Conflict(new ErrorMessage(ErrorCode.UserLimitReached));
+
 			var dbUser = await CreateNewUserFromModel(model, cancellationToken).ConfigureAwait(false);
 			if (dbUser == null)
 				return Gone();
