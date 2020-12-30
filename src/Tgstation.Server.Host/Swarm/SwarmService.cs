@@ -226,6 +226,7 @@ namespace Tgstation.Server.Host.Swarm
 			if (SwarmMode)
 			{
 				serverHealthCheckCancellationTokenSource = new CancellationTokenSource();
+				serversUpdatedTcs = new TaskCompletionSource<object>();
 				if (swarmController)
 					registrationIds = new Dictionary<string, Guid>();
 
