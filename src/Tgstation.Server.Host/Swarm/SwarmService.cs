@@ -725,7 +725,7 @@ namespace Tgstation.Server.Host.Swarm
 			}
 
 			SwarmRegistrationResult registrationResult;
-			for (var I = 1; ; ++I)
+			for (var I = 1UL; ; ++I)
 			{
 				logger.LogInformation("Swarm re-registration attempt {0}...");
 				registrationResult = await RegisterWithController(cancellationToken).ConfigureAwait(false);
