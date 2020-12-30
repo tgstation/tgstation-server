@@ -330,7 +330,6 @@ namespace Tgstation.Server.Tests
 			}
 		}
 
-#if DEBUG
 		[TestMethod]
 		public async Task TestDownMigrations()
 		{
@@ -475,7 +474,6 @@ namespace Tgstation.Server.Tests
 			await migrator.MigrateAsync(migrationName, default);
 			await context.Database.EnsureDeletedAsync();
 		}
-#endif
 
 		[TestMethod]
 		public async Task TestServer()

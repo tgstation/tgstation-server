@@ -369,27 +369,30 @@ namespace Tgstation.Server.Host.Database
 			return wasEmpty;
 		}
 
-#if DEBUG
+		// HEY YOU
+		// IF YOU HAVE A TEST THAT'S CREATING ERRORS BECAUSE THESE VALUES AREN'T SET CORRECTLY THERE'S MORE TO FIXING IT THAN JUST UPDATING THEM
+		// IN THE FUNCTION BELOW YOU ALSO NEED TO CORRECTLY SET THE RIGHT MIGRATION TO DOWNLOAD TO FOR THE LAST TGS VERSION
+		// IF THIS BREAKS AGAIN I WILL PERSONALLY HAUNT YOUR ASS WHEN I DIE
+
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
 		/// </summary>
-		public static readonly Type MSLatestMigration = typeof(MSAddSwarmIdentifer);
+		internal static readonly Type MSLatestMigration = typeof(MSAddSwarmIdentifer);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
 		/// </summary>
-		public static readonly Type MYLatestMigration = typeof(MYAddSwarmIdentifer);
+		internal static readonly Type MYLatestMigration = typeof(MYAddSwarmIdentifer);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
 		/// </summary>
-		public static readonly Type PGLatestMigration = typeof(PGAddSwarmIdentifer);
+		internal static readonly Type PGLatestMigration = typeof(PGAddSwarmIdentifer);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
 		/// </summary>
-		public static readonly Type SLLatestMigration = typeof(SLAddSwarmIdentifer);
-#endif
+		internal static readonly Type SLLatestMigration = typeof(SLAddSwarmIdentifer);
 
 		/// <inheritdoc />
 #pragma warning disable CA1502 // Cyclomatic complexity

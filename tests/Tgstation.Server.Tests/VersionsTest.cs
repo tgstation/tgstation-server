@@ -146,7 +146,6 @@ namespace Tgstation.Server.Tests
 			Assert.IsNotNull(line);
 		}
 
-#if DEBUG
 		[TestMethod]
 		public void TestDowngradeMigrations()
 		{
@@ -201,6 +200,5 @@ namespace Tgstation.Server.Tests
 			Assert.AreEqual(latestMigrationPG, DatabaseContext.PGLatestMigration);
 			Assert.AreEqual(latestMigrationSL, DatabaseContext.SLLatestMigration);
 		}
-#endif
 	}
 }
