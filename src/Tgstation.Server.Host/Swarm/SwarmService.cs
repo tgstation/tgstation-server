@@ -135,6 +135,11 @@ namespace Tgstation.Server.Host.Swarm
 		readonly bool swarmController;
 
 		/// <summary>
+		/// A <see cref="TaskCompletionSource{TResult}"/> that completes when <see cref="serversDirty"/> is set.
+		/// </summary>
+		TaskCompletionSource<object> serversUpdatedTcs;
+
+		/// <summary>
 		/// The <see cref="TaskCompletionSource{TResult}"/> that is used to proceed with committing an update.
 		/// </summary>
 		TaskCompletionSource<bool> updateCommitTcs;
@@ -690,10 +695,22 @@ namespace Tgstation.Server.Host.Swarm
 
 			lock (swarmServers)
 				if (swarmServers.Count != currentSwarmServers.Count)
-					serversDirty = true;
+					MarkServersDirty();
 
 			if (serversDirty)
 				await SendUpdatedServerListToNodes(cancellationToken).ConfigureAwait(false);
+		}
+
+		/// <summary>
+		/// Set <see cref="serversDirty"/> and complete the current <see cref="serversUpdatedTcs"/>.
+		/// </summary>
+		void MarkServersDirty()
+		{
+			var currentTcs = serversUpdatedTcs;
+			serversDirty = true;
+			if (currentTcs.TrySetResult(null))
+				logger.LogTrace("Server list is dirty!");
+			serversUpdatedTcs = new TaskCompletionSource<object>();
 		}
 
 		/// <summary>
@@ -960,10 +977,15 @@ namespace Tgstation.Server.Host.Swarm
 						: lastControllerHealthCheck.HasValue
 							? (lastControllerHealthCheck.Value.AddMinutes(NodeHealthCheckIntervalMinutes) - DateTimeOffset.UtcNow)
 							: TimeSpan.FromMinutes(NodeHealthCheckIntervalMinutes);
-					await asyncDelayer.Delay(
+					var delayTask = asyncDelayer.Delay(
 						delay,
-						cancellationToken)
-						.ConfigureAwait(false);
+						cancellationToken);
+
+					var awakeningTask = Task.WhenAny(
+						delayTask,
+						serversUpdatedTcs.Task);
+
+					await awakeningTask.ConfigureAwait(false);
 
 					if (!swarmController)
 					{
@@ -1076,7 +1098,7 @@ namespace Tgstation.Server.Host.Swarm
 			}
 
 			logger.LogInformation("Registered node {0} with ID {1}", node.Identifier, registrationId);
-			serversDirty = true;
+			MarkServersDirty();
 			return true;
 		}
 
@@ -1172,7 +1194,7 @@ namespace Tgstation.Server.Host.Swarm
 				registrationIds.Remove(nodeIdentifier);
 			}
 
-			serversDirty = true;
+			MarkServersDirty();
 		}
 	}
 }
