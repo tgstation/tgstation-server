@@ -608,5 +608,17 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("Cannot delete the user group as it is not empty!")]
 		UserGroupNotEmpty,
+
+		/// <summary>
+		/// Attempted to create an <see cref="User"/> but the configured limit has been reached.
+		/// </summary>
+		[Description("The user cannot be created because the configured limit has been reached!")]
+		UserLimitReached,
+
+		/// <summary>
+		/// Attempted to create an <see cref="UserGroup"/> but the configured limit has been reached.
+		/// </summary>
+		[Description("The user group cannot be created because the configured limit has been reached!")]
+		UserGroupLimitReached,
 	}
 }

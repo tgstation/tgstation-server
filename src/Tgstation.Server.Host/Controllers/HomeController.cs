@@ -191,6 +191,7 @@ namespace Tgstation.Server.Host.Controllers
 				MinimumPasswordLength = generalConfiguration.MinimumPasswordLength,
 				InstanceLimit = generalConfiguration.InstanceLimit,
 				UserLimit = generalConfiguration.UserLimit,
+				UserGroupLimit = generalConfiguration.UserGroupLimit,
 				ValidInstancePaths = generalConfiguration.ValidInstancePaths,
 				WindowsHost = platformIdentifier.IsWindows,
 				SwarmServers = swarmService.GetSwarmServers(),

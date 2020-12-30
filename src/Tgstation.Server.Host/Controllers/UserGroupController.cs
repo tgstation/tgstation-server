@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
 using System.Threading;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Security;
 using Z.EntityFramework.Plus;
@@ -21,14 +23,21 @@ namespace Tgstation.Server.Host.Controllers
 	public class UserGroupController : ApiController
 	{
 		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="UserGroupController"/>.
+		/// </summary>
+		readonly GeneralConfiguration generalConfiguration;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="UserGroupController"/> <see langword="clas"/>.
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		public UserGroupController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
+			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			ILogger<UserGroupController> logger)
 			: base(
 				  databaseContext,
@@ -36,6 +45,7 @@ namespace Tgstation.Server.Host.Controllers
 				  logger,
 				  true)
 		{
+			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
 		/// <summary>
@@ -55,6 +65,14 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (model.Name == null)
 				return BadRequest(new ErrorMessage(ErrorCode.ModelValidationFailure));
+
+			var totalGroups = await DatabaseContext
+				.Groups
+				.AsQueryable()
+				.CountAsync(cancellationToken)
+				.ConfigureAwait(false);
+			if (totalGroups >= generalConfiguration.UserGroupLimit)
+				return Conflict(new ErrorMessage(ErrorCode.UserGroupLimitReached));
 
 			var permissionSet = new Models.PermissionSet
 			{

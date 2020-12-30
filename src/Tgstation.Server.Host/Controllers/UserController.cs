@@ -113,6 +113,7 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpPut]
 		[TgsAuthorize(AdministrationRights.WriteUsers)]
 		[ProducesResponseType(typeof(Api.Models.User), 201)]
+#pragma warning disable CA1502, CA1506
 		public async Task<IActionResult> Create([FromBody] UserUpdate model, CancellationToken cancellationToken)
 		{
 			if (model == null)
@@ -138,6 +139,14 @@ namespace Tgstation.Server.Host.Controllers
 			var fail = CheckValidName(model, true);
 			if (fail != null)
 				return fail;
+
+			var totalUsers = await DatabaseContext
+				.Users
+				.AsQueryable()
+				.CountAsync(cancellationToken)
+				.ConfigureAwait(false);
+			if (totalUsers >= generalConfiguration.UserLimit)
+				return Conflict(new ErrorMessage(ErrorCode.UserLimitReached));
 
 			var dbUser = await CreateNewUserFromModel(model, cancellationToken).ConfigureAwait(false);
 			if (dbUser == null)
@@ -173,6 +182,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			return Created(dbUser.ToApi(true));
 		}
+#pragma warning restore CA1502, CA1506
 
 		/// <summary>
 		/// Update a <see cref="Api.Models.User"/>.
@@ -182,10 +192,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200"><see cref="Api.Models.User"/> updated successfully.</response>
 		/// <response code="404">Requested <see cref="Api.Models.Internal.User.Id"/> does not exist.</response>
+		/// <response code="410">Requested <see cref="Api.Models.User.Group"/> does not exist.</response>
 		[HttpPost]
 		[TgsAuthorize(AdministrationRights.WriteUsers | AdministrationRights.EditOwnPassword | AdministrationRights.EditOwnOAuthConnections)]
 		[ProducesResponseType(typeof(Api.Models.User), 200)]
 		[ProducesResponseType(typeof(ErrorMessage), 404)]
+		[ProducesResponseType(typeof(ErrorMessage), 410)]
 #pragma warning disable CA1502 // TODO: Decomplexify
 #pragma warning disable CA1506
 		public async Task<IActionResult> Update([FromBody] UserUpdate model, CancellationToken cancellationToken)
