@@ -409,9 +409,9 @@ namespace Tgstation.Server.Host.Controllers
 					.ToList();
 
 			return Json(
-				new Paginated<TModel>
+				new Paginated<TResultModel>
 				{
-					Content = pagedResults,
+					Content = finalResults,
 					PageSize = pageSize,
 					TotalPages = (ushort)((totalResults % pageSize) + 1)
 				});
