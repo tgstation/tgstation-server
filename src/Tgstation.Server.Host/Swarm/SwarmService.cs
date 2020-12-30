@@ -282,8 +282,20 @@ namespace Tgstation.Server.Host.Swarm
 					SwarmConstants.UpdateRoute,
 					null);
 
-				using var response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
-				response.EnsureSuccessStatusCode();
+				try
+				{
+					using var response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+					response.EnsureSuccessStatusCode();
+				}
+				catch (Exception ex)
+				{
+					logger.LogWarning(
+						ex,
+						"Unable to set remote abort to {0}!",
+						swarmController
+							? $"node {swarmServer.Identifier}"
+							: "controller");
+				}
 			}
 
 			Task task;
@@ -709,9 +721,9 @@ namespace Tgstation.Server.Host.Swarm
 		{
 			var currentTcs = serversUpdatedTcs;
 			serversDirty = true;
+			serversUpdatedTcs = new TaskCompletionSource<object>();
 			if (currentTcs.TrySetResult(null))
 				logger.LogTrace("Server list is dirty!");
-			serversUpdatedTcs = new TaskCompletionSource<object>();
 		}
 
 		/// <summary>
