@@ -113,6 +113,7 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpPut]
 		[TgsAuthorize(AdministrationRights.WriteUsers)]
 		[ProducesResponseType(typeof(Api.Models.User), 201)]
+#pragma warning disable CA1502, CA1506
 		public async Task<IActionResult> Create([FromBody] UserUpdate model, CancellationToken cancellationToken)
 		{
 			if (model == null)
@@ -181,6 +182,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			return Created(dbUser.ToApi(true));
 		}
+#pragma warning restore CA1502, CA1506
 
 		/// <summary>
 		/// Update a <see cref="Api.Models.User"/>.
