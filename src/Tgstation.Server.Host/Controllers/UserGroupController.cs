@@ -94,7 +94,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Update a new <see cref="UserGroup"/>.
+		/// Update a <see cref="UserGroup"/>.
 		/// </summary>
 		/// <param name="model">The <see cref="UserGroup"/> to update.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
