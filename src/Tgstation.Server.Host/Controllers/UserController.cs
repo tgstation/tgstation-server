@@ -225,6 +225,7 @@ namespace Tgstation.Server.Host.Controllers
 					.Include(x => x.CreatedBy)
 					.Include(x => x.OAuthConnections)
 					.Include(x => x.Group)
+						.ThenInclude(x => x.PermissionSet)
 					.Include(x => x.PermissionSet)
 					.FirstOrDefaultAsync(cancellationToken)
 					.ConfigureAwait(false);
@@ -375,8 +376,10 @@ namespace Tgstation.Server.Host.Controllers
 							.AsQueryable()
 							.Where(x => x.CanonicalName != Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
 							.Include(x => x.CreatedBy)
+							.Include(x => x.PermissionSet)
 							.Include(x => x.OAuthConnections)
-							.Include(x => x.Group))),
+							.Include(x => x.Group)
+								.ThenInclude(x => x.PermissionSet))),
 				null,
 				page,
 				pageSize,
@@ -408,6 +411,8 @@ namespace Tgstation.Server.Host.Controllers
 				.Include(x => x.CreatedBy)
 				.Include(x => x.OAuthConnections)
 				.Include(x => x.Group)
+					.ThenInclude(x => x.PermissionSet)
+				.Include(x => x.PermissionSet)
 				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (user == default)
 				return NotFound();
