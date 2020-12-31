@@ -136,6 +136,12 @@ namespace Tgstation.Server.Host.Controllers
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
+			if (!AuthenticationContext.PermissionSet.AdministrationRights.Value.HasFlag(AdministrationRights.ReadUsers))
+				return Json(new UserGroup
+				{
+					Id = currentGroup.Id
+				});
+
 			return Json(currentGroup.ToApi(true));
 		}
 
