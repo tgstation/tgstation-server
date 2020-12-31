@@ -164,7 +164,7 @@ namespace Tgstation.Server.Tests
 			{
 				Id = testUser2.Id,
 				PermissionSet = testUser2.PermissionSet,
-				Group = new UserGroup
+				Group = new Api.Models.Internal.UserGroup
 				{
 					Id = group.Id
 				},
