@@ -148,7 +148,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="200">Retrieve <see cref="UserGroup"/> successfully.</response>
 		/// <response code="410">The requested <see cref="UserGroup"/> does not currently exist.</response>
 		[HttpGet("{id}")]
-		[TgsAuthorize(InstancePermissionSetRights.Read)]
+		[TgsAuthorize(AdministrationRights.ReadUsers)]
 		[ProducesResponseType(typeof(UserGroup), 200)]
 		[ProducesResponseType(typeof(ErrorMessage), 410)]
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
@@ -168,7 +168,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Lists <see cref="UserGroup"/>s for the instance.
+		/// Lists all <see cref="UserGroup"/>s.
 		/// </summary>
 		/// <param name="page">The current page.</param>
 		/// <param name="pageSize">The page size.</param>
@@ -176,7 +176,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Retrieved <see cref="UserGroup"/>s successfully.</response>
 		[HttpGet(Routes.List)]
-		[TgsAuthorize(InstancePermissionSetRights.Read)]
+		[TgsAuthorize(AdministrationRights.ReadUsers)]
 		[ProducesResponseType(typeof(Paginated<UserGroup>), 200)]
 		public Task<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
 			=> Paginated<Models.UserGroup, UserGroup>(
@@ -202,7 +202,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="409">The <see cref="UserGroup"/> is not empty.</response>
 		/// <response code="410">The <see cref="UserGroup"/> didn't exist.</response>
 		[HttpDelete("{id}")]
-		[TgsAuthorize(InstancePermissionSetRights.Write)]
+		[TgsAuthorize(AdministrationRights.WriteUsers)]
 		[ProducesResponseType(204)]
 		[ProducesResponseType(typeof(ErrorMessage), 409)]
 		[ProducesResponseType(typeof(ErrorMessage), 410)]
