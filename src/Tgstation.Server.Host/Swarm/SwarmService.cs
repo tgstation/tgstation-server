@@ -135,9 +135,9 @@ namespace Tgstation.Server.Host.Swarm
 		readonly bool swarmController;
 
 		/// <summary>
-		/// A <see cref="TaskCompletionSource{TResult}"/> that completes when <see cref="serversDirty"/> is set.
+		/// A <see cref="TaskCompletionSource{TResult}"/> that is used to force a health check.
 		/// </summary>
-		TaskCompletionSource<object> serversUpdatedTcs;
+		TaskCompletionSource<object> forceHealthCheckTcs;
 
 		/// <summary>
 		/// The <see cref="TaskCompletionSource{TResult}"/> that is used to proceed with committing an update.
@@ -226,7 +226,7 @@ namespace Tgstation.Server.Host.Swarm
 			if (SwarmMode)
 			{
 				serverHealthCheckCancellationTokenSource = new CancellationTokenSource();
-				serversUpdatedTcs = new TaskCompletionSource<object>();
+				forceHealthCheckTcs = new TaskCompletionSource<object>();
 				if (swarmController)
 					registrationIds = new Dictionary<string, Guid>();
 
@@ -310,8 +310,7 @@ namespace Tgstation.Server.Host.Swarm
 					task = Task.WhenAll(
 						swarmServers
 							.Where(x => !x.Controller)
-							.Select(
-								x => SendRemoteAbort(x)));
+							.Select(SendRemoteAbort));
 			}
 
 			await task.ConfigureAwait(false);
@@ -416,8 +415,7 @@ namespace Tgstation.Server.Host.Swarm
 				task = Task.WhenAll(
 					swarmServers
 						.Where(x => !x.Controller)
-						.Select(
-							x => SendRemoteCommitUpdate(x)));
+						.Select(SendRemoteCommitUpdate));
 
 			await task.ConfigureAwait(false);
 			return true;
@@ -562,7 +560,7 @@ namespace Tgstation.Server.Host.Swarm
 							.Select(x => x.Identifier));
 					tasks = swarmServers
 							.Where(x => !x.Controller)
-							.Select(x => RemotePrepareUpdate(x))
+							.Select(RemotePrepareUpdate)
 							.ToList();
 				}
 
@@ -600,61 +598,102 @@ namespace Tgstation.Server.Host.Swarm
 
 			var _ = lazyRestartRegistration.Value;
 
+			SwarmRegistrationResult result;
 			if (swarmController)
 			{
 				await databaseContextFactory.UseContext(
 					databaseContext => databaseSeeder.Initialize(databaseContext, cancellationToken))
 					.ConfigureAwait(false);
-				if (SwarmMode)
-					serverHealthCheckTask = HealthCheckLoop(serverHealthCheckCancellationTokenSource.Token);
 
-				return SwarmRegistrationResult.Success;
+				result = SwarmRegistrationResult.Success;
 			}
+			else
+				result = await RegisterWithController(cancellationToken).ConfigureAwait(false);
 
-			return await RegisterWithController(cancellationToken).ConfigureAwait(false);
+			if (SwarmMode && result == SwarmRegistrationResult.Success)
+				serverHealthCheckTask = HealthCheckLoop(serverHealthCheckCancellationTokenSource.Token);
+
+			return result;
 		}
 
 		/// <inheritdoc />
 		public async Task Shutdown(CancellationToken cancellationToken)
 		{
+			async Task SendUnregistrationRequest(SwarmServer swarmServer)
+			{
+				using var httpClient = httpClientFactory.CreateClient();
+				using var request = PrepareSwarmRequest(
+					swarmServer,
+					HttpMethod.Delete,
+					SwarmConstants.RegisterRoute,
+					null);
+
+				try
+				{
+					using var response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+					response.EnsureSuccessStatusCode();
+				}
+				catch (Exception ex)
+				{
+					logger.LogWarning(
+						ex,
+						"Error unregistering {0}!",
+						swarmController
+							? $"node {swarmServer.Identifier}"
+							: "from controller");
+				}
+			}
+
+			if (serverHealthCheckTask != null)
+			{
+				serverHealthCheckCancellationTokenSource.Cancel();
+				await serverHealthCheckTask.ConfigureAwait(false);
+			}
+
+			if (!swarmController)
+			{
+				// if we restart a node, we don't want to unregister it so the controller doesn't try to update without it
+				// if we're shutting it down, though we should unregister it
+				if (!restarting)
+				{
+					logger.LogInformation("Unregistering from swarm controller...");
+					await SendUnregistrationRequest(null);
+				}
+				else
+					logger.LogTrace("Not unregistering from swarm controller as we are restarting");
+
+				return;
+			}
+
 			// downgrade the db if necessary
-			if (swarmController)
+			if (targetUpdateVersion != null
+				&& targetUpdateVersion < assemblyInformationProvider.Version)
+				await databaseContextFactory.UseContext(
+					db => databaseSeeder.Downgrade(db, targetUpdateVersion, cancellationToken))
+					.ConfigureAwait(false);
+
+			if (SwarmMode)
 			{
-				serverHealthCheckCancellationTokenSource?.Cancel();
-				if (serverHealthCheckTask != null)
-					await serverHealthCheckTask.ConfigureAwait(false);
+				// Put the nodes into a reconnecting state
+				if (targetUpdateVersion == null)
+				{
+					logger.LogInformation("Unregistering nodes...");
+					Task task;
+					lock (swarmServers)
+					{
+						task = Task.WhenAll(
+							swarmServers
+								.Where(x => !x.Controller)
+								.Select(SendUnregistrationRequest));
+						swarmServers.RemoveRange(1, swarmServers.Count - 1);
+						registrationIds.Clear();
+					}
 
-				if (targetUpdateVersion != null
-					&& targetUpdateVersion < assemblyInformationProvider.Version)
-					await databaseContextFactory.UseContext(
-						db => databaseSeeder.Downgrade(db, targetUpdateVersion, cancellationToken))
-						.ConfigureAwait(false);
+					await task.ConfigureAwait(false);
+				}
 
-				// we don't tell nodes about us unregistering, they'll try to reconnect eventually.
-				if (SwarmMode)
-					logger.LogTrace("Swarm controller shutdown");
-
-				return;
+				logger.LogTrace("Swarm controller shutdown");
 			}
-
-			// if we restart a node, we don't want to unregister it so the controller doesn't try to update without it
-			// if we're shutting it down, though we should unregister it
-			if (restarting)
-			{
-				logger.LogTrace("Not unregistering from swarm controller as we are restarting");
-				return;
-			}
-
-			logger.LogInformation("Unregistering from swarm controller...");
-			using var httpClient = httpClientFactory.CreateClient();
-			using var request = PrepareSwarmRequest(
-				null,
-				HttpMethod.Delete,
-				SwarmConstants.RegisterRoute,
-				null);
-
-			using var response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
-			response.EnsureSuccessStatusCode();
 		}
 
 		/// <summary>
@@ -684,7 +723,7 @@ namespace Tgstation.Server.Host.Swarm
 					response.EnsureSuccessStatusCode();
 					return;
 				}
-				catch (Exception ex)
+				catch (Exception ex) when (!(ex is OperationCanceledException))
 				{
 					logger.LogWarning(
 						ex,
@@ -702,8 +741,7 @@ namespace Tgstation.Server.Host.Swarm
 			await Task.WhenAll(
 				currentSwarmServers
 					.Where(x => !x.Controller)
-					.Select(
-						x => HealthRequestForServer(x)))
+					.Select(HealthRequestForServer))
 					.ConfigureAwait(false);
 
 			lock (swarmServers)
@@ -715,15 +753,24 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <summary>
-		/// Set <see cref="serversDirty"/> and complete the current <see cref="serversUpdatedTcs"/>.
+		/// Set <see cref="serversDirty"/> and complete the current <see cref="forceHealthCheckTcs"/>.
 		/// </summary>
 		void MarkServersDirty()
 		{
-			var currentTcs = serversUpdatedTcs;
 			serversDirty = true;
-			serversUpdatedTcs = new TaskCompletionSource<object>();
-			if (currentTcs.TrySetResult(null))
+			if(TriggerHealthCheck())
 				logger.LogTrace("Server list is dirty!");
+		}
+
+		/// <summary>
+		/// Complete the current <see cref="forceHealthCheckTcs"/>.
+		/// </summary>
+		/// <returns><see langword="true"/> the result of the call to <see cref="TaskCompletionSource{TResult}.TrySetResult(TResult)"/>.</returns>
+		bool TriggerHealthCheck()
+		{
+			var currentTcs = forceHealthCheckTcs;
+			forceHealthCheckTcs = new TaskCompletionSource<object>();
+			return currentTcs.TrySetResult(null);
 		}
 
 		/// <summary>
@@ -733,31 +780,31 @@ namespace Tgstation.Server.Host.Swarm
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
 		async Task HealthCheckController(CancellationToken cancellationToken)
 		{
-			using var request = PrepareSwarmRequest(
-				null,
-				HttpMethod.Get,
-				String.Empty,
-				null);
 			using var httpClient = httpClientFactory.CreateClient();
 
-			try
-			{
-				using var response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
-				response.EnsureSuccessStatusCode();
-				logger.LogTrace("Health check successful");
-				return;
-			}
-			catch (Exception ex)
-			{
-				logger.LogWarning(ex, "Error during swarm controller health check! Attempting to re-register...");
-				controllerRegistration = null;
-				lastControllerHealthCheck = null;
-			}
+			if (controllerRegistration.HasValue)
+				try
+				{
+					using var request = PrepareSwarmRequest(
+						null,
+						HttpMethod.Get,
+						String.Empty,
+						null);
+					using var response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+					response.EnsureSuccessStatusCode();
+					logger.LogTrace("Controller health check successful");
+					return;
+				}
+				catch (Exception ex)
+				{
+					logger.LogWarning(ex, "Error during swarm controller health check! Attempting to re-register...");
+					controllerRegistration = null;
+				}
 
 			SwarmRegistrationResult registrationResult;
 			for (var I = 1UL; ; ++I)
 			{
-				logger.LogInformation("Swarm re-registration attempt {0}...");
+				logger.LogInformation("Swarm re-registration attempt {0}...", I);
 				registrationResult = await RegisterWithController(cancellationToken).ConfigureAwait(false);
 
 				if (registrationResult == SwarmRegistrationResult.Success)
@@ -771,7 +818,7 @@ namespace Tgstation.Server.Host.Swarm
 
 				if (registrationResult == SwarmRegistrationResult.VersionMismatch)
 				{
-					logger.LogError("Swarm Re-registration failed, controller's TGS version has changed!");
+					logger.LogError("Swarm re-registration failed, controller's TGS version has changed!");
 					break;
 				}
 			}
@@ -871,7 +918,7 @@ namespace Tgstation.Server.Host.Swarm
 					using var response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
 					response.EnsureSuccessStatusCode();
 				}
-				catch (Exception ex)
+				catch (Exception ex) when (!(ex is OperationCanceledException))
 				{
 					logger.LogWarning(ex, "Error during swarm server list update for node '{0}'! Unregistering...", swarmServer.Identifier);
 
@@ -886,7 +933,7 @@ namespace Tgstation.Server.Host.Swarm
 			await Task.WhenAll(
 				currentSwarmServers
 					.Where(x => !x.Controller)
-					.Select(x => UpdateRequestForServer(x)))
+					.Select(UpdateRequestForServer))
 				.ConfigureAwait(false);
 			serversDirty = false;
 		}
@@ -983,28 +1030,39 @@ namespace Tgstation.Server.Host.Swarm
 			logger.LogTrace("Starting HealthCheckLoop...");
 			try
 			{
+				var nextForceHealthCheckTask = forceHealthCheckTcs.Task;
 				while (!cancellationToken.IsCancellationRequested)
 				{
-					var delay = swarmController
-						? TimeSpan.FromMinutes(ControllerHealthCheckIntervalMinutes)
-						: lastControllerHealthCheck.HasValue
-							? (lastControllerHealthCheck.Value.AddMinutes(NodeHealthCheckIntervalMinutes) - DateTimeOffset.UtcNow)
-							: TimeSpan.FromMinutes(NodeHealthCheckIntervalMinutes);
+					TimeSpan delay;
+					if (swarmController)
+						delay = TimeSpan.FromMinutes(ControllerHealthCheckIntervalMinutes);
+					else
+					{
+						delay = TimeSpan.FromMinutes(NodeHealthCheckIntervalMinutes);
+						if (lastControllerHealthCheck.HasValue)
+						{
+							var recommendedTimeOfNextCheck = lastControllerHealthCheck.Value + delay;
+
+							if (recommendedTimeOfNextCheck > DateTimeOffset.UtcNow)
+								delay = recommendedTimeOfNextCheck - DateTimeOffset.UtcNow;
+						}
+					}
+
 					var delayTask = asyncDelayer.Delay(
 						delay,
 						cancellationToken);
 
 					var awakeningTask = Task.WhenAny(
 						delayTask,
-						serversUpdatedTcs.Task);
+						nextForceHealthCheckTask);
 
 					await awakeningTask.ConfigureAwait(false);
 
-					if (!swarmController)
+					if (!swarmController && !nextForceHealthCheckTask.IsCompleted)
 					{
 						if (!lastControllerHealthCheck.HasValue)
 						{
-							logger.LogTrace("Not registered with controller, skipping health check.");
+							logger.LogTrace("Not initially registered with controller, skipping health check.");
 							continue; // unregistered
 						}
 
@@ -1014,6 +1072,8 @@ namespace Tgstation.Server.Host.Swarm
 							continue;
 						}
 					}
+
+					nextForceHealthCheckTask = forceHealthCheckTcs.Task;
 
 					logger.LogDebug("Performing swarm health check...");
 					try
@@ -1192,7 +1252,13 @@ namespace Tgstation.Server.Host.Swarm
 		public async Task UnregisterNode(Guid registrationId, CancellationToken cancellationToken)
 		{
 			if (!swarmController)
-				throw new InvalidOperationException("Cannot UnregisterNode on swarm node!");
+			{
+				// immediately trigger a health check
+				logger.LogInformation("Controller unregistering, will attempt re-registration...");
+				controllerRegistration = null;
+				TriggerHealthCheck();
+				return;
+			}
 
 			logger.LogTrace("UnregisterNode {0}", registrationId);
 			var nodeIdentifier = NodeIdentifierFromRegistration(registrationId);
