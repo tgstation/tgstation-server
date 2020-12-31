@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.System;
@@ -6,7 +7,7 @@ using Tgstation.Server.Host.System;
 namespace Tgstation.Server.Host.Setup
 {
 	/// <inheritdoc />
-	sealed class PostSetupServices : IPostSetupServices
+	sealed class PostSetupServices<TLoggerType> : IPostSetupServices<TLoggerType>
 	{
 		/// <inheritdoc />
 		public IPlatformIdentifier PlatformIdentifier { get; }
@@ -18,7 +19,13 @@ namespace Tgstation.Server.Host.Setup
 		public DatabaseConfiguration DatabaseConfiguration => databaseConfigurationOptions.Value;
 
 		/// <inheritdoc />
+		public SecurityConfiguration SecurityConfiguration => securityConfigurationOptions.Value;
+
+		/// <inheritdoc />
 		public FileLoggingConfiguration FileLoggingConfiguration => fileLoggingConfigurationOptions.Value;
+
+		/// <inheritdoc />
+		public ILogger<TLoggerType> Logger { get; }
 
 		/// <summary>
 		/// Backing <see cref="IOptions{TOptions}"/> for <see cref="GeneralConfiguration"/>.
@@ -31,26 +38,40 @@ namespace Tgstation.Server.Host.Setup
 		readonly IOptions<DatabaseConfiguration> databaseConfigurationOptions;
 
 		/// <summary>
+		/// Backing <see cref="IOptions{TOptions}"/> for <see cref="SecurityConfiguration"/>.
+		/// </summary>
+		readonly IOptions<SecurityConfiguration> securityConfigurationOptions;
+
+		/// <summary>
 		/// Backing <see cref="IOptions{TOptions}"/> for <see cref="FileLoggingConfiguration"/>.
 		/// </summary>
 		readonly IOptions<FileLoggingConfiguration> fileLoggingConfigurationOptions;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="PostSetupServices"/> <see langword="class"/>.
+		/// Initializes a new instance of the <see cref="PostSetupServices{TLoggerType}"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="platformIdentifier">The value of <see cref="PlatformIdentifier"/>.</param>
+		/// <param name="loggerFactory">The <see cref="ILoggerFactory"/> used to create <see cref="Logger"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="GeneralConfiguration"/>.</param>
 		/// <param name="databaseConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="DatabaseConfiguration"/>.</param>
+		/// <param name="securityConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="SecurityConfiguration"/>.</param>
 		/// <param name="fileLoggingConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="FileLoggingConfiguration"/>.</param>
 		public PostSetupServices(
 			IPlatformIdentifier platformIdentifier,
+			ILoggerFactory loggerFactory,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			IOptions<DatabaseConfiguration> databaseConfigurationOptions,
+			IOptions<SecurityConfiguration> securityConfigurationOptions,
 			IOptions<FileLoggingConfiguration> fileLoggingConfigurationOptions)
 		{
 			PlatformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
+			if (loggerFactory == null)
+				throw new ArgumentNullException(nameof(loggerFactory));
+
+			Logger = loggerFactory.CreateLogger<TLoggerType>();
 			this.generalConfigurationOptions = generalConfigurationOptions ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 			this.databaseConfigurationOptions = databaseConfigurationOptions ?? throw new ArgumentNullException(nameof(databaseConfigurationOptions));
+			this.securityConfigurationOptions = securityConfigurationOptions ?? throw new ArgumentNullException(nameof(securityConfigurationOptions));
 			this.fileLoggingConfigurationOptions = fileLoggingConfigurationOptions ?? throw new ArgumentNullException(nameof(fileLoggingConfigurationOptions));
 		}
 	}

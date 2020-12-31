@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
@@ -11,14 +11,14 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// The revision sha
 		/// </summary>
 		[Required]
-		[StringLength(40)]
-		public string CommitSha { get; set; }
+		[StringLength(Limits.MaximumCommitShaLength)]
+		public string? CommitSha { get; set; }
 
 		/// <summary>
 		/// The sha of the most recent remote commit
 		/// </summary>
 		[Required]
-		[StringLength(40)]
-		public string OriginCommitSha { get; set; }
+		[StringLength(Limits.MaximumCommitShaLength)]
+		public string? OriginCommitSha { get; set; }
 	}
 }

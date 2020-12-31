@@ -6,6 +6,6 @@
 		/// <summary>
 		/// The <see cref="User"/> who created the <see cref="TestMerge"/>
 		/// </summary>
-		public User MergedBy { get; set; }
+		public User? MergedBy { get; set; }
 	}
 }

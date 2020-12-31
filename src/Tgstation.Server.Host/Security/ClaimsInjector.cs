@@ -9,18 +9,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Rights;
-using Tgstation.Server.Host.Database;
 
 namespace Tgstation.Server.Host.Security
 {
 	/// <inheritdoc />
 	sealed class ClaimsInjector : IClaimsInjector
 	{
-		/// <summary>
-		/// The <see cref="IDatabaseContext"/> for the <see cref="ClaimsInjector"/>
-		/// </summary>
-		readonly IDatabaseContext databaseContext;
-
 		/// <summary>
 		/// The <see cref="IAuthenticationContextFactory"/> for the <see cref="ClaimsInjector"/>
 		/// </summary>
@@ -29,11 +23,9 @@ namespace Tgstation.Server.Host.Security
 		/// <summary>
 		/// Construct a <see cref="ClaimsInjector"/>
 		/// </summary>
-		/// <param name="databaseContext">The value of <see cref="databaseContext"/></param>
 		/// <param name="authenticationContextFactory">The value of <see cref="authenticationContextFactory"/></param>
-		public ClaimsInjector(IDatabaseContext databaseContext, IAuthenticationContextFactory authenticationContextFactory)
+		public ClaimsInjector(IAuthenticationContextFactory authenticationContextFactory)
 		{
-			this.databaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
 			this.authenticationContextFactory = authenticationContextFactory ?? throw new ArgumentNullException(nameof(authenticationContextFactory));
 		}
 
@@ -63,14 +55,19 @@ namespace Tgstation.Server.Host.Security
 			{
 				apiHeaders = new ApiHeaders(tokenValidatedContext.HttpContext.Request.GetTypedHeaders());
 			}
-			catch (InvalidOperationException)
+			catch (HeadersException)
 			{
 				// we are not responsible for handling header validation issues
 				return;
 			}
 
 			// This populates the CurrentAuthenticationContext field for use by us and subsequent controllers
-			await authenticationContextFactory.CreateAuthenticationContext(userId, apiHeaders.InstanceId, tokenValidatedContext.SecurityToken.ValidFrom, cancellationToken).ConfigureAwait(false);
+			await authenticationContextFactory.CreateAuthenticationContext(
+				userId,
+				apiHeaders.InstanceId,
+				tokenValidatedContext.SecurityToken.ValidFrom,
+				cancellationToken)
+				.ConfigureAwait(false);
 
 			var authenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
 
@@ -81,9 +78,12 @@ namespace Tgstation.Server.Host.Security
 				// if there's no instance user, do a weird thing and add all the instance roles
 				// we need it so we can get to OnActionExecutionAsync where we can properly decide between BadRequest and Forbid
 				// if user is null that means they got the token with an expired password
-				var rightInt = authenticationContext.User == null || (RightsHelper.IsInstanceRight(I) && authenticationContext.InstanceUser == null) ? ~0U : authenticationContext.GetRight(I);
+				var rightAsULong = authenticationContext.User == null
+					|| (RightsHelper.IsInstanceRight(I) && authenticationContext.InstancePermissionSet == null)
+					? ~0UL
+					: authenticationContext.GetRight(I);
 				var rightEnum = RightsHelper.RightToType(I);
-				var right = (Enum)Enum.ToObject(rightEnum, rightInt);
+				var right = (Enum)Enum.ToObject(rightEnum, rightAsULong);
 				foreach (Enum J in Enum.GetValues(rightEnum))
 					if (right.HasFlag(J))
 						claims.Add(new Claim(ClaimTypes.Role, RightsHelper.RoleName(I, J)));

@@ -1,10 +1,11 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Microsoft.Win32.SafeHandles;
 using System;
 using System.DirectoryServices.AccountManagement;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Security
@@ -70,7 +71,7 @@ namespace Tgstation.Server.Host.Security
 				}
 				catch (Exception e)
 				{
-					logger.LogWarning("Error loading user for context type {0}! Exception: {1}", contextType, e);
+					logger.LogWarning(e, "Error loading user for context type {0}!", contextType);
 				}
 				finally
 				{
@@ -88,7 +89,7 @@ namespace Tgstation.Server.Host.Security
 				return null;
 			return (ISystemIdentity)new WindowsSystemIdentity(principal);
 		},
-			cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public Task<ISystemIdentity> CreateSystemIdentity(string username, string password, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
@@ -110,8 +111,10 @@ namespace Tgstation.Server.Host.Security
 
 			logger.LogTrace("Authenticated username {0} using system identity!", originalUsername);
 
-			using (var handle = new SafeAccessTokenHandle(token)) // checked internally, windows identity always duplicates the handle when constructed with a userToken
-				return (ISystemIdentity)new WindowsSystemIdentity(new WindowsIdentity(handle.DangerousGetHandle()));   // https://github.com/dotnet/corefx/blob/6ed61acebe3214fcf79b4274f2bb9b55c0604a4d/src/System.Security.Principal.Windows/src/System/Security/Principal/WindowsIdentity.cs#L271
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+			// checked internally, windows identity always duplicates the handle when constructed
+			using var handle = new SafeAccessTokenHandle(token);
+			return (ISystemIdentity)new WindowsSystemIdentity(
+				new WindowsIdentity(handle.DangerousGetHandle()));   // https://github.com/dotnet/corefx/blob/6ed61acebe3214fcf79b4274f2bb9b55c0604a4d/src/System.Security.Principal.Windows/src/System/Security/Principal/WindowsIdentity.cs#L271
+		}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 	}
 }

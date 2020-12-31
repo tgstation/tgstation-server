@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Tgstation.Server.Host.Database
 {
@@ -48,9 +47,7 @@ namespace Tgstation.Server.Host.Database
 		public void Attach(TModel model) => dbSet.Attach(model);
 
 		/// <inheritdoc />
-		public Task ForEachAsync(Action<TModel> action, CancellationToken cancellationToken) => dbSet
-			.AsAsyncEnumerable()
-			.ForEachAsync(action, cancellationToken);
+		public IAsyncEnumerator<TModel> GetAsyncEnumerator(CancellationToken cancellationToken = default) => dbSet.AsAsyncEnumerable().GetAsyncEnumerator(cancellationToken);
 
 		/// <inheritdoc />
 		public IEnumerator<TModel> GetEnumerator() => dbSet.AsQueryable().GetEnumerator();
@@ -60,9 +57,6 @@ namespace Tgstation.Server.Host.Database
 
 		/// <inheritdoc />
 		public void RemoveRange(IEnumerable<TModel> models) => dbSet.RemoveRange(models);
-
-		/// <inheritdoc />
-		public Task<List<TModel>> ToListAsync(CancellationToken cancellationToken) => dbSet.AsQueryable().ToListAsync(cancellationToken);
 
 		/// <inheritdoc />
 		IEnumerator IEnumerable.GetEnumerator() => dbSet.AsQueryable().GetEnumerator();

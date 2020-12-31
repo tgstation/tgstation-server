@@ -1,6 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Tgstation.Server.Host.Components.Chat.Commands;
 using Tgstation.Server.Host.Components.Chat.Providers;
 using Tgstation.Server.Host.Core;
@@ -38,7 +39,11 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <param name="serverControl">The value of <see cref="serverControl"/></param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
 		/// <param name="loggerFactory">The value of <see cref="loggerFactory"/></param>
-		public ChatManagerFactory(IProviderFactory providerFactory, IServerControl serverControl, IAsyncDelayer asyncDelayer, ILoggerFactory loggerFactory)
+		public ChatManagerFactory(
+			IProviderFactory providerFactory,
+			IServerControl serverControl,
+			IAsyncDelayer asyncDelayer,
+			ILoggerFactory loggerFactory)
 		{
 			this.providerFactory = providerFactory ?? throw new ArgumentNullException(nameof(providerFactory));
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
@@ -47,6 +52,18 @@ namespace Tgstation.Server.Host.Components.Chat
 		}
 
 		/// <inheritdoc />
-		public IChatManager CreateChatManager(IIOManager ioManager, ICommandFactory commandFactory, IEnumerable<Models.ChatBot> initialChatBots) => new ChatManager(providerFactory, ioManager, commandFactory, serverControl, asyncDelayer, loggerFactory, loggerFactory.CreateLogger<ChatManager>(), initialChatBots);
+		public IChatManager CreateChatManager(
+			IIOManager ioManager,
+			ICommandFactory commandFactory,
+			IEnumerable<Models.ChatBot> initialChatBots)
+			=> new ChatManager(
+				providerFactory,
+				ioManager,
+				commandFactory,
+				serverControl,
+				asyncDelayer,
+				loggerFactory,
+				loggerFactory.CreateLogger<ChatManager>(),
+				initialChatBots.Where(x => x.Enabled.Value));
 	}
 }

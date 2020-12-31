@@ -10,7 +10,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The value of the JWT
 		/// </summary>
-		public string Bearer { get; set; }
+		public string? Bearer { get; set; }
 
 		/// <summary>
 		/// When the <see cref="Token"/> expires

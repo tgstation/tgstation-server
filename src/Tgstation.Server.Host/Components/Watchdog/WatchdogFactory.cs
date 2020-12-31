@@ -1,13 +1,14 @@
-﻿using Byond.TopicSender;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.Components.Deployment.Remote;
+using Tgstation.Server.Host.Components.Events;
+using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
-using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 
@@ -25,16 +26,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// The <see cref="ILoggerFactory"/> for the <see cref="WatchdogFactory"/>
 		/// </summary>
 		protected ILoggerFactory LoggerFactory { get; }
-
-		/// <summary>
-		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="WatchdogFactory"/>
-		/// </summary>
-		protected IDatabaseContextFactory DatabaseContextFactory { get; }
-
-		/// <summary>
-		/// The <see cref="IByondTopicSender"/> for the <see cref="WatchdogFactory"/>
-		/// </summary>
-		protected IByondTopicSender ByondTopicSender { get; }
 
 		/// <summary>
 		/// The <see cref="IJobManager"/> for the <see cref="WatchdogFactory"/>
@@ -56,88 +47,49 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		/// <param name="serverControl">The value of <see cref="ServerControl"/></param>
 		/// <param name="loggerFactory">The value of <see cref="LoggerFactory"/></param>
-		/// <param name="databaseContextFactory">The value of <see cref="DatabaseContextFactory"/></param>
-		/// <param name="byondTopicSender">The value of <see cref="ByondTopicSender"/></param>
 		/// <param name="jobManager">The value of <see cref="JobManager"/></param>
 		/// <param name="asyncDelayer">The value of <see cref="AsyncDelayer"/></param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="GeneralConfiguration"/></param>
-		public WatchdogFactory(IServerControl serverControl, ILoggerFactory loggerFactory, IDatabaseContextFactory databaseContextFactory, IByondTopicSender byondTopicSender, IJobManager jobManager, IAsyncDelayer asyncDelayer, IOptions<GeneralConfiguration> generalConfigurationOptions)
+		public WatchdogFactory(
+			IServerControl serverControl,
+			ILoggerFactory loggerFactory,
+			IJobManager jobManager,
+			IAsyncDelayer asyncDelayer,
+			IOptions<GeneralConfiguration> generalConfigurationOptions)
 		{
 			ServerControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
 			LoggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
-			DatabaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
-			ByondTopicSender = byondTopicSender ?? throw new ArgumentNullException(nameof(byondTopicSender));
 			JobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			AsyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			GeneralConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
 		/// <inheritdoc />
-		public IWatchdog CreateWatchdog(
+		public virtual IWatchdog CreateWatchdog(
 			IChatManager chat,
 			IDmbFactory dmbFactory,
-			IReattachInfoHandler reattachInfoHandler,
-			IEventConsumer eventConsumer,
+			ISessionPersistor sessionPersistor,
 			ISessionControllerFactory sessionControllerFactory,
-			IIOManager ioManager,
-			Api.Models.Instance instance,
-			DreamDaemonSettings settings)
-		{
-			if (GeneralConfiguration.UseExperimentalWatchdog)
-				return new ExperimentalWatchdog(
-					chat,
-					sessionControllerFactory,
-					dmbFactory,
-					reattachInfoHandler,
-					DatabaseContextFactory,
-					ByondTopicSender,
-					eventConsumer,
-					JobManager,
-					ServerControl,
-					AsyncDelayer,
-					LoggerFactory.CreateLogger<ExperimentalWatchdog>(),
-					settings,
-					instance,
-					settings.AutoStart.Value);
-
-			return CreateNonExperimentalWatchdog(chat, dmbFactory, reattachInfoHandler, eventConsumer, sessionControllerFactory, ioManager, instance, settings);
-		}
-
-		/// <summary>
-		/// Create a <see cref="IWatchdog"/> that isn't the <see cref="ExperimentalWatchdog"/>.
-		/// </summary>
-		/// <param name="chat">The <see cref="IChatManager"/> for the <see cref="IWatchdog"/></param>
-		/// <param name="dmbFactory">The <see cref="IDmbFactory"/> for the <see cref="IWatchdog"/> with</param>
-		/// <param name="reattachInfoHandler">The <see cref="IReattachInfoHandler"/> for the <see cref="IWatchdog"/></param>
-		/// <param name="eventConsumer">The <see cref="IEventConsumer"/> for the <see cref="IWatchdog"/></param>
-		/// <param name="sessionControllerFactory">The <see cref="ISessionControllerFactory"/> for the <see cref="IWatchdog"/></param>
-		/// <param name="ioManager">The <see cref="IIOManager"/> for the <see cref="IWatchdog"/>.</param>
-		/// <param name="instance">The <see cref="Instance"/> for the <see cref="IWatchdog"/></param>
-		/// <param name="settings">The initial <see cref="DreamDaemonSettings"/> for the <see cref="IWatchdog"/></param>
-		/// <returns>A new <see cref="IWatchdog"/></returns>
-		protected virtual IWatchdog CreateNonExperimentalWatchdog(
-			IChatManager chat,
-			IDmbFactory dmbFactory,
-			IReattachInfoHandler reattachInfoHandler,
+			IIOManager gameIOManager,
+			IIOManager diagnosticsIOManager,
 			IEventConsumer eventConsumer,
-			ISessionControllerFactory sessionControllerFactory,
-			IIOManager ioManager,
+			IRemoteDeploymentManagerFactory remoteDeploymentManagerfactory,
 			Api.Models.Instance instance,
 			DreamDaemonSettings settings)
 			=> new BasicWatchdog(
 				chat,
 				sessionControllerFactory,
 				dmbFactory,
-				reattachInfoHandler,
-				DatabaseContextFactory,
-				ByondTopicSender,
-				eventConsumer,
+				sessionPersistor,
 				JobManager,
 				ServerControl,
 				AsyncDelayer,
+				diagnosticsIOManager,
+				eventConsumer,
+				remoteDeploymentManagerfactory,
 				LoggerFactory.CreateLogger<BasicWatchdog>(),
 				settings,
 				instance,
-				settings.AutoStart.Value);
+				settings.AutoStart ?? throw new ArgumentNullException(nameof(settings)));
 	}
 }

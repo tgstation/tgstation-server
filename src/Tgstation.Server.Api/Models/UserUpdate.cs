@@ -11,6 +11,6 @@ namespace Tgstation.Server.Api.Models
 		/// Cleartext password of the <see cref="User"/>
 		/// </summary>
 		[Required]
-		public string Password { get; set; }
+		public string? Password { get; set; }
 	}
 }

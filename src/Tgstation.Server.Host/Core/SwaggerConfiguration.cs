@@ -1,15 +1,16 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Mime;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
-using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Controllers;
 
 namespace Tgstation.Server.Host.Core
@@ -25,6 +26,11 @@ namespace Tgstation.Server.Host.Core
 		const string PasswordSecuritySchemeId = "Password_Login_Scheme";
 
 		/// <summary>
+		/// The <see cref="OpenApiSecurityScheme"/> name for OAuth 2.0 authentication.
+		/// </summary>
+		const string OAuthSecuritySchemeId = "OAuth_Login_Scheme";
+
+		/// <summary>
 		/// The <see cref="OpenApiSecurityScheme"/> name for token authentication.
 		/// </summary>
 		const string TokenSecuritySchemeId = "Token_Authorization_Scheme";
@@ -34,7 +40,7 @@ namespace Tgstation.Server.Host.Core
 			var errorMessageContent = new Dictionary<string, OpenApiMediaType>
 			{
 				{
-					ApiHeaders.ApplicationJson,
+					MediaTypeNames.Application.Json,
 					new OpenApiMediaType
 					{
 						Schema = new OpenApiSchema
@@ -76,7 +82,7 @@ namespace Tgstation.Server.Host.Core
 
 			AddDefaultResponse(HttpStatusCode.Unauthorized, new OpenApiResponse
 			{
-				Description = "No/invalid token provided."
+				Description = "Invalid Authentication header."
 			});
 
 			AddDefaultResponse(HttpStatusCode.Forbidden, new OpenApiResponse
@@ -90,9 +96,15 @@ namespace Tgstation.Server.Host.Core
 				Content = errorMessageContent
 			});
 
+			AddDefaultResponse(HttpStatusCode.NotAcceptable, new OpenApiResponse
+			{
+				Description = $"Invalid Accept header, TGS requires `{HeaderNames.Accept}: {MediaTypeNames.Application.Json}`.",
+				Content = errorMessageContent
+			});
+
 			AddDefaultResponse(HttpStatusCode.InternalServerError, new OpenApiResponse
 			{
-				Description = "The server encountered an unhandled error. See error message for details.",
+				Description = ErrorCode.InternalServerError.Describe(),
 				Content = errorMessageContent
 			});
 
@@ -103,7 +115,7 @@ namespace Tgstation.Server.Host.Core
 
 			AddDefaultResponse(HttpStatusCode.NotImplemented, new OpenApiResponse
 			{
-				Description = "This operation requires POSIX system identites to be implemented. See https://github.com/tgstation/tgstation-server/issues/709",
+				Description = ErrorCode.RequiresPosixSystemIdentity.Describe(),
 				Content = errorMessageContent
 			});
 		}
@@ -121,7 +133,18 @@ namespace Tgstation.Server.Host.Core
 				new OpenApiInfo
 				{
 					Title = "TGS API",
-					Version = ApiHeaders.Version.Semver().ToString()
+					Version = ApiHeaders.Version.Semver().ToString(),
+					License = new OpenApiLicense
+					{
+						Name = "AGPL-3.0",
+						Url = new Uri("https://github.com/tgstation/tgstation-server/blob/dev/LICENSE")
+					},
+					Contact = new OpenApiContact
+					{
+						Name = "/tg/station 13",
+						Url = new Uri("https://github.com/tgstation")
+					},
+					Description = "A production scale tool for BYOND server management"
 				});
 
 			// Important to do this before applying our own filters
@@ -129,9 +152,25 @@ namespace Tgstation.Server.Host.Core
 			swaggerGenOptions.IncludeXmlComments(assemblyDocumentationPath);
 			swaggerGenOptions.IncludeXmlComments(apiDocumentationPath);
 
+			// nullable stuff
+			swaggerGenOptions.UseAllOfToExtendReferenceSchemas();
+
 			swaggerGenOptions.OperationFilter<SwaggerConfiguration>();
 			swaggerGenOptions.DocumentFilter<SwaggerConfiguration>();
 			swaggerGenOptions.SchemaFilter<SwaggerConfiguration>();
+
+			swaggerGenOptions.CustomSchemaIds(type =>
+			{
+				if (type == typeof(Api.Models.Internal.User))
+					return "ShallowUser";
+				if (type == typeof(Api.Models.Internal.UserGroup))
+					return "ShallowUserGroup";
+
+				if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Paginated<>))
+					return $"Paginated{type.GenericTypeArguments.First().Name}";
+
+				return type.Name;
+			});
 
 			swaggerGenOptions.AddSecurityDefinition(PasswordSecuritySchemeId, new OpenApiSecurityScheme
 			{
@@ -141,13 +180,21 @@ namespace Tgstation.Server.Host.Core
 				Scheme = ApiHeaders.BasicAuthenticationScheme
 			});
 
+			swaggerGenOptions.AddSecurityDefinition(OAuthSecuritySchemeId, new OpenApiSecurityScheme
+			{
+				In = ParameterLocation.Header,
+				Type = SecuritySchemeType.Http,
+				Name = HeaderNames.Authorization,
+				Scheme = ApiHeaders.OAuthAuthenticationScheme
+			});
+
 			swaggerGenOptions.AddSecurityDefinition(TokenSecuritySchemeId, new OpenApiSecurityScheme
 			{
 				BearerFormat = "JWT",
 				In = ParameterLocation.Header,
 				Type = SecuritySchemeType.Http,
 				Name = HeaderNames.Authorization,
-				Scheme = ApiHeaders.JwtAuthenticationScheme
+				Scheme = ApiHeaders.BearerAuthenticationScheme
 			});
 		}
 
@@ -160,6 +207,11 @@ namespace Tgstation.Server.Host.Core
 				throw new ArgumentNullException(nameof(context));
 
 			operation.OperationId = $"{context.MethodInfo.DeclaringType.Name}.{context.MethodInfo.Name}";
+
+			// request bodies are never nullable
+			var bodySchemas = operation.RequestBody?.Content.Select(x => x.Value.Schema) ?? Enumerable.Empty<OpenApiSchema>();
+			foreach (var bodySchema in bodySchemas)
+				bodySchema.Nullable = false;
 
 			var authAttributes = context
 				.MethodInfo
@@ -193,8 +245,8 @@ namespace Tgstation.Server.Host.Core
 					}
 				};
 
-				if (authAttributes.Any(attr => attr.RightsType.HasValue && RightsHelper.IsInstanceRight(attr.RightsType.Value)))
-					operation.Parameters.Add(new OpenApiParameter
+				if (typeof(InstanceRequiredController).IsAssignableFrom(context.MethodInfo.DeclaringType))
+					operation.Parameters.Insert(0, new OpenApiParameter
 					{
 						Reference = new OpenApiReference
 						{
@@ -202,10 +254,35 @@ namespace Tgstation.Server.Host.Core
 							Id = ApiHeaders.InstanceIdHeader
 						}
 					});
+				else if (typeof(TransferController).IsAssignableFrom(context.MethodInfo.DeclaringType))
+					if (context.MethodInfo.Name == nameof(TransferController.Upload))
+						operation.RequestBody = new OpenApiRequestBody
+						{
+							Content = new Dictionary<string, OpenApiMediaType>
+							{
+								{
+									MediaTypeNames.Application.Octet,
+									new OpenApiMediaType
+									{
+										Schema = new OpenApiSchema
+										{
+											Type = "string",
+											Format = "binary"
+										}
+									}
+								}
+							}
+						};
+					else if (context.MethodInfo.Name == nameof(TransferController.Download))
+					{
+						var twoHundredResponseContents = operation.Responses["200"].Content;
+						var fileContent = twoHundredResponseContents[MediaTypeNames.Application.Json];
+						twoHundredResponseContents.Remove(MediaTypeNames.Application.Json);
+						twoHundredResponseContents.Add(MediaTypeNames.Application.Octet, fileContent);
+					}
 			}
-			else
+			else if (context.MethodInfo.Name == nameof(HomeController.CreateToken))
 			{
-				// HomeController.CreateToken
 				var passwordScheme = new OpenApiSecurityScheme
 				{
 					Reference = new OpenApiReference
@@ -215,12 +292,38 @@ namespace Tgstation.Server.Host.Core
 					}
 				};
 
+				var oAuthScheme = new OpenApiSecurityScheme
+				{
+					Reference = new OpenApiReference
+					{
+						Type = ReferenceType.SecurityScheme,
+						Id = OAuthSecuritySchemeId
+					}
+				};
+
+				operation.Parameters.Add(new OpenApiParameter
+				{
+					In = ParameterLocation.Header,
+					Name = ApiHeaders.OAuthProviderHeader,
+					Description = "The external OAuth service provider.",
+					Style = ParameterStyle.Simple,
+					Example = new OpenApiString("Discord"),
+					Schema = new OpenApiSchema
+					{
+						Type = "string"
+					}
+				});
+
 				operation.Security = new List<OpenApiSecurityRequirement>
 				{
 					new OpenApiSecurityRequirement
 					{
 						{
 							passwordScheme,
+							new List<string>()
+						},
+						{
+							oAuthScheme,
 							new List<string>()
 						}
 					}
@@ -277,17 +380,25 @@ namespace Tgstation.Server.Host.Core
 				Schema = productHeaderSchema
 			});
 
-			string bridgeOperationPath = null;
+			var pathsToRemove = new List<string>();
+			var filteredControllers = new string[]
+			{
+				nameof(BridgeController),
+				nameof(ControlPanelController),
+				nameof(SwarmController),
+			};
+
 			foreach (var path in swaggerDoc.Paths)
 				foreach (var operation in path.Value.Operations.Select(x => x.Value))
 				{
-					if (operation.OperationId.Equals("BridgeController.Process", StringComparison.Ordinal))
+					if (filteredControllers.Any(
+						x => operation.OperationId.StartsWith(x, StringComparison.Ordinal)))
 					{
-						bridgeOperationPath = path.Key;
+						pathsToRemove.Add(path.Key);
 						continue;
 					}
 
-					operation.Parameters.Add(new OpenApiParameter
+					operation.Parameters.Insert(0, new OpenApiParameter
 					{
 						Reference = new OpenApiReference
 						{
@@ -296,7 +407,7 @@ namespace Tgstation.Server.Host.Core
 						},
 					});
 
-					operation.Parameters.Add(new OpenApiParameter
+					operation.Parameters.Insert(1, new OpenApiParameter
 					{
 						Reference = new OpenApiReference
 						{
@@ -306,7 +417,8 @@ namespace Tgstation.Server.Host.Core
 					});
 				}
 
-			swaggerDoc.Paths.Remove(bridgeOperationPath);
+			foreach (var filteredPath in pathsToRemove)
+				swaggerDoc.Paths.Remove(filteredPath);
 
 			AddDefaultResponses(swaggerDoc);
 		}
@@ -322,15 +434,19 @@ namespace Tgstation.Server.Host.Core
 			// Nothing is required
 			schema.Required.Clear();
 
-			if (!schema.Enum?.Any() ?? false)
-				return;
-
 			// Could be nullable type, make sure to get the right one
-			Type enumType = context.Type.IsConstructedGenericType
+			Type nonNullableType = context.Type.IsConstructedGenericType
 				? context.Type.GenericTypeArguments.First()
 				: context.Type;
 
-			OpenApiEnumVarNamesExtension.Apply(schema, enumType);
+			if (nonNullableType != context.Type
+				&& !context.Type.GetInterfaces().Any(x => x == typeof(IEnumerable)))
+				schema.Nullable = true;
+
+			if (!schema.Enum?.Any() ?? false)
+				return;
+
+			OpenApiEnumVarNamesExtension.Apply(schema, nonNullableType);
 		}
 	}
 }

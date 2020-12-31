@@ -13,7 +13,7 @@ namespace Tgstation.Server.Host.Core.Tests
 		{
 			var delayer = new AsyncDelayer();
 			var startDelay = delayer.Delay(TimeSpan.FromSeconds(1), default);
-			var checkDelay = Task.Delay(TimeSpan.FromSeconds(1) - TimeSpan.FromMilliseconds(10), default);
+			var checkDelay = Task.Delay(TimeSpan.FromSeconds(1) - TimeSpan.FromMilliseconds(100), default);
 			await startDelay.ConfigureAwait(false);
 			Assert.IsTrue(checkDelay.IsCompleted);
 		}
@@ -22,11 +22,9 @@ namespace Tgstation.Server.Host.Core.Tests
 		public async Task TestCancel()
 		{
 			var delayer = new AsyncDelayer();
-			using (var cts = new CancellationTokenSource())
-			{
-				cts.Cancel();
-				await Assert.ThrowsExceptionAsync<TaskCanceledException>(() => delayer.Delay(TimeSpan.FromSeconds(1), cts.Token)).ConfigureAwait(false);
-			}
+			using var cts = new CancellationTokenSource();
+			cts.Cancel();
+			await Assert.ThrowsExceptionAsync<TaskCanceledException>(() => delayer.Delay(TimeSpan.FromSeconds(1), cts.Token)).ConfigureAwait(false);
 		}
 	}
 }

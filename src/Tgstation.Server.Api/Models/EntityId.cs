@@ -1,7 +1,7 @@
 ﻿namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
-	/// Common base of <see cref="CompileJob"/>s and <see cref="Job"/>s.
+	/// Common base of <see cref="Instance"/>s, <see cref="CompileJob"/>s, and <see cref="Job"/>s.
 	/// </summary>
 	public class EntityId
 	{

@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Api.Models
@@ -11,17 +11,18 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The live revision
 		/// </summary>
-		public CompileJob ActiveCompileJob { get; set; }
+		public CompileJob? ActiveCompileJob { get; set; }
 
 		/// <summary>
 		/// The next revision to go live
 		/// </summary>
-		public CompileJob StagedCompileJob { get; set; }
+		public CompileJob? StagedCompileJob { get; set; }
 
 		/// <summary>
-		/// The current status of <see cref="DreamDaemon"/>
+		/// The current <see cref="WatchdogStatus"/>.
 		/// </summary>
-		public bool? Running { get; set; }
+		[EnumDataType(typeof(WatchdogStatus))]
+		public WatchdogStatus? Status { get; set; }
 
 		/// <summary>
 		/// The current <see cref="DreamDaemonSecurity"/> of <see cref="DreamDaemon"/>. May be downgraded due to requirements of <see cref="ActiveCompileJob"/>
@@ -38,5 +39,20 @@ namespace Tgstation.Server.Api.Models
 		/// The webclient status the running <see cref="DreamDaemon"/> instance is set to
 		/// </summary>
 		public bool? CurrentAllowWebclient { get; set; }
+
+		/// <summary>
+		/// If the server is undergoing a soft reset. This may be automatically set by changes to other fields
+		/// </summary>
+		public bool? SoftRestart { get; set; }
+
+		/// <summary>
+		/// If the server is undergoing a soft shutdown
+		/// </summary>
+		public bool? SoftShutdown { get; set; }
+
+		/// <summary>
+		/// If a dump of the active DreamDaemon executable should be created.
+		/// </summary>
+		public bool? CreateDump { get; set; }
 	}
 }

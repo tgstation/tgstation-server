@@ -1,7 +1,6 @@
-﻿using Octokit;
+using Octokit;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -33,7 +32,7 @@ namespace ReleaseNotes
 				return 2;
 			}
 
-			var doNotCloseMilestone = args.Length >= 2 && args[1].ToUpperInvariant() == "--NO-CLOSE";
+			var doNotCloseMilestone = args.Length > 1 && args[1].ToUpperInvariant() == "--NO-CLOSE";
 
 			const string ReleaseNotesEnvVar = "TGS4_RELEASE_NOTES_TOKEN";
 			var githubToken = Environment.GetEnvironmentVariable(ReleaseNotesEnvVar);
@@ -46,7 +45,7 @@ namespace ReleaseNotes
 			try
 			{
 				var client = new GitHubClient(new ProductHeaderValue("tgs_release_notes"));
-				if (!String.IsNullOrWhiteSpace(githubToken)) 
+				if (!String.IsNullOrWhiteSpace(githubToken))
 				{
 					client.Credentials = new Credentials(githubToken);
 				}
@@ -56,7 +55,7 @@ namespace ReleaseNotes
 
 				var releasesTask = client.Repository.Release.GetAll(RepoOwner, RepoName);
 
-				Console.WriteLine("Getting pull requests in milestone " + versionString + "...");
+				Console.WriteLine("Getting merged pull requests in milestone " + versionString + "...");
 				var milestonePRs = await client.Search.SearchIssues(new SearchIssuesRequest
 				{
 					Milestone = $"v{versionString}",
@@ -73,18 +72,15 @@ namespace ReleaseNotes
 
 				Task<Milestone> milestoneTask = null;
 				var milestoneTaskLock = new object();
-				var releaseDictionary = new Dictionary<int, List<string>>();
+				var releaseDictionary = new Dictionary<string, List<Tuple<string, int>>>(StringComparer.OrdinalIgnoreCase);
 				var authorizedUsers = new Dictionary<long, Task<bool>>();
 
-				bool hasSqliteFuckage = false;
+				bool postControlPanelMessage = false;
 
 				async Task GetReleaseNotesFromPR(Issue pullRequest)
 				{
 					//need to check it was merged
 					var fullPR = await client.Repository.PullRequest.Get(RepoOwner, RepoName, pullRequest.Number).ConfigureAwait(false);
-
-					if (fullPR.Labels.Any(x => x.Name.Equals("SQLite Unmigratable")))
-						hasSqliteFuckage = true;
 
 					async Task<Milestone> GetMilestone()
 					{
@@ -97,73 +93,83 @@ namespace ReleaseNotes
 						if (milestoneTask == null)
 							milestoneTask = GetMilestone();
 
-					if (!fullPR.Merged)
-						return;
+					// if (!fullPR.Merged)
+						//return;
 
 					async Task BuildNotesFromComment(string comment, User user)
 					{
+						async Task CommitNotes(string component, List<string> notes)
+						{
+							Task<bool> authTask;
+							TaskCompletionSource<bool> ourTcs = null;
+							lock (authorizedUsers)
+							{
+								if (!authorizedUsers.TryGetValue(user.Id, out authTask))
+								{
+									ourTcs = new TaskCompletionSource<bool>();
+									authTask = ourTcs.Task;
+									authorizedUsers.Add(user.Id, authTask);
+								}
+							}
+
+							if (ourTcs != null)
+								try
+								{
+									//check if the user has access
+									var perm = String.IsNullOrWhiteSpace(githubToken)
+										? PermissionLevel.Write
+										: (await client.Repository.Collaborator.ReviewPermission(RepoOwner, RepoName, user.Login).ConfigureAwait(false)).Permission;
+									ourTcs.SetResult(perm == PermissionLevel.Write || perm == PermissionLevel.Admin);
+								}
+								catch
+								{
+									ourTcs.SetResult(false);
+									throw;
+								}
+
+							var authorized = await authTask.ConfigureAwait(false);
+							if (!authorized)
+								return;
+
+							lock (releaseDictionary)
+							{
+								foreach (var I in notes)
+									Console.WriteLine(component + " #" + fullPR.Number + " - " + I + " (@" + user.Login + ")");
+
+								var tupleSelector = notes.Select(note => Tuple.Create(note, fullPR.Number));
+								if (releaseDictionary.TryGetValue(component, out var currentValues))
+									currentValues.AddRange(tupleSelector);
+								else
+									releaseDictionary.Add(component, tupleSelector.ToList());
+							}
+						}
+
 						var commentSplits = comment.Split('\n');
-						var notesOpen = false;
+						string targetComponent = null;
 						var notes = new List<string>();
 						foreach (var line in commentSplits)
 						{
 							var trimmedLine = line.Trim();
-							if (!notesOpen)
+							if (targetComponent == null)
 							{
-								notesOpen = trimmedLine.StartsWith(":cl:", StringComparison.Ordinal);
+								if (trimmedLine.StartsWith(":cl:", StringComparison.Ordinal))
+								{
+									targetComponent = trimmedLine.Substring(4).Trim();
+									if (targetComponent.Length == 0)
+										targetComponent = "Core";
+								}
 								continue;
 							}
 							if (trimmedLine.StartsWith("/:cl:", StringComparison.Ordinal))
 							{
-								notesOpen = false;
+								await CommitNotes(targetComponent, notes);
+								targetComponent = null;
+								notes.Clear();
 								continue;
 							}
 							if (trimmedLine.Length == 0)
 								continue;
 							notes.Add(trimmedLine);
-						}
-						if (notesOpen || notes.Count == 0)
-							return;
-
-						Task<bool> authTask;
-						TaskCompletionSource<bool> ourTcs = null;
-						lock (authorizedUsers)
-						{
-							if (!authorizedUsers.TryGetValue(user.Id, out authTask))
-							{
-								ourTcs = new TaskCompletionSource<bool>();
-								authTask = ourTcs.Task;
-								authorizedUsers.Add(user.Id, authTask);
-							}
-						}
-
-						if (ourTcs != null)
-							try
-							{
-								//check if the user has access
-								var perm = String.IsNullOrWhiteSpace(githubToken)
-									? PermissionLevel.Write
-									: (await client.Repository.Collaborator.ReviewPermission(RepoOwner, RepoName, user.Login).ConfigureAwait(false)).Permission;
-								ourTcs.SetResult(perm == PermissionLevel.Write || perm == PermissionLevel.Admin);
-							}
-							catch
-							{
-								ourTcs.SetResult(false);
-								throw;
-							}
-
-						var authorized = await authTask.ConfigureAwait(false);
-						if (!authorized)
-							return;
-
-						lock (releaseDictionary)
-						{
-							foreach (var I in notes)
-								Console.WriteLine("#" + fullPR.Number + " - " + I + " (@" + user.Login + ")");
-							if (releaseDictionary.TryGetValue(fullPR.Number, out var currentValues))
-								currentValues.AddRange(notes);
-							else
-								releaseDictionary.Add(fullPR.Number, notes);
 						}
 					}
 
@@ -189,7 +195,7 @@ namespace ReleaseNotes
 						continue;
 					}
 
-					if (currentReleaseVersion.Major == releasingSuite && (highestReleaseVersion == null || currentReleaseVersion > highestReleaseVersion))
+					if (currentReleaseVersion.Major == releasingSuite && (highestReleaseVersion == null || currentReleaseVersion > highestReleaseVersion) && version != currentReleaseVersion)
 					{
 						highestReleaseVersion = currentReleaseVersion;
 						highestRelease = I;
@@ -208,13 +214,10 @@ namespace ReleaseNotes
 				//trim away all the lines that don't start with #
 
 				string keepThisRelease;
-				if (version.Major != 4 && version.Revision == 0)
-					if (version.Build == 0)
-						keepThisRelease = "# ";
-					else
-						keepThisRelease = "## ";
+				if (version.Build <= 1)
+					keepThisRelease = "# ";
 				else
-					keepThisRelease = "### ";
+					keepThisRelease = "## ";
 
 				for (; !splits[0].StartsWith(keepThisRelease, StringComparison.Ordinal); splits.RemoveAt(0))
 					if (splits.Count == 1)
@@ -229,10 +232,18 @@ namespace ReleaseNotes
 				switch (releasingSuite)
 				{
 					case 4:
-						var doc = XDocument.Load("../../../../../build/Version.props");
+						const string PropsPath = "build/Version.props";
+						const string ControlPanelPropsPath = "build/ControlPanelVersion.props";
+
+						var doc = XDocument.Load(PropsPath);
 						var project = doc.Root;
 						var xmlNamespace = project.GetDefaultNamespace();
-						var versionsPropertyGroup = project.Elements().First();
+						var versionsPropertyGroup = project.Elements().First(x => x.Name == xmlNamespace + "PropertyGroup");
+
+						var doc2 = XDocument.Load(ControlPanelPropsPath);
+						var project2 = doc2.Root;
+						var controlPanelXmlNamespace = project2.GetDefaultNamespace();
+						var controlPanelVersionsPropertyGroup = project2.Elements().First(x => x.Name == controlPanelXmlNamespace + "PropertyGroup");
 
 						var coreVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsCoreVersion").Value);
 						if(coreVersion != version)
@@ -242,16 +253,15 @@ namespace ReleaseNotes
 						}
 
 						var apiVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsApiVersion").Value);
+						var configVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsConfigVersion").Value);
 						var dmApiVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsDmapiVersion").Value);
-						var webControlVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsControlPanelVersion").Value);
+						var webControlVersion = Version.Parse(controlPanelVersionsPropertyGroup.Element(controlPanelXmlNamespace + "TgsControlPanelVersion").Value);
 						var hostWatchdogVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsHostWatchdogVersion").Value);
 
-						prefix = $"#### Component Versions\nCore: {coreVersion}\nHTTP API: {apiVersion}\nDreamMaker API: {dmApiVersion}\n[Web Control Panel](https://github.com/tgstation/tgstation-server-control-panel): {webControlVersion}\nHost Watchdog: {hostWatchdogVersion}";
+						if (webControlVersion.Major == 0)
+							postControlPanelMessage = true;
 
-						//hasSqliteFuckage = hasSqliteFuckage && version != new Version(4, 1, 0);
-						if (hasSqliteFuckage)
-							prefix = $"{prefix}{Environment.NewLine}{Environment.NewLine}#### THIS VERSION IS INCOMPATIBLE WITH PREVIOUS SQLITE DATABASES!";
-
+						prefix = $"Please refer to the [README](https://github.com/tgstation/tgstation-server#setup) for setup instructions.{Environment.NewLine}{Environment.NewLine}#### Component Versions\nCore: {coreVersion}\nConfiguration: {configVersion}\nHTTP API: {apiVersion}\nDreamMaker API: {dmApiVersion}\n[Web Control Panel](https://github.com/tgstation/tgstation-server-control-panel): {webControlVersion}\nHost Watchdog: {hostWatchdogVersion}";
 						break;
 					case 3:
 						prefix = "The /tg/station server suite";
@@ -262,6 +272,13 @@ namespace ReleaseNotes
 				}
 
 				var newNotes = new StringBuilder(prefix);
+				if (postControlPanelMessage)
+				{
+					newNotes.Append(Environment.NewLine);
+					newNotes.Append(Environment.NewLine);
+					newNotes.Append("### The recommended client is currently the legacy [Tgstation.Server.ControlPanel](https://github.com/tgstation/Tgstation.Server.ControlPanel/releases/latest). This will be phased out as the web client is completed.");
+				}
+
 				newNotes.Append(Environment.NewLine);
 				newNotes.Append(Environment.NewLine);
 				if (version.Build == 0)
@@ -273,7 +290,7 @@ namespace ReleaseNotes
 				else
 				{
 					newNotes.Append("## [Patch ");
-					newNotes.Append(version.Revision);
+					newNotes.Append(version.Build);
 				}
 				newNotes.Append("](");
 				var milestone = await milestoneTask.ConfigureAwait(false);
@@ -295,17 +312,25 @@ namespace ReleaseNotes
 				}
 
 				foreach (var I in releaseDictionary.OrderBy(kvp => kvp.Key))
-					foreach (var note in I.Value)
+				{
+					newNotes.Append(Environment.NewLine);
+					newNotes.Append("#### ");
+					newNotes.Append(I.Key);
+
+
+					foreach (var noteTuple in I.Value)
 					{
 						newNotes.Append(Environment.NewLine);
 						newNotes.Append("- ");
-						newNotes.Append(note);
+						newNotes.Append(noteTuple.Item1);
 						newNotes.Append(" (#");
-						newNotes.Append(I.Key);
+						newNotes.Append(noteTuple.Item2);
 						newNotes.Append(')');
 					}
 
-				newNotes.Append(Environment.NewLine);
+					newNotes.Append(Environment.NewLine);
+				}
+
 				newNotes.Append(Environment.NewLine);
 
 				if (version != new Version(4, 1, 0))
@@ -325,6 +350,46 @@ namespace ReleaseNotes
 					{
 						State = ItemState.Closed
 					}).ConfigureAwait(false);
+
+					// Create the next patch milestone
+					var nextPatchMilestoneName = $"v{version.Major}.{version.Minor}.{version.Build + 1}";
+					Console.WriteLine($"Creating milestone {nextPatchMilestoneName}...");
+					var nextPatchMilestone = await client.Issue.Milestone.Create(RepoOwner, RepoName, new NewMilestone(nextPatchMilestoneName));
+
+					if (version.Build == 0)
+					{
+						// close the patch milestone if it exists
+						var milestones = await client.Issue.Milestone.GetAllForRepository(RepoOwner, RepoName, new MilestoneRequest
+						{
+							State = ItemStateFilter.Open
+						});
+
+						var milestoneToDelete = milestones.FirstOrDefault(x => x.Title.StartsWith($"v{version.Major}.{version.Minor - 1}."));
+						if (milestoneToDelete != null)
+						{
+							Console.WriteLine($"Moving {milestoneToDelete.OpenIssues} open issues and {milestoneToDelete.ClosedIssues} closed issues from unused patch milestone {milestoneToDelete.Title} to upcoming ones and deleting...");
+							if (milestoneToDelete.OpenIssues + milestoneToDelete.ClosedIssues > 0)
+							{
+								var issuesInUnusedMilestone = await client.Search.SearchIssues(new SearchIssuesRequest
+								{
+									Milestone = milestoneToDelete.Title,
+									Repos = { { RepoOwner, RepoName } }
+								});
+
+								foreach(var I in issuesInUnusedMilestone.Items)
+									await client.Issue.Update(RepoOwner, RepoName, I.Number, new IssueUpdate
+									{
+										Milestone = I.State.Value == ItemState.Closed ? milestone.Number : nextPatchMilestone.Number
+									});
+							}
+							await client.Issue.Milestone.Delete(RepoOwner, RepoName, milestoneToDelete.Number).ConfigureAwait(false);
+						}
+
+						// Create the next minor milestone
+						var nextMinorMilestone = $"v{version.Major}.{version.Minor + 1}.0";
+						Console.WriteLine($"Creating milestone {nextMinorMilestone}...");
+						await client.Issue.Milestone.Create(RepoOwner, RepoName, new NewMilestone(nextMinorMilestone));
+					}
 				}
 
 				return 0;

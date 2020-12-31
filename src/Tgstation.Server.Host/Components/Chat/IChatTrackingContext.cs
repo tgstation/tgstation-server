@@ -22,7 +22,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// <see cref="IReadOnlyCollection{T}"/> of <see cref="CustomCommand"/>s in the <see cref="IChatTrackingContext"/>.
 		/// </summary>
-		IReadOnlyCollection<CustomCommand> CustomCommands { get; set; }
+		IEnumerable<CustomCommand> CustomCommands { get; set; }
 
 		/// <summary>
 		/// Sets the <paramref name="channelSink"/> for the <see cref="IChatTrackingContext"/>.

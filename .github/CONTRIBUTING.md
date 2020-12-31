@@ -34,21 +34,30 @@ You can of course, as always, ask for help at [#coderbus](irc://irc.rizon.net/co
 
 ### Development Environment
 
-You need the Dotnet 2.2 SDK and npm>=v5.7 (in your PATH) to compile the server. In order to build the service version you also need a .NET 4.7.1 build chain
+You need the Dotnet 3.1 SDK and npm>=v5.7 (in your PATH) to compile the server. In order to build the service version you also need a .NET 4.7.1 build chain
 
 The recommended IDE is Visual Studio 2019 which has installation options for both of these.
 
 In order to run the integration tests you must have the following environment variables set:
-- `TGS4_TEST_DATABASE_TYPE`: `MySql`, `MariaDB` or `SqlServer`.
+- `TGS4_TEST_DATABASE_TYPE`: `MySql`, `MariaDB`, `PostgresSql`, or `SqlServer`.
 - `TGS4_TEST_CONNECTION_STRING`: To a valid database connection string. You can use the setup wizard to create one.
-
-The following environment variables aren't required but enable more tests.
 - `TSG4_TEST_DISCORD_TOKEN`: To a valid discord bot token.
 - `TGS4_TEST_DISCORD_CHANNEL`: To a valid discord channel ID that the above bot can access.
+- `TGS4_TEST_IRC_CONNECTION_STRING`: To a valid TGS4 IRC connection string. See the code for [IrcConnectionStringBuilder](../src/Tgstation.Server.Api/Models/IrcConnectionStringBuilder.cs) for details.
+- `TGS4_TEST_IRC_CHANNEL`: To a valid IRC channel accessible with the above connection.
+- `TGS4_TEST_BRANCH`: Should be either `dev` or `master` depending on what you are working off of. Used for repository tests.
+- (Optional) `TGS4_TEST_GITHUB_TOKEN`: A GitHub personal access token with no scopes used to bypass rate limits.
+
+### Know your Code
+
+- All feature work should be submitted to the `dev` branch for the next minor release.
+- All patch work should be submitted to the `master` branch for the next patch. Changes will be automatically integrated into `dev`
+
+The `/src` folder at the root of this repository contains a series of `README.md` files useful for helping find your way around the codebase.
 
 ## Specifications
 
-As mentioned before, you are expected to follow these specifications in order to make everyone's lives easier. It'll save both your time and ours, by making sure you don't have to make any changes and we don't have to ask you to. Thank you for reading this section!
+You are expected to follow these specifications in order to make everyone's lives easier. It'll save both your time and ours, by making sure you don't have to make any changes and we don't have to ask you to. Thank you for reading this section!
 
 ### Object Oriented Code
 As C# is an object-oriented language, code must be object-oriented when possible in order to be more flexible when adding content to it. If you don't know what "object-oriented" means, we highly recommend you do some light research to grasp the basics.
@@ -72,13 +81,16 @@ DO:
 
 - Use the sealed keyword where possible
 - Use the readonly keyword where possible
+- Use automatic getters where possible.
+- Prefer fields to properties where stylecop allows.
 - Use 1 line bodies (void X() => Y();) where possible (Excluding constructors)
 - Use the factory pattern where reasonable
 - Use the const keyword where possible
 - Use the var keyword where possible
-- Use the static keyword on member functions where possible
+- Use the static keyword on member and inline functions where possible
 - Use CancellationTokens where possible
 - Throw appropriate ArgumentExceptions for public functions
+- Use nullable references approprately
 
 DON'T:
 
@@ -87,14 +99,7 @@ DON'T:
 - Use the static keyword on fields where avoidable
 - Use the public keyword where avoidable
 - Handle Tasks in a synchronous fashion
-
-### Versioning
-
-The version format we use is 4.\<major\>.\<minor\>.\<patch\>. The first number never changes and TGS 1/2/3/4 are to be considered seperate products. The numbers that follow are the semver. The criteria for changing a version number is as follows
-
-- Major: A breaking change to the DMAPI
-- Minor: Additions or changes to the API or DMAPI or feature additions to the service
-- Patch: Non-breaking changes internal to each of the 3 modules (Service, API, DMAPI)
+- Use static methods from built-in keywords i.e. Use `Boolean.TryParse` instead of `bool.TryParse`
 
 ### Formatting
 
@@ -114,7 +119,7 @@ void Hello()
 ```
 This is good:
 ```C#
-void Hello() 
+void Hello()
 {
 	if (!thing1)
 		return;
@@ -166,52 +171,97 @@ There is no strict process when it comes to merging pull requests. Pull requests
 
 Whenever you make a change to a model schema that must be reflected in the database, you'll have to generate and write a migration for it on all supported database types.
 
-1. Ensure you have the EntityFrameworkCore migration tools installed with `dotnet tool install --global dotnet-ef`.
-1. Make the code changes for your model.
-1. Open a command prompt in the `/src/Tgstation.Server.Host` directory.
-1. Configure your appsettings.Development.json to connect to a valid SQL Server database.
-1. Run `dotnet ef migrations add MS<NameOfYourMigration> --context SqlServerDatabaseContext`
-1. Configure your appsettings.Development.json to connect to a valid MySQL/MariaDB database.
-1. Run `dotnet ef migrations add MY<NameOfYourMigration> --context MySqlDatabaseContext`
-1. Configure your appsettings.Development.json to connect to a valid SQLite3 database.
-1. Run `dotnet ef migrations add SL<NameOfYourMigration> --context SqliteDatabaseContext`
-1. Fix compiler warnings in the generated files. Ensure all classes are in the Tgstation.Server.Host.Models.Migrations namespace.
+We have a script to do this.
+
+1. Run `build/GenerateMigrations.sh NameOfMigration` from the project root.
+1. You should now have MY/MS migration files generated in `/src/Tgstation.Server.Host/Models/Migrations`. Fix compiler warnings in the generated files. Ensure all classes are in the Tgstation.Server.Host.Models.Migrations namespace.
+1. Manually review what each migration does.
 1. Run the server in both configurations to ensure the migrations work.
 
-You should now have MY/MS migration files generated in `/src/Tgstation.Server.Host/Models/Migrations
+### Manual Method
+
+1. Make the code changes for your model.
+1. Open a command prompt in the `/src/Tgstation.Server.Host` directory.
+1. Ensure you have the EntityFrameworkCore migration tools installed with `dotnet tool restore`.
+1. Run `dotnet ef migrations add MS<NameOfYourMigration> --context SqlServerDatabaseContext`
+1. Run `dotnet ef migrations add MY<NameOfYourMigration> --context MySqlDatabaseContext`
+1. Run `dotnet ef migrations add PG<NameOfYourMigration> --context PostgresSqlDatabaseContext`
+1. Run `dotnet ef migrations add SL<NameOfYourMigration> --context SqliteDatabaseContext`.
+1. Follow the above steps.
+
+## Adding OAuth Providers
+
+OAuth providers are hardcoded but it is fairly easy to add new ones. The flow doesn't need to be strict OAuth either (r.e. /tg/ forums). Follow the following steps:
+
+1. Add the name to the [Tgstation.Server.Api.Models.OAuthProviders](../src/Tgstation.Server.Api/Models/OAuthProviders.cs) enum (Also necessitates a minor HTTP API version bump).
+1. Create an implementation of [IOAuthValidator](../src/Tgstation.Server.Host/Security/OAuth/IOAuthValidator.cs).
+	- Most providers can simply override the [GenericOAuthValidator](../src/Tgstation.Server.Host/Security/OAuth/GenericOAuthValidator.cs).
+1. Construct the implementation in the [OAuthProviders](../src/Tgstation.Server.Host/Security/OAuth/OAuthProviders.cs) class.
+1. Add a null entry to the default [appsettings.json](../src/Tgstation.Server.Host/appsettings.json).
+1. Update the main [README.md](../README.md) to indicate the new provider.
+1. Update the [API documentation](../docs/API.dox) to indicate the new provider.
+
+TGS should now be able to accept authentication response tokens from your provider.
 
 ### Important Note About the \[Required\] Attribute.
 
 We use this attribute to ensure EFCore generated tables are not nullable for specific properties. They are valid to be null in API communication. Do not use this attribute expecting the model validator to prevent null data in API request.
 
-## Code Versioning
+## Versioning
 
-Any backwards compatible fixes made should be committed to the `master` branch if possible. These will be automatically merged into the `dev` branch.
+The version format we use is 4.\<minor\>.\<patch\>. The first number never changes and TGS 1/2/3/4 are to be considered seperate products. The numbers that follow are the semver. The criteria for changing a version number is as follows
+
+- Minor: A feature addition to the core server functionality.
+- Patch: Patch changes.
+
+Patch changes should be committed to the `master` branch if possible. These will be automatically merged into the `dev` branch.
 All other changes should be made directly to the `dev` branch. These will be merged to `master` on the next minor release cycle.
 
-## Deployment Process
+We have several subcomponent APIs we ship with the core server that have their own versions.
 
-Every issue/pull request in a release should share a common milestone named with the release version i.e. `4.5.3.5`
+- HTTP API
+- DreamMaker API
+- Configuration File
+- Host Watchdog
+- Web Control Panel
 
-When every issue and PR in the milestone is closed. Create a version bump PR that changes the version numbers. At the time of this writing they exist in the following files
+These are represent as standard [semver](https://semver.org/)s and don't affect the core version. The only stipulation is major changes to the HTTP and DreamMaker APIs or the configuration must coincide with a minor core version bump.
 
-- `/src/Tgstation.Server.Host/Tgstation.Server.Host.csproj`
-- `/src/Tgstation.Server.Host.Console/Tgstation.Server.Host.Console.csproj`
-- 2 in `/src/Tgstation.Server.Host.Service/Properties/AssemblyInfo.cs`
-- `/src/Tgstation.Server.Host.Watchdog/Tgstation.Server.Host.Watchdog.csproj`
+All versions are stored in the master file [build/Version.props](../build/Version.props). They are repeatedly defined in a few other places, but integration tests will make sure they are consistent.
 
-Merge the pull request with `[TGSDeploy]` somewhere in the commit title. The scripts will handle amalgamating release notes, building, closing the milestone, and publishing the release. This will also trigger update notifications on existing TGS deployments.
+#### Nuget Versioning
 
-### API/Client Deployment
+The NuGet package Tgstation.Server.Client is another part of the suite which should be versioned separately. However, Tgstation.Server.Api is also a package that is published, and breaking changes can happen independantly of each other.
 
-The Api/Client project versions must be updated on nuget when changed. The numbers exist in the following files:
+- Consider Tgstation.Server.Client it's own product, perform major and minor bumps according to semver semantics including the Tgstation.Server.Api code (but not the version).
+- Tgstation.Server.Api is a bit tricky as breaking code changes may occur without affecting the actual HTTP contract. For this reason, all code changes that do this should be pushed out as patches, even if they contain breaking changes.
 
-- `/src/Tgstation.Server.Api/Tgstation.Server.Api.csproj`
-- `/src/Tgstation.Server.Client/Tgstation.Server.Client.csproj`
+## Triage, Deployment, and Releasing
 
-These should not be the same numbers as the main suite. When bumping the API version the client should only receive a minor (3rd number) version bump unless major changes to CLIENT code were made.
+_This section mainly applies to people with write access to the repository. Anyone is free to propose their work and maintainers will triage it appropriately._
 
-Merge these alongside regular deployments with `[NugetDeploy]` in the commit title (Won't work without an accompanying `[TGSDeploy]`). This will handle the nuget publishing.
+When issues affecting the server come in, they should be lebeled appropriately and either put into the `V4 Backlog` milestone or current patch milestone depending on if it's a feature request or bug.
+
+After a minor release, the team should decide at that time what will go into it and setup the milestone accordingly. At this point the `Backlog` label should be removed and replaced with `Ready` and the milestone changed from `V4 Backlog` to `v4.X.0` with X being the minor release version.
+
+Assign work before beginning on it. When work is started, replace the `Ready` label with the `Work In Progress` label.
+
+Word commit names descriptively. Only submit work through pull requests. When doing so, link the issue you'll be closing and set the milestone appropriately. Don't forget a changelog. **WARNING** Remember to submit patches to the `master` branch. Also at the time of this writing there appears to be an issue where GitHub won't close issues with PRs to the non-default branch. Maintainers may need to do this manually after merging.
+
+At the time of this writing, the repository is configured to automate much of the deployment/release process.
+
+When the new API, client, or DMAPI is ready to be released, update the `Version.props` file appropriately and merge the pull request with the text `[APIDeploy]`, `[NuGetDeploy]`, or `[DMDeploy]` respectively in the commit message (or all three!). The release will be published automatically.
+
+That step should be taken for the latest API and client before releasing the core version that uses them if applicable.
+
+Before releasing the core version, ensure the following:
+
+- For minor releases, ensure your changes are merging `dev` into `master`.
+- Ensure all issues and pull requests in the associated milestone are closed (aside from the PR you are using to cut the release).
+
+To perform the release, merge the PR with `[TGSDeploy]` in the commit message. The build system will handle generating release notes, packaging, and pushing the build to GitHub releases. This will also make it available for servers to self update.
+
+The build system will also handle closing the current milestone and creating new minor/patch milestones where applicable.
 
 ## Banned content
 

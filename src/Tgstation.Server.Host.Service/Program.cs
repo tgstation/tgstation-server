@@ -110,9 +110,6 @@ namespace Tgstation.Server.Host.Service
 
 			using (var loggerFactory = new LoggerFactory())
 			{
-				if (Configure)
-					await WatchdogFactory.CreateWatchdog(loggerFactory).RunAsync(true, Array.Empty<string>(), default).ConfigureAwait(false);
-
 				if (Install)
 				{
 					if (Uninstall)
@@ -134,6 +131,12 @@ namespace Tgstation.Server.Host.Service
 						var state = new ListDictionary();
 						installer.Install(state);
 					}
+
+					if (Configure)
+					{
+						Console.WriteLine("For this first run we'll launch the console runner so you may use the setup wizard.");
+						Console.WriteLine("If it starts successfully, feel free to close it and then start the service from the Windows control panel.");
+					}
 				}
 				else if (Uninstall)
 					using (var installer = new ServiceInstaller())
@@ -145,6 +148,12 @@ namespace Tgstation.Server.Host.Service
 				else if (!Configure)
 					using (var service = new ServerService(WatchdogFactory, loggerFactory, Trace ? LogLevel.Trace : Debug ? LogLevel.Debug : LogLevel.Information))
 						ServiceBase.Run(service);
+
+				if (Configure)
+				{
+					// DCT: None available
+					await WatchdogFactory.CreateWatchdog(loggerFactory).RunAsync(true, Array.Empty<string>(), default).ConfigureAwait(false);
+				}
 			}
 		}
 	}

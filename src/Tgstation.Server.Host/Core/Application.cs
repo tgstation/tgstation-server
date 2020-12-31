@@ -1,10 +1,10 @@
-﻿using Byond.TopicSender;
 using Cyberboss.AspNetCore.AsyncInitializer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -16,8 +16,10 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Display;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
@@ -25,18 +27,25 @@ using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Chat.Providers;
-using Tgstation.Server.Host.Components.Interop;
-using Tgstation.Server.Host.Components.Interop.Converters;
+using Tgstation.Server.Host.Components.Deployment.Remote;
+using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Components.Repository;
+using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.Extensions.Converters;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
+using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.Security.OAuth;
 using Tgstation.Server.Host.Setup;
+using Tgstation.Server.Host.Swarm;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Transfer;
 
 namespace Tgstation.Server.Host.Core
 {
@@ -46,6 +55,11 @@ namespace Tgstation.Server.Host.Core
 #pragma warning disable CA1506
 	sealed class Application : SetupApplication
 	{
+		/// <summary>
+		/// Route to the web control panel.
+		/// </summary>
+		public const string ControlPanelRoute = "/app";
+
 		/// <summary>
 		/// The <see cref="IWebHostEnvironment"/> for the <see cref="Application"/>.
 		/// </summary>
@@ -64,7 +78,7 @@ namespace Tgstation.Server.Host.Core
 		public Application(
 			IConfiguration configuration,
 			IWebHostEnvironment hostingEnvironment)
-			: base(configuration, hostingEnvironment)
+			: base(configuration)
 		{
 			this.hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
 		}
@@ -93,88 +107,90 @@ namespace Tgstation.Server.Host.Core
 			// configure configuration
 			services.UseStandardConfig<UpdatesConfiguration>(Configuration);
 			services.UseStandardConfig<ControlPanelConfiguration>(Configuration);
+			services.UseStandardConfig<SwarmConfiguration>(Configuration);
 
 			// enable options which give us config reloading
 			services.AddOptions();
 
-			// setup file logging via serilog
-			services.AddLogging(builder =>
-			{
-				if (postSetupServices.FileLoggingConfiguration.Disable)
-					return;
+			// Set the timeout for IHostedService.StopAsync
+			services.Configure<HostOptions>(
+				opts => opts.ShutdownTimeout = TimeSpan.FromMilliseconds(postSetupServices.GeneralConfiguration.RestartTimeout));
 
-				// common app data is C:/ProgramData on windows, else /usr/share
-				var logPath = !String.IsNullOrEmpty(postSetupServices.FileLoggingConfiguration.Directory)
-					? postSetupServices.FileLoggingConfiguration.Directory
-					: IOManager.ConcatPath(
-				Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
-				"tgstation-server",
-				"Logs");
+			static LogEventLevel? ConvertSeriLogLevel(LogLevel logLevel) =>
+				logLevel switch
+				{
+					LogLevel.Critical => LogEventLevel.Fatal,
+					LogLevel.Debug => LogEventLevel.Debug,
+					LogLevel.Error => LogEventLevel.Error,
+					LogLevel.Information => LogEventLevel.Information,
+					LogLevel.Trace => LogEventLevel.Verbose,
+					LogLevel.Warning => LogEventLevel.Warning,
+					LogLevel.None => null,
+					_ => throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid log level {0}", logLevel)),
+				};
 
-				logPath = IOManager.ConcatPath(logPath, "tgs-{Date}.log");
-
-				static LogEventLevel? ConvertLogLevel(LogLevel logLevel) =>
-					logLevel switch
+			var microsoftEventLevel = ConvertSeriLogLevel(postSetupServices.FileLoggingConfiguration.MicrosoftLogLevel);
+			services.SetupLogging(
+				config =>
+				{
+					if (microsoftEventLevel.HasValue)
 					{
-						LogLevel.Critical => LogEventLevel.Fatal,
-						LogLevel.Debug => LogEventLevel.Debug,
-						LogLevel.Error => LogEventLevel.Error,
-						LogLevel.Information => LogEventLevel.Information,
-						LogLevel.Trace => LogEventLevel.Verbose,
-						LogLevel.Warning => LogEventLevel.Warning,
-						LogLevel.None => null,
-						_ => throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid log level {0}", logLevel)),
-					};
+						config.MinimumLevel.Override("Microsoft", microsoftEventLevel.Value);
+						config.MinimumLevel.Override("System.Net.Http.HttpClient", microsoftEventLevel.Value);
+					}
+				},
+				sinkConfig =>
+				{
+					if (postSetupServices.FileLoggingConfiguration.Disable)
+						return;
 
-				var logEventLevel = ConvertLogLevel(postSetupServices.FileLoggingConfiguration.LogLevel);
-				var microsoftEventLevel = ConvertLogLevel(postSetupServices.FileLoggingConfiguration.MicrosoftLogLevel);
+					var logPath = postSetupServices.FileLoggingConfiguration.GetFullLogDirectory(
+						IOManager,
+						AssemblyInformationProvider,
+						postSetupServices.PlatformIdentifier);
 
-				var formatter = new MessageTemplateTextFormatter(
-					"{Timestamp:o} {RequestId,13} [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}",
-					null);
+					var logEventLevel = ConvertSeriLogLevel(postSetupServices.FileLoggingConfiguration.LogLevel);
 
-				var configuration = new LoggerConfiguration()
-					.Enrich
-					.FromLogContext()
-					.WriteTo
-					.Async(
-						w => w.RollingFile(
-							formatter,
-							logPath,
-							shared: true,
-							flushToDiskInterval: TimeSpan.FromSeconds(2)));
+					var formatter = new MessageTemplateTextFormatter(
+						"{Timestamp:o} "
+						+ ServiceCollectionExtensions.SerilogContextTemplate
+						+ "): [{Level:u3}] {SourceContext:l}: {Message} ({EventId:x8}){NewLine}{Exception}",
+						null);
 
-				if (logEventLevel.HasValue)
-					configuration.MinimumLevel.Is(logEventLevel.Value);
-
-				if (microsoftEventLevel.HasValue)
-					configuration.MinimumLevel.Override("Microsoft", microsoftEventLevel.Value);
-
-				builder.AddSerilog(configuration.CreateLogger(), true);
-			});
-
-			services.RemoveEventLogging();
+					logPath = IOManager.ConcatPath(logPath, "tgs-.log");
+					var rollingFileConfig = sinkConfig.File(
+						formatter,
+						logPath,
+						logEventLevel ?? LogEventLevel.Verbose,
+						50 * 1024 * 1024, // 50MB max size
+						flushToDiskInterval: TimeSpan.FromSeconds(2),
+						rollingInterval: RollingInterval.Day,
+						rollOnFileSizeLimit: true);
+				});
 
 			// configure bearer token validation
-			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(jwtBearerOptions =>
-			{
-				// this line isn't actually run until the first request is made
-				// at that point tokenFactory will be populated
-				jwtBearerOptions.TokenValidationParameters = tokenFactory.ValidationParameters;
-				jwtBearerOptions.Events = new JwtBearerEvents
+			services
+				.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+				.AddJwtBearer(jwtBearerOptions =>
 				{
-					// Application is our composition root so this monstrosity of a line is okay
-					// At least, that's what I tell myself to sleep at night
-					OnTokenValidated = ctx => ctx
-						.HttpContext
-						.RequestServices
-						.GetRequiredService<IClaimsInjector>()
-						.InjectClaimsIntoContext(
-							ctx,
-							ctx.HttpContext.RequestAborted)
-				};
-			});
+					// this line isn't actually run until the first request is made
+					// at that point tokenFactory will be populated
+					jwtBearerOptions.TokenValidationParameters = tokenFactory.ValidationParameters;
+					jwtBearerOptions.Events = new JwtBearerEvents
+					{
+						// Application is our composition root so this monstrosity of a line is okay
+						// At least, that's what I tell myself to sleep at night
+						OnTokenValidated = ctx => ctx
+							.HttpContext
+							.RequestServices
+							.GetRequiredService<IClaimsInjector>()
+							.InjectClaimsIntoContext(
+								ctx,
+								ctx.HttpContext.RequestAborted)
+					};
+				});
 
+			// WARNING: STATIC CODE
 			// fucking prevents converting 'sub' to M$ bs
 			// can't be done in the above lambda, that's too late
 			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -184,6 +200,8 @@ namespace Tgstation.Server.Host.Core
 				.AddMvc(options =>
 				{
 					options.EnableEndpointRouting = false;
+					options.ReturnHttpNotAcceptable = true;
+					options.RespectBrowserAcceptHeader = true;
 				})
 				.AddNewtonsoftJson(options =>
 				{
@@ -192,12 +210,15 @@ namespace Tgstation.Server.Host.Core
 					options.SerializerSettings.CheckAdditionalContent = true;
 					options.SerializerSettings.MissingMemberHandling = MissingMemberHandling.Error;
 					options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-					options.SerializerSettings.Converters = new[] { new VersionConverter() };
+					options.SerializerSettings.Converters = new List<JsonConverter>
+					{
+						new VersionConverter()
+					};
 				});
 
-			if (hostingEnvironment.IsDevelopment())
+			if (postSetupServices.GeneralConfiguration.HostApiDocumentation)
 			{
-				string GetDocumentationFilePath(string assemblyLocation) => IOManager.ConcatPath(IOManager.GetDirectoryName(assemblyLocation), String.Concat(IOManager.GetFileNameWithoutExtension(assemblyLocation), ".xml"));
+				static string GetDocumentationFilePath(string assemblyLocation) => IOManager.ConcatPath(IOManager.GetDirectoryName(assemblyLocation), String.Concat(IOManager.GetFileNameWithoutExtension(assemblyLocation), ".xml"));
 				var assemblyDocumentationPath = GetDocumentationFilePath(typeof(Application).Assembly.Location);
 				var apiDocumentationPath = GetDocumentationFilePath(typeof(ApiHeaders).Assembly.Location);
 				services.AddSwaggerGen(genOptions => SwaggerConfiguration.Configure(genOptions, assemblyDocumentationPath, apiDocumentationPath));
@@ -210,12 +231,21 @@ namespace Tgstation.Server.Host.Core
 			// CORS conditionally enabled later
 			services.AddCors();
 
-			void AddTypedContext<TContext>() where TContext : DatabaseContext<TContext>
+			// Enable managed HTTP clients
+			services.AddHttpClient();
+
+			void AddTypedContext<TContext>() where TContext : DatabaseContext
 			{
-				services.AddDbContext<TContext>(builder =>
+				var configureAction = DatabaseContext.GetConfigureAction<TContext>();
+
+				services.AddDbContextPool<TContext>((serviceProvider, builder) =>
 				{
 					if (hostingEnvironment.IsDevelopment())
 						builder.EnableSensitiveDataLogging();
+
+					var databaseConfigOptions = serviceProvider.GetRequiredService<IOptions<DatabaseConfiguration>>();
+					var databaseConfig = databaseConfigOptions.Value ?? throw new InvalidOperationException("DatabaseConfiguration missing!");
+					configureAction(builder, databaseConfig);
 				});
 				services.AddScoped<IDatabaseContext>(x => x.GetRequiredService<TContext>());
 			}
@@ -234,6 +264,9 @@ namespace Tgstation.Server.Host.Core
 				case DatabaseType.Sqlite:
 					AddTypedContext<SqliteDatabaseContext>();
 					break;
+				case DatabaseType.PostgresSql:
+					AddTypedContext<PostgresSqlDatabaseContext>();
+					break;
 				default:
 					throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Invalid {0}: {1}!", nameof(DatabaseType), dbType));
 			}
@@ -245,6 +278,7 @@ namespace Tgstation.Server.Host.Core
 			// configure security services
 			services.AddScoped<IAuthenticationContextFactory, AuthenticationContextFactory>();
 			services.AddScoped<IClaimsInjector, ClaimsInjector>();
+			services.AddSingleton<IOAuthProviders, OAuthProviders>();
 			services.AddSingleton<IIdentityCache, IdentityCache>();
 			services.AddSingleton<ICryptographySuite, CryptographySuite>();
 			services.AddSingleton<ITokenFactory, TokenFactory>();
@@ -253,15 +287,12 @@ namespace Tgstation.Server.Host.Core
 			// configure platform specific services
 			if (postSetupServices.PlatformIdentifier.IsWindows)
 			{
-				if (postSetupServices.GeneralConfiguration.UseBasicWatchdogOnWindows)
-					services.AddSingleton<IWatchdogFactory, WatchdogFactory>();
-				else
-					services.AddSingleton<IWatchdogFactory, WindowsWatchdogFactory>();
-
+				AddWatchdog<WindowsWatchdogFactory>(services, postSetupServices);
 				services.AddSingleton<ISystemIdentityFactory, WindowsSystemIdentityFactory>();
 				services.AddSingleton<ISymlinkFactory, WindowsSymlinkFactory>();
 				services.AddSingleton<IByondInstaller, WindowsByondInstaller>();
 				services.AddSingleton<IPostWriteHandler, WindowsPostWriteHandler>();
+				services.AddSingleton<IProcessFeatures, WindowsProcessFeatures>();
 
 				services.AddSingleton<WindowsNetworkPromptReaper>();
 				services.AddSingleton<INetworkPromptReaper>(x => x.GetRequiredService<WindowsNetworkPromptReaper>());
@@ -269,38 +300,64 @@ namespace Tgstation.Server.Host.Core
 			}
 			else
 			{
-				services.AddSingleton<IWatchdogFactory, WatchdogFactory>();
+				AddWatchdog<PosixWatchdogFactory>(services, postSetupServices);
 				services.AddSingleton<ISystemIdentityFactory, PosixSystemIdentityFactory>();
 				services.AddSingleton<ISymlinkFactory, PosixSymlinkFactory>();
 				services.AddSingleton<IByondInstaller, PosixByondInstaller>();
 				services.AddSingleton<IPostWriteHandler, PosixPostWriteHandler>();
+
+				services.AddSingleton<IProcessFeatures, PosixProcessFeatures>();
+
+				// PosixProcessFeatures also needs a IProcessExecutor for gcore
+				services.AddSingleton(x => new Lazy<IProcessExecutor>(() => x.GetRequiredService<IProcessExecutor>(), true));
 				services.AddSingleton<INetworkPromptReaper, PosixNetworkPromptReaper>();
 			}
 
-			// configure misc services
-			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
+			// configure component/misc services
+			services.AddScoped<IPortAllocator, PortAllocator>();
+			services.AddTransient<IActionResultExecutor<LimitedFileStreamResult>, LimitedFileStreamResultExecutor>();
 			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
 			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
-			services.AddSingleton<IByondTopicSender>(new ByondTopicSender
-			{
-				ReceiveTimeout = postSetupServices.GeneralConfiguration.ByondTopicTimeout,
-				SendTimeout = postSetupServices.GeneralConfiguration.ByondTopicTimeout
-			});
-
-			// configure component services
+			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
+			services.AddSingleton<IInstanceFactory, InstanceFactory>();
+			services.AddSingleton<IGitRemoteFeaturesFactory, GitRemoteFeaturesFactory>();
 			services.AddSingleton<ILibGit2RepositoryFactory, LibGit2RepositoryFactory>();
 			services.AddSingleton<ILibGit2Commands, LibGit2Commands>();
+			services.AddSingleton<IRemoteDeploymentManagerFactory, RemoteDeploymentManagerFactory>();
 			services.AddSingleton<IProviderFactory, ProviderFactory>();
 			services.AddSingleton<IChatManagerFactory, ChatManagerFactory>();
-			services.AddSingleton<IInstanceFactory, InstanceFactory>();
+			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
+			services.AddSingleton<FileTransferService>();
+			services.AddSingleton<IFileTransferStreamHandler>(x => x.GetRequiredService<FileTransferService>());
+			services.AddSingleton<IFileTransferTicketProvider>(x => x.GetRequiredService<FileTransferService>());
+			services.AddSingleton<SwarmService>();
+			services.AddSingleton<ISwarmService>(x => x.GetRequiredService<SwarmService>());
+			services.AddSingleton<ISwarmOperations>(x => x.GetRequiredService<SwarmService>());
+			services.AddSingleton<IServerUpdateInitiator, ServerUpdateInitiator>();
 
 			// configure root services
 			services.AddSingleton<IJobManager, JobManager>();
 
 			services.AddSingleton<InstanceManager>();
 			services.AddSingleton<IBridgeDispatcher>(x => x.GetRequiredService<InstanceManager>());
+			services.AddSingleton(x => new Lazy<IInstanceCoreProvider>(() => x.GetRequiredService<InstanceManager>()));
 			services.AddSingleton<IInstanceManager>(x => x.GetRequiredService<InstanceManager>());
+		}
+
+		/// <summary>
+		/// Adds the <see cref="IWatchdogFactory"/> implementation.
+		/// </summary>
+		/// <typeparam name="TSystemWatchdogFactory">The <see cref="WatchdogFactory"/> child <see langword="class"/> for the current system.</typeparam>
+		/// <param name="services">The <see cref="IServiceCollection"/> to configure.</param>
+		/// <param name="postSetupServices">The <see cref="IPostSetupServices"/> to use.</param>
+		static void AddWatchdog<TSystemWatchdogFactory>(IServiceCollection services, IPostSetupServices postSetupServices)
+			where TSystemWatchdogFactory : class, IWatchdogFactory
+		{
+			if (postSetupServices.GeneralConfiguration.UseBasicWatchdog)
+				services.AddSingleton<IWatchdogFactory, WatchdogFactory>();
+			else
+				services.AddSingleton<IWatchdogFactory, TSystemWatchdogFactory>();
 		}
 
 		/// <inheritdoc />
@@ -313,6 +370,8 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure</param>
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="Application"/></param>
 		/// <param name="tokenFactory">The value of <see cref="tokenFactory"/></param>
+		/// <param name="instanceManager">The <see cref="IInstanceManager"/>.</param>
+		/// <param name="serverPortProvider">The <see cref="IServerPortProvider"/>.</param>
 		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="ControlPanelConfiguration"/> to use</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="GeneralConfiguration"/> to use</param>
 		/// <param name="logger">The <see cref="Microsoft.Extensions.Logging.ILogger"/> for the <see cref="Application"/></param>
@@ -320,6 +379,8 @@ namespace Tgstation.Server.Host.Core
 			IApplicationBuilder applicationBuilder,
 			IServerControl serverControl,
 			ITokenFactory tokenFactory,
+			IInstanceManager instanceManager,
+			IServerPortProvider serverPortProvider,
 			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			ILogger<Application> logger)
@@ -349,32 +410,35 @@ namespace Tgstation.Server.Host.Core
 
 			// attempt to restart the server if the configuration changes
 			if (serverControl.WatchdogPresent)
-				ChangeToken.OnChange(Configuration.GetReloadToken, () => serverControl.Restart());
+				ChangeToken.OnChange(Configuration.GetReloadToken, () =>
+				{
+					logger.LogInformation("Configuration change detected");
+					serverControl.Restart();
+				});
 
 			// setup the HTTP request pipeline
 			// Final point where we wrap exceptions in a 500 (ErrorMessage) response
 			applicationBuilder.UseServerErrorHandling();
 
+			// Add the X-Powered-By response header
+			applicationBuilder.UseServerBranding(AssemblyInformationProvider);
+
 			// 503 requests made while the application is starting
-			applicationBuilder.UseAsyncInitialization<IHostApplicationLifetime>(async (applicationLifetime, cancellationToken) =>
+			applicationBuilder.UseAsyncInitialization(async (cancellationToken) =>
 			{
 				var tcs = new TaskCompletionSource<object>();
 				using (cancellationToken.Register(() => tcs.SetCanceled()))
-				using (applicationLifetime.ApplicationStarted.Register(() => tcs.SetResult(null)))
-					await tcs.Task.ConfigureAwait(false);
+					await Task.WhenAny(tcs.Task, instanceManager.Ready).ConfigureAwait(false);
 			});
-
-			// should anything after this throw an exception, catch it and display a detailed html page
-			if (hostingEnvironment.IsDevelopment())
-				applicationBuilder.UseDeveloperExceptionPage(); // it is not worth it to limit this, you should only ever get it if you're an authorized user
 
 			// suppress OperationCancelledExceptions, they are just aborted HTTP requests
 			applicationBuilder.UseCancelledRequestSuppression();
 
-			if (hostingEnvironment.IsDevelopment())
+			if (generalConfiguration.HostApiDocumentation)
 			{
 				applicationBuilder.UseSwagger();
 				applicationBuilder.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TGS API V4"));
+				logger.LogTrace("Swagger API generation enabled");
 			}
 
 			// Set up CORS based on configuration if necessary
@@ -393,7 +457,10 @@ namespace Tgstation.Server.Host.Core
 			var originalBuilder = corsBuilder;
 			corsBuilder = builder =>
 			{
-				builder.AllowAnyHeader().AllowAnyMethod();
+				builder
+					.AllowAnyHeader()
+					.AllowAnyMethod()
+					.SetPreflightMaxAge(TimeSpan.FromDays(1));
 				originalBuilder?.Invoke(builder);
 			};
 			applicationBuilder.UseCors(corsBuilder);
@@ -402,7 +469,12 @@ namespace Tgstation.Server.Host.Core
 			if (controlPanelConfiguration.Enable)
 			{
 				logger.LogWarning("Web control panel enabled. This is a highly WIP feature!");
-				applicationBuilder.UseStaticFiles();
+				applicationBuilder.UseFileServer(new FileServerOptions
+				{
+					RequestPath = ControlPanelRoute,
+					EnableDefaultFiles = true,
+					EnableDirectoryBrowsing = false
+				});
 			}
 			else
 				logger.LogDebug("Web control panel disabled!");
@@ -417,6 +489,13 @@ namespace Tgstation.Server.Host.Core
 			applicationBuilder.UseMvc();
 
 			// 404 anything that gets this far
+			// End of request pipeline setup
+			var masterVersionsAttribute = MasterVersionsAttribute.Instance;
+			logger.LogTrace("Configuration version: {0}", masterVersionsAttribute.RawConfigurationVersion);
+			logger.LogTrace("DMAPI version: {0}", masterVersionsAttribute.RawDMApiVersion);
+			logger.LogTrace("Web control panel version: {0}", masterVersionsAttribute.RawControlPanelVersion);
+
+			logger.LogDebug("Starting hosting on port {0}...", serverPortProvider.HttpApiPort);
 		}
 	}
 }

@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -124,9 +125,10 @@ namespace Tgstation.Server.Host.IO
 		/// </summary>
 		/// <param name="path">The directory which contains the files</param>
 		/// <param name="extension">The extension to look for without the preceeding "."</param>
+		/// <param name="recursive">If the search should be recursive.</param>
 		/// <param name="cancellationToken">A <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> resulting in a list of paths to files in <paramref name="path"/> with the given <paramref name="extension"/></returns>
-		Task<List<string>> GetFilesWithExtension(string path, string extension, CancellationToken cancellationToken);
+		Task<List<string>> GetFilesWithExtension(string path, string extension, bool recursive, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Deletes a file at <paramref name="path"/>
@@ -186,12 +188,29 @@ namespace Tgstation.Server.Host.IO
 		Task<byte[]> DownloadFile(Uri url, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Extract a set of <paramref name="zipFileBytes"/> to a given <paramref name="path"/>
+		/// Extract a set of <paramref name="zipFile"/> to a given <paramref name="path"/>
 		/// </summary>
 		/// <param name="path">The path to unzip to</param>
-		/// <param name="zipFileBytes">The <see cref="byte"/>s of the <see cref="global::System.IO.Compression.ZipArchive"/></param>
+		/// <param name="zipFile">The <see cref="Stream"/> of the <see cref="global::System.IO.Compression.ZipArchive"/></param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		Task ZipToDirectory(string path, byte[] zipFileBytes, CancellationToken cancellationToken);
+		Task ZipToDirectory(string path, Stream zipFile, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Get the <see cref="DateTimeOffset"/> of when a given <paramref name="path"/> was last modified.
+		/// </summary>
+		/// <param name="path">The path to get metadata for.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="DateTimeOffset"/> of when the file was last modified.</returns>
+		Task<DateTimeOffset> GetLastModified(string path, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Gets the <see cref="Stream"/> for a given file <paramref name="path"/>.
+		/// </summary>
+		/// <param name="path">The path of the file.</param>
+		/// <param name="shareWrite">If <see cref="FileShare.Write"/> should be used.</param>
+		/// <returns>The <see cref="FileStream"/> of the file.</returns>
+		/// <remarks>This function is sychronous.</remarks>
+		FileStream GetFileStream(string path, bool shareWrite);
 	}
 }

@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class ChatBot : Api.Models.Internal.ChatBot
+	public sealed class ChatBot : Api.Models.Internal.ChatBot, IApiTransformable<Api.Models.ChatBot>
 	{
 		/// <summary>
 		/// Default for <see cref="Api.Models.Internal.ChatBot.ChannelLimit"/>.
@@ -13,7 +13,7 @@ namespace Tgstation.Server.Host.Models
 		public const ushort DefaultChannelLimit = 100;
 
 		/// <summary>
-		/// The <see cref="Api.Models.Instance.Id"/>
+		/// The instance <see cref="Api.Models.EntityId.Id"/>
 		/// </summary>
 		public long InstanceId { get; set; }
 
@@ -26,12 +26,9 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.ChatBot.Channels"/>
 		/// </summary>
-		public List<ChatChannel> Channels { get; set; }
+		public ICollection<ChatChannel> Channels { get; set; }
 
-		/// <summary>
-		/// Convert the <see cref="ChatBot"/> to it's API form
-		/// </summary>
-		/// <returns>A new <see cref="Api.Models.ChatBot"/></returns>
+		/// <inheritdoc />
 		public Api.Models.ChatBot ToApi() => new Api.Models.ChatBot
 		{
 			Channels = Channels.Select(x => x.ToApi()).ToList(),

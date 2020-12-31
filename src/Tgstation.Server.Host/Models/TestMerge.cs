@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class TestMerge : Api.Models.Internal.TestMerge
+	public sealed class TestMerge : Api.Models.Internal.TestMerge, IApiTransformable<Api.Models.TestMerge>
 	{
 		/// <summary>
 		/// See <see cref="Api.Models.TestMerge.MergedBy"/>
@@ -26,12 +26,9 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// All the <see cref="RevInfoTestMerge"/> for the <see cref="TestMerge"/>
 		/// </summary>
-		public List<RevInfoTestMerge> RevisonInformations { get; set; }
+		public ICollection<RevInfoTestMerge> RevisonInformations { get; set; }
 
-		/// <summary>
-		/// Convert the <see cref="TestMerge"/> to it's API form
-		/// </summary>
-		/// <returns>A new <see cref="Api.Models.TestMerge"/></returns>
+		/// <inheritdoc />
 		public Api.Models.TestMerge ToApi() => new Api.Models.TestMerge
 		{
 			Author = Author,
@@ -42,7 +39,7 @@ namespace Tgstation.Server.Host.Models
 			Id = Id,
 			MergedBy = MergedBy.ToApi(false),
 			Number = Number,
-			PullRequestRevision = PullRequestRevision,
+			TargetCommitSha = TargetCommitSha,
 			Url = Url
 		};
 	}

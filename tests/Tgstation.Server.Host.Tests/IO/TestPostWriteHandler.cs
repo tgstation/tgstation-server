@@ -1,5 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mono.Unix;
+using Moq;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -19,7 +21,7 @@ namespace Tgstation.Server.Host.IO.Tests
 			if (isWindows)
 				postWriteHandler = new WindowsPostWriteHandler();
 			else
-				postWriteHandler = new PosixPostWriteHandler();
+				postWriteHandler = new PosixPostWriteHandler(Mock.Of<ILogger<PosixPostWriteHandler>>());
 
 			Assert.ThrowsException<ArgumentNullException>(() => postWriteHandler.HandleWrite(null));
 		}
@@ -32,7 +34,7 @@ namespace Tgstation.Server.Host.IO.Tests
 			if (isWindows)
 				postWriteHandler = new WindowsPostWriteHandler();
 			else
-				postWriteHandler = new PosixPostWriteHandler();
+				postWriteHandler = new PosixPostWriteHandler(Mock.Of<ILogger<PosixPostWriteHandler>>());
 
 			//test on a valid file first
 			var tmpFile = Path.GetTempFileName();
@@ -66,7 +68,7 @@ namespace Tgstation.Server.Host.IO.Tests
 		{
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 				return;
-			var postWriteHandler = new PosixPostWriteHandler();
+			var postWriteHandler = new PosixPostWriteHandler(Mock.Of<ILogger<PosixPostWriteHandler>>());
 			var tmpFile = Path.GetTempFileName();
 			File.Delete(tmpFile);
 			Assert.ThrowsException<UnixIOException>(() => postWriteHandler.HandleWrite(tmpFile));

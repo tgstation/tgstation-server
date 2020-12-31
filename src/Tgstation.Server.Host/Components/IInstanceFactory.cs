@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Hosting;
-using Tgstation.Server.Host.Components.Interop;
+using System.Threading.Tasks;
+using Tgstation.Server.Host.Components.Interop.Bridge;
 
 namespace Tgstation.Server.Host.Components
 {
@@ -13,7 +14,7 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		/// <param name="bridgeRegistrar">The <see cref="IBridgeRegistrar"/> to use.</param>
 		/// <param name="metadata">The <see cref="Models.Instance"/></param>
-		/// <returns>A new <see cref="IInstance"/></returns>
-		IInstance CreateInstance(IBridgeRegistrar bridgeRegistrar, Models.Instance metadata);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="IInstance"/>.</returns>
+		Task<IInstance> CreateInstance(IBridgeRegistrar bridgeRegistrar, Models.Instance metadata);
 	}
 }

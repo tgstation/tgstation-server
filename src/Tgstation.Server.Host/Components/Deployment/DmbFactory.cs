@@ -1,12 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Components.Deployment.Remote;
 using Tgstation.Server.Host.Database;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
 
@@ -15,14 +16,14 @@ namespace Tgstation.Server.Host.Components.Deployment
 	/// <summary>
 	/// Standard <see cref="IDmbFactory"/>
 	/// </summary>
-	sealed class DmbFactory : IDmbFactory, ICompileJobConsumer
+	sealed class DmbFactory : IDmbFactory, ICompileJobSink
 	{
 		/// <inheritdoc />
 		public Task OnNewerDmb
 		{
 			get
 			{
-				lock (this)
+				lock (jobLockCounts)
 					return newerDmbTcs.Task;
 			}
 		}
@@ -41,6 +42,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly IIOManager ioManager;
 
 		/// <summary>
+		/// The <see cref="IRemoteDeploymentManagerFactory"/> for the <see cref="DmbFactory"/>.
+		/// </summary>
+		readonly IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="DmbFactory"/>
 		/// </summary>
 		readonly ILogger<DmbFactory> logger;
@@ -48,7 +54,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <summary>
 		/// The <see cref="Api.Models.Instance"/> for the <see cref="DmbFactory"/>
 		/// </summary>
-		readonly Api.Models.Instance instance;
+		readonly Api.Models.Instance metadata;
 
 		/// <summary>
 		/// The <see cref="CancellationTokenSource"/> for <see cref="cleanupTask"/>
@@ -76,18 +82,30 @@ namespace Tgstation.Server.Host.Components.Deployment
 		IDmbProvider nextDmbProvider;
 
 		/// <summary>
+		/// If the <see cref="DmbFactory"/> is "started" via <see cref="Microsoft.Extensions.Hosting.IHostedService"/>.
+		/// </summary>
+		bool started;
+
+		/// <summary>
 		/// Construct a <see cref="DmbFactory"/>
 		/// </summary>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
+		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		/// <param name="instance">The value of <see cref="instance"/></param>
-		public DmbFactory(IDatabaseContextFactory databaseContextFactory, IIOManager ioManager, ILogger<DmbFactory> logger, Api.Models.Instance instance)
+		/// <param name="metadata">The value of <see cref="metadata"/></param>
+		public DmbFactory(
+			IDatabaseContextFactory databaseContextFactory,
+			IIOManager ioManager,
+			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
+			ILogger<DmbFactory> logger,
+			Api.Models.Instance metadata)
 		{
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
+			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
+			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 
 			cleanupTask = Task.CompletedTask;
 			newerDmbTcs = new TaskCompletionSource<object>();
@@ -107,18 +125,21 @@ namespace Tgstation.Server.Host.Components.Deployment
 			async Task HandleCleanup()
 			{
 				var deleteJob = ioManager.DeleteDirectory(job.DirectoryName.ToString(), cleanupCts.Token);
-				Task otherTask;
+				var remoteDeploymentManager = remoteDeploymentManagerFactory.CreateRemoteDeploymentManager(
+					metadata,
+					job);
 
-				// lock (this) //already locked below
-				otherTask = cleanupTask;
-				await Task.WhenAll(otherTask, deleteJob).ConfigureAwait(false);
+				// DCT: None available
+				var deploymentJob = remoteDeploymentManager.MarkInactive(job, default);
+				var otherTask = cleanupTask;
+				await Task.WhenAll(otherTask, deleteJob, deploymentJob).ConfigureAwait(false);
 			}
 
-			lock (this)
+			lock (jobLockCounts)
 				if (!jobLockCounts.TryGetValue(job.Id, out var currentVal) || currentVal == 1)
 				{
 					jobLockCounts.Remove(job.Id);
-					logger.LogDebug("Cleaning compile job {0} => {1}", job.Id, job.DirectoryName);
+					logger.LogDebug("Cleaning lock-free compile job {0} => {1}", job.Id, job.DirectoryName);
 					cleanupTask = HandleCleanup();
 				}
 				else
@@ -137,12 +158,28 @@ namespace Tgstation.Server.Host.Components.Deployment
 			var newProvider = await FromCompileJob(job, cancellationToken).ConfigureAwait(false);
 			if (newProvider == null)
 				return;
-			lock (this)
+
+			// Do this first, because it's entirely possible when we set the tcs it will immediately need to be applied
+			if (started)
+			{
+				var remoteDeploymentManager = remoteDeploymentManagerFactory.CreateRemoteDeploymentManager(
+					metadata,
+					job);
+				await remoteDeploymentManager.StageDeployment(
+						newProvider.CompileJob,
+						cancellationToken)
+						.ConfigureAwait(false);
+			}
+
+			lock (jobLockCounts)
 			{
 				nextDmbProvider?.Dispose();
 				nextDmbProvider = newProvider;
-				newerDmbTcs.SetResult(nextDmbProvider);
+
+				// Oh god dammit
+				var temp = newerDmbTcs;
 				newerDmbTcs = new TaskCompletionSource<object>();
+				temp.SetResult(nextDmbProvider);
 			}
 		}
 
@@ -153,7 +190,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				throw new InvalidOperationException("No .dmb available!");
 			if (lockCount < 0)
 				throw new ArgumentOutOfRangeException(nameof(lockCount), lockCount, "lockCount must be greater than or equal to 0!");
-			lock (this)
+			lock (jobLockCounts)
 			{
 				var jobId = nextDmbProvider.CompileJob.Id;
 				var incremented = jobLockCounts[jobId] += lockCount;
@@ -169,7 +206,11 @@ namespace Tgstation.Server.Host.Components.Deployment
 			await databaseContextFactory.UseContext(async (db) =>
 			{
 				cj = await db
-					.MostRecentCompletedCompileJobOrDefault(instance, cancellationToken)
+					.CompileJobs
+					.AsQueryable()
+					.Where(x => x.Job.Instance.Id == metadata.Id)
+					.OrderByDescending(x => x.Job.StoppedAt)
+					.FirstOrDefaultAsync(cancellationToken)
 					.ConfigureAwait(false);
 			})
 			.ConfigureAwait(false);
@@ -177,6 +218,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			if (cj == default(CompileJob))
 				return;
 			await LoadCompileJob(cj, cancellationToken).ConfigureAwait(false);
+			started = true;
 
 			// we dont do CleanUnusedCompileJobs here because the watchdog may have plans for them yet
 		}
@@ -184,8 +226,15 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <inheritdoc />
 		public async Task StopAsync(CancellationToken cancellationToken)
 		{
-			using (cancellationToken.Register(() => cleanupCts.Cancel()))
-				await cleanupTask.ConfigureAwait(false);
+			try
+			{
+				using (cancellationToken.Register(() => cleanupCts.Cancel()))
+					await cleanupTask.ConfigureAwait(false);
+			}
+			finally
+			{
+				started = false;
+			}
 		}
 
 		/// <inheritdoc />
@@ -195,33 +244,85 @@ namespace Tgstation.Server.Host.Components.Deployment
 			if (compileJob == null)
 				throw new ArgumentNullException(nameof(compileJob));
 
-			// ensure we have the entire compile job tree
-			await databaseContextFactory.UseContext(async db => compileJob = await db.CompileJobs.Where(x => x.Id == compileJob.Id)
-				.Include(x => x.Job).ThenInclude(x => x.StartedBy)
-				.Include(x => x.RevisionInformation).ThenInclude(x => x.PrimaryTestMerge).ThenInclude(x => x.MergedBy)
-				.Include(x => x.RevisionInformation).ThenInclude(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).ThenInclude(x => x.MergedBy)
-				.FirstAsync(cancellationToken).ConfigureAwait(false)).ConfigureAwait(false); // can't wait to see that query
-
+			// ensure we have the entire metadata tree
 			logger.LogTrace("Loading compile job {0}...", compileJob.Id);
+			await databaseContextFactory.UseContext(
+				async db => compileJob = await db
+					.CompileJobs
+					.AsQueryable()
+					.Where(x => x.Id == compileJob.Id)
+					.Include(x => x.Job)
+						.ThenInclude(x => x.StartedBy)
+					.Include(x => x.RevisionInformation)
+						.ThenInclude(x => x.PrimaryTestMerge)
+						.ThenInclude(x => x.MergedBy)
+					.Include(x => x.RevisionInformation)
+						.ThenInclude(x => x.ActiveTestMerges)
+						.ThenInclude(x => x.TestMerge)
+						.ThenInclude(x => x.MergedBy)
+					.FirstAsync(cancellationToken)
+					.ConfigureAwait(false))
+				.ConfigureAwait(false); // can't wait to see that query
+
+			if (!compileJob.Job.StoppedAt.HasValue)
+			{
+				// This happens when we're told to load the compile job that is currently finished up
+				// It constitutes an API violation if it's returned by the DreamDaemonController so just set it here
+				// Bit of a hack, but it works out to be nearly if not the same value that's put in the DB
+				logger.LogTrace("Setting missing StoppedAt for CompileJob.Job #{0}...", compileJob.Job.Id);
+				compileJob.Job.StoppedAt = DateTimeOffset.UtcNow;
+			}
+
 			var providerSubmitted = false;
-			var newProvider = new DmbProvider(compileJob, ioManager, () =>
+
+			void CleanupAction()
 			{
 				if (providerSubmitted)
 					CleanJob(compileJob);
-			});
+			}
 
+			var newProvider = new DmbProvider(compileJob, ioManager, CleanupAction);
 			try
 			{
-				var primaryCheckTask = ioManager.FileExists(ioManager.ConcatPath(newProvider.PrimaryDirectory, newProvider.DmbName), cancellationToken);
-				var secondaryCheckTask = ioManager.FileExists(ioManager.ConcatPath(newProvider.PrimaryDirectory, newProvider.DmbName), cancellationToken);
+				const string LegacyADirectoryName = "A";
+				const string LegacyBDirectoryName = "B";
 
-				if (!(await primaryCheckTask.ConfigureAwait(false) && await secondaryCheckTask.ConfigureAwait(false)))
+				var dmbExistsAtRoot = await ioManager.FileExists(
+					ioManager.ConcatPath(
+						newProvider.Directory,
+						newProvider.DmbName),
+					cancellationToken)
+					.ConfigureAwait(false);
+
+				if (!dmbExistsAtRoot)
 				{
-					logger.LogWarning("Error loading compile job, .dmb missing!");
-					return null; // omae wa mou shinderu
+					logger.LogTrace("Didn't find .dmb at game directory root, checking A/B dirs...");
+					var primaryCheckTask = ioManager.FileExists(
+						ioManager.ConcatPath(
+							newProvider.Directory,
+							LegacyADirectoryName,
+							newProvider.DmbName),
+						cancellationToken);
+					var secondaryCheckTask = ioManager.FileExists(
+						ioManager.ConcatPath(
+							newProvider.Directory,
+							LegacyBDirectoryName,
+							newProvider.DmbName),
+						cancellationToken);
+
+					if (!(await primaryCheckTask.ConfigureAwait(false) && await secondaryCheckTask.ConfigureAwait(false)))
+					{
+						logger.LogWarning("Error loading compile job, .dmb missing!");
+						return null; // omae wa mou shinderu
+					}
+
+					// rebuild the provider because it's using the legacy style directories
+					// Don't dispose it
+					logger.LogDebug("Creating legacy two folder .dmb provider targeting {0} directory...", LegacyADirectoryName);
+					newProvider = new DmbProvider(compileJob, ioManager, CleanupAction, Path.DirectorySeparatorChar + LegacyADirectoryName);
 				}
 
-				lock (this)
+				lock (jobLockCounts)
 				{
 					if (!jobLockCounts.TryGetValue(compileJob.Id, out int value))
 					{
@@ -231,9 +332,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 					else
 						jobLockCounts[compileJob.Id] = ++value;
 
-					logger.LogTrace("Compile job {0} lock count now: {1}", compileJob.Id, value);
-
 					providerSubmitted = true;
+
+					logger.LogTrace("Compile job {0} lock count now: {1}", compileJob.Id, value);
 					return newProvider;
 				}
 			}
@@ -247,12 +348,12 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 		/// <inheritdoc />
 		#pragma warning disable CA1506 // TODO: Decomplexify
-		public async Task CleanUnusedCompileJobs(CompileJob exceptThisOne, CancellationToken cancellationToken)
+		public async Task CleanUnusedCompileJobs(CancellationToken cancellationToken)
 		{
 			List<long> jobIdsToSkip;
 
 			// don't clean locked directories
-			lock (this)
+			lock (jobLockCounts)
 				jobIdsToSkip = jobLockCounts.Select(x => x.Key).ToList();
 
 			List<string> jobUidsToNotErase = null;
@@ -260,12 +361,22 @@ namespace Tgstation.Server.Host.Components.Deployment
 			// find the uids of locked directories
 			await databaseContextFactory.UseContext(async db =>
 			{
-				jobUidsToNotErase = await db.CompileJobs.Where(x => x.Job.Instance.Id == instance.Id && jobIdsToSkip.Contains(x.Id)).Select(x => x.DirectoryName.Value.ToString().ToUpperInvariant()).ToListAsync(cancellationToken).ConfigureAwait(false);
+				jobUidsToNotErase = (await db
+					.CompileJobs
+					.AsQueryable()
+					.Where(
+						x => x.Job.Instance.Id == metadata.Id
+						&& jobIdsToSkip.Contains(x.Id))
+					.Select(x => x.DirectoryName.Value)
+					.ToListAsync(cancellationToken)
+					.ConfigureAwait(false))
+					.Select(x => x.ToString())
+					.ToList();
 			}).ConfigureAwait(false);
 
-			// add the other exemption
-			if (exceptThisOne != null)
-				jobUidsToNotErase.Add(exceptThisOne.DirectoryName.Value.ToString().ToUpperInvariant());
+			jobUidsToNotErase.Add(SwappableDmbProvider.LiveGameDirectory);
+
+			logger.LogTrace("We will not clean the following directories: {0}", String.Join(", ", jobUidsToNotErase));
 
 			// cleanup
 			var gameDirectory = ioManager.ResolvePath();
@@ -275,8 +386,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 			var tasks = directories.Select(async x =>
 			{
 				var nameOnly = ioManager.GetFileName(x);
-				if (jobUidsToNotErase.Contains(nameOnly.ToUpperInvariant()))
+				if (jobUidsToNotErase.Contains(nameOnly))
 					return;
+				logger.LogDebug("Cleaning unused game folder: {0}...", nameOnly);
 				try
 				{
 					++deleting;
@@ -288,15 +400,20 @@ namespace Tgstation.Server.Host.Components.Deployment
 				}
 				catch (Exception e)
 				{
-					logger.LogWarning("Error deleting directory {0}! Exception: {1}", x, e);
+					logger.LogWarning(e, "Error deleting directory {0}!", x);
 				}
 			}).ToList();
 			if (deleting > 0)
-			{
-				logger.LogDebug("Cleaning {0} unused game folders...", deleting);
-				await Task.WhenAll().ConfigureAwait(false);
-			}
+				await Task.WhenAll(tasks).ConfigureAwait(false);
 		}
 		#pragma warning restore CA1506
+
+		/// <inheritdoc />
+		public CompileJob LatestCompileJob()
+		{
+			if (!DmbAvailable)
+				return null;
+			return LockNextDmb(0)?.CompileJob;
+		}
 	}
 }

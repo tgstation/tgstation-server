@@ -43,11 +43,7 @@ namespace Tgstation.Server.Host.Service.Tests
 			using (var service = new ServerService(mockWatchdogFactory.Object, mockLoggerFactory, default))
 			{
 				onStart.Invoke(service, new object[] { args });
-
-				Assert.IsFalse(cancellationToken.IsCancellationRequested);
-
 				onStop.Invoke(service, Array.Empty<object>());
-				Assert.IsTrue(cancellationToken.IsCancellationRequested);
 				mockWatchdog.VerifyAll();
 			}
 

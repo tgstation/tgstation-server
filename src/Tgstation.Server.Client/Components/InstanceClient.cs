@@ -22,7 +22,7 @@ namespace Tgstation.Server.Client.Components
 		public IConfigurationClient Configuration { get; }
 
 		/// <inheritdoc />
-		public IInstanceUserClient Users { get; }
+		public IInstancePermissionSetClient PermissionSets { get; }
 
 		/// <inheritdoc />
 		public IChatBotsClient ChatBots { get; }
@@ -34,25 +34,22 @@ namespace Tgstation.Server.Client.Components
 		public IJobsClient Jobs { get; }
 
 		/// <summary>
-		/// The <see cref="IApiClient"/> for the <see cref="InstanceClient"/>
-		/// </summary>
-		readonly IApiClient apiClient;
-
-		/// <summary>
 		/// Construct a <see cref="InstanceClient"/>
 		/// </summary>
-		/// <param name="apiClient">The value of <see cref="apiClient"/></param>
+		/// <param name="apiClient">The <see cref="IApiClient"/> used to construct component clients.</param>
 		/// <param name="instance">The value of <see cref="Metadata"/></param>
 		public InstanceClient(IApiClient apiClient, Instance instance)
 		{
-			this.apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
+			if (apiClient == null)
+				throw new ArgumentNullException(nameof(apiClient));
+
 			Metadata = instance ?? throw new ArgumentNullException(nameof(instance));
 
 			Byond = new ByondClient(apiClient, instance);
 			Repository = new RepositoryClient(apiClient, instance);
 			DreamDaemon = new DreamDaemonClient(apiClient, instance);
 			Configuration = new ConfigurationClient(apiClient, instance);
-			Users = new InstanceUserClient(apiClient, instance);
+			PermissionSets = new InstancePermissionSetClient(apiClient, instance);
 			ChatBots = new ChatBotsClient(apiClient, instance);
 			DreamMaker = new DreamMakerClient(apiClient, instance);
 			Jobs = new JobsClient(apiClient, instance);

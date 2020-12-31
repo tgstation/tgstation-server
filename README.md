@@ -1,6 +1,6 @@
 # tgstation-server v4:
 
-[![Build status](https://ci.appveyor.com/api/projects/status/7t1h7bvuha0p9j5f/branch/master?svg=true)](https://ci.appveyor.com/project/Cyberboss/tgstation-server-tools/branch/master) [![Build Status](https://travis-ci.org/tgstation/tgstation-server.svg?branch=master)](https://travis-ci.org/tgstation/tgstation-server) [![codecov](https://codecov.io/gh/tgstation/tgstation-server/branch/master/graph/badge.svg)](https://codecov.io/gh/tgstation/tgstation-server)
+![CI](https://github.com/tgstation/tgstation-server/workflows/CI/badge.svg) [![codecov](https://codecov.io/gh/tgstation/tgstation-server/branch/master/graph/badge.svg)](https://codecov.io/gh/tgstation/tgstation-server)
 
 [![GitHub license](https://img.shields.io/github/license/tgstation/tgstation-server.svg)](LICENSE) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/tgstation/tgstation-server.svg)](http://isitmaintained.com/project/tgstation/tgstation-server "Average time to resolve an issue") [![NuGet version](https://img.shields.io/nuget/v/Tgstation.Server.Api.svg)](https://www.nuget.org/packages/Tgstation.Server.Api) [![NuGet version](https://img.shields.io/nuget/v/Tgstation.Server.Client.svg)](https://www.nuget.org/packages/Tgstation.Server.Client)
 
@@ -8,7 +8,7 @@
 
 [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com) [![forthebadge](http://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)](http://forthebadge.com)
 
-This is a toolset to manage production BYOND servers. It includes the ability to update the server without having to stop or shutdown the server (the update will take effect on a "reboot" of the server) the ability start the server and restart it if it crashes, as well as systems for managing code and game files, and merging GitHub Pull Requests for test deployments.  
+This is a toolset to manage production BYOND servers. It includes the ability to update the server without having to stop or shutdown the server, (the update will take effect on a "reboot" of the server) the ability to start the server and restart it if it crashes, as well as systems for managing code and game files, and merging GitHub Pull Requests for test deployments.
 
 ### Legacy Servers
 
@@ -18,12 +18,12 @@ Older server versions can be found in the V# branches of this repository. Note t
 
 ### Pre-Requisites
 
-- [.NET Core Runtime (>= v3.1)](https://www.microsoft.com/net/download) If you plan to install tgstation-server as a Windows service, you should also ensure that your .NET Framework runtime version is >= v4.7.1 (Download can be found on same page). On Windows, ensure that the `dotnet` executable file is in your system's `PATH` variable (or the user's that will be running the server).
-- A [MariaDB](https://downloads.mariadb.org/), MySQL, or [Microsoft SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=55994) database engine is required
+- [ASP .NET Core Runtime (>= v3.1)](https://dotnet.microsoft.com/download/dotnet-core/current/runtime) (Choose the option to `Run Server Apps` for your system) If you plan to install tgstation-server as a Windows service, you should also ensure that your .NET Framework runtime version is >= v4.7.2 (Download can be found on same page). Ensure that the `dotnet` executable file is in your system's `PATH` variable (or that of the user's that will be running the server).
+- A [MariaDB](https://downloads.mariadb.org/), MySQL, [PostgresSQL](https://www.postgresql.org/download/), or [Microsoft SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=55994) database engine is required
 
 ### Installation
 
-1. [Download the latest V4 release .zip](https://github.com/tgstation/tgstation-server/releases/latest). The ServerService package will only work on Windows. Choose ServerConsole if that is not your target OS or you prefer not to use the Windows service.
+1. [Download the latest V4 release .zip](https://github.com/tgstation/tgstation-server/releases/latest). The `ServerService` package will only work on Windows. Choose `ServerConsole` if that is not your target OS or you prefer not to use the Windows service.
 2. Extract the .zip file to where you want the server to run from. Note the account running the server must have write and delete access to the `lib` subdirectory.
 
 #### Windows
@@ -36,7 +36,11 @@ We recommend using Docker for Linux installations, see below. The content of thi
 
 The following dependencies are required to run tgstation-server on Linux alongside the .NET Core runtime
 
-- gcc-multilib (on 64-bit systems for running BYOND)
+- libc6-i386
+- libstdc++6:i386
+- libssl1.0.0
+- gdb (for using gcore to create core dumps)
+- gcc-multilib (Only on 64-bit systems)
 
 Note that tgstation-server has only ever been tested on Linux via it's [docker environment](build/Dockerfile#L22). If you are having trouble with something in a native installation, or figure out a required workaround, please contact project maintainers so this documentation may be better updated.
 
@@ -48,36 +52,64 @@ tgstation-server supports running in a docker container and is the recommended d
 To create a container run
 ```sh
 docker run \
-	-ti \ #start interactive for manual configuration
-	--restart=always \ #if you want maximum uptime
-	--network="host" \ #if your sql server is on the same machine
-	--name="tgs" \ #or whatever else you wanna call it
-	--cap-add=sys_nice \ #allows tgs to schedule DreamDaemon as a higher priority process
-	--init \ #reaps potential zombie processes
-	-p <tgs port>:80 \
-	-p 0.0.0.0:<public game port>:<public game port> \
-	-v /path/to/your/configfile/directory:/config_data \ #only if you want to use manual configuration
-	-v /path/to/store/instances:/tgs4_instances \
-	-v /path/to/your/log/folder:/tgs_logs \
-	tgstation/server:<release version> #replace this with <your tag name> if you built the image locally
+	-ti \ # Start with interactive terminal the first time to run the setup wizard
+	--restart=always \ # Recommended for maximum uptime
+	--network="host" \ # Not recommended, eases networking setup if your sql server is on the same machine
+	--name="tgs" \ # Name for the container
+	--cap-add=sys_nice \ # Recommended, allows tgs to schedule DreamDaemon as a higher priority process
+	--init \ #Highly recommended, reaps potential zombie processes
+	-p 5000:5000 \ # Port bridge for accessing TGS, you can change this if you need
+	-p 0.0.0.0:<public game port>:<public game port> \ # Port bridge for accessing DreamDaemon
+	-v /path/to/your/configfile/directory:/config_data \ # Recommended, create a volume mapping for server configuration
+	-v /path/to/store/instances:/tgs4_instances \ # Recommended, create a volume mapping for server instances
+	-v /path/to/your/log/folder:/tgs_logs \ # Recommended, create a volume mapping for server logs
+	tgstation/server[:<release version>]
 ```
 with any additional options you desire (i.e. You'll have to expose more game ports in order to host more than one instance).
 
+When launching the container for the first time, you'll be prompted with the setup wizard and then the container will exit. Start the container again to launch the server.
+
+Important note about port exposure: The internal port used by DreamDaemon _**MUST**_ match the port you want users to connect on. If it doesn't, you'll still be able to have them connect HOWEVER links from the BYOND hub will point at what DreamDaemon thinks the port is (the internal port).
+
 Note although `/app/lib` is specified as a volume mount point in the `Dockerfile`, unless you REALLY know what you're doing. Do not mount any volumes over this for fear of breaking your container.
 
-If using manual configuration, before starting your container make sure the aforemention `appsettings.Production.json` is setup properly. See below
+The configuration option `General:ValidInstancePaths` will be preconfigured to point to `/tgs4_instances`. It is recommended you don't change this.
+
+Note that this container is meant to be long running. Updates are handled internally as opposed to at the container level.
+
+Note that automatic configuration reloading is currently not supported in the container. See #1143
+
+If using manual configuration, before starting your container make sure the aforementioned `appsettings.Production.json` is setup properly. See below
 
 ### Configuring
 
-The first time you run TGS4 you should be prompted with a configuration wizard which will guide you through setting up your appsettings.Production.json 
+The first time you run TGS4 you should be prompted with a configuration wizard which will guide you through setting up your appsettings.Production.json
 
 This wizard will, generally, run whenever the server is launched without detecting the config json. Follow the instructions below to perform this process manually.
 
+#### Configuration Methods
+
+There are 3 primary supported ways to configure TGS:
+
+- Modify the `appsettings.Production.json` file (Recommended).
+- Set environment variables in the form `Section__Subsection=value` or `Section__ArraySubsection__0=value` for arrays.
+- Set command line arguments in the form `--Section:Subsection=value` or `--Section:ArraySubsection:0=value` for arrays.
+
+The latter two are not recommended as they cannot be dynamically changed at runtime. See more on ASP.NET core configuration [here](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-3.1).
+
 #### Manual Configuration
 
-Create an `appsettings.Production.json` file next to `appsettings.json`. This will override the default settings in appsettings.json with your production settings. There are a few keys meant to be changed by hosts. Modifying any config files while the server is running will trigger a safe restart (Keeps DreamDaemon's running). Note these are all case-sensitive: 
+Create an `appsettings.Production.json` file next to `appsettings.json`. This will override the default settings in appsettings.json with your production settings. There are a few keys meant to be changed by hosts. Modifying any config files while the server is running will trigger a safe restart (Keeps DreamDaemon instances running). Note these are all case-sensitive:
+
+- `General:ConfigVersion`: Suppresses warnings about out of date config versions. You should change this after updating TGS to one with a new config version. The current version can be found on the releases page for your server version (This field did not exist before v4.4.0).
 
 - `General:MinimumPasswordLength`: Minimum password length requirement for database users
+
+- `General:ValidInstancePaths`: Array meant to limit the directories in which instances may be created.
+
+- `General:UserLimit`: Maximum number of users that may be created
+
+- `General:InstanceLimit`: Maximum number of instances that may be created
 
 - `General:GitHubAccessToken`: Specify a GitHub personal access token with no scopes here to highly mitigate the possiblity of 429 response codes from GitHub requests
 
@@ -87,17 +119,52 @@ Create an `appsettings.Production.json` file next to `appsettings.json`. This wi
 
 - `Kestrel:Endpoints:Http:Url`: The URL (i.e. interface and ports) your application should listen on. General use case should be `http://localhost:<port>` for restricted local connections. See the Remote Access section for configuring public access to the World Wide Web. This doesn't need to be changed using the docker setup and should be mapped with the `-p` option instead
 
-- `Database:DatabaseType`: Can be one of `SqlServer`, `MariaDB`, or `MySql`
+- `Database:DatabaseType`: Can be one of `SqlServer`, `MariaDB`, `MySql`, `PostgresSql`, or `Sqlite`.
 
-- `Database:MySqlServerVersion`: The version of MySql/MariaDB the database resides on, can be left as null for attempted auto detection. Used by the MySQL/MariaDB provider for selection of [certain features](https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql/blob/2.2.6/src/EFCore.MySql/Storage/Internal/ServerVersion.cs) ignore at your own risk. A string in the form `<major>.<minor>.<patch>`
+- `Database:ServerVersion`: The version of the database server. Used by the MySQL/MariaDB and Postgres providers for selection of certain features, ignore at your own risk. A string in the form `<major>.<minor>.<patch>` for MySQL/MariaDB or `<major>.<minor>` for PostgresSQL.
 
-- `Database:ConnectionString`: Connection string for your database. Click [here](https://www.developerfusion.com/tools/sql-connection-string/) for an SQL Server generator or see [here](https://www.connectionstrings.com/mysql/) for a MySQL guide ([You should probably use '127.0.0.1' instead of 'localhost'](https://stackoverflow.com/questions/19712307/mysql-localhost-127-0-0-1)).
+- `Database:ConnectionString`: Connection string for your database. Click [here](https://www.developerfusion.com/tools/sql-connection-string/) for an SQL Server generator, or see [here](https://www.connectionstrings.com/postgresql/) for a Postgres guide or [here](https://www.connectionstrings.com/mysql/) for a MySQL guide ([You should probably use '127.0.0.1' instead of 'localhost'](https://stackoverflow.com/questions/19712307/mysql-localhost-127-0-0-1)). Sqlite connection strings should be in the format `Data Source=<PATH TO DATABASE FILE>;Mode=ReadWriteCreate`.
 
 - `ControlPanel:Enable`: Enable the javascript based control panel to be served from the server via /index.html
 
 - `ControlPanel:AllowAnyOrigin`: Set the Access-Control-Allow-Origin header to * for all responses (also enables all headers and methods)
 
 - `ControlPanel:AllowedOrigins`: Set the Access-Control-Allow-Origin headers to this list of origins for all responses (also enables all headers and methods). This is overridden by `ControlPanel:AllowAnyOrigin`
+
+- `Swarm`: This section should be left `null` unless using the server swarm system. If this is to happen, ensure all swarm servers are set to connect to the same database.
+
+- `Swarm:PrivateKey`: Should be a secure string set identically on all swarmed servers.
+
+- `Swarm:ControllerAddress`: Should be set on all swarmed servers that are **not** the controller server and should be an address the controller server may be reached at.
+
+- `Swarm:Address`: Should be set on all swarmed servers. Should be an address the server can be reached at by other servers in the swarm.
+
+- `Swarm:Identifier` should be set uniquely on all swarmed servers. Used to identify the current server. This is also used to select which instances exist on the current machine and should not be changed post-setup.
+
+- `Security:OAuth:<Provider Name>`: Sets the OAuth client ID and secret for a given `<Provider Name>`. The currently supported providers are `GitHub`, `Discord`, and `TGForums`. Setting these fields to `null` disables logins with the provider, but does not stop users from associating their accounts using the API. Sample Entry:
+```json
+{
+	"Security": {
+		"OAuth": {
+			"Keycloak": {
+				"ClientId": "...",
+				"ClientSecret": "...",
+				"RedirectUrl": "..."
+				"ServerUrl": "..."
+			}
+		}
+	}
+}
+```
+The following providers use the `RedirectUrl` setting:
+
+- GitHub
+- TGForums
+- Keycloak
+
+The following providers use the `ServerUrl` setting:
+
+- Keycloak
 
 ### Database Configuration
 
@@ -129,7 +196,7 @@ For the docker version run `docker stop <your container name>`
 
 ## Integrating
 
-tgstation-server 4 currently REQUIRES the DMAPI to be integrated into any BYOND codebase which plans on being used by it. The integration process is a fairly simple set of code changes.
+tgstation-server 4 provides the DMAPI which can be be integrated into any BYOND codebase for heavily enhanced functionality. The integration process is a fairly simple set of code changes.
 
 1. Copy the [latest release of the DMAPI](https://github.com/tgstation/tgstation-server/releases) anywhere in your code base. `tgs.dm` can be seperated from the `tgs` folder, but do not modify or move the contents of the `tgs` folder
 2. Modify your `.dme`(s) to include the `tgs.dm` and `tgs/includes.dm` files (ORDER OF APPEARANCE IS MANDATORY)
@@ -197,7 +264,7 @@ Once complete, test that your configuration worked by visiting your proxy site f
 1. Acquire an HTTPS certificate. The easiet free way for Windows is [win-acme](https://github.com/PKISharp/win-acme) (requires you to set up the website first)
 2. Install the [Web Platform Installer](https://www.microsoft.com/web/downloads/platform.aspx)
 3. Open the web platform installer in the IIS Manager and install the Application Request Routing 3.0 module
-4. Create a new website, bind it to HTTPS only with your chosen certificate and exposed port. The physical path won't matter since it won't be used. Use `Require Server Name Indication` if you want to limit requests to a specific URL prefix.
+4. Create a new website, bind it to HTTPS only with your chosen certificate and exposed port. The physical path won't matter since it won't be used. Use `Require Server Name Indication` if you want to limit requests to a specific URL prefix. Do not use the same port as the one TGS is running on.
 5. Close and reopen the IIS Manager
 5. Open the site and navigate to the `URL Rewrite` module
 6. In the `Actions` Pane on the right click `Add Rule(s)...`
@@ -233,7 +300,7 @@ See https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/
 
 ### Apache
 
-1. Ensure the `mod_proxy` extension is installed. 
+1. Ensure the `mod_proxy` extension is installed.
 2. Setup a basic website configuration. Instructions on how to do so are out of scope.
 3. Acquire an HTTPS certificate, likely via Let's Encrypt, and configure Apache to use it.
 4. Under a VirtualHost entry, setup the following (replace 8080 with the port TGS is hosted on):
@@ -260,13 +327,19 @@ Example VirtualHost Entry
 </IfModule>
 ```
 
+## Swarmed Servers
+
+Multiple tgstation-servers can be linked together in a swarm. The main benefit of this is allowing for users, groups, and permissions to be shared across the servers. Servers in a swarm must connect to the same database, use the same tgstation-server version, and have their own unique names.
+
+In a swarm, one server is designated the 'controller'. This is the server other 'node's in the swarm communicate with and coordinates group updates. Issuing an update command to one server in a swarm will update them all to the specified version.
+
 ## Usage
 
 tgstation-server v4 is controlled via a RESTful HTTP json API. Documentation on this API can be found [here](https://tgstation.github.io/tgstation-server/api.html). This section serves to document the concepts of the server. The API is versioned separately from the release version. A specification for it can be found in the api-vX.X.X git releases/tags.
 
 ### Users
 
-All actions apart from logging in must be taken by a user. TGS installs with one default user whose credentials can be found [here](src/Tgstation.Server.Api/Models/User.cs). It is recommended to disable this user ASAP as it is used to create Jobs that are started by the server itself. If access to all users is lost, the default user can be reset using the `Database:ResetAdminPassword` configuration setting. 
+All actions apart from logging in must be taken by a user. TGS installs with one default user whose credentials can be found [here](src/Tgstation.Server.Api/Models/User.cs). It is recommended to disable this user ASAP as it is used to create Jobs that are started by the server itself. If access to all users is lost, the default user can be reset using the `Database:ResetAdminPassword` configuration setting.
 
 Users can be enabled/disabled and have a very granular set of rights associated to them that determine the actions they are allowed to take (i.e. Modify the user list or create instances). Users can be _database based_ or _system based_. Database users are your standard web users with a username and password. System users, on the otherhand, are authenticated with the host OS. These users cannot have their password or names changed by TGS as they are managed by the system (and in reverse, login tokens don't expire when their password changes). The benefit to having these users is it allows the use of system ACLs for static file control. More on that later.
 
@@ -278,7 +351,7 @@ An instance is stored in a single folder anywhere on a system and is made up of 
 
 ##### Instance Users
 
-All users with access to an instance have an InstanceUser object associated with the two that defines more rights specific to that instance (i.e. Deploy code, modify bots, edit other InstanceUsers). 
+All users with access to an instance have an InstanceUser object associated with the two that defines more rights specific to that instance (i.e. Deploy code, modify bots, edit other InstanceUsers).
 
 #### Repository
 
@@ -336,7 +409,7 @@ Otherwise the files `HeadInclude.dm` and `TailInclude.dm` are searched for and a
 
 #### EventScripts
 
-This folder can contain anything. But, when certain events occur in the instance, TGS will look here for `.bat` or `.sh` files with the same name and run those with corresponding arguments. List of supported events can be found [here](src/Tgstation.Server.Host/Components/StaticFiles/Configuration.cs#L28) (subject to expansion) list of event parameters can be found [here](src/Tgstation.Server.Host/Components/EventType.cs)
+This folder can contain anything. But, when certain events occur in the instance, TGS will look here for `.bat` or `.sh` files with the same name and run those with corresponding arguments. List of supported events can be found [here](src/Tgstation.Server.Host/Components/Events/EventType.cs).
 
 #### GameStaticFiles
 
@@ -350,11 +423,10 @@ TGS 4 can self update without stopping your DreamDaemon servers. Any V4 release 
 
 Here are tools for interacting with the TGS 4 web API
 
-- [tgstation-server-control-panel]: Official client and included with the server. A react web app for using tgstation-server.
-- [Tgstation.Server.ControlPanel](https://github.com/tgstation/Tgstation.Server.ControlPanel): Official client. A cross platform GUI for using tgstation-server
-- [Tgstation.Server.Client](https://www.nuget.org/packages/Tgstation.Server.Client): A nuget .NET Standard 2.0 TAP based library for communicating with tgstation-server
-- [Tgstation.Server.Api](https://www.nuget.org/packages/Tgstation.Server.Api): A nuget .NET Standard 2.0 library containing API definitions for tgstation-server
-- [Postman](https://www.getpostman.com/): This repository contains [TGS.postman_collection.json](tools/TGS.postman_collection.json) which is used during development for testing. Contains example requests for all endpoints but takes some knowledge to use (Note that the pre-request script is configured to login the default admin user for every request)
+- [tgstation-server-webpanel](https://github.com/tgstation/tgstation-server-webpanel): Official client and included with the server (WIP). A react web app for using tgstation-server.
+- [Tgstation.Server.ControlPanel](https://github.com/tgstation/Tgstation.Server.ControlPanel): Official client. A cross platform GUI for using tgstation-server. Feature complete but lacks OAuth login options.
+- [Tgstation.Server.Client](https://www.nuget.org/packages/Tgstation.Server.Client): A nuget .NET Standard 2.0 TAP based library for communicating with tgstation-server. Feature complete.
+- [Tgstation.Server.Api](https://www.nuget.org/packages/Tgstation.Server.Api): A nuget .NET Standard 2.0 library containing API definitions for tgstation-server. Feature complete.
 
 Contact project maintainers to get your client added to this list
 
@@ -376,7 +448,7 @@ Should you end up with a lost database for some reason or want to reattach a det
 
 ## Troubleshooting
 
-Feel free to ask for help at the coderbus discord in #tooling-questions: https://discord.gg/Vh8TJp9. Cyberboss#8246 can answer most questions.
+Feel free to ask for help at the coderbus discord in \#hosting-questions: https://discord.gg/Vh8TJp9. Cyberboss#0016 can answer most questions.
 
 ## Contributing
 

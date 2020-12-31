@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 
 namespace Tgstation.Server.Api.Models
@@ -18,7 +18,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Indicates an API upgrade was required by the server.
 		/// </summary>
-		[Description("API Mismatch but no current API version provided!")]
+		[Description("API version mismatch!")]
 		ApiMismatch,
 
 		/// <summary>
@@ -64,10 +64,10 @@ namespace Tgstation.Server.Api.Models
 		CannotChangeServerSuite,
 
 		/// <summary>
-		/// A required GitHub API request failed.
+		/// A required remote API request failed.
 		/// </summary>
-		[Description("A required GitHub request returned an API error!")]
-		GitHubApiError,
+		[Description("A required remote API request returned an error!")]
+		RemoteApiError,
 
 		/// <summary>
 		/// A server update was requested while another was in progress.
@@ -166,7 +166,7 @@ namespace Tgstation.Server.Api.Models
 		RequiresPosixSystemIdentity,
 
 		/// <summary>
-		/// A <see cref="ConfigurationFile"/> was attem updated
+		/// A <see cref="ConfigurationFile"/> was updated.
 		/// </summary>
 		[Description("This existing file hash does not match, the file has beeen updated!")]
 		ConfigurationFileUpdated,
@@ -234,7 +234,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// <see cref="Repository.NewTestMerges"/> contained duplicate <see cref="TestMergeParameters.Number"/>s.
 		/// </summary>
-		[Description("The same pull request was present more than once in the test merge requests or is already merged!")]
+		[Description("The same test merge was present more than once or is already merged!")]
 		RepoDuplicateTestMerge,
 
 		/// <summary>
@@ -250,17 +250,16 @@ namespace Tgstation.Server.Api.Models
 		RepoWhitespaceCommitterEmail,
 
 		/// <summary>
-		/// Attempted to set <see cref="Internal.DreamDaemonLaunchParameters.PrimaryPort"/> and <see cref="Internal.DreamDaemonLaunchParameters.SecondaryPort"/> to the same value.
+		/// A paginated request asked for too large a page.
 		/// </summary>
-		[Description("Primary and secondary ports cannot be the same!")]
-		DreamDaemonDuplicatePorts,
+		[Description("Requested pageSize is too large!")]
+		ApiPageTooLarge,
 
 		/// <summary>
-		/// <see cref="DreamDaemonSecurity.Ultrasafe"/> was used where it is not supported.
+		/// A paginated request asked for page 0.
 		/// </summary>
-		[Description("Deprecated error code.")]
-		[Obsolete("With DMAPI-5.0.0, ultrasafe security is now supported.", true)]
-		InvalidSecurityLevel,
+		[Description("Cannot request page or pageSize <= 0.")]
+		ApiInvalidPageOrPageSize,
 
 		/// <summary>
 		/// A requested <see cref="ChatChannel"/>'s data does not match with its <see cref="Internal.ChatBot.Provider"/>.
@@ -287,10 +286,10 @@ namespace Tgstation.Server.Api.Models
 		ChatBotProviderMissing,
 
 		/// <summary>
-		/// Attempted to update a <see cref="User"/> or <see cref="InstanceUser"/> without its ID.
+		/// Tried to edit <see cref="UserGroup"/> membership using <see cref="Routes.UserGroup"/>.
 		/// </summary>
-		[Description("Missing user ID!")]
-		UserMissingId,
+		[Description("The " + Routes.UserGroup + " endpoint cannot edit group members. Please update each member user individually.")]
+		UserGroupControllerCantEditMembers,
 
 		/// <summary>
 		/// Attempted to add a <see cref="ChatBot"/> when at or above the <see cref="Instance.ChatBotLimit"/> or it was set to something lower than the existing amount of <see cref="ChatBot"/>.
@@ -325,7 +324,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The DMAPI never validated itself
 		/// </summary>
-		[Description("DreamDaemon exited without validating the DMAPI@")]
+		[Description("DreamDaemon did not validate the DMAPI!")]
 		DreamMakerNeverValidated,
 
 		/// <summary>
@@ -335,10 +334,10 @@ namespace Tgstation.Server.Api.Models
 		DreamMakerInvalidValidation,
 
 		/// <summary>
-		/// DMAPI validation timeout.
+		/// Tried to remove the last <see cref="OAuthConnection"/> for a passwordless <see cref="User"/>.
 		/// </summary>
-		[Description("The DreamDaemon startup timeout was hit before the DMAPI validated!")]
-		DreamMakerValidationTimeout,
+		[Description("This user is passwordless and removing their oAuthConnections would leave them with no authentication method!")]
+		CannotRemoveLastAuthenticationOption,
 
 		/// <summary>
 		/// No .dme could be found for deployment.
@@ -415,7 +414,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Attempted to start the watchdog with a corrupted <see cref="CompileJob"/>.
 		/// </summary>
-		[Description("Cannot launch with active compile job as it is corrupted!")]
+		[Description("Cannot launch active compile job as it is missing or corrupted!")]
 		WatchdogCompileJobCorrupted,
 
 		/// <summary>
@@ -457,7 +456,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Encounted merge conflicts while test merging.
 		/// </summary>
-		[Description("Encountered merge conflicts while test merging one or more pull requests!")]
+		[Description("Encountered merge conflicts while test merging one or more sources!")]
 		RepoTestMergeConflict,
 
 		/// <summary>
@@ -465,5 +464,161 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("The new instance's path is not under a white-listed path.")]
 		InstanceNotAtWhitelistedPath,
+
+		/// <summary>
+		/// Attempted to make a DreamDaemon update with both <see cref="DreamDaemon.SoftRestart"/> and <see cref="DreamDaemon.SoftShutdown"/> set.
+		/// </summary>
+		[Description("Cannot set both softShutdown and softReboot at once!")]
+		DreamDaemonDoubleSoft,
+
+		/// <summary>
+		/// Attempted to launch DreamDaemon on a user account that had the BYOND pager running.
+		/// </summary>
+		[Description("Cannot start DreamDaemon headless with the BYOND pager running!")]
+		DeploymentPagerRunning,
+
+		/// <summary>
+		/// Could not bind to port we wanted to launch DreamDaemon on.
+		/// </summary>
+		[Description("Could not bind to requested DreamDaemon port! Is there another service running on that port?")]
+		DreamDaemonPortInUse,
+
+		/// <summary>
+		/// Failed to post GitHub comments, send chat message, or send TGS event.
+		/// </summary>
+		[Description("The deployment succeeded but one or more notification events failed!")]
+		PostDeployFailure,
+
+		/// <summary>
+		/// Attempted to restart a stopped watchdog.
+		/// </summary>
+		[Description("Cannot restart the watchdog as it is not running!")]
+		WatchdogNotRunning,
+
+		/// <summary>
+		/// Attempted to access a resourse that is not (currently) present.
+		/// </summary>
+		[Description("The requested resource is not currently present, but may have been in the past.")]
+		ResourceNotPresent,
+
+		/// <summary>
+		/// Attempted to access a resource that was never present.
+		/// </summary>
+		[Description("The requested resource is not present and never has been.")]
+		ResourceNeverPresent,
+
+		/// <summary>
+		/// A required GitHub API call failed due to rate limiting.
+		/// </summary>
+		[Description("A required GitHub API call failed due to rate limiting.")]
+		GitHubApiRateLimit,
+
+		/// <summary>
+		/// Attempted to cancel a stopped job.
+		/// </summary>
+		[Description("Cannot cancel the job as it is no longer running.")]
+		JobStopped,
+
+		/// <summary>
+		/// Missing GCore executable.
+		/// </summary>
+		[Description("Attempted to create a process dump but /usr/bin/gcore could not be located!")]
+		MissingGCore,
+
+		/// <summary>
+		/// Non-zero gcore exit code.
+		/// </summary>
+		[Description("Could not create dump as gcore exited with a non-zero exit code!")]
+		GCoreFailure,
+
+		/// <summary>
+		/// Attempted to test merge with an invalid remote repository.
+		/// </summary>
+		[Description("Test merging cannot be performed with this remote!")]
+		RepoTestMergeInvalidRemote,
+
+		/// <summary>
+		/// Attempted to switch to a custom BYOND version that does not exist.
+		/// </summary>
+		[Description("Cannot switch to requested custom BYOND version as it is not currently installed.")]
+		ByondNonExistentCustomVersion,
+
+		/// <summary>
+		/// Attempted to perform an operation that requires DreamDaemon (not the watchdog) to be running but it wasn't.
+		/// </summary>
+		[Description("Cannot perform this operation as DreamDaemon is not currently running!")]
+		DreamDaemonOffline,
+
+		/// <summary>
+		/// Attempted to perform an instance operation with an offline instance.
+		/// </summary>
+		[Description("The instance associated with the operation is currently offline!")]
+		InstanceOffline,
+
+		/// <summary>
+		/// An attempt to connect a chat bot failed.
+		/// </summary>
+		[Description("Failed to connect chat bot!")]
+		ChatCannotConnectProvider,
+
+		/// <summary>
+		/// Attempt to add DreamDaemon to the list of firewall exempt processes failed.
+		/// </summary>
+		[Description("Failed to allow DreamDaemon through the Windows firewall!")]
+		ByondDreamDaemonFirewallFail,
+
+		/// <summary>
+		/// Attempted to create an instance but no free ports could be found.
+		/// </summary>
+		[Description("TGS was unable to find a free port to allocate for the operation!")]
+		NoPortsAvailable,
+
+		/// <summary>
+		/// Attempted to set a port which is either in use by another part of TGS or otherwise not available for binding.
+		/// </summary>
+		[Description("The requested port is either already in use by TGS or could not be allocated!")]
+		PortNotAvailable,
+
+		/// <summary>
+		/// Attempted to set <see cref="User.OAuthConnections"/> for the admin user.
+		/// </summary>
+		[Description("The admin user cannot use OAuth connections!")]
+		AdminUserCannotOAuth,
+
+		/// <summary>
+		/// Attempted to login with a disabled OAuth provider.
+		/// </summary>
+		[Description("The requested OAuth provider is disabled via configuration!")]
+		OAuthProviderDisabled,
+
+		/// <summary>
+		/// A <see cref="Job"/> requiring a file upload did not receive it before timing out.
+		/// </summary>
+		[Description("The job did not receive a required upload before timing out!")]
+		FileUploadExpired,
+
+		/// <summary>
+		/// Tried to update a <see cref="User"/> to have both a <see cref="User.Group"/> and <see cref="User.PermissionSet"/>
+		/// </summary>
+		[Description("A user may not have both a permissionSet and group!")]
+		UserGroupAndPermissionSet,
+
+		/// <summary>
+		/// Tried to delete a non-empty <see cref="UserGroup"/>.
+		/// </summary>
+		[Description("Cannot delete the user group as it is not empty!")]
+		UserGroupNotEmpty,
+
+		/// <summary>
+		/// Attempted to create an <see cref="User"/> but the configured limit has been reached.
+		/// </summary>
+		[Description("The user cannot be created because the configured limit has been reached!")]
+		UserLimitReached,
+
+		/// <summary>
+		/// Attempted to create an <see cref="UserGroup"/> but the configured limit has been reached.
+		/// </summary>
+		[Description("The user group cannot be created because the configured limit has been reached!")]
+		UserGroupLimitReached,
 	}
 }

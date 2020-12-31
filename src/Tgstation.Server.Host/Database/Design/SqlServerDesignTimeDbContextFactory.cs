@@ -1,30 +1,18 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Logging;
-using Tgstation.Server.Host.Models;
-using Tgstation.Server.Host.Security;
-using Tgstation.Server.Host.System;
+﻿using Microsoft.EntityFrameworkCore.Design;
+using Tgstation.Server.Host.Configuration;
 
 namespace Tgstation.Server.Host.Database.Design
 {
-	/// <inheritdoc />
+	/// <summary>
+	/// <see cref="IDesignTimeDbContextFactory{TContext}"/> for creating <see cref="SqlServerDatabaseContext"/>s.
+	/// </summary>
 	sealed class SqlServerDesignTimeDbContextFactory : IDesignTimeDbContextFactory<SqlServerDatabaseContext>
 	{
 		/// <inheritdoc />
 		public SqlServerDatabaseContext CreateDbContext(string[] args)
-		{
-			using (var loggerFactory = new LoggerFactory())
-			{
-				return new SqlServerDatabaseContext(
-					new DbContextOptions<SqlServerDatabaseContext>(),
-					DesignTimeDbContextFactoryHelpers.GetDbContextOptions(),
-					new DatabaseSeeder(
-						new CryptographySuite(
-							new PasswordHasher<User>()),
-						new PlatformIdentifier()),
-					loggerFactory.CreateLogger<SqlServerDatabaseContext>());
-			}
-		}
+			=> new SqlServerDatabaseContext(
+				DesignTimeDbContextFactoryHelpers.CreateDatabaseContextOptions<SqlServerDatabaseContext>(
+					DatabaseType.SqlServer,
+					"Data Source=fake;Initial Catalog=TGS_Design;Integrated Security=True;Application Name=tgstation-server"));
 	}
 }

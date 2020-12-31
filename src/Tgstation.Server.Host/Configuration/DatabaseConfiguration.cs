@@ -4,9 +4,9 @@ using Newtonsoft.Json.Converters;
 namespace Tgstation.Server.Host.Configuration
 {
 	/// <summary>
-	/// Configuration options for the <see cref="Database.DatabaseContext{TParentContext}"/>
+	/// Configuration options for the <see cref="Database.DatabaseContext"/>
 	/// </summary>
-	sealed class DatabaseConfiguration
+	public sealed class DatabaseConfiguration
 	{
 		/// <summary>
 		/// The key for the <see cref="Microsoft.Extensions.Configuration.IConfigurationSection"/> the <see cref="DatabaseConfiguration"/> resides in
@@ -35,8 +35,13 @@ namespace Tgstation.Server.Host.Configuration
 		public bool DropDatabase { get; set; }
 
 		/// <summary>
-		/// The <see cref="string"/> form of the <see cref="global::System.Version"/> of a target MySQL/MariaDB server
+		/// Used to indicate that the database is being loaded to generate migrations. Should not be used in production!
 		/// </summary>
-		public string MySqlServerVersion { get; set; }
+		public bool DesignTime { get; set; }
+
+		/// <summary>
+		/// The <see cref="string"/> form of the <see cref="global::System.Version"/> of the target server
+		/// </summary>
+		public string ServerVersion { get; set; }
 	}
 }

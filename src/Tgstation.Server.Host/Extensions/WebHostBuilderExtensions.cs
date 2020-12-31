@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
+using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Security;
@@ -41,6 +42,8 @@ namespace Tgstation.Server.Host.Extensions
 						applicationBuilder,
 						applicationBuilder.ApplicationServices.GetRequiredService<IServerControl>(),
 						applicationBuilder.ApplicationServices.GetRequiredService<ITokenFactory>(),
+						applicationBuilder.ApplicationServices.GetRequiredService<IInstanceManager>(),
+						applicationBuilder.ApplicationServices.GetRequiredService<IServerPortProvider>(),
 						applicationBuilder.ApplicationServices.GetRequiredService<IOptions<ControlPanelConfiguration>>(),
 						applicationBuilder.ApplicationServices.GetRequiredService<IOptions<GeneralConfiguration>>(),
 						applicationBuilder.ApplicationServices.GetRequiredService<ILogger<Application>>()));

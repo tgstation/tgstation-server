@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../../build/Version.props" />
 
   <PropertyGroup>
@@ -8,40 +8,33 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Cyberboss</Authors>
     <Company>/tg/station 13</Company>
-    <Product />
     <Description>Client library for tgstation-server</Description>
     <PackageProjectUrl>https://tgstation.github.io/tgstation-server</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/tgstation/tgstation-server</RepositoryUrl>
-    <RepositoryType>Git</RepositoryType>
-    <NeutralLanguage>en-CA</NeutralLanguage>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageIcon>tgs.png</PackageIcon>
+    <RepositoryType>Git</RepositoryType>
+    <RepositoryUrl>https://github.com/tgstation/tgstation-server</RepositoryUrl>
+    <Copyright>2018</Copyright>
     <PackageTags>json web api tgstation-server tgstation ss13 byond client</PackageTags>
-    <PackageReleaseNotes>Added the ability to change the Token of IServerClient</PackageReleaseNotes>
+    <PackageReleaseNotes>Fixed automatic refresh erroring internally. Fixed request loggers given to ServerClientFactory not being passed to the IServerClient.</PackageReleaseNotes>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <Copyright>2018</Copyright>
     <CodeAnalysisRuleSet>../../build/analyzers.ruleset</CodeAnalysisRuleSet>
     <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <DocumentationFile>bin\$(Configuration)\netstandard2.1\Tgstation.Server.Client.xml</DocumentationFile>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
-    <DocumentationFile>bin\Release\netstandard2.1\Tgstation.Server.Client.xml</DocumentationFile>
-    <NoWarn>1701;1702</NoWarn>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <NoWarn>1701;1702</NoWarn>
-    <DocumentationFile>bin\Debug\netstandard2.1\Tgstation.Server.Client.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.1">
       <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
 

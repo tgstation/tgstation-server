@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Tgstation.Server.Host.Models
 {
 	/// <summary>
 	/// Represents an <see cref="Api.Models.Instance"/> in the database
 	/// </summary>
-	public sealed class Instance : Api.Models.Instance
+	public sealed class Instance : Api.Models.Instance, IApiTransformable<Api.Models.Instance>
 	{
 		/// <summary>
 		/// Default for <see cref="Api.Models.Instance.ChatBotLimit"/>.
@@ -28,34 +28,31 @@ namespace Tgstation.Server.Host.Models
 		public RepositorySettings RepositorySettings { get; set; }
 
 		/// <summary>
-		/// The <see cref="Models.WatchdogReattachInformation"/> for the <see cref="Instance"/>
+		/// The <see cref="Api.Models.Internal.SwarmServer.Identifier"/> of the the server in the swarm this instance belongs to.
 		/// </summary>
-		public WatchdogReattachInformation WatchdogReattachInformation { get; set; }
+		public string SwarmIdentifer { get; set; }
 
 		/// <summary>
-		/// The <see cref="InstanceUser"/>s in the <see cref="Instance"/>
+		/// The <see cref="InstancePermissionSet"/>s in the <see cref="Instance"/>
 		/// </summary>
-		public List<InstanceUser> InstanceUsers { get; set; }
+		public ICollection<InstancePermissionSet> InstancePermissionSets { get; set; }
 
 		/// <summary>
 		/// The <see cref="ChatBot"/>s for the <see cref="Instance"/>
 		/// </summary>
-		public List<ChatBot> ChatSettings { get; set; }
+		public ICollection<ChatBot> ChatSettings { get; set; }
 
 		/// <summary>
 		/// The <see cref="RevisionInformation"/>s in the <see cref="Instance"/>
 		/// </summary>
-		public List<RevisionInformation> RevisionInformations { get; set; }
+		public ICollection<RevisionInformation> RevisionInformations { get; set; }
 
 		/// <summary>
-		/// The <see cref="Jobs"/> in the <see cref="Instance"/>
+		/// The <see cref="Job"/>s in the <see cref="Instance"/>
 		/// </summary>
-		public List<Job> Jobs { get; set; }
+		public ICollection<Job> Jobs { get; set; }
 
-		/// <summary>
-		/// Convert the <see cref="Instance"/> to it's API form
-		/// </summary>
-		/// <returns>A new <see cref="Api.Models.Instance"/></returns>
+		/// <inheritdoc />
 		public Api.Models.Instance ToApi() => new Api.Models.Instance
 		{
 			AutoUpdateInterval = AutoUpdateInterval,
@@ -64,7 +61,8 @@ namespace Tgstation.Server.Host.Models
 			Name = Name,
 			Path = Path,
 			Online = Online,
-			ChatBotLimit = ChatBotLimit
+			ChatBotLimit = ChatBotLimit,
+			MoveJob = MoveJob,
 		};
 	}
 }

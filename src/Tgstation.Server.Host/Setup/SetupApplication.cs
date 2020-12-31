@@ -1,6 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog.Events;
 using System;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
@@ -32,21 +33,12 @@ namespace Tgstation.Server.Host.Setup
 		protected IConfiguration Configuration { get; }
 
 		/// <summary>
-		/// The <see cref="IHostEnvironment"/> for the <see cref="SetupApplication"/>
-		/// </summary>
-		readonly IHostEnvironment hostingEnvironment;
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="SetupApplication"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="configuration">The value of <see cref="Configuration"/>.</param>
-		/// <param name="hostingEnvironment">The value of <see cref="hostingEnvironment"/>.</param>
-		public SetupApplication(
-			IConfiguration configuration,
-			IHostEnvironment hostingEnvironment)
+		public SetupApplication(IConfiguration configuration)
 		{
 			Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-			this.hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
 		}
 
 		/// <summary>
@@ -58,7 +50,7 @@ namespace Tgstation.Server.Host.Setup
 			if (services == null)
 				throw new ArgumentNullException(nameof(services));
 
-			services.RemoveEventLogging();
+			services.SetupLogging(config => config.MinimumLevel.Override("Microsoft", LogEventLevel.Warning));
 
 			services.AddSingleton(IOManager);
 			services.AddSingleton(AssemblyInformationProvider);
@@ -70,6 +62,7 @@ namespace Tgstation.Server.Host.Setup
 
 			services.UseStandardConfig<GeneralConfiguration>(Configuration);
 			services.UseStandardConfig<DatabaseConfiguration>(Configuration);
+			services.UseStandardConfig<SecurityConfiguration>(Configuration);
 			services.UseStandardConfig<FileLoggingConfiguration>(Configuration);
 
 			ConfigureHostedService(services);
@@ -81,7 +74,7 @@ namespace Tgstation.Server.Host.Setup
 		/// <param name="services">The <see cref="IServiceCollection"/> to configure.</param>
 		protected virtual void ConfigureHostedService(IServiceCollection services)
 		{
-			services.AddSingleton<IPostSetupServices, PostSetupServices>();
+			services.AddSingleton(typeof(IPostSetupServices<>), typeof(PostSetupServices<>));
 			services.AddSingleton<IHostedService, SetupWizard>();
 		}
 	}

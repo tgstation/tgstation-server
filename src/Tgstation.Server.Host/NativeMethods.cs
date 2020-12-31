@@ -5,7 +5,7 @@ using System.Text;
 namespace Tgstation.Server.Host
 {
 	/// <summary>
-	/// Native methods used by the code
+	/// Native Windows methods used by the code.
 	/// </summary>
 	#pragma warning disable SA1600
 	#pragma warning disable SA1602
@@ -30,6 +30,19 @@ namespace Tgstation.Server.Host
 		public enum ThreadAccess : int
 		{
 			SuspendResume = 0x0002,
+		}
+
+		/// <summary>
+		/// See https://docs.microsoft.com/en-us/windows/win32/api/minidumpapiset/ne-minidumpapiset-minidump_type
+		/// </summary>
+		[Flags]
+		public enum MiniDumpType : uint
+		{
+			WithDataSegs = 0x00000001,
+			WithFullMemory = 0x00000002,
+			WithHandleData = 0x00000004,
+			WithUnloadedModules = 0x00000020,
+			WithThreadInfo = 0x00001000,
 		}
 
 		/// <summary>
@@ -102,5 +115,18 @@ namespace Tgstation.Server.Host
 		/// </summary>
 		[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
 		public static extern uint ResumeThread(IntPtr hThread);
+
+		/// <summary>
+		/// See https://docs.microsoft.com/en-us/windows/win32/api/minidumpapiset/nf-minidumpapiset-minidumpwritedump
+		/// </summary>
+		[DllImport("dbghelp.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+		public static extern bool MiniDumpWriteDump(
+			IntPtr hProcess,
+			uint processId,
+			SafeHandle hFile,
+			MiniDumpType dumpType,
+			IntPtr expParam,
+			IntPtr userStreamParam,
+			IntPtr callbackParam);
 	}
 }

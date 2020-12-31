@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Octokit;
+using Serilog.Context;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,11 +10,11 @@ using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.Components.Deployment.Remote;
+using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
-using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 
@@ -25,6 +24,11 @@ namespace Tgstation.Server.Host.Components
 	#pragma warning disable CA1506 // TODO: Decomplexify
 	sealed class Instance : IInstance
 	{
+		/// <summary>
+		/// Message for the <see cref="InvalidOperationException"/> if ever a job starts on a different <see cref="IInstanceCore"/> than the one that queued it.
+		/// </summary>
+		public const string DifferentCoreExceptionMessage = "Job started on different instance core!";
+
 		/// <inheritdoc />
 		public IRepositoryManager RepositoryManager { get; }
 
@@ -40,20 +44,8 @@ namespace Tgstation.Server.Host.Components
 		/// <inheritdoc />
 		public StaticFiles.IConfiguration Configuration { get; }
 
-		/// <summary>
-		/// The <see cref="IDreamMaker"/> for the <see cref="Instance"/>
-		/// </summary>
-		readonly IDreamMaker dreamMaker;
-
-		/// <summary>
-		/// The <see cref="ICompileJobConsumer"/> for the <see cref="Instance"/>
-		/// </summary>
-		readonly ICompileJobConsumer compileJobConsumer;
-
-		/// <summary>
-		/// The <see cref="IDatabaseContextFactory"/> for the <see cref="Instance"/>
-		/// </summary>
-		readonly IDatabaseContextFactory databaseContextFactory;
+		/// <inheritdoc />
+		public IDreamMaker DreamMaker { get; }
 
 		/// <summary>
 		/// The <see cref="IDmbFactory"/> for the <see cref="Instance"/>
@@ -71,9 +63,9 @@ namespace Tgstation.Server.Host.Components
 		readonly IEventConsumer eventConsumer;
 
 		/// <summary>
-		/// The <see cref="IGitHubClientFactory"/> for the <see cref="Instance"/>
+		/// The <see cref="IRemoteDeploymentManagerFactory"/> for the <see cref="Instance"/>.
 		/// </summary>
-		readonly IGitHubClientFactory gitHubClientFactory;
+		readonly IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Instance"/>
@@ -84,6 +76,11 @@ namespace Tgstation.Server.Host.Components
 		/// The <see cref="Api.Models.Instance"/> for the <see cref="Instance"/>
 		/// </summary>
 		readonly Api.Models.Instance metadata;
+
+		/// <summary>
+		/// <see langword="lock"/> <see cref="object"/> for <see cref="timerCts"/> and <see cref="timerTask"/>.
+		/// </summary>
+		readonly object timerLock;
 
 		/// <summary>
 		/// The auto update <see cref="Task"/>
@@ -101,16 +98,14 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="metadata">The value of <see cref="metadata"/></param>
 		/// <param name="repositoryManager">The value of <see cref="RepositoryManager"/></param>
 		/// <param name="byondManager">The value of <see cref="ByondManager"/></param>
-		/// <param name="dreamMaker">The value of <see cref="dreamMaker"/></param>
+		/// <param name="dreamMaker">The value of <see cref="DreamMaker"/></param>
 		/// <param name="watchdog">The value of <see cref="Watchdog"/></param>
 		/// <param name="chat">The value of <see cref="Chat"/></param>
 		/// <param name="configuration">The value of <see cref="Configuration"/></param>
-		/// <param name="compileJobConsumer">The value of <see cref="compileJobConsumer"/></param>
-		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="dmbFactory">The value of <see cref="dmbFactory"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
-		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/></param>
+		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		public Instance(
 			Api.Models.Instance metadata,
@@ -121,218 +116,239 @@ namespace Tgstation.Server.Host.Components
 			IChatManager chat,
 			StaticFiles.IConfiguration
 			configuration,
-			ICompileJobConsumer compileJobConsumer,
-			IDatabaseContextFactory databaseContextFactory,
 			IDmbFactory dmbFactory,
 			IJobManager jobManager,
 			IEventConsumer eventConsumer,
-			IGitHubClientFactory gitHubClientFactory,
+			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
 			ILogger<Instance> logger)
 		{
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 			RepositoryManager = repositoryManager ?? throw new ArgumentNullException(nameof(repositoryManager));
 			ByondManager = byondManager ?? throw new ArgumentNullException(nameof(byondManager));
-			this.dreamMaker = dreamMaker ?? throw new ArgumentNullException(nameof(dreamMaker));
+			DreamMaker = dreamMaker ?? throw new ArgumentNullException(nameof(dreamMaker));
 			Watchdog = watchdog ?? throw new ArgumentNullException(nameof(watchdog));
 			Chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-			this.compileJobConsumer = compileJobConsumer ?? throw new ArgumentNullException(nameof(compileJobConsumer));
-			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.dmbFactory = dmbFactory ?? throw new ArgumentNullException(nameof(dmbFactory));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
-			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
+			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+			timerLock = new object();
 		}
 
 		/// <inheritdoc />
-		public void Dispose()
+		public async ValueTask DisposeAsync()
 		{
-			timerCts?.Dispose();
-			compileJobConsumer.Dispose();
-			Configuration.Dispose();
-			Chat.Dispose();
-			Watchdog.Dispose();
-			RepositoryManager.Dispose();
+			using (LogContext.PushProperty("Instance", metadata.Id))
+			{
+				timerCts?.Dispose();
+				Configuration.Dispose();
+				await Chat.DisposeAsync().ConfigureAwait(false);
+				await Watchdog.DisposeAsync().ConfigureAwait(false);
+				dmbFactory.Dispose();
+				RepositoryManager.Dispose();
+			}
 		}
 
-		/// <inheritdoc />
-		public async Task CompileProcess(Job job, IDatabaseContext databaseContext, Action<int> progressReporter, CancellationToken cancellationToken)
+		Task RepositoryAutoUpdateJob(
+			IInstanceCore core,
+			IDatabaseContextFactory databaseContextFactory,
+			Job job,
+			Action<int> progressReporter,
+			CancellationToken cancellationToken)
+			=> databaseContextFactory.UseContext(
+				async databaseContext =>
 		{
-#pragma warning disable IDE0016 // Use 'throw' expression
-			if (job == null)
-				throw new ArgumentNullException(nameof(job));
-#pragma warning restore IDE0016 // Use 'throw' expression
-			if (databaseContext == null)
-				throw new ArgumentNullException(nameof(databaseContext));
-			if (progressReporter == null)
-				throw new ArgumentNullException(nameof(progressReporter));
+			if (core != this)
+				throw new InvalidOperationException(DifferentCoreExceptionMessage);
 
-			var ddSettings = await databaseContext.DreamDaemonSettings.Where(x => x.InstanceId == metadata.Id).Select(x => new DreamDaemonSettings
+			// assume 5 steps with synchronize
+			const int ProgressSections = 7;
+			const int ProgressStep = 100 / ProgressSections;
+
+			var repositorySettingsTask = databaseContext
+				.RepositorySettings
+				.AsQueryable()
+				.Where(x => x.InstanceId == metadata.Id)
+				.FirstAsync(cancellationToken);
+
+			const int NumSteps = 3;
+			var doneSteps = 0;
+
+			Action<int> NextProgressReporter()
 			{
-				StartupTimeout = x.StartupTimeout,
-			})
-				.FirstOrDefaultAsync(cancellationToken)
-				.ConfigureAwait(false);
-			if (ddSettings == default)
-				throw new JobException(Api.Models.ErrorCode.InstanceMissingDreamDaemonSettings);
-
-			var previousCompileJobs = await databaseContext.CompileJobs
-				.Where(x => x.Job.Instance.Id == metadata.Id)
-				.OrderByDescending(x => x.Job.StoppedAt)
-				.Select(x => new Job
-				{
-					StoppedAt = x.Job.StoppedAt,
-					StartedAt = x.Job.StartedAt
-				})
-				.Take(10)
-				.ToListAsync(cancellationToken)
-				.ConfigureAwait(false);
-
-			var dreamMakerSettings = await databaseContext.DreamMakerSettings.Where(x => x.InstanceId == metadata.Id).FirstAsync(cancellationToken).ConfigureAwait(false);
-			if (dreamMakerSettings == default)
-				throw new JobException(Api.Models.ErrorCode.InstanceMissingDreamMakerSettings);
-
-			RepositorySettings repositorySettings = null;
-			string repoOwner = null;
-			string repoName = null;
-			CompileJob compileJob;
-			RevisionInformation revInfo;
-			using (var repo = await RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
-			{
-				if (repo == null)
-					throw new JobException(Api.Models.ErrorCode.RepoMissing);
-
-				if (repo.IsGitHubRepository)
-				{
-					repoOwner = repo.GitHubOwner;
-					repoName = repo.GitHubRepoName;
-					repositorySettings = await databaseContext
-						.RepositorySettings
-						.Where(x => x.InstanceId == metadata.Id)
-						.Select(x => new RepositorySettings
-						{
-							AccessToken = x.AccessToken,
-							ShowTestMergeCommitters = x.ShowTestMergeCommitters,
-							PushTestMergeCommits = x.PushTestMergeCommits
-						})
-						.FirstOrDefaultAsync(cancellationToken)
-						.ConfigureAwait(false);
-					if (repositorySettings == default)
-						throw new JobException(Api.Models.ErrorCode.InstanceMissingRepositorySettings);
-				}
-
-				var repoSha = repo.Head;
-				revInfo = await databaseContext.RevisionInformations.Where(x => x.CommitSha == repoSha && x.Instance.Id == metadata.Id).Include(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge).ThenInclude(x => x.MergedBy).FirstOrDefaultAsync().ConfigureAwait(false);
-
-				if (revInfo == default)
-				{
-					revInfo = new RevisionInformation
-					{
-						CommitSha = repoSha,
-						OriginCommitSha = repoSha,
-						Instance = new Models.Instance
-						{
-							Id = metadata.Id
-						}
-					};
-					logger.LogWarning(Repository.Repository.OriginTrackingErrorTemplate, repoSha);
-					databaseContext.Instances.Attach(revInfo.Instance);
-				}
-
-				TimeSpan? averageSpan = null;
-				if (previousCompileJobs.Count != 0)
-				{
-					var totalSpan = TimeSpan.Zero;
-					foreach (var I in previousCompileJobs)
-						totalSpan += I.StoppedAt.Value - I.StartedAt.Value;
-					averageSpan = totalSpan / previousCompileJobs.Count;
-				}
-
-				compileJob = await dreamMaker.Compile(revInfo, dreamMakerSettings, ddSettings.StartupTimeout.Value, repo, progressReporter, averageSpan, cancellationToken).ConfigureAwait(false);
+				var tmpDoneSteps = doneSteps;
+				++doneSteps;
+				return progress => progressReporter((progress + (100 * tmpDoneSteps)) / NumSteps);
 			}
 
-			compileJob.Job = job;
-
-			databaseContext.CompileJobs.Add(compileJob); // will be saved by job context
-
-			job.PostComplete = async postCompleteCancellationToken =>
+			using var repo = await RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false);
+			if (repo == null)
 			{
-				await compileJobConsumer.LoadCompileJob(compileJob, postCompleteCancellationToken).ConfigureAwait(false);
-				await eventConsumer.HandleEvent(EventType.DeploymentComplete, null, postCompleteCancellationToken).ConfigureAwait(false);
-			};
+				logger.LogTrace("Aborting repo update, no repository!");
+				return;
+			}
 
-			if (repositorySettings?.AccessToken != null)
+			var startSha = repo.Head;
+			if (!repo.Tracking)
 			{
-				// potential for commenting on a test merge change
-				var outgoingCompileJob = LatestCompileJob();
+				logger.LogTrace("Aborting repo update, active ref not tracking any remote branch!");
+				return;
+			}
 
-				if (outgoingCompileJob != null && outgoingCompileJob.RevisionInformation.CommitSha != compileJob.RevisionInformation.CommitSha && repositorySettings.PostTestMergeComment.Value)
+			var repositorySettings = await repositorySettingsTask.ConfigureAwait(false);
+
+			// the main point of auto update is to pull the remote
+			await repo.FetchOrigin(
+				repositorySettings.AccessUser,
+				repositorySettings.AccessToken,
+				NextProgressReporter(),
+				cancellationToken)
+				.ConfigureAwait(false);
+
+			RevisionInformation currentRevInfo = null;
+
+			Task<RevisionInformation> LoadRevInfo() => databaseContext.RevisionInformations
+					.AsQueryable()
+					.Where(x => x.CommitSha == startSha && x.Instance.Id == metadata.Id)
+					.Include(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge)
+					.FirstOrDefaultAsync(cancellationToken);
+
+			var hasDbChanges = false;
+
+			// take appropriate auto update actions
+			var shouldSyncTracked = false;
+			var currentRevInfoTask = LoadRevInfo();
+
+			var result = await repo.MergeOrigin(
+				repositorySettings.CommitterName,
+				repositorySettings.CommitterEmail,
+				NextProgressReporter(),
+				cancellationToken)
+				.ConfigureAwait(false);
+
+			async Task UpdateRevInfo(string currentHead, bool onOrigin, IEnumerable<RevInfoTestMerge> updatedTestMerges)
+			{
+				if (currentRevInfo == null)
+					currentRevInfo = await LoadRevInfo().ConfigureAwait(false);
+
+				if (currentRevInfo == default)
 				{
-					var gitHubClient = gitHubClientFactory.CreateClient(repositorySettings.AccessToken);
+					logger.LogInformation(Repository.Repository.OriginTrackingErrorTemplate, currentHead);
+					onOrigin = true;
+				}
 
-					async Task CommentOnPR(int prNumber, string comment)
+				var attachedInstance = new Models.Instance
+				{
+					Id = metadata.Id
+				};
+				var oldRevInfo = currentRevInfo;
+				currentRevInfo = new RevisionInformation
+				{
+					CommitSha = currentHead,
+					OriginCommitSha = onOrigin
+						? currentHead
+						: await repo.GetOriginSha(cancellationToken).ConfigureAwait(false),
+					Instance = attachedInstance
+				};
+				if (!onOrigin)
+					currentRevInfo.ActiveTestMerges = new List<RevInfoTestMerge>(
+						updatedTestMerges ?? oldRevInfo.ActiveTestMerges);
+
+				databaseContext.Instances.Attach(attachedInstance);
+				databaseContext.RevisionInformations.Add(currentRevInfo);
+				hasDbChanges = true;
+			}
+
+			var preserveTestMerges = repositorySettings.AutoUpdatesKeepTestMerges.Value;
+			var remoteDeploymentManager = remoteDeploymentManagerFactory.CreateRemoteDeploymentManager(
+				metadata,
+				repo.RemoteGitProvider.Value);
+			if (result.HasValue)
+			{
+				currentRevInfo = await currentRevInfoTask.ConfigureAwait(false);
+
+				var updatedTestMerges = await remoteDeploymentManager.RemoveMergedTestMerges(
+					repo,
+					repositorySettings,
+					currentRevInfo,
+					cancellationToken)
+				.ConfigureAwait(false);
+
+				if (updatedTestMerges.Count == 0)
+				{
+					logger.LogTrace("All test merges have been merged on remote");
+					preserveTestMerges = false;
+				}
+				else
+				{
+					var lastRevInfoWasOriginCommit =
+						currentRevInfo == default
+						|| currentRevInfo.CommitSha == currentRevInfo.OriginCommitSha;
+					var stillOnOrigin = result.Value && lastRevInfoWasOriginCommit;
+
+					var currentHead = repo.Head;
+					if (currentHead != startSha)
 					{
-						try
-						{
-							await gitHubClient.Issue.Comment.Create(repoOwner, repoName, prNumber, comment).ConfigureAwait(false);
-						}
-						catch (ApiException e)
-						{
-							logger.LogWarning("Error posting GitHub comment! Exception: {0}", e);
-						}
+						await UpdateRevInfo(currentHead, stillOnOrigin, updatedTestMerges).ConfigureAwait(false);
+						shouldSyncTracked = stillOnOrigin;
 					}
-
-					var tasks = new List<Task>();
-
-					string FormatTestMerge(TestMerge testMerge, bool updated) => String.Format(CultureInfo.InvariantCulture, "#### Test Merge {4}{0}{0}##### Server Instance{0}{5}{1}{0}{0}##### Revision{0}Origin: {6}{0}Pull Request: {2}{0}Server: {7}{3}",
-						Environment.NewLine,
-						repositorySettings.ShowTestMergeCommitters.Value ? String.Format(CultureInfo.InvariantCulture, "{0}{0}##### Merged By{0}{1}", Environment.NewLine, testMerge.MergedBy.Name) : String.Empty,
-						testMerge.PullRequestRevision,
-						testMerge.Comment != null ? String.Format(CultureInfo.InvariantCulture, "{0}{0}##### Comment{0}{1}", Environment.NewLine, testMerge.Comment) : String.Empty,
-						updated ? "Updated" : "Deployed",
-						metadata.Name,
-						compileJob.RevisionInformation.OriginCommitSha,
-						compileJob.RevisionInformation.CommitSha);
-
-					// added prs
-					foreach (var I in compileJob
-						.RevisionInformation
-						.ActiveTestMerges
-						.Select(x => x.TestMerge)
-						.Where(x => !outgoingCompileJob
-							.RevisionInformation
-							.ActiveTestMerges
-							.Any(y => y.TestMerge.Number == x.Number)))
-						tasks.Add(CommentOnPR(I.Number, FormatTestMerge(I, false)));
-
-					// removed prs
-					foreach (var I in outgoingCompileJob
-						.RevisionInformation
-						.ActiveTestMerges
-						.Select(x => x.TestMerge)
-							.Where(x => !compileJob
-							.RevisionInformation
-							.ActiveTestMerges
-							.Any(y => y.TestMerge.Number == x.Number)))
-						tasks.Add(CommentOnPR(I.Number, "#### Test Merge Removed"));
-
-					// updated prs
-					foreach (var I in compileJob
-						.RevisionInformation
-						.ActiveTestMerges
-						.Select(x => x.TestMerge)
-						.Where(x => outgoingCompileJob
-							.RevisionInformation
-							.ActiveTestMerges
-							.Any(y => y.TestMerge.Number == x.Number)))
-						tasks.Add(CommentOnPR(I.Number, FormatTestMerge(I, true)));
-
-					if (tasks.Any())
-						await Task.WhenAll(tasks).ConfigureAwait(false);
 				}
 			}
-		}
+			else if (preserveTestMerges)
+				throw new JobException(Api.Models.ErrorCode.InstanceUpdateTestMergeConflict);
+
+			if (!preserveTestMerges)
+			{
+				logger.LogTrace("Resetting to origin...");
+				await repo.ResetToOrigin(NextProgressReporter(), cancellationToken).ConfigureAwait(false);
+
+				var currentHead = repo.Head;
+
+				currentRevInfo = await databaseContext.RevisionInformations
+					.AsQueryable()
+					.Where(x => x.CommitSha == currentHead && x.Instance.Id == metadata.Id)
+					.FirstOrDefaultAsync(cancellationToken)
+					.ConfigureAwait(false);
+
+				if (currentHead != startSha && currentRevInfo == default)
+					await UpdateRevInfo(currentHead, true, null).ConfigureAwait(false);
+
+				shouldSyncTracked = true;
+			}
+
+			// synch if necessary
+			if (repositorySettings.AutoUpdatesSynchronize.Value && startSha != repo.Head)
+			{
+				var pushedOrigin = await repo.Sychronize(
+					repositorySettings.AccessUser,
+					repositorySettings.AccessToken,
+					repositorySettings.CommitterName,
+					repositorySettings.CommitterEmail,
+					NextProgressReporter(),
+					shouldSyncTracked,
+					cancellationToken).ConfigureAwait(false);
+				var currentHead = repo.Head;
+				if (currentHead != currentRevInfo.CommitSha)
+					await UpdateRevInfo(currentHead, pushedOrigin, null).ConfigureAwait(false);
+			}
+
+			if (hasDbChanges)
+				try
+				{
+					await databaseContext.Save(cancellationToken).ConfigureAwait(false);
+				}
+				catch
+				{
+					// DCT: Cancellation token is for job, operation must run regardless
+					await repo.ResetToSha(startSha, progressReporter, default).ConfigureAwait(false);
+					throw;
+				}
+
+			progressReporter(5 * ProgressStep);
+		});
 
 		/// <summary>
 		/// Pull the repository and compile for every set of given <paramref name="minutes"/>
@@ -340,9 +356,10 @@ namespace Tgstation.Server.Host.Components
 		/// <param name="minutes">How many minutes the operation should repeat. Does not include running time</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		#pragma warning disable CA1502 // TODO: Decomplexify
+#pragma warning disable CA1502 // TODO: Decomplexify
 		async Task TimerLoop(uint minutes, CancellationToken cancellationToken)
 		{
+			logger.LogDebug("Entering auto-update loop");
 			while (true)
 				try
 				{
@@ -351,14 +368,6 @@ namespace Tgstation.Server.Host.Components
 					await eventConsumer.HandleEvent(EventType.InstanceAutoUpdateStart, new List<string>(), cancellationToken).ConfigureAwait(false);
 					try
 					{
-						Models.User user = null;
-						await databaseContextFactory.UseContext(
-							async (db) => user = await db
-								.Users
-								.Where(x => x.CanonicalName == Models.User.CanonicalizeName(Api.Models.User.AdminName))
-								.FirstAsync(cancellationToken)
-								.ConfigureAwait(false))
-							.ConfigureAwait(false);
 						var repositoryUpdateJob = new Job
 						{
 							Instance = new Models.Instance
@@ -367,242 +376,136 @@ namespace Tgstation.Server.Host.Components
 							},
 							Description = "Scheduled repository update",
 							CancelRightsType = RightsType.Repository,
-							CancelRight = (ulong)RepositoryRights.CancelPendingChanges,
-							StartedBy = user
+							CancelRight = (ulong)RepositoryRights.CancelPendingChanges
 						};
 
-						string deploySha = null;
-						await jobManager.RegisterOperation(repositoryUpdateJob, async (paramJob, databaseContext, progressReporter, jobCancellationToken) =>
+						await jobManager.RegisterOperation(
+							repositoryUpdateJob,
+							RepositoryAutoUpdateJob,
+							cancellationToken)
+							.ConfigureAwait(false);
+
+						// DCT: First token will cancel the job, second is for cancelling the cancellation, unwanted
+						await jobManager.WaitForJobCompletion(repositoryUpdateJob, null, cancellationToken, default).ConfigureAwait(false);
+
+						Job compileProcessJob;
+						using (var repo = await RepositoryManager.LoadRepository(cancellationToken).ConfigureAwait(false))
 						{
-							var repositorySettingsTask = databaseContext.RepositorySettings.Where(x => x.InstanceId == metadata.Id).FirstAsync(jobCancellationToken);
-
-							// assume 5 steps with synchronize
-							const int ProgressSections = 7;
-							const int ProgressStep = 100 / ProgressSections;
-
-							const int NumSteps = 3;
-							var doneSteps = 0;
-
-							Action<int> NextProgressReporter()
+							var deploySha = repo.Head;
+							if (deploySha == null)
 							{
-								var tmpDoneSteps = doneSteps;
-								++doneSteps;
-								return progress => progressReporter((progress + (100 * tmpDoneSteps)) / NumSteps);
+								logger.LogTrace("Aborting auto update, repository error!");
+								continue;
 							}
 
-							using (var repo = await RepositoryManager.LoadRepository(jobCancellationToken).ConfigureAwait(false))
+							if (deploySha == LatestCompileJob()?.RevisionInformation.CommitSha)
 							{
-								if (repo == null)
-								{
-									logger.LogTrace("Aborting repo update, no repository!");
-									return;
-								}
-
-								var startSha = repo.Head;
-								if (!repo.Tracking)
-								{
-									logger.LogTrace("Aborting repo update, active ref not tracking any remote branch!");
-									deploySha = startSha;
-									return;
-								}
-
-								var repositorySettings = await repositorySettingsTask.ConfigureAwait(false);
-
-								// the main point of auto update is to pull the remote
-								await repo.FetchOrigin(repositorySettings.AccessUser, repositorySettings.AccessToken, NextProgressReporter(), jobCancellationToken).ConfigureAwait(false);
-
-								RevisionInformation currentRevInfo = null;
-								bool hasDbChanges = false;
-
-								Task<RevisionInformation> LoadRevInfo() => databaseContext.RevisionInformations
-										.Where(x => x.CommitSha == startSha && x.Instance.Id == metadata.Id)
-										.Include(x => x.ActiveTestMerges).ThenInclude(x => x.TestMerge)
-										.FirstOrDefaultAsync(cancellationToken);
-
-								async Task UpdateRevInfo(string currentHead, bool onOrigin)
-								{
-									if(currentRevInfo == null)
-										currentRevInfo = await LoadRevInfo().ConfigureAwait(false);
-
-									if (currentRevInfo == default)
-									{
-										logger.LogWarning(Repository.Repository.OriginTrackingErrorTemplate, currentHead);
-										onOrigin = true;
-									}
-
-									var attachedInstance = new Models.Instance
-									{
-										Id = metadata.Id
-									};
-									var oldRevInfo = currentRevInfo;
-									currentRevInfo = new RevisionInformation
-									{
-										CommitSha = currentHead,
-										OriginCommitSha = onOrigin ? currentHead : oldRevInfo.OriginCommitSha,
-										Instance = attachedInstance
-									};
-									if (!onOrigin)
-										currentRevInfo.ActiveTestMerges = new List<RevInfoTestMerge>(oldRevInfo.ActiveTestMerges);
-
-									databaseContext.Instances.Attach(attachedInstance);
-									databaseContext.RevisionInformations.Add(currentRevInfo);
-									hasDbChanges = true;
-								}
-
-								// take appropriate auto update actions
-								bool shouldSyncTracked;
-								if (repositorySettings.AutoUpdatesKeepTestMerges.Value)
-								{
-									logger.LogTrace("Preserving test merges...");
-
-									var currentRevInfoTask = LoadRevInfo();
-
-									var result = await repo.MergeOrigin(repositorySettings.CommitterName, repositorySettings.CommitterEmail, NextProgressReporter(), jobCancellationToken).ConfigureAwait(false);
-
-									if (!result.HasValue)
-										throw new JobException(Api.Models.ErrorCode.InstanceUpdateTestMergeConflict);
-
-									currentRevInfo = await currentRevInfoTask.ConfigureAwait(false);
-
-									var lastRevInfoWasOriginCommit = currentRevInfo == default || currentRevInfo.CommitSha == currentRevInfo.OriginCommitSha;
-									var stillOnOrigin = result.Value && lastRevInfoWasOriginCommit;
-
-									var currentHead = repo.Head;
-									if (currentHead != startSha)
-									{
-										await UpdateRevInfo(currentHead, stillOnOrigin).ConfigureAwait(false);
-										shouldSyncTracked = stillOnOrigin;
-									}
-									else
-										shouldSyncTracked = false;
-								}
-								else
-								{
-									logger.LogTrace("Not preserving test merges...");
-									await repo.ResetToOrigin(NextProgressReporter(), jobCancellationToken).ConfigureAwait(false);
-
-									var currentHead = repo.Head;
-
-									currentRevInfo = await databaseContext.RevisionInformations
-									.Where(x => x.CommitSha == currentHead && x.Instance.Id == metadata.Id)
-									.FirstOrDefaultAsync(jobCancellationToken).ConfigureAwait(false);
-
-									if (currentHead != startSha && currentRevInfo != default)
-										await UpdateRevInfo(currentHead, true).ConfigureAwait(false);
-
-									shouldSyncTracked = true;
-								}
-
-								// synch if necessary
-								if (repositorySettings.AutoUpdatesSynchronize.Value && startSha != repo.Head)
-								{
-									var pushedOrigin = await repo.Sychronize(repositorySettings.AccessUser, repositorySettings.AccessToken, repositorySettings.CommitterName, repositorySettings.CommitterEmail, NextProgressReporter(), shouldSyncTracked, jobCancellationToken).ConfigureAwait(false);
-									var currentHead = repo.Head;
-									if (currentHead != currentRevInfo.CommitSha)
-										await UpdateRevInfo(currentHead, pushedOrigin).ConfigureAwait(false);
-								}
-
-								if(hasDbChanges)
-									try
-									{
-										await databaseContext.Save(cancellationToken).ConfigureAwait(false);
-									}
-									catch
-									{
-										await repo.ResetToSha(startSha, progressReporter, default).ConfigureAwait(false);
-										throw;
-									}
-
-								progressReporter(5 * ProgressStep);
-								deploySha = repo.Head;
+								logger.LogTrace("Aborting auto update, same revision as latest CompileJob");
+								continue;
 							}
-						}, cancellationToken).ConfigureAwait(false);
 
-						await jobManager.WaitForJobCompletion(repositoryUpdateJob, user, cancellationToken, default).ConfigureAwait(false);
+							// finally set up the job
+							compileProcessJob = new Job
+							{
+								Instance = repositoryUpdateJob.Instance,
+								Description = "Scheduled code deployment",
+								CancelRightsType = RightsType.DreamMaker,
+								CancelRight = (ulong)DreamMakerRights.CancelCompile
+							};
 
-						if (deploySha == null)
-						{
-							logger.LogTrace("Aborting auto update, repository error!");
-							continue;
+							await jobManager.RegisterOperation(
+								compileProcessJob,
+								(core, databaseContextFactory, job, progressReporter, jobCancellationToken) =>
+								{
+									if (core != this)
+										throw new InvalidOperationException(DifferentCoreExceptionMessage);
+									return DreamMaker.DeploymentProcess(
+										job,
+										databaseContextFactory,
+										progressReporter,
+										jobCancellationToken);
+								},
+								cancellationToken)
+								.ConfigureAwait(false);
 						}
 
-						if(deploySha == LatestCompileJob()?.RevisionInformation.CommitSha)
-						{
-							logger.LogTrace("Aborting auto update, same revision as latest CompileJob");
-							continue;
-						}
-
-						// finally set up the job
-						var compileProcessJob = new Job
-						{
-							StartedBy = user,
-							Instance = repositoryUpdateJob.Instance,
-							Description = "Scheduled code deployment",
-							CancelRightsType = RightsType.DreamMaker,
-							CancelRight = (ulong)DreamMakerRights.CancelCompile
-						};
-
-						await jobManager.RegisterOperation(compileProcessJob, CompileProcess, cancellationToken).ConfigureAwait(false);
-
-						await jobManager.WaitForJobCompletion(compileProcessJob, user, cancellationToken, default).ConfigureAwait(false);
+						await jobManager.WaitForJobCompletion(compileProcessJob, null, default, cancellationToken).ConfigureAwait(false);
 					}
-					catch (OperationCanceledException)
+					catch (Exception e) when (!(e is OperationCanceledException))
 					{
-						logger.LogDebug("Cancelled auto update job!");
-						throw;
-					}
-					catch (Exception e)
-					{
-						logger.LogWarning("Error in auto update loop! Exception: {0}", e);
+						logger.LogWarning(e, "Error in auto update loop!");
 						continue;
 					}
 				}
 				catch (OperationCanceledException)
 				{
+					logger.LogDebug("Cancelled auto update loop!");
 					break;
 				}
 
 			logger.LogTrace("Leaving auto update loop...");
 		}
-		#pragma warning restore CA1502
+#pragma warning restore CA1502
 
 		/// <inheritdoc />
-		public void Rename(string newName)
+		public Task InstanceRenamed(string newName, CancellationToken cancellationToken)
 		{
 			if (String.IsNullOrWhiteSpace(newName))
 				throw new ArgumentNullException(nameof(newName));
 			metadata.Name = newName;
+			return Watchdog.InstanceRenamed(newName, cancellationToken);
 		}
 
 		/// <inheritdoc />
 		public async Task StartAsync(CancellationToken cancellationToken)
 		{
-			await Task.WhenAll(SetAutoUpdateInterval(metadata.AutoUpdateInterval.Value), Configuration.StartAsync(cancellationToken), ByondManager.StartAsync(cancellationToken), Chat.StartAsync(cancellationToken), compileJobConsumer.StartAsync(cancellationToken)).ConfigureAwait(false);
-
-			// dependent on so many things, its just safer this way
-			await Watchdog.StartAsync(cancellationToken).ConfigureAwait(false);
-
-			CompileJob latestCompileJob = null;
-			await databaseContextFactory.UseContext(async db =>
+			using (LogContext.PushProperty("Instance", metadata.Id))
 			{
-				latestCompileJob = await db.MostRecentCompletedCompileJobOrDefault(metadata, cancellationToken).ConfigureAwait(false);
-			}).ConfigureAwait(false);
-			await dmbFactory.CleanUnusedCompileJobs(latestCompileJob, cancellationToken).ConfigureAwait(false);
+				await Task.WhenAll(
+				SetAutoUpdateInterval(metadata.AutoUpdateInterval.Value),
+				Configuration.StartAsync(cancellationToken),
+				ByondManager.StartAsync(cancellationToken),
+				Chat.StartAsync(cancellationToken),
+				dmbFactory.StartAsync(cancellationToken))
+				.ConfigureAwait(false);
+
+				// dependent on so many things, its just safer this way
+				await Watchdog.StartAsync(cancellationToken).ConfigureAwait(false);
+
+				await dmbFactory.CleanUnusedCompileJobs(cancellationToken).ConfigureAwait(false);
+			}
 		}
 
 		/// <inheritdoc />
-		public Task StopAsync(CancellationToken cancellationToken) => Task.WhenAll(SetAutoUpdateInterval(0), Configuration.StopAsync(cancellationToken), ByondManager.StopAsync(cancellationToken), Watchdog.StopAsync(cancellationToken), Chat.StopAsync(cancellationToken), compileJobConsumer.StopAsync(cancellationToken));
+		public async Task StopAsync(CancellationToken cancellationToken)
+		{
+			using (LogContext.PushProperty("Instance", metadata.Id))
+			{
+				await SetAutoUpdateInterval(0).ConfigureAwait(false);
+				await Watchdog.StopAsync(cancellationToken).ConfigureAwait(false);
+				await Task.WhenAll(
+					Configuration.StopAsync(cancellationToken),
+					ByondManager.StopAsync(cancellationToken),
+					Chat.StopAsync(cancellationToken),
+					dmbFactory.StopAsync(cancellationToken))
+					.ConfigureAwait(false);
+			}
+		}
 
 		/// <inheritdoc />
 		public async Task SetAutoUpdateInterval(uint newInterval)
 		{
 			Task toWait;
-			lock (this)
+			lock (timerLock)
 			{
 				if (timerTask != null)
 				{
+					logger.LogTrace("Cancelling auto-update task");
 					timerCts.Cancel();
+					timerCts.Dispose();
 					toWait = timerTask;
+					timerTask = null;
+					timerCts = null;
 				}
 				else
 					toWait = Task.CompletedTask;
@@ -610,24 +513,26 @@ namespace Tgstation.Server.Host.Components
 
 			await toWait.ConfigureAwait(false);
 			if (newInterval == 0)
+			{
+				logger.LogTrace("New auto-update interval is 0. Not starting task.");
 				return;
-			lock (this)
+			}
+
+			lock (timerLock)
 			{
 				// race condition, just quit
 				if (timerTask != null)
+				{
+					logger.LogWarning("Aborting auto update interval change due to race condition!");
 					return;
-				timerCts?.Dispose();
+				}
+
 				timerCts = new CancellationTokenSource();
 				timerTask = TimerLoop(newInterval, timerCts.Token);
 			}
 		}
 
 		/// <inheritdoc />
-		public CompileJob LatestCompileJob()
-		{
-			if (!dmbFactory.DmbAvailable)
-				return null;
-			return dmbFactory.LockNextDmb(0)?.CompileJob;
-		}
+		public CompileJob LatestCompileJob() => dmbFactory.LatestCompileJob();
 	}
 }

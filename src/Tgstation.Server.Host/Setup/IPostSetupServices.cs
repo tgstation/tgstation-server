@@ -1,4 +1,4 @@
-﻿using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Setup
@@ -17,6 +17,11 @@ namespace Tgstation.Server.Host.Setup
 		/// The <see cref="Configuration.DatabaseConfiguration"/>.
 		/// </summary>
 		DatabaseConfiguration DatabaseConfiguration { get; }
+
+		/// <summary>
+		/// The <see cref="Configuration.SecurityConfiguration"/>.
+		/// </summary>
+		SecurityConfiguration SecurityConfiguration { get; }
 
 		/// <summary>
 		/// The <see cref="Configuration.FileLoggingConfiguration"/>.

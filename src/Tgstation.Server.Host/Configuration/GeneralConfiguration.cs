@@ -1,6 +1,10 @@
-﻿using Newtonsoft.Json;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System;
 using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Host.Properties;
+using Tgstation.Server.Host.Setup;
 
 namespace Tgstation.Server.Host.Configuration
 {
@@ -13,6 +17,16 @@ namespace Tgstation.Server.Host.Configuration
 		/// The key for the <see cref="Microsoft.Extensions.Configuration.IConfigurationSection"/> the <see cref="GeneralConfiguration"/> resides in
 		/// </summary>
 		public const string Section = "General";
+
+		/// <summary>
+		/// The default value of <see cref="ApiPort"/>.
+		/// </summary>
+		public const ushort DefaultApiPort = 5000;
+
+		/// <summary>
+		/// The current <see cref="ConfigVersion"/>.
+		/// </summary>
+		public static readonly Version CurrentConfigVersion = Version.Parse(MasterVersionsAttribute.Instance.RawConfigurationVersion);
 
 		/// <summary>
 		/// The default value for <see cref="ServerInformation.MinimumPasswordLength"/>.
@@ -30,14 +44,29 @@ namespace Tgstation.Server.Host.Configuration
 		const uint DefaultUserLimit = 100;
 
 		/// <summary>
+		/// The default value for <see cref="ServerInformation.UserGroupLimit"/>.
+		/// </summary>
+		const uint DefaultUserGroupLimit = 25;
+
+		/// <summary>
 		/// The default value for <see cref="ByondTopicTimeout"/>
 		/// </summary>
-		const int DefaultByondTopicTimeout = 5000;
+		const uint DefaultByondTopicTimeout = 5000;
 
 		/// <summary>
 		/// The default value for <see cref="RestartTimeout"/>
 		/// </summary>
-		const int DefaultRestartTimeout = 10000;
+		const uint DefaultRestartTimeout = 60000;
+
+		/// <summary>
+		/// The <see cref="Version"/> the file says it is.
+		/// </summary>
+		public Version ConfigVersion { get; set; }
+
+		/// <summary>
+		/// The port the TGS API listens on.
+		/// </summary>
+		public ushort ApiPort { get; set; }
 
 		/// <summary>
 		/// A GitHub personal access token to use for bypassing rate limits on requests. Requires no scopes
@@ -53,22 +82,22 @@ namespace Tgstation.Server.Host.Configuration
 		/// <summary>
 		/// The timeout in milliseconds for sending and receiving topics to/from DreamDaemon. Note that a single topic exchange can take up to twice this value
 		/// </summary>
-		public int ByondTopicTimeout { get; set; } = DefaultByondTopicTimeout;
+		public uint ByondTopicTimeout { get; set; } = DefaultByondTopicTimeout;
 
 		/// <summary>
 		/// The timeout milliseconds for restarting the server
 		/// </summary>
-		public int RestartTimeout { get; set; } = DefaultRestartTimeout;
+		public uint RestartTimeout { get; set; } = DefaultRestartTimeout;
 
 		/// <summary>
-		/// If the <see cref="Components.Watchdog.ExperimentalWatchdog"/> should be used.
+		/// If the <see cref="Components.Watchdog.BasicWatchdog"/> should be preferred.
 		/// </summary>
-		public bool UseExperimentalWatchdog { get; set; }
+		public bool UseBasicWatchdog { get; set; }
 
 		/// <summary>
-		/// If the <see cref="Components.Watchdog.WindowsWatchdog"/> should not be used if it is available.
+		/// If the swagger UI should be made avaiable.
 		/// </summary>
-		public bool UseBasicWatchdogOnWindows { get; set; }
+		public bool HostApiDocumentation { get; set; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GeneralConfiguration"/> <see langword="class"/>.
@@ -78,6 +107,29 @@ namespace Tgstation.Server.Host.Configuration
 			MinimumPasswordLength = DefaultMinimumPasswordLength;
 			InstanceLimit = DefaultInstanceLimit;
 			UserLimit = DefaultUserLimit;
+			UserGroupLimit = DefaultUserGroupLimit;
+		}
+
+		/// <summary>
+		/// Validates the current <see cref="ConfigVersion"/>'s compatibility and provides migration instructions.
+		/// </summary>
+		/// <param name="logger">The <see cref="ILogger"/> to use.</param>
+		public void CheckCompatibility(ILogger logger)
+		{
+			if (logger == null)
+				throw new ArgumentNullException(nameof(logger));
+
+			if (ConfigVersion == null)
+				logger.LogCritical(
+					"No `ConfigVersion` specified, your configuration may be out of date! The current version is \"{0}\"",
+					CurrentConfigVersion);
+			else if (ConfigVersion != CurrentConfigVersion)
+				if (ConfigVersion.Major != CurrentConfigVersion.Major)
+					logger.LogCritical(
+						"Your `ConfigVersion` is majorly out-of-date and may potentially cause issues running the server. Please follow migration instructions from the TGS release notes.",
+						CurrentConfigVersion);
+				else
+					logger.LogWarning("Your `ConfigVersion` is out-of-date. Please follow migration instructions from the TGS release notes.");
 		}
 	}
 }

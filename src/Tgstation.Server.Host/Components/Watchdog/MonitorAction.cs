@@ -26,7 +26,7 @@
 		Break,
 
 		/// <summary>
-		/// The monitor should exit. Does not kill servers
+		/// The monitor should end all sessions and exit.
 		/// </summary>
 		Exit
 	}

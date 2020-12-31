@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Net.Http.Headers;
 using System.Reflection;
 using Tgstation.Server.Api;
 
@@ -14,13 +15,18 @@ namespace Tgstation.Server.Host.System
 		public Version Version { get; }
 
 		/// <inheritdoc />
-		public AssemblyName Name { get; }
+		public AssemblyName AssemblyName { get; }
 
 		/// <inheritdoc />
 		public string Path { get; }
 
 		/// <inheritdoc />
 		public string VersionString { get; }
+
+		/// <inheritdoc />
+		public ProductInfoHeaderValue ProductInfoHeaderValue => new ProductInfoHeaderValue(
+			VersionPrefix,
+			Version.ToString());
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AssemblyInformationProvider"/> <see langword="class"/>.
@@ -29,9 +35,9 @@ namespace Tgstation.Server.Host.System
 		{
 			Assembly assembly = Assembly.GetExecutingAssembly();
 			Path = assembly.Location;
-			Name = assembly.GetName();
-			Version = Name.Version.Semver();
-			VersionString = String.Concat(VersionPrefix, '-', Version);
+			AssemblyName = assembly.GetName();
+			Version = AssemblyName.Version.Semver();
+			VersionString = String.Concat(VersionPrefix, "-v", Version);
 		}
 	}
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Tgstation.Server.Api.Rights
 {
@@ -19,9 +19,9 @@ namespace Tgstation.Server.Api.Rights
 		ReadRevision = 1,
 
 		/// <summary>
-		/// User can change both primary and secondary ports
+		/// User can change the port DreamDaemon runs on.
 		/// </summary>
-		SetPorts = 2,
+		SetPort = 2,
 
 		/// <summary>
 		/// User can change <see cref="Models.Internal.DreamDaemonSettings.AutoStart"/>
@@ -34,7 +34,7 @@ namespace Tgstation.Server.Api.Rights
 		SetSecurity = 8,
 
 		/// <summary>
-		/// User can read all ports, <see cref="Models.Internal.DreamDaemonSettings.SoftRestart"/>, <see cref="Models.Internal.DreamDaemonSettings.SoftShutdown"/>, <see cref="Models.DreamDaemon.Running"/>, <see cref="Models.Internal.DreamDaemonLaunchParameters.AllowWebClient"/>, and <see cref="Models.Internal.DreamDaemonSettings.AutoStart"/>
+		/// User can read every propery of <see cref="Models.DreamDaemon"/> except <see cref="Models.DreamDaemon.ActiveCompileJob"/> and <see cref="Models.DreamDaemon.StagedCompileJob"/>.
 		/// </summary>
 		ReadMetadata = 16,
 
@@ -44,33 +44,53 @@ namespace Tgstation.Server.Api.Rights
 		SetWebClient = 32,
 
 		/// <summary>
-		/// User can enable <see cref="Models.Internal.DreamDaemonSettings.SoftRestart"/>
+		/// User can change <see cref="Models.DreamDaemon.SoftRestart"/>.
 		/// </summary>
 		SoftRestart = 64,
 
 		/// <summary>
-		/// User can enable <see cref="Models.Internal.DreamDaemonSettings.SoftShutdown"/>
+		/// User can change <see cref="Models.DreamDaemon.SoftShutdown"/>.
 		/// </summary>
 		SoftShutdown = 128,
 
 		/// <summary>
-		/// User can immediately restart <see cref="Models.DreamDaemon"/>
+		/// User can immediately restart the Watchdog.
 		/// </summary>
 		Restart = 256,
 
 		/// <summary>
-		/// User can immediately shutdown <see cref="Models.DreamDaemon"/>
+		/// User can immediately shutdown the Watchdog.
 		/// </summary>
 		Shutdown = 512,
 
 		/// <summary>
-		/// User can start <see cref="Models.DreamDaemon"/> and disable <see cref="Models.Internal.DreamDaemonSettings.SoftRestart"/> and <see cref="Models.Internal.DreamDaemonSettings.SoftShutdown"/>
+		/// User can start the Watchdog.
 		/// </summary>
 		Start = 1024,
 
 		/// <summary>
 		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.StartupTimeout"/>
 		/// </summary>
-		SetStartupTimeout = 2048
+		SetStartupTimeout = 2048,
+
+		/// <summary>
+		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.HeartbeatSeconds"/>
+		/// </summary>
+		SetHeartbeatInterval = 4096,
+
+		/// <summary>
+		/// User can create DreamDaemon process dumps.
+		/// </summary>
+		CreateDump = 8192,
+
+		/// <summary>
+		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.TopicRequestTimeout"/>.
+		/// </summary>
+		SetTopicTimeout = 16384,
+
+		/// <summary>
+		/// User can change <see cref="Models.Internal.DreamDaemonLaunchParameters.AdditionalParameters"/>.
+		/// </summary>
+		SetAdditionalParameters = 32768,
 	}
 }

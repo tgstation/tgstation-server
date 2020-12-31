@@ -1,9 +1,11 @@
-﻿using Microsoft.Data.Sqlite;
+using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -72,6 +74,11 @@ namespace Tgstation.Server.Host.Setup
 		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
+		/// A <see cref="TaskCompletionSource{TResult}"/> that will complete when the <see cref="IConfiguration"/> is reloaded.
+		/// </summary>
+		TaskCompletionSource<object> reloadTcs;
+
+		/// <summary>
 		/// Construct a <see cref="SetupWizard"/>
 		/// </summary>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
@@ -82,6 +89,7 @@ namespace Tgstation.Server.Host.Setup
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
 		/// <param name="asyncDelayer">The value of <see cref="asyncDelayer"/></param>
 		/// <param name="applicationLifetime">The value of <see cref="applicationLifetime"/>.</param>
+		/// <param name="configuration">The <see cref="IConfiguration"/> in use.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/></param>
 		public SetupWizard(
 			IIOManager ioManager,
@@ -92,6 +100,7 @@ namespace Tgstation.Server.Host.Setup
 			IPlatformIdentifier platformIdentifier,
 			IAsyncDelayer asyncDelayer,
 			IHostApplicationLifetime applicationLifetime,
+			IConfiguration configuration,
 			IOptions<GeneralConfiguration> generalConfigurationOptions)
 		{
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
@@ -102,7 +111,16 @@ namespace Tgstation.Server.Host.Setup
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.asyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.applicationLifetime = applicationLifetime ?? throw new ArgumentNullException(nameof(applicationLifetime));
+			if (configuration == null)
+				throw new ArgumentNullException(nameof(configuration));
+
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+
+			configuration
+				.GetReloadToken()
+				.RegisterChangeCallback(
+					state => reloadTcs?.TrySetResult(null),
+					null);
 		}
 
 		/// <summary>
@@ -140,7 +158,11 @@ namespace Tgstation.Server.Host.Setup
 
 			do
 			{
-				await console.WriteAsync("API Port (leave blank for default): ", false, cancellationToken).ConfigureAwait(false);
+				await console.WriteAsync(
+					$"API Port (leave blank for default of {GeneralConfiguration.DefaultApiPort}): ",
+					false,
+					cancellationToken)
+					.ConfigureAwait(false);
 				var portString = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
 				if (String.IsNullOrWhiteSpace(portString))
 					return null;
@@ -175,16 +197,24 @@ namespace Tgstation.Server.Host.Setup
 				await console.WriteAsync("Connection successful!", true, cancellationToken).ConfigureAwait(false);
 
 				if (databaseConfiguration.DatabaseType == DatabaseType.MariaDB
-					|| databaseConfiguration.DatabaseType == DatabaseType.MySql)
+					|| databaseConfiguration.DatabaseType == DatabaseType.MySql
+					|| databaseConfiguration.DatabaseType == DatabaseType.PostgresSql)
 				{
-					await console.WriteAsync("Checking MySQL/MariaDB version...", true, cancellationToken).ConfigureAwait(false);
-					using (var command = testConnection.CreateCommand())
+					await console.WriteAsync($"Checking {databaseConfiguration.DatabaseType} version...", true, cancellationToken).ConfigureAwait(false);
+					using var command = testConnection.CreateCommand();
+					command.CommandText = "SELECT VERSION()";
+					var fullVersion = (string)await command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false);
+					await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Found {0}", fullVersion), true, cancellationToken).ConfigureAwait(false);
+
+					if (databaseConfiguration.DatabaseType == DatabaseType.PostgresSql)
 					{
-						command.CommandText = "SELECT VERSION()";
-						var fullVersion = (string)await command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false);
-						await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Found {0}", fullVersion), true, cancellationToken).ConfigureAwait(false);
+						var splits = fullVersion.Split(' ');
+						databaseConfiguration.ServerVersion = splits[1].TrimEnd(',');
+					}
+					else
+					{
 						var splits = fullVersion.Split('-');
-						databaseConfiguration.MySqlServerVersion = splits.First();
+						databaseConfiguration.ServerVersion = splits.First();
 					}
 				}
 
@@ -277,36 +307,38 @@ namespace Tgstation.Server.Host.Setup
 		/// <summary>
 		/// Prompt the user for the <see cref="DatabaseType"/>.
 		/// </summary>
+		/// <param name="firstTime">If this is the user's first time here.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the input <see cref="DatabaseType"/>.</returns>
-		async Task<DatabaseType> PromptDatabaseType(CancellationToken cancellationToken)
+		async Task<DatabaseType> PromptDatabaseType(bool firstTime, CancellationToken cancellationToken)
 		{
-#if !DEBUG
-			await console.WriteAsync(String.Empty, true, cancellationToken).ConfigureAwait(false);
-			await console.WriteAsync(
-				"NOTE: It is HIGHLY reccommended that TGS runs on a complete relational database, specfically *NOT* Sqlite.",
-				true,
-				cancellationToken)
-				.ConfigureAwait(false);
-			await console.WriteAsync(
-				"Sqlite, by nature cannot perform several DDL operations. Because of this future compatiblility cannot be guaranteed.",
-				true,
-				cancellationToken)
-				.ConfigureAwait(false);
-			await console.WriteAsync(
-				"This means that you may not be able to update to the next minor version of TGS4 without a clean re-installation!",
-				true,
-				cancellationToken)
-				.ConfigureAwait(false);
-			await console.WriteAsync(
-				"Please consider taking the time to set up a relational database if this is meant to be a long-standing server.",
-				true,
-				cancellationToken)
-				.ConfigureAwait(false);
-			await console.WriteAsync(String.Empty, true, cancellationToken).ConfigureAwait(false);
+			if (firstTime)
+			{
+				await console.WriteAsync(String.Empty, true, cancellationToken).ConfigureAwait(false);
+				await console.WriteAsync(
+					"NOTE: It is HIGHLY reccommended that TGS runs on a complete relational database, specfically *NOT* Sqlite.",
+					true,
+					cancellationToken)
+					.ConfigureAwait(false);
+				await console.WriteAsync(
+					"Sqlite, by nature cannot perform several DDL operations. Because of this future compatiblility cannot be guaranteed.",
+					true,
+					cancellationToken)
+					.ConfigureAwait(false);
+				await console.WriteAsync(
+					"This means that you may not be able to update to the next minor version of TGS4 without a clean re-installation!",
+					true,
+					cancellationToken)
+					.ConfigureAwait(false);
+				await console.WriteAsync(
+					"Please consider taking the time to set up a relational database if this is meant to be a long-standing server.",
+					true,
+					cancellationToken)
+					.ConfigureAwait(false);
+				await console.WriteAsync(String.Empty, true, cancellationToken).ConfigureAwait(false);
 
-			await asyncDelayer.Delay(TimeSpan.FromSeconds(3), cancellationToken).ConfigureAwait(false);
-#endif
+				await asyncDelayer.Delay(TimeSpan.FromSeconds(3), cancellationToken).ConfigureAwait(false);
+			}
 
 			await console.WriteAsync("What SQL database type will you be using?", true, cancellationToken).ConfigureAwait(false);
 			do
@@ -314,9 +346,10 @@ namespace Tgstation.Server.Host.Setup
 				await console.WriteAsync(
 					String.Format(
 						CultureInfo.InvariantCulture,
-						"Please enter one of {0}, {1}, {2} or {3}: ",
+						"Please enter one of {0}, {1}, {2}, {3} or {4}: ",
 						DatabaseType.MariaDB,
 						DatabaseType.MySql,
+						DatabaseType.PostgresSql,
 						DatabaseType.SqlServer,
 						DatabaseType.Sqlite),
 					false,
@@ -336,19 +369,22 @@ namespace Tgstation.Server.Host.Setup
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="DatabaseConfiguration"/></returns>
+		#pragma warning disable CA1502 // TODO: Decomplexify
 		async Task<DatabaseConfiguration> ConfigureDatabase(CancellationToken cancellationToken)
 		{
+			bool firstTime = true;
 			do
 			{
 				await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 
 				var databaseConfiguration = new DatabaseConfiguration
 				{
-					DatabaseType = await PromptDatabaseType(cancellationToken).ConfigureAwait(false)
+					DatabaseType = await PromptDatabaseType(firstTime, cancellationToken).ConfigureAwait(false)
 				};
+				firstTime = false;
 
 				string serverAddress = null;
-				uint? mySQLServerPort = null;
+				ushort? serverPort = null;
 
 				bool isSqliteDB = databaseConfiguration.DatabaseType == DatabaseType.Sqlite;
 				if (!isSqliteDB)
@@ -357,15 +393,17 @@ namespace Tgstation.Server.Host.Setup
 						await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 						await console.WriteAsync("Enter the server's address and port [<server>:<port> or <server>] (blank for local): ", false, cancellationToken).ConfigureAwait(false);
 						serverAddress = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
-						if (!String.IsNullOrWhiteSpace(serverAddress) && databaseConfiguration.DatabaseType == DatabaseType.SqlServer)
+						if (String.IsNullOrWhiteSpace(serverAddress))
+							serverAddress = null;
+						else if (databaseConfiguration.DatabaseType == DatabaseType.SqlServer)
 						{
 							var match = Regex.Match(serverAddress, @"^(?<server>.+):(?<port>.+)$");
 							if (match.Success)
 							{
 								serverAddress = match.Groups["server"].Value;
 								var portString = match.Groups["port"].Value;
-								if (uint.TryParse(portString, out uint port))
-									mySQLServerPort = port;
+								if (UInt16.TryParse(portString, out var port))
+									serverPort = port;
 								else
 								{
 									await console.WriteAsync($"Failed to parse port \"{portString}\", please try again.", true, cancellationToken).ConfigureAwait(false);
@@ -395,7 +433,7 @@ namespace Tgstation.Server.Host.Setup
 								databaseName = await ValidateNonExistantSqliteDBName(databaseName, cancellationToken).ConfigureAwait(false);
 						}
 						else
-							dbExists = await PromptYesNo("Does this database already exist? (y/n): ", cancellationToken).ConfigureAwait(false);
+							dbExists = await PromptYesNo("Does this database already exist? If not, we will attempt to CREATE it. (y/n): ", cancellationToken).ConfigureAwait(false);
 					}
 
 					if (String.IsNullOrWhiteSpace(databaseName))
@@ -438,53 +476,84 @@ namespace Tgstation.Server.Host.Setup
 						connectionString,
 						databaseConfiguration.DatabaseType);
 
-				if (databaseConfiguration.DatabaseType == DatabaseType.SqlServer)
+				switch (databaseConfiguration.DatabaseType)
 				{
-					var csb = new SqlConnectionStringBuilder
-					{
-						ApplicationName = assemblyInformationProvider.VersionPrefix,
-						DataSource = serverAddress ?? "(local)"
-					};
+					case DatabaseType.SqlServer:
+						{
+							var csb = new SqlConnectionStringBuilder
+							{
+								ApplicationName = assemblyInformationProvider.VersionPrefix,
+								DataSource = serverAddress ?? "(local)"
+							};
 
-					if (useWinAuth)
-						csb.IntegratedSecurity = true;
-					else
-					{
-						csb.UserID = username;
-						csb.Password = password;
-					}
+							if (useWinAuth)
+								csb.IntegratedSecurity = true;
+							else
+							{
+								csb.UserID = username;
+								csb.Password = password;
+							}
 
-					CreateTestConnection(csb.ConnectionString);
-					csb.InitialCatalog = databaseName;
-					databaseConfiguration.ConnectionString = csb.ConnectionString;
-				}
-				else if(databaseConfiguration.DatabaseType == DatabaseType.Sqlite)
-				{
-					var csb = new SqliteConnectionStringBuilder
-					{
-						DataSource = databaseName,
-						Mode = dbExists ? SqliteOpenMode.ReadOnly : SqliteOpenMode.ReadWriteCreate
-					};
+							CreateTestConnection(csb.ConnectionString);
+							csb.InitialCatalog = databaseName;
+							databaseConfiguration.ConnectionString = csb.ConnectionString;
+						}
 
-					CreateTestConnection(csb.ConnectionString);
-					databaseConfiguration.ConnectionString = csb.ConnectionString;
-				}
-				else
-				{
-					// MySQL/MariaDB
-					var csb = new MySqlConnectionStringBuilder
-					{
-						Server = serverAddress ?? "127.0.0.1",
-						UserID = username,
-						Password = password
-					};
+						break;
+					case DatabaseType.MariaDB:
+					case DatabaseType.MySql:
+						{
+							// MySQL/MariaDB
+							var csb = new MySqlConnectionStringBuilder
+							{
+								Server = serverAddress ?? "127.0.0.1",
+								UserID = username,
+								Password = password
+							};
 
-					if (mySQLServerPort.HasValue)
-						csb.Port = mySQLServerPort.Value;
+							if (serverPort.HasValue)
+								csb.Port = serverPort.Value;
 
-					CreateTestConnection(csb.ConnectionString);
-					csb.Database = databaseName;
-					databaseConfiguration.ConnectionString = csb.ConnectionString;
+							CreateTestConnection(csb.ConnectionString);
+							csb.Database = databaseName;
+							databaseConfiguration.ConnectionString = csb.ConnectionString;
+						}
+
+						break;
+					case DatabaseType.Sqlite:
+						{
+							var csb = new SqliteConnectionStringBuilder
+							{
+								DataSource = databaseName,
+								Mode = dbExists ? SqliteOpenMode.ReadOnly : SqliteOpenMode.ReadWriteCreate
+							};
+
+							CreateTestConnection(csb.ConnectionString);
+							databaseConfiguration.ConnectionString = csb.ConnectionString;
+						}
+
+						break;
+					case DatabaseType.PostgresSql:
+						{
+							var csb = new NpgsqlConnectionStringBuilder
+							{
+								ApplicationName = assemblyInformationProvider.VersionPrefix,
+								Host = serverAddress ?? "127.0.0.1",
+								Password = password,
+								Username = username
+							};
+
+							if (serverPort.HasValue)
+								csb.Port = serverPort.Value;
+
+							CreateTestConnection(csb.ConnectionString);
+							csb.Database = databaseName;
+							databaseConfiguration.ConnectionString = csb.ConnectionString;
+						}
+
+						break;
+					default:
+						throw new InvalidOperationException("Invalid DatabaseType!");
 				}
 
 				try
@@ -506,6 +575,7 @@ namespace Tgstation.Server.Host.Setup
 			}
 			while (true);
 		}
+		#pragma warning restore CA1502
 
 		/// <summary>
 		/// Prompts the user to create a <see cref="GeneralConfiguration"/>
@@ -539,11 +609,11 @@ namespace Tgstation.Server.Host.Setup
 			do
 			{
 				await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
-				await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Timeout for sending and receiving BYOND topics (ms, 0 for infinite, leave blank for default of {0}): ", newGeneralConfiguration.ByondTopicTimeout), false, cancellationToken).ConfigureAwait(false);
+				await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Default timeout for sending and receiving BYOND topics (ms, 0 for infinite, leave blank for default of {0}): ", newGeneralConfiguration.ByondTopicTimeout), false, cancellationToken).ConfigureAwait(false);
 				var topicTimeoutString = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
 				if (String.IsNullOrWhiteSpace(topicTimeoutString))
 					break;
-				if (Int32.TryParse(topicTimeoutString, out var topicTimeout) && topicTimeout >= 0)
+				if (UInt32.TryParse(topicTimeoutString, out var topicTimeout) && topicTimeout >= 0)
 				{
 					newGeneralConfiguration.ByondTopicTimeout = topicTimeout;
 					break;
@@ -560,9 +630,7 @@ namespace Tgstation.Server.Host.Setup
 			if (String.IsNullOrWhiteSpace(newGeneralConfiguration.GitHubAccessToken))
 				newGeneralConfiguration.GitHubAccessToken = null;
 
-			newGeneralConfiguration.UseExperimentalWatchdog = await PromptYesNo("Use the experimental watchdog (NOT RECOMMENDED)? (y/n): ", cancellationToken).ConfigureAwait(false);
-
-			newGeneralConfiguration.UseBasicWatchdogOnWindows = true;
+			newGeneralConfiguration.HostApiDocumentation = await PromptYesNo("Host API Documentation? (y/n): ", cancellationToken).ConfigureAwait(false);
 
 			return newGeneralConfiguration;
 		}
@@ -680,6 +748,65 @@ namespace Tgstation.Server.Host.Setup
 		}
 
 		/// <summary>
+		/// Prompts the user to create a <see cref="SwarmConfiguration"/>.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="SwarmConfiguration"/>.</returns>
+		async Task<SwarmConfiguration> ConfigureSwarm(CancellationToken cancellationToken)
+		{
+			var enable = await PromptYesNo("Enable swarm mode? (y/n): ", cancellationToken).ConfigureAwait(false);
+			if (!enable)
+				return null;
+
+			string identifer;
+			do
+			{
+				await console.WriteAsync("Enter this server's identifer: ", false, cancellationToken).ConfigureAwait(false);
+				identifer = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
+			}
+			while (String.IsNullOrWhiteSpace(identifer));
+
+			async Task<Uri> ParseAddress(string question)
+			{
+				Uri address;
+				do
+				{
+					await console.WriteAsync(question, false, cancellationToken).ConfigureAwait(false);
+					var addressString = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
+					if (Uri.TryCreate(addressString, UriKind.Absolute, out address)
+						&& address.Scheme != Uri.UriSchemeHttp
+						&& address.Scheme != Uri.UriSchemeHttps)
+						address = null;
+				}
+				while (address == null);
+
+				return address;
+			}
+
+			var address = await ParseAddress("Enter this server's HTTP(S) address: ").ConfigureAwait(false);
+			string privateKey;
+			do
+			{
+				await console.WriteAsync("Enter the swarm private key: ", false, cancellationToken).ConfigureAwait(false);
+				privateKey = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
+			}
+			while (String.IsNullOrWhiteSpace(privateKey));
+
+			var controller = await PromptYesNo("Is this server the swarm's controller? (y/n): ", cancellationToken).ConfigureAwait(false);
+			Uri controllerAddress = null;
+			if (!controller)
+				controllerAddress = await ParseAddress("Enter the swarm controller's HTTP(S) address: ").ConfigureAwait(false);
+
+			return new SwarmConfiguration
+			{
+				Address = address,
+				ControllerAddress = controllerAddress,
+				Identifier = identifer,
+				PrivateKey = privateKey,
+			};
+		}
+
+		/// <summary>
 		/// Saves a given <see cref="Configuration"/> set to <paramref name="userConfigFileName"/>
 		/// </summary>
 		/// <param name="userConfigFileName">The file to save the <see cref="Configuration"/> to</param>
@@ -688,38 +815,45 @@ namespace Tgstation.Server.Host.Setup
 		/// <param name="newGeneralConfiguration">The <see cref="GeneralConfiguration"/> to save</param>
 		/// <param name="fileLoggingConfiguration">The <see cref="FileLoggingConfiguration"/> to save</param>
 		/// <param name="controlPanelConfiguration">The <see cref="ControlPanelConfiguration"/> to save</param>
+		/// <param name="swarmConfiguration">The <see cref="SwarmConfiguration"/> to save.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		async Task SaveConfiguration(string userConfigFileName, ushort? hostingPort, DatabaseConfiguration databaseConfiguration, GeneralConfiguration newGeneralConfiguration, FileLoggingConfiguration fileLoggingConfiguration, ControlPanelConfiguration controlPanelConfiguration, CancellationToken cancellationToken)
+		async Task SaveConfiguration(
+			string userConfigFileName,
+			ushort? hostingPort,
+			DatabaseConfiguration databaseConfiguration,
+			GeneralConfiguration newGeneralConfiguration,
+			FileLoggingConfiguration fileLoggingConfiguration,
+			ControlPanelConfiguration controlPanelConfiguration,
+			SwarmConfiguration swarmConfiguration,
+			CancellationToken cancellationToken)
 		{
 			await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Configuration complete! Saving to {0}", userConfigFileName), true, cancellationToken).ConfigureAwait(false);
 
+			newGeneralConfiguration.ApiPort = hostingPort ?? GeneralConfiguration.DefaultApiPort;
+			newGeneralConfiguration.ConfigVersion = GeneralConfiguration.CurrentConfigVersion;
 			var map = new Dictionary<string, object>()
 			{
 				{ DatabaseConfiguration.Section, databaseConfiguration },
 				{ GeneralConfiguration.Section, newGeneralConfiguration },
 				{ FileLoggingConfiguration.Section, fileLoggingConfiguration },
-				{ ControlPanelConfiguration.Section, controlPanelConfiguration }
+				{ ControlPanelConfiguration.Section, controlPanelConfiguration },
+				{ SwarmConfiguration.Section, swarmConfiguration },
 			};
-
-			if (hostingPort.HasValue)
-				map.Add("Kestrel", new
-				{
-					EndPoints = new
-					{
-						Http = new
-						{
-							Url = String.Format(CultureInfo.InvariantCulture, "http://0.0.0.0:{0}", hostingPort)
-						}
-					}
-				});
 
 			var json = JsonConvert.SerializeObject(map, Formatting.Indented);
 			var configBytes = Encoding.UTF8.GetBytes(json);
 
+			reloadTcs = new TaskCompletionSource<object>();
+
 			try
 			{
 				await ioManager.WriteAllBytes(userConfigFileName, configBytes, cancellationToken).ConfigureAwait(false);
+
+				// Ensure the reload
+				if (generalConfiguration.SetupWizardMode != SetupWizardMode.Only)
+					using (cancellationToken.Register(() => reloadTcs.TrySetCanceled()))
+						await reloadTcs.Task.ConfigureAwait(false);
 			}
 			catch (OperationCanceledException)
 			{
@@ -761,9 +895,20 @@ namespace Tgstation.Server.Host.Setup
 
 			var controlPanelConfiguration = await ConfigureControlPanel(cancellationToken).ConfigureAwait(false);
 
+			var swarmConfiguration = await ConfigureSwarm(cancellationToken).ConfigureAwait(false);
+
 			await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 
-			await SaveConfiguration(userConfigFileName, hostingPort, databaseConfiguration, newGeneralConfiguration, fileLoggingConfiguration, controlPanelConfiguration, cancellationToken).ConfigureAwait(false);
+			await SaveConfiguration(
+				userConfigFileName,
+				hostingPort,
+				databaseConfiguration,
+				newGeneralConfiguration,
+				fileLoggingConfiguration,
+				controlPanelConfiguration,
+				swarmConfiguration,
+				cancellationToken)
+				.ConfigureAwait(false);
 		}
 
 		/// <summary>
@@ -789,6 +934,7 @@ namespace Tgstation.Server.Host.Setup
 
 			async Task HandleSetupCancel()
 			{
+				// DCTx2: Operation should always run
 				await console.WriteAsync(String.Empty, true, default).ConfigureAwait(false);
 				await console.WriteAsync("Aborting setup!", true, default).ConfigureAwait(false);
 			}

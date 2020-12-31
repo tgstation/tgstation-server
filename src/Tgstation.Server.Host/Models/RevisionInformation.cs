@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class RevisionInformation : Api.Models.Internal.RevisionInformation
+	public sealed class RevisionInformation : Api.Models.Internal.RevisionInformation, IApiTransformable<Api.Models.RevisionInformation>
 	{
 		/// <summary>
 		/// The row Id
@@ -13,7 +13,7 @@ namespace Tgstation.Server.Host.Models
 		public long Id { get; set; }
 
 		/// <summary>
-		/// The <see cref="Api.Models.Instance.Id"/>
+		/// The instance <see cref="Api.Models.EntityId.Id"/>
 		/// </summary>
 		public long InstanceId { get; set; }
 
@@ -31,26 +31,23 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// See <see cref="Api.Models.RevisionInformation.ActiveTestMerges"/>
 		/// </summary>
-		public List<RevInfoTestMerge> ActiveTestMerges { get; set; }
+		public ICollection<RevInfoTestMerge> ActiveTestMerges { get; set; }
 
 		/// <summary>
 		/// See <see cref="CompileJob"/>s made from this <see cref="RevisionInformation"/>
 		/// </summary>
-		public List<CompileJob> CompileJobs { get; set; }
+		public ICollection<CompileJob> CompileJobs { get; set; }
 
-		/// <summary>
-		/// Convert the <see cref="RevisionInformation"/> to it's API form
-		/// </summary>
-		/// <returns>A new <see cref="Api.Models.RevisionInformation"/></returns>
+		/// <inheritdoc />
 		public Api.Models.RevisionInformation ToApi() => new Api.Models.RevisionInformation
 		{
 			CommitSha = CommitSha,
 			OriginCommitSha = OriginCommitSha,
 			PrimaryTestMerge = PrimaryTestMerge?.ToApi(),
 			ActiveTestMerges = ActiveTestMerges.Select(x => x.TestMerge.ToApi()).ToList(),
-			CompileJobs = CompileJobs.Select(x => new Api.Models.CompileJob
+			CompileJobs = CompileJobs.Select(x => new Api.Models.EntityId
 			{
-				Id = x.Id // anti recursion measure
+				Id = x.Id
 			}).ToList()
 		};
 	}

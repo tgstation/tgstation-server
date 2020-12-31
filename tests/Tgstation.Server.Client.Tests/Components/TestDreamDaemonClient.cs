@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace Tgstation.Server.Client.Components.Tests
 			var example = new Job
 			{
 				Id = 347,
-				StartedAt = DateTimeOffset.Now
+				StartedAt = DateTimeOffset.UtcNow
 			};
 
 			var inst = new Instance

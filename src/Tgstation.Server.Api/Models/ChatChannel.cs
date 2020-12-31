@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models
 {
@@ -11,8 +11,8 @@ namespace Tgstation.Server.Api.Models
 		/// The IRC channel name. Also potentially contains the channel passsword (if separated by a colon).
 		/// If multiple copies of the same channel with different keys are added to the server, the one that will be used is undefined.
 		/// </summary>
-		[StringLength(Limits.MaximumIndexableStringLength)]
-		public string IrcChannel { get; set; }
+		[StringLength(Limits.MaximumIndexableStringLength, MinimumLength = 1)]
+		public string? IrcChannel { get; set; }
 
 		/// <summary>
 		/// The Discord channel ID
@@ -41,6 +41,6 @@ namespace Tgstation.Server.Api.Models
 		/// A custom tag users can define to group channels together
 		/// </summary>
 		[StringLength(Limits.MaximumStringLength)]
-		public string Tag { get; set; }
+		public string? Tag { get; set; }
 	}
 }

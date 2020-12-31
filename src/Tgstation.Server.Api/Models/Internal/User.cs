@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
-using Tgstation.Server.Api.Rights;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
@@ -30,26 +29,14 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The SID/UID of the <see cref="User"/> on Windows/POSIX respectively
 		/// </summary>
-		// No need for StringLength as the server MUST validate it.
-		public string SystemIdentifier { get; set; }
+		[StringLength(Limits.MaximumIndexableStringLength, MinimumLength = 1)]
+		public string? SystemIdentifier { get; set; }
 
 		/// <summary>
 		/// The name of the <see cref="User"/>
 		/// </summary>
 		[Required]
-		[StringLength(Limits.MaximumStringLength)]
-		public string Name { get; set; }
-
-		/// <summary>
-		/// The <see cref="Rights.AdministrationRights"/> for the <see cref="User"/>
-		/// </summary>
-		[Required]
-		public AdministrationRights? AdministrationRights { get; set; }
-
-		/// <summary>
-		/// The <see cref="Rights.InstanceManagerRights"/> for the <see cref="User"/>
-		/// </summary>
-		[Required]
-		public InstanceManagerRights? InstanceManagerRights { get; set; }
+		[StringLength(Limits.MaximumIndexableStringLength, MinimumLength = 1)]
+		public string? Name { get; set; }
 	}
 }

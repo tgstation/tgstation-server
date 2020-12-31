@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -57,6 +57,7 @@ namespace Tgstation.Server.Host.Watchdog
 
 		/// <inheritdoc />
 		#pragma warning disable CA1502 // TODO: Decomplexify
+		#pragma warning disable CA1506
 		public async Task RunAsync(bool runConfigure, string[] args, CancellationToken cancellationToken)
 		{
 			logger.LogInformation("Host watchdog starting...");
@@ -78,27 +79,30 @@ namespace Tgstation.Server.Host.Watchdog
 				var rootLocation = Path.GetDirectoryName(executingAssembly.Location);
 
 				var assemblyStoragePath = Path.Combine(rootLocation, "lib"); // always always next to watchdog
-#if DEBUG
-				Directory.CreateDirectory(assemblyStoragePath);
-#endif
+
 				var defaultAssemblyPath = Path.GetFullPath(Path.Combine(assemblyStoragePath, "Default"));
-#if DEBUG
-				// just copy the shit where it belongs
-				Directory.Delete(assemblyStoragePath, true);
-				Directory.CreateDirectory(defaultAssemblyPath);
 
-				var sourcePath = "../../../../Tgstation.Server.Host/bin/Debug/netcoreapp3.1";
-				foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
-					Directory.CreateDirectory(dirPath.Replace(sourcePath, defaultAssemblyPath));
+				if (Debugger.IsAttached)
+				{
+					// VS special tactics
+					// just copy the shit where it belongs
+					Directory.Delete(assemblyStoragePath, true);
+					Directory.CreateDirectory(defaultAssemblyPath);
 
-				foreach (string newPath in Directory.GetFiles(sourcePath, "*.*", SearchOption.AllDirectories))
-					File.Copy(newPath, newPath.Replace(sourcePath, defaultAssemblyPath), true);
+					var sourcePath = "../../../../Tgstation.Server.Host/bin/Debug/netcoreapp3.1";
+					foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
+						Directory.CreateDirectory(dirPath.Replace(sourcePath, defaultAssemblyPath));
 
-				const string AppSettingsJson = "appsettings.json";
-				var rootJson = Path.Combine(rootLocation, AppSettingsJson);
-				File.Delete(rootJson);
-				File.Move(Path.Combine(defaultAssemblyPath, AppSettingsJson), rootJson);
-#endif
+					foreach (string newPath in Directory.GetFiles(sourcePath, "*.*", SearchOption.AllDirectories))
+						File.Copy(newPath, newPath.Replace(sourcePath, defaultAssemblyPath), true);
+
+					const string AppSettingsJson = "appsettings.json";
+					var rootJson = Path.Combine(rootLocation, AppSettingsJson);
+					File.Delete(rootJson);
+					File.Move(Path.Combine(defaultAssemblyPath, AppSettingsJson), rootJson);
+				}
+				else
+					Directory.CreateDirectory(assemblyStoragePath);
 
 				var assemblyName = String.Join(".", nameof(Tgstation), nameof(Server), nameof(Host), "dll");
 				var assemblyPath = Path.Combine(defaultAssemblyPath, assemblyName);
@@ -227,7 +231,7 @@ namespace Tgstation.Server.Host.Watchdog
 									}
 									catch (Exception e)
 									{
-										logger.LogWarning("Unable to delete exception dump file at {0}! Exception: {1}", updateDirectory, e);
+										logger.LogWarning(e, "Unable to delete exception dump file at {0}!", updateDirectory);
 									}
 
 #pragma warning disable CA2201 // Do not raise reserved exception types
@@ -273,12 +277,12 @@ namespace Tgstation.Server.Host.Watchdog
 									}
 									catch (Exception e)
 									{
-										logger.LogWarning("Error deleting old server at {0}! Exception: {1}", tempPath, e);
+										logger.LogWarning(e, "Error deleting old server at {0}!", tempPath);
 									}
 								}
 								catch (Exception e)
 								{
-									logger.LogError("Error moving updated server directory, attempting revert! Exception: {0}", e);
+									logger.LogError(e, "Error moving updated server directory, attempting revert!");
 									Directory.Delete(defaultAssemblyPath, true);
 									Directory.Move(tempPath, defaultAssemblyPath);
 									logger.LogInformation("Revert successful!");
@@ -286,22 +290,22 @@ namespace Tgstation.Server.Host.Watchdog
 							}
 							catch (Exception e)
 							{
-								logger.LogWarning("Failed to move out active host assembly! Exception: {0}", e);
+								logger.LogWarning(e, "Failed to move out active host assembly!");
 							}
 						}
 					}
 			}
-			catch (OperationCanceledException)
+			catch (OperationCanceledException ex)
 			{
-				logger.LogDebug("Exiting due to cancellation...");
+				logger.LogDebug(ex, "Exiting due to cancellation...");
 				if (!Directory.Exists(updateDirectory))
 					File.Delete(updateDirectory);
 				else
 					Directory.Delete(updateDirectory, true);
 			}
-			catch (Exception e)
+			catch (Exception ex)
 			{
-				logger.LogCritical("Watchdog error! Exception: {0}", e);
+				logger.LogCritical(ex, "Host watchdog error!");
 			}
 			finally
 			{
@@ -309,5 +313,6 @@ namespace Tgstation.Server.Host.Watchdog
 			}
 		}
 		#pragma warning restore CA1502
+		#pragma warning restore CA1506
 	}
 }

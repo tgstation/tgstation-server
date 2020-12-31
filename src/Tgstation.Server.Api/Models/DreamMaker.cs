@@ -11,7 +11,7 @@ namespace Tgstation.Server.Api.Models
 		/// The .dme file <see cref="DreamMaker"/> tries to compile with without the extension
 		/// </summary>
 		[StringLength(Limits.MaximumStringLength)]
-		public string ProjectName { get; set; }
+		public string? ProjectName { get; set; }
 
 		/// <summary>
 		/// The port used during compilation to validate the DMAPI
@@ -25,5 +25,11 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Required]
 		public DreamDaemonSecurity? ApiValidationSecurityLevel { get; set; }
+
+		/// <summary>
+		/// If API validation should be required for a deployment to succeed.
+		/// </summary>
+		[Required]
+		public bool? RequireDMApiValidation { get; set; }
 	}
 }

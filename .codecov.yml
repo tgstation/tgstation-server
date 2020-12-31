@@ -1,23 +1,9 @@
-codecov:
-  strict_yaml_branch: master
-ignore:
-  - "src/Tgstation.Server.Host/Database/Migrations"
-  - "src/Tgstation.Server.Host/Database/Design"
 coverage:
   status:
     project:
       default:
-        threshold: 0
-        if_no_uploads: failure
-        if_ci_failed: failure
-    patch:
-      default:
-        target: 100
-        only_pulls: true
-    changes:
-      default:
-        if_no_uploads: failure
-        if_ci_failed: failure
-        only_pulls: yes
+        target: auto
+        threshold: 3%
+    patch: off
 comment:
   layout: "header, diff, changes"

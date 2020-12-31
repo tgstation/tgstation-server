@@ -11,7 +11,7 @@
 		public long ProviderId { get; set; }
 
 		/// <summary>
-		/// The original <see cref="Components.Chat.ChannelRepresentation.RealId"/>
+		/// The original <see cref="ChannelRepresentation.RealId"/>.
 		/// </summary>
 		public ulong ProviderChannelId { get; set; }
 
@@ -26,7 +26,12 @@
 		public bool IsUpdatesChannel { get; set; }
 
 		/// <summary>
-		/// The <see cref="Components.Chat.ChannelRepresentation"/> with the mapped Id
+		/// If the <see cref="Channel"/> is an admin channel.
+		/// </summary>
+		public bool IsAdminChannel { get; set; }
+
+		/// <summary>
+		/// The <see cref="ChannelRepresentation"/> with the mapped Id.
 		/// </summary>
 		public ChannelRepresentation Channel { get; set; }
 	}

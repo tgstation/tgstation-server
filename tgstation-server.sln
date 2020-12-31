@@ -9,11 +9,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.dockerignore = .dockerignore
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
-		.travis.yml = .travis.yml
-		appveyor.yml = appveyor.yml
 		LICENSE = LICENSE
 		omnisharp.json = omnisharp.json
 		README.md = README.md
+		SECURITY.md = SECURITY.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgstation.Server.Host", "src\Tgstation.Server.Host\Tgstation.Server.Host.csproj", "{2B69AD6D-2B5A-4023-8EAD-0BD1B18E028A}"
@@ -26,17 +25,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{6FF654E6
 	ProjectSection(SolutionItems) = preProject
 		build\analyzers.ruleset = build\analyzers.ruleset
 		build\BuildDox.ps1 = build\BuildDox.ps1
+		build\ControlPanelVersion.props = build\ControlPanelVersion.props
+		build\coverlet.runsettings = build\coverlet.runsettings
 		build\Dockerfile = build\Dockerfile
-		build\install_byond.sh = build\install_byond.sh
-		build\InstallCodeCoverage.ps1 = build\InstallCodeCoverage.ps1
+		build\GenerateMigrations.sh = build\GenerateMigrations.sh
 		build\OpenApiValidationSettings.json = build\OpenApiValidationSettings.json
-		build\prep_deployment.ps1 = build\prep_deployment.ps1
 		build\stylecop.json = build\stylecop.json
-		build\test_core.sh = build\test_core.sh
 		build\tgs.docker.sh = build\tgs.docker.sh
 		build\tgs.ico = build\tgs.ico
 		build\tgs.png = build\tgs.png
-		build\UploadCoverage.ps1 = build\UploadCoverage.ps1
 		build\Version.props = build\Version.props
 	EndProjectSection
 EndProject
@@ -66,6 +63,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tgs", "tgs", "{F7765A4B-021C-454E-ABB1-2AB1B85F91B4}"
 	ProjectSection(SolutionItems) = preProject
 		src\DMAPI\tgs\includes.dm = src\DMAPI\tgs\includes.dm
+		src\DMAPI\tgs\LICENSE = src\DMAPI\tgs\LICENSE
+		src\DMAPI\tgs\README.md = src\DMAPI\tgs\README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{DCCBA9DA-47BA-4C70-823B-E99A3ACA0377}"
@@ -73,6 +72,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{DCCBA9DA-4
 		src\DMAPI\tgs\core\_definitions.dm = src\DMAPI\tgs\core\_definitions.dm
 		src\DMAPI\tgs\core\core.dm = src\DMAPI\tgs\core\core.dm
 		src\DMAPI\tgs\core\datum.dm = src\DMAPI\tgs\core\datum.dm
+		src\DMAPI\tgs\core\README.md = src\DMAPI\tgs\core\README.md
 		src\DMAPI\tgs\core\tgs_version.dm = src\DMAPI\tgs\core\tgs_version.dm
 	EndProjectSection
 EndProject
@@ -80,6 +80,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v3210", "v3210", "{1B228ACB
 	ProjectSection(SolutionItems) = preProject
 		src\DMAPI\tgs\v3210\api.dm = src\DMAPI\tgs\v3210\api.dm
 		src\DMAPI\tgs\v3210\commands.dm = src\DMAPI\tgs\v3210\commands.dm
+		src\DMAPI\tgs\v3210\README.md = src\DMAPI\tgs\v3210\README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3BB10856-AA01-43D1-AAB0-A013085426D6}"
@@ -88,23 +89,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3BB10856-AA0
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{82066812-6C73-4360-943B-B23F2F491261}"
-	ProjectSection(SolutionItems) = preProject
-		tests\DMAPI\Config.dm = tests\DMAPI\Config.dm
-		tests\DMAPI\install_byond.sh = tests\DMAPI\install_byond.sh
-		tests\DMAPI\Test.dm = tests\DMAPI\Test.dm
-		tests\DMAPI\travistester.dme = tests\DMAPI\travistester.dme
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v4", "v4", "{057FAC33-CC31-4948-91C6-B0977C335890}"
 	ProjectSection(SolutionItems) = preProject
 		src\DMAPI\tgs\v4\api.dm = src\DMAPI\tgs\v4\api.dm
 		src\DMAPI\tgs\v4\commands.dm = src\DMAPI\tgs\v4\commands.dm
+		src\DMAPI\tgs\v4\README.md = src\DMAPI\tgs\v4\README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{A55C1117-5808-4AB2-BEA6-4D4A3E66A2F2}"
-	ProjectSection(SolutionItems) = preProject
-		tools\TGS.postman_collection.json = tools\TGS.postman_collection.json
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{DCC75431-7913-4306-9FAB-70998D440BCE}"
 	ProjectSection(SolutionItems) = preProject
@@ -113,6 +106,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{DCC75431-7
 		docs\ArchitectureOverview.png = docs\ArchitectureOverview.png
 		docs\Doxyfile = docs\Doxyfile
 		docs\DoxygenLayout.xml = docs\DoxygenLayout.xml
+		docs\Features.dox = docs\Features.dox
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{E82104F4-F5C4-4786-ACD4-B635166CDB21}"
@@ -134,6 +128,55 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".vscode", ".vscode", "{14B3
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{316141B0-CD21-4769-A013-D53DA9B9EC09}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v5", "v5", "{FAEAD3B5-2EAB-465C-A9C3-E8CB6AAA7131}"
+	ProjectSection(SolutionItems) = preProject
+		src\DMAPI\tgs\v5\_defines.dm = src\DMAPI\tgs\v5\_defines.dm
+		src\DMAPI\tgs\v5\api.dm = src\DMAPI\tgs\v5\api.dm
+		src\DMAPI\tgs\v5\commands.dm = src\DMAPI\tgs\v5\commands.dm
+		src\DMAPI\tgs\v5\README.md = src\DMAPI\tgs\v5\README.md
+		src\DMAPI\tgs\v5\undefs.dm = src\DMAPI\tgs\v5\undefs.dm
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LongRunning", "LongRunning", "{EB1DDE8C-CA6F-4BE3-947B-597CA8EABEA5}"
+	ProjectSection(SolutionItems) = preProject
+		tests\DMAPI\LongRunning\Config.dm = tests\DMAPI\LongRunning\Config.dm
+		tests\DMAPI\LongRunning\long_running_test.dme = tests\DMAPI\LongRunning\long_running_test.dme
+		tests\DMAPI\LongRunning\long_running_test_copy.dme = tests\DMAPI\LongRunning\long_running_test_copy.dme
+		tests\DMAPI\LongRunning\Test.dm = tests\DMAPI\LongRunning\Test.dm
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiFree", "ApiFree", "{7B8FC2AF-1B64-4A89-8480-F0FE360DC9EC}"
+	ProjectSection(SolutionItems) = preProject
+		tests\DMAPI\ApiFree\api_free.dme = tests\DMAPI\ApiFree\api_free.dme
+		tests\DMAPI\ApiFree\Test.dm = tests\DMAPI\ApiFree\Test.dm
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BasicOperation", "BasicOperation", "{F32B9514-AAD9-429D-841A-ED810FC2598C}"
+	ProjectSection(SolutionItems) = preProject
+		tests\DMAPI\BasicOperation\basic_operation_test.dme = tests\DMAPI\BasicOperation\basic_operation_test.dme
+		tests\DMAPI\BasicOperation\Config.dm = tests\DMAPI\BasicOperation\Config.dm
+		tests\DMAPI\BasicOperation\Test.dm = tests\DMAPI\BasicOperation\Test.dm
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildFail", "BuildFail", "{103C61AB-67D6-46FE-AA47-CC633B88EE0F}"
+	ProjectSection(SolutionItems) = preProject
+		tests\DMAPI\BuildFail\build_fail.dme = tests\DMAPI\BuildFail\build_fail.dme
+		tests\DMAPI\BuildFail\Test.dm = tests\DMAPI\BuildFail\Test.dm
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{28CDEB8F-2B2A-47A2-985B-5E2487E8D096}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\artifact-cleanup.yml = .github\workflows\artifact-cleanup.yml
+		.github\workflows\ci-suite.yml = .github\workflows\ci-suite.yml
+		.github\workflows\stable-merge.yml = .github\workflows\stable-merge.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ISSUE_TEMPLATE", "ISSUE_TEMPLATE", "{CFFD7992-E73A-4D1F-9D7A-C817C07B7BEB}"
+	ProjectSection(SolutionItems) = preProject
+		.github\ISSUE_TEMPLATE\bug-report.md = .github\ISSUE_TEMPLATE\bug-report.md
+		.github\ISSUE_TEMPLATE\feature_request.md = .github\ISSUE_TEMPLATE\feature_request.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -270,6 +313,13 @@ Global
 		{057FAC33-CC31-4948-91C6-B0977C335890} = {F7765A4B-021C-454E-ABB1-2AB1B85F91B4}
 		{09056964-1C74-445A-96EC-33F6DFC07916} = {316141B0-CD21-4769-A013-D53DA9B9EC09}
 		{5CB51532-55F0-4255-B6E5-69ED5CCD14CD} = {A55C1117-5808-4AB2-BEA6-4D4A3E66A2F2}
+		{FAEAD3B5-2EAB-465C-A9C3-E8CB6AAA7131} = {F7765A4B-021C-454E-ABB1-2AB1B85F91B4}
+		{EB1DDE8C-CA6F-4BE3-947B-597CA8EABEA5} = {82066812-6C73-4360-943B-B23F2F491261}
+		{7B8FC2AF-1B64-4A89-8480-F0FE360DC9EC} = {82066812-6C73-4360-943B-B23F2F491261}
+		{F32B9514-AAD9-429D-841A-ED810FC2598C} = {82066812-6C73-4360-943B-B23F2F491261}
+		{103C61AB-67D6-46FE-AA47-CC633B88EE0F} = {82066812-6C73-4360-943B-B23F2F491261}
+		{28CDEB8F-2B2A-47A2-985B-5E2487E8D096} = {E82104F4-F5C4-4786-ACD4-B635166CDB21}
+		{CFFD7992-E73A-4D1F-9D7A-C817C07B7BEB} = {E82104F4-F5C4-4786-ACD4-B635166CDB21}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DFD36C95-3E49-41C7-ACDB-86BAF5B18A79}

@@ -21,7 +21,7 @@ namespace Tgstation.Server.Host.Extensions
 
 			return builder.ConfigureServices((context, services) =>
 			{
-				var setupApplication = new SetupApplication(context.Configuration, context.HostingEnvironment);
+				var setupApplication = new SetupApplication(context.Configuration);
 				setupApplication.ConfigureServices(services);
 			});
 		}

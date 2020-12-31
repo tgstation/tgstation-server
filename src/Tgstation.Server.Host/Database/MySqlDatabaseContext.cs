@@ -1,7 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using MySql.Data.MySqlClient;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using System;
 using Tgstation.Server.Host.Configuration;
@@ -9,47 +6,48 @@ using Tgstation.Server.Host.Configuration;
 namespace Tgstation.Server.Host.Database
 {
 	/// <summary>
-	/// <see cref="DatabaseContext{TParentContext}"/> for MySQL
+	/// <see cref="DatabaseContext"/> for MySQL
 	/// </summary>
-	sealed class MySqlDatabaseContext : DatabaseContext<MySqlDatabaseContext>
+	sealed class MySqlDatabaseContext : DatabaseContext
 	{
+		/// <inheritdoc />
+		protected override DeleteBehavior RevInfoCompileJobDeleteBehavior => DeleteBehavior.Cascade;
+
 		/// <summary>
 		/// Construct a <see cref="MySqlDatabaseContext"/>
 		/// </summary>
-		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TContext}"/> for the <see cref="DatabaseContext{TParentContext}"/></param>
-		/// <param name="databaseConfiguration">The <see cref="IOptions{TOptions}"/> of <see cref="DatabaseConfiguration"/> for the <see cref="DatabaseContext{TParentContext}"/></param>
-		/// <param name="databaseSeeder">The <see cref="IDatabaseSeeder"/> for the <see cref="DatabaseContext{TParentContext}"/></param>
-		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="DatabaseContext{TParentContext}"/></param>
-		public MySqlDatabaseContext(DbContextOptions<MySqlDatabaseContext> dbContextOptions, IOptions<DatabaseConfiguration> databaseConfiguration, IDatabaseSeeder databaseSeeder, ILogger<MySqlDatabaseContext> logger) : base(dbContextOptions, databaseConfiguration, databaseSeeder, logger)
+		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TContext}"/> for the <see cref="DatabaseContext"/></param>
+		public MySqlDatabaseContext(DbContextOptions<MySqlDatabaseContext> dbContextOptions) : base(dbContextOptions)
 		{ }
 
-		/// <inheritdoc />
-		protected override void OnConfiguring(DbContextOptionsBuilder options)
+		/// <summary>
+		/// Configure the <see cref="MySqlDatabaseContext"/>.
+		/// </summary>
+		/// <param name="options">The <see cref="DbContextOptionsBuilder"/> to configure.</param>
+		/// <param name="databaseConfiguration">The <see cref="DatabaseConfiguration"/>.</param>
+		public static void ConfigureWith(DbContextOptionsBuilder options, DatabaseConfiguration databaseConfiguration)
 		{
-			base.OnConfiguring(options);
-			var stringDeconstructor = new MySqlConnectionStringBuilder
-			{
-				ConnectionString = DatabaseConfiguration.ConnectionString
-			};
-			if (stringDeconstructor.Server == "localhost")
-				Logger.LogWarning("MariaDB/MySQL server address is set to 'localhost'! If there are connection issues, try setting it to '127.0.0.1'!");
-			if (!String.IsNullOrEmpty(DatabaseConfiguration.MySqlServerVersion))
-				options.UseMySql(
-					DatabaseConfiguration.ConnectionString,
-					mySqlOptions => mySqlOptions.ServerVersion(
-						Version.Parse(DatabaseConfiguration.MySqlServerVersion),
-						DatabaseConfiguration.DatabaseType == DatabaseType.MariaDB
-							? ServerType.MariaDb
-							: ServerType.MySql));
-			else
-				options.UseMySql(DatabaseConfiguration.ConnectionString);
-		}
+			if (options == null)
+				throw new ArgumentNullException(nameof(options));
+			if (databaseConfiguration == null)
+				throw new ArgumentNullException(nameof(databaseConfiguration));
 
-		/// <inheritdoc />
-		protected override void ValidateDatabaseType()
-		{
-			if (DatabaseType != DatabaseType.MariaDB && DatabaseType != DatabaseType.MySql)
-				throw new InvalidOperationException("Invalid DatabaseType for MySqlDatabaseContext!");
+			if (databaseConfiguration.DatabaseType != DatabaseType.MariaDB && databaseConfiguration.DatabaseType != DatabaseType.MySql)
+				throw new InvalidOperationException($"Invalid DatabaseType for {nameof(MySqlDatabaseContext)}!");
+
+			options.UseMySql(
+				databaseConfiguration.ConnectionString,
+				mySqlOptions =>
+				{
+					mySqlOptions.EnableRetryOnFailure();
+
+					if (!String.IsNullOrEmpty(databaseConfiguration.ServerVersion))
+						mySqlOptions.ServerVersion(
+							Version.Parse(databaseConfiguration.ServerVersion),
+							databaseConfiguration.DatabaseType == DatabaseType.MariaDB
+								? ServerType.MariaDb
+								: ServerType.MySql);
+				});
 		}
 	}
 }

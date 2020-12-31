@@ -12,17 +12,5 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// </summary>
 		[Required]
 		public bool? AutoStart { get; set; }
-
-		/// <summary>
-		/// If the server is undergoing a soft reset. This may be automatically set by changes to other fields
-		/// </summary>
-		[Required]
-		public bool? SoftRestart { get; set; }
-
-		/// <summary>
-		/// If the server is undergoing a soft shutdown
-		/// </summary>
-		[Required]
-		public bool? SoftShutdown { get; set; }
 	}
 }

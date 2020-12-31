@@ -48,5 +48,11 @@ namespace Tgstation.Server.Host.Extensions
 
 			return await task.ConfigureAwait(false);
 		}
+
+		/// <summary>
+		/// Creates a <see cref="Task"/> that never completes.
+		/// </summary>
+		/// <returns>A never ending <see cref="Task"/>.</returns>
+		public static Task InfiniteTask() => new TaskCompletionSource<object>().Task;
 	}
 }

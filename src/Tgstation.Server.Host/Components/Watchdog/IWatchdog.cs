@@ -1,20 +1,23 @@
-﻿using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Host.Components.Events;
+using Tgstation.Server.Host.Components.Session;
 
 namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <summary>
 	/// Runs and monitors the twin server controllers
 	/// </summary>
-	public interface IWatchdog : IHostedService, IDisposable, IEventConsumer
+	public interface IWatchdog : IHostedService, IAsyncDisposable, IEventConsumer, IRenameNotifyee
 	{
 		/// <summary>
-		/// If the watchdog is running
+		/// The current <see cref="WatchdogStatus"/>.
 		/// </summary>
-		bool Running { get; }
+		WatchdogStatus Status { get; }
 
 		/// <summary>
 		/// If the alpha server is the active server
@@ -22,12 +25,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		bool AlphaIsActive { get; }
 
 		/// <summary>
-		/// When new <see cref="Models.CompileJob"/>s will be made active.
-		/// </summary>
-		string DeploymentApplicationTime { get; }
-
-		/// <summary>
-		/// The <see cref="CompileJob"/> currently running on the server
+		/// Retrieves the <see cref="Models.CompileJob"/> currently running on the server
 		/// </summary>
 		Models.CompileJob ActiveCompileJob { get; }
 
@@ -42,7 +40,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		DreamDaemonLaunchParameters LastLaunchParameters { get; }
 
 		/// <summary>
-		/// The <see cref="Watchdog.RebootState"/> of the active server
+		/// The <see cref="Session.RebootState"/> of the active server
 		/// </summary>
 		RebootState? RebootState { get; }
 
@@ -54,7 +52,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		Task Launch(CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Changes the <see cref="ActiveLaunchParameters"/>. If currently <see cref="Running"/> triggers a graceful restart
+		/// Changes the <see cref="ActiveLaunchParameters"/>. If currently running, may trigger a graceful restart.
 		/// </summary>
 		/// <param name="launchParameters">The new <see cref="DreamDaemonLaunchParameters"/>. May be modified</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
@@ -83,5 +81,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task ResetRebootState(CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Attempt to create a process dump for DreamDaemon.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		Task CreateDump(CancellationToken cancellationToken);
 	}
 }

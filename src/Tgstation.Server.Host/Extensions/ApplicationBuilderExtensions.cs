@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +8,7 @@ using System;
 using System.Globalization;
 using System.Net;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Extensions
 {
@@ -40,7 +41,13 @@ namespace Tgstation.Server.Host.Extensions
 				}
 				catch (DbUpdateException e)
 				{
-					logger.LogDebug("Database conflict: {0}", e.Message);
+					if (e.InnerException is OperationCanceledException)
+					{
+						logger.LogTrace(e, "Rethrowing DbUpdateException as OperationCanceledException");
+						throw e.InnerException;
+					}
+
+					logger.LogDebug(e, "Database conflict!");
 					await new ConflictObjectResult(new ErrorMessage(ErrorCode.DatabaseIntegrityConflict)
 					{
 						AdditionalData = String.Format(CultureInfo.InvariantCulture, (e.InnerException ?? e).Message)
@@ -67,9 +74,9 @@ namespace Tgstation.Server.Host.Extensions
 				{
 					await next().ConfigureAwait(false);
 				}
-				catch (OperationCanceledException)
+				catch (OperationCanceledException ex)
 				{
-					logger.LogDebug("Request cancelled!");
+					logger.LogDebug(ex, "Request cancelled!");
 				}
 			});
 		}
@@ -91,7 +98,7 @@ namespace Tgstation.Server.Host.Extensions
 				}
 				catch (Exception e)
 				{
-					logger.LogError("Failed request: {0}", e);
+					logger.LogError(e, "Failed request!");
 					await new ObjectResult(
 						new ErrorMessage(ErrorCode.InternalServerError)
 						{
@@ -105,6 +112,25 @@ namespace Tgstation.Server.Host.Extensions
 						HttpContext = context
 					}).ConfigureAwait(false);
 				}
+			});
+		}
+
+		/// <summary>
+		/// Add the X-Powered-By response header.
+		/// </summary>
+		/// <param name="applicationBuilder">The <see cref="IApplicationBuilder"/> to configure.</param>
+		/// <param name="assemblyInformationProvider">The <see cref="IAssemblyInformationProvider"/> to use.</param>
+		public static void UseServerBranding(this IApplicationBuilder applicationBuilder, IAssemblyInformationProvider assemblyInformationProvider)
+		{
+			if (applicationBuilder == null)
+				throw new ArgumentNullException(nameof(applicationBuilder));
+			if (assemblyInformationProvider == null)
+				throw new ArgumentNullException(nameof(assemblyInformationProvider));
+
+			applicationBuilder.Use(async (context, next) =>
+			{
+				context.Response.Headers.Add("X-Powered-By", assemblyInformationProvider.VersionPrefix);
+				await next().ConfigureAwait(false);
 			});
 		}
 	}

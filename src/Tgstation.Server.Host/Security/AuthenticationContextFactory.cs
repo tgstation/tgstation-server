@@ -1,9 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Security
 {
@@ -24,14 +28,32 @@ namespace Tgstation.Server.Host.Security
 		readonly IIdentityCache identityCache;
 
 		/// <summary>
+		/// The <see cref="ILogger"/> for the <see cref="AuthenticationContextFactory"/>.
+		/// </summary>
+		readonly ILogger<AuthenticationContextFactory> logger;
+
+		/// <summary>
+		/// The <see cref="SwarmConfiguration"/> for the <see cref="AuthenticationContextFactory"/>.
+		/// </summary>
+		readonly SwarmConfiguration swarmConfiguration;
+
+		/// <summary>
 		/// Construct an <see cref="AuthenticationContextFactory"/>
 		/// </summary>
 		/// <param name="databaseContext">The value of <see cref="databaseContext"/></param>
 		/// <param name="identityCache">The value of <see cref="identityCache"/></param>
-		public AuthenticationContextFactory(IDatabaseContext databaseContext, IIdentityCache identityCache)
+		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
+		/// <param name="logger">The value of <see cref="logger"/>.</param>
+		public AuthenticationContextFactory(
+			IDatabaseContext databaseContext,
+			IIdentityCache identityCache,
+			IOptions<SwarmConfiguration> swarmConfigurationOptions,
+			ILogger<AuthenticationContextFactory> logger)
 		{
 			this.databaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
 			this.identityCache = identityCache ?? throw new ArgumentNullException(nameof(identityCache));
+			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
 		/// <inheritdoc />
@@ -43,12 +65,20 @@ namespace Tgstation.Server.Host.Security
 			if (CurrentAuthenticationContext != null)
 				throw new InvalidOperationException("Authentication context has already been loaded");
 
-			var user = await databaseContext.Users.Where(x => x.Id == userId)
+			var user = await databaseContext
+				.Users
+				.AsQueryable()
+				.Where(x => x.Id == userId)
 				.Include(x => x.CreatedBy)
+				.Include(x => x.PermissionSet)
+				.Include(x => x.Group)
+					.ThenInclude(x => x.PermissionSet)
+				.Include(x => x.OAuthConnections)
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);
 			if (user == default)
 			{
+				logger.LogWarning("Unable to find user with ID {0}!", userId);
 				CurrentAuthenticationContext = new AuthenticationContext();
 				return;
 			}
@@ -60,6 +90,7 @@ namespace Tgstation.Server.Host.Security
 			{
 				if (user.LastPasswordUpdate.HasValue && user.LastPasswordUpdate > validAfter)
 				{
+					logger.LogDebug("Rejecting token for user {0} created before last password update: {1}", userId, user.LastPasswordUpdate.Value);
 					CurrentAuthenticationContext = new AuthenticationContext();
 					return;
 				}
@@ -67,17 +98,27 @@ namespace Tgstation.Server.Host.Security
 				systemIdentity = null;
 			}
 
+			var userPermissionSet = user.PermissionSet ?? user.Group.PermissionSet;
 			try
 			{
-				var instanceUser = instanceId.HasValue
-					? await databaseContext.InstanceUsers
-						.Where(x => x.UserId == userId && x.InstanceId == instanceId && x.Instance.Online.Value)
+				InstancePermissionSet instancePermissionSet = null;
+				if (instanceId.HasValue)
+				{
+					instancePermissionSet = await databaseContext.InstancePermissionSets
+						.AsQueryable()
+						.Where(x => x.PermissionSetId == userPermissionSet.Id && x.InstanceId == instanceId && x.Instance.SwarmIdentifer == swarmConfiguration.Identifier)
 						.Include(x => x.Instance)
 						.FirstOrDefaultAsync(cancellationToken)
-						.ConfigureAwait(false)
-					: null;
+						.ConfigureAwait(false);
 
-				CurrentAuthenticationContext = new AuthenticationContext(systemIdentity, user, instanceUser);
+					if (instancePermissionSet == null)
+						logger.LogDebug("User {0} does not have permissions on instance {1}!", userId, instanceId.Value);
+				}
+
+				CurrentAuthenticationContext = new AuthenticationContext(
+					systemIdentity,
+					user,
+					instancePermissionSet);
 			}
 			catch
 			{

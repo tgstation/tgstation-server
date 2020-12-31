@@ -6,7 +6,7 @@ namespace Tgstation.Server.Host.Database
 	/// <summary>
 	/// Factory for scoping usage of <see cref="IDatabaseContext"/>s. Meant for use by <see cref="Components"/>
 	/// </summary>
-	interface IDatabaseContextFactory
+	public interface IDatabaseContextFactory
 	{
 		/// <summary>
 		/// Run an <paramref name="operation"/> in the scope of an <see cref="IDatabaseContext"/>

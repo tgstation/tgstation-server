@@ -10,7 +10,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Channels the Discord bot should listen/announce in
 		/// </summary>
-		public ICollection<ChatChannel> Channels { get; set; }
+		public ICollection<ChatChannel>? Channels { get; set; }
 
 		/// <summary>
 		/// Validates <see cref="Channels"/> are correct for the <see cref="Internal.ChatBot.Provider"/>
@@ -20,15 +20,12 @@ namespace Tgstation.Server.Api.Models
 		{
 			if (!Provider.HasValue)
 				return true;
-			switch (Provider.Value)
+			return Provider.Value switch
 			{
-				case ChatProvider.Discord:
-					return Channels?.Select(x => x.DiscordChannelId.HasValue && x.IrcChannel == null).All(x => x) ?? true;
-				case ChatProvider.Irc:
-					return Channels?.Select(x => !x.DiscordChannelId.HasValue && x.IrcChannel != null).All(x => x) ?? true;
-				default:
-					throw new InvalidOperationException("Invalid provider type!");
-			}
+				ChatProvider.Discord => Channels?.Select(x => x.DiscordChannelId.HasValue && x.IrcChannel == null).All(x => x) ?? true,
+				ChatProvider.Irc => Channels?.Select(x => !x.DiscordChannelId.HasValue && x.IrcChannel != null).All(x => x) ?? true,
+				_ => throw new InvalidOperationException("Invalid provider type!"),
+			};
 		}
 	}
 }

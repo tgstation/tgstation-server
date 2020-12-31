@@ -1,5 +1,5 @@
 ﻿using System;
-using Tgstation.Server.Host.Components.Watchdog;
+using Tgstation.Server.Host.Components.Session;
 
 namespace Tgstation.Server.Host.Components.Interop.Topic
 {
@@ -11,7 +11,8 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// <summary>
 		/// The <see cref="TopicCommandType"/>.
 		/// </summary>
-		public TopicCommandType CommandType { get; }
+		/// <remarks>This is <see cref="Nullable"/> but always set to work around a serialization issue.</remarks>
+		public TopicCommandType? CommandType { get; }
 
 		/// <summary>
 		/// The <see cref="Topic.ChatCommand"/> for <see cref="TopicCommandType.ChatCommand"/> requests.
@@ -42,6 +43,11 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// The <see cref="Interop.ChatUpdate"/> for <see cref="TopicCommandType.ChatChannelsUpdate"/> requests.
 		/// </summary>
 		public ChatUpdate ChatUpdate { get; }
+
+		/// <summary>
+		/// The new server <see cref="Version"/> after a reattach.
+		/// </summary>
+		public Version NewServerVersion { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TopicParameters"/> <see langword="class"/>.
@@ -76,9 +82,8 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		/// Initializes a new instance of the <see cref="TopicParameters"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="newPort">The value of <see cref="NewPort"/>.</param>
-		/// <param name="forServer">If this is for a <see cref="TopicCommandType.ServerPortUpdate"/>.</param>
-		public TopicParameters(ushort newPort, bool forServer)
-			: this(forServer ? TopicCommandType.ServerPortUpdate : TopicCommandType.ChangePort)
+		public TopicParameters(ushort newPort)
+			: this(TopicCommandType.ChangePort)
 		{
 			NewPort = newPort;
 		}
@@ -111,6 +116,27 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 			: this(TopicCommandType.ChatChannelsUpdate)
 		{
 			ChatUpdate = channelsUpdate ?? throw new ArgumentNullException(nameof(channelsUpdate));
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TopicParameters"/> <see langword="class"/>.
+		/// </summary>
+		/// <param name="newServerVersion">The value of <see cref="NewServerVersion"/>.</param>
+		/// <param name="serverPort">TGS's new API port.</param>
+		public TopicParameters(Version newServerVersion, ushort serverPort)
+			: this(TopicCommandType.ServerRestarted)
+		{
+			NewServerVersion = newServerVersion ?? throw new ArgumentNullException(nameof(newServerVersion));
+			NewPort = serverPort;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TopicParameters"/> <see langword="class"/>.
+		/// </summary>
+		/// <remarks>Constructor for <see cref="TopicCommandType.Heartbeat"/>s.</remarks>
+		public TopicParameters()
+			: this(TopicCommandType.Heartbeat)
+		{
 		}
 	}
 }

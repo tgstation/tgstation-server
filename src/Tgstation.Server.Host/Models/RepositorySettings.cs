@@ -1,10 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class RepositorySettings : Api.Models.Internal.RepositorySettings
+	public sealed class RepositorySettings : Api.Models.Internal.RepositorySettings, IApiTransformable<Repository>
 	{
 		/// <summary>
 		/// The row Id
@@ -12,7 +12,7 @@ namespace Tgstation.Server.Host.Models
 		public long Id { get; set; }
 
 		/// <summary>
-		/// The <see cref="Api.Models.Instance.Id"/>
+		/// The instance <see cref="EntityId.Id"/>
 		/// </summary>
 		public long InstanceId { get; set; }
 
@@ -22,10 +22,7 @@ namespace Tgstation.Server.Host.Models
 		[Required]
 		public Instance Instance { get; set; }
 
-		/// <summary>
-		/// Convert the <see cref="Repository"/> to it's API form
-		/// </summary>
-		/// <returns>A new <see cref="Repository"/></returns>
+		/// <inheritdoc />
 		public Repository ToApi() => new Repository
 		{
 			// AccessToken = AccessToken, // never show this
@@ -36,7 +33,8 @@ namespace Tgstation.Server.Host.Models
 			CommitterName = CommitterName,
 			PushTestMergeCommits = PushTestMergeCommits,
 			ShowTestMergeCommitters = ShowTestMergeCommitters,
-			PostTestMergeComment = PostTestMergeComment
+			PostTestMergeComment = PostTestMergeComment,
+			CreateGitHubDeployments = CreateGitHubDeployments,
 
 			// revision information and the rest retrieved by controller
 		};

@@ -20,8 +20,8 @@ namespace Tgstation.Server.Host.Database
 		{
 			this.scopeFactory = scopeFactory ?? throw new ArgumentNullException(nameof(scopeFactory));
 
-			using (var scope = scopeFactory.CreateScope())
-				scope.ServiceProvider.GetRequiredService<IDatabaseContext>();
+			using var scope = scopeFactory.CreateScope();
+			scope.ServiceProvider.GetRequiredService<IDatabaseContext>();
 		}
 
 		/// <inheritdoc />
@@ -30,8 +30,8 @@ namespace Tgstation.Server.Host.Database
 			if (operation == null)
 				throw new ArgumentNullException(nameof(operation));
 
-			using (var scope = scopeFactory.CreateScope())
-				await operation(scope.ServiceProvider.GetRequiredService<IDatabaseContext>()).ConfigureAwait(false);
+			using var scope = scopeFactory.CreateScope();
+			await operation(scope.ServiceProvider.GetRequiredService<IDatabaseContext>()).ConfigureAwait(false);
 		}
 	}
 }

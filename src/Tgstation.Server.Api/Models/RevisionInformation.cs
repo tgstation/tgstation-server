@@ -8,16 +8,16 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The <see cref="TestMerge"/> that was created with this <see cref="RevisionInformation"/>
 		/// </summary>
-		public TestMerge PrimaryTestMerge { get; set; }
+		public TestMerge? PrimaryTestMerge { get; set; }
 
 		/// <summary>
 		/// The <see cref="TestMerge"/>s active in the <see cref="RevisionInformation"/>
 		/// </summary>
-		public ICollection<TestMerge> ActiveTestMerges { get; set; }
+		public ICollection<TestMerge>? ActiveTestMerges { get; set; }
 
 		/// <summary>
 		/// The <see cref="CompileJob"/>s made from the <see cref="RevisionInformation"/>
 		/// </summary>
-		public ICollection<CompileJob> CompileJobs { get; set; }
+		public ICollection<EntityId>? CompileJobs { get; set; }
 	}
 }

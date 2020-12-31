@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Database;
@@ -12,7 +13,7 @@ using Tgstation.Server.Host.Database;
 namespace Tgstation.Server.Host.Components.Chat.Commands
 {
 	/// <summary>
-	/// Command for reading the active <see cref="Api.Models.TestMerge"/>s
+	/// Command for reading the active <see cref="TestMerge"/>s
 	/// </summary>
 	sealed class PullRequestsCommand : ICommand
 	{
@@ -20,7 +21,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 		public string Name => "prs";
 
 		/// <inheritdoc />
-		public string HelpText => "Display live test merge pull request numbers. Add --repo to view repository test merges";
+		public string HelpText => "Display live test merge numbers. Add --repo to view test merges in the repository as opposed to live.";
 
 		/// <inheritdoc />
 		public bool AdminOnly => false;
@@ -76,23 +77,30 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 					head = repo.Head;
 				}
 
-				await databaseContextFactory.UseContext(async db => results = await db.RevisionInformations.Where(x => x.Instance.Id == instance.Id && x.CommitSha == head)
-				.SelectMany(x => x.ActiveTestMerges)
-				.Select(x => x.TestMerge)
-				.Select(x => new Models.TestMerge
-				{
-					Number = x.Number,
-					PullRequestRevision = x.PullRequestRevision
-				}).ToListAsync(cancellationToken).ConfigureAwait(false)).ConfigureAwait(false);
+				await databaseContextFactory.UseContext(
+					async db => results = await db
+						.RevisionInformations
+						.AsQueryable()
+						.Where(x => x.Instance.Id == instance.Id && x.CommitSha == head)
+						.SelectMany(x => x.ActiveTestMerges)
+						.Select(x => x.TestMerge)
+						.Select(x => new Models.TestMerge
+						{
+							Number = x.Number,
+							TargetCommitSha = x.TargetCommitSha
+						})
+						.ToListAsync(cancellationToken)
+						.ConfigureAwait(false))
+					.ConfigureAwait(false);
 			}
 			else
 			{
-				if (!watchdog.Running)
+				if (watchdog.Status == WatchdogStatus.Offline)
 					return "Server offline!";
 				results = watchdog.ActiveCompileJob?.RevisionInformation.ActiveTestMerges.Select(x => x.TestMerge).ToList() ?? new List<Models.TestMerge>();
 			}
 
-			return !results.Any() ? "None!" : String.Join(", ", results.Select(x => String.Format(CultureInfo.InvariantCulture, "#{0} at {1}", x.Number, x.PullRequestRevision.Substring(0, 7))));
+			return !results.Any() ? "None!" : String.Join(", ", results.Select(x => String.Format(CultureInfo.InvariantCulture, "#{0} at {1}", x.Number, x.TargetCommitSha.Substring(0, 7))));
 		}
 		#pragma warning restore CA1506
 	}

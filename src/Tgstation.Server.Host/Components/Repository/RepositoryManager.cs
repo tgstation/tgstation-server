@@ -1,11 +1,13 @@
-﻿using LibGit2Sharp;
+using LibGit2Sharp;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
+using Tgstation.Server.Host.Jobs;
 
 namespace Tgstation.Server.Host.Components.Repository
 {
@@ -39,6 +41,11 @@ namespace Tgstation.Server.Host.Components.Repository
 		readonly IEventConsumer eventConsumer;
 
 		/// <summary>
+		/// The <see cref="IGitRemoteFeaturesFactory"/> for the <see cref="RepositoryManager"/>
+		/// </summary>
+		readonly IGitRemoteFeaturesFactory gitRemoteFeaturesFactory;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> created <see cref="Repository"/>s
 		/// </summary>
 		readonly ILogger<Repository> repositoryLogger;
@@ -47,11 +54,6 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// The <see cref="ILogger"/> for the <see cref="RepositoryManager"/>
 		/// </summary>
 		readonly ILogger<RepositoryManager> logger;
-
-		/// <summary>
-		/// The <see cref="RepositorySettings"/> for the <see cref="RepositoryManager"/>
-		/// </summary>
-		readonly RepositorySettings repositorySettings;
 
 		/// <summary>
 		/// Used for controlling single access to the <see cref="IRepository"/>
@@ -65,25 +67,25 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="commands">The value of <see cref="commands"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
+		/// <param name="gitRemoteFeaturesFactory">The value of <see cref="gitRemoteFeaturesFactory"/>.</param>
 		/// <param name="repositoryLogger">The value of <see cref="repositoryLogger"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		/// <param name="repositorySettings">The value of <see cref="repositorySettings"/></param>
 		public RepositoryManager(
 			ILibGit2RepositoryFactory repositoryFactory,
 			ILibGit2Commands commands,
 			IIOManager ioManager,
 			IEventConsumer eventConsumer,
+			IGitRemoteFeaturesFactory gitRemoteFeaturesFactory,
 			ILogger<Repository> repositoryLogger,
-			ILogger<RepositoryManager> logger,
-			RepositorySettings repositorySettings)
+			ILogger<RepositoryManager> logger)
 		{
 			this.repositoryFactory = repositoryFactory ?? throw new ArgumentNullException(nameof(repositoryFactory));
 			this.commands = commands ?? throw new ArgumentNullException(nameof(commands));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
+			this.gitRemoteFeaturesFactory = gitRemoteFeaturesFactory ?? throw new ArgumentNullException(nameof(gitRemoteFeaturesFactory));
 			this.repositoryLogger = repositoryLogger ?? throw new ArgumentNullException(nameof(repositoryLogger));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			this.repositorySettings = repositorySettings ?? throw new ArgumentNullException(nameof(repositorySettings));
 			semaphore = new SemaphoreSlim(1);
 		}
 
@@ -95,7 +97,14 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async Task<IRepository> CloneRepository(Uri url, string initialBranch, string username, string password, Action<int> progressReporter, CancellationToken cancellationToken)
+		public async Task<IRepository> CloneRepository(
+			Uri url,
+			string initialBranch,
+			string username,
+			string password,
+			Action<int> progressReporter,
+			bool recurseSubmodules,
+			CancellationToken cancellationToken)
 		{
 			if (url == null)
 				throw new ArgumentNullException(nameof(url));
@@ -106,7 +115,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			lock (semaphore)
 			{
 				if (CloneInProgress)
-					throw new InvalidOperationException("The repository is already being cloned!");
+					throw new JobException(ErrorCode.RepoCloning);
 				CloneInProgress = true;
 			}
 
@@ -128,7 +137,7 @@ namespace Tgstation.Server.Host.Components.Repository
 									progressReporter((int)percentage);
 									return !cancellationToken.IsCancellationRequested;
 								},
-								RecurseSubmodules = true,
+								RecurseSubmodules = recurseSubmodules,
 								OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
 								RepositoryOperationStarting = (a) => !cancellationToken.IsCancellationRequested,
 								BranchName = initialBranch,
@@ -147,11 +156,13 @@ namespace Tgstation.Server.Host.Components.Repository
 							try
 							{
 								logger.LogTrace("Deleting partially cloned repository...");
+
+								// DCT: Cancellation token is for job, operation must run regardless
 								await ioManager.DeleteDirectory(repositoryPath, default).ConfigureAwait(false);
 							}
 							catch (Exception e)
 							{
-								logger.LogDebug("Error deleting partially cloned repository! Exception: {0}", e);
+								logger.LogDebug(e, "Error deleting partially cloned repository!");
 							}
 
 							throw;
@@ -179,33 +190,39 @@ namespace Tgstation.Server.Host.Components.Repository
 			logger.LogTrace("Begin LoadRepository...");
 			lock (semaphore)
 				if (CloneInProgress)
-					throw new InvalidOperationException("The repository is being cloned!");
-			using (var context = await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
+					throw new JobException(ErrorCode.RepoCloning);
+			await semaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
+			try
+			{
 				try
 				{
-					var libGitRepo = await repositoryFactory.CreateFromPath(ioManager.ResolvePath(), cancellationToken).ConfigureAwait(false);
-
-					if (libGitRepo == null)
-						return null;
+					var libGit2Repo = await repositoryFactory.CreateFromPath(ioManager.ResolvePath(), cancellationToken).ConfigureAwait(false);
 
 					return new Repository(
-						libGitRepo,
+						libGit2Repo,
 						commands,
 						ioManager,
 						eventConsumer,
 						repositoryFactory,
-						repositoryLogger, () =>
-					{
-						logger.LogTrace("Releasing semaphore due to Repository disposal...");
-						semaphore.Release();
-					});
+						gitRemoteFeaturesFactory,
+						repositoryLogger,
+						() =>
+						{
+							logger.LogTrace("Releasing semaphore due to Repository disposal...");
+							semaphore.Release();
+						});
 				}
-				catch (RepositoryNotFoundException e)
+				catch
 				{
-					logger.LogDebug("Repository not found!");
-					logger.LogTrace("Exception: {0}", e);
-					return null;
+					semaphore.Release();
+					throw;
 				}
+			}
+			catch (RepositoryNotFoundException e)
+			{
+				logger.LogTrace(e, "Repository not found!");
+				return null;
+			}
 		}
 
 		/// <inheritdoc />

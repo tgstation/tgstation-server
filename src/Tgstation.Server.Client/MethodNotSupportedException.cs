@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net.Http;
 using Tgstation.Server.Api.Models;
 
@@ -14,8 +14,13 @@ namespace Tgstation.Server.Client
 		/// </summary>
 		/// <param name="errorMessage">The <see cref="ErrorMessage"/> for the <see cref="ApiException"/>.</param>
 		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/> for the <see cref="ClientException"/>.</param>
-		public MethodNotSupportedException(ErrorMessage errorMessage, HttpResponseMessage responseMessage) : base(errorMessage, responseMessage)
+		public MethodNotSupportedException(ErrorMessage? errorMessage, HttpResponseMessage responseMessage) : base(errorMessage, responseMessage)
 		{ }
+
+		/// <summary>
+		/// Intializes a new instance of the <see cref="MethodNotSupportedException"/> <see langword="class"/>.
+		/// </summary>
+		public MethodNotSupportedException() { }
 
 		/// <summary>
 		/// Construct an <see cref="MethodNotSupportedException"/> with a <paramref name="message"/>

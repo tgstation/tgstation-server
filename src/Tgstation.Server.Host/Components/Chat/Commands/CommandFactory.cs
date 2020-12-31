@@ -83,7 +83,7 @@ namespace Tgstation.Server.Host.Components.Chat.Commands
 			{
 				new VersionCommand(assemblyInformationProvider),
 				new ByondCommand(byondManager, watchdog),
-				new RevisionCommand(watchdog, repositoryManager, instance),
+				new RevisionCommand(watchdog, repositoryManager),
 				new PullRequestsCommand(watchdog, repositoryManager, databaseContextFactory, instance),
 				new KekCommand()
 			};

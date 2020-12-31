@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Headers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Net.Http.Headers;
+using System.Net.Mime;
+using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Api.Tests
 {
@@ -20,6 +22,7 @@ namespace Tgstation.Server.Api.Tests
 			Assert.ThrowsException<ArgumentNullException>(() => new ApiHeaders(null, null));
 			Assert.ThrowsException<ArgumentNullException>(() => new ApiHeaders(productHeaderValue, null));
 			var headers = new ApiHeaders(productHeaderValue, String.Empty);
+			headers = new ApiHeaders(productHeaderValue, String.Empty, OAuthProvider.GitHub);
 		}
 
 		[TestMethod]
@@ -28,11 +31,11 @@ namespace Tgstation.Server.Api.Tests
 			const string BrowserHeader = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36.";
 			const string ConformantHeader = "TGSClient/3.2.1.4";
 
-			ApiHeaders TestHeader(string userAgent)
+			static ApiHeaders TestHeader(string userAgent)
 			{
 				var headers = new HeaderDictionary
 				{
-					{ "Accept", ApiHeaders.ApplicationJson },
+					{ "Accept", MediaTypeNames.Application.Json },
 					{ "Api", "Tgstation.Server.Api/4.0.0.0" },
 					{ "Authorization", "Bearer asdfasdf" },
 					{ "User-Agent", userAgent }
@@ -49,7 +52,7 @@ namespace Tgstation.Server.Api.Tests
 			Assert.AreEqual(ConformantHeader, header.RawUserAgent);
 			Assert.IsNotNull(header.UserAgent);
 
-			Assert.ThrowsException<InvalidOperationException>(() => TestHeader(String.Empty));
+			Assert.ThrowsException<HeadersException>(() => TestHeader(String.Empty));
 		}
 	}
 }

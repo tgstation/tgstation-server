@@ -1,4 +1,6 @@
-﻿namespace Tgstation.Server.Host.Components.Interop.Topic
+﻿using System;
+
+namespace Tgstation.Server.Host.Components.Interop.Topic
 {
 	/// <summary>
 	/// The type of topic command being sent.
@@ -38,6 +40,17 @@
 		/// <summary>
 		/// The server's port was possibly changed.
 		/// </summary>
-		ServerPortUpdate
+		[Obsolete("Deprecated", true)]
+		ServerPortUpdate,
+
+		/// <summary>
+		/// Ping to ensure the server is running.
+		/// </summary>
+		Heartbeat,
+
+		/// <summary>
+		/// Notify the server of a reattach and potentially new version.
+		/// </summary>
+		ServerRestarted
 	}
 }

@@ -1,12 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Configuration;
@@ -15,97 +15,101 @@ using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Database
 {
-	/// <inheritdoc />
+	/// <summary>
+	/// Backend abstract implementation of <see cref="IDatabaseContext"/>
+	/// </summary>
 #pragma warning disable CA1506 // TODO: Decomplexify
-	abstract class DatabaseContext<TParentContext> : DbContext, IDatabaseContext where TParentContext : DbContext
+	public abstract class DatabaseContext : DbContext, IDatabaseContext
 	{
-		/// <inheritdoc />
-		public DatabaseType DatabaseType => DatabaseConfiguration.DatabaseType;
-
 		/// <summary>
-		/// The <see cref="User"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// The <see cref="User"/>s in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<User> Users { get; set; }
 
 		/// <summary>
-		/// The <see cref="Instance"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// The <see cref="Instance"/>s in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<Instance> Instances { get; set; }
 
 		/// <summary>
-		/// The <see cref="CompileJob"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// The <see cref="CompileJob"/>s in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<CompileJob> CompileJobs { get; set; }
 
 		/// <summary>
-		/// The <see cref="RevisionInformation"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// The <see cref="RevisionInformation"/>s in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<RevisionInformation> RevisionInformations { get; set; }
 
 		/// <summary>
-		/// The <see cref="Models.DreamMakerSettings"/> in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// The <see cref="Models.DreamMakerSettings"/> in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<DreamMakerSettings> DreamMakerSettings { get; set; }
 
 		/// <summary>
-		/// The <see cref="ChatBot"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// The <see cref="ChatBot"/>s in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<ChatBot> ChatBots { get; set; }
 
 		/// <summary>
-		/// The <see cref="Models.DreamDaemonSettings"/> in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// The <see cref="Models.DreamDaemonSettings"/> in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<DreamDaemonSettings> DreamDaemonSettings { get; set; }
 
 		/// <summary>
-		/// The <see cref="Models.RepositorySettings"/> in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// The <see cref="Models.RepositorySettings"/> in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<RepositorySettings> RepositorySettings { get; set; }
 
 		/// <summary>
-		/// The <see cref="InstanceUser"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// The <see cref="InstancePermissionSet"/>s in the <see cref="DatabaseContext"/>.
 		/// </summary>
-		public DbSet<InstanceUser> InstanceUsers { get; set; }
+		public DbSet<InstancePermissionSet> InstancePermissionSets { get; set; }
 
 		/// <summary>
-		/// The <see cref="ChatChannel"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// The <see cref="ChatChannel"/>s in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<ChatChannel> ChatChannels { get; set; }
 
 		/// <summary>
-		/// The <see cref="Job"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// The <see cref="Job"/>s in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<Job> Jobs { get; set; }
 
 		/// <summary>
-		/// The <see cref="ReattachInformation"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
+		/// The <see cref="ReattachInformation"/>s in the <see cref="DatabaseContext"/>.
 		/// </summary>
 		public DbSet<ReattachInformation> ReattachInformations { get; set; }
 
 		/// <summary>
-		/// The <see cref="WatchdogReattachInformation"/>s in the <see cref="DatabaseContext{TParentContext}"/>.
-		/// </summary>
-		public DbSet<WatchdogReattachInformation> WatchdogReattachInformations { get; set; }
-
-		/// <summary>
-		/// The <see cref="TestMerge"/>s in the <see cref="DatabaseContext{TParentContext}"/>
+		/// The <see cref="TestMerge"/>s in the <see cref="DatabaseContext"/>
 		/// </summary>
 		public DbSet<TestMerge> TestMerges { get; set; }
 
 		/// <summary>
-		/// The <see cref="RevInfoTestMerge"/>s om the <see cref="DatabaseContext{TParentContext}"/>
+		/// The <see cref="RevInfoTestMerge"/>s in the <see cref="DatabaseContext"/>
 		/// </summary>
 		public DbSet<RevInfoTestMerge> RevInfoTestMerges { get; set; }
 
 		/// <summary>
-		/// The <see cref="ILogger"/> for the <see cref="DatabaseContext{TParentContext}"/>
+		/// The <see cref="OAuthConnection"/>s in the <see cref="DatabaseContext"/>
 		/// </summary>
-		protected ILogger Logger { get; }
+		public DbSet<OAuthConnection> OAuthConnections { get; set; }
 
 		/// <summary>
-		/// The <see cref="DatabaseConfiguration"/> for the <see cref="DatabaseContext{TParentContext}"/>
+		/// The <see cref="PermissionSet"/>s in the <see cref="DatabaseContext"/>
 		/// </summary>
-		protected DatabaseConfiguration DatabaseConfiguration { get; }
+		public DbSet<PermissionSet> PermissionSets { get; set; }
+
+		/// <summary>
+		/// The <see cref="UserGroup"/>s in the <see cref="DatabaseContext"/>
+		/// </summary>
+		public DbSet<UserGroup> Groups { get; set; }
+
+		/// <summary>
+		/// The <see cref="DeleteBehavior"/> for the <see cref="CompileJob"/>/<see cref="RevisionInformation"/> foreign key.
+		/// </summary>
+		protected virtual DeleteBehavior RevInfoCompileJobDeleteBehavior => DeleteBehavior.ClientNoAction;
 
 		/// <inheritdoc />
 		IDatabaseCollection<User> IDatabaseContext.Users => usersCollection;
@@ -114,7 +118,7 @@ namespace Tgstation.Server.Host.Database
 		IDatabaseCollection<Instance> IDatabaseContext.Instances => instancesCollection;
 
 		/// <inheritdoc />
-		IDatabaseCollection<InstanceUser> IDatabaseContext.InstanceUsers => instanceUsersCollection;
+		IDatabaseCollection<InstancePermissionSet> IDatabaseContext.InstancePermissionSets => instancePermissionSetsCollection;
 
 		/// <inheritdoc />
 		IDatabaseCollection<Job> IDatabaseContext.Jobs => jobsCollection;
@@ -144,12 +148,13 @@ namespace Tgstation.Server.Host.Database
 		IDatabaseCollection<ReattachInformation> IDatabaseContext.ReattachInformations => reattachInformationsCollection;
 
 		/// <inheritdoc />
-		IDatabaseCollection<WatchdogReattachInformation> IDatabaseContext.WatchdogReattachInformations => watchdogReattachInformationsCollection;
+		IDatabaseCollection<OAuthConnection> IDatabaseContext.OAuthConnections => oAuthConnections;
 
-		/// <summary>
-		/// The <see cref="IDatabaseSeeder"/> for the <see cref="DatabaseContext{TParentContext}"/>
-		/// </summary>
-		readonly IDatabaseSeeder databaseSeeder;
+		/// <inheritdoc />
+		IDatabaseCollection<UserGroup> IDatabaseContext.Groups => groups;
+
+		/// <inheritdoc />
+		IDatabaseCollection<PermissionSet> IDatabaseContext.PermissionSets => permissionSets;
 
 		/// <summary>
 		/// Backing field for <see cref="IDatabaseContext.Users"/>.
@@ -167,9 +172,9 @@ namespace Tgstation.Server.Host.Database
 		readonly IDatabaseCollection<CompileJob> compileJobsCollection;
 
 		/// <summary>
-		/// Backing field for <see cref="IDatabaseContext.InstanceUsers"/>.
+		/// Backing field for <see cref="IDatabaseContext.InstancePermissionSets"/>.
 		/// </summary>
-		readonly IDatabaseCollection<InstanceUser> instanceUsersCollection;
+		readonly IDatabaseCollection<InstancePermissionSet> instancePermissionSetsCollection;
 
 		/// <summary>
 		/// Backing field for <see cref="IDatabaseContext.Jobs"/>.
@@ -212,26 +217,49 @@ namespace Tgstation.Server.Host.Database
 		readonly IDatabaseCollection<ReattachInformation> reattachInformationsCollection;
 
 		/// <summary>
-		/// Backing field for <see cref="IDatabaseContext.WatchdogReattachInformations"/>.
+		/// Backing field for <see cref="IDatabaseContext.OAuthConnections"/>.
 		/// </summary>
-		readonly IDatabaseCollection<WatchdogReattachInformation> watchdogReattachInformationsCollection;
+		readonly IDatabaseCollection<OAuthConnection> oAuthConnections;
 
 		/// <summary>
-		/// Construct a <see cref="DatabaseContext{TParentContext}"/>
+		/// Backing field for <see cref="IDatabaseContext.Groups"/>.
 		/// </summary>
-		/// <param name="dbContextOptions">The <see cref="DbContextOptions{TParentContext}"/> for the <see cref="DatabaseContext{TParentContext}"/></param>
-		/// <param name="databaseConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="DatabaseConfiguration"/></param>
-		/// <param name="databaseSeeder">The value of <see cref="databaseSeeder"/></param>
-		/// <param name="logger">The value of <see cref="Logger"/></param>
-		public DatabaseContext(DbContextOptions<TParentContext> dbContextOptions, IOptions<DatabaseConfiguration> databaseConfigurationOptions, IDatabaseSeeder databaseSeeder, ILogger logger) : base(dbContextOptions)
-		{
-			DatabaseConfiguration = databaseConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(databaseConfigurationOptions));
-			this.databaseSeeder = databaseSeeder ?? throw new ArgumentNullException(nameof(databaseSeeder));
-			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
+		readonly IDatabaseCollection<UserGroup> groups;
 
+		/// <summary>
+		/// Backing field for <see cref="IDatabaseContext.PermissionSets"/>.
+		/// </summary>
+		readonly IDatabaseCollection<PermissionSet> permissionSets;
+
+		/// <summary>
+		/// Gets the configure action for a given <typeparamref name="TDatabaseContext"/>.
+		/// </summary>
+		/// <typeparam name="TDatabaseContext">The <see cref="DatabaseContext"/> parent class to configure with.</typeparam>
+		/// <returns>A configure <see cref="Action{T1, T2}"/>.</returns>
+		public static Action<DbContextOptionsBuilder, DatabaseConfiguration> GetConfigureAction<TDatabaseContext>()
+			where TDatabaseContext : DatabaseContext
+		{
+			// HACK HACK HACK HACK HACK
+			const string ConfigureMethodName = nameof(SqlServerDatabaseContext.ConfigureWith);
+			var configureFunction = typeof(TDatabaseContext).GetMethod(
+				ConfigureMethodName,
+				BindingFlags.Public | BindingFlags.Static);
+
+			if (configureFunction == null)
+				throw new InvalidOperationException($"Context type {typeof(TDatabaseContext).FullName} missing static {ConfigureMethodName} function!");
+
+			return (optionsBuilder, config) => configureFunction.Invoke(null, new object[] { optionsBuilder, config });
+		}
+
+		/// <summary>
+		/// Construct a <see cref="DatabaseContext"/>
+		/// </summary>
+		/// <param name="dbContextOptions">The <see cref="DbContextOptions"/> for the <see cref="DatabaseContext"/>.</param>
+		protected DatabaseContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+		{
 			usersCollection = new DatabaseCollection<User>(Users);
 			instancesCollection = new DatabaseCollection<Instance>(Instances);
-			instanceUsersCollection = new DatabaseCollection<InstanceUser>(InstanceUsers);
+			instancePermissionSetsCollection = new DatabaseCollection<InstancePermissionSet>(InstancePermissionSets);
 			compileJobsCollection = new DatabaseCollection<CompileJob>(CompileJobs);
 			repositorySettingsCollection = new DatabaseCollection<RepositorySettings>(RepositorySettings);
 			dreamMakerSettingsCollection = new DatabaseCollection<DreamMakerSettings>(DreamMakerSettings);
@@ -241,21 +269,37 @@ namespace Tgstation.Server.Host.Database
 			revisionInformationsCollection = new DatabaseCollection<RevisionInformation>(RevisionInformations);
 			jobsCollection = new DatabaseCollection<Job>(Jobs);
 			reattachInformationsCollection = new DatabaseCollection<ReattachInformation>(ReattachInformations);
-			watchdogReattachInformationsCollection = new DatabaseCollection<WatchdogReattachInformation>(WatchdogReattachInformations);
+			oAuthConnections = new DatabaseCollection<OAuthConnection>(OAuthConnections);
+			groups = new DatabaseCollection<UserGroup>(Groups);
+			permissionSets = new DatabaseCollection<PermissionSet>(PermissionSets);
 		}
 
 		/// <inheritdoc />
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			Logger.LogTrace("Building entity framework context...");
+			if (modelBuilder == null)
+				throw new ArgumentNullException(nameof(modelBuilder));
+
 			base.OnModelCreating(modelBuilder);
 
 			var userModel = modelBuilder.Entity<User>();
 			userModel.HasIndex(x => x.CanonicalName).IsUnique();
 			userModel.HasIndex(x => x.SystemIdentifier).IsUnique();
 			userModel.HasMany(x => x.TestMerges).WithOne(x => x.MergedBy).OnDelete(DeleteBehavior.Restrict);
+			userModel.HasMany(x => x.OAuthConnections).WithOne(x => x.User).OnDelete(DeleteBehavior.Cascade);
 
-			modelBuilder.Entity<InstanceUser>().HasIndex(x => new { x.UserId, x.InstanceId }).IsUnique();
+			modelBuilder.Entity<OAuthConnection>().HasIndex(x => new { x.Provider, x.ExternalUserId }).IsUnique();
+
+			var groupsModel = modelBuilder.Entity<UserGroup>();
+			groupsModel.HasIndex(x => x.Name).IsUnique();
+			groupsModel.HasMany(x => x.Users).WithOne(x => x.Group).OnDelete(DeleteBehavior.ClientSetNull);
+
+			var permissionSetModel = modelBuilder.Entity<PermissionSet>();
+			permissionSetModel.HasOne(x => x.Group).WithOne(x => x.PermissionSet).OnDelete(DeleteBehavior.Cascade);
+			permissionSetModel.HasOne(x => x.User).WithOne(x => x.PermissionSet).OnDelete(DeleteBehavior.Cascade);
+			permissionSetModel.HasMany(x => x.InstancePermissionSets).WithOne(x => x.PermissionSet).OnDelete(DeleteBehavior.Cascade);
+
+			modelBuilder.Entity<InstancePermissionSet>().HasIndex(x => new { x.PermissionSetId, x.InstanceId }).IsUnique();
 
 			var revInfo = modelBuilder.Entity<RevisionInformation>();
 			revInfo.HasMany(x => x.ActiveTestMerges).WithOne(x => x.RevisionInformation).OnDelete(DeleteBehavior.Cascade);
@@ -268,7 +312,8 @@ namespace Tgstation.Server.Host.Database
 			// rev info takes care of the rest
 			// Break the link here so the db doesn't shit itself complaining about cascading deletes
 			// EF will handle making the right query to destroy everything
-			revInfo.HasMany(x => x.CompileJobs).WithOne(x => x.RevisionInformation).OnDelete(DeleteBehavior.ClientNoAction);
+			// UPDATE: I fuck with this constantly in hopes of eliminating FK issues on instance detack
+			revInfo.HasMany(x => x.CompileJobs).WithOne(x => x.RevisionInformation).OnDelete(RevInfoCompileJobDeleteBehavior);
 
 			// Also break the link between ritm and testmerge so it doesn't cycle in a triangle with rev info
 			modelBuilder.Entity<TestMerge>().HasMany(x => x.RevisonInformations).WithOne(x => x.TestMerge).OnDelete(DeleteBehavior.ClientNoAction);
@@ -276,6 +321,8 @@ namespace Tgstation.Server.Host.Database
 			var compileJob = modelBuilder.Entity<CompileJob>();
 			compileJob.HasIndex(x => x.DirectoryName);
 			compileJob.HasOne(x => x.Job).WithOne().OnDelete(DeleteBehavior.Cascade);
+
+			modelBuilder.Entity<ReattachInformation>().HasOne(x => x.CompileJob).WithMany().OnDelete(DeleteBehavior.Cascade);
 
 			var chatChannel = modelBuilder.Entity<ChatChannel>();
 			chatChannel.HasIndex(x => new { x.ChatSettingsId, x.IrcChannel }).IsUnique();
@@ -285,139 +332,163 @@ namespace Tgstation.Server.Host.Database
 			modelBuilder.Entity<ChatBot>().HasIndex(x => new { x.InstanceId, x.Name }).IsUnique();
 
 			var instanceModel = modelBuilder.Entity<Instance>();
-			instanceModel.HasIndex(x => x.Path).IsUnique();
+			instanceModel.HasIndex(x => new { x.Path, x.SwarmIdentifer }).IsUnique();
 			instanceModel.HasMany(x => x.ChatSettings).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
 			instanceModel.HasOne(x => x.DreamDaemonSettings).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
 			instanceModel.HasOne(x => x.DreamMakerSettings).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
 			instanceModel.HasOne(x => x.RepositorySettings).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
 			instanceModel.HasMany(x => x.RevisionInformations).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
-			instanceModel.HasMany(x => x.InstanceUsers).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
+			instanceModel.HasMany(x => x.InstancePermissionSets).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
 			instanceModel.HasMany(x => x.Jobs).WithOne(x => x.Instance).OnDelete(DeleteBehavior.Cascade);
-			instanceModel.HasOne(x => x.WatchdogReattachInformation).WithOne().OnDelete(DeleteBehavior.Cascade);
-		}
-
-		/// <inheritdoc />
-		public async Task Initialize(CancellationToken cancellationToken)
-		{
-			ValidateDatabaseType();
-
-			if (DatabaseConfiguration.DropDatabase)
-			{
-				Logger.LogCritical("DropDatabase configuration option set! Dropping any existing database...");
-				await Database.EnsureDeletedAsync(cancellationToken).ConfigureAwait(false);
-			}
-
-			var migrations = await Database.GetAppliedMigrationsAsync(cancellationToken).ConfigureAwait(false);
-			var wasEmpty = !migrations.Any();
-
-			if (wasEmpty || (await Database.GetPendingMigrationsAsync(cancellationToken).ConfigureAwait(false)).Any())
-			{
-				Logger.LogInformation("Migrating database...");
-				await Database.MigrateAsync(cancellationToken).ConfigureAwait(false);
-			}
-			else
-				Logger.LogDebug("No migrations to apply.");
-
-			wasEmpty |= (await Users.AsQueryable().CountAsync(cancellationToken).ConfigureAwait(false)) == 0;
-
-			if (wasEmpty)
-			{
-				Logger.LogInformation("Seeding database...");
-				await databaseSeeder.SeedDatabase(this, cancellationToken).ConfigureAwait(false);
-			}
-			else
-			{
-				if (DatabaseConfiguration.ResetAdminPassword)
-				{
-					Logger.LogWarning("Enabling and resetting admin password due to configuration!");
-					await databaseSeeder.ResetAdminPassword(this, cancellationToken).ConfigureAwait(false);
-				}
-
-				await databaseSeeder.SanitizeDatabase(this, cancellationToken).ConfigureAwait(false);
-			}
 		}
 
 		/// <inheritdoc />
 		public Task Save(CancellationToken cancellationToken) => SaveChangesAsync(cancellationToken);
 
 		/// <inheritdoc />
-		public async Task SchemaDowngradeForServerVersion(Version version, CancellationToken cancellationToken)
-		{
-			if (version == null)
-				throw new ArgumentNullException(nameof(version));
-			if (version < new Version(4, 0))
-				throw new ArgumentOutOfRangeException(nameof(version), version, "Not a valid V4 version!");
+		public Task Drop(CancellationToken cancellationToken) => Database.EnsureDeletedAsync(cancellationToken);
 
-			string targetMigration = null;
+		/// <inheritdoc />
+		public async Task<bool> Migrate(ILogger<DatabaseContext> logger, CancellationToken cancellationToken)
+		{
+			if (logger == null)
+				throw new ArgumentNullException(nameof(logger));
+			var migrations = await Database.GetAppliedMigrationsAsync(cancellationToken).ConfigureAwait(false);
+			var wasEmpty = !migrations.Any();
+
+			if (wasEmpty || (await Database.GetPendingMigrationsAsync(cancellationToken).ConfigureAwait(false)).Any())
+			{
+				logger.LogInformation("Migrating database...");
+				await Database.MigrateAsync(cancellationToken).ConfigureAwait(false);
+			}
+			else
+				logger.LogDebug("No migrations to apply");
+
+			wasEmpty |= (await Users.AsQueryable().CountAsync(cancellationToken).ConfigureAwait(false)) == 0;
+
+			return wasEmpty;
+		}
+
+#if DEBUG
+		/// <summary>
+		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
+		/// </summary>
+		public static readonly Type MSLatestMigration = typeof(MSAddSwarmIdentifer);
+
+		/// <summary>
+		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
+		/// </summary>
+		public static readonly Type MYLatestMigration = typeof(MYAddSwarmIdentifer);
+
+		/// <summary>
+		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
+		/// </summary>
+		public static readonly Type PGLatestMigration = typeof(PGAddSwarmIdentifer);
+
+		/// <summary>
+		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
+		/// </summary>
+		public static readonly Type SLLatestMigration = typeof(SLAddSwarmIdentifer);
+#endif
+
+		/// <inheritdoc />
+#pragma warning disable CA1502 // Cyclomatic complexity
+		public async Task SchemaDowngradeForServerVersion(
+			ILogger<DatabaseContext> logger,
+			Version targetVersion,
+			DatabaseType currentDatabaseType,
+			CancellationToken cancellationToken)
+		{
+			if(logger == null)
+				throw new ArgumentNullException(nameof(logger));
+			if (targetVersion == null)
+				throw new ArgumentNullException(nameof(targetVersion));
+			if (targetVersion < new Version(4, 0))
+				throw new ArgumentOutOfRangeException(nameof(targetVersion), targetVersion, "Not a valid V4 version!");
+
+			if (currentDatabaseType == DatabaseType.PostgresSql && targetVersion < new Version(4, 3, 0))
+				throw new NotSupportedException("Cannot migrate below version 4.3.0 with PostgresSql!");
+
+			if (currentDatabaseType == DatabaseType.MariaDB)
+				currentDatabaseType = DatabaseType.MySql; // Keeping switch expressions while avoiding `or` syntax from C#9
+
+			if (targetVersion < new Version(4, 1, 0))
+				throw new NotSupportedException("Cannot migrate below version 4.1.0!");
 
 			// Update this with new migrations as they are made
-			// Always use the MS class
-			if (version < new Version(4, 0, 2))
-			{
-				// Special handling because this is where SQLite was introduced
-				if (DatabaseType == DatabaseType.Sqlite)
-					throw new NotSupportedException("Cannot migrate below version 4.0.2.0 while using Sqlite!");
-
-				targetMigration = nameof(MSReattachCompileJobRequired);
-			}
-
-			// Uncomment once next migration/version step happens
-			/*
-			else if (version < new Version(V_NEXT_MIGRATION))
-			{
-				// Special handling because this is where SQLite was introduced
-				if (DatabaseType == DatabaseType.Sqlite)
-					targetMigration = nameof(SLAddSqlite);
-
-				targetMigration = nameof(V_NEXT_LAST_MIGRATION);
-			}
-			*/
+			string targetMigration = null;
+			if (targetVersion < new Version(4, 7, 0))
+				targetMigration = currentDatabaseType switch
+				{
+					DatabaseType.MySql => nameof(MYAddAdditionalDDParameters),
+					DatabaseType.PostgresSql => nameof(PGAddAdditionalDDParameters),
+					DatabaseType.SqlServer => nameof(MSAddAdditionalDDParameters),
+					DatabaseType.Sqlite => nameof(SLAddAdditionalDDParameters),
+					_ => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType)),
+				};
+			if (targetVersion < new Version(4, 6, 0))
+				targetMigration = currentDatabaseType switch
+				{
+					DatabaseType.MySql => nameof(MYAddDeploymentColumns),
+					DatabaseType.PostgresSql => nameof(PGAddDeploymentColumns),
+					DatabaseType.SqlServer => nameof(MSAddDeploymentColumns),
+					DatabaseType.Sqlite => nameof(SLAddDeploymentColumns),
+					_ => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType)),
+				};
+			if (targetVersion < new Version(4, 5, 0))
+				targetMigration = currentDatabaseType switch
+				{
+					DatabaseType.MySql => nameof(MYAllowNullDMApi),
+					DatabaseType.PostgresSql => nameof(PGAllowNullDMApi),
+					DatabaseType.SqlServer => nameof(MSAllowNullDMApi),
+					DatabaseType.Sqlite => nameof(SLAllowNullDMApi),
+					_ => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType)),
+				};
+			if (targetVersion < new Version(4, 4, 0))
+				targetMigration = currentDatabaseType switch
+				{
+					DatabaseType.MySql => nameof(MYFixForeignKey),
+					DatabaseType.PostgresSql => nameof(PGCreate),
+					DatabaseType.SqlServer => nameof(MSRemoveSoftColumns),
+					DatabaseType.Sqlite => nameof(SLRemoveSoftColumns),
+					_ => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType)),
+				};
+			if (targetVersion < new Version(4, 2, 0))
+				targetMigration = currentDatabaseType == DatabaseType.Sqlite ? nameof(SLRebuild) : nameof(MSFixCascadingDelete);
 
 			if (targetMigration == null)
 			{
-				Logger.LogDebug("No down migration required.");
+				logger.LogDebug("No down migration required.");
 				return;
 			}
 
-			string migrationSubstitution;
-			switch (DatabaseType)
+			// already setup
+			var migrationSubstitution = currentDatabaseType switch
 			{
-				case DatabaseType.SqlServer:
-					// already setup
-					migrationSubstitution = null;
-					break;
-				case DatabaseType.MySql:
-				case DatabaseType.MariaDB:
-					migrationSubstitution = "MY{0}";
-					break;
-				case DatabaseType.Sqlite:
-					migrationSubstitution = "SL{0}";
-					break;
-				default:
-					throw new InvalidOperationException($"Invalid DatabaseType: {DatabaseType}");
-			}
+				DatabaseType.SqlServer => null,// already setup
+				DatabaseType.MySql => "MY{0}",
+				DatabaseType.Sqlite => "SL{0}",
+				DatabaseType.PostgresSql => "PG{0}",
+				_ => throw new InvalidOperationException($"Invalid DatabaseType: {currentDatabaseType}"),
+			};
 
 			if (migrationSubstitution != null)
-				targetMigration = String.Format(CultureInfo.InvariantCulture, migrationSubstitution, targetMigration.Substring(2));
+				targetMigration = String.Format(CultureInfo.InvariantCulture, migrationSubstitution, targetMigration[2..]);
 
 			// even though it clearly implements it in the DatabaseFacade definition this won't work without casting (╯ಠ益ಠ)╯︵ ┻━┻
 			var dbServiceProvider = ((IInfrastructure<IServiceProvider>)Database).Instance;
 			var migrator = dbServiceProvider.GetRequiredService<IMigrator>();
 
-			Logger.LogInformation("Migrating down to version {0}. Target: {1}", version, targetMigration);
+			logger.LogInformation("Migrating down to version {0}. Target: {1}", targetVersion, targetMigration);
 			try
 			{
 				await migrator.MigrateAsync(targetMigration, cancellationToken).ConfigureAwait(false);
 			}
 			catch (Exception e)
 			{
-				Logger.LogCritical("Failed to migrate! Exception: {0}", e);
+				logger.LogCritical(e, "Failed to migrate!");
 			}
 		}
-
-		/// <summary>
-		/// Ensure the <see cref="DatabaseType"/> is correct for the <see cref="DatabaseContext{TParentContext}"/>.
-		/// </summary>
-		protected abstract void ValidateDatabaseType();
+#pragma warning restore CA1502 // Cyclomatic complexity
 	}
 }

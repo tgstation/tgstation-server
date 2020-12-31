@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 
@@ -22,7 +22,7 @@ namespace Tgstation.Server.Api.Rights
 			{ RightsType.DreamDaemon, typeof(DreamDaemonRights) },
 			{ RightsType.ChatBots, typeof(ChatBotRights) },
 			{ RightsType.Configuration, typeof(ConfigurationRights) },
-			{ RightsType.InstanceUser, typeof(InstanceUserRights) }
+			{ RightsType.InstancePermissionSet, typeof(InstancePermissionSetRights) }
 		};
 
 		/// <summary>
@@ -40,7 +40,6 @@ namespace Tgstation.Server.Api.Rights
 		/// <returns>A <see cref="string"/> representing the claim role name</returns>
 		public static string RoleNames<TRight>(TRight right) where TRight : Enum
 		{
-			var flags = new List<string>();
 			IEnumerable<string> GetRoleNames()
 			{
 				foreach (Enum J in Enum.GetValues(right.GetType()))

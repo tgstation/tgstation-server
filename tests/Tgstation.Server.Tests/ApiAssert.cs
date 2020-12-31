@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -27,7 +27,7 @@ namespace Tgstation.Server.Tests
 			}
 			catch (TApiException ex)
 			{
-				Assert.AreEqual(expectedErrorCode, ex.ErrorCode, "Wrong error code for expected API exception!");
+				Assert.AreEqual(expectedErrorCode, ex.ErrorCode, $"Wrong error code for expected API exception! Additional Data: {ex.AdditionalServerData}");
 				return;
 			}
 

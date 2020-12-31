@@ -1,4 +1,4 @@
-﻿using LibGit2Sharp;
+using LibGit2Sharp;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,7 +21,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// </summary>
 		/// <param name="path">The full path to the <see cref="LibGit2Sharp.IRepository"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in, the loaded <see cref="LibGit2Sharp.IRepository"/>.</returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the loaded <see cref="LibGit2Sharp.IRepository"/>.</returns>
 		Task<LibGit2Sharp.IRepository> CreateFromPath(string path, CancellationToken cancellationToken);
 
 		/// <summary>

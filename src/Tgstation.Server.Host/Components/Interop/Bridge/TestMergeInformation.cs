@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using Tgstation.Server.Api.Models.Internal;
 
@@ -13,6 +13,18 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		/// The unix time of when the test merge was applied
 		/// </summary>
 		public string TimeMerged { get; set; }
+
+		/// <summary>
+		/// Backing field for <see cref="TargetCommitSha"/> needed to continue to support DMAPI 5.
+		/// </summary>
+		public string PullRequestRevision { get; set; }
+
+		/// <inheritdoc />
+		public override string TargetCommitSha
+		{
+			get => PullRequestRevision;
+			set => PullRequestRevision = value;
+		}
 
 		/// <summary>
 		/// The <see cref="RevisionInformation"/> of the <see cref="TestMergeInformation"/>

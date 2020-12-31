@@ -1,6 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -8,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
@@ -33,12 +35,12 @@ namespace Tgstation.Server.Host.Components.Byond
 		const string TrustedDmbFileName = "trusted.txt";
 
 		/// <summary>
-		/// The file in which we store the <see cref="VersionKey(Version)"/> for installations
+		/// The file in which we store the <see cref="VersionKey(Version, bool)"/> for installations
 		/// </summary>
 		const string VersionFileName = "Version.txt";
 
 		/// <summary>
-		/// The file in which we store the <see cref="VersionKey(Version)"/> for the active installation
+		/// The file in which we store the <see cref="VersionKey(Version, bool)"/> for the active installation
 		/// </summary>
 		const string ActiveVersionFileName = "ActiveVersion.txt";
 
@@ -88,9 +90,12 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// <summary>
 		/// Converts a BYOND <paramref name="version"/> to a <see cref="string"/>
 		/// </summary>
-		/// <param name="version">The <see cref="Version"/> to convert</param>
+		/// <param name="version">The <see cref="Version"/> to convert.</param>
+		/// <param name="allowPatch">If the <see cref="Version.Build"/> property of <paramref name="version"/> should be kept.</param>
 		/// <returns>The <see cref="string"/> representation of <paramref name="version"/></returns>
-		static string VersionKey(Version version) => new Version(version.Major, version.Minor).ToString();
+		static string VersionKey(Version version, bool allowPatch) => (allowPatch && version.Build > 0
+			? new Version(version.Major, version.Minor, version.Build)
+			: new Version(version.Major, version.Minor)).ToString();
 
 		/// <summary>
 		/// Construct a <see cref="ByondManager"/>
@@ -117,17 +122,29 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// Installs a BYOND <paramref name="version"/> if it isn't already
 		/// </summary>
 		/// <param name="version">The BYOND <see cref="Version"/> to install</param>
+		/// <param name="customVersionStream">Custom zip file <see cref="Stream"/> to use. Will cause a <see cref="Version.Build"/> number to be added.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		async Task InstallVersion(Version version, CancellationToken cancellationToken)
+		async Task<string> InstallVersion(Version version, Stream customVersionStream, CancellationToken cancellationToken)
 		{
 			var ourTcs = new TaskCompletionSource<object>();
 			Task inProgressTask;
-
-			var versionKey = VersionKey(version);
+			string versionKey;
 			bool installed;
 			lock (installedVersions)
 			{
+				if (customVersionStream != null)
+				{
+					int customInstallationNumber = 1;
+					do
+					{
+						versionKey = $"{VersionKey(version, false)}.{customInstallationNumber++}";
+					}
+					while (installedVersions.ContainsKey(versionKey));
+				}
+				else
+					versionKey = VersionKey(version, true);
+
 				installed = installedVersions.TryGetValue(versionKey, out inProgressTask);
 				if (!installed)
 					installedVersions.Add(versionKey, ourTcs.Task);
@@ -138,26 +155,57 @@ namespace Tgstation.Server.Host.Components.Byond
 				{
 					await Task.WhenAny(ourTcs.Task, inProgressTask).ConfigureAwait(false);
 					cancellationToken.ThrowIfCancellationRequested();
-					return;
+					return versionKey;
 				}
+
+			if (customVersionStream != null)
+				logger.LogInformation("Installing custom BYOND version as {0}...", versionKey);
+			else if (version.Build > 0)
+				throw new JobException(ErrorCode.ByondNonExistentCustomVersion);
+			else
+				logger.LogDebug("Requested BYOND version {0} not currently installed. Doing so now...");
 
 			// okay up to us to install it then
 			try
 			{
 				await eventConsumer.HandleEvent(EventType.ByondInstallStart, new List<string> { versionKey }, cancellationToken).ConfigureAwait(false);
-				var downloadTask = byondInstaller.DownloadVersion(version, cancellationToken);
 
-				await ioManager.DeleteDirectory(versionKey, cancellationToken).ConfigureAwait(false);
-				await ioManager.CreateDirectory(versionKey, cancellationToken).ConfigureAwait(false);
+				var extractPath = ioManager.ResolvePath(versionKey);
+				async Task DirectoryCleanup()
+				{
+					await ioManager.DeleteDirectory(extractPath, cancellationToken).ConfigureAwait(false);
+					await ioManager.CreateDirectory(extractPath, cancellationToken).ConfigureAwait(false);
+				}
 
+				var directoryCleanupTask = DirectoryCleanup();
 				try
 				{
-					var download = await downloadTask.ConfigureAwait(false);
-					await ioManager.ZipToDirectory(versionKey, download, cancellationToken).ConfigureAwait(false);
-					await byondInstaller.InstallByond(ioManager.ResolvePath(versionKey), version, cancellationToken).ConfigureAwait(false);
+					Stream versionZipStream;
+					Stream downloadedStream = null;
+					if (customVersionStream == null)
+					{
+						var bytes = await byondInstaller.DownloadVersion(version, cancellationToken).ConfigureAwait(false);
+						downloadedStream = new MemoryStream(bytes);
+						versionZipStream = downloadedStream;
+					}
+					else
+						versionZipStream = customVersionStream;
+
+					using (downloadedStream)
+					{
+						await directoryCleanupTask.ConfigureAwait(false);
+						logger.LogTrace("Extracting downloaded BYOND zip to {0}...", extractPath);
+						await ioManager.ZipToDirectory(extractPath, versionZipStream, cancellationToken).ConfigureAwait(false);
+					}
+
+					await byondInstaller.InstallByond(extractPath, version, cancellationToken).ConfigureAwait(false);
 
 					// make sure to do this last because this is what tells us we have a valid version in the future
-					await ioManager.WriteAllBytes(ioManager.ConcatPath(versionKey, VersionFileName), Encoding.UTF8.GetBytes(version.ToString()), cancellationToken).ConfigureAwait(false);
+					await ioManager.WriteAllBytes(
+						ioManager.ConcatPath(versionKey, VersionFileName),
+						Encoding.UTF8.GetBytes(versionKey),
+						cancellationToken)
+						.ConfigureAwait(false);
 				}
 				catch (WebException e)
 				{
@@ -185,20 +233,34 @@ namespace Tgstation.Server.Host.Components.Byond
 				ourTcs.SetException(e);
 				throw;
 			}
+
+			return versionKey;
 		}
 
 		/// <inheritdoc />
-		public async Task ChangeVersion(Version version, CancellationToken cancellationToken)
+		public async Task ChangeVersion(Version version, Stream customVersionStream, CancellationToken cancellationToken)
 		{
 			if (version == null)
 				throw new ArgumentNullException(nameof(version));
-			var versionKey = VersionKey(version);
-			await InstallVersion(version, cancellationToken).ConfigureAwait(false);
+
+			var versionKey = await InstallVersion(version, customVersionStream, cancellationToken).ConfigureAwait(false);
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 			{
 				await ioManager.WriteAllBytes(ActiveVersionFileName, Encoding.UTF8.GetBytes(versionKey), cancellationToken).ConfigureAwait(false);
-				await eventConsumer.HandleEvent(EventType.ByondActiveVersionChange, new List<string> { ActiveVersion != null ? VersionKey(ActiveVersion) : null, versionKey }, cancellationToken).ConfigureAwait(false);
-				ActiveVersion = version;
+				await eventConsumer.HandleEvent(
+					EventType.ByondActiveVersionChange,
+					new List<string>
+					{
+						ActiveVersion != null
+							? VersionKey(ActiveVersion, true)
+							: null,
+						versionKey
+					},
+					cancellationToken)
+					.ConfigureAwait(false);
+
+				// We reparse the version key because it could be changed after a custom install.
+				ActiveVersion = Version.Parse(versionKey);
 			}
 		}
 
@@ -208,11 +270,12 @@ namespace Tgstation.Server.Host.Components.Byond
 			var versionToUse = requiredVersion ?? ActiveVersion;
 			if (versionToUse == null)
 				throw new JobException(ErrorCode.ByondNoVersionsInstalled);
-			await InstallVersion(versionToUse, cancellationToken).ConfigureAwait(false);
+			await InstallVersion(versionToUse, null, cancellationToken).ConfigureAwait(false);
 
-			var versionKey = VersionKey(versionToUse);
+			var versionKey = VersionKey(versionToUse, true);
 			var binPathForVersion = ioManager.ConcatPath(versionKey, BinPath);
 
+			logger.LogTrace("Creating ByondExecutableLock lock for version {0}", versionToUse);
 			return new ByondExecutableLock(
 				ioManager,
 				semaphore,
@@ -251,15 +314,15 @@ namespace Tgstation.Server.Host.Components.Byond
 				localCfgDirectory,
 				cancellationToken).ConfigureAwait(false);
 
-			// No need to do this on dev machines
-#if !DEBUG
 			// Delete trusted.txt so it doesn't grow too large
-			await ioManager.DeleteFile(
+			var trustedFilePath =
 				ioManager.ConcatPath(
 					localCfgDirectory,
-					TrustedDmbFileName),
+					TrustedDmbFileName);
+			logger.LogTrace("Deleting trusted .dmbs file {0}", trustedFilePath);
+			await ioManager.DeleteFile(
+				trustedFilePath,
 				cancellationToken).ConfigureAwait(false);
-#endif
 
 			var byondDirectory = ioManager.ResolvePath();
 			await ioManager.CreateDirectory(byondDirectory, cancellationToken).ConfigureAwait(false);
@@ -279,10 +342,11 @@ namespace Tgstation.Server.Host.Components.Byond
 				var text = Encoding.UTF8.GetString(bytes);
 				if (Version.TryParse(text, out var version))
 				{
-					var key = VersionKey(version);
+					var key = VersionKey(version, true);
 					lock (installedVersions)
 						if (!installedVersions.ContainsKey(key))
 						{
+							logger.LogDebug("Adding detected BYOND version {0}...", key);
 							installedVersions.Add(key, Task.CompletedTask);
 							return;
 						}
@@ -297,10 +361,16 @@ namespace Tgstation.Server.Host.Components.Byond
 			if (activeVersionBytes != null)
 			{
 				var activeVersionString = Encoding.UTF8.GetString(activeVersionBytes);
-				if (Version.TryParse(activeVersionString, out var activeVersion))
+				bool hasRequestedActiveVersion;
+				lock (installedVersions)
+					hasRequestedActiveVersion = installedVersions.ContainsKey(activeVersionString);
+				if (hasRequestedActiveVersion && Version.TryParse(activeVersionString, out var activeVersion))
 					ActiveVersion = activeVersion.Semver();
 				else
+				{
+					logger.LogWarning("Failed to load saved active version {0}!", activeVersionString);
 					await ioManager.DeleteFile(ActiveVersionFileName, cancellationToken).ConfigureAwait(false);
+				}
 			}
 		}
 

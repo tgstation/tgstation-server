@@ -1,4 +1,4 @@
-﻿using LibGit2Sharp;
+using LibGit2Sharp;
 using LibGit2Sharp.Handlers;
 using Microsoft.Extensions.Logging;
 using System;
@@ -8,6 +8,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 
@@ -17,9 +19,14 @@ namespace Tgstation.Server.Host.Components.Repository
 	sealed class Repository : IRepository
 	{
 		/// <summary>
-		/// Indication of a GitHub repository
+		/// The default username for committers.
 		/// </summary>
-		public const string GitHubUrl = "://github.com/";
+		public const string DefaultCommitterName = "tgstation-server";
+
+		/// <summary>
+		/// The default password for committers.
+		/// </summary>
+		public const string DefaultCommitterEmail = "tgstation-server@users.noreply.github.com";
 
 		/// <summary>
 		/// Template error message for when tracking of the most recent origin commit fails
@@ -31,16 +38,19 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// </summary>
 		public const string RemoteTemporaryBranchName = "___TGSTempBranch";
 
+		/// <summary>
+		/// Used when a reference cannot be determined
+		/// </summary>
 		const string UnknownReference = "<UNKNOWN>";
 
 		/// <inheritdoc />
-		public bool IsGitHubRepository { get; }
+		public RemoteGitProvider? RemoteGitProvider => gitRemoteFeatures.RemoteGitProvider;
 
 		/// <inheritdoc />
-		public string GitHubOwner { get; }
+		public string RemoteRepositoryOwner => gitRemoteFeatures.RemoteRepositoryOwner;
 
 		/// <inheritdoc />
-		public string GitHubRepoName { get; }
+		public string RemoteRepositoryName => gitRemoteFeatures.RemoteRepositoryName;
 
 		/// <inheritdoc />
 		public bool Tracking => Reference != null && libGitRepo.Head.IsTracking;
@@ -52,7 +62,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		public string Reference => libGitRepo.Head.FriendlyName;
 
 		/// <inheritdoc />
-		public string Origin => libGitRepo.Network.Remotes.First().Url;
+		public Uri Origin => new Uri(libGitRepo.Network.Remotes.First().Url);
 
 		/// <summary>
 		/// The <see cref="LibGit2Sharp.IRepository"/> for the <see cref="Repository"/>
@@ -78,6 +88,11 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// The <see cref="ICredentialsProvider"/> for the <see cref="Repository"/>
 		/// </summary>
 		readonly ICredentialsProvider credentialsProvider;
+
+		/// <summary>
+		/// The <see cref="IGitRemoteFeatures"/> for the <see cref="Repository"/>.
+		/// </summary>
+		readonly IGitRemoteFeatures gitRemoteFeatures;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="Repository"/>
@@ -109,6 +124,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="ioMananger">The value of <see cref="ioMananger"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
 		/// <param name="credentialsProvider">The value of <see cref="credentialsProvider"/></param>
+		/// <param name="gitRemoteFeaturesFactory">The <see cref="IGitRemoteFeaturesFactory"/> to provide the value of <see cref="gitRemoteFeatures"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		/// <param name="onDispose">The value if <see cref="onDispose"/></param>
 		public Repository(
@@ -117,6 +133,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			IIOManager ioMananger,
 			IEventConsumer eventConsumer,
 			ICredentialsProvider credentialsProvider,
+			IGitRemoteFeaturesFactory gitRemoteFeaturesFactory,
 			ILogger<Repository> logger,
 			Action onDispose)
 		{
@@ -125,17 +142,13 @@ namespace Tgstation.Server.Host.Components.Repository
 			this.ioMananger = ioMananger ?? throw new ArgumentNullException(nameof(ioMananger));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.credentialsProvider = credentialsProvider ?? throw new ArgumentNullException(nameof(credentialsProvider));
+			if (gitRemoteFeaturesFactory == null)
+				throw new ArgumentNullException(nameof(gitRemoteFeaturesFactory));
+
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			this.onDispose = onDispose ?? throw new ArgumentNullException(nameof(onDispose));
 
-			IsGitHubRepository = Origin.Contains(GitHubUrl, StringComparison.InvariantCultureIgnoreCase);
-
-			if (IsGitHubRepository)
-			{
-				GetRepositoryOwnerName(Origin, out var owner, out var name);
-				GitHubOwner = owner;
-				GitHubRepoName = name;
-			}
+			gitRemoteFeatures = gitRemoteFeaturesFactory.CreateGitRemoteFeatures(this);
 		}
 
 		/// <inheritdoc />
@@ -152,21 +165,6 @@ namespace Tgstation.Server.Host.Components.Repository
 			logger.LogTrace("Disposing...");
 			libGitRepo.Dispose();
 			onDispose();
-		}
-
-		void GetRepositoryOwnerName(string remote, out string owner, out string name)
-		{
-			// Assume standard gh format: [(git)|(https)]://github.com/owner/repo(.git)[0-1]
-			// Yes use .git twice in case it was weird
-			var toRemove = new string[] { ".git", "/", ".git" };
-			foreach (string item in toRemove)
-				if (remote.EndsWith(item, StringComparison.OrdinalIgnoreCase))
-					remote = remote.Substring(0, remote.LastIndexOf(item, StringComparison.OrdinalIgnoreCase));
-			var splits = remote.Split('/');
-			name = splits[splits.Length - 1];
-			owner = splits[splits.Length - 2].Split('.')[0];
-
-			logger.LogTrace("GetRepositoryOwnerName({0}) => {1} / {2}", remote, owner, name);
 		}
 
 		/// <summary>
@@ -265,37 +263,37 @@ namespace Tgstation.Server.Host.Components.Repository
 			if (progressReporter == null)
 				throw new ArgumentNullException(nameof(progressReporter));
 
-			logger.LogDebug("Begin AddTestMerge: #{0} at {1} ({4}) by <{2} ({3})>",
+			logger.LogDebug("Begin AddTestMerge: #{0} at {1} ({2}) by <{3} ({4})>",
 				testMergeParameters.Number,
-				testMergeParameters.PullRequestRevision?.Substring(0, 7),
+				testMergeParameters.TargetCommitSha?.Substring(0, 7),
+				testMergeParameters.Comment,
 				committerName,
-				committerEmail,
-				testMergeParameters.Comment);
+				committerEmail);
 
-			if (!IsGitHubRepository)
-				throw new InvalidOperationException("Test merging is only available on GitHub hosted origin repositories!");
+			if (RemoteGitProvider == Api.Models.RemoteGitProvider.Unknown)
+				throw new InvalidOperationException("Cannot test merge with an Unknown RemoteGitProvider!");
 
 			var commitMessage = String.Format(
 				CultureInfo.InvariantCulture,
-				"Test merge of pull request #{0}{1}{2}",
+				"TGS Test merge #{0}{1}{2}",
 				testMergeParameters.Number,
 				testMergeParameters.Comment != null
 					? Environment.NewLine
 					: String.Empty,
 				testMergeParameters.Comment ?? String.Empty);
 
-			var prBranchName = String.Format(CultureInfo.InvariantCulture, "pr-{0}", testMergeParameters.Number);
-			var localBranchName = String.Format(CultureInfo.InvariantCulture, "pull/{0}/headrefs/heads/{1}", testMergeParameters.Number, prBranchName);
+			var testMergeBranchName = String.Format(CultureInfo.InvariantCulture, "tm-{0}", testMergeParameters.Number);
+			var localBranchName = String.Format(CultureInfo.InvariantCulture, gitRemoteFeatures.TestMergeLocalBranchNameFormatter, testMergeParameters.Number, testMergeBranchName);
 
-			var refSpec = String.Format(CultureInfo.InvariantCulture, "pull/{0}/head:{1}", testMergeParameters.Number, prBranchName);
+			var refSpec = String.Format(CultureInfo.InvariantCulture, gitRemoteFeatures.TestMergeRefSpecFormatter, testMergeParameters.Number, testMergeBranchName);
 			var refSpecList = new List<string> { refSpec };
-			var logMessage = String.Format(CultureInfo.InvariantCulture, "Merge remote pull request #{0}", testMergeParameters.Number);
+			var logMessage = String.Format(CultureInfo.InvariantCulture, "Test merge #{0}", testMergeParameters.Number);
 
 			var originalCommit = libGitRepo.Head;
 
 			MergeResult result = null;
 
-			var sig = new Signature(new Identity(committerName, committerEmail), DateTimeOffset.Now);
+			var sig = new Signature(new Identity(committerName, committerEmail), DateTimeOffset.UtcNow);
 			await Task.Factory.StartNew(() =>
 			{
 				try
@@ -333,13 +331,13 @@ namespace Tgstation.Server.Host.Components.Repository
 
 					cancellationToken.ThrowIfCancellationRequested();
 
-					testMergeParameters.PullRequestRevision = libGitRepo.Lookup(testMergeParameters.PullRequestRevision ?? localBranchName).Sha;
+					testMergeParameters.TargetCommitSha = libGitRepo.Lookup(testMergeParameters.TargetCommitSha ?? localBranchName).Sha;
 
 					cancellationToken.ThrowIfCancellationRequested();
 
-					logger.LogTrace("Merging {0} into {1}...", testMergeParameters.PullRequestRevision.Substring(0, 7), Reference);
+					logger.LogTrace("Merging {0} into {1}...", testMergeParameters.TargetCommitSha.Substring(0, 7), Reference);
 
-					result = libGitRepo.Merge(testMergeParameters.PullRequestRevision, sig, new MergeOptions
+					result = libGitRepo.Merge(testMergeParameters.TargetCommitSha, sig, new MergeOptions
 					{
 						CommitOnSuccess = commitMessage == null,
 						FailOnConflict = true,
@@ -364,11 +362,21 @@ namespace Tgstation.Server.Host.Components.Repository
 				}
 
 				libGitRepo.RemoveUntrackedFiles();
-			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+			}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
 
 			if (result.Status == MergeStatus.Conflicts)
 			{
-				await eventConsumer.HandleEvent(EventType.RepoMergeConflict, new List<string> { originalCommit.Tip.Sha, testMergeParameters.PullRequestRevision, originalCommit.FriendlyName ?? UnknownReference, prBranchName }, cancellationToken).ConfigureAwait(false);
+				await eventConsumer.HandleEvent(
+					EventType.RepoMergeConflict,
+					new List<string>
+					{
+						originalCommit.Tip.Sha,
+						testMergeParameters.TargetCommitSha,
+						originalCommit.FriendlyName ?? UnknownReference,
+						testMergeBranchName
+					},
+					cancellationToken)
+					.ConfigureAwait(false);
 				return null;
 			}
 
@@ -378,15 +386,15 @@ namespace Tgstation.Server.Host.Components.Repository
 				await Task.Factory.StartNew(() => libGitRepo.Commit(commitMessage, sig, sig, new CommitOptions
 				{
 					PrettifyMessage = true
-				}), cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+				}), cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
 			}
 
 			await eventConsumer.HandleEvent(
-				EventType.RepoMergePullRequest,
+				EventType.RepoAddTestMerge,
 				new List<string>
 				{
 					testMergeParameters.Number.ToString(CultureInfo.InvariantCulture),
-					testMergeParameters.PullRequestRevision,
+					testMergeParameters.TargetCommitSha,
 					testMergeParameters.Comment
 				},
 				cancellationToken)
@@ -409,7 +417,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			{
 				libGitRepo.RemoveUntrackedFiles();
 				RawCheckout(committish, progressReporter, cancellationToken);
-			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+			}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -442,7 +450,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				{
 					cancellationToken.ThrowIfCancellationRequested();
 				}
-			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+			}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
 		}
 
 		/// <summary>
@@ -474,14 +482,14 @@ namespace Tgstation.Server.Host.Components.Repository
 				}
 				catch(LibGit2SharpException e)
 				{
-					logger.LogWarning("Unable to push to temporary branch! Exception: {0}", e);
+					logger.LogWarning(e, "Unable to push to temporary branch!");
 				}
 			}
 			finally
 			{
 				libGitRepo.Branches.Remove(branch);
 			}
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public async Task ResetToOrigin(Action<int> progressReporter, CancellationToken cancellationToken)
@@ -519,7 +527,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			{
 				OnCheckoutProgress = CheckoutProgressHandler(progressReporter)
 			});
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public async Task CopyTo(string path, CancellationToken cancellationToken)
@@ -529,6 +537,17 @@ namespace Tgstation.Server.Host.Components.Repository
 			logger.LogTrace("Copying to {0}...", path);
 			await ioMananger.CopyDirectory(ioMananger.ResolvePath(), path, new List<string> { ".git" }, cancellationToken).ConfigureAwait(false);
 		}
+
+		/// <inheritdoc />
+		public Task<string> GetOriginSha(CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		{
+			if (!Tracking)
+				throw new JobException(ErrorCode.RepoReferenceRequired);
+
+			cancellationToken.ThrowIfCancellationRequested();
+
+			return libGitRepo.Head.TrackedBranch.Tip.Sha;
+		}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 
 		/// <inheritdoc />
 		public async Task<bool?> MergeOrigin(string committerName, string committerEmail, Action<int> progressReporter, CancellationToken cancellationToken)
@@ -552,8 +571,12 @@ namespace Tgstation.Server.Host.Components.Repository
 				cancellationToken.ThrowIfCancellationRequested();
 
 				trackedBranch = libGitRepo.Head.TrackedBranch;
-				logger.LogDebug("Merge origin/{2}: <{0} ({1})>", committerName, committerEmail, trackedBranch.FriendlyName);
-				result = libGitRepo.Merge(trackedBranch, new Signature(new Identity(committerName, committerEmail), DateTimeOffset.Now), new MergeOptions
+				logger.LogDebug(
+					"Merge origin/{0}: <{1} ({2})>",
+					trackedBranch.FriendlyName,
+					committerName,
+					committerEmail);
+				result = libGitRepo.Merge(trackedBranch, new Signature(committerName, committerEmail, DateTimeOffset.UtcNow), new MergeOptions
 				{
 					CommitOnSuccess = true,
 					FailOnConflict = true,
@@ -575,7 +598,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				}
 
 				libGitRepo.RemoveUntrackedFiles();
-			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+			}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
 
 			if (result.Status == MergeStatus.Conflicts)
 			{
@@ -617,23 +640,19 @@ namespace Tgstation.Server.Host.Components.Repository
 				libGitRepo.Config.Set("user.name", committerName);
 				cancellationToken.ThrowIfCancellationRequested();
 				libGitRepo.Config.Set("user.email", committerEmail);
-			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+			}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
 
 			cancellationToken.ThrowIfCancellationRequested();
 			try
 			{
-				if (!await eventConsumer.HandleEvent(
+				await eventConsumer.HandleEvent(
 					EventType.RepoPreSynchronize,
 					new List<string>
 					{
 						ioMananger.ResolvePath()
 					},
 					cancellationToken)
-					.ConfigureAwait(false))
-				{
-					logger.LogDebug("Aborted synchronize due to event handler response!");
-					return false;
-				}
+					.ConfigureAwait(false);
 			}
 			finally
 			{
@@ -646,7 +665,7 @@ namespace Tgstation.Server.Host.Components.Repository
 					{
 						OnCheckoutProgress = CheckoutProgressHandler(progress => progressReporter(progress / 10))
 					});
-				}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+				}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
 			}
 
 			void FinalReporter(int progress) => progressReporter((int)(((float)progress) / 100 * 90));
@@ -686,10 +705,10 @@ namespace Tgstation.Server.Host.Components.Repository
 				}
 				catch (LibGit2SharpException e)
 				{
-					logger.LogWarning("Unable to make synchronization push! Exception: {0}", e);
+					logger.LogWarning(e, "Unable to make synchronization push!");
 					return false;
 				}
-			}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current).ConfigureAwait(false);
+			}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -710,6 +729,53 @@ namespace Tgstation.Server.Host.Components.Repository
 			if (libGitRepo.Lookup<Commit>(committish) != null)
 				return true;
 			return false;
-		}, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+		}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
+
+		/// <inheritdoc />
+		public Task<bool> ShaIsParent(string sha, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		{
+			var targetCommit = libGitRepo.Lookup<Commit>(sha);
+			if(targetCommit == null)
+			{
+				logger.LogTrace("Commit {0} not found in repository", sha);
+				return false;
+			}
+
+			cancellationToken.ThrowIfCancellationRequested();
+			var startSha = Head;
+			var mergeResult = libGitRepo.Merge(
+				targetCommit,
+				new Signature(
+					DefaultCommitterName,
+					DefaultCommitterEmail,
+					DateTimeOffset.UtcNow),
+				new MergeOptions
+				{
+					FastForwardStrategy = FastForwardStrategy.FastForwardOnly,
+					FailOnConflict = true
+				});
+
+			if (mergeResult.Status == MergeStatus.UpToDate)
+				return true;
+
+			commands.Checkout(
+				libGitRepo,
+				new CheckoutOptions
+				{
+					CheckoutModifiers = CheckoutModifiers.Force
+				},
+				startSha);
+
+			return false;
+		}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
+
+		/// <inheritdoc />
+		public Task<Models.TestMerge> GetTestMerge(
+			TestMergeParameters parameters,
+			RepositorySettings repositorySettings,
+			CancellationToken cancellationToken) => gitRemoteFeatures.GetTestMerge(
+				parameters,
+				repositorySettings,
+				cancellationToken);
 	}
 }

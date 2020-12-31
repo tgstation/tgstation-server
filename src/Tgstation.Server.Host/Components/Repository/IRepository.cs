@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -8,23 +8,8 @@ namespace Tgstation.Server.Host.Components.Repository
 	/// <summary>
 	/// Represents an on-disk git repository
 	/// </summary>
-	public interface IRepository : IDisposable
+	public interface IRepository : IGitRemoteAdditionalInformation, IDisposable
 	{
-		/// <summary>
-		/// If the <see cref="IRepository"/> was cloned from GitHub.com
-		/// </summary>
-		bool IsGitHubRepository { get; }
-
-		/// <summary>
-		/// The <see cref="Octokit.Repository.Owner"/> if this <see cref="IsGitHubRepository"/>
-		/// </summary>
-		string GitHubOwner { get; }
-
-		/// <summary>
-		/// The <see cref="Octokit.Repository.Name"/> if this <see cref="IsGitHubRepository"/>
-		/// </summary>
-		string GitHubRepoName { get; }
-
 		/// <summary>
 		/// If <see cref="Reference"/> tracks an upstream branch
 		/// </summary>
@@ -43,7 +28,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <summary>
 		/// The current origin remote the <see cref="IRepository"/> is using
 		/// </summary>
-		string Origin { get; }
+		Uri Origin { get; }
 
 		/// <summary>
 		/// Checks if a given <paramref name="committish"/> is a sha
@@ -63,7 +48,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		Task CheckoutObject(string committish, Action<int> progressReporter, CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Attempt to merge a GitHub pull request into HEAD
+		/// Attempt to merge the revision specified by a given set of <paramref name="testMergeParameters"/> into HEAD
 		/// </summary>
 		/// <param name="testMergeParameters">The <see cref="TestMergeParameters"/> of the pull request</param>
 		/// <param name="committerName">The name of the merge committer</param>
@@ -132,5 +117,21 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task CopyTo(string path, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Check if a given <paramref name="sha"/> is a parent of the current <see cref="Head"/>.
+		/// </summary>
+		/// <param name="sha">The SHA to check.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="true"/> if <paramref name="sha"/> is a parent of <see cref="Head"/>, <see langword="false"/> otherwise.</returns>
+		/// <remarks>This function is NOT reentrant.</remarks>
+		Task<bool> ShaIsParent(string sha, CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Get the tracked reference's current SHA.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the tracked origin reference's SHA.</returns>
+		Task<string> GetOriginSha(CancellationToken cancellationToken);
 	}
 }

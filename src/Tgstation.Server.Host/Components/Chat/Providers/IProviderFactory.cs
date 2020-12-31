@@ -1,4 +1,4 @@
-﻿using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Components.Chat.Providers
 {
