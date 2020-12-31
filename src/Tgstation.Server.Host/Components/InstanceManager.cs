@@ -565,6 +565,9 @@ namespace Tgstation.Server.Host.Components
 
 				if (registrationResult == SwarmRegistrationResult.VersionMismatch)
 					throw new InvalidOperationException("Swarm controller's TGS version does not match our own!");
+
+				if (registrationResult != SwarmRegistrationResult.Success)
+					await asyncDelayer.Delay(TimeSpan.FromSeconds(5), cancellationToken);
 			}
 			while (registrationResult != SwarmRegistrationResult.Success && !cancellationToken.IsCancellationRequested);
 		}

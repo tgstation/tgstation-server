@@ -821,6 +821,8 @@ namespace Tgstation.Server.Host.Swarm
 					logger.LogError("Swarm re-registration failed, controller's TGS version has changed!");
 					break;
 				}
+
+				await asyncDelayer.Delay(TimeSpan.FromSeconds(5), cancellationToken);
 			}
 
 			// we could do something here... but what?
