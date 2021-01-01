@@ -148,7 +148,7 @@ Create an `appsettings.Production.json` file next to `appsettings.json`. This wi
 			"Keycloak": {
 				"ClientId": "...",
 				"ClientSecret": "...",
-				"RedirectUrl": "..."
+				"RedirectUrl": "...",
 				"ServerUrl": "..."
 			}
 		}
