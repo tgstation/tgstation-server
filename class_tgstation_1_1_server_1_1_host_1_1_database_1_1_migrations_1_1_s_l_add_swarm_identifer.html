@@ -1064,7 +1064,15 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            migrationBuilder.DropTable(</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                name: <span class="stringliteral">&quot;Instances_down&quot;</span>);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        }</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            migrationBuilder.RenameTable(</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                name: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                newName: <span class="stringliteral">&quot;Instances_down&quot;</span>);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            migrationBuilder.RenameTable(</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                name: <span class="stringliteral">&quot;Instances_down&quot;</span>,</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                newName: <span class="stringliteral">&quot;Instances&quot;</span>);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>

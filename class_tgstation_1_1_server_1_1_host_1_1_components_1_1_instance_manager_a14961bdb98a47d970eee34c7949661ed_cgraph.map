@@ -1,4 +1,5 @@
 <map id="Tgstation.Server.Host.Components.InstanceManager.InitializeSwarm" name="Tgstation.Server.Host.Components.InstanceManager.InitializeSwarm">
-<area shape="rect" id="node1" title="Initializes the connection to the TGS swarm." alt="" coords="5,5,232,47"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a190450518904cda07c60a54601d5695c" title="Attempt to register with the swarm controller if not one, sets up the database otherwise." alt="" coords="280,5,475,47"/>
+<area shape="rect" id="node1" title="Initializes the connection to the TGS swarm." alt="" coords="5,39,232,80"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html#afab931ac159bc999fee1e7eda917c7d6" title="Create a Task that completes after a given timeSpan" alt="" coords="287,5,468,47"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a190450518904cda07c60a54601d5695c" title="Attempt to register with the swarm controller if not one, sets up the database otherwise." alt="" coords="280,71,475,112"/>
 </map>

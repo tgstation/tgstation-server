@@ -131,9 +131,17 @@ $(function() {
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            migrationBuilder.DropTable(</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                name: <span class="stringliteral">&quot;Instances_down&quot;</span>);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        }</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    }</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;}</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            migrationBuilder.RenameTable(</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                name: <span class="stringliteral">&quot;Instances&quot;</span>,</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                newName: <span class="stringliteral">&quot;Instances_down&quot;</span>);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            migrationBuilder.RenameTable(</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                name: <span class="stringliteral">&quot;Instances_down&quot;</span>,</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                newName: <span class="stringliteral">&quot;Instances&quot;</span>);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        }</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    }</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_swarm_identifer_html_a3001539b2d0acf25b8a58ab564d9a841"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_swarm_identifer.html#a3001539b2d0acf25b8a58ab564d9a841">Tgstation.Server.Host.Database.Migrations.SLAddSwarmIdentifer.Down</a></div><div class="ttdeci">override void Down(MigrationBuilder migrationBuilder)</div><div class="ttdef"><b>Definition:</b> <a href="20201222175532___s_l_add_swarm_identifer_8cs_source.html#l00034">20201222175532_SLAddSwarmIdentifer.cs:34</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_swarm_identifer_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_swarm_identifer.html">Tgstation.Server.Host.Database.Migrations.SLAddSwarmIdentifer</a></div><div class="ttdoc">Adds the swarm identifier column for SQLite.</div><div class="ttdef"><b>Definition:</b> <a href="20201222175532___s_l_add_swarm_identifer_8cs_source.html#l00009">20201222175532_SLAddSwarmIdentifer.cs:10</a></div></div>

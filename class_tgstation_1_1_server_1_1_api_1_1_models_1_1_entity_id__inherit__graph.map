@@ -3,12 +3,13 @@
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance" alt="" coords="240,36,427,77"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_compile_job.html" title="Represents a run of DreamMaker" alt="" coords="240,133,427,175"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_job.html" title="Represents a long running job" alt="" coords="240,199,427,240"/>
-<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group.html" title="Represents a group of Models.Users." alt="" coords="240,304,427,345"/>
+<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group_base.html" title="Base class for UserGroup." alt="" coords="240,304,427,345"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance.html" title="Represents an Api.Models.Instance in the database" alt="" coords="485,5,681,47"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_compile_job.html" title=" " alt="" coords="490,71,677,112"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html" title=" " alt="" coords="485,136,681,177"/>
 <area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_job.html" title="Represents a long running job on the server. Model is read&#45;only, updates attempt to cancel the job" alt="" coords="479,202,687,229"/>
 <area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html" title=" " alt="" coords="475,253,692,279"/>
-<area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_group.html" title=" " alt="" coords="490,304,677,345"/>
-<area shape="rect" id="node12" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html" title=" " alt="" coords="485,369,681,411"/>
+<area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group.html" title="Represents a group of Models.Users." alt="" coords="490,304,677,345"/>
+<area shape="rect" id="node13" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html" title=" " alt="" coords="485,369,681,411"/>
+<area shape="rect" id="node12" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_group.html" title=" " alt="" coords="740,304,927,345"/>
 </map>

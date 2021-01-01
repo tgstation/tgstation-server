@@ -623,11 +623,14 @@ Here is the caller graph for this function:</div>
 <div class="line"><a name="l00565"></a><span class="lineno">  565</span>&#160; </div>
 <div class="line"><a name="l00566"></a><span class="lineno">  566</span>&#160;                <span class="keywordflow">if</span> (registrationResult == <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0">SwarmRegistrationResult</a>.VersionMismatch)</div>
 <div class="line"><a name="l00567"></a><span class="lineno">  567</span>&#160;                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Swarm controller&#39;s TGS version does not match our own!&quot;</span>);</div>
-<div class="line"><a name="l00568"></a><span class="lineno">  568</span>&#160;            }</div>
-<div class="line"><a name="l00569"></a><span class="lineno">  569</span>&#160;            <span class="keywordflow">while</span> (registrationResult != <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0">SwarmRegistrationResult</a>.Success &amp;&amp; !cancellationToken.IsCancellationRequested);</div>
-<div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160;        }</div>
+<div class="line"><a name="l00568"></a><span class="lineno">  568</span>&#160; </div>
+<div class="line"><a name="l00569"></a><span class="lineno">  569</span>&#160;                <span class="keywordflow">if</span> (registrationResult != <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0">SwarmRegistrationResult</a>.Success)</div>
+<div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160;                    await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#ad6f992fed638980594fd5a6c45b8946b">asyncDelayer</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html#afab931ac159bc999fee1e7eda917c7d6">Delay</a>(TimeSpan.FromSeconds(5), cancellationToken);</div>
+<div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160;            }</div>
+<div class="line"><a name="l00572"></a><span class="lineno">  572</span>&#160;            <span class="keywordflow">while</span> (registrationResult != <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0">SwarmRegistrationResult</a>.Success &amp;&amp; !cancellationToken.IsCancellationRequested);</div>
+<div class="line"><a name="l00573"></a><span class="lineno">  573</span>&#160;        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a190450518904cda07c60a54601d5695c">Tgstation.Server.Host.Swarm.ISwarmService.Initialize()</a>, and <a class="el" href="_instance_manager_8cs_source.html#l00085">Tgstation.Server.Host.Components.InstanceManager.swarmService</a>.</p>
+<p class="reference">References <a class="el" href="_instance_manager_8cs_source.html#l00075">Tgstation.Server.Host.Components.InstanceManager.asyncDelayer</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html#afab931ac159bc999fee1e7eda917c7d6">Tgstation.Server.Host.Core.IAsyncDelayer.Delay()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a190450518904cda07c60a54601d5695c">Tgstation.Server.Host.Swarm.ISwarmService.Initialize()</a>, and <a class="el" href="_instance_manager_8cs_source.html#l00085">Tgstation.Server.Host.Components.InstanceManager.swarmService</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_instance_manager_8cs_source.html#l00383">Tgstation.Server.Host.Components.InstanceManager.StartAsync()</a>.</p>
 <div class="dynheader">
@@ -635,8 +638,9 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_a14961bdb98a47d970eee34c7949661ed_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_a14961bdb98a47d970eee34c7949661ed_cgraph" alt=""/></div>
 <map name="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_a14961bdb98a47d970eee34c7949661ed_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager_a14961bdb98a47d970eee34c7949661ed_cgraph">
-<area shape="rect" title="Initializes the connection to the TGS swarm." alt="" coords="5,5,232,47"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a190450518904cda07c60a54601d5695c" title="Attempt to register with the swarm controller if not one, sets up the database otherwise." alt="" coords="280,5,475,47"/>
+<area shape="rect" title="Initializes the connection to the TGS swarm." alt="" coords="5,39,232,80"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html#afab931ac159bc999fee1e7eda917c7d6" title="Create a Task that completes after a given timeSpan" alt="" coords="287,5,468,47"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a190450518904cda07c60a54601d5695c" title="Attempt to register with the swarm controller if not one, sets up the database otherwise." alt="" coords="280,71,475,112"/>
 </map>
 </div>
 <div class="dynheader">
@@ -1195,8 +1199,9 @@ Here is the call graph for this function:</div>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a14961bdb98a47d970eee34c7949661ed" title="Initializes the connection to the TGS swarm." alt="" coords="307,267,533,308"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance_manager.html#a00b4178d67ebc7ac4b0e3fe87484df15" title="Online an IInstance" alt="" coords="307,332,533,373"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_context_factory.html#ad22fce8fc51129e9da203dcef2f7ab42" title="Run an operation &#160;in the scope of an IDatabaseContext" alt="" coords="301,397,539,439"/>
-<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html#a2b6458e7e063e0ea2368fefd2df1c0e1" title="Attempt to exclusively bind to a given port ." alt="" coords="613,104,830,145"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a6052301d3f6ed6eb477f74a081e2187e" title="Retrieves a ISystemIdentity representing the user executing tgstation&#45;server." alt="" coords="611,169,832,211"/>
+<area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_extensions_1_1_socket_extensions.html#a2b6458e7e063e0ea2368fefd2df1c0e1" title="Attempt to exclusively bind to a given port ." alt="" coords="613,71,830,112"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#a6052301d3f6ed6eb477f74a081e2187e" title="Retrieves a ISystemIdentity representing the user executing tgstation&#45;server." alt="" coords="611,136,832,177"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html#afab931ac159bc999fee1e7eda917c7d6" title="Create a Task that completes after a given timeSpan" alt="" coords="631,201,812,243"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a190450518904cda07c60a54601d5695c" title="Attempt to register with the swarm controller if not one, sets up the database otherwise." alt="" coords="624,267,819,308"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_factory.html#af404cbb63284897baafdeb6316d45293" title="Create an IInstance" alt="" coords="608,332,835,373"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_semaphore_slim_context.html#a01e4f4e2d775bd2bf0910a1f5c2f24ef" title="Asyncronously locks a semaphore" alt="" coords="626,397,817,439"/>
@@ -1307,7 +1312,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_instance_manager_8cs_source.html#l00075">75</a> of file <a class="el" href="_instance_manager_8cs_source.html">InstanceManager.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_instance_manager_8cs_source.html#l00143">Tgstation.Server.Host.Components.InstanceManager.InstanceManager()</a>, and <a class="el" href="_instance_manager_8cs_source.html#l00489">Tgstation.Server.Host.Components.InstanceManager.ProcessBridgeRequest()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_instance_manager_8cs_source.html#l00556">Tgstation.Server.Host.Components.InstanceManager.InitializeSwarm()</a>, <a class="el" href="_instance_manager_8cs_source.html#l00143">Tgstation.Server.Host.Components.InstanceManager.InstanceManager()</a>, and <a class="el" href="_instance_manager_8cs_source.html#l00489">Tgstation.Server.Host.Components.InstanceManager.ProcessBridgeRequest()</a>.</p>
 
 </div>
 </div>

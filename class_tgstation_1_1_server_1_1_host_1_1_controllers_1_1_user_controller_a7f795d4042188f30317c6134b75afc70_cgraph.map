@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Controllers.UserController.Update" name="Tgstation.Server.Host.Controllers.UserController.Update">
 <area shape="rect" id="node1" title="Update a Api.Models.User." alt="" coords="5,169,221,211"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a7d6d50ff837b991a62dd2664cc0577ad" title="Check if a given model &#160;has a valid Api.Models.Internal.User.Name specified." alt="" coords="269,5,485,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a7d6d50ff837b991a62dd2664cc0577ad" title="Check if a given model &#160;has a valid Api.Models.Internal.UserBase.Name specified." alt="" coords="269,5,485,47"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType" alt="" coords="276,71,479,112"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f" title="Generic 410 response." alt="" coords="269,136,485,177"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30874703840788ecc629d91fc7e15a5f" title="Generic 404 response." alt="" coords="269,201,485,243"/>
