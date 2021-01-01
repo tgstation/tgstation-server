@@ -1172,7 +1172,7 @@ namespace Tgstation.Server.Host.Swarm
 				}
 			}
 
-			logger.LogInformation("Registered node {0} with ID {1}", node.Identifier, registrationId);
+			logger.LogInformation("Registered node {0} ({1}) with ID {2}", node.Identifier, node.Address, registrationId);
 			MarkServersDirty();
 			return true;
 		}
