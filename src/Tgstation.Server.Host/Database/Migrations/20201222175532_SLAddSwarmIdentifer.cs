@@ -62,6 +62,14 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 			migrationBuilder.DropTable(
 				name: "Instances_down");
+
+			migrationBuilder.RenameTable(
+				name: "Instances",
+				newName: "Instances_down");
+
+			migrationBuilder.RenameTable(
+				name: "Instances_down",
+				newName: "Instances");
 		}
 	}
 }
