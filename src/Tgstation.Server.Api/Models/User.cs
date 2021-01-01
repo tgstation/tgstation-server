@@ -20,7 +20,7 @@ namespace Tgstation.Server.Api.Models
 		/// The <see cref="User"/> who created this <see cref="User"/>
 		/// </summary>
 		[Required]
-		public Internal.User? CreatedBy { get; set; }
+		public Internal.UserBase? CreatedBy { get; set; }
 
 		/// <summary>
 		/// List of <see cref="OAuthConnection"/>s associated with the <see cref="User"/>.
@@ -33,7 +33,7 @@ namespace Tgstation.Server.Api.Models
 		public PermissionSet? PermissionSet { get; set; }
 
 		/// <summary>
-		/// The <see cref="UserGroup"/> asociated with the <see cref="User"/>, if any.
+		/// The <see cref="Internal.UserGroup"/> asociated with the <see cref="User"/>, if any.
 		/// </summary>
 		public Internal.UserGroup? Group { get; set; }
 	}

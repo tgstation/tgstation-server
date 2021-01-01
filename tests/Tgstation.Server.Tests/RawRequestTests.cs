@@ -16,7 +16,7 @@ using Tgstation.Server.Host;
 
 namespace Tgstation.Server.Tests
 {
-	class RootTest
+	sealed class RawRequestTests
 	{
 		async Task TestRequestValidation(IServerClient serverClient, CancellationToken cancellationToken)
 		{
@@ -272,11 +272,48 @@ namespace Tgstation.Server.Tests
 			}
 		}
 
+		async Task RegressionTestForLeakedPasswordHashesBug(IServerClient serverClient, CancellationToken cancellationToken)
+		{
+			// See what https://github.com/tgstation/tgstation-server/commit/6c8dc87c4af36620885b262175d7974aca2b3c2b fixed
+
+			var url = serverClient.Url;
+			var token = serverClient.Token.Bearer;
+			// check that 400s are returned appropriately
+			using var httpClient = new HttpClient();
+
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.User.Substring(1)))
+			{
+				request.Headers.Accept.Clear();
+				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
+				request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+				request.Headers.Add(ApiHeaders.ApiVersionHeader, "Tgstation.Server.Api/" + ApiHeaders.Version);
+				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, token);
+				using var response = await httpClient.SendAsync(request, cancellationToken);
+				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+				var content = await response.Content.ReadAsStringAsync();
+				Assert.IsFalse(content.Contains("passwordHash"));
+			}
+
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString() + Routes.User.Substring(1) + '/' + Routes.List + "?pageSize=100"))
+			{
+				request.Headers.Accept.Clear();
+				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
+				request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+				request.Headers.Add(ApiHeaders.ApiVersionHeader, "Tgstation.Server.Api/" + ApiHeaders.Version);
+				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme, token);
+				using var response = await httpClient.SendAsync(request, cancellationToken);
+				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+				var content = await response.Content.ReadAsStringAsync();
+				Assert.IsFalse(content.Contains("passwordHash"));
+			}
+		}
+
 		public Task Run(IServerClientFactory clientFactory, IServerClient serverClient, CancellationToken cancellationToken)
 			=> Task.WhenAll(
 				TestRequestValidation(serverClient, cancellationToken),
 				TestOAuthFails(serverClient, cancellationToken),
 				TestServerInformation(clientFactory, serverClient, cancellationToken),
-				TestInvalidTransfers(serverClient, cancellationToken));
+				TestInvalidTransfers(serverClient, cancellationToken),
+				RegressionTestForLeakedPasswordHashesBug(serverClient, cancellationToken));
 	}
 }

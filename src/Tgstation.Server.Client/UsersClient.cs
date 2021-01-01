@@ -23,7 +23,7 @@ namespace Tgstation.Server.Client
 		public Task<User> Create(UserUpdate user, CancellationToken cancellationToken) => ApiClient.Create<UserUpdate, User>(Routes.User, user ?? throw new ArgumentNullException(nameof(user)), cancellationToken);
 
 		/// <inheritdoc />
-		public Task<User> GetId(Api.Models.Internal.User user, CancellationToken cancellationToken) => ApiClient.Read<User>(Routes.SetID(Routes.User, user?.Id ?? throw new ArgumentNullException(nameof(user))), cancellationToken);
+		public Task<User> GetId(Api.Models.Internal.UserBase user, CancellationToken cancellationToken) => ApiClient.Read<User>(Routes.SetID(Routes.User, user?.Id ?? throw new ArgumentNullException(nameof(user))), cancellationToken);
 
 		/// <inheritdoc />
 		public Task<IReadOnlyList<User>> List(PaginationSettings? paginationSettings, CancellationToken cancellationToken)

@@ -105,11 +105,6 @@
     <ProjectReference Include="..\Tgstation.Server.Api\Tgstation.Server.Api.csproj" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <Compile Remove="Database\Design\**\*" />
-    <None Include="Database\Design\**\*" />
-  </ItemGroup>
-
   <ItemGroup>
     <Content Remove="ClientApp\package-lock.json" />
     <Content Remove="ClientApp\package.json" />

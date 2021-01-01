@@ -161,7 +161,7 @@ namespace Tgstation.Server.Host.Core
 
 			swaggerGenOptions.CustomSchemaIds(type =>
 			{
-				if (type == typeof(Api.Models.Internal.User))
+				if (type == typeof(Api.Models.Internal.UserBase))
 					return "ShallowUser";
 				if (type == typeof(Api.Models.Internal.UserGroup))
 					return "ShallowUserGroup";

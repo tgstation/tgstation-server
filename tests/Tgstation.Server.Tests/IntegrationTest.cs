@@ -74,6 +74,8 @@ namespace Tgstation.Server.Tests
 					{
 						NewVersion = testUpdateVersion
 					}, cancellationToken).ConfigureAwait(false);
+					var serverInfo = await adminClient.ServerInformation(cancellationToken);
+					Assert.IsTrue(serverInfo.UpdateInProgress);
 				}
 
 				//wait up to 3 minutes for the dl and install
@@ -114,7 +116,7 @@ namespace Tgstation.Server.Tests
 		}
 
 		[TestMethod]
-		public async Task TestSwarm()
+		public async Task TestSwarmSynchronizationAndUpdates()
 		{
 			// cleanup existing directories
 			new TestingServer(null, false).Dispose();
@@ -195,7 +197,7 @@ namespace Tgstation.Server.Tests
 					// wait a few minutes for the updated server list to dispatch
 					await Task.WhenAny(
 						WaitForSwarmServerUpdate(),
-						Task.Delay(TimeSpan.FromMinutes(4)));
+						Task.Delay(TimeSpan.FromMinutes(4), cancellationToken));
 
 					var node2Info = await node2Client.ServerInformation(cancellationToken);
 					var node1Info = await node1Client.ServerInformation(cancellationToken);
@@ -290,6 +292,196 @@ namespace Tgstation.Server.Tests
 			new TestingServer(null, false).Dispose();
 		}
 
+		[TestMethod]
+		public async Task TestSwarmReconnection()
+		{
+			// cleanup existing directories
+			new TestingServer(null, false).Dispose();
+
+			const string PrivateKey = "adlfj73ywifhks7iwrgfegjs";
+
+			var controllerAddress = new Uri("http://localhost:5011");
+			using (var controller = new TestingServer(new SwarmConfiguration
+			{
+				Address = controllerAddress,
+				Identifier = "controller",
+				PrivateKey = PrivateKey
+			}, false, 5011))
+			{
+				using var node1 = new TestingServer(new SwarmConfiguration
+				{
+					Address = new Uri("http://localhost:5012"),
+					ControllerAddress = controllerAddress,
+					Identifier = "node1",
+					PrivateKey = PrivateKey
+				}, false, 5012);
+				using var node2 = new TestingServer(new SwarmConfiguration
+				{
+					Address = new Uri("http://localhost:5013"),
+					ControllerAddress = controllerAddress,
+					Identifier = "node2",
+					PrivateKey = PrivateKey
+				}, false, 5013);
+				using var serverCts = new CancellationTokenSource();
+
+				var cancellationToken = serverCts.Token;
+				using var node1Cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+
+				Task node1Task, node2Task, controllerTask;
+				var serverTask = Task.WhenAll(
+					node1Task = node1.Run(node1Cts.Token),
+					node2Task = node2.Run(cancellationToken),
+					controllerTask = controller.Run(cancellationToken));
+
+				try
+				{
+					using var controllerClient = await CreateAdminClient(controller.Url, cancellationToken);
+					using var node1Client = await CreateAdminClient(node1.Url, cancellationToken);
+					using var node2Client = await CreateAdminClient(node2.Url, cancellationToken);
+
+					var controllerInfo = await controllerClient.ServerInformation(cancellationToken);
+
+					async Task WaitForSwarmServerUpdate(IServerClient client, int currentServerCount)
+					{
+						ServerInformation serverInformation;
+						do
+						{
+							await Task.Delay(TimeSpan.FromSeconds(10));
+							serverInformation = await client.ServerInformation(cancellationToken);
+						}
+						while (serverInformation.SwarmServers.Count == currentServerCount);
+					}
+
+					static void CheckInfo(ServerInformation serverInformation)
+					{
+						Assert.IsNotNull(serverInformation.SwarmServers);
+						Assert.AreEqual(3, serverInformation.SwarmServers.Count);
+
+						var node1 = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "node1");
+						Assert.IsNotNull(node1);
+						Assert.AreEqual(node1.Address, "http://localhost:5012");
+						Assert.IsFalse(node1.Controller);
+
+						var node2 = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "node2");
+						Assert.IsNotNull(node2);
+						Assert.AreEqual(node2.Address, "http://localhost:5013");
+						Assert.IsFalse(node2.Controller);
+
+						var controller = serverInformation.SwarmServers.SingleOrDefault(x => x.Identifier == "controller");
+						Assert.IsNotNull(controller);
+						Assert.AreEqual(controller.Address, "http://localhost:5011");
+						Assert.IsTrue(controller.Controller);
+					}
+
+					CheckInfo(controllerInfo);
+
+					// wait a few minutes for the updated server list to dispatch
+					await Task.WhenAny(
+						WaitForSwarmServerUpdate(node1Client, 1),
+						Task.Delay(TimeSpan.FromMinutes(4), cancellationToken));
+
+					var node2Info = await node2Client.ServerInformation(cancellationToken);
+					var node1Info = await node1Client.ServerInformation(cancellationToken);
+					CheckInfo(node1Info);
+					CheckInfo(node2Info);
+
+					// kill node1
+					node1Cts.Cancel();
+					await Task.WhenAny(
+						node1Task,
+						Task.Delay(TimeSpan.FromMinutes(1)));
+					Assert.IsTrue(node1Task.IsCompleted);
+
+					// it should unregister
+					controllerInfo = await controllerClient.ServerInformation(cancellationToken);
+					Assert.AreEqual(2, controllerInfo.SwarmServers.Count);
+					Assert.IsFalse(controllerInfo.SwarmServers.Any(x => x.Identifier == "node1"));
+
+					// wait a few minutes for the updated server list to dispatch
+					await Task.WhenAny(
+						WaitForSwarmServerUpdate(node2Client, 3),
+						Task.Delay(TimeSpan.FromMinutes(4), cancellationToken));
+
+					node2Info = await node2Client.ServerInformation(cancellationToken);
+					Assert.AreEqual(2, node2Info.SwarmServers.Count);
+					Assert.IsFalse(node2Info.SwarmServers.Any(x => x.Identifier == "node1"));
+
+					// restart the controller
+					await controllerClient.Administration.Restart(cancellationToken);
+					await Task.WhenAny(
+						controllerTask,
+						Task.Delay(TimeSpan.FromMinutes(1), cancellationToken));
+					Assert.IsTrue(controllerTask.IsCompleted);
+
+					controllerTask = controller.Run(cancellationToken);
+					using var controllerClient2 = await CreateAdminClient(controller.Url, cancellationToken);
+
+					// node 2 should reconnect once it's health check triggers
+					await Task.WhenAny(
+						WaitForSwarmServerUpdate(controllerClient2, 1),
+						Task.Delay(TimeSpan.FromMinutes(5), cancellationToken));
+
+					controllerInfo = await controllerClient2.ServerInformation(cancellationToken);
+					Assert.AreEqual(2, controllerInfo.SwarmServers.Count);
+					Assert.IsNotNull(controllerInfo.SwarmServers.SingleOrDefault(x => x.Identifier == "node2"));
+
+					// wait a few seconds to dispatch the updated list to node2
+					await Task.Delay(TimeSpan.FromSeconds(10), cancellationToken);
+
+					// restart node2
+					await node2Client.Administration.Restart(cancellationToken);
+					await Task.WhenAny(
+						node2Task,
+						Task.Delay(TimeSpan.FromMinutes(1)));
+					Assert.IsTrue(node1Task.IsCompleted);
+
+					// should remain registered
+					controllerInfo = await controllerClient2.ServerInformation(cancellationToken);
+					Assert.AreEqual(2, controllerInfo.SwarmServers.Count);
+					Assert.IsNotNull(controllerInfo.SwarmServers.SingleOrDefault(x => x.Identifier == "node2"));
+
+					// update should fail
+					await controllerClient2.Administration.Update(new Administration
+					{
+						NewVersion = new Version(4, 6, 2)
+					}, cancellationToken);
+
+					async Task WaitForUpdateFailure()
+					{
+						ServerInformation serverInformation;
+						serverInformation = await controllerClient2.ServerInformation(cancellationToken);
+						while (serverInformation.UpdateInProgress)
+						{
+							await Task.Delay(TimeSpan.FromSeconds(10), cancellationToken);
+							serverInformation = await controllerClient2.ServerInformation(cancellationToken);
+						}
+					}
+
+					var updateFailureTask = WaitForUpdateFailure();
+					await Task.WhenAny(updateFailureTask, Task.Delay(TimeSpan.FromMinutes(5), cancellationToken));
+
+					node2Task = node2.Run(cancellationToken);
+					using var node2Client2 = await CreateAdminClient(node2.Url, cancellationToken);
+
+					// should re-register
+					await Task.WhenAny(
+						WaitForSwarmServerUpdate(node2Client2, 1),
+						Task.Delay(TimeSpan.FromMinutes(4), cancellationToken));
+
+					node2Info = await node2Client2.ServerInformation(cancellationToken);
+					Assert.AreEqual(2, node2Info.SwarmServers.Count);
+					Assert.IsNotNull(node2Info.SwarmServers.SingleOrDefault(x => x.Identifier == "controller"));
+				}
+				finally
+				{
+					serverCts.Cancel();
+					await serverTask;
+				}
+			}
+
+			new TestingServer(null, false).Dispose();
+		}
+
 		static void TerminateAllDDs()
 		{
 			foreach (var proc in System.Diagnostics.Process.GetProcessesByName("DreamDaemon"))
@@ -330,7 +522,6 @@ namespace Tgstation.Server.Tests
 			}
 		}
 
-#if DEBUG
 		[TestMethod]
 		public async Task TestDownMigrations()
 		{
@@ -475,7 +666,6 @@ namespace Tgstation.Server.Tests
 			await migrator.MigrateAsync(migrationName, default);
 			await context.Database.EnsureDeletedAsync();
 		}
-#endif
 
 		[TestMethod]
 		public async Task TestServer()
@@ -533,7 +723,7 @@ namespace Tgstation.Server.Tests
 						}
 					}
 
-					var rootTest = FailFast(new RootTest().Run(clientFactory, adminClient, cancellationToken));
+					var rootTest = FailFast(new RawRequestTests().Run(clientFactory, adminClient, cancellationToken));
 					var adminTest = FailFast(new AdministrationTest(adminClient.Administration).Run(cancellationToken));
 					var usersTest = FailFast(new UsersTest(adminClient).Run(cancellationToken));
 					instance = await new InstanceManagerTest(adminClient.Instances, adminClient.Users, server.Directory).RunPreInstanceTest(cancellationToken);
