@@ -42,6 +42,11 @@ namespace Tgstation.Server.Host.Swarm
 		const int UpdateCommitTimeoutMinutes = 10;
 
 		/// <summary>
+		/// Number of seconds between <see cref="forceHealthCheckTcs"/> triggering and a health check being performed.
+		/// </summary>
+		const int SecondsToDelayForcedHealthChecks = 15;
+
+		/// <summary>
 		/// See <see cref="JsonSerializerSettings"/> for the swarm system.
 		/// </summary>
 		static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
@@ -1060,7 +1065,13 @@ namespace Tgstation.Server.Host.Swarm
 
 					await awakeningTask.ConfigureAwait(false);
 
-					if (!swarmController && !nextForceHealthCheckTask.IsCompleted)
+					if (nextForceHealthCheckTask.IsCompleted && swarmController)
+					{
+						// Intentionally wait a few seconds for the other server to start up before interogating it
+						logger.LogTrace("Next health check triggering in {0}s...", SecondsToDelayForcedHealthChecks);
+						await asyncDelayer.Delay(TimeSpan.FromSeconds(SecondsToDelayForcedHealthChecks), cancellationToken);
+					}
+					else if (!swarmController && !nextForceHealthCheckTask.IsCompleted)
 					{
 						if (!lastControllerHealthCheck.HasValue)
 						{
