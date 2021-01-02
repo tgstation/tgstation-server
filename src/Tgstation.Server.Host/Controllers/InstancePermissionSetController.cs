@@ -48,27 +48,44 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="201"><see cref="Api.Models.InstancePermissionSet"/> created successfully.</response>
+		/// <response code="410">The <see cref="Api.Models.PermissionSet"/> does not exist.</response>
 		[HttpPut]
 		[TgsAuthorize(InstancePermissionSetRights.Create)]
 		[ProducesResponseType(typeof(Api.Models.InstancePermissionSet), 201)]
+		[ProducesResponseType(typeof(ErrorMessage), 410)]
+#pragma warning disable CA1506
 		public async Task<IActionResult> Create([FromBody] Api.Models.InstancePermissionSet model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
-			var userCanonicalName = await DatabaseContext
-				.Users
+			var existingPermissionSet = await DatabaseContext
+				.PermissionSets
 				.AsQueryable()
 				.Where(x => x.Id == model.PermissionSetId)
-				.Select(x => x.CanonicalName)
+				.Select(x => new Models.PermissionSet
+				{
+					UserId = x.UserId
+				})
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);
 
-			if (userCanonicalName == default)
-				return BadRequest(new ErrorMessage(ErrorCode.ModelValidationFailure));
+			if (existingPermissionSet == default)
+				return Gone();
 
-			if (userCanonicalName == Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
-				return Forbid();
+			if (existingPermissionSet.UserId.HasValue)
+			{
+				var userCanonicalName = await DatabaseContext
+					.Users
+					.AsQueryable()
+					.Where(x => x.Id == existingPermissionSet.UserId.Value)
+					.Select(x => x.CanonicalName)
+					.FirstAsync(cancellationToken)
+					.ConfigureAwait(false);
+
+				if (userCanonicalName == Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
+					return Forbid();
+			}
 
 			var dbUser = new Models.InstancePermissionSet
 			{
@@ -88,6 +105,7 @@ namespace Tgstation.Server.Host.Controllers
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 			return Created(dbUser.ToApi());
 		}
+		#pragma warning restore CA1506
 
 		/// <summary>
 		/// Update the permissions for an <see cref="Api.Models.InstancePermissionSet"/>.
