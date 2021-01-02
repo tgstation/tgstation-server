@@ -374,6 +374,6 @@ namespace Tgstation.Server.Host.Components
 		/// <summary>
 		/// Test that the <see cref="repositoryFactory"/> is functional.
 		/// </summary>
-		private void CheckSystemCompatibility() => repositoryFactory.CreateInMemory().Dispose();
+		private void CheckSystemCompatibility() => repositoryFactory.CreateInMemory();
 	}
 }

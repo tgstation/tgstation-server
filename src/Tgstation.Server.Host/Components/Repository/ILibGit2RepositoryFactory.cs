@@ -11,10 +11,10 @@ namespace Tgstation.Server.Host.Components.Repository
 	interface ILibGit2RepositoryFactory : ICredentialsProvider
 	{
 		/// <summary>
-		/// Create an in-memeory <see cref="LibGit2Sharp.IRepository"/>.
+		/// Create and destory an in-memeory <see cref="LibGit2Sharp.IRepository"/>.
 		/// </summary>
-		/// <returns>A new in-memory <see cref="LibGit2Sharp.IRepository"/>.</returns>
-		LibGit2Sharp.IRepository CreateInMemory();
+		/// <remarks>Used as a test of the libgit2 native library.</remarks>
+		void CreateInMemory();
 
 		/// <summary>
 		/// Load a <see cref="LibGit2Sharp.IRepository"/> from a given <paramref name="path"/>.
