@@ -332,6 +332,14 @@ Multiple tgstation-servers can be linked together in a swarm. The main benefit o
 
 In a swarm, one server is designated the 'controller'. This is the server other 'node's in the swarm communicate with and coordinates group updates. Issuing an update command to one server in a swarm will update them all to the specified version.
 
+### Swarm Server Instances
+
+Instances can be either part of a swarm or not. Once in the database they cannot switch between these states. In order to brin a non-swarmed instance into a swarmed server or vice-versa follow these steps.
+
+1. With the existing server, detach the instance.
+1. Shut down the server and configure it to be in or out of swarm mode.
+1. Reattach the instance after starting the server again.
+
 ## Usage
 
 tgstation-server v4 is controlled via a RESTful HTTP json API. Documentation on this API can be found [here](https://tgstation.github.io/tgstation-server/api.html). This section serves to document the concepts of the server. The API is versioned separately from the release version. A specification for it can be found in the api-vX.X.X git releases/tags.
