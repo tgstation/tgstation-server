@@ -90,7 +90,7 @@ namespace Tgstation.Server.Host.Models
 			ByondVersion = Version.Parse(ByondVersion),
 			MinimumSecurityLevel = MinimumSecurityLevel,
 			DMApiVersion = DMApiVersion,
-			RepositoryOrigin = new Uri(RepositoryOrigin),
+			RepositoryOrigin = RepositoryOrigin != null ? new Uri(RepositoryOrigin) : null,
 		};
 	}
 }
