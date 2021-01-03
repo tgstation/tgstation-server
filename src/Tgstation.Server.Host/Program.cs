@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -14,7 +14,6 @@ namespace Tgstation.Server.Host
 	/// </summary>
 	static class Program
 	{
-#pragma warning disable SA1401 // Fields must be private
 		/// <summary>
 		/// The expected host watchdog <see cref="Version"/>.
 		/// </summary>
@@ -24,7 +23,6 @@ namespace Tgstation.Server.Host
 		/// The <see cref="IServerFactory"/> to use.
 		/// </summary>
 		internal static IServerFactory ServerFactory = Application.CreateDefaultServerFactory();
-#pragma warning restore SA1401 // Fields must be private
 
 		/// <summary>
 		/// Entrypoint for the <see cref="Program"/>
