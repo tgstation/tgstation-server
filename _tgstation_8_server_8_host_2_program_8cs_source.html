@@ -85,74 +85,72 @@ $(function() {
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;{</div>
 <div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_program.html">   15</a></span>&#160;    <span class="keyword">static</span> <span class="keyword">class </span><a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_program.html">Program</a></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    {</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#pragma warning disable SA1401 // Fields must be private</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keyword">internal</span> <span class="keyword">static</span> readonly Version HostWatchdogVersion = <span class="keyword">new</span> Version(1, 1, 0);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keyword">internal</span> <span class="keyword">static</span> <a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server_factory.html">IServerFactory</a> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html">ServerFactory</a> = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html">Application</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a6720ad4775ff4751c0d2e00b36f0c31f">CreateDefaultServerFactory</a>();</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#pragma warning restore SA1401 // Fields must be private</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_program.html#ad9df0f26f38c75cf0c376910caef770c">   34</a></span>&#160;        <span class="keyword">public</span> <span class="keyword">static</span> async Task&lt;int&gt; <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_program.html#ad9df0f26f38c75cf0c376910caef770c">Main</a>(<span class="keywordtype">string</span>[] args)</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        {</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            <span class="comment">// first arg is 100% always the update path, starting it otherwise is solely for debugging purposes</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            var listArgs = <span class="keyword">new</span> List&lt;string&gt;(args);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            <span class="keywordtype">string</span> updatePath = <span class="keyword">null</span>;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            <span class="keywordflow">if</span> (listArgs.Count &gt; 0)</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            {</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                updatePath = listArgs.First();</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                listArgs.RemoveAt(0);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                <span class="comment">// second arg should be host watchdog version</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                <span class="keywordflow">if</span> (listArgs.Count &gt; 0</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                    &amp;&amp; Version.TryParse(listArgs.First(), out var hostWatchdogVersion)</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                    &amp;&amp; hostWatchdogVersion.Major != HostWatchdogVersion.Major)</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                        $<span class="stringliteral">&quot;Incompatible host watchdog version ({hostWatchdogVersion}) for server ({HostWatchdogVersion})! A major update was released and a full restart will be required. Please manually offline your servers!&quot;</span>);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                <span class="keywordflow">if</span> (listArgs.Remove(<span class="stringliteral">&quot;--attach-debugger&quot;</span>))</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                    Debugger.Launch();</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            }</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            var updatedArgsArray = listArgs.ToArray();</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            {</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                <span class="keyword">using</span> var shutdownNotifier = <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_program_shutdown_token_source.html">ProgramShutdownTokenSource</a>();</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                var cancellationToken = shutdownNotifier.Token;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                <a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server.html">IServer</a> server;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                {</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                    server = await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html">ServerFactory</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a4234b15ede546c23f9b5d35bc5c8749b">CreateServer</a>(updatedArgsArray, updatePath, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                }</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                <span class="keywordflow">catch</span> (OperationCanceledException)</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                {</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                    <span class="comment">// Console cancelled</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                }</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                <span class="keywordflow">if</span> (server == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                {</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                    await server.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server.html#a2b5c3521d783dd9eee7a3e4f2e03fc9f">Run</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                }</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                <span class="keywordflow">catch</span> (OperationCanceledException) { }</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                <span class="keywordflow">return</span> server.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server.html#ac87902a08c496cd40add682a2ec6c616">RestartRequested</a> ? 1 : 0;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            }</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <span class="keywordflow">catch</span> (Exception e)</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            {</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                <span class="keywordflow">if</span> (updatePath != <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                {</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                    <span class="comment">// DCT: None available, operation should always run</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                    await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html">ServerFactory</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a00dd1ed657781fec45931a35278ac3a2">IOManager</a>.WriteAllBytes(updatePath, Encoding.UTF8.GetBytes(e.ToString()), <span class="keywordflow">default</span>).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                    <span class="keywordflow">return</span> 2;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                }</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                <span class="comment">// If you hit an exception debug break on this line it caused the application to crash</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            }</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        }</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    }</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;}</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keyword">internal</span> <span class="keyword">static</span> readonly Version HostWatchdogVersion = <span class="keyword">new</span> Version(1, 1, 0);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keyword">internal</span> <span class="keyword">static</span> <a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server_factory.html">IServerFactory</a> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html">ServerFactory</a> = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html">Application</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a6720ad4775ff4751c0d2e00b36f0c31f">CreateDefaultServerFactory</a>();</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_program.html#ad9df0f26f38c75cf0c376910caef770c">   32</a></span>&#160;        <span class="keyword">public</span> <span class="keyword">static</span> async Task&lt;int&gt; <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_program.html#ad9df0f26f38c75cf0c376910caef770c">Main</a>(<span class="keywordtype">string</span>[] args)</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        {</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            <span class="comment">// first arg is 100% always the update path, starting it otherwise is solely for debugging purposes</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            var listArgs = <span class="keyword">new</span> List&lt;string&gt;(args);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            <span class="keywordtype">string</span> updatePath = <span class="keyword">null</span>;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            <span class="keywordflow">if</span> (listArgs.Count &gt; 0)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                updatePath = listArgs.First();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                listArgs.RemoveAt(0);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                <span class="comment">// second arg should be host watchdog version</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                <span class="keywordflow">if</span> (listArgs.Count &gt; 0</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                    &amp;&amp; Version.TryParse(listArgs.First(), out var hostWatchdogVersion)</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                    &amp;&amp; hostWatchdogVersion.Major != HostWatchdogVersion.Major)</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                        $<span class="stringliteral">&quot;Incompatible host watchdog version ({hostWatchdogVersion}) for server ({HostWatchdogVersion})! A major update was released and a full restart will be required. Please manually offline your servers!&quot;</span>);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                <span class="keywordflow">if</span> (listArgs.Remove(<span class="stringliteral">&quot;--attach-debugger&quot;</span>))</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                    Debugger.Launch();</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            }</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            var updatedArgsArray = listArgs.ToArray();</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                <span class="keyword">using</span> var shutdownNotifier = <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_program_shutdown_token_source.html">ProgramShutdownTokenSource</a>();</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                var cancellationToken = shutdownNotifier.Token;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                <a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server.html">IServer</a> server;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                {</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                    server = await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html">ServerFactory</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a4234b15ede546c23f9b5d35bc5c8749b">CreateServer</a>(updatedArgsArray, updatePath, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                }</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                <span class="keywordflow">catch</span> (OperationCanceledException)</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                {</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                    <span class="comment">// Console cancelled</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                }</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                <span class="keywordflow">if</span> (server == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                {</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                    await server.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server.html#a2b5c3521d783dd9eee7a3e4f2e03fc9f">Run</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                }</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                <span class="keywordflow">catch</span> (OperationCanceledException) { }</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                <span class="keywordflow">return</span> server.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_i_server.html#ac87902a08c496cd40add682a2ec6c616">RestartRequested</a> ? 1 : 0;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            }</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            <span class="keywordflow">catch</span> (Exception e)</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            {</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                <span class="keywordflow">if</span> (updatePath != <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                {</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                    <span class="comment">// DCT: None available, operation should always run</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                    await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html">ServerFactory</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a00dd1ed657781fec45931a35278ac3a2">IOManager</a>.WriteAllBytes(updatePath, Encoding.UTF8.GetBytes(e.ToString()), <span class="keywordflow">default</span>).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                    <span class="keywordflow">return</span> 2;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                }</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                <span class="comment">// If you hit an exception debug break on this line it caused the application to crash</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            }</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        }</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    }</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_system_1_1_program_shutdown_token_source_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_system_1_1_program_shutdown_token_source.html">Tgstation.Server.Host.System.ProgramShutdownTokenSource</a></div><div class="ttdoc">Contains a CancellationToken that triggers when the operating system requests the program shuts down.</div><div class="ttdef"><b>Definition:</b> <a href="_program_shutdown_token_source_8cs_source.html#l00009">ProgramShutdownTokenSource.cs:10</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_application_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html">Tgstation.Server.Host.Core.Application</a></div><div class="ttdoc">Sets up dependency injection.</div><div class="ttdef"><b>Definition:</b> <a href="_application_8cs_source.html#l00056">Application.cs:57</a></div></div>
@@ -168,7 +166,7 @@ $(function() {
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_host_1_1_system_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_host_1_1_system.html">Tgstation.Server.Host.System</a></div><div class="ttdef"><b>Definition:</b> <a href="_assembly_information_provider_8cs_source.html#l00006">AssemblyInformationProvider.cs:7</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_server_html_ac87902a08c496cd40add682a2ec6c616"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_server.html#ac87902a08c496cd40add682a2ec6c616">Tgstation.Server.Host.IServer.RestartRequested</a></div><div class="ttdeci">bool RestartRequested</div><div class="ttdoc">If the IServer should restart</div><div class="ttdef"><b>Definition:</b> <a href="_i_server_8cs_source.html#l00014">IServer.cs:14</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_i_server_factory_html"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_i_server_factory.html">Tgstation.Server.Host.IServerFactory</a></div><div class="ttdoc">For creating IServers</div><div class="ttdef"><b>Definition:</b> <a href="_i_server_factory_8cs_source.html#l00010">IServerFactory.cs:11</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_program_html_ad9df0f26f38c75cf0c376910caef770c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_program.html#ad9df0f26f38c75cf0c376910caef770c">Tgstation.Server.Host.Program.Main</a></div><div class="ttdeci">static async Task&lt; int &gt; Main(string[] args)</div><div class="ttdoc">Entrypoint for the Program</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_host_2_program_8cs_source.html#l00034">Program.cs:34</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_program_html_ad9df0f26f38c75cf0c376910caef770c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_program.html#ad9df0f26f38c75cf0c376910caef770c">Tgstation.Server.Host.Program.Main</a></div><div class="ttdeci">static async Task&lt; int &gt; Main(string[] args)</div><div class="ttdoc">Entrypoint for the Program</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_host_2_program_8cs_source.html#l00032">Program.cs:32</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_html"><div class="ttname"><a href="namespace_tgstation_1_1_server.html">Tgstation.Server</a></div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00013">ApiHeaders.cs:14</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_server_factory_html_a4234b15ede546c23f9b5d35bc5c8749b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_server_factory.html#a4234b15ede546c23f9b5d35bc5c8749b">Tgstation.Server.Host.ServerFactory.CreateServer</a></div><div class="ttdeci">async Task&lt; IServer &gt; CreateServer(string[] args, string updatePath, CancellationToken cancellationToken)</div><div class="ttdoc">Create a IServer</div><div class="ttdef"><b>Definition:</b> <a href="_server_factory_8cs_source.html#l00045">ServerFactory.cs:45</a></div></div>
 <!-- start footer part -->
