@@ -1,6 +1,6 @@
 # tgstation-server v4:
 
-![CI](https://github.com/tgstation/tgstation-server/workflows/CI/badge.svg) [![Build Status](https://travis-ci.org/tgstation/tgstation-server.svg?branch=master)](https://travis-ci.org/tgstation/tgstation-server) [![codecov](https://codecov.io/gh/tgstation/tgstation-server/branch/master/graph/badge.svg)](https://codecov.io/gh/tgstation/tgstation-server)
+![CI](https://github.com/tgstation/tgstation-server/workflows/CI/badge.svg) [![codecov](https://codecov.io/gh/tgstation/tgstation-server/branch/master/graph/badge.svg)](https://codecov.io/gh/tgstation/tgstation-server)
 
 [![GitHub license](https://img.shields.io/github/license/tgstation/tgstation-server.svg)](LICENSE) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/tgstation/tgstation-server.svg)](http://isitmaintained.com/project/tgstation/tgstation-server "Average time to resolve an issue") [![NuGet version](https://img.shields.io/nuget/v/Tgstation.Server.Api.svg)](https://www.nuget.org/packages/Tgstation.Server.Api) [![NuGet version](https://img.shields.io/nuget/v/Tgstation.Server.Client.svg)](https://www.nuget.org/packages/Tgstation.Server.Client)
 
@@ -57,7 +57,7 @@ docker run \
 	--name="tgs" \ # Name for the container
 	--cap-add=sys_nice \ # Recommended, allows tgs to schedule DreamDaemon as a higher priority process
 	--init \ #Highly recommended, reaps potential zombie processes
-	-p <tgs port>:<port configured with setup wizard> \ # Port bridge for accessing TGS
+	-p 5000:5000 \ # Port bridge for accessing TGS, you can change this if you need
 	-p 0.0.0.0:<public game port>:<public game port> \ # Port bridge for accessing DreamDaemon
 	-v /path/to/your/configfile/directory:/config_data \ # Recommended, create a volume mapping for server configuration
 	-v /path/to/store/instances:/tgs4_instances \ # Recommended, create a volume mapping for server instances
@@ -86,9 +86,19 @@ The first time you run TGS4 you should be prompted with a configuration wizard w
 
 This wizard will, generally, run whenever the server is launched without detecting the config json. Follow the instructions below to perform this process manually.
 
+#### Configuration Methods
+
+There are 3 primary supported ways to configure TGS:
+
+- Modify the `appsettings.Production.json` file (Recommended).
+- Set environment variables in the form `Section__Subsection=value` or `Section__ArraySubsection__0=value` for arrays.
+- Set command line arguments in the form `--Section:Subsection=value` or `--Section:ArraySubsection:0=value` for arrays.
+
+The latter two are not recommended as they cannot be dynamically changed at runtime. See more on ASP.NET core configuration [here](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-3.1).
+
 #### Manual Configuration
 
-Create an `appsettings.Production.json` file next to `appsettings.json`. This will override the default settings in appsettings.json with your production settings. There are a few keys meant to be changed by hosts. Modifying any config files while the server is running will trigger a safe restart (Keeps DreamDaemon's running). Note these are all case-sensitive:
+Create an `appsettings.Production.json` file next to `appsettings.json`. This will override the default settings in appsettings.json with your production settings. There are a few keys meant to be changed by hosts. Modifying any config files while the server is running will trigger a safe restart (Keeps DreamDaemon instances running). Note these are all case-sensitive:
 
 - `General:ConfigVersion`: Suppresses warnings about out of date config versions. You should change this after updating TGS to one with a new config version. The current version can be found on the releases page for your server version (This field did not exist before v4.4.0).
 
@@ -119,6 +129,41 @@ Create an `appsettings.Production.json` file next to `appsettings.json`. This wi
 - `ControlPanel:AllowAnyOrigin`: Set the Access-Control-Allow-Origin header to * for all responses (also enables all headers and methods)
 
 - `ControlPanel:AllowedOrigins`: Set the Access-Control-Allow-Origin headers to this list of origins for all responses (also enables all headers and methods). This is overridden by `ControlPanel:AllowAnyOrigin`
+
+- `Swarm`: This section should be left `null` unless using the server swarm system. If this is to happen, ensure all swarm servers are set to connect to the same database.
+
+- `Swarm:PrivateKey`: Should be a secure string set identically on all swarmed servers.
+
+- `Swarm:ControllerAddress`: Should be set on all swarmed servers that are **not** the controller server and should be an address the controller server may be reached at.
+
+- `Swarm:Address`: Should be set on all swarmed servers. Should be an address the server can be reached at by other servers in the swarm.
+
+- `Swarm:Identifier` should be set uniquely on all swarmed servers. Used to identify the current server. This is also used to select which instances exist on the current machine and should not be changed post-setup.
+
+- `Security:OAuth:<Provider Name>`: Sets the OAuth client ID and secret for a given `<Provider Name>`. The currently supported providers are `GitHub`, `Discord`, and `TGForums`. Setting these fields to `null` disables logins with the provider, but does not stop users from associating their accounts using the API. Sample Entry:
+```json
+{
+	"Security": {
+		"OAuth": {
+			"Keycloak": {
+				"ClientId": "...",
+				"ClientSecret": "...",
+				"RedirectUrl": "...",
+				"ServerUrl": "..."
+			}
+		}
+	}
+}
+```
+The following providers use the `RedirectUrl` setting:
+
+- GitHub
+- TGForums
+- Keycloak
+
+The following providers use the `ServerUrl` setting:
+
+- Keycloak
 
 ### Database Configuration
 
@@ -281,6 +326,12 @@ Example VirtualHost Entry
 </IfModule>
 ```
 
+## Swarmed Servers
+
+Multiple tgstation-servers can be linked together in a swarm. The main benefit of this is allowing for users, groups, and permissions to be shared across the servers. Servers in a swarm must connect to the same database, use the same tgstation-server version, and have their own unique names.
+
+In a swarm, one server is designated the 'controller'. This is the server other 'node's in the swarm communicate with and coordinates group updates. Issuing an update command to one server in a swarm will update them all to the specified version.
+
 ## Usage
 
 tgstation-server v4 is controlled via a RESTful HTTP json API. Documentation on this API can be found [here](https://tgstation.github.io/tgstation-server/api.html). This section serves to document the concepts of the server. The API is versioned separately from the release version. A specification for it can be found in the api-vX.X.X git releases/tags.
@@ -371,11 +422,10 @@ TGS 4 can self update without stopping your DreamDaemon servers. Any V4 release 
 
 Here are tools for interacting with the TGS 4 web API
 
-- [tgstation-server-control-panel]: Official client and included with the server (WIP). A react web app for using tgstation-server.
-- [Tgstation.Server.ControlPanel](https://github.com/tgstation/Tgstation.Server.ControlPanel): Official client. A cross platform GUI for using tgstation-server
-- [Tgstation.Server.Client](https://www.nuget.org/packages/Tgstation.Server.Client): A nuget .NET Standard 2.0 TAP based library for communicating with tgstation-server
-- [Tgstation.Server.Api](https://www.nuget.org/packages/Tgstation.Server.Api): A nuget .NET Standard 2.0 library containing API definitions for tgstation-server
-- [Postman](https://www.getpostman.com/): This repository contains [TGS.postman_collection.json](tools/TGS.postman_collection.json) which is used during development for testing. Contains example requests for all endpoints but takes some knowledge to use (Note that the pre-request script is configured to login the default admin user for every request)
+- [tgstation-server-webpanel](https://github.com/tgstation/tgstation-server-webpanel): Official client and included with the server (WIP). A react web app for using tgstation-server.
+- [Tgstation.Server.ControlPanel](https://github.com/tgstation/Tgstation.Server.ControlPanel): Official client. A cross platform GUI for using tgstation-server. Feature complete but lacks OAuth login options.
+- [Tgstation.Server.Client](https://www.nuget.org/packages/Tgstation.Server.Client): A nuget .NET Standard 2.0 TAP based library for communicating with tgstation-server. Feature complete.
+- [Tgstation.Server.Api](https://www.nuget.org/packages/Tgstation.Server.Api): A nuget .NET Standard 2.0 library containing API definitions for tgstation-server. Feature complete.
 
 Contact project maintainers to get your client added to this list
 

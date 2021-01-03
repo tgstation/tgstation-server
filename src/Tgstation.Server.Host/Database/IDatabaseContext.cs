@@ -14,64 +14,79 @@ namespace Tgstation.Server.Host.Database
 	public interface IDatabaseContext
 	{
 		/// <summary>
-		/// The <see cref="User"/>s in the <see cref="IDatabaseContext"/>
+		/// The <see cref="User"/>s in the <see cref="IDatabaseContext"/>.
 		/// </summary>
 		IDatabaseCollection<User> Users { get; }
 
 		/// <summary>
-		/// The <see cref="Instance"/>s in the <see cref="IDatabaseContext"/>
+		/// The <see cref="Instance"/>s in the <see cref="IDatabaseContext"/>.
 		/// </summary>
 		IDatabaseCollection<Instance> Instances { get; }
 
 		/// <summary>
-		/// The <see cref="InstanceUser"/>s in the <see cref="IDatabaseContext"/>
+		/// The <see cref="InstancePermissionSet"/>s in the <see cref="IDatabaseContext"/>.
 		/// </summary>
-		IDatabaseCollection<InstanceUser> InstanceUsers { get; }
+		IDatabaseCollection<InstancePermissionSet> InstancePermissionSets { get; }
 
 		/// <summary>
-		/// The <see cref="Job"/>s in the <see cref="IDatabaseContext"/>
+		/// The <see cref="Job"/>s in the <see cref="IDatabaseContext"/>.
 		/// </summary>
 		IDatabaseCollection<Job> Jobs { get; }
 
 		/// <summary>
-		/// The <see cref="CompileJob"/>s in the <see cref="IDatabaseContext"/>
+		/// The <see cref="CompileJob"/>s in the <see cref="IDatabaseContext"/>.
 		/// </summary>
 		IDatabaseCollection<CompileJob> CompileJobs { get; }
 
 		/// <summary>
-		/// The <see cref="RevisionInformation"/>s in the <see cref="IDatabaseContext"/>
+		/// The <see cref="RevisionInformation"/>s in the <see cref="IDatabaseContext"/>.
 		/// </summary>
 		IDatabaseCollection<RevisionInformation> RevisionInformations { get; }
 
 		/// <summary>
-		/// The <see cref="Models.DreamMakerSettings"/> in the <see cref="IDatabaseContext"/>
+		/// The <see cref="Models.DreamMakerSettings"/> in the <see cref="IDatabaseContext"/>.
 		/// </summary>
 		IDatabaseCollection<DreamMakerSettings> DreamMakerSettings { get; }
 
 		/// <summary>
-		/// The <see cref="Models.DreamDaemonSettings"/> in the <see cref="IDatabaseContext"/>
+		/// The <see cref="Models.DreamDaemonSettings"/> in the <see cref="IDatabaseContext"/>.
 		/// </summary>
 		IDatabaseCollection<DreamDaemonSettings> DreamDaemonSettings { get; }
 
 		/// <summary>
-		/// The <see cref="ChatBot"/>s in the <see cref="IDatabaseContext"/>
+		/// The <see cref="ChatBot"/>s in the <see cref="IDatabaseContext"/>.
 		/// </summary>
 		IDatabaseCollection<ChatBot> ChatBots { get; }
 
 		/// <summary>
-		/// The <see cref="ChatChannel"/> in the <see cref="IDatabaseContext"/>
+		/// The <see cref="ChatChannel"/> in the <see cref="IDatabaseContext"/>.
 		/// </summary>
 		IDatabaseCollection<ChatChannel> ChatChannels { get; }
 
 		/// <summary>
-		/// The <see cref="Models.RepositorySettings"/> in the <see cref="IDatabaseContext"/>
+		/// The <see cref="Models.RepositorySettings"/> in the <see cref="IDatabaseContext"/>.
 		/// </summary>
 		IDatabaseCollection<RepositorySettings> RepositorySettings { get; }
 
 		/// <summary>
-		/// The <see cref="DbSet{TEntity}"/> for <see cref="ReattachInformation"/>s
+		/// The <see cref="DbSet{TEntity}"/> for <see cref="ReattachInformation"/>s.
 		/// </summary>
 		IDatabaseCollection<ReattachInformation> ReattachInformations { get; }
+
+		/// <summary>
+		/// The <see cref="DbSet{TEntity}"/> for <see cref="OAuthConnection"/>s.
+		/// </summary>
+		IDatabaseCollection<OAuthConnection> OAuthConnections { get; }
+
+		/// <summary>
+		/// The <see cref="DbSet{TEntity}"/> for <see cref="UserGroup"/>s.
+		/// </summary>
+		IDatabaseCollection<UserGroup> Groups { get; }
+
+		/// <summary>
+		/// The <see cref="DbSet{TEntity}"/> for <see cref="PermissionSet"/>s.
+		/// </summary>
+		IDatabaseCollection<PermissionSet> PermissionSets { get; }
 
 		/// <summary>
 		/// Saves changes made to the <see cref="IDatabaseContext"/>

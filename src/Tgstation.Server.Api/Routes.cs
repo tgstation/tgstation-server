@@ -29,6 +29,11 @@ namespace Tgstation.Server.Api
 		public const string User = Root + nameof(Models.User);
 
 		/// <summary>
+		/// The <see cref="Models.UserGroup"/> controller.
+		/// </summary>
+		public const string UserGroup = Root + nameof(Models.UserGroup);
+
+		/// <summary>
 		/// The <see cref="Models.Instance"/> controller
 		/// </summary>
 		public const string InstanceManager = Root + nameof(Models.Instance);
@@ -69,9 +74,9 @@ namespace Tgstation.Server.Api
 		public const string ConfigurationFile = Configuration + "/" + File;
 
 		/// <summary>
-		/// The <see cref="Models.InstanceUser"/> controller
+		/// The <see cref="Models.InstancePermissionSet"/> controller
 		/// </summary>
-		public const string InstanceUser = Root + nameof(Models.InstanceUser);
+		public const string InstancePermissionSet = Root + nameof(Models.InstancePermissionSet);
 
 		/// <summary>
 		/// The <see cref="Models.ChatBot"/> controller
@@ -87,6 +92,11 @@ namespace Tgstation.Server.Api
 		/// The <see cref="Models.Job"/> controller
 		/// </summary>
 		public const string Jobs = Root + nameof(Models.Job);
+
+		/// <summary>
+		/// The transfer controller.
+		/// </summary>
+		public const string Transfer = Root + "Transfer";
 
 		/// <summary>
 		/// The postfix for list operations
@@ -109,7 +119,7 @@ namespace Tgstation.Server.Api
 		public static string ListRoute(string route) => String.Format(CultureInfo.InvariantCulture, "{0}/{1}", route, List);
 
 		/// <summary>
-		/// Sanitize a <see cref="Models.Internal.RawData"/> path for use in a GET <see cref="Uri"/>.
+		/// Sanitize a <see cref="Models.FileTicketResult"/> path for use in a GET <see cref="Uri"/>.
 		/// </summary>
 		/// <param name="path">The path to sanitize.</param>
 		/// <returns>The sanitized path.</returns>

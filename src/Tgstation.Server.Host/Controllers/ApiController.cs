@@ -1,9 +1,15 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.Extensions.Logging;
+using Microsoft.Net.Http.Headers;
+using Octokit;
 using Serilog.Context;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Mime;
@@ -12,6 +18,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 
 namespace Tgstation.Server.Host.Controllers
@@ -23,6 +30,16 @@ namespace Tgstation.Server.Host.Controllers
 	[ApiController]
 	public abstract class ApiController : Controller
 	{
+		/// <summary>
+		/// Default size of <see cref="Paginated{TModel}"/> results.
+		/// </summary>
+		private const ushort DefaultPageSize = 10;
+
+		/// <summary>
+		/// Maximum size of <see cref="Paginated{TModel}"/> results.
+		/// </summary>
+		private const ushort MaximumPageSize = 100;
+
 		/// <summary>
 		/// The <see cref="ApiHeaders"/> for the operation
 		/// </summary>
@@ -60,7 +77,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="authenticationContextFactory">The <see cref="IAuthenticationContextFactory"/> for the <see cref="ApiController"/></param>
 		/// <param name="logger">The value of <see cref="Logger"/></param>
 		/// <param name="requireHeaders">The value of <see cref="requireHeaders"/></param>
-		public ApiController(
+		protected ApiController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
 			ILogger<ApiController> logger,
@@ -71,7 +88,7 @@ namespace Tgstation.Server.Host.Controllers
 				throw new ArgumentNullException(nameof(authenticationContextFactory));
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			AuthenticationContext = authenticationContextFactory.CurrentAuthenticationContext;
-			Instance = AuthenticationContext?.InstanceUser?.Instance;
+			Instance = AuthenticationContext?.InstancePermissionSet?.Instance;
 			this.requireHeaders = requireHeaders;
 		}
 
@@ -116,6 +133,22 @@ namespace Tgstation.Server.Host.Controllers
 		protected ObjectResult Created(object payload) => StatusCode((int)HttpStatusCode.Created, payload);
 
 		/// <summary>
+		/// 429 response for a given <paramref name="rateLimitException"/>.
+		/// </summary>
+		/// <param name="rateLimitException">The <see cref="RateLimitExceededException"/> that occurred.</param>
+		/// <returns>A <see cref="HttpStatusCode.TooManyRequests"/> <see cref="ObjectResult"/>.</returns>
+		protected ObjectResult RateLimit(RateLimitExceededException rateLimitException)
+		{
+			if (rateLimitException == null)
+				throw new ArgumentNullException(nameof(rateLimitException));
+
+			Logger.LogWarning(rateLimitException, "Exceeded GitHub rate limit!");
+			var secondsString = Math.Ceiling((rateLimitException.Reset - DateTimeOffset.UtcNow).TotalSeconds).ToString(CultureInfo.InvariantCulture);
+			Response.Headers.Add(HeaderNames.RetryAfter, secondsString);
+			return StatusCode(HttpStatusCode.TooManyRequests, new ErrorMessage(ErrorCode.GitHubApiRateLimit));
+		}
+
+		/// <summary>
 		/// Performs validation a request.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
@@ -126,13 +159,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Response for missing/Invalid headers.
 		/// </summary>
+		/// <param name="ignoreMissingAuth">Whether or not errors due to missing <see cref="HeaderNames.Authorization"/> should be thrown.</param>
 		/// <returns>The appropriate <see cref="IActionResult"/>.</returns>
-		protected IActionResult HeadersIssue()
+		protected IActionResult HeadersIssue(bool ignoreMissingAuth)
 		{
 			HeadersException headersException;
 			try
 			{
-				var _ = new ApiHeaders(Request.GetTypedHeaders());
+				var _ = new ApiHeaders(Request.GetTypedHeaders(), ignoreMissingAuth);
 				throw new InvalidOperationException("Expected a header parse exception!");
 			}
 			catch (HeadersException ex)
@@ -196,7 +230,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				if (requireHeaders)
 				{
-					await HeadersIssue()
+					await HeadersIssue(false)
 						.ExecuteResultAsync(context)
 						.ConfigureAwait(false);
 					return;
@@ -239,12 +273,148 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				if (ApiHeaders != null)
 					Logger.LogDebug(
-						"Starting API Request: Version: {0}. User-Agent: {1}",
+						"Starting API request: Version: {0}. {1}: {2}",
 						ApiHeaders.ApiVersion.Semver(),
+						HeaderNames.UserAgent,
 						ApiHeaders.RawUserAgent);
+				else if (Request.Headers.TryGetValue(HeaderNames.UserAgent, out var userAgents))
+					Logger.LogDebug(
+						"Starting unauthorized API request. {0}: {1}",
+						HeaderNames.UserAgent,
+						userAgents);
+				else
+					Logger.LogDebug(
+						"Starting unauthorized API request. No {0}!",
+						HeaderNames.UserAgent);
 				await base.OnActionExecutionAsync(context, next).ConfigureAwait(false);
 			}
 		}
-		#pragma warning restore CA1506
+#pragma warning restore CA1506
+
+		/// <summary>
+		/// Generates a paginated response.
+		/// </summary>
+		/// <typeparam name="TModel">The <see cref="Type"/> of model being generated and returned.</typeparam>
+		/// <param name="queryGenerator">A <see cref="Func{TResult}"/> resulting in a <see cref="Task{TResult}"/> resulting in the generated <see cref="PaginatableResult{TModel}"/>.</param>
+		/// <param name="resultTransformer">An <see cref="Action{T1}"/> to transform the <typeparamref name="TModel"/>s after being queried.</param>
+		/// <param name="pageQuery">The requested page from the query.</param>
+		/// <param name="pageSizeQuery">The requested page size from the query.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		protected Task<IActionResult> Paginated<TModel>(
+			Func<Task<PaginatableResult<TModel>>> queryGenerator,
+			Action<TModel> resultTransformer,
+			int? pageQuery,
+			int? pageSizeQuery,
+			CancellationToken cancellationToken) => PaginatedImpl<TModel, TModel>(
+				queryGenerator,
+				resultTransformer,
+				pageQuery,
+				pageSizeQuery,
+				cancellationToken);
+
+		/// <summary>
+		/// Generates a paginated response.
+		/// </summary>
+		/// <typeparam name="TModel">The <see cref="Type"/> of model being generated.</typeparam>
+		/// <typeparam name="TApiModel">The <see cref="Type"/> of model being returned.</typeparam>
+		/// <param name="queryGenerator">A <see cref="Func{TResult}"/> resulting in a <see cref="Task{TResult}"/> resulting in the generated <see cref="PaginatableResult{TModel}"/>.</param>
+		/// <param name="resultTransformer">An <see cref="Action{T1}"/> to transform the <typeparamref name="TModel"/>s after being queried.</param>
+		/// <param name="pageQuery">The requested page from the query.</param>
+		/// <param name="pageSizeQuery">The requested page size from the query.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		protected Task<IActionResult> Paginated<TModel, TApiModel>(
+			Func<Task<PaginatableResult<TModel>>> queryGenerator,
+			Action<TModel> resultTransformer,
+			int? pageQuery,
+			int? pageSizeQuery,
+			CancellationToken cancellationToken)
+			where TModel : IApiTransformable<TApiModel>
+			=> PaginatedImpl<TModel, TApiModel>(
+				queryGenerator,
+				resultTransformer,
+				pageQuery,
+				pageSizeQuery,
+				cancellationToken);
+
+		/// <summary>
+		/// Generates a paginated response.
+		/// </summary>
+		/// <typeparam name="TModel">The <see cref="Type"/> of model being generated. If different from <typeparamref name="TResultModel"/>, must implement <see cref="IApiTransformable{TApiModel}"/> for <typeparamref name="TResultModel"/>.</typeparam>
+		/// <typeparam name="TResultModel">The <see cref="Type"/> of model being returned.</typeparam>
+		/// <param name="queryGenerator">A <see cref="Func{TResult}"/> resulting in a <see cref="Task{TResult}"/> resulting in the generated <see cref="PaginatableResult{TModel}"/>.</param>
+		/// <param name="resultTransformer">An <see cref="Action{T1}"/> to transform the <typeparamref name="TModel"/>s after being queried.</param>
+		/// <param name="pageQuery">The requested page from the query.</param>
+		/// <param name="pageSizeQuery">The requested page size from the query.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
+		async Task<IActionResult> PaginatedImpl<TModel, TResultModel>(
+			Func<Task<PaginatableResult<TModel>>> queryGenerator,
+			Action<TModel> resultTransformer,
+			int? pageQuery,
+			int? pageSizeQuery,
+			CancellationToken cancellationToken)
+		{
+			if (queryGenerator == null)
+				throw new ArgumentNullException(nameof(queryGenerator));
+
+			if (pageQuery <= 0 || pageSizeQuery <= 0)
+				return BadRequest(new ErrorMessage(ErrorCode.ApiInvalidPageOrPageSize));
+
+			var pageSize = pageSizeQuery ?? DefaultPageSize;
+			if (pageSize > MaximumPageSize)
+				return BadRequest(new ErrorMessage(ErrorCode.ApiPageTooLarge)
+				{
+					AdditionalData = $"Maximum page size: {MaximumPageSize}"
+				});
+
+			var page = pageQuery ?? 1;
+
+			var paginationResult = await queryGenerator().ConfigureAwait(false);
+			if (paginationResult.EarlyOut != null)
+				return paginationResult.EarlyOut;
+
+			var queriedResults = paginationResult
+				.Results
+				.Skip((page - 1) * pageSize)
+				.Take(pageSize);
+
+			int totalResults;
+			List<TModel> pagedResults;
+			if (queriedResults.Provider is IAsyncQueryProvider)
+			{
+				totalResults = await paginationResult.Results.CountAsync(cancellationToken).ConfigureAwait(false);
+				pagedResults = await queriedResults
+					.ToListAsync(cancellationToken)
+					.ConfigureAwait(false);
+			}
+			else
+			{
+				totalResults = paginationResult.Results.Count();
+				pagedResults = queriedResults.ToList();
+			}
+
+			if (resultTransformer != null)
+				foreach (var I in pagedResults)
+					resultTransformer(I);
+
+			ICollection<TResultModel> finalResults;
+			if (typeof(TModel) == typeof(TResultModel))
+				finalResults = (List<TResultModel>)(object)pagedResults; // clearly a safe cast
+			else
+				finalResults = pagedResults
+					.OfType<IApiTransformable<TResultModel>>()
+					.Select(x => x.ToApi())
+					.ToList();
+
+			return Json(
+				new Paginated<TResultModel>
+				{
+					Content = finalResults,
+					PageSize = pageSize,
+					TotalPages = (ushort)((totalResults / pageSize) + 1)
+				});
+		}
 	}
 }

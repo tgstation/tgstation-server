@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Components.Deployment.Remote;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Models;
@@ -41,9 +42,9 @@ namespace Tgstation.Server.Host.Components.Deployment
 		readonly IIOManager ioManager;
 
 		/// <summary>
-		/// The <see cref="IGitHubDeploymentManager"/> for the <see cref="DmbFactory"/>.
+		/// The <see cref="IRemoteDeploymentManagerFactory"/> for the <see cref="DmbFactory"/>.
 		/// </summary>
-		readonly IGitHubDeploymentManager gitHubDeploymentManager;
+		readonly IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory;
 
 		/// <summary>
 		/// The <see cref="ILogger"/> for the <see cref="DmbFactory"/>
@@ -53,7 +54,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <summary>
 		/// The <see cref="Api.Models.Instance"/> for the <see cref="DmbFactory"/>
 		/// </summary>
-		readonly Api.Models.Instance instance;
+		readonly Api.Models.Instance metadata;
 
 		/// <summary>
 		/// The <see cref="CancellationTokenSource"/> for <see cref="cleanupTask"/>
@@ -90,21 +91,21 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// </summary>
 		/// <param name="databaseContextFactory">The value of <see cref="databaseContextFactory"/></param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
-		/// <param name="gitHubDeploymentManager">The value of <see cref="gitHubDeploymentManager"/>.</param>
+		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
-		/// <param name="instance">The value of <see cref="instance"/></param>
+		/// <param name="metadata">The value of <see cref="metadata"/></param>
 		public DmbFactory(
 			IDatabaseContextFactory databaseContextFactory,
 			IIOManager ioManager,
-			IGitHubDeploymentManager gitHubDeploymentManager,
+			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
 			ILogger<DmbFactory> logger,
-			Api.Models.Instance instance)
+			Api.Models.Instance metadata)
 		{
 			this.databaseContextFactory = databaseContextFactory ?? throw new ArgumentNullException(nameof(databaseContextFactory));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
-			this.gitHubDeploymentManager = gitHubDeploymentManager ?? throw new ArgumentNullException(nameof(gitHubDeploymentManager));
+			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
+			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
 
 			cleanupTask = Task.CompletedTask;
 			newerDmbTcs = new TaskCompletionSource<object>();
@@ -124,9 +125,12 @@ namespace Tgstation.Server.Host.Components.Deployment
 			async Task HandleCleanup()
 			{
 				var deleteJob = ioManager.DeleteDirectory(job.DirectoryName.ToString(), cleanupCts.Token);
+				var remoteDeploymentManager = remoteDeploymentManagerFactory.CreateRemoteDeploymentManager(
+					metadata,
+					job);
 
 				// DCT: None available
-				var deploymentJob = gitHubDeploymentManager.MarkInactive(job, default);
+				var deploymentJob = remoteDeploymentManager.MarkInactive(job, default);
 				var otherTask = cleanupTask;
 				await Task.WhenAll(otherTask, deleteJob, deploymentJob).ConfigureAwait(false);
 			}
@@ -157,10 +161,15 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 			// Do this first, because it's entirely possible when we set the tcs it will immediately need to be applied
 			if (started)
-				await gitHubDeploymentManager.StageDeployment(
-					newProvider.CompileJob,
-					cancellationToken)
-					.ConfigureAwait(false);
+			{
+				var remoteDeploymentManager = remoteDeploymentManagerFactory.CreateRemoteDeploymentManager(
+					metadata,
+					job);
+				await remoteDeploymentManager.StageDeployment(
+						newProvider.CompileJob,
+						cancellationToken)
+						.ConfigureAwait(false);
+			}
 
 			lock (jobLockCounts)
 			{
@@ -199,7 +208,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				cj = await db
 					.CompileJobs
 					.AsQueryable()
-					.Where(x => x.Job.Instance.Id == instance.Id)
+					.Where(x => x.Job.Instance.Id == metadata.Id)
 					.OrderByDescending(x => x.Job.StoppedAt)
 					.FirstOrDefaultAsync(cancellationToken)
 					.ConfigureAwait(false);
@@ -261,7 +270,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				// It constitutes an API violation if it's returned by the DreamDaemonController so just set it here
 				// Bit of a hack, but it works out to be nearly if not the same value that's put in the DB
 				logger.LogTrace("Setting missing StoppedAt for CompileJob.Job #{0}...", compileJob.Job.Id);
-				compileJob.Job.StoppedAt = DateTimeOffset.Now;
+				compileJob.Job.StoppedAt = DateTimeOffset.UtcNow;
 			}
 
 			var providerSubmitted = false;
@@ -356,7 +365,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					.CompileJobs
 					.AsQueryable()
 					.Where(
-						x => x.Job.Instance.Id == instance.Id
+						x => x.Job.Instance.Id == metadata.Id
 						&& jobIdsToSkip.Contains(x.Id))
 					.Select(x => x.DirectoryName.Value)
 					.ToListAsync(cancellationToken)

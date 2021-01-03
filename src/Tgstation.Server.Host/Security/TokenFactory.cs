@@ -76,12 +76,12 @@ namespace Tgstation.Server.Host.Security
 		}
 
 		/// <inheritdoc />
-		public async Task<Token> CreateToken(Models.User user, CancellationToken cancellationToken)
+		public async Task<Token> CreateToken(Models.User user, bool oAuth, CancellationToken cancellationToken)
 		{
 			if (user == null)
 				throw new ArgumentNullException(nameof(user));
 
-			var now = DateTimeOffset.Now;
+			var now = DateTimeOffset.UtcNow;
 			var nowUnix = now.ToUnixTimeSeconds();
 
 			// this prevents validation conflicts down the line
@@ -93,7 +93,9 @@ namespace Tgstation.Server.Host.Security
 			if (nowUnix == lpuUnix)
 				await asyncDelayer.Delay(TimeSpan.FromSeconds(1), cancellationToken).ConfigureAwait(false);
 
-			var expiry = now.AddMinutes(securityConfiguration.TokenExpiryMinutes);
+			var expiry = now.AddMinutes(oAuth
+				? securityConfiguration.OAuthTokenExpiryMinutes
+				: securityConfiguration.TokenExpiryMinutes);
 			var claims = new Claim[]
 			{
 				new Claim(JwtRegisteredClaimNames.Sub, user.Id.Value.ToString(CultureInfo.InvariantCulture)),

@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models
 {
@@ -11,7 +11,7 @@ namespace Tgstation.Server.Api.Models
 		/// The IRC channel name. Also potentially contains the channel passsword (if separated by a colon).
 		/// If multiple copies of the same channel with different keys are added to the server, the one that will be used is undefined.
 		/// </summary>
-		[StringLength(Limits.MaximumIndexableStringLength)]
+		[StringLength(Limits.MaximumIndexableStringLength, MinimumLength = 1)]
 		public string? IrcChannel { get; set; }
 
 		/// <summary>

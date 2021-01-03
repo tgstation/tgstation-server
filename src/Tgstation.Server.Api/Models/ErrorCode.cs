@@ -64,10 +64,10 @@ namespace Tgstation.Server.Api.Models
 		CannotChangeServerSuite,
 
 		/// <summary>
-		/// A required GitHub API request failed.
+		/// A required remote API request failed.
 		/// </summary>
-		[Description("A required GitHub request returned an API error!")]
-		GitHubApiError,
+		[Description("A required remote API request returned an error!")]
+		RemoteApiError,
 
 		/// <summary>
 		/// A server update was requested while another was in progress.
@@ -76,7 +76,7 @@ namespace Tgstation.Server.Api.Models
 		ServerUpdateInProgress,
 
 		/// <summary>
-		/// Attempted to change something other than the capitalization of a <see cref="Internal.User.Name"/>.
+		/// Attempted to change something other than the capitalization of a <see cref="Internal.UserBase.Name"/>.
 		/// </summary>
 		[Description("Can only change the capitalization of a user's name!")]
 		UserNameChange,
@@ -88,7 +88,7 @@ namespace Tgstation.Server.Api.Models
 		UserSidChange,
 
 		/// <summary>
-		/// Attempted to create a <see cref="User"/> with a <see cref="Internal.User.Name"/> and <see cref="Internal.User.SystemIdentifier"/>.
+		/// Attempted to create a <see cref="User"/> with a <see cref="Internal.UserBase.Name"/> and <see cref="Internal.User.SystemIdentifier"/>.
 		/// </summary>
 		[Description("A user cannot have both a name and systemIdentifier!")]
 		UserMismatchNameSid,
@@ -106,13 +106,13 @@ namespace Tgstation.Server.Api.Models
 		UserPasswordLength,
 
 		/// <summary>
-		/// Attempted to create a <see cref="User"/> with a ':' in the <see cref="Internal.User.Name"/>.
+		/// Attempted to create a <see cref="User"/> with a ':' in the <see cref="Internal.UserBase.Name"/>.
 		/// </summary>
 		[Description("User names cannot contain the ':' character!")]
 		UserColonInName,
 
 		/// <summary>
-		/// Attempted to create a <see cref="User"/> with a <see langword="null"/> or whitespace <see cref="Internal.User.Name"/>.
+		/// Attempted to create a <see cref="User"/> with a <see langword="null"/> or whitespace <see cref="Internal.UserBase.Name"/>.
 		/// </summary>
 		[Description("User's name is missing or invalid whitespace!")]
 		UserMissingName,
@@ -166,7 +166,7 @@ namespace Tgstation.Server.Api.Models
 		RequiresPosixSystemIdentity,
 
 		/// <summary>
-		/// A <see cref="ConfigurationFile"/> was attem updated
+		/// A <see cref="ConfigurationFile"/> was updated.
 		/// </summary>
 		[Description("This existing file hash does not match, the file has beeen updated!")]
 		ConfigurationFileUpdated,
@@ -234,7 +234,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// <see cref="Repository.NewTestMerges"/> contained duplicate <see cref="TestMergeParameters.Number"/>s.
 		/// </summary>
-		[Description("The same pull request was present more than once in the test merge requests or is already merged!")]
+		[Description("The same test merge was present more than once or is already merged!")]
 		RepoDuplicateTestMerge,
 
 		/// <summary>
@@ -250,18 +250,16 @@ namespace Tgstation.Server.Api.Models
 		RepoWhitespaceCommitterEmail,
 
 		/// <summary>
-		/// Deprecated.
+		/// A paginated request asked for too large a page.
 		/// </summary>
-		[Description("Deprecated error code.")]
-		[Obsolete("With API v7 ", true)]
-		DreamDaemonDuplicatePorts,
+		[Description("Requested pageSize is too large!")]
+		ApiPageTooLarge,
 
 		/// <summary>
-		/// Deprecated.
+		/// A paginated request asked for page 0.
 		/// </summary>
-		[Description("Deprecated error code.")]
-		[Obsolete("With DMAPI-5.0.0, ultrasafe security is now supported.", true)]
-		InvalidSecurityLevel,
+		[Description("Cannot request page or pageSize <= 0.")]
+		ApiInvalidPageOrPageSize,
 
 		/// <summary>
 		/// A requested <see cref="ChatChannel"/>'s data does not match with its <see cref="Internal.ChatBot.Provider"/>.
@@ -288,11 +286,10 @@ namespace Tgstation.Server.Api.Models
 		ChatBotProviderMissing,
 
 		/// <summary>
-		/// Attempted to update a <see cref="User"/> or <see cref="InstanceUser"/> without its ID.
+		/// Tried to edit <see cref="UserGroup"/> membership using <see cref="Routes.UserGroup"/>.
 		/// </summary>
-		[Description("Missing user ID!")]
-		[Obsolete("Deprecated in favor of code 2", true)]
-		UserMissingId,
+		[Description("The " + Routes.UserGroup + " endpoint cannot edit group members. Please update each member user individually.")]
+		UserGroupControllerCantEditMembers,
 
 		/// <summary>
 		/// Attempted to add a <see cref="ChatBot"/> when at or above the <see cref="Instance.ChatBotLimit"/> or it was set to something lower than the existing amount of <see cref="ChatBot"/>.
@@ -337,11 +334,10 @@ namespace Tgstation.Server.Api.Models
 		DreamMakerInvalidValidation,
 
 		/// <summary>
-		/// DMAPI validation timeout.
+		/// Tried to remove the last <see cref="OAuthConnection"/> for a passwordless <see cref="User"/>.
 		/// </summary>
-		[Description("The DreamDaemon startup timeout was hit before the DMAPI validated!")]
-		[Obsolete("Deprecated in favor of error code 52", true)]
-		DreamMakerValidationTimeout,
+		[Description("This user is passwordless and removing their oAuthConnections would leave them with no authentication method!")]
+		CannotRemoveLastAuthenticationOption,
 
 		/// <summary>
 		/// No .dme could be found for deployment.
@@ -460,7 +456,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Encounted merge conflicts while test merging.
 		/// </summary>
-		[Description("Encountered merge conflicts while test merging one or more pull requests!")]
+		[Description("Encountered merge conflicts while test merging one or more sources!")]
 		RepoTestMergeConflict,
 
 		/// <summary>
@@ -582,5 +578,47 @@ namespace Tgstation.Server.Api.Models
 		/// </summary>
 		[Description("The requested port is either already in use by TGS or could not be allocated!")]
 		PortNotAvailable,
+
+		/// <summary>
+		/// Attempted to set <see cref="User.OAuthConnections"/> for the admin user.
+		/// </summary>
+		[Description("The admin user cannot use OAuth connections!")]
+		AdminUserCannotOAuth,
+
+		/// <summary>
+		/// Attempted to login with a disabled OAuth provider.
+		/// </summary>
+		[Description("The requested OAuth provider is disabled via configuration!")]
+		OAuthProviderDisabled,
+
+		/// <summary>
+		/// A <see cref="Job"/> requiring a file upload did not receive it before timing out.
+		/// </summary>
+		[Description("The job did not receive a required upload before timing out!")]
+		FileUploadExpired,
+
+		/// <summary>
+		/// Tried to update a <see cref="User"/> to have both a <see cref="User.Group"/> and <see cref="User.PermissionSet"/>
+		/// </summary>
+		[Description("A user may not have both a permissionSet and group!")]
+		UserGroupAndPermissionSet,
+
+		/// <summary>
+		/// Tried to delete a non-empty <see cref="UserGroup"/>.
+		/// </summary>
+		[Description("Cannot delete the user group as it is not empty!")]
+		UserGroupNotEmpty,
+
+		/// <summary>
+		/// Attempted to create an <see cref="User"/> but the configured limit has been reached.
+		/// </summary>
+		[Description("The user cannot be created because the configured limit has been reached!")]
+		UserLimitReached,
+
+		/// <summary>
+		/// Attempted to create an <see cref="UserGroup"/> but the configured limit has been reached.
+		/// </summary>
+		[Description("The user group cannot be created because the configured limit has been reached!")]
+		UserGroupLimitReached,
 	}
 }

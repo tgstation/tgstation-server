@@ -14,7 +14,7 @@ namespace Tgstation.Server.Api.Rights
 		None = 0,
 
 		/// <summary>
-		/// User can edit their and other <see cref="Models.User"/>s and create new ones.
+		/// User has complete control over creating/editing <see cref="Models.User"/>s and <see cref="Models.UserGroup"/>s (and deleting in the case of the latter).
 		/// </summary>
 		WriteUsers = 1,
 
@@ -24,7 +24,7 @@ namespace Tgstation.Server.Api.Rights
 		RestartHost = 2,
 
 		/// <summary>
-		/// User can upgrade or downgrade TGS through the API.
+		/// User can read <see cref="Models.Administration"/> and upgrade/downgrade TGS through the API.
 		/// </summary>
 		ChangeVersion = 4,
 
@@ -42,5 +42,10 @@ namespace Tgstation.Server.Api.Rights
 		/// User can list and download <see cref="Models.LogFile"/>s.
 		/// </summary>
 		DownloadLogs = 32,
+
+		/// <summary>
+		/// User can modify their own <see cref="Models.User.OAuthConnections"/>.
+		/// </summary>
+		EditOwnOAuthConnections = 64,
 	}
 }

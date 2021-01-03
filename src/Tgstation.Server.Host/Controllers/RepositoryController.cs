@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -14,10 +13,8 @@ using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
-using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
-using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -42,11 +39,6 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IJobManager jobManager;
 
 		/// <summary>
-		/// The <see cref="GeneralConfiguration"/> for the <see cref="RepositoryController"/>
-		/// </summary>
-		readonly GeneralConfiguration generalConfiguration;
-
-		/// <summary>
 		/// Construct a <see cref="RepositoryController"/>
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
@@ -55,15 +47,13 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="gitHubClientFactory">The value of <see cref="gitHubClientFactory"/></param>
 		/// <param name="jobManager">The value of <see cref="jobManager"/></param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/></param>
-		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing value of <see cref="generalConfiguration"/></param>
 		public RepositoryController(
 			IDatabaseContext databaseContext,
 			IAuthenticationContextFactory authenticationContextFactory,
 			IInstanceManager instanceManager,
 			IGitHubClientFactory gitHubClientFactory,
 			IJobManager jobManager,
-			ILogger<RepositoryController> logger,
-			IOptions<GeneralConfiguration> generalConfigurationOptions)
+			ILogger<RepositoryController> logger)
 			: base(
 				  instanceManager,
 				  databaseContext,
@@ -72,7 +62,6 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			this.gitHubClientFactory = gitHubClientFactory ?? throw new ArgumentNullException(nameof(gitHubClientFactory));
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
-			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
 		async Task<bool> LoadRevisionInformation(Components.Repository.IRepository repository, IDatabaseContext databaseContext, Models.Instance instance, string lastOriginCommitSha, Action<Models.RevisionInformation> revInfoSink, CancellationToken cancellationToken)
@@ -123,11 +112,9 @@ namespace Tgstation.Server.Host.Controllers
 
 		async Task<bool> PopulateApi(Repository model, Components.Repository.IRepository repository, IDatabaseContext databaseContext, Models.Instance instance, CancellationToken cancellationToken)
 		{
-			if (repository.IsGitHubRepository)
-			{
-				model.GitHubOwner = repository.GitHubOwner;
-				model.GitHubName = repository.GitHubRepoName;
-			}
+			model.RemoteGitProvider = repository.RemoteGitProvider;
+			model.RemoteRepositoryOwner = repository.RemoteRepositoryOwner;
+			model.RemoteRepositoryName = repository.RemoteRepositoryName;
 
 			model.Origin = repository.Origin;
 			model.Reference = repository.Reference;
@@ -172,14 +159,6 @@ namespace Tgstation.Server.Host.Controllers
 			if (currentModel == default)
 				return Gone();
 
-			// normalize github urls
-			const string BadGitHubUrl = "://www.github.com/";
-			var uiOrigin = model.Origin.ToUpperInvariant();
-			var uiBad = BadGitHubUrl.ToUpperInvariant();
-			var uiGitHub = Components.Repository.Repository.GitHubUrl.ToUpperInvariant();
-			if (uiOrigin.Contains(uiBad, StringComparison.Ordinal))
-				model.Origin = uiOrigin.Replace(uiBad, uiGitHub, StringComparison.Ordinal);
-
 			currentModel.AccessToken = model.AccessToken;
 			currentModel.AccessUser = model.AccessUser; // intentionally only these fields, user not allowed to change anything else atm
 			var cloneBranch = model.Reference;
@@ -215,7 +194,7 @@ namespace Tgstation.Server.Host.Controllers
 					{
 						var repoManager = core.RepositoryManager;
 						using var repos = await repoManager.CloneRepository(
-							new Uri(origin),
+							origin,
 							cloneBranch,
 							currentModel.AccessUser,
 							currentModel.AccessToken,
@@ -426,7 +405,7 @@ namespace Tgstation.Server.Host.Controllers
 				|| (model.UpdateFromOrigin == true && !userRights.HasFlag(RepositoryRights.UpdateBranch)))
 				return Forbid();
 
-			if (currentModel.AccessToken?.Length == 0 && currentModel.AccessUser?.Length == 0)
+			if (model.AccessToken?.Length == 0 && model.AccessUser?.Length == 0)
 			{
 				// setting an empty string clears everything
 				currentModel.AccessUser = null;
@@ -480,11 +459,11 @@ namespace Tgstation.Server.Host.Controllers
 				description = String.Format(CultureInfo.InvariantCulture, "Checkout repository {0} {1}", model.Reference != null ? "reference" : "SHA", model.Reference ?? model.CheckoutSha);
 
 			if (newTestMerges)
-				description = String.Format(CultureInfo.InvariantCulture, "{0}est merge pull request(s) {1}{2}",
+				description = String.Format(CultureInfo.InvariantCulture, "{0}est merge(s) {1}{2}",
 					description != null ? String.Format(CultureInfo.InvariantCulture, "{0} and t", description) : "T",
 					String.Join(", ", model.NewTestMerges.Select(x =>
 					String.Format(CultureInfo.InvariantCulture, "#{0}{1}", x.Number,
-					x.PullRequestRevision != null ? String.Format(CultureInfo.InvariantCulture, " at {0}", x.PullRequestRevision.Substring(0, 7)) : String.Empty))),
+					x.TargetCommitSha != null ? String.Format(CultureInfo.InvariantCulture, " at {0}", x.TargetCommitSha.Substring(0, 7)) : String.Empty))),
 					description != null ? String.Empty : " in repository");
 
 			if (description == null)
@@ -507,7 +486,7 @@ namespace Tgstation.Server.Host.Controllers
 				var startSha = repo.Head;
 				string postUpdateSha = null;
 
-				if (newTestMerges && !repo.IsGitHubRepository)
+				if (newTestMerges && repo.RemoteGitProvider == RemoteGitProvider.Unknown)
 					throw new JobException(ErrorCode.RepoUnsupportedTestMergeRemote);
 
 				var committerName = currentModel.ShowTestMergeCommitters.Value
@@ -652,47 +631,42 @@ namespace Tgstation.Server.Host.Controllers
 					}
 
 					// test merging
-					Dictionary<int, Octokit.PullRequest> prMap = null;
 					if (newTestMerges)
 					{
+						if (repo.RemoteGitProvider == RemoteGitProvider.Unknown)
+							throw new JobException(ErrorCode.RepoTestMergeInvalidRemote);
+
 						// bit of sanitization
-						foreach (var I in model.NewTestMerges.Where(x => String.IsNullOrWhiteSpace(x.PullRequestRevision)))
-							I.PullRequestRevision = null;
+						foreach (var I in model.NewTestMerges.Where(x => String.IsNullOrWhiteSpace(x.TargetCommitSha)))
+							I.TargetCommitSha = null;
 
 						var gitHubClient = currentModel.AccessToken != null
 							? gitHubClientFactory.CreateClient(currentModel.AccessToken)
-							: (String.IsNullOrEmpty(generalConfiguration.GitHubAccessToken)
-								? gitHubClientFactory.CreateClient()
-								: gitHubClientFactory.CreateClient(generalConfiguration.GitHubAccessToken));
+							: gitHubClientFactory.CreateClient();
 
-						var repoOwner = repo.GitHubOwner;
-						var repoName = repo.GitHubRepoName;
+						var repoOwner = repo.RemoteRepositoryOwner;
+						var repoName = repo.RemoteRepositoryName;
 
 						// optimization: if we've already merged these exact same commits in this fashion before, just find the rev info for it and check it out
 						Models.RevisionInformation revInfoWereLookingFor = null;
 						bool needToApplyRemainingPrs = true;
 						if (lastRevisionInfo.OriginCommitSha == lastRevisionInfo.CommitSha)
 						{
-							// In order for this to work though we need the shas of all the commits
-							if (model.NewTestMerges.Any(x => x.PullRequestRevision == null))
-								prMap = new Dictionary<int, Octokit.PullRequest>();
-
 							bool cantSearch = false;
 							foreach (var I in model.NewTestMerges)
 							{
-								if (I.PullRequestRevision != null)
+								if (I.TargetCommitSha != null)
 #pragma warning disable CA1308 // Normalize strings to uppercase
-									I.PullRequestRevision = I.PullRequestRevision?.ToLowerInvariant(); // ala libgit2
+									I.TargetCommitSha = I.TargetCommitSha?.ToLowerInvariant(); // ala libgit2
 #pragma warning restore CA1308 // Normalize strings to uppercase
 								else
 									try
 									{
 										// retrieve the latest sha
-										var pr = await gitHubClient.PullRequest.Get(repoOwner, repoName, I.Number)
-											.WithToken(ct)
-											.ConfigureAwait(false);
-										prMap.Add(I.Number, pr);
-										I.PullRequestRevision = pr.Head.Sha;
+										var pr = await repo.GetTestMerge(I, currentModel, ct).ConfigureAwait(false);
+
+										// we want to take the earliest truth possible to prevent RCEs, if this fails AddTestMerge will set it
+										I.TargetCommitSha = pr.TargetCommitSha;
 									}
 									catch
 									{
@@ -725,7 +699,7 @@ namespace Tgstation.Server.Host.Controllers
 									&& x.ActiveTestMerges.Select(y => y.TestMerge)
 									.All(y => model.NewTestMerges.Any(z =>
 									y.Number == z.Number
-									&& y.PullRequestRevision.StartsWith(z.PullRequestRevision, StringComparison.Ordinal)
+									&& y.TargetCommitSha.StartsWith(z.TargetCommitSha, StringComparison.Ordinal)
 									&& (y.Comment?.Trim().ToUpperInvariant() == z.Comment?.Trim().ToUpperInvariant() || z.Comment == null))))
 									.FirstOrDefault();
 
@@ -753,8 +727,8 @@ namespace Tgstation.Server.Host.Controllers
 														if (!numberMatch)
 															return false;
 
-														var shaMatch = testRevInfo.PrimaryTestMerge.PullRequestRevision.StartsWith(
-															testTestMerge.PullRequestRevision,
+														var shaMatch = testRevInfo.PrimaryTestMerge.TargetCommitSha.StartsWith(
+															testTestMerge.TargetCommitSha,
 															StringComparison.Ordinal);
 														if (!shaMatch)
 															return false;
@@ -808,47 +782,10 @@ namespace Tgstation.Server.Host.Controllers
 						{
 							foreach (var I in model.NewTestMerges)
 							{
-								Octokit.PullRequest pr = null;
-								string errorMessage = null;
-
 								if (lastRevisionInfo.ActiveTestMerges.Any(x => x.TestMerge.Number == I.Number))
 									throw new JobException(ErrorCode.RepoDuplicateTestMerge);
 
-								Exception exception = null;
-								try
-								{
-									// load from cache if possible
-									if (prMap == null || !prMap.TryGetValue(I.Number, out pr))
-										pr = await gitHubClient
-											.PullRequest
-											.Get(repoOwner, repoName, I.Number)
-											.WithToken(ct)
-											.ConfigureAwait(false);
-								}
-								catch (Octokit.RateLimitExceededException ex)
-								{
-									// you look at your anonymous access and sigh
-									errorMessage = "REMOTE API ERROR: RATE LIMITED";
-									exception = ex;
-								}
-								catch (Octokit.AuthorizationException ex)
-								{
-									errorMessage = "REMOTE API ERROR: BAD CREDENTIALS";
-									exception = ex;
-								}
-								catch (Octokit.NotFoundException ex)
-								{
-									// you look at your shithub and sigh
-									errorMessage = "REMOTE API ERROR: PULL REQUEST NOT FOUND";
-									exception = ex;
-								}
-
-								if (exception != null)
-									Logger.LogWarning(exception, "Error retrieving pull request metadata!");
-
-								// we want to take the earliest truth possible to prevent RCEs, if this fails AddTestMerge will set it
-								if (I.PullRequestRevision == null && pr != null)
-									I.PullRequestRevision = pr.Head.Sha;
+								var fullTestMergeTask = repo.GetTestMerge(I, currentModel, ct);
 
 								var mergeResult = await repo.AddTestMerge(
 									I,
@@ -859,28 +796,40 @@ namespace Tgstation.Server.Host.Controllers
 									NextProgressReporter(),
 									ct).ConfigureAwait(false);
 
-								if (!mergeResult.HasValue)
+								if (mergeResult == null)
 									throw new JobException(
 										ErrorCode.RepoTestMergeConflict,
 										new JobException(
-											$"Merge of PR #{I.Number} at {I.PullRequestRevision.Substring(0, 7)} conflicted!"));
+											$"Test Merge #{I.Number} at {I.TargetCommitSha.Substring(0, 7)} conflicted!"));
 
-								++doneSteps;
+								Models.TestMerge fullTestMerge;
+								try
+								{
+									fullTestMerge = await fullTestMergeTask.ConfigureAwait(false);
+								}
+								catch (Exception ex)
+								{
+									Logger.LogWarning("Error retrieving metadata for test merge #{0}!", I.Number);
+
+									fullTestMerge = new Models.TestMerge
+									{
+										Author = ex.Message,
+										BodyAtMerge = ex.Message,
+										MergedAt = DateTimeOffset.UtcNow,
+										TitleAtMerge = ex.Message,
+										Comment = I.Comment,
+										Number = I.Number,
+										Url = ex.Message
+									};
+								}
+
+								// Ensure we're getting the full sha from git itself
+								fullTestMerge.TargetCommitSha = I.TargetCommitSha;
 
 								// MergedBy will be set later
-								var tm = new Models.TestMerge
-								{
-									Author = pr?.User.Login ?? errorMessage,
-									BodyAtMerge = pr?.Body ?? errorMessage ?? String.Empty,
-									MergedAt = DateTimeOffset.Now,
-									TitleAtMerge = pr?.Title ?? errorMessage ?? String.Empty,
-									Comment = I.Comment,
-									Number = I.Number,
-									PullRequestRevision = I.PullRequestRevision,
-									Url = pr?.HtmlUrl ?? errorMessage
-								};
+								++doneSteps;
 
-								await UpdateRevInfo(tm).ConfigureAwait(false);
+								await UpdateRevInfo(fullTestMerge).ConfigureAwait(false);
 							}
 						}
 					}

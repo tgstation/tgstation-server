@@ -1,4 +1,5 @@
 using System;
+using System.Net.Http.Headers;
 using System.Reflection;
 
 namespace Tgstation.Server.Host.System
@@ -32,5 +33,10 @@ namespace Tgstation.Server.Host.System
 		/// The version of the assembly.
 		/// </summary>
 		Version Version { get; }
+
+		/// <summary>
+		/// The <see cref="ProductInfoHeaderValue"/> for the assembly.
+		/// </summary>
+		ProductInfoHeaderValue ProductInfoHeaderValue { get; }
 	}
 }

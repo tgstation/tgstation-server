@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -39,6 +39,9 @@ namespace Tgstation.Server.Client
 		/// <inheritdoc />
 		public IUsersClient Users { get; }
 
+		/// <inheritdoc />
+		public IUserGroupsClient Groups { get; }
+
 		/// <summary>
 		/// The <see cref="IApiClient"/> for the <see cref="ServerClient"/>
 		/// </summary>
@@ -65,13 +68,14 @@ namespace Tgstation.Server.Client
 			Instances = new InstanceManagerClient(apiClient);
 			Users = new UsersClient(apiClient);
 			Administration = new AdministrationClient(apiClient);
+			Groups = new UserGroupsClient(apiClient);
 		}
 
 		/// <inheritdoc />
 		public void Dispose() => apiClient.Dispose();
 
 		/// <inheritdoc />
-		public Task<ServerInformation> Version(CancellationToken cancellationToken) => apiClient.Read<ServerInformation>(Routes.Root, cancellationToken);
+		public Task<ServerInformation> ServerInformation(CancellationToken cancellationToken) => apiClient.Read<ServerInformation>(Routes.Root, cancellationToken);
 
 		/// <inheritdoc />
 		public void AddRequestLogger(IRequestLogger requestLogger) => apiClient.AddRequestLogger(requestLogger);

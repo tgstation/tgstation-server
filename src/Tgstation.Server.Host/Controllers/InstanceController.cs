@@ -73,6 +73,11 @@ namespace Tgstation.Server.Host.Controllers
 		readonly GeneralConfiguration generalConfiguration;
 
 		/// <summary>
+		/// The <see cref="SwarmConfiguration"/> for the <see cref="InstanceController"/>.
+		/// </summary>
+		readonly SwarmConfiguration swarmConfiguration;
+
+		/// <summary>
 		/// Construct a <see cref="InstanceController"/>
 		/// </summary>
 		/// <param name="databaseContext">The <see cref="IDatabaseContext"/> for the <see cref="ApiController"/></param>
@@ -83,6 +88,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/></param>
 		/// <param name="portAllocator">The value of <see cref="IPortAllocator"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
+		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="ApiController"/>.</param>
 		public InstanceController(
 			IDatabaseContext databaseContext,
@@ -93,6 +99,7 @@ namespace Tgstation.Server.Host.Controllers
 			IPortAllocator portAllocator,
 			IPlatformIdentifier platformIdentifier,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
+			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			ILogger<InstanceController> logger)
 			: base(
 				  databaseContext,
@@ -106,6 +113,7 @@ namespace Tgstation.Server.Host.Controllers
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.portAllocator = portAllocator ?? throw new ArgumentNullException(nameof(portAllocator));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
+			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 		}
 
 		async Task<Models.Instance> CreateDefaultInstance(Api.Models.Instance initialSettings, CancellationToken cancellationToken)
@@ -169,10 +177,11 @@ namespace Tgstation.Server.Host.Controllers
 					PostTestMergeComment = false,
 					CreateGitHubDeployments = false
 				},
-				InstanceUsers = new List<Models.InstanceUser> // give this user full privileges on the instance
+				InstancePermissionSets = new List<Models.InstancePermissionSet> // give this user full privileges on the instance
 				{
-					InstanceAdminUser(null)
-				}
+					InstanceAdminPermissionSet(null)
+				},
+				SwarmIdentifer = swarmConfiguration.Identifier,
 			};
 		}
 
@@ -188,21 +197,21 @@ namespace Tgstation.Server.Host.Controllers
 			return path;
 		}
 
-		Models.InstanceUser InstanceAdminUser(Models.InstanceUser userToModify)
+		Models.InstancePermissionSet InstanceAdminPermissionSet(Models.InstancePermissionSet permissionSetToModify)
 		{
-			if (userToModify == null)
-				userToModify = new Models.InstanceUser()
+			if (permissionSetToModify == null)
+				permissionSetToModify = new Models.InstancePermissionSet()
 				{
-					UserId = AuthenticationContext.User.Id.Value
+					PermissionSetId = AuthenticationContext.PermissionSet.Id.Value
 				};
-			userToModify.ByondRights = RightsHelper.AllRights<ByondRights>();
-			userToModify.ChatBotRights = RightsHelper.AllRights<ChatBotRights>();
-			userToModify.ConfigurationRights = RightsHelper.AllRights<ConfigurationRights>();
-			userToModify.DreamDaemonRights = RightsHelper.AllRights<DreamDaemonRights>();
-			userToModify.DreamMakerRights = RightsHelper.AllRights<DreamMakerRights>();
-			userToModify.RepositoryRights = RightsHelper.AllRights<RepositoryRights>();
-			userToModify.InstanceUserRights = RightsHelper.AllRights<InstanceUserRights>();
-			return userToModify;
+			permissionSetToModify.ByondRights = RightsHelper.AllRights<ByondRights>();
+			permissionSetToModify.ChatBotRights = RightsHelper.AllRights<ChatBotRights>();
+			permissionSetToModify.ConfigurationRights = RightsHelper.AllRights<ConfigurationRights>();
+			permissionSetToModify.DreamDaemonRights = RightsHelper.AllRights<DreamDaemonRights>();
+			permissionSetToModify.DreamMakerRights = RightsHelper.AllRights<DreamMakerRights>();
+			permissionSetToModify.RepositoryRights = RightsHelper.AllRights<RepositoryRights>();
+			permissionSetToModify.InstancePermissionSetRights = RightsHelper.AllRights<InstancePermissionSetRights>();
+			return permissionSetToModify;
 		}
 
 		/// <summary>
@@ -257,6 +266,7 @@ namespace Tgstation.Server.Host.Controllers
 					await DatabaseContext
 						.Instances
 						.AsQueryable()
+						.Where(x => x.SwarmIdentifer == swarmConfiguration.Identifier)
 						.Select(x => new Models.Instance
 						{
 							Path = x.Path
@@ -368,7 +378,7 @@ namespace Tgstation.Server.Host.Controllers
 			var originalModel = await DatabaseContext
 				.Instances
 				.AsQueryable()
-				.Where(x => x.Id == id)
+				.Where(x => x.Id == id && x.SwarmIdentifer == swarmConfiguration.Identifier)
 				.FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 			if (originalModel == default)
 				return Gone();
@@ -416,13 +426,13 @@ namespace Tgstation.Server.Host.Controllers
 			IQueryable<Models.Instance> InstanceQuery() => DatabaseContext
 				.Instances
 				.AsQueryable()
-				.Where(x => x.Id == model.Id);
+				.Where(x => x.Id == model.Id && x.SwarmIdentifer == swarmConfiguration.Identifier);
 
 			var moveJob = await InstanceQuery()
 				.SelectMany(x => x.Jobs).
-#pragma warning disable CA1307 // Specify StringComparison
+#pragma warning disable CA1310 // Specify StringComparison
 				Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
-#pragma warning restore CA1307 // Specify StringComparison
+#pragma warning restore CA1310 // Specify StringComparison
 				.Select(x => new Models.Job
 				{
 					Id = x.Id
@@ -431,7 +441,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (moveJob != default)
 			{
 				// don't allow them to cancel it if they can't start it.
-				if (!AuthenticationContext.User.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.Relocate))
+				if (!AuthenticationContext.PermissionSet.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.Relocate))
 					return Forbid();
 				await jobManager.CancelJob(moveJob, AuthenticationContext.User, true, cancellationToken).ConfigureAwait(false); // cancel it now
 			}
@@ -586,27 +596,35 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// List <see cref="Api.Models.Instance"/>s.
 		/// </summary>
+		/// <param name="page">The current page.</param>
+		/// <param name="pageSize">The page size.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Retrieved <see cref="Api.Models.Instance"/>s successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(InstanceManagerRights.List | InstanceManagerRights.Read)]
-		[ProducesResponseType(typeof(IEnumerable<Api.Models.Instance>), 200)]
-		public async Task<IActionResult> List(CancellationToken cancellationToken)
+		[ProducesResponseType(typeof(Paginated<Api.Models.Instance>), 200)]
+		public async Task<IActionResult> List(
+			[FromQuery] int? page,
+			[FromQuery] int? pageSize,
+			CancellationToken cancellationToken)
 		{
 			IQueryable<Models.Instance> GetBaseQuery()
 			{
-				IQueryable<Models.Instance> query = DatabaseContext.Instances;
-				if (!AuthenticationContext.User.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List))
+				IQueryable<Models.Instance> query = DatabaseContext
+					.Instances
+					.AsQueryable()
+					.Where(x => x.SwarmIdentifer == swarmConfiguration.Identifier);
+				if (!AuthenticationContext.PermissionSet.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List))
 					query = query
-						.Where(x => x.InstanceUsers.Any(y => y.UserId == AuthenticationContext.User.Id))
-						.Where(x => x.InstanceUsers.Any(instanceUser =>
+						.Where(x => x.InstancePermissionSets.Any(y => y.PermissionSetId == AuthenticationContext.PermissionSet.Id.Value))
+						.Where(x => x.InstancePermissionSets.Any(instanceUser =>
 							instanceUser.ByondRights != ByondRights.None ||
 							instanceUser.ChatBotRights != ChatBotRights.None ||
 							instanceUser.ConfigurationRights != ConfigurationRights.None ||
 							instanceUser.DreamDaemonRights != DreamDaemonRights.None ||
 							instanceUser.DreamMakerRights != DreamMakerRights.None ||
-							instanceUser.InstanceUserRights != InstanceUserRights.None));
+							instanceUser.InstancePermissionSetRights != InstancePermissionSetRights.None));
 
 				// Hack for EF IAsyncEnumerable BS
 				return query.Select(x => x);
@@ -614,29 +632,33 @@ namespace Tgstation.Server.Host.Controllers
 
 			var moveJobs = await GetBaseQuery()
 				.SelectMany(x => x.Jobs)
-#pragma warning disable CA1307 // Specify StringComparison
+#pragma warning disable CA1310 // Specify StringComparison
 				.Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
-#pragma warning restore CA1307 // Specify StringComparison
+#pragma warning restore CA1310 // Specify StringComparison
 				.Include(x => x.StartedBy).ThenInclude(x => x.CreatedBy)
 				.Include(x => x.Instance)
 				.ToListAsync(cancellationToken)
 				.ConfigureAwait(false);
 
-			var instances = await GetBaseQuery()
-				.ToListAsync(cancellationToken)
-				.ConfigureAwait(false);
-
 			var needsUpdate = false;
-			foreach (var instance in instances)
-				needsUpdate |= InstanceRequiredController.ValidateInstanceOnlineStatus(instanceManager, Logger, instance);
+			var result = await Paginated<Models.Instance, Api.Models.Instance>(
+				() => Task.FromResult(
+					new PaginatableResult<Models.Instance>(
+						GetBaseQuery())),
+				instance =>
+				{
+					needsUpdate |= InstanceRequiredController.ValidateInstanceOnlineStatus(instanceManager, Logger, instance);
+					instance.MoveJob = moveJobs.FirstOrDefault(x => x.Instance.Id == instance.Id)?.ToApi();
+				},
+				page,
+				pageSize,
+				cancellationToken)
+				.ConfigureAwait(false);
 
 			if (needsUpdate)
 				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
-			var apis = instances.Select(x => x.ToApi());
-			foreach(var I in moveJobs)
-				apis.Where(x => x.Id == I.Instance.Id).First().MoveJob = I.ToApi(); // if this .First() fails i will personally murder kevinz000 because I just know he is somehow responsible
-			return Json(apis);
+			return result;
 		}
 
 		/// <summary>
@@ -653,16 +675,16 @@ namespace Tgstation.Server.Host.Controllers
 		[ProducesResponseType(typeof(ErrorMessage), 410)]
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
-			var cantList = !AuthenticationContext.User.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List);
+			var cantList = !AuthenticationContext.PermissionSet.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List);
 			IQueryable<Models.Instance> QueryForUser()
 			{
 				var query = DatabaseContext
 					.Instances
 					.AsQueryable()
-					.Where(x => x.Id == id);
+					.Where(x => x.Id == id && x.SwarmIdentifer == swarmConfiguration.Identifier);
 
 				if (cantList)
-					query = query.Include(x => x.InstanceUsers);
+					query = query.Include(x => x.InstancePermissionSets);
 				return query;
 			}
 
@@ -674,22 +696,22 @@ namespace Tgstation.Server.Host.Controllers
 			if (InstanceRequiredController.ValidateInstanceOnlineStatus(instanceManager, Logger, instance))
 				await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
-			if (cantList && !instance.InstanceUsers.Any(instanceUser => instanceUser.UserId == AuthenticationContext.User.Id &&
+			if (cantList && !instance.InstancePermissionSets.Any(instanceUser => instanceUser.PermissionSetId == AuthenticationContext.PermissionSet.Id.Value &&
 				(instanceUser.ByondRights != ByondRights.None ||
 				instanceUser.ChatBotRights != ChatBotRights.None ||
 				instanceUser.ConfigurationRights != ConfigurationRights.None ||
 				instanceUser.DreamDaemonRights != DreamDaemonRights.None ||
 				instanceUser.DreamMakerRights != DreamMakerRights.None ||
-				instanceUser.InstanceUserRights != InstanceUserRights.None)))
+				instanceUser.InstancePermissionSetRights != InstancePermissionSetRights.None)))
 				return Forbid();
 
 			var api = instance.ToApi();
 
 			var moveJob = await QueryForUser()
 				.SelectMany(x => x.Jobs)
-#pragma warning disable CA1307 // Specify StringComparison
+#pragma warning disable CA1310 // Specify StringComparison
 				.Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
-#pragma warning restore CA1307 // Specify StringComparison
+#pragma warning restore CA1310 // Specify StringComparison
 				.Include(x => x.StartedBy).ThenInclude(x => x.CreatedBy)
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);
@@ -710,22 +732,22 @@ namespace Tgstation.Server.Host.Controllers
 		public async Task<IActionResult> GrantPermissions(long id, CancellationToken cancellationToken)
 		{
 			// ensure the current user has write privilege on the instance
-			var usersInstanceUser = await DatabaseContext
+			var usersInstancePermissionSet = await DatabaseContext
 				.Instances
 				.AsQueryable()
-				.Where(x => x.Id == id)
-				.SelectMany(x => x.InstanceUsers)
-				.Where(x => x.UserId == AuthenticationContext.User.Id)
+				.Where(x => x.Id == id && x.SwarmIdentifer == swarmConfiguration.Identifier)
+				.SelectMany(x => x.InstancePermissionSets)
+				.Where(x => x.PermissionSetId == AuthenticationContext.PermissionSet.Id.Value)
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);
-			if (usersInstanceUser == default)
+			if (usersInstancePermissionSet == default)
 			{
-				var instanceAdminUser = InstanceAdminUser(null);
+				var instanceAdminUser = InstanceAdminPermissionSet(null);
 				instanceAdminUser.InstanceId = id;
-				DatabaseContext.InstanceUsers.Add(instanceAdminUser);
+				DatabaseContext.InstancePermissionSets.Add(instanceAdminUser);
 			}
 			else
-				InstanceAdminUser(usersInstanceUser);
+				InstanceAdminPermissionSet(usersInstancePermissionSet);
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 

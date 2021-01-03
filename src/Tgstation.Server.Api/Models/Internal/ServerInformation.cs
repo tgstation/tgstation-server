@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
@@ -21,6 +21,11 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// The maximum number of <see cref="Models.User"/>s allowed.
 		/// </summary>
 		public uint UserLimit { get; set; }
+
+		/// <summary>
+		/// The maximum number of <see cref="Models.UserGroup"/>s allowed.
+		/// </summary>
+		public uint UserGroupLimit { get; set; }
 
 		/// <summary>
 		/// Limits the locations instances may be created or attached from.

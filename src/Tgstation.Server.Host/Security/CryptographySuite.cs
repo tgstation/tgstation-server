@@ -46,7 +46,7 @@ namespace Tgstation.Server.Host.Security
 				throw new ArgumentNullException(nameof(newPassword));
 			user.PasswordHash = passwordHasher.HashPassword(user, newPassword);
 			if (!newUser)
-				user.LastPasswordUpdate = DateTimeOffset.Now;
+				user.LastPasswordUpdate = DateTimeOffset.UtcNow;
 		}
 
 		/// <inheritdoc />

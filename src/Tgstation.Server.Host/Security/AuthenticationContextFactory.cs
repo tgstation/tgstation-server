@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Models;
 
@@ -31,18 +33,26 @@ namespace Tgstation.Server.Host.Security
 		readonly ILogger<AuthenticationContextFactory> logger;
 
 		/// <summary>
+		/// The <see cref="SwarmConfiguration"/> for the <see cref="AuthenticationContextFactory"/>.
+		/// </summary>
+		readonly SwarmConfiguration swarmConfiguration;
+
+		/// <summary>
 		/// Construct an <see cref="AuthenticationContextFactory"/>
 		/// </summary>
 		/// <param name="databaseContext">The value of <see cref="databaseContext"/></param>
 		/// <param name="identityCache">The value of <see cref="identityCache"/></param>
+		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
 		public AuthenticationContextFactory(
 			IDatabaseContext databaseContext,
 			IIdentityCache identityCache,
+			IOptions<SwarmConfiguration> swarmConfigurationOptions,
 			ILogger<AuthenticationContextFactory> logger)
 		{
 			this.databaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
 			this.identityCache = identityCache ?? throw new ArgumentNullException(nameof(identityCache));
+			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
@@ -60,6 +70,10 @@ namespace Tgstation.Server.Host.Security
 				.AsQueryable()
 				.Where(x => x.Id == userId)
 				.Include(x => x.CreatedBy)
+				.Include(x => x.PermissionSet)
+				.Include(x => x.Group)
+					.ThenInclude(x => x.PermissionSet)
+				.Include(x => x.OAuthConnections)
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);
 			if (user == default)
@@ -84,23 +98,27 @@ namespace Tgstation.Server.Host.Security
 				systemIdentity = null;
 			}
 
+			var userPermissionSet = user.PermissionSet ?? user.Group.PermissionSet;
 			try
 			{
-				InstanceUser instanceUser = null;
+				InstancePermissionSet instancePermissionSet = null;
 				if (instanceId.HasValue)
 				{
-					instanceUser = await databaseContext.InstanceUsers
+					instancePermissionSet = await databaseContext.InstancePermissionSets
 						.AsQueryable()
-						.Where(x => x.UserId == userId && x.InstanceId == instanceId)
+						.Where(x => x.PermissionSetId == userPermissionSet.Id && x.InstanceId == instanceId && x.Instance.SwarmIdentifer == swarmConfiguration.Identifier)
 						.Include(x => x.Instance)
 						.FirstOrDefaultAsync(cancellationToken)
 						.ConfigureAwait(false);
 
-					if (instanceUser == null)
+					if (instancePermissionSet == null)
 						logger.LogDebug("User {0} does not have permissions on instance {1}!", userId, instanceId.Value);
 				}
 
-				CurrentAuthenticationContext = new AuthenticationContext(systemIdentity, user, instanceUser);
+				CurrentAuthenticationContext = new AuthenticationContext(
+					systemIdentity,
+					user,
+					instancePermissionSet);
 			}
 			catch
 			{

@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -121,10 +122,10 @@ namespace Tgstation.Server.Host.Components.Byond
 		/// Installs a BYOND <paramref name="version"/> if it isn't already
 		/// </summary>
 		/// <param name="version">The BYOND <see cref="Version"/> to install</param>
-		/// <param name="versionZipBytes">Custom zip file bytes to use. Will cause a <see cref="Version.Build"/> number to be added.</param>
+		/// <param name="customVersionStream">Custom zip file <see cref="Stream"/> to use. Will cause a <see cref="Version.Build"/> number to be added.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		async Task<string> InstallVersion(Version version, byte[] versionZipBytes, CancellationToken cancellationToken)
+		async Task<string> InstallVersion(Version version, Stream customVersionStream, CancellationToken cancellationToken)
 		{
 			var ourTcs = new TaskCompletionSource<object>();
 			Task inProgressTask;
@@ -132,7 +133,7 @@ namespace Tgstation.Server.Host.Components.Byond
 			bool installed;
 			lock (installedVersions)
 			{
-				if (versionZipBytes != null)
+				if (customVersionStream != null)
 				{
 					int customInstallationNumber = 1;
 					do
@@ -157,7 +158,7 @@ namespace Tgstation.Server.Host.Components.Byond
 					return versionKey;
 				}
 
-			if (versionZipBytes != null)
+			if (customVersionStream != null)
 				logger.LogInformation("Installing custom BYOND version as {0}...", versionKey);
 			else if (version.Build > 0)
 				throw new JobException(ErrorCode.ByondNonExistentCustomVersion);
@@ -168,26 +169,43 @@ namespace Tgstation.Server.Host.Components.Byond
 			try
 			{
 				await eventConsumer.HandleEvent(EventType.ByondInstallStart, new List<string> { versionKey }, cancellationToken).ConfigureAwait(false);
-				var zipFileBytesTask = versionZipBytes == null
-					? byondInstaller.DownloadVersion(version, cancellationToken)
-					: Task.FromResult(versionZipBytes);
 
-				await ioManager.DeleteDirectory(versionKey, cancellationToken).ConfigureAwait(false);
+				var extractPath = ioManager.ResolvePath(versionKey);
+				async Task DirectoryCleanup()
+				{
+					await ioManager.DeleteDirectory(extractPath, cancellationToken).ConfigureAwait(false);
+					await ioManager.CreateDirectory(extractPath, cancellationToken).ConfigureAwait(false);
+				}
 
+				var directoryCleanupTask = DirectoryCleanup();
 				try
 				{
-					versionZipBytes = await zipFileBytesTask.ConfigureAwait(false);
-					await ioManager.CreateDirectory(versionKey, cancellationToken).ConfigureAwait(false);
+					Stream versionZipStream;
+					Stream downloadedStream = null;
+					if (customVersionStream == null)
+					{
+						var bytes = await byondInstaller.DownloadVersion(version, cancellationToken).ConfigureAwait(false);
+						downloadedStream = new MemoryStream(bytes);
+						versionZipStream = downloadedStream;
+					}
+					else
+						versionZipStream = customVersionStream;
 
-					var extractPath = ioManager.ResolvePath(versionKey);
-					logger.LogTrace("Extracting downloaded BYOND zip to {0}...", extractPath);
-					await ioManager.ZipToDirectory(extractPath, versionZipBytes, cancellationToken).ConfigureAwait(false);
-					versionZipBytes = null;
+					using (downloadedStream)
+					{
+						await directoryCleanupTask.ConfigureAwait(false);
+						logger.LogTrace("Extracting downloaded BYOND zip to {0}...", extractPath);
+						await ioManager.ZipToDirectory(extractPath, versionZipStream, cancellationToken).ConfigureAwait(false);
+					}
 
 					await byondInstaller.InstallByond(extractPath, version, cancellationToken).ConfigureAwait(false);
 
 					// make sure to do this last because this is what tells us we have a valid version in the future
-					await ioManager.WriteAllBytes(ioManager.ConcatPath(versionKey, VersionFileName), Encoding.UTF8.GetBytes(versionKey), cancellationToken).ConfigureAwait(false);
+					await ioManager.WriteAllBytes(
+						ioManager.ConcatPath(versionKey, VersionFileName),
+						Encoding.UTF8.GetBytes(versionKey),
+						cancellationToken)
+						.ConfigureAwait(false);
 				}
 				catch (WebException e)
 				{
@@ -220,12 +238,12 @@ namespace Tgstation.Server.Host.Components.Byond
 		}
 
 		/// <inheritdoc />
-		public async Task ChangeVersion(Version version, byte[] customVersionBytes, CancellationToken cancellationToken)
+		public async Task ChangeVersion(Version version, Stream customVersionStream, CancellationToken cancellationToken)
 		{
 			if (version == null)
 				throw new ArgumentNullException(nameof(version));
 
-			var versionKey = await InstallVersion(version, customVersionBytes, cancellationToken).ConfigureAwait(false);
+			var versionKey = await InstallVersion(version, customVersionStream, cancellationToken).ConfigureAwait(false);
 			using (await SemaphoreSlimContext.Lock(semaphore, cancellationToken).ConfigureAwait(false))
 			{
 				await ioManager.WriteAllBytes(ActiveVersionFileName, Encoding.UTF8.GetBytes(versionKey), cancellationToken).ConfigureAwait(false);

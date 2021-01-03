@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
@@ -31,13 +32,13 @@ namespace Tgstation.Server.Tests
 
 		IServer realServer;
 
-		public TestingServer()
+		public TestingServer(SwarmConfiguration swarmConfiguration, bool enableOAuth, ushort port = 5010)
 		{
 			Directory = Environment.GetEnvironmentVariable("TGS4_TEST_TEMP_DIRECTORY");
 			if (String.IsNullOrWhiteSpace(Directory))
 			{
 				Directory = Path.Combine(Path.GetTempPath(), "TGS4_INTEGRATION_TEST");
-				if (System.IO.Directory.Exists(Directory))
+				if (System.IO.Directory.Exists(Directory) && swarmConfiguration == null)
 					try
 					{
 						System.IO.Directory.Delete(Directory, true);
@@ -48,8 +49,8 @@ namespace Tgstation.Server.Tests
 
 			Directory = Path.Combine(Directory, Guid.NewGuid().ToString());
 			System.IO.Directory.CreateDirectory(Directory);
-			const string UrlString = "http://localhost:5010";
-			Url = new Uri(UrlString);
+			string urlString = $"http://localhost:{port}";
+			Url = new Uri(urlString);
 
 			//so we need a db
 			//we have to rely on env vars
@@ -72,19 +73,42 @@ namespace Tgstation.Server.Tests
 			var args = new List<string>()
 			{
 				String.Format(CultureInfo.InvariantCulture, "Database:DropDatabase={0}", true),
-				String.Format(CultureInfo.InvariantCulture, "General:ApiPort={0}", 5010),
+				String.Format(CultureInfo.InvariantCulture, "General:ApiPort={0}", port),
 				String.Format(CultureInfo.InvariantCulture, "Database:DatabaseType={0}", DatabaseType),
 				String.Format(CultureInfo.InvariantCulture, "Database:ConnectionString={0}", connectionString),
 				String.Format(CultureInfo.InvariantCulture, "General:SetupWizardMode={0}", SetupWizardMode.Never),
 				String.Format(CultureInfo.InvariantCulture, "General:MinimumPasswordLength={0}", 10),
 				String.Format(CultureInfo.InvariantCulture, "General:InstanceLimit={0}", 11),
 				String.Format(CultureInfo.InvariantCulture, "General:UserLimit={0}", 150),
+				String.Format(CultureInfo.InvariantCulture, "General:UserGroupLimit={0}", 47),
 				String.Format(CultureInfo.InvariantCulture, "General:HostApiDocumentation={0}", DumpOpenApiSpecpath),
 				String.Format(CultureInfo.InvariantCulture, "FileLogging:Directory={0}", Path.Combine(Directory, "Logs")),
 				String.Format(CultureInfo.InvariantCulture, "FileLogging:LogLevel={0}", "Trace"),
 				String.Format(CultureInfo.InvariantCulture, "General:ValidInstancePaths:0={0}", Directory),
 				"General:ByondTopicTimeout=3000"
 			};
+
+			if (swarmConfiguration != null)
+			{
+				args.Add($"Swarm:PrivateKey={swarmConfiguration.PrivateKey}");
+				args.Add($"Swarm:Identifier={swarmConfiguration.Identifier}");
+				args.Add($"Swarm:Address={swarmConfiguration.Address}");
+				if (swarmConfiguration.ControllerAddress != null)
+					args.Add($"Swarm:ControllerAddress={swarmConfiguration.ControllerAddress}");
+			}
+
+			// enable all oauth providers
+			if (enableOAuth)
+				foreach (var I in Enum.GetValues(typeof(OAuthProvider)))
+				{
+					args.Add($"Security:OAuth:{I}:ClientId=Fake");
+					args.Add($"Security:OAuth:{I}:ClientSecret=Faker");
+					args.Add($"Security:OAuth:{I}:RedirectUrl=https://fakest.com");
+					args.Add($"Security:OAuth:{I}:ServerUrl=https://fakestest.com");
+				}
+
+			// SPECIFICALLY DELETE THE DEV APPSETTINGS, WE DON'T WANT IT IN THE WAY
+			File.Delete("appsettings.Development.json");
 
 			if (!String.IsNullOrEmpty(gitHubAccessToken))
 				args.Add(String.Format(CultureInfo.InvariantCulture, "General:GitHubAccessToken={0}", gitHubAccessToken));

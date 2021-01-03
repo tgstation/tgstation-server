@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +21,7 @@ namespace Tgstation.Server.Host.Security
 		readonly ILogger<IdentityCache> logger;
 
 		/// <summary>
-		/// The map of <see cref="Api.Models.Internal.User.Id"/>s to <see cref="IdentityCacheObject"/>s
+		/// The map of <see cref="Api.Models.Internal.UserBase.Id"/>s to <see cref="IdentityCacheObject"/>s
 		/// </summary>
 		readonly Dictionary<long, IdentityCacheObject> cachedIdentities;
 

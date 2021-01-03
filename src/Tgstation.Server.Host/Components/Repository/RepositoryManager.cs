@@ -41,6 +41,11 @@ namespace Tgstation.Server.Host.Components.Repository
 		readonly IEventConsumer eventConsumer;
 
 		/// <summary>
+		/// The <see cref="IGitRemoteFeaturesFactory"/> for the <see cref="RepositoryManager"/>
+		/// </summary>
+		readonly IGitRemoteFeaturesFactory gitRemoteFeaturesFactory;
+
+		/// <summary>
 		/// The <see cref="ILogger"/> created <see cref="Repository"/>s
 		/// </summary>
 		readonly ILogger<Repository> repositoryLogger;
@@ -62,6 +67,7 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="commands">The value of <see cref="commands"/>.</param>
 		/// <param name="ioManager">The value of <see cref="ioManager"/></param>
 		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/></param>
+		/// <param name="gitRemoteFeaturesFactory">The value of <see cref="gitRemoteFeaturesFactory"/>.</param>
 		/// <param name="repositoryLogger">The value of <see cref="repositoryLogger"/></param>
 		/// <param name="logger">The value of <see cref="logger"/></param>
 		public RepositoryManager(
@@ -69,6 +75,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			ILibGit2Commands commands,
 			IIOManager ioManager,
 			IEventConsumer eventConsumer,
+			IGitRemoteFeaturesFactory gitRemoteFeaturesFactory,
 			ILogger<Repository> repositoryLogger,
 			ILogger<RepositoryManager> logger)
 		{
@@ -76,6 +83,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			this.commands = commands ?? throw new ArgumentNullException(nameof(commands));
 			this.ioManager = ioManager ?? throw new ArgumentNullException(nameof(ioManager));
 			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
+			this.gitRemoteFeaturesFactory = gitRemoteFeaturesFactory ?? throw new ArgumentNullException(nameof(gitRemoteFeaturesFactory));
 			this.repositoryLogger = repositoryLogger ?? throw new ArgumentNullException(nameof(repositoryLogger));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			semaphore = new SemaphoreSlim(1);
@@ -188,18 +196,21 @@ namespace Tgstation.Server.Host.Components.Repository
 			{
 				try
 				{
-					var libGitRepo = await repositoryFactory.CreateFromPath(ioManager.ResolvePath(), cancellationToken).ConfigureAwait(false);
+					var libGit2Repo = await repositoryFactory.CreateFromPath(ioManager.ResolvePath(), cancellationToken).ConfigureAwait(false);
+
 					return new Repository(
-						libGitRepo,
+						libGit2Repo,
 						commands,
 						ioManager,
 						eventConsumer,
 						repositoryFactory,
-						repositoryLogger, () =>
-					{
-						logger.LogTrace("Releasing semaphore due to Repository disposal...");
-						semaphore.Release();
-					});
+						gitRemoteFeaturesFactory,
+						repositoryLogger,
+						() =>
+						{
+							logger.LogTrace("Releasing semaphore due to Repository disposal...");
+							semaphore.Release();
+						});
 				}
 				catch
 				{

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -41,11 +41,16 @@ namespace Tgstation.Server.Client
 		IUsersClient Users { get; }
 
 		/// <summary>
-		/// The <see cref="ServerInformation"/> of the <see cref="IServerClient"/>
+		/// Access the <see cref="IUserGroupsClient"/>.
+		/// </summary>
+		IUserGroupsClient Groups { get; }
+
+		/// <summary>
+		/// The <see cref="Api.Models.ServerInformation"/> of the <see cref="IServerClient"/>
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ServerInformation"/> of the target server</returns>
-		Task<ServerInformation> Version(CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="Api.Models.ServerInformation"/> of the target server</returns>
+		Task<ServerInformation> ServerInformation(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Adds a <paramref name="requestLogger"/> to the request pipeline

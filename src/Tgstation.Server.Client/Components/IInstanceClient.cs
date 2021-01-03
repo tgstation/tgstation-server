@@ -1,4 +1,4 @@
-﻿using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Client.Components
 {
@@ -33,9 +33,9 @@ namespace Tgstation.Server.Client.Components
 		IConfigurationClient Configuration { get; }
 
 		/// <summary>
-		/// Access the <see cref="IInstanceUserClient"/>
+		/// Access the <see cref="IInstancePermissionSetClient"/>.
 		/// </summary>
-		IInstanceUserClient Users { get; }
+		IInstancePermissionSetClient PermissionSets { get; }
 
 		/// <summary>
 		/// Access the <see cref="IChatBotsClient"/>

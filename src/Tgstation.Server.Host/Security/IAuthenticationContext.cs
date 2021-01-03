@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Models;
 
@@ -15,15 +15,20 @@ namespace Tgstation.Server.Host.Security
 		User User { get; }
 
 		/// <summary>
-		/// The <see cref="InstanceUser"/> of <see cref="User"/> if applicable
+		/// The <see cref="User"/>'s effective <see cref="PermissionSet"/>.
 		/// </summary>
-		InstanceUser InstanceUser { get; }
+		PermissionSet PermissionSet { get; }
+
+		/// <summary>
+		/// The <see cref="User"/>'s effective <see cref="Models.InstancePermissionSet"/> if applicable.
+		/// </summary>
+		InstancePermissionSet InstancePermissionSet { get; }
 
 		/// <summary>
 		/// Get the value of a given <paramref name="rightsType"/>
 		/// </summary>
 		/// <param name="rightsType">The <see cref="RightsType"/> of the right to get</param>
-		/// <returns>The value of <paramref name="rightsType"/>. Note that if <see cref="InstanceUser"/> is <see langword="null"/> all <see cref="Instance"/> based rights will return 0</returns>
+		/// <returns>The value of <paramref name="rightsType"/>. Note that if <see cref="InstancePermissionSet"/> is <see langword="null"/> all <see cref="Instance"/> based rights will return 0</returns>
 		ulong GetRight(RightsType rightsType);
 
 		/// <summary>

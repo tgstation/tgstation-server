@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -15,6 +16,7 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Display;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -25,20 +27,25 @@ using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Chat.Providers;
+using Tgstation.Server.Host.Components.Deployment.Remote;
 using Tgstation.Server.Host.Components.Interop.Bridge;
-using Tgstation.Server.Host.Components.Interop.Converters;
 using Tgstation.Server.Host.Components.Repository;
 using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Components.Watchdog;
 using Tgstation.Server.Host.Configuration;
+using Tgstation.Server.Host.Controllers;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
+using Tgstation.Server.Host.Extensions.Converters;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.Jobs;
 using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.Security;
+using Tgstation.Server.Host.Security.OAuth;
 using Tgstation.Server.Host.Setup;
+using Tgstation.Server.Host.Swarm;
 using Tgstation.Server.Host.System;
+using Tgstation.Server.Host.Transfer;
 
 namespace Tgstation.Server.Host.Core
 {
@@ -100,7 +107,7 @@ namespace Tgstation.Server.Host.Core
 			// configure configuration
 			services.UseStandardConfig<UpdatesConfiguration>(Configuration);
 			services.UseStandardConfig<ControlPanelConfiguration>(Configuration);
-			services.UseStandardConfig<SecurityConfiguration>(Configuration);
+			services.UseStandardConfig<SwarmConfiguration>(Configuration);
 
 			// enable options which give us config reloading
 			services.AddOptions();
@@ -127,7 +134,10 @@ namespace Tgstation.Server.Host.Core
 				config =>
 				{
 					if (microsoftEventLevel.HasValue)
+					{
 						config.MinimumLevel.Override("Microsoft", microsoftEventLevel.Value);
+						config.MinimumLevel.Override("System.Net.Http.HttpClient", microsoftEventLevel.Value);
+					}
 				},
 				sinkConfig =>
 				{
@@ -159,24 +169,26 @@ namespace Tgstation.Server.Host.Core
 				});
 
 			// configure bearer token validation
-			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(jwtBearerOptions =>
-			{
-				// this line isn't actually run until the first request is made
-				// at that point tokenFactory will be populated
-				jwtBearerOptions.TokenValidationParameters = tokenFactory.ValidationParameters;
-				jwtBearerOptions.Events = new JwtBearerEvents
+			services
+				.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+				.AddJwtBearer(jwtBearerOptions =>
 				{
-					// Application is our composition root so this monstrosity of a line is okay
-					// At least, that's what I tell myself to sleep at night
-					OnTokenValidated = ctx => ctx
-						.HttpContext
-						.RequestServices
-						.GetRequiredService<IClaimsInjector>()
-						.InjectClaimsIntoContext(
-							ctx,
-							ctx.HttpContext.RequestAborted)
-				};
-			});
+					// this line isn't actually run until the first request is made
+					// at that point tokenFactory will be populated
+					jwtBearerOptions.TokenValidationParameters = tokenFactory.ValidationParameters;
+					jwtBearerOptions.Events = new JwtBearerEvents
+					{
+						// Application is our composition root so this monstrosity of a line is okay
+						// At least, that's what I tell myself to sleep at night
+						OnTokenValidated = ctx => ctx
+							.HttpContext
+							.RequestServices
+							.GetRequiredService<IClaimsInjector>()
+							.InjectClaimsIntoContext(
+								ctx,
+								ctx.HttpContext.RequestAborted)
+					};
+				});
 
 			// WARNING: STATIC CODE
 			// fucking prevents converting 'sub' to M$ bs
@@ -198,7 +210,10 @@ namespace Tgstation.Server.Host.Core
 					options.SerializerSettings.CheckAdditionalContent = true;
 					options.SerializerSettings.MissingMemberHandling = MissingMemberHandling.Error;
 					options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-					options.SerializerSettings.Converters = new[] { new VersionConverter() };
+					options.SerializerSettings.Converters = new List<JsonConverter>
+					{
+						new VersionConverter()
+					};
 				});
 
 			if (postSetupServices.GeneralConfiguration.HostApiDocumentation)
@@ -215,6 +230,9 @@ namespace Tgstation.Server.Host.Core
 
 			// CORS conditionally enabled later
 			services.AddCors();
+
+			// Enable managed HTTP clients
+			services.AddHttpClient();
 
 			void AddTypedContext<TContext>() where TContext : DatabaseContext
 			{
@@ -260,6 +278,7 @@ namespace Tgstation.Server.Host.Core
 			// configure security services
 			services.AddScoped<IAuthenticationContextFactory, AuthenticationContextFactory>();
 			services.AddScoped<IClaimsInjector, ClaimsInjector>();
+			services.AddSingleton<IOAuthProviders, OAuthProviders>();
 			services.AddSingleton<IIdentityCache, IdentityCache>();
 			services.AddSingleton<ICryptographySuite, CryptographySuite>();
 			services.AddSingleton<ITokenFactory, TokenFactory>();
@@ -294,20 +313,28 @@ namespace Tgstation.Server.Host.Core
 				services.AddSingleton<INetworkPromptReaper, PosixNetworkPromptReaper>();
 			}
 
-			// configure misc services
-			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
+			// configure component/misc services
+			services.AddScoped<IPortAllocator, PortAllocator>();
+			services.AddTransient<IActionResultExecutor<LimitedFileStreamResult>, LimitedFileStreamResultExecutor>();
 			services.AddSingleton<IGitHubClientFactory, GitHubClientFactory>();
 			services.AddSingleton<IProcessExecutor, ProcessExecutor>();
 			services.AddSingleton<IServerPortProvider, ServerPortProivder>();
 			services.AddSingleton<ITopicClientFactory, TopicClientFactory>();
-			services.AddScoped<IPortAllocator, PortAllocator>();
-
-			// configure component services
+			services.AddSingleton<IInstanceFactory, InstanceFactory>();
+			services.AddSingleton<IGitRemoteFeaturesFactory, GitRemoteFeaturesFactory>();
 			services.AddSingleton<ILibGit2RepositoryFactory, LibGit2RepositoryFactory>();
 			services.AddSingleton<ILibGit2Commands, LibGit2Commands>();
+			services.AddSingleton<IRemoteDeploymentManagerFactory, RemoteDeploymentManagerFactory>();
 			services.AddSingleton<IProviderFactory, ProviderFactory>();
 			services.AddSingleton<IChatManagerFactory, ChatManagerFactory>();
-			services.AddSingleton<IInstanceFactory, InstanceFactory>();
+			services.AddSingleton<ISynchronousIOManager, SynchronousIOManager>();
+			services.AddSingleton<FileTransferService>();
+			services.AddSingleton<IFileTransferStreamHandler>(x => x.GetRequiredService<FileTransferService>());
+			services.AddSingleton<IFileTransferTicketProvider>(x => x.GetRequiredService<FileTransferService>());
+			services.AddSingleton<SwarmService>();
+			services.AddSingleton<ISwarmService>(x => x.GetRequiredService<SwarmService>());
+			services.AddSingleton<ISwarmOperations>(x => x.GetRequiredService<SwarmService>());
+			services.AddSingleton<IServerUpdateInitiator, ServerUpdateInitiator>();
 
 			// configure root services
 			services.AddSingleton<IJobManager, JobManager>();
@@ -344,6 +371,7 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="serverControl">The <see cref="IServerControl"/> for the <see cref="Application"/></param>
 		/// <param name="tokenFactory">The value of <see cref="tokenFactory"/></param>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/>.</param>
+		/// <param name="serverPortProvider">The <see cref="IServerPortProvider"/>.</param>
 		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="ControlPanelConfiguration"/> to use</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the <see cref="GeneralConfiguration"/> to use</param>
 		/// <param name="logger">The <see cref="Microsoft.Extensions.Logging.ILogger"/> for the <see cref="Application"/></param>
@@ -352,6 +380,7 @@ namespace Tgstation.Server.Host.Core
 			IServerControl serverControl,
 			ITokenFactory tokenFactory,
 			IInstanceManager instanceManager,
+			IServerPortProvider serverPortProvider,
 			IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
 			ILogger<Application> logger)
@@ -428,7 +457,10 @@ namespace Tgstation.Server.Host.Core
 			var originalBuilder = corsBuilder;
 			corsBuilder = builder =>
 			{
-				builder.AllowAnyHeader().AllowAnyMethod();
+				builder
+					.AllowAnyHeader()
+					.AllowAnyMethod()
+					.SetPreflightMaxAge(TimeSpan.FromDays(1));
 				originalBuilder?.Invoke(builder);
 			};
 			applicationBuilder.UseCors(corsBuilder);
@@ -463,7 +495,7 @@ namespace Tgstation.Server.Host.Core
 			logger.LogTrace("DMAPI version: {0}", masterVersionsAttribute.RawDMApiVersion);
 			logger.LogTrace("Web control panel version: {0}", masterVersionsAttribute.RawControlPanelVersion);
 
-			logger.LogDebug("Starting hosting...");
+			logger.LogDebug("Starting hosting on port {0}...", serverPortProvider.HttpApiPort);
 		}
 	}
 }

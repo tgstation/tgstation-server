@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -33,11 +33,12 @@ namespace Tgstation.Server.Client.Components
 		Task<Job> Compile(CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Gets the <see cref="EntityId"/>s of all <see cref="CompileJob"/>s for the instance
+		/// Gets the <see cref="CompileJob"/>s for the instance
 		/// </summary>
+		/// <param name="paginationSettings">The optional <see cref="PaginationSettings"/> for the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="IReadOnlyList{T}"/> of <see cref="CompileJob"/> <see cref="EntityId"/>s.</returns>
-		Task<IReadOnlyList<EntityId>> GetJobIds(CancellationToken cancellationToken);
+		Task<IReadOnlyList<EntityId>> ListCompileJobs(PaginationSettings? paginationSettings, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Get a <paramref name="compileJob"/>

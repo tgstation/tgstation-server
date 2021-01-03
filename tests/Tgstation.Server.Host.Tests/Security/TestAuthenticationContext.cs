@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using Tgstation.Server.Api.Rights;
@@ -18,12 +18,15 @@ namespace Tgstation.Server.Host.Security.Tests
 			Assert.ThrowsException<ArgumentNullException>(() => new AuthenticationContext(null, null, null));
 			var mockSystemIdentity = new Mock<ISystemIdentity>();
 
-			var user = new User();
+			var user = new User()
+			{
+				PermissionSet = new PermissionSet()
+			};
 
 			var authContext = new AuthenticationContext(null, user, null);
 			Assert.ThrowsException<ArgumentNullException>(() => new AuthenticationContext(mockSystemIdentity.Object, null, null));
 
-			var instanceUser = new InstanceUser();
+			var instanceUser = new InstancePermissionSet();
 
 			Assert.ThrowsException<ArgumentNullException>(() => new AuthenticationContext(null, null, instanceUser));
 			Assert.ThrowsException<ArgumentNullException>(() => new AuthenticationContext(mockSystemIdentity.Object, null, instanceUser));
@@ -38,13 +41,16 @@ namespace Tgstation.Server.Host.Security.Tests
 		[TestMethod]
 		public void TestGetRightsGeneric()
 		{
-			var user = new User();
-			var instanceUser = new InstanceUser();
+			var user = new User()
+			{
+				PermissionSet = new PermissionSet()
+			};
+			var instanceUser = new InstancePermissionSet();
 			var authContext = new AuthenticationContext(null, user, instanceUser);
 
-			user.AdministrationRights = AdministrationRights.WriteUsers;
+			user.PermissionSet.AdministrationRights = AdministrationRights.WriteUsers;
 			instanceUser.ByondRights = ByondRights.InstallOfficialOrChangeActiveVersion | ByondRights.ReadActive;
-			Assert.AreEqual((ulong)user.AdministrationRights, authContext.GetRight(RightsType.Administration));
+			Assert.AreEqual((ulong)user.PermissionSet.AdministrationRights, authContext.GetRight(RightsType.Administration));
 			Assert.AreEqual((ulong)instanceUser.ByondRights, authContext.GetRight(RightsType.Byond));
 		}
 	}

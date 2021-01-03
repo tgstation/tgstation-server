@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net.Http;
 
 namespace Tgstation.Server.Client
@@ -14,6 +14,11 @@ namespace Tgstation.Server.Client
 		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/>.</param>
 		public ServiceUnavailableException(HttpResponseMessage responseMessage) : base(responseMessage, "The service is unavailable!")
 		{ }
+
+		/// <summary>
+		/// Intializes a new instance of the <see cref="ServiceUnavailableException"/> <see langword="class"/>.
+		/// </summary>
+		public ServiceUnavailableException() { }
 
 		/// <summary>
 		/// Construct an <see cref="ServiceUnavailableException"/> with a <paramref name="message"/>

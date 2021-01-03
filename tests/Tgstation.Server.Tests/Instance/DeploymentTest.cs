@@ -22,7 +22,6 @@ namespace Tgstation.Server.Tests.Instance
 
 		public async Task Run(Task repositoryTask, CancellationToken cancellationToken)
 		{
-			Assert.IsFalse(repositoryTask.IsCompleted);
 			var deployJob = await dreamMakerClient.Compile(cancellationToken);
 			deployJob = await WaitForJob(deployJob, 30, true, null, cancellationToken);
 			Assert.IsTrue(deployJob.ErrorCode == ErrorCode.RepoCloning || deployJob.ErrorCode == ErrorCode.RepoMissing);

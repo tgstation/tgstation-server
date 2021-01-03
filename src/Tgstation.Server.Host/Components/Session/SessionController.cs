@@ -212,6 +212,17 @@ namespace Tgstation.Server.Host.Components.Session
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
+			portClosedForReboot = false;
+			disposed = false;
+			apiValidationStatus = ApiValidationStatus.NeverValidated;
+			released = false;
+
+			rebootTcs = new TaskCompletionSource<object>();
+			primeTcs = new TaskCompletionSource<object>();
+			initialBridgeRequestTcs = new TaskCompletionSource<object>();
+			reattachTopicCts = new CancellationTokenSource();
+			synchronizationLock = new object();
+
 			if (apiValidate || DMApiAvailable)
 			{
 				bridgeRegistration = bridgeRegistrar.RegisterHandler(this);
@@ -223,17 +234,6 @@ namespace Tgstation.Server.Host.Components.Session
 					reattachInformation.Dmb.CompileJob.DMApiVersion == null
 						? "no"
 						: $"incompatible ({reattachInformation.Dmb.CompileJob.DMApiVersion})");
-
-			portClosedForReboot = false;
-			disposed = false;
-			apiValidationStatus = ApiValidationStatus.NeverValidated;
-			released = false;
-
-			rebootTcs = new TaskCompletionSource<object>();
-			primeTcs = new TaskCompletionSource<object>();
-			initialBridgeRequestTcs = new TaskCompletionSource<object>();
-			reattachTopicCts = new CancellationTokenSource();
-			synchronizationLock = new object();
 
 			async Task<int> WrapLifetime()
 			{
@@ -300,21 +300,27 @@ namespace Tgstation.Server.Host.Components.Session
 			bool reattached,
 			bool apiValidate)
 		{
-			var startTime = DateTimeOffset.Now;
-			var startupTask = !reattached && (apiValidate || DMApiAvailable)
+			var startTime = DateTimeOffset.UtcNow;
+			var useBridgeRequestForLaunchResult = !reattached && (apiValidate || DMApiAvailable);
+			var startupTask = useBridgeRequestForLaunchResult
 				? initialBridgeRequestTcs.Task
 				: process.Startup;
 			var toAwait = Task.WhenAny(startupTask, process.Lifetime);
 
 			if (startupTimeout.HasValue)
-				toAwait = Task.WhenAny(toAwait, Task.Delay(startTime.AddSeconds(startupTimeout.Value) - startTime));
+				toAwait = Task.WhenAny(toAwait, Task.Delay(TimeSpan.FromSeconds(startupTimeout.Value)));
+
+			logger.LogTrace(
+				"Waiting for LaunchResult based on {0}{1}...",
+				useBridgeRequestForLaunchResult ? "initial bridge request" : "process startup",
+				startupTimeout.HasValue ? $" with a timeout of {startupTimeout.Value}s" : String.Empty);
 
 			await toAwait.ConfigureAwait(false);
 
 			var result = new LaunchResult
 			{
 				ExitCode = process.Lifetime.IsCompleted ? (int?)await process.Lifetime.ConfigureAwait(false) : null,
-				StartupTime = startupTask.IsCompleted ? (TimeSpan?)(DateTimeOffset.Now - startTime) : null
+				StartupTime = startupTask.IsCompleted ? (TimeSpan?)(DateTimeOffset.UtcNow - startTime) : null
 			};
 
 			logger.LogTrace("Launch result: {0}", result);
@@ -343,10 +349,15 @@ namespace Tgstation.Server.Host.Components.Session
 		}
 
 		/// <inheritdoc />
-		public async Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
+		public Task<BridgeResponse> ProcessBridgeRequest(BridgeParameters parameters, CancellationToken cancellationToken)
 		{
 			if (parameters == null)
 				throw new ArgumentNullException(nameof(parameters));
+
+			static Task<BridgeResponse> Error(string message) => Task.FromResult(new BridgeResponse
+			{
+				ErrorMessage = message
+			});
 
 			using (LogContext.PushProperty("Instance", metadata.Id))
 			{
@@ -358,34 +369,20 @@ namespace Tgstation.Server.Host.Components.Session
 				{
 					case BridgeCommandType.ChatSend:
 						if (parameters.ChatMessage == null)
-							return new BridgeResponse
-							{
-								ErrorMessage = "Missing chatMessage field!"
-							};
+							return Error("Missing chatMessage field!");
 
 						if (parameters.ChatMessage.ChannelIds == null)
-							return new BridgeResponse
-							{
-								ErrorMessage = "Missing channelIds field in chatMessage!"
-							};
+							return Error("Missing channelIds field in chatMessage!");
 
 						if (parameters.ChatMessage.ChannelIds.Any(channelIdString => !UInt64.TryParse(channelIdString, out var _)))
-							return new BridgeResponse
-							{
-								ErrorMessage = "Invalid channelIds in chatMessage!"
-							};
+							return Error("Invalid channelIds in chatMessage!");
 
 						if (parameters.ChatMessage.Text == null)
-							return new BridgeResponse
-							{
-								ErrorMessage = "Missing message field in chatMessage!"
-							};
+							return Error("Missing message field in chatMessage!");
 
-						await chat.SendMessage(
+						chat.QueueMessage(
 							parameters.ChatMessage.Text,
-							parameters.ChatMessage.ChannelIds.Select(UInt64.Parse),
-							cancellationToken)
-							.ConfigureAwait(false);
+							parameters.ChatMessage.ChannelIds.Select(UInt64.Parse));
 						break;
 					case BridgeCommandType.Prime:
 						var oldPrimeTcs = primeTcs;
@@ -404,10 +401,7 @@ namespace Tgstation.Server.Host.Components.Session
 							{
 								/////UHHHH
 								logger.LogWarning("DreamDaemon sent new port command without providing it's own!");
-								return new BridgeResponse
-								{
-									ErrorMessage = "Missing stringified port as data parameter!"
-								};
+								return Error("Missing stringified port as data parameter!");
 							}
 
 							var currentPort = parameters.CurrentPort.Value;
@@ -434,19 +428,13 @@ namespace Tgstation.Server.Host.Components.Session
 					case BridgeCommandType.Startup:
 						apiValidationStatus = ApiValidationStatus.BadValidationRequest;
 						if (parameters.Version == null)
-							return new BridgeResponse
-							{
-								ErrorMessage = "Missing dmApiVersion field!"
-							};
+							return Error("Missing dmApiVersion field!");
 
 						DMApiVersion = parameters.Version;
 						if (DMApiVersion.Major != DMApiConstants.Version.Major)
 						{
 							apiValidationStatus = ApiValidationStatus.Incompatible;
-							return new BridgeResponse
-							{
-								ErrorMessage = "Incompatible dmApiVersion!"
-							};
+							return Error("Incompatible dmApiVersion!");
 						}
 
 						switch (parameters.MinimumSecurityLevel)
@@ -461,16 +449,12 @@ namespace Tgstation.Server.Host.Components.Session
 								apiValidationStatus = ApiValidationStatus.RequiresTrusted;
 								break;
 							case null:
-								return new BridgeResponse
-								{
-									ErrorMessage = "Missing minimumSecurityLevel field!"
-								};
+								return Error("Missing minimumSecurityLevel field!");
 							default:
-								return new BridgeResponse
-								{
-									ErrorMessage = "Invalid minimumSecurityLevel!"
-								};
+								return Error("Invalid minimumSecurityLevel!");
 						}
+
+						logger.LogTrace("ApiValidationStatus set to {0}", apiValidationStatus);
 
 						response.RuntimeInformation = new RuntimeInformation(
 							chatTrackingContext,
@@ -504,7 +488,7 @@ namespace Tgstation.Server.Host.Components.Session
 						break;
 				}
 
-				return response;
+				return Task.FromResult(response);
 			}
 		}
 

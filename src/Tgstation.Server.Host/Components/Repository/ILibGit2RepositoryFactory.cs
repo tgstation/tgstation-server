@@ -1,4 +1,4 @@
-﻿using LibGit2Sharp;
+using LibGit2Sharp;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,17 +11,17 @@ namespace Tgstation.Server.Host.Components.Repository
 	interface ILibGit2RepositoryFactory : ICredentialsProvider
 	{
 		/// <summary>
-		/// Create an in-memeory <see cref="LibGit2Sharp.IRepository"/>.
+		/// Create and destory an in-memeory <see cref="LibGit2Sharp.IRepository"/>.
 		/// </summary>
-		/// <returns>A new in-memory <see cref="LibGit2Sharp.IRepository"/>.</returns>
-		LibGit2Sharp.IRepository CreateInMemory();
+		/// <remarks>Used as a test of the libgit2 native library.</remarks>
+		void CreateInMemory();
 
 		/// <summary>
 		/// Load a <see cref="LibGit2Sharp.IRepository"/> from a given <paramref name="path"/>.
 		/// </summary>
 		/// <param name="path">The full path to the <see cref="LibGit2Sharp.IRepository"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in, the loaded <see cref="LibGit2Sharp.IRepository"/>.</returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the loaded <see cref="LibGit2Sharp.IRepository"/>.</returns>
 		Task<LibGit2Sharp.IRepository> CreateFromPath(string path, CancellationToken cancellationToken);
 
 		/// <summary>

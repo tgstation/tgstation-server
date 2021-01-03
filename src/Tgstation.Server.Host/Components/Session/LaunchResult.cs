@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 
 namespace Tgstation.Server.Host.Components.Session
@@ -9,7 +9,7 @@ namespace Tgstation.Server.Host.Components.Session
 	public sealed class LaunchResult
 	{
 		/// <summary>
-		/// The time it took for <see cref="global::System.Diagnostics.Process.WaitForInputIdle()"/> to return. If <see langword="null"/> the startup timed out
+		/// The time it took for <see cref="global::System.Diagnostics.Process.WaitForInputIdle()"/> to return or the initial bridge request to process. If <see langword="null"/> the startup timed out
 		/// </summary>
 		public TimeSpan? StartupTime { get; set; }
 

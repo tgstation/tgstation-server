@@ -36,7 +36,7 @@ namespace Tgstation.Server.Tests.Instance
 			// Increase startup timeout, disable heartbeats
 			var initialSettings = await instanceClient.DreamDaemon.Update(new DreamDaemon
 			{
-				StartupTimeout = 30,
+				StartupTimeout = 60,
 				HeartbeatSeconds = 0,
 				Port = IntegrationTest.DDPort
 			}, cancellationToken);
@@ -389,13 +389,14 @@ namespace Tgstation.Server.Tests.Instance
 
 			var startJob = await StartDD(cancellationToken).ConfigureAwait(false);
 
-			await WaitForJob(startJob, 40, false, null, cancellationToken);
+			await WaitForJob(startJob, 70, false, null, cancellationToken);
 
 			var byondInstallJobTask = instanceClient.Byond.SetActiveVersion(
 				new Api.Models.Byond
 				{
 					Version = versionToInstall
 				},
+				null,
 				cancellationToken);
 			var byondInstallJob = await byondInstallJobTask;
 

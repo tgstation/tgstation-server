@@ -83,15 +83,14 @@ namespace Tgstation.Server.Host.Database
 			bool alreadyExists = tgsUser != null;
 			tgsUser ??= new User()
 			{
-				CreatedAt = DateTimeOffset.Now,
+				CreatedAt = DateTimeOffset.UtcNow,
 				CanonicalName = User.CanonicalizeName(User.TgsSystemUserName),
 			};
 
+			// intentionally not giving a group or permissionset
 			tgsUser.Name = User.TgsSystemUserName;
 			tgsUser.PasswordHash = "_"; // This can't be hashed
 			tgsUser.Enabled = false;
-			tgsUser.InstanceManagerRights = InstanceManagerRights.None;
-			tgsUser.AdministrationRights = AdministrationRights.None;
 
 			if (!alreadyExists)
 				databaseContext.Users.Add(tgsUser);
@@ -107,9 +106,12 @@ namespace Tgstation.Server.Host.Database
 		{
 			var admin = new User
 			{
-				AdministrationRights = RightsHelper.AllRights<AdministrationRights>(),
-				CreatedAt = DateTimeOffset.Now,
-				InstanceManagerRights = RightsHelper.AllRights<InstanceManagerRights>(),
+				PermissionSet = new PermissionSet
+				{
+					AdministrationRights = RightsHelper.AllRights<AdministrationRights>(),
+					InstanceManagerRights = RightsHelper.AllRights<InstanceManagerRights>(),
+				},
+				CreatedAt = DateTimeOffset.UtcNow,
 				Name = Api.Models.User.AdminName,
 				CanonicalName = User.CanonicalizeName(Api.Models.User.AdminName),
 				Enabled = true,
@@ -149,11 +151,14 @@ namespace Tgstation.Server.Host.Database
 			var admin = await GetAdminUser(databaseContext, cancellationToken).ConfigureAwait(false);
 			if (admin != null)
 			{
-				// Fix the issue with ulong enums
-				// https://github.com/tgstation/tgstation-server/commit/db341d43b3dab74fe3681f5172ca9bfeaafa6b6d#diff-09f06ec4584665cf89bb77b97f5ccfb9R36-R39
-				// https://github.com/JamesNK/Newtonsoft.Json/issues/2301
-				admin.AdministrationRights &= RightsHelper.AllRights<AdministrationRights>();
-				admin.InstanceManagerRights &= RightsHelper.AllRights<InstanceManagerRights>();
+				if (admin.PermissionSet != null)
+				{
+					// Fix the issue with ulong enums
+					// https://github.com/tgstation/tgstation-server/commit/db341d43b3dab74fe3681f5172ca9bfeaafa6b6d#diff-09f06ec4584665cf89bb77b97f5ccfb9R36-R39
+					// https://github.com/JamesNK/Newtonsoft.Json/issues/2301
+					admin.PermissionSet.AdministrationRights &= RightsHelper.AllRights<AdministrationRights>();
+					admin.PermissionSet.InstanceManagerRights &= RightsHelper.AllRights<InstanceManagerRights>();
+				}
 
 				if (admin.CreatedBy == null)
 				{
@@ -229,7 +234,20 @@ namespace Tgstation.Server.Host.Database
 			if (admin != null)
 			{
 				admin.Enabled = true;
-				admin.AdministrationRights |= AdministrationRights.WriteUsers;
+
+				// force the user out of any groups
+				if (admin.PermissionSet == null)
+				{
+					admin.Group = null;
+					admin.GroupId = null;
+					admin.PermissionSet = new PermissionSet
+					{
+						InstanceManagerRights = InstanceManagerRights.None,
+						AdministrationRights = AdministrationRights.WriteUsers
+					};
+				}
+				else
+					admin.PermissionSet.AdministrationRights |= AdministrationRights.WriteUsers;
 				cryptographySuite.SetUserPassword(admin, Api.Models.User.DefaultAdminPassword, false);
 			}
 
@@ -249,6 +267,8 @@ namespace Tgstation.Server.Host.Database
 				.AsQueryable()
 				.Where(x => x.CanonicalName == User.CanonicalizeName(Api.Models.User.AdminName))
 				.Include(x => x.CreatedBy)
+				.Include(x => x.PermissionSet)
+				.Include(x => x.Group)
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);
 			if (admin == default)

@@ -417,7 +417,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				.Select(x => new EmbedFieldBuilder
 				{
 					Name = $"#{x.Number}",
-					Value = $"[{x.TitleAtMerge}]({x.Url}) by _[@{x.Author}](https://github.com/{x.Author})_{Environment.NewLine}Commit: [{x.PullRequestRevision.Substring(0, 7)}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{x.PullRequestRevision}){(String.IsNullOrWhiteSpace(x.Comment) ? String.Empty : $"{Environment.NewLine}_**{x.Comment}**_")}"
+					Value = $"[{x.TitleAtMerge}]({x.Url}) by _[@{x.Author}](https://github.com/{x.Author})_{Environment.NewLine}Commit: [{x.TargetCommitSha.Substring(0, 7)}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{x.TargetCommitSha}){(String.IsNullOrWhiteSpace(x.Comment) ? String.Empty : $"{Environment.NewLine}_**{x.Comment}**_")}"
 				}));
 
 			var builder = new EmbedBuilder
@@ -461,7 +461,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 				var completionString = errorMessage == null ? "Succeeded" : "Failed";
 				builder.Footer.Text = completionString;
 				builder.Color = errorMessage == null ? Color.Green : Color.Red;
-				builder.Timestamp = DateTimeOffset.Now;
+				builder.Timestamp = DateTimeOffset.UtcNow;
 				builder.Description = errorMessage == null
 					? "The deployment completed successfully and will be available at the next server reboot."
 					: "The deployment failed.";

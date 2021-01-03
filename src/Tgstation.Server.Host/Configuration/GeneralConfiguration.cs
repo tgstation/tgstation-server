@@ -44,6 +44,11 @@ namespace Tgstation.Server.Host.Configuration
 		const uint DefaultUserLimit = 100;
 
 		/// <summary>
+		/// The default value for <see cref="ServerInformation.UserGroupLimit"/>.
+		/// </summary>
+		const uint DefaultUserGroupLimit = 25;
+
+		/// <summary>
 		/// The default value for <see cref="ByondTopicTimeout"/>
 		/// </summary>
 		const uint DefaultByondTopicTimeout = 5000;
@@ -102,6 +107,7 @@ namespace Tgstation.Server.Host.Configuration
 			MinimumPasswordLength = DefaultMinimumPasswordLength;
 			InstanceLimit = DefaultInstanceLimit;
 			UserLimit = DefaultUserLimit;
+			UserGroupLimit = DefaultUserGroupLimit;
 		}
 
 		/// <summary>

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
+using Tgstation.Server.Host.Components.Deployment.Remote;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Session;
 using Tgstation.Server.Host.Core;
@@ -47,7 +48,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="asyncDelayer">The <see cref="IAsyncDelayer"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="diagnosticsIOManager">The <see cref="IIOManager"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="eventConsumer">The <see cref="IEventConsumer"/> for the <see cref="WatchdogBase"/>.</param>
-		/// <param name="gitHubDeploymentManager">The <see cref="IGitHubDeploymentManager"/> for the <see cref="WatchdogBase"/>.</param>
+		/// <param name="remoteDeploymentManagerFactory">The <see cref="IRemoteDeploymentManagerFactory"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="logger">The <see cref="ILogger"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="initialLaunchParameters">The <see cref="DreamDaemonLaunchParameters"/> for the <see cref="WatchdogBase"/>.</param>
 		/// <param name="instance">The <see cref="Api.Models.Instance"/> for the <see cref="WatchdogBase"/>.</param>
@@ -62,7 +63,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			IAsyncDelayer asyncDelayer,
 			IIOManager diagnosticsIOManager,
 			IEventConsumer eventConsumer,
-			IGitHubDeploymentManager gitHubDeploymentManager,
+			IRemoteDeploymentManagerFactory remoteDeploymentManagerFactory,
 			ILogger<BasicWatchdog> logger,
 			DreamDaemonLaunchParameters initialLaunchParameters,
 			Api.Models.Instance instance,
@@ -77,7 +78,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				 asyncDelayer,
 				 diagnosticsIOManager,
 				 eventConsumer,
-				 gitHubDeploymentManager,
+				 remoteDeploymentManagerFactory,
 				 logger,
 				 initialLaunchParameters,
 				 instance,
@@ -94,7 +95,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					if (Server.RebootState == Session.RebootState.Shutdown)
 					{
 						// the time for graceful shutdown is now
-						await Chat.SendWatchdogMessage(
+						await Chat.QueueWatchdogMessage(
 							String.Format(
 								CultureInfo.InvariantCulture,
 								"Server {0}! Shutting down due to graceful termination request...",
@@ -104,7 +105,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						return MonitorAction.Exit;
 					}
 
-					await Chat.SendWatchdogMessage(
+					await Chat.QueueWatchdogMessage(
 						String.Format(
 							CultureInfo.InvariantCulture,
 							"Server {0}! Rebooting...",
@@ -131,7 +132,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							return MonitorAction.Restart;
 						case Session.RebootState.Shutdown:
 							// graceful shutdown time
-							await Chat.SendWatchdogMessage(
+							await Chat.QueueWatchdogMessage(
 								"Active server rebooted! Shutting down due to graceful termination request...",
 								cancellationToken)
 								.ConfigureAwait(false);
@@ -264,7 +265,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		{
 			gracefulRebootRequired = true;
 			if (Server.CompileJob.DMApiVersion == null)
-				return Chat.SendWatchdogMessage(
+				return Chat.QueueWatchdogMessage(
 					"A new deployment has been made but cannot be applied automatically as the currently running server has no DMAPI. Please manually reboot the server to apply the update.",
 					cancellationToken);
 			return Server.SetRebootState(Session.RebootState.Restart, cancellationToken);

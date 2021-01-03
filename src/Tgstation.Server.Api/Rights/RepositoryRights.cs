@@ -29,7 +29,7 @@ namespace Tgstation.Server.Api.Rights
 		SetSha = 4,
 
 		/// <summary>
-		/// User may fetch and merge GitHub pull requests.
+		/// User may create <see cref="Models.TestMerge"/>s.
 		/// </summary>
 		MergePullRequest = 8,
 

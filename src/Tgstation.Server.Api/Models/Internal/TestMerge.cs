@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
 	/// <summary>
-	/// Represents a merge of a GitHub pull request
+	/// Represents a test merge of a remote "pull request".
 	/// </summary>
 	public class TestMerge : TestMergeBase
 	{

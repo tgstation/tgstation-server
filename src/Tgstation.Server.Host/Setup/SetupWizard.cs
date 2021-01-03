@@ -748,6 +748,65 @@ namespace Tgstation.Server.Host.Setup
 		}
 
 		/// <summary>
+		/// Prompts the user to create a <see cref="SwarmConfiguration"/>.
+		/// </summary>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the new <see cref="SwarmConfiguration"/>.</returns>
+		async Task<SwarmConfiguration> ConfigureSwarm(CancellationToken cancellationToken)
+		{
+			var enable = await PromptYesNo("Enable swarm mode? (y/n): ", cancellationToken).ConfigureAwait(false);
+			if (!enable)
+				return null;
+
+			string identifer;
+			do
+			{
+				await console.WriteAsync("Enter this server's identifer: ", false, cancellationToken).ConfigureAwait(false);
+				identifer = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
+			}
+			while (String.IsNullOrWhiteSpace(identifer));
+
+			async Task<Uri> ParseAddress(string question)
+			{
+				Uri address;
+				do
+				{
+					await console.WriteAsync(question, false, cancellationToken).ConfigureAwait(false);
+					var addressString = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
+					if (Uri.TryCreate(addressString, UriKind.Absolute, out address)
+						&& address.Scheme != Uri.UriSchemeHttp
+						&& address.Scheme != Uri.UriSchemeHttps)
+						address = null;
+				}
+				while (address == null);
+
+				return address;
+			}
+
+			var address = await ParseAddress("Enter this server's HTTP(S) address: ").ConfigureAwait(false);
+			string privateKey;
+			do
+			{
+				await console.WriteAsync("Enter the swarm private key: ", false, cancellationToken).ConfigureAwait(false);
+				privateKey = await console.ReadLineAsync(false, cancellationToken).ConfigureAwait(false);
+			}
+			while (String.IsNullOrWhiteSpace(privateKey));
+
+			var controller = await PromptYesNo("Is this server the swarm's controller? (y/n): ", cancellationToken).ConfigureAwait(false);
+			Uri controllerAddress = null;
+			if (!controller)
+				controllerAddress = await ParseAddress("Enter the swarm controller's HTTP(S) address: ").ConfigureAwait(false);
+
+			return new SwarmConfiguration
+			{
+				Address = address,
+				ControllerAddress = controllerAddress,
+				Identifier = identifer,
+				PrivateKey = privateKey,
+			};
+		}
+
+		/// <summary>
 		/// Saves a given <see cref="Configuration"/> set to <paramref name="userConfigFileName"/>
 		/// </summary>
 		/// <param name="userConfigFileName">The file to save the <see cref="Configuration"/> to</param>
@@ -756,9 +815,18 @@ namespace Tgstation.Server.Host.Setup
 		/// <param name="newGeneralConfiguration">The <see cref="GeneralConfiguration"/> to save</param>
 		/// <param name="fileLoggingConfiguration">The <see cref="FileLoggingConfiguration"/> to save</param>
 		/// <param name="controlPanelConfiguration">The <see cref="ControlPanelConfiguration"/> to save</param>
+		/// <param name="swarmConfiguration">The <see cref="SwarmConfiguration"/> to save.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
-		async Task SaveConfiguration(string userConfigFileName, ushort? hostingPort, DatabaseConfiguration databaseConfiguration, GeneralConfiguration newGeneralConfiguration, FileLoggingConfiguration fileLoggingConfiguration, ControlPanelConfiguration controlPanelConfiguration, CancellationToken cancellationToken)
+		async Task SaveConfiguration(
+			string userConfigFileName,
+			ushort? hostingPort,
+			DatabaseConfiguration databaseConfiguration,
+			GeneralConfiguration newGeneralConfiguration,
+			FileLoggingConfiguration fileLoggingConfiguration,
+			ControlPanelConfiguration controlPanelConfiguration,
+			SwarmConfiguration swarmConfiguration,
+			CancellationToken cancellationToken)
 		{
 			await console.WriteAsync(String.Format(CultureInfo.InvariantCulture, "Configuration complete! Saving to {0}", userConfigFileName), true, cancellationToken).ConfigureAwait(false);
 
@@ -769,7 +837,8 @@ namespace Tgstation.Server.Host.Setup
 				{ DatabaseConfiguration.Section, databaseConfiguration },
 				{ GeneralConfiguration.Section, newGeneralConfiguration },
 				{ FileLoggingConfiguration.Section, fileLoggingConfiguration },
-				{ ControlPanelConfiguration.Section, controlPanelConfiguration }
+				{ ControlPanelConfiguration.Section, controlPanelConfiguration },
+				{ SwarmConfiguration.Section, swarmConfiguration },
 			};
 
 			var json = JsonConvert.SerializeObject(map, Formatting.Indented);
@@ -826,9 +895,20 @@ namespace Tgstation.Server.Host.Setup
 
 			var controlPanelConfiguration = await ConfigureControlPanel(cancellationToken).ConfigureAwait(false);
 
+			var swarmConfiguration = await ConfigureSwarm(cancellationToken).ConfigureAwait(false);
+
 			await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 
-			await SaveConfiguration(userConfigFileName, hostingPort, databaseConfiguration, newGeneralConfiguration, fileLoggingConfiguration, controlPanelConfiguration, cancellationToken).ConfigureAwait(false);
+			await SaveConfiguration(
+				userConfigFileName,
+				hostingPort,
+				databaseConfiguration,
+				newGeneralConfiguration,
+				fileLoggingConfiguration,
+				controlPanelConfiguration,
+				swarmConfiguration,
+				cancellationToken)
+				.ConfigureAwait(false);
 		}
 
 		/// <summary>

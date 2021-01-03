@@ -79,7 +79,7 @@ namespace Tgstation.Server.Host.Security
 				// we need it so we can get to OnActionExecutionAsync where we can properly decide between BadRequest and Forbid
 				// if user is null that means they got the token with an expired password
 				var rightAsULong = authenticationContext.User == null
-					|| (RightsHelper.IsInstanceRight(I) && authenticationContext.InstanceUser == null)
+					|| (RightsHelper.IsInstanceRight(I) && authenticationContext.InstancePermissionSet == null)
 					? ~0UL
 					: authenticationContext.GetRight(I);
 				var rightEnum = RightsHelper.RightToType(I);

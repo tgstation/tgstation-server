@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class Job : Api.Models.Internal.Job
+	#pragma warning disable CA1724 // naming conflict with gitlab package
+	public sealed class Job : Api.Models.Internal.Job, IApiTransformable<Api.Models.Job>
+	#pragma warning restore CA1724
 	{
 		/// <summary>
 		/// See <see cref="Api.Models.Job.StartedBy"/>
@@ -22,10 +24,7 @@ namespace Tgstation.Server.Host.Models
 		[Required]
 		public Instance Instance { get; set; }
 
-		/// <summary>
-		/// Convert the <see cref="Job"/> to it's API form
-		/// </summary>
-		/// <returns>A new <see cref="Api.Models.Job"/></returns>
+		/// <inheritdoc />
 		public Api.Models.Job ToApi() => new Api.Models.Job
 		{
 			Id = Id,

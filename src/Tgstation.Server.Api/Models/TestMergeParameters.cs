@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models
 {
@@ -8,16 +8,16 @@ namespace Tgstation.Server.Api.Models
 	public class TestMergeParameters
 	{
 		/// <summary>
-		/// The number of the pull request
+		/// The number of the test merge source.
 		/// </summary>
 		public int Number { get; set; }
 
 		/// <summary>
-		/// The sha of the pull request revision to merge. If not specified, the latest commit shall be used (semi-unsafe)
+		/// The sha of the test merge revision to merge. If not specified, the latest commit shall be used (semi-unsafe)
 		/// </summary>
 		[Required]
 		[StringLength(40)]
-		public string? PullRequestRevision { get; set; }
+		public virtual string? TargetCommitSha { get; set; }
 
 		/// <summary>
 		/// Optional comment about the test

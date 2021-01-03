@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Octokit;
 using Tgstation.Server.Host.System;
 
@@ -25,7 +25,10 @@ namespace Tgstation.Server.Host.Core
 		/// Create a <see cref="GitHubClient"/>
 		/// </summary>
 		/// <returns>A new <see cref="GitHubClient"/></returns>
-		GitHubClient CreateBaseClient() => new GitHubClient(new ProductHeaderValue(assemblyInformationProvider.VersionPrefix, assemblyInformationProvider.Version.ToString()));
+		GitHubClient CreateBaseClient() => new GitHubClient(
+			new ProductHeaderValue(
+				assemblyInformationProvider.ProductInfoHeaderValue.Product.Name,
+				assemblyInformationProvider.ProductInfoHeaderValue.Product.Version));
 
 		/// <inheritdoc />
 		public IGitHubClient CreateClient() => CreateBaseClient();

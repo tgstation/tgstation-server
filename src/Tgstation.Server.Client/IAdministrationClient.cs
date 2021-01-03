@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
@@ -35,16 +37,17 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// Lists the log files available for download.
 		/// </summary>
+		/// <param name="paginationSettings">The optional <see cref="PaginationSettings"/> for the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in an <see cref="IReadOnlyList{T}"/> of <see cref="LogFile"/> metadata.</returns>
-		Task<IReadOnlyList<LogFile>> ListLogs(CancellationToken cancellationToken);
+		Task<IReadOnlyList<LogFile>> ListLogs(PaginationSettings? paginationSettings, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Download a given <paramref name="logFile"/>.
 		/// </summary>
 		/// <param name="logFile">The <see cref="LogFile"/> to download.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the downloaded <see cref="LogFile"/>.</returns>
-		Task<LogFile> GetLog(LogFile logFile, CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting a <see cref="Tuple{T1, T2}"/> containing the downloaded <see cref="LogFile"/> and associated <see cref="Stream"/>.</returns>
+		Task<Tuple<LogFile, Stream>> GetLog(LogFile logFile, CancellationToken cancellationToken);
 	}
 }
