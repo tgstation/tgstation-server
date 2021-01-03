@@ -323,36 +323,48 @@ Apache</h2>
 Swarmed Servers</h1>
 <p>Multiple tgstation-servers can be linked together in a swarm. The main benefit of this is allowing for users, groups, and permissions to be shared across the servers. Servers in a swarm must connect to the same database, use the same tgstation-server version, and have their own unique names.</p>
 <p>In a swarm, one server is designated the 'controller'. This is the server other 'node's in the swarm communicate with and coordinates group updates. Issuing an update command to one server in a swarm will update them all to the specified version.</p>
-<h1><a class="anchor" id="autotoc_md22"></a>
+<h2><a class="anchor" id="autotoc_md22"></a>
+Swarm Server Instances</h2>
+<p>Instances can be either part of a swarm or not. Once in the database they cannot switch between these states. In order to brin a non-swarmed instance into a swarmed server or vice-versa follow these steps.</p>
+<ol type="1">
+<li>With the existing server, detach the instance.</li>
+</ol>
+<ol type="1">
+<li>Shut down the server and configure it to be in or out of swarm mode.</li>
+</ol>
+<ol type="1">
+<li>Reattach the instance after starting the server again.</li>
+</ol>
+<h1><a class="anchor" id="autotoc_md23"></a>
 Usage</h1>
 <p>tgstation-server v4 is controlled via a RESTful HTTP json API. Documentation on this API can be found <a href="https://tgstation.github.io/tgstation-server/api.html">here</a>. This section serves to document the concepts of the server. The API is versioned separately from the release version. A specification for it can be found in the api-vX.X.X git releases/tags.</p>
-<h2><a class="anchor" id="autotoc_md23"></a>
+<h2><a class="anchor" id="autotoc_md24"></a>
 Users</h2>
 <p>All actions apart from logging in must be taken by a user. TGS installs with one default user whose credentials can be found <a href="src/Tgstation.Server.Api/Models/User.cs">here</a>. It is recommended to disable this user ASAP as it is used to create Jobs that are started by the server itself. If access to all users is lost, the default user can be reset using the <code>Database:ResetAdminPassword</code> configuration setting.</p>
 <p>Users can be enabled/disabled and have a very granular set of rights associated to them that determine the actions they are allowed to take (i.e. Modify the user list or create instances). Users can be <em>database based</em> or <em>system based</em>. Database users are your standard web users with a username and password. System users, on the otherhand, are authenticated with the host OS. These users cannot have their password or names changed by TGS as they are managed by the system (and in reverse, login tokens don't expire when their password changes). The benefit to having these users is it allows the use of system ACLs for static file control. More on that later.</p>
-<h2><a class="anchor" id="autotoc_md24"></a>
+<h2><a class="anchor" id="autotoc_md25"></a>
 Instances</h2>
 <p>A TGS deployment is made up with a set of instances, which each represent a production BYOND server. As many instances as desired can be created. Be aware, however, due to the nature of BYOND, this will quickly result in system resource exhaustion.</p>
 <p>An instance is stored in a single folder anywhere on a system and is made up of several components: The source code git repository, the BYOND installations, the compiler, the watchdog, chat bots, and static file management systems.</p>
-<h4><a class="anchor" id="autotoc_md25"></a>
+<h4><a class="anchor" id="autotoc_md26"></a>
 Instance Users</h4>
 <p>All users with access to an instance have an InstanceUser object associated with the two that defines more rights specific to that instance (i.e. Deploy code, modify bots, edit other InstanceUsers).</p>
-<h3><a class="anchor" id="autotoc_md26"></a>
+<h3><a class="anchor" id="autotoc_md27"></a>
 Repository</h3>
 <p>The <code>Repository</code> folder is a git repository containing the code of the game you wish to host. It can be cloned from any public or private remote repository and has capabilities to affect changes back to it. All the standard benefits of git are utilized (i.e. check out any revision or reference).</p>
 <p>Additional features become available if the remote repository is hosted on <a href="https://github.com/">https://github.com/</a>. Namely the Test Merge feature, which allows you to take a pull request opened on the repository and compile it into a game deployment for testing. Information about test merges is available in game via the DMAPI and via the main API as well.</p>
 <p>Manual operations on the repository while an instance is running may lead to git data corruption. Thankfully, it's simple enough to delete and reclone the repository via the API.</p>
-<h3><a class="anchor" id="autotoc_md27"></a>
+<h3><a class="anchor" id="autotoc_md28"></a>
 Byond</h3>
 <p>The <code>Byond</code> folder contains installations of <a href="https://secure.byond.com/">BYOND</a> versions. The version which is used by your game code can be changed on a whim (Note that only versions &gt;= 511.1385 have been thouroughly tested. Lower versions should work but if one doesn't function, please open an issue report) and the server will take care of installing it.</p>
-<h3><a class="anchor" id="autotoc_md28"></a>
+<h3><a class="anchor" id="autotoc_md29"></a>
 Compiler</h3>
 <p>The compiler deploys code from the <code>Repository</code> folder to the <code>Game</code> folder and compiles it either by autodetecting the <code>.dme</code> or having it set by configuration. Several other step are also run such as validating the DMAPI version and creating symlinks for static files are done at this point. The compiler also applies server side code modifications and duplicates compiled code for the watchdog as well (See following section).</p>
-<h3><a class="anchor" id="autotoc_md29"></a>
+<h3><a class="anchor" id="autotoc_md30"></a>
 Watchdog</h3>
 <p>The watchdog is responsible for starting and keeping your server running. It functions by launching two servers which are hot-swapped on <code>/world/Reboot</code>s and during crashes to prevent downtime. This hot swapping feature is also what allows TGS to deploy updates to live servers without bringing them down.</p>
 <p>DreamDaemon can be finicky and will crash with several high load games or bad DM code. The watchdog has several failure prevention methods to keep at least one server running while these issues are sorted out.</p>
-<h3><a class="anchor" id="autotoc_md30"></a>
+<h3><a class="anchor" id="autotoc_md31"></a>
 Chat Bots</h3>
 <p>TGS supports creating infinite chat bots for notifying staff or players of things like code deployments and uptime in. Currently the following providers are supported</p>
 <ul>
@@ -361,7 +373,7 @@ Chat Bots</h3>
 </ul>
 <p>More can be added by providing a new implementation of the <a href="src/Tgstation.Server.Host/Components/Chat/Providers/IProvider.cs">IProvider</a> interface</p>
 <p>Bots have a set of built-in commands that can be triggered via <code>!tgs</code>, mentioning, or private messaging them. Along with these, custom commands can be defined using the DMAPI by creating a subtype of the <code>/datum/tgs_chat_command</code> type (See <code>tgs.dm</code> for details). Invocation for custom commands can be restricted to certain channels.</p>
-<h3><a class="anchor" id="autotoc_md31"></a>
+<h3><a class="anchor" id="autotoc_md32"></a>
 Static Files</h3>
 <p>All files in game code deployments are considered transient by default, meaning when new code is deployed, changes will be lost. Static files allow you to specify which files and folders stick around throughout all deployments.</p>
 <p>The <code>StaticFiles</code> folder contains 3 root folders which cannot be deleted and operate under special rules</p><ul>
@@ -371,21 +383,21 @@ Static Files</h3>
 </ul>
 <p>These files can be modified either in host mode or system user mode. In host mode, TGS itself is responsible for reading and writing the files. In system user mode read and write actions are performed using the system account of the logged on User, enabling the use of ACLs to control access to files. Database users will not be able to use the static file system if this mode is configured for an instance.</p>
 <p>This folder may be freely modified manually just beware this may cause in-progress deployments to error if done on Windows systems.</p>
-<h3><a class="anchor" id="autotoc_md32"></a>
+<h3><a class="anchor" id="autotoc_md33"></a>
 CodeModifications</h3>
 <p>When a deployment is made by the compiler, all the contents of this folder are copied over the repository contents. Then one of two code change modes are selected based on the prescense of certain files.</p>
 <p>If <code>&lt;target dme&gt;.dm</code> is present, that .dme will be used instead of the repository's <code>.dme</code></p>
 <p>Otherwise the files <code>HeadInclude.dm</code> and <code>TailInclude.dm</code> are searched for and added as include lines to the top and bottom of the target <code>.dme</code> repsectively if they exist. These files can contain any valid DreamMaker code (Including <code>#include</code>ing other <code>.dm</code> files!) allowing you to modify the a repository's code on a per instance basis</p>
-<h3><a class="anchor" id="autotoc_md33"></a>
+<h3><a class="anchor" id="autotoc_md34"></a>
 EventScripts</h3>
 <p>This folder can contain anything. But, when certain events occur in the instance, TGS will look here for <code>.bat</code> or <code>.sh</code> files with the same name and run those with corresponding arguments. List of supported events can be found <a href="src/Tgstation.Server.Host/Components/Events/EventType.cs">here</a>.</p>
-<h3><a class="anchor" id="autotoc_md34"></a>
+<h3><a class="anchor" id="autotoc_md35"></a>
 GameStaticFiles</h3>
 <p>Any files and folders contained in this root level of this folder will be symbolically linked to all deployments at the time they are created. This allows persistent game data (BYOND <code>.sav</code>s or code configuration files for example) to persist across all deployments. This folder contains a .tgsignore file which can be used to prevent symlinks from being generated by entering the names of files and folders (1 per line)</p>
-<h2><a class="anchor" id="autotoc_md35"></a>
+<h2><a class="anchor" id="autotoc_md36"></a>
 Updating</h2>
 <p>TGS 4 can self update without stopping your DreamDaemon servers. Any V4 release made to this repository is bound by a contract that allows changes of the runtime assemblies without stopping your servers. Database migrations are automatically applied as well. Because of this REVERTING TO LOWER VERSIONS IS NOT OFFICIALLY SUPPORTED, do so at your own risk (check changes made to <code>/src/Tgstation.Server.Host/Models/Migrations</code>).</p>
-<h2><a class="anchor" id="autotoc_md36"></a>
+<h2><a class="anchor" id="autotoc_md37"></a>
 Clients</h2>
 <p>Here are tools for interacting with the TGS 4 web API</p>
 <ul>
@@ -395,7 +407,7 @@ Clients</h2>
 <li><a href="https://www.nuget.org/packages/Tgstation.Server.Api">Tgstation.Server.Api</a>: A nuget .NET Standard 2.0 library containing API definitions for tgstation-server. Feature complete.</li>
 </ul>
 <p>Contact project maintainers to get your client added to this list</p>
-<h1><a class="anchor" id="autotoc_md37"></a>
+<h1><a class="anchor" id="autotoc_md38"></a>
 Backup/Restore</h1>
 <p>Note that tgstation-server is NOT a backup solution, the onus is on the server runners.</p>
 <p>The <code>Repository</code> folder should be backed up on the remote server, do not rely on the instance copy to store changes.</p>
@@ -404,15 +416,15 @@ Backup/Restore</h1>
 <p>The database should be fully backed up.</p>
 <p>To restore an installation from backups, first restore the instance <code>Configuration</code> folder in its new home. Then restore the database, modifying the <code>Path</code> column in the <code>Instances</code> table where necessary to point to the new instances. Then start the server pointed at the new database.</p>
 <p>Should you end up with a lost database for some reason or want to reattach a detached instance you can reattach an existing folder by creating an empty file named <code>TGS4_ALLOW_INSTANCE_ATTACH</code> inside it (This is automatically created when detaching instances). Then create a new instance with that path, this will bypass the empty folder check. Note that this will not restore things such as user permissions, server config options, or deployment metadata. Those must be reconfigured manually.</p>
-<h1><a class="anchor" id="autotoc_md38"></a>
+<h1><a class="anchor" id="autotoc_md39"></a>
 Troubleshooting</h1>
 <p>Feel free to ask for help at the coderbus discord in #hosting-questions: <a href="https://discord.gg/Vh8TJp9">https://discord.gg/Vh8TJp9</a>. Cyberboss#0016 can answer most questions.</p>
-<h1><a class="anchor" id="autotoc_md39"></a>
+<h1><a class="anchor" id="autotoc_md40"></a>
 Contributing</h1>
 <ul>
 <li>See CONTRIBUTING.md</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md40"></a>
+<h1><a class="anchor" id="autotoc_md41"></a>
 Licensing</h1>
 <ul>
 <li>The DMAPI for the project is licensed under the MIT license.</li>
