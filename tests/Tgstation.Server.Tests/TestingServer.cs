@@ -106,6 +106,8 @@ namespace Tgstation.Server.Tests
 					args.Add($"Security:OAuth:{I}:RedirectUrl=https://fakest.com");
 					args.Add($"Security:OAuth:{I}:ServerUrl=https://fakestest.com");
 				}
+			else
+				args.Add($"Security:OAuth=null");
 
 			// SPECIFICALLY DELETE THE DEV APPSETTINGS, WE DON'T WANT IT IN THE WAY
 			File.Delete("appsettings.Development.json");
