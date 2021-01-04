@@ -379,7 +379,8 @@ namespace Tgstation.Server.Host.Controllers
 							.Include(x => x.PermissionSet)
 							.Include(x => x.OAuthConnections)
 							.Include(x => x.Group)
-								.ThenInclude(x => x.PermissionSet))),
+								.ThenInclude(x => x.PermissionSet)
+							.OrderBy(x => x.Id))),
 				null,
 				page,
 				pageSize,

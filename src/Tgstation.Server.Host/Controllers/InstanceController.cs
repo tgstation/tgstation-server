@@ -644,7 +644,8 @@ namespace Tgstation.Server.Host.Controllers
 			var result = await Paginated<Models.Instance, Api.Models.Instance>(
 				() => Task.FromResult(
 					new PaginatableResult<Models.Instance>(
-						GetBaseQuery())),
+						GetBaseQuery()
+							.OrderBy(x => x.Id))),
 				instance =>
 				{
 					needsUpdate |= InstanceRequiredController.ValidateInstanceOnlineStatus(instanceManager, Logger, instance);

@@ -6,13 +6,8 @@ namespace Tgstation.Server.Api.Models.Internal
 	/// <summary>
 	/// Manage the server chat bots
 	/// </summary>
-	public class ChatBot
+	public class ChatBot : EntityId
 	{
-		/// <summary>
-		/// The settings id
-		/// </summary>
-		public long Id { get; set; }
-
 		/// <summary>
 		/// The name of the connection
 		/// </summary>

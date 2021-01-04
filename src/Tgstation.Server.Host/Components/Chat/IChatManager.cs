@@ -19,7 +19,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		void RegisterCommandHandler(ICustomCommandHandler customCommandHandler);
 
 		/// <summary>
-		/// Change chat settings. If the <see cref="ChatBot.Id"/> is not currently in use, a new connection will be made instead
+		/// Change chat settings. If the <see cref="Api.Models.EntityId.Id"/> is not currently in use, a new connection will be made instead
 		/// </summary>
 		/// <param name="newSettings">The new <see cref="Models.ChatBot"/></param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
@@ -29,7 +29,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// Disconnects and deletes a given connection
 		/// </summary>
-		/// <param name="connectionId">The <see cref="ChatBot.Id"/> of the connection</param>
+		/// <param name="connectionId">The <see cref="Api.Models.EntityId.Id"/> of the connection</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		Task DeleteConnection(long connectionId, CancellationToken cancellationToken);
@@ -37,7 +37,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// Change chat channels
 		/// </summary>
-		/// <param name="connectionId">The <see cref="ChatBot.Id"/> of the connection</param>
+		/// <param name="connectionId">The <see cref="Api.Models.EntityId.Id"/> of the connection</param>
 		/// <param name="newChannels">An <see cref="IEnumerable{T}"/> of the new list of <see cref="Api.Models.ChatChannel"/>s</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>

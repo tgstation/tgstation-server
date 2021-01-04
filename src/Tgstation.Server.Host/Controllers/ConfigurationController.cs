@@ -204,7 +204,10 @@ namespace Tgstation.Server.Host.Controllers
 							if (result == null)
 								return new PaginatableResult<ConfigurationFile>(Gone());
 
-							return new PaginatableResult<ConfigurationFile>(result.AsQueryable());
+							return new PaginatableResult<ConfigurationFile>(
+								result
+									.AsQueryable()
+									.OrderBy(x => x.Path));
 						}
 						catch (NotImplementedException)
 						{
