@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.7.1</span>
+   &#160;<span id="projectnumber">4.7.2</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -78,7 +78,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="A Controller for API functions">ApiController</a> for managing <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#afc580d613a0fcbcb3faff07ef023792a">User</a>s.  
+<p><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="A Controller for API functions">ApiController</a> for managing <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a15a71d057fc19e2066f4d9fc3448d005">User</a>s.  
  <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#details">More...</a></p>
 <div class="dynheader">
 Inheritance diagram for Tgstation.Server.Host.Controllers.UserController:</div>
@@ -142,10 +142,10 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:ac2c00169e075062d4e1f040ed0c3b5b0"><td class="memItemLeft" align="right" valign="top">BadRequestObjectResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#ac2c00169e075062d4e1f040ed0c3b5b0">TrySetPassword</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">Models.User</a> dbUser, string newPassword, bool newUser)</td></tr>
 <tr class="memdesc:ac2c00169e075062d4e1f040ed0c3b5b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to change the password of a given <em>dbUser</em> .  <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#ac2c00169e075062d4e1f040ed0c3b5b0">More...</a><br /></td></tr>
 <tr class="separator:ac2c00169e075062d4e1f040ed0c3b5b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc580d613a0fcbcb3faff07ef023792a"><td class="memItemLeft" align="right" valign="top">Task&lt; IActionResult &gt; Api.Models.&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#afc580d613a0fcbcb3faff07ef023792a">User</a> (()=&gt; Task.FromResult(new <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_paginatable_result.html">PaginatableResult</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">Models.User</a> &gt;(<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a> .Users .AsQueryable() .Where(x=&gt; x.CanonicalName !=<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16">Models.User.CanonicalizeName</a>(<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a2e68345f5d52c8ba64dca5ec061d029d">Models.User.TgsSystemUserName</a>)) .Include(x=&gt; x.CreatedBy) .Include(x=&gt; x.PermissionSet) .Include(x=&gt; x.OAuthConnections) .Include(x=&gt; x.Group) .ThenInclude(x=&gt; x.PermissionSet))), null, page, pageSize, cancellationToken)</td></tr>
-<tr class="separator:afc580d613a0fcbcb3faff07ef023792a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15a71d057fc19e2066f4d9fc3448d005"><td class="memItemLeft" align="right" valign="top">Task&lt; IActionResult &gt; Api.Models.&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a15a71d057fc19e2066f4d9fc3448d005">User</a> (()=&gt; Task.FromResult(new <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_paginatable_result.html">PaginatableResult</a>&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">Models.User</a> &gt;(<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a> .Users .AsQueryable() .Where(x=&gt; x.CanonicalName !=<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a4b139051d0d6db501e37590fa1eabf16">Models.User.CanonicalizeName</a>(<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a2e68345f5d52c8ba64dca5ec061d029d">Models.User.TgsSystemUserName</a>)) .Include(x=&gt; x.CreatedBy) .Include(x=&gt; x.PermissionSet) .Include(x=&gt; x.OAuthConnections) .Include(x=&gt; x.Group) .ThenInclude(x=&gt; x.PermissionSet) .OrderBy(x=&gt; x.Id))), null, page, pageSize, cancellationToken)</td></tr>
+<tr class="separator:a15a71d057fc19e2066f4d9fc3448d005"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac210a9feaeef4c80b1051161dadc184b"><td class="memItemLeft" align="right" valign="top">async Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">Models.User</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#ac210a9feaeef4c80b1051161dadc184b">CreateNewUserFromModel</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user.html">Api.Models.User</a> model, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:ac210a9feaeef4c80b1051161dadc184b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#afc580d613a0fcbcb3faff07ef023792a">User</a> from a given <em>model</em> .  <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#ac210a9feaeef4c80b1051161dadc184b">More...</a><br /></td></tr>
+<tr class="memdesc:ac210a9feaeef4c80b1051161dadc184b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a15a71d057fc19e2066f4d9fc3448d005">User</a> from a given <em>model</em> .  <a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#ac210a9feaeef4c80b1051161dadc184b">More...</a><br /></td></tr>
 <tr class="separator:ac210a9feaeef4c80b1051161dadc184b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
@@ -217,7 +217,7 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:a19f89ec03ffd6f2bf5cab5214d5e6bb8 inherit properties_class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="A Controller for API functions">ApiController</a> for managing <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#afc580d613a0fcbcb3faff07ef023792a">User</a>s. </p>
+<div class="textblock"><p><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="A Controller for API functions">ApiController</a> for managing <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a15a71d057fc19e2066f4d9fc3448d005">User</a>s. </p>
 
 <p class="definition">Definition at line <a class="el" href="_user_controller_8cs_source.html#l00024">24</a> of file <a class="el" href="_user_controller_8cs_source.html">UserController.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
@@ -479,7 +479,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae0fcee33c7b7341bc3bf0c0e66e1ebf4">Created</a>(dbUser.ToApi(<span class="keyword">true</span>));</div>
 <div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_user_controller_8cs_source.html#l00074">Tgstation.Server.Host.Controllers.UserController.CheckValidName()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae0fcee33c7b7341bc3bf0c0e66e1ebf4">Tgstation.Server.Host.Controllers.ApiController.Created()</a>, <a class="el" href="_user_controller_8cs_source.html#l00432">Tgstation.Server.Host.Controllers.UserController.CreateNewUserFromModel()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#adaf274d215700bf692b1c3964ff32103">Tgstation.Server.Host.Security.ISystemIdentityFactory.CreateSystemIdentity()</a>, <a class="el" href="_user_controller_8cs_source.html#l00039">Tgstation.Server.Host.Controllers.UserController.generalConfiguration</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">Tgstation.Server.Host.Controllers.ApiController.Gone()</a>, <a class="el" href="_api_controller_8cs_source.html#l00061">Tgstation.Server.Host.Controllers.ApiController.Logger</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a22bf49e8a9635f804b5cdcb6632ddc34">Tgstation.Server.Host.Controllers.ApiController.RequiresPosixSystemIdentity()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Tgstation.Server.Host.Database.DatabaseContext.Save()</a>, <a class="el" href="_user_controller_8cs_source.html#l00029">Tgstation.Server.Host.Controllers.UserController.systemIdentityFactory</a>, <a class="el" href="_user_controller_8cs_source.html#l00093">Tgstation.Server.Host.Controllers.UserController.TrySetPassword()</a>, <a class="el" href="_internal_2_server_information_8cs_source.html#l00023">Tgstation.Server.Api.Models.Internal.ServerInformation.UserLimit</a>, and <a class="el" href="_database_context_8cs_source.html#l00027">Tgstation.Server.Host.Database.DatabaseContext.Users</a>.</p>
+<p class="reference">References <a class="el" href="_user_controller_8cs_source.html#l00074">Tgstation.Server.Host.Controllers.UserController.CheckValidName()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae0fcee33c7b7341bc3bf0c0e66e1ebf4">Tgstation.Server.Host.Controllers.ApiController.Created()</a>, <a class="el" href="_user_controller_8cs_source.html#l00433">Tgstation.Server.Host.Controllers.UserController.CreateNewUserFromModel()</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#adaf274d215700bf692b1c3964ff32103">Tgstation.Server.Host.Security.ISystemIdentityFactory.CreateSystemIdentity()</a>, <a class="el" href="_user_controller_8cs_source.html#l00039">Tgstation.Server.Host.Controllers.UserController.generalConfiguration</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">Tgstation.Server.Host.Controllers.ApiController.Gone()</a>, <a class="el" href="_api_controller_8cs_source.html#l00061">Tgstation.Server.Host.Controllers.ApiController.Logger</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a22bf49e8a9635f804b5cdcb6632ddc34">Tgstation.Server.Host.Controllers.ApiController.RequiresPosixSystemIdentity()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Tgstation.Server.Host.Database.DatabaseContext.Save()</a>, <a class="el" href="_user_controller_8cs_source.html#l00029">Tgstation.Server.Host.Controllers.UserController.systemIdentityFactory</a>, <a class="el" href="_user_controller_8cs_source.html#l00093">Tgstation.Server.Host.Controllers.UserController.TrySetPassword()</a>, <a class="el" href="_internal_2_server_information_8cs_source.html#l00023">Tgstation.Server.Api.Models.Internal.ServerInformation.UserLimit</a>, and <a class="el" href="_database_context_8cs_source.html#l00027">Tgstation.Server.Host.Database.DatabaseContext.Users</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -535,7 +535,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Creates a new <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#afc580d613a0fcbcb3faff07ef023792a">User</a> from a given <em>model</em> . </p>
+<p>Creates a new <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a15a71d057fc19e2066f4d9fc3448d005">User</a> from a given <em>model</em> . </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">model</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user.html">Api.Models.User</a> to use as a template.</td></tr>
@@ -543,47 +543,47 @@ Here is the call graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a new <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#afc580d613a0fcbcb3faff07ef023792a">User</a> on success, <code>null</code> if the requested UserGroup did not exist.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in a new <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a15a71d057fc19e2066f4d9fc3448d005">User</a> on success, <code>null</code> if the requested UserGroup did not exist.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_user_controller_8cs_source.html#l00432">432</a> of file <a class="el" href="_user_controller_8cs_source.html">UserController.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;        {</div>
-<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;            Models.PermissionSet permissionSet = <span class="keyword">null</span>;</div>
-<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;            Models.UserGroup group = <span class="keyword">null</span>;</div>
-<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;            <span class="keywordflow">if</span> (model.Group != <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;                group = await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a></div>
-<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;                    .<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#afdbe72c568fb4a8578a1dc965b34c9fa">Groups</a></div>
-<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;                    .AsQueryable()</div>
-<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;                    .Where(x =&gt; x.Id == model.Group.Id)</div>
-<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;                    .Include(x =&gt; x.PermissionSet)</div>
-<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;                    .FirstOrDefaultAsync(cancellationToken)</div>
-<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;                    .ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;            <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;                permissionSet = <span class="keyword">new</span> Models.PermissionSet</div>
-<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;                {</div>
-<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;                    <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a> = model.PermissionSet?.AdministrationRights ?? <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a>.None,</div>
-<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;                    <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79">InstanceManagerRights</a> = model.PermissionSet?.InstanceManagerRights ?? <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79">InstanceManagerRights</a>.None,</div>
-<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;                };</div>
-<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160; </div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">new</span> Models.User</div>
-<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;            {</div>
-<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;                CreatedAt = DateTimeOffset.UtcNow,</div>
-<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;                CreatedBy = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">AuthenticationContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a0846ac9679599a99923987863edb0d5c">User</a>,</div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;                Enabled = model.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user.html#a4a0a4bb6e68f049511123dbb5f1dc094">Enabled</a> ?? <span class="keyword">false</span>,</div>
-<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html">PermissionSet</a> = permissionSet,</div>
-<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;                Group = group,</div>
-<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;                Name = model.Name,</div>
-<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;                SystemIdentifier = model.SystemIdentifier,</div>
-<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;                OAuthConnections = model</div>
-<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;                    .OAuthConnections</div>
-<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;                    ?.Select(x =&gt; <span class="keyword">new</span> Models.OAuthConnection</div>
-<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;                    {</div>
-<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;                        Provider = x.Provider,</div>
-<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;                        ExternalUserId = x.ExternalUserId</div>
-<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;                    })</div>
-<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;                    .ToList()</div>
-<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;                    ?? <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#ab4b99beb9870afa45b971c843297d690">List</a>&lt;Models.OAuthConnection&gt;(),</div>
-<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;            };</div>
-<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="_user_controller_8cs_source.html#l00433">433</a> of file <a class="el" href="_user_controller_8cs_source.html">UserController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;        {</div>
+<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;            Models.PermissionSet permissionSet = <span class="keyword">null</span>;</div>
+<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;            Models.UserGroup group = <span class="keyword">null</span>;</div>
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;            <span class="keywordflow">if</span> (model.Group != <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;                group = await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a></div>
+<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;                    .<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#afdbe72c568fb4a8578a1dc965b34c9fa">Groups</a></div>
+<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;                    .AsQueryable()</div>
+<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;                    .Where(x =&gt; x.Id == model.Group.Id)</div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;                    .Include(x =&gt; x.PermissionSet)</div>
+<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;                    .FirstOrDefaultAsync(cancellationToken)</div>
+<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;            <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;                permissionSet = <span class="keyword">new</span> Models.PermissionSet</div>
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;                {</div>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;                    <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a> = model.PermissionSet?.AdministrationRights ?? <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a>.None,</div>
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;                    <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79">InstanceManagerRights</a> = model.PermissionSet?.InstanceManagerRights ?? <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79">InstanceManagerRights</a>.None,</div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;                };</div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160; </div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">new</span> Models.User</div>
+<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;            {</div>
+<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;                CreatedAt = DateTimeOffset.UtcNow,</div>
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;                CreatedBy = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">AuthenticationContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a0846ac9679599a99923987863edb0d5c">User</a>,</div>
+<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;                Enabled = model.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user.html#a4a0a4bb6e68f049511123dbb5f1dc094">Enabled</a> ?? <span class="keyword">false</span>,</div>
+<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html">PermissionSet</a> = permissionSet,</div>
+<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;                Group = group,</div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;                Name = model.Name,</div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;                SystemIdentifier = model.SystemIdentifier,</div>
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;                OAuthConnections = model</div>
+<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;                    .OAuthConnections</div>
+<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;                    ?.Select(x =&gt; <span class="keyword">new</span> Models.OAuthConnection</div>
+<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;                    {</div>
+<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;                        Provider = x.Provider,</div>
+<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;                        ExternalUserId = x.ExternalUserId</div>
+<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;                    })</div>
+<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;                    .ToList()</div>
+<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;                    ?? <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#ab4b99beb9870afa45b971c843297d690">List</a>&lt;Models.OAuthConnection&gt;(),</div>
+<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;            };</div>
+<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_tgstation_8_server_8_api_2_models_2_internal_2_user_8cs_source.html#l00015">Tgstation.Server.Api.Models.Internal.User.Enabled</a>, <a class="el" href="_database_context_8cs_source.html#l00107">Tgstation.Server.Host.Database.DatabaseContext.Groups</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#ab4b99beb9870afa45b971c843297d690">Tgstation.Server.Host.Controllers.UserController.List()</a>, and <a class="el" href="_authentication_context_8cs_source.html#l00014">Tgstation.Server.Host.Security.AuthenticationContext.User</a>.</p>
 
@@ -646,31 +646,31 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the IActionResult of the operation.</dd></dl>
 <p>&lt;response code="200"&gt;The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user.html">Api.Models.User</a> was retrieved successfully.&lt;/response&gt; &lt;response code="404"&gt;The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user.html">Api.Models.User</a> does not exist.&lt;/response&gt; </p>
 
-<p class="definition">Definition at line <a class="el" href="_user_controller_8cs_source.html#l00400">400</a> of file <a class="el" href="_user_controller_8cs_source.html">UserController.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;        {</div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;            <span class="keywordflow">if</span> (<span class="keywordtype">id</span> == <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">AuthenticationContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a0846ac9679599a99923987863edb0d5c">User</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_base.html#a199cdf744feccb5c2f06c294e6f1af1f">Id</a>)</div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#ad82f699ed9786892700f4c9526eb06ad">Read</a>();</div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160; </div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;            <span class="keywordflow">if</span> (!((<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a>)<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">AuthenticationContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7">GetRight</a>(<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7b02c8c3dadd90810a9eaa24712a0a20">RightsType</a>.Administration)).HasFlag(<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a>.ReadUsers))</div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;                <span class="keywordflow">return</span> Forbid();</div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160; </div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;            var user = await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad1c33807b7a75d05d0004e024416e17f">Users</a></div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;                .AsQueryable()</div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;                .Where(x =&gt; x.Id == <span class="keywordtype">id</span>)</div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;                .Include(x =&gt; x.CreatedBy)</div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;                .Include(x =&gt; x.OAuthConnections)</div>
-<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;                .Include(x =&gt; x.Group)</div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;                    .ThenInclude(x =&gt; x.PermissionSet)</div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;                .Include(x =&gt; x.PermissionSet)</div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;                .FirstOrDefaultAsync(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;            <span class="keywordflow">if</span> (user == <span class="keywordflow">default</span>)</div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30874703840788ecc629d91fc7e15a5f">NotFound</a>();</div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160; </div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;            <span class="keywordflow">if</span> (user.CanonicalName == Models.User.CanonicalizeName(Models.User.TgsSystemUserName))</div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;                <span class="keywordflow">return</span> Forbid();</div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160; </div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;            <span class="keywordflow">return</span> Json(user.ToApi(<span class="keyword">true</span>));</div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="_user_controller_8cs_source.html#l00401">401</a> of file <a class="el" href="_user_controller_8cs_source.html">UserController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;        {</div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;            <span class="keywordflow">if</span> (<span class="keywordtype">id</span> == <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">AuthenticationContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#a0846ac9679599a99923987863edb0d5c">User</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_base.html#a199cdf744feccb5c2f06c294e6f1af1f">Id</a>)</div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#ad82f699ed9786892700f4c9526eb06ad">Read</a>();</div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160; </div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;            <span class="keywordflow">if</span> (!((<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a>)<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">AuthenticationContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7">GetRight</a>(<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a7b02c8c3dadd90810a9eaa24712a0a20">RightsType</a>.Administration)).HasFlag(<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#affda1440f9c5e2dfcca65138d2f89a21">AdministrationRights</a>.ReadUsers))</div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;                <span class="keywordflow">return</span> Forbid();</div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160; </div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;            var user = await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad1c33807b7a75d05d0004e024416e17f">Users</a></div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;                .AsQueryable()</div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;                .Where(x =&gt; x.Id == <span class="keywordtype">id</span>)</div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;                .Include(x =&gt; x.CreatedBy)</div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;                .Include(x =&gt; x.OAuthConnections)</div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;                .Include(x =&gt; x.Group)</div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;                    .ThenInclude(x =&gt; x.PermissionSet)</div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;                .Include(x =&gt; x.PermissionSet)</div>
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;                .FirstOrDefaultAsync(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;            <span class="keywordflow">if</span> (user == <span class="keywordflow">default</span>)</div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30874703840788ecc629d91fc7e15a5f">NotFound</a>();</div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160; </div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;            <span class="keywordflow">if</span> (user.CanonicalName == Models.User.CanonicalizeName(Models.User.TgsSystemUserName))</div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;                <span class="keywordflow">return</span> Forbid();</div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160; </div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;            <span class="keywordflow">return</span> Json(user.ToApi(<span class="keyword">true</span>));</div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_authentication_context_8cs_source.html#l00052">Tgstation.Server.Host.Security.AuthenticationContext.GetRight()</a>, <a class="el" href="_user_base_8cs_source.html#l00014">Tgstation.Server.Api.Models.Internal.UserBase.Id</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30874703840788ecc629d91fc7e15a5f">Tgstation.Server.Host.Controllers.ApiController.NotFound()</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#ad82f699ed9786892700f4c9526eb06ad">Tgstation.Server.Host.Controllers.UserController.Read()</a>, <a class="el" href="_authentication_context_8cs_source.html#l00014">Tgstation.Server.Host.Security.AuthenticationContext.User</a>, and <a class="el" href="_database_context_8cs_source.html#l00027">Tgstation.Server.Host.Database.DatabaseContext.Users</a>.</p>
 <div class="dynheader">
@@ -733,7 +733,7 @@ Here is the call graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the IActionResult of the operation.</dd></dl>
 <p>&lt;response code="200"&gt;Retrieved <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user.html">Api.Models.User</a>s successfully.&lt;/response&gt; </p>
 
-<p class="reference">Referenced by <a class="el" href="_user_controller_8cs_source.html#l00432">Tgstation.Server.Host.Controllers.UserController.CreateNewUserFromModel()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_user_controller_8cs_source.html#l00433">Tgstation.Server.Host.Controllers.UserController.CreateNewUserFromModel()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -766,7 +766,7 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>The IActionResult of the operation.</dd></dl>
 <p>&lt;response code="200"&gt;The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user.html">Api.Models.User</a> was retrieved successfully.&lt;/response&gt; </p>
 
-<p class="reference">Referenced by <a class="el" href="_user_controller_8cs_source.html#l00400">Tgstation.Server.Host.Controllers.UserController.GetId()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_user_controller_8cs_source.html#l00401">Tgstation.Server.Host.Controllers.UserController.GetId()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1069,8 +1069,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="afc580d613a0fcbcb3faff07ef023792a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afc580d613a0fcbcb3faff07ef023792a">&#9670;&nbsp;</a></span>User()</h2>
+<a id="a15a71d057fc19e2066f4d9fc3448d005"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15a71d057fc19e2066f4d9fc3448d005">&#9670;&nbsp;</a></span>User()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1088,7 +1088,7 @@ Here is the call graph for this function:</div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">Task.&#160;</td>
-          <td class="paramname"><em>FromResult</em>new PaginatableResult&lt; Models.User &gt;(DatabaseContext .Users .AsQueryable() .Where(x=&gt; x.CanonicalName !=Models.User.CanonicalizeName(Models.User.TgsSystemUserName)) .Include(x=&gt; x.CreatedBy) .Include(x=&gt; x.PermissionSet) .Include(x=&gt; x.OAuthConnections) .Include(x=&gt; x.Group) .ThenInclude(x=&gt; x.PermissionSet)), </td>
+          <td class="paramname"><em>FromResult</em>new PaginatableResult&lt; Models.User &gt;(DatabaseContext .Users .AsQueryable() .Where(x=&gt; x.CanonicalName !=Models.User.CanonicalizeName(Models.User.TgsSystemUserName)) .Include(x=&gt; x.CreatedBy) .Include(x=&gt; x.PermissionSet) .Include(x=&gt; x.OAuthConnections) .Include(x=&gt; x.Group) .ThenInclude(x=&gt; x.PermissionSet) .OrderBy(x=&gt; x.Id)), </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1253,7 +1253,7 @@ Here is the call graph for this function:</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_html_ae0fcee33c7b7341bc3bf0c0e66e1ebf4"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae0fcee33c7b7341bc3bf0c0e66e1ebf4">Tgstation.Server.Host.Controllers.ApiController.Created</a></div><div class="ttdeci">ObjectResult Created(object payload)</div><div class="ttdoc">Generic 201 response with a given payload .</div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html">Tgstation.Server.Api.Models.PermissionSet</a></div><div class="ttdoc">Represents a set of server permissions.</div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_permission_set_8cs_source.html#l00009">PermissionSet.cs:10</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context_html_ac2e88d53bf1b6ac87d175d83ed39da7c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Tgstation.Server.Host.Database.DatabaseContext.Save</a></div><div class="ttdeci">Task Save(CancellationToken cancellationToken)</div><div class="ttdoc">Saves changes made to the IDatabaseContext</div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller_html_ac210a9feaeef4c80b1051161dadc184b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#ac210a9feaeef4c80b1051161dadc184b">Tgstation.Server.Host.Controllers.UserController.CreateNewUserFromModel</a></div><div class="ttdeci">async Task&lt; Models.User &gt; CreateNewUserFromModel(Api.Models.User model, CancellationToken cancellationToken)</div><div class="ttdoc">Creates a new User from a given model .</div><div class="ttdef"><b>Definition:</b> <a href="_user_controller_8cs_source.html#l00432">UserController.cs:432</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller_html_ac210a9feaeef4c80b1051161dadc184b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#ac210a9feaeef4c80b1051161dadc184b">Tgstation.Server.Host.Controllers.UserController.CreateNewUserFromModel</a></div><div class="ttdeci">async Task&lt; Models.User &gt; CreateNewUserFromModel(Api.Models.User model, CancellationToken cancellationToken)</div><div class="ttdoc">Creates a new User from a given model .</div><div class="ttdef"><b>Definition:</b> <a href="_user_controller_8cs_source.html#l00433">UserController.cs:433</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller_html_a30f0e4c93d7b119d4bf7aadefc1e5b8f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">Tgstation.Server.Host.Controllers.ApiController.Gone</a></div><div class="ttdeci">ObjectResult Gone()</div><div class="ttdoc">Generic 410 response.</div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context_html_ade8aeb7dd0a0e480f6f89bd5973703c7"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7">Tgstation.Server.Host.Security.AuthenticationContext.GetRight</a></div><div class="ttdeci">ulong GetRight(RightsType rightsType)</div><div class="ttdoc">Get the value of a given rightsType</div><div class="ttdef"><b>Definition:</b> <a href="_authentication_context_8cs_source.html#l00052">AuthenticationContext.cs:52</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory_html_adaf274d215700bf692b1c3964ff32103"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#adaf274d215700bf692b1c3964ff32103">Tgstation.Server.Host.Security.ISystemIdentityFactory.CreateSystemIdentity</a></div><div class="ttdeci">Task&lt; ISystemIdentity &gt; CreateSystemIdentity(User user, CancellationToken cancellationToken)</div><div class="ttdoc">Create a ISystemIdentity for a given user</div></div>

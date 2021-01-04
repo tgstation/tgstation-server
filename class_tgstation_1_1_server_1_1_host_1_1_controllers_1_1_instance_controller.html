@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.7.1</span>
+   &#160;<span id="projectnumber">4.7.2</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -788,51 +788,51 @@ Here is the call graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the IActionResult of the request.</dd></dl>
 <p>&lt;response code="200"&gt;Retrieved <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance">Api.Models.Instance</a> successfully.&lt;/response&gt; &lt;response code="410"&gt;The database entity for the requested instance could not be retrieved. The instance was likely detached.&lt;/response&gt; </p>
 
-<p class="definition">Definition at line <a class="el" href="_instance_controller_8cs_source.html#l00676">676</a> of file <a class="el" href="_instance_controller_8cs_source.html">InstanceController.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00677"></a><span class="lineno">  677</span>&#160;        {</div>
-<div class="line"><a name="l00678"></a><span class="lineno">  678</span>&#160;            var cantList = !<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">AuthenticationContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#acfb9937bf37b839f1d60289129c5ea77">PermissionSet</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html#a8676d0049c53168324b9103d252710a2">InstanceManagerRights</a>.Value.HasFlag(<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79">InstanceManagerRights</a>.List);</div>
-<div class="line"><a name="l00679"></a><span class="lineno">  679</span>&#160;            <a class="code" href="class_i_queryable.html">IQueryable</a>&lt;Models.Instance&gt; QueryForUser()</div>
-<div class="line"><a name="l00680"></a><span class="lineno">  680</span>&#160;            {</div>
-<div class="line"><a name="l00681"></a><span class="lineno">  681</span>&#160;                var query = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a></div>
-<div class="line"><a name="l00682"></a><span class="lineno">  682</span>&#160;                    .<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a1bc257ebf1d31bfba7f665d61da5c4a2">Instances</a></div>
-<div class="line"><a name="l00683"></a><span class="lineno">  683</span>&#160;                    .AsQueryable()</div>
-<div class="line"><a name="l00684"></a><span class="lineno">  684</span>&#160;                    .Where(x =&gt; x.Id == <span class="keywordtype">id</span> &amp;&amp; x.SwarmIdentifer == <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a952ce837f434c65e69d35ec886d0fc2d">swarmConfiguration</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html#af98e4f47f1aa632ead02ed80695ce836">Identifier</a>);</div>
-<div class="line"><a name="l00685"></a><span class="lineno">  685</span>&#160; </div>
-<div class="line"><a name="l00686"></a><span class="lineno">  686</span>&#160;                <span class="keywordflow">if</span> (cantList)</div>
-<div class="line"><a name="l00687"></a><span class="lineno">  687</span>&#160;                    query = query.Include(x =&gt; x.InstancePermissionSets);</div>
-<div class="line"><a name="l00688"></a><span class="lineno">  688</span>&#160;                <span class="keywordflow">return</span> query;</div>
-<div class="line"><a name="l00689"></a><span class="lineno">  689</span>&#160;            }</div>
-<div class="line"><a name="l00690"></a><span class="lineno">  690</span>&#160; </div>
-<div class="line"><a name="l00691"></a><span class="lineno">  691</span>&#160;            var instance = await QueryForUser().FirstOrDefaultAsync(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00692"></a><span class="lineno">  692</span>&#160; </div>
-<div class="line"><a name="l00693"></a><span class="lineno">  693</span>&#160;            <span class="keywordflow">if</span> (instance == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00694"></a><span class="lineno">  694</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">Gone</a>();</div>
-<div class="line"><a name="l00695"></a><span class="lineno">  695</span>&#160; </div>
-<div class="line"><a name="l00696"></a><span class="lineno">  696</span>&#160;            <span class="keywordflow">if</span> (InstanceRequiredController.ValidateInstanceOnlineStatus(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#ad177b6d13a08c429c49b7e4294387d3c">instanceManager</a>, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>, instance))</div>
-<div class="line"><a name="l00697"></a><span class="lineno">  697</span>&#160;                await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00698"></a><span class="lineno">  698</span>&#160; </div>
-<div class="line"><a name="l00699"></a><span class="lineno">  699</span>&#160;            <span class="keywordflow">if</span> (cantList &amp;&amp; !instance.InstancePermissionSets.Any(instanceUser =&gt; instanceUser.PermissionSetId == <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">AuthenticationContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#acfb9937bf37b839f1d60289129c5ea77">PermissionSet</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html#abc8e2e2bbc20cc679e73cb697337e447">Id</a>.Value &amp;&amp;</div>
-<div class="line"><a name="l00700"></a><span class="lineno">  700</span>&#160;                (instanceUser.ByondRights != <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a2a217a19e652f117e2324fb79ed838b9">ByondRights</a>.None ||</div>
-<div class="line"><a name="l00701"></a><span class="lineno">  701</span>&#160;                instanceUser.ChatBotRights != <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72">ChatBotRights</a>.None ||</div>
-<div class="line"><a name="l00702"></a><span class="lineno">  702</span>&#160;                instanceUser.ConfigurationRights != <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0c">ConfigurationRights</a>.None ||</div>
-<div class="line"><a name="l00703"></a><span class="lineno">  703</span>&#160;                instanceUser.DreamDaemonRights != <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49">DreamDaemonRights</a>.None ||</div>
-<div class="line"><a name="l00704"></a><span class="lineno">  704</span>&#160;                instanceUser.DreamMakerRights != <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a6aac419b6a793fe07657d96ac48dee5d">DreamMakerRights</a>.None ||</div>
-<div class="line"><a name="l00705"></a><span class="lineno">  705</span>&#160;                instanceUser.InstancePermissionSetRights != <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#ac5664dd4d4a0618c0eb53d11e8067352">InstancePermissionSetRights</a>.None)))</div>
-<div class="line"><a name="l00706"></a><span class="lineno">  706</span>&#160;                <span class="keywordflow">return</span> Forbid();</div>
-<div class="line"><a name="l00707"></a><span class="lineno">  707</span>&#160; </div>
-<div class="line"><a name="l00708"></a><span class="lineno">  708</span>&#160;            var api = instance.ToApi();</div>
-<div class="line"><a name="l00709"></a><span class="lineno">  709</span>&#160; </div>
-<div class="line"><a name="l00710"></a><span class="lineno">  710</span>&#160;            var moveJob = await QueryForUser()</div>
-<div class="line"><a name="l00711"></a><span class="lineno">  711</span>&#160;                .SelectMany(x =&gt; x.Jobs)</div>
-<div class="line"><a name="l00712"></a><span class="lineno">  712</span>&#160;<span class="preprocessor">#pragma warning disable CA1310 // Specify StringComparison</span></div>
-<div class="line"><a name="l00713"></a><span class="lineno">  713</span>&#160;                .Where(x =&gt; !x.StoppedAt.HasValue &amp;&amp; x.Description.StartsWith(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a05f43b931e38b2d401566435d5a3de75">MoveInstanceJobPrefix</a>))</div>
-<div class="line"><a name="l00714"></a><span class="lineno">  714</span>&#160;<span class="preprocessor">#pragma warning restore CA1310 // Specify StringComparison</span></div>
-<div class="line"><a name="l00715"></a><span class="lineno">  715</span>&#160;                .Include(x =&gt; x.StartedBy).ThenInclude(x =&gt; x.CreatedBy)</div>
-<div class="line"><a name="l00716"></a><span class="lineno">  716</span>&#160;                .FirstOrDefaultAsync(cancellationToken)</div>
-<div class="line"><a name="l00717"></a><span class="lineno">  717</span>&#160;                .ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00718"></a><span class="lineno">  718</span>&#160;            api.MoveJob = moveJob?.ToApi();</div>
-<div class="line"><a name="l00719"></a><span class="lineno">  719</span>&#160;            <span class="keywordflow">return</span> Json(api);</div>
-<div class="line"><a name="l00720"></a><span class="lineno">  720</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="_instance_controller_8cs_source.html#l00677">677</a> of file <a class="el" href="_instance_controller_8cs_source.html">InstanceController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00678"></a><span class="lineno">  678</span>&#160;        {</div>
+<div class="line"><a name="l00679"></a><span class="lineno">  679</span>&#160;            var cantList = !<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">AuthenticationContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#acfb9937bf37b839f1d60289129c5ea77">PermissionSet</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html#a8676d0049c53168324b9103d252710a2">InstanceManagerRights</a>.Value.HasFlag(<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#af199a84ed6fe6ca557db9de91070ad79">InstanceManagerRights</a>.List);</div>
+<div class="line"><a name="l00680"></a><span class="lineno">  680</span>&#160;            <a class="code" href="class_i_queryable.html">IQueryable</a>&lt;Models.Instance&gt; QueryForUser()</div>
+<div class="line"><a name="l00681"></a><span class="lineno">  681</span>&#160;            {</div>
+<div class="line"><a name="l00682"></a><span class="lineno">  682</span>&#160;                var query = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a></div>
+<div class="line"><a name="l00683"></a><span class="lineno">  683</span>&#160;                    .<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a1bc257ebf1d31bfba7f665d61da5c4a2">Instances</a></div>
+<div class="line"><a name="l00684"></a><span class="lineno">  684</span>&#160;                    .AsQueryable()</div>
+<div class="line"><a name="l00685"></a><span class="lineno">  685</span>&#160;                    .Where(x =&gt; x.Id == <span class="keywordtype">id</span> &amp;&amp; x.SwarmIdentifer == <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a952ce837f434c65e69d35ec886d0fc2d">swarmConfiguration</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html#af98e4f47f1aa632ead02ed80695ce836">Identifier</a>);</div>
+<div class="line"><a name="l00686"></a><span class="lineno">  686</span>&#160; </div>
+<div class="line"><a name="l00687"></a><span class="lineno">  687</span>&#160;                <span class="keywordflow">if</span> (cantList)</div>
+<div class="line"><a name="l00688"></a><span class="lineno">  688</span>&#160;                    query = query.Include(x =&gt; x.InstancePermissionSets);</div>
+<div class="line"><a name="l00689"></a><span class="lineno">  689</span>&#160;                <span class="keywordflow">return</span> query;</div>
+<div class="line"><a name="l00690"></a><span class="lineno">  690</span>&#160;            }</div>
+<div class="line"><a name="l00691"></a><span class="lineno">  691</span>&#160; </div>
+<div class="line"><a name="l00692"></a><span class="lineno">  692</span>&#160;            var instance = await QueryForUser().FirstOrDefaultAsync(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00693"></a><span class="lineno">  693</span>&#160; </div>
+<div class="line"><a name="l00694"></a><span class="lineno">  694</span>&#160;            <span class="keywordflow">if</span> (instance == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00695"></a><span class="lineno">  695</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f">Gone</a>();</div>
+<div class="line"><a name="l00696"></a><span class="lineno">  696</span>&#160; </div>
+<div class="line"><a name="l00697"></a><span class="lineno">  697</span>&#160;            <span class="keywordflow">if</span> (InstanceRequiredController.ValidateInstanceOnlineStatus(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#ad177b6d13a08c429c49b7e4294387d3c">instanceManager</a>, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>, instance))</div>
+<div class="line"><a name="l00698"></a><span class="lineno">  698</span>&#160;                await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00699"></a><span class="lineno">  699</span>&#160; </div>
+<div class="line"><a name="l00700"></a><span class="lineno">  700</span>&#160;            <span class="keywordflow">if</span> (cantList &amp;&amp; !instance.InstancePermissionSets.Any(instanceUser =&gt; instanceUser.PermissionSetId == <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">AuthenticationContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#acfb9937bf37b839f1d60289129c5ea77">PermissionSet</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html#abc8e2e2bbc20cc679e73cb697337e447">Id</a>.Value &amp;&amp;</div>
+<div class="line"><a name="l00701"></a><span class="lineno">  701</span>&#160;                (instanceUser.ByondRights != <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a2a217a19e652f117e2324fb79ed838b9">ByondRights</a>.None ||</div>
+<div class="line"><a name="l00702"></a><span class="lineno">  702</span>&#160;                instanceUser.ChatBotRights != <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a580a36a11165b2590be342b45c31ec72">ChatBotRights</a>.None ||</div>
+<div class="line"><a name="l00703"></a><span class="lineno">  703</span>&#160;                instanceUser.ConfigurationRights != <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a691a59767073bc7dff0f17b809d07b0c">ConfigurationRights</a>.None ||</div>
+<div class="line"><a name="l00704"></a><span class="lineno">  704</span>&#160;                instanceUser.DreamDaemonRights != <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#acf2642afce6567c03b79876139a10a49">DreamDaemonRights</a>.None ||</div>
+<div class="line"><a name="l00705"></a><span class="lineno">  705</span>&#160;                instanceUser.DreamMakerRights != <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#a6aac419b6a793fe07657d96ac48dee5d">DreamMakerRights</a>.None ||</div>
+<div class="line"><a name="l00706"></a><span class="lineno">  706</span>&#160;                instanceUser.InstancePermissionSetRights != <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_rights.html#ac5664dd4d4a0618c0eb53d11e8067352">InstancePermissionSetRights</a>.None)))</div>
+<div class="line"><a name="l00707"></a><span class="lineno">  707</span>&#160;                <span class="keywordflow">return</span> Forbid();</div>
+<div class="line"><a name="l00708"></a><span class="lineno">  708</span>&#160; </div>
+<div class="line"><a name="l00709"></a><span class="lineno">  709</span>&#160;            var api = instance.ToApi();</div>
+<div class="line"><a name="l00710"></a><span class="lineno">  710</span>&#160; </div>
+<div class="line"><a name="l00711"></a><span class="lineno">  711</span>&#160;            var moveJob = await QueryForUser()</div>
+<div class="line"><a name="l00712"></a><span class="lineno">  712</span>&#160;                .SelectMany(x =&gt; x.Jobs)</div>
+<div class="line"><a name="l00713"></a><span class="lineno">  713</span>&#160;<span class="preprocessor">#pragma warning disable CA1310 // Specify StringComparison</span></div>
+<div class="line"><a name="l00714"></a><span class="lineno">  714</span>&#160;                .Where(x =&gt; !x.StoppedAt.HasValue &amp;&amp; x.Description.StartsWith(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a05f43b931e38b2d401566435d5a3de75">MoveInstanceJobPrefix</a>))</div>
+<div class="line"><a name="l00715"></a><span class="lineno">  715</span>&#160;<span class="preprocessor">#pragma warning restore CA1310 // Specify StringComparison</span></div>
+<div class="line"><a name="l00716"></a><span class="lineno">  716</span>&#160;                .Include(x =&gt; x.StartedBy).ThenInclude(x =&gt; x.CreatedBy)</div>
+<div class="line"><a name="l00717"></a><span class="lineno">  717</span>&#160;                .FirstOrDefaultAsync(cancellationToken)</div>
+<div class="line"><a name="l00718"></a><span class="lineno">  718</span>&#160;                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00719"></a><span class="lineno">  719</span>&#160;            api.MoveJob = moveJob?.ToApi();</div>
+<div class="line"><a name="l00720"></a><span class="lineno">  720</span>&#160;            <span class="keywordflow">return</span> Json(api);</div>
+<div class="line"><a name="l00721"></a><span class="lineno">  721</span>&#160;        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_tgstation_8_server_8_api_2_models_2_permission_set_8cs_source.html#l00015">Tgstation.Server.Api.Models.PermissionSet.Id</a>, <a class="el" href="_tgstation_8_server_8_api_2_models_2_permission_set_8cs_source.html#l00027">Tgstation.Server.Api.Models.PermissionSet.InstanceManagerRights</a>, <a class="el" href="_database_context_8cs_source.html#l00032">Tgstation.Server.Host.Database.DatabaseContext.Instances</a>, <a class="el" href="_authentication_context_8cs_source.html#l00017">Tgstation.Server.Host.Security.AuthenticationContext.PermissionSet</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Tgstation.Server.Host.Database.DatabaseContext.Save()</a>, and <a class="el" href="_instance_required_controller_8cs_source.html#l00089">Tgstation.Server.Host.Controllers.InstanceRequiredController.ValidateInstanceOnlineStatus()</a>.</p>
 <div class="dynheader">
@@ -886,30 +886,30 @@ Here is the call graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the IActionResult of the request.</dd></dl>
 <p>&lt;response code="204"&gt;Granted permissions successfully.&lt;/response&gt; </p>
 
-<p class="definition">Definition at line <a class="el" href="_instance_controller_8cs_source.html#l00732">732</a> of file <a class="el" href="_instance_controller_8cs_source.html">InstanceController.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00733"></a><span class="lineno">  733</span>&#160;        {</div>
-<div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160;            <span class="comment">// ensure the current user has write privilege on the instance</span></div>
-<div class="line"><a name="l00735"></a><span class="lineno">  735</span>&#160;            var usersInstancePermissionSet = await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a></div>
-<div class="line"><a name="l00736"></a><span class="lineno">  736</span>&#160;                .<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a1bc257ebf1d31bfba7f665d61da5c4a2">Instances</a></div>
-<div class="line"><a name="l00737"></a><span class="lineno">  737</span>&#160;                .AsQueryable()</div>
-<div class="line"><a name="l00738"></a><span class="lineno">  738</span>&#160;                .Where(x =&gt; x.Id == <span class="keywordtype">id</span> &amp;&amp; x.SwarmIdentifer == <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a952ce837f434c65e69d35ec886d0fc2d">swarmConfiguration</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html#af98e4f47f1aa632ead02ed80695ce836">Identifier</a>)</div>
-<div class="line"><a name="l00739"></a><span class="lineno">  739</span>&#160;                .SelectMany(x =&gt; x.InstancePermissionSets)</div>
-<div class="line"><a name="l00740"></a><span class="lineno">  740</span>&#160;                .Where(x =&gt; x.PermissionSetId == <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">AuthenticationContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#acfb9937bf37b839f1d60289129c5ea77">PermissionSet</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html#abc8e2e2bbc20cc679e73cb697337e447">Id</a>.Value)</div>
-<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;                .FirstOrDefaultAsync(cancellationToken)</div>
-<div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160;                .ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00743"></a><span class="lineno">  743</span>&#160;            <span class="keywordflow">if</span> (usersInstancePermissionSet == <span class="keywordflow">default</span>)</div>
-<div class="line"><a name="l00744"></a><span class="lineno">  744</span>&#160;            {</div>
-<div class="line"><a name="l00745"></a><span class="lineno">  745</span>&#160;                var instanceAdminUser = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a7ce5ec7ee6dad205048c98cc3955d1ae">InstanceAdminPermissionSet</a>(<span class="keyword">null</span>);</div>
-<div class="line"><a name="l00746"></a><span class="lineno">  746</span>&#160;                instanceAdminUser.InstanceId = id;</div>
-<div class="line"><a name="l00747"></a><span class="lineno">  747</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a901489c5ed1c32ef2c745ecd93440892">InstancePermissionSets</a>.Add(instanceAdminUser);</div>
-<div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;            }</div>
-<div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160;            <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a7ce5ec7ee6dad205048c98cc3955d1ae">InstanceAdminPermissionSet</a>(usersInstancePermissionSet);</div>
-<div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160; </div>
-<div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160;            await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160; </div>
-<div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160;            <span class="keywordflow">return</span> NoContent();</div>
-<div class="line"><a name="l00755"></a><span class="lineno">  755</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="_instance_controller_8cs_source.html#l00733">733</a> of file <a class="el" href="_instance_controller_8cs_source.html">InstanceController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160;        {</div>
+<div class="line"><a name="l00735"></a><span class="lineno">  735</span>&#160;            <span class="comment">// ensure the current user has write privilege on the instance</span></div>
+<div class="line"><a name="l00736"></a><span class="lineno">  736</span>&#160;            var usersInstancePermissionSet = await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a></div>
+<div class="line"><a name="l00737"></a><span class="lineno">  737</span>&#160;                .<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a1bc257ebf1d31bfba7f665d61da5c4a2">Instances</a></div>
+<div class="line"><a name="l00738"></a><span class="lineno">  738</span>&#160;                .AsQueryable()</div>
+<div class="line"><a name="l00739"></a><span class="lineno">  739</span>&#160;                .Where(x =&gt; x.Id == <span class="keywordtype">id</span> &amp;&amp; x.SwarmIdentifer == <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a952ce837f434c65e69d35ec886d0fc2d">swarmConfiguration</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html#af98e4f47f1aa632ead02ed80695ce836">Identifier</a>)</div>
+<div class="line"><a name="l00740"></a><span class="lineno">  740</span>&#160;                .SelectMany(x =&gt; x.InstancePermissionSets)</div>
+<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;                .Where(x =&gt; x.PermissionSetId == <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html">AuthenticationContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#acfb9937bf37b839f1d60289129c5ea77">PermissionSet</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_permission_set.html#abc8e2e2bbc20cc679e73cb697337e447">Id</a>.Value)</div>
+<div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160;                .FirstOrDefaultAsync(cancellationToken)</div>
+<div class="line"><a name="l00743"></a><span class="lineno">  743</span>&#160;                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00744"></a><span class="lineno">  744</span>&#160;            <span class="keywordflow">if</span> (usersInstancePermissionSet == <span class="keywordflow">default</span>)</div>
+<div class="line"><a name="l00745"></a><span class="lineno">  745</span>&#160;            {</div>
+<div class="line"><a name="l00746"></a><span class="lineno">  746</span>&#160;                var instanceAdminUser = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a7ce5ec7ee6dad205048c98cc3955d1ae">InstanceAdminPermissionSet</a>(<span class="keyword">null</span>);</div>
+<div class="line"><a name="l00747"></a><span class="lineno">  747</span>&#160;                instanceAdminUser.InstanceId = id;</div>
+<div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a901489c5ed1c32ef2c745ecd93440892">InstancePermissionSets</a>.Add(instanceAdminUser);</div>
+<div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160;            }</div>
+<div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;            <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a7ce5ec7ee6dad205048c98cc3955d1ae">InstanceAdminPermissionSet</a>(usersInstancePermissionSet);</div>
+<div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160; </div>
+<div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;            await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160; </div>
+<div class="line"><a name="l00755"></a><span class="lineno">  755</span>&#160;            <span class="keywordflow">return</span> NoContent();</div>
+<div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_tgstation_8_server_8_api_2_models_2_permission_set_8cs_source.html#l00015">Tgstation.Server.Api.Models.PermissionSet.Id</a>, <a class="el" href="_database_context_8cs_source.html#l00067">Tgstation.Server.Host.Database.DatabaseContext.InstancePermissionSets</a>, <a class="el" href="_database_context_8cs_source.html#l00032">Tgstation.Server.Host.Database.DatabaseContext.Instances</a>, <a class="el" href="_authentication_context_8cs_source.html#l00017">Tgstation.Server.Host.Security.AuthenticationContext.PermissionSet</a>, and <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Tgstation.Server.Host.Database.DatabaseContext.Save()</a>.</p>
 <div class="dynheader">
@@ -1061,22 +1061,23 @@ Here is the caller graph for this function:</div>
 <div class="line"><a name="l00644"></a><span class="lineno">  644</span>&#160;            var result = await <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_paginated.html">Paginated</a>&lt;Models.Instance, Api.Models.Instance&gt;(</div>
 <div class="line"><a name="l00645"></a><span class="lineno">  645</span>&#160;                () =&gt; Task.FromResult(</div>
 <div class="line"><a name="l00646"></a><span class="lineno">  646</span>&#160;                    <span class="keyword">new</span> PaginatableResult&lt;Models.Instance&gt;(</div>
-<div class="line"><a name="l00647"></a><span class="lineno">  647</span>&#160;                        GetBaseQuery())),</div>
-<div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160;                instance =&gt;</div>
-<div class="line"><a name="l00649"></a><span class="lineno">  649</span>&#160;                {</div>
-<div class="line"><a name="l00650"></a><span class="lineno">  650</span>&#160;                    needsUpdate |= InstanceRequiredController.ValidateInstanceOnlineStatus(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#ad177b6d13a08c429c49b7e4294387d3c">instanceManager</a>, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>, instance);</div>
-<div class="line"><a name="l00651"></a><span class="lineno">  651</span>&#160;                    instance.MoveJob = moveJobs.FirstOrDefault(x =&gt; x.Instance.Id == instance.Id)?.ToApi();</div>
-<div class="line"><a name="l00652"></a><span class="lineno">  652</span>&#160;                },</div>
-<div class="line"><a name="l00653"></a><span class="lineno">  653</span>&#160;                page,</div>
-<div class="line"><a name="l00654"></a><span class="lineno">  654</span>&#160;                pageSize,</div>
-<div class="line"><a name="l00655"></a><span class="lineno">  655</span>&#160;                cancellationToken)</div>
-<div class="line"><a name="l00656"></a><span class="lineno">  656</span>&#160;                .ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00657"></a><span class="lineno">  657</span>&#160; </div>
-<div class="line"><a name="l00658"></a><span class="lineno">  658</span>&#160;            <span class="keywordflow">if</span> (needsUpdate)</div>
-<div class="line"><a name="l00659"></a><span class="lineno">  659</span>&#160;                await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00660"></a><span class="lineno">  660</span>&#160; </div>
-<div class="line"><a name="l00661"></a><span class="lineno">  661</span>&#160;            <span class="keywordflow">return</span> result;</div>
-<div class="line"><a name="l00662"></a><span class="lineno">  662</span>&#160;        }</div>
+<div class="line"><a name="l00647"></a><span class="lineno">  647</span>&#160;                        GetBaseQuery()</div>
+<div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160;                            .OrderBy(x =&gt; x.Id))),</div>
+<div class="line"><a name="l00649"></a><span class="lineno">  649</span>&#160;                instance =&gt;</div>
+<div class="line"><a name="l00650"></a><span class="lineno">  650</span>&#160;                {</div>
+<div class="line"><a name="l00651"></a><span class="lineno">  651</span>&#160;                    needsUpdate |= InstanceRequiredController.ValidateInstanceOnlineStatus(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#ad177b6d13a08c429c49b7e4294387d3c">instanceManager</a>, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>, instance);</div>
+<div class="line"><a name="l00652"></a><span class="lineno">  652</span>&#160;                    instance.MoveJob = moveJobs.FirstOrDefault(x =&gt; x.Instance.Id == instance.Id)?.ToApi();</div>
+<div class="line"><a name="l00653"></a><span class="lineno">  653</span>&#160;                },</div>
+<div class="line"><a name="l00654"></a><span class="lineno">  654</span>&#160;                page,</div>
+<div class="line"><a name="l00655"></a><span class="lineno">  655</span>&#160;                pageSize,</div>
+<div class="line"><a name="l00656"></a><span class="lineno">  656</span>&#160;                cancellationToken)</div>
+<div class="line"><a name="l00657"></a><span class="lineno">  657</span>&#160;                .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00658"></a><span class="lineno">  658</span>&#160; </div>
+<div class="line"><a name="l00659"></a><span class="lineno">  659</span>&#160;            <span class="keywordflow">if</span> (needsUpdate)</div>
+<div class="line"><a name="l00660"></a><span class="lineno">  660</span>&#160;                await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00661"></a><span class="lineno">  661</span>&#160; </div>
+<div class="line"><a name="l00662"></a><span class="lineno">  662</span>&#160;            <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00663"></a><span class="lineno">  663</span>&#160;        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_tgstation_8_server_8_api_2_models_2_permission_set_8cs_source.html#l00015">Tgstation.Server.Api.Models.PermissionSet.Id</a>, <a class="el" href="_tgstation_8_server_8_api_2_models_2_permission_set_8cs_source.html#l00027">Tgstation.Server.Api.Models.PermissionSet.InstanceManagerRights</a>, <a class="el" href="_database_context_8cs_source.html#l00032">Tgstation.Server.Host.Database.DatabaseContext.Instances</a>, <a class="el" href="_authentication_context_8cs_source.html#l00017">Tgstation.Server.Host.Security.AuthenticationContext.PermissionSet</a>, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Tgstation.Server.Host.Database.DatabaseContext.Save()</a>, and <a class="el" href="_instance_required_controller_8cs_source.html#l00089">Tgstation.Server.Host.Controllers.InstanceRequiredController.ValidateInstanceOnlineStatus()</a>.</p>
 

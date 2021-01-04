@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.7.1</span>
+   &#160;<span id="projectnumber">4.7.2</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -106,7 +106,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a1e1ce49aa3e843a1e037060a544e125e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a <em>customCommandHandler</em>  to use  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a1e1ce49aa3e843a1e037060a544e125e">More...</a><br /></td></tr>
 <tr class="separator:a1e1ce49aa3e843a1e037060a544e125e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ae0c2190435e3c65914eaec63dd2db6"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a2ae0c2190435e3c65914eaec63dd2db6">ChangeSettings</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html">Models.ChatBot</a> newSettings, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a2ae0c2190435e3c65914eaec63dd2db6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change chat settings. If the ChatBot.Id is not currently in use, a new connection will be made instead  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a2ae0c2190435e3c65914eaec63dd2db6">More...</a><br /></td></tr>
+<tr class="memdesc:a2ae0c2190435e3c65914eaec63dd2db6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change chat settings. If the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#a9546a5e0ce3494cf2c6300b80843c309" title="The ID of the entity.">Api.Models.EntityId.Id</a> is not currently in use, a new connection will be made instead  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a2ae0c2190435e3c65914eaec63dd2db6">More...</a><br /></td></tr>
 <tr class="separator:a2ae0c2190435e3c65914eaec63dd2db6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1593d7d3f8d4b3efe3412d6c96f6e411"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a1593d7d3f8d4b3efe3412d6c96f6e411">DeleteConnection</a> (long connectionId, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a1593d7d3f8d4b3efe3412d6c96f6e411"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disconnects and deletes a given connection  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_chat_manager.html#a1593d7d3f8d4b3efe3412d6c96f6e411">More...</a><br /></td></tr>
@@ -167,7 +167,7 @@ Public Member Functions</h2></td></tr>
 <p>Change chat channels </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">connectionId</td><td>The ChatBot.Id of the connection</td></tr>
+    <tr><td class="paramname">connectionId</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#a9546a5e0ce3494cf2c6300b80843c309" title="The ID of the entity.">Api.Models.EntityId.Id</a> of the connection</td></tr>
     <tr><td class="paramname">newChannels</td><td>An IEnumerable&lt;T&gt; of the new list of <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_chat_channel.html" title="Indicates a chat channel">Api.Models.ChatChannel</a>s</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
   </table>
@@ -205,7 +205,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Change chat settings. If the ChatBot.Id is not currently in use, a new connection will be made instead </p>
+<p>Change chat settings. If the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#a9546a5e0ce3494cf2c6300b80843c309" title="The ID of the entity.">Api.Models.EntityId.Id</a> is not currently in use, a new connection will be made instead </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">newSettings</td><td>The new <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_chat_bot.html">Models.ChatBot</a></td></tr>
@@ -283,7 +283,7 @@ Here is the caller graph for this function:</div>
 <p>Disconnects and deletes a given connection </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">connectionId</td><td>The ChatBot.Id of the connection</td></tr>
+    <tr><td class="paramname">connectionId</td><td>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html#a9546a5e0ce3494cf2c6300b80843c309" title="The ID of the entity.">Api.Models.EntityId.Id</a> of the connection</td></tr>
     <tr><td class="paramname">cancellationToken</td><td>The CancellationToken for the operation</td></tr>
   </table>
   </dd>
