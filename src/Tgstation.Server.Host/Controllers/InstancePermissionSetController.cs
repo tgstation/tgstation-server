@@ -185,7 +185,8 @@ namespace Tgstation.Server.Host.Controllers
 							.Instances
 							.AsQueryable()
 							.Where(x => x.Id == Instance.Id)
-							.SelectMany(x => x.InstancePermissionSets))),
+							.SelectMany(x => x.InstancePermissionSets)
+							.OrderBy(x => x.PermissionSetId))),
 				null,
 				page,
 				pageSize,

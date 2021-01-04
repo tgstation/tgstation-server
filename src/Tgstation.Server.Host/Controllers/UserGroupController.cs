@@ -192,7 +192,8 @@ namespace Tgstation.Server.Host.Controllers
 							.Groups
 							.AsQueryable()
 							.Include(x => x.Users)
-							.Include(x => x.PermissionSet))),
+							.Include(x => x.PermissionSet)
+							.OrderBy(x => x.Id))),
 				null,
 				page,
 				pageSize,

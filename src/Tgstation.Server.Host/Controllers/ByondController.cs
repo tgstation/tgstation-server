@@ -98,7 +98,8 @@ namespace Tgstation.Server.Host.Controllers
 								{
 									Version = x
 								})
-								.AsQueryable())),
+								.AsQueryable()
+								.OrderBy(x => x.Version))),
 					null,
 					page,
 					pageSize,

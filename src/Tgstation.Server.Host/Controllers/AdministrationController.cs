@@ -316,13 +316,11 @@ namespace Tgstation.Server.Host.Controllers
 
 						await Task.WhenAll(tasks).ConfigureAwait(false);
 
-						var result = tasks
-							.Select(x => x.Result)
-							.OrderByDescending(x => x.Name)
-							.ToList();
-
 						return new PaginatableResult<LogFile>(
-							result.AsQueryable());
+							tasks
+								.AsQueryable()
+								.Select(x => x.Result)
+								.OrderByDescending(x => x.Name));
 					}
 					catch (IOException ex)
 					{
