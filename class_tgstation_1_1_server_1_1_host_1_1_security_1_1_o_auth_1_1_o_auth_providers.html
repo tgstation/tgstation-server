@@ -185,40 +185,42 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            var securityConfiguration = securityConfigurationOptions?.Value ?? <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(securityConfigurationOptions));</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            var validatorsBuilder = <span class="keyword">new</span> List&lt;IOAuthValidator&gt;();</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <span class="keywordflow">if</span> (securityConfiguration.OAuth.TryGetValue(<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a>.GitHub, out var gitHubConfig))</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                validatorsBuilder.Add(</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                    <span class="keyword">new</span> GitHubOAuthValidator(</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                        gitHubClientFactory,</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                        loggerFactory.CreateLogger&lt;GitHubOAuthValidator&gt;(),</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                        gitHubConfig));</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            <span class="keywordflow">if</span> (securityConfiguration.OAuth.TryGetValue(<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a>.Discord, out var discordConfig))</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                validatorsBuilder.Add(</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                    <span class="keyword">new</span> DiscordOAuthValidator(</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                        httpClientFactory,</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                        assemblyInformationProvider,</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                        loggerFactory.CreateLogger&lt;DiscordOAuthValidator&gt;(),</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                        discordConfig));</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <span class="keywordflow">if</span> (securityConfiguration.OAuth.TryGetValue(<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a>.TGForums, out var tgConfig))</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                validatorsBuilder.Add(</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                    <span class="keyword">new</span> TGForumsOAuthValidator(</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                        httpClientFactory,</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                        assemblyInformationProvider,</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                        loggerFactory.CreateLogger&lt;TGForumsOAuthValidator&gt;(),</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                        tgConfig));</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <span class="keywordflow">if</span> (securityConfiguration.OAuth.TryGetValue(<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a>.Keycloak, out var keyCloakConfig))</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                validatorsBuilder.Add(</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                    <span class="keyword">new</span> KeycloakOAuthValidator(</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                        httpClientFactory,</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                        assemblyInformationProvider,</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                        loggerFactory.CreateLogger&lt;KeycloakOAuthValidator&gt;(),</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                        keyCloakConfig));</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_o_auth_providers.html#a443e2da21e35e7758359e34457b95661">validators</a> = validatorsBuilder;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        }</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_o_auth_providers.html#a443e2da21e35e7758359e34457b95661">validators</a> = validatorsBuilder;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <span class="keywordflow">if</span> (securityConfiguration.OAuth == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            <span class="keywordflow">if</span> (securityConfiguration.OAuth.TryGetValue(<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a>.GitHub, out var gitHubConfig))</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                validatorsBuilder.Add(</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                    <span class="keyword">new</span> GitHubOAuthValidator(</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                        gitHubClientFactory,</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                        loggerFactory.CreateLogger&lt;GitHubOAuthValidator&gt;(),</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                        gitHubConfig));</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keywordflow">if</span> (securityConfiguration.OAuth.TryGetValue(<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a>.Discord, out var discordConfig))</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                validatorsBuilder.Add(</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                    <span class="keyword">new</span> DiscordOAuthValidator(</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                        httpClientFactory,</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                        assemblyInformationProvider,</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                        loggerFactory.CreateLogger&lt;DiscordOAuthValidator&gt;(),</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                        discordConfig));</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            <span class="keywordflow">if</span> (securityConfiguration.OAuth.TryGetValue(<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a>.TGForums, out var tgConfig))</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                validatorsBuilder.Add(</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                    <span class="keyword">new</span> TGForumsOAuthValidator(</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                        httpClientFactory,</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                        assemblyInformationProvider,</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                        loggerFactory.CreateLogger&lt;TGForumsOAuthValidator&gt;(),</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                        tgConfig));</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            <span class="keywordflow">if</span> (securityConfiguration.OAuth.TryGetValue(<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a>.Keycloak, out var keyCloakConfig))</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                validatorsBuilder.Add(</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                    <span class="keyword">new</span> KeycloakOAuthValidator(</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                        httpClientFactory,</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                        assemblyInformationProvider,</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                        loggerFactory.CreateLogger&lt;KeycloakOAuthValidator&gt;(),</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                        keyCloakConfig));</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_o_auth_providers_8cs_source.html#l00022">Tgstation.Server.Host.Security.OAuth.OAuthProviders.validators</a>.</p>
 
@@ -267,20 +269,20 @@ Private Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html#a91f623131fa6c4fbdda9d04e58f8d4bc">Tgstation.Server.Host.Security.OAuth.IOAuthProviders</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="_o_auth_providers_8cs_source.html#l00084">84</a> of file <a class="el" href="_o_auth_providers_8cs_source.html">OAuthProviders.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        {</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            var providersAndTasks = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_o_auth_providers.html#a443e2da21e35e7758359e34457b95661">validators</a>.ToDictionary(</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                x =&gt; x.Provider,</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                x =&gt; x.GetProviderInfo(cancellationToken));</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            await Task.WhenAll(providersAndTasks.Values).ConfigureAwait(<span class="keyword">false</span>);</div>
+<p class="definition">Definition at line <a class="el" href="_o_auth_providers_8cs_source.html#l00086">86</a> of file <a class="el" href="_o_auth_providers_8cs_source.html">OAuthProviders.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        {</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            var providersAndTasks = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_o_auth_providers.html#a443e2da21e35e7758359e34457b95661">validators</a>.ToDictionary(</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                x =&gt; x.Provider,</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                x =&gt; x.GetProviderInfo(cancellationToken));</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            <span class="keywordflow">return</span> providersAndTasks</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                .Where(x =&gt; x.Value.Result != <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                .ToDictionary(</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                    x =&gt; x.Key,</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                    x =&gt; x.Value.Result);</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        }</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            await Task.WhenAll(providersAndTasks.Values).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            <span class="keywordflow">return</span> providersAndTasks</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                .Where(x =&gt; x.Value.Result != <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                .ToDictionary(</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                    x =&gt; x.Key,</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                    x =&gt; x.Value.Result);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_o_auth_providers_8cs_source.html#l00022">Tgstation.Server.Host.Security.OAuth.OAuthProviders.validators</a>.</p>
 
@@ -311,7 +313,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_o_auth_providers_8cs_source.html#l00022">22</a> of file <a class="el" href="_o_auth_providers_8cs_source.html">OAuthProviders.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_o_auth_providers_8cs_source.html#l00032">Tgstation.Server.Host.Security.OAuth.OAuthProviders.OAuthProviders()</a>, and <a class="el" href="_o_auth_providers_8cs_source.html#l00084">Tgstation.Server.Host.Security.OAuth.OAuthProviders.ProviderInfos()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_o_auth_providers_8cs_source.html#l00032">Tgstation.Server.Host.Security.OAuth.OAuthProviders.OAuthProviders()</a>, and <a class="el" href="_o_auth_providers_8cs_source.html#l00086">Tgstation.Server.Host.Security.OAuth.OAuthProviders.ProviderInfos()</a>.</p>
 
 </div>
 </div>
