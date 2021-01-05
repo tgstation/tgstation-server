@@ -158,13 +158,22 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpGet]
 		[AllowAnonymous]
 		[ProducesResponseType(typeof(ServerInformation), 200)]
-		#pragma warning disable CA1506
+#pragma warning disable CA1506
 		public async Task<IActionResult> Home(CancellationToken cancellationToken)
 		{
+			if (controlPanelConfiguration.Enable)
+				Response.Headers.Add(
+					HeaderNames.Vary,
+					new StringValues(
+						new[]{
+							HeaderNames.UserAgent,
+							ApiHeaders.ApiVersionHeader
+						}));
+
 			// we only allow authorization header issues
 			if (ApiHeaders == null)
 			{
-				// if we are using a browser and the control panel, soft redirect to the app page
+				// if we are using a browser and the control panel, redirect to the app page
 				if (controlPanelConfiguration.Enable && browserResolver.Browser.Type != BrowserType.Generic)
 				{
 					Logger.LogDebug("Unauthorized browser request (User-Agent: \"{0}\"), redirecting to control panel...", browserResolver.UserAgent);
