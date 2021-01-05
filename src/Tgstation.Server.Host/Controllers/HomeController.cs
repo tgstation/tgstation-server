@@ -161,15 +161,16 @@ namespace Tgstation.Server.Host.Controllers
 		#pragma warning disable CA1506
 		public async Task<IActionResult> Home(CancellationToken cancellationToken)
 		{
-			// if we are using a browser and the control panel, soft redirect to the app page
-			if (controlPanelConfiguration.Enable && browserResolver.Browser.Type != BrowserType.Generic)
-			{
-				Logger.LogDebug("Unauthorized browser request (User-Agent: \"{0}\"), redirecting to control panel...", browserResolver.UserAgent);
-				return Redirect(Core.Application.ControlPanelRoute);
-			}
-
 			// we only allow authorization header issues
 			if (ApiHeaders == null)
+			{
+				// if we are using a browser and the control panel, soft redirect to the app page
+				if (controlPanelConfiguration.Enable && browserResolver.Browser.Type != BrowserType.Generic)
+				{
+					Logger.LogDebug("Unauthorized browser request (User-Agent: \"{0}\"), redirecting to control panel...", browserResolver.UserAgent);
+					return Redirect(Core.Application.ControlPanelRoute);
+				}
+
 				try
 				{
 					var headers = new ApiHeaders(Request.GetTypedHeaders(), true);
@@ -182,6 +183,7 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					return HeadersIssue(true);
 				}
+			}
 
 			return Json(new ServerInformation
 			{
