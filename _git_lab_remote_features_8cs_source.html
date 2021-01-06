@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.7.2</span>
+   &#160;<span id="projectnumber">4.7.3</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -102,63 +102,65 @@ $(function() {
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        {</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#ad69b6f3453891e60cc4eba2057a633d6">RemoteRepositoryOwner</a> = remoteUrl.Segments[1].TrimEnd(<span class="charliteral">&#39;/&#39;</span>);</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#ae4e03507e860149e2294891ea1f0e9b2">RemoteRepositoryName</a> = remoteUrl.Segments[2].TrimEnd(<span class="charliteral">&#39;/&#39;</span>);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        }</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#ab0c8ae57f4e16733e495884ad4d2766a">   51</a></span>&#160;        <span class="keyword">protected</span> <span class="keyword">override</span> async Task&lt;Models.TestMerge&gt; <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#ab0c8ae57f4e16733e495884ad4d2766a">GetTestMergeImpl</a>(</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html">TestMergeParameters</a> parameters,</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html">RepositorySettings</a> repositorySettings,</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            CancellationToken cancellationToken)</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            var client = repositorySettings.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#acc5868ef8bebd88a8caa34c4f8f1fd86">AccessToken</a> != <span class="keyword">null</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                ? <span class="keyword">new</span> GitLabClient(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#a7481da98c65e1f178597a6a61de87ea9">GitLabUrl</a>, repositorySettings.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#acc5868ef8bebd88a8caa34c4f8f1fd86">AccessToken</a>)</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                : <span class="keyword">new</span> GitLabClient(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#a7481da98c65e1f178597a6a61de87ea9">GitLabUrl</a>);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                var mr = await client</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                    .MergeRequests</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                    .GetAsync($<span class="stringliteral">&quot;{RemoteRepositoryOwner}/{RemoteRepositoryName}&quot;</span>, parameters.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a91cb81663a87f96476a47a2628ac1a86">Number</a>)</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                    .WithToken(cancellationToken)</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                    .ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                var revisionToUse = parameters.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">TargetCommitSha</a> == <span class="keyword">null</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                    || mr.Sha.StartsWith(parameters.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">TargetCommitSha</a>, StringComparison.OrdinalIgnoreCase)</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                    ? mr.Sha</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                    : parameters.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">TargetCommitSha</a>;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">new</span> Models.TestMerge</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                {</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                    Author = mr.Author.Username,</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                    BodyAtMerge = mr.Description,</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                    TitleAtMerge = mr.Title,</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                    Comment = parameters.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a556ffae15694a68aa1c78f851407eb5b">Comment</a>,</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                    Number = parameters.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a91cb81663a87f96476a47a2628ac1a86">Number</a>,</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                    TargetCommitSha = mr.Sha,</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                    Url = mr.WebUrl</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                };</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            }</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            <span class="keywordflow">catch</span> (Exception ex)</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            {</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_base.html#aa93edf27d4c5255e22771d14350e6a32">Logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Error retrieving merge request metadata!&quot;</span>);</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">new</span> Models.TestMerge</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                {</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                    Author = ex.Message,</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                    BodyAtMerge = ex.Message,</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                    TitleAtMerge = ex.Message,</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                    Comment = parameters.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a556ffae15694a68aa1c78f851407eb5b">Comment</a>,</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                    Number = parameters.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a91cb81663a87f96476a47a2628ac1a86">Number</a>,</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                    TargetCommitSha = parameters.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">TargetCommitSha</a>,</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                    Url = ex.Message</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                };</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            }</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        }</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    }</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;}</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#ae4e03507e860149e2294891ea1f0e9b2">RemoteRepositoryName</a>.EndsWith(<span class="stringliteral">&quot;.git&quot;</span>, StringComparison.OrdinalIgnoreCase))</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#ae4e03507e860149e2294891ea1f0e9b2">RemoteRepositoryName</a> = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#ae4e03507e860149e2294891ea1f0e9b2">RemoteRepositoryName</a>.Substring(0, <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#ae4e03507e860149e2294891ea1f0e9b2">RemoteRepositoryName</a>.Length - 4);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        }</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#ab0c8ae57f4e16733e495884ad4d2766a">   53</a></span>&#160;        <span class="keyword">protected</span> <span class="keyword">override</span> async Task&lt;Models.TestMerge&gt; <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#ab0c8ae57f4e16733e495884ad4d2766a">GetTestMergeImpl</a>(</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html">TestMergeParameters</a> parameters,</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html">RepositorySettings</a> repositorySettings,</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            CancellationToken cancellationToken)</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            var client = repositorySettings.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#acc5868ef8bebd88a8caa34c4f8f1fd86">AccessToken</a> != <span class="keyword">null</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                ? <span class="keyword">new</span> GitLabClient(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#a7481da98c65e1f178597a6a61de87ea9">GitLabUrl</a>, repositorySettings.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html#acc5868ef8bebd88a8caa34c4f8f1fd86">AccessToken</a>)</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                : <span class="keyword">new</span> GitLabClient(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#a7481da98c65e1f178597a6a61de87ea9">GitLabUrl</a>);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                var mr = await client</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                    .MergeRequests</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                    .GetAsync($<span class="stringliteral">&quot;{RemoteRepositoryOwner}/{RemoteRepositoryName}&quot;</span>, parameters.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a91cb81663a87f96476a47a2628ac1a86">Number</a>)</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                    .WithToken(cancellationToken)</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                var revisionToUse = parameters.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">TargetCommitSha</a> == <span class="keyword">null</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                    || mr.Sha.StartsWith(parameters.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">TargetCommitSha</a>, StringComparison.OrdinalIgnoreCase)</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                    ? mr.Sha</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                    : parameters.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">TargetCommitSha</a>;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">new</span> Models.TestMerge</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                {</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                    Author = mr.Author.Username,</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                    BodyAtMerge = mr.Description,</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                    TitleAtMerge = mr.Title,</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                    Comment = parameters.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a556ffae15694a68aa1c78f851407eb5b">Comment</a>,</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                    Number = parameters.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a91cb81663a87f96476a47a2628ac1a86">Number</a>,</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                    TargetCommitSha = mr.Sha,</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                    Url = mr.WebUrl</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                };</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            }</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            <span class="keywordflow">catch</span> (Exception ex)</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            {</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_base.html#aa93edf27d4c5255e22771d14350e6a32">Logger</a>.LogWarning(ex, <span class="stringliteral">&quot;Error retrieving merge request metadata!&quot;</span>);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">new</span> Models.TestMerge</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                {</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                    Author = ex.Message,</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                    BodyAtMerge = ex.Message,</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                    TitleAtMerge = ex.Message,</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                    Comment = parameters.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a556ffae15694a68aa1c78f851407eb5b">Comment</a>,</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                    Number = parameters.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a91cb81663a87f96476a47a2628ac1a86">Number</a>,</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                    TargetCommitSha = parameters.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">TargetCommitSha</a>,</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                    Url = ex.Message</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                };</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            }</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        }</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    }</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_html"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal.html">Tgstation.Server.Api.Models.Internal</a></div><div class="ttdef"><b>Definition:</b> <a href="_tgstation_8_server_8_api_2_models_2_internal_2_chat_bot_8cs_source.html#l00004">ChatBot.cs:5</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_aaff5188f30ee5c04c081684eb9672f17"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#aaff5188f30ee5c04c081684eb9672f17">Tgstation.Server.Api.Models.RemoteGitProvider</a></div><div class="ttdeci">RemoteGitProvider</div><div class="ttdoc">Indicates the remote git host.</div><div class="ttdef"><b>Definition:</b> <a href="_remote_git_provider_8cs_source.html#l00006">RemoteGitProvider.cs:7</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features_html_ab0c8ae57f4e16733e495884ad4d2766a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#ab0c8ae57f4e16733e495884ad4d2766a">Tgstation.Server.Host.Components.Repository.GitLabRemoteFeatures.GetTestMergeImpl</a></div><div class="ttdeci">override async Task&lt; Models.TestMerge &gt; GetTestMergeImpl(TestMergeParameters parameters, RepositorySettings repositorySettings, CancellationToken cancellationToken)</div><div class="ttdoc">Implementation of GetTestMerge(TestMergeParameters, RepositorySettings, CancellationToken)</div><div class="ttdef"><b>Definition:</b> <a href="_git_lab_remote_features_8cs_source.html#l00051">GitLabRemoteFeatures.cs:51</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features_html_ab0c8ae57f4e16733e495884ad4d2766a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_lab_remote_features.html#ab0c8ae57f4e16733e495884ad4d2766a">Tgstation.Server.Host.Components.Repository.GitLabRemoteFeatures.GetTestMergeImpl</a></div><div class="ttdeci">override async Task&lt; Models.TestMerge &gt; GetTestMergeImpl(TestMergeParameters parameters, RepositorySettings repositorySettings, CancellationToken cancellationToken)</div><div class="ttdoc">Implementation of GetTestMerge(TestMergeParameters, RepositorySettings, CancellationToken)</div><div class="ttdef"><b>Definition:</b> <a href="_git_lab_remote_features_8cs_source.html#l00053">GitLabRemoteFeatures.cs:53</a></div></div>
 <div class="ttc" id="anamespace_tgstation_html"><div class="ttname"><a href="namespace_tgstation.html">Tgstation</a></div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00013">ApiHeaders.cs:14</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_base_html_aa93edf27d4c5255e22771d14350e6a32"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_remote_features_base.html#aa93edf27d4c5255e22771d14350e6a32">Tgstation.Server.Host.Components.Repository.GitRemoteFeaturesBase.Logger</a></div><div class="ttdeci">ILogger&lt; GitRemoteFeaturesBase &gt; Logger</div><div class="ttdoc">The ILogger for the GitRemoteFeaturesBase.</div><div class="ttdef"><b>Definition:</b> <a href="_git_remote_features_base_8cs_source.html#l00034">GitRemoteFeaturesBase.cs:34</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html">Tgstation.Server.Api.Models.TestMergeParameters</a></div><div class="ttdoc">Parameters for creating a TestMerge</div><div class="ttdef"><b>Definition:</b> <a href="_test_merge_parameters_8cs_source.html#l00008">TestMergeParameters.cs:9</a></div></div>
