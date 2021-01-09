@@ -29,7 +29,7 @@ From the perspective of `WatchdogBase`
 
 Watchdog monitoring takes place in the `MonitorLifetimes()` functiona and is entirely event based. It responds to a set of [MonitorActivationReason](./MonitorActivationReason.cs)s and takes the apporprate action. This includes:
 - When a server crashes.
-- When a server calls `/world/prod/Reboot()`.
+- When a server calls `/world/proc/Reboot()`.
 - When a new .dmb is deployed.
 - When DreamDaemon settings are changed via the API.
 - When it is time to make a heartbeat.

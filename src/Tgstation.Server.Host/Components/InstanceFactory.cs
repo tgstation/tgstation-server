@@ -273,7 +273,8 @@ namespace Tgstation.Server.Host.Components
 						serverPortProvider,
 						loggerFactory,
 						loggerFactory.CreateLogger<SessionControllerFactory>(),
-						metadata.CloneMetadata());
+						metadata.CloneMetadata(),
+						eventConsumer);
 
 					var dmbFactory = new DmbFactory(
 						databaseContextFactory,
