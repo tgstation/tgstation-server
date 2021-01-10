@@ -93,7 +93,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			{
 				case MonitorActivationReason.ActiveServerCrashed:
 					if (Server.TerminationWasRequested)
-						await eventConsumer.HandleEvent(EventType.WorldEndProcess, Enumerable.Empty<string>(), cancellationToken).ConfigureAwait(false);
+						await EventConsumer.HandleEvent(EventType.WorldEndProcess, Enumerable.Empty<string>(), cancellationToken).ConfigureAwait(false);
 
 					string exitWord = Server.TerminationWasRequested ? "exited" : "crashed";
 					if (Server.RebootState == Session.RebootState.Shutdown)

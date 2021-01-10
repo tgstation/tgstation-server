@@ -114,7 +114,7 @@ namespace Tgstation.Server.Host.Components.Events
 		WatchdogLaunch,
 
 		/// <summary>
-		/// Inbetween DD restarts if the process has been force-ended by the DMAPI (TgsEndProcess())
+		/// In between DD restarts if the process has been force-ended by the DMAPI (TgsEndProcess())
 		/// </summary>
 		[EventScript("WorldEndProcess")]
 		WorldEndProcess,

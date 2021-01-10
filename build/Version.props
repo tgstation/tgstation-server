@@ -7,7 +7,7 @@
     <TgsConfigVersion>2.2.0</TgsConfigVersion>
     <TgsApiVersion>8.2.0</TgsApiVersion>
     <TgsClientVersion>9.1.1</TgsClientVersion>
-    <TgsDmapiVersion>5.2.10</TgsDmapiVersion>
+    <TgsDmapiVersion>5.2.11</TgsDmapiVersion>
     <TgsHostWatchdogVersion>1.1.0</TgsHostWatchdogVersion>
     <TgsContainerScriptVersion>1.2.0</TgsContainerScriptVersion>
   </PropertyGroup>
