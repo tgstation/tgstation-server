@@ -14,7 +14,6 @@ using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Components.Byond;
 using Tgstation.Server.Host.Components.Chat;
 using Tgstation.Server.Host.Components.Deployment;
-using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Components.Interop.Topic;
@@ -170,11 +169,6 @@ namespace Tgstation.Server.Host.Components.Session
 		bool released;
 
 		/// <summary>
-		/// The <see cref="IEventConsumer"/>
-		/// </summary>
-		readonly IEventConsumer eventConsumer;
-
-		/// <summary>
 		/// Construct a <see cref="SessionController"/>
 		/// </summary>
 		/// <param name="reattachInformation">The value of <see cref="reattachInformation"/></param>
@@ -191,7 +185,6 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="startupTimeout">The optional time to wait before failing the <see cref="LaunchResult"/></param>
 		/// <param name="reattached">If this is a reattached session.</param>
 		/// <param name="apiValidate">If this is a DMAPI validation session.</param>
-		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/>.</param>
 		public SessionController(
 			ReattachInformation reattachInformation,
 			Api.Models.Instance metadata,
@@ -206,8 +199,7 @@ namespace Tgstation.Server.Host.Components.Session
 			Func<Task> postLifetimeCallback,
 			uint? startupTimeout,
 			bool reattached,
-			bool apiValidate,
-			IEventConsumer eventConsumer)
+			bool apiValidate)
 		{
 			this.reattachInformation = reattachInformation ?? throw new ArgumentNullException(nameof(reattachInformation));
 			this.metadata = metadata ?? throw new ArgumentNullException(nameof(metadata));
@@ -219,7 +211,7 @@ namespace Tgstation.Server.Host.Components.Session
 				throw new ArgumentNullException(nameof(bridgeRegistrar));
 			this.chat = chat ?? throw new ArgumentNullException(nameof(chat));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
+
 			portClosedForReboot = false;
 			disposed = false;
 			apiValidationStatus = ApiValidationStatus.NeverValidated;
@@ -401,7 +393,6 @@ namespace Tgstation.Server.Host.Components.Session
 						logger.LogInformation("Bridge requested process termination!");
 						TerminationWasRequested = true;
 						process.Terminate();
-						eventConsumer.HandleEvent(EventType.DDEndProcess, Enumerable.Empty<string>(), cancellationToken);
 						break;
 					case BridgeCommandType.PortUpdate:
 						lock (synchronizationLock)
