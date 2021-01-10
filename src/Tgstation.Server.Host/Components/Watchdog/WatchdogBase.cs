@@ -121,7 +121,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <summary>
 		/// The <see cref="IEventConsumer"/> that is not the <see cref="WatchdogBase"/>
 		/// </summary>
-		readonly IEventConsumer eventConsumer;
+		public IEventConsumer eventConsumer;
 
 		/// <summary>
 		/// The <see cref="IRemoteDeploymentManagerFactory"/> for the <see cref="WatchdogBase"/>.
