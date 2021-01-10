@@ -1,4 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html" title="For accessing the disk in a synchronous manner" alt="" coords="5,5,173,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html" title=" " alt="" coords="221,5,389,47"/>
+<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="5,5,261,61"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_instance_permission_set.html" title=" " alt="" coords="309,49,505,90"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_permission_set.html" title="Represents a PermissionSets permissions in an Instance" alt="" coords="40,85,227,126"/>
 </map>

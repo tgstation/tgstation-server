@@ -1,6 +1,6 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_swarm_server.html" title="Information about a server in the swarm." alt="" coords="5,71,192,112"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_swarm_server.html" title=" " alt="" coords="261,5,448,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_swarm_configuration.html" title="Configuration for the server swarm system." alt="" coords="240,71,469,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_registration_request.html" title="A request to register with a swarm controller." alt="" coords="257,136,452,177"/>
+<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_launch_parameters.html" title="Launch settings for DreamDaemon" alt="" coords="5,39,269,80"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_dream_daemon_settings.html" title="Configurable settings for DreamDaemon" alt="" coords="317,39,520,80"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_dream_daemon.html" title="Represents an instance of BYOND&#39;s DreamDaemon game server. Create action starts the server...." alt="" coords="573,5,759,47"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dream_daemon_settings.html" title=" " alt="" coords="568,71,764,112"/>
 </map>

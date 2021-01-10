@@ -1,7 +1,5 @@
 <map id="Tgstation.Server.Host.Security.PosixSystemIdentity" name="Tgstation.Server.Host.Security.PosixSystemIdentity">
-<area shape="rect" id="node1" title="ISystemIdentity for POSIX systems." alt="" coords="69,185,270,227"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html" title="Represents a user on the current global::System.Runtime.InteropServices.OSPlatform" alt="" coords="5,81,117,108"/>
-<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="16,5,107,32"/>
-<area shape="rect" id="node4" title=" " alt="" coords="142,81,197,108"/>
-<area shape="rect" id="node5" title=" " alt="" coords="238,81,285,108"/>
+<area shape="rect" id="node1" title="ISystemIdentity for POSIX systems." alt="" coords="5,155,207,196"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html" title="Represents a user on the current global::System.Runtime.InteropServices.OSPlatform" alt="" coords="50,80,162,107"/>
+<area shape="rect" id="node3" href="$class_i_disposable.html" title=" " alt="" coords="61,5,151,32"/>
 </map>

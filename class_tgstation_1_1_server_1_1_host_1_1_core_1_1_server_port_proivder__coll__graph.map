@@ -1,10 +1,10 @@
 <map id="Tgstation.Server.Host.Core.ServerPortProivder" name="Tgstation.Server.Host.Core.ServerPortProivder">
-<area shape="rect" id="node1" title=" " alt="" coords="771,50,952,91"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html" title="Provides access to the server&#39;s HttpApiPort." alt="" coords="419,5,555,32"/>
-<area shape="rect" id="node3" title=" " alt="" coords="39,72,97,99"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options" alt="" coords="372,182,601,223"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information.html" title="Base class for Models.ServerInformation." alt="" coords="5,136,131,163"/>
-<area shape="rect" id="node6" title=" " alt="" coords="29,241,107,268"/>
-<area shape="rect" id="node7" title=" " alt="" coords="41,292,95,319"/>
-<area shape="rect" id="node8" title=" " alt="" coords="35,343,101,369"/>
+<area shape="rect" id="node1" title=" " alt="" coords="143,272,324,313"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_port_provider.html" title="Provides access to the server&#39;s HttpApiPort." alt="" coords="144,175,280,202"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options" alt="" coords="304,168,533,209"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information.html" title="Base class for Models.ServerInformation." alt="" coords="5,5,131,32"/>
+<area shape="rect" id="node5" title=" " alt="" coords="155,5,234,32"/>
+<area shape="rect" id="node6" title=" " alt="" coords="370,5,425,32"/>
+<area shape="rect" id="node7" title=" " alt="" coords="449,5,601,32"/>
+<area shape="rect" id="node8" title=" " alt="" coords="631,5,724,32"/>
 </map>

@@ -1,12 +1,12 @@
 <map id="Tgstation.Server.Host.Controllers.UserGroupController" name="Tgstation.Server.Host.Controllers.UserGroupController">
-<area shape="rect" id="node1" title="ApiController for managing UserGroups." alt="" coords="213,272,429,313"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="A Controller for API functions" alt="" coords="144,175,240,202"/>
-<area shape="rect" id="node3" href="$class_controller.html" title=" " alt="" coords="5,5,83,32"/>
-<area shape="rect" id="node4" title=" " alt="" coords="295,5,353,32"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options" alt="" coords="439,168,668,209"/>
-<area shape="rect" id="node5" title=" " alt="" coords="107,5,154,32"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information.html" title="Base class for Models.ServerInformation." alt="" coords="676,5,801,32"/>
-<area shape="rect" id="node8" title=" " alt="" coords="826,5,905,32"/>
-<area shape="rect" id="node9" title=" " alt="" coords="483,5,538,32"/>
-<area shape="rect" id="node10" title=" " alt="" coords="563,5,629,32"/>
+<area shape="rect" id="node1" title="ApiController for managing UserGroups." alt="" coords="797,207,1013,249"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="A Controller for API functions" alt="" coords="465,87,561,113"/>
+<area shape="rect" id="node3" href="$class_controller.html" title=" " alt="" coords="43,5,120,32"/>
+<area shape="rect" id="node4" title=" " alt="" coords="58,56,105,83"/>
+<area shape="rect" id="node5" title=" " alt="" coords="35,135,128,161"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options" alt="" coords="399,251,628,293"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information.html" title="Base class for Models.ServerInformation." alt="" coords="19,205,144,232"/>
+<area shape="rect" id="node8" title=" " alt="" coords="42,311,121,337"/>
+<area shape="rect" id="node9" title=" " alt="" coords="54,361,109,388"/>
+<area shape="rect" id="node10" title=" " alt="" coords="5,412,157,439"/>
 </map>

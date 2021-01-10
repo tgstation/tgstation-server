@@ -1,6 +1,6 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="5,5,261,61"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html" title=" " alt="" coords="309,17,505,58"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_revision_information.html" title="Represents information about a current git revison" alt="" coords="40,85,227,126"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_revision_information.html" title=" " alt="" coords="314,85,501,126"/>
+<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_file_ticket_result.html" title="Response for when file transfers are necessary." alt="" coords="5,71,192,112"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_byond.html" title="Represents a BYOND installation. FileTicketResult.FileTicket is used to upload custom BYOND version z..." alt="" coords="240,5,427,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_configuration_file.html" title="Represents a game configuration file. Create and delete actions uncerimonuously overwrite/delete file..." alt="" coords="240,71,427,112"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_log_file.html" title="Represents a server log file." alt="" coords="240,136,427,177"/>
 </map>

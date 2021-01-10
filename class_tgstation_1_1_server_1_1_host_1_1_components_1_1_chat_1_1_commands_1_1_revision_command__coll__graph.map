@@ -1,13 +1,11 @@
 <map id="Tgstation.Server.Host.Components.Chat.Commands.RevisionCommand" name="Tgstation.Server.Host.Components.Chat.Commands.RevisionCommand">
-<area shape="rect" id="node1" title="For displaying Api.Models.Internal.RevisionInformation" alt="" coords="565,150,796,191"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots" alt="" coords="252,39,337,65"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers" alt="" coords="181,90,408,131"/>
+<area shape="rect" id="node1" title="For displaying Api.Models.Internal.RevisionInformation" alt="" coords="565,99,796,141"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_commands_1_1_i_command.html" title="Represents a command that can be invoked by talking to chat bots" alt="" coords="252,48,337,75"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_i_watchdog.html" title="Runs and monitors the twin server controllers" alt="" coords="181,99,408,141"/>
 <area shape="rect" id="node4" href="$class_i_hosted_service.html" title=" " alt="" coords="13,5,125,32"/>
 <area shape="rect" id="node5" href="$class_i_async_disposable.html" title=" " alt="" coords="5,56,132,83"/>
 <area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions" alt="" coords="9,107,128,133"/>
 <area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed." alt="" coords="7,157,130,184"/>
-<area shape="rect" id="node8" title=" " alt="" coords="267,157,322,184"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html" title="Factory for creating and loading IRepositorys" alt="" coords="181,209,408,250"/>
-<area shape="rect" id="node10" href="$class_i_disposable.html" title=" " alt="" coords="23,216,114,243"/>
-<area shape="rect" id="node11" title=" " alt="" coords="271,275,318,301"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository_manager.html" title="Factory for creating and loading IRepositorys" alt="" coords="181,182,408,223"/>
+<area shape="rect" id="node9" href="$class_i_disposable.html" title=" " alt="" coords="23,208,114,235"/>
 </map>

@@ -1,13 +1,13 @@
 <map id="Tgstation.Server.Host.Components.Byond.ByondManager" name="Tgstation.Server.Host.Components.Byond.ByondManager">
-<area shape="rect" id="node1" title=" " alt="" coords="601,263,828,305"/>
+<area shape="rect" id="node1" title=" " alt="" coords="601,245,828,286"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_manager.html" title="For managing the BYOND installation" alt="" coords="233,31,345,57"/>
 <area shape="rect" id="node3" href="$class_i_hosted_service.html" title=" " alt="" coords="5,5,117,32"/>
 <area shape="rect" id="node4" href="$class_i_disposable.html" title=" " alt="" coords="16,56,107,83"/>
 <area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems" alt="" coords="205,82,373,123"/>
 <area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions" alt="" coords="176,147,403,189"/>
-<area shape="rect" id="node7" title=" " alt="" coords="262,235,317,261"/>
-<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html" title="For downloading and installing BYOND extractions for a given system" alt="" coords="176,286,403,327"/>
-<area shape="rect" id="node9" title=" " alt="" coords="207,352,372,379"/>
-<area shape="rect" id="node10" title=" " alt="" coords="167,403,412,459"/>
-<area shape="rect" id="node11" title=" " alt="" coords="224,482,355,523"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_installer.html" title="For downloading and installing BYOND extractions for a given system" alt="" coords="176,213,403,254"/>
+<area shape="rect" id="node8" title=" " alt="" coords="245,299,334,325"/>
+<area shape="rect" id="node9" title=" " alt="" coords="207,349,372,376"/>
+<area shape="rect" id="node10" title=" " alt="" coords="167,400,412,456"/>
+<area shape="rect" id="node11" title=" " alt="" coords="224,479,355,521"/>
 </map>

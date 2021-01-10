@@ -1,5 +1,9 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_dream_maker.html" title="Represents the state of the DreamMaker compiler. Create action starts a new compile...." alt="" coords="34,5,221,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_dream_maker_settings.html" title=" " alt="" coords="297,41,493,83"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="5,70,249,126"/>
+<area shape="rect" id="node1" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="475,5,707,61"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html" title=" " alt="" coords="755,17,951,58"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html" title="Parameters for creating a TestMerge" alt="" coords="5,118,192,159"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_test_merge_base.html" title="Layer of test merge data required internally" alt="" coords="240,118,427,159"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_test_merge.html" title="Represents a test merge of a remote &quot;pull request&quot;." alt="" coords="497,85,684,126"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_interop_1_1_bridge_1_1_test_merge_information.html" title="This model mirrors /datum/tgs_revision_information/test_merge" alt="" coords="475,150,707,191"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge.html" title=" " alt="" coords="759,85,946,126"/>
 </map>
