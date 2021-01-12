@@ -1,6 +1,6 @@
 // tgstation-server DMAPI
 
-#define TGS_DMAPI_VERSION "5.2.11"
+#define TGS_DMAPI_VERSION "5.3.0"
 
 // All functions and datums outside this document are subject to change with any version and should not be relied on.
 
@@ -154,6 +154,8 @@
 /datum/tgs_revision_information
 	/// Full SHA of the commit.
 	var/commit
+	/// ISO8601 timestamp of the commit
+	var/timestamp
 	/// Full sha of last known remote commit. This may be null if the TGS repository is not currently tracking a remote branch.
 	var/origin_commit
 

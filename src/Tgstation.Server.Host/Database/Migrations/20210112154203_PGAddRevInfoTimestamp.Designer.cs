@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Tgstation.Server.Host.Database.Migrations
 {
 	[DbContext(typeof(PostgresSqlDatabaseContext))]
-	partial class PostgresSqlDatabaseContextModelSnapshot : ModelSnapshot
+	[Migration("20210112154203_PGAddRevInfoTimestamp")]
+	partial class PGAddRevInfoTimestamp
 	{
 		/// <inheritdoc />
-		protected override void BuildModel(ModelBuilder modelBuilder)
+		protected override void BuildTargetModel(ModelBuilder modelBuilder)
 		{
 #pragma warning disable 612, 618
 			modelBuilder

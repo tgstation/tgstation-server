@@ -79,6 +79,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.IsNotNull(readAfterClone.RevisionInformation.OriginCommitSha);
 			Assert.IsNull(readAfterClone.RevisionInformation.PrimaryTestMerge);
 			Assert.AreEqual(readAfterClone.RevisionInformation.CommitSha, readAfterClone.RevisionInformation.OriginCommitSha);
+			Assert.AreNotEqual(default, readAfterClone.RevisionInformation.Timestamp);
 
 			readAfterClone.Origin = new Uri("https://github.com/tgstation/tgstation");
 			await ApiAssert.ThrowsException<ApiConflictException>(() => repositoryClient.Update(readAfterClone, cancellationToken), ErrorCode.RepoCantChangeOrigin);
