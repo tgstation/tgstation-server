@@ -38,7 +38,7 @@ namespace Tgstation.Server.Client.Components
 		/// <param name="paginationSettings">The optional <see cref="PaginationSettings"/> for the operation.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a <see cref="IReadOnlyList{T}"/> of <see cref="CompileJob"/> <see cref="EntityId"/>s.</returns>
-		Task<IReadOnlyList<EntityId>> ListCompileJobs(PaginationSettings? paginationSettings, CancellationToken cancellationToken);
+		Task<IReadOnlyList<CompileJob>> ListCompileJobs(PaginationSettings? paginationSettings, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Get a <paramref name="compileJob"/>
