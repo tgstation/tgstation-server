@@ -91,6 +91,7 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					Instance = instance,
 					CommitSha = repoSha,
+					Timestamp = await repository.TimestampCommit(repoSha, cancellationToken).ConfigureAwait(false),
 					CompileJobs = new List<Models.CompileJob>(),
 					ActiveTestMerges = new List<RevInfoTestMerge>() // non null vals for api returns
 				};

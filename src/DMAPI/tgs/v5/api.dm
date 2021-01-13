@@ -48,6 +48,7 @@
 	if(istype(revisionData))
 		revision = new
 		revision.commit = revisionData[DMAPI5_REVISION_INFORMATION_COMMIT_SHA]
+		revision.timestamp = revisionData[DMAPI5_REVISION_INFORMATION_TIMESTAMP]
 		revision.origin_commit = revisionData[DMAPI5_REVISION_INFORMATION_ORIGIN_COMMIT_SHA]
 	else
 		TGS_ERROR_LOG("Failed to decode [DMAPI5_RUNTIME_INFORMATION_REVISION] from runtime information!")
@@ -62,6 +63,7 @@
 			var/list/revInfo = entry[DMAPI5_TEST_MERGE_REVISION]
 			if(revInfo)
 				tm.commit = revisionData[DMAPI5_REVISION_INFORMATION_COMMIT_SHA]
+				tm.timestamp = revisionData[DMAPI5_REVISION_INFORMATION_TIMESTAMP]
 				tm.origin_commit = revisionData[DMAPI5_REVISION_INFORMATION_ORIGIN_COMMIT_SHA]
 			else
 				TGS_WARNING_LOG("Failed to decode [DMAPI5_TEST_MERGE_REVISION] from test merge #[tm.number]!")

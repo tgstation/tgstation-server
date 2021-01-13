@@ -777,5 +777,18 @@ namespace Tgstation.Server.Host.Components.Repository
 				parameters,
 				repositorySettings,
 				cancellationToken);
+
+		/// <inheritdoc />
+		public Task<DateTimeOffset> TimestampCommit(string sha, CancellationToken cancellationToken) => Task.Factory.StartNew(() =>
+		{
+			if (sha == null)
+				throw new ArgumentNullException(nameof(sha));
+
+			var commit = libGitRepo.Lookup<Commit>(sha);
+			if (commit == null)
+				throw new JobException($"Commit {sha} does not exist in the repository!");
+
+			return commit.Committer.When;
+		}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current);
 	}
 }
