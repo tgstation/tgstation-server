@@ -162,6 +162,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a39510f32aeab8c9988a9b8b2cc323396"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html">Models.TestMerge</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a39510f32aeab8c9988a9b8b2cc323396">GetTestMerge</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html">TestMergeParameters</a> parameters, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_repository_settings.html">RepositorySettings</a> repositorySettings, CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a39510f32aeab8c9988a9b8b2cc323396"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html">Models.TestMerge</a> representation of given test merge <em>parameters</em> .  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a39510f32aeab8c9988a9b8b2cc323396">More...</a><br /></td></tr>
 <tr class="separator:a39510f32aeab8c9988a9b8b2cc323396"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8af5145c3189f5db20782b797e2f0c98"><td class="memItemLeft" align="right" valign="top">Task&lt; DateTimeOffset &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a8af5145c3189f5db20782b797e2f0c98">TimestampCommit</a> (string sha, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a8af5145c3189f5db20782b797e2f0c98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the DateTimeOffset a given <em>sha</em>  was created on.  <a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a8af5145c3189f5db20782b797e2f0c98">More...</a><br /></td></tr>
+<tr class="separator:a8af5145c3189f5db20782b797e2f0c98"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -1640,6 +1643,38 @@ Here is the caller graph for this function:</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_html_ae497427222edeac86fbaea36d2dac220"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#ae497427222edeac86fbaea36d2dac220">Tgstation.Server.Host.Components.Repository.Repository.GeneratePushOptions</a></div><div class="ttdeci">PushOptions GeneratePushOptions(Action&lt; int &gt; progressReporter, string username, string password, CancellationToken cancellationToken)</div><div class="ttdoc">Generate a standard set of PushOptions</div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_default_i_o_manager_8cs_source.html#l00030">Tgstation.Server.Host.IO.DefaultIOManager.BlockingTaskCreationOptions</a>.</p>
+
+</div>
+</div>
+<a id="a8af5145c3189f5db20782b797e2f0c98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8af5145c3189f5db20782b797e2f0c98">&#9670;&nbsp;</a></span>TimestampCommit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task&lt;DateTimeOffset&gt; Tgstation.Server.Host.Components.Repository.Repository.TimestampCommit </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>sha</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the DateTimeOffset a given <em>sha</em>  was created on. </p>
+
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html#ace94d213f0b8ce9b7979198aa2aa9b80">Tgstation.Server.Host.Components.Repository.IRepository</a>.</p>
 
 </div>
 </div>
