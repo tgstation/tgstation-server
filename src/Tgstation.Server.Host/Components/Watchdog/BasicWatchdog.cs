@@ -95,8 +95,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					if (Server.TerminationWasRequested)
 						await EventConsumer.HandleEvent(EventType.WorldEndProcess, Enumerable.Empty<string>(), cancellationToken).ConfigureAwait(false);
 
-					await EventConsumer.HandleEvent(EventType.WorldDel, Enumerable.Empty<string>(), cancellationToken).ConfigureAwait(false);
-
 					string exitWord = Server.TerminationWasRequested ? "exited" : "crashed";
 					if (Server.RebootState == Session.RebootState.Shutdown)
 					{

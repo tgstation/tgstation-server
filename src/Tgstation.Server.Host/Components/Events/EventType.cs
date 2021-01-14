@@ -120,13 +120,13 @@ namespace Tgstation.Server.Host.Components.Events
 		WorldEndProcess,
 
 		/// <summary>
-		/// After any sort of watchdog DreamDaemon closure or reboot. Reboots only supported with DMAPI. Not synchronous. Called after <see cref="WorldEndProcess"/>. No parameters.
+		/// Watchdog event when TgsReboot() is called. Not synchronous. Called after <see cref="WorldEndProcess"/>. No parameters.
 		/// </summary>
 		[EventScript("WorldDel")]
 		WorldDel,
 
 		/// <summary>
-		/// Watchdog event when TgsInitializationComplete() is called. No parameters.
+		/// Watchdog event when TgsInitializationsComplete() is called. No parameters.
 		/// </summary>
 		[EventScript("WorldPrime")]
 		WorldPrime,
