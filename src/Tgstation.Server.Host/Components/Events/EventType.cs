@@ -116,7 +116,7 @@ namespace Tgstation.Server.Host.Components.Events
 		/// <summary>
 		/// Watchdog event when DreamDaemon exits unexpectedly. No parameters.
 		/// </summary>
-		[EventScript("WatchdogLaunch")]
+		[EventScript("WatchdogCrash")]
 		WatchdogCrash,
 
 		/// <summary>
