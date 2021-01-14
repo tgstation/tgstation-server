@@ -168,10 +168,10 @@ Properties</h2></td></tr>
 <tr class="memdesc:a71b97ab7d82ac6304133d90895332e45"><td class="mdescLeft">&#160;</td><td class="mdescRight">The current <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#a71b97ab7d82ac6304133d90895332e45" title="The current RebootState">RebootState</a>  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#a71b97ab7d82ac6304133d90895332e45">More...</a><br /></td></tr>
 <tr class="separator:a71b97ab7d82ac6304133d90895332e45"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a625d6e340c7c82b944a35636c6e47ce3"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#a625d6e340c7c82b944a35636c6e47ce3">OnReboot</a><code> [get]</code></td></tr>
-<tr class="memdesc:a625d6e340c7c82b944a35636c6e47ce3"><td class="mdescLeft">&#160;</td><td class="mdescRight">A Task that completes when the server calls /world/Reboot()  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#a625d6e340c7c82b944a35636c6e47ce3">More...</a><br /></td></tr>
+<tr class="memdesc:a625d6e340c7c82b944a35636c6e47ce3"><td class="mdescLeft">&#160;</td><td class="mdescRight">A Task that completes when the server calls /world/TgsReboot().  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#a625d6e340c7c82b944a35636c6e47ce3">More...</a><br /></td></tr>
 <tr class="separator:a625d6e340c7c82b944a35636c6e47ce3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a480da485a3a5b316653391a49be981e3"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#a480da485a3a5b316653391a49be981e3">OnPrime</a><code> [get]</code></td></tr>
-<tr class="memdesc:a480da485a3a5b316653391a49be981e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">A Task that completes when the server calls /world/TgsInitializationsComplete()  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#a480da485a3a5b316653391a49be981e3">More...</a><br /></td></tr>
+<tr class="memdesc:a480da485a3a5b316653391a49be981e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">A Task that completes when the server calls /world/TgsInitializationComplete()  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#a480da485a3a5b316653391a49be981e3">More...</a><br /></td></tr>
 <tr class="separator:a480da485a3a5b316653391a49be981e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a52229c39f084c0740bd42d0a775897bf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#a52229c39f084c0740bd42d0a775897bf">DMApiAvailable</a><code> [get]</code></td></tr>
 <tr class="memdesc:a52229c39f084c0740bd42d0a775897bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the DMAPI may be used this session.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#a52229c39f084c0740bd42d0a775897bf">More...</a><br /></td></tr>
@@ -227,7 +227,7 @@ Properties</h2></td></tr>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#a5265a5dbb5e09483ba2d84bb0dd39d12">Tgstation.Server.Host.Components.Session.SessionController</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_watchdog_base_8cs_source.html#l00612">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.MonitorLifetimes()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_watchdog_base_8cs_source.html#l00613">Tgstation.Server.Host.Components.Watchdog.WatchdogBase.MonitorLifetimes()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -600,7 +600,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>A Task that completes when the server calls /world/TgsInitializationsComplete() </p>
+<p>A Task that completes when the server calls /world/TgsInitializationComplete() </p>
 
 <p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00059">59</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;{ <span class="keyword">get</span>; }</div>
@@ -627,7 +627,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>A Task that completes when the server calls /world/Reboot() </p>
+<p>A Task that completes when the server calls /world/TgsReboot(). </p>
 
 <p class="definition">Definition at line <a class="el" href="_i_session_controller_8cs_source.html#l00054">54</a> of file <a class="el" href="_i_session_controller_8cs_source.html">ISessionController.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;{ <span class="keyword">get</span>; }</div>
