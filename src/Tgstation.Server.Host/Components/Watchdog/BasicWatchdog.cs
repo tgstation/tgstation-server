@@ -95,6 +95,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					if (Server.TerminationWasRequested)
 						await EventConsumer.HandleEvent(EventType.WorldEndProcess, Enumerable.Empty<string>(), cancellationToken).ConfigureAwait(false);
 
+					await EventConsumer.HandleEvent(EventType.WorldDel, Enumerable.Empty<string>(), cancellationToken).ConfigureAwait(false);
+
 					string exitWord = Server.TerminationWasRequested ? "exited" : "crashed";
 					if (Server.RebootState == Session.RebootState.Shutdown)
 					{
@@ -128,6 +130,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					gracefulRebootRequired = false;
 					Server.ResetRebootState();
 
+					await EventConsumer.HandleEvent(EventType.WorldDel, Enumerable.Empty<string>(), cancellationToken).ConfigureAwait(false);
+
 					switch (rebootState)
 					{
 						case Session.RebootState.Normal:
@@ -144,13 +148,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						default:
 							throw new InvalidOperationException($"Invalid reboot state: {rebootState}");
 					}
-
 				case MonitorActivationReason.ActiveLaunchParametersUpdated:
 					await Server.SetRebootState(Session.RebootState.Restart, cancellationToken).ConfigureAwait(false);
 					gracefulRebootRequired = true;
 					break;
 				case MonitorActivationReason.NewDmbAvailable:
 					await HandleNewDmbAvailable(cancellationToken).ConfigureAwait(false);
+					break;
+				case MonitorActivationReason.ActiveServerPrimed:
+					await EventConsumer.HandleEvent(EventType.WorldPrime, Enumerable.Empty<string>(), cancellationToken).ConfigureAwait(false);
 					break;
 				case MonitorActivationReason.Heartbeat:
 				default:

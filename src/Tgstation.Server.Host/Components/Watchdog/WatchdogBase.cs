@@ -609,6 +609,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		#pragma warning disable CA1502
 		private async Task MonitorLifetimes(CancellationToken cancellationToken)
 		{
 			Logger.LogTrace("Entered MonitorLifetimes");
@@ -619,6 +620,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			try
 			{
 				MonitorAction nextAction = MonitorAction.Continue;
+				Task activeServerLifetime = null,
+					activeServerReboot = null,
+					serverPrimed = null,
+					activeLaunchParametersChanged = null,
+					newDmbAvailable = null;
+				ISessionController lastController = null;
 				for (ulong iteration = 1; nextAction != MonitorAction.Exit; ++iteration)
 					using (LogContext.PushProperty("Monitor", iteration))
 						try
@@ -627,17 +634,44 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							nextAction = MonitorAction.Continue;
 
 							var controller = GetActiveController();
-							Task activeServerLifetime = controller.Lifetime;
-							var activeServerReboot = controller.OnReboot;
 
-							Task activeLaunchParametersChanged = ActiveParametersUpdated.Task;
-							var newDmbAvailable = DmbFactory.OnNewerDmb;
+							void UpdateMonitoredTasks()
+							{
+								static void TryUpdateTask(ref Task oldTask, Task newTask)
+								{
+									if (oldTask?.IsCompleted == true)
+										return;
+
+									oldTask = newTask;
+								}
+
+								if (lastController == controller)
+								{
+									TryUpdateTask(ref activeServerLifetime, controller.Lifetime);
+									TryUpdateTask(ref activeServerReboot, controller.OnReboot);
+									TryUpdateTask(ref serverPrimed, controller.OnPrime);
+								}
+								else
+								{
+									activeServerLifetime = controller.Lifetime;
+									activeServerReboot = controller.OnReboot;
+									serverPrimed = controller.OnPrime;
+									lastController = controller;
+								}
+
+								TryUpdateTask(ref activeLaunchParametersChanged, ActiveParametersUpdated.Task);
+								TryUpdateTask(ref newDmbAvailable, DmbFactory.OnNewerDmb);
+							}
+
+							UpdateMonitoredTasks();
 
 							var heartbeatSeconds = ActiveLaunchParameters.HeartbeatSeconds.Value;
 							var heartbeat = heartbeatSeconds == 0
 								|| !controller.DMApiAvailable
 								? Extensions.TaskExtensions.InfiniteTask()
-								: Task.Delay(TimeSpan.FromSeconds(heartbeatSeconds), cancellationToken);
+								: Task.Delay(
+									TimeSpan.FromSeconds(heartbeatSeconds),
+									cancellationToken);
 
 							// cancel waiting if requested
 							var cancelTcs = new TaskCompletionSource<object>();
@@ -647,7 +681,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								heartbeat,
 								newDmbAvailable,
 								cancelTcs.Task,
-								activeLaunchParametersChanged);
+								activeLaunchParametersChanged,
+								serverPrimed);
 
 							// wait for something to happen
 							using (cancellationToken.Register(() => cancelTcs.SetCanceled()))
@@ -688,7 +723,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 										|| CheckActivationReason(ref activeServerReboot, MonitorActivationReason.ActiveServerRebooted)
 										|| CheckActivationReason(ref newDmbAvailable, MonitorActivationReason.NewDmbAvailable)
 										|| CheckActivationReason(ref activeLaunchParametersChanged, MonitorActivationReason.ActiveLaunchParametersUpdated)
-										|| CheckActivationReason(ref heartbeat, MonitorActivationReason.Heartbeat);
+										|| CheckActivationReason(ref heartbeat, MonitorActivationReason.Heartbeat)
+										|| CheckActivationReason(ref serverPrimed, MonitorActivationReason.ActiveServerPrimed);
+
+									UpdateMonitoredTasks();
 
 									if (!anyActivation)
 										moreActivationsToProcess = false;
@@ -769,6 +807,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			Logger.LogTrace("Monitor exiting...");
 		}
+		#pragma warning restore CA1502
 
 		/// <summary>
 		/// Starts all <see cref="ISessionController"/>s.

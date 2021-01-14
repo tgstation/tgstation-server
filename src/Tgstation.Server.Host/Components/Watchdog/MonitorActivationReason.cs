@@ -1,4 +1,4 @@
-﻿namespace Tgstation.Server.Host.Components.Watchdog
+namespace Tgstation.Server.Host.Components.Watchdog
 {
 	/// <summary>
 	/// Reasons for the monitor to wake up
@@ -29,5 +29,10 @@
 		/// A heartbeat is required.
 		/// </summary>
 		Heartbeat,
+
+		/// <summary>
+		/// Server primed.
+		/// </summary>
+		ActiveServerPrimed,
 	}
 }

@@ -49,12 +49,12 @@ namespace Tgstation.Server.Host.Components.Session
 		RebootState RebootState { get; }
 
 		/// <summary>
-		/// A <see cref="Task"/> that completes when the server calls /world/Reboot()
+		/// A <see cref="Task"/> that completes when the server calls /world/TgsReboot().
 		/// </summary>
 		Task OnReboot { get; }
 
 		/// <summary>
-		/// A <see cref="Task"/> that completes when the server calls /world/TgsInitializationsComplete()
+		/// A <see cref="Task"/> that completes when the server calls /world/TgsInitializationComplete()
 		/// </summary>
 		Task OnPrime { get; }
 

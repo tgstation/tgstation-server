@@ -114,9 +114,21 @@ namespace Tgstation.Server.Host.Components.Events
 		WatchdogLaunch,
 
 		/// <summary>
-		/// In between DD restarts if the process has been force-ended by the DMAPI (TgsEndProcess())
+		/// In between watchdog DreamDaemon restarts if the process has been force-ended by the DMAPI (TgsEndProcess()). No parameters.
 		/// </summary>
 		[EventScript("WorldEndProcess")]
 		WorldEndProcess,
+
+		/// <summary>
+		/// After any sort of watchdog DreamDaemon closure or reboot. Reboots only supported with DMAPI. Not synchronous. Called after <see cref="WorldEndProcess"/>. No parameters.
+		/// </summary>
+		[EventScript("WorldDel")]
+		WorldDel,
+
+		/// <summary>
+		/// Watchdog event when TgsInitializationComplete() is called. No parameters.
+		/// </summary>
+		[EventScript("WorldPrime")]
+		WorldPrime,
 	}
 }

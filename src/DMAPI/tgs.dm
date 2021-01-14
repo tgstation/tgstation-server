@@ -95,10 +95,12 @@
 #define TGS_EVENT_WATCHDOG_SHUTDOWN 15
 /// Before the watchdog detaches for a TGS update/restart. No parameters.
 #define TGS_EVENT_WATCHDOG_DETACH 16
-// We don't actually implement this value as the DMAPI can never receive it
+// We don't actually implement these 3 events as the DMAPI can never receive them.
 // #define TGS_EVENT_WATCHDOG_LAUNCH 17
-// Same here. We don't actually implement this value as the DMAPI can never receive it
 // #define TGS_EVENT_WORLD_END_PROCESS 18
+// #define TGS_EVENT_WORLD_DEL 19
+/// Watchdog event when TgsInitializationComplete() is called. No parameters.
+ #define TGS_EVENT_WORLD_PRIME 20
 
 // OTHER ENUMS
 
@@ -132,7 +134,6 @@
  *
  * This may use [/world/var/sleep_offline] to make this happen so ensure no changes are made to it while this call is running.
  * Afterwards, consider explicitly setting it to what you want to avoid this BYOND bug: http://www.byond.com/forum/post/2575184
- * Before this point, note that any static files or directories may be in use by another server. Your code should account for this.
  * This function should not be called before ..() in [/world/proc/New].
  */
 /world/proc/TgsInitializationComplete()
