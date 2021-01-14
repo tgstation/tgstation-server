@@ -96,7 +96,7 @@ namespace Tgstation.Server.Host.Components.Events
 		DeploymentComplete,
 
 		/// <summary>
-		/// Before the watchdog shutsdown. Not sent for graceful shutdowns. No parameters.
+		/// Before the watchdog shuts down. Not sent for graceful shutdowns. No parameters.
 		/// </summary>
 		[EventScript("WatchdogShutdown")]
 		WatchdogShutdown,
@@ -114,9 +114,27 @@ namespace Tgstation.Server.Host.Components.Events
 		WatchdogLaunch,
 
 		/// <summary>
-		/// In between DD restarts if the process has been force-ended by the DMAPI (TgsEndProcess())
+		/// Watchdog event when DreamDaemon exits unexpectedly. No parameters.
+		/// </summary>
+		[EventScript("WatchdogCrash")]
+		WatchdogCrash,
+
+		/// <summary>
+		/// In between watchdog DreamDaemon restarts if the process has been force-ended by the DMAPI (TgsEndProcess()). No parameters.
 		/// </summary>
 		[EventScript("WorldEndProcess")]
 		WorldEndProcess,
+
+		/// <summary>
+		/// Watchdog event when TgsReboot() is called. Not synchronous. Called after <see cref="WorldEndProcess"/>. No parameters.
+		/// </summary>
+		[EventScript("WorldReboot")]
+		WorldReboot,
+
+		/// <summary>
+		/// Watchdog event when TgsInitializationsComplete() is called. No parameters.
+		/// </summary>
+		[EventScript("WorldPrime")]
+		WorldPrime,
 	}
 }
