@@ -96,7 +96,7 @@ namespace Tgstation.Server.Host.Components.Events
 		DeploymentComplete,
 
 		/// <summary>
-		/// Before the watchdog shutsdown. Not sent for graceful shutdowns. No parameters.
+		/// Before the watchdog shuts down. Not sent for graceful shutdowns. No parameters.
 		/// </summary>
 		[EventScript("WatchdogShutdown")]
 		WatchdogShutdown,
@@ -128,8 +128,8 @@ namespace Tgstation.Server.Host.Components.Events
 		/// <summary>
 		/// Watchdog event when TgsReboot() is called. Not synchronous. Called after <see cref="WorldEndProcess"/>. No parameters.
 		/// </summary>
-		[EventScript("WorldDel")]
-		WorldDel,
+		[EventScript("WorldReboot")]
+		WorldReboot,
 
 		/// <summary>
 		/// Watchdog event when TgsInitializationsComplete() is called. No parameters.

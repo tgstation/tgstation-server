@@ -99,7 +99,7 @@
 // #define TGS_EVENT_WATCHDOG_LAUNCH 17
 // #define TGS_EVENT_WATCHDOG_CRASH 18
 // #define TGS_EVENT_WORLD_END_PROCESS 19
-// #define TGS_EVENT_WORLD_DEL 20
+// #define TGS_EVENT_WORLD_REBOOT 20
 /// Watchdog event when TgsInitializationComplete() is called. No parameters.
  #define TGS_EVENT_WORLD_PRIME 21
 

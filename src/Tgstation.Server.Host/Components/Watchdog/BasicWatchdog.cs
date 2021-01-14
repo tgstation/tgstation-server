@@ -130,7 +130,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					gracefulRebootRequired = false;
 					Server.ResetRebootState();
 
-					await EventConsumer.HandleEvent(EventType.WorldDel, Enumerable.Empty<string>(), cancellationToken).ConfigureAwait(false);
+					await EventConsumer.HandleEvent(EventType.WorldReboot, Enumerable.Empty<string>(), cancellationToken).ConfigureAwait(false);
 
 					switch (rebootState)
 					{
