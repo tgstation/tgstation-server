@@ -114,6 +114,12 @@ namespace Tgstation.Server.Host.Components.Events
 		WatchdogLaunch,
 
 		/// <summary>
+		/// Watchdog event when DreamDaemon exits unexpectedly. No parameters.
+		/// </summary>
+		[EventScript("WatchdogLaunch")]
+		WatchdogCrash,
+
+		/// <summary>
 		/// In between watchdog DreamDaemon restarts if the process has been force-ended by the DMAPI (TgsEndProcess()). No parameters.
 		/// </summary>
 		[EventScript("WorldEndProcess")]
