@@ -25,7 +25,7 @@ Here's a breakdown of things in this directory
 - [.config](./.config) contains the dotnet-tools.json. At the time of writing, this is only used to set the version of the [dotnet ef tools](https://docs.microsoft.com/en-us/ef/core/miscellaneous/cli/) used to create database migrations.
 - [ClientApp](./ClientApp) contains scripts to build and deploy the web control panel with TGS.
 - [Components](./Components) is where the bulk of the TGS implementation lives.
-- [Configuration](./Configuration) contains classes that partly make up the configuration json files (i.e. [appsettings.json](./appsettings.json)).
+- [Configuration](./Configuration) contains classes that partly make up the configuration yaml files (i.e. [appsettings.yml](./appsettings.yml)).
 - [Controllers](./Controllers) is where HTTP API code lives and bridges it with component code.
 - [Core](./Core) contains [Application.cs](./Core/Application.cs) and other various helpers that don't belong anywhere else.
 - [Database](./Database) contains all database related code.

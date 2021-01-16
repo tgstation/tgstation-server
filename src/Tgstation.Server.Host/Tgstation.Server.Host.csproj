@@ -115,11 +115,16 @@
     <None Include="ClientApp\package.json" />
     <None Include="ClientApp\tsconfig.json" />
     <ClientApp Include="ClientApp\src\**\*;ClientApp\public\**\*;ClientApp\tsconfig.json;ClientApp\package.json;ClientApp\package-lock.json" />
+    <None Remove="appsettings.yml" />
     <AdditionalFiles Include="../../build/stylecop.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="appsettings.json">
+    <Content Include="appsettings.yml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.yml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

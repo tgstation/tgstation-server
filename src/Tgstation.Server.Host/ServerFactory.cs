@@ -50,8 +50,7 @@ namespace Tgstation.Server.Host
 			var basePath = IOManager.ResolvePath();
 			IHostBuilder CreateDefaultBuilder() => Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
 				.ConfigureAppConfiguration((context, builder) => {
-					builder.AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: true)
-					.AddYamlFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.yml", optional: true, reloadOnChange: true); //Allow both appsettings.json and appsettings.yml for backwards compat
+					builder.AddYamlFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.yml", optional: true, reloadOnChange: true); //Allow both appsettings.json and appsettings.yml for backwards compat
 					
 				});
 

@@ -98,7 +98,7 @@ The latter two are not recommended as they cannot be dynamically changed at runt
 
 #### Manual Configuration
 
-Create an `appsettings.Production.yml` file next to `appsettings.json`. This will override the default settings in `appsettings.json` with your production settings. There are a few keys meant to be changed by hosts. Modifying any config files while the server is running will trigger a safe restart (Keeps DreamDaemon instances running). Note these are all case-sensitive:
+Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will override the default settings in `appsettings.yml` with your production settings. There are a few keys meant to be changed by hosts. Modifying any config files while the server is running will trigger a safe restart (Keeps DreamDaemon instances running). Note these are all case-sensitive:
 
 - `General:ConfigVersion`: Suppresses warnings about out of date config versions. You should change this after updating TGS to one with a new config version. The current version can be found on the releases page for your server version (This field did not exist before v4.4.0).
 
@@ -141,19 +141,14 @@ Create an `appsettings.Production.yml` file next to `appsettings.json`. This wil
 - `Swarm:Identifier` should be set uniquely on all swarmed servers. Used to identify the current server. This is also used to select which instances exist on the current machine and should not be changed post-setup.
 
 - `Security:OAuth:<Provider Name>`: Sets the OAuth client ID and secret for a given `<Provider Name>`. The currently supported providers are `GitHub`, `Discord`, and `TGForums`. Setting these fields to `null` disables logins with the provider, but does not stop users from associating their accounts using the API. Sample Entry:
-```json
-{
-	"Security": {
-		"OAuth": {
-			"Keycloak": {
-				"ClientId": "...",
-				"ClientSecret": "...",
-				"RedirectUrl": "...",
-				"ServerUrl": "..."
-			}
-		}
-	}
-}
+```yml
+Security:
+  OAuth:
+    Keycloak:
+      ClientId: "..."
+      ClientSecret: "..."
+      RedirectUrl: "..."
+      ServerUrl: "..."
 ```
 The following providers use the `RedirectUrl` setting:
 
