@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models.Internal
@@ -8,14 +9,19 @@ namespace Tgstation.Server.Api.Models.Internal
 	public class RevisionInformation
 	{
 		/// <summary>
-		/// The revision sha
+		/// The revision SHA.
 		/// </summary>
 		[Required]
 		[StringLength(Limits.MaximumCommitShaLength)]
 		public string? CommitSha { get; set; }
 
 		/// <summary>
-		/// The sha of the most recent remote commit
+		/// The timestamp of the revision.
+		/// </summary>
+		public DateTimeOffset Timestamp { get; set; }
+
+		/// <summary>
+		/// The SHA of the most recent remote commit.
 		/// </summary>
 		[Required]
 		[StringLength(Limits.MaximumCommitShaLength)]

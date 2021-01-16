@@ -566,6 +566,9 @@ namespace Tgstation.Server.Host.Database.Migrations
 					.HasColumnType("varchar(40) CHARACTER SET utf8mb4")
 					.HasMaxLength(40);
 
+				b.Property<DateTimeOffset>("Timestamp")
+					.HasColumnType("datetime(6)");
+
 				b.HasKey("Id");
 
 				b.HasIndex("InstanceId", "CommitSha")

@@ -11,9 +11,9 @@ namespace Tgstation.Server.Host.Controllers
 	public sealed class PaginatableResult<TModel>
 	{
 		/// <summary>
-		/// The <see cref="IQueryable{T}"/> <typeparamref name="TModel"/> results.
+		/// The <see cref="IOrderedQueryable{T}"/> <typeparamref name="TModel"/> results.
 		/// </summary>
-		public IQueryable<TModel> Results { get; }
+		public IOrderedQueryable<TModel> Results { get; }
 
 		/// <summary>
 		/// An <see cref="IActionResult"/> to return immediately.
@@ -24,7 +24,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// Initializes a new instance of the <see cref="PaginatableResult{TModel}"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="results">The value of <see cref="Results"/>.</param>
-		public PaginatableResult(IQueryable<TModel> results)
+		public PaginatableResult(IOrderedQueryable<TModel> results)
 		{
 			Results = results ?? throw new ArgumentNullException(nameof(results));
 		}

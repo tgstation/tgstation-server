@@ -67,7 +67,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		readonly IDictionary<string, ICommand> builtinCommands;
 
 		/// <summary>
-		/// Map of <see cref="IProvider"/>s in use, keyed by <see cref="ChatBot.Id"/>
+		/// Map of <see cref="IProvider"/>s in use, keyed by <see cref="ChatBot"/> <see cref="Api.Models.EntityId.Id"/>
 		/// </summary>
 		readonly IDictionary<long, IProvider> providers;
 
@@ -184,7 +184,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// <summary>
 		/// Remove a <see cref="IProvider"/> from <see cref="providers"/> and <see cref="mappedChannels"/> optionally updating the <see cref="trackingContexts"/> as well
 		/// </summary>
-		/// <param name="connectionId">The <see cref="ChatBot.Id"/> of the <see cref="IProvider"/> to delete</param>
+		/// <param name="connectionId">The <see cref="Api.Models.EntityId.Id"/> of the <see cref="IProvider"/> to delete</param>
 		/// <param name="updateTrackings">If <see cref="trackingContexts"/> should be update</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IProvider"/> being removed if it exists, <see langword="null"/> otherwise.</returns>

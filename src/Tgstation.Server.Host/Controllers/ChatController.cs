@@ -141,7 +141,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Delete a <see cref="Api.Models.ChatBot"/>.
 		/// </summary>
-		/// <param name="id">The <see cref="Api.Models.Internal.ChatBot.Id"/> to delete.</param>
+		/// <param name="id">The <see cref="EntityId.Id"/> to delete.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="204">Chat bot deleted or does not exist.</response>
@@ -186,7 +186,8 @@ namespace Tgstation.Server.Host.Controllers
 							.ChatBots
 							.AsQueryable()
 							.Where(x => x.InstanceId == Instance.Id)
-							.Include(x => x.Channels))),
+							.Include(x => x.Channels)
+							.OrderBy(x => x.Id))),
 				chatBot =>
 				{
 					if (connectionStrings)
@@ -200,7 +201,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Get a specific <see cref="Api.Models.ChatBot"/>.
 		/// </summary>
-		/// <param name="id">The <see cref="Api.Models.Internal.ChatBot.Id"/> to retrieve.</param>
+		/// <param name="id">The <see cref="EntityId.Id"/> to retrieve.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Retrieved <see cref="Api.Models.ChatBot"/> successfully.</response>

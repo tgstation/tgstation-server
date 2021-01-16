@@ -148,7 +148,7 @@ Create an `appsettings.Production.yml` file next to `appsettings.json`. This wil
 			"Keycloak": {
 				"ClientId": "...",
 				"ClientSecret": "...",
-				"RedirectUrl": "..."
+				"RedirectUrl": "...",
 				"ServerUrl": "..."
 			}
 		}
@@ -331,6 +331,14 @@ Example VirtualHost Entry
 Multiple tgstation-servers can be linked together in a swarm. The main benefit of this is allowing for users, groups, and permissions to be shared across the servers. Servers in a swarm must connect to the same database, use the same tgstation-server version, and have their own unique names.
 
 In a swarm, one server is designated the 'controller'. This is the server other 'node's in the swarm communicate with and coordinates group updates. Issuing an update command to one server in a swarm will update them all to the specified version.
+
+### Swarm Server Instances
+
+Instances can be either part of a swarm or not. Once in the database they cannot switch between these states. In order to brin a non-swarmed instance into a swarmed server or vice-versa follow these steps.
+
+1. With the existing server, detach the instance.
+1. Shut down the server and configure it to be in or out of swarm mode.
+1. Reattach the instance after starting the server again.
 
 ## Usage
 

@@ -89,6 +89,11 @@ namespace Tgstation.Server.Tests
 				Path = testNonEmpty
 			}, cancellationToken), ErrorCode.InstanceAtExistingPath).ConfigureAwait(false);
 
+			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.GrantPermissions(new Api.Models.Instance
+			{
+				Id = 3482974,
+			}, cancellationToken), ErrorCode.ResourceNotPresent).ConfigureAwait(false);
+
 			// test can't create instance outside of whitelist
 			await ApiAssert.ThrowsException<ApiConflictException>(() => instanceManagerClient.CreateOrAttach(new Api.Models.Instance
 			{

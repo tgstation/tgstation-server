@@ -28,10 +28,11 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public LibGit2Sharp.IRepository CreateInMemory()
+		public void CreateInMemory()
 		{
 			logger.LogTrace("Creating in-memory libgit2 repository...");
-			return new LibGit2Sharp.Repository();
+			using var _ = new LibGit2Sharp.Repository();
+			logger.LogTrace("Success");
 		}
 
 		/// <inheritdoc />

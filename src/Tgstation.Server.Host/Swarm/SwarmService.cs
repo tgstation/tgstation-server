@@ -975,7 +975,7 @@ namespace Tgstation.Server.Host.Swarm
 
 			var request = new HttpRequestMessage(
 				httpMethod,
-				swarmServer.Address + subroute.Substring(1));
+				swarmServer.Address + subroute[1..]);
 
 			request.Headers.Add(SwarmConstants.ApiKeyHeader, swarmConfiguration.PrivateKey);
 			request.Headers.UserAgent.Clear();

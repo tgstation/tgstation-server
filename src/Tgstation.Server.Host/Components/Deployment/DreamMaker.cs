@@ -525,10 +525,8 @@ namespace Tgstation.Server.Host.Components.Deployment
 			Action<int> progressReporter,
 			CancellationToken cancellationToken)
 		{
-#pragma warning disable IDE0016 // Use 'throw' expression
 			if (job == null)
 				throw new ArgumentNullException(nameof(job));
-#pragma warning restore IDE0016 // Use 'throw' expression
 			if (databaseContextFactory == null)
 				throw new ArgumentNullException(nameof(databaseContextFactory));
 			if (progressReporter == null)
@@ -625,6 +623,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 								revInfo = new Models.RevisionInformation
 								{
 									CommitSha = repoSha,
+									Timestamp = await repo.TimestampCommit(repoSha, cancellationToken).ConfigureAwait(false),
 									OriginCommitSha = repoSha,
 									Instance = new Models.Instance
 									{

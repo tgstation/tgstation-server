@@ -644,7 +644,8 @@ namespace Tgstation.Server.Host.Controllers
 			var result = await Paginated<Models.Instance, Api.Models.Instance>(
 				() => Task.FromResult(
 					new PaginatableResult<Models.Instance>(
-						GetBaseQuery())),
+						GetBaseQuery()
+							.OrderBy(x => x.Id))),
 				instance =>
 				{
 					needsUpdate |= InstanceRequiredController.ValidateInstanceOnlineStatus(instanceManager, Logger, instance);
@@ -729,19 +730,30 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpPatch("{id}")]
 		[TgsAuthorize(InstanceManagerRights.GrantPermissions)]
 		[ProducesResponseType(204)]
+		[ProducesResponseType(typeof(ErrorMessage), 410)]
 		public async Task<IActionResult> GrantPermissions(long id, CancellationToken cancellationToken)
 		{
-			// ensure the current user has write privilege on the instance
-			var usersInstancePermissionSet = await DatabaseContext
+			IQueryable<Models.Instance> BaseQuery() => DatabaseContext
 				.Instances
 				.AsQueryable()
-				.Where(x => x.Id == id && x.SwarmIdentifer == swarmConfiguration.Identifier)
+				.Where(x => x.Id == id && x.SwarmIdentifer == swarmConfiguration.Identifier);
+
+			// ensure the current user has write privilege on the instance
+			var usersInstancePermissionSet = await BaseQuery()
 				.SelectMany(x => x.InstancePermissionSets)
 				.Where(x => x.PermissionSetId == AuthenticationContext.PermissionSet.Id.Value)
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);
 			if (usersInstancePermissionSet == default)
 			{
+				// does the instance actually exist?
+				var instanceExists = await BaseQuery()
+					.AnyAsync(cancellationToken)
+					.ConfigureAwait(false);
+
+				if (!instanceExists)
+					return Gone();
+
 				var instanceAdminUser = InstanceAdminPermissionSet(null);
 				instanceAdminUser.InstanceId = id;
 				DatabaseContext.InstancePermissionSets.Add(instanceAdminUser);

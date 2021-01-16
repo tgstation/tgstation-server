@@ -42,6 +42,10 @@ namespace Tgstation.Server.Host.Security.OAuth
 			var securityConfiguration = securityConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(securityConfigurationOptions));
 
 			var validatorsBuilder = new List<IOAuthValidator>();
+			validators = validatorsBuilder;
+
+			if (securityConfiguration.OAuth == null)
+				return;
 
 			if (securityConfiguration.OAuth.TryGetValue(OAuthProvider.GitHub, out var gitHubConfig))
 				validatorsBuilder.Add(
@@ -73,8 +77,6 @@ namespace Tgstation.Server.Host.Security.OAuth
 						assemblyInformationProvider,
 						loggerFactory.CreateLogger<KeycloakOAuthValidator>(),
 						keyCloakConfig));
-
-			validators = validatorsBuilder;
 		}
 
 		/// <inheritdoc />

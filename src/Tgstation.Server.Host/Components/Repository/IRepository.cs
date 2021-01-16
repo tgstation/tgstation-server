@@ -133,5 +133,13 @@ namespace Tgstation.Server.Host.Components.Repository
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the tracked origin reference's SHA.</returns>
 		Task<string> GetOriginSha(CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Gets the <see cref="DateTimeOffset"/> a given <paramref name="sha"/> was created on.
+		/// </summary>
+		/// <param name="sha">The SHA to timestamp.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="DateTimeOffset"/> that <paramref name="sha"/> was created on.</returns>
+		Task<DateTimeOffset> TimestampCommit(string sha, CancellationToken cancellationToken);
 	}
 }

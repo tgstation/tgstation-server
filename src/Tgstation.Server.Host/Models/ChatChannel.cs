@@ -9,7 +9,7 @@ namespace Tgstation.Server.Host.Models
 		public long Id { get; set; }
 
 		/// <summary>
-		/// The <see cref="Api.Models.Internal.ChatBot.Id"/>
+		/// The <see cref="Api.Models.EntityId.Id"/>
 		/// </summary>
 		public long ChatSettingsId { get; set; }
 

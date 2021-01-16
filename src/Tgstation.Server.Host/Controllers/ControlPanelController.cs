@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.Primitives;
+using Microsoft.Net.Http.Headers;
 using System;
 using System.Net.Mime;
 using Tgstation.Server.Host.Core;
@@ -42,6 +44,10 @@ namespace Tgstation.Server.Host.Controllers
 				var contentTypeProvider = new FileExtensionContentTypeProvider();
 				if (!contentTypeProvider.TryGetContentType(fileInfo.Name, out var contentType))
 					contentType = MediaTypeNames.Application.Octet;
+				else if (contentType == MediaTypeNames.Application.Json)
+					Response.Headers.Add(
+						HeaderNames.CacheControl,
+						new StringValues(new[] { "public", "max-age=31536000", "immutable" }));
 
 				return File(appRoute, contentType);
 			}

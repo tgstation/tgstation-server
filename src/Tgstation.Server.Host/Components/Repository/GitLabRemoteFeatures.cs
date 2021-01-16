@@ -45,6 +45,8 @@ namespace Tgstation.Server.Host.Components.Repository
 		{
 			RemoteRepositoryOwner = remoteUrl.Segments[1].TrimEnd('/');
 			RemoteRepositoryName = remoteUrl.Segments[2].TrimEnd('/');
+			if (RemoteRepositoryName.EndsWith(".git", StringComparison.OrdinalIgnoreCase))
+				RemoteRepositoryName = RemoteRepositoryName[0..^4];
 		}
 
 		/// <inheritdoc />

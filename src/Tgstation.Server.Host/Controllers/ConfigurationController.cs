@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
@@ -186,45 +187,43 @@ namespace Tgstation.Server.Host.Controllers
 			[FromQuery] int? page,
 			[FromQuery] int? pageSize,
 			CancellationToken cancellationToken)
-			=> Paginated(
-				async () =>
-				{
-					if (ForbidDueToModeConflicts(directoryPath, out var systemIdentity))
-						return new PaginatableResult<ConfigurationFile>(
-							Forbid());
+			=> WithComponentInstance(
+				instance => Paginated(
+					async () =>
+					{
+						if (ForbidDueToModeConflicts(directoryPath, out var systemIdentity))
+							return new PaginatableResult<ConfigurationFile>(
+								Forbid());
 
-					try
-					{
-						return new PaginatableResult<ConfigurationFile>(
-							await WithComponentInstance(
-								async instance =>
-								{
-									var result = await instance
-										.Configuration
-										.ListDirectory(directoryPath, systemIdentity, cancellationToken)
-										.ConfigureAwait(false);
-									if (result == null)
-										return Gone();
+						try
+						{
+							var result = await instance
+								.Configuration
+								.ListDirectory(directoryPath, systemIdentity, cancellationToken)
+								.ConfigureAwait(false);
+							if (result == null)
+								return new PaginatableResult<ConfigurationFile>(Gone());
 
-									return Json(result);
-								})
-								.ConfigureAwait(false));
-					}
-					catch (NotImplementedException)
-					{
-						return new PaginatableResult<ConfigurationFile>(
-							RequiresPosixSystemIdentity());
-					}
-					catch (UnauthorizedAccessException)
-					{
-						return new PaginatableResult<ConfigurationFile>(
-							Forbid());
-					}
-				},
-				null,
-				page,
-				pageSize,
-				cancellationToken);
+							return new PaginatableResult<ConfigurationFile>(
+								result
+									.AsQueryable()
+									.OrderBy(x => x.Path));
+						}
+						catch (NotImplementedException)
+						{
+							return new PaginatableResult<ConfigurationFile>(
+								RequiresPosixSystemIdentity());
+						}
+						catch (UnauthorizedAccessException)
+						{
+							return new PaginatableResult<ConfigurationFile>(
+								Forbid());
+						}
+					},
+					null,
+					page,
+					pageSize,
+					cancellationToken));
 
 		/// <summary>
 		/// Get the contents of the root configuration directory.

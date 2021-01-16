@@ -72,7 +72,7 @@ namespace ReleaseNotes
 
 				Task<Milestone> milestoneTask = null;
 				var milestoneTaskLock = new object();
-				var releaseDictionary = new Dictionary<string, List<Tuple<string, int>>>(StringComparer.OrdinalIgnoreCase);
+				var releaseDictionary = new Dictionary<string, List<Tuple<string, int, string>>>(StringComparer.OrdinalIgnoreCase);
 				var authorizedUsers = new Dictionary<long, Task<bool>>();
 
 				bool postControlPanelMessage = false;
@@ -136,7 +136,7 @@ namespace ReleaseNotes
 								foreach (var I in notes)
 									Console.WriteLine(component + " #" + fullPR.Number + " - " + I + " (@" + user.Login + ")");
 
-								var tupleSelector = notes.Select(note => Tuple.Create(note, fullPR.Number));
+								var tupleSelector = notes.Select(note => Tuple.Create(note, fullPR.Number, user.Login));
 								if (releaseDictionary.TryGetValue(component, out var currentValues))
 									currentValues.AddRange(tupleSelector);
 								else
@@ -169,6 +169,7 @@ namespace ReleaseNotes
 							}
 							if (trimmedLine.Length == 0)
 								continue;
+
 							notes.Add(trimmedLine);
 						}
 					}
@@ -325,6 +326,8 @@ namespace ReleaseNotes
 						newNotes.Append(noteTuple.Item1);
 						newNotes.Append(" (#");
 						newNotes.Append(noteTuple.Item2);
+						newNotes.Append(" @");
+						newNotes.Append(noteTuple.Item3);
 						newNotes.Append(')');
 					}
 

@@ -28,7 +28,7 @@ namespace Tgstation.Server.Host.Components.Repository.Tests
 		[TestMethod]
 		public void TestInMemoryRepoCreation()
 		{
-			new LibGit2RepositoryFactory(Mock.Of<ILogger<LibGit2RepositoryFactory>>()).CreateInMemory().Dispose();
+			new LibGit2RepositoryFactory(Mock.Of<ILogger<LibGit2RepositoryFactory>>()).CreateInMemory();
 		}
 
 		[TestMethod]

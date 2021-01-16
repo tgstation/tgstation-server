@@ -76,6 +76,7 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 			Revision = new Api.Models.Internal.RevisionInformation
 			{
 				CommitSha = dmbProvider.CompileJob.RevisionInformation.CommitSha,
+				Timestamp = dmbProvider.CompileJob.RevisionInformation.Timestamp,
 				OriginCommitSha = dmbProvider.CompileJob.RevisionInformation.OriginCommitSha
 			};
 
