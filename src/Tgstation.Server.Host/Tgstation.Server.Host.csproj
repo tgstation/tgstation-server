@@ -119,6 +119,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="appsettings.yml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="appsettings.yml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
