@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using System;
 using Tgstation.Server.Host.Configuration;
@@ -42,6 +42,7 @@ namespace Tgstation.Server.Host.Database
 					mySqlOptions.EnableRetryOnFailure();
 
 					if (!String.IsNullOrEmpty(databaseConfiguration.ServerVersion))
+						Console.WriteLine("SQLVERSION: " + databaseConfiguration.DatabaseType);
 						mySqlOptions.ServerVersion(
 							Version.Parse(databaseConfiguration.ServerVersion),
 							databaseConfiguration.DatabaseType == DatabaseType.MariaDB

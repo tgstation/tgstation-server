@@ -52,7 +52,16 @@ namespace Tgstation.Server.Host
 				.ConfigureAppConfiguration((context, builder) => {
 					builder.AddYamlFile("appsettings.yml", optional: true, reloadOnChange: true)
 					.AddYamlFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.yml", optional: true, reloadOnChange: true);
-					
+					// reorganize the builder so our yaml configs don't override the env/cmdline configs
+					// values obtained via debugger
+					var envConfig = builder.Sources[3];
+					var cmdLineConfig = builder.Sources[4];
+					var baseYmlConfig = builder.Sources[5];
+					var environmentYmlConfig = builder.Sources[6];
+					builder.Sources[3] = baseYmlConfig;
+					builder.Sources[4] = environmentYmlConfig;
+					builder.Sources[5] = envConfig;
+					builder.Sources[6] = cmdLineConfig;
 				});
 
 			var setupWizardHostBuilder = CreateDefaultBuilder()
