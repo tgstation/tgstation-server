@@ -30,6 +30,8 @@ Older server versions can be found in the V# branches of this repository. Note t
 
 If you wish to install the TGS as a service, run `Tgstation.Server.Host.Service.exe`. It should prompt you to install it. Click `Yes` and accept a potential UAC elevation prompt and the setup wizard should run.
 
+Should you want a clean start, be sure to first uninstall the service by running `Tgstation.Server.Host.Service.exe -u` from the command line.
+
 #### Linux (Native)
 
 We recommend using Docker for Linux installations, see below. The content of this parent section may be skipped if you choose to do so.
