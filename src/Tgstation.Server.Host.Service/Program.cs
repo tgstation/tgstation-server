@@ -1,4 +1,4 @@
-﻿using McMaster.Extensions.CommandLineUtils;
+using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Specialized;
@@ -20,12 +20,10 @@ namespace Tgstation.Server.Host.Service
 	/// </summary>
 	sealed class Program
 	{
-#pragma warning disable SA1401 // Fields should be private
 		/// <summary>
 		/// The <see cref="IWatchdogFactory"/> for the <see cref="Program"/>
 		/// </summary>
 		internal static IWatchdogFactory WatchdogFactory = new WatchdogFactory();
-#pragma warning restore SA1401 // Fields should be private
 
 		/// <summary>
 		/// The --uninstall or -u option
@@ -151,6 +149,10 @@ namespace Tgstation.Server.Host.Service
 
 				if (Configure)
 				{
+#pragma warning disable CS0618 // Type or member is obsolete
+					loggerFactory.AddConsole();
+#pragma warning restore CS0618 // Type or member is obsolete
+
 					// DCT: None available
 					await WatchdogFactory.CreateWatchdog(loggerFactory).RunAsync(true, Array.Empty<string>(), default).ConfigureAwait(false);
 				}
