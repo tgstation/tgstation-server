@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Core;
+using Tgstation.Server.Host.Properties;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host
@@ -17,7 +18,7 @@ namespace Tgstation.Server.Host
 		/// <summary>
 		/// The expected host watchdog <see cref="Version"/>.
 		/// </summary>
-		internal static readonly Version HostWatchdogVersion = new Version(1, 1, 0);
+		internal static Version HostWatchdogVersion => Version.Parse(MasterVersionsAttribute.Instance.RawHostWatchdogVersion);
 
 		/// <summary>
 		/// The <see cref="IServerFactory"/> to use.

@@ -32,19 +32,27 @@ namespace Tgstation.Server.Host.Properties
 		public string RawControlPanelVersion { get; }
 
 		/// <summary>
+		/// The <see cref="Version"/> <see cref="string"/> of the control panel version built.
+		/// </summary>
+		public string RawHostWatchdogVersion { get; }
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="MasterVersionsAttribute"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="rawConfigurationVersion">The value of <see cref="RawConfigurationVersion"/>.</param>
 		/// <param name="rawInteropVersion">The value of <see cref="RawInteropVersion"/>.</param>
 		/// <param name="rawControlPanelVersion">The value of <see cref="RawControlPanelVersion"/>.</param>
+		/// <param name="rawHostWatchdogVersion">The value of <see cref="RawHostWatchdogVersion"/>.</param>
 		public MasterVersionsAttribute(
 			string rawConfigurationVersion,
 			string rawInteropVersion,
-			string rawControlPanelVersion)
+			string rawControlPanelVersion,
+			string rawHostWatchdogVersion)
 		{
 			RawConfigurationVersion = rawConfigurationVersion ?? throw new ArgumentNullException(nameof(rawConfigurationVersion));
 			RawInteropVersion = rawInteropVersion ?? throw new ArgumentNullException(nameof(rawInteropVersion));
 			RawControlPanelVersion = rawControlPanelVersion ?? throw new ArgumentNullException(nameof(rawControlPanelVersion));
+			RawHostWatchdogVersion = rawHostWatchdogVersion ?? throw new ArgumentNullException(nameof(rawHostWatchdogVersion));
 		}
 	}
 }
