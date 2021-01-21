@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -16,7 +16,9 @@ namespace Tgstation.Server.Host.Extensions.Tests
 
 		class BadConfig1
 		{
+#pragma warning disable IDE0051 // Remove unused private members
 			const string Section = "asdf";
+#pragma warning restore IDE0051 // Remove unused private members
 		}
 
 		class BadConfig2

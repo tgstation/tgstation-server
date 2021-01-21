@@ -4,7 +4,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MySql.Data.MySqlClient;
-using Newtonsoft.Json;
 using Npgsql;
 using System;
 using System.Collections.Generic;
@@ -20,8 +19,10 @@ using System.Threading.Tasks;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Extensions.Converters;
 using Tgstation.Server.Host.IO;
 using Tgstation.Server.Host.System;
+using YamlDotNet.Serialization;
 
 namespace Tgstation.Server.Host.Setup
 {
@@ -841,8 +842,13 @@ namespace Tgstation.Server.Host.Setup
 				{ SwarmConfiguration.Section, swarmConfiguration },
 			};
 
-			var json = JsonConvert.SerializeObject(map, Formatting.Indented);
-			var configBytes = Encoding.UTF8.GetBytes(json);
+			var serializer = new SerializerBuilder()
+				.WithTypeConverter(new VersionConverter())
+				.Build();
+
+			var serializedYaml = serializer.Serialize(map);
+
+			var configBytes = Encoding.UTF8.GetBytes(serializedYaml);
 
 			reloadTcs = new TaskCompletionSource<object>();
 
@@ -863,9 +869,9 @@ namespace Tgstation.Server.Host.Setup
 			{
 				await console.WriteAsync(e.Message, true, cancellationToken).ConfigureAwait(false);
 				await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
-				await console.WriteAsync("For your convienence, here's the json we tried to write out:", true, cancellationToken).ConfigureAwait(false);
+				await console.WriteAsync("For your convienence, here's the yaml we tried to write out:", true, cancellationToken).ConfigureAwait(false);
 				await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
-				await console.WriteAsync(json, true, cancellationToken).ConfigureAwait(false);
+				await console.WriteAsync(serializedYaml, true, cancellationToken).ConfigureAwait(false);
 				await console.WriteAsync(null, true, cancellationToken).ConfigureAwait(false);
 				await console.WriteAsync("Press any key to exit...", true, cancellationToken).ConfigureAwait(false);
 				await console.PressAnyKeyAsync(cancellationToken).ConfigureAwait(false);
@@ -930,7 +936,7 @@ namespace Tgstation.Server.Host.Setup
 				return;
 			}
 
-			var userConfigFileName = String.Format(CultureInfo.InvariantCulture, "appsettings.{0}.json", hostingEnvironment.EnvironmentName);
+			var userConfigFileName = String.Format(CultureInfo.InvariantCulture, "appsettings.{0}.yml", hostingEnvironment.EnvironmentName);
 
 			async Task HandleSetupCancel()
 			{

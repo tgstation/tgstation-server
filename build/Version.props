@@ -4,7 +4,7 @@
   <Import Project="ControlPanelVersion.props" />
   <PropertyGroup>
     <TgsCoreVersion>4.7.3</TgsCoreVersion>
-    <TgsConfigVersion>2.2.0</TgsConfigVersion>
+    <TgsConfigVersion>2.3.0</TgsConfigVersion>
     <TgsApiVersion>8.3.0</TgsApiVersion>
     <TgsClientVersion>9.1.2</TgsClientVersion>
     <TgsDmapiVersion>5.3.0</TgsDmapiVersion>

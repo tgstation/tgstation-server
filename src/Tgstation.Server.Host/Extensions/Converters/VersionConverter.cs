@@ -1,14 +1,35 @@
 using Newtonsoft.Json;
 using System;
 using Tgstation.Server.Api;
+using YamlDotNet.Core;
+using YamlDotNet.Core.Events;
+using YamlDotNet.Serialization;
 
 namespace Tgstation.Server.Host.Extensions.Converters
 {
 	/// <summary>
-	/// <see cref="JsonConverter"/> for serializing <see cref="Version"/>s for BYOND.
+	/// <see cref="JsonConverter"/> and <see cref="IYamlTypeConverter"/> for serializing <see cref="global::System.Version"/>s for BYOND.
 	/// </summary>
-	sealed class VersionConverter : JsonConverter
+	sealed class VersionConverter : JsonConverter, IYamlTypeConverter
 	{
+		/// <summary>
+		/// Check if the <see cref="VersionConverter"/> supports (de)serializing a given <paramref name="type"/>.
+		/// </summary>
+		/// <param name="type">The <see cref="Type"/> to check.</param>
+		/// <param name="validate">If the method should <see langword="throw"/> if validation fails.</param>
+		/// <returns><see langword="true"/> if <paramref name="type"/> is a <see cref="global::System.Version"/>, <see langword="false"/> otherwise.</returns>
+		static bool CheckSupportsType(Type type, bool validate)
+		{
+			if (type == null)
+				throw new ArgumentNullException(nameof(type));
+
+			var supported = type == typeof(global::System.Version);
+			if (!supported && validate)
+				throw new NotSupportedException($"{nameof(VersionConverter)} does not convert {type}s!");
+
+			return supported;
+		}
+
 		/// <inheritdoc />
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
 		{
@@ -16,7 +37,7 @@ namespace Tgstation.Server.Host.Extensions.Converters
 			{
 				writer.WriteNull();
 			}
-			else if (value is Version version)
+			else if (value is global::System.Version version)
 			{
 				writer.WriteValue(version.Semver().ToString());
 			}
@@ -29,6 +50,11 @@ namespace Tgstation.Server.Host.Extensions.Converters
 		/// <inheritdoc />
 		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
 		{
+			if (reader == null)
+				throw new ArgumentNullException(nameof(reader));
+
+			CheckSupportsType(objectType, true);
+
 			if (reader.TokenType == JsonToken.Null)
 				return null;
 
@@ -36,7 +62,7 @@ namespace Tgstation.Server.Host.Extensions.Converters
 			{
 				try
 				{
-					Version v = new Version((string)reader.Value);
+					var v = global::System.Version.Parse((string)reader.Value);
 					return v.Semver();
 				}
 				catch (Exception ex)
@@ -50,6 +76,40 @@ namespace Tgstation.Server.Host.Extensions.Converters
 		}
 
 		/// <inheritdoc />
-		public override bool CanConvert(Type objectType) => objectType == typeof(Version);
+		public override bool CanConvert(Type objectType) => CheckSupportsType(objectType, false);
+
+		/// <inheritdoc />
+		public bool Accepts(Type type) => CheckSupportsType(type, false);
+
+		/// <inheritdoc />
+		public object ReadYaml(IParser parser, Type type)
+		{
+			if (parser == null)
+				throw new ArgumentNullException(nameof(parser));
+
+			CheckSupportsType(type, true);
+
+			var scalar = parser.Consume<Scalar>();
+			if (scalar == null)
+				return null;
+
+			return global::System.Version.Parse(scalar.Value);
+		}
+
+		/// <inheritdoc />
+		public void WriteYaml(IEmitter emitter, object value, Type type)
+		{
+			if (emitter == null)
+				throw new ArgumentNullException(nameof(emitter));
+
+			CheckSupportsType(type, true);
+
+			var version = (global::System.Version)value;
+			emitter.Emit(
+				new Scalar(
+					version
+						?.Semver()
+						.ToString()));
+		}
 	}
 }
