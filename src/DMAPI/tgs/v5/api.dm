@@ -74,7 +74,7 @@
 			tm.body = entry[DMAPI5_TEST_MERGE_BODY_AT_MERGE]
 			tm.url = entry[DMAPI5_TEST_MERGE_URL]
 			tm.author = entry[DMAPI5_TEST_MERGE_AUTHOR]
-			tm.pull_request_commit = entry[DMAPI5_TEST_MERGE_PULL_REQUEST_REVISION]
+			tm.head_commit = entry[DMAPI5_TEST_MERGE_PULL_REQUEST_REVISION]
 			tm.comment = entry[DMAPI5_TEST_MERGE_COMMENT]
 
 			test_merges += tm
