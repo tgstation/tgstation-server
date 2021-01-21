@@ -13,5 +13,4 @@
 // BEGIN_INCLUDE
 #include "Config.dm"
 #include "Test.dm"
-#include "S:\Documents\Actual Documents\DA Git\tgstation-server\tests\DMAPI\tgs_include.dm"
 // END_INCLUDE
