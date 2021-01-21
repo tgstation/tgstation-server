@@ -1,6 +1,6 @@
 // tgstation-server DMAPI
 
-#define TGS_DMAPI_VERSION "5.3.0"
+#define TGS_DMAPI_VERSION "6.0.0"
 
 // All functions and datums outside this document are subject to change with any version and should not be relied on.
 
@@ -144,7 +144,7 @@
 #define TGS_TOPIC var/tgs_topic_return = TgsTopic(args[1]); if(tgs_topic_return) return tgs_topic_return
 
 /**
- * Call this at the beginning of [world/proc/Reboot].
+ * Call this as late as possible in [world/proc/Reboot].
  */
 /world/proc/TgsReboot()
 	return
@@ -156,7 +156,7 @@
 /datum/tgs_revision_information
 	/// Full SHA of the commit.
 	var/commit
-	/// ISO8601 timestamp of the commit
+	/// ISO 8601 timestamp of when the commit was created
 	var/timestamp
 	/// Full sha of last known remote commit. This may be null if the TGS repository is not currently tracking a remote branch.
 	var/origin_commit
@@ -207,9 +207,7 @@
 	/// An http URL to the test merge source.
 	var/url
 	/// The SHA of the test merge when that was merged.
-	var/pull_request_commit
-	/// ISO 8601 timestamp of when the test merge was created on TGS.
-	var/time_merged
+	var/head_commit
 	/// Optional comment left by the TGS user who initiated the merge.
 	var/comment
 

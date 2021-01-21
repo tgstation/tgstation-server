@@ -18,7 +18,9 @@
 	var/initialized = FALSE
 
 /datum/tgs_api/v5/ApiVersion()
-	return new /datum/tgs_version(TGS_DMAPI_VERSION)
+	return new /datum/tgs_version(
+		#include "interop_version.dm"
+	)
 
 /datum/tgs_api/v5/OnWorldNew(minimum_required_security_level)
 	server_port = world.params[DMAPI5_PARAM_SERVER_PORT]
@@ -63,12 +65,11 @@
 			var/list/revInfo = entry[DMAPI5_TEST_MERGE_REVISION]
 			if(revInfo)
 				tm.commit = revisionData[DMAPI5_REVISION_INFORMATION_COMMIT_SHA]
-				tm.timestamp = revisionData[DMAPI5_REVISION_INFORMATION_TIMESTAMP]
 				tm.origin_commit = revisionData[DMAPI5_REVISION_INFORMATION_ORIGIN_COMMIT_SHA]
 			else
 				TGS_WARNING_LOG("Failed to decode [DMAPI5_TEST_MERGE_REVISION] from test merge #[tm.number]!")
 
-			tm.time_merged = text2num(entry[DMAPI5_TEST_MERGE_TIME_MERGED])
+			tm.timestamp = entry[DMAPI5_TEST_MERGE_TIME_MERGED]
 			tm.title = entry[DMAPI5_TEST_MERGE_TITLE_AT_MERGE]
 			tm.body = entry[DMAPI5_TEST_MERGE_BODY_AT_MERGE]
 			tm.url = entry[DMAPI5_TEST_MERGE_URL]

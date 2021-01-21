@@ -198,7 +198,7 @@ namespace Tgstation.Server.Host.Controllers
 			{
 				Version = assemblyInformationProvider.Version,
 				ApiVersion = ApiHeaders.Version,
-				DMApiVersion = DMApiConstants.Version,
+				DMApiVersion = DMApiConstants.InteropVersion,
 				MinimumPasswordLength = generalConfiguration.MinimumPasswordLength,
 				InstanceLimit = generalConfiguration.InstanceLimit,
 				UserLimit = generalConfiguration.UserLimit,
