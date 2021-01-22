@@ -72,7 +72,7 @@ namespace ReleaseNotes
 
 				Task<Milestone> milestoneTask = null;
 				var milestoneTaskLock = new object();
-				var releaseDictionary = new Dictionary<string, List<Tuple<string, int>>>(StringComparer.OrdinalIgnoreCase);
+				var releaseDictionary = new Dictionary<string, List<Tuple<string, int, string>>>(StringComparer.OrdinalIgnoreCase);
 				var authorizedUsers = new Dictionary<long, Task<bool>>();
 
 				bool postControlPanelMessage = false;
@@ -136,7 +136,7 @@ namespace ReleaseNotes
 								foreach (var I in notes)
 									Console.WriteLine(component + " #" + fullPR.Number + " - " + I + " (@" + user.Login + ")");
 
-								var tupleSelector = notes.Select(note => Tuple.Create(note, fullPR.Number));
+								var tupleSelector = notes.Select(note => Tuple.Create(note, fullPR.Number, user.Login));
 								if (releaseDictionary.TryGetValue(component, out var currentValues))
 									currentValues.AddRange(tupleSelector);
 								else
@@ -169,6 +169,7 @@ namespace ReleaseNotes
 							}
 							if (trimmedLine.Length == 0)
 								continue;
+
 							notes.Add(trimmedLine);
 						}
 					}
@@ -255,13 +256,14 @@ namespace ReleaseNotes
 						var apiVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsApiVersion").Value);
 						var configVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsConfigVersion").Value);
 						var dmApiVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsDmapiVersion").Value);
+						var interopVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsInteropVersion").Value);
 						var webControlVersion = Version.Parse(controlPanelVersionsPropertyGroup.Element(controlPanelXmlNamespace + "TgsControlPanelVersion").Value);
 						var hostWatchdogVersion = Version.Parse(versionsPropertyGroup.Element(xmlNamespace + "TgsHostWatchdogVersion").Value);
 
 						if (webControlVersion.Major == 0)
 							postControlPanelMessage = true;
 
-						prefix = $"Please refer to the [README](https://github.com/tgstation/tgstation-server#setup) for setup instructions.{Environment.NewLine}{Environment.NewLine}#### Component Versions\nCore: {coreVersion}\nConfiguration: {configVersion}\nHTTP API: {apiVersion}\nDreamMaker API: {dmApiVersion}\n[Web Control Panel](https://github.com/tgstation/tgstation-server-control-panel): {webControlVersion}\nHost Watchdog: {hostWatchdogVersion}";
+						prefix = $"Please refer to the [README](https://github.com/tgstation/tgstation-server#setup) for setup instructions.{Environment.NewLine}{Environment.NewLine}#### Component Versions\nCore: {coreVersion}\nConfiguration: {configVersion}\nHTTP API: {apiVersion}\nDreamMaker API: {dmApiVersion} (Interop: {interopVersion})\n[Web Control Panel](https://github.com/tgstation/tgstation-server-control-panel): {webControlVersion}\nHost Watchdog: {hostWatchdogVersion}";
 						break;
 					case 3:
 						prefix = "The /tg/station server suite";
@@ -325,6 +327,8 @@ namespace ReleaseNotes
 						newNotes.Append(noteTuple.Item1);
 						newNotes.Append(" (#");
 						newNotes.Append(noteTuple.Item2);
+						newNotes.Append(" @");
+						newNotes.Append(noteTuple.Item3);
 						newNotes.Append(')');
 					}
 

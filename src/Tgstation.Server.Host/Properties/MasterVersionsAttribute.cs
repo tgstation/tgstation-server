@@ -22,9 +22,9 @@ namespace Tgstation.Server.Host.Properties
 		public string RawConfigurationVersion { get; }
 
 		/// <summary>
-		/// The <see cref="Version"/> <see cref="string"/> of the DMAPI version built.
+		/// The <see cref="Version"/> <see cref="string"/> of the DMAPI interop version used.
 		/// </summary>
-		public string RawDMApiVersion { get; }
+		public string RawInteropVersion { get; }
 
 		/// <summary>
 		/// The <see cref="Version"/> <see cref="string"/> of the control panel version built.
@@ -32,19 +32,27 @@ namespace Tgstation.Server.Host.Properties
 		public string RawControlPanelVersion { get; }
 
 		/// <summary>
+		/// The <see cref="Version"/> <see cref="string"/> of the control panel version built.
+		/// </summary>
+		public string RawHostWatchdogVersion { get; }
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="MasterVersionsAttribute"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="rawConfigurationVersion">The value of <see cref="RawConfigurationVersion"/>.</param>
-		/// <param name="rawDMApiVersion">The value of <see cref="RawDMApiVersion"/>.</param>
+		/// <param name="rawInteropVersion">The value of <see cref="RawInteropVersion"/>.</param>
 		/// <param name="rawControlPanelVersion">The value of <see cref="RawControlPanelVersion"/>.</param>
+		/// <param name="rawHostWatchdogVersion">The value of <see cref="RawHostWatchdogVersion"/>.</param>
 		public MasterVersionsAttribute(
 			string rawConfigurationVersion,
-			string rawDMApiVersion,
-			string rawControlPanelVersion)
+			string rawInteropVersion,
+			string rawControlPanelVersion,
+			string rawHostWatchdogVersion)
 		{
 			RawConfigurationVersion = rawConfigurationVersion ?? throw new ArgumentNullException(nameof(rawConfigurationVersion));
-			RawDMApiVersion = rawDMApiVersion ?? throw new ArgumentNullException(nameof(rawDMApiVersion));
+			RawInteropVersion = rawInteropVersion ?? throw new ArgumentNullException(nameof(rawInteropVersion));
 			RawControlPanelVersion = rawControlPanelVersion ?? throw new ArgumentNullException(nameof(rawControlPanelVersion));
+			RawHostWatchdogVersion = rawHostWatchdogVersion ?? throw new ArgumentNullException(nameof(rawHostWatchdogVersion));
 		}
 	}
 }

@@ -84,6 +84,11 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		protected IAsyncDelayer AsyncDelayer { get; }
 
 		/// <summary>
+		/// The <see cref="IEventConsumer"/> that is not the <see cref="WatchdogBase"/>
+		/// </summary>
+		protected IEventConsumer EventConsumer { get; }
+
+		/// <summary>
 		/// The <see cref="Api.Models.Instance"/> for the <see cref="WatchdogBase"/>.
 		/// </summary>
 		readonly Api.Models.Instance metadata;
@@ -117,11 +122,6 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// The <see cref="IIOManager"/> pointing to the Diagnostics directory.
 		/// </summary>
 		readonly IIOManager diagnosticsIOManager;
-
-		/// <summary>
-		/// The <see cref="IEventConsumer"/> that is not the <see cref="WatchdogBase"/>
-		/// </summary>
-		readonly IEventConsumer eventConsumer;
 
 		/// <summary>
 		/// The <see cref="IRemoteDeploymentManagerFactory"/> for the <see cref="WatchdogBase"/>.
@@ -179,7 +179,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <param name="serverControl">The <see cref="IServerControl"/> to populate <see cref="restartRegistration"/> with</param>
 		/// <param name="asyncDelayer">The value of <see cref="AsyncDelayer"/>.</param>
 		/// <param name="diagnosticsIOManager">The value of <see cref="diagnosticsIOManager"/>.</param>
-		/// <param name="eventConsumer">The value of <see cref="eventConsumer"/>.</param>
+		/// <param name="eventConsumer">The value of <see cref="EventConsumer"/>.</param>
 		/// <param name="remoteDeploymentManagerFactory">The value of <see cref="remoteDeploymentManagerFactory"/>.</param>
 		/// <param name="logger">The value of <see cref="Logger"/></param>
 		/// <param name="initialLaunchParameters">The initial value of <see cref="ActiveLaunchParameters"/>. May be modified</param>
@@ -208,7 +208,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			this.jobManager = jobManager ?? throw new ArgumentNullException(nameof(jobManager));
 			AsyncDelayer = asyncDelayer ?? throw new ArgumentNullException(nameof(asyncDelayer));
 			this.diagnosticsIOManager = diagnosticsIOManager ?? throw new ArgumentNullException(nameof(diagnosticsIOManager));
-			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
+			EventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.remoteDeploymentManagerFactory = remoteDeploymentManagerFactory ?? throw new ArgumentNullException(nameof(remoteDeploymentManagerFactory));
 			Logger = logger ?? throw new ArgumentNullException(nameof(logger));
 			ActiveLaunchParameters = initialLaunchParameters ?? throw new ArgumentNullException(nameof(initialLaunchParameters));
@@ -267,7 +267,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return;
 			if (!graceful)
 			{
-				var eventTask = eventConsumer.HandleEvent(releaseServers ? EventType.WatchdogDetach : EventType.WatchdogShutdown, null, cancellationToken);
+				var eventTask = EventConsumer.HandleEvent(releaseServers ? EventType.WatchdogDetach : EventType.WatchdogShutdown, null, cancellationToken);
 
 				var chatTask = announce ? Chat.QueueWatchdogMessage("Shutting down...", cancellationToken) : Task.CompletedTask;
 
@@ -378,7 +378,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					cancellationToken); // simple announce
 				if (reattachInfo == null)
 					announceTask = Task.WhenAll(
-						eventConsumer.HandleEvent(EventType.WatchdogLaunch, Enumerable.Empty<string>(), cancellationToken),
+						EventConsumer.HandleEvent(EventType.WatchdogLaunch, Enumerable.Empty<string>(), cancellationToken),
 						announceTask);
 			}
 			else
@@ -609,6 +609,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+		#pragma warning disable CA1502
 		private async Task MonitorLifetimes(CancellationToken cancellationToken)
 		{
 			Logger.LogTrace("Entered MonitorLifetimes");
@@ -619,6 +620,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			try
 			{
 				MonitorAction nextAction = MonitorAction.Continue;
+				Task activeServerLifetime = null,
+					activeServerReboot = null,
+					serverPrimed = null,
+					activeLaunchParametersChanged = null,
+					newDmbAvailable = null;
+				ISessionController lastController = null;
 				for (ulong iteration = 1; nextAction != MonitorAction.Exit; ++iteration)
 					using (LogContext.PushProperty("Monitor", iteration))
 						try
@@ -627,17 +634,44 @@ namespace Tgstation.Server.Host.Components.Watchdog
 							nextAction = MonitorAction.Continue;
 
 							var controller = GetActiveController();
-							Task activeServerLifetime = controller.Lifetime;
-							var activeServerReboot = controller.OnReboot;
 
-							Task activeLaunchParametersChanged = ActiveParametersUpdated.Task;
-							var newDmbAvailable = DmbFactory.OnNewerDmb;
+							void UpdateMonitoredTasks()
+							{
+								static void TryUpdateTask(ref Task oldTask, Task newTask)
+								{
+									if (oldTask?.IsCompleted == true)
+										return;
+
+									oldTask = newTask;
+								}
+
+								if (lastController == controller)
+								{
+									TryUpdateTask(ref activeServerLifetime, controller.Lifetime);
+									TryUpdateTask(ref activeServerReboot, controller.OnReboot);
+									TryUpdateTask(ref serverPrimed, controller.OnPrime);
+								}
+								else
+								{
+									activeServerLifetime = controller.Lifetime;
+									activeServerReboot = controller.OnReboot;
+									serverPrimed = controller.OnPrime;
+									lastController = controller;
+								}
+
+								TryUpdateTask(ref activeLaunchParametersChanged, ActiveParametersUpdated.Task);
+								TryUpdateTask(ref newDmbAvailable, DmbFactory.OnNewerDmb);
+							}
+
+							UpdateMonitoredTasks();
 
 							var heartbeatSeconds = ActiveLaunchParameters.HeartbeatSeconds.Value;
 							var heartbeat = heartbeatSeconds == 0
 								|| !controller.DMApiAvailable
 								? Extensions.TaskExtensions.InfiniteTask()
-								: Task.Delay(TimeSpan.FromSeconds(heartbeatSeconds), cancellationToken);
+								: Task.Delay(
+									TimeSpan.FromSeconds(heartbeatSeconds),
+									cancellationToken);
 
 							// cancel waiting if requested
 							var cancelTcs = new TaskCompletionSource<object>();
@@ -647,7 +681,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 								heartbeat,
 								newDmbAvailable,
 								cancelTcs.Task,
-								activeLaunchParametersChanged);
+								activeLaunchParametersChanged,
+								serverPrimed);
 
 							// wait for something to happen
 							using (cancellationToken.Register(() => cancelTcs.SetCanceled()))
@@ -688,7 +723,10 @@ namespace Tgstation.Server.Host.Components.Watchdog
 										|| CheckActivationReason(ref activeServerReboot, MonitorActivationReason.ActiveServerRebooted)
 										|| CheckActivationReason(ref newDmbAvailable, MonitorActivationReason.NewDmbAvailable)
 										|| CheckActivationReason(ref activeLaunchParametersChanged, MonitorActivationReason.ActiveLaunchParametersUpdated)
-										|| CheckActivationReason(ref heartbeat, MonitorActivationReason.Heartbeat);
+										|| CheckActivationReason(ref heartbeat, MonitorActivationReason.Heartbeat)
+										|| CheckActivationReason(ref serverPrimed, MonitorActivationReason.ActiveServerPrimed);
+
+									UpdateMonitoredTasks();
 
 									if (!anyActivation)
 										moreActivationsToProcess = false;
@@ -769,6 +807,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 
 			Logger.LogTrace("Monitor exiting...");
 		}
+		#pragma warning restore CA1502
 
 		/// <summary>
 		/// Starts all <see cref="ISessionController"/>s.

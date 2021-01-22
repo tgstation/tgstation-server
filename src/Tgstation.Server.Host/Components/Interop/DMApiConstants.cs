@@ -32,9 +32,9 @@ namespace Tgstation.Server.Host.Components.Interop
 		public const string TopicData = "tgs_data";
 
 		/// <summary>
-		/// The DMAPI <see cref="Version"/> being used.
+		/// The DMAPI <see cref="InteropVersion"/> being used.
 		/// </summary>
-		public static readonly Version Version = Version.Parse(MasterVersionsAttribute.Instance.RawDMApiVersion);
+		public static readonly Version InteropVersion = Version.Parse(MasterVersionsAttribute.Instance.RawInteropVersion);
 
 		/// <summary>
 		/// <see cref="JsonSerializerSettings"/> for use when communicating with the DMAPI.

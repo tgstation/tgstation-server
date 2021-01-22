@@ -64,7 +64,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			clone = await repositoryClient.Clone(initalRepo, cancellationToken).ConfigureAwait(false);
 
-			await WaitForJob(clone.ActiveJob, 900, false, null, cancellationToken).ConfigureAwait(false);
+			await WaitForJob(clone.ActiveJob, 9000, false, null, cancellationToken).ConfigureAwait(false);
 			var readAfterClone = await repositoryClient.Read(cancellationToken);
 
 			Assert.AreEqual(initalRepo.Origin, readAfterClone.Origin);
@@ -79,6 +79,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.IsNotNull(readAfterClone.RevisionInformation.OriginCommitSha);
 			Assert.IsNull(readAfterClone.RevisionInformation.PrimaryTestMerge);
 			Assert.AreEqual(readAfterClone.RevisionInformation.CommitSha, readAfterClone.RevisionInformation.OriginCommitSha);
+			Assert.AreNotEqual(default, readAfterClone.RevisionInformation.Timestamp);
 
 			readAfterClone.Origin = new Uri("https://github.com/tgstation/tgstation");
 			await ApiAssert.ThrowsException<ApiConflictException>(() => repositoryClient.Update(readAfterClone, cancellationToken), ErrorCode.RepoCantChangeOrigin);

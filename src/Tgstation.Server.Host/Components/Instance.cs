@@ -248,6 +248,7 @@ namespace Tgstation.Server.Host.Components
 				currentRevInfo = new RevisionInformation
 				{
 					CommitSha = currentHead,
+					Timestamp = await repo.TimestampCommit(currentHead, cancellationToken).ConfigureAwait(false),
 					OriginCommitSha = onOrigin
 						? currentHead
 						: await repo.GetOriginSha(cancellationToken).ConfigureAwait(false),

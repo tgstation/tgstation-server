@@ -42,6 +42,7 @@ namespace Tgstation.Server.Host.Models
 		public Api.Models.RevisionInformation ToApi() => new Api.Models.RevisionInformation
 		{
 			CommitSha = CommitSha,
+			Timestamp = Timestamp,
 			OriginCommitSha = OriginCommitSha,
 			PrimaryTestMerge = PrimaryTestMerge?.ToApi(),
 			ActiveTestMerges = ActiveTestMerges.Select(x => x.TestMerge.ToApi()).ToList(),

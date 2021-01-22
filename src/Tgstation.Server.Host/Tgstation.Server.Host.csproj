@@ -49,8 +49,9 @@
     <ItemGroup>
       <AssemblyAttributes Include="Tgstation.Server.Host.Properties.MasterVersionsAttribute">
         <_Parameter1>$(TgsConfigVersion)</_Parameter1>
-        <_Parameter2>$(TgsDmapiVersion)</_Parameter2>
+        <_Parameter2>$(TgsInteropVersion)</_Parameter2>
         <_Parameter3>$(TgsControlPanelVersion)</_Parameter3>
+        <_Parameter4>$(TgsHostWatchdogVersion)</_Parameter4>
       </AssemblyAttributes>
     </ItemGroup>
 
@@ -83,6 +84,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.10" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
     <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
+    <PackageReference Include="NetEscapades.Configuration.Yaml" Version="2.1.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" />
     <PackageReference Include="Octokit" Version="0.48.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.4" />
@@ -118,7 +120,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="appsettings.json">
+    <Content Include="appsettings.yml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.yml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -65,6 +65,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tgs", "tgs", "{F7765A4B-021
 		src\DMAPI\tgs\includes.dm = src\DMAPI\tgs\includes.dm
 		src\DMAPI\tgs\LICENSE = src\DMAPI\tgs\LICENSE
 		src\DMAPI\tgs\README.md = src\DMAPI\tgs\README.md
+		src\DMAPI\tgs.dm = src\DMAPI\tgs.dm
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{DCCBA9DA-47BA-4C70-823B-E99A3ACA0377}"
@@ -134,6 +135,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v5", "v5", "{FAEAD3B5-2EAB-
 		src\DMAPI\tgs\v5\_defines.dm = src\DMAPI\tgs\v5\_defines.dm
 		src\DMAPI\tgs\v5\api.dm = src\DMAPI\tgs\v5\api.dm
 		src\DMAPI\tgs\v5\commands.dm = src\DMAPI\tgs\v5\commands.dm
+		src\DMAPI\tgs\v5\interop_version.dm = src\DMAPI\tgs\v5\interop_version.dm
 		src\DMAPI\tgs\v5\README.md = src\DMAPI\tgs\v5\README.md
 		src\DMAPI\tgs\v5\undefs.dm = src\DMAPI\tgs\v5\undefs.dm
 	EndProjectSection

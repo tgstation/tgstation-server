@@ -377,22 +377,22 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MSLatestMigration = typeof(MSAddSwarmIdentifer);
+		internal static readonly Type MSLatestMigration = typeof(MSAddRevInfoTimestamp);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MYLatestMigration = typeof(MYAddSwarmIdentifer);
+		internal static readonly Type MYLatestMigration = typeof(MYAddRevInfoTimestamp);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type PGLatestMigration = typeof(PGAddSwarmIdentifer);
+		internal static readonly Type PGLatestMigration = typeof(PGAddRevInfoTimestamp);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
 		/// </summary>
-		internal static readonly Type SLLatestMigration = typeof(SLAddSwarmIdentifer);
+		internal static readonly Type SLLatestMigration = typeof(SLAddRevInfoTimestamp);
 
 		/// <inheritdoc />
 #pragma warning disable CA1502 // Cyclomatic complexity
@@ -420,6 +420,15 @@ namespace Tgstation.Server.Host.Database
 
 			// Update this with new migrations as they are made
 			string targetMigration = null;
+			if (targetVersion < new Version(4, 8, 0))
+				targetMigration = currentDatabaseType switch
+				{
+					DatabaseType.MySql => nameof(MYAddSwarmIdentifer),
+					DatabaseType.PostgresSql => nameof(PGAddSwarmIdentifer),
+					DatabaseType.SqlServer => nameof(MSAddSwarmIdentifer),
+					DatabaseType.Sqlite => nameof(SLAddSwarmIdentifer),
+					_ => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType)),
+				};
 			if (targetVersion < new Version(4, 7, 0))
 				targetMigration = currentDatabaseType switch
 				{

@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models.Internal;
@@ -91,7 +92,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 			switch (reason)
 			{
 				case MonitorActivationReason.ActiveServerCrashed:
-					string exitWord = Server.TerminationWasRequested ? "exited" : "crashed";
+					var eventType = Server.TerminationWasRequested
+						? EventType.WorldEndProcess
+						: EventType.WatchdogCrash;
+					await EventConsumer.HandleEvent(eventType, Enumerable.Empty<string>(), cancellationToken).ConfigureAwait(false);
+
+					var exitWord = Server.TerminationWasRequested ? "exited" : "crashed";
 					if (Server.RebootState == Session.RebootState.Shutdown)
 					{
 						// the time for graceful shutdown is now
@@ -124,6 +130,8 @@ namespace Tgstation.Server.Host.Components.Watchdog
 					gracefulRebootRequired = false;
 					Server.ResetRebootState();
 
+					await EventConsumer.HandleEvent(EventType.WorldReboot, Enumerable.Empty<string>(), cancellationToken).ConfigureAwait(false);
+
 					switch (rebootState)
 					{
 						case Session.RebootState.Normal:
@@ -140,13 +148,15 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						default:
 							throw new InvalidOperationException($"Invalid reboot state: {rebootState}");
 					}
-
 				case MonitorActivationReason.ActiveLaunchParametersUpdated:
 					await Server.SetRebootState(Session.RebootState.Restart, cancellationToken).ConfigureAwait(false);
 					gracefulRebootRequired = true;
 					break;
 				case MonitorActivationReason.NewDmbAvailable:
 					await HandleNewDmbAvailable(cancellationToken).ConfigureAwait(false);
+					break;
+				case MonitorActivationReason.ActiveServerPrimed:
+					await EventConsumer.HandleEvent(EventType.WorldPrime, Enumerable.Empty<string>(), cancellationToken).ConfigureAwait(false);
 					break;
 				case MonitorActivationReason.Heartbeat:
 				default:

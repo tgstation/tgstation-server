@@ -80,19 +80,19 @@ Note that this container is meant to be long running. Updates are handled intern
 
 Note that automatic configuration reloading is currently not supported in the container. See #1143
 
-If using manual configuration, before starting your container make sure the aforementioned `appsettings.Production.json` is setup properly. See below
+If using manual configuration, before starting your container make sure the aforementioned `appsettings.Production.yml` is setup properly. See below
 
 ### Configuring
 
-The first time you run TGS4 you should be prompted with a configuration wizard which will guide you through setting up your appsettings.Production.json
+The first time you run TGS4 you should be prompted with a configuration wizard which will guide you through setting up your `appsettings.Production.yml`
 
-This wizard will, generally, run whenever the server is launched without detecting the config json. Follow the instructions below to perform this process manually.
+This wizard will, generally, run whenever the server is launched without detecting the config yml. Follow the instructions below to perform this process manually.
 
 #### Configuration Methods
 
 There are 3 primary supported ways to configure TGS:
 
-- Modify the `appsettings.Production.json` file (Recommended).
+- Modify the `appsettings.Production.yml` file (Recommended).
 - Set environment variables in the form `Section__Subsection=value` or `Section__ArraySubsection__0=value` for arrays.
 - Set command line arguments in the form `--Section:Subsection=value` or `--Section:ArraySubsection:0=value` for arrays.
 
@@ -100,7 +100,7 @@ The latter two are not recommended as they cannot be dynamically changed at runt
 
 #### Manual Configuration
 
-Create an `appsettings.Production.json` file next to `appsettings.json`. This will override the default settings in appsettings.json with your production settings. There are a few keys meant to be changed by hosts. Modifying any config files while the server is running will trigger a safe restart (Keeps DreamDaemon instances running). Note these are all case-sensitive:
+Create an `appsettings.Production.yml` file next to `appsettings.yml`. This will override the default settings in `appsettings.yml` with your production settings. There are a few keys meant to be changed by hosts. Modifying any config files while the server is running will trigger a safe restart (Keeps DreamDaemon instances running). Note these are all case-sensitive:
 
 - `General:ConfigVersion`: Suppresses warnings about out of date config versions. You should change this after updating TGS to one with a new config version. The current version can be found on the releases page for your server version (This field did not exist before v4.4.0).
 
@@ -143,19 +143,14 @@ Create an `appsettings.Production.json` file next to `appsettings.json`. This wi
 - `Swarm:Identifier` should be set uniquely on all swarmed servers. Used to identify the current server. This is also used to select which instances exist on the current machine and should not be changed post-setup.
 
 - `Security:OAuth:<Provider Name>`: Sets the OAuth client ID and secret for a given `<Provider Name>`. The currently supported providers are `GitHub`, `Discord`, and `TGForums`. Setting these fields to `null` disables logins with the provider, but does not stop users from associating their accounts using the API. Sample Entry:
-```json
-{
-	"Security": {
-		"OAuth": {
-			"Keycloak": {
-				"ClientId": "...",
-				"ClientSecret": "...",
-				"RedirectUrl": "...",
-				"ServerUrl": "..."
-			}
-		}
-	}
-}
+```yml
+Security:
+  OAuth:
+    Keycloak:
+      ClientId: "..."
+      ClientSecret: "..."
+      RedirectUrl: "..."
+      ServerUrl: "..."
 ```
 The following providers use the `RedirectUrl` setting:
 
@@ -252,7 +247,7 @@ var/global/client_count = 0
 
 ## Remote Access
 
-tgstation-server is an [ASP.Net Core](https://docs.microsoft.com/en-us/aspnet/core/) app based on the Kestrel web server. This section is meant to serve as a general use case overview, but the entire Kestrel configuration can be modified to your liking with the configuration JSON. See [the official documentation](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel) for details.
+tgstation-server is an [ASP.Net Core](https://docs.microsoft.com/en-us/aspnet/core/) app based on the Kestrel web server. This section is meant to serve as a general use case overview, but the entire Kestrel configuration can be modified to your liking with the configuration YAML. See [the official documentation](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel) for details.
 
 Exposing the builtin Kestrel server to the internet directly over HTTP is highly not reccommended due to the lack of security. The recommended way to expose tgstation-server to the internet is to host it through a reverse proxy with HTTPS support. Here are some step by step examples to achieve this for major web servers.
 
