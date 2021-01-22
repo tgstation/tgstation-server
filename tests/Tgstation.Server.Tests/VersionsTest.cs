@@ -101,6 +101,7 @@ namespace Tgstation.Server.Tests
 			Assert.AreEqual(expected, actual);
 		}
 
+		[TestMethod]
 		public void TestInteropVersion()
 		{
 			var versionString = versionsPropertyGroup.Element(xmlNamespace + "TgsInteropVersion").Value;
