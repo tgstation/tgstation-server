@@ -5,8 +5,8 @@ SCRIPT_VERSION="1.2.0"
 echo "tgstation-server 4 container startup script v$SCRIPT_VERSION"
 echo "PWD: $PWD"
 
-PROD_CONFIG=/config_data/appsettings.Production.json
-HOST_CONFIG=/app/appsettings.Production.json
+PROD_CONFIG=/config_data/appsettings.Production.yml
+HOST_CONFIG=/app/appsettings.Production.yml
 
 if [ ! -f $PROD_CONFIG ]; then
 	echo "$PROD_CONFIG not detected! Creating empty and running setup wizard..."

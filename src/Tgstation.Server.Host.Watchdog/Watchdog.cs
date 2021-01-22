@@ -96,10 +96,10 @@ namespace Tgstation.Server.Host.Watchdog
 					foreach (string newPath in Directory.GetFiles(sourcePath, "*.*", SearchOption.AllDirectories))
 						File.Copy(newPath, newPath.Replace(sourcePath, defaultAssemblyPath), true);
 
-					const string AppSettingsJson = "appsettings.json";
-					var rootJson = Path.Combine(rootLocation, AppSettingsJson);
-					File.Delete(rootJson);
-					File.Move(Path.Combine(defaultAssemblyPath, AppSettingsJson), rootJson);
+					const string AppSettingsYaml = "appsettings.yml";
+					var rootYaml = Path.Combine(rootLocation, AppSettingsYaml);
+					File.Delete(rootYaml);
+					File.Move(Path.Combine(defaultAssemblyPath, AppSettingsYaml), rootYaml);
 				}
 				else
 					Directory.CreateDirectory(assemblyStoragePath);

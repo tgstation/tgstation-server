@@ -6,7 +6,7 @@ namespace Tgstation.Server.Host.Setup
 	public enum SetupWizardMode
 	{
 		/// <summary>
-		/// Run the wizard if the appsettings.{Environment}.json is not present or empty.
+		/// Run the wizard if the appsettings.{Environment}.yml is not present or empty.
 		/// </summary>
 		Autodetect,
 

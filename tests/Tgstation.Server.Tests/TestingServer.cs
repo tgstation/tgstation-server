@@ -110,7 +110,7 @@ namespace Tgstation.Server.Tests
 				args.Add($"Security:OAuth=null");
 
 			// SPECIFICALLY DELETE THE DEV APPSETTINGS, WE DON'T WANT IT IN THE WAY
-			File.Delete("appsettings.Development.json");
+			File.Delete("appsettings.Development.yml");
 
 			if (!String.IsNullOrEmpty(gitHubAccessToken))
 				args.Add(String.Format(CultureInfo.InvariantCulture, "General:GitHubAccessToken={0}", gitHubAccessToken));
