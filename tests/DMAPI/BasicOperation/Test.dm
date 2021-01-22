@@ -15,9 +15,9 @@
 	world.TgsTargetedChatBroadcast("Sample admin-only message", TRUE)
 
 	world.log << "Validating API sleep"
-	// Validate TGS_DMAPI_VERSION against DMAPI version used
+	// Validate current DMAPI version against DMAPI version used
 	var/datum/tgs_version/active_version = world.TgsApiVersion()
-	var/datum/tgs_version/dmapi_version = new /datum/tgs_version(TGS_DMAPI_VERSION)
+	var/datum/tgs_version/dmapi_version = world.TgsMaximumApiVersion()
 	if(!active_version.Equals(dmapi_version))
 		text2file("DMAPI version [TGS_DMAPI_VERSION] does not match active API version [active_version.raw_parameter]", "test_fail_reason.txt")
 
