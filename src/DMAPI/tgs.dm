@@ -267,11 +267,11 @@
 // API FUNCTIONS
 
 /// Returns the maximum supported [/datum/tgs_version] of the DMAPI.
-/world/proc/TgsMaximumAPIVersion()
+/world/proc/TgsMaximumApiVersion()
 	return
 
 /// Returns the minimum supported [/datum/tgs_version] of the DMAPI.
-/world/proc/TgsMinimumAPIVersion()
+/world/proc/TgsMinimumApiVersion()
 	return
 
 /**
