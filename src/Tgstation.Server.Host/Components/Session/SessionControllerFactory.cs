@@ -229,7 +229,7 @@ namespace Tgstation.Server.Host.Components.Session
 
 					// set command line options
 					// more sanitization here cause it uses the same scheme
-					var parameters = $"{DMApiConstants.ParamApiVersion}={byondTopicSender.SanitizeString(DMApiConstants.Version.Semver().ToString())}&{byondTopicSender.SanitizeString(DMApiConstants.ParamServerPort)}={serverPortProvider.HttpApiPort}&{byondTopicSender.SanitizeString(DMApiConstants.ParamAccessIdentifier)}={byondTopicSender.SanitizeString(accessIdentifier)}";
+					var parameters = $"{DMApiConstants.ParamApiVersion}={byondTopicSender.SanitizeString(DMApiConstants.InteropVersion.Semver().ToString())}&{byondTopicSender.SanitizeString(DMApiConstants.ParamServerPort)}={serverPortProvider.HttpApiPort}&{byondTopicSender.SanitizeString(DMApiConstants.ParamAccessIdentifier)}={byondTopicSender.SanitizeString(accessIdentifier)}";
 
 					if (!String.IsNullOrEmpty(launchParameters.AdditionalParameters))
 						parameters = $"{parameters}&{launchParameters.AdditionalParameters}";
@@ -240,7 +240,7 @@ namespace Tgstation.Server.Host.Components.Session
 					Guid? logFileGuid = null;
 					var arguments = String.Format(
 						CultureInfo.InvariantCulture,
-						"{0} -port {1} -ports 1-65535 {2}-close -{3} -{4}{5} -public -params \"{6}\"",
+						"{0} -port {1} -ports 1-65535 {2}-close -{3} -{4}{5} -params \"{6}\"",
 						dmbProvider.DmbName,
 						launchParameters.Port.Value,
 						launchParameters.AllowWebClient.Value ? "-webclient " : String.Empty,

@@ -66,7 +66,7 @@ namespace Tgstation.Server.Host.Components.Session
 		public Task OnPrime => primeTcs.Task;
 
 		/// <inheritdoc />
-		public bool DMApiAvailable => reattachInformation.Dmb.CompileJob.DMApiVersion?.Major == DMApiConstants.Version.Major;
+		public bool DMApiAvailable => reattachInformation.Dmb.CompileJob.DMApiVersion?.Major == DMApiConstants.InteropVersion.Major;
 
 		/// <summary>
 		/// The up to date <see cref="ReattachInformation"/>
@@ -431,7 +431,7 @@ namespace Tgstation.Server.Host.Components.Session
 							return Error("Missing dmApiVersion field!");
 
 						DMApiVersion = parameters.Version;
-						if (DMApiVersion.Major != DMApiConstants.Version.Major)
+						if (DMApiVersion.Major != DMApiConstants.InteropVersion.Major)
 						{
 							apiValidationStatus = ApiValidationStatus.Incompatible;
 							return Error("Incompatible dmApiVersion!");

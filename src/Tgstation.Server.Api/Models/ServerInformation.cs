@@ -19,7 +19,7 @@ namespace Tgstation.Server.Api.Models
 		public Version? ApiVersion { get; set; }
 
 		/// <summary>
-		/// The DMAPI version of the host.
+		/// The DMAPI interop version the server uses.
 		/// </summary>
 		public Version? DMApiVersion { get; set; }
 

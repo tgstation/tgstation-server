@@ -14,13 +14,6 @@
 	sleep(50)
 	world.TgsTargetedChatBroadcast("Sample admin-only message", TRUE)
 
-	world.log << "Validating API sleep"
-	// Validate TGS_DMAPI_VERSION against DMAPI version used
-	var/datum/tgs_version/active_version = world.TgsApiVersion()
-	var/datum/tgs_version/dmapi_version = new /datum/tgs_version(TGS_DMAPI_VERSION)
-	if(!active_version.Equals(dmapi_version))
-		text2file("DMAPI version [TGS_DMAPI_VERSION] does not match active API version [active_version.raw_parameter]", "test_fail_reason.txt")
-
 	var/list/world_params = params2list(world.params)
 	if(!("test" in world_params) || world_params["test"] != "bababooey")
 		text2file("Expected parameter test=bababooey but did not receive", "test_fail_reason.txt")

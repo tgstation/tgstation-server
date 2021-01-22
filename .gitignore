@@ -11,9 +11,9 @@ artifacts/
 *DS_Store
 *.sln.ide
 /TestResults
-/tests/DMAPI/travistester.lk
-/tests/DMAPI/travistester.int
-/tests/DMAPI/travistester.dmb
+*.dmb
+*.int
+*.lk
 /src/Tgstation.Server.Host/appsettings.*.json
 /src/Tgstation.Server.Host/appsettings.*.yml
 /src/Tgstation.Server.Host/wwwroot

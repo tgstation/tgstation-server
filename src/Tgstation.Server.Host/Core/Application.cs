@@ -492,7 +492,7 @@ namespace Tgstation.Server.Host.Core
 			// End of request pipeline setup
 			var masterVersionsAttribute = MasterVersionsAttribute.Instance;
 			logger.LogTrace("Configuration version: {0}", masterVersionsAttribute.RawConfigurationVersion);
-			logger.LogTrace("DMAPI version: {0}", masterVersionsAttribute.RawDMApiVersion);
+			logger.LogTrace("DMAPI Interop version: {0}", masterVersionsAttribute.RawInteropVersion);
 			logger.LogTrace("Web control panel version: {0}", masterVersionsAttribute.RawControlPanelVersion);
 
 			logger.LogDebug("Starting hosting on port {0}...", serverPortProvider.HttpApiPort);

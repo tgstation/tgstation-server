@@ -135,6 +135,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v5", "v5", "{FAEAD3B5-2EAB-
 		src\DMAPI\tgs\v5\_defines.dm = src\DMAPI\tgs\v5\_defines.dm
 		src\DMAPI\tgs\v5\api.dm = src\DMAPI\tgs\v5\api.dm
 		src\DMAPI\tgs\v5\commands.dm = src\DMAPI\tgs\v5\commands.dm
+		src\DMAPI\tgs\v5\interop_version.dm = src\DMAPI\tgs\v5\interop_version.dm
 		src\DMAPI\tgs\v5\README.md = src\DMAPI\tgs\v5\README.md
 		src\DMAPI\tgs\v5\undefs.dm = src\DMAPI\tgs\v5\undefs.dm
 	EndProjectSection

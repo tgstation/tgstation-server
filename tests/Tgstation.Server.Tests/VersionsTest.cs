@@ -99,7 +99,15 @@ namespace Tgstation.Server.Tests
 
 			Assert.IsTrue(Version.TryParse(versionLine, out var actual));
 			Assert.AreEqual(expected, actual);
-			Assert.AreEqual(expected, DMApiConstants.Version);
+		}
+
+		[TestMethod]
+		public void TestInteropVersion()
+		{
+			var versionString = versionsPropertyGroup.Element(xmlNamespace + "TgsInteropVersion").Value;
+			Assert.IsNotNull(versionString);
+			Assert.IsTrue(Version.TryParse(versionString, out var expected));
+			Assert.AreEqual(expected, DMApiConstants.InteropVersion);
 		}
 
 		[TestMethod]

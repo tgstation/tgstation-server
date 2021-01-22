@@ -49,7 +49,7 @@
     <ItemGroup>
       <AssemblyAttributes Include="Tgstation.Server.Host.Properties.MasterVersionsAttribute">
         <_Parameter1>$(TgsConfigVersion)</_Parameter1>
-        <_Parameter2>$(TgsDmapiVersion)</_Parameter2>
+        <_Parameter2>$(TgsInteropVersion)</_Parameter2>
         <_Parameter3>$(TgsControlPanelVersion)</_Parameter3>
         <_Parameter4>$(TgsHostWatchdogVersion)</_Parameter4>
       </AssemblyAttributes>
