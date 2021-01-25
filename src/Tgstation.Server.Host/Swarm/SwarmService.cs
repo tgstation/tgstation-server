@@ -1088,7 +1088,7 @@ namespace Tgstation.Server.Host.Swarm
 
 					nextForceHealthCheckTask = forceHealthCheckTcs.Task;
 
-					logger.LogDebug("Performing swarm health check...");
+					logger.LogTrace("Performing swarm health check...");
 					try
 					{
 						if (swarmController)
