@@ -952,6 +952,13 @@ namespace Tgstation.Server.Host.Setup
 				try
 				{
 					var exists = await ioManager.FileExists(userConfigFileName, cancellationToken).ConfigureAwait(false);
+					if (!exists)
+					{
+						var legacyJsonFileName = $"appsettings.{hostingEnvironment.EnvironmentName}.json";
+						exists = await ioManager.FileExists(legacyJsonFileName, cancellationToken).ConfigureAwait(false);
+						if (exists)
+							userConfigFileName = legacyJsonFileName;
+					}
 
 					bool shouldRunBasedOnAutodetect;
 					if (exists)

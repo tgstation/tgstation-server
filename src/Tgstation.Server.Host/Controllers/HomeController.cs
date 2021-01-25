@@ -256,11 +256,12 @@ namespace Tgstation.Server.Host.Controllers
 				IQueryable<Models.User> query = DatabaseContext.Users.AsQueryable();
 				if (oAuthLogin)
 				{
+					var oAuthProvider = ApiHeaders.OAuthProvider.Value;
 					string externalUserId;
 					try
 					{
 						var validator = oAuthProviders
-							.GetValidator(ApiHeaders.OAuthProvider.Value);
+							.GetValidator(oAuthProvider);
 
 						if (validator == null)
 							return BadRequest(new ErrorMessage(ErrorCode.OAuthProviderDisabled));
@@ -268,6 +269,8 @@ namespace Tgstation.Server.Host.Controllers
 						externalUserId = await validator
 							.ValidateResponseCode(ApiHeaders.Token, cancellationToken)
 							.ConfigureAwait(false);
+
+						Logger.LogTrace("External {0} UID: {1}", oAuthProvider, externalUserId); 
 					}
 					catch (RateLimitExceededException ex)
 					{
@@ -279,29 +282,32 @@ namespace Tgstation.Server.Host.Controllers
 
 					query = query.Where(
 						x => x.OAuthConnections.Any(
-							y => y.Provider == ApiHeaders.OAuthProvider.Value
+							y => y.Provider == oAuthProvider
 							&& y.ExternalUserId == externalUserId));
 				}
 				else
 				{
-					string canonicalName = Models.User.CanonicalizeName(ApiHeaders.Username);
+					var canonicalUserName = Models.User.CanonicalizeName(ApiHeaders.Username);
 					if (systemIdentity == null)
-						query = query.Where(x => x.CanonicalName == canonicalName);
+						query = query.Where(x => x.CanonicalName == canonicalUserName);
 					else
-						query = query.Where(x => x.CanonicalName == canonicalName || x.SystemIdentifier == systemIdentity.Uid);
+						query = query.Where(x => x.CanonicalName == canonicalUserName || x.SystemIdentifier == systemIdentity.Uid);
 				}
 
-				var users = await query.Select(x => new Models.User
-				{
-					Id = x.Id,
-					PasswordHash = x.PasswordHash,
-					Enabled = x.Enabled,
-					Name = x.Name
-				}).ToListAsync(cancellationToken).ConfigureAwait(false);
+				var users = await query
+					.Select(x => new Models.User
+					{
+						Id = x.Id,
+						PasswordHash = x.PasswordHash,
+						Enabled = x.Enabled,
+						Name = x.Name
+					})
+					.ToListAsync(cancellationToken)
+					.ConfigureAwait(false);
 
 				// Pick the DB user first
 				var user = users
-					.OrderByDescending(dbUser => dbUser.PasswordHash != null)
+					.OrderByDescending(dbUser => dbUser.SystemIdentifier == null)
 					.FirstOrDefault();
 
 				// No user? You're not allowed
