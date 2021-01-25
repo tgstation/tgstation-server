@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.8.0</span>
+   &#160;<span id="projectnumber">4.8.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -442,7 +442,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;            }</div>
 <div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (controlPanelConfiguration.AllowedOrigins?.Count &gt; 0)</div>
 <div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;            {</div>
-<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;                logger.LogTrace(<span class="stringliteral">&quot;Access-Control-Allow-Origin: &quot;</span>, String.Join(<span class="charliteral">&#39;,&#39;</span>, controlPanelConfiguration.AllowedOrigins));</div>
+<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;                logger.LogTrace(<span class="stringliteral">&quot;Access-Control-Allow-Origin: {0}&quot;</span>, String.Join(<span class="charliteral">&#39;,&#39;</span>, controlPanelConfiguration.AllowedOrigins));</div>
 <div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;                corsBuilder = builder =&gt; builder.WithOrigins(controlPanelConfiguration.AllowedOrigins.ToArray());</div>
 <div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;            }</div>
 <div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160; </div>

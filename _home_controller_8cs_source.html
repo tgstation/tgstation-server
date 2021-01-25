@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.8.0</span>
+   &#160;<span id="projectnumber">4.8.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -256,119 +256,125 @@ $(function() {
 <div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;                <a class="code" href="class_i_queryable.html">IQueryable</a>&lt;Models.User&gt; query = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad1c33807b7a75d05d0004e024416e17f">Users</a>.AsQueryable();</div>
 <div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;                <span class="keywordflow">if</span> (oAuthLogin)</div>
 <div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;                {</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;                    <span class="keywordtype">string</span> externalUserId;</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;                    <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;                    {</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;                        var validator = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#a5662a4f54f67156a400be8afd64f3ddd">oAuthProviders</a></div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;                            .<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html#a65bc09f0519643a3e29cf8032858ea07">GetValidator</a>(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a8df80167ac1beb7569302dde745c95d6">OAuthProvider</a>.Value);</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160; </div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;                        <span class="keywordflow">if</span> (validator == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;                            <span class="keywordflow">return</span> BadRequest(<span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_error_message.html">ErrorMessage</a>(<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.OAuthProviderDisabled));</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160; </div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;                        externalUserId = await validator</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;                            .ValidateResponseCode(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a48b5fae887842cd76920ef76944583a2">Token</a>, cancellationToken)</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;                            .ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;                    }</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;                    <span class="keywordflow">catch</span> (RateLimitExceededException ex)</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;                    {</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#adfc4e0e6f1d81ebc19a238527550f7a4">RateLimit</a>(ex);</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;                    }</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160; </div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;                    <span class="keywordflow">if</span> (externalUserId == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0ae06d1ba70f1331e9f9a113cc2f887d3f">Unauthorized</a>();</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;                    var oAuthProvider = <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a8df80167ac1beb7569302dde745c95d6">OAuthProvider</a>.Value;</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;                    <span class="keywordtype">string</span> externalUserId;</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;                    <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;                    {</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;                        var validator = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#a5662a4f54f67156a400be8afd64f3ddd">oAuthProviders</a></div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;                            .<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_i_o_auth_providers.html#a65bc09f0519643a3e29cf8032858ea07">GetValidator</a>(oAuthProvider);</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160; </div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;                        <span class="keywordflow">if</span> (validator == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;                            <span class="keywordflow">return</span> BadRequest(<span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_error_message.html">ErrorMessage</a>(<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a1a6adb59dd51244efabf4e548e7075c8">ErrorCode</a>.OAuthProviderDisabled));</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160; </div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;                        externalUserId = await validator</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;                            .ValidateResponseCode(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a48b5fae887842cd76920ef76944583a2">Token</a>, cancellationToken)</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;                            .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160; </div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;                        <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogTrace(<span class="stringliteral">&quot;External {0} UID: {1}&quot;</span>, oAuthProvider, externalUserId); </div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;                    }</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;                    <span class="keywordflow">catch</span> (RateLimitExceededException ex)</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;                    {</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#adfc4e0e6f1d81ebc19a238527550f7a4">RateLimit</a>(ex);</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;                    }</div>
 <div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160; </div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;                    query = query.Where(</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;                        x =&gt; x.OAuthConnections.Any(</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;                            y =&gt; y.Provider == <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a8df80167ac1beb7569302dde745c95d6">OAuthProvider</a>.Value</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;                            &amp;&amp; y.ExternalUserId == externalUserId));</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;                }</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;                <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;                {</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;                    <span class="keywordtype">string</span> canonicalName = Models.User.CanonicalizeName(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a3f35c621d1a28887fb4bc2885e2c893c">Username</a>);</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;                    <span class="keywordflow">if</span> (systemIdentity == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;                        query = query.Where(x =&gt; x.CanonicalName == canonicalName);</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;                    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;                        query = query.Where(x =&gt; x.CanonicalName == canonicalName || x.SystemIdentifier == systemIdentity.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html#a21339e0b4c3d045ba30c6ac6ea15aa4f">Uid</a>);</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;                }</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160; </div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;                var users = await query.Select(x =&gt; <span class="keyword">new</span> Models.User</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;                {</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;                    Id = x.Id,</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;                    PasswordHash = x.PasswordHash,</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;                    Enabled = x.Enabled,</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;                    Name = x.Name</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;                }).ToListAsync(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160; </div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;                <span class="comment">// Pick the DB user first</span></div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;                var user = users</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;                    .OrderByDescending(dbUser =&gt; dbUser.PasswordHash != <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;                    .FirstOrDefault();</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160; </div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;                <span class="comment">// No user? You&#39;re not allowed</span></div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;                <span class="keywordflow">if</span> (user == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;                    <span class="keywordflow">return</span> <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0ae06d1ba70f1331e9f9a113cc2f887d3f">Unauthorized</a>();</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160; </div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;                <span class="comment">// A system user may have had their name AND password changed to one in our DB...</span></div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;                <span class="comment">// Or a DB user was created that had the same user/pass as a system user</span></div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;                <span class="comment">// Dumb admins...</span></div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;                <span class="comment">// FALLBACK TO THE DB USER HERE, DO NOT REVEAL A SYSTEM LOGIN!!!</span></div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;                <span class="comment">// This of course, allows system users to discover TGS users in this (HIGHLY IMPROBABLE) case but that is not our fault</span></div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;                var originalHash = user.PasswordHash;</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;                var isDbUser = originalHash != <span class="keyword">null</span>;</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;                <span class="keywordtype">bool</span> usingSystemIdentity = systemIdentity != <span class="keyword">null</span> &amp;&amp; !isDbUser;</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;                <span class="keywordflow">if</span> (!oAuthLogin)</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;                    <span class="keywordflow">if</span> (!usingSystemIdentity)</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;                    {</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;                        <span class="comment">// DB User password check and update</span></div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;                        <span class="keywordflow">if</span> (!<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#a78651298906fc1500952310c49c96e06">cryptographySuite</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#ac23fd656dc42cf07e64a62844f8bcfbc">CheckUserPassword</a>(user, <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#afedffb739a04c51b5669d24635dd3603">Password</a>))</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;                            <span class="keywordflow">return</span> <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0ae06d1ba70f1331e9f9a113cc2f887d3f">Unauthorized</a>();</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;                        <span class="keywordflow">if</span> (user.PasswordHash != originalHash)</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;                        {</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;                            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogDebug(<span class="stringliteral">&quot;User ID {0}&#39;s password hash needs a refresh, updating database.&quot;</span>, user.Id);</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;                            var updatedUser = <span class="keyword">new</span> Models.User</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;                            {</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;                                Id = user.Id</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;                            };</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;                            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad1c33807b7a75d05d0004e024416e17f">Users</a>.Attach(updatedUser);</div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;                            updatedUser.PasswordHash = user.PasswordHash;</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;                            await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;                        }</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;                    }</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (systemIdentity.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html#abdae9176f2609703ff36c43d7af97ac1">Username</a> != user.Name)</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;                    {</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;                        <span class="comment">// System identity username change update</span></div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;                        <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogDebug(<span class="stringliteral">&quot;User ID {0}&#39;s system identity needs a refresh, updating database.&quot;</span>, user.Id);</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;                        <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad1c33807b7a75d05d0004e024416e17f">Users</a>.Attach(user);</div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;                        user.Name = systemIdentity.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html#abdae9176f2609703ff36c43d7af97ac1">Username</a>;</div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;                        user.CanonicalName = Models.User.CanonicalizeName(user.Name);</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;                        await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;                    }</div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160; </div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;                <span class="comment">// Now that the bookeeping is done, tell them to fuck off if necessary</span></div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;                <span class="keywordflow">if</span> (!user.Enabled.Value)</div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;                {</div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogTrace(<span class="stringliteral">&quot;Not logging in disabled user {0}.&quot;</span>, user.Id);</div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;                    <span class="keywordflow">return</span> Forbid();</div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;                }</div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160; </div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;                var token = await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#afd05899e85f5a8a6b8c8e374364872f8">tokenFactory</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a302f1b475beac6ffc70101466245e4db">CreateToken</a>(user, oAuthLogin, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;                <span class="keywordflow">if</span> (usingSystemIdentity)</div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;                {</div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;                    <span class="comment">// expire the identity slightly after the auth token in case of lag</span></div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;                    var identExpiry = token.ExpiresAt;</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;                    identExpiry += <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#afd05899e85f5a8a6b8c8e374364872f8">tokenFactory</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a46e66985719064cffa8b569830a3712f">ValidationParameters</a>.ClockSkew;</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;                    identExpiry += TimeSpan.FromSeconds(15);</div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#a75b914d5a6ea3a3ef3eaa2ab87b61859">identityCache</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html#a40f3695ec18d3df1bea7b230b75dabbb">CacheSystemIdentity</a>(user, systemIdentity, identExpiry);</div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;                }</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160; </div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogDebug(<span class="stringliteral">&quot;Successfully logged in user {0}!&quot;</span>, user.Id);</div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160; </div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;                <span class="keywordflow">return</span> Json(token);</div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;            }</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;        }</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;<span class="preprocessor">#pragma warning restore CA1506</span></div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;    }</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;}</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;                    <span class="keywordflow">if</span> (externalUserId == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;                        <span class="keywordflow">return</span> <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0ae06d1ba70f1331e9f9a113cc2f887d3f">Unauthorized</a>();</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160; </div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;                    query = query.Where(</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;                        x =&gt; x.OAuthConnections.Any(</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;                            y =&gt; y.Provider == oAuthProvider</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;                            &amp;&amp; y.ExternalUserId == externalUserId));</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;                }</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;                <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;                {</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;                    var canonicalUserName = Models.User.CanonicalizeName(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a3f35c621d1a28887fb4bc2885e2c893c">Username</a>);</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;                    <span class="keywordflow">if</span> (systemIdentity == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;                        query = query.Where(x =&gt; x.CanonicalName == canonicalUserName);</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;                    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;                        query = query.Where(x =&gt; x.CanonicalName == canonicalUserName || x.SystemIdentifier == systemIdentity.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html#a21339e0b4c3d045ba30c6ac6ea15aa4f">Uid</a>);</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;                }</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160; </div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;                var users = await query</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;                    .Select(x =&gt; <span class="keyword">new</span> Models.User</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;                    {</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;                        Id = x.Id,</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;                        PasswordHash = x.PasswordHash,</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;                        Enabled = x.Enabled,</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;                        Name = x.Name</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;                    })</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;                    .ToListAsync(cancellationToken)</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;                    .ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160; </div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;                <span class="comment">// Pick the DB user first</span></div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;                var user = users</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;                    .OrderByDescending(dbUser =&gt; dbUser.SystemIdentifier == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;                    .FirstOrDefault();</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160; </div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;                <span class="comment">// No user? You&#39;re not allowed</span></div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;                <span class="keywordflow">if</span> (user == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;                    <span class="keywordflow">return</span> <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0ae06d1ba70f1331e9f9a113cc2f887d3f">Unauthorized</a>();</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160; </div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;                <span class="comment">// A system user may have had their name AND password changed to one in our DB...</span></div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;                <span class="comment">// Or a DB user was created that had the same user/pass as a system user</span></div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;                <span class="comment">// Dumb admins...</span></div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;                <span class="comment">// FALLBACK TO THE DB USER HERE, DO NOT REVEAL A SYSTEM LOGIN!!!</span></div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;                <span class="comment">// This of course, allows system users to discover TGS users in this (HIGHLY IMPROBABLE) case but that is not our fault</span></div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;                var originalHash = user.PasswordHash;</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;                var isDbUser = originalHash != <span class="keyword">null</span>;</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;                <span class="keywordtype">bool</span> usingSystemIdentity = systemIdentity != <span class="keyword">null</span> &amp;&amp; !isDbUser;</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;                <span class="keywordflow">if</span> (!oAuthLogin)</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;                    <span class="keywordflow">if</span> (!usingSystemIdentity)</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;                    {</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;                        <span class="comment">// DB User password check and update</span></div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;                        <span class="keywordflow">if</span> (!<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#a78651298906fc1500952310c49c96e06">cryptographySuite</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#ac23fd656dc42cf07e64a62844f8bcfbc">CheckUserPassword</a>(user, <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#afedffb739a04c51b5669d24635dd3603">Password</a>))</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;                            <span class="keywordflow">return</span> <a class="code" href="namespace_tgstation_1_1_server_1_1_host_1_1_swarm.html#acfc07eda2ac8eff75a6eef3f90bdf3e0ae06d1ba70f1331e9f9a113cc2f887d3f">Unauthorized</a>();</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;                        <span class="keywordflow">if</span> (user.PasswordHash != originalHash)</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;                        {</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;                            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogDebug(<span class="stringliteral">&quot;User ID {0}&#39;s password hash needs a refresh, updating database.&quot;</span>, user.Id);</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;                            var updatedUser = <span class="keyword">new</span> Models.User</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;                            {</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;                                Id = user.Id</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;                            };</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;                            <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad1c33807b7a75d05d0004e024416e17f">Users</a>.Attach(updatedUser);</div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;                            updatedUser.PasswordHash = user.PasswordHash;</div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;                            await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;                        }</div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;                    }</div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (systemIdentity.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html#abdae9176f2609703ff36c43d7af97ac1">Username</a> != user.Name)</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;                    {</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;                        <span class="comment">// System identity username change update</span></div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;                        <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogDebug(<span class="stringliteral">&quot;User ID {0}&#39;s system identity needs a refresh, updating database.&quot;</span>, user.Id);</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;                        <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ad1c33807b7a75d05d0004e024416e17f">Users</a>.Attach(user);</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;                        user.Name = systemIdentity.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity.html#abdae9176f2609703ff36c43d7af97ac1">Username</a>;</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;                        user.CanonicalName = Models.User.CanonicalizeName(user.Name);</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;                        await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html">DatabaseContext</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c">Save</a>(cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;                    }</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160; </div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;                <span class="comment">// Now that the bookeeping is done, tell them to fuck off if necessary</span></div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;                <span class="keywordflow">if</span> (!user.Enabled.Value)</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;                {</div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogTrace(<span class="stringliteral">&quot;Not logging in disabled user {0}.&quot;</span>, user.Id);</div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;                    <span class="keywordflow">return</span> Forbid();</div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;                }</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160; </div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;                var token = await <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#afd05899e85f5a8a6b8c8e374364872f8">tokenFactory</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a302f1b475beac6ffc70101466245e4db">CreateToken</a>(user, oAuthLogin, cancellationToken).ConfigureAwait(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;                <span class="keywordflow">if</span> (usingSystemIdentity)</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;                {</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;                    <span class="comment">// expire the identity slightly after the auth token in case of lag</span></div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;                    var identExpiry = token.ExpiresAt;</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;                    identExpiry += <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#afd05899e85f5a8a6b8c8e374364872f8">tokenFactory</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a46e66985719064cffa8b569830a3712f">ValidationParameters</a>.ClockSkew;</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;                    identExpiry += TimeSpan.FromSeconds(15);</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#a75b914d5a6ea3a3ef3eaa2ab87b61859">identityCache</a>.<a class="code" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_identity_cache.html#a40f3695ec18d3df1bea7b230b75dabbb">CacheSystemIdentity</a>(user, systemIdentity, identExpiry);</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;                }</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160; </div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogDebug(<span class="stringliteral">&quot;Successfully logged in user {0}!&quot;</span>, user.Id);</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160; </div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;                <span class="keywordflow">return</span> Json(token);</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;            }</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;        }</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;<span class="preprocessor">#pragma warning restore CA1506</span></div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;    }</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;}</div>
 <div class="ttc" id="aclass_i_queryable_html"><div class="ttname"><a href="class_i_queryable.html">IQueryable</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">Tgstation.Server.Api.ApiHeaders</a></div><div class="ttdoc">Represents the header that must be present for every server request</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00018">ApiHeaders.cs:19</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a30222f85d684f2a9c9861a8638b6a31f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a30222f85d684f2a9c9861a8638b6a31f">Tgstation.Server.Api.ApiHeaders.IsTokenAuthentication</a></div><div class="ttdeci">bool IsTokenAuthentication</div><div class="ttdoc">If the header uses password or TGS JWT authentication.</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00103">ApiHeaders.cs:103</a></div></div>
