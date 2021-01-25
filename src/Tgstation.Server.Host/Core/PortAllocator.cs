@@ -1,10 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Extensions;
 
@@ -29,15 +31,26 @@ namespace Tgstation.Server.Host.Core
 		readonly ILogger<PortAllocator> logger;
 
 		/// <summary>
+		/// The <see cref="SwarmConfiguration"/> for the <see cref="PortAllocator"/>.
+		/// </summary>
+		readonly SwarmConfiguration swarmConfiguration;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="PortAllocator"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="serverPortProvider">The value of <see cref="serverPortProvider"/>.</param>
 		/// <param name="databaseContext">The value of <see cref="databaseContext"/>.</param>
+		/// <param name="swarmConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="swarmConfiguration"/>.</param>
 		/// <param name="logger">The value of <see cref="logger"/>.</param>
-		public PortAllocator(IServerPortProvider serverPortProvider, IDatabaseContext databaseContext, ILogger<PortAllocator> logger)
+		public PortAllocator(
+			IServerPortProvider serverPortProvider,
+			IDatabaseContext databaseContext,
+			IOptions<SwarmConfiguration> swarmConfigurationOptions,
+			ILogger<PortAllocator> logger)
 		{
 			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
 			this.databaseContext = databaseContext ?? throw new ArgumentNullException(nameof(databaseContext));
+			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
@@ -49,6 +62,7 @@ namespace Tgstation.Server.Host.Core
 			var ddPorts = await databaseContext
 				.DreamDaemonSettings
 				.AsQueryable()
+				.Where(x => x.Instance.SwarmIdentifer == swarmConfiguration.Identifier)
 				.Select(x => x.Port)
 				.ToListAsync(cancellationToken)
 				.ConfigureAwait(false);
@@ -56,6 +70,7 @@ namespace Tgstation.Server.Host.Core
 			var dmPorts = await databaseContext
 				.DreamMakerSettings
 				.AsQueryable()
+				.Where(x => x.Instance.SwarmIdentifer == swarmConfiguration.Identifier)
 				.Select(x => x.ApiValidationPort)
 				.ToListAsync(cancellationToken)
 				.ConfigureAwait(false);
