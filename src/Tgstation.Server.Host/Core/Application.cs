@@ -450,7 +450,7 @@ namespace Tgstation.Server.Host.Core
 			}
 			else if (controlPanelConfiguration.AllowedOrigins?.Count > 0)
 			{
-				logger.LogTrace("Access-Control-Allow-Origin: ", String.Join(',', controlPanelConfiguration.AllowedOrigins));
+				logger.LogTrace("Access-Control-Allow-Origin: {0}", String.Join(',', controlPanelConfiguration.AllowedOrigins));
 				corsBuilder = builder => builder.WithOrigins(controlPanelConfiguration.AllowedOrigins.ToArray());
 			}
 
