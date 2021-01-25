@@ -1,5 +1,7 @@
 using System;
+using Microsoft.Extensions.Options;
 using Octokit;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Core
@@ -13,34 +15,42 @@ namespace Tgstation.Server.Host.Core
 		readonly IAssemblyInformationProvider assemblyInformationProvider;
 
 		/// <summary>
+		/// The <see cref="GeneralConfiguration"/> for the <see cref="GitHubClientFactory"/>.
+		/// </summary>
+		readonly GeneralConfiguration generalConfiguration;
+
+		/// <summary>
 		/// Construct a <see cref="GitHubClientFactory"/>
 		/// </summary>
-		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/></param>
-		public GitHubClientFactory(IAssemblyInformationProvider assemblyInformationProvider)
+		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
+		/// 
+		public GitHubClientFactory(IAssemblyInformationProvider assemblyInformationProvider, IOptions<GeneralConfiguration> generalConfigurationOptions)
 		{
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
+			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
 		}
 
 		/// <summary>
-		/// Create a <see cref="GitHubClient"/>
+		/// Create a <see cref="GitHubClient"/>.
 		/// </summary>
+		/// <param name="accessToken">Optional access token to use as credentials.</param>
 		/// <returns>A new <see cref="GitHubClient"/></returns>
-		GitHubClient CreateBaseClient() => new GitHubClient(
-			new ProductHeaderValue(
-				assemblyInformationProvider.ProductInfoHeaderValue.Product.Name,
-				assemblyInformationProvider.ProductInfoHeaderValue.Product.Version));
-
-		/// <inheritdoc />
-		public IGitHubClient CreateClient() => CreateBaseClient();
-
-		/// <inheritdoc />
-		public IGitHubClient CreateClient(string accessToken)
+		GitHubClient CreateClientImpl(string accessToken)
 		{
-			if (accessToken == null)
-				throw new ArgumentNullException(nameof(accessToken));
-			var result = CreateBaseClient();
-			result.Credentials = new Credentials(accessToken);
-			return result;
+			var client = new GitHubClient(
+				new ProductHeaderValue(
+					assemblyInformationProvider.ProductInfoHeaderValue.Product.Name,
+					assemblyInformationProvider.ProductInfoHeaderValue.Product.Version));
+			if (accessToken != null)
+				client.Credentials = new Credentials(accessToken);
+
+			return client;
 		}
+
+		/// <inheritdoc />
+		public IGitHubClient CreateClient() => CreateClientImpl(generalConfiguration.GitHubAccessToken);
+
+		/// <inheritdoc />
+		public IGitHubClient CreateClient(string accessToken) => CreateClientImpl(accessToken ?? throw new ArgumentNullException(nameof(accessToken)));
 	}
 }
