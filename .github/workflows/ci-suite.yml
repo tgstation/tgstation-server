@@ -31,7 +31,7 @@ jobs:
       run: |
         sudo dpkg --add-architecture i386
         sudo apt-get update
-        sudo apt-get install -y libc6-i386 libstdc++6:i386
+        sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386
 
     - name: Install BYOND
       if: steps.cache-byond.outputs.cache-hit != 'true'
@@ -315,7 +315,7 @@ jobs:
       run: |
         sudo dpkg --add-architecture i386
         sudo apt-get update
-        sudo apt-get install -y libc6-i386 libstdc++6:i386 gdb
+        sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 gdb
 
     - name: Install Node 12.X
       uses: actions/setup-node@v1
