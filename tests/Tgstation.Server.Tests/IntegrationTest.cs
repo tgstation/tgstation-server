@@ -257,7 +257,7 @@ namespace Tgstation.Server.Tests
 					await Assert.ThrowsExceptionAsync<ConflictException>(() => node1Client.Instances.GetId(controllerInstance, cancellationToken));
 
 					// test update
-					var testUpdateVersion = new Version(4, 6, 2);
+					var testUpdateVersion = new Version(4, 8, 1);
 					await node1Client.Administration.Update(
 						new Administration
 						{
