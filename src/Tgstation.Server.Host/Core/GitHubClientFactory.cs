@@ -23,7 +23,7 @@ namespace Tgstation.Server.Host.Core
 		/// Construct a <see cref="GitHubClientFactory"/>
 		/// </summary>
 		/// <param name="assemblyInformationProvider">The value of <see cref="assemblyInformationProvider"/>.</param>
-		/// 
+		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
 		public GitHubClientFactory(IAssemblyInformationProvider assemblyInformationProvider, IOptions<GeneralConfiguration> generalConfigurationOptions)
 		{
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));
