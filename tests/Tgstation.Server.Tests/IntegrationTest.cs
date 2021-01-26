@@ -276,7 +276,32 @@ namespace Tgstation.Server.Tests
 
 						var updatedAssemblyVersion = FileVersionInfo.GetVersionInfo(updatedAssemblyPath);
 						Assert.AreEqual(testUpdateVersion, Version.Parse(updatedAssemblyVersion.FileVersion).Semver());
+						Directory.Delete(server.UpdatePath, true);
 					}
+
+					CheckServerUpdated(controller);
+					CheckServerUpdated(node1);
+					CheckServerUpdated(node2);
+
+					// regression: test it also works from the controller
+					serverTask = Task.WhenAll(
+						node1.Run(cancellationToken),
+						node2.Run(cancellationToken),
+						controller.Run(cancellationToken));
+
+					using var controllerClient2 = await CreateAdminClient(controller.Url, cancellationToken);
+					using var node1Client2 = await CreateAdminClient(node1.Url, cancellationToken);
+					using var node2Client2 = await CreateAdminClient(node2.Url, cancellationToken);
+
+					await controllerClient2.Administration.Update(
+						new Administration
+						{
+							NewVersion = testUpdateVersion
+						},
+						cancellationToken);
+
+					await Task.WhenAny(Task.Delay(TimeSpan.FromMinutes(2)), serverTask);
+					Assert.IsTrue(serverTask.IsCompleted);
 
 					CheckServerUpdated(controller);
 					CheckServerUpdated(node1);
