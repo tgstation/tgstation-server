@@ -29,7 +29,7 @@
   <Target Name="ClientInstall" Inputs="../../build/ControlPanelVersion.props" Outputs="$(NpmInstallStampFile)">
     <Message Text="Pulling web control panel..." Importance="high" />
     <RemoveDir Directories="ClientApp" />
-    <Exec Command="git clone https://github.com/tgstation/tgstation-server-control-panel --branch v$(TgsControlPanelVersion) --depth 1 ClientApp" />
+    <Exec Command="git clone https://github.com/tgstation/tgstation-server-webpanel --branch v$(TgsControlPanelVersion) --depth 1 ClientApp" />
     <Message Text="Restoring npm packages..." Importance="high" />
     <Exec WorkingDirectory="ClientApp" Command="npm ci" />
     <Touch Files="$(NpmInstallStampFile)" AlwaysCreate="true" />
