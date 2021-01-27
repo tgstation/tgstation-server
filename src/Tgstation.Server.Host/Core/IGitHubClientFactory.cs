@@ -8,7 +8,7 @@ namespace Tgstation.Server.Host.Core
 	public interface IGitHubClientFactory
 	{
 		/// <summary>
-		/// Create a client with anonymous authentication or general authentica. Low rate limit. Attempts to use the server's token to bypass this.
+		/// Create a <see cref="IGitHubClient"/> client. Low rate limit unless the server's GitHubAccessToken is set to bypass it.
 		/// </summary>
 		/// <returns>A new <see cref="IGitHubClient"/>.</returns>
 		IGitHubClient CreateClient();
