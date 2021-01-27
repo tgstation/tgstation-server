@@ -91,12 +91,12 @@ namespace Tgstation.Server.Tests
 				var updatedAssemblyVersion = FileVersionInfo.GetVersionInfo(updatedAssemblyPath);
 				Assert.AreEqual(testUpdateVersion, Version.Parse(updatedAssemblyVersion.FileVersion).Semver());
 			}
-			catch (RateLimitException)
+			catch (RateLimitException ex)
 			{
 				if (String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS4_TEST_GITHUB_TOKEN")))
 					throw;
 
-				Assert.Inconclusive("GitHub rate limit hit!");
+				Assert.Inconclusive("GitHub rate limit hit: {0}", ex);
 			}
 			finally
 			{
@@ -306,6 +306,13 @@ namespace Tgstation.Server.Tests
 					CheckServerUpdated(controller);
 					CheckServerUpdated(node1);
 					CheckServerUpdated(node2);
+				}
+				catch (RateLimitException ex)
+				{
+					if (String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS4_TEST_GITHUB_TOKEN")))
+						throw;
+
+					Assert.Inconclusive("GitHub rate limit hit: {0}", ex);
 				}
 				finally
 				{
