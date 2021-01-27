@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Core.IGitHubClientFactory.CreateClient" name="Tgstation.Server.Host.Core.IGitHubClientFactory.CreateClient">
-<area shape="rect" id="node1" title="Create a client with anonymous authentication or general authentica. Low rate limit...." alt="" coords="348,301,565,343"/>
+<area shape="rect" id="node1" title="Create a IGitHubClient client. Low rate limit unless the server&#39;s GitHubAccessToken is set to bypass ..." alt="" coords="348,301,565,343"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_initiator.html#a4c3a9caf1ac3ca902fe3160d3cd21547" title="Start the process of downloading and applying an update to a new server version ." alt="" coords="41,5,264,47"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a95d653f6a93a8a416b7829c77203aa68" title="Create a comment of a given testMergeNumber &#39;s source." alt="" coords="5,70,300,126"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html#ad05a5a2f0cb92c122dad420104c6c1c4" title="Implementation of GetTestMerge(TestMergeParameters, RepositorySettings, CancellationToken)" alt="" coords="29,150,276,206"/>

@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.8.1</span>
+   &#160;<span id="projectnumber">4.8.2</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -91,7 +91,7 @@ Inheritance diagram for Tgstation.Server.Host.Core.IGitHubClientFactory:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a9043597fb0563f7fb0ed751819aa7525"><td class="memItemLeft" align="right" valign="top">IGitHubClient&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html#a9043597fb0563f7fb0ed751819aa7525">CreateClient</a> ()</td></tr>
-<tr class="memdesc:a9043597fb0563f7fb0ed751819aa7525"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a client with anonymous authentication or general authentica. Low rate limit. Attempts to use the server's token to bypass this.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html#a9043597fb0563f7fb0ed751819aa7525">More...</a><br /></td></tr>
+<tr class="memdesc:a9043597fb0563f7fb0ed751819aa7525"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a IGitHubClient client. Low rate limit unless the server's GitHubAccessToken is set to bypass it.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html#a9043597fb0563f7fb0ed751819aa7525">More...</a><br /></td></tr>
 <tr class="separator:a9043597fb0563f7fb0ed751819aa7525"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b084c659f289f370933fe1b53e55ce9"><td class="memItemLeft" align="right" valign="top">IGitHubClient&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html#a9b084c659f289f370933fe1b53e55ce9">CreateClient</a> (string accessToken)</td></tr>
 <tr class="memdesc:a9b084c659f289f370933fe1b53e55ce9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a client with authentication using a personal access token  <a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html#a9b084c659f289f370933fe1b53e55ce9">More...</a><br /></td></tr>
@@ -117,7 +117,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Create a client with anonymous authentication or general authentica. Low rate limit. Attempts to use the server's token to bypass this. </p>
+<p>Create a IGitHubClient client. Low rate limit unless the server's GitHubAccessToken is set to bypass it. </p>
 <dl class="section return"><dt>Returns</dt><dd>A new IGitHubClient.</dd></dl>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_git_hub_client_factory.html#ab32f8e03603c878ebc0affdc144facd0">Tgstation.Server.Host.Core.GitHubClientFactory</a>.</p>
@@ -128,7 +128,7 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory_a9043597fb0563f7fb0ed751819aa7525_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory_a9043597fb0563f7fb0ed751819aa7525_icgraph" alt=""/></div>
 <map name="ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory_a9043597fb0563f7fb0ed751819aa7525_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory_a9043597fb0563f7fb0ed751819aa7525_icgraph">
-<area shape="rect" title="Create a client with anonymous authentication or general authentica. Low rate limit...." alt="" coords="348,301,565,343"/>
+<area shape="rect" title="Create a IGitHubClient client. Low rate limit unless the server&#39;s GitHubAccessToken is set to bypass ..." alt="" coords="348,301,565,343"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_server_update_initiator.html#a4c3a9caf1ac3ca902fe3160d3cd21547" title="Start the process of downloading and applying an update to a new server version ." alt="" coords="41,5,264,47"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_git_hub_remote_deployment_manager.html#a95d653f6a93a8a416b7829c77203aa68" title="Create a comment of a given testMergeNumber &#39;s source." alt="" coords="5,70,300,126"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_git_hub_remote_features.html#ad05a5a2f0cb92c122dad420104c6c1c4" title="Implementation of GetTestMerge(TestMergeParameters, RepositorySettings, CancellationToken)" alt="" coords="29,150,276,206"/>

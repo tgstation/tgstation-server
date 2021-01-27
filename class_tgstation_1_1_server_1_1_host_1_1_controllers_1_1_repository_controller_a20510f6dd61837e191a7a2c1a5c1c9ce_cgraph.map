@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Controllers.RepositoryController.Update" name="Tgstation.Server.Host.Controllers.RepositoryController.Update">
 <area shape="rect" id="node1" title="Perform updats to the Repository." alt="" coords="5,253,221,295"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html#a9043597fb0563f7fb0ed751819aa7525" title="Create a client with anonymous authentication or general authentica. Low rate limit...." alt="" coords="297,5,515,47"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_git_hub_client_factory.html#a9043597fb0563f7fb0ed751819aa7525" title="Create a IGitHubClient client. Low rate limit unless the server&#39;s GitHubAccessToken is set to bypass ..." alt="" coords="297,5,515,47"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType" alt="" coords="305,71,507,112"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f" title="Generic 410 response." alt="" coords="298,136,514,177"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#aa50a2c5f9429a3b52acd47e157f93e47" title=" " alt="" coords="591,224,876,265"/>
