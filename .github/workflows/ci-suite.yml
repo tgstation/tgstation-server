@@ -272,7 +272,7 @@ jobs:
         ports:
           - 5432:5432
         env:
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_PASSWORD: cyberboss/postgres-max-connections # Fork of _/postgres:latest with max_connections=500 becuase GitHub actions service containers have no way to set command lines. Rebuilds with updates.
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
