@@ -268,12 +268,11 @@ jobs:
     needs: dmapi-build
     services: # We start all dbs here so we can just code the stuff once
       postgres:
-        image: postgres
+        image: cyberboss/postgres-max-connections # Fork of _/postgres:latest with max_connections=500 becuase GitHub actions service containers have no way to set command lines. Rebuilds with updates.
         ports:
           - 5432:5432
         env:
-          POSTGRES_PASSWORD: cyberboss/postgres-max-connections # Fork of _/postgres:latest with max_connections=500 becuase GitHub actions service containers have no way to set command lines. Rebuilds with updates.
-        # Set health checks to wait until postgres has started
+          POSTGRES_PASSWORD: postgres
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
