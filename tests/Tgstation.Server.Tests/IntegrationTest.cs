@@ -504,6 +504,13 @@ namespace Tgstation.Server.Tests
 					Assert.AreEqual(2, node2Info.SwarmServers.Count);
 					Assert.IsNotNull(node2Info.SwarmServers.SingleOrDefault(x => x.Identifier == "controller"));
 				}
+				catch (RateLimitException ex)
+				{
+					if (String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS4_TEST_GITHUB_TOKEN")))
+						throw;
+
+					Assert.Inconclusive("GitHub rate limit hit: {0}", ex);
+				}
 				finally
 				{
 					serverCts.Cancel();
