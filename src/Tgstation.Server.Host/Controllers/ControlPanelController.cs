@@ -41,6 +41,30 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
+		/// Returns the <see cref="ControlPanelConfiguration.Channel"/>.
+		/// </summary>
+		/// <returns>A <see cref="JsonResult"/> with the <see cref="ControlPanelConfiguration.Channel"/>.</returns>
+		[Route("channel.json")]
+		[HttpGet]
+		public JsonResult GetChannelJson()
+		{
+			var controlPanelChannel = controlPanelConfiguration.Channel;
+			if (controlPanelChannel == "local")
+				controlPanelChannel = "/";
+
+			controlPanelChannel = controlPanelChannel
+				.Replace("${Major}", ApiHeaders.Version.Major.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal)
+				.Replace("${Minor}", ApiHeaders.Version.Minor.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal)
+				.Replace("${Patch}", ApiHeaders.Version.Build.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal);
+
+			return Json(new
+			{
+				FormatVersion = 1,
+				Channel = controlPanelChannel,
+			});
+		}
+
+		/// <summary>
 		/// Handle a GET request to the control panel route. Route to static files if they exist, otherwise index.html.
 		/// </summary>
 		/// <param name="appRoute">The value of the route.</param>
@@ -64,30 +88,6 @@ namespace Tgstation.Server.Host.Controllers
 			}
 
 			return File("index.html", MediaTypeNames.Text.Html);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		[Route("channel.json")]
-		[HttpGet]
-		public JsonResult GetChannelJson()
-		{
-			var controlPanelChannel = controlPanelConfiguration.Channel;
-			if (controlPanelChannel == "local")
-				controlPanelChannel = "/";
-
-			controlPanelChannel = controlPanelChannel
-				.Replace("${Major}", ApiHeaders.Version.Major.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal)
-				.Replace("${Minor}", ApiHeaders.Version.Minor.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal)
-				.Replace("${Patch}", ApiHeaders.Version.Build.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal);
-
-			return Json(new
-			{
-				FormatVersion = 1,
-				Channel = controlPanelChannel,
-			});
 		}
 	}
 }
