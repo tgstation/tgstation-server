@@ -1,10 +1,14 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 using System;
+using System.Globalization;
 using System.Net.Mime;
+using Tgstation.Server.Api;
+using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host.Controllers
@@ -21,12 +25,43 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IWebHostEnvironment hostEnvironment;
 
 		/// <summary>
+		/// The <see cref="ControlPanelConfiguration"/> for the <see cref="ControlPanelController"/>.
+		/// </summary>
+		readonly ControlPanelConfiguration controlPanelConfiguration;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="ControlPanelController"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="hostEnvironment">The value of <see cref="hostEnvironment"/>.</param>
-		public ControlPanelController(IWebHostEnvironment hostEnvironment)
+		/// <param name="controlPanelConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="controlPanelConfiguration"/>.</param>
+		public ControlPanelController(IWebHostEnvironment hostEnvironment, IOptions<ControlPanelConfiguration> controlPanelConfigurationOptions)
 		{
 			this.hostEnvironment = hostEnvironment ?? throw new ArgumentNullException(nameof(hostEnvironment));
+			controlPanelConfiguration = controlPanelConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(controlPanelConfigurationOptions));
+		}
+
+		/// <summary>
+		/// Returns the <see cref="ControlPanelConfiguration.Channel"/>.
+		/// </summary>
+		/// <returns>A <see cref="JsonResult"/> with the <see cref="ControlPanelConfiguration.Channel"/>.</returns>
+		[Route("channel.json")]
+		[HttpGet]
+		public JsonResult GetChannelJson()
+		{
+			var controlPanelChannel = controlPanelConfiguration.Channel;
+			if (controlPanelChannel == "local")
+				controlPanelChannel = Application.ControlPanelRoute;
+
+			controlPanelChannel = controlPanelChannel
+				.Replace("${Major}", ApiHeaders.Version.Major.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal)
+				.Replace("${Minor}", ApiHeaders.Version.Minor.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal)
+				.Replace("${Patch}", ApiHeaders.Version.Build.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal);
+
+			return Json(new
+			{
+				FormatVersion = 1,
+				Channel = controlPanelChannel,
+			});
 		}
 
 		/// <summary>
