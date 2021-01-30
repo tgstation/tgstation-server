@@ -235,7 +235,7 @@ namespace Tgstation.Server.Host.Controllers
 				return;
 			}
 
-			logger.LogDebug("Starting swarm request processing...");
+			logger.LogTrace("Starting swarm request processing...");
 			await base.OnActionExecutionAsync(context, next).ConfigureAwait(false);
 		}
 	}

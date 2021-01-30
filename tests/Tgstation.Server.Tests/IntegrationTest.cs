@@ -91,12 +91,12 @@ namespace Tgstation.Server.Tests
 				var updatedAssemblyVersion = FileVersionInfo.GetVersionInfo(updatedAssemblyPath);
 				Assert.AreEqual(testUpdateVersion, Version.Parse(updatedAssemblyVersion.FileVersion).Semver());
 			}
-			catch (RateLimitException)
+			catch (RateLimitException ex)
 			{
 				if (String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS4_TEST_GITHUB_TOKEN")))
 					throw;
 
-				Assert.Inconclusive("GitHub rate limit hit!");
+				Assert.Inconclusive("GitHub rate limit hit: {0}", ex);
 			}
 			finally
 			{
@@ -257,7 +257,7 @@ namespace Tgstation.Server.Tests
 					await Assert.ThrowsExceptionAsync<ConflictException>(() => node1Client.Instances.GetId(controllerInstance, cancellationToken));
 
 					// test update
-					var testUpdateVersion = new Version(4, 6, 2);
+					var testUpdateVersion = new Version(4, 8, 1);
 					await node1Client.Administration.Update(
 						new Administration
 						{
@@ -276,11 +276,43 @@ namespace Tgstation.Server.Tests
 
 						var updatedAssemblyVersion = FileVersionInfo.GetVersionInfo(updatedAssemblyPath);
 						Assert.AreEqual(testUpdateVersion, Version.Parse(updatedAssemblyVersion.FileVersion).Semver());
+						Directory.Delete(server.UpdatePath, true);
 					}
 
 					CheckServerUpdated(controller);
 					CheckServerUpdated(node1);
 					CheckServerUpdated(node2);
+
+					// regression: test it also works from the controller
+					serverTask = Task.WhenAll(
+						node1.Run(cancellationToken),
+						node2.Run(cancellationToken),
+						controller.Run(cancellationToken));
+
+					using var controllerClient2 = await CreateAdminClient(controller.Url, cancellationToken);
+					using var node1Client2 = await CreateAdminClient(node1.Url, cancellationToken);
+					using var node2Client2 = await CreateAdminClient(node2.Url, cancellationToken);
+
+					await controllerClient2.Administration.Update(
+						new Administration
+						{
+							NewVersion = testUpdateVersion
+						},
+						cancellationToken);
+
+					await Task.WhenAny(Task.Delay(TimeSpan.FromMinutes(2)), serverTask);
+					Assert.IsTrue(serverTask.IsCompleted);
+
+					CheckServerUpdated(controller);
+					CheckServerUpdated(node1);
+					CheckServerUpdated(node2);
+				}
+				catch (RateLimitException ex)
+				{
+					if (String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS4_TEST_GITHUB_TOKEN")))
+						throw;
+
+					Assert.Inconclusive("GitHub rate limit hit: {0}", ex);
 				}
 				finally
 				{
@@ -471,6 +503,13 @@ namespace Tgstation.Server.Tests
 					node2Info = await node2Client2.ServerInformation(cancellationToken);
 					Assert.AreEqual(2, node2Info.SwarmServers.Count);
 					Assert.IsNotNull(node2Info.SwarmServers.SingleOrDefault(x => x.Identifier == "controller"));
+				}
+				catch (RateLimitException ex)
+				{
+					if (String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TGS4_TEST_GITHUB_TOKEN")))
+						throw;
+
+					Assert.Inconclusive("GitHub rate limit hit: {0}", ex);
 				}
 				finally
 				{

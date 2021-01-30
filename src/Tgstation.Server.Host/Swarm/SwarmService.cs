@@ -535,6 +535,11 @@ namespace Tgstation.Server.Host.Swarm
 						return false;
 					}
 				}
+				else
+				{
+					logger.LogTrace("No need to re-initiate update as it originated here on the swarm controller");
+					updateCommitTcs = new TaskCompletionSource<bool>();
+				}
 
 				logger.LogDebug("Prepared for update to version {0}", version);
 			}

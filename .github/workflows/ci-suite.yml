@@ -31,7 +31,7 @@ jobs:
       run: |
         sudo dpkg --add-architecture i386
         sudo apt-get update
-        sudo apt-get install -y libc6-i386 libstdc++6:i386
+        sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386
 
     - name: Install BYOND
       if: steps.cache-byond.outputs.cache-hit != 'true'
@@ -268,12 +268,11 @@ jobs:
     needs: dmapi-build
     services: # We start all dbs here so we can just code the stuff once
       postgres:
-        image: postgres
+        image: cyberboss/postgres-max-connections # Fork of _/postgres:latest with max_connections=500 becuase GitHub actions service containers have no way to set command lines. Rebuilds with updates.
         ports:
           - 5432:5432
         env:
           POSTGRES_PASSWORD: postgres
-        # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -315,7 +314,7 @@ jobs:
       run: |
         sudo dpkg --add-architecture i386
         sudo apt-get update
-        sudo apt-get install -y libc6-i386 libstdc++6:i386 gdb
+        sudo apt-get install -y -o APT::Immediate-Configure=0 libc6-i386 libstdc++6:i386 gdb
 
     - name: Install Node 12.X
       uses: actions/setup-node@v1
