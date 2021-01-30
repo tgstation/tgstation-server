@@ -22,6 +22,9 @@ namespace Tgstation.Server.Host.Configuration
 		/// </summary>
 		public bool AllowAnyOrigin { get; set; }
 
+		/// <summary>
+		/// The channel to retrieve the webpanel from. "local" uses the bundled version.
+		/// </summary>
 		public string Channel { get; set; }
 
 		/// <summary>
