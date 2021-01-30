@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.8.2</span>
+   &#160;<span id="projectnumber">4.9.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -103,6 +103,9 @@ Properties</h2></td></tr>
 <tr class="memitem:a5c0b28cdbd801a02bce701901a060818"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#a5c0b28cdbd801a02bce701901a060818">AllowAnyOrigin</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a5c0b28cdbd801a02bce701901a060818"><td class="mdescLeft">&#160;</td><td class="mdescRight">If any origin is allowed for CORS requests. This overrides <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#afe978b9a640bef63953d313e3a483092" title="Origins allowed for CORS requests">AllowedOrigins</a>  <a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#a5c0b28cdbd801a02bce701901a060818">More...</a><br /></td></tr>
 <tr class="separator:a5c0b28cdbd801a02bce701901a060818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31996f6cfff0a0e0985e935723c07d0f"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#a31996f6cfff0a0e0985e935723c07d0f">Channel</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a31996f6cfff0a0e0985e935723c07d0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The channel to retrieve the webpanel from. "local" uses the bundled version.  <a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#a31996f6cfff0a0e0985e935723c07d0f">More...</a><br /></td></tr>
+<tr class="separator:a31996f6cfff0a0e0985e935723c07d0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe978b9a640bef63953d313e3a483092"><td class="memItemLeft" align="right" valign="top">ICollection&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#afe978b9a640bef63953d313e3a483092">AllowedOrigins</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:afe978b9a640bef63953d313e3a483092"><td class="mdescLeft">&#160;</td><td class="mdescRight">Origins allowed for CORS requests  <a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#afe978b9a640bef63953d313e3a483092">More...</a><br /></td></tr>
 <tr class="separator:afe978b9a640bef63953d313e3a483092"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -190,9 +193,38 @@ Properties</h2></td></tr>
 
 <p>Origins allowed for CORS requests </p>
 
+<p class="definition">Definition at line <a class="el" href="_control_panel_configuration_8cs_source.html#l00033">33</a> of file <a class="el" href="_control_panel_configuration_8cs_source.html">ControlPanelConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a31996f6cfff0a0e0985e935723c07d0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31996f6cfff0a0e0985e935723c07d0f">&#9670;&nbsp;</a></span>Channel</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Tgstation.Server.Host.Configuration.ControlPanelConfiguration.Channel</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The channel to retrieve the webpanel from. "local" uses the bundled version. </p>
+
 <p class="definition">Definition at line <a class="el" href="_control_panel_configuration_8cs_source.html#l00028">28</a> of file <a class="el" href="_control_panel_configuration_8cs_source.html">ControlPanelConfiguration.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="_control_panel_controller_8cs_source.html#l00049">Tgstation.Server.Host.Controllers.ControlPanelController.GetChannelJson()</a>.</p>
+
 </div>
 </div>
 <a id="a15564859b17400f1bcc723a5fbee8121"></a>
