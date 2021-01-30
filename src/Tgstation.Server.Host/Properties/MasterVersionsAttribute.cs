@@ -37,6 +37,11 @@ namespace Tgstation.Server.Host.Properties
 		public string RawHostWatchdogVersion { get; }
 
 		/// <summary>
+		/// The compile time default
+		/// </summary>
+		public string DefaultControlPanelChannel { get; }
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="MasterVersionsAttribute"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="rawConfigurationVersion">The value of <see cref="RawConfigurationVersion"/>.</param>
