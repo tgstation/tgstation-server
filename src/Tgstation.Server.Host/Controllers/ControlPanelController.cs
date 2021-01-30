@@ -50,7 +50,7 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			var controlPanelChannel = controlPanelConfiguration.Channel;
 			if (controlPanelChannel == "local")
-				controlPanelChannel = "/";
+				controlPanelChannel = Application.ControlPanelRoute;
 
 			controlPanelChannel = controlPanelChannel
 				.Replace("${Major}", ApiHeaders.Version.Major.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal)
