@@ -157,7 +157,7 @@ namespace Tgstation.Server.Tests.Instance
 				AdditionalParameters = "test=bababooey"
 			}, cancellationToken);
 			Assert.AreEqual("test=bababooey", daemonStatus.AdditionalParameters);
-			daemonStatus = await DeployTestDme("BasicOperation/basic_operation_test", DreamDaemonSecurity.Ultrasafe, true, cancellationToken);
+			daemonStatus = await DeployTestDme("BasicOperation/basic_operation_test", DreamDaemonSecurity.Trusted, true, cancellationToken);
 
 			Assert.AreEqual(WatchdogStatus.Offline, daemonStatus.Status.Value);
 			Assert.IsNotNull(daemonStatus.ActiveCompileJob);
