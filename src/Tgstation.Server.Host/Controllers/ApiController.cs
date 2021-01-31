@@ -182,9 +182,6 @@ namespace Tgstation.Server.Host.Controllers
 			if (headersException.MissingOrMalformedHeaders.HasFlag(HeaderTypes.Accept))
 				return StatusCode(HttpStatusCode.NotAcceptable, errorMessage);
 
-			if (headersException.MissingOrMalformedHeaders == HeaderTypes.Authorization)
-				return Unauthorized(errorMessage);
-
 			return BadRequest(errorMessage);
 		}
 

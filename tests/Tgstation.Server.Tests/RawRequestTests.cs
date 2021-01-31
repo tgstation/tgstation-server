@@ -136,6 +136,20 @@ namespace Tgstation.Server.Tests
 				Assert.AreEqual(ErrorCode.InstanceHeaderRequired, message.ErrorCode);
 			}
 
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString()))
+			{
+				request.Headers.Accept.Clear();
+				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
+				request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+				request.Headers.Add(ApiHeaders.ApiVersionHeader, "Tgstation.Server.Api/" + ApiHeaders.Version);
+				request.Headers.Authorization = new AuthenticationHeaderValue(ApiHeaders.BearerAuthenticationScheme.ToLower(), token);
+				using var response = await httpClient.SendAsync(request, cancellationToken);
+				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+				var content = await response.Content.ReadAsStringAsync();
+				var message = JsonConvert.DeserializeObject<ErrorMessage>(content);
+				Assert.AreEqual(ErrorCode.BadHeaders, message.ErrorCode);
+			}
+
 			using (var request = new HttpRequestMessage(HttpMethod.Post, url.ToString()))
 			{
 				request.Headers.Accept.Clear();
