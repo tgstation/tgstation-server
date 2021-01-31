@@ -17,7 +17,7 @@
 	var/list/world_params = params2list(world.params)
 	if(!("test" in world_params) || world_params["test"] != "bababooey")
 		text2file("Expected parameter test=bababooey but did not receive", "test_fail_reason.txt")
-		
+
 	world.log << "sleep2"
 	sleep(150)
 	world.log << "Terminating..."
