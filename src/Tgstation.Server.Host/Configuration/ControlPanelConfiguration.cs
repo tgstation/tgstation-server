@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Tgstation.Server.Host.Configuration
 {
@@ -21,6 +21,11 @@ namespace Tgstation.Server.Host.Configuration
 		/// If any origin is allowed for CORS requests. This overrides <see cref="AllowedOrigins"/>
 		/// </summary>
 		public bool AllowAnyOrigin { get; set; }
+
+		/// <summary>
+		/// The channel to retrieve the webpanel from. "local" uses the bundled version.
+		/// </summary>
+		public string Channel { get; set; }
 
 		/// <summary>
 		/// Origins allowed for CORS requests

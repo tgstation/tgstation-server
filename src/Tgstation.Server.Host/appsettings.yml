@@ -28,6 +28,7 @@ Logging:
       Microsoft: Warning
 ControlPanel:
   Enable: false
+  Channel: https://tgstation.github.io/tgstation-server-webpanel/api/${Major}.${Minor}.${Patch}
   AllowAnyOrigin: false
   AllowedOrigins: []
 Updates:
