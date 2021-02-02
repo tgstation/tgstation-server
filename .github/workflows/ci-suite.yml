@@ -721,13 +721,13 @@ jobs:
           &"C:/Program Files/7-Zip/7z.exe" a ServerUpdatePackage.zip ./ServerUpdatePackage/* -tzip
 
       - name: Generate Release Notes
-        run: dotnet run -c Release -p tools/ReleaseNotes ${{ env.TGS_VERSION }}
+        run: dotnet run -c Release -p tools/ReleaseNotes ${{ secrets.DEV_PUSH_TOKEN }}
 
       - name: Create GitHub Release
         uses: actions/create-release@v1
         id: create_release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+          GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
         with:
           tag_name: tgstation-server-v${{ env.TGS_VERSION }}
           release_name: tgstation-server-v${{ env.TGS_VERSION }}
@@ -737,7 +737,7 @@ jobs:
       - name: Upload Server Console Artifact
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./ServerConsole.zip
@@ -747,7 +747,7 @@ jobs:
       - name: Upload Server Service Artifact
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./ServerService.zip
@@ -757,7 +757,7 @@ jobs:
       - name: Upload DMAPI Artifact
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./DMAPI.zip
@@ -767,7 +767,7 @@ jobs:
       - name: Upload OpenApi Spec Artifact
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./swagger/swagger.json
@@ -777,7 +777,7 @@ jobs:
       - name: Upload Server Update Package Artifact
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./ServerUpdatePackage.zip
