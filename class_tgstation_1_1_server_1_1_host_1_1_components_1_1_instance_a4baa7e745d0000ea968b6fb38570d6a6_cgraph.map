@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Instance.RepositoryAutoUpdateJob" name="Tgstation.Server.Host.Components.Instance.RepositoryAutoUpdateJob">
-<area shape="rect" id="node1" title=" " alt="" coords="5,85,232,126"/>
+<area shape="rect" id="node1" title="The JobEntrypoint for updating the repository." alt="" coords="5,85,232,126"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_remote_1_1_i_remote_deployment_manager_factory.html#a4115cea1f220c4fdaede74566aa848d3" title="Creates a IRemoteDeploymentManager for a given remoteGitProvider ." alt="" coords="280,5,599,61"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#afcab0cdc52ae45ecd0dfba5c7630e303" title="Attempt to load the IRepository from the default location" alt="" coords="294,85,585,126"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository.html#a7d75a9e231bf808aab132ec9de724ff6" title="Construct a Repository" alt="" coords="326,153,553,194"/>

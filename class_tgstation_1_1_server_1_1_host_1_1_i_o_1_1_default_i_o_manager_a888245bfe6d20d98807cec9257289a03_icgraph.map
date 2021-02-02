@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.IO.DefaultIOManager.OpenWriteStream" name="Tgstation.Server.Host.IO.DefaultIOManager.OpenWriteStream">
-<area shape="rect" id="node1" title="Opens a FileStream for async writing at a given path" alt="" coords="261,5,495,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#adfa411bbedf8ffc430cb9fcf0a6e6fe4" title="Writes some contents &#160;to a file at path &#160;overwriting previous content" alt="" coords="5,5,213,47"/>
-</map>
