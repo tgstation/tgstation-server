@@ -842,11 +842,24 @@ namespace Tgstation.Server.Host.Setup
 				{ SwarmConfiguration.Section, swarmConfiguration },
 			};
 
+			var builder = new SerializerBuilder()
+				.WithTypeConverter(new VersionConverter());
+
+			if (userConfigFileName.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
+				builder.JsonCompatible();
+
 			var serializer = new SerializerBuilder()
 				.WithTypeConverter(new VersionConverter())
 				.Build();
 
 			var serializedYaml = serializer.Serialize(map);
+
+			// big hack, but, prevent the default control panel channel from being overridden
+			serializedYaml = serializedYaml.Replace(
+				$"\n  {nameof(ControlPanelConfiguration.Channel)}: ",
+				String.Empty,
+				StringComparison.Ordinal)
+				.Replace("\r", String.Empty, StringComparison.Ordinal);
 
 			var configBytes = Encoding.UTF8.GetBytes(serializedYaml);
 

@@ -41,7 +41,7 @@ namespace Tgstation.Server.Host.Core
 				new ProductHeaderValue(
 					assemblyInformationProvider.ProductInfoHeaderValue.Product.Name,
 					assemblyInformationProvider.ProductInfoHeaderValue.Product.Version));
-			if (accessToken != null)
+			if (!String.IsNullOrWhiteSpace(accessToken))
 				client.Credentials = new Credentials(accessToken);
 
 			return client;
