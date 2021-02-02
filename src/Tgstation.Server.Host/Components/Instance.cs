@@ -152,6 +152,16 @@ namespace Tgstation.Server.Host.Components
 			}
 		}
 
+		/// <summary>
+		/// The <see cref="JobEntrypoint"/> for updating the repository.
+		/// </summary>
+		/// <param name="core">The <see cref="IInstanceCore"/> for the <paramref name="job"/>.</param>
+		/// <param name="databaseContextFactory">The <see cref="IDatabaseContextFactory"/> for the <paramref name="job"/>.</param>
+		/// <param name="job">The <see cref="Job"/> being run.</param>
+		/// <param name="progressReporter">The progress reporter action for the <paramref name="job"/>.</param>
+		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
+		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
+#pragma warning disable CA1502	// Cyclomatic complexity
 		Task RepositoryAutoUpdateJob(
 			IInstanceCore core,
 			IDatabaseContextFactory databaseContextFactory,
@@ -350,6 +360,7 @@ namespace Tgstation.Server.Host.Components
 
 			progressReporter(5 * ProgressStep);
 		});
+#pragma warning restore CA1502   // Cyclomatic complexity
 
 		/// <summary>
 		/// Pull the repository and compile for every set of given <paramref name="minutes"/>
