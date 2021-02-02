@@ -32,6 +32,7 @@ namespace Tgstation.Server.Host.Components.Events
 		/// <summary>
 		/// Parameters: Absolute path to repository root
 		/// </summary>
+		/// <remarks>Changes made to the repository during this event will be pushed to the tracked branch if no test merges are present.</remarks>
 		[EventScript("PreSynchronize")]
 		RepoPreSynchronize,
 
