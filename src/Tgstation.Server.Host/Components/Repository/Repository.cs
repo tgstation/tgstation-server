@@ -610,7 +610,14 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> Sychronize(string username, string password, string committerName, string committerEmail, Action<int> progressReporter, bool synchronizeTrackedBranch, CancellationToken cancellationToken)
+		public async Task<bool> Sychronize(
+			string username,
+			string password,
+			string committerName,
+			string committerEmail,
+			Action<int> progressReporter,
+			bool synchronizeTrackedBranch,
+			CancellationToken cancellationToken)
 		{
 			if (committerName == null)
 				throw new ArgumentNullException(nameof(committerName));
@@ -659,12 +666,12 @@ namespace Tgstation.Server.Host.Components.Repository
 				logger.LogTrace("Resetting and cleaning untracked files...");
 				await Task.Factory.StartNew(() =>
 				{
-					libGitRepo.RemoveUntrackedFiles();
-					cancellationToken.ThrowIfCancellationRequested();
 					libGitRepo.Reset(ResetMode.Hard, libGitRepo.Head.Tip, new CheckoutOptions
 					{
 						OnCheckoutProgress = CheckoutProgressHandler(progress => progressReporter(progress / 10))
 					});
+					cancellationToken.ThrowIfCancellationRequested();
+					libGitRepo.RemoveUntrackedFiles();
 				}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
 			}
 
