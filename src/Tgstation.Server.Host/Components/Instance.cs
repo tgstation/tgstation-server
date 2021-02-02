@@ -321,7 +321,7 @@ namespace Tgstation.Server.Host.Components
 			}
 
 			// synch if necessary
-			if (repositorySettings.AutoUpdatesSynchronize.Value && startSha != repo.Head)
+			if (repositorySettings.AutoUpdatesSynchronize.Value && startSha != repo.Head && (shouldSyncTracked || repositorySettings.PushTestMergeCommits.Value))
 			{
 				var pushedOrigin = await repo.Sychronize(
 					repositorySettings.AccessUser,

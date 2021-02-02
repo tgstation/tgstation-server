@@ -586,7 +586,15 @@ namespace Tgstation.Server.Host.Controllers
 							await UpdateRevInfo().ConfigureAwait(false);
 							if (fastForward.Value)
 							{
-								await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, currentModel.CommitterName, currentModel.CommitterEmail, NextProgressReporter(), true, ct).ConfigureAwait(false);
+								await repo.Sychronize(
+									currentModel.AccessUser,
+									currentModel.AccessToken,
+									currentModel.CommitterName,
+									currentModel.CommitterEmail,
+									NextProgressReporter(),
+									true,
+									ct)
+									.ConfigureAwait(false);
 								postUpdateSha = repo.Head;
 							}
 							else
@@ -622,7 +630,15 @@ namespace Tgstation.Server.Host.Controllers
 							if (!repo.Tracking)
 								throw new JobException(ErrorCode.RepoReferenceNotTracking);
 							await repo.ResetToOrigin(NextProgressReporter(), ct).ConfigureAwait(false);
-							await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, currentModel.CommitterName, currentModel.CommitterEmail, NextProgressReporter(), true, ct).ConfigureAwait(false);
+							await repo.Sychronize(
+								currentModel.AccessUser,
+								currentModel.AccessToken,
+								currentModel.CommitterName,
+								currentModel.CommitterEmail,
+								NextProgressReporter(),
+								true,
+								ct)
+								.ConfigureAwait(false);
 							await CallLoadRevInfo().ConfigureAwait(false);
 
 							// repo head is on origin so force this
@@ -836,9 +852,17 @@ namespace Tgstation.Server.Host.Controllers
 					}
 
 					var currentHead = repo.Head;
-					if (startSha != currentHead || (postUpdateSha != null && postUpdateSha != currentHead))
+					if (currentModel.PushTestMergeCommits.Value && (startSha != currentHead || (postUpdateSha != null && postUpdateSha != currentHead)))
 					{
-						await repo.Sychronize(currentModel.AccessUser, currentModel.AccessToken, currentModel.CommitterName, currentModel.CommitterEmail, NextProgressReporter(), false, ct).ConfigureAwait(false);
+						await repo.Sychronize(
+							currentModel.AccessUser,
+							currentModel.AccessToken,
+							currentModel.CommitterName,
+							currentModel.CommitterEmail,
+							NextProgressReporter(),
+							false,
+							ct)
+							.ConfigureAwait(false);
 						await UpdateRevInfo().ConfigureAwait(false);
 					}
 
