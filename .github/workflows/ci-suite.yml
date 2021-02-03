@@ -17,7 +17,7 @@ env:
   TGS4_TEST_IRC_CHANNEL: ${{ secrets.IRC_CHANNEL }}
   TGS4_TEST_IRC_CONNECTION_STRING: ${{ secrets.IRC_CONNECTION_STRING }}
   TGS4_TEST_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  TGS4_RELEASE_NOTES_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  TGS4_RELEASE_NOTES_TOKEN: ${{ secrets.DEV_PUSH_TOKEN }}
 
 jobs:
   dmapi-build:
@@ -721,7 +721,7 @@ jobs:
           &"C:/Program Files/7-Zip/7z.exe" a ServerUpdatePackage.zip ./ServerUpdatePackage/* -tzip
 
       - name: Generate Release Notes
-        run: dotnet run -c Release -p tools/ReleaseNotes ${{ secrets.DEV_PUSH_TOKEN }}
+        run: dotnet run -c Release -p tools/ReleaseNotes ${{ env.TGS_VERSION }}
 
       - name: Create GitHub Release
         uses: actions/create-release@v1
