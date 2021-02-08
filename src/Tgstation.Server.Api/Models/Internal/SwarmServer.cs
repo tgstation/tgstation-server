@@ -12,7 +12,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// The public address of the server.
 		/// </summary>
 		[Required]
-		public Uri? Address { get; set; }
+		public virtual Uri? Address { get; set; }
 
 		/// <summary>
 		/// The server's identifier.
