@@ -47,7 +47,7 @@ namespace Tgstation.Server.Host.Setup.Tests
 			mockConfiguration.Setup(x => x.GetReloadToken()).Returns(Mock.Of<IChangeToken>());
 			Assert.ThrowsException<ArgumentNullException>(() => new SetupWizard(mockIOManager.Object, mockConsole.Object, mockHostingEnvironment.Object, mockAssemblyInfoProvider.Object, mockDBConnectionFactory.Object, mockPlatformIdentifier.Object, mockAsyncDelayer.Object, mockLifetime.Object, mockConfiguration.Object, null));
 		}
-		
+
 		[TestMethod]
 		public async Task TestWithUserStupiditiy()
 		{
@@ -106,7 +106,7 @@ namespace Tgstation.Server.Host.Setup.Tests
 				.Callback(() => configReloadCallback(configReloadCallbackState))
 				.Returns(Task.CompletedTask)
 				.Verifiable();
-			
+
 			var mockSuccessCommand = new Mock<DbCommand>();
 			mockSuccessCommand.Setup(x => x.ExecuteNonQueryAsync(It.IsAny<CancellationToken>())).Returns(Task.FromResult(0)).Verifiable();
 			mockSuccessCommand.Setup(x => x.ExecuteScalarAsync(It.IsAny<CancellationToken>())).Returns(Task.FromResult<object>("1.2.3")).Verifiable();
@@ -279,11 +279,16 @@ namespace Tgstation.Server.Host.Setup.Tests
 			//second run
 			mockIOManager.Setup(x => x.ReadAllBytes(It.IsNotNull<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(Encoding.UTF8.GetBytes(String.Empty))).Verifiable();
 			await wizard.StartAsync(default).ConfigureAwait(false);
-		
+
 			//third run
 			testGeneralConfig.SetupWizardMode = SetupWizardMode.Autodetect;
 			mockIOManager
 				.Setup(x => x.WriteAllBytes(It.IsNotNull<string>(), It.IsNotNull<byte[]>(), It.IsAny<CancellationToken>()))
+				.Callback((string path, byte[] bytes, CancellationToken ct) =>
+				{
+					// for debugging
+					var str = Encoding.UTF8.GetString(bytes);
+				})
 				.Throws(new Exception())
 				.Verifiable();
 			var firstRun = true;
