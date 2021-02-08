@@ -8,7 +8,7 @@ using YamlDotNet.Serialization;
 namespace Tgstation.Server.Host.Extensions.Converters
 {
 	/// <summary>
-	/// <see cref="JsonConverter"/> and <see cref="IYamlTypeConverter"/> for serializing <see cref="global::System.Version"/>s for BYOND.
+	/// <see cref="JsonConverter"/> and <see cref="IYamlTypeConverter"/> for serializing <see cref="global::System.Version"/>s in semver format.
 	/// </summary>
 	sealed class VersionConverter : JsonConverter, IYamlTypeConverter
 	{
@@ -82,19 +82,7 @@ namespace Tgstation.Server.Host.Extensions.Converters
 		public bool Accepts(Type type) => CheckSupportsType(type, false);
 
 		/// <inheritdoc />
-		public object ReadYaml(IParser parser, Type type)
-		{
-			if (parser == null)
-				throw new ArgumentNullException(nameof(parser));
-
-			CheckSupportsType(type, true);
-
-			var scalar = parser.Consume<Scalar>();
-			if (scalar == null)
-				return null;
-
-			return global::System.Version.Parse(scalar.Value);
-		}
+		public object ReadYaml(IParser parser, Type type) => throw new NotSupportedException("Deserialization not supported!"); // The default implementation is fine at handling this
 
 		/// <inheritdoc />
 		public void WriteYaml(IEmitter emitter, object value, Type type)
@@ -104,11 +92,14 @@ namespace Tgstation.Server.Host.Extensions.Converters
 
 			CheckSupportsType(type, true);
 
+			if (value == null)
+				throw new NotSupportedException("Null values not supported!");
+
 			var version = (global::System.Version)value;
 			emitter.Emit(
 				new Scalar(
 					version
-						?.Semver()
+						.Semver()
 						.ToString()));
 		}
 	}

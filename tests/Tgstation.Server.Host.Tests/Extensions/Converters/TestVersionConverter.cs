@@ -37,16 +37,5 @@ namespace Tgstation.Server.Host.Extensions.Converters.Tests
 
 			Assert.AreEqual(testYaml, serializedString.Trim());
 		}
-
-		[TestMethod]
-		public void TestYamlDeserialization()
-		{
-			var deserialized = new DeserializerBuilder()
-				.WithTypeConverter(new VersionConverter())
-				.Build()
-				.Deserialize<TestObject>(testYaml);
-
-			Assert.AreEqual(testVersion, deserialized.Version);
-		}
 	}
 }
