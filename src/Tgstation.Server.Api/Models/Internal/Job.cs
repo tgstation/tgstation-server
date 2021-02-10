@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using Tgstation.Server.Api.Rights;
 
@@ -18,11 +18,13 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The <see cref="Models.ErrorCode"/> associated with the <see cref="Job"/> if any.
 		/// </summary>
+		[ResponseOptions]
 		public ErrorCode? ErrorCode { get; set; }
 
 		/// <summary>
 		/// Details of any exceptions caught during the <see cref="Job"/>
 		/// </summary>
+		[ResponseOptions]
 		public string? ExceptionDetails { get; set; }
 
 		/// <summary>
@@ -34,6 +36,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// When the <see cref="Job"/> stopped
 		/// </summary>
+		[ResponseOptions]
 		public DateTimeOffset? StoppedAt { get; set; }
 
 		/// <summary>
@@ -45,11 +48,13 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The <see cref="RightsType"/> of <see cref="CancelRight"/> if it can be cancelled
 		/// </summary>
+		[ResponseOptions]
 		public RightsType? CancelRightsType { get; set; }
 
 		/// <summary>
 		/// The <see cref="Rights"/> required to cancel the <see cref="Job"/>
 		/// </summary>
+		[ResponseOptions]
 		public ulong? CancelRight { get; set; }
 	}
 }

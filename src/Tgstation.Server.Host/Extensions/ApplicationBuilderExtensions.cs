@@ -48,7 +48,7 @@ namespace Tgstation.Server.Host.Extensions
 					}
 
 					logger.LogDebug(e, "Database conflict!");
-					await new ConflictObjectResult(new ErrorMessage(ErrorCode.DatabaseIntegrityConflict)
+					await new ConflictObjectResult(new ErrorMessageResponse(ErrorCode.DatabaseIntegrityConflict)
 					{
 						AdditionalData = String.Format(CultureInfo.InvariantCulture, (e.InnerException ?? e).Message)
 					}).ExecuteResultAsync(new ActionContext
@@ -100,7 +100,7 @@ namespace Tgstation.Server.Host.Extensions
 				{
 					logger.LogError(e, "Failed request!");
 					await new ObjectResult(
-						new ErrorMessage(ErrorCode.InternalServerError)
+						new ErrorMessageResponse(ErrorCode.InternalServerError)
 						{
 							AdditionalData = e.ToString()
 						})

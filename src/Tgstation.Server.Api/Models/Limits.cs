@@ -13,7 +13,7 @@ namespace Tgstation.Server.Api.Models
 		public const int MaximumStringLength = 10000;
 
 		/// <summary>
-		/// Length limit for <see cref="Internal.ChatBot.Name"/>s.
+		/// Length limit for <see cref="NamedEntity.Name"/>s.
 		/// </summary>
 		public const int MaximumIndexableStringLength = 100;
 

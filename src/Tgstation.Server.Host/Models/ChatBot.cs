@@ -5,10 +5,10 @@ using System.Linq;
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class ChatBot : Api.Models.Internal.ChatBot, IApiTransformable<Api.Models.ChatBot>
+	public sealed class ChatBot : Api.Models.Internal.ChatBotSettings, IApiTransformable<Api.Models.ChatBotResponse>
 	{
 		/// <summary>
-		/// Default for <see cref="Api.Models.Internal.ChatBot.ChannelLimit"/>.
+		/// Default for <see cref="Api.Models.Internal.ChatBotSettings.ChannelLimit"/>.
 		/// </summary>
 		public const ushort DefaultChannelLimit = 100;
 
@@ -24,12 +24,12 @@ namespace Tgstation.Server.Host.Models
 		public Instance Instance { get; set; }
 
 		/// <summary>
-		/// See <see cref="Api.Models.ChatBot.Channels"/>
+		/// See <see cref="Api.Models.Internal.ChatBotApiBase.Channels"/>
 		/// </summary>
 		public ICollection<ChatChannel> Channels { get; set; }
 
 		/// <inheritdoc />
-		public Api.Models.ChatBot ToApi() => new Api.Models.ChatBot
+		public Api.Models.ChatBotResponse ToApi() => new Api.Models.ChatBotResponse
 		{
 			Channels = Channels.Select(x => x.ToApi()).ToList(),
 			ConnectionString = ConnectionString,

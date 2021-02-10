@@ -28,30 +28,30 @@ namespace Tgstation.Server.Client.Components
 		}
 
 		/// <inheritdoc />
-		public Task DeleteEmptyDirectory(ConfigurationFile directory, CancellationToken cancellationToken) => ApiClient.Delete(Routes.Configuration, directory, instance.Id, cancellationToken);
+		public Task DeleteEmptyDirectory(IConfigurationFile directory, CancellationToken cancellationToken) => ApiClient.Delete(Routes.Configuration, directory, instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<ConfigurationFile> CreateDirectory(ConfigurationFile directory, CancellationToken cancellationToken) => ApiClient.Create<ConfigurationFile, ConfigurationFile>(Routes.Configuration, directory, instance.Id, cancellationToken);
+		public Task<ConfigurationFileResponse> CreateDirectory(IConfigurationFile directory, CancellationToken cancellationToken) => ApiClient.Create<IConfigurationFile, ConfigurationFileResponse>(Routes.Configuration, directory, instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<ConfigurationFile>> List(
+		public Task<IReadOnlyList<ConfigurationFileResponse>> List(
 			PaginationSettings? paginationSettings,
 			string directory,
 			CancellationToken cancellationToken)
-			=> ReadPaged<ConfigurationFile>(
+			=> ReadPaged<ConfigurationFileResponse>(
 				paginationSettings,
 				Routes.ListRoute(Routes.Configuration) + Routes.SanitizeGetPath(directory),
-				instance.Id,
+				instance.Id!.Value,
 				cancellationToken);
 
 		/// <inheritdoc />
-		public async Task<Tuple<ConfigurationFile, Stream>> Read(ConfigurationFile file, CancellationToken cancellationToken)
+		public async Task<Tuple<ConfigurationFileResponse, Stream>> Read(IConfigurationFile file, CancellationToken cancellationToken)
 		{
 			if (file == null)
 				throw new ArgumentNullException(nameof(file));
-			var configFile = await ApiClient.Read<ConfigurationFile>(
+			var configFile = await ApiClient.Read<ConfigurationFileResponse>(
 				Routes.ConfigurationFile + Routes.SanitizeGetPath(file.Path ?? throw new ArgumentException("file.Path should not be null!", nameof(file))),
-				instance.Id,
+				instance.Id!.Value,
 				cancellationToken)
 				.ConfigureAwait(false);
 			var downloadStream = await ApiClient.Download(configFile, cancellationToken).ConfigureAwait(false);
@@ -67,7 +67,7 @@ namespace Tgstation.Server.Client.Components
 		}
 
 		/// <inheritdoc />
-		public async Task<ConfigurationFile> Write(ConfigurationFile file, Stream uploadStream, CancellationToken cancellationToken)
+		public async Task<ConfigurationFileResponse> Write(ConfigurationFileRequest file, Stream uploadStream, CancellationToken cancellationToken)
 		{
 			long initialStreamPosition = 0;
 			MemoryStream? memoryStream = null;
@@ -78,10 +78,10 @@ namespace Tgstation.Server.Client.Components
 
 			using (memoryStream)
 			{
-				var configFileTask = ApiClient.Update<ConfigurationFile, ConfigurationFile>(
+				var configFileTask = ApiClient.Update<ConfigurationFileRequest, ConfigurationFileResponse>(
 					Routes.Configuration,
 					file ?? throw new ArgumentNullException(nameof(file)),
-					instance.Id,
+					instance.Id!.Value,
 					cancellationToken);
 
 				if (memoryStream != null)

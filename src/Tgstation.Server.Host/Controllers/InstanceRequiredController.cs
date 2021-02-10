@@ -46,7 +46,7 @@ namespace Tgstation.Server.Host.Controllers
 		protected override async Task<IActionResult> ValidateRequest(CancellationToken cancellationToken)
 		{
 			if (!ApiHeaders.InstanceId.HasValue)
-				return BadRequest(new ErrorMessage(ErrorCode.InstanceHeaderRequired));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.InstanceHeaderRequired));
 			if (AuthenticationContext.InstancePermissionSet == null)
 				return Forbid();
 
@@ -55,7 +55,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			using var instanceReferenceCheck = instanceManager.GetInstanceReference(Instance);
 			if (instanceReferenceCheck == null)
-				return Conflict(new ErrorMessage(ErrorCode.InstanceOffline));
+				return Conflict(new ErrorMessageResponse(ErrorCode.InstanceOffline));
 			return null;
 		}
 
@@ -74,7 +74,7 @@ namespace Tgstation.Server.Host.Controllers
 			using (LogContext.PushProperty("InstanceReference", instanceReference.Uid))
 			{
 				if (instanceReference == null)
-					return Conflict(new ErrorMessage(ErrorCode.InstanceOffline));
+					return Conflict(new ErrorMessageResponse(ErrorCode.InstanceOffline));
 				return await action(instanceReference).ConfigureAwait(false);
 			}
 		}
@@ -84,9 +84,9 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="instanceManager">The <see cref="IInstanceManager"/> to use.</param>
 		/// <param name="logger">The <see cref="ILogger"/> to use.</param>
-		/// <param name="metadata">The <see cref="Models.Instance"/> to check.</param>
+		/// <param name="metadata">The <see cref="Api.Models.Instance"/> to check.</param>
 		/// <returns><see langword="true"/> if an unsaved DB update was made, <see langword="false"/> otherwise.</returns>
-		public static bool ValidateInstanceOnlineStatus(IInstanceManager instanceManager, ILogger logger, Models.Instance metadata)
+		public static bool ValidateInstanceOnlineStatus(IInstanceManager instanceManager, ILogger logger, Api.Models.Instance metadata)
 		{
 			if (instanceManager == null)
 				throw new ArgumentNullException(nameof(instanceManager));

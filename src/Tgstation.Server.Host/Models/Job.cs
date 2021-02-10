@@ -4,17 +4,17 @@ namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
 	#pragma warning disable CA1724 // naming conflict with gitlab package
-	public sealed class Job : Api.Models.Internal.Job, IApiTransformable<Api.Models.Job>
+	public sealed class Job : Api.Models.Internal.Job, IApiTransformable<Api.Models.JobResponse>
 	#pragma warning restore CA1724
 	{
 		/// <summary>
-		/// See <see cref="Api.Models.Job.StartedBy"/>
+		/// See <see cref="Api.Models.JobResponse.StartedBy"/>
 		/// </summary>
 		[Required]
 		public User StartedBy { get; set; }
 
 		/// <summary>
-		/// See <see cref="Api.Models.Job.CancelledBy"/>
+		/// See <see cref="Api.Models.JobResponse.CancelledBy"/>
 		/// </summary>
 		public User CancelledBy { get; set; }
 
@@ -25,7 +25,7 @@ namespace Tgstation.Server.Host.Models
 		public Instance Instance { get; set; }
 
 		/// <inheritdoc />
-		public Api.Models.Job ToApi() => new Api.Models.Job
+		public Api.Models.JobResponse ToApi() => new Api.Models.JobResponse
 		{
 			Id = Id,
 			StartedAt = StartedAt,

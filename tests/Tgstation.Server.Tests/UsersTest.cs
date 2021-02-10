@@ -52,7 +52,7 @@ namespace Tgstation.Server.Tests
 			Assert.IsFalse(users.Any(x => x.Id == systemUser.Id));
 
 			await ApiAssert.ThrowsException<InsufficientPermissionsException>(() => serverClient.Users.GetId(systemUser, cancellationToken), null);
-			await ApiAssert.ThrowsException<InsufficientPermissionsException>(() => serverClient.Users.Update(new UserUpdate
+			await ApiAssert.ThrowsException<InsufficientPermissionsException>(() => serverClient.Users.Update(new UserUpdateRequest
 			{
 				Id = systemUser.Id
 			}, cancellationToken), null);
@@ -65,14 +65,14 @@ namespace Tgstation.Server.Tests
 					Provider = OAuthProvider.Discord
 				}
 			};
-			await ApiAssert.ThrowsException<ApiConflictException>(() => serverClient.Users.Update(new UserUpdate
+			await ApiAssert.ThrowsException<ApiConflictException>(() => serverClient.Users.Update(new UserUpdateRequest
 			{
 				Id = user.Id,
 				OAuthConnections = sampleOAuthConnections
 			}, cancellationToken), ErrorCode.AdminUserCannotOAuth);
 
 			var testUser = await serverClient.Users.Create(
-				new UserUpdate
+				new UserCreateRequest
 				{
 					Name = $"BasicTestUser",
 					Password = "asdfasdjfhauwiehruiy273894234jhndjkwh"
@@ -81,7 +81,7 @@ namespace Tgstation.Server.Tests
 
 			Assert.IsNotNull(testUser.OAuthConnections);
 			testUser = await serverClient.Users.Update(
-			   new UserUpdate
+			   new UserUpdateRequest
 			   {
 				   Id = testUser.Id,
 				   OAuthConnections = sampleOAuthConnections
@@ -94,7 +94,7 @@ namespace Tgstation.Server.Tests
 
 
 			var group = await serverClient.Groups.Create(
-				new UserGroup
+				new UserGroupCreateRequest
 				{
 					Name = "TestGroup"
 				},
@@ -105,7 +105,7 @@ namespace Tgstation.Server.Tests
 			Assert.AreEqual(AdministrationRights.None, group.PermissionSet.AdministrationRights);
 			Assert.AreEqual(InstanceManagerRights.None, group.PermissionSet.InstanceManagerRights);
 
-			var group2 = await serverClient.Groups.Create(new UserGroup
+			var group2 = await serverClient.Groups.Create(new UserGroupCreateRequest
 			{
 				Name = "TestGroup2",
 				PermissionSet = new PermissionSet
@@ -130,24 +130,25 @@ namespace Tgstation.Server.Tests
 			groups = await serverClient.Groups.List(null, cancellationToken);
 			Assert.AreEqual(1, groups.Count);
 
-			group.PermissionSet.InstanceManagerRights = RightsHelper.AllRights<InstanceManagerRights>();
-			group.PermissionSet.AdministrationRights = RightsHelper.AllRights<AdministrationRights>();
-			group.Users = null;
-
-			group = await serverClient.Groups.Update(group, cancellationToken);
+			group = await serverClient.Groups.Update(new UserGroupUpdateRequest
+			{
+				PermissionSet = new PermissionSet
+				{
+					InstanceManagerRights = RightsHelper.AllRights<InstanceManagerRights>(),
+					AdministrationRights = RightsHelper.AllRights<AdministrationRights>(),
+				}
+			}, cancellationToken);
 
 			Assert.AreEqual(RightsHelper.AllRights<AdministrationRights>(), group.PermissionSet.AdministrationRights);
 			Assert.AreEqual(RightsHelper.AllRights<InstanceManagerRights>(), group.PermissionSet.InstanceManagerRights);
 
-			await ApiAssert.ThrowsException<ApiConflictException>(() => serverClient.Groups.Update(group, cancellationToken), ErrorCode.UserGroupControllerCantEditMembers);
-
-			var testUserUpdate = new UserUpdate
+			UserUpdateRequest testUserUpdate = new UserCreateRequest
 			{
 				Name = "TestUserWithNoPassword",
 				Password = String.Empty
 			};
 
-			await ApiAssert.ThrowsException<ApiConflictException>(() => serverClient.Users.Create(testUserUpdate, cancellationToken), ErrorCode.UserPasswordLength);
+			await ApiAssert.ThrowsException<ApiConflictException>(() => serverClient.Users.Create((UserCreateRequest)testUserUpdate, cancellationToken), ErrorCode.UserPasswordLength);
 
 			testUserUpdate.OAuthConnections = new List<OAuthConnection>
 			{
@@ -158,9 +159,9 @@ namespace Tgstation.Server.Tests
 				}
 			};
 
-			var testUser2 = await serverClient.Users.Create(testUserUpdate, cancellationToken);
+			var testUser2 = await serverClient.Users.Create((UserCreateRequest)testUserUpdate, cancellationToken);
 
-			testUserUpdate = new UserUpdate
+			testUserUpdate = new UserUpdateRequest
 			{
 				Id = testUser2.Id,
 				PermissionSet = testUser2.PermissionSet,
@@ -193,7 +194,7 @@ namespace Tgstation.Server.Tests
 		async Task TestCreateSysUser(CancellationToken cancellationToken)
 		{
 			var sysId = Environment.UserName;
-			var update = new UserUpdate
+			var update = new UserCreateRequest
 			{
 				SystemIdentifier = sysId
 			};
@@ -205,7 +206,7 @@ namespace Tgstation.Server.Tests
 
 		async Task TestSpamCreation(CancellationToken cancellationToken)
 		{
-			ICollection<Task<User>> tasks = new List<Task<User>>();
+			ICollection<Task<UserResponse>> tasks = new List<Task<UserResponse>>();
 
 			// Careful with this, very easy to overload the thread pool
 			const int RepeatCount = 100;
@@ -219,7 +220,7 @@ namespace Tgstation.Server.Tests
 				{
 					tasks.Add(
 						serverClient.Users.Create(
-							new UserUpdate
+							new UserCreateRequest
 							{
 								Name = $"SpamTestUser_{i}",
 								Password = "asdfasdjfhauwiehruiy273894234jhndjkwh"

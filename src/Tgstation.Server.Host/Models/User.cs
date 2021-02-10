@@ -7,7 +7,7 @@ using Tgstation.Server.Api.Models;
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class User : Api.Models.Internal.User, IApiTransformable<Api.Models.User>
+	public sealed class User : Api.Models.Internal.UserModelBase, IApiTransformable<UserResponse>
 	{
 		/// <summary>
 		/// Username used when creating jobs automatically.
@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.Models
 		public string PasswordHash { get; set; }
 
 		/// <summary>
-		/// See <see cref="Api.Models.User"/>
+		/// See <see cref="UserResponse"/>
 		/// </summary>
 		public User CreatedBy { get; set; }
 
@@ -40,7 +40,7 @@ namespace Tgstation.Server.Host.Models
 		public PermissionSet PermissionSet { get; set; }
 
 		/// <summary>
-		/// The uppercase invariant of <see cref="Api.Models.Internal.UserBase.Name"/>
+		/// The uppercase invariant of <see cref="NamedEntity.Name"/>
 		/// </summary>
 		[Required]
 		[StringLength(Limits.MaximumIndexableStringLength, MinimumLength = 1)]
@@ -67,9 +67,9 @@ namespace Tgstation.Server.Host.Models
 		public ICollection<OAuthConnection> OAuthConnections { get; set; }
 
 		/// <summary>
-		/// Change a <see cref="Api.Models.Internal.UserBase.Name"/> into a <see cref="CanonicalName"/>.
+		/// Change a <see cref="NamedEntity.Name"/> into a <see cref="CanonicalName"/>.
 		/// </summary>
-		/// <param name="name">The <see cref="Api.Models.Internal.UserBase.Name"/>.</param>
+		/// <param name="name">The <see cref="NamedEntity.Name"/>.</param>
 		/// <returns>The <see cref="CanonicalName"/>.</returns>
 		public static string CanonicalizeName(string name) => name?.ToUpperInvariant() ?? throw new ArgumentNullException(nameof(name));
 
@@ -78,8 +78,8 @@ namespace Tgstation.Server.Host.Models
 		/// </summary>
 		/// <param name="recursive">If we should recurse on <see cref="CreatedBy"/></param>
 		/// <param name="showDetails">If rights and system identifier should be shown</param>
-		/// <returns>A new <see cref="Api.Models.User"/></returns>
-		Api.Models.User ToApi(bool recursive, bool showDetails) => new Api.Models.User
+		/// <returns>A new <see cref="UserResponse"/>.</returns>
+		UserResponse ToApi(bool recursive, bool showDetails) => new UserResponse
 		{
 			CreatedAt = showDetails ? CreatedAt : null,
 			CreatedBy = showDetails && recursive ? CreatedBy?.ToApi(false, false) : null,
@@ -100,10 +100,10 @@ namespace Tgstation.Server.Host.Models
 		/// Convert the <see cref="User"/> to it's API form
 		/// </summary>
 		/// <param name="showDetails">If system identifier, oauth connections, and group/permission set should be shown.</param>
-		/// <returns>A new <see cref="Api.Models.User"/></returns>
-		public Api.Models.User ToApi(bool showDetails) => ToApi(true, showDetails);
+		/// <returns>A new <see cref="UserResponse"/></returns>
+		public UserResponse ToApi(bool showDetails) => ToApi(true, showDetails);
 
 		/// <inheritdoc />
-		public Api.Models.User ToApi() => ToApi(true);
+		public UserResponse ToApi() => ToApi(true);
 	}
 }

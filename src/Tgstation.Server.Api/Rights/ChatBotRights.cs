@@ -3,7 +3,7 @@ using System;
 namespace Tgstation.Server.Api.Rights
 {
 	/// <summary>
-	/// Rights for <see cref="Models.ChatBot"/>
+	/// Rights for chat bots.
 	/// </summary>
 	[Flags]
 	public enum ChatBotRights : ulong
@@ -14,57 +14,57 @@ namespace Tgstation.Server.Api.Rights
 		None = 0,
 
 		/// <summary>
-		/// User can change <see cref="Models.Internal.ChatBot.Enabled"/>.
+		/// User can change <see cref="Models.Internal.ChatBotSettings.Enabled"/>.
 		/// </summary>
 		WriteEnabled = 1,
 
 		/// <summary>
-		/// User can change <see cref="Models.Internal.ChatBot.Provider"/>.
+		/// User can change <see cref="Models.Internal.ChatBotSettings.Provider"/>.
 		/// </summary>
 		WriteProvider = 2,
 
 		/// <summary>
-		/// User can change <see cref="Models.ChatBot.Channels"/>.
+		/// User can change <see cref="Models.Internal.ChatBotApiBase.Channels"/>.
 		/// </summary>
 		WriteChannels = 4,
 
 		/// <summary>
-		/// User can change <see cref="Models.Internal.ChatBot.ConnectionString"/>
+		/// User can change <see cref="Models.Internal.ChatBotSettings.ConnectionString"/>
 		/// </summary>
 		WriteConnectionString = 8,
 
 		/// <summary>
-		/// User can read <see cref="Models.Internal.ChatBot.ConnectionString"/> requires the <see cref="Read"/> permission.
+		/// User can read <see cref="Models.Internal.ChatBotSettings.ConnectionString"/> requires the <see cref="Read"/> permission.
 		/// </summary>
 		ReadConnectionString = 16,
 
 		/// <summary>
-		/// User can read all <see cref="Models.ChatBot"/> properties except <see cref="Models.Internal.ChatBot.ConnectionString"/>
+		/// User can read all chat bot properties except <see cref="Models.Internal.ChatBotSettings.ConnectionString"/>
 		/// </summary>
 		Read = 32,
 
 		/// <summary>
-		/// User can create new <see cref="Models.ChatBot"/>s.
+		/// User can create new chat bots.
 		/// </summary>
 		Create = 64,
 
 		/// <summary>
-		/// User can delete <see cref="Models.ChatBot"/>s.
+		/// User can delete chat bots.
 		/// </summary>
 		Delete = 128,
 
 		/// <summary>
-		/// User can change <see cref="Models.Internal.ChatBot.Name"/>.
+		/// User can change <see cref="Models.NamedEntity.Name"/>.
 		/// </summary>
 		WriteName = 256,
 
 		/// <summary>
-		/// User can change <see cref="Models.Internal.ChatBot.ReconnectionInterval"/>.
+		/// User can change <see cref="Models.Internal.ChatBotSettings.ReconnectionInterval"/>.
 		/// </summary>
 		WriteReconnectionInterval = 512,
 
 		/// <summary>
-		/// User can change <see cref="Models.Internal.ChatBot.ChannelLimit"/>.
+		/// User can change <see cref="Models.Internal.ChatBotSettings.ChannelLimit"/>.
 		/// </summary>
 		WriteChannelLimit = 1024,
 	}

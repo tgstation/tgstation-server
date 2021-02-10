@@ -13,7 +13,7 @@ namespace Tgstation.Server.Client
 		/// </summary>
 		/// <param name="url">The base <see cref="Uri"/></param>
 		/// <param name="apiHeaders">The <see cref="ApiHeaders"/> for the <see cref="IApiClient"/></param>
-		/// <param name="tokenRefreshHeaders">The <see cref="ApiHeaders"/> to use to generate a new <see cref="Api.Models.Token"/>.</param>
+		/// <param name="tokenRefreshHeaders">The <see cref="ApiHeaders"/> to use to generate a new <see cref="Api.Models.TokenResponse"/>.</param>
 		/// <returns>A new <see cref="IApiClient"/></returns>
 		IApiClient CreateApiClient(Uri url, ApiHeaders apiHeaders, ApiHeaders? tokenRefreshHeaders);
 	}

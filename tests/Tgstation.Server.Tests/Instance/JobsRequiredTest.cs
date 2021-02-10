@@ -18,7 +18,7 @@ namespace Tgstation.Server.Tests.Instance
 			this.JobsClient = jobsClient;
 		}
 
-		public async Task<Job> WaitForJob(Job originalJob, int timeout, bool expectFailure, ErrorCode? expectedCode, CancellationToken cancellationToken)
+		public async Task<JobResponse> WaitForJob(JobResponse originalJob, int timeout, bool expectFailure, ErrorCode? expectedCode, CancellationToken cancellationToken)
 		{
 			var job = originalJob;
 			do
@@ -45,7 +45,7 @@ namespace Tgstation.Server.Tests.Instance
 			return job;
 		}
 
-		protected async Task<Job> WaitForJobProgressThenCancel(Job originalJob, int timeout, CancellationToken cancellationToken)
+		protected async Task<JobResponse> WaitForJobProgressThenCancel(JobResponse originalJob, int timeout, CancellationToken cancellationToken)
 		{
 			var job = originalJob;
 			do

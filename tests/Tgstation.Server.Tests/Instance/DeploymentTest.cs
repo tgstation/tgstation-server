@@ -35,7 +35,7 @@ namespace Tgstation.Server.Tests.Instance
 			// by alphabetization rules, it should discover api_free here
 			if (!new PlatformIdentifier().IsWindows)
 			{
-				var updatedDM = await dreamMakerClient.Update(new DreamMaker
+				var updatedDM = await dreamMakerClient.Update(new DreamMakerRequest
 				{
 					ProjectName = "tests/DMAPI/ApiFree/api_free",
 					ApiValidationPort = IntegrationTest.DMPort
@@ -45,14 +45,14 @@ namespace Tgstation.Server.Tests.Instance
 			}
 			else
 			{
-				var updatedDM = await dreamMakerClient.Update(new DreamMaker
+				var updatedDM = await dreamMakerClient.Update(new DreamMakerRequest
 				{
 					ApiValidationPort = IntegrationTest.DMPort
 				}, cancellationToken);
 				Assert.AreEqual(IntegrationTest.DMPort, updatedDM.ApiValidationPort);
 			}
 
-			var updatedDD = await dreamDaemonClient.Update(new DreamDaemon
+			var updatedDD = await dreamDaemonClient.Update(new DreamDaemonRequest
 			{
 				StartupTimeout = 5,
 				Port = IntegrationTest.DDPort
@@ -60,12 +60,12 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreEqual(5U, updatedDD.StartupTimeout);
 			Assert.AreEqual(IntegrationTest.DDPort, updatedDD.Port);
 
-			await ApiAssert.ThrowsException<ConflictException>(() => dreamDaemonClient.Update(new DreamDaemon
+			await ApiAssert.ThrowsException<ConflictException>(() => dreamDaemonClient.Update(new DreamDaemonRequest
 			{
 				Port = IntegrationTest.DMPort
 			}, cancellationToken), ErrorCode.PortNotAvailable);
 
-			await ApiAssert.ThrowsException<ConflictException>(() => dreamMakerClient.Update(new DreamMaker
+			await ApiAssert.ThrowsException<ConflictException>(() => dreamMakerClient.Update(new DreamMakerRequest
 			{
 				ApiValidationPort = IntegrationTest.DDPort
 			}, cancellationToken), ErrorCode.PortNotAvailable);
@@ -74,7 +74,7 @@ namespace Tgstation.Server.Tests.Instance
 			await WaitForJob(deployJob, 30, true, ErrorCode.DreamMakerNeverValidated, cancellationToken);
 
 			const string FailProject = "tests/DMAPI/BuildFail/build_fail";
-			var updated = await dreamMakerClient.Update(new DreamMaker
+			var updated = await dreamMakerClient.Update(new DreamMakerRequest
 			{
 				ProjectName = FailProject
 			}, cancellationToken);
@@ -84,7 +84,7 @@ namespace Tgstation.Server.Tests.Instance
 			deployJob = await dreamMakerClient.Compile(cancellationToken);
 			await WaitForJob(deployJob, 30, true, ErrorCode.DreamMakerExitCode, cancellationToken);
 
-			await dreamMakerClient.Update(new DreamMaker
+			await dreamMakerClient.Update(new DreamMakerRequest
 			{
 				ProjectName = "tests/DMAPI/ThisDoesntExist/this_doesnt_exist"
 			}, cancellationToken);

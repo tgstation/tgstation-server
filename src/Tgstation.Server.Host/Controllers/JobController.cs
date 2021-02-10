@@ -16,7 +16,7 @@ using Tgstation.Server.Host.Security;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// <see cref="ApiController"/> for <see cref="Api.Models.Job"/>s
+	/// <see cref="ApiController"/> for <see cref="Api.Models.JobResponse"/>s
 	/// </summary>
 	[Route(Routes.Jobs)]
 	public sealed class JobController : InstanceRequiredController
@@ -50,18 +50,18 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Get active <see cref="Api.Models.Job"/>s for the instance.
+		/// Get active <see cref="Api.Models.JobResponse"/>s for the instance.
 		/// </summary>
 		/// <param name="page">The current page.</param>
 		/// <param name="pageSize">The page size.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
-		/// <response code="200">Retrieved active <see cref="Api.Models.Job"/>s successfully.</response>
+		/// <response code="200">Retrieved active <see cref="Api.Models.JobResponse"/>s successfully.</response>
 		[HttpGet]
 		[TgsAuthorize]
-		[ProducesResponseType(typeof(Paginated<Api.Models.Job>), 200)]
+		[ProducesResponseType(typeof(PaginatedResponse<Api.Models.JobResponse>), 200)]
 		public Task<IActionResult> Read([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
-			=> Paginated<Models.Job, Api.Models.Job>(
+			=> Paginated<Models.Job, Api.Models.JobResponse>(
 				() => Task.FromResult(
 					new PaginatableResult<Models.Job>(
 						DatabaseContext
@@ -76,18 +76,18 @@ namespace Tgstation.Server.Host.Controllers
 				cancellationToken);
 
 		/// <summary>
-		/// List all <see cref="Api.Models.Job"/> <see cref="EntityId"/>s for the instance in reverse creation order.
+		/// List all <see cref="Api.Models.JobResponse"/> <see cref="EntityId"/>s for the instance in reverse creation order.
 		/// </summary>
 		/// <param name="page">The current page.</param>
 		/// <param name="pageSize">The page size.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
-		/// <response code="200">Retrieved <see cref="Api.Models.Job"/> <see cref="EntityId"/>s successfully.</response>
+		/// <response code="200">Retrieved <see cref="Api.Models.JobResponse"/> <see cref="EntityId"/>s successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize]
-		[ProducesResponseType(typeof(Paginated<Api.Models.Job>), 200)]
+		[ProducesResponseType(typeof(PaginatedResponse<Api.Models.JobResponse>), 200)]
 		public Task<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
-			=> Paginated<Models.Job, Api.Models.Job>(
+			=> Paginated<Models.Job, Api.Models.JobResponse>(
 				() => Task.FromResult(
 					new PaginatableResult<Models.Job>(
 						DatabaseContext
@@ -102,18 +102,18 @@ namespace Tgstation.Server.Host.Controllers
 				cancellationToken);
 
 		/// <summary>
-		/// Cancel a running <see cref="Api.Models.Job"/>.
+		/// Cancel a running <see cref="Api.Models.JobResponse"/>.
 		/// </summary>
-		/// <param name="id">The <see cref="EntityId.Id"/> of the <see cref="Api.Models.Job"/> to cancel.</param>
+		/// <param name="id">The <see cref="EntityId.Id"/> of the <see cref="Api.Models.JobResponse"/> to cancel.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
-		/// <response code="202"><see cref="Api.Models.Job"/> cancellation requested successfully.</response>
-		/// <response code="404"><see cref="Api.Models.Job"/> does not exist in this instance.</response>
-		/// <response code="410"><see cref="Api.Models.Job"/> could not be found in the job manager. Has it already completed?</response>
+		/// <response code="202"><see cref="Api.Models.JobResponse"/> cancellation requested successfully.</response>
+		/// <response code="404"><see cref="Api.Models.JobResponse"/> does not exist in this instance.</response>
+		/// <response code="410"><see cref="Api.Models.JobResponse"/> could not be found in the job manager. Has it already completed?</response>
 		[HttpDelete("{id}")]
 		[TgsAuthorize]
-		[ProducesResponseType(typeof(Api.Models.Job), 202)]
-		[ProducesResponseType(typeof(ErrorMessage), 404)]
+		[ProducesResponseType(typeof(Api.Models.JobResponse), 202)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 404)]
 		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
 			// don't care if an instance post or not at this point
@@ -127,7 +127,7 @@ namespace Tgstation.Server.Host.Controllers
 				return NotFound();
 
 			if (job.StoppedAt != null)
-				return Conflict(new ErrorMessage(ErrorCode.JobStopped));
+				return Conflict(new ErrorMessageResponse(ErrorCode.JobStopped));
 
 			if (job.CancelRight.HasValue && job.CancelRightsType.HasValue && (AuthenticationContext.GetRight(job.CancelRightsType.Value) & job.CancelRight.Value) == 0)
 				return Forbid();
@@ -137,17 +137,17 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Get a specific <see cref="Api.Models.Job"/>.
+		/// Get a specific <see cref="Api.Models.JobResponse"/>.
 		/// </summary>
-		/// <param name="id">The <see cref="EntityId.Id"/> of the <see cref="Api.Models.Job"/> to retrieve.</param>
+		/// <param name="id">The <see cref="EntityId.Id"/> of the <see cref="Api.Models.JobResponse"/> to retrieve.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
-		/// <response code="200">Retrieved <see cref="Api.Models.Job"/> successfully.</response>
-		/// <response code="404"><see cref="Api.Models.Job"/> does not exist in this instance.</response>
+		/// <response code="200">Retrieved <see cref="Api.Models.JobResponse"/> successfully.</response>
+		/// <response code="404"><see cref="Api.Models.JobResponse"/> does not exist in this instance.</response>
 		[HttpGet("{id}")]
 		[TgsAuthorize]
-		[ProducesResponseType(typeof(Api.Models.Job), 200)]
-		[ProducesResponseType(typeof(ErrorMessage), 404)]
+		[ProducesResponseType(typeof(Api.Models.JobResponse), 200)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 404)]
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			var job = await DatabaseContext

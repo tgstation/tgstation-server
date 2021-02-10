@@ -65,7 +65,7 @@ namespace Tgstation.Server.Host.Security
 
 				ValidateLifetime = true,
 				ValidateAudience = true,
-				ValidAudience = typeof(Token).Assembly.GetName().Name,
+				ValidAudience = typeof(TokenResponse).Assembly.GetName().Name,
 
 				ClockSkew = TimeSpan.FromMinutes(securityConfiguration.TokenClockSkewMinutes),
 
@@ -76,7 +76,7 @@ namespace Tgstation.Server.Host.Security
 		}
 
 		/// <inheritdoc />
-		public async Task<Token> CreateToken(Models.User user, bool oAuth, CancellationToken cancellationToken)
+		public async Task<TokenResponse> CreateToken(Models.User user, bool oAuth, CancellationToken cancellationToken)
 		{
 			if (user == null)
 				throw new ArgumentNullException(nameof(user));
@@ -106,7 +106,7 @@ namespace Tgstation.Server.Host.Security
 			};
 
 			var token = new JwtSecurityToken(new JwtHeader(new SigningCredentials(ValidationParameters.IssuerSigningKey, SecurityAlgorithms.HmacSha256)), new JwtPayload(claims));
-			return new Token
+			return new TokenResponse
 			{
 				Bearer = new JwtSecurityTokenHandler().WriteToken(token),
 				ExpiresAt = expiry

@@ -5,7 +5,7 @@ using System.Linq;
 namespace Tgstation.Server.Api.Models.Tests
 {
 	/// <summary>
-	/// Tests for the <see cref="ErrorMessage"/> <see langword="class"/>.
+	/// Tests for the <see cref="ErrorMessageResponse"/> <see langword="class"/>.
 	/// </summary>
 	[TestClass]
 	public sealed class TestErrorCodeExtensions

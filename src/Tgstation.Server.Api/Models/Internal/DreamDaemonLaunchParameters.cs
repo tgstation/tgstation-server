@@ -12,19 +12,22 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// If the BYOND web client can be used to connect to the game server
 		/// </summary>
 		[Required]
+		[ResponseOptions]
 		public bool? AllowWebClient { get; set; }
 
 		/// <summary>
-		/// The <see cref="DreamDaemonSecurity"/> level of <see cref="DreamDaemon"/>
+		/// The <see cref="DreamDaemonSecurity"/> level of <see cref="DreamDaemonResponse"/>
 		/// </summary>
 		[Required]
+		[ResponseOptions]
 		[EnumDataType(typeof(DreamDaemonSecurity))]
 		public DreamDaemonSecurity? SecurityLevel { get; set; }
 
 		/// <summary>
-		/// The first port <see cref="DreamDaemon"/> uses. This should be the publically advertised port
+		/// The first port <see cref="DreamDaemonResponse"/> uses. This should be the publically advertised port
 		/// </summary>
 		[Required]
+		[ResponseOptions]
 		[Range(1, UInt16.MaxValue)]
 		public ushort? Port { get; set; }
 
@@ -32,6 +35,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// The DreamDaemon startup timeout in seconds
 		/// </summary>
 		[Required]
+		[ResponseOptions]
 		[Range(1, UInt32.MaxValue)]
 		public uint? StartupTimeout { get; set; }
 
@@ -39,12 +43,14 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// The number of seconds between each watchdog heartbeat. 0 disables.
 		/// </summary>
 		[Required]
+		[ResponseOptions]
 		public uint? HeartbeatSeconds { get; set; }
 
 		/// <summary>
 		/// The timeout for sending and receiving BYOND topics in milliseconds.
 		/// </summary>
 		[Required]
+		[ResponseOptions]
 		[Range(1, UInt32.MaxValue)]
 		public uint? TopicRequestTimeout { get; set; }
 
@@ -52,6 +58,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// Parameters string for DreamDaemon.
 		/// </summary>
 		[Required]
+		[ResponseOptions]
 		[StringLength(Limits.MaximumStringLength)]
 		public string? AdditionalParameters { get; set; }
 

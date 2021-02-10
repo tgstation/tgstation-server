@@ -12,9 +12,9 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// Construct an <see cref="ApiConflictException"/> using an <paramref name="errorMessage"/>
 		/// </summary>
-		/// <param name="errorMessage">The <see cref="ErrorMessage"/> for the <see cref="ApiException"/></param>
+		/// <param name="errorMessage">The <see cref="ErrorMessageResponse"/> for the <see cref="ApiException"/></param>
 		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/> for the <see cref="ClientException"/></param>
-		public ApiConflictException(ErrorMessage? errorMessage, HttpResponseMessage responseMessage) : base(errorMessage, responseMessage)
+		public ApiConflictException(ErrorMessageResponse? errorMessage, HttpResponseMessage responseMessage) : base(errorMessage, responseMessage)
 		{ }
 
 		/// <summary>

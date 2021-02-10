@@ -3,9 +3,9 @@ using System.Collections.Generic;
 namespace Tgstation.Server.Host.Models
 {
 	/// <summary>
-	/// Represents an <see cref="Api.Models.Instance"/> in the database
+	/// Represents an <see cref="Api.Models.Instance"/> in the database.
 	/// </summary>
-	public sealed class Instance : Api.Models.Instance, IApiTransformable<Api.Models.Instance>
+	public sealed class Instance : Api.Models.Instance, IApiTransformable<Api.Models.InstanceResponse>
 	{
 		/// <summary>
 		/// Default for <see cref="Api.Models.Instance.ChatBotLimit"/>.
@@ -53,7 +53,7 @@ namespace Tgstation.Server.Host.Models
 		public ICollection<Job> Jobs { get; set; }
 
 		/// <inheritdoc />
-		public Api.Models.Instance ToApi() => new Api.Models.Instance
+		public Api.Models.InstanceResponse ToApi() => new Api.Models.InstanceResponse
 		{
 			AutoUpdateInterval = AutoUpdateInterval,
 			ConfigurationType = ConfigurationType,
@@ -61,8 +61,7 @@ namespace Tgstation.Server.Host.Models
 			Name = Name,
 			Path = Path,
 			Online = Online,
-			ChatBotLimit = ChatBotLimit,
-			MoveJob = MoveJob,
+			ChatBotLimit = ChatBotLimit
 		};
 	}
 }

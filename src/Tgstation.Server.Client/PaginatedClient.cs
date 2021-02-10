@@ -72,12 +72,12 @@ namespace Tgstation.Server.Client
 				}
 			}
 
-			Task<Paginated<TModel>> GetPage() => instanceId.HasValue
-				? ApiClient.Read<Paginated<TModel>>(
+			Task<PaginatedResponse<TModel>> GetPage() => instanceId.HasValue
+				? ApiClient.Read<PaginatedResponse<TModel>>(
 					String.Format(CultureInfo.InvariantCulture, routeFormatter, currentPage),
 					instanceId.Value,
 					cancellationToken)
-				: ApiClient.Read<Paginated<TModel>>(
+				: ApiClient.Read<PaginatedResponse<TModel>>(
 					String.Format(CultureInfo.InvariantCulture, routeFormatter, currentPage),
 					cancellationToken);
 

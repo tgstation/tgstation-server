@@ -34,19 +34,19 @@ namespace Tgstation.Server.Tests.Instance
 		{
 			global::System.Console.WriteLine("TEST: START WATCHDOG TESTS");
 			// Increase startup timeout, disable heartbeats
-			var initialSettings = await instanceClient.DreamDaemon.Update(new DreamDaemon
+			var initialSettings = await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 			{
 				StartupTimeout = 60,
 				HeartbeatSeconds = 0,
 				Port = IntegrationTest.DDPort
 			}, cancellationToken);
 
-			await ApiAssert.ThrowsException<ApiConflictException>(() => instanceClient.DreamDaemon.Update(new DreamDaemon
+			await ApiAssert.ThrowsException<ApiConflictException>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 			{
 				Port = 0
 			}, cancellationToken), ErrorCode.ModelValidationFailure);
 
-			await ApiAssert.ThrowsException<ApiConflictException>(() => instanceClient.DreamDaemon.Update(new DreamDaemon
+			await ApiAssert.ThrowsException<ApiConflictException>(() => instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 			{
 				SoftShutdown = true,
 				SoftRestart = true
@@ -93,7 +93,7 @@ namespace Tgstation.Server.Tests.Instance
 					KillDD(false);
 			});
 
-			Job job;
+			JobResponse job;
 			try
 			{
 				await killTaskStarted.Task;
@@ -152,7 +152,7 @@ namespace Tgstation.Server.Tests.Instance
 		{
 			global::System.Console.WriteLine("TEST: WATCHDOG BASIC TEST");
 
-			var daemonStatus = await instanceClient.DreamDaemon.Update(new DreamDaemon
+			var daemonStatus = await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 			{
 				AdditionalParameters = "test=bababooey"
 			}, cancellationToken);
@@ -165,7 +165,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreEqual(DMApiConstants.InteropVersion, daemonStatus.ActiveCompileJob.DMApiVersion);
 			Assert.AreEqual(DreamDaemonSecurity.Trusted, daemonStatus.ActiveCompileJob.MinimumSecurityLevel);
 
-			Job startJob;
+			JobResponse startJob;
 			if (new PlatformIdentifier().IsWindows) // Can't get address reuse to trigger on linux for some reason
 				using (var blockSocket = new Socket(SocketType.Stream, ProtocolType.Tcp))
 				{
@@ -195,7 +195,7 @@ namespace Tgstation.Server.Tests.Instance
 
 			await CheckDMApiFail(daemonStatus.ActiveCompileJob, cancellationToken);
 
-			daemonStatus = await instanceClient.DreamDaemon.Update(new DreamDaemon
+			daemonStatus = await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 			{
 				AdditionalParameters = String.Empty
 			}, cancellationToken);
@@ -206,7 +206,7 @@ namespace Tgstation.Server.Tests.Instance
 		{
 			System.Console.WriteLine("TEST: WATCHDOG HEARTBEAT TEST");
 			// enable heartbeats
-			await instanceClient.DreamDaemon.Update(new DreamDaemon
+			await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 			{
 				HeartbeatSeconds = 1,
 			}, cancellationToken);
@@ -235,7 +235,7 @@ namespace Tgstation.Server.Tests.Instance
 			await Task.WhenAny(Task.Delay(20000), ourProcessHandler.Lifetime);
 			Assert.IsFalse(ddProc.HasExited);
 
-			await instanceClient.DreamDaemon.Update(new DreamDaemon
+			await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 			{
 				SoftShutdown = true
 			}, cancellationToken);
@@ -259,13 +259,13 @@ namespace Tgstation.Server.Tests.Instance
 			while (timeout > 0);
 
 			// disable heartbeats
-			await instanceClient.DreamDaemon.Update(new DreamDaemon
+			await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 			{
 				HeartbeatSeconds = 0,
 			}, cancellationToken);
 		}
 
-		async Task<Job> StartDD(CancellationToken cancellationToken)
+		async Task<JobResponse> StartDD(CancellationToken cancellationToken)
 		{
 			// integration tests may take a while to release the port
 			using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
@@ -392,7 +392,7 @@ namespace Tgstation.Server.Tests.Instance
 			await WaitForJob(startJob, 70, false, null, cancellationToken);
 
 			var byondInstallJobTask = instanceClient.Byond.SetActiveVersion(
-				new Api.Models.Byond
+				new ByondInstallRequest
 				{
 					Version = versionToInstall
 				},
@@ -486,7 +486,7 @@ namespace Tgstation.Server.Tests.Instance
 			return ddProc != null;
 		}
 
-		async Task<DreamDaemon> TellWorldToReboot(CancellationToken cancellationToken)
+		async Task<DreamDaemonResponse> TellWorldToReboot(CancellationToken cancellationToken)
 		{
 			var daemonStatus = await instanceClient.DreamDaemon.Read(cancellationToken);
 			var initialCompileJob = daemonStatus.ActiveCompileJob;
@@ -527,9 +527,9 @@ namespace Tgstation.Server.Tests.Instance
 			return daemonStatus;
 		}
 
-		async Task<DreamDaemon> DeployTestDme(string dmeName, DreamDaemonSecurity deploymentSecurity, bool requireApi, CancellationToken cancellationToken)
+		async Task<DreamDaemonResponse> DeployTestDme(string dmeName, DreamDaemonSecurity deploymentSecurity, bool requireApi, CancellationToken cancellationToken)
 		{
-			var refreshed = await instanceClient.DreamMaker.Update(new DreamMaker
+			var refreshed = await instanceClient.DreamMaker.Update(new DreamMakerRequest
 			{
 				ApiValidationSecurityLevel = deploymentSecurity,
 				ProjectName = $"tests/DMAPI/{dmeName}",
@@ -551,7 +551,7 @@ namespace Tgstation.Server.Tests.Instance
 
 		async Task GracefulWatchdogShutdown(uint timeout, CancellationToken cancellationToken)
 		{
-			await instanceClient.DreamDaemon.Update(new DreamDaemon
+			await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 			{
 				SoftShutdown = true
 			}, cancellationToken);
@@ -572,7 +572,7 @@ namespace Tgstation.Server.Tests.Instance
 			while (timeout > 0);
 		}
 
-		async Task CheckDMApiFail(CompileJob compileJob, CancellationToken cancellationToken)
+		async Task CheckDMApiFail(CompileJobResponse compileJob, CancellationToken cancellationToken)
 		{
 			var failFile = Path.Combine(instanceClient.Metadata.Path, "Game", compileJob.DirectoryName.Value.ToString(), "A", Path.GetDirectoryName(compileJob.DmeName), "test_fail_reason.txt");
 			if (!File.Exists(failFile))

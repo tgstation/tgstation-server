@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Client.Components
@@ -42,6 +42,8 @@ namespace Tgstation.Server.Client.Components
 		{
 			if (apiClient == null)
 				throw new ArgumentNullException(nameof(apiClient));
+			if (!instance.Id.HasValue)
+				throw new ArgumentException("Instance missing ID!", nameof(instance));
 
 			Metadata = instance ?? throw new ArgumentNullException(nameof(instance));
 

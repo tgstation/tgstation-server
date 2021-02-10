@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Internal;
 
 namespace Tgstation.Server.Client.Components
 {
@@ -27,19 +28,19 @@ namespace Tgstation.Server.Client.Components
 		}
 
 		/// <inheritdoc />
-		public Task<Job> Compile(CancellationToken cancellationToken) => ApiClient.Create<Job>(Routes.DreamMaker, instance.Id, cancellationToken);
+		public Task<JobResponse> Compile(CancellationToken cancellationToken) => ApiClient.Create<JobResponse>(Routes.DreamMaker, instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<CompileJob> GetCompileJob(EntityId compileJob, CancellationToken cancellationToken) => ApiClient.Read<CompileJob>(Routes.SetID(Routes.DreamMaker, compileJob?.Id ?? throw new ArgumentNullException(nameof(compileJob))), instance.Id, cancellationToken);
+		public Task<CompileJobResponse> GetCompileJob(EntityId compileJob, CancellationToken cancellationToken) => ApiClient.Read<CompileJobResponse>(Routes.SetID(Routes.DreamMaker, compileJob?.Id ?? throw new ArgumentNullException(nameof(compileJob))), instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<CompileJob>> ListCompileJobs(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
-			=> ReadPaged<CompileJob>(paginationSettings, Routes.ListRoute(Routes.DreamMaker), instance.Id, cancellationToken);
+		public Task<IReadOnlyList<CompileJobResponse>> ListCompileJobs(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
+			=> ReadPaged<CompileJobResponse>(paginationSettings, Routes.ListRoute(Routes.DreamMaker), instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<DreamMaker> Read(CancellationToken cancellationToken) => ApiClient.Read<DreamMaker>(Routes.DreamMaker, instance.Id, cancellationToken);
+		public Task<DreamMakerResponse> Read(CancellationToken cancellationToken) => ApiClient.Read<DreamMakerResponse>(Routes.DreamMaker, instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<DreamMaker> Update(DreamMaker dreamMaker, CancellationToken cancellationToken) => ApiClient.Update<DreamMaker, DreamMaker>(Routes.DreamMaker, dreamMaker ?? throw new ArgumentNullException(nameof(dreamMaker)), instance.Id, cancellationToken);
+		public Task<DreamMakerResponse> Update(DreamMakerRequest dreamMaker, CancellationToken cancellationToken) => ApiClient.Update<DreamMakerRequest, DreamMakerResponse>(Routes.DreamMaker, dreamMaker ?? throw new ArgumentNullException(nameof(dreamMaker)), instance.Id!.Value, cancellationToken);
 	}
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Tgstation.Server.Host.Components.Session;
 
 namespace Tgstation.Server.Host.Components.Interop.Topic
@@ -35,7 +35,7 @@ namespace Tgstation.Server.Host.Components.Interop.Topic
 		public RebootState? NewRebootState { get; }
 
 		/// <summary>
-		/// The new <see cref="Api.Models.Instance.Name"/> for <see cref="TopicCommandType.InstanceRenamed"/> requests.
+		/// The new <see cref="Api.Models.NamedEntity.Name"/> for <see cref="TopicCommandType.InstanceRenamed"/> requests.
 		/// </summary>
 		public string NewInstanceName { get; }
 

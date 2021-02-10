@@ -12,9 +12,9 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// Construct an <see cref="UnauthorizedException"/>
 		/// </summary>
-		/// <param name="errorMessage">The <see cref="ErrorMessage"/> returned by the API.</param>
+		/// <param name="errorMessage">The <see cref="ErrorMessageResponse"/> returned by the API.</param>
 		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/>.</param>
-		public UnauthorizedException(ErrorMessage? errorMessage, HttpResponseMessage responseMessage) : base(errorMessage, responseMessage)
+		public UnauthorizedException(ErrorMessageResponse? errorMessage, HttpResponseMessage responseMessage) : base(errorMessage, responseMessage)
 		{ }
 
 		/// <summary>

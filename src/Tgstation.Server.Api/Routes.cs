@@ -14,44 +14,44 @@ namespace Tgstation.Server.Api
 		public const string Root = "/";
 
 		/// <summary>
-		/// The <see cref="Models.Administration"/> controller
+		/// The server administration controller.
 		/// </summary>
-		public const string Administration = Root + nameof(Models.Administration);
+		public const string Administration = Root + "Administration";
 
 		/// <summary>
-		/// The <see cref="Models.Administration"/> controller
+		/// The endpoint to download server logs.
 		/// </summary>
 		public const string Logs = Administration + "/Logs";
 
 		/// <summary>
-		/// The <see cref="Models.User"/> controller
+		/// The <see cref="Models.Internal.UserModelBase"/> controller.
 		/// </summary>
-		public const string User = Root + nameof(Models.User);
+		public const string User = Root + "User";
 
 		/// <summary>
-		/// The <see cref="Models.UserGroup"/> controller.
+		/// The <see cref="Models.UserGroupResponse"/> controller.
 		/// </summary>
-		public const string UserGroup = Root + nameof(Models.UserGroup);
+		public const string UserGroup = Root + "UserGroup";
 
 		/// <summary>
-		/// The <see cref="Models.Instance"/> controller
+		/// The <see cref="Models.Instance"/> controller.
 		/// </summary>
-		public const string InstanceManager = Root + nameof(Models.Instance);
+		public const string InstanceManager = Root + "Instance";
 
 		/// <summary>
-		/// The <see cref="Models.Byond"/> controller
+		/// The BYOND controller.
 		/// </summary>
-		public const string Byond = Root + nameof(Models.Byond);
+		public const string Byond = Root + "Byond";
 
 		/// <summary>
-		/// The <see cref="Models.Repository"/> controller
+		/// The git repository controller.
 		/// </summary>
-		public const string Repository = Root + nameof(Models.Repository);
+		public const string Repository = Root + "Repository";
 
 		/// <summary>
-		/// The <see cref="Models.DreamDaemon"/> controller
+		/// The DreamDaemon controller
 		/// </summary>
-		public const string DreamDaemon = Root + nameof(Models.DreamDaemon);
+		public const string DreamDaemon = Root + "DreamDaemon";
 
 		/// <summary>
 		/// For accessing DD diagnostics
@@ -59,12 +59,12 @@ namespace Tgstation.Server.Api
 		public const string Diagnostics = DreamDaemon + "/Diagnostics";
 
 		/// <summary>
-		/// The <see cref="Models.ConfigurationFile"/> controller
+		/// The configuration controller
 		/// </summary>
 		public const string Configuration = Root + "Config";
 
 		/// <summary>
-		/// To be paired with <see cref="Configuration"/> for accessing <see cref="Models.ConfigurationFile"/>s
+		/// To be paired with <see cref="Configuration"/> for accessing <see cref="Models.IConfigurationFile"/>s.
 		/// </summary>
 		public const string File = "File";
 
@@ -74,24 +74,24 @@ namespace Tgstation.Server.Api
 		public const string ConfigurationFile = Configuration + "/" + File;
 
 		/// <summary>
-		/// The <see cref="Models.InstancePermissionSet"/> controller
+		/// The instance permission set controller.
 		/// </summary>
-		public const string InstancePermissionSet = Root + nameof(Models.InstancePermissionSet);
+		public const string InstancePermissionSet = Root + "InstancePermissionSet";
 
 		/// <summary>
-		/// The <see cref="Models.ChatBot"/> controller
+		/// The chat bot controller
 		/// </summary>
 		public const string Chat = Root + "Chat";
 
 		/// <summary>
-		/// The <see cref="Models.DreamMaker"/> controller
+		/// The deployment controller
 		/// </summary>
-		public const string DreamMaker = Root + nameof(Models.DreamMaker);
+		public const string DreamMaker = Root + "DreamMaker";
 
 		/// <summary>
-		/// The <see cref="Models.Job"/> controller
+		/// The jobs controller
 		/// </summary>
-		public const string Jobs = Root + nameof(Models.Job);
+		public const string Jobs = Root + "Job";
 
 		/// <summary>
 		/// The transfer controller.
@@ -119,7 +119,7 @@ namespace Tgstation.Server.Api
 		public static string ListRoute(string route) => String.Format(CultureInfo.InvariantCulture, "{0}/{1}", route, List);
 
 		/// <summary>
-		/// Sanitize a <see cref="Models.FileTicketResult"/> path for use in a GET <see cref="Uri"/>.
+		/// Sanitize a <see cref="Models.FileTicketResponse"/> path for use in a GET <see cref="Uri"/>.
 		/// </summary>
 		/// <param name="path">The path to sanitize.</param>
 		/// <returns>The sanitized path.</returns>

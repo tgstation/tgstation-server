@@ -22,6 +22,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// Optional comment about the test
 		/// </summary>
+		[ResponseOptions]
 		[StringLength(Limits.MaximumStringLength)]
 		public string? Comment { get; set; }
 	}

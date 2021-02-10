@@ -14,7 +14,7 @@ namespace Tgstation.Server.Api.Rights
 		None = 0,
 
 		/// <summary>
-		/// User can view <see cref="Models.Instance"/>s which they have an <see cref="Models.InstancePermissionSet"/> for.
+		/// User can view <see cref="Models.Instance"/>s which they have an <see cref="Models.Internal.InstancePermissionSet"/> for.
 		/// </summary>
 		Read = 1,
 
@@ -64,7 +64,7 @@ namespace Tgstation.Server.Api.Rights
 		SetChatBotLimit = 512,
 
 		/// <summary>
-		/// User can give themselves or their group full <see cref="Models.InstancePermissionSet"/> rights on ALL instances.
+		/// User can give themselves or their group full <see cref="InstancePermissionSetRights"/> on ALL instances.
 		/// </summary>
 		GrantPermissions = 1024,
 	}

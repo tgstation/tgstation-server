@@ -20,19 +20,19 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <inheritdoc />
-		public Task<User> Create(UserUpdate user, CancellationToken cancellationToken) => ApiClient.Create<UserUpdate, User>(Routes.User, user ?? throw new ArgumentNullException(nameof(user)), cancellationToken);
+		public Task<UserResponse> Create(UserCreateRequest user, CancellationToken cancellationToken) => ApiClient.Create<UserCreateRequest, UserResponse>(Routes.User, user ?? throw new ArgumentNullException(nameof(user)), cancellationToken);
 
 		/// <inheritdoc />
-		public Task<User> GetId(Api.Models.Internal.UserBase user, CancellationToken cancellationToken) => ApiClient.Read<User>(Routes.SetID(Routes.User, user?.Id ?? throw new ArgumentNullException(nameof(user))), cancellationToken);
+		public Task<UserResponse> GetId(EntityId user, CancellationToken cancellationToken) => ApiClient.Read<UserResponse>(Routes.SetID(Routes.User, user?.Id ?? throw new ArgumentNullException(nameof(user))), cancellationToken);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<User>> List(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
-			=> ReadPaged<User>(paginationSettings, Routes.ListRoute(Routes.User), null, cancellationToken);
+		public Task<IReadOnlyList<UserResponse>> List(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
+			=> ReadPaged<UserResponse>(paginationSettings, Routes.ListRoute(Routes.User), null, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<User> Read(CancellationToken cancellationToken) => ApiClient.Read<User>(Routes.User, cancellationToken);
+		public Task<UserResponse> Read(CancellationToken cancellationToken) => ApiClient.Read<UserResponse>(Routes.User, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<User> Update(UserUpdate user, CancellationToken cancellationToken) => ApiClient.Update<UserUpdate, User>(Routes.User, user ?? throw new ArgumentNullException(nameof(user)), cancellationToken);
+		public Task<UserResponse> Update(UserUpdateRequest user, CancellationToken cancellationToken) => ApiClient.Update<UserUpdateRequest, UserResponse>(Routes.User, user ?? throw new ArgumentNullException(nameof(user)), cancellationToken);
 	}
 }

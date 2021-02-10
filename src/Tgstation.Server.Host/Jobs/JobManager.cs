@@ -78,7 +78,7 @@ namespace Tgstation.Server.Host.Jobs
 		{
 			lock (synchronizationLock)
 			{
-				if (!jobs.TryGetValue(job.Id, out JobHandler jobHandler))
+				if (!jobs.TryGetValue(job.Id.Value, out JobHandler jobHandler))
 					throw new InvalidOperationException("Job not running!");
 				return jobHandler;
 			}
@@ -105,7 +105,7 @@ namespace Tgstation.Server.Host.Jobs
 						void UpdateProgress(int progress)
 						{
 							lock (synchronizationLock)
-								if (jobs.TryGetValue(oldJob.Id, out var handler))
+								if (jobs.TryGetValue(oldJob.Id.Value, out var handler))
 									handler.Progress = progress;
 						}
 
@@ -160,8 +160,8 @@ namespace Tgstation.Server.Host.Jobs
 				{
 					lock (synchronizationLock)
 					{
-						var handler = jobs[job.Id];
-						jobs.Remove(job.Id);
+						var handler = jobs[job.Id.Value];
+						jobs.Remove(job.Id.Value);
 						handler.Dispose();
 					}
 				}
@@ -207,7 +207,7 @@ namespace Tgstation.Server.Host.Jobs
 					try
 					{
 						lock (synchronizationLock)
-							jobs.Add(job.Id, jobHandler);
+							jobs.Add(job.Id.Value, jobHandler);
 
 						jobHandler.Start();
 					}
@@ -309,7 +309,7 @@ namespace Tgstation.Server.Host.Jobs
 				throw new ArgumentNullException(nameof(job));
 			lock (synchronizationLock)
 			{
-				if (!jobs.TryGetValue(job.Id, out var handler))
+				if (!jobs.TryGetValue(job.Id.Value, out var handler))
 					return null;
 				return handler.Progress;
 			}
@@ -323,7 +323,7 @@ namespace Tgstation.Server.Host.Jobs
 			JobHandler handler;
 			lock (synchronizationLock)
 			{
-				if (!jobs.TryGetValue(job.Id, out handler))
+				if (!jobs.TryGetValue(job.Id.Value, out handler))
 					return;
 			}
 

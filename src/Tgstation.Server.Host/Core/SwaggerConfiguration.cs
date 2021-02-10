@@ -18,7 +18,7 @@ namespace Tgstation.Server.Host.Core
 	/// <summary>
 	/// Implements various filters for <see cref="Swashbuckle"/>.
 	/// </summary>
-	sealed class SwaggerConfiguration : IOperationFilter, IDocumentFilter, ISchemaFilter
+	sealed class SwaggerConfiguration : IOperationFilter, IDocumentFilter, ISchemaFilter, IRequestBodyFilter
 	{
 		/// <summary>
 		/// The <see cref="OpenApiSecurityScheme"/> name for password authentication.
@@ -47,7 +47,7 @@ namespace Tgstation.Server.Host.Core
 						{
 							Reference = new OpenApiReference
 							{
-								Id = nameof(ErrorMessage),
+								Id = nameof(ErrorMessageResponse),
 								Type = ReferenceType.Schema
 							}
 						}
@@ -120,6 +120,19 @@ namespace Tgstation.Server.Host.Core
 			});
 		}
 
+		static string GenerateSchemaId(Type type)
+		{
+			if (type == typeof(NamedEntity))
+				return "ShallowUserResponse";
+			if (type == typeof(Api.Models.Internal.UserGroup))
+				return "ShallowUserGroupResponse";
+
+			if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(PaginatedResponse<>))
+				return $"Paginated{type.GenericTypeArguments.First().Name}";
+
+			return type.Name;
+		}
+
 		/// <summary>
 		/// Configure the swagger settings.
 		/// </summary>
@@ -158,19 +171,9 @@ namespace Tgstation.Server.Host.Core
 			swaggerGenOptions.OperationFilter<SwaggerConfiguration>();
 			swaggerGenOptions.DocumentFilter<SwaggerConfiguration>();
 			swaggerGenOptions.SchemaFilter<SwaggerConfiguration>();
+			swaggerGenOptions.RequestBodyFilter<SwaggerConfiguration>();
 
-			swaggerGenOptions.CustomSchemaIds(type =>
-			{
-				if (type == typeof(Api.Models.Internal.UserBase))
-					return "ShallowUser";
-				if (type == typeof(Api.Models.Internal.UserGroup))
-					return "ShallowUserGroup";
-
-				if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Paginated<>))
-					return $"Paginated{type.GenericTypeArguments.First().Name}";
-
-				return type.Name;
-			});
+			swaggerGenOptions.CustomSchemaIds(GenerateSchemaId);
 
 			swaggerGenOptions.AddSecurityDefinition(PasswordSecuritySchemeId, new OpenApiSecurityScheme
 			{
@@ -207,11 +210,6 @@ namespace Tgstation.Server.Host.Core
 				throw new ArgumentNullException(nameof(context));
 
 			operation.OperationId = $"{context.MethodInfo.DeclaringType.Name}.{context.MethodInfo.Name}";
-
-			// request bodies are never nullable
-			var bodySchemas = operation.RequestBody?.Content.Select(x => x.Value.Schema) ?? Enumerable.Empty<OpenApiSchema>();
-			foreach (var bodySchema in bodySchemas)
-				bodySchema.Nullable = false;
 
 			var authAttributes = context
 				.MethodInfo
@@ -439,14 +437,59 @@ namespace Tgstation.Server.Host.Core
 				? context.Type.GenericTypeArguments.First()
 				: context.Type;
 
-			if (nonNullableType != context.Type
-				&& !context.Type.GetInterfaces().Any(x => x == typeof(IEnumerable)))
-				schema.Nullable = true;
+			if (context.MemberInfo != null)
+			{
+				var schemaId = GenerateSchemaId(context.MemberInfo.DeclaringType);
+				var responseOptions = context.MemberInfo.GetCustomAttributes(typeof(ResponseOptionsAttribute), true).OfType<ResponseOptionsAttribute>().FirstOrDefault();
+				var requestOptions = context.MemberInfo.GetCustomAttributes(typeof(RequestOptionsAttribute), true).OfType<RequestOptionsAttribute>().FirstOrDefault();
+
+				if (schemaId.EndsWith("Response", StringComparison.Ordinal))
+					if (responseOptions?.Presence == FieldPresence.Optional
+						|| (nonNullableType != context.Type
+							&& !context.Type.GetInterfaces().Any(x => x == typeof(IEnumerable))))
+						schema.Nullable = true;
+					else if (responseOptions?.Presence == FieldPresence.Ignored)
+						schema.WriteOnly = true;
+					else
+						schema.Nullable = false;
+				else if (requestOptions != null)
+					if (schemaId.EndsWith("Request", StringComparison.Ordinal))
+					{
+						var isPutRequest = schemaId.Contains("Create", StringComparison.OrdinalIgnoreCase);
+						if (!(requestOptions.PutOnly && !isPutRequest))
+							if (requestOptions.Presence == FieldPresence.Required)
+								context.SchemaRepository.Schemas.Remove(schemaId);
+							else if (requestOptions.Presence == FieldPresence.Ignored)
+								schema.ReadOnly = true;
+					}
+					else if (responseOptions?.Presence != FieldPresence.Optional && requestOptions.Presence == FieldPresence.Required)
+						// if something has request required and no optional response, it's always required
+						schema.Nullable = false;
+					else
+						schema.Nullable = true;
+				else
+				{
+					if (responseOptions?.Presence == FieldPresence.Ignored)
+						context.SchemaRepository.Schemas.Remove(schemaId);
+					schema.Nullable = true;
+				}
+			}
 
 			if (!schema.Enum?.Any() ?? false)
 				return;
 
 			OpenApiEnumVarNamesExtension.Apply(schema, nonNullableType);
+		}
+
+		/// <inheritdoc />
+		public void Apply(OpenApiRequestBody requestBody, RequestBodyFilterContext context)
+		{
+			if (requestBody == null)
+				throw new ArgumentNullException(nameof(requestBody));
+			if (context == null)
+				throw new ArgumentNullException(nameof(context));
+
+			requestBody.Required = true;
 		}
 	}
 }

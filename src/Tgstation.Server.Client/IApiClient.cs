@@ -205,18 +205,18 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// Downloads a file <see cref="Stream"/> for a given <paramref name="ticket"/>.
 		/// </summary>
-		/// <param name="ticket">The <see cref="FileTicketResult"/> to download.</param>
+		/// <param name="ticket">The <see cref="FileTicketResponse"/> to download.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the downloaded <see cref="Stream"/>.</returns>
-		Task<Stream> Download(FileTicketResult ticket, CancellationToken cancellationToken);
+		Task<Stream> Download(FileTicketResponse ticket, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Uploads a given <paramref name="uploadStream"/> for a given <paramref name="ticket"/>.
 		/// </summary>
-		/// <param name="ticket">The <see cref="FileTicketResult"/> to download.</param>
+		/// <param name="ticket">The <see cref="FileTicketResponse"/> to download.</param>
 		/// <param name="uploadStream">The <see cref="Stream"/> to upload. <see langword="null"/> represents an empty file.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task"/> representing the running operation.</returns>
-		Task Upload(FileTicketResult ticket, Stream? uploadStream, CancellationToken cancellationToken);
+		Task Upload(FileTicketResponse ticket, Stream? uploadStream, CancellationToken cancellationToken);
 	}
 }

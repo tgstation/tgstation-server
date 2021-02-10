@@ -17,9 +17,9 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// Construct an <see cref="ServerErrorException"/> with a given <paramref name="errorMessage"/>
 		/// </summary>
-		/// <param name="errorMessage">The <see cref="ErrorMessage"/> for the <see cref="ApiException"/></param>
+		/// <param name="errorMessage">The <see cref="ErrorMessageResponse"/> for the <see cref="ApiException"/></param>
 		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/> for the <see cref="ClientException"/></param>
-		public ServerErrorException(ErrorMessage? errorMessage, HttpResponseMessage responseMessage) : base(errorMessage, responseMessage)
+		public ServerErrorException(ErrorMessageResponse? errorMessage, HttpResponseMessage responseMessage) : base(errorMessage, responseMessage)
 		{
 		}
 

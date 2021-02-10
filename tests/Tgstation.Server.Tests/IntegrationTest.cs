@@ -65,12 +65,12 @@ namespace Tgstation.Server.Tests
 						using var response = await httpClient.SendAsync(request, cancellationToken);
 						Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 						var content = await response.Content.ReadAsStringAsync();
-						var message = JsonConvert.DeserializeObject<ErrorMessage>(content);
+						var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
 						Assert.AreEqual(ErrorCode.OAuthProviderDisabled, message.ErrorCode);
 					}
 
 					//attempt to update to stable
-					await adminClient.Administration.Update(new Administration
+					await adminClient.Administration.Update(new ServerUpdateRequest
 					{
 						NewVersion = testUpdateVersion
 					}, cancellationToken).ConfigureAwait(false);
@@ -162,7 +162,7 @@ namespace Tgstation.Server.Tests
 
 					async Task WaitForSwarmServerUpdate()
 					{
-						ServerInformation serverInformation;
+						ServerInformationResponse serverInformation;
 						do
 						{
 							await Task.Delay(TimeSpan.FromSeconds(10));
@@ -171,7 +171,7 @@ namespace Tgstation.Server.Tests
 						while (serverInformation.SwarmServers.Count == 1);
 					}
 
-					static void CheckInfo(ServerInformation serverInformation)
+					static void CheckInfo(ServerInformationResponse serverInformation)
 					{
 						Assert.IsNotNull(serverInformation.SwarmServers);
 						Assert.AreEqual(3, serverInformation.SwarmServers.Count);
@@ -205,7 +205,7 @@ namespace Tgstation.Server.Tests
 					CheckInfo(node2Info);
 
 					// check user info is shared
-					var newUser = await node2Client.Users.Create(new UserUpdate
+					var newUser = await node2Client.Users.Create(new UserCreateRequest
 					{
 						Name = "asdf",
 						Password = "asdfasdfasdfasdf",
@@ -230,7 +230,7 @@ namespace Tgstation.Server.Tests
 
 					// check instance info is not shared
 					var controllerInstance = await controllerClient.Instances.CreateOrAttach(
-						new Api.Models.Instance
+						new InstanceCreateRequest
 						{
 							Name = "ControllerInstance",
 							Path = Path.Combine(controller.Directory, "ControllerInstance")
@@ -238,7 +238,7 @@ namespace Tgstation.Server.Tests
 						cancellationToken);
 
 					var node2Instance = await node2Client.Instances.CreateOrAttach(
-						new Api.Models.Instance
+						new InstanceCreateRequest
 						{
 							Name = "Node2Instance",
 							Path = Path.Combine(node2.Directory, "Node2Instance")
@@ -259,7 +259,7 @@ namespace Tgstation.Server.Tests
 					// test update
 					var testUpdateVersion = new Version(4, 8, 1);
 					await node1Client.Administration.Update(
-						new Administration
+						new ServerUpdateRequest
 						{
 							NewVersion = testUpdateVersion
 						},
@@ -294,7 +294,7 @@ namespace Tgstation.Server.Tests
 					using var node2Client2 = await CreateAdminClient(node2.Url, cancellationToken);
 
 					await controllerClient2.Administration.Update(
-						new Administration
+						new ServerUpdateRequest
 						{
 							NewVersion = testUpdateVersion
 						},
@@ -375,7 +375,7 @@ namespace Tgstation.Server.Tests
 
 					async Task WaitForSwarmServerUpdate(IServerClient client, int currentServerCount)
 					{
-						ServerInformation serverInformation;
+						ServerInformationResponse serverInformation;
 						do
 						{
 							await Task.Delay(TimeSpan.FromSeconds(10));
@@ -384,7 +384,7 @@ namespace Tgstation.Server.Tests
 						while (serverInformation.SwarmServers.Count == currentServerCount);
 					}
 
-					static void CheckInfo(ServerInformation serverInformation)
+					static void CheckInfo(ServerInformationResponse serverInformation)
 					{
 						Assert.IsNotNull(serverInformation.SwarmServers);
 						Assert.AreEqual(3, serverInformation.SwarmServers.Count);
@@ -473,14 +473,14 @@ namespace Tgstation.Server.Tests
 					Assert.IsNotNull(controllerInfo.SwarmServers.SingleOrDefault(x => x.Identifier == "node2"));
 
 					// update should fail
-					await controllerClient2.Administration.Update(new Administration
+					await controllerClient2.Administration.Update(new ServerUpdateRequest
 					{
 						NewVersion = new Version(4, 6, 2)
 					}, cancellationToken);
 
 					async Task WaitForUpdateFailure()
 					{
-						ServerInformation serverInformation;
+						ServerInformationResponse serverInformation;
 						serverInformation = await controllerClient2.ServerInformation(cancellationToken);
 						while (serverInformation.UpdateInProgress)
 						{
@@ -538,8 +538,8 @@ namespace Tgstation.Server.Tests
 					Console.WriteLine($"TEST: CreateAdminClient attempt {I}...");
 					return await clientFactory.CreateFromLogin(
 						url,
-						User.AdminName,
-						User.DefaultAdminPassword,
+						DefaultCredentials.AdminUserName,
+						DefaultCredentials.DefaultAdminUserPassword,
 						attemptLoginRefresh: false,
 						cancellationToken: cancellationToken)
 						.ConfigureAwait(false);
@@ -835,7 +835,7 @@ namespace Tgstation.Server.Tests
 					Assert.AreEqual(WatchdogStatus.Online, dd.Status.Value);
 
 					await instanceClient.DreamDaemon.Shutdown(cancellationToken);
-					await instanceClient.DreamDaemon.Update(new DreamDaemon
+					await instanceClient.DreamDaemon.Update(new DreamDaemonRequest
 					{
 						AutoStart = true
 					}, cancellationToken);

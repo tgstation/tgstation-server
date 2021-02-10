@@ -10,9 +10,9 @@ namespace Tgstation.Server.Host.Swarm
 	public sealed class SwarmServersUpdateRequest
 	{
 		/// <summary>
-		/// The <see cref="ICollection{T}"/> of updated <see cref="SwarmServer"/>s.
+		/// The <see cref="ICollection{T}"/> of updated <see cref="SwarmServerResponse"/>s.
 		/// </summary>
 		[Required]
-		public ICollection<SwarmServer> SwarmServers { get; set; }
+		public ICollection<SwarmServerResponse> SwarmServers { get; set; }
 	}
 }

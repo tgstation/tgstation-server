@@ -4,7 +4,7 @@ using Tgstation.Server.Api.Models;
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class RepositorySettings : Api.Models.Internal.RepositorySettings, IApiTransformable<Repository>
+	public sealed class RepositorySettings : Api.Models.Internal.RepositorySettings, IApiTransformable<RepositoryResponse>
 	{
 		/// <summary>
 		/// The row Id
@@ -23,7 +23,7 @@ namespace Tgstation.Server.Host.Models
 		public Instance Instance { get; set; }
 
 		/// <inheritdoc />
-		public Repository ToApi() => new Repository
+		public RepositoryResponse ToApi() => new RepositoryResponse
 		{
 			// AccessToken = AccessToken, // never show this
 			AccessUser = AccessUser,

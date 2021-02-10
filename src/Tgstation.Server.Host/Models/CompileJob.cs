@@ -5,10 +5,10 @@ using Tgstation.Server.Api.Models;
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class CompileJob : Api.Models.Internal.CompileJob, IApiTransformable<Api.Models.CompileJob>
+	public sealed class CompileJob : Api.Models.Internal.CompileJob, IApiTransformable<CompileJobResponse>
 	{
 		/// <summary>
-		/// See <see cref="Api.Models.CompileJob.Job"/>
+		/// See <see cref="CompileJobResponse.Job"/>
 		/// </summary>
 		[Required]
 		public Job Job { get; set; }
@@ -19,7 +19,7 @@ namespace Tgstation.Server.Host.Models
 		public long JobId { get; set; }
 
 		/// <summary>
-		/// See <see cref="Api.Models.CompileJob.RevisionInformation"/>
+		/// See <see cref="CompileJobResponse.RevisionInformation"/>
 		/// </summary>
 		[Required]
 		public RevisionInformation RevisionInformation { get; set; }
@@ -79,7 +79,7 @@ namespace Tgstation.Server.Host.Models
 		}
 
 		/// <inheritdoc />
-		public Api.Models.CompileJob ToApi() => new Api.Models.CompileJob
+		public CompileJobResponse ToApi() => new CompileJobResponse
 		{
 			DirectoryName = DirectoryName,
 			DmeName = DmeName,

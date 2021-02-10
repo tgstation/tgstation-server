@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Tgstation.Server.Api.Models.Internal
 {
 	/// <summary>
-	/// Represents a run of <see cref="DreamMaker"/>
+	/// Represents a deployment run.
 	/// </summary>
 	public class CompileJob : EntityId
 	{
@@ -19,6 +19,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// Textual output of DM
 		/// </summary>
 		[Required]
+		[ResponseOptions]
 		public string? Output { get; set; }
 
 		/// <summary>
@@ -36,6 +37,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// The DMAPI <see cref="Version"/>.
 		/// </summary>
 		[NotMapped]
+		[ResponseOptions]
 		public virtual Version? DMApiVersion { get; set; }
 	}
 }

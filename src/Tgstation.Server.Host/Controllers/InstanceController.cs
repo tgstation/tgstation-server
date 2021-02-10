@@ -38,7 +38,7 @@ namespace Tgstation.Server.Host.Controllers
 		public const string InstanceAttachFileName = "TGS4_ALLOW_INSTANCE_ATTACH";
 
 		/// <summary>
-		/// Prefix for move <see cref="Api.Models.Job"/>s.
+		/// Prefix for move <see cref="JobResponse"/>s.
 		/// </summary>
 		const string MoveInstanceJobPrefix = "Move instance ID ";
 
@@ -116,7 +116,7 @@ namespace Tgstation.Server.Host.Controllers
 			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 		}
 
-		async Task<Models.Instance> CreateDefaultInstance(Api.Models.Instance initialSettings, CancellationToken cancellationToken)
+		async Task<Models.Instance> CreateDefaultInstance(InstanceUpdateRequest initialSettings, CancellationToken cancellationToken)
 		{
 			var ddPort = await portAllocator.GetAvailablePort(1, false, cancellationToken).ConfigureAwait(false);
 			if (!ddPort.HasValue)
@@ -177,7 +177,7 @@ namespace Tgstation.Server.Host.Controllers
 					PostTestMergeComment = false,
 					CreateGitHubDeployments = false
 				},
-				InstancePermissionSets = new List<Models.InstancePermissionSet> // give this user full privileges on the instance
+				InstancePermissionSets = new List<InstancePermissionSet> // give this user full privileges on the instance
 				{
 					InstanceAdminPermissionSet(null)
 				},
@@ -197,10 +197,15 @@ namespace Tgstation.Server.Host.Controllers
 			return path;
 		}
 
-		Models.InstancePermissionSet InstanceAdminPermissionSet(Models.InstancePermissionSet permissionSetToModify)
+		/// <summary>
+		/// Generate an <see cref="InstancePermissionSet"/> with full rights.
+		/// </summary>
+		/// <param name="permissionSetToModify">An optional existing <see cref="InstancePermissionSet"/> to update.</param>
+		/// <returns><paramref name="permissionSetToModify"/> or a new <see cref="InstancePermissionSet"/> with full rights.</returns>
+		InstancePermissionSet InstanceAdminPermissionSet(InstancePermissionSet permissionSetToModify)
 		{
 			if (permissionSetToModify == null)
-				permissionSetToModify = new Models.InstancePermissionSet()
+				permissionSetToModify = new InstancePermissionSet()
 				{
 					PermissionSetId = AuthenticationContext.PermissionSet.Id.Value
 				};
@@ -224,15 +229,15 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="201">Instance created successfully.</response>
 		[HttpPut]
 		[TgsAuthorize(InstanceManagerRights.Create)]
-		[ProducesResponseType(typeof(Api.Models.Instance), 200)]
-		[ProducesResponseType(typeof(Api.Models.Instance), 201)]
-		public async Task<IActionResult> Create([FromBody] Api.Models.Instance model, CancellationToken cancellationToken)
+		[ProducesResponseType(typeof(InstanceResponse), 200)]
+		[ProducesResponseType(typeof(InstanceResponse), 201)]
+		public async Task<IActionResult> Create([FromBody] InstanceUpdateRequest model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
 			if (String.IsNullOrWhiteSpace(model.Name))
-				return BadRequest(new ErrorMessage(ErrorCode.InstanceWhitespaceName));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.InstanceWhitespaceName));
 
 			var unNormalizedPath = model.Path;
 			var targetInstancePath = NormalizePath(unNormalizedPath);
@@ -253,7 +258,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 
 			if (InstanceIsChildOf(installationDirectoryPath))
-				return Conflict(new ErrorMessage(ErrorCode.InstanceAtConflictingPath));
+				return Conflict(new ErrorMessageResponse(ErrorCode.InstanceAtConflictingPath));
 
 			// Validate it's not a child of any other instance
 			IActionResult earlyOut = null;
@@ -275,9 +280,9 @@ namespace Tgstation.Server.Host.Controllers
 							otherInstance =>
 							{
 								if (++countOfOtherInstances >= generalConfiguration.InstanceLimit)
-									earlyOut ??= Conflict(new ErrorMessage(ErrorCode.InstanceLimitReached));
+									earlyOut ??= Conflict(new ErrorMessageResponse(ErrorCode.InstanceLimitReached));
 								else if (InstanceIsChildOf(otherInstance.Path))
-									earlyOut ??= Conflict(new ErrorMessage(ErrorCode.InstanceAtConflictingPath));
+									earlyOut ??= Conflict(new ErrorMessageResponse(ErrorCode.InstanceAtConflictingPath));
 
 								if (earlyOut != null && !newCancellationToken.IsCancellationRequested)
 									cts.Cancel();
@@ -298,7 +303,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (!(generalConfiguration.ValidInstancePaths?
 				.Select(path => NormalizePath(path))
 				.Any(path => InstanceIsChildOf(path)) ?? true))
-				return BadRequest(new ErrorMessage(ErrorCode.InstanceNotAtWhitelistedPath));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.InstanceNotAtWhitelistedPath));
 
 			async Task<bool> DirExistsAndIsNotEmpty()
 			{
@@ -318,13 +323,13 @@ namespace Tgstation.Server.Host.Controllers
 			bool attached = false;
 			if (await ioManager.FileExists(model.Path, cancellationToken).ConfigureAwait(false) || await dirExistsTask.ConfigureAwait(false))
 				if (!await ioManager.FileExists(ioManager.ConcatPath(model.Path, InstanceAttachFileName), cancellationToken).ConfigureAwait(false))
-					return Conflict(new ErrorMessage(ErrorCode.InstanceAtExistingPath));
+					return Conflict(new ErrorMessageResponse(ErrorCode.InstanceAtExistingPath));
 				else
 					attached = true;
 
 			var newInstance = await CreateDefaultInstance(model, cancellationToken).ConfigureAwait(false);
 			if (newInstance == null)
-				return Conflict(new ErrorMessage(ErrorCode.NoPortsAvailable));
+				return Conflict(new ErrorMessageResponse(ErrorCode.NoPortsAvailable));
 
 			DatabaseContext.Instances.Add(newInstance);
 			try
@@ -349,7 +354,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch (IOException e)
 			{
-				return Conflict(new ErrorMessage(ErrorCode.IOError)
+				return Conflict(new ErrorMessageResponse(ErrorCode.IOError)
 				{
 					AdditionalData = e.Message
 				});
@@ -372,7 +377,7 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpDelete("{id}")]
 		[TgsAuthorize(InstanceManagerRights.Delete)]
 		[ProducesResponseType(204)]
-		[ProducesResponseType(typeof(ErrorMessage), 410)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
 			var originalModel = await DatabaseContext
@@ -383,7 +388,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (originalModel == default)
 				return Gone();
 			if (originalModel.Online.Value)
-				return Conflict(new ErrorMessage(ErrorCode.InstanceDetachOnline));
+				return Conflict(new ErrorMessageResponse(ErrorCode.InstanceDetachOnline));
 
 			DatabaseContext.Instances.Remove(originalModel);
 
@@ -414,11 +419,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpPost]
 		[TgsAuthorize(InstanceManagerRights.Relocate | InstanceManagerRights.Rename | InstanceManagerRights.SetAutoUpdate | InstanceManagerRights.SetConfiguration | InstanceManagerRights.SetOnline | InstanceManagerRights.SetChatBotLimit)]
-		[ProducesResponseType(typeof(Api.Models.Instance), 200)]
-		[ProducesResponseType(typeof(Api.Models.Instance), 202)]
-		[ProducesResponseType(typeof(ErrorMessage), 410)]
+		[ProducesResponseType(typeof(InstanceResponse), 200)]
+		[ProducesResponseType(typeof(InstanceResponse), 202)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 #pragma warning disable CA1502 // TODO: Decomplexify
-		public async Task<IActionResult> Update([FromBody] Api.Models.Instance model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Update([FromBody] InstanceUpdateRequest model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
@@ -433,7 +438,7 @@ namespace Tgstation.Server.Host.Controllers
 #pragma warning disable CA1310 // Specify StringComparison
 				Where(x => !x.StoppedAt.HasValue && x.Description.StartsWith(MoveInstanceJobPrefix))
 #pragma warning restore CA1310 // Specify StringComparison
-				.Select(x => new Models.Job
+				.Select(x => new Job
 				{
 					Id = x.Id
 				}).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
@@ -485,11 +490,11 @@ namespace Tgstation.Server.Host.Controllers
 					if (!userRights.HasFlag(InstanceManagerRights.Relocate))
 						return Forbid();
 					if (originalModel.Online.Value && model.Online != true)
-						return Conflict(new ErrorMessage(ErrorCode.InstanceRelocateOnline));
+						return Conflict(new ErrorMessageResponse(ErrorCode.InstanceRelocateOnline));
 
 					var dirExistsTask = ioManager.DirectoryExists(model.Path, cancellationToken);
 					if (await ioManager.FileExists(model.Path, cancellationToken).ConfigureAwait(false) || await dirExistsTask.ConfigureAwait(false))
-						return Conflict(new ErrorMessage(ErrorCode.InstanceAtExistingPath));
+						return Conflict(new ErrorMessageResponse(ErrorCode.InstanceAtExistingPath));
 
 					originalModelPath = originalModel.Path;
 					originalModel.Path = rawPath;
@@ -517,7 +522,7 @@ namespace Tgstation.Server.Host.Controllers
 					.ConfigureAwait(false);
 
 				if (countOfExistingChatBots > model.ChatBotLimit.Value)
-					return Conflict(new ErrorMessage(ErrorCode.ChatBotMax));
+					return Conflict(new ErrorMessageResponse(ErrorCode.ChatBotMax));
 			}
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
@@ -556,7 +561,7 @@ namespace Tgstation.Server.Host.Controllers
 				throw;
 			}
 
-			var api = (AuthenticationContext.GetRight(RightsType.InstanceManager) & (ulong)InstanceManagerRights.Read) != 0 ? originalModel.ToApi() : new Api.Models.Instance
+			var api = (AuthenticationContext.GetRight(RightsType.InstanceManager) & (ulong)InstanceManagerRights.Read) != 0 ? originalModel.ToApi() : new InstanceResponse
 			{
 				Id = originalModel.Id
 			};
@@ -564,7 +569,7 @@ namespace Tgstation.Server.Host.Controllers
 			var moving = originalModelPath != null;
 			if (moving)
 			{
-				var job = new Models.Job
+				var job = new Job
 				{
 					Description = $"{MoveInstanceJobPrefix}{originalModel.Id} from {originalModelPath} to {rawPath}",
 					Instance = originalModel,
@@ -603,7 +608,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="200">Retrieved <see cref="Api.Models.Instance"/>s successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(InstanceManagerRights.List | InstanceManagerRights.Read)]
-		[ProducesResponseType(typeof(Paginated<Api.Models.Instance>), 200)]
+		[ProducesResponseType(typeof(PaginatedResponse<InstanceResponse>), 200)]
 		public async Task<IActionResult> List(
 			[FromQuery] int? page,
 			[FromQuery] int? pageSize,
@@ -641,7 +646,7 @@ namespace Tgstation.Server.Host.Controllers
 				.ConfigureAwait(false);
 
 			var needsUpdate = false;
-			var result = await Paginated<Models.Instance, Api.Models.Instance>(
+			var result = await Paginated<Models.Instance, InstanceResponse>(
 				() => Task.FromResult(
 					new PaginatableResult<Models.Instance>(
 						GetBaseQuery()
@@ -672,8 +677,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpGet("{id}")]
 		[TgsAuthorize(InstanceManagerRights.List | InstanceManagerRights.Read)]
-		[ProducesResponseType(typeof(Api.Models.Instance), 200)]
-		[ProducesResponseType(typeof(ErrorMessage), 410)]
+		[ProducesResponseType(typeof(InstanceResponse), 200)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			var cantList = !AuthenticationContext.PermissionSet.InstanceManagerRights.Value.HasFlag(InstanceManagerRights.List);
@@ -730,7 +735,7 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpPatch("{id}")]
 		[TgsAuthorize(InstanceManagerRights.GrantPermissions)]
 		[ProducesResponseType(204)]
-		[ProducesResponseType(typeof(ErrorMessage), 410)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public async Task<IActionResult> GrantPermissions(long id, CancellationToken cancellationToken)
 		{
 			IQueryable<Models.Instance> BaseQuery() => DatabaseContext

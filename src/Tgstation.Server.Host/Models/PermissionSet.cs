@@ -6,7 +6,7 @@ namespace Tgstation.Server.Host.Models
 	public sealed class PermissionSet : Api.Models.PermissionSet
 	{
 		/// <summary>
-		/// The <see cref="Api.Models.Internal.UserBase.Id"/> of <see cref="User"/>.
+		/// The <see cref="Api.Models.EntityId.Id"/> of <see cref="User"/>.
 		/// </summary>
 		public long? UserId { get; set; }
 

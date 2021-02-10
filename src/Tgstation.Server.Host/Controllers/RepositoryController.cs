@@ -22,7 +22,7 @@ using Tgstation.Server.Host.Security;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// <see cref="ApiController"/> for managing the <see cref="Repository"/>s
+	/// <see cref="ApiController"/> for managing the git repository.
 	/// </summary>
 	[Route(Routes.Repository)]
 	#pragma warning disable CA1506 // TODO: Decomplexify
@@ -111,7 +111,7 @@ namespace Tgstation.Server.Host.Controllers
 			return needsDbUpdate;
 		}
 
-		async Task<bool> PopulateApi(Repository model, Components.Repository.IRepository repository, IDatabaseContext databaseContext, Models.Instance instance, CancellationToken cancellationToken)
+		async Task<bool> PopulateApi(RepositoryResponse model, Components.Repository.IRepository repository, IDatabaseContext databaseContext, Models.Instance instance, CancellationToken cancellationToken)
 		{
 			model.RemoteGitProvider = repository.RemoteGitProvider;
 			model.RemoteRepositoryOwner = repository.RemoteRepositoryOwner;
@@ -130,22 +130,22 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Begin cloning the repository if it doesn't exist.
 		/// </summary>
-		/// <param name="model">Initial <see cref="Repository"/> settings.</param>
+		/// <param name="model">The <see cref="RepositoryCloneRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
-		/// <response code="201">The <see cref="Repository"/> was created successfully and the <see cref="Api.Models.Job"/> to clone it has begun.</response>
+		/// <response code="201">The repository was created successfully and the <see cref="Api.Models.JobResponse"/> to clone it has begun.</response>
 		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpPut]
 		[TgsAuthorize(RepositoryRights.SetOrigin)]
-		[ProducesResponseType(typeof(Repository), 201)]
-		[ProducesResponseType(typeof(ErrorMessage), 410)]
-		public async Task<IActionResult> Create([FromBody] Repository model, CancellationToken cancellationToken)
+		[ProducesResponseType(typeof(RepositoryResponse), 201)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
+		public async Task<IActionResult> Create([FromBody] RepositoryCloneRequest model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
 			if (model.Origin == null)
-				return BadRequest(ErrorCode.RepoMissingOrigin);
+				return BadRequest(ErrorCode.ModelValidationFailure);
 
 			if (model.AccessUser == null ^ model.AccessToken == null)
 				return BadRequest(ErrorCode.RepoMismatchUserAndAccessToken);
@@ -171,16 +171,16 @@ namespace Tgstation.Server.Host.Controllers
 					var repoManager = instance.RepositoryManager;
 
 					if (repoManager.CloneInProgress)
-						return Conflict(new ErrorMessage(ErrorCode.RepoCloning));
+						return Conflict(new ErrorMessageResponse(ErrorCode.RepoCloning));
 
 					if (repoManager.InUse)
-						return Conflict(new ErrorMessage(ErrorCode.RepoBusy));
+						return Conflict(new ErrorMessageResponse(ErrorCode.RepoBusy));
 
 					using var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(false);
 
 					// clone conflict
 					if (repo != null)
-						return Conflict(new ErrorMessage(ErrorCode.RepoExists));
+						return Conflict(new ErrorMessageResponse(ErrorCode.RepoExists));
 
 					var job = new Models.Job
 					{
@@ -229,7 +229,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Delete the <see cref="Repository"/>.
+		/// Delete the repository.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
@@ -237,8 +237,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpDelete]
 		[TgsAuthorize(RepositoryRights.Delete)]
-		[ProducesResponseType(typeof(Repository), 202)]
-		[ProducesResponseType(typeof(ErrorMessage), 410)]
+		[ProducesResponseType(typeof(RepositoryResponse), 202)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public async Task<IActionResult> Delete(CancellationToken cancellationToken)
 		{
 			var currentModel = await DatabaseContext
@@ -256,7 +256,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
-			Logger.LogInformation("Instance {0} repository delete initiated by user {1}", Instance.Id, AuthenticationContext.User.Id);
+			Logger.LogInformation("Instance {0} repository delete initiated by user {1}", Instance.Id, AuthenticationContext.User.Id.Value);
 
 			var job = new Models.Job
 			{
@@ -275,18 +275,18 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Get <see cref="Repository"/> status.
+		/// Get the repository's status.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
-		/// <response code="200">Retrieved the <see cref="Repository"/> settings successfully.</response>
-		/// <response code="201">Retrieved the <see cref="Repository"/> settings successfully, though they did not previously exist.</response>
+		/// <response code="200">Retrieved the repository settings successfully.</response>
+		/// <response code="201">Retrieved the repository settings successfully, though they did not previously exist.</response>
 		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpGet]
 		[TgsAuthorize(RepositoryRights.Read)]
-		[ProducesResponseType(typeof(Repository), 200)]
-		[ProducesResponseType(typeof(Repository), 201)]
-		[ProducesResponseType(typeof(ErrorMessage), 410)]
+		[ProducesResponseType(typeof(RepositoryResponse), 200)]
+		[ProducesResponseType(typeof(RepositoryResponse), 201)]
+		[ProducesResponseType(typeof(RepositoryResponse), 410)]
 		public async Task<IActionResult> Read(CancellationToken cancellationToken)
 		{
 			var currentModel = await DatabaseContext
@@ -307,10 +307,10 @@ namespace Tgstation.Server.Host.Controllers
 					var repoManager = instance.RepositoryManager;
 
 					if (repoManager.CloneInProgress)
-						return Conflict(new ErrorMessage(ErrorCode.RepoCloning));
+						return Conflict(new ErrorMessageResponse(ErrorCode.RepoCloning));
 
 					if (repoManager.InUse)
-						return Conflict(new ErrorMessage(ErrorCode.RepoBusy));
+						return Conflict(new ErrorMessageResponse(ErrorCode.RepoBusy));
 
 					using var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(false);
 					if (repo != null && await PopulateApi(api, repo, DatabaseContext, Instance, cancellationToken).ConfigureAwait(false))
@@ -326,42 +326,42 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Perform updats to the <see cref="Repository"/>.
+		/// Perform updates to the repository.
 		/// </summary>
-		/// <param name="model">The updated <see cref="Repository"/>.</param>
+		/// <param name="model">The <see cref="RepositoryUpdateRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
-		/// <response code="200">Updated the <see cref="Repository"/> settings successfully.</response>
-		/// <response code="202">Updated the <see cref="Repository"/> settings successfully and a <see cref="Api.Models.Job"/> was created to make the requested git changes.</response>
+		/// <response code="200">Updated the repository settings successfully.</response>
+		/// <response code="202">Updated the repository settings successfully and a <see cref="Api.Models.JobResponse"/> was created to make the requested git changes.</response>
 		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpPost]
 		[TgsAuthorize(RepositoryRights.ChangeAutoUpdateSettings | RepositoryRights.ChangeCommitter | RepositoryRights.ChangeCredentials | RepositoryRights.ChangeTestMergeCommits | RepositoryRights.MergePullRequest | RepositoryRights.SetReference | RepositoryRights.SetSha | RepositoryRights.UpdateBranch)]
-		[ProducesResponseType(typeof(Repository), 200)]
-		[ProducesResponseType(typeof(Repository), 202)]
-		[ProducesResponseType(typeof(ErrorMessage), 410)]
+		[ProducesResponseType(typeof(RepositoryResponse), 200)]
+		[ProducesResponseType(typeof(RepositoryResponse), 202)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 #pragma warning disable CA1502, CA1505 // TODO: Decomplexify
-		public async Task<IActionResult> Update([FromBody] Repository model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Update([FromBody] RepositoryUpdateRequest model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
 			if (model.AccessUser == null ^ model.AccessToken == null)
-				return BadRequest(new ErrorMessage(ErrorCode.RepoMismatchUserAndAccessToken));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.RepoMismatchUserAndAccessToken));
 
 			if (model.CheckoutSha != null && model.Reference != null)
-				return BadRequest(new ErrorMessage(ErrorCode.RepoMismatchShaAndReference));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.RepoMismatchShaAndReference));
 
 			if (model.CheckoutSha != null && model.UpdateFromOrigin == true)
-				return BadRequest(new ErrorMessage(ErrorCode.RepoMismatchShaAndUpdate));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.RepoMismatchShaAndUpdate));
 
 			if (model.NewTestMerges?.Any(x => model.NewTestMerges.Any(y => x != y && x.Number == y.Number)) == true)
-				return BadRequest(new ErrorMessage(ErrorCode.RepoDuplicateTestMerge));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.RepoDuplicateTestMerge));
 
 			if (model.CommitterName?.Length == 0)
-				return BadRequest(new ErrorMessage(ErrorCode.RepoWhitespaceCommitterName));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.RepoWhitespaceCommitterName));
 
 			if (model.CommitterEmail?.Length == 0)
-				return BadRequest(new ErrorMessage(ErrorCode.RepoWhitespaceCommitterEmail));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.RepoWhitespaceCommitterEmail));
 
 			var newTestMerges = model.NewTestMerges != null && model.NewTestMerges.Count > 0;
 			var userRights = (RepositoryRights)AuthenticationContext.GetRight(RightsType.Repository);
@@ -415,7 +415,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			var canRead = userRights.HasFlag(RepositoryRights.Read);
 
-			var api = canRead ? currentModel.ToApi() : new Repository();
+			var api = canRead ? currentModel.ToApi() : new RepositoryResponse();
 			if (canRead)
 			{
 				var earlyOut = await WithComponentInstance(
@@ -423,18 +423,15 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					var repoManager = instance.RepositoryManager;
 					if (repoManager.CloneInProgress)
-						return Conflict(new ErrorMessage(ErrorCode.RepoCloning));
+						return Conflict(new ErrorMessageResponse(ErrorCode.RepoCloning));
 
 					if (repoManager.InUse)
-						return Conflict(new ErrorMessage(ErrorCode.RepoBusy));
+						return Conflict(new ErrorMessageResponse(ErrorCode.RepoBusy));
 
 					using var repo = await repoManager.LoadRepository(cancellationToken).ConfigureAwait(false);
 					if (repo == null)
-						return Conflict(new ErrorMessage(ErrorCode.RepoMissing));
+						return Conflict(new ErrorMessageResponse(ErrorCode.RepoMissing));
 					await PopulateApi(api, repo, DatabaseContext, Instance, cancellationToken).ConfigureAwait(false);
-
-					if (model.Origin != null && model.Origin != repo.Origin)
-						return BadRequest(new ErrorMessage(ErrorCode.RepoCantChangeOrigin));
 
 					return null;
 				})

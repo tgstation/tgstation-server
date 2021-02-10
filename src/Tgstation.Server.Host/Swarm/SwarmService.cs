@@ -120,9 +120,9 @@ namespace Tgstation.Server.Host.Swarm
 		readonly CancellationTokenSource serverHealthCheckCancellationTokenSource;
 
 		/// <summary>
-		/// <see cref="List{T}"/> of connected <see cref="SwarmServer"/>s.
+		/// <see cref="List{T}"/> of connected <see cref="SwarmServerResponse"/>s.
 		/// </summary>
-		readonly List<SwarmServer> swarmServers;
+		readonly List<SwarmServerResponse> swarmServers;
 
 		/// <summary>
 		/// <see cref="Dictionary{TKey, TValue}"/> of <see cref="Api.Models.Internal.SwarmServer.Identifier"/>s to registration <see cref="Guid"/>s.
@@ -235,9 +235,9 @@ namespace Tgstation.Server.Host.Swarm
 				if (swarmController)
 					registrationIds = new Dictionary<string, Guid>();
 
-				swarmServers = new List<SwarmServer>
+				swarmServers = new List<SwarmServerResponse>
 				{
-					new SwarmServer
+					new SwarmServerResponse
 					{
 						Address = swarmConfiguration.Address,
 						Controller = swarmController,
@@ -279,7 +279,7 @@ namespace Tgstation.Server.Host.Swarm
 			targetUpdateVersion = null;
 
 			using var httpClient = httpClientFactory.CreateClient();
-			async Task SendRemoteAbort(SwarmServer swarmServer)
+			async Task SendRemoteAbort(SwarmServerResponse swarmServer)
 			{
 				using var request = PrepareSwarmRequest(
 					swarmServer,
@@ -305,7 +305,7 @@ namespace Tgstation.Server.Host.Swarm
 
 			Task task;
 			if (!swarmController)
-				task = SendRemoteAbort(new SwarmServer
+				task = SendRemoteAbort(new SwarmServerResponse
 				{
 					Address = swarmConfiguration.ControllerAddress,
 				});
@@ -394,7 +394,7 @@ namespace Tgstation.Server.Host.Swarm
 			// on the controller, we first need to signal for nodes to go ahead
 			// if anything fails at this point, there's nothing we can do
 			logger.LogDebug("Sending remote commit message to nodes...");
-			async Task SendRemoteCommitUpdate(SwarmServer swarmServer)
+			async Task SendRemoteCommitUpdate(SwarmServerResponse swarmServer)
 			{
 				using var request = PrepareSwarmRequest(
 					swarmServer,
@@ -427,7 +427,7 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <inheritdoc />
-		public ICollection<SwarmServer> GetSwarmServers()
+		public ICollection<SwarmServerResponse> GetSwarmServers()
 		{
 			if (!SwarmMode)
 				return null;
@@ -474,7 +474,7 @@ namespace Tgstation.Server.Host.Swarm
 			}
 
 			using var httpClient = httpClientFactory.CreateClient();
-			async Task<bool> RemotePrepareUpdate(SwarmServer swarmServer)
+			async Task<bool> RemotePrepareUpdate(SwarmServerResponse swarmServer)
 			{
 				using var request = PrepareSwarmRequest(
 					swarmServer,
@@ -629,7 +629,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// <inheritdoc />
 		public async Task Shutdown(CancellationToken cancellationToken)
 		{
-			async Task SendUnregistrationRequest(SwarmServer swarmServer)
+			async Task SendUnregistrationRequest(SwarmServerResponse swarmServer)
 			{
 				using var httpClient = httpClientFactory.CreateClient();
 				using var request = PrepareSwarmRequest(
@@ -715,11 +715,11 @@ namespace Tgstation.Server.Host.Swarm
 		{
 			using var httpClient = httpClientFactory.CreateClient();
 
-			List<SwarmServer> currentSwarmServers;
+			List<SwarmServerResponse> currentSwarmServers;
 			lock (swarmServers)
 				currentSwarmServers = swarmServers.ToList();
 
-			async Task HealthRequestForServer(SwarmServer swarmServer)
+			async Task HealthRequestForServer(SwarmServerResponse swarmServer)
 			{
 				using var request = PrepareSwarmRequest(
 					swarmServer,
@@ -909,12 +909,12 @@ namespace Tgstation.Server.Host.Swarm
 		async Task SendUpdatedServerListToNodes(CancellationToken cancellationToken)
 		{
 			logger.LogDebug("Sending updated server list to all nodes...");
-			List<SwarmServer> currentSwarmServers;
+			List<SwarmServerResponse> currentSwarmServers;
 			lock (swarmServers)
 				currentSwarmServers = swarmServers.ToList();
 
 			using var httpClient = httpClientFactory.CreateClient();
-			async Task UpdateRequestForServer(SwarmServer swarmServer)
+			async Task UpdateRequestForServer(SwarmServerResponse swarmServer)
 			{
 				using var request = PrepareSwarmRequest(
 					swarmServer,
@@ -953,20 +953,20 @@ namespace Tgstation.Server.Host.Swarm
 		/// <summary>
 		/// Prepares a <see cref="HttpRequestMessage"/> for swarm communication.
 		/// </summary>
-		/// <param name="swarmServer">The <see cref="SwarmServer"/> the message is for, if null will be sent to swarm controller.</param>
+		/// <param name="swarmServer">The <see cref="SwarmServerResponse"/> the message is for, if null will be sent to swarm controller.</param>
 		/// <param name="httpMethod">The <see cref="HttpMethod"/>.</param>
 		/// <param name="subroute">The route on <see cref="SwarmConstants.ControllerRoute"/> to use.</param>
 		/// <param name="body">The body <see cref="object"/> if any.</param>
 		/// <param name="registrationIdOverride">An optional override to the <see cref="SwarmConstants.RegistrationIdHeader"/>.</param>
 		/// <returns>A new <see cref="HttpRequestMessage"/>.</returns>
 		HttpRequestMessage PrepareSwarmRequest(
-			SwarmServer swarmServer,
+			SwarmServerResponse swarmServer,
 			HttpMethod httpMethod,
 			string subroute,
 			object body,
 			Guid? registrationIdOverride = null)
 		{
-			swarmServer ??= new SwarmServer
+			swarmServer ??= new SwarmServerResponse
 			{
 				Address = swarmConfiguration.ControllerAddress,
 			};
@@ -1016,7 +1016,7 @@ namespace Tgstation.Server.Host.Swarm
 		}
 
 		/// <inheritdoc />
-		public void UpdateSwarmServersList(IEnumerable<SwarmServer> swarmServers)
+		public void UpdateSwarmServersList(IEnumerable<SwarmServerResponse> swarmServers)
 		{
 			if (swarmServers == null)
 				throw new ArgumentNullException(nameof(swarmServers));
@@ -1178,7 +1178,7 @@ namespace Tgstation.Server.Host.Swarm
 						registrationIds.Remove(node.Identifier);
 					}
 
-					swarmServers.Add(new SwarmServer
+					swarmServers.Add(new SwarmServerResponse
 					{
 						Address = node.Address,
 						Identifier = node.Identifier,

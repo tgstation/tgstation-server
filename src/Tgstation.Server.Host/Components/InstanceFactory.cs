@@ -273,14 +273,14 @@ namespace Tgstation.Server.Host.Components
 						serverPortProvider,
 						loggerFactory,
 						loggerFactory.CreateLogger<SessionControllerFactory>(),
-						metadata.CloneMetadata());
+						metadata);
 
 					var dmbFactory = new DmbFactory(
 						databaseContextFactory,
 						gameIoManager,
 						remoteDeploymentManagerFactory,
 						loggerFactory.CreateLogger<DmbFactory>(),
-						metadata.CloneMetadata());
+						metadata);
 					try
 					{
 						var reattachInfoHandler = new SessionPersistor(
@@ -288,7 +288,7 @@ namespace Tgstation.Server.Host.Components
 							dmbFactory,
 							processExecutor,
 							loggerFactory.CreateLogger<SessionPersistor>(),
-							metadata.CloneMetadata());
+							metadata);
 						var watchdog = watchdogFactory.CreateWatchdog(
 							chatManager,
 							dmbFactory,
@@ -298,7 +298,7 @@ namespace Tgstation.Server.Host.Components
 							diagnosticsIOManager,
 							eventConsumer,
 							remoteDeploymentManagerFactory,
-							metadata.CloneMetadata(),
+							metadata,
 							metadata.DreamDaemonSettings);
 						eventConsumer.SetWatchdog(watchdog);
 						commandFactory.SetWatchdog(watchdog);
@@ -317,10 +317,10 @@ namespace Tgstation.Server.Host.Components
 								repoManager,
 								remoteDeploymentManagerFactory,
 								loggerFactory.CreateLogger<DreamMaker>(),
-								metadata.CloneMetadata());
+								metadata);
 
 							instance = new Instance(
-								metadata.CloneMetadata(),
+								metadata,
 								repoManager,
 								byond,
 								dreamMaker,

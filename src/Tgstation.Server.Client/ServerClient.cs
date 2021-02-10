@@ -13,7 +13,7 @@ namespace Tgstation.Server.Client
 		public Uri Url => apiClient.Url;
 
 		/// <inheritdoc />
-		public Token Token
+		public TokenResponse Token
 		{
 			get => token;
 			set
@@ -50,14 +50,14 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// Backing field for <see cref="Token"/>
 		/// </summary>
-		Token token;
+		TokenResponse token;
 
 		/// <summary>
 		/// Construct a <see cref="ServerClient"/>
 		/// </summary>
 		/// <param name="apiClient">The value of <see cref="apiClient"/></param>
 		/// <param name="token">The value of <see cref="Token"/></param>
-		public ServerClient(IApiClient apiClient, Token token)
+		public ServerClient(IApiClient apiClient, TokenResponse token)
 		{
 			this.apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
 			this.token = token ?? throw new ArgumentNullException(nameof(token));
@@ -75,7 +75,7 @@ namespace Tgstation.Server.Client
 		public void Dispose() => apiClient.Dispose();
 
 		/// <inheritdoc />
-		public Task<ServerInformation> ServerInformation(CancellationToken cancellationToken) => apiClient.Read<ServerInformation>(Routes.Root, cancellationToken);
+		public Task<ServerInformationResponse> ServerInformation(CancellationToken cancellationToken) => apiClient.Read<ServerInformationResponse>(Routes.Root, cancellationToken);
 
 		/// <inheritdoc />
 		public void AddRequestLogger(IRequestLogger requestLogger) => apiClient.AddRequestLogger(requestLogger);

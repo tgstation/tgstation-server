@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Tgstation.Server.Api;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Models;
@@ -112,11 +113,11 @@ namespace Tgstation.Server.Host.Database
 					InstanceManagerRights = RightsHelper.AllRights<InstanceManagerRights>(),
 				},
 				CreatedAt = DateTimeOffset.UtcNow,
-				Name = Api.Models.User.AdminName,
-				CanonicalName = User.CanonicalizeName(Api.Models.User.AdminName),
+				Name = DefaultCredentials.AdminUserName,
+				CanonicalName = User.CanonicalizeName(DefaultCredentials.AdminUserName),
 				Enabled = true,
 			};
-			cryptographySuite.SetUserPassword(admin, Api.Models.User.DefaultAdminPassword, true);
+			cryptographySuite.SetUserPassword(admin, DefaultCredentials.DefaultAdminUserPassword, true);
 			databaseContext.Users.Add(admin);
 			return admin;
 		}
@@ -248,7 +249,7 @@ namespace Tgstation.Server.Host.Database
 				}
 				else
 					admin.PermissionSet.AdministrationRights |= AdministrationRights.WriteUsers;
-				cryptographySuite.SetUserPassword(admin, Api.Models.User.DefaultAdminPassword, false);
+				cryptographySuite.SetUserPassword(admin, DefaultCredentials.DefaultAdminUserPassword, false);
 			}
 
 			await databaseContext.Save(cancellationToken).ConfigureAwait(false);
@@ -265,7 +266,7 @@ namespace Tgstation.Server.Host.Database
 			var admin = await databaseContext
 				.Users
 				.AsQueryable()
-				.Where(x => x.CanonicalName == User.CanonicalizeName(Api.Models.User.AdminName))
+				.Where(x => x.CanonicalName == User.CanonicalizeName(DefaultCredentials.AdminUserName))
 				.Include(x => x.CreatedBy)
 				.Include(x => x.PermissionSet)
 				.Include(x => x.Group)

@@ -14,17 +14,17 @@ namespace Tgstation.Server.Api.Rights
 		None = 0,
 
 		/// <summary>
-		/// Allow read access to all <see cref="Models.InstancePermissionSet"/>s in the <see cref="Models.Instance"/>.
+		/// Allow read access to all <see cref="Models.Internal.InstancePermissionSet"/>s in the <see cref="Models.Instance"/>.
 		/// </summary>
 		Read = 1,
 
 		/// <summary>
-		/// Allow write and delete access to all <see cref="Models.InstancePermissionSet"/> for the <see cref="Models.Instance"/>.
+		/// Allow write and delete access to all <see cref="Models.Internal.InstancePermissionSet"/> for the <see cref="Models.Instance"/>.
 		/// </summary>
 		Write = 2,
 
 		/// <summary>
-		/// Allow adding additional <see cref="Models.InstancePermissionSet"/>s to the <see cref="Models.Instance"/>.
+		/// Allow adding additional <see cref="Models.Internal.InstancePermissionSet"/>s to the <see cref="Models.Instance"/>.
 		/// </summary>
 		Create = 4
 	}

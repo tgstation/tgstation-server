@@ -7,14 +7,14 @@ using Tgstation.Server.Api.Models;
 namespace Tgstation.Server.Host.Transfer
 {
 	/// <summary>
-	/// A <see cref="FileTicketResult"/> that waits for a pending upload.
+	/// A <see cref="FileTicketResponse"/> that waits for a pending upload.
 	/// </summary>
 	public interface IFileUploadTicket : IDisposable
 	{
 		/// <summary>
-		/// The <see cref="FileTicketResult"/>.
+		/// The <see cref="FileTicketResponse"/>.
 		/// </summary>
-		FileTicketResult Ticket { get; }
+		FileTicketResponse Ticket { get; }
 
 		/// <summary>
 		/// Gets the <see cref="Stream"/> for the uploaded file.
@@ -27,7 +27,7 @@ namespace Tgstation.Server.Host.Transfer
 		/// <summary>
 		/// Sets an <paramref name="errorMessage"/> for the upload. Will be returned in upload request as a 409 error.
 		/// </summary>
-		/// <param name="errorMessage">The <see cref="ErrorMessage"/> to set.</param>
-		void SetErrorMessage(ErrorMessage errorMessage);
+		/// <param name="errorMessage">The <see cref="ErrorMessageResponse"/> to set.</param>
+		void SetErrorMessage(ErrorMessageResponse errorMessage);
 	}
 }

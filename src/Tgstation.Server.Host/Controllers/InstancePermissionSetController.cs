@@ -42,19 +42,19 @@ namespace Tgstation.Server.Host.Controllers
 		{ }
 
 		/// <summary>
-		/// Create an <see cref="Api.Models.InstancePermissionSet"/>.
+		/// Create an <see cref="InstancePermissionSet"/>.
 		/// </summary>
-		/// <param name="model">The <see cref="Api.Models.InstancePermissionSet"/> to create.</param>
+		/// <param name="model">The <see cref="InstancePermissionSetRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
-		/// <response code="201"><see cref="Api.Models.InstancePermissionSet"/> created successfully.</response>
+		/// <response code="201"><see cref="InstancePermissionSet"/> created successfully.</response>
 		/// <response code="410">The <see cref="Api.Models.PermissionSet"/> does not exist.</response>
 		[HttpPut]
 		[TgsAuthorize(InstancePermissionSetRights.Create)]
-		[ProducesResponseType(typeof(Api.Models.InstancePermissionSet), 201)]
-		[ProducesResponseType(typeof(ErrorMessage), 410)]
+		[ProducesResponseType(typeof(InstancePermissionSetResponse), 201)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 #pragma warning disable CA1506
-		public async Task<IActionResult> Create([FromBody] Api.Models.InstancePermissionSet model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Create([FromBody] InstancePermissionSetRequest model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
@@ -87,7 +87,7 @@ namespace Tgstation.Server.Host.Controllers
 					return Forbid();
 			}
 
-			var dbUser = new Models.InstancePermissionSet
+			var dbUser = new InstancePermissionSet
 			{
 				ByondRights = RightsHelper.Clamp(model.ByondRights ?? ByondRights.None),
 				ChatBotRights = RightsHelper.Clamp(model.ChatBotRights ?? ChatBotRights.None),
@@ -97,7 +97,7 @@ namespace Tgstation.Server.Host.Controllers
 				RepositoryRights = RightsHelper.Clamp(model.RepositoryRights ?? RepositoryRights.None),
 				InstancePermissionSetRights = RightsHelper.Clamp(model.InstancePermissionSetRights ?? InstancePermissionSetRights.None),
 				PermissionSetId = model.PermissionSetId,
-				InstanceId = Instance.Id
+				InstanceId = Instance.Id.Value,
 			};
 
 			DatabaseContext.InstancePermissionSets.Add(dbUser);
@@ -108,19 +108,19 @@ namespace Tgstation.Server.Host.Controllers
 		#pragma warning restore CA1506
 
 		/// <summary>
-		/// Update the permissions for an <see cref="Api.Models.InstancePermissionSet"/>.
+		/// Update the permissions for an <see cref="InstancePermissionSet"/>.
 		/// </summary>
-		/// <param name="model">The updated <see cref="Api.Models.InstancePermissionSet"/>.</param>
+		/// <param name="model">The <see cref="InstancePermissionSetRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
-		/// <response code="200"><see cref="Api.Models.InstancePermissionSet"/> updated successfully.</response>
-		/// <response code="410">The requested <see cref="Api.Models.InstancePermissionSet"/> does not currently exist.</response>
+		/// <response code="200"><see cref="InstancePermissionSet"/> updated successfully.</response>
+		/// <response code="410">The requested <see cref="InstancePermissionSet"/> does not currently exist.</response>
 		[HttpPost]
 		[TgsAuthorize(InstancePermissionSetRights.Write)]
-		[ProducesResponseType(typeof(Api.Models.InstancePermissionSet), 200)]
-		[ProducesResponseType(typeof(ErrorMessage), 410)]
+		[ProducesResponseType(typeof(InstancePermissionSetResponse), 200)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		#pragma warning disable CA1506 // TODO: Decomplexify
-		public async Task<IActionResult> Update([FromBody] Api.Models.InstancePermissionSet model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Update([FromBody] InstancePermissionSetRequest model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
@@ -150,37 +150,37 @@ namespace Tgstation.Server.Host.Controllers
 			return Json(
 				showFullPermissionSet
 					? originalPermissionSet.ToApi()
-					: new Api.Models.InstancePermissionSet
+					: new InstancePermissionSetResponse
 					{
 						PermissionSetId = originalPermissionSet.PermissionSetId
 					});
 		}
 #pragma warning restore CA1506
 		/// <summary>
-		/// Read the active <see cref="Api.Models.InstancePermissionSet"/>.
+		/// Read the active <see cref="InstancePermissionSet"/>.
 		/// </summary>
 		/// <returns>The <see cref="IActionResult"/> of the request.</returns>
-		/// <response code="200"><see cref="Api.Models.InstancePermissionSet"/> retrieved successfully.</response>
+		/// <response code="200"><see cref="InstancePermissionSet"/> retrieved successfully.</response>
 		[HttpGet]
 		[TgsAuthorize]
-		[ProducesResponseType(typeof(Api.Models.InstancePermissionSet), 200)]
+		[ProducesResponseType(typeof(InstancePermissionSetResponse), 200)]
 		public IActionResult Read() => Json(AuthenticationContext.InstancePermissionSet.ToApi());
 
 		/// <summary>
-		/// Lists <see cref="Api.Models.InstancePermissionSet"/>s for the instance.
+		/// Lists <see cref="InstancePermissionSet"/>s for the instance.
 		/// </summary>
 		/// <param name="page">The current page.</param>
 		/// <param name="pageSize">The page size.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
-		/// <response code="200">Retrieved <see cref="Api.Models.InstancePermissionSet"/>s successfully.</response>
+		/// <response code="200">Retrieved <see cref="InstancePermissionSet"/>s successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(InstancePermissionSetRights.Read)]
-		[ProducesResponseType(typeof(Paginated<Api.Models.InstancePermissionSet>), 200)]
+		[ProducesResponseType(typeof(PaginatedResponse<InstancePermissionSetResponse>), 200)]
 		public Task<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
-			=> Paginated<Models.InstancePermissionSet, Api.Models.InstancePermissionSet>(
+			=> Paginated<InstancePermissionSet, InstancePermissionSetResponse>(
 				() => Task.FromResult(
-					new PaginatableResult<Models.InstancePermissionSet>(
+					new PaginatableResult<InstancePermissionSet>(
 						DatabaseContext
 							.Instances
 							.AsQueryable()
@@ -193,17 +193,17 @@ namespace Tgstation.Server.Host.Controllers
 				cancellationToken);
 
 		/// <summary>
-		/// Gets a specific <see cref="Api.Models.InstancePermissionSet"/>.
+		/// Gets a specific <see cref="Api.Models.Internal.InstancePermissionSet"/>.
 		/// </summary>
-		/// <param name="id">The <see cref="Api.Models.InstancePermissionSet.PermissionSetId"/>.</param>
+		/// <param name="id">The <see cref="Api.Models.Internal.InstancePermissionSet.PermissionSetId"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
-		/// <response code="200">Retrieve <see cref="Api.Models.InstancePermissionSet"/> successfully.</response>
-		/// <response code="410">The requested <see cref="Api.Models.InstancePermissionSet"/> does not currently exist.</response>
+		/// <response code="200">Retrieve <see cref="Api.Models.Internal.InstancePermissionSet"/> successfully.</response>
+		/// <response code="410">The requested <see cref="Api.Models.Internal.InstancePermissionSet"/> does not currently exist.</response>
 		[HttpGet("{id}")]
 		[TgsAuthorize(InstancePermissionSetRights.Read)]
-		[ProducesResponseType(typeof(Api.Models.InstancePermissionSet), 200)]
-		[ProducesResponseType(typeof(ErrorMessage), 410)]
+		[ProducesResponseType(typeof(InstancePermissionSetResponse), 200)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			// this functions as userId
@@ -221,17 +221,17 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Delete an <see cref="Api.Models.InstancePermissionSet"/>.
+		/// Delete an <see cref="InstancePermissionSet"/>.
 		/// </summary>
-		/// <param name="id">The <see cref="Api.Models.InstancePermissionSet.PermissionSetId"/> to delete.</param>
+		/// <param name="id">The <see cref="Api.Models.Internal.InstancePermissionSet.PermissionSetId"/> to delete.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
-		/// <response code="204">Target <see cref="Api.Models.InstancePermissionSet"/> deleted.</response>
-		/// <response code="410">Target <see cref="Api.Models.InstancePermissionSet"/> or no longer exists.</response>
+		/// <response code="204">Target <see cref="InstancePermissionSet"/> deleted.</response>
+		/// <response code="410">Target <see cref="InstancePermissionSet"/> or no longer exists.</response>
 		[HttpDelete("{id}")]
 		[TgsAuthorize(InstancePermissionSetRights.Write)]
 		[ProducesResponseType(204)]
-		[ProducesResponseType(typeof(ErrorMessage), 410)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
 			var numDeleted = await DatabaseContext

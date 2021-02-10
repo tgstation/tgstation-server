@@ -3,7 +3,7 @@ using System;
 namespace Tgstation.Server.Api.Rights
 {
 	/// <summary>
-	/// Rights for <see cref="Models.DreamDaemon"/>
+	/// Rights for <see cref="Models.DreamDaemonResponse"/>
 	/// </summary>
 	[Flags]
 	public enum DreamDaemonRights : ulong
@@ -14,7 +14,7 @@ namespace Tgstation.Server.Api.Rights
 		None = 0,
 
 		/// <summary>
-		/// User can read <see cref="Models.DreamDaemon.ActiveCompileJob"/> and <see cref="Models.DreamDaemon.StagedCompileJob"/>
+		/// User can read <see cref="Models.DreamDaemonResponse.ActiveCompileJob"/> and <see cref="Models.DreamDaemonResponse.StagedCompileJob"/>
 		/// </summary>
 		ReadRevision = 1,
 
@@ -34,7 +34,7 @@ namespace Tgstation.Server.Api.Rights
 		SetSecurity = 8,
 
 		/// <summary>
-		/// User can read every propery of <see cref="Models.DreamDaemon"/> except <see cref="Models.DreamDaemon.ActiveCompileJob"/> and <see cref="Models.DreamDaemon.StagedCompileJob"/>.
+		/// User can read every propery of <see cref="Models.DreamDaemonResponse"/> except <see cref="Models.DreamDaemonResponse.ActiveCompileJob"/> and <see cref="Models.DreamDaemonResponse.StagedCompileJob"/>.
 		/// </summary>
 		ReadMetadata = 16,
 
@@ -44,12 +44,12 @@ namespace Tgstation.Server.Api.Rights
 		SetWebClient = 32,
 
 		/// <summary>
-		/// User can change <see cref="Models.DreamDaemon.SoftRestart"/>.
+		/// User can change <see cref="Models.Internal.DreamDaemonApiBase.SoftRestart"/>.
 		/// </summary>
 		SoftRestart = 64,
 
 		/// <summary>
-		/// User can change <see cref="Models.DreamDaemon.SoftShutdown"/>.
+		/// User can change <see cref="Models.Internal.DreamDaemonApiBase.SoftShutdown"/>.
 		/// </summary>
 		SoftShutdown = 128,
 

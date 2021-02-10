@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using Tgstation.Server.Api.Models;
 
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class UserGroup : Api.Models.Internal.UserGroupBase, IApiTransformable<Api.Models.UserGroup>
+	public sealed class UserGroup : NamedEntity, IApiTransformable<UserGroupResponse>
 	{
 		/// <summary>
 		/// The <see cref="Models.PermissionSet"/> the <see cref="UserGroup"/> has.
@@ -21,9 +22,9 @@ namespace Tgstation.Server.Host.Models
 		/// <summary>
 		/// Convert the <see cref="UserGroup"/> to it's API form.
 		/// </summary>
-		/// <param name="showUsers">If <see cref="Api.Models.UserGroup.Users"/> should be populated.</param>
-		/// <returns>A new <see cref="Api.Models.UserGroup"/>.</returns>
-		public Api.Models.UserGroup ToApi(bool showUsers) => new Api.Models.UserGroup
+		/// <param name="showUsers">If <see cref="UserGroupResponse.Users"/> should be populated.</param>
+		/// <returns>A new <see cref="UserGroupResponse"/>.</returns>
+		public UserGroupResponse ToApi(bool showUsers) => new UserGroupResponse
 		{
 			Id = Id,
 			Name = Name,
@@ -31,13 +32,13 @@ namespace Tgstation.Server.Host.Models
 			Users = showUsers
 				? Users
 					?.Select(x => x.ToApi(false))
-					.OfType<Api.Models.Internal.UserBase>()
+					.OfType<NamedEntity>()
 					.ToList()
-					?? new List<Api.Models.Internal.UserBase>()
+					?? new List<NamedEntity>()
 				: null,
 		};
 
 		/// <inheritdoc />
-		public Api.Models.UserGroup ToApi() => ToApi(true);
+		public UserGroupResponse ToApi() => ToApi(true);
 	}
 }

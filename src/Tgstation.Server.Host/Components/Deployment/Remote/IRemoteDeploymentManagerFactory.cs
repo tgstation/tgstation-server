@@ -19,7 +19,7 @@ namespace Tgstation.Server.Host.Components.Deployment.Remote
 		/// Create a <see cref="IRemoteDeploymentManager"/> for a given <paramref name="compileJob"/>.
 		/// </summary>
 		/// <param name="metadata">Current <see cref="Api.Models.Instance"/> metadata.</param>
-		/// <param name="compileJob">The <see cref="CompileJob"/> containing the <see cref="CompileJob.RepositoryOrigin"/> to use.</param>
+		/// <param name="compileJob">The <see cref="Models.CompileJob"/> containing the <see cref="CompileJobResponse.RepositoryOrigin"/> to use.</param>
 		/// <returns>A new <see cref="IRemoteDeploymentManager"/>.</returns>
 		IRemoteDeploymentManager CreateRemoteDeploymentManager(Api.Models.Instance metadata, Models.CompileJob compileJob);
 	}

@@ -3,7 +3,7 @@ using System;
 namespace Tgstation.Server.Api.Rights
 {
 	/// <summary>
-	/// Rights for <see cref="Models.DreamMaker"/>
+	/// Rights for deployment.
 	/// </summary>
 	[Flags]
 	public enum DreamMakerRights : ulong
@@ -14,7 +14,7 @@ namespace Tgstation.Server.Api.Rights
 		None = 0,
 
 		/// <summary>
-		/// User may read all properties of <see cref="Models.DreamMaker"/>.
+		/// User may read all properties of <see cref="Models.Internal.DreamMakerSettings"/>.
 		/// </summary>
 		Read = 1,
 
@@ -29,27 +29,27 @@ namespace Tgstation.Server.Api.Rights
 		CancelCompile = 4,
 
 		/// <summary>
-		/// User may modify <see cref="Models.DreamMaker.ProjectName"/>.
+		/// User may modify <see cref="Models.Internal.DreamMakerSettings.ProjectName"/>.
 		/// </summary>
 		SetDme = 8,
 
 		/// <summary>
-		/// User may modify <see cref="Models.DreamMaker.ApiValidationPort"/>.
+		/// User may modify <see cref="Models.Internal.DreamMakerSettings.ApiValidationPort"/>.
 		/// </summary>
 		SetApiValidationPort = 16,
 
 		/// <summary>
-		/// User may list and read all <see cref="Models.CompileJob"/>s.
+		/// User may list and read all <see cref="Models.Internal.CompileJob"/>s.
 		/// </summary>
 		CompileJobs = 32,
 
 		/// <summary>
-		/// User may modify <see cref="Models.DreamMaker.ApiValidationSecurityLevel"/>.
+		/// User may modify <see cref="Models.Internal.DreamMakerSettings.ApiValidationSecurityLevel"/>.
 		/// </summary>
 		SetSecurityLevel = 64,
 
 		/// <summary>
-		/// User may modify <see cref="Models.DreamMaker.RequireDMApiValidation"/>.
+		/// User may modify <see cref="Models.Internal.DreamMakerSettings.RequireDMApiValidation"/>.
 		/// </summary>
 		SetApiValidationRequirement = 128,
 	}
