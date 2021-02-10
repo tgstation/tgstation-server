@@ -422,7 +422,7 @@ namespace Tgstation.Server.Host.Core
 			var rootSchemaId = GenerateSchemaId(context.Type);
 			var rootRequestSchema = rootSchemaId.EndsWith("Request", StringComparison.Ordinal);
 			var rootResponseSchema = rootSchemaId.EndsWith("Response", StringComparison.Ordinal);
-			var isPutRequest = rootRequestSchema && rootSchemaId.EndsWith("CreateRequest", StringComparison.Ordinal);
+			var isPutRequest = rootSchemaId.EndsWith("CreateRequest", StringComparison.Ordinal);
 
 			Tuple<PropertyInfo, string, OpenApiSchema, IDictionary<string, OpenApiSchema>> GetTypeFromKvp(Type currentType, KeyValuePair<string, OpenApiSchema> kvp, IDictionary<string, OpenApiSchema> schemaDictionary)
 			{

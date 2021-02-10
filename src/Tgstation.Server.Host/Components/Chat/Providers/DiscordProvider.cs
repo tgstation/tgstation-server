@@ -371,21 +371,23 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			}
 		}
 
-		/// <inheritdoc />
-		public override async Task<Func<string, string, Task>> SendUpdateMessage(
+		/// <summary>
+		/// Create a <see cref="List{T}"/> of <see cref="EmbedFieldBuilder"/>s for a discord update embed.
+		/// </summary>
+		/// <param name="revisionInformation">The <see cref="RevisionInformation"/> of the deployment.</param>
+		/// <param name="byondVersion">The BYOND <see cref="Version"/> of the deployment.</param>
+		/// <param name="gitHubOwner">The repository GitHub owner, if any.</param>
+		/// <param name="gitHubRepo">The repository GitHub name, if any.</param>
+		/// <param name="localCommitPushed"><see langword="true"/> if the local deployment commit was pushed to the remote repository.</param>
+		/// <returns>A new <see cref="List{T}"/> of <see cref="EmbedFieldBuilder"/>s to use.</returns>
+		static List<EmbedFieldBuilder> BuildUpdateEmbedFields(
 			Models.RevisionInformation revisionInformation,
 			Version byondVersion,
-			DateTimeOffset? estimatedCompletionTime,
 			string gitHubOwner,
 			string gitHubRepo,
-			ulong channelId,
-			bool localCommitPushed,
-			CancellationToken cancellationToken)
+			bool localCommitPushed)
 		{
 			bool gitHub = gitHubOwner != null && gitHubRepo != null;
-
-			localCommitPushed |= revisionInformation.CommitSha == revisionInformation.OriginCommitSha;
-
 			var fields = new List<EmbedFieldBuilder>
 			{
 				new EmbedFieldBuilder
@@ -420,6 +422,23 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 					Value = $"[{x.TitleAtMerge}]({x.Url}) by _[@{x.Author}](https://github.com/{x.Author})_{Environment.NewLine}Commit: [{x.TargetCommitSha.Substring(0, 7)}](https://github.com/{gitHubOwner}/{gitHubRepo}/commit/{x.TargetCommitSha}){(String.IsNullOrWhiteSpace(x.Comment) ? String.Empty : $"{Environment.NewLine}_**{x.Comment}**_")}"
 				}));
 
+			return fields;
+		}
+
+		/// <inheritdoc />
+		public override async Task<Func<string, string, Task>> SendUpdateMessage(
+			Models.RevisionInformation revisionInformation,
+			Version byondVersion,
+			DateTimeOffset? estimatedCompletionTime,
+			string gitHubOwner,
+			string gitHubRepo,
+			ulong channelId,
+			bool localCommitPushed,
+			CancellationToken cancellationToken)
+		{
+			localCommitPushed |= revisionInformation.CommitSha == revisionInformation.OriginCommitSha;
+
+			var fields = BuildUpdateEmbedFields(revisionInformation, byondVersion, gitHubOwner, gitHubRepo, localCommitPushed);
 			var builder = new EmbedBuilder
 			{
 				Author = new EmbedAuthorBuilder
