@@ -339,7 +339,7 @@ namespace Tgstation.Server.Host.Controllers
 			var canReadBack = AuthenticationContext.User.Id == originalUser.Id
 				|| callerAdministrationRights.HasFlag(AdministrationRights.ReadUsers);
 			return canReadBack
-				? Json(originalUser.ToApi())
+				? (IActionResult)Json(originalUser.ToApi())
 				: NoContent();
 		}
 #pragma warning restore CA1506
