@@ -80,7 +80,7 @@ namespace Tgstation.Server.Host.Components.Chat.Providers
 			IJobManager jobManager,
 			IAssemblyInformationProvider assemblyInformationProvider,
 			ILogger<DiscordProvider> logger,
-			Models.ChatBot chatBot)
+			ChatBot chatBot)
 			: base(jobManager, logger, chatBot)
 		{
 			this.assemblyInformationProvider = assemblyInformationProvider ?? throw new ArgumentNullException(nameof(assemblyInformationProvider));

@@ -5,7 +5,7 @@ namespace Tgstation.Server.Api.Models
 	/// <summary>
 	/// Indicates the <see cref="FieldPresence"/> for fields in models.
 	/// </summary>
-	[AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
+	[AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = false)]
 	public sealed class RequestOptionsAttribute : Attribute
 	{
 		/// <summary>

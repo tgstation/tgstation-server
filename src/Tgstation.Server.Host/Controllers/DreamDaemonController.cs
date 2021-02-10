@@ -67,17 +67,17 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
-		/// <response code="202"><see cref="Api.Models.JobResponse"/> to launch the watchdog started successfully.</response>
+		/// <response code="202"><see cref="JobResponse"/> to launch the watchdog started successfully.</response>
 		[HttpPut]
 		[TgsAuthorize(DreamDaemonRights.Start)]
-		[ProducesResponseType(typeof(Api.Models.JobResponse), 202)]
+		[ProducesResponseType(typeof(JobResponse), 202)]
 		public Task<IActionResult> Create(CancellationToken cancellationToken)
 			=> WithComponentInstance(async instance =>
 			{
 				if (instance.Watchdog.Status != WatchdogStatus.Offline)
 					return Conflict(new ErrorMessageResponse(ErrorCode.WatchdogRunning));
 
-				var job = new Models.Job
+				var job = new Job
 				{
 					Description = "Launch DreamDaemon",
 					CancelRight = (ulong)DreamDaemonRights.Shutdown,
@@ -298,18 +298,18 @@ namespace Tgstation.Server.Host.Controllers
 #pragma warning restore CA1502
 
 		/// <summary>
-		/// Creates a <see cref="Api.Models.JobResponse"/> to restart the Watchdog. It will not start if it wasn't already running.
+		/// Creates a <see cref="JobResponse"/> to restart the Watchdog. It will not start if it wasn't already running.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request</returns>
-		/// <response code="202">Restart <see cref="Api.Models.JobResponse"/> started successfully.</response>
+		/// <response code="202">Restart <see cref="JobResponse"/> started successfully.</response>
 		[HttpPatch]
 		[TgsAuthorize(DreamDaemonRights.Restart)]
-		[ProducesResponseType(typeof(Api.Models.JobResponse), 202)]
+		[ProducesResponseType(typeof(JobResponse), 202)]
 		public Task<IActionResult> Restart(CancellationToken cancellationToken)
 			=> WithComponentInstance(async instance =>
 			{
-				var job = new Models.Job
+				var job = new Job
 				{
 					Instance = Instance,
 					CancelRightsType = RightsType.DreamDaemon,
@@ -332,18 +332,18 @@ namespace Tgstation.Server.Host.Controllers
 			});
 
 		/// <summary>
-		/// Creates a <see cref="Api.Models.JobResponse"/> to generate a DreamDaemon process dump.
+		/// Creates a <see cref="JobResponse"/> to generate a DreamDaemon process dump.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request</returns>
-		/// <response code="202">Dump <see cref="Api.Models.JobResponse"/> started successfully.</response>
+		/// <response code="202">Dump <see cref="JobResponse"/> started successfully.</response>
 		[HttpPatch(Routes.Diagnostics)]
 		[TgsAuthorize(DreamDaemonRights.CreateDump)]
-		[ProducesResponseType(typeof(Api.Models.JobResponse), 202)]
+		[ProducesResponseType(typeof(JobResponse), 202)]
 		public Task<IActionResult> CreateDump(CancellationToken cancellationToken)
 			=> WithComponentInstance(async instance =>
 			{
-				var job = new Models.Job
+				var job = new Job
 				{
 					Instance = Instance,
 					CancelRightsType = RightsType.DreamDaemon,

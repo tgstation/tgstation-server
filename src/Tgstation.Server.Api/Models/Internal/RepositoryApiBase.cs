@@ -11,6 +11,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// The branch or tag HEAD points to.
 		/// </summary>
 		[StringLength(Limits.MaximumStringLength)]
+		[ResponseOptions]
 		public string? Reference { get; set; }
 	}
 }

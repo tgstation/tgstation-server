@@ -6,7 +6,7 @@ namespace Tgstation.Server.Api.Models
 	/// <summary>
 	/// Represents a request to clone the repository.
 	/// </summary>
-	public sealed class RepositoryCloneRequest : RepositoryApiBase
+	public sealed class RepositoryCreateRequest : RepositoryApiBase
 	{
 		/// <summary>
 		/// The origin URL to clone.

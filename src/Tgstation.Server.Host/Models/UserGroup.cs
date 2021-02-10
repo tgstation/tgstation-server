@@ -31,10 +31,9 @@ namespace Tgstation.Server.Host.Models
 			PermissionSet = PermissionSet.ToApi(),
 			Users = showUsers
 				? Users
-					?.Select(x => x.ToApi(false))
-					.OfType<NamedEntity>()
+					?.Select(x => x.CreateUserName())
 					.ToList()
-					?? new List<NamedEntity>()
+					?? new List<UserName>()
 				: null,
 		};
 

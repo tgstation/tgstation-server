@@ -13,6 +13,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The <see cref="Models.PermissionSet"/> directly associated with the <see cref="UserResponse"/>.
 		/// </summary>
+		[ResponseOptions]
 		public PermissionSet? PermissionSet { get; set; }
 
 		/// <summary>

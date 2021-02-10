@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mime;
+using System.Reflection;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
 using Tgstation.Server.Host.Controllers;
@@ -120,12 +121,15 @@ namespace Tgstation.Server.Host.Core
 			});
 		}
 
+		/// <summary>
+		/// Generates the OpenAPI schema ID for a given <paramref name="type"/>.
+		/// </summary>
+		/// <param name="type">The <see cref="Type"/> to generate a schema ID for.</param>
+		/// <returns>The generated schema ID for <see cref="Type"/>.</returns>
 		static string GenerateSchemaId(Type type)
 		{
-			if (type == typeof(NamedEntity))
+			if (type == typeof(UserName))
 				return "ShallowUserResponse";
-			if (type == typeof(Api.Models.Internal.UserGroup))
-				return "ShallowUserGroupResponse";
 
 			if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(PaginatedResponse<>))
 				return $"Paginated{type.GenericTypeArguments.First().Name}";
@@ -378,24 +382,12 @@ namespace Tgstation.Server.Host.Core
 				Schema = productHeaderSchema
 			});
 
-			var pathsToRemove = new List<string>();
-			var filteredControllers = new string[]
-			{
-				nameof(BridgeController),
-				nameof(ControlPanelController),
-				nameof(SwarmController),
-			};
-
+			var allSchemas = context
+				.SchemaRepository
+				.Schemas;
 			foreach (var path in swaggerDoc.Paths)
 				foreach (var operation in path.Value.Operations.Select(x => x.Value))
 				{
-					if (filteredControllers.Any(
-						x => operation.OperationId.StartsWith(x, StringComparison.Ordinal)))
-					{
-						pathsToRemove.Add(path.Key);
-						continue;
-					}
-
 					operation.Parameters.Insert(0, new OpenApiParameter
 					{
 						Reference = new OpenApiReference
@@ -415,10 +407,118 @@ namespace Tgstation.Server.Host.Core
 					});
 				}
 
-			foreach (var filteredPath in pathsToRemove)
-				swaggerDoc.Paths.Remove(filteredPath);
-
 			AddDefaultResponses(swaggerDoc);
+		}
+
+		/// <summary>
+		/// Applies the <see cref="OpenApiSchema.Nullable"/>, <see cref="OpenApiSchema.ReadOnly"/>, and <see cref="OpenApiSchema.WriteOnly"/> to <see cref="OpenApiSchema.Properties"/> of a given <paramref name="rootSchema"/>.
+		/// </summary>
+		/// <param name="rootSchema">The root <see cref="OpenApiSchema"/>.</param>
+		/// <param name="context">The current <see cref="SchemaFilterContext"/>.</param>
+		static void ApplyAttributesForRootSchema(OpenApiSchema rootSchema, SchemaFilterContext context)
+		{
+			//  tune up the descendants
+			rootSchema.Nullable = false;
+			var rootSchemaId = GenerateSchemaId(context.Type);
+			var rootRequestSchema = rootSchemaId.EndsWith("Request", StringComparison.Ordinal);
+			var rootResponseSchema = rootSchemaId.EndsWith("Response", StringComparison.Ordinal);
+			var isPutRequest = rootRequestSchema && rootSchemaId.EndsWith("CreateRequest", StringComparison.Ordinal);
+
+			Tuple<PropertyInfo, string, OpenApiSchema, IDictionary<string, OpenApiSchema>> GetTypeFromKvp(Type currentType, KeyValuePair<string, OpenApiSchema> kvp, IDictionary<string, OpenApiSchema> schemaDictionary)
+			{
+				var propertyInfo = currentType
+					.GetProperties()
+					.Single(x => x.Name.Equals(kvp.Key, StringComparison.OrdinalIgnoreCase));
+
+				return Tuple.Create(
+					propertyInfo,
+					kvp.Key,
+					kvp.Value,
+					schemaDictionary);
+			}
+
+			var subSchemaStack = new Stack<Tuple<PropertyInfo, string, OpenApiSchema, IDictionary<string, OpenApiSchema>>>(
+				rootSchema.Properties.Select(x => GetTypeFromKvp(context.Type, x, rootSchema.Properties)));
+
+			while (subSchemaStack.Count > 0)
+			{
+				var tuple = subSchemaStack.Pop();
+				var subSchema = tuple.Item3;
+
+				if (subSchema.Reference != null)
+					// can't mangle references per request
+					continue;
+
+				var subSchemaPropertyInfo = tuple.Item1;
+
+				if (subSchema.Properties != null
+					&& !subSchemaPropertyInfo
+						.PropertyType
+						.GetInterfaces()
+						.Any(x => x == typeof(IEnumerable)))
+					foreach (var kvp in subSchema.Properties)
+						subSchemaStack.Push(GetTypeFromKvp(subSchemaPropertyInfo.PropertyType, kvp, subSchema.Properties));
+
+				var attributes = subSchemaPropertyInfo
+					.GetCustomAttributes();
+				var responsePresence = attributes
+					.OfType<ResponseOptionsAttribute>()
+					.FirstOrDefault()
+					?.Presence
+					?? FieldPresence.Required;
+				var requestOptions = attributes
+					.OfType<RequestOptionsAttribute>()
+					.OrderBy(x => x.PutOnly) // Process PUTs last
+					.ToList();
+
+				if (requestOptions.Any() && requestOptions.All(x => x.Presence == FieldPresence.Ignored && !x.PutOnly))
+					subSchema.ReadOnly = true;
+
+				var subSchemaId = tuple.Item2;
+				var subSchemaOwningDictionary = tuple.Item4;
+				if (rootResponseSchema)
+				{
+					subSchema.Nullable = responsePresence == FieldPresence.Optional;
+					if (responsePresence == FieldPresence.Ignored)
+						subSchemaOwningDictionary.Remove(subSchemaId);
+				}
+				else if (rootRequestSchema)
+				{
+					subSchema.Nullable = true;
+					var lastOptionWasIgnored = false;
+					foreach (var requestOption in requestOptions)
+					{
+						var validForThisRequest = !requestOption.PutOnly || isPutRequest;
+						if (!validForThisRequest)
+							continue;
+
+						lastOptionWasIgnored = false;
+						switch (requestOption.Presence)
+						{
+							case FieldPresence.Ignored:
+								lastOptionWasIgnored = true;
+								break;
+							case FieldPresence.Optional:
+								subSchema.Nullable = true;
+								break;
+							case FieldPresence.Required:
+								subSchema.Nullable = false;
+								break;
+							default:
+								throw new InvalidOperationException($"Invalid FieldPresence: {requestOption.Presence}!");
+						}
+					}
+
+					if (lastOptionWasIgnored)
+						subSchemaOwningDictionary.Remove(subSchemaId);
+				}
+				else if (responsePresence == FieldPresence.Required
+					&& requestOptions.All(x => x.Presence == FieldPresence.Required && !x.PutOnly))
+					subSchema.Nullable = false;
+
+				// otherwise, we have to assume it's a shared schema
+				// use what Swagger thinks the nullability is by default
+			}
 		}
 
 		/// <inheritdoc />
@@ -432,53 +532,18 @@ namespace Tgstation.Server.Host.Core
 			// Nothing is required
 			schema.Required.Clear();
 
-			// Could be nullable type, make sure to get the right one
-			Type nonNullableType = context.Type.IsConstructedGenericType
-				? context.Type.GenericTypeArguments.First()
-				: context.Type;
-
-			if (context.MemberInfo != null)
-			{
-				var schemaId = GenerateSchemaId(context.MemberInfo.DeclaringType);
-				var responseOptions = context.MemberInfo.GetCustomAttributes(typeof(ResponseOptionsAttribute), true).OfType<ResponseOptionsAttribute>().FirstOrDefault();
-				var requestOptions = context.MemberInfo.GetCustomAttributes(typeof(RequestOptionsAttribute), true).OfType<RequestOptionsAttribute>().FirstOrDefault();
-
-				if (schemaId.EndsWith("Response", StringComparison.Ordinal))
-					if (responseOptions?.Presence == FieldPresence.Optional
-						|| (nonNullableType != context.Type
-							&& !context.Type.GetInterfaces().Any(x => x == typeof(IEnumerable))))
-						schema.Nullable = true;
-					else if (responseOptions?.Presence == FieldPresence.Ignored)
-						schema.WriteOnly = true;
-					else
-						schema.Nullable = false;
-				else if (requestOptions != null)
-					if (schemaId.EndsWith("Request", StringComparison.Ordinal))
-					{
-						var isPutRequest = schemaId.Contains("Create", StringComparison.OrdinalIgnoreCase);
-						if (!(requestOptions.PutOnly && !isPutRequest))
-							if (requestOptions.Presence == FieldPresence.Required)
-								context.SchemaRepository.Schemas.Remove(schemaId);
-							else if (requestOptions.Presence == FieldPresence.Ignored)
-								schema.ReadOnly = true;
-					}
-					else if (responseOptions?.Presence != FieldPresence.Optional && requestOptions.Presence == FieldPresence.Required)
-						// if something has request required and no optional response, it's always required
-						schema.Nullable = false;
-					else
-						schema.Nullable = true;
-				else
-				{
-					if (responseOptions?.Presence == FieldPresence.Ignored)
-						context.SchemaRepository.Schemas.Remove(schemaId);
-					schema.Nullable = true;
-				}
-			}
+			if (context.MemberInfo == null)
+				ApplyAttributesForRootSchema(schema, context);
 
 			if (!schema.Enum?.Any() ?? false)
 				return;
 
-			OpenApiEnumVarNamesExtension.Apply(schema, nonNullableType);
+			// Could be nullable type, make sure to get the right one
+			Type firstGenericArgumentOrType = context.Type.IsConstructedGenericType
+				? context.Type.GenericTypeArguments.First()
+				: context.Type;
+
+			OpenApiEnumVarNamesExtension.Apply(schema, firstGenericArgumentOrType);
 		}
 
 		/// <inheritdoc />

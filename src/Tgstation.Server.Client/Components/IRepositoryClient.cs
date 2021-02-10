@@ -27,10 +27,10 @@ namespace Tgstation.Server.Client.Components
 		/// <summary>
 		/// Clones a <paramref name="repository"/>
 		/// </summary>
-		/// <param name="repository">The <see cref="RepositoryCloneRequest"/>.</param>
+		/// <param name="repository">The <see cref="RepositoryCreateRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="RepositoryResponse"/>/</returns>
-		Task<RepositoryResponse> Clone(RepositoryCloneRequest repository, CancellationToken cancellationToken);
+		Task<RepositoryResponse> Clone(RepositoryCreateRequest repository, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Deletes the repository.

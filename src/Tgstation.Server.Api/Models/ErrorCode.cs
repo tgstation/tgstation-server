@@ -178,7 +178,7 @@ namespace Tgstation.Server.Api.Models
 		ConfigurationDirectoryNotEmpty,
 
 		/// <summary>
-		/// Tried to clone a repository with a missing <see cref="RepositoryCloneRequest.Origin"/> property.
+		/// Tried to clone a repository with a missing <see cref="RepositoryCreateRequest.Origin"/> property.
 		/// </summary>
 		[Obsolete("Deprecated")]
 		[Description("Cannot clone repository with missing origin field!")]

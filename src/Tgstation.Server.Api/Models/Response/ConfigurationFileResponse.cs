@@ -9,6 +9,7 @@ namespace Tgstation.Server.Api.Models
 		public string? Path { get; set; }
 
 		/// <inheritdoc />
+		[ResponseOptions]
 		public string? LastReadHash { get; set; }
 
 		/// <summary>

@@ -24,6 +24,7 @@ namespace Tgstation.Server.Api.Models
 		/// The current <see cref="WatchdogStatus"/>.
 		/// </summary>
 		[EnumDataType(typeof(WatchdogStatus))]
+		[ResponseOptions]
 		public WatchdogStatus? Status { get; set; }
 
 		/// <summary>

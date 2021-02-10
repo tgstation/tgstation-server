@@ -40,7 +40,7 @@ namespace Tgstation.Server.Host.Models
 		public PermissionSet PermissionSet { get; set; }
 
 		/// <summary>
-		/// The uppercase invariant of <see cref="NamedEntity.Name"/>
+		/// The uppercase invariant of <see cref="UserName.Name"/>
 		/// </summary>
 		[Required]
 		[StringLength(Limits.MaximumIndexableStringLength, MinimumLength = 1)]
@@ -67,43 +67,35 @@ namespace Tgstation.Server.Host.Models
 		public ICollection<OAuthConnection> OAuthConnections { get; set; }
 
 		/// <summary>
-		/// Change a <see cref="NamedEntity.Name"/> into a <see cref="CanonicalName"/>.
+		/// Change a <see cref="UserName.Name"/> into a <see cref="CanonicalName"/>.
 		/// </summary>
-		/// <param name="name">The <see cref="NamedEntity.Name"/>.</param>
+		/// <param name="name">The <see cref="UserName.Name"/>.</param>
 		/// <returns>The <see cref="CanonicalName"/>.</returns>
 		public static string CanonicalizeName(string name) => name?.ToUpperInvariant() ?? throw new ArgumentNullException(nameof(name));
 
 		/// <summary>
-		/// See <see cref="ToApi(bool)"/>
+		/// Generate a <see cref="UserResponse"/> from <see langword="this"/>.
 		/// </summary>
-		/// <param name="recursive">If we should recurse on <see cref="CreatedBy"/></param>
-		/// <param name="showDetails">If rights and system identifier should be shown</param>
+		/// <param name="recursive">If we should recurse on <see cref="CreatedBy"/>.</param>
 		/// <returns>A new <see cref="UserResponse"/>.</returns>
-		UserResponse ToApi(bool recursive, bool showDetails) => new UserResponse
+		UserResponse CreateUserResponse(bool recursive)
 		{
-			CreatedAt = showDetails ? CreatedAt : null,
-			CreatedBy = showDetails && recursive ? CreatedBy?.ToApi(false, false) : null,
-			Enabled = showDetails ? Enabled : null,
-			Id = Id,
-			Name = Name,
-			SystemIdentifier = showDetails ? SystemIdentifier : null,
-			OAuthConnections = showDetails
-				? OAuthConnections
-					?.Select(x => x.ToApi())
-					.ToList()
-				: null,
-			Group = showDetails ? Group?.ToApi(false) : null,
-			PermissionSet = showDetails ? PermissionSet?.ToApi() : null,
-		};
+			var result = CreateUserName<UserResponse>();
+			if (recursive)
+				result.CreatedBy = CreatedBy?.CreateUserName<UserName>();
 
-		/// <summary>
-		/// Convert the <see cref="User"/> to it's API form
-		/// </summary>
-		/// <param name="showDetails">If system identifier, oauth connections, and group/permission set should be shown.</param>
-		/// <returns>A new <see cref="UserResponse"/></returns>
-		public UserResponse ToApi(bool showDetails) => ToApi(true, showDetails);
+			result.CreatedAt = CreatedAt;
+			result.Enabled = Enabled;
+			result.SystemIdentifier = SystemIdentifier;
+			result.OAuthConnections = OAuthConnections
+				?.Select(x => x.ToApi())
+				.ToList();
+			result.Group = Group?.ToApi(false);
+			result.PermissionSet = PermissionSet?.ToApi();
+			return result;
+		}
 
 		/// <inheritdoc />
-		public UserResponse ToApi() => ToApi(true);
+		public UserResponse ToApi() => CreateUserResponse(true);
 	}
 }

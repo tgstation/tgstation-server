@@ -45,7 +45,7 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.IsNull(initalRepo.ActiveJob);
 
 			const string Origin = "https://github.com/tgstation/tgstation-server";
-			var cloneRequest = new RepositoryCloneRequest
+			var cloneRequest = new RepositoryCreateRequest
 			{
 				Origin = new Uri(Origin),
 				Reference = workingBranch,

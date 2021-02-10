@@ -130,7 +130,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Begin cloning the repository if it doesn't exist.
 		/// </summary>
-		/// <param name="model">The <see cref="RepositoryCloneRequest"/>.</param>
+		/// <param name="model">The <see cref="RepositoryCreateRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="201">The repository was created successfully and the <see cref="Api.Models.JobResponse"/> to clone it has begun.</response>
@@ -139,7 +139,7 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(RepositoryRights.SetOrigin)]
 		[ProducesResponseType(typeof(RepositoryResponse), 201)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
-		public async Task<IActionResult> Create([FromBody] RepositoryCloneRequest model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Create([FromBody] RepositoryCreateRequest model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));

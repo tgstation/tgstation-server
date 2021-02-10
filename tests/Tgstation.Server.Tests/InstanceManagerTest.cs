@@ -34,7 +34,7 @@ namespace Tgstation.Server.Tests
 			ChatBotLimit = 2
 		}, cancellationToken);
 
-		static InstanceCreateRequest FromResponse(InstanceResponse response) => new InstanceCreateRequest
+		static TRequestType FromResponse<TRequestType>(InstanceResponse response) where TRequestType : Api.Models.Instance, new() => new TRequestType
 		{
 			Id = response.Id,
 			Path = response.Path,
@@ -75,7 +75,7 @@ namespace Tgstation.Server.Tests
 				Name = "NonEmptyTest"
 			}, cancellationToken).ConfigureAwait(false);
 
-			await Assert.ThrowsExceptionAsync<ConflictException>(() => instanceManagerClient.CreateOrAttach(FromResponse(firstTest), cancellationToken)).ConfigureAwait(false);
+			await Assert.ThrowsExceptionAsync<ConflictException>(() => instanceManagerClient.CreateOrAttach(FromResponse<InstanceCreateRequest>(firstTest), cancellationToken)).ConfigureAwait(false);
 			Assert.IsTrue(Directory.Exists(firstTest.Path));
 
 			//can't create instances in installation directory
@@ -135,7 +135,7 @@ namespace Tgstation.Server.Tests
 			//online it for real for component tests
 			firstTest.Online = true;
 			firstTest.ConfigurationType = ConfigurationType.HostWrite;
-			firstTest = await instanceManagerClient.Update(FromResponse(firstTest), cancellationToken).ConfigureAwait(false);
+			firstTest = await instanceManagerClient.Update(FromResponse<InstanceUpdateRequest>(firstTest), cancellationToken).ConfigureAwait(false);
 			Assert.AreEqual(true, firstTest.Online);
 			Assert.AreEqual(ConfigurationType.HostWrite, firstTest.ConfigurationType);
 			Assert.IsTrue(Directory.Exists(firstTest.Path));
@@ -175,7 +175,7 @@ namespace Tgstation.Server.Tests
 			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.Detach(firstTest, cancellationToken), ErrorCode.InstanceDetachOnline).ConfigureAwait(false);
 
 			firstTest.Online = false;
-			firstTest = await instanceManagerClient.Update(FromResponse(firstTest), cancellationToken).ConfigureAwait(false);
+			firstTest = await instanceManagerClient.Update(FromResponse<InstanceUpdateRequest>(firstTest), cancellationToken).ConfigureAwait(false);
 
 			await instanceManagerClient.Detach(firstTest, cancellationToken).ConfigureAwait(false);
 
@@ -183,7 +183,7 @@ namespace Tgstation.Server.Tests
 			Assert.IsTrue(File.Exists(attachPath));
 
 			//can recreate detached instance
-			firstTest = await instanceManagerClient.CreateOrAttach(FromResponse(firstTest), cancellationToken).ConfigureAwait(false);
+			firstTest = await instanceManagerClient.CreateOrAttach(FromResponse<InstanceCreateRequest>(firstTest), cancellationToken).ConfigureAwait(false);
 
 			// Test updating only with SetChatBotLimit works
 			var current = await usersClient.Read(cancellationToken);
@@ -210,7 +210,7 @@ namespace Tgstation.Server.Tests
 			//but only if the attach file exists
 			await instanceManagerClient.Detach(firstTest, cancellationToken).ConfigureAwait(false);
 			File.Delete(attachPath);
-			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.CreateOrAttach(FromResponse(firstTest), cancellationToken), ErrorCode.InstanceAtExistingPath).ConfigureAwait(false);
+			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.CreateOrAttach(FromResponse<InstanceCreateRequest>(firstTest), cancellationToken), ErrorCode.InstanceAtExistingPath).ConfigureAwait(false);
 		}
 	}
 }

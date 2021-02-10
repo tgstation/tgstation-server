@@ -6,13 +6,12 @@ namespace Tgstation.Server.Api.Models.Internal
 	/// <summary>
 	/// Represents a server user.
 	/// </summary>
-	public abstract class UserModelBase : NamedEntity
+	public abstract class UserModelBase : UserName
 	{
 		/// <summary>
 		/// If the <see cref="UserModelBase"/> is enabled since users cannot be deleted. System users cannot be disabled
 		/// </summary>
 		[Required]
-		[ResponseOptions]
 		public bool? Enabled { get; set; }
 
 		/// <summary>
@@ -20,7 +19,6 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// </summary>
 		[Required]
 		[RequestOptions(FieldPresence.Ignored)]
-		[ResponseOptions]
 		public DateTimeOffset? CreatedAt { get; set; }
 
 		/// <summary>

@@ -66,7 +66,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Check if a given <paramref name="model"/> has a valid <see cref="NamedEntity.Name"/> specified.
+		/// Check if a given <paramref name="model"/> has a valid <see cref="UserName.Name"/> specified.
 		/// </summary>
 		/// <param name="model">The <see cref="UserUpdateRequest"/> to check.</param>
 		/// <param name="newUser">If this is a new <see cref="UserResponse"/>.</param>
@@ -105,7 +105,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Create a new <see cref="User"/>.
 		/// </summary>
-		/// <param name="model">The <see cref="UserResponse"/> to create.</param>
+		/// <param name="model">The <see cref="UserCreateRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="201"><see cref="User"/> created successfully.</response>
@@ -114,7 +114,7 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(AdministrationRights.WriteUsers)]
 		[ProducesResponseType(typeof(UserResponse), 201)]
 #pragma warning disable CA1502, CA1506
-		public async Task<IActionResult> Create([FromBody] UserUpdateRequest model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Create([FromBody] UserCreateRequest model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
@@ -180,7 +180,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			Logger.LogInformation("Created new user {0} ({1})", dbUser.Name, dbUser.Id);
 
-			return Created(dbUser.ToApi(true));
+			return Created(dbUser.ToApi());
 		}
 #pragma warning restore CA1502, CA1506
 
@@ -191,11 +191,13 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200"><see cref="User"/> updated successfully.</response>
+		/// <response code="200"><see cref="User"/> updated successfully. Not returned due to lack of permissions.</response>
 		/// <response code="404">Requested <see cref="EntityId.Id"/> does not exist.</response>
 		/// <response code="410">Requested <see cref="Api.Models.Internal.UserApiBase.Group"/> does not exist.</response>
 		[HttpPost]
 		[TgsAuthorize(AdministrationRights.WriteUsers | AdministrationRights.EditOwnPassword | AdministrationRights.EditOwnOAuthConnections)]
 		[ProducesResponseType(typeof(UserResponse), 200)]
+		[ProducesResponseType(204)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 404)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 #pragma warning disable CA1502 // TODO: Decomplexify
@@ -334,14 +336,11 @@ namespace Tgstation.Server.Host.Controllers
 			Logger.LogInformation("Updated user {0} ({1})", originalUser.Name, originalUser.Id);
 
 			// return id only if not a self update and cannot read users
-			return Json(
-				AuthenticationContext.User.Id == originalUser.Id
-				|| callerAdministrationRights.HasFlag(AdministrationRights.ReadUsers)
-				? originalUser.ToApi(true)
-				: new UserResponse
-				{
-					Id = originalUser.Id
-				});
+			var canReadBack = AuthenticationContext.User.Id == originalUser.Id
+				|| callerAdministrationRights.HasFlag(AdministrationRights.ReadUsers);
+			return canReadBack
+				? Json(originalUser.ToApi())
+				: NoContent();
 		}
 #pragma warning restore CA1506
 #pragma warning restore CA1502
@@ -354,7 +353,7 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpGet]
 		[TgsAuthorize]
 		[ProducesResponseType(typeof(UserResponse), 200)]
-		public IActionResult Read() => Json(AuthenticationContext.User.ToApi(true));
+		public IActionResult Read() => Json(AuthenticationContext.User.ToApi());
 
 		/// <summary>
 		/// List all <see cref="User"/>s in the server.
@@ -421,7 +420,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (user.CanonicalName == Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
 				return Forbid();
 
-			return Json(user.ToApi(true));
+			return Json(user.ToApi());
 		}
 
 		/// <summary>

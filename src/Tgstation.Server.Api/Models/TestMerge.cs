@@ -8,6 +8,6 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The <see cref="NamedEntity"/> of the user who created the <see cref="TestMerge"/>.
 		/// </summary>
-		public NamedEntity? MergedBy { get; set; }
+		public UserName? MergedBy { get; set; }
 	}
 }

@@ -11,6 +11,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// <summary>
 		/// The <see cref="EntityId.Id"/> of the <see cref="PermissionSet"/> the <see cref="InstancePermissionSet"/> belongs to
 		/// </summary>
+		[RequestOptions(FieldPresence.Required)]
 		public long PermissionSetId { get; set; }
 
 		/// <summary>

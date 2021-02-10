@@ -9,6 +9,6 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The <see cref="NamedEntity"/>s the <see cref="UserGroupResponse"/> has.
 		/// </summary>
-		public ICollection<NamedEntity>? Users { get; set; }
+		public ICollection<UserName>? Users { get; set; }
 	}
 }

@@ -31,7 +31,7 @@ namespace Tgstation.Server.Client.Components
 		}
 
 		/// <inheritdoc />
-		public Task<RepositoryResponse> Clone(RepositoryCloneRequest repository, CancellationToken cancellationToken) => apiClient.Create<RepositoryCloneRequest, RepositoryResponse>(Routes.Repository, repository, instance.Id!.Value, cancellationToken);
+		public Task<RepositoryResponse> Clone(RepositoryCreateRequest repository, CancellationToken cancellationToken) => apiClient.Create<RepositoryCreateRequest, RepositoryResponse>(Routes.Repository, repository, instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
 		public Task<RepositoryResponse> Delete(CancellationToken cancellationToken) => apiClient.Delete<RepositoryResponse>(Routes.Repository, instance.Id!.Value, cancellationToken);

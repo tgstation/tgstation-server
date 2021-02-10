@@ -31,13 +31,13 @@ namespace Tgstation.Server.Host.Models
 			StartedAt = StartedAt,
 			StoppedAt = StoppedAt,
 			Cancelled = Cancelled,
-			CancelledBy = CancelledBy?.ToApi(false),
+			CancelledBy = CancelledBy?.CreateUserName(),
 			CancelRight = CancelRight,
 			CancelRightsType = CancelRightsType,
 			Description = Description,
 			ExceptionDetails = ExceptionDetails,
 			ErrorCode = ErrorCode,
-			StartedBy = StartedBy.ToApi(false)
+			StartedBy = StartedBy.CreateUserName()
 		};
 	}
 }

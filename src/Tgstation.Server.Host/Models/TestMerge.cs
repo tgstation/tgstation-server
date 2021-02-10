@@ -37,7 +37,7 @@ namespace Tgstation.Server.Host.Models
 			TitleAtMerge = TitleAtMerge,
 			Comment = Comment,
 			Id = Id,
-			MergedBy = MergedBy.ToApi(false),
+			MergedBy = MergedBy.CreateUserName(),
 			Number = Number,
 			TargetCommitSha = TargetCommitSha,
 			Url = Url

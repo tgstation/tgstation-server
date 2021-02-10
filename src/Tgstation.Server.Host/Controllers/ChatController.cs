@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Internal;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Database;
@@ -65,14 +66,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Create a new chat bot <paramref name="model"/>.
 		/// </summary>
-		/// <param name="model">The <see cref="ChatBotUpdateRequest"/>.</param>
+		/// <param name="model">The <see cref="ChatBotCreateRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="201">Created <see cref="ChatBot"/> successfully.</response>
 		[HttpPut]
 		[TgsAuthorize(ChatBotRights.Create)]
 		[ProducesResponseType(typeof(ChatBotResponse), 201)]
-		public async Task<IActionResult> Create([FromBody] ChatBotUpdateRequest model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Create([FromBody] ChatBotCreateRequest model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
@@ -278,7 +279,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			bool anySettingsModified = false;
 
-			bool CheckModified<T>(Expression<Func<Api.Models.Internal.ChatBotSettings, T>> expression, ChatBotRights requiredRight)
+			bool CheckModified<T>(Expression<Func<ChatBotSettings, T>> expression, ChatBotRights requiredRight)
 			{
 				var memberSelectorExpression = (MemberExpression)expression.Body;
 				var property = (PropertyInfo)memberSelectorExpression.Member;
@@ -350,10 +351,10 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Perform some basic validation of a given <paramref name="model"/>.
 		/// </summary>
-		/// <param name="model">The <see cref="ChatBotUpdateRequest"/> to validate.</param>
+		/// <param name="model">The <see cref="ChatBotApiBase"/> to validate.</param>
 		/// <param name="forCreation">If the <paramref name="model"/> is being created.</param>
 		/// <returns>An <see cref="IActionResult"/> to respond with or <see langword="null"/>.</returns>
-		private IActionResult StandardModelChecks(ChatBotUpdateRequest model, bool forCreation)
+		private IActionResult StandardModelChecks(ChatBotApiBase model, bool forCreation)
 		{
 			if (model.ReconnectionInterval == 0)
 				throw new InvalidOperationException("RecconnectionInterval cannot be zero!");

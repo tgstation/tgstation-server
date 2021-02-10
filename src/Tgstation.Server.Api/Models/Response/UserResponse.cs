@@ -10,6 +10,6 @@ namespace Tgstation.Server.Api.Models
 		/// The <see cref="UserResponse"/> who created this <see cref="UserResponse"/>
 		/// </summary>
 		[Required]
-		public NamedEntity? CreatedBy { get; set; }
+		public UserName? CreatedBy { get; set; }
 	}
 }

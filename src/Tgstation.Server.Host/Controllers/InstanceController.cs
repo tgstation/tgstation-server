@@ -116,7 +116,7 @@ namespace Tgstation.Server.Host.Controllers
 			swarmConfiguration = swarmConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(swarmConfigurationOptions));
 		}
 
-		async Task<Models.Instance> CreateDefaultInstance(InstanceUpdateRequest initialSettings, CancellationToken cancellationToken)
+		async Task<Models.Instance> CreateDefaultInstance(InstanceCreateRequest initialSettings, CancellationToken cancellationToken)
 		{
 			var ddPort = await portAllocator.GetAvailablePort(1, false, cancellationToken).ConfigureAwait(false);
 			if (!ddPort.HasValue)
@@ -222,7 +222,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Create or attach an <see cref="Api.Models.Instance"/>.
 		/// </summary>
-		/// <param name="model">The <see cref="Api.Models.Instance"/> settings.</param>
+		/// <param name="model">The <see cref="InstanceCreateRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Instance attached successfully.</response>
@@ -231,7 +231,7 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize(InstanceManagerRights.Create)]
 		[ProducesResponseType(typeof(InstanceResponse), 200)]
 		[ProducesResponseType(typeof(InstanceResponse), 201)]
-		public async Task<IActionResult> Create([FromBody] InstanceUpdateRequest model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Create([FromBody] InstanceCreateRequest model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));

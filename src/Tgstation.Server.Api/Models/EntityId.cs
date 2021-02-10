@@ -8,6 +8,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The ID of the entity.
 		/// </summary>
+		[RequestOptions(FieldPresence.Required)]
 		[RequestOptions(FieldPresence.Ignored, PutOnly = true)]
 		public virtual long? Id { get; set; }
 	}

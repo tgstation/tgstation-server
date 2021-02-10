@@ -8,13 +8,13 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The <see cref="UserResponse"/> that started the job
 		/// </summary>
-		public UserResponse? StartedBy { get; set; }
+		public UserName? StartedBy { get; set; }
 
 		/// <summary>
 		/// The <see cref="UserResponse"/> that cancelled the job
 		/// </summary>
 		[ResponseOptions]
-		public UserResponse? CancelledBy { get; set; }
+		public UserName? CancelledBy { get; set; }
 
 		/// <summary>
 		/// Optional progress between 0 and 100 inclusive
