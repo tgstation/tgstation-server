@@ -6,22 +6,24 @@ namespace Tgstation.Server.Api.Models
 	/// <summary>
 	/// Represents a set of server permissions.
 	/// </summary>
-	public class PermissionSet
+	public class PermissionSet : EntityId
 	{
-		/// <summary>
-		/// The ID of the <see cref="PermissionSet"/>.
-		/// </summary>
-		[Required]
-		public long? Id { get; set; }
+		/// <inheritdoc />
+		[RequestOptions(FieldPresence.Ignored)]
+		public override long? Id
+		{
+			get => base.Id;
+			set => base.Id = value;
+		}
 
 		/// <summary>
-		/// The <see cref="Rights.AdministrationRights"/> for the <see cref="User"/>
+		/// The <see cref="Rights.AdministrationRights"/> for the user.
 		/// </summary>
 		[Required]
 		public AdministrationRights? AdministrationRights { get; set; }
 
 		/// <summary>
-		/// The <see cref="Rights.InstanceManagerRights"/> for the <see cref="User"/>
+		/// The <see cref="Rights.InstanceManagerRights"/> for the user.
 		/// </summary>
 		[Required]
 		public InstanceManagerRights? InstanceManagerRights { get; set; }

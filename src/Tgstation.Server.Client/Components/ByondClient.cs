@@ -5,6 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Request;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client.Components
 {
@@ -28,23 +30,28 @@ namespace Tgstation.Server.Client.Components
 		}
 
 		/// <inheritdoc />
-		public Task<Byond> ActiveVersion(CancellationToken cancellationToken) => ApiClient.Read<Byond>(Routes.Byond, instance.Id, cancellationToken);
+		public Task<ByondResponse> ActiveVersion(CancellationToken cancellationToken) => ApiClient.Read<ByondResponse>(Routes.Byond, instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<Byond>> InstalledVersions(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
-			=> ReadPaged<Byond>(paginationSettings, Routes.ListRoute(Routes.Byond), instance.Id, cancellationToken);
+		public Task<IReadOnlyList<ByondResponse>> InstalledVersions(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
+			=> ReadPaged<ByondResponse>(paginationSettings, Routes.ListRoute(Routes.Byond), instance.Id, cancellationToken);
 
 		/// <inheritdoc />
-		public async Task<Byond> SetActiveVersion(Byond byond, Stream zipFileStream, CancellationToken cancellationToken)
+		public async Task<ByondInstallResponse> SetActiveVersion(ByondVersionRequest installRequest, Stream zipFileStream, CancellationToken cancellationToken)
 		{
-			var result = await ApiClient.Update<Byond, Byond>(
+			if (installRequest == null)
+				throw new ArgumentNullException(nameof(installRequest));
+			if (installRequest.UploadCustomZip == true && zipFileStream == null)
+				throw new ArgumentNullException(nameof(zipFileStream));
+
+			var result = await ApiClient.Update<ByondVersionRequest, ByondInstallResponse>(
 				Routes.Byond,
-				byond ?? throw new ArgumentNullException(nameof(byond)),
-				instance.Id,
+				installRequest,
+				instance.Id!.Value,
 				cancellationToken)
 				.ConfigureAwait(false);
 
-			if (byond.UploadCustomZip == true)
+			if (installRequest.UploadCustomZip == true)
 				await ApiClient.Upload(result, zipFileStream, cancellationToken).ConfigureAwait(false);
 
 			return result;

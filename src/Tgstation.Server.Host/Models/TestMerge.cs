@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class TestMerge : Api.Models.Internal.TestMerge, IApiTransformable<Api.Models.TestMerge>
+	public sealed class TestMerge : Api.Models.Internal.TestMergeApiBase, IApiTransformable<Api.Models.TestMerge>
 	{
 		/// <summary>
 		/// See <see cref="Api.Models.TestMerge.MergedBy"/>
@@ -37,7 +37,7 @@ namespace Tgstation.Server.Host.Models
 			TitleAtMerge = TitleAtMerge,
 			Comment = Comment,
 			Id = Id,
-			MergedBy = MergedBy.ToApi(false),
+			MergedBy = MergedBy.CreateUserName(),
 			Number = Number,
 			TargetCommitSha = TargetCommitSha,
 			Url = Url

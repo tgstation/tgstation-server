@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client.Components.Tests
 {
@@ -16,19 +17,19 @@ namespace Tgstation.Server.Client.Components.Tests
 		[TestMethod]
 		public async Task TestStart()
 		{
-			var example = new Job
+			var example = new JobResponse
 			{
 				Id = 347,
 				StartedAt = DateTimeOffset.UtcNow
 			};
 
-			var inst = new Instance
+			var inst = new InstanceResponse
 			{
 				Id = 4958
 			};
 
 			var mockApiClient = new Mock<IApiClient>();
-			mockApiClient.Setup(x => x.Create<Job>(Routes.DreamDaemon, inst.Id, It.IsAny<CancellationToken>())).Returns(Task.FromResult(example));
+			mockApiClient.Setup(x => x.Create<JobResponse>(Routes.DreamDaemon, inst.Id.Value, It.IsAny<CancellationToken>())).Returns(Task.FromResult(example));
 
 			var client = new DreamDaemonClient(mockApiClient.Object, inst);
 

@@ -377,17 +377,17 @@ namespace Tgstation.Server.Host.Database
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MSSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MSLatestMigration = typeof(MSAddRevInfoTimestamp);
+		internal static readonly Type MSLatestMigration = typeof(MSTruncateInstanceNames);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct MYSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type MYLatestMigration = typeof(MYAddRevInfoTimestamp);
+		internal static readonly Type MYLatestMigration = typeof(MYTruncateInstanceNames);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct PostgresSQL migration downgrades.
 		/// </summary>
-		internal static readonly Type PGLatestMigration = typeof(PGAddRevInfoTimestamp);
+		internal static readonly Type PGLatestMigration = typeof(PGTruncateInstanceNames);
 
 		/// <summary>
 		/// Used by unit tests to remind us to setup the correct SQLite migration downgrades.
@@ -420,6 +420,15 @@ namespace Tgstation.Server.Host.Database
 
 			// Update this with new migrations as they are made
 			string targetMigration = null;
+			if (targetVersion < new Version(4, 10, 0))
+				targetMigration = currentDatabaseType switch
+				{
+					DatabaseType.MySql => nameof(MSAddRevInfoTimestamp),
+					DatabaseType.PostgresSql => nameof(PGAddRevInfoTimestamp),
+					DatabaseType.SqlServer => nameof(MSAddRevInfoTimestamp),
+					DatabaseType.Sqlite => nameof(SLAddRevInfoTimestamp),
+					_ => throw new ArgumentException($"Invalid DatabaseType: {currentDatabaseType}", nameof(currentDatabaseType)),
+				};
 			if (targetVersion < new Version(4, 8, 0))
 				targetMigration = currentDatabaseType switch
 				{

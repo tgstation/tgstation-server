@@ -3,7 +3,7 @@ using System;
 namespace Tgstation.Server.Api.Rights
 {
 	/// <summary>
-	/// Rights for <see cref="Models.ConfigurationFile"/>
+	/// Rights for <see cref="Models.IConfigurationFile"/>s.
 	/// </summary>
 	[Flags]
 	public enum ConfigurationRights : ulong

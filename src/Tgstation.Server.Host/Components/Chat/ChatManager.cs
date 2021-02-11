@@ -67,7 +67,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		readonly IDictionary<string, ICommand> builtinCommands;
 
 		/// <summary>
-		/// Map of <see cref="IProvider"/>s in use, keyed by <see cref="ChatBot"/> <see cref="Api.Models.EntityId.Id"/>
+		/// Map of <see cref="IProvider"/>s in use, keyed by <see cref="ChatBotSettings"/> <see cref="Api.Models.EntityId.Id"/>
 		/// </summary>
 		readonly IDictionary<long, IProvider> providers;
 
@@ -117,7 +117,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		Task messageSendTask;
 
 		/// <summary>
-		/// The <see cref="TaskCompletionSource{TResult}"/> that completes when <see cref="ChatBot"/>s change
+		/// The <see cref="TaskCompletionSource{TResult}"/> that completes when <see cref="ChatBotSettings"/>s change
 		/// </summary>
 		TaskCompletionSource<object> connectionsUpdated;
 
@@ -570,9 +570,9 @@ namespace Tgstation.Server.Host.Components.Chat
 			lock (providers)
 			{
 				// raw settings changes forces a rebuild of the provider
-				if (providers.TryGetValue(newSettings.Id, out provider))
+				if (providers.TryGetValue(newSettings.Id.Value, out provider))
 				{
-					providers.Remove(newSettings.Id);
+					providers.Remove(newSettings.Id.Value);
 					disconnectTask = DisconnectProvider(provider);
 				}
 				else
@@ -580,7 +580,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				if (newSettings.Enabled.Value)
 				{
 					provider = providerFactory.CreateProvider(newSettings);
-					providers.Add(newSettings.Id, provider);
+					providers.Add(newSettings.Id.Value, provider);
 				}
 			}
 
@@ -748,7 +748,7 @@ namespace Tgstation.Server.Host.Components.Chat
 				builtinCommands.Add(I.Name.ToUpperInvariant(), I);
 			var initialChatBots = activeChatBots.ToList();
 			await Task.WhenAll(initialChatBots.Select(x => ChangeSettings(x, cancellationToken))).ConfigureAwait(false);
-			await Task.WhenAll(initialChatBots.Select(x => ChangeChannels(x.Id, x.Channels, cancellationToken))).ConfigureAwait(false);
+			await Task.WhenAll(initialChatBots.Select(x => ChangeChannels(x.Id.Value, x.Channels, cancellationToken))).ConfigureAwait(false);
 			initialProviderConnectionsTask = InitialConnection();
 			chatHandler = MonitorMessages(handlerCts.Token);
 		}

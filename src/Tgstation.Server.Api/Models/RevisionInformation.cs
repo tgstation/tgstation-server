@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Tgstation.Server.Api.Models
 {
@@ -8,6 +8,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The <see cref="TestMerge"/> that was created with this <see cref="RevisionInformation"/>
 		/// </summary>
+		[ResponseOptions]
 		public TestMerge? PrimaryTestMerge { get; set; }
 
 		/// <summary>
@@ -16,7 +17,7 @@ namespace Tgstation.Server.Api.Models
 		public ICollection<TestMerge>? ActiveTestMerges { get; set; }
 
 		/// <summary>
-		/// The <see cref="CompileJob"/>s made from the <see cref="RevisionInformation"/>
+		/// The <see cref="Internal.CompileJob"/>s made from the <see cref="RevisionInformation"/>
 		/// </summary>
 		public ICollection<EntityId>? CompileJobs { get; set; }
 	}

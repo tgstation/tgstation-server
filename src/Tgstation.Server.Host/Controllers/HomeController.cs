@@ -14,6 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Components.Interop;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
@@ -152,12 +153,12 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>
-		/// A <see cref="Task{TResult}"/> resuting in the <see cref="JsonResult"/> containing <see cref="ServerInformation"/> of the <see cref="Application"/> if a properly authenticated API request, the web control panel if on a browser and enabled, <see cref="UnauthorizedResult"/> otherwise.
+		/// A <see cref="Task{TResult}"/> resuting in the <see cref="JsonResult"/> containing <see cref="ServerInformationResponse"/> of the <see cref="Application"/> if a properly authenticated API request, the web control panel if on a browser and enabled, <see cref="UnauthorizedResult"/> otherwise.
 		/// </returns>
-		/// <response code="200"><see cref="ServerInformation"/> retrieved successfully.</response>
+		/// <response code="200"><see cref="ServerInformationResponse"/> retrieved successfully.</response>
 		[HttpGet]
 		[AllowAnonymous]
-		[ProducesResponseType(typeof(ServerInformation), 200)]
+		[ProducesResponseType(typeof(ServerInformationResponse), 200)]
 #pragma warning disable CA1506
 		public async Task<IActionResult> Home(CancellationToken cancellationToken)
 		{
@@ -186,7 +187,7 @@ namespace Tgstation.Server.Host.Controllers
 					if (!headers.Compatible())
 						return StatusCode(
 							HttpStatusCode.UpgradeRequired,
-							new ErrorMessage(ErrorCode.ApiMismatch));
+							new ErrorMessageResponse(ErrorCode.ApiMismatch));
 				}
 				catch (HeadersException)
 				{
@@ -194,7 +195,7 @@ namespace Tgstation.Server.Host.Controllers
 				}
 			}
 
-			return Json(new ServerInformation
+			return Json(new ServerInformationResponse
 			{
 				Version = assemblyInformationProvider.Version,
 				ApiVersion = ApiHeaders.Version,
@@ -217,13 +218,13 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
-		/// <response code="200">User logged in and <see cref="Token"/> generated successfully.</response>
+		/// <response code="200">User logged in and <see cref="TokenResponse"/> generated successfully.</response>
 		/// <response code="401">User authentication failed.</response>
 		/// <response code="403">User authenticated but is disabled by an administrator.</response>
 		/// <response code="429">OAuth authentication failed due to rate limiting.</response>
 		[HttpPost]
-		[ProducesResponseType(typeof(Token), 200)]
-		[ProducesResponseType(typeof(ErrorMessage), 429)]
+		[ProducesResponseType(typeof(TokenResponse), 200)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 429)]
 #pragma warning disable CA1506 // TODO: Decomplexify
 		public async Task<IActionResult> CreateToken(CancellationToken cancellationToken)
 		{
@@ -234,7 +235,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 
 			if (ApiHeaders.IsTokenAuthentication)
-				return BadRequest(new ErrorMessage(ErrorCode.TokenWithToken));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.TokenWithToken));
 
 			var oAuthLogin = ApiHeaders.OAuthProvider.HasValue;
 
@@ -264,7 +265,7 @@ namespace Tgstation.Server.Host.Controllers
 							.GetValidator(oAuthProvider);
 
 						if (validator == null)
-							return BadRequest(new ErrorMessage(ErrorCode.OAuthProviderDisabled));
+							return BadRequest(new ErrorMessageResponse(ErrorCode.OAuthProviderDisabled));
 
 						externalUserId = await validator
 							.ValidateResponseCode(ApiHeaders.Token, cancellationToken)

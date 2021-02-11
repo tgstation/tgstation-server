@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Swarm
 {
@@ -14,8 +14,8 @@ namespace Tgstation.Server.Host.Swarm
 		/// <summary>
 		/// Pass in an updated list of <paramref name="swarmServers"/> to the node.
 		/// </summary>
-		/// <param name="swarmServers">An <see cref="IEnumerable{T}"/> of the updated <see cref="SwarmServer"/>s.</param>
-		void UpdateSwarmServersList(IEnumerable<SwarmServer> swarmServers);
+		/// <param name="swarmServers">An <see cref="IEnumerable{T}"/> of the updated <see cref="SwarmServerResponse"/>s.</param>
+		void UpdateSwarmServersList(IEnumerable<SwarmServerResponse> swarmServers);
 
 		/// <summary>
 		/// Notify the node of an update request from the controller.
@@ -35,7 +35,7 @@ namespace Tgstation.Server.Host.Swarm
 		/// <summary>
 		/// Attempt to register a given <paramref name="node"/> with the controller.
 		/// </summary>
-		/// <param name="node">The <see cref="SwarmServer"/> that is registering.</param>
+		/// <param name="node">The <see cref="SwarmServerResponse"/> that is registering.</param>
 		/// <param name="registrationId">The registration <see cref="Guid"/>.</param>
 		/// <returns><see langword="true"/> if the registration was successful, <see langword="false"/> otherwise.</returns>
 		bool RegisterNode(Api.Models.Internal.SwarmServer node, Guid registrationId);

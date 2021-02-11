@@ -4,6 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Request;
+using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Client.Components;
 
 namespace Tgstation.Server.Client
@@ -20,25 +22,36 @@ namespace Tgstation.Server.Client
 		{ }
 
 		/// <inheritdoc />
-		public Task<Instance> CreateOrAttach(Instance instance, CancellationToken cancellationToken) => ApiClient.Create<Instance, Instance>(Routes.InstanceManager, instance ?? throw new ArgumentNullException(nameof(instance)), cancellationToken);
+		public Task<InstanceResponse> CreateOrAttach(InstanceCreateRequest instance, CancellationToken cancellationToken) => ApiClient.Create<InstanceCreateRequest, InstanceResponse>(Routes.InstanceManager, instance ?? throw new ArgumentNullException(nameof(instance)), cancellationToken);
 
 		/// <inheritdoc />
-		public Task Detach(Instance instance, CancellationToken cancellationToken) => ApiClient.Delete(Routes.SetID(Routes.InstanceManager, instance?.Id ?? throw new ArgumentNullException(nameof(instance))), cancellationToken);
+		public Task Detach(EntityId instance, CancellationToken cancellationToken) => ApiClient.Delete(Routes.SetID(Routes.InstanceManager, instance?.Id ?? throw new ArgumentNullException(nameof(instance))), cancellationToken);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<Instance>> List(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
-			=> ReadPaged<Instance>(paginationSettings, Routes.ListRoute(Routes.InstanceManager), null, cancellationToken);
+		public Task<IReadOnlyList<InstanceResponse>> List(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
+			=> ReadPaged<InstanceResponse>(paginationSettings, Routes.ListRoute(Routes.InstanceManager), null, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<Instance> Update(Instance instance, CancellationToken cancellationToken) => ApiClient.Update<Instance, Instance>(Routes.InstanceManager, instance ?? throw new ArgumentNullException(nameof(instance)), cancellationToken);
+		public Task<InstanceResponse> Update(InstanceUpdateRequest instance, CancellationToken cancellationToken) => ApiClient.Update<InstanceUpdateRequest, InstanceResponse>(Routes.InstanceManager, instance ?? throw new ArgumentNullException(nameof(instance)), cancellationToken);
 
 		/// <inheritdoc />
-		public Task<Instance> GetId(Instance instance, CancellationToken cancellationToken) => ApiClient.Read<Instance>(Routes.SetID(Routes.InstanceManager, instance?.Id ?? throw new ArgumentNullException(nameof(instance))), cancellationToken);
+		public Task<InstanceResponse> GetId(EntityId instance, CancellationToken cancellationToken) => ApiClient.Read<InstanceResponse>(Routes.SetID(Routes.InstanceManager, instance?.Id ?? throw new ArgumentNullException(nameof(instance))), cancellationToken);
 
 		/// <inheritdoc />
-		public Task GrantPermissions(Instance instance, CancellationToken cancellationToken) => ApiClient.Patch(Routes.SetID(Routes.InstanceManager, instance?.Id ?? throw new ArgumentNullException(nameof(instance))), cancellationToken);
+		public Task GrantPermissions(EntityId instance, CancellationToken cancellationToken) => ApiClient.Patch(Routes.SetID(Routes.InstanceManager, instance?.Id ?? throw new ArgumentNullException(nameof(instance))), cancellationToken);
 
 		/// <inheritdoc />
-		public IInstanceClient CreateClient(Instance instance) => new InstanceClient(ApiClient, instance);
+		public IInstanceClient CreateClient(Instance instance)
+		{
+			if (instance == null)
+				throw new ArgumentNullException(nameof(instance));
+
+			if (!instance.Id.HasValue)
+				throw new ArgumentException("Instance missing Id!", nameof(instance));
+
+			return new InstanceClient(
+				ApiClient,
+				instance);
+		}
 	}
 }

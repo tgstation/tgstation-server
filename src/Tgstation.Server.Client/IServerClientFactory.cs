@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client
 {
@@ -19,7 +19,7 @@ namespace Tgstation.Server.Client
 		/// <param name="password">The password for the <see cref="IServerClient"/></param>
 		/// <param name="requestLoggers">Optional initial <see cref="IRequestLogger"/>s to add to the <see cref="IServerClient"/>.</param>
 		/// <param name="timeout">Optional <see cref="TimeSpan"/> representing timeout for the connection</param>
-		/// <param name="attemptLoginRefresh">Attempt to refresh the received <see cref="Token"/> when it expires or becomes invalid. <paramref name="username"/> and <paramref name="password"/> will be stored in memory if this is <see langword="true"/>.</param>
+		/// <param name="attemptLoginRefresh">Attempt to refresh the received <see cref="TokenResponse"/> when it expires or becomes invalid. <paramref name="username"/> and <paramref name="password"/> will be stored in memory if this is <see langword="true"/>.</param>
 		/// <param name="cancellationToken">Optional <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="IServerClient"/></returns>
 		Task<IServerClient> CreateFromLogin(
@@ -35,10 +35,10 @@ namespace Tgstation.Server.Client
 		/// Create a <see cref="IServerClient"/>
 		/// </summary>
 		/// <param name="host">The URL to access TGS</param>
-		/// <param name="token">The <see cref="Token"/> to access the API with</param>
+		/// <param name="token">The <see cref="TokenResponse"/> to access the API with</param>
 		/// <returns>A new <see cref="IServerClient"/></returns>
 		IServerClient CreateFromToken(
 			Uri host,
-			Token token);
+			TokenResponse token);
 	}
 }

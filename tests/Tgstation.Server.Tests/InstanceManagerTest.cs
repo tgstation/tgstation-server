@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Request;
+using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Client;
 using Tgstation.Server.Host.Controllers;
@@ -26,13 +28,24 @@ namespace Tgstation.Server.Tests
 			this.testRootPath = testRootPath ?? throw new ArgumentNullException(nameof(testRootPath));
 		}
 
-		public Task<Api.Models.Instance> CreateTestInstance(CancellationToken cancellationToken) => instanceManagerClient.CreateOrAttach(new Api.Models.Instance
+		public Task<InstanceResponse> CreateTestInstance(CancellationToken cancellationToken) => instanceManagerClient.CreateOrAttach(new InstanceCreateRequest
 		{
 			Name = TestInstanceName,
 			Path = Path.Combine(testRootPath, Guid.NewGuid().ToString()),
 			Online = true,
 			ChatBotLimit = 2
 		}, cancellationToken);
+
+		static TRequestType FromResponse<TRequestType>(InstanceResponse response) where TRequestType : Api.Models.Instance, new() => new TRequestType
+		{
+			Id = response.Id,
+			Path = response.Path,
+			AutoUpdateInterval = response.AutoUpdateInterval,
+			ChatBotLimit = response.ChatBotLimit,
+			ConfigurationType = response.ConfigurationType,
+			Name = response.Name,
+			Online = response.Online
+		};
 
 		public async Task<Api.Models.Instance> RunPreInstanceTest(CancellationToken cancellationToken)
 		{
@@ -50,7 +63,7 @@ namespace Tgstation.Server.Tests
 			Directory.CreateDirectory(testNonEmpty);
 			var testFile = Path.Combine(testNonEmpty, "asdf");
 			await File.WriteAllBytesAsync(testFile, Array.Empty<byte>(), cancellationToken).ConfigureAwait(false);
-			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.CreateOrAttach(new Api.Models.Instance
+			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.CreateOrAttach(new InstanceCreateRequest
 			{
 				Path = testNonEmpty,
 				Name = "NonEmptyTest"
@@ -58,24 +71,24 @@ namespace Tgstation.Server.Tests
 
 			//check it works for truly empty directories
 			File.Delete(testFile);
-			var secondTry = await instanceManagerClient.CreateOrAttach(new Api.Models.Instance
+			var secondTry = await instanceManagerClient.CreateOrAttach(new InstanceCreateRequest
 			{
 				Path = Path.Combine(testRootPath, Guid.NewGuid().ToString()),
 				Name = "NonEmptyTest"
 			}, cancellationToken).ConfigureAwait(false);
 
-			await Assert.ThrowsExceptionAsync<ConflictException>(() => instanceManagerClient.CreateOrAttach(firstTest, cancellationToken)).ConfigureAwait(false);
+			await Assert.ThrowsExceptionAsync<ConflictException>(() => instanceManagerClient.CreateOrAttach(FromResponse<InstanceCreateRequest>(firstTest), cancellationToken)).ConfigureAwait(false);
 			Assert.IsTrue(Directory.Exists(firstTest.Path));
 
 			//can't create instances in installation directory
-			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.CreateOrAttach(new Api.Models.Instance
+			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.CreateOrAttach(new InstanceCreateRequest
 			{
 				Path = "./A/Local/Path",
 				Name = "NoInstallDirTest"
 			}, cancellationToken), ErrorCode.InstanceAtConflictingPath).ConfigureAwait(false);
 
 			//can't create instances as children of other instances
-			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.CreateOrAttach(new Api.Models.Instance
+			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.CreateOrAttach(new InstanceCreateRequest
 			{
 				Path = Path.Combine(firstTest.Path, "subdir"),
 				Name = "NoOtherInstanceDirTest"
@@ -83,19 +96,19 @@ namespace Tgstation.Server.Tests
 			Assert.IsTrue(Directory.Exists(firstTest.Path));
 
 			//can't move to existent directories
-			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.Update(new Api.Models.Instance
+			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.Update(new InstanceUpdateRequest
 			{
 				Id = firstTest.Id,
 				Path = testNonEmpty
 			}, cancellationToken), ErrorCode.InstanceAtExistingPath).ConfigureAwait(false);
 
-			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.GrantPermissions(new Api.Models.Instance
+			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.GrantPermissions(new InstanceUpdateRequest
 			{
 				Id = 3482974,
 			}, cancellationToken), ErrorCode.ResourceNotPresent).ConfigureAwait(false);
 
 			// test can't create instance outside of whitelist
-			await ApiAssert.ThrowsException<ApiConflictException>(() => instanceManagerClient.CreateOrAttach(new Api.Models.Instance
+			await ApiAssert.ThrowsException<ApiConflictException>(() => instanceManagerClient.CreateOrAttach(new InstanceCreateRequest
 			{
 				Name = "TestInstanceOutsideOfWhitelist",
 				Path = Path.Combine(testRootPath, "..", Guid.NewGuid().ToString()),
@@ -106,7 +119,7 @@ namespace Tgstation.Server.Tests
 			//test basic move
 			Directory.Delete(testNonEmpty);
 			var initialPath = firstTest.Path;
-			firstTest = await instanceManagerClient.Update(new Api.Models.Instance
+			firstTest = await instanceManagerClient.Update(new InstanceUpdateRequest
 			{
 				Id = firstTest.Id,
 				Path = testNonEmpty
@@ -124,13 +137,13 @@ namespace Tgstation.Server.Tests
 			//online it for real for component tests
 			firstTest.Online = true;
 			firstTest.ConfigurationType = ConfigurationType.HostWrite;
-			firstTest = await instanceManagerClient.Update(firstTest, cancellationToken).ConfigureAwait(false);
+			firstTest = await instanceManagerClient.Update(FromResponse<InstanceUpdateRequest>(firstTest), cancellationToken).ConfigureAwait(false);
 			Assert.AreEqual(true, firstTest.Online);
 			Assert.AreEqual(ConfigurationType.HostWrite, firstTest.ConfigurationType);
 			Assert.IsTrue(Directory.Exists(firstTest.Path));
 
 			//can't move online instance
-			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.Update(new Api.Models.Instance
+			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.Update(new InstanceUpdateRequest
 			{
 				Id = firstTest.Id,
 				Path = initialPath
@@ -152,7 +165,7 @@ namespace Tgstation.Server.Tests
 
 			await Assert.ThrowsExceptionAsync<InsufficientPermissionsException>(() => instanceClient.PermissionSets.Read(cancellationToken)).ConfigureAwait(false);
 
-			await instanceManagerClient.GrantPermissions(new Api.Models.Instance
+			await instanceManagerClient.GrantPermissions(new InstanceUpdateRequest
 			{
 				Id = firstTest.Id
 			}, cancellationToken).ConfigureAwait(false);
@@ -164,7 +177,7 @@ namespace Tgstation.Server.Tests
 			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.Detach(firstTest, cancellationToken), ErrorCode.InstanceDetachOnline).ConfigureAwait(false);
 
 			firstTest.Online = false;
-			firstTest = await instanceManagerClient.Update(firstTest, cancellationToken).ConfigureAwait(false);
+			firstTest = await instanceManagerClient.Update(FromResponse<InstanceUpdateRequest>(firstTest), cancellationToken).ConfigureAwait(false);
 
 			await instanceManagerClient.Detach(firstTest, cancellationToken).ConfigureAwait(false);
 
@@ -172,11 +185,11 @@ namespace Tgstation.Server.Tests
 			Assert.IsTrue(File.Exists(attachPath));
 
 			//can recreate detached instance
-			firstTest = await instanceManagerClient.CreateOrAttach(firstTest, cancellationToken).ConfigureAwait(false);
+			firstTest = await instanceManagerClient.CreateOrAttach(FromResponse<InstanceCreateRequest>(firstTest), cancellationToken).ConfigureAwait(false);
 
 			// Test updating only with SetChatBotLimit works
 			var current = await usersClient.Read(cancellationToken);
-			var update = new UserUpdate
+			var update = new UserUpdateRequest
 			{
 				Id = current.Id,
 				PermissionSet = new PermissionSet
@@ -186,7 +199,7 @@ namespace Tgstation.Server.Tests
 				}
 			};
 			await usersClient.Update(update, cancellationToken);
-			var update2 = new Api.Models.Instance
+			var update2 = new InstanceUpdateRequest
 			{
 				Id = firstTest.Id,
 				ChatBotLimit = 77
@@ -199,7 +212,7 @@ namespace Tgstation.Server.Tests
 			//but only if the attach file exists
 			await instanceManagerClient.Detach(firstTest, cancellationToken).ConfigureAwait(false);
 			File.Delete(attachPath);
-			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.CreateOrAttach(firstTest, cancellationToken), ErrorCode.InstanceAtExistingPath).ConfigureAwait(false);
+			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.CreateOrAttach(FromResponse<InstanceCreateRequest>(firstTest), cancellationToken), ErrorCode.InstanceAtExistingPath).ConfigureAwait(false);
 		}
 	}
 }

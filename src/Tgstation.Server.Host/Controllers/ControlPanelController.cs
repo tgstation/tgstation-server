@@ -17,6 +17,7 @@ namespace Tgstation.Server.Host.Controllers
 	/// Controller for the web control panel.
 	/// </summary>
 	[Route(Application.ControlPanelRoute)]
+	[ApiExplorerSettings(IgnoreApi = true)]
 	public class ControlPanelController : Controller
 	{
 		/// <summary>

@@ -7,6 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Request;
+using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Database;
@@ -17,7 +19,7 @@ using Tgstation.Server.Host.Security;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// The <see cref="ApiController"/> for <see cref="ConfigurationFile"/>s
+	/// The <see cref="ApiController"/> for <see cref="IConfigurationFile"/>s
 	/// </summary>
 	[Route(Routes.Configuration)]
 	public sealed class ConfigurationController : InstanceRequiredController
@@ -73,16 +75,16 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Write to a configuration file.
 		/// </summary>
-		/// <param name="model">The <see cref="ConfigurationFile"/> representing the file.</param>
+		/// <param name="model">The <see cref="ConfigurationFileRequest"/> representing the file.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">File updated successfully.</response>
 		/// <response code="202">File upload ticket created successfully.</response>
 		[HttpPost]
 		[TgsAuthorize(ConfigurationRights.Write)]
-		[ProducesResponseType(typeof(ConfigurationFile), 200)]
-		[ProducesResponseType(typeof(ConfigurationFile), 202)]
-		public async Task<IActionResult> Update([FromBody] ConfigurationFile model, CancellationToken cancellationToken)
+		[ProducesResponseType(typeof(ConfigurationFileResponse), 200)]
+		[ProducesResponseType(typeof(ConfigurationFileResponse), 202)]
+		public async Task<IActionResult> Update([FromBody] ConfigurationFileRequest model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
@@ -110,7 +112,7 @@ namespace Tgstation.Server.Host.Controllers
 			catch(IOException e)
 			{
 				Logger.LogInformation("IOException while updating file {0}: {1}", model.Path, e);
-				return Conflict(new ErrorMessage(ErrorCode.IOError)
+				return Conflict(new ErrorMessageResponse(ErrorCode.IOError)
 				{
 					AdditionalData = e.Message
 				});
@@ -131,8 +133,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="410">File does not currently exist.</response>
 		[HttpGet(Routes.File + "/{*filePath}")]
 		[TgsAuthorize(ConfigurationRights.Read)]
-		[ProducesResponseType(typeof(ConfigurationFile), 200)]
-		[ProducesResponseType(typeof(ErrorMessage), 410)]
+		[ProducesResponseType(typeof(ConfigurationFileResponse), 200)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public async Task<IActionResult> File(string filePath, CancellationToken cancellationToken)
 		{
 			if (ForbidDueToModeConflicts(filePath, out var systemIdentity))
@@ -157,7 +159,7 @@ namespace Tgstation.Server.Host.Controllers
 			catch (IOException e)
 			{
 				Logger.LogInformation("IOException while reading file {0}: {1}", filePath, e);
-				return Conflict(new ErrorMessage(ErrorCode.IOError)
+				return Conflict(new ErrorMessageResponse(ErrorCode.IOError)
 				{
 					AdditionalData = e.Message
 				});
@@ -180,8 +182,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="410">Directory does not currently exist.</response>
 		[HttpGet(Routes.List + "/{*directoryPath}")]
 		[TgsAuthorize(ConfigurationRights.List)]
-		[ProducesResponseType(typeof(Paginated<ConfigurationFile>), 200)]
-		[ProducesResponseType(typeof(ErrorMessage), 410)]
+		[ProducesResponseType(typeof(PaginatedResponse<ConfigurationFileResponse>), 200)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public Task<IActionResult> Directory(
 			string directoryPath,
 			[FromQuery] int? page,
@@ -192,7 +194,7 @@ namespace Tgstation.Server.Host.Controllers
 					async () =>
 					{
 						if (ForbidDueToModeConflicts(directoryPath, out var systemIdentity))
-							return new PaginatableResult<ConfigurationFile>(
+							return new PaginatableResult<ConfigurationFileResponse>(
 								Forbid());
 
 						try
@@ -202,21 +204,21 @@ namespace Tgstation.Server.Host.Controllers
 								.ListDirectory(directoryPath, systemIdentity, cancellationToken)
 								.ConfigureAwait(false);
 							if (result == null)
-								return new PaginatableResult<ConfigurationFile>(Gone());
+								return new PaginatableResult<ConfigurationFileResponse>(Gone());
 
-							return new PaginatableResult<ConfigurationFile>(
+							return new PaginatableResult<ConfigurationFileResponse>(
 								result
 									.AsQueryable()
 									.OrderBy(x => x.Path));
 						}
 						catch (NotImplementedException)
 						{
-							return new PaginatableResult<ConfigurationFile>(
+							return new PaginatableResult<ConfigurationFileResponse>(
 								RequiresPosixSystemIdentity());
 						}
 						catch (UnauthorizedAccessException)
 						{
-							return new PaginatableResult<ConfigurationFile>(
+							return new PaginatableResult<ConfigurationFileResponse>(
 								Forbid());
 						}
 					},
@@ -234,7 +236,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(ConfigurationRights.List)]
-		[ProducesResponseType(typeof(Paginated<ConfigurationFile>), 200)]
+		[ProducesResponseType(typeof(PaginatedResponse<ConfigurationFileResponse>), 200)]
 		public Task<IActionResult> List(
 			[FromQuery] int? page,
 			[FromQuery] int? pageSize,
@@ -243,16 +245,16 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Create a configuration directory.
 		/// </summary>
-		/// <param name="model">The <see cref="ConfigurationFile"/> representing the directory.</param>
+		/// <param name="model">The <see cref="ConfigurationFileRequest"/> representing the directory.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Directory already exists.</response>
 		/// <response code="201">Directory created successfully.</response>
 		[HttpPut]
 		[TgsAuthorize(ConfigurationRights.Write)]
-		[ProducesResponseType(typeof(ConfigurationFile), 200)]
-		[ProducesResponseType(typeof(ConfigurationFile), 201)]
-		public async Task<IActionResult> Create([FromBody] ConfigurationFile model, CancellationToken cancellationToken)
+		[ProducesResponseType(typeof(ConfigurationFileResponse), 200)]
+		[ProducesResponseType(typeof(ConfigurationFileResponse), 201)]
+		public async Task<IActionResult> CreateDirectory([FromBody] ConfigurationFileRequest model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
@@ -262,20 +264,25 @@ namespace Tgstation.Server.Host.Controllers
 
 			try
 			{
-				model.IsDirectory = true;
+				var resultModel = new ConfigurationFileResponse
+				{
+					IsDirectory = true,
+					Path = model.Path
+				};
+
 				return await WithComponentInstance(
 					async instance => await instance
-					.Configuration
-					.CreateDirectory(model.Path, systemIdentity, cancellationToken)
-					.ConfigureAwait(false)
-					? (IActionResult)Json(model)
-					: Created(model))
+						.Configuration
+						.CreateDirectory(model.Path, systemIdentity, cancellationToken)
+						.ConfigureAwait(false)
+						? (IActionResult)Json(resultModel)
+						: Created(resultModel))
 					.ConfigureAwait(false);
 			}
 			catch (IOException e)
 			{
 				Logger.LogInformation("IOException while creating directory {0}: {1}", model.Path, e);
-				return Conflict(new ErrorMessage(ErrorCode.IOError)
+				return Conflict(new ErrorMessageResponse(ErrorCode.IOError)
 				{
 					Message = e.Message
 				});
@@ -293,20 +300,20 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Deletes an empty <paramref name="directory"/>
 		/// </summary>
-		/// <param name="directory">A <see cref="ConfigurationFile"/> representing the path to the directory to delete</param>
+		/// <param name="directory">A <see cref="ConfigurationFileRequest"/> representing the path to the directory to delete</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation</returns>
 		/// <response code="204">Empty directory deleted successfully.</response>
 		[HttpDelete]
 		[TgsAuthorize(ConfigurationRights.Delete)]
 		[ProducesResponseType(204)]
-		public async Task<IActionResult> Delete([FromBody] ConfigurationFile directory, CancellationToken cancellationToken)
+		public async Task<IActionResult> DeleteDirectory([FromBody] ConfigurationFileRequest directory, CancellationToken cancellationToken)
 		{
 			if (directory == null)
 				throw new ArgumentNullException(nameof(directory));
 
 			if (directory.Path == null)
-				return BadRequest(new ErrorMessage(ErrorCode.ModelValidationFailure));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
 
 			if (ForbidDueToModeConflicts(directory.Path, out var systemIdentity))
 				return Forbid();
@@ -319,7 +326,7 @@ namespace Tgstation.Server.Host.Controllers
 					.DeleteDirectory(directory.Path, systemIdentity, cancellationToken)
 					.ConfigureAwait(false)
 					? (IActionResult)NoContent()
-					: Conflict(new ErrorMessage(ErrorCode.ConfigurationDirectoryNotEmpty)))
+					: Conflict(new ErrorMessageResponse(ErrorCode.ConfigurationDirectoryNotEmpty)))
 					.ConfigureAwait(false);
 			}
 			catch (NotImplementedException)

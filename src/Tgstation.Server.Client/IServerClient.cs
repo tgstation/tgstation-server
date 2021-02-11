@@ -1,7 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client
 {
@@ -18,7 +18,7 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// The <see cref="Token"/> used to access the server
 		/// </summary>
-		Token Token { get; set; }
+		TokenResponse Token { get; set; }
 
 		/// <summary>
 		/// The connection timeout
@@ -46,11 +46,11 @@ namespace Tgstation.Server.Client
 		IUserGroupsClient Groups { get; }
 
 		/// <summary>
-		/// The <see cref="Api.Models.ServerInformation"/> of the <see cref="IServerClient"/>
+		/// The <see cref="ServerInformationResponse"/> of the <see cref="IServerClient"/>
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="Api.Models.ServerInformation"/> of the target server</returns>
-		Task<ServerInformation> ServerInformation(CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ServerInformationResponse"/> of the target server</returns>
+		Task<ServerInformationResponse> ServerInformation(CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Adds a <paramref name="requestLogger"/> to the request pipeline

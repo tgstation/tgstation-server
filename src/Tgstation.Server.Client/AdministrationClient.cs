@@ -5,7 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using Tgstation.Server.Api;
-using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Request;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client
 {
@@ -21,22 +22,22 @@ namespace Tgstation.Server.Client
 		{ }
 
 		/// <inheritdoc />
-		public Task<Administration> Read(CancellationToken cancellationToken) => ApiClient.Read<Administration>(Routes.Administration, cancellationToken);
+		public Task<AdministrationResponse> Read(CancellationToken cancellationToken) => ApiClient.Read<AdministrationResponse>(Routes.Administration, cancellationToken);
 
 		/// <inheritdoc />
-		public Task Update(Administration administration, CancellationToken cancellationToken) => ApiClient.Update(Routes.Administration, administration ?? throw new ArgumentNullException(nameof(administration)), cancellationToken);
+		public Task<ServerUpdateResponse> Update(ServerUpdateRequest updateRequest, CancellationToken cancellationToken) => ApiClient.Update<ServerUpdateRequest, ServerUpdateResponse>(Routes.Administration, updateRequest ?? throw new ArgumentNullException(nameof(updateRequest)), cancellationToken);
 
 		/// <inheritdoc />
 		public Task Restart(CancellationToken cancellationToken) => ApiClient.Delete(Routes.Administration, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<LogFile>> ListLogs(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
-			=> ReadPaged<LogFile>(paginationSettings, Routes.Logs, null, cancellationToken);
+		public Task<IReadOnlyList<LogFileResponse>> ListLogs(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
+			=> ReadPaged<LogFileResponse>(paginationSettings, Routes.Logs, null, cancellationToken);
 
 		/// <inheritdoc />
-		public async Task<Tuple<LogFile, Stream>> GetLog(LogFile logFile, CancellationToken cancellationToken)
+		public async Task<Tuple<LogFileResponse, Stream>> GetLog(LogFileResponse logFile, CancellationToken cancellationToken)
 		{
-			var resultFile = await ApiClient.Read<LogFile>(
+			var resultFile = await ApiClient.Read<LogFileResponse>(
 				Routes.Logs + Routes.SanitizeGetPath(
 					HttpUtility.UrlEncode(
 						logFile?.Name ?? throw new ArgumentNullException(nameof(logFile)))),

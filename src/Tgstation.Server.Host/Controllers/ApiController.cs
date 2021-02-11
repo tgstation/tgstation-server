@@ -17,6 +17,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
@@ -96,19 +97,19 @@ namespace Tgstation.Server.Host.Controllers
 		/// Generic 410 response.
 		/// </summary>
 		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.Gone"/>.</returns>
-		protected ObjectResult Gone() => StatusCode(HttpStatusCode.Gone, new ErrorMessage(ErrorCode.ResourceNotPresent));
+		protected ObjectResult Gone() => StatusCode(HttpStatusCode.Gone, new ErrorMessageResponse(ErrorCode.ResourceNotPresent));
 
 		/// <summary>
 		/// Generic 404 response.
 		/// </summary>
 		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.NotFound"/>.</returns>
-		protected new NotFoundObjectResult NotFound() => NotFound(new ErrorMessage(ErrorCode.ResourceNeverPresent));
+		protected new NotFoundObjectResult NotFound() => NotFound(new ErrorMessageResponse(ErrorCode.ResourceNeverPresent));
 
 		/// <summary>
 		/// Generic 501 response.
 		/// </summary>
 		/// <returns>An <see cref="ObjectResult"/> with <see cref="HttpStatusCode.NotImplemented"/>.</returns>
-		protected ObjectResult RequiresPosixSystemIdentity() => StatusCode(HttpStatusCode.NotImplemented, new ErrorMessage(ErrorCode.RequiresPosixSystemIdentity));
+		protected ObjectResult RequiresPosixSystemIdentity() => StatusCode(HttpStatusCode.NotImplemented, new ErrorMessageResponse(ErrorCode.RequiresPosixSystemIdentity));
 
 		/// <summary>
 		/// Strongly type calls to <see cref="ControllerBase.StatusCode(int)"/>.
@@ -121,7 +122,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// Strongly type calls to <see cref="ControllerBase.StatusCode(int, object)"/>.
 		/// </summary>
 		/// <param name="statusCode">The <see cref="HttpStatusCode"/>.</param>
-		/// <param name="errorMessage">The accompanying <see cref="ErrorMessage"/> payload.</param>
+		/// <param name="errorMessage">The accompanying <see cref="ErrorMessageResponse"/> payload.</param>
 		/// <returns>A <see cref="StatusCodeResult"/> with the given <paramref name="statusCode"/>.</returns>
 		protected ObjectResult StatusCode(HttpStatusCode statusCode, object errorMessage) => StatusCode((int)statusCode, errorMessage);
 
@@ -145,7 +146,7 @@ namespace Tgstation.Server.Host.Controllers
 			Logger.LogWarning(rateLimitException, "Exceeded GitHub rate limit!");
 			var secondsString = Math.Ceiling((rateLimitException.Reset - DateTimeOffset.UtcNow).TotalSeconds).ToString(CultureInfo.InvariantCulture);
 			Response.Headers.Add(HeaderNames.RetryAfter, secondsString);
-			return StatusCode(HttpStatusCode.TooManyRequests, new ErrorMessage(ErrorCode.GitHubApiRateLimit));
+			return StatusCode(HttpStatusCode.TooManyRequests, new ErrorMessageResponse(ErrorCode.GitHubApiRateLimit));
 		}
 
 		/// <summary>
@@ -174,7 +175,7 @@ namespace Tgstation.Server.Host.Controllers
 				headersException = ex;
 			}
 
-			var errorMessage = new ErrorMessage(ErrorCode.BadHeaders)
+			var errorMessage = new ErrorMessageResponse(ErrorCode.BadHeaders)
 			{
 				AdditionalData = headersException.Message
 			};
@@ -210,7 +211,7 @@ namespace Tgstation.Server.Host.Controllers
 				{
 					await StatusCode(
 						HttpStatusCode.UpgradeRequired,
-						new ErrorMessage(ErrorCode.ApiMismatch))
+						new ErrorMessageResponse(ErrorCode.ApiMismatch))
 						.ExecuteResultAsync(context)
 						.ConfigureAwait(false);
 					return;
@@ -249,7 +250,7 @@ namespace Tgstation.Server.Host.Controllers
 				if (errorMessages.Any())
 				{
 					await BadRequest(
-						new ErrorMessage(ErrorCode.ModelValidationFailure)
+						new ErrorMessageResponse(ErrorCode.ModelValidationFailure)
 						{
 							AdditionalData = String.Join(Environment.NewLine, errorMessages)
 						})
@@ -303,7 +304,7 @@ namespace Tgstation.Server.Host.Controllers
 			Action<TModel> resultTransformer,
 			int? pageQuery,
 			int? pageSizeQuery,
-			CancellationToken cancellationToken) => PaginatedImpl<TModel, TModel>(
+			CancellationToken cancellationToken) => PaginatedImpl(
 				queryGenerator,
 				resultTransformer,
 				pageQuery,
@@ -316,19 +317,19 @@ namespace Tgstation.Server.Host.Controllers
 		/// <typeparam name="TModel">The <see cref="Type"/> of model being generated.</typeparam>
 		/// <typeparam name="TApiModel">The <see cref="Type"/> of model being returned.</typeparam>
 		/// <param name="queryGenerator">A <see cref="Func{TResult}"/> resulting in a <see cref="Task{TResult}"/> resulting in the generated <see cref="PaginatableResult{TModel}"/>.</param>
-		/// <param name="resultTransformer">An <see cref="Action{T1}"/> to transform the <typeparamref name="TModel"/>s after being queried.</param>
+		/// <param name="resultTransformer">An <see cref="Action{T1}"/> to transform the <typeparamref name="TApiModel"/>s after being queried.</param>
 		/// <param name="pageQuery">The requested page from the query.</param>
 		/// <param name="pageSizeQuery">The requested page size from the query.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		protected Task<IActionResult> Paginated<TModel, TApiModel>(
 			Func<Task<PaginatableResult<TModel>>> queryGenerator,
-			Action<TModel> resultTransformer,
+			Action<TApiModel> resultTransformer,
 			int? pageQuery,
 			int? pageSizeQuery,
 			CancellationToken cancellationToken)
 			where TModel : IApiTransformable<TApiModel>
-			=> PaginatedImpl<TModel, TApiModel>(
+			=> PaginatedImpl(
 				queryGenerator,
 				resultTransformer,
 				pageQuery,
@@ -341,14 +342,14 @@ namespace Tgstation.Server.Host.Controllers
 		/// <typeparam name="TModel">The <see cref="Type"/> of model being generated. If different from <typeparamref name="TResultModel"/>, must implement <see cref="IApiTransformable{TApiModel}"/> for <typeparamref name="TResultModel"/>.</typeparam>
 		/// <typeparam name="TResultModel">The <see cref="Type"/> of model being returned.</typeparam>
 		/// <param name="queryGenerator">A <see cref="Func{TResult}"/> resulting in a <see cref="Task{TResult}"/> resulting in the generated <see cref="PaginatableResult{TModel}"/>.</param>
-		/// <param name="resultTransformer">An <see cref="Action{T1}"/> to transform the <typeparamref name="TModel"/>s after being queried.</param>
+		/// <param name="resultTransformer">An <see cref="Action{T1}"/> to transform the <typeparamref name="TResultModel"/>s after being queried.</param>
 		/// <param name="pageQuery">The requested page from the query.</param>
 		/// <param name="pageSizeQuery">The requested page size from the query.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		async Task<IActionResult> PaginatedImpl<TModel, TResultModel>(
 			Func<Task<PaginatableResult<TModel>>> queryGenerator,
-			Action<TModel> resultTransformer,
+			Action<TResultModel> resultTransformer,
 			int? pageQuery,
 			int? pageSizeQuery,
 			CancellationToken cancellationToken)
@@ -357,11 +358,11 @@ namespace Tgstation.Server.Host.Controllers
 				throw new ArgumentNullException(nameof(queryGenerator));
 
 			if (pageQuery <= 0 || pageSizeQuery <= 0)
-				return BadRequest(new ErrorMessage(ErrorCode.ApiInvalidPageOrPageSize));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.ApiInvalidPageOrPageSize));
 
 			var pageSize = pageSizeQuery ?? DefaultPageSize;
 			if (pageSize > MaximumPageSize)
-				return BadRequest(new ErrorMessage(ErrorCode.ApiPageTooLarge)
+				return BadRequest(new ErrorMessageResponse(ErrorCode.ApiPageTooLarge)
 				{
 					AdditionalData = $"Maximum page size: {MaximumPageSize}"
 				});
@@ -392,10 +393,6 @@ namespace Tgstation.Server.Host.Controllers
 				pagedResults = queriedResults.ToList();
 			}
 
-			if (resultTransformer != null)
-				foreach (var I in pagedResults)
-					resultTransformer(I);
-
 			ICollection<TResultModel> finalResults;
 			if (typeof(TModel) == typeof(TResultModel))
 				finalResults = (List<TResultModel>)(object)pagedResults; // clearly a safe cast
@@ -405,8 +402,12 @@ namespace Tgstation.Server.Host.Controllers
 					.Select(x => x.ToApi())
 					.ToList();
 
+			if (resultTransformer != null)
+				foreach (var I in finalResults)
+					resultTransformer(I);
+
 			return Json(
-				new Paginated<TResultModel>
+				new PaginatedResponse<TResultModel>
 				{
 					Content = finalResults,
 					PageSize = pageSize,

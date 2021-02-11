@@ -9,6 +9,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Request;
+using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
@@ -66,20 +68,20 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Check if a given <paramref name="model"/> has a valid <see cref="Api.Models.Internal.UserBase.Name"/> specified.
+		/// Check if a given <paramref name="model"/> has a valid <see cref="UserName.Name"/> specified.
 		/// </summary>
-		/// <param name="model">The <see cref="UserUpdate"/> to check.</param>
-		/// <param name="newUser">If this is a new <see cref="Api.Models.User"/>.</param>
+		/// <param name="model">The <see cref="UserUpdateRequest"/> to check.</param>
+		/// <param name="newUser">If this is a new <see cref="UserResponse"/>.</param>
 		/// <returns><see langword="null"/> if <paramref name="model"/> is valid, a <see cref="BadRequestObjectResult"/> otherwise.</returns>
-		BadRequestObjectResult CheckValidName(UserUpdate model, bool newUser)
+		BadRequestObjectResult CheckValidName(UserUpdateRequest model, bool newUser)
 		{
 			var userInvalidWithNullName = newUser && model.Name == null && model.SystemIdentifier == null;
 			if (userInvalidWithNullName || (model.Name != null && String.IsNullOrWhiteSpace(model.Name)))
-				return BadRequest(new ErrorMessage(ErrorCode.UserMissingName));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.UserMissingName));
 
 			model.Name = model.Name?.Trim();
 			if (model.Name != null && model.Name.Contains(':', StringComparison.InvariantCulture))
-				return BadRequest(new ErrorMessage(ErrorCode.UserColonInName));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.UserColonInName));
 			return null;
 		}
 
@@ -88,13 +90,13 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="dbUser">The user to update.</param>
 		/// <param name="newPassword">The new password.</param>
-		/// <param name="newUser">If this is for a new <see cref="Api.Models.User"/>.</param>
+		/// <param name="newUser">If this is for a new <see cref="UserResponse"/>.</param>
 		/// <returns><see langword="null"/> on success, <see cref="BadRequestObjectResult"/> if <paramref name="newPassword"/> is too short.</returns>
-		BadRequestObjectResult TrySetPassword(Models.User dbUser, string newPassword, bool newUser)
+		BadRequestObjectResult TrySetPassword(User dbUser, string newPassword, bool newUser)
 		{
 			newPassword ??= String.Empty;
 			if (newPassword.Length < generalConfiguration.MinimumPasswordLength)
-				return BadRequest(new ErrorMessage(ErrorCode.UserPasswordLength)
+				return BadRequest(new ErrorMessageResponse(ErrorCode.UserPasswordLength)
 				{
 					AdditionalData = $"Required password length: {generalConfiguration.MinimumPasswordLength}"
 				});
@@ -103,38 +105,38 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Create a new <see cref="Api.Models.User"/>.
+		/// Create a new <see cref="User"/>.
 		/// </summary>
-		/// <param name="model">The <see cref="Api.Models.User"/> to create.</param>
+		/// <param name="model">The <see cref="UserCreateRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
-		/// <response code="201"><see cref="Api.Models.User"/> created successfully.</response>
+		/// <response code="201"><see cref="User"/> created successfully.</response>
 		/// <response code="410">The requested system identifier could not be found.</response>
 		[HttpPut]
 		[TgsAuthorize(AdministrationRights.WriteUsers)]
-		[ProducesResponseType(typeof(Api.Models.User), 201)]
+		[ProducesResponseType(typeof(UserResponse), 201)]
 #pragma warning disable CA1502, CA1506
-		public async Task<IActionResult> Create([FromBody] UserUpdate model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Create([FromBody] UserCreateRequest model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
 			if (model.OAuthConnections?.Any(x => x == null) == true)
-				return BadRequest(new ErrorMessage(ErrorCode.ModelValidationFailure));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
 
 			if ((model.Password != null && model.SystemIdentifier != null)
 				|| (model.Password == null && model.SystemIdentifier == null && model.OAuthConnections?.Any() != true))
-				return BadRequest(new ErrorMessage(ErrorCode.UserMismatchPasswordSid));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.UserMismatchPasswordSid));
 
 			if (model.Group != null && model.PermissionSet != null)
-				return BadRequest(new ErrorMessage(ErrorCode.UserGroupAndPermissionSet));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.UserGroupAndPermissionSet));
 
 			model.Name = model.Name?.Trim();
 			if (model.Name?.Length == 0)
 				model.Name = null;
 
 			if (!(model.Name == null ^ model.SystemIdentifier == null))
-				return BadRequest(new ErrorMessage(ErrorCode.UserMismatchNameSid));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.UserMismatchNameSid));
 
 			var fail = CheckValidName(model, true);
 			if (fail != null)
@@ -146,7 +148,7 @@ namespace Tgstation.Server.Host.Controllers
 				.CountAsync(cancellationToken)
 				.ConfigureAwait(false);
 			if (totalUsers >= generalConfiguration.UserLimit)
-				return Conflict(new ErrorMessage(ErrorCode.UserLimitReached));
+				return Conflict(new ErrorMessageResponse(ErrorCode.UserLimitReached));
 
 			var dbUser = await CreateNewUserFromModel(model, cancellationToken).ConfigureAwait(false);
 			if (dbUser == null)
@@ -180,36 +182,38 @@ namespace Tgstation.Server.Host.Controllers
 
 			Logger.LogInformation("Created new user {0} ({1})", dbUser.Name, dbUser.Id);
 
-			return Created(dbUser.ToApi(true));
+			return Created(dbUser.ToApi());
 		}
 #pragma warning restore CA1502, CA1506
 
 		/// <summary>
-		/// Update a <see cref="Api.Models.User"/>.
+		/// Update a <see cref="User"/>.
 		/// </summary>
-		/// <param name="model">The <see cref="Api.Models.User"/> to update.</param>
+		/// <param name="model">The <see cref="UserResponse"/> to update.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
-		/// <response code="200"><see cref="Api.Models.User"/> updated successfully.</response>
-		/// <response code="404">Requested <see cref="Api.Models.Internal.UserBase.Id"/> does not exist.</response>
-		/// <response code="410">Requested <see cref="Api.Models.User.Group"/> does not exist.</response>
+		/// <response code="200"><see cref="User"/> updated successfully.</response>
+		/// <response code="200"><see cref="User"/> updated successfully. Not returned due to lack of permissions.</response>
+		/// <response code="404">Requested <see cref="EntityId.Id"/> does not exist.</response>
+		/// <response code="410">Requested <see cref="Api.Models.Internal.UserApiBase.Group"/> does not exist.</response>
 		[HttpPost]
 		[TgsAuthorize(AdministrationRights.WriteUsers | AdministrationRights.EditOwnPassword | AdministrationRights.EditOwnOAuthConnections)]
-		[ProducesResponseType(typeof(Api.Models.User), 200)]
-		[ProducesResponseType(typeof(ErrorMessage), 404)]
-		[ProducesResponseType(typeof(ErrorMessage), 410)]
+		[ProducesResponseType(typeof(UserResponse), 200)]
+		[ProducesResponseType(204)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 404)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 #pragma warning disable CA1502 // TODO: Decomplexify
 #pragma warning disable CA1506
-		public async Task<IActionResult> Update([FromBody] UserUpdate model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Update([FromBody] UserUpdateRequest model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
 			if (!model.Id.HasValue || model.OAuthConnections?.Any(x => x == null) == true)
-				return BadRequest(new ErrorMessage(ErrorCode.ModelValidationFailure));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
 
 			if (model.Group != null && model.PermissionSet != null)
-				return BadRequest(new ErrorMessage(ErrorCode.UserGroupAndPermissionSet));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.UserGroupAndPermissionSet));
 
 			var callerAdministrationRights = (AdministrationRights)AuthenticationContext.GetRight(RightsType.Administration);
 			var canEditAllUsers = callerAdministrationRights.HasFlag(AdministrationRights.WriteUsers);
@@ -248,7 +252,7 @@ namespace Tgstation.Server.Host.Controllers
 				return Forbid();
 
 			if (model.SystemIdentifier != null && model.SystemIdentifier != originalUser.SystemIdentifier)
-				return BadRequest(new ErrorMessage(ErrorCode.UserSidChange));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.UserSidChange));
 
 			if (model.Password != null)
 			{
@@ -258,7 +262,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 
 			if (model.Name != null && Models.User.CanonicalizeName(model.Name) != originalUser.CanonicalName)
-				return BadRequest(new ErrorMessage(ErrorCode.UserNameChange));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.UserNameChange));
 
 			if (model.Enabled.HasValue)
 			{
@@ -272,11 +276,11 @@ namespace Tgstation.Server.Host.Controllers
 				&& (model.OAuthConnections.Count != originalUser.OAuthConnections.Count
 				|| !model.OAuthConnections.All(x => originalUser.OAuthConnections.Any(y => y.Provider == x.Provider && y.ExternalUserId == x.ExternalUserId))))
 			{
-				if (originalUser.CanonicalName == Models.User.CanonicalizeName(Api.Models.User.AdminName))
-					return BadRequest(new ErrorMessage(ErrorCode.AdminUserCannotOAuth));
+				if (originalUser.CanonicalName == Models.User.CanonicalizeName(DefaultCredentials.AdminUserName))
+					return BadRequest(new ErrorMessageResponse(ErrorCode.AdminUserCannotOAuth));
 
 				if (model.OAuthConnections.Count == 0 && originalUser.PasswordHash == null && originalUser.SystemIdentifier == null)
-					return BadRequest(new ErrorMessage(ErrorCode.CannotRemoveLastAuthenticationOption));
+					return BadRequest(new ErrorMessageResponse(ErrorCode.CannotRemoveLastAuthenticationOption));
 
 				originalUser.OAuthConnections.Clear();
 				foreach (var updatedConnection in model.OAuthConnections)
@@ -334,43 +338,40 @@ namespace Tgstation.Server.Host.Controllers
 			Logger.LogInformation("Updated user {0} ({1})", originalUser.Name, originalUser.Id);
 
 			// return id only if not a self update and cannot read users
-			return Json(
-				AuthenticationContext.User.Id == originalUser.Id
-				|| callerAdministrationRights.HasFlag(AdministrationRights.ReadUsers)
-				? originalUser.ToApi(true)
-				: new Api.Models.User
-				{
-					Id = originalUser.Id
-				});
+			var canReadBack = AuthenticationContext.User.Id == originalUser.Id
+				|| callerAdministrationRights.HasFlag(AdministrationRights.ReadUsers);
+			return canReadBack
+				? (IActionResult)Json(originalUser.ToApi())
+				: NoContent();
 		}
 #pragma warning restore CA1506
 #pragma warning restore CA1502
 
 		/// <summary>
-		/// Get information about the current <see cref="Api.Models.User"/>.
+		/// Get information about the current <see cref="User"/>.
 		/// </summary>
 		/// <returns>The <see cref="IActionResult"/> of the operation.</returns>
-		/// <response code="200">The <see cref="Api.Models.User"/> was retrieved successfully.</response>
+		/// <response code="200">The <see cref="User"/> was retrieved successfully.</response>
 		[HttpGet]
 		[TgsAuthorize]
-		[ProducesResponseType(typeof(Api.Models.User), 200)]
-		public IActionResult Read() => Json(AuthenticationContext.User.ToApi(true));
+		[ProducesResponseType(typeof(UserResponse), 200)]
+		public IActionResult Read() => Json(AuthenticationContext.User.ToApi());
 
 		/// <summary>
-		/// List all <see cref="Api.Models.User"/>s in the server.
+		/// List all <see cref="User"/>s in the server.
 		/// </summary>
 		/// <param name="page">The current page.</param>
 		/// <param name="pageSize">The page size.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
-		/// <response code="200">Retrieved <see cref="Api.Models.User"/>s successfully.</response>
+		/// <response code="200">Retrieved <see cref="User"/>s successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(AdministrationRights.ReadUsers)]
-		[ProducesResponseType(typeof(Paginated<Api.Models.User>), 200)]
+		[ProducesResponseType(typeof(PaginatedResponse<UserResponse>), 200)]
 		public Task<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
-			=> Paginated<Models.User, Api.Models.User>(
+			=> Paginated<User, UserResponse>(
 				() => Task.FromResult(
-					new PaginatableResult<Models.User>(
+					new PaginatableResult<User>(
 						DatabaseContext
 							.Users
 							.AsQueryable()
@@ -387,17 +388,17 @@ namespace Tgstation.Server.Host.Controllers
 				cancellationToken);
 
 		/// <summary>
-		/// Get a specific <see cref="Api.Models.User"/>.
+		/// Get a specific <see cref="User"/>.
 		/// </summary>
-		/// <param name="id">The <see cref="Api.Models.Internal.UserBase.Id"/> to retrieve.</param>
+		/// <param name="id">The <see cref="EntityId.Id"/> to retrieve.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
-		/// <response code="200">The <see cref="Api.Models.User"/> was retrieved successfully.</response>
-		/// <response code="404">The <see cref="Api.Models.User"/> does not exist.</response>
+		/// <response code="200">The <see cref="User"/> was retrieved successfully.</response>
+		/// <response code="404">The <see cref="User"/> does not exist.</response>
 		[HttpGet("{id}")]
 		[TgsAuthorize]
-		[ProducesResponseType(typeof(Api.Models.User), 200)]
-		[ProducesResponseType(typeof(ErrorMessage), 404)]
+		[ProducesResponseType(typeof(UserResponse), 200)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 404)]
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			if (id == AuthenticationContext.User.Id)
@@ -421,19 +422,19 @@ namespace Tgstation.Server.Host.Controllers
 			if (user.CanonicalName == Models.User.CanonicalizeName(Models.User.TgsSystemUserName))
 				return Forbid();
 
-			return Json(user.ToApi(true));
+			return Json(user.ToApi());
 		}
 
 		/// <summary>
 		/// Creates a new <see cref="User"/> from a given <paramref name="model"/>.
 		/// </summary>
-		/// <param name="model">The <see cref="Api.Models.User"/> to use as a template.</param>
+		/// <param name="model">The <see cref="Api.Models.Internal.UserApiBase"/> to use as a template.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="User"/> on success, <see langword="null"/> if the requested <see cref="UserGroup"/> did not exist.</returns>
-		async Task<Models.User> CreateNewUserFromModel(Api.Models.User model, CancellationToken cancellationToken)
+		async Task<User> CreateNewUserFromModel(Api.Models.Internal.UserApiBase model, CancellationToken cancellationToken)
 		{
 			Models.PermissionSet permissionSet = null;
-			Models.UserGroup group = null;
+			UserGroup group = null;
 			if (model.Group != null)
 				group = await DatabaseContext
 					.Groups
@@ -449,7 +450,7 @@ namespace Tgstation.Server.Host.Controllers
 					InstanceManagerRights = model.PermissionSet?.InstanceManagerRights ?? InstanceManagerRights.None,
 				};
 
-			return new Models.User
+			return new User
 			{
 				CreatedAt = DateTimeOffset.UtcNow,
 				CreatedBy = AuthenticationContext.User,

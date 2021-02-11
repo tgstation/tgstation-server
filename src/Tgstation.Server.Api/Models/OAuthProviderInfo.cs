@@ -20,6 +20,7 @@ namespace Tgstation.Server.Api.Models
 		/// <summary>
 		/// The server URL.
 		/// </summary>
+		[ResponseOptions]
 		public Uri? ServerUrl { get; set; }
 	}
 }

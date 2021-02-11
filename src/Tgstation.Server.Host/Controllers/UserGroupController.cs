@@ -8,16 +8,19 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Request;
+using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Database;
+using Tgstation.Server.Host.Models;
 using Tgstation.Server.Host.Security;
 using Z.EntityFramework.Plus;
 
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// <see cref="ApiController"/> for managing <see cref="UserGroup"/>s.
+	/// <see cref="ApiController"/> for managing <see cref="UserGroupResponse"/>s.
 	/// </summary>
 	[Route(Routes.UserGroup)]
 	public class UserGroupController : ApiController
@@ -51,20 +54,20 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Create a new <see cref="UserGroup"/>.
 		/// </summary>
-		/// <param name="model">The <see cref="UserGroup"/> to create.</param>
+		/// <param name="model">The <see cref="UserGroupCreateRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="201"><see cref="UserGroup"/> created successfully.</response>
 		[HttpPut]
 		[TgsAuthorize(AdministrationRights.WriteUsers)]
-		[ProducesResponseType(typeof(UserGroup), 201)]
-		public async Task<IActionResult> Create([FromBody] UserGroup model, CancellationToken cancellationToken)
+		[ProducesResponseType(typeof(UserGroupResponse), 201)]
+		public async Task<IActionResult> Create([FromBody] UserGroupCreateRequest model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
 			if (model.Name == null)
-				return BadRequest(new ErrorMessage(ErrorCode.ModelValidationFailure));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
 
 			var totalGroups = await DatabaseContext
 				.Groups
@@ -72,7 +75,7 @@ namespace Tgstation.Server.Host.Controllers
 				.CountAsync(cancellationToken)
 				.ConfigureAwait(false);
 			if (totalGroups >= generalConfiguration.UserGroupLimit)
-				return Conflict(new ErrorMessage(ErrorCode.UserGroupLimitReached));
+				return Conflict(new ErrorMessageResponse(ErrorCode.UserGroupLimitReached));
 
 			var permissionSet = new Models.PermissionSet
 			{
@@ -80,7 +83,7 @@ namespace Tgstation.Server.Host.Controllers
 				InstanceManagerRights = model.PermissionSet?.InstanceManagerRights ?? InstanceManagerRights.None
 			};
 
-			var dbGroup = new Models.UserGroup
+			var dbGroup = new UserGroup
 			{
 				Name = model.Name,
 				PermissionSet = permissionSet,
@@ -96,23 +99,18 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Update a <see cref="UserGroup"/>.
 		/// </summary>
-		/// <param name="model">The <see cref="UserGroup"/> to update.</param>
+		/// <param name="model">The <see cref="UserGroupUpdateRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200"><see cref="UserGroup"/> updated successfully.</response>
 		/// <response code="410">The requested <see cref="UserGroup"/> does not currently exist.</response>
 		[HttpPost]
 		[TgsAuthorize(AdministrationRights.WriteUsers)]
-		[ProducesResponseType(typeof(UserGroup), 200)]
-		public async Task<IActionResult> Update([FromBody] UserGroup model, CancellationToken cancellationToken)
+		[ProducesResponseType(typeof(UserGroupResponse), 200)]
+		public async Task<IActionResult> Update([FromBody] UserGroupUpdateRequest model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
-
-			// For my sanity, I'm not allowing user management here
-			// Use the UserController for that
-			if (model.Users != null)
-				return BadRequest(new ErrorMessage(ErrorCode.UserGroupControllerCantEditMembers));
 
 			var currentGroup = await DatabaseContext
 				.Groups
@@ -137,7 +135,7 @@ namespace Tgstation.Server.Host.Controllers
 			await DatabaseContext.Save(cancellationToken).ConfigureAwait(false);
 
 			if (!AuthenticationContext.PermissionSet.AdministrationRights.Value.HasFlag(AdministrationRights.ReadUsers))
-				return Json(new UserGroup
+				return Json(new UserGroupResponse
 				{
 					Id = currentGroup.Id
 				});
@@ -148,15 +146,15 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Gets a specific <see cref="UserGroup"/>.
 		/// </summary>
-		/// <param name="id">The <see cref="EntityId.Id"/> of the <see cref="UserGroup"/>.</param>
+		/// <param name="id">The <see cref="EntityId.Id"/> of the <see cref="UserGroupResponse"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
 		/// <response code="200">Retrieve <see cref="UserGroup"/> successfully.</response>
 		/// <response code="410">The requested <see cref="UserGroup"/> does not currently exist.</response>
 		[HttpGet("{id}")]
 		[TgsAuthorize(AdministrationRights.ReadUsers)]
-		[ProducesResponseType(typeof(UserGroup), 200)]
-		[ProducesResponseType(typeof(ErrorMessage), 410)]
+		[ProducesResponseType(typeof(UserGroupResponse), 200)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public async Task<IActionResult> GetId(long id, CancellationToken cancellationToken)
 		{
 			// this functions as userId
@@ -183,11 +181,11 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="200">Retrieved <see cref="UserGroup"/>s successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(AdministrationRights.ReadUsers)]
-		[ProducesResponseType(typeof(Paginated<UserGroup>), 200)]
+		[ProducesResponseType(typeof(PaginatedResponse<UserGroupResponse>), 200)]
 		public Task<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
-			=> Paginated<Models.UserGroup, UserGroup>(
+			=> Paginated<UserGroup, UserGroupResponse>(
 				() => Task.FromResult(
-					new PaginatableResult<Models.UserGroup>(
+					new PaginatableResult<UserGroup>(
 						DatabaseContext
 							.Groups
 							.AsQueryable()
@@ -200,7 +198,7 @@ namespace Tgstation.Server.Host.Controllers
 				cancellationToken);
 
 		/// <summary>
-		/// Delete an <see cref="UserGroup"/>.
+		/// Delete a <see cref="UserGroup"/>.
 		/// </summary>
 		/// <param name="id">The <see cref="EntityId.Id"/> of the <see cref="UserGroup"/> to delete.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
@@ -211,8 +209,8 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpDelete("{id}")]
 		[TgsAuthorize(AdministrationRights.WriteUsers)]
 		[ProducesResponseType(204)]
-		[ProducesResponseType(typeof(ErrorMessage), 409)]
-		[ProducesResponseType(typeof(ErrorMessage), 410)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		public async Task<IActionResult> Delete(long id, CancellationToken cancellationToken)
 		{
 			var numDeleted = await DatabaseContext
@@ -234,7 +232,7 @@ namespace Tgstation.Server.Host.Controllers
 				.ConfigureAwait(false);
 
 			return groupExists
-				? Conflict(new ErrorMessage(ErrorCode.UserGroupNotEmpty))
+				? Conflict(new ErrorMessageResponse(ErrorCode.UserGroupNotEmpty))
 				: Gone();
 		}
 	}

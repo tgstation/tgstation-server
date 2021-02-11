@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Client;
 
 namespace Tgstation.Server.Tests
@@ -38,12 +39,12 @@ namespace Tgstation.Server.Tests
 			Assert.IsTrue(logFile.LastModified <= downloadedTuple.Item1.LastModified);
 			Assert.IsNull(logFile.FileTicket);
 
-			await ApiAssert.ThrowsException<ConflictException>(() => client.GetLog(new LogFile
+			await ApiAssert.ThrowsException<ConflictException>(() => client.GetLog(new LogFileResponse
 			{
 				Name = "very_fake_path.log"
 			}, cancellationToken), ErrorCode.IOError);
 
-			await Assert.ThrowsExceptionAsync<InsufficientPermissionsException>(() => client.GetLog(new LogFile
+			await Assert.ThrowsExceptionAsync<InsufficientPermissionsException>(() => client.GetLog(new LogFileResponse
 			{
 				Name = "../out_of_bounds.file"
 			}, cancellationToken));
@@ -51,7 +52,7 @@ namespace Tgstation.Server.Tests
 
 		async Task TestRead(CancellationToken cancellationToken)
 		{
-			Administration model;
+			AdministrationResponse model;
 			try
 			{
 				model = await client.Read(cancellationToken).ConfigureAwait(false);

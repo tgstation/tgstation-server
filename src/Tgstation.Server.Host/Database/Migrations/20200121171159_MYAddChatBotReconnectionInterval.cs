@@ -4,7 +4,7 @@ using System;
 namespace Tgstation.Server.Host.Database.Migrations
 {
 	/// <summary>
-	/// Adds the <see cref="Api.Models.Internal.ChatBot.ReconnectionInterval"/> property for MySQL/MariaDB.
+	/// Adds the <see cref="Api.Models.Internal.ChatBotSettings.ReconnectionInterval"/> property for MySQL/MariaDB.
 	/// </summary>
 	public partial class MYAddChatBotReconnectionInterval : Migration
 	{

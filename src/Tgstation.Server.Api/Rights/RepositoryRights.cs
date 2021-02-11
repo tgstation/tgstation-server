@@ -3,7 +3,7 @@ using System;
 namespace Tgstation.Server.Api.Rights
 {
 	/// <summary>
-	/// Rights for a <see cref="Models.Repository"/>
+	/// Rights for the git repository.
 	/// </summary>
 	[Flags]
 	public enum RepositoryRights : ulong
@@ -19,12 +19,12 @@ namespace Tgstation.Server.Api.Rights
 		CancelPendingChanges = 1,
 
 		/// <summary>
-		/// User may clone the <see cref="Models.Repository"/> if it does not exist.
+		/// User may clone the repository if it does not exist.
 		/// </summary>
 		SetOrigin = 2,
 
 		/// <summary>
-		/// User may directly checkout a git SHA that the <see cref="Models.Repository"/>'s HEAD will point to.
+		/// User may directly checkout a git SHA that the repository's HEAD will point to.
 		/// </summary>
 		SetSha = 4,
 
@@ -54,12 +54,12 @@ namespace Tgstation.Server.Api.Rights
 		ChangeCredentials = 128,
 
 		/// <summary>
-		/// User may set <see cref="Models.Repository.Reference"/> to another git branch or tag (not a SHA).
+		/// User may set <see cref="Models.Internal.RepositoryApiBase.Reference"/> to another git branch or tag (not a SHA).
 		/// </summary>
 		SetReference = 256,
 
 		/// <summary>
-		/// User may read all fields in the <see cref="Models.Repository"/> with the exception of <see cref="Models.Internal.RepositorySettings.AccessToken"/>.
+		/// User may read repository information.
 		/// </summary>
 		Read = 512,
 
@@ -69,7 +69,7 @@ namespace Tgstation.Server.Api.Rights
 		ChangeAutoUpdateSettings = 1024,
 
 		/// <summary>
-		/// User may delete the <see cref="Models.Repository"/> and allow it to be cloned again.
+		/// User may delete the repository and allow it to be cloned again.
 		/// </summary>
 		Delete = 2048,
 

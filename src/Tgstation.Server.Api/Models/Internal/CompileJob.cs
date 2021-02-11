@@ -5,9 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Tgstation.Server.Api.Models.Internal
 {
 	/// <summary>
-	/// Represents a run of <see cref="DreamMaker"/>
+	/// Represents a deployment run.
 	/// </summary>
-	public class CompileJob : EntityId
+	public abstract class CompileJob : EntityId
 	{
 		/// <summary>
 		/// The .dme file used for compilation
@@ -28,14 +28,16 @@ namespace Tgstation.Server.Api.Models.Internal
 		public Guid? DirectoryName { get; set; }
 
 		/// <summary>
-		/// The minimum <see cref="DreamDaemonSecurity"/> required to run the <see cref="CompileJob"/>'s output
+		/// The minimum <see cref="DreamDaemonSecurity"/> required to run the <see cref="CompileJob"/>'s output.
 		/// </summary>
+		[ResponseOptions]
 		public DreamDaemonSecurity? MinimumSecurityLevel { get; set; }
 
 		/// <summary>
 		/// The DMAPI <see cref="Version"/>.
 		/// </summary>
 		[NotMapped]
+		[ResponseOptions]
 		public virtual Version? DMApiVersion { get; set; }
 	}
 }

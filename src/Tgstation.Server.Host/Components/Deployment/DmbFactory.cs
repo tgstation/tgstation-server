@@ -136,15 +136,15 @@ namespace Tgstation.Server.Host.Components.Deployment
 			}
 
 			lock (jobLockCounts)
-				if (!jobLockCounts.TryGetValue(job.Id, out var currentVal) || currentVal == 1)
+				if (!jobLockCounts.TryGetValue(job.Id.Value, out var currentVal) || currentVal == 1)
 				{
-					jobLockCounts.Remove(job.Id);
+					jobLockCounts.Remove(job.Id.Value);
 					logger.LogDebug("Cleaning lock-free compile job {0} => {1}", job.Id, job.DirectoryName);
 					cleanupTask = HandleCleanup();
 				}
 				else
 				{
-					var decremented = --jobLockCounts[job.Id];
+					var decremented = --jobLockCounts[job.Id.Value];
 					logger.LogTrace("Compile job {0} lock count now: {1}", job.Id, decremented);
 				}
 		}
@@ -193,7 +193,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			lock (jobLockCounts)
 			{
 				var jobId = nextDmbProvider.CompileJob.Id;
-				var incremented = jobLockCounts[jobId] += lockCount;
+				var incremented = jobLockCounts[jobId.Value] += lockCount;
 				logger.LogTrace("Compile job {0} lock count now: {1}", jobId, incremented);
 				return nextDmbProvider;
 			}
@@ -324,13 +324,13 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 				lock (jobLockCounts)
 				{
-					if (!jobLockCounts.TryGetValue(compileJob.Id, out int value))
+					if (!jobLockCounts.TryGetValue(compileJob.Id.Value, out int value))
 					{
 						value = 1;
-						jobLockCounts.Add(compileJob.Id, 1);
+						jobLockCounts.Add(compileJob.Id.Value, 1);
 					}
 					else
-						jobLockCounts[compileJob.Id] = ++value;
+						jobLockCounts[compileJob.Id.Value] = ++value;
 
 					providerSubmitted = true;
 
@@ -366,7 +366,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					.AsQueryable()
 					.Where(
 						x => x.Job.Instance.Id == metadata.Id
-						&& jobIdsToSkip.Contains(x.Id))
+						&& jobIdsToSkip.Contains(x.Id.Value))
 					.Select(x => x.DirectoryName.Value)
 					.ToListAsync(cancellationToken)
 					.ConfigureAwait(false))
