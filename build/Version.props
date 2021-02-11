@@ -6,6 +6,7 @@
     <TgsCoreVersion>4.10.0</TgsCoreVersion>
     <TgsConfigVersion>3.0.0</TgsConfigVersion>
     <TgsApiVersion>9.0.0</TgsApiVersion>
+    <TgsApiLibraryVersion>9.0.0</TgsApiLibraryVersion>
     <TgsClientVersion>10.0.0</TgsClientVersion>
     <TgsDmapiVersion>6.0.2</TgsDmapiVersion>
     <TgsInteropVersion>5.3.0</TgsInteropVersion>
@@ -13,4 +14,3 @@
     <TgsContainerScriptVersion>1.2.0</TgsContainerScriptVersion>
   </PropertyGroup>
 </Project>
-
