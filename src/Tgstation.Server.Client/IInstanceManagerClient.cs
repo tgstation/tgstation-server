@@ -66,6 +66,6 @@ namespace Tgstation.Server.Client
 		/// </summary>
 		/// <param name="instance">The <see cref="EntityId"/> of the <see cref="Instance"/> to create an <see cref="IInstanceClient"/> for</param>
 		/// <returns>A new <see cref="IInstanceClient"/></returns>
-		IInstanceClient CreateClient(EntityId instance);
+		IInstanceClient CreateClient(Instance instance);
 	}
 }

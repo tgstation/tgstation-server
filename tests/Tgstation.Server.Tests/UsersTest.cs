@@ -134,6 +134,7 @@ namespace Tgstation.Server.Tests
 
 			group = await serverClient.Groups.Update(new UserGroupUpdateRequest
 			{
+				Id = groups.First().Id,
 				PermissionSet = new PermissionSet
 				{
 					InstanceManagerRights = RightsHelper.AllRights<InstanceManagerRights>(),

@@ -202,7 +202,8 @@ namespace Tgstation.Server.Tests.Instance
 			var discordBotReq = new ChatBotUpdateRequest
 			{
 				Id = ogDiscordBot.Id,
-				Channels = ogDiscordBot.Channels.ToList()
+				Channels = ogDiscordBot.Channels.ToList(),
+				ChannelLimit = 1
 			};
 
 			// We limited chat bots and channels to 1 and 2 respectively, try violating them

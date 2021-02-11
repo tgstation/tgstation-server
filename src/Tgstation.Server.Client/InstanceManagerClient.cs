@@ -41,11 +41,17 @@ namespace Tgstation.Server.Client
 		public Task GrantPermissions(EntityId instance, CancellationToken cancellationToken) => ApiClient.Patch(Routes.SetID(Routes.InstanceManager, instance?.Id ?? throw new ArgumentNullException(nameof(instance))), cancellationToken);
 
 		/// <inheritdoc />
-		public IInstanceClient CreateClient(EntityId instance) => new InstanceClient(
-			ApiClient,
-			new InstanceResponse
-			{
-				Id = instance?.Id ?? throw new ArgumentNullException(nameof(instance))
-			});
+		public IInstanceClient CreateClient(Instance instance)
+		{
+			if (instance == null)
+				throw new ArgumentNullException(nameof(instance));
+
+			if (!instance.Id.HasValue)
+				throw new ArgumentException("Instance missing Id!", nameof(instance));
+
+			return new InstanceClient(
+				ApiClient,
+				instance);
+		}
 	}
 }
