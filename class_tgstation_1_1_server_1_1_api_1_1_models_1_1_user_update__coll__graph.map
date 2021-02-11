@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Api.Models.UserUpdate" name="Tgstation.Server.Api.Models.UserUpdate">
-<area shape="rect" id="node1" title="For editing a given User. Will never be returned by the API" alt="" coords="33,261,220,303"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user.html" title=" " alt="" coords="101,185,152,212"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user.html" title="Represents a server User" alt="" coords="5,81,104,108"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_base.html" title="Base class for User." alt="" coords="15,5,95,32"/>
-<area shape="rect" id="node5" title=" " alt="" coords="129,81,269,108"/>
-</map>

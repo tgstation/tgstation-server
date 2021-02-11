@@ -2,6 +2,6 @@
 <area shape="rect" id="node1" title="Signal to the swarm that an update is requested." alt="" coords="5,64,203,105"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a44ea2df8df1a5d14c30a85cce5f736aa" title="Implementation of PrepareUpdate(Version, CancellationToken)," alt="" coords="251,64,473,105"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ad9e5207fa6e34f5c01b87d4a19b18465" title="Abort an uncommitted update." alt="" coords="537,5,732,47"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a80458cc7264493ea2e7888addb55cf59" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="796,35,1040,76"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ae4531bb61c058041400513c71f0764e9" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="796,35,1040,76"/>
 <area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_server_update_initiator.html#ad8f0e312590d7f235e930763cd0ee57d" title="Start the process of downloading and applying an update to a new server version ." alt="" coords="521,123,748,164"/>
 </map>

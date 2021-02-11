@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Host.Controllers.InstanceController.InstanceAdminPermissionSet" name="Tgstation.Server.Host.Controllers.InstanceController.InstanceAdminPermissionSet">
+<area shape="rect" id="node1" title="Generate an InstancePermissionSet with full rights." alt="" coords="312,5,615,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a14afbffdf445ad02aca699a0591f0857" title="Creates a default Models.Instance from initialSettings ." alt="" coords="5,5,264,47"/>
+</map>

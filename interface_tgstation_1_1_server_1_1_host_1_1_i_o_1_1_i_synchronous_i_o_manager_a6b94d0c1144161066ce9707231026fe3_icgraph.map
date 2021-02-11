@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.IO.ISynchronousIOManager.IsDirectory" name="Tgstation.Server.Host.IO.ISynchronousIOManager.IsDirectory">
 <area shape="rect" id="node1" title="Checks if a given path &#160;is a directory" alt="" coords="280,5,511,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#ad62e7c4dde34d7c7d1039bcbf03c5b72" title="Reads a given configurationRelativePath" alt="" coords="5,5,232,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a607b5cb74a609550b6454fc2440fc38f" title="Reads a given configurationRelativePath" alt="" coords="5,5,232,47"/>
 </map>

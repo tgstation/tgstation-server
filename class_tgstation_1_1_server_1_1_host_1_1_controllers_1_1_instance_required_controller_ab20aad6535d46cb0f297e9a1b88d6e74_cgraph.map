@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Controllers.InstanceRequiredController.WithComponentInstance" name="Tgstation.Server.Host.Controllers.InstanceRequiredController.WithComponentInstance">
 <area shape="rect" id="node1" title="Run a given action &#160;with the relevant IInstance." alt="" coords="5,5,279,61"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#ae9607bccaf0751fd40d3ec32ce514c9f" title="Get the IInstanceReference associated with given metadata" alt="" coords="327,13,585,54"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#a80956df7c531cd3cf662dab797ab2c82" title="Get the IInstanceReference associated with given metadata" alt="" coords="327,13,585,54"/>
 </map>

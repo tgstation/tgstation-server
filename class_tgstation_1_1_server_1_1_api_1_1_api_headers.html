@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.9.2</span>
+   &#160;<span id="projectnumber">4.10.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -139,7 +139,7 @@ Static Public Attributes</h2></td></tr>
 <tr class="memitem:a16bcacbed6e65c329a4c7ec22f9d7479"><td class="memItemLeft" align="right" valign="top">const string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a16bcacbed6e65c329a4c7ec22f9d7479">OAuthAuthenticationScheme</a> = &quot;OAuth&quot;</td></tr>
 <tr class="memdesc:a16bcacbed6e65c329a4c7ec22f9d7479"><td class="mdescLeft">&#160;</td><td class="mdescRight">The JWT authentication header scheme  <a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a16bcacbed6e65c329a4c7ec22f9d7479">More...</a><br /></td></tr>
 <tr class="separator:a16bcacbed6e65c329a4c7ec22f9d7479"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6741a096c8700041ac2995b55078302b"><td class="memItemLeft" align="right" valign="top">static readonly Version&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6741a096c8700041ac2995b55078302b">Version</a> = AssemblyName.Version.Semver()</td></tr>
+<tr class="memitem:a6741a096c8700041ac2995b55078302b"><td class="memItemLeft" align="right" valign="top">static readonly Version&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6741a096c8700041ac2995b55078302b">Version</a> = Version.Parse(ApiVersionAttribute.Instance.RawApiVersion)</td></tr>
 <tr class="memdesc:a6741a096c8700041ac2995b55078302b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the version of the <a class="el" href="namespace_tgstation_1_1_server_1_1_api.html">Api</a> the caller is using  <a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6741a096c8700041ac2995b55078302b">More...</a><br /></td></tr>
 <tr class="separator:a6741a096c8700041ac2995b55078302b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -188,7 +188,7 @@ Static Private Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents the header that must be present for every server request </p>
 
-<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00018">18</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00019">19</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ae998aeca8656cda2b274186d01b4a042"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae998aeca8656cda2b274186d01b4a042">&#9670;&nbsp;</a></span>ApiHeaders() <span class="overload">[1/4]</span></h2>
@@ -232,16 +232,16 @@ Static Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00118">118</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                                                                                                           : <span class="keyword">this</span>(userAgent, token, <span class="keyword">null</span>, <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        {</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            <span class="keywordflow">if</span> (userAgent == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(userAgent));</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            <span class="keywordflow">if</span> (token == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(token));</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160; </div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a> = oauthProvider;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00119">119</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                                                                                                           : <span class="keyword">this</span>(userAgent, token, <span class="keyword">null</span>, <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        {</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            <span class="keywordflow">if</span> (userAgent == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(userAgent));</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;            <span class="keywordflow">if</span> (token == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(token));</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a> = oauthProvider;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        }</div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a49b1c1275c0d47d43360f8c7619ec901"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">Tgstation.Server.Api.Models.OAuthProvider</a></div><div class="ttdeci">OAuthProvider</div><div class="ttdoc">List of OAuth providers supported by TGS</div><div class="ttdef"><b>Definition:</b> <a href="_o_auth_provider_8cs_source.html#l00010">OAuthProvider.cs:11</a></div></div>
 </div><!-- fragment -->
 </div>
@@ -288,16 +288,16 @@ Static Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00134">134</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;                                                                                          : <span class="keyword">this</span>(userAgent, <span class="keyword">null</span>, username, password)</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        {</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;            <span class="keywordflow">if</span> (userAgent == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(userAgent));</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;            <span class="keywordflow">if</span> (username == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(username));</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            <span class="keywordflow">if</span> (password == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(password));</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00135">135</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                                                                                          : <span class="keyword">this</span>(userAgent, <span class="keyword">null</span>, username, password)</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        {</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;            <span class="keywordflow">if</span> (userAgent == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(userAgent));</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;            <span class="keywordflow">if</span> (username == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(username));</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            <span class="keywordflow">if</span> (password == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(password));</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -342,136 +342,136 @@ Static Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00151">151</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        {</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            <span class="keywordflow">if</span> (requestHeaders == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(requestHeaders));</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160; </div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            var badHeaders = <a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.None;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            var errorBuilder = <span class="keyword">new</span> StringBuilder();</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160; </div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            <span class="keywordtype">void</span> AddError(<a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a> headerType, <span class="keywordtype">string</span> message)</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;            {</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;                <span class="keywordflow">if</span> (badHeaders != <a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.None)</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;                    errorBuilder.AppendLine();</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                badHeaders |= headerType;</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                errorBuilder.Append(message);</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;            }</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160; </div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;            var jsonAccept = <span class="keyword">new</span> Microsoft.Net.Http.Headers.MediaTypeHeaderValue(MediaTypeNames.Application.Json);</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;            <span class="keywordflow">if</span> (!requestHeaders.Accept.Any(x =&gt; jsonAccept.IsSubsetOf(x)))</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;                AddError(<a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.Accept, $<span class="stringliteral">&quot;Client does not accept {MediaTypeNames.Application.Json}!&quot;</span>);</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160; </div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;            <span class="keywordflow">if</span> (!requestHeaders.Headers.TryGetValue(HeaderNames.UserAgent, out var userAgentValues) || userAgentValues.Count == 0)</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;                AddError(<a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.UserAgent, $<span class="stringliteral">&quot;Missing {HeaderNames.UserAgent} header!&quot;</span>);</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;            <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;            {</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a22828aaeba69d042e69d5add1e451e0d">RawUserAgent</a> = userAgentValues.First();</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;                <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a22828aaeba69d042e69d5add1e451e0d">RawUserAgent</a>))</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                    AddError(<a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.UserAgent, $<span class="stringliteral">&quot;Malformed {HeaderNames.UserAgent} header!&quot;</span>);</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;            }</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160; </div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;            <span class="comment">// make sure the api header matches ours</span></div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6741a096c8700041ac2995b55078302b">Version</a>? apiVersion = <span class="keyword">null</span>;</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;            <span class="keywordflow">if</span> (!requestHeaders.Headers.TryGetValue(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a99649cb8fbf286c635b109e8373b415e">ApiVersionHeader</a>, out var apiUserAgentHeaderValues) || !ProductInfoHeaderValue.TryParse(apiUserAgentHeaderValues.FirstOrDefault(), out var apiUserAgent) || apiUserAgent.Product.Name != <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#acc064dcbf2348cfcf44d06acff499977">AssemblyName</a>.Name)</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;                AddError(<a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.Api, $<span class="stringliteral">&quot;Missing {ApiVersionHeader} header!&quot;</span>);</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6741a096c8700041ac2995b55078302b">Version</a>.TryParse(apiUserAgent.Product.Version, out apiVersion))</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;                AddError(<a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.Api, $<span class="stringliteral">&quot;Malformed {ApiVersionHeader} header!&quot;</span>);</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160; </div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;            <span class="keywordflow">if</span> (!requestHeaders.Headers.TryGetValue(HeaderNames.Authorization, out StringValues authorization))</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;            {</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;                <span class="keywordflow">if</span> (!ignoreMissingAuth)</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;                    AddError(<a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.Authorization, $<span class="stringliteral">&quot;Missing {HeaderNames.Authorization} header!&quot;</span>);</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;            }</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;            <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;            {</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;                var auth = authorization.First();</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;                var splits = <span class="keyword">new</span> List&lt;string&gt;(auth.Split(<span class="charliteral">&#39; &#39;</span>));</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                var scheme = splits.First();</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;                <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(scheme))</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                    AddError(<a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.Authorization, <span class="stringliteral">&quot;Missing authentication scheme!&quot;</span>);</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;                <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;                {</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;                    splits.RemoveAt(0);</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                    var parameter = String.Concat(splits);</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                    <span class="keywordflow">if</span> (String.IsNullOrEmpty(parameter))</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                        AddError(<a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.Authorization, <span class="stringliteral">&quot;Missing authentication parameter!&quot;</span>);</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                    {</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;                        <span class="keywordflow">if</span> (requestHeaders.Headers.TryGetValue(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a28f94492eb21542e63675a53d871e3ef">InstanceIdHeader</a>, out var instanceIdValues))</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;                        {</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                            var instanceIdString = instanceIdValues.FirstOrDefault();</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                            <span class="keywordflow">if</span> (instanceIdString != <span class="keywordflow">default</span> &amp;&amp; Int64.TryParse(instanceIdString, out var instanceId))</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;                                <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a65e7d0ba3a39c992691f7721c62c1531">InstanceId</a> = instanceId;</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;                        }</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160; </div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;                        <span class="keywordflow">switch</span> (scheme)</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;                        {</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;                            <span class="keywordflow">case</span> <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a16bcacbed6e65c329a4c7ec22f9d7479">OAuthAuthenticationScheme</a>:</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;                                <span class="keywordflow">if</span> (requestHeaders.Headers.TryGetValue(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#aed33a94614774ed99f9fa355dd4a3ddd">OAuthProviderHeader</a>, out StringValues oauthProviderValues))</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;                                {</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;                                    var oauthProviderString = oauthProviderValues.First();</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;                                    <span class="keywordflow">if</span> (Enum.TryParse&lt;<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a>&gt;(oauthProviderString, out var oauthProvider))</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;                                        <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a> = oauthProvider;</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;                                    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;                                        AddError(<a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.OAuthProvider, <span class="stringliteral">&quot;Invalid OAuth provider!&quot;</span>);</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;                                }</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;                                <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;                                    AddError(<a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.OAuthProvider, $<span class="stringliteral">&quot;Missing {OAuthProviderHeader} header!&quot;</span>);</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160; </div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;                                <span class="keywordflow">goto</span> <span class="keywordflow">case</span> <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#aa8e108c1ba26a8d57578f2d3b23ea394">BearerAuthenticationScheme</a>;</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;                            <span class="keywordflow">case</span> <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#aa8e108c1ba26a8d57578f2d3b23ea394">BearerAuthenticationScheme</a>:</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;                                <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_token.html">Token</a> = parameter;</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;                                <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;                            <span class="keywordflow">case</span> <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6bbe0fc133b7dde5ef8a6f1c8f0feb18">BasicAuthenticationScheme</a>:</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;                                <span class="keywordtype">string</span> joinedString;</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;                                <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;                                {</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;                                    var base64Bytes = Convert.FromBase64String(parameter);</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;                                    joinedString = Encoding.UTF8.GetString(base64Bytes);</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;                                }</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;                                <span class="keywordflow">catch</span></div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;                                {</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;                                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;Invalid basic {HeaderNames.Authorization} header!&quot;</span>);</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;                                }</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160; </div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;                                var basicAuthSplits = joinedString.Split(<span class="keyword">new</span> <span class="keywordtype">char</span>[] { <span class="charliteral">&#39;:&#39;</span> }, StringSplitOptions.RemoveEmptyEntries);</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;                                <span class="keywordflow">if</span> (basicAuthSplits.Length &lt; 2)</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;                                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;Invalid basic {HeaderNames.Authorization} header!&quot;</span>);</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160; </div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;                                <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a3f35c621d1a28887fb4bc2885e2c893c">Username</a> = basicAuthSplits.First();</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;                                <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#afedffb739a04c51b5669d24635dd3603">Password</a> = String.Concat(basicAuthSplits.Skip(1));</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;                                <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;                            <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;                                AddError(<a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.Authorization, <span class="stringliteral">&quot;Invalid authentication scheme!&quot;</span>);</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;                                <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;                        }</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;                    }</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;                }</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;            }</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160; </div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;            <span class="keywordflow">if</span> (badHeaders != <a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.None)</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> HeadersException(badHeaders, errorBuilder.ToString());</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160; </div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a4769bf50b06d55b116a34cd1ffa04809">ApiVersion</a> = apiVersion!.Semver();</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a16bcacbed6e65c329a4c7ec22f9d7479"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a16bcacbed6e65c329a4c7ec22f9d7479">Tgstation.Server.Api.ApiHeaders.OAuthAuthenticationScheme</a></div><div class="ttdeci">const string OAuthAuthenticationScheme</div><div class="ttdoc">The JWT authentication header scheme</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00048">ApiHeaders.cs:48</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a22828aaeba69d042e69d5add1e451e0d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a22828aaeba69d042e69d5add1e451e0d">Tgstation.Server.Api.ApiHeaders.RawUserAgent</a></div><div class="ttdeci">string? RawUserAgent</div><div class="ttdoc">The client's raw user agent</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00073">ApiHeaders.cs:73</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a28f94492eb21542e63675a53d871e3ef"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a28f94492eb21542e63675a53d871e3ef">Tgstation.Server.Api.ApiHeaders.InstanceIdHeader</a></div><div class="ttdeci">const string InstanceIdHeader</div><div class="ttdoc">The InstanceId header key.</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00028">ApiHeaders.cs:28</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a3f35c621d1a28887fb4bc2885e2c893c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a3f35c621d1a28887fb4bc2885e2c893c">Tgstation.Server.Api.ApiHeaders.Username</a></div><div class="ttdeci">string? Username</div><div class="ttdoc">The client's username</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00088">ApiHeaders.cs:88</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a4769bf50b06d55b116a34cd1ffa04809"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a4769bf50b06d55b116a34cd1ffa04809">Tgstation.Server.Api.ApiHeaders.ApiVersion</a></div><div class="ttdeci">Version ApiVersion</div><div class="ttdoc">The client's API version</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00078">ApiHeaders.cs:78</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a65e7d0ba3a39c992691f7721c62c1531"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a65e7d0ba3a39c992691f7721c62c1531">Tgstation.Server.Api.ApiHeaders.InstanceId</a></div><div class="ttdeci">long? InstanceId</div><div class="ttdoc">The instance EntityId.Id being accessed</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00063">ApiHeaders.cs:63</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a6741a096c8700041ac2995b55078302b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6741a096c8700041ac2995b55078302b">Tgstation.Server.Api.ApiHeaders.Version</a></div><div class="ttdeci">static readonly Version Version</div><div class="ttdoc">Get the version of the Api the caller is using</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00058">ApiHeaders.cs:58</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a6bbe0fc133b7dde5ef8a6f1c8f0feb18"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6bbe0fc133b7dde5ef8a6f1c8f0feb18">Tgstation.Server.Api.ApiHeaders.BasicAuthenticationScheme</a></div><div class="ttdeci">const string BasicAuthenticationScheme</div><div class="ttdoc">The JWT authentication header scheme</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00043">ApiHeaders.cs:43</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a99649cb8fbf286c635b109e8373b415e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a99649cb8fbf286c635b109e8373b415e">Tgstation.Server.Api.ApiHeaders.ApiVersionHeader</a></div><div class="ttdeci">const string ApiVersionHeader</div><div class="ttdoc">The ApiVersion header key.</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00023">ApiHeaders.cs:23</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_aa8e108c1ba26a8d57578f2d3b23ea394"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#aa8e108c1ba26a8d57578f2d3b23ea394">Tgstation.Server.Api.ApiHeaders.BearerAuthenticationScheme</a></div><div class="ttdeci">const string BearerAuthenticationScheme</div><div class="ttdoc">The JWT authentication header scheme</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00038">ApiHeaders.cs:38</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_acc064dcbf2348cfcf44d06acff499977"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#acc064dcbf2348cfcf44d06acff499977">Tgstation.Server.Api.ApiHeaders.AssemblyName</a></div><div class="ttdeci">static readonly AssemblyName AssemblyName</div><div class="ttdoc">The current System.Reflection.AssemblyName</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00053">ApiHeaders.cs:53</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_aed33a94614774ed99f9fa355dd4a3ddd"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#aed33a94614774ed99f9fa355dd4a3ddd">Tgstation.Server.Api.ApiHeaders.OAuthProviderHeader</a></div><div class="ttdeci">const string OAuthProviderHeader</div><div class="ttdoc">The OAuthProvider header key.</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00033">ApiHeaders.cs:33</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_afedffb739a04c51b5669d24635dd3603"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#afedffb739a04c51b5669d24635dd3603">Tgstation.Server.Api.ApiHeaders.Password</a></div><div class="ttdeci">string? Password</div><div class="ttdoc">The client's password</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00093">ApiHeaders.cs:93</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_token_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_token.html">Tgstation.Server.Api.Models.Token</a></div><div class="ttdoc">Represents a JWT returned by the API</div><div class="ttdef"><b>Definition:</b> <a href="_token_8cs_source.html#l00008">Token.cs:9</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00152">152</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        {</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            <span class="keywordflow">if</span> (requestHeaders == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(requestHeaders));</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160; </div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            var badHeaders = <a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.None;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            var errorBuilder = <span class="keyword">new</span> StringBuilder();</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160; </div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;            <span class="keywordtype">void</span> AddError(<a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a> headerType, <span class="keywordtype">string</span> message)</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            {</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;                <span class="keywordflow">if</span> (badHeaders != <a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.None)</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                    errorBuilder.AppendLine();</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                badHeaders |= headerType;</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;                errorBuilder.Append(message);</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;            }</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160; </div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;            var jsonAccept = <span class="keyword">new</span> Microsoft.Net.Http.Headers.MediaTypeHeaderValue(MediaTypeNames.Application.Json);</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;            <span class="keywordflow">if</span> (!requestHeaders.Accept.Any(x =&gt; jsonAccept.IsSubsetOf(x)))</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;                AddError(<a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.Accept, $<span class="stringliteral">&quot;Client does not accept {MediaTypeNames.Application.Json}!&quot;</span>);</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160; </div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;            <span class="keywordflow">if</span> (!requestHeaders.Headers.TryGetValue(HeaderNames.UserAgent, out var userAgentValues) || userAgentValues.Count == 0)</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                AddError(<a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.UserAgent, $<span class="stringliteral">&quot;Missing {HeaderNames.UserAgent} header!&quot;</span>);</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;            <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;            {</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a22828aaeba69d042e69d5add1e451e0d">RawUserAgent</a> = userAgentValues.First();</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a22828aaeba69d042e69d5add1e451e0d">RawUserAgent</a>))</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;                    AddError(<a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.UserAgent, $<span class="stringliteral">&quot;Malformed {HeaderNames.UserAgent} header!&quot;</span>);</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;            }</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160; </div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;            <span class="comment">// make sure the api header matches ours</span></div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6741a096c8700041ac2995b55078302b">Version</a>? apiVersion = <span class="keyword">null</span>;</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;            <span class="keywordflow">if</span> (!requestHeaders.Headers.TryGetValue(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a99649cb8fbf286c635b109e8373b415e">ApiVersionHeader</a>, out var apiUserAgentHeaderValues) || !ProductInfoHeaderValue.TryParse(apiUserAgentHeaderValues.FirstOrDefault(), out var apiUserAgent) || apiUserAgent.Product.Name != <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#acc064dcbf2348cfcf44d06acff499977">AssemblyName</a>.Name)</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                AddError(<a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.Api, $<span class="stringliteral">&quot;Missing {ApiVersionHeader} header!&quot;</span>);</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6741a096c8700041ac2995b55078302b">Version</a>.TryParse(apiUserAgent.Product.Version, out apiVersion))</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;                AddError(<a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.Api, $<span class="stringliteral">&quot;Malformed {ApiVersionHeader} header!&quot;</span>);</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160; </div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;            <span class="keywordflow">if</span> (!requestHeaders.Headers.TryGetValue(HeaderNames.Authorization, out StringValues authorization))</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;            {</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;                <span class="keywordflow">if</span> (!ignoreMissingAuth)</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;                    AddError(<a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.Authorization, $<span class="stringliteral">&quot;Missing {HeaderNames.Authorization} header!&quot;</span>);</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;            }</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;            <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;            {</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;                var auth = authorization.First();</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                var splits = <span class="keyword">new</span> List&lt;string&gt;(auth.Split(<span class="charliteral">&#39; &#39;</span>));</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;                var scheme = splits.First();</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                <span class="keywordflow">if</span> (String.IsNullOrWhiteSpace(scheme))</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;                    AddError(<a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.Authorization, <span class="stringliteral">&quot;Missing authentication scheme!&quot;</span>);</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;                <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;                {</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                    splits.RemoveAt(0);</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                    var parameter = String.Concat(splits);</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                    <span class="keywordflow">if</span> (String.IsNullOrEmpty(parameter))</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                        AddError(<a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.Authorization, <span class="stringliteral">&quot;Missing authentication parameter!&quot;</span>);</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;                    {</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;                        <span class="keywordflow">if</span> (requestHeaders.Headers.TryGetValue(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a28f94492eb21542e63675a53d871e3ef">InstanceIdHeader</a>, out var instanceIdValues))</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                        {</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                            var instanceIdString = instanceIdValues.FirstOrDefault();</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;                            <span class="keywordflow">if</span> (instanceIdString != <span class="keywordflow">default</span> &amp;&amp; Int64.TryParse(instanceIdString, out var instanceId))</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;                                <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a65e7d0ba3a39c992691f7721c62c1531">InstanceId</a> = instanceId;</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                        }</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160; </div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;                        <span class="keywordflow">switch</span> (scheme)</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;                        {</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;                            <span class="keywordflow">case</span> <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a16bcacbed6e65c329a4c7ec22f9d7479">OAuthAuthenticationScheme</a>:</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;                                <span class="keywordflow">if</span> (requestHeaders.Headers.TryGetValue(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#aed33a94614774ed99f9fa355dd4a3ddd">OAuthProviderHeader</a>, out StringValues oauthProviderValues))</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;                                {</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;                                    var oauthProviderString = oauthProviderValues.First();</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;                                    <span class="keywordflow">if</span> (Enum.TryParse&lt;<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a>&gt;(oauthProviderString, out var oauthProvider))</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;                                        <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a> = oauthProvider;</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;                                    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;                                        AddError(<a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.OAuthProvider, <span class="stringliteral">&quot;Invalid OAuth provider!&quot;</span>);</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;                                }</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;                                <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;                                    AddError(<a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.OAuthProvider, $<span class="stringliteral">&quot;Missing {OAuthProviderHeader} header!&quot;</span>);</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160; </div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;                                <span class="keywordflow">goto</span> <span class="keywordflow">case</span> <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#aa8e108c1ba26a8d57578f2d3b23ea394">BearerAuthenticationScheme</a>;</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;                            <span class="keywordflow">case</span> <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#aa8e108c1ba26a8d57578f2d3b23ea394">BearerAuthenticationScheme</a>:</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;                                <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a48b5fae887842cd76920ef76944583a2">Token</a> = parameter;</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;                                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;                            <span class="keywordflow">case</span> <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6bbe0fc133b7dde5ef8a6f1c8f0feb18">BasicAuthenticationScheme</a>:</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;                                <span class="keywordtype">string</span> joinedString;</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;                                <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;                                {</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;                                    var base64Bytes = Convert.FromBase64String(parameter);</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;                                    joinedString = Encoding.UTF8.GetString(base64Bytes);</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;                                }</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;                                <span class="keywordflow">catch</span></div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;                                {</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;                                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;Invalid basic {HeaderNames.Authorization} header!&quot;</span>);</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;                                }</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160; </div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;                                var basicAuthSplits = joinedString.Split(<span class="keyword">new</span> <span class="keywordtype">char</span>[] { <span class="charliteral">&#39;:&#39;</span> }, StringSplitOptions.RemoveEmptyEntries);</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;                                <span class="keywordflow">if</span> (basicAuthSplits.Length &lt; 2)</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;                                    <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException($<span class="stringliteral">&quot;Invalid basic {HeaderNames.Authorization} header!&quot;</span>);</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160; </div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;                                <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a3f35c621d1a28887fb4bc2885e2c893c">Username</a> = basicAuthSplits.First();</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;                                <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#afedffb739a04c51b5669d24635dd3603">Password</a> = String.Concat(basicAuthSplits.Skip(1));</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;                                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;                            <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;                                AddError(<a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.Authorization, <span class="stringliteral">&quot;Invalid authentication scheme!&quot;</span>);</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;                                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;                        }</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;                    }</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;                }</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;            }</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160; </div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;            <span class="keywordflow">if</span> (badHeaders != <a class="code" href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">HeaderTypes</a>.None)</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> HeadersException(badHeaders, errorBuilder.ToString());</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160; </div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a4769bf50b06d55b116a34cd1ffa04809">ApiVersion</a> = apiVersion!.Semver();</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a16bcacbed6e65c329a4c7ec22f9d7479"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a16bcacbed6e65c329a4c7ec22f9d7479">Tgstation.Server.Api.ApiHeaders.OAuthAuthenticationScheme</a></div><div class="ttdeci">const string OAuthAuthenticationScheme</div><div class="ttdoc">The JWT authentication header scheme</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00049">ApiHeaders.cs:49</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a22828aaeba69d042e69d5add1e451e0d"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a22828aaeba69d042e69d5add1e451e0d">Tgstation.Server.Api.ApiHeaders.RawUserAgent</a></div><div class="ttdeci">string? RawUserAgent</div><div class="ttdoc">The client's raw user agent</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00074">ApiHeaders.cs:74</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a28f94492eb21542e63675a53d871e3ef"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a28f94492eb21542e63675a53d871e3ef">Tgstation.Server.Api.ApiHeaders.InstanceIdHeader</a></div><div class="ttdeci">const string InstanceIdHeader</div><div class="ttdoc">The InstanceId header key.</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00029">ApiHeaders.cs:29</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a3f35c621d1a28887fb4bc2885e2c893c"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a3f35c621d1a28887fb4bc2885e2c893c">Tgstation.Server.Api.ApiHeaders.Username</a></div><div class="ttdeci">string? Username</div><div class="ttdoc">The client's username</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00089">ApiHeaders.cs:89</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a4769bf50b06d55b116a34cd1ffa04809"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a4769bf50b06d55b116a34cd1ffa04809">Tgstation.Server.Api.ApiHeaders.ApiVersion</a></div><div class="ttdeci">Version ApiVersion</div><div class="ttdoc">The client's API version</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00079">ApiHeaders.cs:79</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a48b5fae887842cd76920ef76944583a2"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a48b5fae887842cd76920ef76944583a2">Tgstation.Server.Api.ApiHeaders.Token</a></div><div class="ttdeci">string? Token</div><div class="ttdoc">The client's JWT</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00084">ApiHeaders.cs:84</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a65e7d0ba3a39c992691f7721c62c1531"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a65e7d0ba3a39c992691f7721c62c1531">Tgstation.Server.Api.ApiHeaders.InstanceId</a></div><div class="ttdeci">long? InstanceId</div><div class="ttdoc">The instance EntityId.Id being accessed</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00064">ApiHeaders.cs:64</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a6741a096c8700041ac2995b55078302b"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6741a096c8700041ac2995b55078302b">Tgstation.Server.Api.ApiHeaders.Version</a></div><div class="ttdeci">static readonly Version Version</div><div class="ttdoc">Get the version of the Api the caller is using</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00059">ApiHeaders.cs:59</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a6bbe0fc133b7dde5ef8a6f1c8f0feb18"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6bbe0fc133b7dde5ef8a6f1c8f0feb18">Tgstation.Server.Api.ApiHeaders.BasicAuthenticationScheme</a></div><div class="ttdeci">const string BasicAuthenticationScheme</div><div class="ttdoc">The JWT authentication header scheme</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00044">ApiHeaders.cs:44</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a99649cb8fbf286c635b109e8373b415e"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a99649cb8fbf286c635b109e8373b415e">Tgstation.Server.Api.ApiHeaders.ApiVersionHeader</a></div><div class="ttdeci">const string ApiVersionHeader</div><div class="ttdoc">The ApiVersion header key.</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00024">ApiHeaders.cs:24</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_aa8e108c1ba26a8d57578f2d3b23ea394"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#aa8e108c1ba26a8d57578f2d3b23ea394">Tgstation.Server.Api.ApiHeaders.BearerAuthenticationScheme</a></div><div class="ttdeci">const string BearerAuthenticationScheme</div><div class="ttdoc">The JWT authentication header scheme</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00039">ApiHeaders.cs:39</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_acc064dcbf2348cfcf44d06acff499977"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#acc064dcbf2348cfcf44d06acff499977">Tgstation.Server.Api.ApiHeaders.AssemblyName</a></div><div class="ttdeci">static readonly AssemblyName AssemblyName</div><div class="ttdoc">The current System.Reflection.AssemblyName</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00054">ApiHeaders.cs:54</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_aed33a94614774ed99f9fa355dd4a3ddd"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#aed33a94614774ed99f9fa355dd4a3ddd">Tgstation.Server.Api.ApiHeaders.OAuthProviderHeader</a></div><div class="ttdeci">const string OAuthProviderHeader</div><div class="ttdoc">The OAuthProvider header key.</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00034">ApiHeaders.cs:34</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_afedffb739a04c51b5669d24635dd3603"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#afedffb739a04c51b5669d24635dd3603">Tgstation.Server.Api.ApiHeaders.Password</a></div><div class="ttdeci">string? Password</div><div class="ttdoc">The client's password</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00094">ApiHeaders.cs:94</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_html_a8696a05b0d8adb9b7cc0f59ec4f6c5ef"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api.html#a8696a05b0d8adb9b7cc0f59ec4f6c5ef">Tgstation.Server.Api.HeaderTypes</a></div><div class="ttdeci">HeaderTypes</div><div class="ttdoc">Types of individual ApiHeaders.</div><div class="ttdef"><b>Definition:</b> <a href="_header_types_8cs_source.html#l00009">HeaderTypes.cs:10</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_api_headers_8cs_source.html#l00078">Tgstation.Server.Api.ApiHeaders.ApiVersion</a>, <a class="el" href="_api_headers_8cs_source.html#l00023">Tgstation.Server.Api.ApiHeaders.ApiVersionHeader</a>, <a class="el" href="_api_headers_8cs_source.html#l00053">Tgstation.Server.Api.ApiHeaders.AssemblyName</a>, <a class="el" href="_api_headers_8cs_source.html#l00043">Tgstation.Server.Api.ApiHeaders.BasicAuthenticationScheme</a>, <a class="el" href="_api_headers_8cs_source.html#l00038">Tgstation.Server.Api.ApiHeaders.BearerAuthenticationScheme</a>, <a class="el" href="_api_headers_8cs_source.html#l00063">Tgstation.Server.Api.ApiHeaders.InstanceId</a>, <a class="el" href="_api_headers_8cs_source.html#l00028">Tgstation.Server.Api.ApiHeaders.InstanceIdHeader</a>, <a class="el" href="_api_headers_8cs_source.html#l00048">Tgstation.Server.Api.ApiHeaders.OAuthAuthenticationScheme</a>, <a class="el" href="_api_headers_8cs_source.html#l00033">Tgstation.Server.Api.ApiHeaders.OAuthProviderHeader</a>, <a class="el" href="_api_headers_8cs_source.html#l00093">Tgstation.Server.Api.ApiHeaders.Password</a>, <a class="el" href="_api_headers_8cs_source.html#l00073">Tgstation.Server.Api.ApiHeaders.RawUserAgent</a>, <a class="el" href="_api_headers_8cs_source.html#l00088">Tgstation.Server.Api.ApiHeaders.Username</a>, and <a class="el" href="_api_headers_8cs_source.html#l00058">Tgstation.Server.Api.ApiHeaders.Version</a>.</p>
+<p class="reference">References <a class="el" href="_api_headers_8cs_source.html#l00079">Tgstation.Server.Api.ApiHeaders.ApiVersion</a>, <a class="el" href="_api_headers_8cs_source.html#l00024">Tgstation.Server.Api.ApiHeaders.ApiVersionHeader</a>, <a class="el" href="_api_headers_8cs_source.html#l00054">Tgstation.Server.Api.ApiHeaders.AssemblyName</a>, <a class="el" href="_api_headers_8cs_source.html#l00044">Tgstation.Server.Api.ApiHeaders.BasicAuthenticationScheme</a>, <a class="el" href="_api_headers_8cs_source.html#l00039">Tgstation.Server.Api.ApiHeaders.BearerAuthenticationScheme</a>, <a class="el" href="_api_headers_8cs_source.html#l00064">Tgstation.Server.Api.ApiHeaders.InstanceId</a>, <a class="el" href="_api_headers_8cs_source.html#l00029">Tgstation.Server.Api.ApiHeaders.InstanceIdHeader</a>, <a class="el" href="_api_headers_8cs_source.html#l00049">Tgstation.Server.Api.ApiHeaders.OAuthAuthenticationScheme</a>, <a class="el" href="_api_headers_8cs_source.html#l00034">Tgstation.Server.Api.ApiHeaders.OAuthProviderHeader</a>, <a class="el" href="_api_headers_8cs_source.html#l00094">Tgstation.Server.Api.ApiHeaders.Password</a>, <a class="el" href="_api_headers_8cs_source.html#l00074">Tgstation.Server.Api.ApiHeaders.RawUserAgent</a>, <a class="el" href="_api_headers_8cs_source.html#l00084">Tgstation.Server.Api.ApiHeaders.Token</a>, <a class="el" href="_api_headers_8cs_source.html#l00089">Tgstation.Server.Api.ApiHeaders.Username</a>, and <a class="el" href="_api_headers_8cs_source.html#l00059">Tgstation.Server.Api.ApiHeaders.Version</a>.</p>
 
 </div>
 </div>
@@ -532,16 +532,16 @@ Static Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00273">273</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;        {</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a22828aaeba69d042e69d5add1e451e0d">RawUserAgent</a> = userAgent?.ToString();</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_token.html">Token</a> = token;</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a3f35c621d1a28887fb4bc2885e2c893c">Username</a> = username;</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#afedffb739a04c51b5669d24635dd3603">Password</a> = password;</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a4769bf50b06d55b116a34cd1ffa04809">ApiVersion</a> = <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6741a096c8700041ac2995b55078302b">Version</a>;</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00274">274</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;        {</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a22828aaeba69d042e69d5add1e451e0d">RawUserAgent</a> = userAgent?.ToString();</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a48b5fae887842cd76920ef76944583a2">Token</a> = token;</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a3f35c621d1a28887fb4bc2885e2c893c">Username</a> = username;</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#afedffb739a04c51b5669d24635dd3603">Password</a> = password;</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;            <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a4769bf50b06d55b116a34cd1ffa04809">ApiVersion</a> = <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6741a096c8700041ac2995b55078302b">Version</a>;</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_api_headers_8cs_source.html#l00078">Tgstation.Server.Api.ApiHeaders.ApiVersion</a>, <a class="el" href="_api_headers_8cs_source.html#l00093">Tgstation.Server.Api.ApiHeaders.Password</a>, <a class="el" href="_api_headers_8cs_source.html#l00073">Tgstation.Server.Api.ApiHeaders.RawUserAgent</a>, <a class="el" href="_api_headers_8cs_source.html#l00088">Tgstation.Server.Api.ApiHeaders.Username</a>, and <a class="el" href="_api_headers_8cs_source.html#l00058">Tgstation.Server.Api.ApiHeaders.Version</a>.</p>
+<p class="reference">References <a class="el" href="_api_headers_8cs_source.html#l00079">Tgstation.Server.Api.ApiHeaders.ApiVersion</a>, <a class="el" href="_api_headers_8cs_source.html#l00094">Tgstation.Server.Api.ApiHeaders.Password</a>, <a class="el" href="_api_headers_8cs_source.html#l00074">Tgstation.Server.Api.ApiHeaders.RawUserAgent</a>, <a class="el" href="_api_headers_8cs_source.html#l00084">Tgstation.Server.Api.ApiHeaders.Token</a>, <a class="el" href="_api_headers_8cs_source.html#l00089">Tgstation.Server.Api.ApiHeaders.Username</a>, and <a class="el" href="_api_headers_8cs_source.html#l00059">Tgstation.Server.Api.ApiHeaders.Version</a>.</p>
 
 </div>
 </div>
@@ -599,7 +599,7 @@ Static Private Attributes</h2></td></tr>
 <p>Checks if the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a4769bf50b06d55b116a34cd1ffa04809" title="The client&#39;s API version">ApiVersion</a> is compatible with <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6741a096c8700041ac2995b55078302b" title="Get the version of the Api the caller is using">Version</a> </p>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if the API is compatible, <code>false</code> otherwise</dd></dl>
 
-<p class="reference">Referenced by <a class="el" href="_api_controller_8cs_source.html#l00190">Tgstation.Server.Host.Controllers.ApiController.OnActionExecutionAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_api_controller_8cs_source.html#l00191">Tgstation.Server.Host.Controllers.ApiController.OnActionExecutionAsync()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -647,38 +647,38 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00293">293</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;        {</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;            <span class="keywordflow">if</span> (headers == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(headers));</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;            <span class="keywordflow">if</span> (instanceId.HasValue &amp;&amp; <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a65e7d0ba3a39c992691f7721c62c1531">InstanceId</a>.HasValue &amp;&amp; instanceId != <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a65e7d0ba3a39c992691f7721c62c1531">InstanceId</a>)</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Specified different instance IDs in constructor and SetRequestHeaders!&quot;</span>);</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160; </div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;            headers.Clear();</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;            headers.Accept.Add(<span class="keyword">new</span> MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;            <span class="keywordflow">if</span> (!<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a30222f85d684f2a9c9861a8638b6a31f">IsTokenAuthentication</a>)</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;                headers.Authorization = <span class="keyword">new</span> AuthenticationHeaderValue(</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6bbe0fc133b7dde5ef8a6f1c8f0feb18">BasicAuthenticationScheme</a>,</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;                    Convert.ToBase64String(Encoding.UTF8.GetBytes($<span class="stringliteral">&quot;{Username}:{Password}&quot;</span>)));</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;            <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;            {</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;                headers.Authorization = <span class="keyword">new</span> AuthenticationHeaderValue(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#aa8e108c1ba26a8d57578f2d3b23ea394">BearerAuthenticationScheme</a>, <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_token.html">Token</a>);</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a>.HasValue)</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;                    headers.Add(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#aed33a94614774ed99f9fa355dd4a3ddd">OAuthProviderHeader</a>, <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a>.ToString());</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;            }</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160; </div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;            headers.UserAgent.Add(<span class="keyword">new</span> ProductInfoHeaderValue(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a0562061dc87df56fe1e6875556f535b9">UserAgent</a>));</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;            headers.Add(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a99649cb8fbf286c635b109e8373b415e">ApiVersionHeader</a>, <span class="keyword">new</span> ProductHeaderValue(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#acc064dcbf2348cfcf44d06acff499977">AssemblyName</a>.Name, <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a4769bf50b06d55b116a34cd1ffa04809">ApiVersion</a>.ToString()).ToString());</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;            instanceId ??= <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a65e7d0ba3a39c992691f7721c62c1531">InstanceId</a>;</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;            <span class="keywordflow">if</span> (instanceId.HasValue)</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;                headers.Add(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a28f94492eb21542e63675a53d871e3ef">InstanceIdHeader</a>, instanceId.ToString());</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a0562061dc87df56fe1e6875556f535b9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a0562061dc87df56fe1e6875556f535b9">Tgstation.Server.Api.ApiHeaders.UserAgent</a></div><div class="ttdeci">ProductHeaderValue? UserAgent</div><div class="ttdoc">The client's user agent as a ProductHeaderValue if valid</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00068">ApiHeaders.cs:68</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a30222f85d684f2a9c9861a8638b6a31f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a30222f85d684f2a9c9861a8638b6a31f">Tgstation.Server.Api.ApiHeaders.IsTokenAuthentication</a></div><div class="ttdeci">bool IsTokenAuthentication</div><div class="ttdoc">If the header uses password or TGS JWT authentication.</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00103">ApiHeaders.cs:103</a></div></div>
+<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00294">294</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;        {</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;            <span class="keywordflow">if</span> (headers == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(headers));</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;            <span class="keywordflow">if</span> (instanceId.HasValue &amp;&amp; <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a65e7d0ba3a39c992691f7721c62c1531">InstanceId</a>.HasValue &amp;&amp; instanceId != <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a65e7d0ba3a39c992691f7721c62c1531">InstanceId</a>)</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> InvalidOperationException(<span class="stringliteral">&quot;Specified different instance IDs in constructor and SetRequestHeaders!&quot;</span>);</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160; </div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;            headers.Clear();</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;            headers.Accept.Add(<span class="keyword">new</span> MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;            <span class="keywordflow">if</span> (!<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a30222f85d684f2a9c9861a8638b6a31f">IsTokenAuthentication</a>)</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;                headers.Authorization = <span class="keyword">new</span> AuthenticationHeaderValue(</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a6bbe0fc133b7dde5ef8a6f1c8f0feb18">BasicAuthenticationScheme</a>,</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;                    Convert.ToBase64String(Encoding.UTF8.GetBytes($<span class="stringliteral">&quot;{Username}:{Password}&quot;</span>)));</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;            <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;            {</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;                headers.Authorization = <span class="keyword">new</span> AuthenticationHeaderValue(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#aa8e108c1ba26a8d57578f2d3b23ea394">BearerAuthenticationScheme</a>, <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a48b5fae887842cd76920ef76944583a2">Token</a>);</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a>.HasValue)</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;                    headers.Add(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#aed33a94614774ed99f9fa355dd4a3ddd">OAuthProviderHeader</a>, <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901">OAuthProvider</a>.ToString());</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;            }</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160; </div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;            headers.UserAgent.Add(<span class="keyword">new</span> ProductInfoHeaderValue(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a0562061dc87df56fe1e6875556f535b9">UserAgent</a>));</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;            headers.Add(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a99649cb8fbf286c635b109e8373b415e">ApiVersionHeader</a>, <span class="keyword">new</span> ProductHeaderValue(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#acc064dcbf2348cfcf44d06acff499977">AssemblyName</a>.Name, <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a4769bf50b06d55b116a34cd1ffa04809">ApiVersion</a>.ToString()).ToString());</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;            instanceId ??= <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a65e7d0ba3a39c992691f7721c62c1531">InstanceId</a>;</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;            <span class="keywordflow">if</span> (instanceId.HasValue)</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;                headers.Add(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a28f94492eb21542e63675a53d871e3ef">InstanceIdHeader</a>, instanceId.ToString());</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;        }</div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a0562061dc87df56fe1e6875556f535b9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a0562061dc87df56fe1e6875556f535b9">Tgstation.Server.Api.ApiHeaders.UserAgent</a></div><div class="ttdeci">ProductHeaderValue? UserAgent</div><div class="ttdoc">The client's user agent as a ProductHeaderValue if valid</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00069">ApiHeaders.cs:69</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_api_headers_html_a30222f85d684f2a9c9861a8638b6a31f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a30222f85d684f2a9c9861a8638b6a31f">Tgstation.Server.Api.ApiHeaders.IsTokenAuthentication</a></div><div class="ttdeci">bool IsTokenAuthentication</div><div class="ttdoc">If the header uses password or TGS JWT authentication.</div><div class="ttdef"><b>Definition:</b> <a href="_api_headers_8cs_source.html#l00104">ApiHeaders.cs:104</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_api_headers_8cs_source.html#l00078">Tgstation.Server.Api.ApiHeaders.ApiVersion</a>, <a class="el" href="_api_headers_8cs_source.html#l00023">Tgstation.Server.Api.ApiHeaders.ApiVersionHeader</a>, <a class="el" href="_api_headers_8cs_source.html#l00053">Tgstation.Server.Api.ApiHeaders.AssemblyName</a>, <a class="el" href="_api_headers_8cs_source.html#l00043">Tgstation.Server.Api.ApiHeaders.BasicAuthenticationScheme</a>, <a class="el" href="_api_headers_8cs_source.html#l00038">Tgstation.Server.Api.ApiHeaders.BearerAuthenticationScheme</a>, <a class="el" href="_api_headers_8cs_source.html#l00063">Tgstation.Server.Api.ApiHeaders.InstanceId</a>, <a class="el" href="_api_headers_8cs_source.html#l00028">Tgstation.Server.Api.ApiHeaders.InstanceIdHeader</a>, <a class="el" href="_api_headers_8cs_source.html#l00103">Tgstation.Server.Api.ApiHeaders.IsTokenAuthentication</a>, <a class="el" href="_api_headers_8cs_source.html#l00033">Tgstation.Server.Api.ApiHeaders.OAuthProviderHeader</a>, and <a class="el" href="_api_headers_8cs_source.html#l00068">Tgstation.Server.Api.ApiHeaders.UserAgent</a>.</p>
+<p class="reference">References <a class="el" href="_api_headers_8cs_source.html#l00079">Tgstation.Server.Api.ApiHeaders.ApiVersion</a>, <a class="el" href="_api_headers_8cs_source.html#l00024">Tgstation.Server.Api.ApiHeaders.ApiVersionHeader</a>, <a class="el" href="_api_headers_8cs_source.html#l00054">Tgstation.Server.Api.ApiHeaders.AssemblyName</a>, <a class="el" href="_api_headers_8cs_source.html#l00044">Tgstation.Server.Api.ApiHeaders.BasicAuthenticationScheme</a>, <a class="el" href="_api_headers_8cs_source.html#l00039">Tgstation.Server.Api.ApiHeaders.BearerAuthenticationScheme</a>, <a class="el" href="_api_headers_8cs_source.html#l00064">Tgstation.Server.Api.ApiHeaders.InstanceId</a>, <a class="el" href="_api_headers_8cs_source.html#l00029">Tgstation.Server.Api.ApiHeaders.InstanceIdHeader</a>, <a class="el" href="_api_headers_8cs_source.html#l00104">Tgstation.Server.Api.ApiHeaders.IsTokenAuthentication</a>, <a class="el" href="_api_headers_8cs_source.html#l00034">Tgstation.Server.Api.ApiHeaders.OAuthProviderHeader</a>, <a class="el" href="_api_headers_8cs_source.html#l00084">Tgstation.Server.Api.ApiHeaders.Token</a>, and <a class="el" href="_api_headers_8cs_source.html#l00069">Tgstation.Server.Api.ApiHeaders.UserAgent</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_api_client_8cs_source.html#l00186">Tgstation.Server.Client.ApiClient.RunRequest&lt; TResult &gt;()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_api_client_8cs_source.html#l00187">Tgstation.Server.Client.ApiClient.RunRequest&lt; TResult &gt;()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -714,9 +714,9 @@ Here is the caller graph for this function:</div>
 
 <p>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a4769bf50b06d55b116a34cd1ffa04809" title="The client&#39;s API version">ApiVersion</a> header key. </p>
 
-<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00023">23</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00024">24</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00151">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, <a class="el" href="_home_controller_8cs_source.html#l00162">Tgstation.Server.Host.Controllers.HomeController.Home()</a>, and <a class="el" href="_api_headers_8cs_source.html#l00293">Tgstation.Server.Api.ApiHeaders.SetRequestHeaders()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00152">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, <a class="el" href="_home_controller_8cs_source.html#l00163">Tgstation.Server.Host.Controllers.HomeController.Home()</a>, and <a class="el" href="_api_headers_8cs_source.html#l00294">Tgstation.Server.Api.ApiHeaders.SetRequestHeaders()</a>.</p>
 
 </div>
 </div>
@@ -742,9 +742,9 @@ Here is the caller graph for this function:</div>
 
 <p>The current System.Reflection.AssemblyName </p>
 
-<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00053">53</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00054">54</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00151">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, and <a class="el" href="_api_headers_8cs_source.html#l00293">Tgstation.Server.Api.ApiHeaders.SetRequestHeaders()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00152">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, and <a class="el" href="_api_headers_8cs_source.html#l00294">Tgstation.Server.Api.ApiHeaders.SetRequestHeaders()</a>.</p>
 
 </div>
 </div>
@@ -770,9 +770,9 @@ Here is the caller graph for this function:</div>
 
 <p>The JWT authentication header scheme </p>
 
-<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00043">43</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00044">44</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00151">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, <a class="el" href="_swagger_configuration_8cs_source.html#l00129">Tgstation.Server.Host.Core.SwaggerConfiguration.Configure()</a>, and <a class="el" href="_api_headers_8cs_source.html#l00293">Tgstation.Server.Api.ApiHeaders.SetRequestHeaders()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00152">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, <a class="el" href="_swagger_configuration_8cs_source.html#l00147">Tgstation.Server.Host.Core.SwaggerConfiguration.Configure()</a>, and <a class="el" href="_api_headers_8cs_source.html#l00294">Tgstation.Server.Api.ApiHeaders.SetRequestHeaders()</a>.</p>
 
 </div>
 </div>
@@ -798,9 +798,9 @@ Here is the caller graph for this function:</div>
 
 <p>The JWT authentication header scheme </p>
 
-<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00038">38</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00039">39</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00151">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, <a class="el" href="_swagger_configuration_8cs_source.html#l00129">Tgstation.Server.Host.Core.SwaggerConfiguration.Configure()</a>, <a class="el" href="_api_headers_8cs_source.html#l00293">Tgstation.Server.Api.ApiHeaders.SetRequestHeaders()</a>, and <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00074">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.ValidateResponseCode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00152">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, <a class="el" href="_swagger_configuration_8cs_source.html#l00147">Tgstation.Server.Host.Core.SwaggerConfiguration.Configure()</a>, <a class="el" href="_api_headers_8cs_source.html#l00294">Tgstation.Server.Api.ApiHeaders.SetRequestHeaders()</a>, and <a class="el" href="_generic_o_auth_validator_8cs_source.html#l00074">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator.ValidateResponseCode()</a>.</p>
 
 </div>
 </div>
@@ -826,9 +826,9 @@ Here is the caller graph for this function:</div>
 
 <p>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a65e7d0ba3a39c992691f7721c62c1531" title="The instance EntityId.Id being accessed">InstanceId</a> header key. </p>
 
-<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00028">28</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00029">29</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00151">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, <a class="el" href="_swagger_configuration_8cs_source.html#l00202">Tgstation.Server.Host.Core.SwaggerConfiguration.Apply()</a>, and <a class="el" href="_api_headers_8cs_source.html#l00293">Tgstation.Server.Api.ApiHeaders.SetRequestHeaders()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00152">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, <a class="el" href="_swagger_configuration_8cs_source.html#l00210">Tgstation.Server.Host.Core.SwaggerConfiguration.Apply()</a>, and <a class="el" href="_api_headers_8cs_source.html#l00294">Tgstation.Server.Api.ApiHeaders.SetRequestHeaders()</a>.</p>
 
 </div>
 </div>
@@ -854,9 +854,9 @@ Here is the caller graph for this function:</div>
 
 <p>The JWT authentication header scheme </p>
 
-<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00048">48</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00049">49</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00151">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, and <a class="el" href="_swagger_configuration_8cs_source.html#l00129">Tgstation.Server.Host.Core.SwaggerConfiguration.Configure()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00152">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, and <a class="el" href="_swagger_configuration_8cs_source.html#l00147">Tgstation.Server.Host.Core.SwaggerConfiguration.Configure()</a>.</p>
 
 </div>
 </div>
@@ -882,9 +882,9 @@ Here is the caller graph for this function:</div>
 
 <p>The <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a8df80167ac1beb7569302dde745c95d6" title="The Models.OAuthProvider the Token is for, if any.">OAuthProvider</a> header key. </p>
 
-<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00033">33</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00034">34</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00151">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, <a class="el" href="_swagger_configuration_8cs_source.html#l00202">Tgstation.Server.Host.Core.SwaggerConfiguration.Apply()</a>, and <a class="el" href="_api_headers_8cs_source.html#l00293">Tgstation.Server.Api.ApiHeaders.SetRequestHeaders()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00152">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, <a class="el" href="_swagger_configuration_8cs_source.html#l00210">Tgstation.Server.Host.Core.SwaggerConfiguration.Apply()</a>, and <a class="el" href="_api_headers_8cs_source.html#l00294">Tgstation.Server.Api.ApiHeaders.SetRequestHeaders()</a>.</p>
 
 </div>
 </div>
@@ -898,7 +898,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">readonly Version Tgstation.Server.Api.ApiHeaders.Version = AssemblyName.Version.Semver()</td>
+          <td class="memname">readonly Version Tgstation.Server.Api.ApiHeaders.Version = Version.Parse(ApiVersionAttribute.Instance.RawApiVersion)</td>
         </tr>
       </table>
   </td>
@@ -910,9 +910,9 @@ Here is the caller graph for this function:</div>
 
 <p>Get the version of the <a class="el" href="namespace_tgstation_1_1_server_1_1_api.html">Api</a> the caller is using </p>
 
-<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00058">58</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00059">59</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00151">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, <a class="el" href="_swagger_configuration_8cs_source.html#l00129">Tgstation.Server.Host.Core.SwaggerConfiguration.Configure()</a>, <a class="el" href="_error_message_8cs_source.html#l00043">Tgstation.Server.Api.Models.ErrorMessage.ErrorMessage()</a>, <a class="el" href="_control_panel_controller_8cs_source.html#l00049">Tgstation.Server.Host.Controllers.ControlPanelController.GetChannelJson()</a>, and <a class="el" href="_home_controller_8cs_source.html#l00162">Tgstation.Server.Host.Controllers.HomeController.Home()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00152">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, <a class="el" href="_swagger_configuration_8cs_source.html#l00147">Tgstation.Server.Host.Core.SwaggerConfiguration.Configure()</a>, <a class="el" href="_error_message_response_8cs_source.html#l00042">Tgstation.Server.Api.Models.Response.ErrorMessageResponse.ErrorMessageResponse()</a>, <a class="el" href="_control_panel_controller_8cs_source.html#l00050">Tgstation.Server.Host.Controllers.ControlPanelController.GetChannelJson()</a>, and <a class="el" href="_home_controller_8cs_source.html#l00163">Tgstation.Server.Host.Controllers.HomeController.Home()</a>.</p>
 
 </div>
 </div>
@@ -939,10 +939,10 @@ Here is the caller graph for this function:</div>
 
 <p>The client's API version </p>
 
-<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00078">78</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00079">79</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00151">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, <a class="el" href="_api_controller_8cs_source.html#l00190">Tgstation.Server.Host.Controllers.ApiController.OnActionExecutionAsync()</a>, and <a class="el" href="_api_headers_8cs_source.html#l00293">Tgstation.Server.Api.ApiHeaders.SetRequestHeaders()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00152">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, <a class="el" href="_api_controller_8cs_source.html#l00191">Tgstation.Server.Host.Controllers.ApiController.OnActionExecutionAsync()</a>, and <a class="el" href="_api_headers_8cs_source.html#l00294">Tgstation.Server.Api.ApiHeaders.SetRequestHeaders()</a>.</p>
 
 </div>
 </div>
@@ -968,10 +968,10 @@ Here is the caller graph for this function:</div>
 
 <p>The instance EntityId.Id being accessed </p>
 
-<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00063">63</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00064">64</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00151">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, <a class="el" href="_claims_injector_8cs_source.html#l00033">Tgstation.Server.Host.Security.ClaimsInjector.InjectClaimsIntoContext()</a>, <a class="el" href="_api_controller_8cs_source.html#l00190">Tgstation.Server.Host.Controllers.ApiController.OnActionExecutionAsync()</a>, and <a class="el" href="_api_headers_8cs_source.html#l00293">Tgstation.Server.Api.ApiHeaders.SetRequestHeaders()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00152">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, <a class="el" href="_claims_injector_8cs_source.html#l00033">Tgstation.Server.Host.Security.ClaimsInjector.InjectClaimsIntoContext()</a>, <a class="el" href="_api_controller_8cs_source.html#l00191">Tgstation.Server.Host.Controllers.ApiController.OnActionExecutionAsync()</a>, and <a class="el" href="_api_headers_8cs_source.html#l00294">Tgstation.Server.Api.ApiHeaders.SetRequestHeaders()</a>.</p>
 
 </div>
 </div>
@@ -997,9 +997,9 @@ Here is the caller graph for this function:</div>
 
 <p>If the header uses password or TGS JWT authentication. </p>
 
-<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00103">103</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00104">104</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_home_controller_8cs_source.html#l00228">Tgstation.Server.Host.Controllers.HomeController.CreateToken()</a>, and <a class="el" href="_api_headers_8cs_source.html#l00293">Tgstation.Server.Api.ApiHeaders.SetRequestHeaders()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_home_controller_8cs_source.html#l00229">Tgstation.Server.Host.Controllers.HomeController.CreateToken()</a>, and <a class="el" href="_api_headers_8cs_source.html#l00294">Tgstation.Server.Api.ApiHeaders.SetRequestHeaders()</a>.</p>
 
 </div>
 </div>
@@ -1025,10 +1025,10 @@ Here is the caller graph for this function:</div>
 
 <p>The <a class="el" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a49b1c1275c0d47d43360f8c7619ec901" title="List of OAuth providers supported by TGS">Models.OAuthProvider</a> the <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a48b5fae887842cd76920ef76944583a2" title="The client&#39;s JWT">Token</a> is for, if any. </p>
 
-<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00098">98</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00099">99</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_home_controller_8cs_source.html#l00228">Tgstation.Server.Host.Controllers.HomeController.CreateToken()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_home_controller_8cs_source.html#l00229">Tgstation.Server.Host.Controllers.HomeController.CreateToken()</a>.</p>
 
 </div>
 </div>
@@ -1054,10 +1054,10 @@ Here is the caller graph for this function:</div>
 
 <p>The client's password </p>
 
-<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00093">93</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00094">94</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00151">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, and <a class="el" href="_home_controller_8cs_source.html#l00228">Tgstation.Server.Host.Controllers.HomeController.CreateToken()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00152">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, and <a class="el" href="_home_controller_8cs_source.html#l00229">Tgstation.Server.Host.Controllers.HomeController.CreateToken()</a>.</p>
 
 </div>
 </div>
@@ -1083,10 +1083,10 @@ Here is the caller graph for this function:</div>
 
 <p>The client's raw user agent </p>
 
-<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00073">73</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00074">74</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00151">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, and <a class="el" href="_api_controller_8cs_source.html#l00190">Tgstation.Server.Host.Controllers.ApiController.OnActionExecutionAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00152">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, and <a class="el" href="_api_controller_8cs_source.html#l00191">Tgstation.Server.Host.Controllers.ApiController.OnActionExecutionAsync()</a>.</p>
 
 </div>
 </div>
@@ -1112,10 +1112,10 @@ Here is the caller graph for this function:</div>
 
 <p>The client's JWT </p>
 
-<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00083">83</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00084">84</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_home_controller_8cs_source.html#l00228">Tgstation.Server.Host.Controllers.HomeController.CreateToken()</a>, <a class="el" href="_api_client_8cs_source.html#l00262">Tgstation.Server.Client.ApiClient.RefreshToken()</a>, and <a class="el" href="_server_client_8cs_source.html#l00060">Tgstation.Server.Client.ServerClient.ServerClient()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00152">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, <a class="el" href="_home_controller_8cs_source.html#l00229">Tgstation.Server.Host.Controllers.HomeController.CreateToken()</a>, <a class="el" href="_api_client_8cs_source.html#l00263">Tgstation.Server.Client.ApiClient.RefreshToken()</a>, <a class="el" href="_server_client_8cs_source.html#l00060">Tgstation.Server.Client.ServerClient.ServerClient()</a>, and <a class="el" href="_api_headers_8cs_source.html#l00294">Tgstation.Server.Api.ApiHeaders.SetRequestHeaders()</a>.</p>
 
 </div>
 </div>
@@ -1141,9 +1141,9 @@ Here is the caller graph for this function:</div>
 
 <p>The client's user agent as a ProductHeaderValue if valid </p>
 
-<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00068">68</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00069">69</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_api_client_8cs_source.html#l00262">Tgstation.Server.Client.ApiClient.RefreshToken()</a>, and <a class="el" href="_api_headers_8cs_source.html#l00293">Tgstation.Server.Api.ApiHeaders.SetRequestHeaders()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_api_client_8cs_source.html#l00263">Tgstation.Server.Client.ApiClient.RefreshToken()</a>, and <a class="el" href="_api_headers_8cs_source.html#l00294">Tgstation.Server.Api.ApiHeaders.SetRequestHeaders()</a>.</p>
 
 </div>
 </div>
@@ -1169,10 +1169,10 @@ Here is the caller graph for this function:</div>
 
 <p>The client's username </p>
 
-<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00088">88</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;{ <span class="keyword">get</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="_api_headers_8cs_source.html#l00089">89</a> of file <a class="el" href="_api_headers_8cs_source.html">ApiHeaders.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00151">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, and <a class="el" href="_home_controller_8cs_source.html#l00228">Tgstation.Server.Host.Controllers.HomeController.CreateToken()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_api_headers_8cs_source.html#l00152">Tgstation.Server.Api.ApiHeaders.ApiHeaders()</a>, and <a class="el" href="_home_controller_8cs_source.html#l00229">Tgstation.Server.Host.Controllers.HomeController.CreateToken()</a>.</p>
 
 </div>
 </div>

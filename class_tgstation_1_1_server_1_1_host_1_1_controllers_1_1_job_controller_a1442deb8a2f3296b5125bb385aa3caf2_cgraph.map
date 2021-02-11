@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Controllers.JobController.Delete" name="Tgstation.Server.Host.Controllers.JobController.Delete">
-<area shape="rect" id="node1" title="Cancel a running Api.Models.Job." alt="" coords="5,104,221,145"/>
+<area shape="rect" id="node1" title="Cancel a running JobResponse." alt="" coords="5,104,221,145"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a02ff92fbece1f77bc9d34216d1ffa7ce" title="Cancels a give job" alt="" coords="286,5,469,47"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType" alt="" coords="276,71,479,112"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f" title="Generic 410 response." alt="" coords="269,136,485,177"/>

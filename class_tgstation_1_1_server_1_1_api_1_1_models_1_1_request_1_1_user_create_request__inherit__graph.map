@@ -1,0 +1,9 @@
+<map id="Tgstation.Server.Api.Models.Request.UserCreateRequest" name="Tgstation.Server.Api.Models.Request.UserCreateRequest">
+<area shape="rect" id="node1" title="For creating a user." alt="" coords="5,453,192,495"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_1_1_user_update_request.html" title="For editing a given user." alt="" coords="29,379,169,405"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_api_base.html" title=" " alt="" coords="49,304,148,331"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_model_base.html" title="Represents a server user." alt="" coords="41,229,156,256"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_name.html" title="Base class for user names." alt="" coords="56,155,141,181"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="51,80,147,107"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="66,5,131,32"/>
+</map>

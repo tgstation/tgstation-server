@@ -1,9 +1,0 @@
-<map id="Tgstation.Server.Host.Controllers.InstanceController.CreateDefaultInstance" name="Tgstation.Server.Host.Controllers.InstanceController.CreateDefaultInstance">
-<area shape="rect" id="node1" title=" " alt="" coords="5,71,264,112"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_port_allocator.html#ac989342d01f012e78c39eaed65f64ab1" title="Gets a port not currently in use by TGS." alt="" coords="362,5,565,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a7ce5ec7ee6dad205048c98cc3955d1ae" title=" " alt="" coords="312,71,615,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a917f3b8022097ed8c1217953e242a01d" title="List Api.Models.Instances." alt="" coords="355,136,571,177"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext" alt="" coords="672,100,881,141"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller.html#a666be878e8b392ab679eea0b30751dbf" title="Corrects discrepencies between the Api.Models.Instance.Online status of IInstances in the database vs..." alt="" coords="663,165,891,221"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#ae9607bccaf0751fd40d3ec32ce514c9f" title="Get the IInstanceReference associated with given metadata" alt="" coords="939,172,1197,213"/>
-</map>

@@ -1,8 +1,8 @@
 <map id="Tgstation.Server.Host.Configuration.GeneralConfiguration" name="Tgstation.Server.Host.Configuration.GeneralConfiguration">
-<area shape="rect" id="node1" title="General configuration options" alt="" coords="304,168,533,209"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information.html" title="Base class for Models.ServerInformation." alt="" coords="5,5,131,32"/>
-<area shape="rect" id="node3" title=" " alt="" coords="155,5,234,32"/>
-<area shape="rect" id="node4" title=" " alt="" coords="370,5,425,32"/>
-<area shape="rect" id="node5" title=" " alt="" coords="449,5,601,32"/>
-<area shape="rect" id="node6" title=" " alt="" coords="631,5,724,32"/>
+<area shape="rect" id="node1" title="General configuration options" alt="" coords="333,168,563,209"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_server_information_base.html" title="Base class for Response.ServerInformationResponse." alt="" coords="5,5,160,32"/>
+<area shape="rect" id="node3" title=" " alt="" coords="185,5,263,32"/>
+<area shape="rect" id="node4" title=" " alt="" coords="398,5,453,32"/>
+<area shape="rect" id="node5" title=" " alt="" coords="477,5,629,32"/>
+<area shape="rect" id="node6" title=" " alt="" coords="657,5,751,32"/>
 </map>

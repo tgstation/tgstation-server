@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.9.2</span>
+   &#160;<span id="projectnumber">4.10.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -93,7 +93,7 @@ $(function() {
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.ChatBot&quot;</span>, b =&gt;</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                    .ValueGeneratedOnAdd()</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>)</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                    .HasAnnotation(<span class="stringliteral">&quot;SqlServer:ValueGenerationStrategy&quot;</span>, SqlServerValueGenerationStrategy.IdentityColumn);</div>
@@ -179,7 +179,7 @@ $(function() {
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.CompileJob&quot;</span>, b =&gt;</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            {</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                    .ValueGeneratedOnAdd()</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>)</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                    .HasAnnotation(<span class="stringliteral">&quot;SqlServer:ValueGenerationStrategy&quot;</span>, SqlServerValueGenerationStrategy.IdentityColumn);</div>
@@ -319,7 +319,7 @@ $(function() {
 <div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160; </div>
 <div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.Instance&quot;</span>, b =&gt;</div>
 <div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;            {</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
 <div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;                    .ValueGeneratedOnAdd()</div>
 <div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>)</div>
 <div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;                    .HasAnnotation(<span class="stringliteral">&quot;SqlServer:ValueGenerationStrategy&quot;</span>, SqlServerValueGenerationStrategy.IdentityColumn);</div>
@@ -335,8 +335,8 @@ $(function() {
 <div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160; </div>
 <div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;Name&quot;</span>)</div>
 <div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;                    .IsRequired()</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;                    .HasColumnType(<span class="stringliteral">&quot;nvarchar(max)&quot;</span>)</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;                    .HasMaxLength(10000);</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;                    .HasColumnType(<span class="stringliteral">&quot;nvarchar(100)&quot;</span>)</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;                    .HasMaxLength(100);</div>
 <div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160; </div>
 <div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;Online&quot;</span>)</div>
 <div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;                    .IsRequired()</div>
@@ -404,7 +404,7 @@ $(function() {
 <div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160; </div>
 <div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.Job&quot;</span>, b =&gt;</div>
 <div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;            {</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
 <div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;                    .ValueGeneratedOnAdd()</div>
 <div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>)</div>
 <div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;                    .HasAnnotation(<span class="stringliteral">&quot;SqlServer:ValueGenerationStrategy&quot;</span>, SqlServerValueGenerationStrategy.IdentityColumn);</div>
@@ -776,7 +776,7 @@ $(function() {
 <div class="line"><a name="l00703"></a><span class="lineno">  703</span>&#160; </div>
 <div class="line"><a name="l00704"></a><span class="lineno">  704</span>&#160;            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.UserGroup&quot;</span>, b =&gt;</div>
 <div class="line"><a name="l00705"></a><span class="lineno">  705</span>&#160;            {</div>
-<div class="line"><a name="l00706"></a><span class="lineno">  706</span>&#160;                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
+<div class="line"><a name="l00706"></a><span class="lineno">  706</span>&#160;                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
 <div class="line"><a name="l00707"></a><span class="lineno">  707</span>&#160;                    .ValueGeneratedOnAdd()</div>
 <div class="line"><a name="l00708"></a><span class="lineno">  708</span>&#160;                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>)</div>
 <div class="line"><a name="l00709"></a><span class="lineno">  709</span>&#160;                    .HasAnnotation(<span class="stringliteral">&quot;SqlServer:ValueGenerationStrategy&quot;</span>, SqlServerValueGenerationStrategy.IdentityColumn);</div>

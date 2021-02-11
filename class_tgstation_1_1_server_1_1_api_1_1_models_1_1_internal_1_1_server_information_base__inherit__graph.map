@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Api.Models.Internal.ServerInformationBase" name="Tgstation.Server.Api.Models.Internal.ServerInformationBase">
+<area shape="rect" id="node1" title="Base class for Response.ServerInformationResponse." alt="" coords="5,39,207,80"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_information_response.html" title="Represents basic server information." alt="" coords="255,5,499,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html" title="General configuration options" alt="" coords="262,71,491,112"/>
+</map>

@@ -1,8 +1,8 @@
 <map id="Tgstation.Server.Host.Controllers.ApiController.NotFound" name="Tgstation.Server.Host.Controllers.ApiController.NotFound">
 <area shape="rect" id="node1" title="Generic 404 response." alt="" coords="269,136,485,177"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#a1442deb8a2f3296b5125bb385aa3caf2" title="Cancel a running Api.Models.Job." alt="" coords="5,5,221,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html#a2f22a8f3436e55774dee2df922590ac8" title="Get a Api.Models.CompileJob specified by a given id ." alt="" coords="5,71,221,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#aad5f209a424e97eeb42d75c6ff37f07d" title="Get a specific Api.Models.Job." alt="" coords="5,136,221,177"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a7924175e380ba48b8623838f13c2521d" title="Get a specific Api.Models.User." alt="" coords="5,201,221,243"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a7f795d4042188f30317c6134b75afc70" title="Update a Api.Models.User." alt="" coords="5,267,221,308"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#a1442deb8a2f3296b5125bb385aa3caf2" title="Cancel a running JobResponse." alt="" coords="5,5,221,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html#a2f22a8f3436e55774dee2df922590ac8" title="Get a CompileJob specified by a given id ." alt="" coords="5,71,221,112"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html#aad5f209a424e97eeb42d75c6ff37f07d" title="Get a specific JobResponse." alt="" coords="5,136,221,177"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a7924175e380ba48b8623838f13c2521d" title="Get a specific User." alt="" coords="5,201,221,243"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#acca8d2bd8a4ca53dd51df098264dd642" title="Update a User." alt="" coords="5,267,221,308"/>
 </map>

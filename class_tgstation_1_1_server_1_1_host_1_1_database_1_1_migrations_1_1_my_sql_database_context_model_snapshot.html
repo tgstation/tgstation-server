@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.9.2</span>
+   &#160;<span id="projectnumber">4.10.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -138,7 +138,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.ChatBot&quot;</span>, b =&gt;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                    .ValueGeneratedOnAdd()</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
@@ -222,7 +222,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.CompileJob&quot;</span>, b =&gt;</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            {</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                    .ValueGeneratedOnAdd()</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
@@ -364,7 +364,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160; </div>
 <div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.Instance&quot;</span>, b =&gt;</div>
 <div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;            {</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
 <div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;                    .ValueGeneratedOnAdd()</div>
 <div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160; </div>
@@ -381,8 +381,8 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160; </div>
 <div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;                b.Property&lt;<span class="keywordtype">string</span>&gt;(<span class="stringliteral">&quot;Name&quot;</span>)</div>
 <div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;                    .IsRequired()</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;                    .HasColumnType(<span class="stringliteral">&quot;longtext CHARACTER SET utf8mb4&quot;</span>)</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;                    .HasMaxLength(10000);</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;                    .HasColumnType(<span class="stringliteral">&quot;varchar(100) CHARACTER SET utf8mb4&quot;</span>)</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;                    .HasMaxLength(100);</div>
 <div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160; </div>
 <div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;                b.Property&lt;<span class="keywordtype">bool</span>?&gt;(<span class="stringliteral">&quot;Online&quot;</span>)</div>
 <div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;                    .IsRequired()</div>
@@ -448,7 +448,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160; </div>
 <div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.Job&quot;</span>, b =&gt;</div>
 <div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;            {</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
 <div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;                    .ValueGeneratedOnAdd()</div>
 <div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160; </div>
@@ -808,7 +808,7 @@ Protected Member Functions</h2></td></tr>
 <div class="line"><a name="l00688"></a><span class="lineno">  688</span>&#160; </div>
 <div class="line"><a name="l00689"></a><span class="lineno">  689</span>&#160;            modelBuilder.Entity(<span class="stringliteral">&quot;Tgstation.Server.Host.Models.UserGroup&quot;</span>, b =&gt;</div>
 <div class="line"><a name="l00690"></a><span class="lineno">  690</span>&#160;            {</div>
-<div class="line"><a name="l00691"></a><span class="lineno">  691</span>&#160;                b.Property&lt;<span class="keywordtype">long</span>&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
+<div class="line"><a name="l00691"></a><span class="lineno">  691</span>&#160;                b.Property&lt;<span class="keywordtype">long</span>?&gt;(<span class="stringliteral">&quot;Id&quot;</span>)</div>
 <div class="line"><a name="l00692"></a><span class="lineno">  692</span>&#160;                    .ValueGeneratedOnAdd()</div>
 <div class="line"><a name="l00693"></a><span class="lineno">  693</span>&#160;                    .HasColumnType(<span class="stringliteral">&quot;bigint&quot;</span>);</div>
 <div class="line"><a name="l00694"></a><span class="lineno">  694</span>&#160; </div>

@@ -1,7 +1,8 @@
 <map id="Tgstation.Server.Client.Components.ByondClient" name="Tgstation.Server.Client.Components.ByondClient">
-<area shape="rect" id="node1" title=" " alt="" coords="107,185,273,227"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html" title="Client that deals with getting paginated results." alt="" coords="5,89,119,115"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_byond_client.html" title="For managing the Byond installation" alt="" coords="143,89,237,115"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance" alt="" coords="262,81,449,123"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of Instances, CompileJobs, and Jobs." alt="" coords="323,5,388,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="107,261,273,303"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_paginated_client.html" title="Client that deals with getting paginated results." alt="" coords="5,165,119,191"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_byond_client.html" title="For managing the ByondInstallResponse installation" alt="" coords="143,165,237,191"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance" alt="" coords="262,157,449,199"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="307,81,403,108"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="323,5,388,32"/>
 </map>

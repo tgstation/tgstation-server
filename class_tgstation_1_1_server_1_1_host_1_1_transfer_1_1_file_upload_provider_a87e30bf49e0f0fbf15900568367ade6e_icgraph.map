@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Host.Transfer.FileUploadProvider.Completion" name="Tgstation.Server.Host.Transfer.FileUploadProvider.Completion">
-<area shape="rect" id="node1" title="Resolve the stream &#160;for the FileUploadProvider and awaits the upload." alt="" coords="295,5,497,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#af9b5681055784530b6eb13e1ecce1c2f" title="Sets the Stream for a given ticket &#160;associated with a pending upload." alt="" coords="5,5,247,47"/>
-</map>

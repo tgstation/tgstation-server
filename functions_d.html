@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.9.2</span>
+   &#160;<span id="projectnumber">4.10.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -140,8 +140,8 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_generic_o_auth_validator.html#a9a6766ae5983746a97b04f9592b6f330">Tgstation.Server.Host.Security.OAuth.GenericOAuthValidator</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_keycloak_o_auth_validator.html#a16ae5fa45252592d2a49e26b6043e1c9">Tgstation.Server.Host.Security.OAuth.KeycloakOAuthValidator</a>
 </li>
-<li>DefaultAdminPassword
-: <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user.html#a6d73f12df63e1cea9b3d011da9d9a14a">Tgstation.Server.Api.Models.User</a>
+<li>DefaultAdminUserPassword
+: <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_default_credentials.html#a7c4bd40bf42d05fe66169093d3bfc172">Tgstation.Server.Api.DefaultCredentials</a>
 </li>
 <li>DefaultApiPort
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_general_configuration.html#a34554b3c3ec4b265081f7af8b8d99715">Tgstation.Server.Host.Configuration.GeneralConfiguration</a>
@@ -218,18 +218,17 @@ $(function() {
 </li>
 <li>Delete()
 : <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a79097c50707454b30e031a6cf53c1cca">Tgstation.Server.Client.ApiClient</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_chat_bots_client.html#af21f7f62a34e6486d979bf56f93ab522">Tgstation.Server.Client.Components.ChatBotsClient</a>
-, <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_chat_bots_client.html#a9ce8f7309dd82e761f821939ad877036">Tgstation.Server.Client.Components.IChatBotsClient</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_chat_bots_client.html#a327820c225b08b938e010b4affe8e473">Tgstation.Server.Client.Components.ChatBotsClient</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_chat_bots_client.html#ae47b625325f4051fb57ebfdc8555aef2">Tgstation.Server.Client.Components.IChatBotsClient</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_instance_permission_set_client.html#a125f5bd4ed58392a46292d1839c8a686">Tgstation.Server.Client.Components.IInstancePermissionSetClient</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_instance_permission_set_client.html#a57a45f3e108a0315ecaf7124cc9c3923">Tgstation.Server.Client.Components.InstancePermissionSetClient</a>
-, <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_repository_client.html#a542817cc102394601ab78412d37f82ba">Tgstation.Server.Client.Components.IRepositoryClient</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_repository_client.html#a53bf505d9df01bc1bccec11d00e44733">Tgstation.Server.Client.Components.RepositoryClient</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_repository_client.html#a9f11dffd912b00c090bdb2809e86a8b2">Tgstation.Server.Client.Components.IRepositoryClient</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_repository_client.html#ab62fb3a68473a10e0753cc94d43da988">Tgstation.Server.Client.Components.RepositoryClient</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a6954d79598a2d4498c99e201481dc6b1">Tgstation.Server.Client.IApiClient</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_user_groups_client.html#a2eda3707a176a68e9da1a1e201de0aa8">Tgstation.Server.Client.IUserGroupsClient</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_user_groups_client.html#aa86136bea24ebaca5b2b28a6e6b57e72">Tgstation.Server.Client.UserGroupsClient</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#aacf3549e22bb38699d3226a156e3e0dc">Tgstation.Server.Host.Controllers.AdministrationController</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a5c9497452013644a7b8b6d4ee09a65a3">Tgstation.Server.Host.Controllers.ChatController</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a70a6018d637cb3eb379b8949a4a754a8">Tgstation.Server.Host.Controllers.ConfigurationController</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a42cbbc5eb5facf44f1d0df46664824f6">Tgstation.Server.Host.Controllers.DreamDaemonController</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a14134d386ac311c0f7a76b7ef312a2d6">Tgstation.Server.Host.Controllers.InstanceController</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_permission_set_controller.html#a2f223b4cdb20a49e9d921bb74b38f144">Tgstation.Server.Host.Controllers.InstancePermissionSetController</a>
@@ -252,14 +251,15 @@ $(function() {
 <li>DeleteDirectory()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_configuration.html#a79f673d1a6c8868b648c0c3393e34d27">Tgstation.Server.Host.Components.StaticFiles.Configuration</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_i_configuration.html#a38c2d45d551a853c4a1545dcf1996063">Tgstation.Server.Host.Components.StaticFiles.IConfiguration</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#afd82e4dee7a6f61061be9f00796e99bf">Tgstation.Server.Host.Controllers.ConfigurationController</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#a1c0202582bb5f80ba212bf7cceb2bd6d">Tgstation.Server.Host.IO.DefaultIOManager</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#ad3e0dda4b7fbad4c77f48ba3b2681dc7">Tgstation.Server.Host.IO.IIOManager</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html#ad7db8df684e3820376d161b6ac89804f">Tgstation.Server.Host.IO.ISynchronousIOManager</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_synchronous_i_o_manager.html#a238b441b58a9da1b2e2821f203b65deb">Tgstation.Server.Host.IO.SynchronousIOManager</a>
 </li>
 <li>DeleteEmptyDirectory()
-: <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#a6b1c64f700e702c9944463c9cd7d4419">Tgstation.Server.Client.Components.ConfigurationClient</a>
-, <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#ab64268e03bd3451604bf4c4bdbbec2ba">Tgstation.Server.Client.Components.IConfigurationClient</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_configuration_client.html#aae500adb46ffa26dbfcbc4a4c4b4ee6e">Tgstation.Server.Client.Components.ConfigurationClient</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_configuration_client.html#a769c2892a3e5fb04cf8aa073d090ccee">Tgstation.Server.Client.Components.IConfigurationClient</a>
 </li>
 <li>DeleteFile()
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_default_i_o_manager.html#ad75df660abbe0d645edc657cf9910a1a">Tgstation.Server.Host.IO.DefaultIOManager</a>
@@ -290,8 +290,8 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_sqlite_database_context.html#a3b6658b7b9a33591ec03e0ad4c24bf09">Tgstation.Server.Host.Database.SqliteDatabaseContext</a>
 </li>
 <li>Detach()
-: <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#abd45f73a94f3e25829be0e477c73caad">Tgstation.Server.Client.IInstanceManagerClient</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a9aaeff926049f5bc8c311fc67b4fb78c">Tgstation.Server.Client.InstanceManagerClient</a>
+: <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_instance_manager_client.html#a82717b67e78f3b4805abc67a59531963">Tgstation.Server.Client.IInstanceManagerClient</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_instance_manager_client.html#a65b27db631418a70d9eb55f1cfd046e7">Tgstation.Server.Client.InstanceManagerClient</a>
 </li>
 <li>Diagnostics
 : <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a56e9bf1c7567f8f6ad1bf830eb4b158e">Tgstation.Server.Api.Routes</a>
@@ -349,7 +349,7 @@ $(function() {
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_o_auth_1_1_discord_o_auth_validator.html#ae5acc20f1d22d812aa38783b5163300b">Tgstation.Server.Host.Security.OAuth.DiscordOAuthValidator</a>
 </li>
 <li>DiscordProvider()
-: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a887f42d3b818cf7e637057a0939ed639">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a20628ee25c8741ce5730626297db4c36">Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider</a>
 </li>
 <li>Dispose()
 : <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#ad4afd612c75a7240f3aa27b49520a1bf">Tgstation.Server.Client.ApiClient</a>
@@ -446,7 +446,7 @@ $(function() {
 </li>
 <li>DMApiVersion
 : <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_compile_job.html#ab960ca771b3f1b5b1caabddb6286934b">Tgstation.Server.Api.Models.Internal.CompileJob</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_server_information.html#ab41b1b31a44ddcdcc04f2f550f0046ef">Tgstation.Server.Api.Models.ServerInformation</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_server_information_response.html#a7e7ab24625a8d0f58b19da0919e735b3">Tgstation.Server.Api.Models.Response.ServerInformationResponse</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_i_session_controller.html#afe95d6ef4c8fc3218ceb3099342f9046">Tgstation.Server.Host.Components.Session.ISessionController</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller.html#aa7a0a4d67b027a49d086c20e3639e5fd">Tgstation.Server.Host.Components.Session.SessionController</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a1874072c230506695dae47cd11d28e4e">Tgstation.Server.Host.Models.CompileJob</a>
@@ -520,6 +520,7 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_toggle_testmerge_comments.html#ab73d9fedcdc7d6f8c1961984b60a6a74">Tgstation.Server.Host.Database.Migrations.MSToggleTestmergeComments</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_tons_of_validation.html#a0fd91dc305f512bb5c3d2a9d9bda2d6e">Tgstation.Server.Host.Database.Migrations.MSTonsOfValidation</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_topic_timeout.html#a75b4c0c1b4dce285abf160ca70fa7ad0">Tgstation.Server.Host.Database.Migrations.MSTopicTimeout</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_s_truncate_instance_names.html#afc5a1aa922476ea34c5c39b3117b20ec">Tgstation.Server.Host.Database.Migrations.MSTruncateInstanceNames</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_additional_d_d_parameters.html#acf05c6ead3e2bd6456df283e414e395e">Tgstation.Server.Host.Database.Migrations.MYAddAdditionalDDParameters</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_chat_bot_reconnection_interval.html#a2ab30ec2c22da1e82035bd86885d0a19">Tgstation.Server.Host.Database.Migrations.MYAddChatBotReconnectionInterval</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_add_compile_job_d_m_api_version.html#ad60c496d7dec72affca9fac2b6131912">Tgstation.Server.Host.Database.Migrations.MYAddCompileJobDMApiVersion</a>
@@ -547,6 +548,7 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_toggle_testmerge_comments.html#a65028283085928ece01cd4d4c43dd16c">Tgstation.Server.Host.Database.Migrations.MYToggleTestmergeComments</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_tons_of_validation.html#a7913c39e263b705e6ed1ba52d4dad6ff">Tgstation.Server.Host.Database.Migrations.MYTonsOfValidation</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_topic_timeout.html#a65160a3abe4072ec1f844961f600b6da">Tgstation.Server.Host.Database.Migrations.MYTopicTimeout</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_m_y_truncate_instance_names.html#a6c687e422cbb6324695f464708d7c57c">Tgstation.Server.Host.Database.Migrations.MYTruncateInstanceNames</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_add_additional_d_d_parameters.html#ac672a7bb2d6d0f02762e6156d153f10e">Tgstation.Server.Host.Database.Migrations.PGAddAdditionalDDParameters</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_add_deployment_columns.html#added5a11d65c29997659a974ce398362">Tgstation.Server.Host.Database.Migrations.PGAddDeploymentColumns</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_add_o_auth_connections.html#ab7f7b491161e7ec0877c35c34965b386">Tgstation.Server.Host.Database.Migrations.PGAddOAuthConnections</a>
@@ -558,6 +560,7 @@ $(function() {
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_generic_test_merging_update.html#a3b922c51f87680d9027691a8da1cdd8f">Tgstation.Server.Host.Database.Migrations.PGGenericTestMergingUpdate</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_remove_experimental_watchdog.html#ae854d9dd602db118b7711bf4a13b9b2a">Tgstation.Server.Host.Database.Migrations.PGRemoveExperimentalWatchdog</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_topic_timeout.html#a0310dac83148c1460053a83c2b0a453b">Tgstation.Server.Host.Database.Migrations.PGTopicTimeout</a>
+, <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_p_g_truncate_instance_names.html#a081062379730170cf61da9d0a380cbd5">Tgstation.Server.Host.Database.Migrations.PGTruncateInstanceNames</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_additional_d_d_parameters.html#a492e74a97aaa75a40aca3646042ae2b6">Tgstation.Server.Host.Database.Migrations.SLAddAdditionalDDParameters</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_deployment_columns.html#a64a95198e3162f8c094904534dbb3fd9">Tgstation.Server.Host.Database.Migrations.SLAddDeploymentColumns</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_migrations_1_1_s_l_add_heartbeat.html#a69db556c8f9816d01d3acfe308c32d0c">Tgstation.Server.Host.Database.Migrations.SLAddHeartbeat</a>
@@ -577,8 +580,8 @@ $(function() {
 , <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_database_1_1_i_database_seeder.html#a83bee4040049ba8768dcb04ae7f50deb">Tgstation.Server.Host.Database.IDatabaseSeeder</a>
 </li>
 <li>Download()
-: <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#acb95645d8d2af9b5f5a9e9cec1e144c4">Tgstation.Server.Client.ApiClient</a>
-, <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#a88f01385c3f74908304ee74df9a5a2e7">Tgstation.Server.Client.IApiClient</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_api_client.html#a5240462bf293b026a803e50d569f6ba1">Tgstation.Server.Client.ApiClient</a>
+, <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html#ab83dc3e307df0c36d9bf367780137748">Tgstation.Server.Client.IApiClient</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_transfer_controller.html#a99370cde96d1f091c9dba881bdb2de0f">Tgstation.Server.Host.Controllers.TransferController</a>
 </li>
 <li>DownloadFile()
@@ -594,7 +597,6 @@ $(function() {
 </li>
 <li>DreamDaemon
 : <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#a42831355d8d0cd578680f7f8f3f1124a">Tgstation.Server.Api.Routes</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_dream_daemon_client.html#ab5eab4143b5b6250e72b4ea05b2a039c">Tgstation.Server.Client.Components.DreamDaemonClient</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_instance_client.html#a3d0fe52c8e2428ab13df3f14a4c9d36e">Tgstation.Server.Client.Components.IInstanceClient</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_instance_client.html#a2a6e49e9e7b6d23a95f9839ab4add778">Tgstation.Server.Client.Components.InstanceClient</a>
 </li>
@@ -617,8 +619,11 @@ $(function() {
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_executable_lock.html#aebbd445eb581a534e4ad8ff6b0f6c1ce">Tgstation.Server.Host.Components.Byond.ByondExecutableLock</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_executable_lock.html#af7c6d39dcd1075f42e8721446b5e159f">Tgstation.Server.Host.Components.Byond.IByondExecutableLock</a>
 </li>
+<li>DreamDaemonResponse()
+: <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_dream_daemon_client.html#a63d7c0a9d35722360d0a3c59729802f4">Tgstation.Server.Client.Components.DreamDaemonClient</a>
+</li>
 <li>DreamDaemonRights
-: <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_permission_set.html#a1d8ba09e5e6062a065638e15a90ea3b6">Tgstation.Server.Api.Models.InstancePermissionSet</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_instance_permission_set.html#abfc8da417cc86fda32f60feba2617cda">Tgstation.Server.Api.Models.Internal.InstancePermissionSet</a>
 </li>
 <li>DreamDaemonSettings
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ae03574f8c27c8c179b6d1b8c6f71532e">Tgstation.Server.Host.Database.DatabaseContext</a>
@@ -630,7 +635,6 @@ $(function() {
 </li>
 <li>DreamMaker
 : <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_routes.html#acc5a1421208a8e29080110f54b364ba8">Tgstation.Server.Api.Routes</a>
-, <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_dream_maker_client.html#a62edd66a221c9b7044bd068dcf7324d9">Tgstation.Server.Client.Components.DreamMakerClient</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_instance_client.html#a5a505ae2d713942640558e34222b444b">Tgstation.Server.Client.Components.IInstanceClient</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_instance_client.html#af92b0694efe4453eee2ea50d9c18616e">Tgstation.Server.Client.Components.InstanceClient</a>
 , <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ab04aa8c17266b3ae6b54c6408801c285">Tgstation.Server.Host.Components.Deployment.DreamMaker</a>
@@ -657,8 +661,11 @@ $(function() {
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_byond_executable_lock.html#a4d5315a7648111cd6851fe47dfe859a2">Tgstation.Server.Host.Components.Byond.ByondExecutableLock</a>
 , <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_byond_1_1_i_byond_executable_lock.html#a45a3041c6d9e0ba81d361090549bb072">Tgstation.Server.Host.Components.Byond.IByondExecutableLock</a>
 </li>
+<li>DreamMakerResponse()
+: <a class="el" href="class_tgstation_1_1_server_1_1_client_1_1_components_1_1_dream_maker_client.html#a226e6726134854feac3ae8e08c0172fe">Tgstation.Server.Client.Components.DreamMakerClient</a>
+</li>
 <li>DreamMakerRights
-: <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_permission_set.html#a9487c85f1df5ad2a38a0a16378f32e0c">Tgstation.Server.Api.Models.InstancePermissionSet</a>
+: <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_instance_permission_set.html#aec28359b05c8c78a1491e542f348dc47">Tgstation.Server.Api.Models.Internal.InstancePermissionSet</a>
 </li>
 <li>DreamMakerSettings
 : <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#a77fbed3e1799f2e4c6edec6dc2f415bb">Tgstation.Server.Host.Database.DatabaseContext</a>

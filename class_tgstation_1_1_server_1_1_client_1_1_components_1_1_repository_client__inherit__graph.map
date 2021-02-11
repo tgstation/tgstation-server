@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Client.Components.RepositoryClient" name="Tgstation.Server.Client.Components.RepositoryClient">
 <area shape="rect" id="node1" title=" " alt="" coords="5,80,197,121"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_repository_client.html" title="For managing the Repository" alt="" coords="41,5,161,32"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_repository_client.html" title="For managing the git repository." alt="" coords="41,5,161,32"/>
 </map>

@@ -4,6 +4,6 @@
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems" alt="" coords="21,5,189,47"/>
 <area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html" title="For retrieving the Assembly&#39;s location." alt="" coords="5,71,204,112"/>
 <area shape="rect" id="node5" title=" " alt="" coords="499,95,554,122"/>
-<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html" title="For creating Tokens" alt="" coords="426,147,627,188"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html" title="For creating TokenResponses" alt="" coords="426,147,627,188"/>
 <area shape="rect" id="node7" title=" " alt="" coords="425,213,628,239"/>
 </map>

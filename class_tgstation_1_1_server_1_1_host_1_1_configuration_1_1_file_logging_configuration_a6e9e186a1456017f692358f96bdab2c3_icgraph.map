@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Configuration.FileLoggingConfiguration.GetFullLogDirectory" name="Tgstation.Server.Host.Configuration.FileLoggingConfiguration.GetFullLogDirectory">
 <area shape="rect" id="node1" title="Gets the evaluated log Directory." alt="" coords="269,71,552,112"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_core_1_1_application.html#a2b610f9600937f97857f303dcfe41823" title="Configure the Application&#39;s services." alt="" coords="16,5,211,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a447802145e173d3d60ad702a857d41ff" title="Download a LogFile." alt="" coords="5,71,221,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#ace0be18ae89c0d4b4e5b6f99173cf20f" title="List LogFiles present." alt="" coords="5,136,221,177"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a447802145e173d3d60ad702a857d41ff" title="Download a LogFileResponse." alt="" coords="5,71,221,112"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#ace0be18ae89c0d4b4e5b6f99173cf20f" title="List LogFileResponses present." alt="" coords="5,136,221,177"/>
 </map>

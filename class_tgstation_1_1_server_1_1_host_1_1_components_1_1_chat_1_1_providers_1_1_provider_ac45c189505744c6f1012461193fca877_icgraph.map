@@ -3,6 +3,6 @@
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3866a830f4cedcfdc6b2d1ca7e87ab4d" title="Handle a message recieved from Discord" alt="" coords="319,5,557,61"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_irc_provider.html#a942b5d525b0855ff6c8b59e0d5f6e7eb" title="Handle an IRC message" alt="" coords="303,85,573,126"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac6502da810ca16f52bed5505c7807746" title="Creates a Task that will attempt to reconnect the Provider every reconnectInterval &#160;minutes." alt="" coords="303,150,573,191"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a887f42d3b818cf7e637057a0939ed639" title="Construct a DiscordProvider" alt="" coords="5,5,255,61"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a20628ee25c8741ce5730626297db4c36" title="Construct a DiscordProvider" alt="" coords="5,5,255,61"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_provider.html#ac4642b423570a979ed7d0ae2b3b73ea3" title="Set the interval at which the provider starts jobs to try to reconnect." alt="" coords="9,143,251,199"/>
 </map>

@@ -1,13 +1,13 @@
 <map id="Tgstation.Server.Host.Controllers.InstanceRequiredController" name="Tgstation.Server.Host.Controllers.InstanceRequiredController">
 <area shape="rect" id="node1" title="abstract ApiController for operations on an IInstance." alt="" coords="275,235,491,276"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_byond_controller.html" title="Controller for managing Api.Models.Byond.Versions" alt="" coords="539,5,755,47"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html" title="ApiController for managing Api.Models.ChatBots" alt="" coords="539,71,755,112"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html" title="The ApiController for ConfigurationFiles" alt="" coords="539,136,755,177"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html" title="ApiController for managing the DreamDaemon" alt="" coords="539,201,755,243"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_byond_controller.html" title="Controller for managing BYOND installations." alt="" coords="539,5,755,47"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html" title="ApiController for managing ChatBots" alt="" coords="539,71,755,112"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html" title="The ApiController for IConfigurationFiles" alt="" coords="539,136,755,177"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html" title="ApiController for managing the DreamDaemonResponse" alt="" coords="539,201,755,243"/>
 <area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html" title="ApiController for managing the deployment system." alt="" coords="539,267,755,308"/>
 <area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_permission_set_controller.html" title="ApiController for managing InstancePermissionSets." alt="" coords="539,332,755,373"/>
-<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html" title="ApiController for Api.Models.Jobs" alt="" coords="539,397,755,439"/>
-<area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html" title="ApiController for managing the Repositorys" alt="" coords="539,463,755,504"/>
+<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_job_controller.html" title="ApiController for Jobs" alt="" coords="539,397,755,439"/>
+<area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html" title="ApiController for managing the git repository." alt="" coords="539,463,755,504"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html" title="A Controller for API functions" alt="" coords="131,242,227,269"/>
 <area shape="rect" id="node3" href="$class_controller.html" title=" " alt="" coords="5,242,83,269"/>
 </map>

@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Controllers.ChatController.StandardModelChecks" name="Tgstation.Server.Host.Controllers.ChatController.StandardModelChecks">
+<area shape="rect" id="node1" title="Perform some basic validation of a given model ." alt="" coords="269,39,508,80"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a45b987a90e54fd4d8ef831986fa3ebf7" title="Create a new chat bot model ." alt="" coords="5,5,221,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#ab93c620631d53cf3a942515c2b9c1708" title="Updates a chat bot model ." alt="" coords="5,71,221,112"/>
+</map>

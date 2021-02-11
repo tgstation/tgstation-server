@@ -1,9 +1,5 @@
 <map id="Tgstation.Server.Host.Models.PermissionSet.ToApi" name="Tgstation.Server.Host.Models.PermissionSet.ToApi">
-<area shape="rect" id="node1" title="Convert the PermissionSet to it&#39;s API form." alt="" coords="1225,39,1421,80"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#a8effbd8cd0ce7ba4c72f40efc08a9b50" title="See ToApi(bool)" alt="" coords="737,39,933,80"/>
-<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html#a9b05a1bd0a7525ef0d589ef1963fa63c" title="Convert the UserGroup to it&#39;s API form." alt="" coords="981,68,1177,109"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_job.html#aaea7f482968921045b73cbdaca4dd652" title=" " alt="" coords="249,5,445,47"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_test_merge.html#ac2943458d2fc3077a6684408fb26ab09" title=" " alt="" coords="493,68,689,109"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a64a9fc0f8da344e311b5b754eec10611" title=" " alt="" coords="5,39,201,80"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_revision_information.html#a8e6f5b4375c0594f10c413c4119515b1" title=" " alt="" coords="249,71,445,112"/>
+<area shape="rect" id="node1" title="Convert the PermissionSet to it&#39;s API form." alt="" coords="493,5,689,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#aa71fac864062f40aa138f93476950d8b" title="Generate a UserResponse from this." alt="" coords="5,5,201,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html#aa38ee7281d84a9e3cce242aa6df2dffc" title="Convert the UserGroup to it&#39;s API form." alt="" coords="249,35,445,76"/>
 </map>

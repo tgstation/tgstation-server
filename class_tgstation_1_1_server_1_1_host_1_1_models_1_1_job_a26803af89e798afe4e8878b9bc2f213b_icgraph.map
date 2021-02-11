@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Models.Job.ToApi" name="Tgstation.Server.Host.Models.Job.ToApi">
+<area shape="rect" id="node1" title=" " alt="" coords="269,39,465,80"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a3daa9970770a800d580e85e1c593835e" title="Begin cloning the repository if it doesn&#39;t exist." alt="" coords="5,5,221,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_compile_job.html#a4b92dec44bb4d23b320ea6a17263308e" title=" " alt="" coords="15,71,211,112"/>
+</map>

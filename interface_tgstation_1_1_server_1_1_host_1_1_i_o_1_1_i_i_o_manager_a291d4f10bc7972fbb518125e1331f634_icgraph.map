@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.IO.IIOManager.GetLastModified" name="Tgstation.Server.Host.IO.IIOManager.GetLastModified">
 <area shape="rect" id="node1" title="Get the DateTimeOffset of when a given path &#160;was last modified." alt="" coords="269,5,457,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a447802145e173d3d60ad702a857d41ff" title="Download a LogFile." alt="" coords="5,5,221,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_administration_controller.html#a447802145e173d3d60ad702a857d41ff" title="Download a LogFileResponse." alt="" coords="5,5,221,47"/>
 </map>

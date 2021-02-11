@@ -1,0 +1,14 @@
+<map id="Tgstation.Server.Host.Controllers.ChatController.Create" name="Tgstation.Server.Host.Controllers.ChatController.Create">
+<area shape="rect" id="node1" title="Create a new chat bot model ." alt="" coords="5,169,221,211"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a30fce4a18499c3c89b4b153b9805ce85" title="Converts api &#160;to a ChatChannel" alt="" coords="283,5,529,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a3fb20e3f3a969fedbb24e129438716ba" title="List ChatBots." alt="" coords="298,71,514,112"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext" alt="" coords="301,136,511,177"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#adca21dc990e0822272aa3bf17fcdaae8" title="Perform some basic validation of a given model ." alt="" coords="287,201,525,243"/>
+<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a978fe89eeaea424d7e034d2c7ab7b76e" title="Strongly type calls to ControllerBase.StatusCode(int)." alt="" coords="298,267,514,308"/>
+<area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller.html#ab20aad6535d46cb0f297e9a1b88d6e74" title="Run a given action &#160;with the relevant IInstance." alt="" coords="269,331,543,387"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType" alt="" coords="619,71,821,112"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb" title="Check if a given rightsType &#160;is meant for an Models.Instance" alt="" coords="897,39,1088,80"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c" title="Map a given rightsType &#160;to its respective Enum Type" alt="" coords="901,104,1084,145"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_chat_bot_api_base.html#a393108fb661ee80354d0d13112fc4867" title="Validates Channels are correct for the ChatBotSettings.Provider" alt="" coords="613,194,827,250"/>
+<area shape="rect" id="node12" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#a80956df7c531cd3cf662dab797ab2c82" title="Get the IInstanceReference associated with given metadata" alt="" coords="591,339,849,380"/>
+</map>

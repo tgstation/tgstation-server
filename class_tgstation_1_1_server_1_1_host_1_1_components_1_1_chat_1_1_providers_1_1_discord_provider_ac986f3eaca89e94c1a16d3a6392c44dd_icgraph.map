@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.SendMessage" name="Tgstation.Server.Host.Components.Chat.Providers.DiscordProvider.SendMessage">
 <area shape="rect" id="node1" title="Send a message to the IProvider" alt="" coords="589,5,824,61"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a3866a830f4cedcfdc6b2d1ca7e87ab4d" title="Handle a message recieved from Discord" alt="" coords="303,5,541,61"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a887f42d3b818cf7e637057a0939ed639" title="Construct a DiscordProvider" alt="" coords="5,5,255,61"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_providers_1_1_discord_provider.html#a20628ee25c8741ce5730626297db4c36" title="Construct a DiscordProvider" alt="" coords="5,5,255,61"/>
 </map>

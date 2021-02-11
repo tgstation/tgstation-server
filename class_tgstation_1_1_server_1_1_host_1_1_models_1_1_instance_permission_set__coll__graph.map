@@ -1,5 +1,5 @@
 <map id="Tgstation.Server.Host.Models.InstancePermissionSet" name="Tgstation.Server.Host.Models.InstancePermissionSet">
-<area shape="rect" id="node1" title=" " alt="" coords="284,31,480,73"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance_permission_set.html" title="Represents a PermissionSets permissions in an Instance" alt="" coords="5,5,236,32"/>
-<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="17,56,224,112"/>
+<area shape="rect" id="node1" title=" " alt="" coords="283,39,479,80"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_instance_permission_set.html" title="Represents a PermissionSets permissions in an Instance" alt="" coords="39,5,201,47"/>
+<area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="5,71,235,112"/>
 </map>

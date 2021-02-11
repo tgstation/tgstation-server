@@ -1,6 +1,7 @@
 <map id="Tgstation.Server.Host.Core.SwaggerConfiguration" name="Tgstation.Server.Host.Core.SwaggerConfiguration">
-<area shape="rect" id="node1" title="Implements various filters for Swashbuckle." alt="" coords="107,80,289,121"/>
+<area shape="rect" id="node1" title="Implements various filters for Swashbuckle." alt="" coords="174,80,355,121"/>
 <area shape="rect" id="node2" href="$class_i_operation_filter.html" title=" " alt="" coords="5,5,116,32"/>
 <area shape="rect" id="node3" href="$class_i_document_filter.html" title=" " alt="" coords="141,5,255,32"/>
 <area shape="rect" id="node4" href="$class_i_schema_filter.html" title=" " alt="" coords="280,5,383,32"/>
+<area shape="rect" id="node5" href="$class_i_request_body_filter.html" title=" " alt="" coords="407,5,539,32"/>
 </map>

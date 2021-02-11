@@ -1,0 +1,5 @@
+<map id="Tgstation.Server.Host.Controllers.UserController.TrySetPassword" name="Tgstation.Server.Host.Controllers.UserController.TrySetPassword">
+<area shape="rect" id="node1" title="Attempt to change the password of a given dbUser ." alt="" coords="269,39,485,80"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a85513fdc1bb19ed81b17d3ae98a2562f" title="Create a new User." alt="" coords="5,5,221,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#acca8d2bd8a4ca53dd51df098264dd642" title="Update a User." alt="" coords="5,71,221,112"/>
+</map>

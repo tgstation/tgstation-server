@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.9.2</span>
+   &#160;<span id="projectnumber">4.10.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -86,7 +86,7 @@ Inheritance diagram for Tgstation.Server.Host.Security.TokenFactory:</div>
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory__inherit__graph.png" border="0" usemap="#a_tgstation_8_server_8_host_8_security_8_token_factory_inherit__map" alt="Inheritance graph"/></div>
 <map name="a_tgstation_8_server_8_host_8_security_8_token_factory_inherit__map" id="a_tgstation_8_server_8_host_8_security_8_token_factory_inherit__map">
 <area shape="rect" title=" " alt="" coords="5,80,207,121"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html" title="For creating Tokens" alt="" coords="53,5,159,32"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html" title="For creating TokenResponses" alt="" coords="53,5,159,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -95,7 +95,7 @@ Collaboration diagram for Tgstation.Server.Host.Security.TokenFactory:</div>
 <div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory__coll__graph.png" border="0" usemap="#a_tgstation_8_server_8_host_8_security_8_token_factory_coll__map" alt="Collaboration graph"/></div>
 <map name="a_tgstation_8_server_8_host_8_security_8_token_factory_coll__map" id="a_tgstation_8_server_8_host_8_security_8_token_factory_coll__map">
 <area shape="rect" title=" " alt="" coords="747,57,948,98"/>
-<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html" title="For creating Tokens" alt="" coords="407,5,513,32"/>
+<area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html" title="For creating TokenResponses" alt="" coords="407,5,513,32"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html" title="For waiting asynchronously" alt="" coords="369,57,551,98"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html" title="Configuration options pertaining to user security" alt="" coords="345,122,575,163"/>
 <area shape="rect" title=" " alt="" coords="5,104,84,131"/>
@@ -108,9 +108,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3fd0782fa495e68c15cc28367fed9373"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a3fd0782fa495e68c15cc28367fed9373">TokenFactory</a> (<a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html">IAsyncDelayer</a> <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#ad5a557224dd5d8eac2a46dec133509fb">asyncDelayer</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html">ICryptographySuite</a> cryptographySuite, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_system_1_1_i_assembly_information_provider.html">IAssemblyInformationProvider</a> assemblyInformationProvider, IOptions&lt; <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html">SecurityConfiguration</a> &gt; securityConfigurationOptions)</td></tr>
 <tr class="memdesc:a3fd0782fa495e68c15cc28367fed9373"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html">TokenFactory</a>  <a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a3fd0782fa495e68c15cc28367fed9373">More...</a><br /></td></tr>
 <tr class="separator:a3fd0782fa495e68c15cc28367fed9373"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04aace83fd578c7af9cde9c4f8e612a7"><td class="memItemLeft" align="right" valign="top">async Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_token.html">Token</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a04aace83fd578c7af9cde9c4f8e612a7">CreateToken</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">Models.User</a> user, bool oAuth, CancellationToken cancellationToken)</td></tr>
-<tr class="memdesc:a04aace83fd578c7af9cde9c4f8e612a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a Token for a given <em>user</em>   <a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a04aace83fd578c7af9cde9c4f8e612a7">More...</a><br /></td></tr>
-<tr class="separator:a04aace83fd578c7af9cde9c4f8e612a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23bea366fe14f192169a408c6d6300dc"><td class="memItemLeft" align="right" valign="top">async Task&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html">TokenResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a23bea366fe14f192169a408c6d6300dc">CreateToken</a> (<a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">Models.User</a> user, bool oAuth, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a23bea366fe14f192169a408c6d6300dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a TokenResponse for a given <em>user</em>   <a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a23bea366fe14f192169a408c6d6300dc">More...</a><br /></td></tr>
+<tr class="separator:a23bea366fe14f192169a408c6d6300dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
@@ -118,7 +118,7 @@ Properties</h2></td></tr>
 <tr class="separator:a1fe6c5c282b5db5a2a61a5417e634ed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header properties_interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory"><td colspan="2" onclick="javascript:toggleInherit('properties_interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory')"><img src="closed.png" alt="-"/>&#160;Properties inherited from <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html">Tgstation.Server.Host.Security.ITokenFactory</a></td></tr>
 <tr class="memitem:a46e66985719064cffa8b569830a3712f inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory"><td class="memItemLeft" align="right" valign="top">TokenValidationParameters&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a46e66985719064cffa8b569830a3712f">ValidationParameters</a><code> [get]</code></td></tr>
-<tr class="memdesc:a46e66985719064cffa8b569830a3712f inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory"><td class="mdescLeft">&#160;</td><td class="mdescRight">The TokenValidationParameters for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html" title="For creating Tokens">ITokenFactory</a>  <a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a46e66985719064cffa8b569830a3712f">More...</a><br /></td></tr>
+<tr class="memdesc:a46e66985719064cffa8b569830a3712f inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory"><td class="mdescLeft">&#160;</td><td class="mdescRight">The TokenValidationParameters for the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html" title="For creating TokenResponses">ITokenFactory</a>  <a href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a46e66985719064cffa8b569830a3712f">More...</a><br /></td></tr>
 <tr class="separator:a46e66985719064cffa8b569830a3712f inherit properties_interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
@@ -208,7 +208,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                ValidateLifetime = <span class="keyword">true</span>,</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                ValidateAudience = <span class="keyword">true</span>,</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                ValidAudience = typeof(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_token.html">Token</a>).Assembly.GetName().Name,</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                ValidAudience = typeof(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html">TokenResponse</a>).Assembly.GetName().Name,</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                ClockSkew = TimeSpan.FromMinutes(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a7a3a2caa72cb52375ab691e09c1d6870">securityConfiguration</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html#a5d8659fa382c1c18188b3d869fb17b1f">TokenClockSkewMinutes</a>),</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
@@ -217,10 +217,10 @@ Private Attributes</h2></td></tr>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                RequireExpirationTime = <span class="keyword">true</span></div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            };</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_token_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_token.html">Tgstation.Server.Api.Models.Token</a></div><div class="ttdoc">Represents a JWT returned by the API</div><div class="ttdef"><b>Definition:</b> <a href="_token_8cs_source.html#l00008">Token.cs:9</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html">Tgstation.Server.Api.Models.Response.TokenResponse</a></div><div class="ttdoc">Represents a JWT returned by the API</div><div class="ttdef"><b>Definition:</b> <a href="_token_response_8cs_source.html#l00008">TokenResponse.cs:9</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration_html_a12d01d2e2c457d476ea7f6d2145b3218"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html#a12d01d2e2c457d476ea7f6d2145b3218">Tgstation.Server.Host.Configuration.SecurityConfiguration.CustomTokenSigningKeyBase64</a></div><div class="ttdeci">string CustomTokenSigningKeyBase64</div><div class="ttdoc">A custom token signing key. Overrides TokenSigningKeyByteCount.</div><div class="ttdef"><b>Definition:</b> <a href="_security_configuration_8cs_source.html#l00059">SecurityConfiguration.cs:59</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration_html_a24760533fd28fd555b428d626ab46f9a"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html#a24760533fd28fd555b428d626ab46f9a">Tgstation.Server.Host.Configuration.SecurityConfiguration.TokenSigningKeyByteCount</a></div><div class="ttdeci">uint TokenSigningKeyByteCount</div><div class="ttdoc">Amount of bytes to use in the Microsoft.IdentityModel.Tokens.TokenValidationParameters....</div><div class="ttdef"><b>Definition:</b> <a href="_security_configuration_8cs_source.html#l00049">SecurityConfiguration.cs:49</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration_html_a5d8659fa382c1c18188b3d869fb17b1f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html#a5d8659fa382c1c18188b3d869fb17b1f">Tgstation.Server.Host.Configuration.SecurityConfiguration.TokenClockSkewMinutes</a></div><div class="ttdeci">uint TokenClockSkewMinutes</div><div class="ttdoc">Amount of minutes to skew the clock for Token validation.</div><div class="ttdef"><b>Definition:</b> <a href="_security_configuration_8cs_source.html#l00044">SecurityConfiguration.cs:44</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration_html_a5d8659fa382c1c18188b3d869fb17b1f"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html#a5d8659fa382c1c18188b3d869fb17b1f">Tgstation.Server.Host.Configuration.SecurityConfiguration.TokenClockSkewMinutes</a></div><div class="ttdeci">uint TokenClockSkewMinutes</div><div class="ttdoc">Amount of minutes to skew the clock for Api.Models.Response.TokenResponse validation.</div><div class="ttdef"><b>Definition:</b> <a href="_security_configuration_8cs_source.html#l00044">SecurityConfiguration.cs:44</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory_html_a1fe6c5c282b5db5a2a61a5417e634ed8"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a1fe6c5c282b5db5a2a61a5417e634ed8">Tgstation.Server.Host.Security.TokenFactory.ValidationParameters</a></div><div class="ttdeci">TokenValidationParameters ValidationParameters</div><div class="ttdef"><b>Definition:</b> <a href="_token_factory_8cs_source.html#l00020">TokenFactory.cs:20</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory_html_a7a3a2caa72cb52375ab691e09c1d6870"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a7a3a2caa72cb52375ab691e09c1d6870">Tgstation.Server.Host.Security.TokenFactory.securityConfiguration</a></div><div class="ttdeci">readonly SecurityConfiguration securityConfiguration</div><div class="ttdoc">The SecurityConfiguration for the TokenFactory.</div><div class="ttdef"><b>Definition:</b> <a href="_token_factory_8cs_source.html#l00025">TokenFactory.cs:25</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory_html_ad5a557224dd5d8eac2a46dec133509fb"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#ad5a557224dd5d8eac2a46dec133509fb">Tgstation.Server.Host.Security.TokenFactory.asyncDelayer</a></div><div class="ttdeci">readonly IAsyncDelayer asyncDelayer</div><div class="ttdoc">The IAsyncDelayer for the TokenFactory</div><div class="ttdef"><b>Definition:</b> <a href="_token_factory_8cs_source.html#l00030">TokenFactory.cs:30</a></div></div>
@@ -240,14 +240,14 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a04aace83fd578c7af9cde9c4f8e612a7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a04aace83fd578c7af9cde9c4f8e612a7">&#9670;&nbsp;</a></span>CreateToken()</h2>
+<a id="a23bea366fe14f192169a408c6d6300dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23bea366fe14f192169a408c6d6300dc">&#9670;&nbsp;</a></span>CreateToken()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">async Task&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_token.html">Token</a>&gt; Tgstation.Server.Host.Security.TokenFactory.CreateToken </td>
+          <td class="memname">async Task&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html">TokenResponse</a>&gt; Tgstation.Server.Host.Security.TokenFactory.CreateToken </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html">Models.User</a>&#160;</td>
           <td class="paramname"><em>user</em>, </td>
@@ -272,9 +272,9 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Create a Token for a given <em>user</em>  </p>
+<p>Create a TokenResponse for a given <em>user</em>  </p>
 
-<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#a302f1b475beac6ffc70101466245e4db">Tgstation.Server.Host.Security.ITokenFactory</a>.</p>
+<p>Implements <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_token_factory.html#ae23aad7baeae3ea7c4d37e6974cfe135">Tgstation.Server.Host.Security.ITokenFactory</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="_token_factory_8cs_source.html#l00079">79</a> of file <a class="el" href="_token_factory_8cs_source.html">TokenFactory.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        {</div>
@@ -306,23 +306,23 @@ Here is the call graph for this function:</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            };</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            var token = <span class="keyword">new</span> JwtSecurityToken(<span class="keyword">new</span> JwtHeader(<span class="keyword">new</span> SigningCredentials(<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory.html#a1fe6c5c282b5db5a2a61a5417e634ed8">ValidationParameters</a>.IssuerSigningKey, SecurityAlgorithms.HmacSha256)), <span class="keyword">new</span> JwtPayload(claims));</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_token.html">Token</a></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_token_response.html">TokenResponse</a></div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            {</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                Bearer = <span class="keyword">new</span> JwtSecurityTokenHandler().WriteToken(token),</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                ExpiresAt = expiry</div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            };</div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        }</div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration_html_a750d322eb80cbcdd1b2827edb19237a9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html#a750d322eb80cbcdd1b2827edb19237a9">Tgstation.Server.Host.Configuration.SecurityConfiguration.OAuthTokenExpiryMinutes</a></div><div class="ttdeci">uint OAuthTokenExpiryMinutes</div><div class="ttdoc">Amount of minutes until Tokens generated from OAuth logins expire.</div><div class="ttdef"><b>Definition:</b> <a href="_security_configuration_8cs_source.html#l00054">SecurityConfiguration.cs:54</a></div></div>
-<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration_html_aee22270ec4a1917739c2f99d9a5a6efd"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html#aee22270ec4a1917739c2f99d9a5a6efd">Tgstation.Server.Host.Configuration.SecurityConfiguration.TokenExpiryMinutes</a></div><div class="ttdeci">uint TokenExpiryMinutes</div><div class="ttdoc">Amount of minutes until Tokens generated from passwords expire.</div><div class="ttdef"><b>Definition:</b> <a href="_security_configuration_8cs_source.html#l00039">SecurityConfiguration.cs:39</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration_html_a750d322eb80cbcdd1b2827edb19237a9"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html#a750d322eb80cbcdd1b2827edb19237a9">Tgstation.Server.Host.Configuration.SecurityConfiguration.OAuthTokenExpiryMinutes</a></div><div class="ttdeci">uint OAuthTokenExpiryMinutes</div><div class="ttdoc">Amount of minutes until Api.Models.Response.TokenResponses generated from OAuth logins expire.</div><div class="ttdef"><b>Definition:</b> <a href="_security_configuration_8cs_source.html#l00054">SecurityConfiguration.cs:54</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration_html_aee22270ec4a1917739c2f99d9a5a6efd"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_security_configuration.html#aee22270ec4a1917739c2f99d9a5a6efd">Tgstation.Server.Host.Configuration.SecurityConfiguration.TokenExpiryMinutes</a></div><div class="ttdeci">uint TokenExpiryMinutes</div><div class="ttdoc">Amount of minutes until Api.Models.Response.TokenResponses generated from passwords expire.</div><div class="ttdef"><b>Definition:</b> <a href="_security_configuration_8cs_source.html#l00039">SecurityConfiguration.cs:39</a></div></div>
 <div class="ttc" id="ainterface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer_html_afab931ac159bc999fee1e7eda917c7d6"><div class="ttname"><a href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html#afab931ac159bc999fee1e7eda917c7d6">Tgstation.Server.Host.Core.IAsyncDelayer.Delay</a></div><div class="ttdeci">Task Delay(TimeSpan timeSpan, CancellationToken cancellationToken)</div><div class="ttdoc">Create a Task that completes after a given timeSpan</div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_token_factory_8cs_source.html#l00030">Tgstation.Server.Host.Security.TokenFactory.asyncDelayer</a>, <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html#afab931ac159bc999fee1e7eda917c7d6">Tgstation.Server.Host.Core.IAsyncDelayer.Delay()</a>, <a class="el" href="_security_configuration_8cs_source.html#l00054">Tgstation.Server.Host.Configuration.SecurityConfiguration.OAuthTokenExpiryMinutes</a>, <a class="el" href="_token_factory_8cs_source.html#l00025">Tgstation.Server.Host.Security.TokenFactory.securityConfiguration</a>, <a class="el" href="_security_configuration_8cs_source.html#l00039">Tgstation.Server.Host.Configuration.SecurityConfiguration.TokenExpiryMinutes</a>, and <a class="el" href="_token_factory_8cs_source.html#l00020">Tgstation.Server.Host.Security.TokenFactory.ValidationParameters</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory_a04aace83fd578c7af9cde9c4f8e612a7_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory_a04aace83fd578c7af9cde9c4f8e612a7_cgraph" alt=""/></div>
-<map name="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory_a04aace83fd578c7af9cde9c4f8e612a7_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory_a04aace83fd578c7af9cde9c4f8e612a7_cgraph">
-<area shape="rect" title="Create a Token for a given user" alt="" coords="5,5,207,47"/>
+<div class="center"><img src="class_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory_a23bea366fe14f192169a408c6d6300dc_cgraph.png" border="0" usemap="#aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory_a23bea366fe14f192169a408c6d6300dc_cgraph" alt=""/></div>
+<map name="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory_a23bea366fe14f192169a408c6d6300dc_cgraph" id="aclass_tgstation_1_1_server_1_1_host_1_1_security_1_1_token_factory_a23bea366fe14f192169a408c6d6300dc_cgraph">
+<area shape="rect" title="Create a TokenResponse for a given user" alt="" coords="5,5,207,47"/>
 <area shape="rect" href="interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_async_delayer.html#afab931ac159bc999fee1e7eda917c7d6" title="Create a Task that completes after a given timeSpan" alt="" coords="255,5,436,47"/>
 </map>
 </div>

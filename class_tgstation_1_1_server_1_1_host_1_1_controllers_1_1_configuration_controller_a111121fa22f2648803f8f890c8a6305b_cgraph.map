@@ -1,9 +1,0 @@
-<map id="Tgstation.Server.Host.Controllers.ConfigurationController.Create" name="Tgstation.Server.Host.Controllers.ConfigurationController.Create">
-<area shape="rect" id="node1" title="Create a configuration directory." alt="" coords="5,113,221,155"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae0fcee33c7b7341bc3bf0c0e66e1ebf4" title="Generic 201 response with a given payload ." alt="" coords="298,5,514,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_configuration_controller.html#a3478628e5a443b65c9ffb565d4da2cde" title="If a ForbidResult should be returned from actions due to conflicts with one or both of the Api...." alt="" coords="291,70,521,126"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a22bf49e8a9635f804b5cdcb6632ddc34" title="Generic 501 response." alt="" coords="272,149,540,191"/>
-<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller.html#ab20aad6535d46cb0f297e9a1b88d6e74" title="Run a given action &#160;with the relevant IInstance." alt="" coords="269,214,543,270"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html#af05931d02f5f5d95b87a56c0cc60d855" title="Check if a path &#160;contains the &#39;..&#39; parent directory accessor" alt="" coords="593,77,847,119"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#ae9607bccaf0751fd40d3ec32ce514c9f" title="Get the IInstanceReference associated with given metadata" alt="" coords="591,221,849,263"/>
-</map>

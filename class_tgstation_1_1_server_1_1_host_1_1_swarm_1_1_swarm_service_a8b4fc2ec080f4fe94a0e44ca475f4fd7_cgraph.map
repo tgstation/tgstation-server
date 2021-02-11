@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Swarm.SwarmService.HealthCheckNodes" name="Tgstation.Server.Host.Swarm.SwarmService.HealthCheckNodes">
 <area shape="rect" id="node1" title="Ping each node to see that they are still running." alt="" coords="5,64,228,105"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ac4194e4d0fb3cad95550e55859228529" title="Set serversDirty and complete the current forceHealthCheckTcs." alt="" coords="295,5,506,47"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a80458cc7264493ea2e7888addb55cf59" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="573,100,817,141"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ae4531bb61c058041400513c71f0764e9" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="573,100,817,141"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a83c9d1f94839af4dffa28563744d5c19" title="Sends the controllers list of nodes to all nodes." alt="" coords="276,122,525,178"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#afd69b7671a16d3081393af03b3a52cb5" title="Complete the current forceHealthCheckTcs." alt="" coords="583,5,808,47"/>
 </map>

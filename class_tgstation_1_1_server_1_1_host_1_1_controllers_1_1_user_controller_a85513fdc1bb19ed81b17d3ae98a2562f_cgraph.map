@@ -1,0 +1,13 @@
+<map id="Tgstation.Server.Host.Controllers.UserController.Create" name="Tgstation.Server.Host.Controllers.UserController.Create">
+<area shape="rect" id="node1" title="Create a new User." alt="" coords="5,244,221,285"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a1be8dfd4ad44aa5fc988070a5fa00a25" title="Check if a given model &#160;has a valid UserName.Name specified." alt="" coords="295,5,511,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae0fcee33c7b7341bc3bf0c0e66e1ebf4" title="Generic 201 response with a given payload ." alt="" coords="295,71,511,112"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#afcf4262d1bf95c50d0d7088194eefd0a" title="Creates a new User from a given model ." alt="" coords="270,136,537,177"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_system_identity_factory.html#adaf274d215700bf692b1c3964ff32103" title="Create a ISystemIdentity for a given user" alt="" coords="283,201,523,257"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a30f0e4c93d7b119d4bf7aadefc1e5b8f" title="Generic 410 response." alt="" coords="295,280,511,321"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#a22bf49e8a9635f804b5cdcb6632ddc34" title="Generic 501 response." alt="" coords="269,345,537,387"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext" alt="" coords="299,411,508,452"/>
+<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#af74e4aca7294abf93c69819b259a4412" title="Attempt to change the password of a given dbUser ." alt="" coords="295,476,511,517"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#ab4b99beb9870afa45b971c843297d690" title="List all Users in the server." alt="" coords="597,136,813,177"/>
+<area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_security_1_1_i_cryptography_suite.html#aeab60aa0a0ee2cb5e2ad5dbde1983430" title="Sets a User.PasswordHash for a given user" alt="" coords="585,476,825,517"/>
+</map>

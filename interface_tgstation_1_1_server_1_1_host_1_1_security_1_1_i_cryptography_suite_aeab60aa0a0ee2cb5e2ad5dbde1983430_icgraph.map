@@ -2,11 +2,11 @@
 <area shape="rect" id="node1" title="Sets a User.PasswordHash for a given user" alt="" coords="1089,95,1329,136"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#af844d41153f8a43c071bb6ec67445a1b" title="Changes the admin password in IDatabaseContext back to it&#39;s default, enables the account,..." alt="" coords="263,5,513,47"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a58329cfe5297b2569da770f7c05e1fbf" title="Add a default admin User to a given databaseContext" alt="" coords="825,95,1041,136"/>
-<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#ac2c00169e075062d4e1f040ed0c3b5b0" title="Attempt to change the password of a given dbUser ." alt="" coords="825,185,1041,227"/>
+<area shape="rect" id="node8" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#af74e4aca7294abf93c69819b259a4412" title="Attempt to change the password of a given dbUser ." alt="" coords="825,185,1041,227"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a453f07e4addb58e08b4ce0ddfb84e357" title="Setup up a given databaseContext ." alt="" coords="5,71,215,112"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a1eed27ad5d706f6f3f4c691704205f67" title="Get or create the admin User." alt="" coords="565,68,774,109"/>
 <area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a09fc7208df756283dd6b475cfe013151" title="Initially seed a given databaseContext" alt="" coords="283,136,493,177"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_seeder.html#a1ed443f053ba4e1098f0e4099d23b774" title="Correct invalid database data caused by previous versions (NOT user fuckery)." alt="" coords="277,71,499,112"/>
-<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a99457477cad4b6adcedbba47d939f005" title="Create a new Api.Models.User." alt="" coords="561,185,777,227"/>
-<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a7f795d4042188f30317c6134b75afc70" title="Update a Api.Models.User." alt="" coords="561,251,777,292"/>
+<area shape="rect" id="node9" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#a85513fdc1bb19ed81b17d3ae98a2562f" title="Create a new User." alt="" coords="561,185,777,227"/>
+<area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_user_controller.html#acca8d2bd8a4ca53dd51df098264dd642" title="Update a User." alt="" coords="561,251,777,292"/>
 </map>

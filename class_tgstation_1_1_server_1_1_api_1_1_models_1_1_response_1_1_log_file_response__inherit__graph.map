@@ -1,0 +1,4 @@
+<map id="Tgstation.Server.Api.Models.Response.LogFileResponse" name="Tgstation.Server.Api.Models.Response.LogFileResponse">
+<area shape="rect" id="node1" title="Represents a server log file." alt="" coords="5,80,192,121"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html" title="Response for when file transfers are necessary." alt="" coords="30,5,167,32"/>
+</map>

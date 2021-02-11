@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Controllers.ChatController.List" name="Tgstation.Server.Host.Controllers.ChatController.List">
-<area shape="rect" id="node1" title="List Api.Models.ChatBots." alt="" coords="269,5,485,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a38a75a3f14b37983b1e5a76f2186e0ad" title="Create a new chat bot model ." alt="" coords="5,5,221,47"/>
+<area shape="rect" id="node1" title="List ChatBots." alt="" coords="269,5,485,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_chat_controller.html#a45b987a90e54fd4d8ef831986fa3ebf7" title="Create a new chat bot model ." alt="" coords="5,5,221,47"/>
 </map>

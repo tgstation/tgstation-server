@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Core.IPortAllocator.GetAvailablePort" name="Tgstation.Server.Host.Core.IPortAllocator.GetAvailablePort">
 <area shape="rect" id="node1" title="Gets a port not currently in use by TGS." alt="" coords="312,71,515,112"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a11509f1af2b938d2bbc26a43eed6e09d" title=" " alt="" coords="5,5,264,47"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#ae9ce00c8ac0758a4c2328eae7d7ef2eb" title="Update watchdog settings to be applied at next server reboot." alt="" coords="27,71,243,112"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html#a6ec0755f8794e6323ba59634c76bd498" title="Update deployment settings." alt="" coords="27,136,243,177"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_controller.html#a14afbffdf445ad02aca699a0591f0857" title="Creates a default Models.Instance from initialSettings ." alt="" coords="5,5,264,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_daemon_controller.html#a809667c18f7faa2a0503ad5833e71504" title="Update watchdog settings to be applied at next server reboot." alt="" coords="27,71,243,112"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_dream_maker_controller.html#a59ddc99662ea77621c8b88df06102241" title="Update deployment settings." alt="" coords="27,136,243,177"/>
 </map>

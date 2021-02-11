@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Transfer.IFileTransferTicketProvider.CreateUpload" name="Tgstation.Server.Host.Transfer.IFileTransferTicketProvider.CreateUpload">
 <area shape="rect" id="node1" title="Create a IFileUploadTicket." alt="" coords="269,5,531,47"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_byond_controller.html#ad84ccddae9c935bc645b048f8ea46d7f" title="Changes the active BYOND version to the one specified in a given model ." alt="" coords="5,5,221,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_byond_controller.html#a9ced064d3f387082f54b81327226c3b7" title="Changes the active BYOND version to the one specified in a given model ." alt="" coords="5,5,221,47"/>
 </map>

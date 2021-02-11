@@ -1,0 +1,6 @@
+<map id="Tgstation.Server.Api.Models.Request.InstanceCreateRequest" name="Tgstation.Server.Api.Models.Request.InstanceCreateRequest">
+<area shape="rect" id="node1" title="A request to create an Instance." alt="" coords="5,229,215,271"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance" alt="" coords="74,155,146,181"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="62,80,158,107"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="77,5,143,32"/>
+</map>

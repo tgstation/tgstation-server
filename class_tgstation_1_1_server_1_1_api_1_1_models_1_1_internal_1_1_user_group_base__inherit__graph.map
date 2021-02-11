@@ -1,7 +1,0 @@
-<map id="Tgstation.Server.Api.Models.Internal.UserGroupBase" name="Tgstation.Server.Api.Models.Internal.UserGroupBase">
-<area shape="rect" id="node1" title="Base class for UserGroup." alt="" coords="119,39,305,80"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_user_group.html" title="Represents a group of Models.Users." alt="" coords="358,5,545,47"/>
-<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user_group.html" title=" " alt="" coords="353,71,549,112"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of Instances, CompileJobs, and Jobs." alt="" coords="5,46,71,73"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_user_group.html" title=" " alt="" coords="597,5,784,47"/>
-</map>

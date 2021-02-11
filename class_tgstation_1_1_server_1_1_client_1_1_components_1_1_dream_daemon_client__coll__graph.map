@@ -1,8 +1,9 @@
 <map id="Tgstation.Server.Client.Components.DreamDaemonClient" name="Tgstation.Server.Client.Components.DreamDaemonClient">
-<area shape="rect" id="node1" title=" " alt="" coords="433,57,651,98"/>
-<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_dream_daemon_client.html" title="For managing DreamDaemon" alt="" coords="166,5,311,32"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance" alt="" coords="145,57,332,98"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of Instances, CompileJobs, and Jobs." alt="" coords="18,64,83,91"/>
-<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API" alt="" coords="161,122,317,163"/>
-<area shape="rect" id="node6" href="$class_i_disposable.html" title=" " alt="" coords="5,129,96,156"/>
+<area shape="rect" id="node1" title=" " alt="" coords="553,57,771,98"/>
+<area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_client_1_1_components_1_1_i_dream_daemon_client.html" title="For managing DreamDaemonResponse" alt="" coords="286,5,431,32"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance" alt="" coords="265,57,452,98"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="120,64,216,91"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="5,64,71,91"/>
+<area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_client_1_1_i_api_client.html" title="Web interface for the API" alt="" coords="281,122,437,163"/>
+<area shape="rect" id="node7" href="$class_i_disposable.html" title=" " alt="" coords="123,129,213,156"/>
 </map>

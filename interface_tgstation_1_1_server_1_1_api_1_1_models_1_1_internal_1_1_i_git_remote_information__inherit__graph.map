@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Api.Models.Internal.IGitRemoteInformation" name="Tgstation.Server.Api.Models.Internal.IGitRemoteInformation">
 <area shape="rect" id="node1" title="Provides information about remote providers." alt="" coords="5,72,204,113"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_repository.html" title="Represents a git repository" alt="" coords="296,39,483,80"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_repository_response.html" title="Represents a git repository" alt="" coords="288,39,491,80"/>
 <area shape="rect" id="node3" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_additional_information.html" title="Additional information from git remotes." alt="" coords="252,104,527,145"/>
 <area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_git_remote_features.html" title="Provides features for remote git services" alt="" coords="575,71,801,112"/>
 <area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_i_repository.html" title="Represents an on&#45;disk git repository" alt="" coords="575,136,801,177"/>

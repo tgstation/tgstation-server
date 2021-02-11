@@ -1,4 +1,4 @@
 <map id="Tgstation.Server.Host.Database.Migrations.MSAddChatBotReconnectionInterval" name="Tgstation.Server.Host.Database.Migrations.MSAddChatBotReconnectionInterval">
-<area shape="rect" id="node1" title="Adds the Api.Models.Internal.ChatBot.ReconnectionInterval property for MSSQL." alt="" coords="5,80,260,136"/>
+<area shape="rect" id="node1" title="Adds the Api.Models.Internal.ChatBotSettings.ReconnectionInterval property for MSSQL." alt="" coords="5,80,260,136"/>
 <area shape="rect" id="node2" href="$class_migration.html" title=" " alt="" coords="95,5,170,32"/>
 </map>

@@ -1,6 +1,6 @@
 <map id="Tgstation.Server.Host.Controllers.RepositoryController.LoadRevisionInformation" name="Tgstation.Server.Host.Controllers.RepositoryController.LoadRevisionInformation">
 <area shape="rect" id="node1" title=" " alt="" coords="533,41,819,83"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a169541f29e0361eaba0bf8ba85624f10" title=" " alt="" coords="269,12,485,53"/>
-<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a20510f6dd61837e191a7a2c1a5c1c9ce" title="Perform updats to the Repository." alt="" coords="5,71,221,112"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a0263b7f7bef9a5b23cdc52c3735af3c5" title="Get Repository status." alt="" coords="5,5,221,47"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a10a3c9e498598393d47e96289ffd7636" title=" " alt="" coords="269,12,485,53"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a90e06dae8a7ff15a906c485abd7baa5d" title="Perform updates to the repository." alt="" coords="5,71,221,112"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_repository_controller.html#a0263b7f7bef9a5b23cdc52c3735af3c5" title="Get the repository&#39;s status." alt="" coords="5,5,221,47"/>
 </map>

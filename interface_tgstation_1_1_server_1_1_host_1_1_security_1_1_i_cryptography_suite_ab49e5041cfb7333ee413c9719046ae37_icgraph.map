@@ -1,8 +1,8 @@
 <map id="Tgstation.Server.Host.Security.ICryptographySuite.GetSecureString" name="Tgstation.Server.Host.Security.ICryptographySuite.GetSecureString">
 <area shape="rect" id="node1" title="Generates a 40&#45;length secure ascii string" alt="" coords="649,104,880,145"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#ad13869c80381ea9715381700c2dc187b" title="Creates a new FileTicketResult." alt="" coords="350,71,562,112"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#a87e03bae08e8188b59d773dcd1999cde" title="Creates a new FileTicketResponse." alt="" coords="350,71,562,112"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_session_1_1_session_controller_factory.html#a2e3fbaee5882bbf0cae1b195808aa2d8" title="Create a ISessionController from a freshly launch DreamDaemon instance" alt="" coords="311,136,601,177"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#a482663fdff79cb5bf378b1bb7ff0f97c" title="Create a FileTicketResult for a download." alt="" coords="17,5,251,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#ad8baa2421efb63c1528f9614352739c3" title="Create a FileTicketResponse for a download." alt="" coords="17,5,251,47"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_transfer_service.html#a1d9409881589d4f6c6069e49abced217" title="Create a IFileUploadTicket." alt="" coords="25,71,243,112"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_watchdog_1_1_basic_watchdog.html#a33718a8a97983fa9fb12c0d27bec8732" title="Starts all ISessionControllers." alt="" coords="5,136,263,177"/>
 </map>

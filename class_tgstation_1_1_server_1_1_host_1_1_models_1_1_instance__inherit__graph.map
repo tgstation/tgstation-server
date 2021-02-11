@@ -1,6 +1,7 @@
 <map id="Tgstation.Server.Host.Models.Instance" name="Tgstation.Server.Host.Models.Instance">
-<area shape="rect" id="node1" title="Represents an Api.Models.Instance in the database" alt="" coords="67,169,263,211"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance" alt="" coords="5,87,151,114"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of Instances, CompileJobs, and Jobs." alt="" coords="45,5,111,32"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="175,80,328,121"/>
+<area shape="rect" id="node1" title="Represents an Api.Models.Instance in the database." alt="" coords="64,244,260,285"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_instance.html" title="Metadata about a server instance" alt="" coords="5,162,151,189"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_named_entity.html" title="Base class for named entities." alt="" coords="30,80,126,107"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_entity_id.html" title="Common base of entities with IDs." alt="" coords="45,5,111,32"/>
+<area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="175,155,319,196"/>
 </map>

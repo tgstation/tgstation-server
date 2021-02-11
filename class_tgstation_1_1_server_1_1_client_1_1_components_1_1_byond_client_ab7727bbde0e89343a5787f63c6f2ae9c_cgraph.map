@@ -1,4 +1,0 @@
-<map id="Tgstation.Server.Client.Components.ByondClient.SetActiveVersion" name="Tgstation.Server.Client.Components.ByondClient.SetActiveVersion">
-<area shape="rect" id="node1" title="Updates the Byond information" alt="" coords="5,5,232,61"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_client_1_1_api_client.html#ab5679a856fe42d66d3abb7cba5214a47" title="Uploads a given uploadStream &#160;for a given ticket ." alt="" coords="280,13,436,54"/>
-</map>

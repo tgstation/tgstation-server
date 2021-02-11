@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.9.2</span>
+   &#160;<span id="projectnumber">4.10.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -77,14 +77,14 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>A FileTicketResult that waits for a pending upload.  
+<p>A FileTicketResponse that waits for a pending upload.  
  <a href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html#details">More...</a></p>
 <div class="dynheader">
 Inheritance diagram for Tgstation.Server.Host.Transfer.IFileUploadTicket:</div>
 <div class="dyncontent">
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket__inherit__graph.png" border="0" usemap="#a_tgstation_8_server_8_host_8_transfer_8_i_file_upload_ticket_inherit__map" alt="Inheritance graph"/></div>
 <map name="a_tgstation_8_server_8_host_8_transfer_8_i_file_upload_ticket_inherit__map" id="a_tgstation_8_server_8_host_8_transfer_8_i_file_upload_ticket_inherit__map">
-<area shape="rect" title="A FileTicketResult that waits for a pending upload." alt="" coords="5,80,208,121"/>
+<area shape="rect" title="A FileTicketResponse that waits for a pending upload." alt="" coords="5,80,208,121"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html" title=" " alt="" coords="5,169,208,211"/>
 <area shape="rect" href="class_i_disposable.html" title=" " alt="" coords="61,5,152,32"/>
 </map>
@@ -94,7 +94,7 @@ Collaboration diagram for Tgstation.Server.Host.Transfer.IFileUploadTicket:</div
 <div class="dyncontent">
 <div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket__coll__graph.png" border="0" usemap="#a_tgstation_8_server_8_host_8_transfer_8_i_file_upload_ticket_coll__map" alt="Collaboration graph"/></div>
 <map name="a_tgstation_8_server_8_host_8_transfer_8_i_file_upload_ticket_coll__map" id="a_tgstation_8_server_8_host_8_transfer_8_i_file_upload_ticket_coll__map">
-<area shape="rect" title="A FileTicketResult that waits for a pending upload." alt="" coords="5,80,208,121"/>
+<area shape="rect" title="A FileTicketResponse that waits for a pending upload." alt="" coords="5,80,208,121"/>
 <area shape="rect" href="class_i_disposable.html" title=" " alt="" coords="61,5,152,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
@@ -104,18 +104,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8ceed5a5adc10ac8ecbaeb8bf17711fb"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="class_stream.html">Stream</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html#a8ceed5a5adc10ac8ecbaeb8bf17711fb">GetResult</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a8ceed5a5adc10ac8ecbaeb8bf17711fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the <a class="el" href="class_stream.html">Stream</a> for the uploaded file.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html#a8ceed5a5adc10ac8ecbaeb8bf17711fb">More...</a><br /></td></tr>
 <tr class="separator:a8ceed5a5adc10ac8ecbaeb8bf17711fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60e3aee361ed239f07e5e450c5767ee8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html#a60e3aee361ed239f07e5e450c5767ee8">SetErrorMessage</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_error_message.html">ErrorMessage</a> errorMessage)</td></tr>
-<tr class="memdesc:a60e3aee361ed239f07e5e450c5767ee8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets an <em>errorMessage</em>  for the upload. Will be returned in upload request as a 409 error.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html#a60e3aee361ed239f07e5e450c5767ee8">More...</a><br /></td></tr>
-<tr class="separator:a60e3aee361ed239f07e5e450c5767ee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f0ab9e889e2bb9f7fe205c0999cc17c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html#a7f0ab9e889e2bb9f7fe205c0999cc17c">SetErrorMessage</a> (<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a> errorMessage)</td></tr>
+<tr class="memdesc:a7f0ab9e889e2bb9f7fe205c0999cc17c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets an <em>errorMessage</em>  for the upload. Will be returned in upload request as a 409 error.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html#a7f0ab9e889e2bb9f7fe205c0999cc17c">More...</a><br /></td></tr>
+<tr class="separator:a7f0ab9e889e2bb9f7fe205c0999cc17c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
-<tr class="memitem:ac38b31956a479c5efe22500b8b533495"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_file_ticket_result.html">FileTicketResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html#ac38b31956a479c5efe22500b8b533495">Ticket</a><code> [get]</code></td></tr>
-<tr class="memdesc:ac38b31956a479c5efe22500b8b533495"><td class="mdescLeft">&#160;</td><td class="mdescRight">The FileTicketResult.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html#ac38b31956a479c5efe22500b8b533495">More...</a><br /></td></tr>
-<tr class="separator:ac38b31956a479c5efe22500b8b533495"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9280f7e40585c53c6dae9ac62671014a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html">FileTicketResponse</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html#a9280f7e40585c53c6dae9ac62671014a">Ticket</a><code> [get]</code></td></tr>
+<tr class="memdesc:a9280f7e40585c53c6dae9ac62671014a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The FileTicketResponse.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html#a9280f7e40585c53c6dae9ac62671014a">More...</a><br /></td></tr>
+<tr class="separator:a9280f7e40585c53c6dae9ac62671014a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A FileTicketResult that waits for a pending upload. </p>
+<div class="textblock"><p>A FileTicketResponse that waits for a pending upload. </p>
 
 <p class="definition">Definition at line <a class="el" href="_i_file_upload_ticket_8cs_source.html#l00012">12</a> of file <a class="el" href="_i_file_upload_ticket_8cs_source.html">IFileUploadTicket.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
@@ -143,14 +143,14 @@ Properties</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Task&lt;TResult&gt; resulting in the uploaded <a class="el" href="class_stream.html">Stream</a> of the file on success, <code>null</code> if the ticket timed out.</dd></dl>
-<p>The resulting <a class="el" href="class_stream.html">Stream</a> is short lived and should be buffered if it needs use outside the lifetime of the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html" title="A FileTicketResult that waits for a pending upload.">IFileUploadTicket</a>.</p>
+<p>The resulting <a class="el" href="class_stream.html">Stream</a> is short lived and should be buffered if it needs use outside the lifetime of the <a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_i_file_upload_ticket.html" title="A FileTicketResponse that waits for a pending upload.">IFileUploadTicket</a>.</p>
 
 <p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#aa0e9b1e8cc4f443b8c7be5e86e9b8ff3">Tgstation.Server.Host.Transfer.FileUploadProvider</a>.</p>
 
 </div>
 </div>
-<a id="a60e3aee361ed239f07e5e450c5767ee8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a60e3aee361ed239f07e5e450c5767ee8">&#9670;&nbsp;</a></span>SetErrorMessage()</h2>
+<a id="a7f0ab9e889e2bb9f7fe205c0999cc17c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f0ab9e889e2bb9f7fe205c0999cc17c">&#9670;&nbsp;</a></span>SetErrorMessage()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -158,7 +158,7 @@ Properties</h2></td></tr>
         <tr>
           <td class="memname">void Tgstation.Server.Host.Transfer.IFileUploadTicket.SetErrorMessage </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_error_message.html">ErrorMessage</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_error_message_response.html">ErrorMessageResponse</a>&#160;</td>
           <td class="paramname"><em>errorMessage</em></td><td>)</td>
           <td></td>
         </tr>
@@ -168,18 +168,18 @@ Properties</h2></td></tr>
 <p>Sets an <em>errorMessage</em>  for the upload. Will be returned in upload request as a 409 error. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">errorMessage</td><td>The ErrorMessage to set.</td></tr>
+    <tr><td class="paramname">errorMessage</td><td>The ErrorMessageResponse to set.</td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#ad222f1ec1722c55732e799db6c4f2871">Tgstation.Server.Host.Transfer.FileUploadProvider</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_transfer_1_1_file_upload_provider.html#acb8bc974ef8f0e36c12bfddca8cd7c8c">Tgstation.Server.Host.Transfer.FileUploadProvider</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Property Documentation</h2>
-<a id="ac38b31956a479c5efe22500b8b533495"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac38b31956a479c5efe22500b8b533495">&#9670;&nbsp;</a></span>Ticket</h2>
+<a id="a9280f7e40585c53c6dae9ac62671014a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9280f7e40585c53c6dae9ac62671014a">&#9670;&nbsp;</a></span>Ticket</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -188,7 +188,7 @@ Properties</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_file_ticket_result.html">FileTicketResult</a> Tgstation.Server.Host.Transfer.IFileUploadTicket.Ticket</td>
+          <td class="memname"><a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_file_ticket_response.html">FileTicketResponse</a> Tgstation.Server.Host.Transfer.IFileUploadTicket.Ticket</td>
         </tr>
       </table>
   </td>
@@ -198,7 +198,7 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>The FileTicketResult. </p>
+<p>The FileTicketResponse. </p>
 
 <p class="definition">Definition at line <a class="el" href="_i_file_upload_ticket_8cs_source.html#l00017">17</a> of file <a class="el" href="_i_file_upload_ticket_8cs_source.html">IFileUploadTicket.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;{ <span class="keyword">get</span>; }</div>

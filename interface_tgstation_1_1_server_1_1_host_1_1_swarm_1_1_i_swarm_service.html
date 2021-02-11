@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.9.2</span>
+   &#160;<span id="projectnumber">4.10.0</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -102,9 +102,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a062fc6ff8b4d61b3a21bc19e66989fd8"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a062fc6ff8b4d61b3a21bc19e66989fd8">CommitUpdate</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a062fc6ff8b4d61b3a21bc19e66989fd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signal to the swarm that an update is ready to be applied.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a062fc6ff8b4d61b3a21bc19e66989fd8">More...</a><br /></td></tr>
 <tr class="separator:a062fc6ff8b4d61b3a21bc19e66989fd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99024c41f4093c1d37683d12e8e70841"><td class="memItemLeft" align="right" valign="top">ICollection&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_swarm_server.html">SwarmServer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a99024c41f4093c1d37683d12e8e70841">GetSwarmServers</a> ()</td></tr>
-<tr class="memdesc:a99024c41f4093c1d37683d12e8e70841"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the list of SwarmServers in the swarm, including the current one.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a99024c41f4093c1d37683d12e8e70841">More...</a><br /></td></tr>
-<tr class="separator:a99024c41f4093c1d37683d12e8e70841"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a891845660d274caca11fb5f8ecc0cf34"><td class="memItemLeft" align="right" valign="top">ICollection&lt; <a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_swarm_server_response.html">SwarmServerResponse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a891845660d274caca11fb5f8ecc0cf34">GetSwarmServers</a> ()</td></tr>
+<tr class="memdesc:a891845660d274caca11fb5f8ecc0cf34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the list of SwarmServerResponses in the swarm, including the current one.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a891845660d274caca11fb5f8ecc0cf34">More...</a><br /></td></tr>
+<tr class="separator:a891845660d274caca11fb5f8ecc0cf34"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8612bfef4d2f9c7180fc7498f7d33985"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a8612bfef4d2f9c7180fc7498f7d33985">AbortUpdate</a> (CancellationToken cancellationToken)</td></tr>
 <tr class="memdesc:a8612bfef4d2f9c7180fc7498f7d33985"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abort an uncommitted update.  <a href="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service.html#a8612bfef4d2f9c7180fc7498f7d33985">More...</a><br /></td></tr>
 <tr class="separator:a8612bfef4d2f9c7180fc7498f7d33985"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -194,14 +194,14 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a99024c41f4093c1d37683d12e8e70841"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a99024c41f4093c1d37683d12e8e70841">&#9670;&nbsp;</a></span>GetSwarmServers()</h2>
+<a id="a891845660d274caca11fb5f8ecc0cf34"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a891845660d274caca11fb5f8ecc0cf34">&#9670;&nbsp;</a></span>GetSwarmServers()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">ICollection&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_swarm_server.html">SwarmServer</a>&gt; Tgstation.Server.Host.Swarm.ISwarmService.GetSwarmServers </td>
+          <td class="memname">ICollection&lt;<a class="el" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_1_1_swarm_server_response.html">SwarmServerResponse</a>&gt; Tgstation.Server.Host.Swarm.ISwarmService.GetSwarmServers </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -209,18 +209,18 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Gets the list of SwarmServers in the swarm, including the current one. </p>
-<dl class="section return"><dt>Returns</dt><dd>A List&lt;T&gt; of SwarmServers in the swarm. If the server is not part of a swarm, <code>null</code> will be returned.</dd></dl>
+<p>Gets the list of SwarmServerResponses in the swarm, including the current one. </p>
+<dl class="section return"><dt>Returns</dt><dd>A List&lt;T&gt; of SwarmServerResponses in the swarm. If the server is not part of a swarm, <code>null</code> will be returned.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a64053e4ed39d23f5bc3566d8e638a083">Tgstation.Server.Host.Swarm.SwarmService</a>.</p>
+<p>Implemented in <a class="el" href="class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a0500301090baddad57cc285aaced0684">Tgstation.Server.Host.Swarm.SwarmService</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_home_controller_8cs_source.html#l00162">Tgstation.Server.Host.Controllers.HomeController.Home()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_home_controller_8cs_source.html#l00163">Tgstation.Server.Host.Controllers.HomeController.Home()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_a99024c41f4093c1d37683d12e8e70841_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_a99024c41f4093c1d37683d12e8e70841_icgraph" alt=""/></div>
-<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_a99024c41f4093c1d37683d12e8e70841_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_a99024c41f4093c1d37683d12e8e70841_icgraph">
-<area shape="rect" title="Gets the list of SwarmServers in the swarm, including the current one." alt="" coords="269,5,491,47"/>
+<div class="center"><img src="interface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_a891845660d274caca11fb5f8ecc0cf34_icgraph.png" border="0" usemap="#ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_a891845660d274caca11fb5f8ecc0cf34_icgraph" alt=""/></div>
+<map name="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_a891845660d274caca11fb5f8ecc0cf34_icgraph" id="ainterface_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_i_swarm_service_a891845660d274caca11fb5f8ecc0cf34_icgraph">
+<area shape="rect" title="Gets the list of SwarmServerResponses in the swarm, including the current one." alt="" coords="269,5,491,47"/>
 <area shape="rect" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#a648bd5ead5349e7592e0bef30f5aea98" title="Main page of the Application" alt="" coords="5,5,221,47"/>
 </map>
 </div>

@@ -1,7 +1,7 @@
 <map id="Tgstation.Server.Host.Models.TestMerge" name="Tgstation.Server.Host.Models.TestMerge">
 <area shape="rect" id="node1" title=" " alt="" coords="71,244,267,285"/>
-<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_test_merge.html" title="Represents a test merge of a remote &quot;pull request&quot;." alt="" coords="11,155,150,196"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_test_merge_base.html" title="Layer of test merge data required internally" alt="" coords="23,80,138,107"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_test_merge_api_base.html" title="Represents a test merge of a remote &quot;pull request&quot;." alt="" coords="11,155,150,196"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_internal_1_1_test_merge_model_base.html" title="Layer of test merge data required internally" alt="" coords="6,80,155,107"/>
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html" title="Parameters for creating a TestMerge" alt="" coords="5,5,156,32"/>
 <area shape="rect" id="node5" href="$interface_tgstation_1_1_server_1_1_host_1_1_models_1_1_i_api_transformable.html" title=" " alt="" coords="174,155,339,196"/>
 </map>

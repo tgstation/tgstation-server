@@ -1,0 +1,10 @@
+<map id="Tgstation.Server.Host.Controllers.InstanceController.Update" name="Tgstation.Server.Host.Controllers.InstanceController.Update">
+<area shape="rect" id="node1" title="Modify an Api.Models.Instance&#39;s settings." alt="" coords="5,136,221,177"/>
+<area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_security_1_1_authentication_context.html#ade8aeb7dd0a0e480f6f89bd5973703c7" title="Get the value of a given rightsType" alt="" coords="282,37,485,79"/>
+<area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_database_1_1_database_context.html#ac2e88d53bf1b6ac87d175d83ed39da7c" title="Saves changes made to the IDatabaseContext" alt="" coords="279,103,488,144"/>
+<area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_models_1_1_user.html#ae966a7ee34ef9b33c28f1d8ac6c631ef" title=" " alt="" coords="285,168,481,209"/>
+<area shape="rect" id="node7" href="$class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_instance_required_controller.html#a9f979bc0f31b5c897c27b79515ea44f5" title="Corrects discrepencies between the Api.Models.Instance.Online status of IInstances in the database vs..." alt="" coords="269,233,497,289"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#a40d32838ff902da852c54215bd8e89fb" title="Check if a given rightsType &#160;is meant for an Models.Instance" alt="" coords="579,5,770,47"/>
+<area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_api_1_1_rights_1_1_rights_helper.html#ab694cd1b9b98a6be7d79f236a71b386c" title="Map a given rightsType &#160;to its respective Enum Type" alt="" coords="583,71,766,112"/>
+<area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_instance_manager.html#a80956df7c531cd3cf662dab797ab2c82" title="Get the IInstanceReference associated with given metadata" alt="" coords="545,240,804,281"/>
+</map>

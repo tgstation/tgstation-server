@@ -4,5 +4,5 @@
 <area shape="rect" id="node4" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ac4194e4d0fb3cad95550e55859228529" title="Set serversDirty and complete the current forceHealthCheckTcs." alt="" coords="259,71,470,112"/>
 <area shape="rect" id="node5" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#afd69b7671a16d3081393af03b3a52cb5" title="Complete the current forceHealthCheckTcs." alt="" coords="532,100,757,141"/>
 <area shape="rect" id="node6" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ac2e22cae1e96264b6ae4f0d41bca4b70" title="Gets the Api.Models.Internal.SwarmServer.Identifier from a given registrationId ." alt="" coords="255,187,475,243"/>
-<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#a80458cc7264493ea2e7888addb55cf59" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="523,5,767,47"/>
+<area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_swarm_1_1_swarm_service.html#ae4531bb61c058041400513c71f0764e9" title="Prepares a HttpRequestMessage for swarm communication." alt="" coords="523,5,767,47"/>
 </map>
