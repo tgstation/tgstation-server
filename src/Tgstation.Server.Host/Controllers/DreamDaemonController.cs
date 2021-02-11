@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Components.Session;
@@ -67,7 +68,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
-		/// <response code="202"><see cref="JobResponse"/> to launch the watchdog started successfully.</response>
+		/// <response code="202">Watchdog launch started successfully.</response>
 		[HttpPut]
 		[TgsAuthorize(DreamDaemonRights.Start)]
 		[ProducesResponseType(typeof(JobResponse), 202)]

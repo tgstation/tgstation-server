@@ -1,4 +1,4 @@
-namespace Tgstation.Server.Api.Models
+namespace Tgstation.Server.Api.Models.Response
 {
 	/// <summary>
 	/// Response when reading configuration files.

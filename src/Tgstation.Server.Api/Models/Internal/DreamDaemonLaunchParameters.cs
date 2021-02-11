@@ -16,7 +16,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		public bool? AllowWebClient { get; set; }
 
 		/// <summary>
-		/// The <see cref="DreamDaemonSecurity"/> level of <see cref="DreamDaemonResponse"/>
+		/// The <see cref="DreamDaemonSecurity"/> level of DreamDaemon.
 		/// </summary>
 		[Required]
 		[ResponseOptions]
@@ -24,7 +24,7 @@ namespace Tgstation.Server.Api.Models.Internal
 		public DreamDaemonSecurity? SecurityLevel { get; set; }
 
 		/// <summary>
-		/// The first port <see cref="DreamDaemonResponse"/> uses. This should be the publically advertised port
+		/// The port DreamDaemon uses. This should be publically accessible.
 		/// </summary>
 		[Required]
 		[ResponseOptions]

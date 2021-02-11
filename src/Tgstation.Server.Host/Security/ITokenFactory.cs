@@ -1,7 +1,7 @@
 using Microsoft.IdentityModel.Tokens;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Security
 {
@@ -18,7 +18,7 @@ namespace Tgstation.Server.Host.Security
 		/// <summary>
 		/// Create a <see cref="TokenResponse"/> for a given <paramref name="user"/>
 		/// </summary>
-		/// <param name="user">The <see cref="Models.User"/> to create the token for. Must have the <see cref="EntityId.Id"/> field available</param>
+		/// <param name="user">The <see cref="Models.User"/> to create the token for. Must have the <see cref="Api.Models.EntityId.Id"/> field available.</param>
 		/// <param name="oAuth">Whether or not this is an OAuth login.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="TokenResponse"/></returns>

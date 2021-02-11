@@ -1,4 +1,4 @@
-namespace Tgstation.Server.Api.Models
+namespace Tgstation.Server.Api.Models.Request
 {
 	/// <summary>
 	/// Represents a request to update a configuration file.

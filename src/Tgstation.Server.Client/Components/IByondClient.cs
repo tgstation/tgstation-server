@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Request;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client.Components
 {
@@ -29,10 +30,10 @@ namespace Tgstation.Server.Client.Components
 		/// <summary>
 		/// Updates the <see cref="ByondInstallResponse"/> information
 		/// </summary>
-		/// <param name="installRequest">The <see cref="ByondInstallRequest"/>.</param>
-		/// <param name="zipFileStream">The <see cref="Stream"/> for the .zip file if <see cref="ByondInstallRequest.UploadCustomZip"/> is <see langword="true"/>.</param>
+		/// <param name="installRequest">The <see cref="ByondVersionRequest"/>.</param>
+		/// <param name="zipFileStream">The <see cref="Stream"/> for the .zip file if <see cref="ByondVersionRequest.UploadCustomZip"/> is <see langword="true"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the updated <see cref="ByondInstallResponse"/> information</returns>
-		Task<ByondInstallResponse> SetActiveVersion(ByondInstallRequest installRequest, Stream zipFileStream, CancellationToken cancellationToken);
+		Task<ByondInstallResponse> SetActiveVersion(ByondVersionRequest installRequest, Stream zipFileStream, CancellationToken cancellationToken);
 	}
 }

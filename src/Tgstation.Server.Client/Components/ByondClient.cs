@@ -5,6 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Request;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client.Components
 {
@@ -35,14 +37,14 @@ namespace Tgstation.Server.Client.Components
 			=> ReadPaged<ByondResponse>(paginationSettings, Routes.ListRoute(Routes.Byond), instance.Id, cancellationToken);
 
 		/// <inheritdoc />
-		public async Task<ByondInstallResponse> SetActiveVersion(ByondInstallRequest installRequest, Stream zipFileStream, CancellationToken cancellationToken)
+		public async Task<ByondInstallResponse> SetActiveVersion(ByondVersionRequest installRequest, Stream zipFileStream, CancellationToken cancellationToken)
 		{
 			if (installRequest == null)
 				throw new ArgumentNullException(nameof(installRequest));
 			if (installRequest.UploadCustomZip == true && zipFileStream == null)
 				throw new ArgumentNullException(nameof(zipFileStream));
 
-			var result = await ApiClient.Update<ByondInstallRequest, ByondInstallResponse>(
+			var result = await ApiClient.Update<ByondVersionRequest, ByondInstallResponse>(
 				Routes.Byond,
 				installRequest,
 				instance.Id!.Value,

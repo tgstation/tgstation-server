@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Tgstation.Server.Api.Models
+namespace Tgstation.Server.Api.Models.Response
 {
 	/// <summary>
 	/// Represents an error message returned by the server

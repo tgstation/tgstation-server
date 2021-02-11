@@ -24,12 +24,12 @@ namespace Tgstation.Server.Api
 		public const string Logs = Administration + "/Logs";
 
 		/// <summary>
-		/// The <see cref="Models.Internal.UserModelBase"/> controller.
+		/// The user controller.
 		/// </summary>
 		public const string User = Root + "User";
 
 		/// <summary>
-		/// The <see cref="Models.UserGroupResponse"/> controller.
+		/// The user group controller.
 		/// </summary>
 		public const string UserGroup = Root + "UserGroup";
 
@@ -119,7 +119,7 @@ namespace Tgstation.Server.Api
 		public static string ListRoute(string route) => String.Format(CultureInfo.InvariantCulture, "{0}/{1}", route, List);
 
 		/// <summary>
-		/// Sanitize a <see cref="Models.FileTicketResponse"/> path for use in a GET <see cref="Uri"/>.
+		/// Sanitize a <see cref="Models.Response.FileTicketResponse"/> path for use in a GET <see cref="Uri"/>.
 		/// </summary>
 		/// <param name="path">The path to sanitize.</param>
 		/// <returns>The sanitized path.</returns>

@@ -2,7 +2,7 @@ using Microsoft.Net.Http.Headers;
 using System;
 using System.Linq;
 using System.Net.Http;
-using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client
 {

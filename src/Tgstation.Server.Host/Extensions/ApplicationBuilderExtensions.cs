@@ -8,6 +8,7 @@ using System;
 using System.Globalization;
 using System.Net;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.System;
 
 namespace Tgstation.Server.Host.Extensions
@@ -99,7 +100,7 @@ namespace Tgstation.Server.Host.Extensions
 				catch (Exception e)
 				{
 					logger.LogError(e, "Failed request!");
-					await new ObjectResult(
+					await new JsonResult(
 						new ErrorMessageResponse(ErrorCode.InternalServerError)
 						{
 							AdditionalData = e.ToString()
@@ -110,7 +111,8 @@ namespace Tgstation.Server.Host.Extensions
 					.ExecuteResultAsync(new ActionContext
 					{
 						HttpContext = context
-					}).ConfigureAwait(false);
+					})
+					.ConfigureAwait(false);
 				}
 			});
 		}

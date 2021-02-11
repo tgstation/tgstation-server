@@ -59,7 +59,7 @@ namespace Tgstation.Server.Api.Rights
 		SetReference = 256,
 
 		/// <summary>
-		/// User may read all fields in the <see cref="Models.RepositoryResponse"/>.
+		/// User may read repository information.
 		/// </summary>
 		Read = 512,
 

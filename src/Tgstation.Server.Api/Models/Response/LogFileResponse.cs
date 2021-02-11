@@ -1,6 +1,6 @@
 using System;
 
-namespace Tgstation.Server.Api.Models
+namespace Tgstation.Server.Api.Models.Response
 {
 	/// <summary>
 	/// Represents a server log file.

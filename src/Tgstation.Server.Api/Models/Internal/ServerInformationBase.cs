@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace Tgstation.Server.Api.Models.Internal
 {
 	/// <summary>
-	/// Base class for <see cref="ServerInformationResponse"/>.
+	/// Base class for <see cref="Response.ServerInformationResponse"/>.
 	/// </summary>
 	public abstract class ServerInformationBase
 	{
@@ -18,12 +18,12 @@ namespace Tgstation.Server.Api.Models.Internal
 		public uint InstanceLimit { get; set; }
 
 		/// <summary>
-		/// The maximum number of <see cref="UserResponse"/>s allowed.
+		/// The maximum number of users allowed.
 		/// </summary>
 		public uint UserLimit { get; set; }
 
 		/// <summary>
-		/// The maximum number of <see cref="UserGroupResponse"/>s allowed.
+		/// The maximum number of user groups allowed.
 		/// </summary>
 		public uint UserGroupLimit { get; set; }
 

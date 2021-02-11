@@ -5,7 +5,7 @@ namespace Tgstation.Server.Api.Models
 	/// <summary>
 	/// Represents a request to update TGS.
 	/// </summary>
-	public sealed class ServerUpdateRequest
+	public abstract class ServerUpdate
 	{
 		/// <summary>
 		/// Changes the version of tgstation-server to the given version from the upstream repository.

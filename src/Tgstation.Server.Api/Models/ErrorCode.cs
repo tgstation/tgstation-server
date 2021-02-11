@@ -4,7 +4,7 @@ using System.ComponentModel;
 namespace Tgstation.Server.Api.Models
 {
 	/// <summary>
-	/// Types of <see cref="ErrorMessageResponse"/>s that the API may return.
+	/// Types of <see cref="Response.ErrorMessageResponse"/>s that the API may return.
 	/// </summary>
 	/// <remarks>Entries marked with the <see cref="ObsoleteAttribute"/> are no longer in use but kept for reference.</remarks>
 	public enum ErrorCode : uint
@@ -40,7 +40,7 @@ namespace Tgstation.Server.Api.Models
 		BadHeaders,
 
 		/// <summary>
-		/// Attempted to request a <see cref="TokenResponse"/> with an existing <see cref="TokenResponse"/>.
+		/// Attempted to request a <see cref="Response.TokenResponse"/> with an existing <see cref="Response.TokenResponse"/>.
 		/// </summary>
 		[Description("Cannot generate a bearer token using a bearer token!")]
 		TokenWithToken,
@@ -76,7 +76,7 @@ namespace Tgstation.Server.Api.Models
 		ServerUpdateInProgress,
 
 		/// <summary>
-		/// Attempted to change something other than the capitalization of a <see cref="NamedEntity.Name"/> for a <see cref="UserResponse"/>.
+		/// Attempted to change something other than the capitalization of a <see cref="UserName.Name"/> for a user.
 		/// </summary>
 		[Description("Can only change the capitalization of a user's name!")]
 		UserNameChange,
@@ -88,31 +88,31 @@ namespace Tgstation.Server.Api.Models
 		UserSidChange,
 
 		/// <summary>
-		/// Attempted to create a <see cref="UserResponse"/> with a <see cref="NamedEntity.Name"/> and <see cref="Internal.UserModelBase.SystemIdentifier"/>.
+		/// Attempted to create a user with a <see cref="UserName.Name"/> and <see cref="Internal.UserModelBase.SystemIdentifier"/>.
 		/// </summary>
 		[Description("A user cannot have both a name and systemIdentifier!")]
 		UserMismatchNameSid,
 
 		/// <summary>
-		/// Attempted to create a <see cref="UserResponse"/> with a <see cref="UserUpdateRequest.Password"/> and <see cref="Internal.UserModelBase.SystemIdentifier"/>.
+		/// Attempted to create a user with a <see cref="Request.UserUpdateRequest.Password"/> and <see cref="Internal.UserModelBase.SystemIdentifier"/>.
 		/// </summary>
 		[Description("A user cannot have both a password and systemIdentifier!")]
 		UserMismatchPasswordSid,
 
 		/// <summary>
-		/// The given <see cref="UserUpdateRequest.Password"/> length was less than the server's configured minimum.
+		/// The given <see cref="Request.UserUpdateRequest.Password"/> length was less than the server's configured minimum.
 		/// </summary>
 		[Description("The given password is less than the server's configured minimum password length!")]
 		UserPasswordLength,
 
 		/// <summary>
-		/// Attempted to create a <see cref="UserResponse"/> with a ':' in the <see cref="NamedEntity.Name"/>.
+		/// Attempted to create a user with a ':' character in the <see cref="UserName.Name"/>.
 		/// </summary>
 		[Description("User names cannot contain the ':' character!")]
 		UserColonInName,
 
 		/// <summary>
-		/// Attempted to create a <see cref="UserResponse"/> with a <see langword="null"/> or whitespace <see cref="NamedEntity.Name"/>.
+		/// Attempted to create a user with a <see langword="null"/> or whitespace <see cref="UserName.Name"/>.
 		/// </summary>
 		[Description("User's name is missing or invalid whitespace!")]
 		UserMissingName,
@@ -178,7 +178,7 @@ namespace Tgstation.Server.Api.Models
 		ConfigurationDirectoryNotEmpty,
 
 		/// <summary>
-		/// Tried to clone a repository with a missing <see cref="RepositoryCreateRequest.Origin"/> property.
+		/// Tried to clone a repository with a missing <see cref="Request.RepositoryCreateRequest.Origin"/> property.
 		/// </summary>
 		[Obsolete("Deprecated")]
 		[Description("Cannot clone repository with missing origin field!")]
@@ -215,13 +215,13 @@ namespace Tgstation.Server.Api.Models
 		RepoMissing,
 
 		/// <summary>
-		/// Attempted to <see cref="RepositoryUpdateRequest.CheckoutSha"/> and set <see cref="Internal.RepositoryApiBase.Reference"/> at the same time.
+		/// Attempted to <see cref="Request.RepositoryUpdateRequest.CheckoutSha"/> and set <see cref="Internal.RepositoryApiBase.Reference"/> at the same time.
 		/// </summary>
 		[Description("Cannot checkoutSha and set reference at the same time!")]
 		RepoMismatchShaAndReference,
 
 		/// <summary>
-		/// Attempted to <see cref="RepositoryUpdateRequest.CheckoutSha"/> and <see cref="RepositoryUpdateRequest.UpdateFromOrigin"/> at the same time.
+		/// Attempted to <see cref="Request.RepositoryUpdateRequest.CheckoutSha"/> and <see cref="Request.RepositoryUpdateRequest.UpdateFromOrigin"/> at the same time.
 		/// </summary>
 		[Description("Cannot checkoutSha and updateFromOrigin at the same time!")]
 		RepoMismatchShaAndUpdate,
@@ -234,7 +234,7 @@ namespace Tgstation.Server.Api.Models
 		RepoCantChangeOrigin,
 
 		/// <summary>
-		/// <see cref="RepositoryUpdateRequest.NewTestMerges"/> contained duplicate <see cref="TestMergeParameters.Number"/>s.
+		/// <see cref="Request.RepositoryUpdateRequest.NewTestMerges"/> contained duplicate <see cref="TestMergeParameters.Number"/>s.
 		/// </summary>
 		[Description("The same test merge was present more than once or is already merged!")]
 		RepoDuplicateTestMerge,
@@ -288,7 +288,7 @@ namespace Tgstation.Server.Api.Models
 		ChatBotProviderMissing,
 
 		/// <summary>
-		/// Tried to edit <see cref="UserGroupResponse"/> membership using <see cref="Routes.UserGroup"/>.
+		/// Tried to edit user group membership using <see cref="Routes.UserGroup"/>.
 		/// </summary>
 		[Obsolete("Deprecated", true)]
 		[Description("The " + Routes.UserGroup + " endpoint cannot edit group members. Please update each member user individually.")]
@@ -337,7 +337,7 @@ namespace Tgstation.Server.Api.Models
 		DreamMakerInvalidValidation,
 
 		/// <summary>
-		/// Tried to remove the last <see cref="OAuthConnection"/> for a passwordless <see cref="UserResponse"/>.
+		/// Tried to remove the last <see cref="OAuthConnection"/> for a passwordless user.
 		/// </summary>
 		[Description("This user is passwordless and removing their oAuthConnections would leave them with no authentication method!")]
 		CannotRemoveLastAuthenticationOption,
@@ -367,7 +367,7 @@ namespace Tgstation.Server.Api.Models
 		DreamMakerCompileJobInProgress,
 
 		/// <summary>
-		/// Missing <see cref="DreamDaemonResponse"/> settings in database.
+		/// Missing <see cref="Internal.DreamDaemonSettings"/> in database.
 		/// </summary>
 		[Description("Could not retrieve DreamDaemon settings from the database!")]
 		InstanceMissingDreamDaemonSettings,
@@ -439,7 +439,7 @@ namespace Tgstation.Server.Api.Models
 		RepoUnsupportedTestMergeRemote,
 
 		/// <summary>
-		/// Either <see cref="RepositoryUpdateRequest.CheckoutSha"/> or <see cref="Internal.RepositoryApiBase.Reference"/> was in one when it should have been the other.
+		/// Either <see cref="Request.RepositoryUpdateRequest.CheckoutSha"/> or <see cref="Internal.RepositoryApiBase.Reference"/> was in one when it should have been the other.
 		/// </summary>
 		[Description("The value set for checkoutSha or reference should be in the other field!")]
 		RepoSwappedShaOrReference,
@@ -595,31 +595,31 @@ namespace Tgstation.Server.Api.Models
 		OAuthProviderDisabled,
 
 		/// <summary>
-		/// A <see cref="JobResponse"/> requiring a file upload did not receive it before timing out.
+		/// A job requiring a file upload did not receive it before timing out.
 		/// </summary>
 		[Description("The job did not receive a required upload before timing out!")]
 		FileUploadExpired,
 
 		/// <summary>
-		/// Tried to update a <see cref="UserResponse"/> to have both a <see cref="Internal.UserApiBase.Group"/> and <see cref="Internal.UserApiBase.PermissionSet"/>
+		/// Tried to update a user to have both a <see cref="Internal.UserApiBase.Group"/> and <see cref="Internal.UserApiBase.PermissionSet"/>
 		/// </summary>
 		[Description("A user may not have both a permissionSet and group!")]
 		UserGroupAndPermissionSet,
 
 		/// <summary>
-		/// Tried to delete a non-empty <see cref="UserGroupResponse"/>.
+		/// Tried to delete a non-empty user group.
 		/// </summary>
 		[Description("Cannot delete the user group as it is not empty!")]
 		UserGroupNotEmpty,
 
 		/// <summary>
-		/// Attempted to create an <see cref="UserResponse"/> but the configured limit has been reached.
+		/// Attempted to create a user but the configured limit has been reached.
 		/// </summary>
 		[Description("The user cannot be created because the configured limit has been reached!")]
 		UserLimitReached,
 
 		/// <summary>
-		/// Attempted to create an <see cref="UserGroupResponse"/> but the configured limit has been reached.
+		/// Attempted to create a user group but the configured limit has been reached.
 		/// </summary>
 		[Description("The user group cannot be created because the configured limit has been reached!")]
 		UserGroupLimitReached,

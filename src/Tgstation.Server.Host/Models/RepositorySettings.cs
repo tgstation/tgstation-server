@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Models
 {
@@ -12,7 +12,7 @@ namespace Tgstation.Server.Host.Models
 		public long Id { get; set; }
 
 		/// <summary>
-		/// The instance <see cref="EntityId.Id"/>
+		/// The instance <see cref="Api.Models.EntityId.Id"/>
 		/// </summary>
 		public long InstanceId { get; set; }
 

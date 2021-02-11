@@ -1,4 +1,4 @@
-namespace Tgstation.Server.Api.Models
+namespace Tgstation.Server.Api.Models.Request
 {
 	/// <summary>
 	/// A request to create an <see cref="Instance"/>.

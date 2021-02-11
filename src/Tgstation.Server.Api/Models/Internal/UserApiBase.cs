@@ -6,18 +6,18 @@ namespace Tgstation.Server.Api.Models.Internal
 	public abstract class UserApiBase : UserModelBase
 	{
 		/// <summary>
-		/// List of <see cref="OAuthConnection"/>s associated with the <see cref="UserResponse"/>.
+		/// List of <see cref="OAuthConnection"/>s associated with the user.
 		/// </summary>
 		public ICollection<OAuthConnection>? OAuthConnections { get; set; }
 
 		/// <summary>
-		/// The <see cref="Models.PermissionSet"/> directly associated with the <see cref="UserResponse"/>.
+		/// The <see cref="Models.PermissionSet"/> directly associated with the user.
 		/// </summary>
 		[ResponseOptions]
 		public PermissionSet? PermissionSet { get; set; }
 
 		/// <summary>
-		/// The <see cref="UserGroup"/> asociated with the <see cref="UserResponse"/>, if any.
+		/// The <see cref="UserGroup"/> asociated with the user, if any.
 		/// </summary>
 		[ResponseOptions]
 		public UserGroup? Group { get; set; }

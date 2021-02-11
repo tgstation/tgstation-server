@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Tgstation.Server.Api.Models
+namespace Tgstation.Server.Api.Models.Response
 {
 	/// <summary>
 	/// Represents a paginated set of models.

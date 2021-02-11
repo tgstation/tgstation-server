@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client
 {

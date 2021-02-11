@@ -12,6 +12,7 @@ using System.Net.Mime;
 using System.Reflection;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Controllers;
 
 namespace Tgstation.Server.Host.Core

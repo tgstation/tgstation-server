@@ -1,7 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client
 {
@@ -46,10 +46,10 @@ namespace Tgstation.Server.Client
 		IUserGroupsClient Groups { get; }
 
 		/// <summary>
-		/// The <see cref="Api.Models.ServerInformationResponse"/> of the <see cref="IServerClient"/>
+		/// The <see cref="ServerInformationResponse"/> of the <see cref="IServerClient"/>
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="Api.Models.ServerInformationResponse"/> of the target server</returns>
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="ServerInformationResponse"/> of the target server</returns>
 		Task<ServerInformationResponse> ServerInformation(CancellationToken cancellationToken);
 
 		/// <summary>

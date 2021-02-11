@@ -1,7 +1,7 @@
 namespace Tgstation.Server.Api.Models.Internal
 {
 	/// <summary>
-	/// Represents a group of <see cref="UserResponse"/>s.
+	/// Represents a group of users.
 	/// </summary>
 	public class UserGroup : NamedEntity
 	{

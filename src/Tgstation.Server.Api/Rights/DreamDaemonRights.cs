@@ -3,7 +3,7 @@ using System;
 namespace Tgstation.Server.Api.Rights
 {
 	/// <summary>
-	/// Rights for <see cref="Models.DreamDaemonResponse"/>
+	/// Rights for managing DreamDaemon.
 	/// </summary>
 	[Flags]
 	public enum DreamDaemonRights : ulong
@@ -14,7 +14,7 @@ namespace Tgstation.Server.Api.Rights
 		None = 0,
 
 		/// <summary>
-		/// User can read <see cref="Models.DreamDaemonResponse.ActiveCompileJob"/> and <see cref="Models.DreamDaemonResponse.StagedCompileJob"/>
+		/// User can read <see cref="Models.Response.DreamDaemonResponse.ActiveCompileJob"/> and <see cref="Models.Response.DreamDaemonResponse.StagedCompileJob"/>
 		/// </summary>
 		ReadRevision = 1,
 
@@ -34,7 +34,7 @@ namespace Tgstation.Server.Api.Rights
 		SetSecurity = 8,
 
 		/// <summary>
-		/// User can read every propery of <see cref="Models.DreamDaemonResponse"/> except <see cref="Models.DreamDaemonResponse.ActiveCompileJob"/> and <see cref="Models.DreamDaemonResponse.StagedCompileJob"/>.
+		/// User can read every property of <see cref="Models.Response.DreamDaemonResponse"/> except <see cref="Models.Response.DreamDaemonResponse.ActiveCompileJob"/> and <see cref="Models.Response.DreamDaemonResponse.StagedCompileJob"/>.
 		/// </summary>
 		ReadMetadata = 16,
 

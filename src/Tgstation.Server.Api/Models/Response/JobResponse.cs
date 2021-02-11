@@ -1,4 +1,4 @@
-namespace Tgstation.Server.Api.Models
+namespace Tgstation.Server.Api.Models.Response
 {
 	/// <summary>
 	/// Represents a long running job on the server. Model is read-only, updates attempt to cancel the job

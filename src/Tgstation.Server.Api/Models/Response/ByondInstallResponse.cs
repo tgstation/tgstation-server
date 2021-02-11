@@ -1,6 +1,6 @@
 using System;
 
-namespace Tgstation.Server.Api.Models
+namespace Tgstation.Server.Api.Models.Response
 {
 	/// <summary>
 	/// Represents a BYOND installation. <see cref="FileTicketResponse.FileTicket"/> is used to upload custom BYOND version zip files, though <see cref="Version"/> must still be set.

@@ -11,6 +11,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Request;
+using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
 using Tgstation.Server.Host.Components.Interop;
@@ -392,7 +394,7 @@ namespace Tgstation.Server.Tests.Instance
 			await WaitForJob(startJob, 70, false, null, cancellationToken);
 
 			var byondInstallJobTask = instanceClient.Byond.SetActiveVersion(
-				new ByondInstallRequest
+				new ByondVersionRequest
 				{
 					Version = versionToInstall
 				},

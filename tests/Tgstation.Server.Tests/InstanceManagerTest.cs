@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Request;
+using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Client;
 using Tgstation.Server.Host.Controllers;
@@ -26,7 +28,7 @@ namespace Tgstation.Server.Tests
 			this.testRootPath = testRootPath ?? throw new ArgumentNullException(nameof(testRootPath));
 		}
 
-		public Task<Api.Models.InstanceResponse> CreateTestInstance(CancellationToken cancellationToken) => instanceManagerClient.CreateOrAttach(new InstanceCreateRequest
+		public Task<InstanceResponse> CreateTestInstance(CancellationToken cancellationToken) => instanceManagerClient.CreateOrAttach(new InstanceCreateRequest
 		{
 			Name = TestInstanceName,
 			Path = Path.Combine(testRootPath, Guid.NewGuid().ToString()),
@@ -86,7 +88,7 @@ namespace Tgstation.Server.Tests
 			}, cancellationToken), ErrorCode.InstanceAtConflictingPath).ConfigureAwait(false);
 
 			//can't create instances as children of other instances
-			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.CreateOrAttach(new Api.Models.InstanceCreateRequest
+			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.CreateOrAttach(new InstanceCreateRequest
 			{
 				Path = Path.Combine(firstTest.Path, "subdir"),
 				Name = "NoOtherInstanceDirTest"
@@ -94,19 +96,19 @@ namespace Tgstation.Server.Tests
 			Assert.IsTrue(Directory.Exists(firstTest.Path));
 
 			//can't move to existent directories
-			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.Update(new Api.Models.InstanceUpdateRequest
+			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.Update(new InstanceUpdateRequest
 			{
 				Id = firstTest.Id,
 				Path = testNonEmpty
 			}, cancellationToken), ErrorCode.InstanceAtExistingPath).ConfigureAwait(false);
 
-			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.GrantPermissions(new Api.Models.InstanceUpdateRequest
+			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.GrantPermissions(new InstanceUpdateRequest
 			{
 				Id = 3482974,
 			}, cancellationToken), ErrorCode.ResourceNotPresent).ConfigureAwait(false);
 
 			// test can't create instance outside of whitelist
-			await ApiAssert.ThrowsException<ApiConflictException>(() => instanceManagerClient.CreateOrAttach(new Api.Models.InstanceCreateRequest
+			await ApiAssert.ThrowsException<ApiConflictException>(() => instanceManagerClient.CreateOrAttach(new InstanceCreateRequest
 			{
 				Name = "TestInstanceOutsideOfWhitelist",
 				Path = Path.Combine(testRootPath, "..", Guid.NewGuid().ToString()),
@@ -141,7 +143,7 @@ namespace Tgstation.Server.Tests
 			Assert.IsTrue(Directory.Exists(firstTest.Path));
 
 			//can't move online instance
-			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.Update(new Api.Models.InstanceUpdateRequest
+			await ApiAssert.ThrowsException<ConflictException>(() => instanceManagerClient.Update(new InstanceUpdateRequest
 			{
 				Id = firstTest.Id,
 				Path = initialPath
@@ -163,7 +165,7 @@ namespace Tgstation.Server.Tests
 
 			await Assert.ThrowsExceptionAsync<InsufficientPermissionsException>(() => instanceClient.PermissionSets.Read(cancellationToken)).ConfigureAwait(false);
 
-			await instanceManagerClient.GrantPermissions(new Api.Models.InstanceUpdateRequest
+			await instanceManagerClient.GrantPermissions(new InstanceUpdateRequest
 			{
 				Id = firstTest.Id
 			}, cancellationToken).ConfigureAwait(false);

@@ -7,6 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Request;
+using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Database;
@@ -108,17 +110,17 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Changes the active BYOND version to the one specified in a given <paramref name="model"/>.
 		/// </summary>
-		/// <param name="model">The <see cref="ByondInstallRequest.Version"/> to switch to.</param>
+		/// <param name="model">The <see cref="ByondVersionRequest.Version"/> to switch to.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Switched active version successfully.</response>
-		/// <response code="202">Created <see cref="Api.Models.JobResponse"/> to install and switch active version successfully.</response>
+		/// <response code="202">Created <see cref="Job"/> to install and switch active version successfully.</response>
 		[HttpPost]
 		[TgsAuthorize(ByondRights.InstallOfficialOrChangeActiveVersion | ByondRights.InstallCustomVersion)]
 		[ProducesResponseType(typeof(ByondInstallResponse), 200)]
 		[ProducesResponseType(typeof(ByondInstallResponse), 202)]
 #pragma warning disable CA1506 // TODO: Decomplexify
-		public async Task<IActionResult> Update([FromBody] ByondInstallRequest model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Update([FromBody] ByondVersionRequest model, CancellationToken cancellationToken)
 #pragma warning restore CA1506
 		{
 			if (model == null)
@@ -166,7 +168,7 @@ namespace Tgstation.Server.Host.Controllers
 							Instance.Id);
 
 						// run the install through the job manager
-						var job = new Models.Job
+						var job = new Job
 						{
 							Description = $"Install {(!uploadingZip ? String.Empty : "custom ")}BYOND version {model.Version.Major}.{model.Version.Minor}",
 							StartedBy = AuthenticationContext.User,

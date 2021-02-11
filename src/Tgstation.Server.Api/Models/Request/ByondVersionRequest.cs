@@ -1,11 +1,11 @@
 using System;
 
-namespace Tgstation.Server.Api.Models
+namespace Tgstation.Server.Api.Models.Request
 {
 	/// <summary>
 	/// A request to install a BYOND <see cref="Version"/>.
 	/// </summary>
-	public sealed class ByondInstallRequest
+	public sealed class ByondVersionRequest
 	{
 		/// <summary>
 		/// The BYOND version to install.

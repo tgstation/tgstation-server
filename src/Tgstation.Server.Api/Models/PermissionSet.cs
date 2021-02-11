@@ -17,13 +17,13 @@ namespace Tgstation.Server.Api.Models
 		}
 
 		/// <summary>
-		/// The <see cref="Rights.AdministrationRights"/> for the <see cref="UserResponse"/>
+		/// The <see cref="Rights.AdministrationRights"/> for the user.
 		/// </summary>
 		[Required]
 		public AdministrationRights? AdministrationRights { get; set; }
 
 		/// <summary>
-		/// The <see cref="Rights.InstanceManagerRights"/> for the <see cref="UserResponse"/>
+		/// The <see cref="Rights.InstanceManagerRights"/> for the user.
 		/// </summary>
 		[Required]
 		public InstanceManagerRights? InstanceManagerRights { get; set; }

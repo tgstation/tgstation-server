@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 using System.Net.Http;
-using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client
 {

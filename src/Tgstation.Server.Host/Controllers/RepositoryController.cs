@@ -11,6 +11,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Request;
+using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Core;
@@ -92,7 +94,7 @@ namespace Tgstation.Server.Host.Controllers
 					Instance = instance,
 					CommitSha = repoSha,
 					Timestamp = await repository.TimestampCommit(repoSha, cancellationToken).ConfigureAwait(false),
-					CompileJobs = new List<Models.CompileJob>(),
+					CompileJobs = new List<CompileJob>(),
 					ActiveTestMerges = new List<RevInfoTestMerge>() // non null vals for api returns
 				};
 
@@ -133,7 +135,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="model">The <see cref="RepositoryCreateRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
-		/// <response code="201">The repository was created successfully and the <see cref="Api.Models.JobResponse"/> to clone it has begun.</response>
+		/// <response code="201">The repository was created successfully and the <see cref="JobResponse"/> to clone it has begun.</response>
 		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpPut]
 		[TgsAuthorize(RepositoryRights.SetOrigin)]
@@ -182,7 +184,7 @@ namespace Tgstation.Server.Host.Controllers
 					if (repo != null)
 						return Conflict(new ErrorMessageResponse(ErrorCode.RepoExists));
 
-					var job = new Models.Job
+					var job = new Job
 					{
 						Description = String.Format(CultureInfo.InvariantCulture, "Clone branch {1} of repository {0}", origin, cloneBranch ?? "master"),
 						StartedBy = AuthenticationContext.User,
@@ -258,7 +260,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			Logger.LogInformation("Instance {0} repository delete initiated by user {1}", Instance.Id, AuthenticationContext.User.Id.Value);
 
-			var job = new Models.Job
+			var job = new Job
 			{
 				Description = "Delete repository",
 				StartedBy = AuthenticationContext.User,
@@ -332,7 +334,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the operation.</returns>
 		/// <response code="200">Updated the repository settings successfully.</response>
-		/// <response code="202">Updated the repository settings successfully and a <see cref="Api.Models.JobResponse"/> was created to make the requested git changes.</response>
+		/// <response code="202">Updated the repository settings successfully and a <see cref="JobResponse"/> was created to make the requested git changes.</response>
 		/// <response code="410">The database entity for the requested instance could not be retrieved. The instance was likely detached.</response>
 		[HttpPost]
 		[TgsAuthorize(RepositoryRights.ChangeAutoUpdateSettings | RepositoryRights.ChangeCommitter | RepositoryRights.ChangeCredentials | RepositoryRights.ChangeTestMergeCommits | RepositoryRights.MergePullRequest | RepositoryRights.SetReference | RepositoryRights.SetSha | RepositoryRights.UpdateBranch)]
@@ -534,7 +536,7 @@ namespace Tgstation.Server.Host.Controllers
 								var mergedBy = databaseContext.Users.Local.FirstOrDefault(x => x.Id == AuthenticationContext.User.Id);
 								if (mergedBy == default)
 								{
-									mergedBy = new Models.User
+									mergedBy = new User
 									{
 										Id = AuthenticationContext.User.Id
 									};
@@ -881,7 +883,7 @@ namespace Tgstation.Server.Host.Controllers
 				}
 			}
 
-			var job = new Models.Job
+			var job = new Job
 			{
 				Description = description,
 				StartedBy = AuthenticationContext.User,

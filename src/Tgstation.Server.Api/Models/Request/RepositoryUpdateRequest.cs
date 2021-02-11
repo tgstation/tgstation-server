@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Tgstation.Server.Api.Models.Internal;
 
-namespace Tgstation.Server.Api.Models
+namespace Tgstation.Server.Api.Models.Request
 {
 	/// <summary>
 	/// Represents a request to change the repository.

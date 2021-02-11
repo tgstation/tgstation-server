@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Tgstation.Server.Api;
 
 namespace Tgstation.Server.Client
@@ -13,7 +13,7 @@ namespace Tgstation.Server.Client
 		/// </summary>
 		/// <param name="url">The base <see cref="Uri"/></param>
 		/// <param name="apiHeaders">The <see cref="ApiHeaders"/> for the <see cref="IApiClient"/></param>
-		/// <param name="tokenRefreshHeaders">The <see cref="ApiHeaders"/> to use to generate a new <see cref="Api.Models.TokenResponse"/>.</param>
+		/// <param name="tokenRefreshHeaders">The <see cref="ApiHeaders"/> to use to generate a new <see cref="Api.Models.Response.TokenResponse"/>.</param>
 		/// <returns>A new <see cref="IApiClient"/></returns>
 		IApiClient CreateApiClient(Uri url, ApiHeaders apiHeaders, ApiHeaders? tokenRefreshHeaders);
 	}

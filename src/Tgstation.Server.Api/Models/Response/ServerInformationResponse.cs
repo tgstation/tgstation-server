@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Tgstation.Server.Api.Models
+namespace Tgstation.Server.Api.Models.Response
 {
 	/// <summary>
 	/// Represents basic server information.

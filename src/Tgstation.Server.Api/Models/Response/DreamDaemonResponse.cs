@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Tgstation.Server.Api.Models.Internal;
 
-namespace Tgstation.Server.Api.Models
+namespace Tgstation.Server.Api.Models.Response
 {
 	/// <summary>
 	/// Represents an instance of BYOND's DreamDaemon game server. Create action starts the server. Delete action shuts down the server

@@ -3,7 +3,7 @@ using System;
 namespace Tgstation.Server.Api.Rights
 {
 	/// <summary>
-	/// Rights for <see cref="Models.ByondInstallResponse"/>
+	/// Rights for BYOND version management.
 	/// </summary>
 	[Flags]
 	public enum ByondRights : ulong

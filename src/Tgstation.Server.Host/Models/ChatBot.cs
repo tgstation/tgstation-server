@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class ChatBot : Api.Models.Internal.ChatBotSettings, IApiTransformable<Api.Models.ChatBotResponse>
+	public sealed class ChatBot : Api.Models.Internal.ChatBotSettings, IApiTransformable<ChatBotResponse>
 	{
 		/// <summary>
 		/// Default for <see cref="Api.Models.Internal.ChatBotSettings.ChannelLimit"/>.
@@ -29,7 +30,7 @@ namespace Tgstation.Server.Host.Models
 		public ICollection<ChatChannel> Channels { get; set; }
 
 		/// <inheritdoc />
-		public Api.Models.ChatBotResponse ToApi() => new Api.Models.ChatBotResponse
+		public ChatBotResponse ToApi() => new ChatBotResponse
 		{
 			Channels = Channels.Select(x => x.ToApi()).ToList(),
 			ConnectionString = ConnectionString,

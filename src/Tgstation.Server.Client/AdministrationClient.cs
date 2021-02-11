@@ -5,7 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using Tgstation.Server.Api;
-using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Request;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client
 {
@@ -24,7 +25,7 @@ namespace Tgstation.Server.Client
 		public Task<AdministrationResponse> Read(CancellationToken cancellationToken) => ApiClient.Read<AdministrationResponse>(Routes.Administration, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<ServerUpdateRequest> Update(ServerUpdateRequest updateRequest, CancellationToken cancellationToken) => ApiClient.Update<ServerUpdateRequest, ServerUpdateRequest>(Routes.Administration, updateRequest ?? throw new ArgumentNullException(nameof(updateRequest)), cancellationToken);
+		public Task<ServerUpdateResponse> Update(ServerUpdateRequest updateRequest, CancellationToken cancellationToken) => ApiClient.Update<ServerUpdateRequest, ServerUpdateResponse>(Routes.Administration, updateRequest ?? throw new ArgumentNullException(nameof(updateRequest)), cancellationToken);
 
 		/// <inheritdoc />
 		public Task Restart(CancellationToken cancellationToken) => ApiClient.Delete(Routes.Administration, cancellationToken);

@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.Web;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Request;
+using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
@@ -192,7 +194,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Attempt to perform a server upgrade.
 		/// </summary>
-		/// <param name="model">The model containing the <see cref="ServerUpdateRequest.NewVersion"/> to update to.</param>
+		/// <param name="model">The <see cref="ServerUpdateRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="202">Update has been started successfully.</response>
@@ -202,7 +204,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="429">A GitHub API error occurred.</response>
 		[HttpPost]
 		[TgsAuthorize(AdministrationRights.ChangeVersion)]
-		[ProducesResponseType(typeof(ServerUpdateRequest), 202)]
+		[ProducesResponseType(typeof(ServerUpdateResponse), 202)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 422)]
 		[ProducesResponseType(typeof(ErrorMessageResponse), 424)]
@@ -233,7 +235,7 @@ namespace Tgstation.Server.Host.Controllers
 				if (updateResult == ServerUpdateResult.UpdateInProgress)
 					return BadRequest(new ErrorMessageResponse(ErrorCode.ServerUpdateInProgress));
 
-				return Accepted(new ServerUpdateRequest
+				return Accepted(new ServerUpdateResponse
 				{
 					NewVersion = model.NewVersion
 				});

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Request;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client
 {
@@ -24,8 +25,8 @@ namespace Tgstation.Server.Client
 		/// </summary>
 		/// <param name="updateRequest">The <see cref="ServerUpdateRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in the echoed <paramref name="updateRequest"/>.</returns>
-		Task<ServerUpdateRequest> Update(ServerUpdateRequest updateRequest, CancellationToken cancellationToken);
+		/// <returns>A <see cref="Task{TResult}"/> resulting in the echoed <see cref="ServerUpdateResponse"/>.</returns>
+		Task<ServerUpdateResponse> Update(ServerUpdateRequest updateRequest, CancellationToken cancellationToken);
 
 		/// <summary>
 		/// Restarts the TGS server

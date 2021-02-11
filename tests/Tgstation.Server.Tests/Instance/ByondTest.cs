@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
 using Tgstation.Server.Host.Components.Byond;
@@ -41,7 +42,7 @@ namespace Tgstation.Server.Tests.Instance
 
 		async Task TestInstallFakeVersion(CancellationToken cancellationToken)
 		{
-			var newModel = new ByondInstallRequest
+			var newModel = new ByondVersionRequest
 			{
 				Version = new Version(5011, 1385)
 			};
@@ -52,7 +53,7 @@ namespace Tgstation.Server.Tests.Instance
 
 		async Task TestInstallStable(CancellationToken cancellationToken)
 		{
-			var newModel = new ByondInstallRequest
+			var newModel = new ByondVersionRequest
 			{
 				Version = TestVersion
 			};
@@ -100,7 +101,7 @@ namespace Tgstation.Server.Tests.Instance
 				await byondInstaller.DownloadVersion(TestVersion, cancellationToken));
 
 			var test = await byondClient.SetActiveVersion(
-				new ByondInstallRequest
+				new ByondVersionRequest
 				{
 					Version = TestVersion,
 					UploadCustomZip = true
@@ -116,17 +117,17 @@ namespace Tgstation.Server.Tests.Instance
 			Assert.AreEqual(new Version(TestVersion.Major, TestVersion.Minor, 1), newSettings.Version);
 
 			// test a few switches
-			var installResponse = await byondClient.SetActiveVersion(new ByondInstallRequest
+			var installResponse = await byondClient.SetActiveVersion(new ByondVersionRequest
 			{
 				Version = TestVersion
 			}, null, cancellationToken);
 			Assert.IsNull(installResponse.InstallJob);
-			await ApiAssert.ThrowsException<ApiConflictException>(() => byondClient.SetActiveVersion(new ByondInstallRequest
+			await ApiAssert.ThrowsException<ApiConflictException>(() => byondClient.SetActiveVersion(new ByondVersionRequest
 			{
 				Version = new Version(TestVersion.Major, TestVersion.Minor, 2)
 			}, null, cancellationToken), ErrorCode.ByondNonExistentCustomVersion);
 
-			installResponse = await byondClient.SetActiveVersion(new ByondInstallRequest
+			installResponse = await byondClient.SetActiveVersion(new ByondVersionRequest
 			{
 				Version = new Version(TestVersion.Major, TestVersion.Minor, 1)
 			}, null, cancellationToken);
