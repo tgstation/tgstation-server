@@ -178,11 +178,11 @@ namespace Tgstation.Server.Api.Models
 		ConfigurationDirectoryNotEmpty,
 
 		/// <summary>
-		/// Tried to clone a repository with a missing <see cref="Request.RepositoryCreateRequest.Origin"/> property.
+		/// Currently unused.
 		/// </summary>
-		[Obsolete("Deprecated")]
-		[Description("Cannot clone repository with missing origin field!")]
-		RepoMissingOrigin,
+		[Obsolete("Unused", true)]
+		[Description("Unknown error code.")]
+		UnusedErrorCode1,
 
 		/// <summary>
 		/// One of <see cref="Internal.RepositorySettings.AccessUser"/> and <see cref="Internal.RepositorySettings.AccessToken"/> is set while the other isn't.
@@ -227,11 +227,11 @@ namespace Tgstation.Server.Api.Models
 		RepoMismatchShaAndUpdate,
 
 		/// <summary>
-		/// Attempted to change the origin of an existing repository.
+		/// Currently unused.
 		/// </summary>
-		[Obsolete("Deprecated")]
-		[Description("Cannot change the origin of an existing repository, delete and recreate it instead!")]
-		RepoCantChangeOrigin,
+		[Obsolete("Unused", true)]
+		[Description("Unknown error code.")]
+		UnusedErrorCode2,
 
 		/// <summary>
 		/// <see cref="Request.RepositoryUpdateRequest.NewTestMerges"/> contained duplicate <see cref="TestMergeParameters.Number"/>s.
@@ -288,11 +288,11 @@ namespace Tgstation.Server.Api.Models
 		ChatBotProviderMissing,
 
 		/// <summary>
-		/// Tried to edit user group membership using <see cref="Routes.UserGroup"/>.
+		/// Currently unused.
 		/// </summary>
-		[Obsolete("Deprecated", true)]
-		[Description("The " + Routes.UserGroup + " endpoint cannot edit group members. Please update each member user individually.")]
-		UserGroupControllerCantEditMembers,
+		[Obsolete("Unused", true)]
+		[Description("Unknown error code.")]
+		UnusedErrorCode3,
 
 		/// <summary>
 		/// Attempted to add a chat bot when at or above the <see cref="Instance.ChatBotLimit"/> or it was set to something lower than the existing amount of chat bots.
