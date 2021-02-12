@@ -267,7 +267,12 @@ namespace Tgstation.Server.Host.Components.Watchdog
 				return;
 			if (!graceful)
 			{
-				var eventTask = EventConsumer.HandleEvent(releaseServers ? EventType.WatchdogDetach : EventType.WatchdogShutdown, null, cancellationToken);
+				var eventTask = EventConsumer.HandleEvent(
+					releaseServers
+						? EventType.WatchdogDetach
+						: EventType.WatchdogShutdown,
+					Enumerable.Empty<string>(),
+					cancellationToken);
 
 				var chatTask = announce ? Chat.QueueWatchdogMessage("Shutting down...", cancellationToken) : Task.CompletedTask;
 
