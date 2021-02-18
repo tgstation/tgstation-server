@@ -65,13 +65,6 @@ namespace Tgstation.Server.Host.IO
 		}
 
 		/// <summary>
-		/// Opens a <see cref="FileStream"/> for async writing at a given <paramref name="path"/>
-		/// </summary>
-		/// <param name="path">The path to open the <see cref="FileStream"/> at</param>
-		/// <returns>A new <see cref="FileStream"/> ready for async writing</returns>
-		static FileStream OpenWriteStream(string path) => new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.ReadWrite, DefaultBufferSize, true);
-
-		/// <summary>
 		/// Copies a directory from <paramref name="src"/> to <paramref name="dest"/>
 		/// </summary>
 		/// <param name="src">The source directory path</param>
@@ -143,8 +136,20 @@ namespace Tgstation.Server.Host.IO
 				throw new ArgumentNullException(nameof(src));
 			if (dest == null)
 				throw new ArgumentNullException(nameof(dest));
-			using var srcStream = new FileStream(ResolvePath(src), FileMode.Open, FileAccess.Read, FileShare.Read | FileShare.Delete, DefaultBufferSize, true);
-			using var destStream = new FileStream(ResolvePath(dest), FileMode.Create, FileAccess.Write, FileShare.ReadWrite | FileShare.Delete, DefaultBufferSize, true);
+			using var srcStream = new FileStream(
+				ResolvePath(src),
+				FileMode.Open,
+				FileAccess.Read,
+				FileShare.Read | FileShare.Delete,
+				DefaultBufferSize,
+				FileOptions.Asynchronous | FileOptions.SequentialScan);
+			using var destStream = new FileStream(
+				ResolvePath(dest),
+				FileMode.Create,
+				FileAccess.Write,
+				FileShare.ReadWrite | FileShare.Delete,
+				DefaultBufferSize,
+				FileOptions.Asynchronous | FileOptions.SequentialScan);
 
 			// value taken from documentation
 			await srcStream.CopyToAsync(destStream, 81920, cancellationToken).ConfigureAwait(false);
@@ -229,7 +234,13 @@ namespace Tgstation.Server.Host.IO
 		public async Task<byte[]> ReadAllBytes(string path, CancellationToken cancellationToken)
 		{
 			path = ResolvePath(path);
-			using var file = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete, DefaultBufferSize, true);
+			using var file = new FileStream(
+				path,
+				FileMode.Open,
+				FileAccess.Read,
+				FileShare.ReadWrite | FileShare.Delete,
+				DefaultBufferSize,
+				FileOptions.Asynchronous | FileOptions.SequentialScan);
 			byte[] buf;
 			buf = new byte[file.Length];
 			await file.ReadAsync(buf, cancellationToken).ConfigureAwait(false);
@@ -246,7 +257,13 @@ namespace Tgstation.Server.Host.IO
 		public async Task WriteAllBytes(string path, byte[] contents, CancellationToken cancellationToken)
 		{
 			path = ResolvePath(path);
-			using var file = OpenWriteStream(path);
+			using var file = new FileStream(
+				path,
+				FileMode.Create,
+				FileAccess.Write,
+				FileShare.ReadWrite,
+				DefaultBufferSize,
+				FileOptions.Asynchronous | FileOptions.SequentialScan);
 			await file.WriteAsync(contents, cancellationToken).ConfigureAwait(false);
 		}
 

@@ -117,6 +117,16 @@ namespace Tgstation.Server.Host.Components.Repository
 		static CheckoutProgressHandler CheckoutProgressHandler(Action<int> progressReporter) => (a, completedSteps, totalSteps) => progressReporter((int)(((float)completedSteps) / totalSteps * 100));
 
 		/// <summary>
+		/// Rethrow the authentication failure message as a <see cref="JobException"/> if it is one.
+		/// </summary>
+		/// <param name="exception">The current <see cref="LibGit2SharpException"/>.</param>
+		static void CheckBadCredentialsException(LibGit2SharpException exception)
+		{
+			if (exception.Message == "too many redirects or authentication replays")
+				throw new JobException("Bad git credentials exchange!", exception);
+		}
+
+		/// <summary>
 		/// Construct a <see cref="Repository"/>
 		/// </summary>
 		/// <param name="libGitRepo">The value of <see cref="libGitRepo"/></param>
@@ -324,6 +334,10 @@ namespace Tgstation.Server.Host.Components.Repository
 							logMessage);
 					}
 					catch (UserCancelledException) { }
+					catch (LibGit2SharpException ex)
+					{
+						CheckBadCredentialsException(ex);
+					}
 
 					cancellationToken.ThrowIfCancellationRequested();
 
@@ -432,23 +446,34 @@ namespace Tgstation.Server.Host.Components.Repository
 				var remote = libGitRepo.Network.Remotes.First();
 				try
 				{
-					Commands.Fetch((LibGit2Sharp.Repository)libGitRepo, remote.Name, remote.FetchRefSpecs.Select(x => x.Specification), new FetchOptions
-					{
-						Prune = true,
-						OnProgress = (a) => !cancellationToken.IsCancellationRequested,
-						OnTransferProgress = (a) =>
+					commands.Fetch(
+						libGitRepo,
+						remote
+							.FetchRefSpecs
+							.Select(x => x.Specification),
+						remote,
+						new FetchOptions
 						{
-							var percentage = 100 * (((float)a.IndexedObjects + a.ReceivedObjects) / (a.TotalObjects * 2));
-							progressReporter((int)percentage);
-							return !cancellationToken.IsCancellationRequested;
+							Prune = true,
+							OnProgress = (a) => !cancellationToken.IsCancellationRequested,
+							OnTransferProgress = (a) =>
+							{
+								var percentage = 100 * (((float)a.IndexedObjects + a.ReceivedObjects) / (a.TotalObjects * 2));
+								progressReporter((int)percentage);
+								return !cancellationToken.IsCancellationRequested;
+							},
+							OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
+							CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password)
 						},
-						OnUpdateTips = (a, b, c) => !cancellationToken.IsCancellationRequested,
-						CredentialsProvider = credentialsProvider.GenerateCredentialsHandler(username, password)
-					}, "Fetch origin commits");
+						"Fetch origin commits");
 				}
 				catch (UserCancelledException)
 				{
 					cancellationToken.ThrowIfCancellationRequested();
+				}
+				catch (LibGit2SharpException ex)
+				{
+					CheckBadCredentialsException(ex);
 				}
 			}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
 		}
@@ -480,7 +505,7 @@ namespace Tgstation.Server.Host.Components.Repository
 				{
 					cancellationToken.ThrowIfCancellationRequested();
 				}
-				catch(LibGit2SharpException e)
+				catch (LibGit2SharpException e)
 				{
 					logger.LogWarning(e, "Unable to push to temporary branch!");
 				}
@@ -610,7 +635,14 @@ namespace Tgstation.Server.Host.Components.Repository
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> Sychronize(string username, string password, string committerName, string committerEmail, Action<int> progressReporter, bool synchronizeTrackedBranch, CancellationToken cancellationToken)
+		public async Task<bool> Sychronize(
+			string username,
+			string password,
+			string committerName,
+			string committerEmail,
+			Action<int> progressReporter,
+			bool synchronizeTrackedBranch,
+			CancellationToken cancellationToken)
 		{
 			if (committerName == null)
 				throw new ArgumentNullException(nameof(committerName));
@@ -659,12 +691,12 @@ namespace Tgstation.Server.Host.Components.Repository
 				logger.LogTrace("Resetting and cleaning untracked files...");
 				await Task.Factory.StartNew(() =>
 				{
-					libGitRepo.RemoveUntrackedFiles();
-					cancellationToken.ThrowIfCancellationRequested();
 					libGitRepo.Reset(ResetMode.Hard, libGitRepo.Head.Tip, new CheckoutOptions
 					{
 						OnCheckoutProgress = CheckoutProgressHandler(progress => progressReporter(progress / 10))
 					});
+					cancellationToken.ThrowIfCancellationRequested();
+					libGitRepo.RemoveUntrackedFiles();
 				}, cancellationToken, DefaultIOManager.BlockingTaskCreationOptions, TaskScheduler.Current).ConfigureAwait(false);
 			}
 
