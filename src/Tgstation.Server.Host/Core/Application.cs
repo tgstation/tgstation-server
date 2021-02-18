@@ -220,9 +220,6 @@ namespace Tgstation.Server.Host.Core
 				services.AddSwaggerGenNewtonsoftSupport();
 			}
 
-			// enable browser detection
-			services.AddDetectionCore().AddBrowser();
-
 			// CORS conditionally enabled later
 			services.AddCors();
 
