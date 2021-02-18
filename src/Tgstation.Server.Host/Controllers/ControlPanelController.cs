@@ -9,17 +9,21 @@ using System.Globalization;
 using System.Net.Mime;
 using Tgstation.Server.Api;
 using Tgstation.Server.Host.Configuration;
-using Tgstation.Server.Host.Core;
 
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
 	/// Controller for the web control panel.
 	/// </summary>
-	[Route(Application.ControlPanelRoute)]
+	[Route(ControlPanelRoute)]
 	[ApiExplorerSettings(IgnoreApi = true)]
 	public class ControlPanelController : Controller
 	{
+		/// <summary>
+		/// Route to the <see cref="ControlPanelController"/>.
+		/// </summary>
+		public const string ControlPanelRoute = "/app";
+
 		/// <summary>
 		/// The <see cref="IWebHostEnvironment"/> for the <see cref="ControlPanelController"/>.
 		/// </summary>
@@ -51,7 +55,7 @@ namespace Tgstation.Server.Host.Controllers
 		{
 			var controlPanelChannel = controlPanelConfiguration.Channel;
 			if (controlPanelChannel == "local")
-				controlPanelChannel = Application.ControlPanelRoute;
+				controlPanelChannel = ControlPanelRoute;
 
 			controlPanelChannel = controlPanelChannel
 				.Replace("${Major}", ApiHeaders.Version.Major.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal)
