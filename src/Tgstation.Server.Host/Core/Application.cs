@@ -463,7 +463,7 @@ namespace Tgstation.Server.Host.Core
 			// spa loading if necessary
 			if (controlPanelConfiguration.Enable)
 			{
-				logger.LogWarning("Web control panel enabled. This is a highly WIP feature!");
+				logger.LogInformation("Web control panel enabled.");
 				applicationBuilder.UseFileServer(new FileServerOptions
 				{
 					RequestPath = ControlPanelController.ControlPanelRoute,
@@ -472,7 +472,7 @@ namespace Tgstation.Server.Host.Core
 				});
 			}
 			else
-				logger.LogDebug("Web control panel disabled!");
+				logger.LogTrace("Web control panel disabled!");
 
 			// authenticate JWT tokens using our security pipeline if present, returns 401 if bad
 			applicationBuilder.UseAuthentication();
