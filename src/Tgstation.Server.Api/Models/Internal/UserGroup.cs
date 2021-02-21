@@ -5,6 +5,14 @@ namespace Tgstation.Server.Api.Models.Internal
 	/// </summary>
 	public class UserGroup : NamedEntity
 	{
+		/// <inheridoc />
+		[RequestOptions(FieldPresence.Required)]
+		public override long? Id
+		{
+			get => base.Id;
+			set => base.Id = value;
+		}
+
 		/// <summary>
 		/// The <see cref="Models.PermissionSet"/> of the <see cref="UserGroup"/>.
 		/// </summary>
