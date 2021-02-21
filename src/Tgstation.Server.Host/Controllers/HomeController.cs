@@ -24,7 +24,6 @@ using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Security.OAuth;
 using Tgstation.Server.Host.Swarm;
 using Tgstation.Server.Host.System;
-using Wangkanai.Detection;
 
 namespace Tgstation.Server.Host.Controllers
 {
@@ -80,11 +79,6 @@ namespace Tgstation.Server.Host.Controllers
 		readonly IServerControl serverControl;
 
 		/// <summary>
-		/// The <see cref="IBrowserResolver"/> for the <see cref="HomeController"/>
-		/// </summary>
-		readonly IBrowserResolver browserResolver;
-
-		/// <summary>
 		/// The <see cref="GeneralConfiguration"/> for the <see cref="HomeController"/>.
 		/// </summary>
 		readonly GeneralConfiguration generalConfiguration;
@@ -106,7 +100,6 @@ namespace Tgstation.Server.Host.Controllers
 		/// <param name="identityCache">The value of <see cref="identityCache"/></param>
 		/// <param name="oAuthProviders">The value of <see cref="oAuthProviders"/>.</param>
 		/// <param name="platformIdentifier">The value of <see cref="platformIdentifier"/>.</param>
-		/// <param name="browserResolver">The value of <see cref="browserResolver"/></param>
 		/// <param name="swarmService">The value of <see cref="swarmService"/>.</param>
 		/// <param name="serverControl">The value of <see cref="serverControl"/>.</param>
 		/// <param name="generalConfigurationOptions">The <see cref="IOptions{TOptions}"/> containing the value of <see cref="generalConfiguration"/>.</param>
@@ -122,7 +115,6 @@ namespace Tgstation.Server.Host.Controllers
 			IIdentityCache identityCache,
 			IOAuthProviders oAuthProviders,
 			IPlatformIdentifier platformIdentifier,
-			IBrowserResolver browserResolver,
 			ISwarmService swarmService,
 			IServerControl serverControl,
 			IOptions<GeneralConfiguration> generalConfigurationOptions,
@@ -141,7 +133,6 @@ namespace Tgstation.Server.Host.Controllers
 			this.identityCache = identityCache ?? throw new ArgumentNullException(nameof(identityCache));
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.oAuthProviders = oAuthProviders ?? throw new ArgumentNullException(nameof(oAuthProviders));
-			this.browserResolver = browserResolver ?? throw new ArgumentNullException(nameof(browserResolver));
 			this.swarmService = swarmService ?? throw new ArgumentNullException(nameof(swarmService));
 			this.serverControl = serverControl ?? throw new ArgumentNullException(nameof(serverControl));
 			generalConfiguration = generalConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(generalConfigurationOptions));
@@ -167,22 +158,20 @@ namespace Tgstation.Server.Host.Controllers
 					HeaderNames.Vary,
 					new StringValues(
 						new[]{
-							HeaderNames.UserAgent,
 							ApiHeaders.ApiVersionHeader
 						}));
 
-			// we only allow authorization header issues
 			if (ApiHeaders == null)
 			{
-				// if we are using a browser and the control panel, redirect to the app page
-				if (controlPanelConfiguration.Enable && browserResolver.Browser.Type != BrowserType.Generic)
+				if (controlPanelConfiguration.Enable)
 				{
-					Logger.LogDebug("Unauthorized browser request (User-Agent: \"{0}\"), redirecting to control panel...", browserResolver.UserAgent);
-					return Redirect(Core.Application.ControlPanelRoute);
+					Logger.LogDebug("No API headers on request, redirecting to control panel...");
+					return Redirect(ControlPanelController.ControlPanelRoute);
 				}
 
 				try
 				{
+					// we only allow authorization header issues
 					var headers = new ApiHeaders(Request.GetTypedHeaders(), true);
 					if (!headers.Compatible())
 						return StatusCode(

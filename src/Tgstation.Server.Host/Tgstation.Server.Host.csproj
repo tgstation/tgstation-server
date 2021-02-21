@@ -99,7 +99,6 @@
     <PackageReference Include="System.DirectoryServices.AccountManagement" Version="5.0.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.8.0" />
     <PackageReference Include="System.Management" Version="5.0.0" />
-    <PackageReference Include="Wangkanai.Detection.Browser" Version="2.0.1" />
     <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="3.1.8" />
   </ItemGroup>
 
