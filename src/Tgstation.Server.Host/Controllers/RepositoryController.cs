@@ -186,7 +186,13 @@ namespace Tgstation.Server.Host.Controllers
 
 					var job = new Job
 					{
-						Description = String.Format(CultureInfo.InvariantCulture, "Clone branch {1} of repository {0}", origin, cloneBranch ?? "master"),
+						Description = String.Format(
+							CultureInfo.InvariantCulture,
+							"Clone{1} repository {0}",
+							origin,
+							cloneBranch != null
+								? $"\"{cloneBranch}\" branch of"
+								: String.Empty),
 						StartedBy = AuthenticationContext.User,
 						CancelRightsType = RightsType.Repository,
 						CancelRight = (ulong)RepositoryRights.CancelClone,
