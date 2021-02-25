@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.10.0</span>
+   &#160;<span id="projectnumber">4.10.1</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -653,7 +653,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160; </div>
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a> == <span class="keyword">null</span>)</div>
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;            {</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#a81d7f216e77a45eed438ee3e88d0677c">controlPanelConfiguration</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#a15564859b17400f1bcc723a5fbee8121">Enable</a>)</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_home_controller.html#a81d7f216e77a45eed438ee3e88d0677c">controlPanelConfiguration</a>.<a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_configuration_1_1_control_panel_configuration.html#a15564859b17400f1bcc723a5fbee8121">Enable</a> &amp;&amp; !Request.Headers.TryGetValue(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html">ApiHeaders</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_api_headers.html#a99649cb8fbf286c635b109e8373b415e">ApiVersionHeader</a>, out _))</div>
 <div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;                {</div>
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                    <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_controllers_1_1_api_controller.html#ae5655868c2b2b913046ecf61934ce119">Logger</a>.LogDebug(<span class="stringliteral">&quot;No API headers on request, redirecting to control panel...&quot;</span>);</div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;                    <span class="keywordflow">return</span> Redirect(ControlPanelController.ControlPanelRoute);</div>
