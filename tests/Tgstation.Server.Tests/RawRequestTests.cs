@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Client;
 using Tgstation.Server.Host;
 
@@ -49,7 +50,7 @@ namespace Tgstation.Server.Tests
 				using var response = await httpClient.SendAsync(request, cancellationToken);
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 				var content = await response.Content.ReadAsStringAsync();
-				var message = JsonConvert.DeserializeObject<ErrorMessage>(content);
+				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
 				Assert.AreEqual(ErrorCode.BadHeaders, message.ErrorCode);
 			}
 
@@ -62,7 +63,7 @@ namespace Tgstation.Server.Tests
 				using var response = await httpClient.SendAsync(request, cancellationToken);
 				Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 				var content = await response.Content.ReadAsStringAsync();
-				var message = JsonConvert.DeserializeObject<ServerInformation>(content);
+				var message = JsonConvert.DeserializeObject<ServerInformationResponse>(content);
 				Assert.AreEqual(ApiHeaders.Version, message.ApiVersion);
 			}
 
@@ -76,7 +77,7 @@ namespace Tgstation.Server.Tests
 				using var response = await httpClient.SendAsync(request, cancellationToken);
 				Assert.AreEqual(HttpStatusCode.UpgradeRequired, response.StatusCode);
 				var content = await response.Content.ReadAsStringAsync();
-				var message = JsonConvert.DeserializeObject<ErrorMessage>(content);
+				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
 				Assert.AreEqual(ErrorCode.ApiMismatch, message.ErrorCode);
 			}
 
@@ -90,7 +91,7 @@ namespace Tgstation.Server.Tests
 				using var response = await httpClient.SendAsync(request, cancellationToken);
 				Assert.AreEqual(HttpStatusCode.UpgradeRequired, response.StatusCode);
 				var content = await response.Content.ReadAsStringAsync();
-				var message = JsonConvert.DeserializeObject<ErrorMessage>(content);
+				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
 				Assert.AreEqual(ErrorCode.ApiMismatch, message.ErrorCode);
 			}
 
@@ -108,7 +109,7 @@ namespace Tgstation.Server.Tests
 				using var response = await httpClient.SendAsync(request, cancellationToken);
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 				var content = await response.Content.ReadAsStringAsync();
-				var message = JsonConvert.DeserializeObject<ErrorMessage>(content);
+				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
 				Assert.AreEqual(ErrorCode.ModelValidationFailure, message.ErrorCode);
 			}
 
@@ -132,7 +133,7 @@ namespace Tgstation.Server.Tests
 				using var response = await httpClient.SendAsync(request, cancellationToken);
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 				var content = await response.Content.ReadAsStringAsync();
-				var message = JsonConvert.DeserializeObject<ErrorMessage>(content);
+				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
 				Assert.AreEqual(ErrorCode.InstanceHeaderRequired, message.ErrorCode);
 			}
 
@@ -146,7 +147,7 @@ namespace Tgstation.Server.Tests
 				using var response = await httpClient.SendAsync(request, cancellationToken);
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 				var content = await response.Content.ReadAsStringAsync();
-				var message = JsonConvert.DeserializeObject<ErrorMessage>(content);
+				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
 				Assert.AreEqual(ErrorCode.BadHeaders, message.ErrorCode);
 			}
 
@@ -161,7 +162,7 @@ namespace Tgstation.Server.Tests
 				using var response = await httpClient.SendAsync(request, cancellationToken);
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 				var content = await response.Content.ReadAsStringAsync();
-				var message = JsonConvert.DeserializeObject<ErrorMessage>(content);
+				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
 				Assert.AreEqual(ErrorCode.BadHeaders, message.ErrorCode);
 			}
 		}
@@ -180,7 +181,7 @@ namespace Tgstation.Server.Tests
 			Assert.AreEqual(RuntimeInformation.IsOSPlatform(OSPlatform.Windows), serverInfo.WindowsHost);
 
 			//check that modifying the token even slightly fucks up the auth
-			var newToken = new Token
+			var newToken = new TokenResponse
 			{
 				ExpiresAt = serverClient.Token.ExpiresAt,
 				Bearer = serverClient.Token.Bearer + '0'
@@ -228,7 +229,7 @@ namespace Tgstation.Server.Tests
 				using var response = await httpClient.SendAsync(request, cancellationToken);
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 				var content = await response.Content.ReadAsStringAsync();
-				var message = JsonConvert.DeserializeObject<ErrorMessage>(content);
+				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
 				Assert.AreEqual(MediaTypeNames.Application.Json, response.Content.Headers.ContentType.MediaType);
 				Assert.AreEqual(ErrorCode.ModelValidationFailure, message.ErrorCode);
 			}
@@ -243,7 +244,7 @@ namespace Tgstation.Server.Tests
 				using var response = await httpClient.SendAsync(request, cancellationToken);
 				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
 				var content = await response.Content.ReadAsStringAsync();
-				var message = JsonConvert.DeserializeObject<ErrorMessage>(content);
+				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
 				Assert.AreEqual(MediaTypeNames.Application.Json, response.Content.Headers.ContentType.MediaType);
 				Assert.AreEqual(ErrorCode.ModelValidationFailure, message.ErrorCode);
 			}

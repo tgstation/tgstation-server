@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.Web;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Request;
+using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Configuration;
 using Tgstation.Server.Host.Core;
@@ -24,7 +26,7 @@ using Tgstation.Server.Host.Transfer;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// <see cref="ApiController"/> for <see cref="Administration"/> purposes
+	/// <see cref="ApiController"/> for <see cref="AdministrationResponse"/> purposes
 	/// </summary>
 	[Route(Routes.Administration)]
 	public sealed class AdministrationController : ApiController
@@ -122,18 +124,18 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Get <see cref="Administration"/> server information.
+		/// Get <see cref="AdministrationResponse"/> server information.
 		/// </summary>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
-		/// <response code="200">Retrieved <see cref="Administration"/> data successfully.</response>
+		/// <response code="200">Retrieved <see cref="AdministrationResponse"/> data successfully.</response>
 		/// <response code="424">The GitHub API rate limit was hit. See response header Retry-After.</response>
 		/// <response code="429">A GitHub API error occurred. See error message for details.</response>
 		[HttpGet]
 		[TgsAuthorize(AdministrationRights.ChangeVersion)]
-		[ProducesResponseType(typeof(Administration), 200)]
-		[ProducesResponseType(typeof(ErrorMessage), 424)]
-		[ProducesResponseType(typeof(ErrorMessage), 429)]
+		[ProducesResponseType(typeof(AdministrationResponse), 200)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 424)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 429)]
 		public async Task<IActionResult> Read(CancellationToken cancellationToken)
 		{
 			try
@@ -169,7 +171,7 @@ namespace Tgstation.Server.Host.Controllers
 					Logger.LogWarning(e, "Not found exception while retrieving upstream repository info!");
 				}
 
-				return Json(new Administration
+				return Json(new AdministrationResponse
 				{
 					LatestVersion = greatestVersion,
 					TrackedRepositoryUrl = repoUrl,
@@ -182,7 +184,7 @@ namespace Tgstation.Server.Host.Controllers
 			catch (ApiException e)
 			{
 				Logger.LogWarning(e, OctokitException);
-				return StatusCode(HttpStatusCode.FailedDependency, new ErrorMessage(ErrorCode.RemoteApiError)
+				return StatusCode(HttpStatusCode.FailedDependency, new ErrorMessageResponse(ErrorCode.RemoteApiError)
 				{
 					AdditionalData = e.Message
 				});
@@ -192,7 +194,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Attempt to perform a server upgrade.
 		/// </summary>
-		/// <param name="model">The model containing the <see cref="Administration.NewVersion"/> to update to.</param>
+		/// <param name="model">The <see cref="ServerUpdateRequest"/>.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="202">Update has been started successfully.</response>
@@ -202,27 +204,27 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="429">A GitHub API error occurred.</response>
 		[HttpPost]
 		[TgsAuthorize(AdministrationRights.ChangeVersion)]
-		[ProducesResponseType(typeof(Administration), 202)]
-		[ProducesResponseType(typeof(ErrorMessage), 410)]
-		[ProducesResponseType(typeof(ErrorMessage), 422)]
-		[ProducesResponseType(typeof(ErrorMessage), 424)]
-		[ProducesResponseType(typeof(ErrorMessage), 429)]
-		public async Task<IActionResult> Update([FromBody] Administration model, CancellationToken cancellationToken)
+		[ProducesResponseType(typeof(ServerUpdateResponse), 202)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 410)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 422)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 424)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 429)]
+		public async Task<IActionResult> Update([FromBody] ServerUpdateRequest model, CancellationToken cancellationToken)
 		{
 			if (model == null)
 				throw new ArgumentNullException(nameof(model));
 
 			if (model.NewVersion == null)
-				return BadRequest(new ErrorMessage(ErrorCode.ModelValidationFailure)
+				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure)
 				{
 					AdditionalData = "newVersion is required!"
 				});
 
 			if (model.NewVersion.Major != assemblyInformationProvider.Version.Major)
-				return BadRequest(new ErrorMessage(ErrorCode.CannotChangeServerSuite));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.CannotChangeServerSuite));
 
 			if (!serverControl.WatchdogPresent)
-				return UnprocessableEntity(new ErrorMessage(ErrorCode.MissingHostWatchdog));
+				return UnprocessableEntity(new ErrorMessageResponse(ErrorCode.MissingHostWatchdog));
 
 			try
 			{
@@ -231,9 +233,9 @@ namespace Tgstation.Server.Host.Controllers
 					return Gone();
 
 				if (updateResult == ServerUpdateResult.UpdateInProgress)
-					return BadRequest(new ErrorMessage(ErrorCode.ServerUpdateInProgress));
+					return BadRequest(new ErrorMessageResponse(ErrorCode.ServerUpdateInProgress));
 
-				return Accepted(new Administration
+				return Accepted(new ServerUpdateResponse
 				{
 					NewVersion = model.NewVersion
 				});
@@ -245,7 +247,7 @@ namespace Tgstation.Server.Host.Controllers
 			catch (ApiException e)
 			{
 				Logger.LogWarning(e, OctokitException);
-				return StatusCode(HttpStatusCode.FailedDependency, new ErrorMessage(ErrorCode.RemoteApiError)
+				return StatusCode(HttpStatusCode.FailedDependency, new ErrorMessageResponse(ErrorCode.RemoteApiError)
 				{
 					AdditionalData = e.Message
 				});
@@ -261,7 +263,7 @@ namespace Tgstation.Server.Host.Controllers
 		[HttpDelete]
 		[TgsAuthorize(AdministrationRights.RestartHost)]
 		[ProducesResponseType(204)]
-		[ProducesResponseType(typeof(ErrorMessage), 422)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 422)]
 		public async Task<IActionResult> Delete()
 		{
 			try
@@ -269,7 +271,7 @@ namespace Tgstation.Server.Host.Controllers
 				if (!serverControl.WatchdogPresent)
 				{
 					Logger.LogDebug("Restart request failed due to lack of host watchdog!");
-					return UnprocessableEntity(new ErrorMessage(ErrorCode.MissingHostWatchdog));
+					return UnprocessableEntity(new ErrorMessageResponse(ErrorCode.MissingHostWatchdog));
 				}
 
 				await serverControl.Restart().ConfigureAwait(false);
@@ -282,7 +284,7 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// List <see cref="LogFile"/>s present.
+		/// List <see cref="LogFileResponse"/>s present.
 		/// </summary>
 		/// <param name="page">The current page.</param>
 		/// <param name="pageSize">The page size.</param>
@@ -292,8 +294,8 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="409">An IO error occurred while listing.</response>
 		[HttpGet(Routes.Logs)]
 		[TgsAuthorize(AdministrationRights.DownloadLogs)]
-		[ProducesResponseType(typeof(Paginated<LogFile>), 200)]
-		[ProducesResponseType(typeof(ErrorMessage), 409)]
+		[ProducesResponseType(typeof(PaginatedResponse<LogFileResponse>), 200)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
 		public Task<IActionResult> ListLogs([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
 			=> Paginated(
 				async () =>
@@ -303,7 +305,7 @@ namespace Tgstation.Server.Host.Controllers
 					{
 						var files = await ioManager.GetFiles(path, cancellationToken).ConfigureAwait(false);
 						var tasks = files.Select(
-							async file => new LogFile
+							async file => new LogFileResponse
 							{
 								Name = ioManager.GetFileName(file),
 								LastModified = await ioManager
@@ -316,7 +318,7 @@ namespace Tgstation.Server.Host.Controllers
 
 						await Task.WhenAll(tasks).ConfigureAwait(false);
 
-						return new PaginatableResult<LogFile>(
+						return new PaginatableResult<LogFileResponse>(
 							tasks
 								.AsQueryable()
 								.Select(x => x.Result)
@@ -324,8 +326,8 @@ namespace Tgstation.Server.Host.Controllers
 					}
 					catch (IOException ex)
 					{
-						return new PaginatableResult<LogFile>(
-							Conflict(new ErrorMessage(ErrorCode.IOError)
+						return new PaginatableResult<LogFileResponse>(
+							Conflict(new ErrorMessageResponse(ErrorCode.IOError)
 							{
 								AdditionalData = ex.ToString()
 							}));
@@ -337,17 +339,17 @@ namespace Tgstation.Server.Host.Controllers
 				cancellationToken);
 
 		/// <summary>
-		/// Download a <see cref="LogFile"/>.
+		/// Download a <see cref="LogFileResponse"/>.
 		/// </summary>
 		/// <param name="path">The path to download.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the request.</returns>
-		/// <response code="200">Downloaded <see cref="LogFile"/> successfully.</response>
+		/// <response code="200">Downloaded <see cref="LogFileResponse"/> successfully.</response>
 		/// <response code="409">An IO error occurred while downloading.</response>
 		[HttpGet(Routes.Logs + "/{*path}")]
 		[TgsAuthorize(AdministrationRights.DownloadLogs)]
-		[ProducesResponseType(typeof(LogFile), 200)]
-		[ProducesResponseType(typeof(ErrorMessage), 409)]
+		[ProducesResponseType(typeof(LogFileResponse), 200)]
+		[ProducesResponseType(typeof(ErrorMessageResponse), 409)]
 		public async Task<IActionResult> GetLog(string path, CancellationToken cancellationToken)
 		{
 			if (path == null)
@@ -374,7 +376,7 @@ namespace Tgstation.Server.Host.Controllers
 
 				var readTask = ioManager.ReadAllBytes(fullPath, cancellationToken);
 
-				return Ok(new LogFile
+				return Ok(new LogFileResponse
 				{
 					Name = path,
 					LastModified = await ioManager.GetLastModified(fullPath, cancellationToken).ConfigureAwait(false),
@@ -383,7 +385,7 @@ namespace Tgstation.Server.Host.Controllers
 			}
 			catch (IOException ex)
 			{
-				return Conflict(new ErrorMessage(ErrorCode.IOError)
+				return Conflict(new ErrorMessageResponse(ErrorCode.IOError)
 				{
 					AdditionalData = ex.ToString()
 				});

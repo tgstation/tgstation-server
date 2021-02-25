@@ -1,4 +1,4 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Host.Components.Interop.Bridge;
 using Tgstation.Server.Host.Models;
@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.Components
 		/// </summary>
 		/// <param name="metadata">The <see cref="Models.Instance"/> of the desired <see cref="IInstance"/></param>
 		/// <returns>The <see cref="IInstance"/> associated with the given <paramref name="metadata"/> if it is online, <see langword="null"/> otherwise.</returns>
-		IInstanceReference GetInstanceReference(Models.Instance metadata);
+		IInstanceReference GetInstanceReference(Api.Models.Instance metadata);
 
 		/// <summary>
 		/// Online an <see cref="IInstance"/>

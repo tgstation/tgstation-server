@@ -4,6 +4,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Internal;
+using Tgstation.Server.Api.Models.Request;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client.Components
 {
@@ -27,31 +30,31 @@ namespace Tgstation.Server.Client.Components
 		}
 
 		/// <inheritdoc />
-		public Task<InstancePermissionSet> Create(InstancePermissionSet instancePermissionSet, CancellationToken cancellationToken) => ApiClient.Create<InstancePermissionSet, InstancePermissionSet>(Routes.InstancePermissionSet, instancePermissionSet ?? throw new ArgumentNullException(nameof(instancePermissionSet)), instance.Id, cancellationToken);
+		public Task<InstancePermissionSetResponse> Create(InstancePermissionSetRequest instancePermissionSet, CancellationToken cancellationToken) => ApiClient.Create<InstancePermissionSetRequest, InstancePermissionSetResponse>(Routes.InstancePermissionSet, instancePermissionSet ?? throw new ArgumentNullException(nameof(instancePermissionSet)), instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
 		public Task Delete(InstancePermissionSet instancePermissionSet, CancellationToken cancellationToken) => ApiClient.Delete(
 			Routes.SetID(
 				Routes.InstancePermissionSet,
 				instancePermissionSet.PermissionSetId),
-			instance.Id,
+			instance.Id!.Value,
 			cancellationToken);
 
 		/// <inheritdoc />
-		public Task<InstancePermissionSet> Read(CancellationToken cancellationToken) => ApiClient.Read<InstancePermissionSet>(Routes.InstancePermissionSet, instance.Id, cancellationToken);
+		public Task<InstancePermissionSetResponse> Read(CancellationToken cancellationToken) => ApiClient.Read<InstancePermissionSetResponse>(Routes.InstancePermissionSet, instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<InstancePermissionSet> Update(InstancePermissionSet instancePermissionSet, CancellationToken cancellationToken) => ApiClient.Update<InstancePermissionSet, InstancePermissionSet>(Routes.InstancePermissionSet, instancePermissionSet ?? throw new ArgumentNullException(nameof(instancePermissionSet)), instance.Id, cancellationToken);
+		public Task<InstancePermissionSetResponse> Update(InstancePermissionSetRequest instancePermissionSet, CancellationToken cancellationToken) => ApiClient.Update<InstancePermissionSetRequest, InstancePermissionSetResponse>(Routes.InstancePermissionSet, instancePermissionSet ?? throw new ArgumentNullException(nameof(instancePermissionSet)), instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<IReadOnlyList<InstancePermissionSet>> List(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
-			=> ReadPaged<InstancePermissionSet>(
+		public Task<IReadOnlyList<InstancePermissionSetResponse>> List(PaginationSettings? paginationSettings, CancellationToken cancellationToken)
+			=> ReadPaged<InstancePermissionSetResponse>(
 				paginationSettings,
 				Routes.ListRoute(Routes.InstancePermissionSet),
 				instance.Id,
 				cancellationToken);
 
 		/// <inheritdoc />
-		public Task<InstancePermissionSet> GetId(InstancePermissionSet instancePermissionSet, CancellationToken cancellationToken) => ApiClient.Read<InstancePermissionSet>(Routes.SetID(Routes.InstancePermissionSet, instancePermissionSet?.PermissionSetId ?? throw new ArgumentNullException(nameof(instancePermissionSet))), instance.Id, cancellationToken);
+		public Task<InstancePermissionSetResponse> GetId(InstancePermissionSet instancePermissionSet, CancellationToken cancellationToken) => ApiClient.Read<InstancePermissionSetResponse>(Routes.SetID(Routes.InstancePermissionSet, instancePermissionSet?.PermissionSetId ?? throw new ArgumentNullException(nameof(instancePermissionSet))), instance.Id!.Value, cancellationToken);
 	}
 }

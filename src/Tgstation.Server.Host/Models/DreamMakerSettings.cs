@@ -1,9 +1,10 @@
 using System.ComponentModel.DataAnnotations;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class DreamMakerSettings : Api.Models.DreamMaker, IApiTransformable<Api.Models.DreamMaker>
+	public sealed class DreamMakerSettings : Api.Models.Internal.DreamMakerSettings, IApiTransformable<DreamMakerResponse>
 	{
 		/// <summary>
 		/// The row Id
@@ -22,7 +23,7 @@ namespace Tgstation.Server.Host.Models
 		public Instance Instance { get; set; }
 
 		/// <inheritdoc />
-		public Api.Models.DreamMaker ToApi() => new Api.Models.DreamMaker
+		public DreamMakerResponse ToApi() => new DreamMakerResponse
 		{
 			ProjectName = ProjectName,
 			ApiValidationPort = ApiValidationPort,

@@ -194,14 +194,14 @@ namespace Tgstation.Server.Host.Components
 		}
 
 		/// <inheritdoc />
-		public IInstanceReference GetInstanceReference(Models.Instance metadata)
+		public IInstanceReference GetInstanceReference(Api.Models.Instance metadata)
 		{
 			if (metadata == null)
 				throw new ArgumentNullException(nameof(metadata));
 
 			lock (instances)
 			{
-				if (!instances.TryGetValue(metadata.Id, out var instance))
+				if (!instances.TryGetValue(metadata.Id.Value, out var instance))
 				{
 					logger.LogTrace("Cannot reference instance {0} as it is not online or on this node!", metadata.Id);
 					return null;
@@ -289,13 +289,13 @@ namespace Tgstation.Server.Host.Components
 			InstanceContainer container;
 			lock (instances)
 			{
-				if (!instances.TryGetValue(metadata.Id, out container))
+				if (!instances.TryGetValue(metadata.Id.Value, out container))
 				{
 					logger.LogDebug("Not offlining removed instance {0}", metadata.Id);
 					return;
 				}
 
-				instances.Remove(metadata.Id);
+				instances.Remove(metadata.Id.Value);
 			}
 
 			try
@@ -339,7 +339,7 @@ namespace Tgstation.Server.Host.Components
 
 			using var lockContext = await SemaphoreSlimContext.Lock(instanceStateChangeSemaphore, cancellationToken).ConfigureAwait(false);
 			lock (instances)
-				if (instances.ContainsKey(metadata.Id))
+				if (instances.ContainsKey(metadata.Id.Value))
 				{
 					logger.LogDebug("Aborting instance creation due to it seemingly already being online");
 					return;
@@ -354,7 +354,7 @@ namespace Tgstation.Server.Host.Components
 				try
 				{
 					lock (instances)
-						instances.Add(metadata.Id, new InstanceContainer(instance));
+						instances.Add(metadata.Id.Value, new InstanceContainer(instance));
 				}
 				catch (Exception ex)
 				{
@@ -543,7 +543,7 @@ namespace Tgstation.Server.Host.Components
 		{
 			lock (instances)
 			{
-				instances.TryGetValue(metadata.Id, out var container);
+				instances.TryGetValue(metadata.Id.Value, out var container);
 				return container?.Instance;
 			}
 		}

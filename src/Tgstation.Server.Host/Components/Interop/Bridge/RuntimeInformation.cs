@@ -29,7 +29,7 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 		public bool ApiValidateOnly { get; }
 
 		/// <summary>
-		/// The <see cref="Api.Models.Instance.Name"/> of the owner at the time of launch
+		/// The <see cref="NamedEntity.Name"/> of the owner at the time of launch
 		/// </summary>
 		public string InstanceName { get; set; }
 

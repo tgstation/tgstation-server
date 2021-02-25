@@ -18,6 +18,7 @@ namespace Tgstation.Server.Api.Models
 		/// The ID of the user in the <see cref="Provider"/>.
 		/// </summary>
 		[Required]
+		[RequestOptions(FieldPresence.Required)]
 		[StringLength(Limits.MaximumIndexableStringLength, MinimumLength = 1)]
 		public string? ExternalUserId { get; set; }
 	}

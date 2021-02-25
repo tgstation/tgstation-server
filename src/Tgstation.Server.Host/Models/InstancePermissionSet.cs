@@ -1,9 +1,10 @@
 using System.ComponentModel.DataAnnotations;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class InstancePermissionSet : Api.Models.InstancePermissionSet, IApiTransformable<Api.Models.InstancePermissionSet>
+	public sealed class InstancePermissionSet : Api.Models.Internal.InstancePermissionSet, IApiTransformable<InstancePermissionSetResponse>
 	{
 		/// <summary>
 		/// The row Id
@@ -28,7 +29,7 @@ namespace Tgstation.Server.Host.Models
 		public PermissionSet PermissionSet { get; set; }
 
 		/// <inheritdoc />
-		public Api.Models.InstancePermissionSet ToApi() => new Api.Models.InstancePermissionSet
+		public InstancePermissionSetResponse ToApi() => new InstancePermissionSetResponse
 		{
 			ByondRights = ByondRights,
 			ChatBotRights = ChatBotRights,

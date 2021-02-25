@@ -1,20 +1,21 @@
 using System.ComponentModel.DataAnnotations;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
 	#pragma warning disable CA1724 // naming conflict with gitlab package
-	public sealed class Job : Api.Models.Internal.Job, IApiTransformable<Api.Models.Job>
+	public sealed class Job : Api.Models.Internal.Job, IApiTransformable<JobResponse>
 	#pragma warning restore CA1724
 	{
 		/// <summary>
-		/// See <see cref="Api.Models.Job.StartedBy"/>
+		/// See <see cref="JobResponse.StartedBy"/>
 		/// </summary>
 		[Required]
 		public User StartedBy { get; set; }
 
 		/// <summary>
-		/// See <see cref="Api.Models.Job.CancelledBy"/>
+		/// See <see cref="JobResponse.CancelledBy"/>
 		/// </summary>
 		public User CancelledBy { get; set; }
 
@@ -25,19 +26,19 @@ namespace Tgstation.Server.Host.Models
 		public Instance Instance { get; set; }
 
 		/// <inheritdoc />
-		public Api.Models.Job ToApi() => new Api.Models.Job
+		public JobResponse ToApi() => new JobResponse
 		{
 			Id = Id,
 			StartedAt = StartedAt,
 			StoppedAt = StoppedAt,
 			Cancelled = Cancelled,
-			CancelledBy = CancelledBy?.ToApi(false),
+			CancelledBy = CancelledBy?.CreateUserName(),
 			CancelRight = CancelRight,
 			CancelRightsType = CancelRightsType,
 			Description = Description,
 			ExceptionDetails = ExceptionDetails,
 			ErrorCode = ErrorCode,
-			StartedBy = StartedBy.ToApi(false)
+			StartedBy = StartedBy.CreateUserName()
 		};
 	}
 }

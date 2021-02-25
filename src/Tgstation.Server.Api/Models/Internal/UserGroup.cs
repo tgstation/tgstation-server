@@ -1,10 +1,18 @@
 namespace Tgstation.Server.Api.Models.Internal
 {
 	/// <summary>
-	/// Represents a group of <see cref="Models.User"/>s.
+	/// Represents a group of users.
 	/// </summary>
-	public class UserGroup : UserGroupBase
+	public class UserGroup : NamedEntity
 	{
+		/// <inheridoc />
+		[RequestOptions(FieldPresence.Required)]
+		public override long? Id
+		{
+			get => base.Id;
+			set => base.Id = value;
+		}
+
 		/// <summary>
 		/// The <see cref="Models.PermissionSet"/> of the <see cref="UserGroup"/>.
 		/// </summary>

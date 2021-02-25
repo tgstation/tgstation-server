@@ -5,9 +5,7 @@ using Tgstation.Server.Host.Models;
 
 namespace Tgstation.Server.Host.Security
 {
-	/// <summary>
-	/// Manages <see cref="Api.Models.User"/>s for a scope
-	/// </summary>
+	/// <inheritdoc />
 	sealed class AuthenticationContext : IAuthenticationContext
 	{
 		/// <inheritdoc />

@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Database;
 using Tgstation.Server.Host.Security;
 using Tgstation.Server.Host.Transfer;
@@ -53,7 +54,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Downloads a file with a given <paramref name="ticket"/>.
 		/// </summary>
-		/// <param name="ticket">The <see cref="FileTicketResult.FileTicket"/> for the download.</param>
+		/// <param name="ticket">The <see cref="FileTicketResponse.FileTicket"/> for the download.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the method.</returns>
 		/// <response code="200">Started streaming download successfully.</response>
@@ -61,20 +62,20 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize]
 		[HttpGet]
 		[ProducesResponseType(200, Type = typeof(LimitedFileStreamResult))]
-		[ProducesResponseType(410, Type = typeof(ErrorMessage))]
+		[ProducesResponseType(410, Type = typeof(ErrorMessageResponse))]
 		public async Task<IActionResult> Download([Required, FromQuery] string ticket, CancellationToken cancellationToken)
 		{
 			if (ticket == null)
-				return BadRequest(new ErrorMessage(ErrorCode.ModelValidationFailure));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
 
 			var streamAccept = new MediaTypeHeaderValue(MediaTypeNames.Application.Octet);
 			if (!Request.GetTypedHeaders().Accept.Any(x => streamAccept.IsSubsetOf(x)))
-				return StatusCode(HttpStatusCode.NotAcceptable, new ErrorMessage(ErrorCode.BadHeaders)
+				return StatusCode(HttpStatusCode.NotAcceptable, new ErrorMessageResponse(ErrorCode.BadHeaders)
 				{
 					AdditionalData = $"File downloads must accept both {MediaTypeNames.Application.Octet} and {MediaTypeNames.Application.Json}!"
 				});
 
-			var fileTicketResult = new FileTicketResult
+			var fileTicketResult = new FileTicketResponse
 			{
 				FileTicket = ticket
 			};
@@ -101,7 +102,7 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Uploads a file with a given <paramref name="ticket"/>.
 		/// </summary>
-		/// <param name="ticket">The <see cref="FileTicketResult.FileTicket"/> for the upload.</param>
+		/// <param name="ticket">The <see cref="FileTicketResponse.FileTicket"/> for the upload.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> of the method.</returns>
 		/// <response code="204">Uploaded file successfully.</response>
@@ -110,13 +111,13 @@ namespace Tgstation.Server.Host.Controllers
 		[TgsAuthorize]
 		[HttpPut]
 		[ProducesResponseType(204)]
-		[ProducesResponseType(410, Type = typeof(ErrorMessage))]
+		[ProducesResponseType(410, Type = typeof(ErrorMessageResponse))]
 		public async Task<IActionResult> Upload([Required, FromQuery] string ticket, CancellationToken cancellationToken)
 		{
 			if (ticket == null)
-				return BadRequest(new ErrorMessage(ErrorCode.ModelValidationFailure));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
 
-			var fileTicketResult = new FileTicketResult
+			var fileTicketResult = new FileTicketResponse
 			{
 				FileTicket = ticket
 			};

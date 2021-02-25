@@ -1,4 +1,4 @@
-using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Transfer
 {
@@ -8,11 +8,11 @@ namespace Tgstation.Server.Host.Transfer
 	public interface IFileTransferTicketProvider
 	{
 		/// <summary>
-		/// Create a <see cref="FileTicketResult"/> for a download.
+		/// Create a <see cref="FileTicketResponse"/> for a download.
 		/// </summary>
 		/// <param name="fileDownloadProvider">The <see cref="FileDownloadProvider"/>.</param>
-		/// <returns>A new <see cref="FileTicketResult"/> for a download.</returns>
-		FileTicketResult CreateDownload(FileDownloadProvider fileDownloadProvider);
+		/// <returns>A new <see cref="FileTicketResponse"/> for a download.</returns>
+		FileTicketResponse CreateDownload(FileDownloadProvider fileDownloadProvider);
 
 		/// <summary>
 		/// Create a <see cref="IFileUploadTicket"/>.

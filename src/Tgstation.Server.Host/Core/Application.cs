@@ -56,11 +56,6 @@ namespace Tgstation.Server.Host.Core
 	sealed class Application : SetupApplication
 	{
 		/// <summary>
-		/// Route to the web control panel.
-		/// </summary>
-		public const string ControlPanelRoute = "/app";
-
-		/// <summary>
 		/// The <see cref="IWebHostEnvironment"/> for the <see cref="Application"/>.
 		/// </summary>
 		readonly IWebHostEnvironment hostingEnvironment;
@@ -224,9 +219,6 @@ namespace Tgstation.Server.Host.Core
 				services.AddSwaggerGen(genOptions => SwaggerConfiguration.Configure(genOptions, assemblyDocumentationPath, apiDocumentationPath));
 				services.AddSwaggerGenNewtonsoftSupport();
 			}
-
-			// enable browser detection
-			services.AddDetectionCore().AddBrowser();
 
 			// CORS conditionally enabled later
 			services.AddCors();
@@ -468,16 +460,16 @@ namespace Tgstation.Server.Host.Core
 			// spa loading if necessary
 			if (controlPanelConfiguration.Enable)
 			{
-				logger.LogWarning("Web control panel enabled. This is a highly WIP feature!");
+				logger.LogInformation("Web control panel enabled.");
 				applicationBuilder.UseFileServer(new FileServerOptions
 				{
-					RequestPath = ControlPanelRoute,
+					RequestPath = ControlPanelController.ControlPanelRoute,
 					EnableDefaultFiles = true,
 					EnableDirectoryBrowsing = false
 				});
 			}
 			else
-				logger.LogDebug("Web control panel disabled!");
+				logger.LogTrace("Web control panel disabled!");
 
 			// authenticate JWT tokens using our security pipeline if present, returns 401 if bad
 			applicationBuilder.UseAuthentication();

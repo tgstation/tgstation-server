@@ -56,7 +56,16 @@ namespace Tgstation.Server.Tests
 		[TestMethod]
 		public void TestApiVersion()
 		{
-			var versionString = versionsPropertyGroup.Element(xmlNamespace + "TgsApiVersion").Value + ".0";
+			var versionString = versionsPropertyGroup.Element(xmlNamespace + "TgsApiVersion").Value;
+			Assert.IsNotNull(versionString);
+			Assert.IsTrue(Version.TryParse(versionString, out var expected));
+			Assert.AreEqual(expected, ApiHeaders.Version);
+		}
+
+		[TestMethod]
+		public void TestApiLibraryVersion()
+		{
+			var versionString = versionsPropertyGroup.Element(xmlNamespace + "TgsApiLibraryVersion").Value + ".0";
 			Assert.IsNotNull(versionString);
 			Assert.IsTrue(Version.TryParse(versionString, out var expected));
 			var actual = typeof(ApiHeaders).Assembly.GetName().Version;

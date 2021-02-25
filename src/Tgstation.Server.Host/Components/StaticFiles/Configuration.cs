@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Components.Events;
 using Tgstation.Server.Host.Core;
 using Tgstation.Server.Host.IO;
@@ -214,7 +215,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		}
 
 		/// <inheritdoc />
-		public async Task<IReadOnlyList<ConfigurationFile>> ListDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
+		public async Task<IReadOnlyList<ConfigurationFileResponse>> ListDirectory(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
 		{
 			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
@@ -222,14 +223,14 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 			if (configurationRelativePath == null)
 				configurationRelativePath = "/";
 
-			List<ConfigurationFile> result = new List<ConfigurationFile>();
+			List<ConfigurationFileResponse> result = new List<ConfigurationFileResponse>();
 
 			void ListImpl()
 			{
 				var enumerator = synchronousIOManager.GetDirectories(path, cancellationToken);
 				try
 				{
-					result.AddRange(enumerator.Select(x => new ConfigurationFile
+					result.AddRange(enumerator.Select(x => new ConfigurationFileResponse
 					{
 						IsDirectory = true,
 						Path = ioManager.ConcatPath(configurationRelativePath, x),
@@ -243,7 +244,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 				}
 
 				enumerator = synchronousIOManager.GetFiles(path, cancellationToken);
-				result.AddRange(enumerator.Select(x => new ConfigurationFile
+				result.AddRange(enumerator.Select(x => new ConfigurationFileResponse
 				{
 					IsDirectory = false,
 					Path = ioManager.ConcatPath(configurationRelativePath, x),
@@ -260,12 +261,12 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		}
 
 		/// <inheritdoc />
-		public async Task<ConfigurationFile> Read(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
+		public async Task<ConfigurationFileResponse> Read(string configurationRelativePath, ISystemIdentity systemIdentity, CancellationToken cancellationToken)
 		{
 			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
 
-			ConfigurationFile result = null;
+			ConfigurationFileResponse result = null;
 
 			void ReadImpl()
 			{
@@ -316,7 +317,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 								path,
 								false));
 
-						result = new ConfigurationFile
+						result = new ConfigurationFileResponse
 						{
 							FileTicket = fileTicket.FileTicket,
 							IsDirectory = false,
@@ -333,19 +334,20 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 						{
 							isDirectory = synchronousIOManager.IsDirectory(path);
 						}
-						catch
+						catch(Exception ex)
 						{
+							logger.LogDebug(ex, "IsDirectory exception!");
 							isDirectory = false;
 						}
 
-						result = new ConfigurationFile
+						result = new ConfigurationFileResponse
 						{
 							Path = configurationRelativePath
 						};
 						if (!isDirectory)
 							result.AccessDenied = true;
-						else
-							result.IsDirectory = true;
+
+						result.IsDirectory = isDirectory;
 					}
 			}
 
@@ -429,12 +431,12 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		}
 
 		/// <inheritdoc />
-		public async Task<ConfigurationFile> Write(string configurationRelativePath, ISystemIdentity systemIdentity, string previousHash, CancellationToken cancellationToken)
+		public async Task<ConfigurationFileResponse> Write(string configurationRelativePath, ISystemIdentity systemIdentity, string previousHash, CancellationToken cancellationToken)
 		{
 			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
 			var path = ValidateConfigRelativePath(configurationRelativePath);
 
-			ConfigurationFile result = null;
+			ConfigurationFileResponse result = null;
 
 			void WriteImpl()
 			{
@@ -462,7 +464,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 										await systemIdentity.RunImpersonated(WriteCallback, cancellationToken).ConfigureAwait(false);
 
 								if (!success)
-									fileTicket.SetErrorMessage(new ErrorMessage(ErrorCode.ConfigurationFileUpdated)
+									fileTicket.SetErrorMessage(new ErrorMessageResponse(ErrorCode.ConfigurationFileUpdated)
 									{
 										AdditionalData = fileHash
 									});
@@ -471,7 +473,7 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 							}
 						}
 
-						result = new ConfigurationFile
+						result = new ConfigurationFileResponse
 						{
 							FileTicket = fileTicket.Ticket.FileTicket,
 							LastReadHash = previousHash,
@@ -491,19 +493,20 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 						{
 							isDirectory = synchronousIOManager.IsDirectory(path);
 						}
-						catch
+						catch(Exception ex)
 						{
+							logger.LogDebug(ex, "IsDirectory exception!");
 							isDirectory = false;
 						}
 
-						result = new ConfigurationFile
+						result = new ConfigurationFileResponse
 						{
 							Path = configurationRelativePath
 						};
 						if (!isDirectory)
 							result.AccessDenied = true;
-						else
-							result.IsDirectory = true;
+
+						result.IsDirectory = isDirectory;
 					}
 			}
 

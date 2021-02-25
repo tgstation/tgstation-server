@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Models
 {
 	/// <inheritdoc />
-	public sealed class User : Api.Models.Internal.User, IApiTransformable<Api.Models.User>
+	public sealed class User : Api.Models.Internal.UserModelBase, IApiTransformable<UserResponse>
 	{
 		/// <summary>
 		/// Username used when creating jobs automatically.
@@ -20,7 +21,7 @@ namespace Tgstation.Server.Host.Models
 		public string PasswordHash { get; set; }
 
 		/// <summary>
-		/// See <see cref="Api.Models.User"/>
+		/// See <see cref="UserResponse"/>
 		/// </summary>
 		public User CreatedBy { get; set; }
 
@@ -40,7 +41,7 @@ namespace Tgstation.Server.Host.Models
 		public PermissionSet PermissionSet { get; set; }
 
 		/// <summary>
-		/// The uppercase invariant of <see cref="Api.Models.Internal.UserBase.Name"/>
+		/// The uppercase invariant of <see cref="UserName.Name"/>
 		/// </summary>
 		[Required]
 		[StringLength(Limits.MaximumIndexableStringLength, MinimumLength = 1)]
@@ -67,43 +68,35 @@ namespace Tgstation.Server.Host.Models
 		public ICollection<OAuthConnection> OAuthConnections { get; set; }
 
 		/// <summary>
-		/// Change a <see cref="Api.Models.Internal.UserBase.Name"/> into a <see cref="CanonicalName"/>.
+		/// Change a <see cref="UserName.Name"/> into a <see cref="CanonicalName"/>.
 		/// </summary>
-		/// <param name="name">The <see cref="Api.Models.Internal.UserBase.Name"/>.</param>
+		/// <param name="name">The <see cref="UserName.Name"/>.</param>
 		/// <returns>The <see cref="CanonicalName"/>.</returns>
 		public static string CanonicalizeName(string name) => name?.ToUpperInvariant() ?? throw new ArgumentNullException(nameof(name));
 
 		/// <summary>
-		/// See <see cref="ToApi(bool)"/>
+		/// Generate a <see cref="UserResponse"/> from <see langword="this"/>.
 		/// </summary>
-		/// <param name="recursive">If we should recurse on <see cref="CreatedBy"/></param>
-		/// <param name="showDetails">If rights and system identifier should be shown</param>
-		/// <returns>A new <see cref="Api.Models.User"/></returns>
-		Api.Models.User ToApi(bool recursive, bool showDetails) => new Api.Models.User
+		/// <param name="recursive">If we should recurse on <see cref="CreatedBy"/>.</param>
+		/// <returns>A new <see cref="UserResponse"/>.</returns>
+		UserResponse CreateUserResponse(bool recursive)
 		{
-			CreatedAt = showDetails ? CreatedAt : null,
-			CreatedBy = showDetails && recursive ? CreatedBy?.ToApi(false, false) : null,
-			Enabled = showDetails ? Enabled : null,
-			Id = Id,
-			Name = Name,
-			SystemIdentifier = showDetails ? SystemIdentifier : null,
-			OAuthConnections = showDetails
-				? OAuthConnections
-					?.Select(x => x.ToApi())
-					.ToList()
-				: null,
-			Group = showDetails ? Group?.ToApi(false) : null,
-			PermissionSet = showDetails ? PermissionSet?.ToApi() : null,
-		};
+			var result = CreateUserName<UserResponse>();
+			if (recursive)
+				result.CreatedBy = CreatedBy?.CreateUserName<UserName>();
 
-		/// <summary>
-		/// Convert the <see cref="User"/> to it's API form
-		/// </summary>
-		/// <param name="showDetails">If system identifier, oauth connections, and group/permission set should be shown.</param>
-		/// <returns>A new <see cref="Api.Models.User"/></returns>
-		public Api.Models.User ToApi(bool showDetails) => ToApi(true, showDetails);
+			result.CreatedAt = CreatedAt;
+			result.Enabled = Enabled;
+			result.SystemIdentifier = SystemIdentifier;
+			result.OAuthConnections = OAuthConnections
+				?.Select(x => x.ToApi())
+				.ToList();
+			result.Group = Group?.ToApi(false);
+			result.PermissionSet = PermissionSet?.ToApi();
+			return result;
+		}
 
 		/// <inheritdoc />
-		public Api.Models.User ToApi() => ToApi(true);
+		public UserResponse ToApi() => CreateUserResponse(true);
 	}
 }

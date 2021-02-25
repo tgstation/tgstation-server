@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Tgstation.Server.Api.Models.Internal
 {
 	/// <summary>
-	/// Represents configurable settings for a <see cref="Repository"/>
+	/// Represents configurable settings for a git repository.
 	/// </summary>
 	public class RepositorySettings
 	{
@@ -26,12 +26,14 @@ namespace Tgstation.Server.Api.Models.Internal
 		/// The username to access the git repository with
 		/// </summary>
 		[StringLength(Limits.MaximumStringLength)]
+		[ResponseOptions]
 		public string? AccessUser { get; set; }
 
 		/// <summary>
 		/// The token/password to access the git repository with
 		/// </summary>
 		[StringLength(Limits.MaximumStringLength)]
+		[ResponseOptions(Presence = FieldPresence.Ignored)]
 		public string? AccessToken { get; set; }
 
 		/// <summary>

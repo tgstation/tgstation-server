@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Request;
 using Tgstation.Server.Client;
 using Tgstation.Server.Client.Components;
 
@@ -24,7 +25,7 @@ namespace Tgstation.Server.Tests.Instance
 			this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
 		}
 
-		bool FileExists(ConfigurationFile file)
+		bool FileExists(IConfigurationFile file)
 		{
 			var tmp = (file.Path?.StartsWith('/') ?? false) ? '.' + file.Path : file.Path;
 			var path = Path.Combine(instance.Path, "Configuration", tmp);
@@ -35,7 +36,7 @@ namespace Tgstation.Server.Tests.Instance
 		async Task TestDeleteDirectory(CancellationToken cancellationToken)
 		{
 			//try to delete non-existent
-			var TestDir = new ConfigurationFile
+			var TestDir = new ConfigurationFileRequest
 			{
 				Path = "/TestDeleteDir"
 			};
@@ -45,7 +46,7 @@ namespace Tgstation.Server.Tests.Instance
 			//try to delete non-empty
 			const string TestString = "Hello world!";
 			using var uploadMs = new MemoryStream(Encoding.UTF8.GetBytes(TestString));
-			var file = await configurationClient.Write(new ConfigurationFile
+			var file = await configurationClient.Write(new ConfigurationFileRequest
 			{
 				Path = TestDir.Path + "/test.txt"
 			}, uploadMs, cancellationToken).ConfigureAwait(false);
@@ -72,7 +73,11 @@ namespace Tgstation.Server.Tests.Instance
 			await ApiAssert.ThrowsException<ConflictException>(() => configurationClient.DeleteEmptyDirectory(TestDir, cancellationToken), ErrorCode.ConfigurationDirectoryNotEmpty).ConfigureAwait(false);
 
 			file.FileTicket = null;
-			await configurationClient.Write(updatedFile, null, cancellationToken).ConfigureAwait(false);
+			await configurationClient.Write(new ConfigurationFileRequest
+			{
+				Path = updatedFile.Path,
+				LastReadHash = updatedFile.LastReadHash
+			}, null, cancellationToken).ConfigureAwait(false);
 			Assert.IsFalse(FileExists(file));
 
 			await configurationClient.DeleteEmptyDirectory(TestDir, cancellationToken).ConfigureAwait(false);

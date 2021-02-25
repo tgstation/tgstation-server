@@ -1,16 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Tgstation.Server.Api.Models.Internal
 {
 	/// <summary>
-	/// Configurable settings for <see cref="DreamDaemon"/>
+	/// Configurable settings for DreamDaemon.
 	/// </summary>
 	public class DreamDaemonSettings : DreamDaemonLaunchParameters
 	{
 		/// <summary>
-		/// If <see cref="DreamDaemon"/> starts when it's <see cref="Instance"/> starts
+		/// If the watchdog starts when it's <see cref="Instance"/> starts
 		/// </summary>
 		[Required]
+		[ResponseOptions]
 		public bool? AutoStart { get; set; }
 	}
 }

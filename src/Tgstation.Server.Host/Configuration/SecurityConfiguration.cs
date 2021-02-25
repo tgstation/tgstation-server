@@ -34,12 +34,12 @@ namespace Tgstation.Server.Host.Configuration
 		const uint DefaultTokenSigningKeyByteAmount = 256;
 
 		/// <summary>
-		/// Amount of minutes until <see cref="Token"/>s generated from passwords expire.
+		/// Amount of minutes until <see cref="Api.Models.Response.TokenResponse"/>s generated from passwords expire.
 		/// </summary>
 		public uint TokenExpiryMinutes { get; set; } = DefaultTokenExpiryMinutes;
 
 		/// <summary>
-		/// Amount of minutes to skew the clock for <see cref="Token"/> validation.
+		/// Amount of minutes to skew the clock for <see cref="Api.Models.Response.TokenResponse"/> validation.
 		/// </summary>
 		public uint TokenClockSkewMinutes { get; set; } = DefaultTokenClockSkewMinutes;
 
@@ -49,7 +49,7 @@ namespace Tgstation.Server.Host.Configuration
 		public uint TokenSigningKeyByteCount { get; set; } = DefaultTokenSigningKeyByteAmount;
 
 		/// <summary>
-		/// Amount of minutes until <see cref="Token"/>s generated from OAuth logins expire.
+		/// Amount of minutes until <see cref="Api.Models.Response.TokenResponse"/>s generated from OAuth logins expire.
 		/// </summary>
 		public uint OAuthTokenExpiryMinutes { get; set; } = DefaultOAuthTokenExpiryMinutes;
 

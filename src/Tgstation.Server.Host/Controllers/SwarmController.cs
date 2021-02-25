@@ -21,6 +21,7 @@ namespace Tgstation.Server.Host.Controllers
 	[Route(SwarmConstants.ControllerRoute)]
 	[Produces(MediaTypeNames.Application.Json)]
 	[ApiController]
+	[ApiExplorerSettings(IgnoreApi = true)]
 	public sealed class SwarmController : Controller
 	{
 		/// <summary>

@@ -79,7 +79,7 @@ namespace Tgstation.Server.Host.Components.Session
 			var dbReattachInfo = new Models.ReattachInformation
 			{
 				AccessIdentifier = reattachInformation.AccessIdentifier,
-				CompileJobId = reattachInformation.Dmb.CompileJob.Id,
+				CompileJobId = reattachInformation.Dmb.CompileJob.Id.Value,
 				Port = reattachInformation.Port,
 				ProcessId = reattachInformation.ProcessId,
 				RebootState = reattachInformation.RebootState,

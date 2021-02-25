@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client
 {
@@ -54,7 +55,7 @@ namespace Tgstation.Server.Client
 		readonly ApiHeaders? tokenRefreshHeaders;
 
 		/// <summary>
-		/// The <see cref="SemaphoreSlim"/> for <see cref="Token"/> refreshes.
+		/// The <see cref="SemaphoreSlim"/> for <see cref="TokenResponse"/> refreshes.
 		/// </summary>
 		readonly SemaphoreSlim semaphoreSlim;
 
@@ -71,11 +72,11 @@ namespace Tgstation.Server.Client
 
 		static void HandleBadResponse(HttpResponseMessage response, string json)
 		{
-			ErrorMessage? errorMessage = null;
+			ErrorMessageResponse? errorMessage = null;
 			try
 			{
 				// check if json serializes to an error message
-				errorMessage = JsonConvert.DeserializeObject<ErrorMessage>(json, GetSerializerSettings());
+				errorMessage = JsonConvert.DeserializeObject<ErrorMessageResponse>(json, GetSerializerSettings());
 			}
 			catch (JsonException) { }
 
@@ -271,7 +272,7 @@ namespace Tgstation.Server.Client
 				if (startingToken != headers.Token)
 					return true;
 
-				var token = await RunRequest<object, Token>(Routes.Root, new object(), HttpMethod.Post, null, true, cancellationToken);
+				var token = await RunRequest<object, TokenResponse>(Routes.Root, new object(), HttpMethod.Post, null, true, cancellationToken);
 				headers = new ApiHeaders(headers.UserAgent!, token.Bearer!);
 			}
 			catch (ClientException)
@@ -338,7 +339,7 @@ namespace Tgstation.Server.Client
 		public void AddRequestLogger(IRequestLogger requestLogger) => requestLoggers.Add(requestLogger ?? throw new ArgumentNullException(nameof(requestLogger)));
 
 		/// <inheritdoc />
-		public Task<Stream> Download(FileTicketResult ticket, CancellationToken cancellationToken)
+		public Task<Stream> Download(FileTicketResponse ticket, CancellationToken cancellationToken)
 		{
 			if (ticket == null)
 				throw new ArgumentNullException(nameof(ticket));
@@ -353,7 +354,7 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <inheritdoc />
-		public async Task Upload(FileTicketResult ticket, Stream? uploadStream, CancellationToken cancellationToken)
+		public async Task Upload(FileTicketResponse ticket, Stream? uploadStream, CancellationToken cancellationToken)
 		{
 			if (ticket == null)
 				throw new ArgumentNullException(nameof(ticket));

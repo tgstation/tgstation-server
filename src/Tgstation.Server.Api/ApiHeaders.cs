@@ -9,6 +9,7 @@ using System.Net.Mime;
 using System.Reflection;
 using System.Text;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Properties;
 
 namespace Tgstation.Server.Api
 {
@@ -55,7 +56,7 @@ namespace Tgstation.Server.Api
 		/// <summary>
 		/// Get the version of the <see cref="Api"/> the caller is using
 		/// </summary>
-		public static readonly Version Version = AssemblyName.Version.Semver();
+		public static readonly Version Version = Version.Parse(ApiVersionAttribute.Instance.RawApiVersion);
 
 		/// <summary>
 		/// The instance <see cref="EntityId.Id"/> being accessed

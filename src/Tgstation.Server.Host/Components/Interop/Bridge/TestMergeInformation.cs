@@ -7,7 +7,7 @@ namespace Tgstation.Server.Host.Components.Interop.Bridge
 	/// <summary>
 	/// This model mirrors /datum/tgs_revision_information/test_merge
 	/// </summary>
-	public sealed class TestMergeInformation : TestMergeBase
+	public sealed class TestMergeInformation : TestMergeModelBase
 	{
 		/// <summary>
 		/// The unix time of when the test merge was applied

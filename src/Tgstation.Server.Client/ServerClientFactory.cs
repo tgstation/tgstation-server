@@ -5,7 +5,7 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
-using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client
 {
@@ -50,7 +50,7 @@ namespace Tgstation.Server.Client
 
 			requestLoggers ??= Enumerable.Empty<IRequestLogger>();
 
-			Token token;
+			TokenResponse token;
 			var loginHeaders = new ApiHeaders(productHeaderValue, username, password);
 			using (var api = ApiClientFactory.CreateApiClient(host, loginHeaders, null))
 			{
@@ -59,7 +59,7 @@ namespace Tgstation.Server.Client
 
 				if (timeout.HasValue)
 					api.Timeout = timeout.Value;
-				token = await api.Update<Token>(Routes.Root, cancellationToken).ConfigureAwait(false);
+				token = await api.Update<TokenResponse>(Routes.Root, cancellationToken).ConfigureAwait(false);
 			}
 
 			if (!attemptLoginRefresh)
@@ -78,7 +78,7 @@ namespace Tgstation.Server.Client
 		}
 
 		/// <inheritdoc />
-		public IServerClient CreateFromToken(Uri host, Token token)
+		public IServerClient CreateFromToken(Uri host, TokenResponse token)
 		{
 			if (host == null)
 				throw new ArgumentNullException(nameof(host));

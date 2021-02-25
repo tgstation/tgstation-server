@@ -20,7 +20,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.ChatBot", b =>
 			{
-				b.Property<long>("Id")
+				b.Property<long?>("Id")
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint")
 					.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -104,7 +104,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.CompileJob", b =>
 			{
-				b.Property<long>("Id")
+				b.Property<long?>("Id")
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint")
 					.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -244,7 +244,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.Instance", b =>
 			{
-				b.Property<long>("Id")
+				b.Property<long?>("Id")
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint")
 					.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -260,8 +260,8 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 				b.Property<string>("Name")
 					.IsRequired()
-					.HasColumnType("character varying(10000)")
-					.HasMaxLength(10000);
+					.HasColumnType("character varying(100)")
+					.HasMaxLength(100);
 
 				b.Property<bool?>("Online")
 					.IsRequired()
@@ -328,7 +328,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.Job", b =>
 			{
-				b.Property<long>("Id")
+				b.Property<long?>("Id")
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint")
 					.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -697,7 +697,7 @@ namespace Tgstation.Server.Host.Database.Migrations
 
 			modelBuilder.Entity("Tgstation.Server.Host.Models.UserGroup", b =>
 			{
-				b.Property<long>("Id")
+				b.Property<long?>("Id")
 					.ValueGeneratedOnAdd()
 					.HasColumnType("bigint")
 					.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);

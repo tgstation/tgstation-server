@@ -7,6 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Request;
+using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Api.Rights;
 using Tgstation.Server.Host.Components;
 using Tgstation.Server.Host.Database;
@@ -18,7 +20,7 @@ using Tgstation.Server.Host.Transfer;
 namespace Tgstation.Server.Host.Controllers
 {
 	/// <summary>
-	/// Controller for managing <see cref="Api.Models.Byond.Version"/>s
+	/// Controller for managing BYOND installations.
 	/// </summary>
 	[Route(Routes.Byond)]
 	public sealed class ByondController : InstanceRequiredController
@@ -60,23 +62,23 @@ namespace Tgstation.Server.Host.Controllers
 		}
 
 		/// <summary>
-		/// Gets the active <see cref="Api.Models.Byond"/> version.
+		/// Gets the active <see cref="ByondResponse.Version"/>.
 		/// </summary>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Retrieved version information successfully.</response>
 		[HttpGet]
 		[TgsAuthorize(ByondRights.ReadActive)]
-		[ProducesResponseType(typeof(Api.Models.Byond), 200)]
+		[ProducesResponseType(typeof(ByondResponse), 200)]
 		public Task<IActionResult> Read()
 			=> WithComponentInstance(instance =>
 				Task.FromResult<IActionResult>(
-					Json(new Api.Models.Byond
+					Json(new ByondResponse
 					{
 						Version = instance.ByondManager.ActiveVersion
 					})));
 
 		/// <summary>
-		/// Lists installed <see cref="Api.Models.Byond"/> versions.
+		/// Lists installed <see cref="ByondResponse.Version"/>s.
 		/// </summary>
 		/// <param name="page">The current page.</param>
 		/// <param name="pageSize">The page size.</param>
@@ -85,16 +87,16 @@ namespace Tgstation.Server.Host.Controllers
 		/// <response code="200">Retrieved version information successfully.</response>
 		[HttpGet(Routes.List)]
 		[TgsAuthorize(ByondRights.ListInstalled)]
-		[ProducesResponseType(typeof(Paginated<Api.Models.Byond>), 200)]
+		[ProducesResponseType(typeof(PaginatedResponse<ByondResponse>), 200)]
 		public Task<IActionResult> List([FromQuery] int? page, [FromQuery] int? pageSize, CancellationToken cancellationToken)
 			=> WithComponentInstance(
 				instance => Paginated(
 					() => Task.FromResult(
-						new PaginatableResult<Api.Models.Byond>(
+						new PaginatableResult<ByondResponse>(
 							instance
 								.ByondManager
 								.InstalledVersions
-								.Select(x => new Api.Models.Byond
+								.Select(x => new ByondResponse
 								{
 									Version = x
 								})
@@ -108,17 +110,17 @@ namespace Tgstation.Server.Host.Controllers
 		/// <summary>
 		/// Changes the active BYOND version to the one specified in a given <paramref name="model"/>.
 		/// </summary>
-		/// <param name="model">The <see cref="Api.Models.Byond.Version"/> to switch to.</param>
+		/// <param name="model">The <see cref="ByondVersionRequest.Version"/> to switch to.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in the <see cref="IActionResult"/> for the operation.</returns>
 		/// <response code="200">Switched active version successfully.</response>
-		/// <response code="202">Created <see cref="Api.Models.Job"/> to install and switch active version successfully.</response>
+		/// <response code="202">Created <see cref="Job"/> to install and switch active version successfully.</response>
 		[HttpPost]
 		[TgsAuthorize(ByondRights.InstallOfficialOrChangeActiveVersion | ByondRights.InstallCustomVersion)]
-		[ProducesResponseType(typeof(Api.Models.Byond), 200)]
-		[ProducesResponseType(typeof(Api.Models.Byond), 202)]
+		[ProducesResponseType(typeof(ByondInstallResponse), 200)]
+		[ProducesResponseType(typeof(ByondInstallResponse), 202)]
 #pragma warning disable CA1506 // TODO: Decomplexify
-		public async Task<IActionResult> Update([FromBody] Api.Models.Byond model, CancellationToken cancellationToken)
+		public async Task<IActionResult> Update([FromBody] ByondVersionRequest model, CancellationToken cancellationToken)
 #pragma warning restore CA1506
 		{
 			if (model == null)
@@ -129,7 +131,7 @@ namespace Tgstation.Server.Host.Controllers
 			if (model.Version == null
 				|| model.Version.Revision != -1
 				|| (uploadingZip && model.Version.Build > 0))
-				return BadRequest(new ErrorMessage(ErrorCode.ModelValidationFailure));
+				return BadRequest(new ErrorMessageResponse(ErrorCode.ModelValidationFailure));
 
 			var userByondRights = AuthenticationContext.InstancePermissionSet.ByondRights.Value;
 			if ((!userByondRights.HasFlag(ByondRights.InstallOfficialOrChangeActiveVersion) && !uploadingZip)
@@ -137,7 +139,7 @@ namespace Tgstation.Server.Host.Controllers
 				return Forbid();
 
 			// remove cruff fields
-			var result = new Api.Models.Byond();
+			var result = new ByondInstallResponse();
 			return await WithComponentInstance(
 				async instance =>
 				{
@@ -152,7 +154,7 @@ namespace Tgstation.Server.Host.Controllers
 						await byondManager.ChangeVersion(model.Version, null, cancellationToken).ConfigureAwait(false);
 					}
 					else if (model.Version.Build > 0)
-						return BadRequest(new ErrorMessage(ErrorCode.ByondNonExistentCustomVersion));
+						return BadRequest(new ErrorMessageResponse(ErrorCode.ByondNonExistentCustomVersion));
 					else
 					{
 						var installingVersion = model.Version.Build <= 0
@@ -166,7 +168,7 @@ namespace Tgstation.Server.Host.Controllers
 							Instance.Id);
 
 						// run the install through the job manager
-						var job = new Models.Job
+						var job = new Job
 						{
 							Description = $"Install {(!uploadingZip ? String.Empty : "custom ")}BYOND version {model.Version.Major}.{model.Version.Minor}",
 							StartedBy = AuthenticationContext.User,
@@ -225,8 +227,6 @@ namespace Tgstation.Server.Host.Controllers
 						}
 					}
 
-					if ((AuthenticationContext.GetRight(RightsType.Byond) & (ulong)ByondRights.ReadActive) != 0)
-						result.Version = byondManager.ActiveVersion;
 					return result.InstallJob != null ? (IActionResult)Accepted(result) : Json(result);
 				})
 				.ConfigureAwait(false);

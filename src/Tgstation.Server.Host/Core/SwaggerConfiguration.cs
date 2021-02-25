@@ -9,8 +9,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mime;
+using System.Reflection;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Controllers;
 
 namespace Tgstation.Server.Host.Core
@@ -18,7 +20,7 @@ namespace Tgstation.Server.Host.Core
 	/// <summary>
 	/// Implements various filters for <see cref="Swashbuckle"/>.
 	/// </summary>
-	sealed class SwaggerConfiguration : IOperationFilter, IDocumentFilter, ISchemaFilter
+	sealed class SwaggerConfiguration : IOperationFilter, IDocumentFilter, ISchemaFilter, IRequestBodyFilter
 	{
 		/// <summary>
 		/// The <see cref="OpenApiSecurityScheme"/> name for password authentication.
@@ -47,7 +49,7 @@ namespace Tgstation.Server.Host.Core
 						{
 							Reference = new OpenApiReference
 							{
-								Id = nameof(ErrorMessage),
+								Id = nameof(ErrorMessageResponse),
 								Type = ReferenceType.Schema
 							}
 						}
@@ -121,6 +123,22 @@ namespace Tgstation.Server.Host.Core
 		}
 
 		/// <summary>
+		/// Generates the OpenAPI schema ID for a given <paramref name="type"/>.
+		/// </summary>
+		/// <param name="type">The <see cref="Type"/> to generate a schema ID for.</param>
+		/// <returns>The generated schema ID for <see cref="Type"/>.</returns>
+		static string GenerateSchemaId(Type type)
+		{
+			if (type == typeof(UserName))
+				return "ShallowUserResponse";
+
+			if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(PaginatedResponse<>))
+				return $"Paginated{type.GenericTypeArguments.First().Name}";
+
+			return type.Name;
+		}
+
+		/// <summary>
 		/// Configure the swagger settings.
 		/// </summary>
 		/// <param name="swaggerGenOptions">The <see cref="SwaggerGenOptions"/> to use.</param>
@@ -158,19 +176,9 @@ namespace Tgstation.Server.Host.Core
 			swaggerGenOptions.OperationFilter<SwaggerConfiguration>();
 			swaggerGenOptions.DocumentFilter<SwaggerConfiguration>();
 			swaggerGenOptions.SchemaFilter<SwaggerConfiguration>();
+			swaggerGenOptions.RequestBodyFilter<SwaggerConfiguration>();
 
-			swaggerGenOptions.CustomSchemaIds(type =>
-			{
-				if (type == typeof(Api.Models.Internal.UserBase))
-					return "ShallowUser";
-				if (type == typeof(Api.Models.Internal.UserGroup))
-					return "ShallowUserGroup";
-
-				if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Paginated<>))
-					return $"Paginated{type.GenericTypeArguments.First().Name}";
-
-				return type.Name;
-			});
+			swaggerGenOptions.CustomSchemaIds(GenerateSchemaId);
 
 			swaggerGenOptions.AddSecurityDefinition(PasswordSecuritySchemeId, new OpenApiSecurityScheme
 			{
@@ -207,11 +215,6 @@ namespace Tgstation.Server.Host.Core
 				throw new ArgumentNullException(nameof(context));
 
 			operation.OperationId = $"{context.MethodInfo.DeclaringType.Name}.{context.MethodInfo.Name}";
-
-			// request bodies are never nullable
-			var bodySchemas = operation.RequestBody?.Content.Select(x => x.Value.Schema) ?? Enumerable.Empty<OpenApiSchema>();
-			foreach (var bodySchema in bodySchemas)
-				bodySchema.Nullable = false;
 
 			var authAttributes = context
 				.MethodInfo
@@ -380,24 +383,12 @@ namespace Tgstation.Server.Host.Core
 				Schema = productHeaderSchema
 			});
 
-			var pathsToRemove = new List<string>();
-			var filteredControllers = new string[]
-			{
-				nameof(BridgeController),
-				nameof(ControlPanelController),
-				nameof(SwarmController),
-			};
-
+			var allSchemas = context
+				.SchemaRepository
+				.Schemas;
 			foreach (var path in swaggerDoc.Paths)
 				foreach (var operation in path.Value.Operations.Select(x => x.Value))
 				{
-					if (filteredControllers.Any(
-						x => operation.OperationId.StartsWith(x, StringComparison.Ordinal)))
-					{
-						pathsToRemove.Add(path.Key);
-						continue;
-					}
-
 					operation.Parameters.Insert(0, new OpenApiParameter
 					{
 						Reference = new OpenApiReference
@@ -417,10 +408,118 @@ namespace Tgstation.Server.Host.Core
 					});
 				}
 
-			foreach (var filteredPath in pathsToRemove)
-				swaggerDoc.Paths.Remove(filteredPath);
-
 			AddDefaultResponses(swaggerDoc);
+		}
+
+		/// <summary>
+		/// Applies the <see cref="OpenApiSchema.Nullable"/>, <see cref="OpenApiSchema.ReadOnly"/>, and <see cref="OpenApiSchema.WriteOnly"/> to <see cref="OpenApiSchema.Properties"/> of a given <paramref name="rootSchema"/>.
+		/// </summary>
+		/// <param name="rootSchema">The root <see cref="OpenApiSchema"/>.</param>
+		/// <param name="context">The current <see cref="SchemaFilterContext"/>.</param>
+		static void ApplyAttributesForRootSchema(OpenApiSchema rootSchema, SchemaFilterContext context)
+		{
+			//  tune up the descendants
+			rootSchema.Nullable = false;
+			var rootSchemaId = GenerateSchemaId(context.Type);
+			var rootRequestSchema = rootSchemaId.EndsWith("Request", StringComparison.Ordinal);
+			var rootResponseSchema = rootSchemaId.EndsWith("Response", StringComparison.Ordinal);
+			var isPutRequest = rootSchemaId.EndsWith("CreateRequest", StringComparison.Ordinal);
+
+			Tuple<PropertyInfo, string, OpenApiSchema, IDictionary<string, OpenApiSchema>> GetTypeFromKvp(Type currentType, KeyValuePair<string, OpenApiSchema> kvp, IDictionary<string, OpenApiSchema> schemaDictionary)
+			{
+				var propertyInfo = currentType
+					.GetProperties()
+					.Single(x => x.Name.Equals(kvp.Key, StringComparison.OrdinalIgnoreCase));
+
+				return Tuple.Create(
+					propertyInfo,
+					kvp.Key,
+					kvp.Value,
+					schemaDictionary);
+			}
+
+			var subSchemaStack = new Stack<Tuple<PropertyInfo, string, OpenApiSchema, IDictionary<string, OpenApiSchema>>>(
+				rootSchema.Properties.Select(x => GetTypeFromKvp(context.Type, x, rootSchema.Properties)));
+
+			while (subSchemaStack.Count > 0)
+			{
+				var tuple = subSchemaStack.Pop();
+				var subSchema = tuple.Item3;
+
+				if (subSchema.Reference != null)
+					// can't mangle references per request
+					continue;
+
+				var subSchemaPropertyInfo = tuple.Item1;
+
+				if (subSchema.Properties != null
+					&& !subSchemaPropertyInfo
+						.PropertyType
+						.GetInterfaces()
+						.Any(x => x == typeof(IEnumerable)))
+					foreach (var kvp in subSchema.Properties)
+						subSchemaStack.Push(GetTypeFromKvp(subSchemaPropertyInfo.PropertyType, kvp, subSchema.Properties));
+
+				var attributes = subSchemaPropertyInfo
+					.GetCustomAttributes();
+				var responsePresence = attributes
+					.OfType<ResponseOptionsAttribute>()
+					.FirstOrDefault()
+					?.Presence
+					?? FieldPresence.Required;
+				var requestOptions = attributes
+					.OfType<RequestOptionsAttribute>()
+					.OrderBy(x => x.PutOnly) // Process PUTs last
+					.ToList();
+
+				if (requestOptions.Any() && requestOptions.All(x => x.Presence == FieldPresence.Ignored && !x.PutOnly))
+					subSchema.ReadOnly = true;
+
+				var subSchemaId = tuple.Item2;
+				var subSchemaOwningDictionary = tuple.Item4;
+				if (rootResponseSchema)
+				{
+					subSchema.Nullable = responsePresence == FieldPresence.Optional;
+					if (responsePresence == FieldPresence.Ignored)
+						subSchemaOwningDictionary.Remove(subSchemaId);
+				}
+				else if (rootRequestSchema)
+				{
+					subSchema.Nullable = true;
+					var lastOptionWasIgnored = false;
+					foreach (var requestOption in requestOptions)
+					{
+						var validForThisRequest = !requestOption.PutOnly || isPutRequest;
+						if (!validForThisRequest)
+							continue;
+
+						lastOptionWasIgnored = false;
+						switch (requestOption.Presence)
+						{
+							case FieldPresence.Ignored:
+								lastOptionWasIgnored = true;
+								break;
+							case FieldPresence.Optional:
+								subSchema.Nullable = true;
+								break;
+							case FieldPresence.Required:
+								subSchema.Nullable = false;
+								break;
+							default:
+								throw new InvalidOperationException($"Invalid FieldPresence: {requestOption.Presence}!");
+						}
+					}
+
+					if (lastOptionWasIgnored)
+						subSchemaOwningDictionary.Remove(subSchemaId);
+				}
+				else if (responsePresence == FieldPresence.Required
+					&& requestOptions.All(x => x.Presence == FieldPresence.Required && !x.PutOnly))
+					subSchema.Nullable = false;
+
+				// otherwise, we have to assume it's a shared schema
+				// use what Swagger thinks the nullability is by default
+			}
 		}
 
 		/// <inheritdoc />
@@ -434,19 +533,29 @@ namespace Tgstation.Server.Host.Core
 			// Nothing is required
 			schema.Required.Clear();
 
-			// Could be nullable type, make sure to get the right one
-			Type nonNullableType = context.Type.IsConstructedGenericType
-				? context.Type.GenericTypeArguments.First()
-				: context.Type;
-
-			if (nonNullableType != context.Type
-				&& !context.Type.GetInterfaces().Any(x => x == typeof(IEnumerable)))
-				schema.Nullable = true;
+			if (context.MemberInfo == null)
+				ApplyAttributesForRootSchema(schema, context);
 
 			if (!schema.Enum?.Any() ?? false)
 				return;
 
-			OpenApiEnumVarNamesExtension.Apply(schema, nonNullableType);
+			// Could be nullable type, make sure to get the right one
+			Type firstGenericArgumentOrType = context.Type.IsConstructedGenericType
+				? context.Type.GenericTypeArguments.First()
+				: context.Type;
+
+			OpenApiEnumVarNamesExtension.Apply(schema, firstGenericArgumentOrType);
+		}
+
+		/// <inheritdoc />
+		public void Apply(OpenApiRequestBody requestBody, RequestBodyFilterContext context)
+		{
+			if (requestBody == null)
+				throw new ArgumentNullException(nameof(requestBody));
+			if (context == null)
+				throw new ArgumentNullException(nameof(context));
+
+			requestBody.Required = true;
 		}
 	}
 }

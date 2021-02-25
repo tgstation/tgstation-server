@@ -3,7 +3,7 @@ using Tgstation.Server.Api.Models;
 namespace Tgstation.Server.Client.Components
 {
 	/// <summary>
-	/// For managing a single <see cref="Instance"/>
+	/// For managing a single <see cref="Instance"/>.
 	/// </summary>
 	public interface IInstanceClient
 	{

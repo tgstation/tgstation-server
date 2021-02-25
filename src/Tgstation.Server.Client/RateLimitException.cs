@@ -2,7 +2,7 @@ using Microsoft.Net.Http.Headers;
 using System;
 using System.Linq;
 using System.Net.Http;
-using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client
 {
@@ -19,9 +19,9 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// Initialize a new instance of the <see cref="MethodNotSupportedException"/> <see langword="class"/>.
 		/// </summary>
-		/// <param name="errorMessage">The <see cref="ErrorMessage"/> for the <see cref="ApiException"/>.</param>
+		/// <param name="errorMessage">The <see cref="ErrorMessageResponse"/> for the <see cref="ApiException"/>.</param>
 		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/> for the <see cref="ClientException"/>.</param>
-		public RateLimitException(ErrorMessage? errorMessage, HttpResponseMessage responseMessage) : base(errorMessage, responseMessage)
+		public RateLimitException(ErrorMessageResponse? errorMessage, HttpResponseMessage responseMessage) : base(errorMessage, responseMessage)
 		{
 			if (responseMessage == null)
 				throw new ArgumentNullException(nameof(responseMessage));

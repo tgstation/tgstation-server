@@ -1,8 +1,10 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Request;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client.Components
 {
@@ -31,15 +33,15 @@ namespace Tgstation.Server.Client.Components
 		}
 
 		/// <inheritdoc />
-		public Task<Repository> Clone(Repository repository, CancellationToken cancellationToken) => apiClient.Create<Repository, Repository>(Routes.Repository, repository, instance.Id, cancellationToken);
+		public Task<RepositoryResponse> Clone(RepositoryCreateRequest repository, CancellationToken cancellationToken) => apiClient.Create<RepositoryCreateRequest, RepositoryResponse>(Routes.Repository, repository, instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<Repository> Delete(CancellationToken cancellationToken) => apiClient.Delete<Repository>(Routes.Repository, instance.Id, cancellationToken);
+		public Task<RepositoryResponse> Delete(CancellationToken cancellationToken) => apiClient.Delete<RepositoryResponse>(Routes.Repository, instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<Repository> Read(CancellationToken cancellationToken) => apiClient.Read<Repository>(Routes.Repository, instance.Id, cancellationToken);
+		public Task<RepositoryResponse> Read(CancellationToken cancellationToken) => apiClient.Read<RepositoryResponse>(Routes.Repository, instance.Id!.Value, cancellationToken);
 
 		/// <inheritdoc />
-		public Task<Repository> Update(Repository repository, CancellationToken cancellationToken) => apiClient.Update<Repository, Repository>(Routes.Repository, repository ?? throw new ArgumentNullException(nameof(repository)), instance.Id, cancellationToken);
+		public Task<RepositoryResponse> Update(RepositoryUpdateRequest repository, CancellationToken cancellationToken) => apiClient.Update<RepositoryUpdateRequest, RepositoryResponse>(Routes.Repository, repository ?? throw new ArgumentNullException(nameof(repository)), instance.Id!.Value, cancellationToken);
 	}
 }

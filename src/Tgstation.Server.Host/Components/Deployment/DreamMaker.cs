@@ -400,7 +400,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// Executes and populate a given <paramref name="job"/>
 		/// </summary>
 		/// <param name="job">The <see cref="CompileJob"/> to run and populate</param>
-		/// <param name="dreamMakerSettings">The <see cref="Api.Models.DreamMaker"/> settings to use</param>
+		/// <param name="dreamMakerSettings">The <see cref="Api.Models.Internal.DreamMakerSettings"/> to use</param>
 		/// <param name="byondLock">The <see cref="IByondExecutableLock"/> to use</param>
 		/// <param name="repository">The <see cref="IRepository"/> to use</param>
 		/// <param name="remoteDeploymentManager">The <see cref="IRemoteDeploymentManager"/> to use.</param>
@@ -409,7 +409,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 		/// <returns>A <see cref="Task"/> representing the running operation</returns>
 		async Task RunCompileJob(
 			Models.CompileJob job,
-			Api.Models.DreamMaker dreamMakerSettings,
+			Api.Models.Internal.DreamMakerSettings dreamMakerSettings,
 			IByondExecutableLock byondLock,
 			IRepository repository,
 			IRemoteDeploymentManager remoteDeploymentManager,
@@ -549,7 +549,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 				TimeSpan? averageSpan = null;
 				Models.RepositorySettings repositorySettings = null;
 				Models.DreamDaemonSettings ddSettings = null;
-				DreamMakerSettings dreamMakerSettings = null;
+				Models.DreamMakerSettings dreamMakerSettings = null;
 				IRepository repo = null;
 				IRemoteDeploymentManager remoteDeploymentManager = null;
 				Models.RevisionInformation revInfo = null;
@@ -787,7 +787,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 		async Task<Models.CompileJob> Compile(
 			Models.RevisionInformation revisionInformation,
-			Api.Models.DreamMaker dreamMakerSettings,
+			Api.Models.Internal.DreamMakerSettings dreamMakerSettings,
 			uint apiValidateTimeout,
 			IRepository repository,
 			IRemoteDeploymentManager remoteDeploymentManager,

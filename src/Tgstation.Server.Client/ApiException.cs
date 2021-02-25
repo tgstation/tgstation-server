@@ -1,6 +1,7 @@
 using System;
 using System.Net.Http;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Client
 {
@@ -27,9 +28,9 @@ namespace Tgstation.Server.Client
 		/// <summary>
 		/// Initialize a new instance of the <see cref="ApiException"/> <see langword="class"/>.
 		/// </summary>
-		/// <param name="errorMessage">The <see cref="ErrorMessage"/> returned from the API.</param>
+		/// <param name="errorMessage">The <see cref="ErrorMessageResponse"/> returned from the API.</param>
 		/// <param name="responseMessage">The <see cref="HttpResponseMessage"/>.</param>
-		protected ApiException(ErrorMessage? errorMessage, HttpResponseMessage responseMessage) : base(
+		protected ApiException(ErrorMessageResponse? errorMessage, HttpResponseMessage responseMessage) : base(
 			responseMessage,
 			errorMessage?.Message ?? $"HTTP {responseMessage?.StatusCode ?? throw new ArgumentNullException(nameof(responseMessage))}. Unknown API error, ErrorMessage payload not present!")
 		{

@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 using Tgstation.Server.Host.Extensions;
 using Tgstation.Server.Host.IO;
 
@@ -13,7 +14,7 @@ namespace Tgstation.Server.Host.Transfer
 	sealed class FileUploadProvider : IFileUploadTicket
 	{
 		/// <inheritdoc />
-		public FileTicketResult Ticket { get; }
+		public FileTicketResponse Ticket { get; }
 
 		/// <summary>
 		/// The <see cref="CancellationTokenSource"/> for the ticket duration.
@@ -26,7 +27,7 @@ namespace Tgstation.Server.Host.Transfer
 		readonly TaskCompletionSource<Stream> taskCompletionSource;
 
 		/// <summary>
-		/// The <see cref="TaskCompletionSource{TResult}"/> that completes in <see cref="IDisposable.Dispose"/> or when <see cref="SetErrorMessage(ErrorMessage)"/> is called.
+		/// The <see cref="TaskCompletionSource{TResult}"/> that completes in <see cref="IDisposable.Dispose"/> or when <see cref="SetErrorMessage(ErrorMessageResponse)"/> is called.
 		/// </summary>
 		readonly TaskCompletionSource<object> completionTcs;
 
@@ -36,16 +37,16 @@ namespace Tgstation.Server.Host.Transfer
 		readonly bool requireSynchronousIO;
 
 		/// <summary>
-		/// The <see cref="ErrorMessage"/> that occurred while processing the upload if any.
+		/// The <see cref="ErrorMessageResponse"/> that occurred while processing the upload if any.
 		/// </summary>
-		ErrorMessage errorMessage;
+		ErrorMessageResponse errorMessage;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FileUploadProvider"/> <see langword="class"/>.
 		/// </summary>
 		/// <param name="ticket">The value of <see cref="Ticket"/>.</param>
 		/// <param name="requireSynchronousIO">The value of <see cref="requireSynchronousIO"/></param>
-		public FileUploadProvider(FileTicketResult ticket, bool requireSynchronousIO)
+		public FileUploadProvider(FileTicketResponse ticket, bool requireSynchronousIO)
 		{
 			Ticket = ticket ?? throw new ArgumentNullException(nameof(ticket));
 
@@ -84,14 +85,14 @@ namespace Tgstation.Server.Host.Transfer
 		/// </summary>
 		/// <param name="stream">The <see cref="Stream"/> containing uploaded data.</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation.</param>
-		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="null"/>, <see cref="ErrorMessage"/> otherwise.</returns>
-		public async Task<ErrorMessage> Completion(Stream stream, CancellationToken cancellationToken)
+		/// <returns>A <see cref="Task{TResult}"/> resulting in <see langword="null"/>, <see cref="ErrorMessageResponse"/> otherwise.</returns>
+		public async Task<ErrorMessageResponse> Completion(Stream stream, CancellationToken cancellationToken)
 		{
 			if (stream == null)
 				throw new ArgumentNullException(nameof(stream));
 
 			if (ticketExpiryCts.IsCancellationRequested)
-				return new ErrorMessage(ErrorCode.ResourceNotPresent);
+				return new ErrorMessageResponse(ErrorCode.ResourceNotPresent);
 
 			Stream bufferedStream = null;
 			if (requireSynchronousIO)
@@ -111,7 +112,7 @@ namespace Tgstation.Server.Host.Transfer
 		}
 
 		/// <inheritdoc />
-		public void SetErrorMessage(ErrorMessage errorMessage)
+		public void SetErrorMessage(ErrorMessageResponse errorMessage)
 		{
 			if (errorMessage == null)
 #pragma warning disable IDE0016 // Use 'throw' expression

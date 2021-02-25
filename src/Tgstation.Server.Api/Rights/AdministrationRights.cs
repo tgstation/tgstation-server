@@ -3,7 +3,7 @@ using System;
 namespace Tgstation.Server.Api.Rights
 {
 	/// <summary>
-	/// Rights for <see cref="Models.Administration"/>
+	/// Administration rights for the server.
 	/// </summary>
 	[Flags]
 	public enum AdministrationRights : ulong
@@ -14,7 +14,7 @@ namespace Tgstation.Server.Api.Rights
 		None = 0,
 
 		/// <summary>
-		/// User has complete control over creating/editing <see cref="Models.User"/>s and <see cref="Models.UserGroup"/>s (and deleting in the case of the latter).
+		/// User has complete control over creating/editing <see cref="Models.Response.UserResponse"/>s and <see cref="Models.Response.UserGroupResponse"/>s (and deleting in the case of the latter).
 		/// </summary>
 		WriteUsers = 1,
 
@@ -24,7 +24,7 @@ namespace Tgstation.Server.Api.Rights
 		RestartHost = 2,
 
 		/// <summary>
-		/// User can read <see cref="Models.Administration"/> and upgrade/downgrade TGS through the API.
+		/// User can read <see cref="Models.Response.AdministrationResponse"/> and upgrade/downgrade TGS through the API.
 		/// </summary>
 		ChangeVersion = 4,
 
@@ -39,12 +39,12 @@ namespace Tgstation.Server.Api.Rights
 		ReadUsers = 16,
 
 		/// <summary>
-		/// User can list and download <see cref="Models.LogFile"/>s.
+		/// User can list and download <see cref="Models.Response.LogFileResponse"/>s.
 		/// </summary>
 		DownloadLogs = 32,
 
 		/// <summary>
-		/// User can modify their own <see cref="Models.User.OAuthConnections"/>.
+		/// User can modify their own <see cref="Models.Internal.UserApiBase.OAuthConnections"/>.
 		/// </summary>
 		EditOwnOAuthConnections = 64,
 	}

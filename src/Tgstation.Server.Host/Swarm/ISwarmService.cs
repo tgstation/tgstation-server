@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Tgstation.Server.Api.Models;
+using Tgstation.Server.Api.Models.Response;
 
 namespace Tgstation.Server.Host.Swarm
 {
@@ -41,10 +41,10 @@ namespace Tgstation.Server.Host.Swarm
 		Task<bool> CommitUpdate(CancellationToken cancellationToken);
 
 		/// <summary>
-		/// Gets the list of <see cref="SwarmServer"/>s in the swarm, including the current one.
+		/// Gets the list of <see cref="SwarmServerResponse"/>s in the swarm, including the current one.
 		/// </summary>
-		/// <returns>A <see cref="List{T}"/> of <see cref="SwarmServer"/>s in the swarm. If the server is not part of a swarm, <see langword="null"/> will be returned.</returns>
-		ICollection<SwarmServer> GetSwarmServers();
+		/// <returns>A <see cref="List{T}"/> of <see cref="SwarmServerResponse"/>s in the swarm. If the server is not part of a swarm, <see langword="null"/> will be returned.</returns>
+		ICollection<SwarmServerResponse> GetSwarmServers();
 
 		/// <summary>
 		/// Abort an uncommitted update.

@@ -23,7 +23,7 @@ namespace Tgstation.Server.Host.Components.Chat
 		/// </summary>
 		/// <param name="newSettings">The new <see cref="Models.ChatBot"/></param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
-		/// <returns>A <see cref="Task"/> representing the running operation. Will complete immediately if the <see cref="ChatBot.Enabled"/> property of <paramref name="newSettings"/> is <see langword="false"/></returns>
+		/// <returns>A <see cref="Task"/> representing the running operation. Will complete immediately if the <see cref="ChatBotSettings.Enabled"/> property of <paramref name="newSettings"/> is <see langword="false"/></returns>
 		Task ChangeSettings(Models.ChatBot newSettings, CancellationToken cancellationToken);
 
 		/// <summary>
