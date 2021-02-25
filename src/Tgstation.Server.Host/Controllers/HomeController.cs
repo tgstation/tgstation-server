@@ -163,7 +163,7 @@ namespace Tgstation.Server.Host.Controllers
 
 			if (ApiHeaders == null)
 			{
-				if (controlPanelConfiguration.Enable)
+				if (controlPanelConfiguration.Enable && !Request.Headers.TryGetValue(ApiHeaders.ApiVersionHeader, out _))
 				{
 					Logger.LogDebug("No API headers on request, redirecting to control panel...");
 					return Redirect(ControlPanelController.ControlPanelRoute);
