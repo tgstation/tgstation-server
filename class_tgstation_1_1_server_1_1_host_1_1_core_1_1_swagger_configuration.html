@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="tgs.ico"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">tgstation-server
-   &#160;<span id="projectnumber">4.10.2</span>
+   &#160;<span id="projectnumber">4.10.3</span>
    </div>
    <div id="projectbrief">The /tg/station 13 server suite</div>
   </td>
@@ -597,15 +597,15 @@ Here is the call graph for this function:</div>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_swagger_configuration_8cs_source.html#l00551">551</a> of file <a class="el" href="_swagger_configuration_8cs_source.html">SwaggerConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00552"></a><span class="lineno">  552</span>&#160;        {</div>
-<div class="line"><a name="l00553"></a><span class="lineno">  553</span>&#160;            <span class="keywordflow">if</span> (requestBody == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00554"></a><span class="lineno">  554</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(requestBody));</div>
-<div class="line"><a name="l00555"></a><span class="lineno">  555</span>&#160;            <span class="keywordflow">if</span> (context == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00556"></a><span class="lineno">  556</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(context));</div>
-<div class="line"><a name="l00557"></a><span class="lineno">  557</span>&#160; </div>
-<div class="line"><a name="l00558"></a><span class="lineno">  558</span>&#160;            requestBody.Required = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00559"></a><span class="lineno">  559</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="_swagger_configuration_8cs_source.html#l00553">553</a> of file <a class="el" href="_swagger_configuration_8cs_source.html">SwaggerConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00554"></a><span class="lineno">  554</span>&#160;        {</div>
+<div class="line"><a name="l00555"></a><span class="lineno">  555</span>&#160;            <span class="keywordflow">if</span> (requestBody == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00556"></a><span class="lineno">  556</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(requestBody));</div>
+<div class="line"><a name="l00557"></a><span class="lineno">  557</span>&#160;            <span class="keywordflow">if</span> (context == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00558"></a><span class="lineno">  558</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(context));</div>
+<div class="line"><a name="l00559"></a><span class="lineno">  559</span>&#160; </div>
+<div class="line"><a name="l00560"></a><span class="lineno">  560</span>&#160;            requestBody.Required = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00561"></a><span class="lineno">  561</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -637,29 +637,29 @@ Here is the call graph for this function:</div>
 
 <p></p>
 
-<p class="definition">Definition at line <a class="el" href="_swagger_configuration_8cs_source.html#l00526">526</a> of file <a class="el" href="_swagger_configuration_8cs_source.html">SwaggerConfiguration.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160;        {</div>
-<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;            <span class="keywordflow">if</span> (schema == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(schema));</div>
-<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;            <span class="keywordflow">if</span> (context == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(context));</div>
-<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160; </div>
-<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;            <span class="comment">// Nothing is required</span></div>
-<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;            schema.Required.Clear();</div>
-<div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160; </div>
-<div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;            <span class="keywordflow">if</span> (context.MemberInfo == <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_swagger_configuration.html#a2a61a7ca6d8721c2b10641c19721e5e7">ApplyAttributesForRootSchema</a>(schema, context);</div>
-<div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160; </div>
-<div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;            <span class="keywordflow">if</span> (!schema.Enum?.Any() ?? <span class="keyword">false</span>)</div>
-<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;                <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160; </div>
-<div class="line"><a name="l00542"></a><span class="lineno">  542</span>&#160;            <span class="comment">// Could be nullable type, make sure to get the right one</span></div>
-<div class="line"><a name="l00543"></a><span class="lineno">  543</span>&#160;            Type firstGenericArgumentOrType = context.Type.IsConstructedGenericType</div>
-<div class="line"><a name="l00544"></a><span class="lineno">  544</span>&#160;                ? context.Type.GenericTypeArguments.First()</div>
-<div class="line"><a name="l00545"></a><span class="lineno">  545</span>&#160;                : context.Type;</div>
-<div class="line"><a name="l00546"></a><span class="lineno">  546</span>&#160; </div>
-<div class="line"><a name="l00547"></a><span class="lineno">  547</span>&#160;            OpenApiEnumVarNamesExtension.Apply(schema, firstGenericArgumentOrType);</div>
-<div class="line"><a name="l00548"></a><span class="lineno">  548</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="_swagger_configuration_8cs_source.html#l00528">528</a> of file <a class="el" href="_swagger_configuration_8cs_source.html">SwaggerConfiguration.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;        {</div>
+<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;            <span class="keywordflow">if</span> (schema == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(schema));</div>
+<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;            <span class="keywordflow">if</span> (context == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(context));</div>
+<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160; </div>
+<div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160;            <span class="comment">// Nothing is required</span></div>
+<div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;            schema.Required.Clear();</div>
+<div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160; </div>
+<div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160;            <span class="keywordflow">if</span> (context.MemberInfo == <span class="keyword">null</span>)</div>
+<div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;                <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_swagger_configuration.html#a2a61a7ca6d8721c2b10641c19721e5e7">ApplyAttributesForRootSchema</a>(schema, context);</div>
+<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160; </div>
+<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;            <span class="keywordflow">if</span> (!schema.Enum?.Any() ?? <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00542"></a><span class="lineno">  542</span>&#160;                <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00543"></a><span class="lineno">  543</span>&#160; </div>
+<div class="line"><a name="l00544"></a><span class="lineno">  544</span>&#160;            <span class="comment">// Could be nullable type, make sure to get the right one</span></div>
+<div class="line"><a name="l00545"></a><span class="lineno">  545</span>&#160;            Type firstGenericArgumentOrType = context.Type.IsConstructedGenericType</div>
+<div class="line"><a name="l00546"></a><span class="lineno">  546</span>&#160;                ? context.Type.GenericTypeArguments.First()</div>
+<div class="line"><a name="l00547"></a><span class="lineno">  547</span>&#160;                : context.Type;</div>
+<div class="line"><a name="l00548"></a><span class="lineno">  548</span>&#160; </div>
+<div class="line"><a name="l00549"></a><span class="lineno">  549</span>&#160;            OpenApiEnumVarNamesExtension.Apply(schema, firstGenericArgumentOrType);</div>
+<div class="line"><a name="l00550"></a><span class="lineno">  550</span>&#160;        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_swagger_configuration_html_a2a61a7ca6d8721c2b10641c19721e5e7"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_swagger_configuration.html#a2a61a7ca6d8721c2b10641c19721e5e7">Tgstation.Server.Host.Core.SwaggerConfiguration.ApplyAttributesForRootSchema</a></div><div class="ttdeci">static void ApplyAttributesForRootSchema(OpenApiSchema rootSchema, SchemaFilterContext context)</div><div class="ttdoc">Applies the OpenApiSchema.Nullable, OpenApiSchema.ReadOnly, and OpenApiSchema.WriteOnly to OpenApiSch...</div><div class="ttdef"><b>Definition:</b> <a href="_swagger_configuration_8cs_source.html#l00419">SwaggerConfiguration.cs:419</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="_open_api_enum_var_names_extension_8cs_source.html#l00033">Tgstation.Server.Host.Core.OpenApiEnumVarNamesExtension.Apply()</a>.</p>
@@ -721,7 +721,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="_swagger_configuration_8cs_source.html#l00419">419</a> of file <a class="el" href="_swagger_configuration_8cs_source.html">SwaggerConfiguration.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;        {</div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;            <span class="comment">//  tune up the descendants</span></div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;            <span class="comment">// tune up the descendants</span></div>
 <div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;            rootSchema.Nullable = <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;            var rootSchemaId = <a class="code" href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_swagger_configuration.html#a12f02d1f43580901dc2c614cd3942ca4">GenerateSchemaId</a>(context.Type);</div>
 <div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;            var rootRequestSchema = rootSchemaId.EndsWith(<span class="stringliteral">&quot;Request&quot;</span>, StringComparison.Ordinal);</div>
@@ -742,16 +742,16 @@ Here is the call graph for this function:</div>
 <div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;            }</div>
 <div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160; </div>
 <div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;            var subSchemaStack = <span class="keyword">new</span> Stack&lt;Tuple&lt;PropertyInfo, string, OpenApiSchema, IDictionary&lt;string, OpenApiSchema&gt;&gt;&gt;(</div>
-<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;                rootSchema.Properties.Select(x =&gt; GetTypeFromKvp(context.Type, x, rootSchema.Properties)));</div>
-<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160; </div>
-<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;            <span class="keywordflow">while</span> (subSchemaStack.Count &gt; 0)</div>
-<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;            {</div>
-<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;                var tuple = subSchemaStack.Pop();</div>
-<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;                var subSchema = tuple.Item3;</div>
-<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160; </div>
-<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;                <span class="keywordflow">if</span> (subSchema.Reference != <span class="keyword">null</span>)</div>
-<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;                    <span class="comment">// can&#39;t mangle references per request</span></div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;                    <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;                rootSchema</div>
+<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;                    .Properties</div>
+<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;                    .Select(</div>
+<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;                        x =&gt; GetTypeFromKvp(context.Type, x, rootSchema.Properties))</div>
+<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;                    .Where(x =&gt; x.Item3.Reference == <span class="keyword">null</span>));</div>
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160; </div>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;            <span class="keywordflow">while</span> (subSchemaStack.Count &gt; 0)</div>
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;            {</div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;                var tuple = subSchemaStack.Pop();</div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;                var subSchema = tuple.Item3;</div>
 <div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160; </div>
 <div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;                var subSchemaPropertyInfo = tuple.Item1;</div>
 <div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160; </div>
@@ -760,7 +760,7 @@ Here is the call graph for this function:</div>
 <div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;                        .PropertyType</div>
 <div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;                        .GetInterfaces()</div>
 <div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;                        .Any(x =&gt; x == typeof(IEnumerable)))</div>
-<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;                    <span class="keywordflow">foreach</span> (var kvp in subSchema.Properties)</div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;                    <span class="keywordflow">foreach</span> (var kvp in subSchema.Properties.Where(x =&gt; x.Value.Reference == <span class="keyword">null</span>))</div>
 <div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;                        subSchemaStack.Push(GetTypeFromKvp(subSchemaPropertyInfo.PropertyType, kvp, subSchema.Properties));</div>
 <div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160; </div>
 <div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;                var attributes = subSchemaPropertyInfo</div>
@@ -818,20 +818,24 @@ Here is the call graph for this function:</div>
 <div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;                }</div>
 <div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (responsePresence == <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a2a982b7013d51aecc5738e6eec96cb8a">FieldPresence</a>.Required</div>
 <div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;                    &amp;&amp; requestOptions.All(x =&gt; x.Presence == <a class="code" href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a2a982b7013d51aecc5738e6eec96cb8a">FieldPresence</a>.Required &amp;&amp; !x.PutOnly))</div>
-<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;                    subSchema.Nullable = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160; </div>
-<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;                <span class="comment">// otherwise, we have to assume it&#39;s a shared schema</span></div>
-<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;                <span class="comment">// use what Swagger thinks the nullability is by default</span></div>
-<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;            }</div>
-<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;        }</div>
+<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;                    <span class="comment">// special tactics</span></div>
+<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;                    subSchema.Nullable = subSchemaId.Equals(nameof(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html">TestMergeParameters</a>.<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">TargetCommitSha</a>), StringComparison.OrdinalIgnoreCase)</div>
+<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;                        &amp;&amp; rootSchemaId == nameof(<a class="code" href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html">TestMergeParameters</a>);</div>
+<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160; </div>
+<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;                <span class="comment">// otherwise, we have to assume it&#39;s a shared schema</span></div>
+<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;                <span class="comment">// use what Swagger thinks the nullability is by default</span></div>
+<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;            }</div>
+<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;        }</div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_options_attribute_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_options_attribute.html">Tgstation.Server.Api.Models.RequestOptionsAttribute</a></div><div class="ttdoc">Indicates the FieldPresence for fields in models.</div><div class="ttdef"><b>Definition:</b> <a href="_request_options_attribute_8cs_source.html#l00009">RequestOptionsAttribute.cs:10</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_options_attribute_html_a419b6e978b475f80c22d8f1cdc785187"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_request_options_attribute.html#a419b6e978b475f80c22d8f1cdc785187">Tgstation.Server.Api.Models.RequestOptionsAttribute.PutOnly</a></div><div class="ttdeci">bool PutOnly</div><div class="ttdoc">If this only applies to HTTP PUT requests with the model.</div><div class="ttdef"><b>Definition:</b> <a href="_request_options_attribute_8cs_source.html#l00019">RequestOptionsAttribute.cs:19</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_options_attribute_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_options_attribute.html">Tgstation.Server.Api.Models.ResponseOptionsAttribute</a></div><div class="ttdoc">Indicates the response FieldPresence of API fields. Changes it from FieldPresence....</div><div class="ttdef"><b>Definition:</b> <a href="_response_options_attribute_8cs_source.html#l00009">ResponseOptionsAttribute.cs:10</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_options_attribute_html_a5744f461c73911d0d65031704ca3ac00"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_response_options_attribute.html#a5744f461c73911d0d65031704ca3ac00">Tgstation.Server.Api.Models.ResponseOptionsAttribute.Presence</a></div><div class="ttdeci">FieldPresence Presence</div><div class="ttdoc">The FieldPresence.</div><div class="ttdef"><b>Definition:</b> <a href="_response_options_attribute_8cs_source.html#l00014">ResponseOptionsAttribute.cs:14</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters_html"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html">Tgstation.Server.Api.Models.TestMergeParameters</a></div><div class="ttdoc">Parameters for creating a TestMerge</div><div class="ttdef"><b>Definition:</b> <a href="_test_merge_parameters_8cs_source.html#l00008">TestMergeParameters.cs:9</a></div></div>
+<div class="ttc" id="aclass_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters_html_a1b7f38a2ee2f645796ffeb89fe51b2ce"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_api_1_1_models_1_1_test_merge_parameters.html#a1b7f38a2ee2f645796ffeb89fe51b2ce">Tgstation.Server.Api.Models.TestMergeParameters.TargetCommitSha</a></div><div class="ttdeci">virtual ? string TargetCommitSha</div><div class="ttdoc">The sha of the test merge revision to merge. If not specified, the latest commit shall be used (semi-...</div><div class="ttdef"><b>Definition:</b> <a href="_test_merge_parameters_8cs_source.html#l00020">TestMergeParameters.cs:20</a></div></div>
 <div class="ttc" id="aclass_tgstation_1_1_server_1_1_host_1_1_core_1_1_swagger_configuration_html_a12f02d1f43580901dc2c614cd3942ca4"><div class="ttname"><a href="class_tgstation_1_1_server_1_1_host_1_1_core_1_1_swagger_configuration.html#a12f02d1f43580901dc2c614cd3942ca4">Tgstation.Server.Host.Core.SwaggerConfiguration.GenerateSchemaId</a></div><div class="ttdeci">static string GenerateSchemaId(Type type)</div><div class="ttdoc">Generates the OpenAPI schema ID for a given type .</div><div class="ttdef"><b>Definition:</b> <a href="_swagger_configuration_8cs_source.html#l00130">SwaggerConfiguration.cs:130</a></div></div>
 <div class="ttc" id="anamespace_tgstation_1_1_server_1_1_api_1_1_models_html_a2a982b7013d51aecc5738e6eec96cb8a"><div class="ttname"><a href="namespace_tgstation_1_1_server_1_1_api_1_1_models.html#a2a982b7013d51aecc5738e6eec96cb8a">Tgstation.Server.Api.Models.FieldPresence</a></div><div class="ttdeci">FieldPresence</div><div class="ttdoc">Indicates whether a request field is Required or Ignored.</div><div class="ttdef"><b>Definition:</b> <a href="_field_presence_8cs_source.html#l00006">FieldPresence.cs:7</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="_response_options_attribute_8cs_source.html#l00014">Tgstation.Server.Api.Models.ResponseOptionsAttribute.Presence</a>, and <a class="el" href="_request_options_attribute_8cs_source.html#l00019">Tgstation.Server.Api.Models.RequestOptionsAttribute.PutOnly</a>.</p>
+<p class="reference">References <a class="el" href="_response_options_attribute_8cs_source.html#l00014">Tgstation.Server.Api.Models.ResponseOptionsAttribute.Presence</a>, <a class="el" href="_request_options_attribute_8cs_source.html#l00019">Tgstation.Server.Api.Models.RequestOptionsAttribute.PutOnly</a>, and <a class="el" href="_test_merge_parameters_8cs_source.html#l00020">Tgstation.Server.Api.Models.TestMergeParameters.TargetCommitSha</a>.</p>
 
 </div>
 </div>
