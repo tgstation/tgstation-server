@@ -418,7 +418,7 @@ namespace Tgstation.Server.Host.Core
 		/// <param name="context">The current <see cref="SchemaFilterContext"/>.</param>
 		static void ApplyAttributesForRootSchema(OpenApiSchema rootSchema, SchemaFilterContext context)
 		{
-			//  tune up the descendants
+			// tune up the descendants
 			rootSchema.Nullable = false;
 			var rootSchemaId = GenerateSchemaId(context.Type);
 			var rootRequestSchema = rootSchemaId.EndsWith("Request", StringComparison.Ordinal);
@@ -439,16 +439,16 @@ namespace Tgstation.Server.Host.Core
 			}
 
 			var subSchemaStack = new Stack<Tuple<PropertyInfo, string, OpenApiSchema, IDictionary<string, OpenApiSchema>>>(
-				rootSchema.Properties.Select(x => GetTypeFromKvp(context.Type, x, rootSchema.Properties)));
+				rootSchema
+					.Properties
+					.Select(
+						x => GetTypeFromKvp(context.Type, x, rootSchema.Properties))
+					.Where(x => x.Item3.Reference == null));
 
 			while (subSchemaStack.Count > 0)
 			{
 				var tuple = subSchemaStack.Pop();
 				var subSchema = tuple.Item3;
-
-				if (subSchema.Reference != null)
-					// can't mangle references per request
-					continue;
 
 				var subSchemaPropertyInfo = tuple.Item1;
 
@@ -457,7 +457,7 @@ namespace Tgstation.Server.Host.Core
 						.PropertyType
 						.GetInterfaces()
 						.Any(x => x == typeof(IEnumerable)))
-					foreach (var kvp in subSchema.Properties)
+					foreach (var kvp in subSchema.Properties.Where(x => x.Value.Reference == null))
 						subSchemaStack.Push(GetTypeFromKvp(subSchemaPropertyInfo.PropertyType, kvp, subSchema.Properties));
 
 				var attributes = subSchemaPropertyInfo
