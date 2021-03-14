@@ -515,7 +515,9 @@ namespace Tgstation.Server.Host.Core
 				}
 				else if (responsePresence == FieldPresence.Required
 					&& requestOptions.All(x => x.Presence == FieldPresence.Required && !x.PutOnly))
-					subSchema.Nullable = false;
+					// special tactics
+					subSchema.Nullable = subSchemaId.Equals(nameof(TestMergeParameters.TargetCommitSha), StringComparison.OrdinalIgnoreCase)
+						&& rootSchemaId == nameof(TestMergeParameters);
 
 				// otherwise, we have to assume it's a shared schema
 				// use what Swagger thinks the nullability is by default
