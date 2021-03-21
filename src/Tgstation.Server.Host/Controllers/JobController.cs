@@ -69,6 +69,7 @@ namespace Tgstation.Server.Host.Controllers
 						.Jobs
 						.AsQueryable()
 						.Include(x => x.StartedBy)
+						.Include(x => x.CancelledBy)
 						.Where(x => x.Instance.Id == Instance.Id && !x.StoppedAt.HasValue)
 						.OrderByDescending(x => x.StartedAt))),
 				null,
@@ -95,6 +96,7 @@ namespace Tgstation.Server.Host.Controllers
 						.Jobs
 						.AsQueryable()
 						.Include(x => x.StartedBy)
+						.Include(x => x.CancelledBy)
 						.Where(x => x.Instance.Id == Instance.Id)
 						.OrderByDescending(x => x.StartedAt))),
 				null,
@@ -121,6 +123,7 @@ namespace Tgstation.Server.Host.Controllers
 			var job = await DatabaseContext
 				.Jobs
 				.AsQueryable()
+				.Include(x => x.StartedBy)
 				.Where(x => x.Id == id && x.Instance.Id == Instance.Id)
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);
@@ -156,6 +159,7 @@ namespace Tgstation.Server.Host.Controllers
 				.AsQueryable()
 				.Where(x => x.Id == id && x.Instance.Id == Instance.Id)
 				.Include(x => x.StartedBy)
+				.Include(x => x.CancelledBy)
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);
 			if (job == default)
