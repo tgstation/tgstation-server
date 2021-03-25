@@ -231,6 +231,7 @@ namespace Tgstation.Server.Api
 								Token = parameter;
 								break;
 							case BasicAuthenticationScheme:
+								string badBasicAuthHeaderMessage = $"Invalid basic {HeaderNames.Authorization} header!";
 								string joinedString;
 								try
 								{
@@ -239,12 +240,16 @@ namespace Tgstation.Server.Api
 								}
 								catch
 								{
-									throw new InvalidOperationException($"Invalid basic {HeaderNames.Authorization} header!");
+									AddError(HeaderTypes.Authorization, badBasicAuthHeaderMessage);
+									break;
 								}
 
 								var basicAuthSplits = joinedString.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
 								if (basicAuthSplits.Length < 2)
-									throw new InvalidOperationException($"Invalid basic {HeaderNames.Authorization} header!");
+								{
+									AddError(HeaderTypes.Authorization, badBasicAuthHeaderMessage);
+									break;
+								}
 
 								Username = basicAuthSplits.First();
 								Password = String.Concat(basicAuthSplits.Skip(1));
