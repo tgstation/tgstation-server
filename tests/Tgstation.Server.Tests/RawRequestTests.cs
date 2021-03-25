@@ -165,6 +165,23 @@ namespace Tgstation.Server.Tests
 				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
 				Assert.AreEqual(ErrorCode.BadHeaders, message.ErrorCode);
 			}
+
+			using (var request = new HttpRequestMessage(HttpMethod.Get, url.ToString()))
+			{
+				request.Headers.Accept.Clear();
+				request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RootTest", "1.0.0"));
+				request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+				request.Headers.Add(ApiHeaders.ApiVersionHeader, "Tgstation.Server.Api/" + ApiHeaders.Version);
+				request.Headers.Authorization = new AuthenticationHeaderValue(
+					ApiHeaders.BasicAuthenticationScheme,
+					Convert.ToBase64String(
+						Encoding.UTF8.GetBytes(":")));
+				using var response = await httpClient.SendAsync(request, cancellationToken);
+				Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+				var content = await response.Content.ReadAsStringAsync();
+				var message = JsonConvert.DeserializeObject<ErrorMessageResponse>(content);
+				Assert.AreEqual(ErrorCode.BadHeaders, message.ErrorCode);
+			}
 		}
 
 		async Task TestServerInformation(IServerClientFactory clientFactory, IServerClient serverClient, CancellationToken cancellationToken)
