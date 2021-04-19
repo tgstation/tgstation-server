@@ -2,7 +2,7 @@
 <area shape="rect" id="node1" title=" " alt="" coords="636,457,863,498"/>
 <area shape="rect" id="node2" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_static_files_1_1_i_configuration.html" title="For managing the Configuration directory" alt="" coords="240,56,341,83"/>
 <area shape="rect" id="node3" href="$class_i_hosted_service.html" title=" " alt="" coords="9,5,121,32"/>
-<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions" alt="" coords="5,56,124,83"/>
+<area shape="rect" id="node4" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="5,56,124,83"/>
 <area shape="rect" id="node5" href="$class_i_disposable.html" title=" " alt="" coords="19,107,110,133"/>
 <area shape="rect" id="node6" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_i_o_manager.html" title="Interface for using filesystems" alt="" coords="207,107,375,149"/>
 <area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_i_o_1_1_i_synchronous_i_o_manager.html" title="For accessing the disk in a synchronous manner" alt="" coords="207,173,375,214"/>

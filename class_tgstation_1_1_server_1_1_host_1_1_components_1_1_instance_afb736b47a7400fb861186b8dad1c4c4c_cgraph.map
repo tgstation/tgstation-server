@@ -2,7 +2,7 @@
 <area shape="rect" id="node1" title="Pull the repository and compile for every set of given minutes" alt="" coords="5,404,232,445"/>
 <area shape="rect" id="node2" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_deployment_1_1_dream_maker.html#ab03690c5e8fd15c8d3f7c746a36a9f37" title=" " alt="" coords="280,183,567,224"/>
 <area shape="rect" id="node3" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a1786942cc8a27d171bce120e6eed5a9b" title="Construct an Instance" alt="" coords="661,5,887,47"/>
-<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#ac217567aa6bd7e43c8cfd976eee05aac" title="Handle a given eventType" alt="" coords="304,433,543,475"/>
+<area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html#ac217567aa6bd7e43c8cfd976eee05aac" title="Handle a given eventType ." alt="" coords="304,433,543,475"/>
 <area shape="rect" id="node10" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_instance.html#a4b1084d8d2850d408abae881013a47d9" title="Gets the latest CompileJob." alt="" coords="310,499,537,540"/>
 <area shape="rect" id="node11" href="$class_tgstation_1_1_server_1_1_host_1_1_components_1_1_repository_1_1_repository_manager.html#afcab0cdc52ae45ecd0dfba5c7630e303" title="Attempt to load the IRepository from the default location" alt="" coords="629,424,919,465"/>
 <area shape="rect" id="node14" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html#a21be789f798adf9985f2432d3499b4cd" title="Registers a given Job and begins running it" alt="" coords="321,564,525,605"/>

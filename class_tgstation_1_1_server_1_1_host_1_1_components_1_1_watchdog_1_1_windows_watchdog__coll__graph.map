@@ -6,7 +6,7 @@
 <area shape="rect" id="node5" href="$class_i_hosted_service.html" title=" " alt="" coords="211,563,323,589"/>
 <area shape="rect" id="node11" href="$interface_tgstation_1_1_server_1_1_host_1_1_jobs_1_1_i_job_manager.html" title="Manages the runtime of Jobs" alt="" coords="579,481,762,522"/>
 <area shape="rect" id="node6" href="$class_i_async_disposable.html" title=" " alt="" coords="204,749,331,776"/>
-<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions" alt="" coords="208,648,327,675"/>
+<area shape="rect" id="node7" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_events_1_1_i_event_consumer.html" title="Consumes EventTypes and takes the appropriate actions." alt="" coords="208,648,327,675"/>
 <area shape="rect" id="node8" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_i_rename_notifyee.html" title="Handler for an instance being renamed." alt="" coords="206,699,329,725"/>
 <area shape="rect" id="node9" href="$interface_tgstation_1_1_server_1_1_host_1_1_components_1_1_chat_1_1_i_custom_command_handler.html" title="Handles Commands.ICommands that map to those defined in a IChatTrackingContext" alt="" coords="583,379,758,405"/>
 <area shape="rect" id="node10" href="$interface_tgstation_1_1_server_1_1_host_1_1_core_1_1_i_restart_handler.html" title="Handler for server restarts" alt="" coords="614,429,727,456"/>
