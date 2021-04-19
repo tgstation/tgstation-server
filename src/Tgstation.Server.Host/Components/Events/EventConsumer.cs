@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,6 +32,9 @@ namespace Tgstation.Server.Host.Components.Events
 		/// <inheritdoc />
 		public async Task HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
 		{
+			if (parameters == null)
+				throw new ArgumentNullException(nameof(parameters));
+
 			if (watchdog == null)
 				throw new InvalidOperationException("EventConsumer used without watchdog set!");
 
