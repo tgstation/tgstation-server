@@ -719,7 +719,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 					repoName,
 					cancellationToken);
 
-				var eventTask = eventConsumer.HandleEvent(EventType.DeploymentComplete, null, cancellationToken);
+				var eventTask = eventConsumer.HandleEvent(EventType.DeploymentComplete, Enumerable.Empty<string>(), cancellationToken);
 
 				try
 				{
@@ -841,7 +841,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 			catch (OperationCanceledException)
 			{
 				// DCT: Cancellation token is for job, delaying here is fine
-				await eventConsumer.HandleEvent(EventType.CompileCancelled, null, default).ConfigureAwait(false);
+				await eventConsumer.HandleEvent(EventType.CompileCancelled, Enumerable.Empty<string>(), default).ConfigureAwait(false);
 				throw;
 			}
 			finally

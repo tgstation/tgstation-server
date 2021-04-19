@@ -440,7 +440,7 @@ namespace Tgstation.Server.Host.Components.Repository
 			if (progressReporter == null)
 				throw new ArgumentNullException(nameof(progressReporter));
 			logger.LogDebug("Fetch origin...");
-			await eventConsumer.HandleEvent(EventType.RepoFetch, Array.Empty<string>(), cancellationToken).ConfigureAwait(false);
+			await eventConsumer.HandleEvent(EventType.RepoFetch, Enumerable.Empty<string>(), cancellationToken).ConfigureAwait(false);
 			await Task.Factory.StartNew(() =>
 			{
 				var remote = libGitRepo.Network.Remotes.First();

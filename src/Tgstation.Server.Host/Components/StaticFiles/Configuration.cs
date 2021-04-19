@@ -546,6 +546,9 @@ namespace Tgstation.Server.Host.Components.StaticFiles
 		/// <inheritdoc />
 		public async Task HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
 		{
+			if (parameters == null)
+				throw new ArgumentNullException(nameof(parameters));
+
 			await EnsureDirectories(cancellationToken).ConfigureAwait(false);
 
 			if (!EventTypeScriptFileNameMap.TryGetValue(eventType, out var scriptName))

@@ -841,6 +841,9 @@ namespace Tgstation.Server.Host.Components.Watchdog
 		/// <inheritdoc />
 		async Task IEventConsumer.HandleEvent(EventType eventType, IEnumerable<string> parameters, CancellationToken cancellationToken)
 		{
+			if (parameters == null)
+				throw new ArgumentNullException(nameof(parameters));
+
 			// Method explicitly implemented to prevent accidental calls when this.eventConsumer should be used.
 			var activeServer = GetActiveController();
 

@@ -375,9 +375,9 @@ namespace Tgstation.Server.Host.Components
 			while (true)
 				try
 				{
-					await Task.Delay(TimeSpan.FromMinutes(minutes > Int32.MaxValue ? Int32.MaxValue : (int)minutes), cancellationToken).ConfigureAwait(false);
+					await Task.Delay(TimeSpan.FromMinutes(minutes > Int32.MaxValue ? Int32.MaxValue : minutes), cancellationToken).ConfigureAwait(false);
 					logger.LogInformation("Beginning auto update...");
-					await eventConsumer.HandleEvent(EventType.InstanceAutoUpdateStart, new List<string>(), cancellationToken).ConfigureAwait(false);
+					await eventConsumer.HandleEvent(EventType.InstanceAutoUpdateStart, Enumerable.Empty<string>(), cancellationToken).ConfigureAwait(false);
 					try
 					{
 						var repositoryUpdateJob = new Job
