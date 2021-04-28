@@ -210,6 +210,7 @@ namespace Tgstation.Server.Host.Components.Watchdog
 						null,
 						ActiveLaunchParameters,
 						false,
+						true,
 						cancellationToken);
 				}
 				else

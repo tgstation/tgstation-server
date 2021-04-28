@@ -137,5 +137,11 @@ namespace Tgstation.Server.Host.Components.Events
 		/// </summary>
 		[EventScript("WorldPrime")]
 		WorldPrime,
+
+		/// <summary>
+		/// After the watchdog has launched successfully. Parameters: PID of DreamDaemon
+		/// </summary>
+		[EventScript("WatchdogSuccessfulLaunch")]
+		WatchdogSuccessfulLaunch,
 	}
 }

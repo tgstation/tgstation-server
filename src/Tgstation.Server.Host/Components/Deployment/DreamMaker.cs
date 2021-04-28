@@ -230,7 +230,7 @@ namespace Tgstation.Server.Host.Components.Deployment
 
 			ApiValidationStatus validationStatus;
 			using (var provider = new TemporaryDmbProvider(ioManager.ResolvePath(job.DirectoryName.ToString()), String.Concat(job.DmeName, DmbExtension), job))
-			await using (var controller = await sessionControllerFactory.LaunchNew(provider, byondLock, launchParameters, true, cancellationToken).ConfigureAwait(false))
+			await using (var controller = await sessionControllerFactory.LaunchNew(provider, byondLock, launchParameters, true, false, cancellationToken).ConfigureAwait(false))
 			{
 				var launchResult = await controller.LaunchResult.ConfigureAwait(false);
 
