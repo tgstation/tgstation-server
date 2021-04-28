@@ -18,7 +18,6 @@ namespace Tgstation.Server.Host.Components.Session
 		/// <param name="currentByondLock">The current <see cref="IByondExecutableLock"/> if any</param>
 		/// <param name="launchParameters">The <see cref="DreamDaemonLaunchParameters"/> to use. <see cref="DreamDaemonLaunchParameters.SecurityLevel"/> will be updated with the minumum required security level for the launch.</param>
 		/// <param name="apiValidate">If the <see cref="ISessionController"/> should only validate the DMAPI then exit</param>
-		/// <param name="isProduction">If the <see cref="ISessionController"/> is starting a production DD and not a staging DD</param>
 		/// <param name="cancellationToken">The <see cref="CancellationToken"/> for the operation</param>
 		/// <returns>A <see cref="Task{TResult}"/> resulting in a new <see cref="ISessionController"/></returns>
 		Task<ISessionController> LaunchNew(
@@ -26,7 +25,6 @@ namespace Tgstation.Server.Host.Components.Session
 			IByondExecutableLock currentByondLock,
 			DreamDaemonLaunchParameters launchParameters,
 			bool apiValidate,
-			bool isProduction,
 			CancellationToken cancellationToken);
 
 		/// <summary>

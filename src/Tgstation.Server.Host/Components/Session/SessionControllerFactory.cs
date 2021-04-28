@@ -83,6 +83,11 @@ namespace Tgstation.Server.Host.Components.Session
 		readonly IServerPortProvider serverPortProvider;
 
 		/// <summary>
+		/// The <see cref="IEventConsumer"/> for the <see cref="SessionControllerFactory"/>
+		/// </summary>
+		readonly IEventConsumer eventConsumer;
+
+		/// <summary>
 		/// The <see cref="ILoggerFactory"/> for the <see cref="SessionControllerFactory"/>
 		/// </summary>
 		readonly ILoggerFactory loggerFactory;
@@ -97,10 +102,7 @@ namespace Tgstation.Server.Host.Components.Session
 		/// </summary>
 		readonly Api.Models.Instance instance;
 
-		/// <summary>
-		/// The <see cref="IEventConsumer"/> for the <see cref="SessionControllerFactory"/>
-		/// </summary>
-		private IEventConsumer EventConsumer { get; }
+
 
 		/// <summary>
 		/// Change a given <paramref name="securityLevel"/> into the appropriate DreamDaemon command line word
@@ -165,10 +167,10 @@ namespace Tgstation.Server.Host.Components.Session
 			IPlatformIdentifier platformIdentifier,
 			IBridgeRegistrar bridgeRegistrar,
 			IServerPortProvider serverPortProvider,
+			EventConsumer eventConsumer,
 			ILoggerFactory loggerFactory,
 			ILogger<SessionControllerFactory> logger,
-			Api.Models.Instance instance,
-			EventConsumer eventConsumer)
+			Api.Models.Instance instance)
 		{
 			this.processExecutor = processExecutor ?? throw new ArgumentNullException(nameof(processExecutor));
 			this.byond = byond ?? throw new ArgumentNullException(nameof(byond));
@@ -182,9 +184,9 @@ namespace Tgstation.Server.Host.Components.Session
 			this.platformIdentifier = platformIdentifier ?? throw new ArgumentNullException(nameof(platformIdentifier));
 			this.bridgeRegistrar = bridgeRegistrar ?? throw new ArgumentNullException(nameof(bridgeRegistrar));
 			this.serverPortProvider = serverPortProvider ?? throw new ArgumentNullException(nameof(serverPortProvider));
+			this.eventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 			this.loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-			EventConsumer = eventConsumer ?? throw new ArgumentNullException(nameof(eventConsumer));
 		}
 
 		/// <inheritdoc />
@@ -194,7 +196,6 @@ namespace Tgstation.Server.Host.Components.Session
 			IByondExecutableLock currentByondLock,
 			DreamDaemonLaunchParameters launchParameters,
 			bool apiValidate,
-			bool isProduction,
 			CancellationToken cancellationToken)
 		{
 			logger.LogTrace("Begin session launch...");
@@ -277,13 +278,16 @@ namespace Tgstation.Server.Host.Components.Session
 						noShellExecute,
 						noShellExecute: noShellExecute);
 
-					// If this isnt a staging DD (Deployment DD), fire off an event
-					if(isProduction) {
-						await EventConsumer.HandleEvent(EventType.WatchdogSuccessfulLaunch, new List<string>
-						{
-							process.Id.ToString(CultureInfo.InvariantCulture)
-						}, cancellationToken).ConfigureAwait(false);
-					}
+					// If this isnt a staging DD (From a Deployment), fire off an event
+					if(!apiValidate)
+						await eventConsumer.HandleEvent(
+							EventType.DreamDaemonLaunch,
+							new List<string>
+							{
+								process.Id.ToString(CultureInfo.InvariantCulture)
+							},
+							cancellationToken)
+							.ConfigureAwait(false);
 
 					async Task<string> GetDDOutput()
 					{
