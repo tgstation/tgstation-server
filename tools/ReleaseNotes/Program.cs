@@ -82,6 +82,20 @@ namespace ReleaseNotes
 					//need to check it was merged
 					var fullPR = await client.Repository.PullRequest.Get(RepoOwner, RepoName, pullRequest.Number).ConfigureAwait(false);
 
+					if (!fullPR.Merged)
+					{
+						if (!doNotCloseMilestone && fullPR.Milestone != null)
+						{
+							Console.WriteLine($"Removing trash PR #{fullPR.Number} from milestone...");
+							await client.Issue.Update(RepoOwner, RepoName, fullPR.Number, new IssueUpdate
+							{
+								Milestone = null
+							}).ConfigureAwait(false);
+						}
+
+						return;
+					}
+
 					async Task<Milestone> GetMilestone()
 					{
 						if (fullPR.Milestone == null)
@@ -390,9 +404,27 @@ namespace ReleaseNotes
 						}
 
 						// Create the next minor milestone
-						var nextMinorMilestone = $"v{version.Major}.{version.Minor + 1}.0";
-						Console.WriteLine($"Creating milestone {nextMinorMilestone}...");
-						await client.Issue.Milestone.Create(RepoOwner, RepoName, new NewMilestone(nextMinorMilestone));
+						var nextMinorMilestoneName = $"v{version.Major}.{version.Minor + 1}.0";
+						Console.WriteLine($"Creating milestone {nextMinorMilestoneName}...");
+						var nextMinorMilestone = await client.Issue.Milestone.Create(RepoOwner, RepoName, new NewMilestone(nextMinorMilestoneName));
+
+						// Move unfinished stuff to new minor milestone
+						if (milestone.OpenIssues > 0)
+						{
+							Console.WriteLine($"Moving abandoned {milestone.OpenIssues} issue(s) from previous milestone to new one...");
+							var abandonedIssues = await client.Search.SearchIssues(new SearchIssuesRequest
+							{
+								Milestone = milestone.Title,
+								Repos = { { RepoOwner, RepoName } },
+								State = ItemState.Open
+							});
+
+							foreach (var I in abandonedIssues.Items)
+								await client.Issue.Update(RepoOwner, RepoName, I.Number, new IssueUpdate
+								{
+									Milestone = nextMinorMilestone.Number
+								});
+						}
 					}
 				}
 
